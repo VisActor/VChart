@@ -1,0 +1,146 @@
+{
+  "name": "@visactor/vchart",
+  "version": "4.0.0-release.2",
+  "description": "charts lib based @visactor/VGrammar",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "browser": "esm/index.js",
+  "types": "esm/index.d.ts",
+  "scripts": {
+    "build": "bundle --clean",
+    "build:ci": "bundle --clean -f umd --minify=false --name ChartSpace",
+    "dev": "bundle --clean -f es -w",
+    "compile": "tsc --noEmit",
+    "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser",
+    "demo": "vite serve examples",
+    "clear": "rimraf dist && rimraf esm && rimraf cjs",
+    "prettier": "prettier --write --ignore-unknown .",
+    "prettier:check": "prettier --check .",
+    "eslint": "eslint --debug --fix src/",
+    "eslint:check": "eslint .",
+    "eslint:err": "eslint . --quiet",
+    "postpublish": "npm run clear",
+    "test": "jest",
+    "test-cov": "jest -w 16 --coverage",
+    "test-live": "npm run test-watch __tests__/unit/",
+    "test-watch": "DEBUG_MODE=1 jest --watch",
+    "release": "cross-env NODE_ENV=production release-it major",
+    "release:alpha": "cross-env NODE_ENV=production release-it --preRelease"
+  },
+  "files": [
+    "esm",
+    "cjs",
+    "build"
+  ],
+  "unpkg": "latest",
+  "unpkgFiles": [
+    "cdn/index.js"
+  ],
+  "keywords": [
+    "charts",
+    "visualization",
+    "VChart",
+    "animation",
+    "storytelling",
+    "VisActor",
+    "graphics",
+    "interaction"
+  ],
+  "homepage": "",
+  "bugs": "https://github.com/VisActor/VChart/issues",
+  "repository": {
+    "type": "git",
+    "url": "GitHub - VisActor/VChart: The chart library for web and multi-platform",
+    "directory": "packages/vchart"
+  },
+  "author": {
+    "name": "VisActor",
+    "url": "https://VisActor.io/"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@internal/bundler": "workspace:*",
+    "@internal/eslint-config": "workspace:*",
+    "@internal/ts-config": "workspace:*",
+    "@release-it/conventional-changelog": "5.1.1",
+    "@rushstack/eslint-patch": "~1.1.4",
+    "@types/jest": "^26.0.0",
+    "@types/node": "*",
+    "@types/offscreencanvas": "2019.6.4",
+    "axios": "^0.21.1",
+    "canvas": "2.8.0",
+    "cross-env": "^7.0.3",
+    "eslint": "~8.18.0",
+    "husky": "7.0.4",
+    "jest": "^26.0.0",
+    "jest-electron": "^0.1.12",
+    "lint-staged": "12.3.7",
+    "magic-string": "^0.25.7",
+    "prettier": "2.6.1",
+    "react": "^18.0.0",
+    "react-device-detect": "^2.2.2",
+    "react-dom": "^18.0.0",
+    "release-it": "15.5.0",
+    "rimraf": "3.0.2",
+    "terser-webpack-plugin": "4.1.0",
+    "tiny-async-pool": "^1.2.0",
+    "ts-jest": "^26.0.0",
+    "ts-loader": "8.0.2",
+    "ts-node": "10.9.0",
+    "tslib": "2.3.1",
+    "tslint": "5.12.1",
+    "typescript": "4.9.5",
+    "typescript-transform-paths": "1.1.14",
+    "vite": "3.2.6",
+    "webpack": "4.42.0",
+    "webpack-cli": "^4.6.0",
+    "webpack-merge": "^5.3.0",
+    "vite-plugin-markdown": "^2.1.0",
+    "markdown-it": "13.0.1",
+    "d3-dsv": "^3.0.1",
+    "d3-array": "3.2.3",
+    "d3-geo": "^3.0.1",
+    "d3-hexbin": "^0.2.2",
+    "d3-hierarchy": "^3.1.1"
+  },
+  "dependencies": {
+    "@visactor/vrender": "latest",
+    "@visactor/vdataset": "latest",
+    "@visactor/vgrammar-scale": "4.3.3",
+    "@visactor/vgrammar": "4.3.3",
+    "@visactor/vgrammar-projection": "4.3.3",
+    "@visactor/vgrammar-wordcloud": "4.3.3",
+    "@visactor/vgrammar-wordcloud-shape": "4.3.3",
+    "@visactor/vgrammar-hierarchy": "4.3.3",
+    "@visactor/vgrammar-sankey": "4.3.3",
+    "@visactor/vgrammar-util": "4.3.3",
+    "@visactor/vutils": "latest",
+    "@visactor/vrender-components": "^0.0.x"
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore(release): publish ${version}"
+    },
+    "hooks": {
+      "after:bump": "npm run build"
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "infile": "CHANGELOG.md",
+        "preset": {
+          "name": "conventionalcommits",
+          "types": [
+            {
+              "type": "feat",
+              "section": "Features"
+            },
+            {
+              "type": "fix",
+              "section": "Bug Fixes"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

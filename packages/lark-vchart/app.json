@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "gallery/pages/index/index",
+    "gallery/pages/chart/index",
+    "gallery/pages/dashboard/index",
+    "gallery/pages/tooltip/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#175fff",
+    "navigationBarTitleText": "VChart 小程序示例",
+    "navigationBarTextStyle": "white"
+  }
+}

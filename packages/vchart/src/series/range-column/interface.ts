@@ -1,0 +1,89 @@
+import type { IBarSeriesSpec } from '../bar/interface';
+import type { ICartesianSeriesTheme } from '../cartesian/interface';
+import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
+import type { IPositionedTextMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../../typings/visual';
+import type { IAnimationSpec } from '../../animation/spec';
+import type { RangeColumnAppearPreset } from './animation';
+import type { ILabelSpec } from '../../component/label';
+
+export enum PositionEnum {
+  middle = 'middle',
+  start = 'start',
+  end = 'end',
+  bothEnd = 'bothEnd'
+}
+
+export enum minMaxPositionEnum {
+  middle = 'middle',
+  start = 'start',
+  end = 'end'
+}
+
+type RangeColumnMarks = 'rangeColumn';
+
+export interface IRangeColumnSeriesSpec
+  extends Omit<IBarSeriesSpec, 'type' | 'label' | keyof IAnimationSpec<RangeColumnMarks, RangeColumnAppearPreset>>,
+    IAnimationSpec<RangeColumnMarks, RangeColumnAppearPreset> {
+  /** 系列类型 */
+  type: 'rangeColumn';
+
+  /**
+   * 数据字段配置
+   */
+  /* 区间最小值字段 */
+  minField: string;
+  /* 区间最大值字段 */
+  maxField: string;
+
+  /**
+   * 图元配置
+   */
+  bar?: IMarkSpec<IRectMarkSpec>;
+
+  /**
+   * 标签配置
+   */
+  label?: Partial<ILabelSpec> & {
+    /** 标签位置(支持两端显示 bothEnds) */
+    position?: PositionEnum;
+    minLabel?: IMarkSpec<IPositionedTextMarkSpec> & {
+      /** 是否可见 */
+      visible: boolean;
+      /** 标签位置 */
+      position?: minMaxPositionEnum;
+      /** 标签偏移量 */
+      offset?: number;
+      /**
+       * 文本格式化函数
+       * @param text 文本内容
+       * @param datum 文本对应的数据记录
+       * @returns 格式化后的文本
+       */
+      formatMethod?: (text: string | string[], datum?: any) => string | string[];
+    };
+    /** 最大值标签 */
+    maxLabel?: IMarkSpec<IPositionedTextMarkSpec> & {
+      /** 是否可见 */
+      visible: boolean;
+      /** 标签位置 */
+      position?: minMaxPositionEnum;
+      /** 标签偏移量 */
+      offset?: number;
+      /**
+       * 文本格式化函数
+       * @param text 文本内容
+       * @param datum 文本对应的数据记录
+       * @returns 格式化后的文本
+       */
+      formatMethod?: (text: string | string[], datum?: any) => string | string[];
+    };
+  };
+}
+
+export interface IRangeColumnSeriesTheme extends ICartesianSeriesTheme {
+  bar?: Partial<IMarkTheme<IRectMarkSpec>>;
+  label?: Partial<ILabelSpec> & {
+    minLabel?: Partial<IMarkTheme<ITextMarkSpec> & { position?: minMaxPositionEnum }>;
+    maxLabel?: Partial<IMarkTheme<ITextMarkSpec> & { position?: minMaxPositionEnum }>;
+  };
+}

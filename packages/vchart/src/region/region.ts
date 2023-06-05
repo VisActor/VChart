@@ -1,0 +1,360 @@
+import type { IBoundsLike } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
+import { isEmpty } from '@visactor/vutils';
+import type { Element, IElement, IGroupMark as IVGrammarGroupMark, ILayoutOptions, IMark } from '@visactor/vgrammar';
+import { STATE_VALUE_ENUM_REVERSE } from '../compile/mark/interface';
+import { DimensionTrigger } from '../interaction/dimension-trigger';
+import { MarkTypeEnum } from '../mark/interface';
+import { BaseModel } from '../model/base-model';
+import type { ISeries } from '../series/interface';
+import type { IModelOption, ILayoutItem } from '../model/interface';
+import type { CoordinateType } from '../typings/coordinate';
+import type { IRegion, IRegionSpec } from './interface';
+import type { IGroupMark } from '../mark/group';
+import type { IInteraction, ITrigger } from '../interaction/interface';
+import { Interaction } from '../interaction/interaction';
+import { AttributeLevel, ChartEvent, LayoutZIndex } from '../constant';
+import { array, isValid, log } from '../util';
+import type { IRectMark } from '../mark/rect';
+import { AnimateManager } from '../animation/animate-manager';
+import type { IAnimate } from '../animation/interface';
+import { MarkSet } from '../mark/mark-set';
+import type { StringOrNumber } from '../typings';
+import type { IDataZoomSpec, IScrollBarSpec } from '../component/data-zoom';
+
+export class Region extends BaseModel implements IRegion {
+  static type = 'region';
+  readonly modelType: string = 'region';
+
+  type = Region.type;
+  protected _series: ISeries[] = [];
+  layoutType: ILayoutItem['layoutType'] = 'region';
+  layoutZIndex: number = LayoutZIndex.Region;
+
+  animate?: IAnimate;
+
+  interaction: IInteraction = new Interaction();
+
+  // scrollBar
+  // scrollBar.scroll() => lineMark.x += offsetX
+  // lineMark.x = lineMark.baseX + offsetX
+  // scrollBar. regionGroup.clip = true;
+  protected _marks: MarkSet = new MarkSet();
+  getMarks() {
+    return this._marks.getMarks();
+  }
+
+  protected _groupMark!: IGroupMark;
+  getGroupMark() {
+    return this._groupMark;
+  }
+
+  protected _backgroundMark?: IRectMark;
+  protected _foregroundMark?: IRectMark;
+
+  protected _trigger: ITrigger;
+
+  protected declare _spec: IRegionSpec;
+
+  constructor(spec: IRegionSpec, ctx: IModelOption) {
+    super(spec, ctx);
+    this.userId = spec.id;
+    this.coordinate = spec.coordinate ?? 'cartesian';
+    if (this._option.animation) {
+      this.animate = new AnimateManager({
+        getCompiler: ctx.getCompiler
+      });
+    }
+    // 层级应当支持配置
+    if (isValid(spec.zIndex)) {
+      this.layoutZIndex = spec.zIndex;
+    }
+
+    if (__DEV__) {
+      // TODO: remove me
+      log('region created');
+    }
+  }
+
+  protected _getClipDefaultValue() {
+    const chartSpec = this._option.getChart().getSpec();
+    const hasDataZoom = (chartSpec as any).dataZoom?.some?.((entry: IDataZoomSpec) => entry.filterMode === 'axis');
+    const hasScrollBar = (chartSpec as any).scrollBar?.some?.((entry: IScrollBarSpec) => entry.filterMode === 'axis');
+
+    return hasDataZoom || hasScrollBar ? true : this.layoutClip;
+  }
+
+  created(): void {
+    super.created();
+    this._groupMark = this._createMark(MarkTypeEnum.group, 'regionGroup') as IGroupMark;
+    this._groupMark.setUserId(this.userId);
+    this._groupMark.setZIndex(this.layoutZIndex);
+    const clip = this._spec.clip ?? this._getClipDefaultValue();
+    this.setMarkStyle(
+      this._groupMark,
+      {
+        x: () => this.getLayoutStartPoint().x,
+        y: () => this.getLayoutStartPoint().y,
+        width: () => this.getLayoutRect().width,
+        height: () => this.getLayoutRect().height,
+        clip
+      },
+      'normal',
+      AttributeLevel.Built_In
+    );
+    this.setMarkStyle(
+      this._groupMark,
+      {
+        cornerRadius: this._spec.style?.cornerRadius,
+        cornerRadiusTopLeft: this._spec.style?.cornerRadiusTopLeft,
+        cornerRadiusTopRight: this._spec.style?.cornerRadiusTopRight,
+        cornerRadiusBottomLeft: this._spec.style?.cornerRadiusBottomLeft,
+        cornerRadiusBottomRight: this._spec.style?.cornerRadiusBottomRight
+      },
+      'normal',
+      AttributeLevel.User_Mark
+    );
+    this._marks.addMark(this._groupMark);
+    // hack: region 的样式不能设置在groupMark上，因为groupMark目前没有计算dirtyBound，会导致拖影问题
+    if (this._spec.style) {
+      this._backgroundMark = this._createMark('rect', 'regionBackground') as IRectMark;
+      if (clip) {
+        this._foregroundMark = this._createMark('rect', 'regionForeground') as IRectMark;
+      }
+      [this._backgroundMark, this._foregroundMark].forEach(mark => {
+        if (mark) {
+          mark.created();
+          this.setMarkStyle(
+            mark,
+            {
+              width: () => this.getLayoutRect().width,
+              height: () => this.getLayoutRect().height
+            },
+            'normal',
+            AttributeLevel.Built_In
+          );
+          this._groupMark.addMark(mark);
+        }
+      });
+      this._backgroundMark && this._backgroundMark.setZIndex(0);
+      this._foregroundMark && this._foregroundMark.setZIndex(LayoutZIndex.Mark + 1);
+    }
+    this.createTrigger();
+  }
+
+  init(option: any) {
+    super.init(option);
+    if (__DEV__) {
+      // TODO: remove me
+      log('region init');
+    }
+    this.initMark();
+    this.initSeriesDataflow();
+    this.initInteraction();
+    this.initTrigger();
+  }
+  initMark() {
+    this._initBackgroundMarkStyle();
+    this._initForegroundMarkStyle();
+  }
+
+  protected _initBackgroundMarkStyle() {
+    if (this._backgroundMark) {
+      this.setMarkStyle(
+        this._backgroundMark,
+        {
+          fillOpacity: this._spec.style?.fill ? 1 : 0,
+          ...this._spec.style
+        },
+        'normal',
+        AttributeLevel.User_Mark
+      );
+      if (this._spec.clip ?? this._getClipDefaultValue()) {
+        this.setMarkStyle(
+          this._backgroundMark,
+          {
+            strokeOpacity: 0
+          },
+          'normal',
+          AttributeLevel.Built_In
+        );
+      }
+    }
+  }
+
+  protected _initForegroundMarkStyle() {
+    if (this._foregroundMark) {
+      this.setMarkStyle(
+        this._foregroundMark,
+        {
+          ...this._spec.style,
+          fillOpacity: 0
+        },
+        'normal',
+        AttributeLevel.User_Mark
+      );
+    }
+  }
+
+  updateSpec(spec: any) {
+    const originalSpec = this._originalSpec;
+    const result = super.updateSpec(spec);
+    if ((originalSpec.style && !spec?.style) || (!originalSpec.style && spec?.style)) {
+      result.reMake = true;
+      return result;
+    }
+
+    return result;
+  }
+
+  reInit() {
+    super.reInit();
+    this._initBackgroundMarkStyle();
+    this._initForegroundMarkStyle();
+  }
+
+  addSeries(s: ISeries) {
+    if (!s) {
+      return;
+    }
+    if (!this._series.includes(s)) {
+      this._series.push(s);
+    }
+  }
+
+  removeSeries(s: ISeries) {
+    if (!s) {
+      return;
+    }
+    const index = this._series.findIndex(s_ => s_ === s);
+    if (index >= 0) {
+      this._series.splice(index, 1);
+    }
+  }
+
+  getSeries(
+    opt: {
+      name?: string;
+      userId?: StringOrNumber | StringOrNumber[];
+      specIndex?: number | number[];
+      id?: StringOrNumber;
+      type?: string;
+      coordinateType?: CoordinateType;
+      dataName?: string;
+    } = {}
+  ): ISeries[] {
+    return this._series.filter(
+      s =>
+        (opt.name ? s?.name === opt.name : true) &&
+        (opt.userId && s.userId ? array(opt.userId).includes(s.userId) : true) &&
+        (isValid(opt.specIndex) && s.getSpecIndex ? array(opt.specIndex).includes(s.getSpecIndex()) : true) &&
+        (opt.id ? s.id === opt.id : true) &&
+        (opt.type ? s.type === opt.type : true) &&
+        (opt.coordinateType ? s.coordinate === opt.coordinateType : true) &&
+        (opt.dataName ? s.getRawData?.()?.name === opt.dataName : true)
+    );
+  }
+
+  getSeriesInName(name: string): ISeries {
+    return this.getSeries({ name })[0];
+  }
+  getSeriesInUserId(userId: string): ISeries {
+    return this.getSeries({ userId })[0];
+  }
+  getSeriesInId(id: number): ISeries {
+    return this.getSeries({ id })[0];
+  }
+  getSeriesInType(type: string): ISeries[] {
+    return this.getSeries({ type });
+  }
+  getSeriesInCoordinateType(coordinateType: CoordinateType): ISeries[] {
+    return this.getSeries({ coordinateType });
+  }
+  getSeriesInDataName(dataName: string): ISeries[] {
+    return this.getSeries({ dataName });
+  }
+
+  onRender(ctx: any): void {
+    // do nothing
+  }
+
+  initSeriesDataflow() {
+    const viewDataFilters = this._series.map(s => s.getViewDataFilter()).filter(v => !!v);
+    this._option.dataSet.multipleDataViewAddListener(viewDataFilters, 'change', this.seriesDataFilterOver);
+  }
+
+  seriesDataFilterOver = () => {
+    this.event.emit(ChartEvent.regionSeriesDataFilterOver, { model: this });
+    this._series.forEach(s => s.reTransformViewData());
+  };
+
+  release() {
+    super.release();
+    this._series = [];
+    this._marks.clear();
+  }
+  /** dimension */
+  createTrigger() {
+    const triggerOptions = {
+      ...this._option,
+      model: this,
+      interaction: this.interaction
+    };
+    this._trigger = new DimensionTrigger(triggerOptions);
+  }
+
+  initTrigger() {
+    // register all mark
+    // trigger check mark enable
+    this._series.forEach(s => {
+      s.getMarksWithoutRoot().forEach(m => {
+        this._trigger.registerMark(m);
+      });
+    });
+    this._trigger.init();
+  }
+
+  initInteraction() {
+    // 注册所有支持反选状态mark
+    this._series.forEach(s => {
+      s.getMarksWithoutRoot().forEach(m => {
+        for (const key in STATE_VALUE_ENUM_REVERSE) {
+          if (!isEmpty(m.stateStyle[STATE_VALUE_ENUM_REVERSE[key]])) {
+            this.interaction.registerMark(STATE_VALUE_ENUM_REVERSE[key], m);
+          }
+        }
+      });
+    });
+  }
+
+  compileMarks(group?: string | IVGrammarGroupMark) {
+    this.getMarks().forEach(m => {
+      m.compile({ group });
+      m.getProduct()
+        ?.configure({
+          context: {
+            model: this
+          }
+        })
+        .layout(
+          (group: IVGrammarGroupMark, children: IMark[], parentLayoutBounds: IBoundsLike, options?: ILayoutOptions) => {
+            // console.log('region mark layout');
+          }
+        );
+    });
+  }
+
+  compileSignal() {
+    super.compileSignal();
+    this.animate?.compile();
+  }
+
+  compile() {
+    this.compileSignal();
+    this.compileMarks();
+  }
+
+  bindSceneNode(node: IElement) {
+    this._sceneNodeMap.set('default', node as Element);
+  }
+}

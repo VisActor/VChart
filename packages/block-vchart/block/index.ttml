@@ -1,0 +1,84 @@
+<view class="content" scroll-y style="height: 600px; width: 100%;background-color: rgba(31, 35, 41, 0.05);">
+  <view class="vchart">
+    <canvas
+      class="cs-canvas"
+      id="line_draw_canvas"
+      canvas-id="line_draw_canvas"
+      bindtouchstart="bindChartEvent"
+      bindtouchmove="bindChartEvent"
+      bindtouchend="bindChartEvent"
+
+      bindmousemove="bindChartEvent"
+      bindmouseover="bindChartEvent"
+      bindmouseout="bindChartEvent"
+    >
+    </canvas>
+    <!-- 注意 canvas 顺序 -->
+    <canvas
+      id="line_tooltip_canvas"
+      canvas-id="line_tooltip_canvas"
+      class="cs-tooltip-canvas"
+      user-interaction-enabled={{false}}
+    >
+    </canvas>
+  </view>
+
+  <view class="vchart">
+    <canvas
+      class="cs-canvas"
+      id="pie_draw_canvas"
+      canvas-id="pie_draw_canvas"
+      bindtouchstart="bindChartEvent"
+      bindtouchmove="bindChartEvent"
+      bindtouchend="bindChartEvent"
+    >
+    </canvas>
+    <!-- 注意 canvas 顺序 -->
+    <canvas
+      id="pie_tooltip_canvas"
+      canvas-id="pie_tooltip_canvas"
+      class="cs-tooltip-canvas"
+      user-interaction-enabled={{false}}
+    >
+    </canvas>
+  </view>
+
+  <view class="vchart">
+    <canvas
+      class="cs-canvas"
+      id="bar_draw_canvas"
+      canvas-id="bar_draw_canvas"
+      bindtouchstart="bindChartEvent"
+      bindtouchmove="bindChartEvent"
+      bindtouchend="bindChartEvent"
+    >
+    </canvas>
+    <!-- 注意 canvas 顺序 -->
+    <canvas
+      id="bar_tooltip_canvas"
+      canvas-id="bar_tooltip_canvas"
+      class="cs-tooltip-canvas"
+      user-interaction-enabled={{false}}>
+    </canvas>
+  </view>
+
+  <view class="vchart" style="height: 350px;">
+    <canvas
+      class="cs-canvas"
+      id="map_draw_canvas"
+      canvas-id="map_draw_canvas"
+      bindtouchstart="bindChartEvent"
+      bindtouchmove="bindChartEvent"
+      bindtouchend="bindChartEvent"
+    >
+    </canvas>
+    <!-- 注意 canvas 顺序 -->
+    <canvas
+      id="map_tooltip_canvas"
+      canvas-id="map_tooltip_canvas"
+      class="cs-tooltip-canvas"
+      user-interaction-enabled={{false}}
+    >
+    </canvas>
+  </view>
+</view>

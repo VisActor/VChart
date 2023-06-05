@@ -1,0 +1,7 @@
+node_modules
+lib
+.DS_Store
+./index.js
+./index.json
+./index.ttml
+./index.ttss
