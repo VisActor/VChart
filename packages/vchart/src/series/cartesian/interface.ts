@@ -1,0 +1,35 @@
+import type { ISeriesSpec } from '../../typings/spec/common';
+import type { DirectionType } from '../../typings';
+import type { ILabelSpec } from '../../component/label';
+
+export interface ICartesianSeriesSpec extends ISeriesSpec {
+  /**
+   * direction
+   * row means layout by rows，col means layout by columns
+   */
+  direction?: DirectionType;
+  /**
+   * x轴字段
+   */
+  xField: string | string[];
+  /**
+   * 用于区间数据，声明区间末尾的数据字段。
+   */
+  x2Field?: string;
+  // 因为存在 direction
+  /**
+   * y轴字段
+   * 运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度
+   */
+  yField: string | string[];
+  /**
+   * 用于区间数据，声明区间末尾的数据字段。
+   */
+  y2Field?: string;
+}
+
+export interface ICartesianSeriesTheme {
+  fillOpacity: number;
+  strokeOpacity: number;
+  label?: Partial<ILabelSpec>;
+}

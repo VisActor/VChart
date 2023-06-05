@@ -1,0 +1,199 @@
+import { CartesianSeries } from '../../cartesian/cartesian';
+import { SeriesTypeEnum } from '../../interface';
+import type { IRectMark } from '../../../mark/rect';
+import type { IGroupMark } from '../../../mark/group';
+import { MarkTypeEnum } from '../../../mark/interface';
+import { valueInScaleRange } from '../../../util';
+import { AttributeLevel } from '../../../constant';
+import type { Datum, Maybe } from '../../../typings';
+import { animationConfig, userAnimationConfig } from '../../../animation/utils';
+import { DEFAULT_MARK_ANIMATION } from '../../../animation/config';
+import type { ILinearProgressAnimationParams, LinearProgressAppearPreset } from './animation';
+import type { ILinearProgressSeriesSpec, ILinearProgressSeriesTheme } from './interface';
+import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
+import type { IStateAnimateSpec } from '../../../animation/spec';
+
+export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesSpec> {
+  static readonly type: string = SeriesTypeEnum.linearProgress;
+  type = SeriesTypeEnum.linearProgress;
+
+  protected declare _theme: Maybe<ILinearProgressSeriesTheme>;
+
+  private _progressMark: IRectMark | null = null;
+  private _trackMark: IRectMark | null = null;
+  private _progressGroupMark: IGroupMark | null = null;
+
+  /**
+   * 为了解决在圆角情况下，在数值较小时，rect绘图效果不好的问题
+   * 1. trackMark的所有样式设置在groupMark上，定位也依靠这个groupMark
+   * 2. progressMark长度固定为整个进度条长度，通过x的偏移体现当前进度
+   *
+   * 为了解决在配置tooltip时，trackMark设置为GroupMark无法绑定数据的问题，
+   * 1. 原本的设置为groupMark的trackMark更名为GroupMark。用来保证在clip效果下progressMark小数据值的绘图效果。
+   * 1. 增加一层设置为rectMark的trackMark，形状大小与GroupMark相同
+   */
+  initMark(): void {
+    this.initProgressGroupMark();
+    this.initTrackMark();
+    this.initProgressMark();
+  }
+
+  initMarkStyle(): void {
+    this.initProgressGroupMarkStyle();
+    this.initTrackMarkStyle();
+    this.initProgressMarkStyle();
+  }
+
+  private initProgressMark() {
+    this._progressMark = this._createMark(MarkTypeEnum.rect, 'progress', {
+      isSeriesMark: true,
+      parent: this._progressGroupMark
+    }) as IRectMark;
+    return this._progressMark;
+  }
+
+  private initProgressMarkStyle() {
+    const progressMark = this._progressMark;
+    if (progressMark) {
+      if (this._spec.direction === 'vertical') {
+        const leftPadding = this._spec.progress?.leftPadding ?? 0;
+        const rightPadding = this._spec.progress?.rightPadding ?? 0;
+
+        this.setMarkStyle(progressMark, {
+          x: leftPadding,
+          y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)),
+          height: () => this._yAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition }),
+          width: this._spec.bandWidth - leftPadding - rightPadding,
+          cornerRadius: this._spec.cornerRadius,
+          fill: this.getColorAttribute(),
+          fillOpacity: this._spec.progress?.style?.fillOpacity ?? 1
+        });
+      } else {
+        const topPadding = this._spec.progress?.topPadding ?? 0;
+        const bottomPadding = this._spec.progress?.bottomPadding ?? 0;
+
+        this.setMarkStyle(progressMark, {
+          x: (datum: Datum) =>
+            valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
+            this._xAxisHelper.dataToPosition([1], { bandPosition: this._bandPosition }),
+          y: topPadding,
+          height: this._spec.bandWidth - topPadding - bottomPadding,
+          width: () => this._xAxisHelper?.dataToPosition([1], { bandPosition: this._bandPosition }),
+          cornerRadius: this._spec.cornerRadius,
+          fill: this.getColorAttribute(),
+          fillOpacity: this._spec.progress?.style?.fillOpacity ?? 1
+        });
+      }
+      this._trigger.registerMark(progressMark);
+      this._tooltipHelper?.activeTriggerSet.mark.add(progressMark);
+    }
+  }
+
+  private initTrackMark() {
+    this._trackMark = this._createMark(MarkTypeEnum.rect, 'track', {
+      parent: this._progressGroupMark
+    }) as IRectMark;
+    return this._trackMark;
+  }
+
+  private initTrackMarkStyle() {
+    const trackMark = this._trackMark;
+    if (trackMark) {
+      if (this._spec.direction === 'vertical') {
+        this.setMarkStyle(trackMark, {
+          x: 0,
+          y: 0,
+          width: this._spec.bandWidth,
+          height: () => this._scaleY.range()[0],
+          cornerRadius: this._spec.cornerRadius,
+          fill: this._spec.track?.style?.fill,
+          fillOpacity: this._spec.progress?.style?.fillOpacity ?? 1
+        });
+      } else {
+        this.setMarkStyle(trackMark, {
+          x: 0,
+          y: 0,
+          height: this._spec.bandWidth,
+          width: () => this._scaleX.range()[1],
+          cornerRadius: this._spec.cornerRadius,
+          fill: this._spec.track?.style?.fill,
+          fillOpacity: this._spec.track?.style?.fillOpacity
+        });
+      }
+      this._trigger.registerMark(trackMark);
+      this._tooltipHelper?.activeTriggerSet.mark.add(trackMark);
+    }
+  }
+
+  private initProgressGroupMark() {
+    this._progressGroupMark = this._createMark(MarkTypeEnum.group, 'group') as IGroupMark;
+    return this._progressGroupMark;
+  }
+
+  private initProgressGroupMarkStyle() {
+    const groupMark = this._progressGroupMark;
+    if (groupMark) {
+      const datum = this._rawData?.rawData[0];
+      groupMark.setZIndex(this.layoutZIndex);
+      groupMark.created();
+      if (this._spec.direction === 'vertical') {
+        this.setMarkStyle(
+          groupMark,
+          {
+            x: () =>
+              valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
+              this._spec.bandWidth / 2,
+            y: 0,
+            height: () => this._scaleY.range()[0],
+            width: this._spec.bandWidth,
+            clip: true,
+            cornerRadius: this._spec.cornerRadius
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      } else {
+        this.setMarkStyle(
+          groupMark,
+          {
+            x: 0,
+            y: () =>
+              valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
+              this._spec.bandWidth / 2,
+            height: this._spec.bandWidth,
+            width: () => this._scaleX.range()[1],
+            clip: true,
+            cornerRadius: this._spec.cornerRadius
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
+
+      this._progressGroupMark.setInteractive(false);
+    }
+  }
+
+  initAnimation() {
+    const animationParams: ILinearProgressAnimationParams = {
+      direction: this.direction
+    };
+
+    const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<LinearProgressAppearPreset>)?.preset;
+
+    this._progressMark.setAnimationConfig(
+      animationConfig(
+        DEFAULT_MARK_ANIMATION.linearProgress(animationParams, appearPreset),
+        userAnimationConfig('progress', this._spec)
+      )
+    );
+
+    this._trackMark.setAnimationConfig(
+      animationConfig(DEFAULT_MARK_ANIMATION.progressBackground(), userAnimationConfig('track', this._spec))
+    );
+  }
+
+  protected initTooltip() {
+    this._tooltipHelper = new LinearProgressSeriesTooltipHelper(this);
+  }
+}

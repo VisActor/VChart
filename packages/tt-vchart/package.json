@@ -1,0 +1,39 @@
+{
+  "name": "@visactor/tt-vchart",
+  "description": "VChart 字节小程序图表组件",
+  "miniprogramType": "tt-npm",
+  "files": [
+    "src"
+  ],
+  "exports": {
+    "components": {
+      "index": "./src/index"
+    }
+  },
+  "version": "1.0.0",
+  "main": "",
+  "scripts": {},
+  "keywords": [
+    "tt",
+    "charts",
+    "visualization",
+    "VChart",
+    "animation",
+    "storytelling",
+    "VisActor",
+    "graphics",
+    "interaction"
+  ],
+  "homepage": "",
+  "bugs": "https://github.com/VisActor/VChart/issues",
+  "repository": {
+    "type": "git",
+    "url": "GitHub - VisActor/VChart: The chart library for web and multi-platform",
+    "directory": "packages/tt-vchart"
+  },
+  "author": {
+    "name": "VisActor",
+    "url": "https://VisActor.io/"
+  },
+  "license": "MIT"
+}

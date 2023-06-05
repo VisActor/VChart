@@ -1,0 +1,562 @@
+import type { ILayoutPaddingSpec } from '../../model/interface';
+import type { LayoutCallBack } from '../../layout/interface';
+import type { IElement, srIOption3DType } from '@visactor/vgrammar';
+import type {
+  DataSet,
+  DataView,
+  ISimplifyOptions,
+  IFieldsOptions,
+  IFilterOptions,
+  IFoldOptions,
+  IDsvParserOptions
+} from '@visactor/vdataset';
+import type { IRegionSpec } from '../../region/interface';
+import type { IDiscreteLegendSpec } from '../../component/legend/discrete/interface';
+import type { IHoverSpec, ISelectSpec, ITriggerSpec } from '../../interaction/interface';
+import type { IRenderOption } from '../../compile/interface';
+import type { ITooltipSpec } from '../../component/tooltip/interface';
+import type { ILayoutSpec } from '../../layout/interface';
+import type {
+  ConvertToMarkStyleSpec,
+  IArc3dMarkSpec,
+  IArcMarkSpec,
+  IAreaMarkSpec,
+  IBoxPlotMarkSpec,
+  ICommonSpec,
+  IGroupMarkSpec,
+  ILineMarkSpec,
+  ILinkPathMarkSpec,
+  IPathMarkSpec,
+  IPolygonMarkSpec,
+  IProgressArcMarkSpec,
+  IPyramid3dMarkSpec,
+  IRect3dMarkSpec,
+  IRectMarkSpec,
+  IRuleMarkSpec,
+  ISymbolMarkSpec,
+  ITextMarkSpec,
+  IVisualSpecScale
+} from '../visual';
+import type { StateValue } from '../../compile/mark';
+import type { ISeriesStyle, SeriesType } from '../../series/interface';
+import type { ILayoutOrientPadding } from '../../model/interface';
+import type { Datum, StringOrNumber } from '../common';
+import type { IInvalidType } from '../data';
+import type { IMorphSeriesSpec } from '../../animation/spec';
+import type { IPlayer } from '../../component/player';
+import type { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
+import type { IDataZoomSpec, IScrollBarSpec } from '../../component/data-zoom';
+import type { ICrosshairSpec } from '../../component/crosshair/interface';
+import type { ITheme } from '../../theme';
+import type { ITitleSpec } from '../../component/title/interface';
+import type { IBrushSpec } from '../../component/brush';
+
+export type IChartPadding = ILayoutOrientPadding | number;
+
+/** chart option */
+export interface IInitOption extends IRenderOption {
+  /**
+   * **仅生效于浏览器环境。**
+   * 图表挂载的父容器，可以直接指定容器 id，也可以传入 dom 对象
+   */
+  dom?: string | HTMLElement;
+  /**
+   * 除去选择 dom 属性进行挂载父容器，也可以使用 renderCanvas 属性直接传入 canvas 实例/ canvasId
+   * 小程序/小组件环境请直接传入 id
+   */
+  renderCanvas?: string | HTMLCanvasElement;
+  /** 数据集 */
+  dataSet?: DataSet;
+  /** 是否自适应容器大小 */
+  autoFit?: boolean;
+  /**
+   * 性能测试钩子
+   */
+  performanceHook?: IPerformanceHook;
+  /**
+   * 是否开启动画
+   */
+  animation?: boolean;
+  /**
+   * 3d配置
+   */
+  options3d?: srIOption3DType;
+
+  /**
+   * 自定义布局函数
+   */
+  layout?: LayoutCallBack;
+}
+
+export enum RenderModeEnum {
+  'desktop-browser' = 'desktop-browser',
+  'mobile-browser' = 'mobile-browser',
+  'node' = 'node',
+  'worker' = 'worker',
+  'miniApp' = 'miniApp',
+  'desktop-miniApp' = 'desktop-miniApp',
+  'lynx' = 'lynx'
+}
+export type RenderMode = keyof typeof RenderModeEnum;
+
+/** chart spec */
+export interface IChartSpec {
+  /** 图表类型 */
+  type: string;
+  /** 数据 */
+  data?: IData;
+  /** 画布宽度 */
+  width?: number;
+  /** 画布高度 */
+  height?: number;
+  /**
+   * 图表宽高是否自适应容器，浏览器环境下默认为 true。
+   * 该配置的优先级高于构造函数中的 autoFit 配置。
+   * 如果用户配置了 width，则以用户配置的 width 为准，height 同理。
+   */
+  autoFit?: boolean;
+  /**
+   * 图表整体 padding 设置
+   */
+  padding?: ILayoutPaddingSpec;
+  /**
+   * 图表色系配置
+   */
+  color?: string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>;
+  /** 系列 */
+  series?: ISeriesSpec[];
+  /**
+   * 系列样式
+   * @description 仅在图表配置了seriesField时生效
+   */
+  seriesStyle?: ISeriesStyle;
+  /** region配置 */
+  region?: IRegionSpec[];
+  /** 图例配置 */
+  legends?: IDiscreteLegendSpec | IDiscreteLegendSpec[];
+  /**
+   * 十字辅助线配置
+   */
+  crosshair?: ICrosshairSpec | ICrosshairSpec[];
+  /** hover 交互 */
+  hover?: boolean | IHoverSpec;
+  /** select 交互 */
+  select?: boolean | ISelectSpec;
+  /** tooltip */
+  tooltip?: ITooltipSpec;
+  /** 布局配置 */
+  layout?: ILayoutSpec;
+  /** 播放器配置 */
+  player?: IPlayer;
+  /** 缩略轴配置 */
+  dataZoom?: IDataZoomSpec[];
+  /** 框选配置 */
+  brush?: IBrushSpec;
+  /**
+   * 全局 scale 配置
+   */
+  scales?: IVisualSpecScale<unknown, unknown>[];
+  /**
+   * 自定义mark
+   */
+  customMark?: ICustomMarkSpec<EnableMarkType>[];
+  /**
+   * 图表上的主题定义
+   */
+  theme?: Omit<ITheme, 'name'>;
+  /**
+   * 图表标题配置
+   */
+  title?: ITitleSpec;
+  /**
+   * 图表背景色配置，优先级高于构造函数中的 background 配置
+   */
+  background?: string;
+  /** 滚动条配置 */
+  scrollBar?: IScrollBarSpec[];
+
+  // TODO: 补充动画配置
+}
+
+/** data */
+export type IDataType = IDataValues | DataView;
+export type IData = IDataType | IDataType[];
+export type DataKeyType = string | string[] | ((data: Datum, index: number) => string);
+export type BuildInTransformOptions =
+  | {
+      /** 地理数据简化 */
+      type: 'simplify';
+      options: ISimplifyOptions;
+    }
+  | {
+      /** 数据维度处理，包括排序，逆序，数据筛选能力 */
+      type: 'fields';
+      options: IFieldsOptions;
+    }
+  | {
+      /** 使用回调的自定义筛选 */
+      type: 'filter';
+      options: IFilterOptions;
+    }
+  | {
+      /** 数据展开 */
+      type: 'fold';
+      options: IFoldOptions;
+    };
+
+export interface IFieldsMeta {
+  /** TODO: 字段通用format, 暂时先不支持 */
+  // format?: (datum: Datum, index: number) => unknown;
+  /** 字段别名 */
+  alias?: string;
+  /** 字段取值范围 */
+  domain?: StringOrNumber[];
+  /** 是否使用 domain 锁定统计信息。默认为 false */
+  lockStatisticsByDomain?: boolean;
+  /** 连续型 还是 离散型 */
+  type?: 'ordinal' | 'linear';
+  /** 排序顺序 不设置的话当前维度不进行排序 */
+  sortIndex?: number;
+  /** 排序时是否反转 默认为 false */
+  sortReverse?: boolean;
+}
+
+export interface IDataValues {
+  /**
+   * 数据唯一标识
+   */
+  id?: StringOrNumber;
+  /**
+   * 数据
+   */
+  values: Datum[] | string;
+  /**
+   * 引用的数据索引
+   */
+  fromDataIndex?: number;
+  /**
+   * 引用的数据 id
+   */
+  fromDataId?: StringOrNumber;
+  /**
+   * 数据 transform 配置
+   */
+  transforms?: BuildInTransformOptions[];
+  /**
+   * 数据字段相关配置
+   */
+  fields?: Record<
+    /** 字段key */
+    string,
+    IFieldsMeta
+  >;
+
+  parser?: {
+    type: 'csv' | 'dsv' | 'tsv';
+    options?: IDsvParserOptions;
+  };
+}
+
+export type IHierarchyNodeData = {
+  value?: number;
+  children?: IHierarchyNodeData[];
+} & Datum;
+
+export interface IHierarchyDataValues extends Omit<IDataValues, 'values'> {
+  values: IHierarchyNodeData;
+}
+
+export type IHierarchyData = DataView | IHierarchyDataValues;
+
+/** series */
+export interface ISeriesSpec extends ITriggerSpec {
+  /** 系列类型 */
+  type: SeriesType;
+
+  /** 系列名称 */
+  name?: string;
+
+  /** 用户自定义的 series id */
+  id?: StringOrNumber;
+  /**
+   * 系列数据
+   * @description 系列可以配置自身的数据，也可以从chart.data中获取数据
+   */
+  data?: IDataType;
+  /**
+   * 系列关联的数据索引
+   * @default 0
+   */
+  dataIndex?: number;
+  /**
+   * 系列关联的数据id
+   */
+  dataId?: StringOrNumber;
+  /**
+   * dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要.
+   */
+  dataKey?: DataKeyType;
+
+  /**
+   * 系列关联的region索引
+   * @default 0
+   */
+  regionIndex?: number;
+  /** 系列关联的region id */
+  regionId?: StringOrNumber;
+  /**
+   * 分组字段
+   */
+  seriesField?: string;
+  /**
+   * 系列样式
+   * @description 仅在图表配置了seriesField时生效
+   */
+  seriesStyle?: ISeriesStyle;
+
+  /** 是否对数据进行堆叠处理 */
+  stack?: boolean;
+
+  /** 是否对数据进行百分比处理 */
+  percent?: boolean;
+
+  /** 是否围绕中心轴偏移轮廓 */
+  stackOffsetSilhouette?: boolean;
+
+  /**
+   * 非合规数据点连接方式
+   * @description null，undefined等非法数据点连接方式。
+   * @default 'zero'
+   * 'break'指在该数据点处断开
+   * 'link' 指忽略该点保持连续
+   * 'zero' 指该点默认数值为0
+   * 'ignore' 指不处理
+   */
+  invalidType?: IInvalidType;
+
+  /** 提示信息 */
+  tooltip?: ITooltipSpec;
+
+  /**
+   * 是否开启系列动画
+   */
+  animation?: boolean;
+
+  /**
+   * 是否支持3d视角
+   */
+  support3d?: boolean;
+  /**
+   * morph 动画配置
+   */
+  morph?: IMorphSeriesSpec;
+
+  /**
+   * 扩展mark
+   */
+  extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | IExtensionGroupMarkSpec)[];
+}
+
+export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph'>;
+
+/** markSpec */
+export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
+  /**
+   * 用户id
+   */
+  id?: StringOrNumber;
+  /**
+   * 是否响应交互
+   */
+  interactive?: boolean;
+  // /**
+  //  * 是否会被region区域裁减
+  //  * @todo 暂未支持
+  //  */
+  // clip?: boolean;
+  /**
+   * 与其他mark元素的层级
+   */
+  zIndex?: number;
+  /**
+   * mark 层 是否显示配置
+   */
+  visible?: boolean;
+  /** 默认样式设置 */
+  style?: ConvertToMarkStyleSpec<T>;
+  /** 不同状态下的样式配置 */
+  state?: Record<StateValue, IMarkStateSpec<T> | IMarkStateStyleSpec<T>>;
+
+  /* 是否是3d视角的mark */
+  support3d?: boolean;
+} & IMarkProgressiveConfig;
+
+export type IMarkStateFilter =
+  | {
+      /** 维度筛选 */
+      fields: { [key in string]: { type: 'ordinal' | 'linear'; domain: StringOrNumber[] } };
+    }
+  | {
+      /** 筛选数据 */
+      datums: Datum[];
+      /** 筛选数据 */
+      datumKeys: string[];
+    }
+  | {
+      /** 筛选 item */
+      items: IElement[];
+    }
+  /** 筛选函数 */
+  | ((datum: Datum, options: Record<string, any>) => boolean);
+
+export interface IMarkStateSpec<T> {
+  /** 筛选器 */
+  filter?: IMarkStateFilter;
+  /** 状态优先级 */
+  level?: number | undefined;
+  style: ConvertToMarkStyleSpec<T>;
+}
+
+export type IMarkStateStyleSpec<T> = ConvertToMarkStyleSpec<T>;
+
+export type IMarkTheme<T> = {
+  /**
+   * mark 层 是否显示配置
+   */
+  visible?: boolean;
+  /** 默认样式设置 */
+  style?: T;
+  /** 不同状态下的样式配置 */
+  state?: Record<StateValue, T>;
+  /**
+   * 可交互的开关
+   */
+  interactive?: boolean;
+};
+
+export interface IPerformanceHook {
+  // InitRender
+  //   ├── InitializeChart
+  //   ├── CompileToVGrammar
+  //   ├── ParseView
+  //   |  └── ParseExpression
+  //   ├── (new View)
+  //   |  ├── CreateRuntime
+  //   |  └── (view.initialize)
+  //   |     └── CreateVRenderStage
+  //   └── SrViewEvaluateAsync / SrViewRunAsync
+  //      ├── MarkTransform
+  //      ├── FacetTransform
+  //      ├── CreateVRenderMark
+  //      └── VRenderDraw
+
+  // 初始化图表配置
+  beforeInitializeChart?: () => void;
+  afterInitializeChart?: () => void;
+
+  // 编译
+  beforeCompileToVGrammar?: () => void;
+  afterCompileToVGrammar?: () => void;
+  // 各个图表模块编译
+  beforeRegionCompile?: () => void;
+  afterRegionCompile?: () => void;
+  beforeSeriesCompile?: () => void;
+  afterSeriesCompile?: () => void;
+  beforeComponentCompile?: () => void;
+  afterComponentCompile?: () => void;
+
+  // resize的时候的钩子
+  beforeResizeWithUpdate?: () => void;
+  afterResizeWithUpdate?: () => void;
+
+  // LayoutWithSceneGraph 二次布局
+  beforeLayoutWithSceneGraph?: () => void;
+  afterLayoutWithSceneGraph?: () => void;
+
+  // VGrammar 解析spec
+  beforeParseView?: () => void;
+  afterParseView?: () => void;
+
+  // 初始化runtime
+  beforeCreateRuntime?: () => void;
+  afterCreateRuntime?: () => void;
+
+  // VGrammar EvaluateAsync 时间
+  beforeSrViewEvaluateAsync?: () => void;
+  afterSrViewEvaluateAsync?: () => void;
+
+  // VGrammar RunAsync 时间
+  beforeSrViewRunAsync?: () => void;
+  afterSrViewRunAsync?: () => void;
+
+  // transform测量
+  beforeTransform?: (name: string) => void;
+  afterTransform?: (name: string) => void;
+
+  // Create VRender Stage 时间
+  beforeCreateVRenderStage?: () => void;
+  afterCreateVRenderStage?: () => void;
+
+  // Create VRender Mark 时间
+  beforeCreateVRenderMark?: () => void;
+  afterCreateVRenderMark?: () => void;
+
+  // VRender Draw 时间
+  beforeVRenderDraw?: () => void;
+  afterVRenderDraw?: () => void;
+}
+
+export type IBuildinMarkSpec = {
+  [MarkTypeEnum.group]: IGroupMarkSpec;
+
+  [MarkTypeEnum.symbol]: ISymbolMarkSpec;
+  [MarkTypeEnum.rule]: IRuleMarkSpec;
+  [MarkTypeEnum.line]: ILineMarkSpec;
+  [MarkTypeEnum.text]: ITextMarkSpec;
+  [MarkTypeEnum.rect]: IRectMarkSpec;
+  [MarkTypeEnum.rect3d]: IRect3dMarkSpec;
+  [MarkTypeEnum.path]: IPathMarkSpec;
+  [MarkTypeEnum.area]: IAreaMarkSpec;
+  [MarkTypeEnum.arc]: IArcMarkSpec;
+  [MarkTypeEnum.arc3d]: IArc3dMarkSpec;
+  [MarkTypeEnum.polygon]: IPolygonMarkSpec;
+  [MarkTypeEnum.pyramid3d]: IPyramid3dMarkSpec;
+  [MarkTypeEnum.boxPlot]: IBoxPlotMarkSpec;
+  [MarkTypeEnum.linkPath]: ILinkPathMarkSpec;
+  [MarkTypeEnum.progressArc]: IProgressArcMarkSpec;
+};
+export type EnableMarkType = keyof IBuildinMarkSpec;
+export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {
+  type: T;
+  /**
+   * 关联的数据索引
+   * @default 与系列使用同一份数据
+   */
+  dataIndex?: number;
+  /**
+   * 关联的数据id
+   */
+  dataId?: StringOrNumber;
+}
+export interface ICustomMarkGroupSpec extends ICustomMarkSpec<MarkTypeEnum.group> {
+  children?: ICustomMarkSpec<EnableMarkType>[];
+}
+
+export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, MarkTypeEnum.group>> extends ICustomMarkSpec<T> {
+  /**
+   * 关联的数据索引
+   * @default 与系列使用同一份数据
+   */
+  dataIndex?: number;
+  /**
+   * 关联的数据id
+   */
+  dataId?: StringOrNumber;
+}
+
+export interface IExtensionGroupMarkSpec extends ICustomMarkSpec<MarkTypeEnum.group> {
+  /**
+   * 支持子节点
+   */
+  children?: ICustomMarkSpec<EnableMarkType>[];
+}

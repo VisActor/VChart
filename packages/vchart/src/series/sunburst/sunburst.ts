@@ -1,0 +1,415 @@
+/* eslint-disable no-duplicate-imports */
+import type { SunburstLabelConfig, SunburstNodeElement } from '@visactor/vgrammar-hierarchy';
+import { array, isArray, isNil, isValid, isObject, degreeToRadian, mixin } from '@visactor/vutils';
+
+import type { IMarkSpec } from '../../typings/spec';
+import type { IStateAnimateSpec } from '../../animation/spec';
+import type { ITextMark } from '../../mark/text';
+import type { IArcMark } from '../../mark/arc';
+import type { IArcMarkSpec, ITextMarkSpec } from '../../typings';
+
+import type { ISunburstAnimationParams, SunburstAppearPreset } from './animation';
+import type { ISunburstSeriesSpec, LabelAutoVisibleType } from './interface';
+import type { ISunburstOpt } from '../../data/transforms/sunburst';
+
+import { registerDataSetInstanceTransform } from '../../data/register';
+import { flatten } from '../../data/transforms/flatten';
+import { sunburstLayout } from '../../data/transforms/sunburst';
+import { SeriesTypeEnum } from '../interface';
+
+import { MarkTypeEnum } from '../../mark/interface';
+import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
+import { STATE_VALUE_ENUM } from '../../compile/mark';
+import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
+import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { addChartSpaceProperty } from '../../data/transforms/add-property';
+import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import { PolarSeries } from '../polar/polar';
+import { SUNBURST_AUTO_VISIBLE_DEFAULT_THRESHOLD } from '../../constant/sunburst';
+import { SunburstTooltipHelper } from './tooltip-helper';
+import type { animationInfo } from './animation/interface';
+import type { IDrillable } from '../../interaction/drill/drillable';
+import { Drillable } from '../../interaction/drill/drillable';
+
+export class SunburstSeries extends PolarSeries<any> {
+  protected declare _spec: ISunburstSeriesSpec;
+
+  static readonly type: string = SeriesTypeEnum.sunburst;
+  type = SeriesTypeEnum.sunburst;
+
+  private _sunburstMark: IArcMark;
+  private _labelMark: ITextMark;
+
+  protected _categoryField!: string;
+  protected _valueField!: string;
+
+  private _centerX: number;
+  private _centerY: number;
+  private _offsetX: number;
+  private _offsetY: number;
+  private _startAngle: number;
+  private _endAngle: number;
+
+  private __innerRadius: number | number[];
+  private __outerRadius: number | number[];
+  private _gap: number | number[];
+  private _labelLayout: SunburstLabelConfig | SunburstLabelConfig[];
+
+  private _labelAutoVisible?: LabelAutoVisibleType;
+
+  private _label: IMarkSpec<ITextMarkSpec>;
+  private _sunburst: IMarkSpec<IArcMarkSpec>;
+
+  setCategoryField(f: string): string {
+    this._categoryField = f;
+    return this._categoryField;
+  }
+
+  getCategoryField() {
+    return this._categoryField;
+  }
+
+  setValueField(f: string): string {
+    this._valueField = f;
+    return this._valueField;
+  }
+
+  getValueField() {
+    return this._valueField;
+  }
+
+  getDimensionField() {
+    return [this._categoryField];
+  }
+
+  getMeasureField(): string[] {
+    return [this._valueField];
+  }
+
+  setAttrFromSpec() {
+    super.setAttrFromSpec();
+
+    this.setCategoryField(this._spec.categoryField);
+    this.setValueField(this._spec.valueField);
+    this.setSeriesField(this._spec.seriesField ?? DEFAULT_HIERARCHY_ROOT);
+
+    if (this._spec.drill) {
+      (this as unknown as IDrillable).initDrillable({
+        event: this.event,
+        mode: this._option.mode,
+        drillField: () => this._spec.drillField ?? DEFAULT_DATA_KEY,
+        getRawData: () => this.getRawData()
+      });
+    }
+
+    /**
+     * 角度区间
+     */
+    this._startAngle = degreeToRadian(this._spec.startAngle);
+    this._endAngle = degreeToRadian(this._spec.endAngle);
+
+    /**
+     * 中心点
+     */
+    this._centerX = this._spec.centerX;
+    this._centerY = this._spec.centerY;
+    this._offsetX = this._spec.offsetX;
+    this._offsetY = this._spec.offsetY;
+
+    /**
+     * 对所有层生效的布局配置
+     */
+    this.__innerRadius = this._spec.innerRadius;
+    this.__outerRadius = this._spec.outerRadius;
+    this._gap = this._spec.gap;
+    this._labelLayout = this._spec.labelLayout;
+
+    /**
+     * 图元配置
+     */
+    this._sunburst = this._spec.sunburst;
+    this._label = this._spec.label;
+
+    /**
+     * 功能配置
+     */
+    this._labelAutoVisible = this._spec.labelAutoVisible;
+  }
+
+  protected initData() {
+    super.initData();
+    const rawData = this.getRawData();
+    if (!rawData) {
+      return;
+    }
+
+    // 对原始数据进行上卷下钻筛选
+    if (this._spec.drill) {
+      (this as unknown as IDrillable).initDrillableData(this._dataSet);
+    }
+    // 注册布局算法
+    registerDataSetInstanceTransform(this._dataSet, 'sunburstLayout', sunburstLayout);
+    // 注册扁平化算法
+    registerDataSetInstanceTransform(this._dataSet, 'flatten', flatten);
+
+    // 对筛选后的数据, 调用sunburst布局算法
+    rawData.transform({
+      type: 'sunburstLayout',
+      options: (): ISunburstOpt => {
+        const { innerRadius, outerRadius, gap, label } = this._computeLevel();
+        return {
+          nodeKey: this._categoryField,
+          width: this.getLayoutRect().width,
+          height: this.getLayoutRect().height,
+          center: [
+            isValid(this._centerX) ? this._centerX : this.getLayoutRect().width / 2,
+            isValid(this._centerY) ? this._centerY : this.getLayoutRect().height / 2
+          ],
+          startAngle: this._startAngle,
+          endAngle: this._endAngle,
+
+          innerRadius: innerRadius,
+          outerRadius: outerRadius,
+          gapRadius: gap,
+          label: label
+        };
+      }
+    });
+
+    // 布局结果进行扁平化处理
+    rawData.transform({
+      type: 'flatten',
+      options: {
+        callback: (node: SunburstNodeElement) => {
+          if (node.datum) {
+            const nodeData = node.datum[node.depth];
+            return { ...node, ...nodeData };
+          }
+          return node;
+        }
+      }
+    });
+  }
+
+  getStatisticFields() {
+    const fields = super.getStatisticFields();
+    return fields.concat([
+      {
+        key: this._categoryField,
+        operations: ['values']
+      },
+      {
+        key: this._valueField,
+        operations: ['max', 'min']
+      },
+      {
+        key: DEFAULT_HIERARCHY_DEPTH,
+        operations: ['max', 'min', 'values']
+      },
+      {
+        key: DEFAULT_HIERARCHY_ROOT,
+        operations: ['values']
+      }
+    ]);
+  }
+
+  protected _addDataIndexAndKey() {
+    const rawData = this.getRawData();
+    if (isNil(rawData?.dataSet)) {
+      return;
+    }
+    // 为原始数据, 添加层级属性
+    registerDataSetInstanceTransform(rawData.dataSet, 'addChartSpaceProperty', addChartSpaceProperty);
+    rawData.transform({
+      type: 'addChartSpaceProperty',
+      options: {
+        beforeCall: initKeyMap,
+        call: addHierarchyDataKey.bind(this)
+      }
+    });
+  }
+
+  initMark(): void {
+    this._initArcMark();
+    this._initLabelMark();
+  }
+
+  initMarkStyle(): void {
+    this._initArcMarkStyle();
+    this._initLabelMarkStyle();
+  }
+
+  private _initArcMark() {
+    if (this._sunburst.visible === false) {
+      return;
+    }
+    // SunburstMark
+    const sunburstMark = this._createMark(MarkTypeEnum.arc, 'sunburst', {
+      isSeriesMark: true
+    }) as IArcMark;
+    this._sunburstMark = sunburstMark;
+    this._trigger.registerMark(this._sunburstMark);
+    this._tooltipHelper?.activeTriggerSet.mark.add(this._sunburstMark);
+  }
+
+  private _initArcMarkStyle() {
+    if (isNil(this._sunburstMark)) {
+      return;
+    }
+    this.setMarkStyle(
+      this._sunburstMark,
+      {
+        x: d => d.x + (isValid(this._offsetX) ? this._offsetX : 0),
+        y: d => d.y + (isValid(this._offsetY) ? this._offsetY : 0),
+        outerRadius: d => d.outerRadius,
+        innerRadius: d => d.innerRadius,
+        startAngle: d => d.startAngle,
+        endAngle: d => d.endAngle,
+        fill: this.getColorAttribute()
+      },
+      STATE_VALUE_ENUM.STATE_NORMAL,
+      AttributeLevel.Series
+    );
+  }
+
+  private _initLabelMark() {
+    if (this._label.visible !== true) {
+      return;
+    }
+    // Label
+    const labelMark = this._createMark(MarkTypeEnum.text, 'label', {
+      isSeriesMark: false
+    }) as ITextMark;
+    this._labelMark = labelMark;
+
+    this._trigger.registerMark(labelMark);
+    this._tooltipHelper?.activeTriggerSet.mark.add(labelMark);
+  }
+
+  private _initLabelMarkStyle() {
+    if (isNil(this._labelMark)) {
+      return;
+    }
+    this.setMarkStyle(
+      this._labelMark,
+      {
+        visible: d => {
+          // 自动隐藏密集标签逻辑.
+          const labelAutoVisible = this._labelAutoVisible;
+
+          if (isObject(labelAutoVisible) && labelAutoVisible.enable === true) {
+            return (
+              (d.endAngle - d.startAngle) * (d.outerRadius - d.innerRadius) >
+              (labelAutoVisible?.circumference ?? SUNBURST_AUTO_VISIBLE_DEFAULT_THRESHOLD)
+            );
+          }
+          return this._spec.label.visible;
+        },
+        x: d => d.label?.x + (isValid(this._offsetX) ? this._offsetX : 0),
+        y: d => d.label?.y + (isValid(this._offsetY) ? this._offsetY : 0),
+        textBaseline: d => d.label?.textBaseline,
+        textAlign: d => d.label?.textAlign,
+        angle: d => d.label?.angle ?? 0,
+        fontSize: 10,
+        text: d => d.name
+      },
+      STATE_VALUE_ENUM.STATE_NORMAL,
+      AttributeLevel.Series
+    );
+  }
+
+  protected initTooltip() {
+    this._tooltipHelper = new SunburstTooltipHelper(this);
+  }
+
+  initAnimation() {
+    const animationParams: ISunburstAnimationParams = {
+      animationInfo: (): animationInfo => {
+        // 返回用户的交互元素信息
+        return {
+          innerRadius: this._computeRadius(array(this.__innerRadius))[0],
+          outerRadius: this._computeRadius(array(this.__outerRadius))[0],
+          startAngle: array(this._startAngle)[0],
+          endAngle: array(this._endAngle)[0]
+        };
+      }
+    };
+
+    const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<SunburstAppearPreset>)?.preset;
+
+    this.getMarksInType(MarkTypeEnum.arc).forEach(mark => {
+      mark.setAnimationConfig(
+        animationConfig(
+          DEFAULT_MARK_ANIMATION.sunburst(animationParams, appearPreset),
+          userAnimationConfig(mark.name, this._spec)
+        )
+      );
+    });
+
+    this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
+      mark.setAnimationConfig(
+        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(mark.name, this._spec))
+      );
+    });
+  }
+
+  initEvent() {
+    super.initEvent();
+    if (this._spec.drill) {
+      (this as unknown as IDrillable).bindDrillEvent();
+    }
+  }
+
+  onLayoutEnd(ctx: any): void {
+    super.onLayoutEnd(ctx);
+    this._rawData.reRunAllTransform();
+  }
+
+  /**
+   * 计算radius, 转换为布局属性
+   * @radius radius是一个比例值, 取值范围为[0,1]
+   */
+  private _computeRadius(radius: number | number[]) {
+    if (isArray(radius)) {
+      return radius.map(r => {
+        const { width, height } = this.getRegion().getLayoutRect();
+        return Math.min(width / 2, height / 2) * r;
+      });
+    }
+    const { width, height } = this.getRegion().getLayoutRect();
+    return Math.min(width / 2, height / 2) * radius;
+  }
+
+  private _computeLevel(): {
+    innerRadius: number | number[];
+    outerRadius: number | number[];
+    gap: number | number[];
+    label: SunburstLabelConfig | SunburstLabelConfig[];
+  } {
+    return {
+      innerRadius: this._computeRadius(this.__innerRadius),
+      outerRadius: this._computeRadius(this.__outerRadius),
+      gap: this._gap,
+      label: this._labelLayout
+    };
+  }
+
+  getGroupFields(): string[] {
+    return [];
+  }
+  getStackGroupFields(): string[] {
+    return [];
+  }
+  getStackValueField(): string {
+    return '';
+  }
+  setValueFieldToStack(): void {
+    return;
+  }
+  setValueFieldToPercent(): void {
+    return;
+  }
+}
+
+mixin(SunburstSeries, Drillable);

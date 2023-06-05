@@ -1,0 +1,45 @@
+import { SeriesTypeEnum } from '../../series/interface';
+import { merge } from '../../util';
+import { ChartTypeEnum } from '../interface';
+import { RoseLikeChart } from '../polar/rose-like';
+export class RadarChart extends RoseLikeChart {
+  static readonly type: string = ChartTypeEnum.radar;
+  static readonly view: string = 'singleDefault';
+  readonly type: string = ChartTypeEnum.radar;
+  readonly seriesType: string = SeriesTypeEnum.radar;
+
+  protected _getDefaultSeriesSpec(spec: any): any {
+    return {
+      ...super._getDefaultSeriesSpec(spec),
+      seriesField: spec.seriesField,
+      invalidType: spec.invalidType || 'break',
+      line: spec.line,
+      point: spec.point,
+      stack: spec.stack,
+      percent: spec.percent,
+      area: merge(
+        {
+          visible: false
+        },
+        spec.area
+      )
+    };
+  }
+
+  transformSpec(spec: any) {
+    super.transformSpec(spec);
+    //默认不显示轴的domainLine和Tick
+    (spec.axes ?? []).forEach((axis: any) => {
+      if (axis.orient === 'radius') {
+        ['domainLine', 'label', 'tick'].forEach(configName => {
+          if (!axis[configName]) {
+            axis[configName] = { visible: false };
+          }
+        });
+        if (!axis.grid) {
+          axis.grid = { visible: true, smooth: true };
+        }
+      }
+    });
+  }
+}

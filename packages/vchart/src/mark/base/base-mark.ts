@@ -1,0 +1,425 @@
+import type { IStateInfo, IAttributeOpt, IModelMarkAttributeContext } from '../../compile/mark/interface';
+import { radians } from '../../util/math';
+import type { BaseSeries } from '../../series/base/base-series';
+import type {
+  Datum,
+  IMarkSpec,
+  ConvertToMarkStyleSpec,
+  GradientStop,
+  IVisual,
+  IVisualScale,
+  IVisualSpecStyle,
+  ICommonSpec,
+  FunctionType,
+  IThresholdStyle
+} from '../../typings';
+
+import { isBoolean, isFunction, isNil, get, isValid, merge, Color, createScaleWithSpec, isNumber } from '../../util';
+import type {
+  IMarkRaw,
+  IMarkStateStyle,
+  IMarkStyle,
+  IMark,
+  IMarkOption,
+  StyleConvert,
+  VisualScaleType,
+  MarkInputStyle
+} from '../interface';
+import { AttributeLevel, GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant';
+import { isValidScaleType, ThresholdScale } from '@visactor/vgrammar-scale';
+import type { DataView } from '@visactor/vdataset';
+import { DUPLICATED_ATTRS } from '../utils';
+import { getDataScheme } from '../../theme/color-scheme/util';
+import type { SeriesTypeEnum } from '../../series/interface';
+import { CompilableMark } from '../../compile/mark/compilable-mark';
+import type { StateValueType } from '../../compile/mark';
+
+export class BaseMark<T extends ICommonSpec> extends CompilableMark implements IMarkRaw<T> {
+  declare stateStyle: IMarkStateStyle<T>;
+
+  protected declare _option: IMarkOption;
+
+  protected _attributeContext: IModelMarkAttributeContext;
+
+  constructor(name: string, option: IMarkOption) {
+    super(option, name, option.model);
+    // 这里的上下文多数情况下与 mark 是什么是没有关系的，与mark的使用者，也就是series，component有的逻辑有关。
+    this._attributeContext = option.attributeContext;
+    option.map?.set(this.id, this as unknown as IMark);
+  }
+
+  created(): void {
+    this._initStyle();
+  }
+
+  /**
+   * 外部调用，根据 spec 初始化 style（如果由 IModel 派生类调用，请使用 IModel.initMarkStyleWithSpec）
+   * @param spec
+   * @param key
+   * @returns
+   */
+  initStyleWithSpec(spec: IMarkSpec<T>, key?: string) {
+    if (!spec) {
+      return;
+    }
+
+    if (isValid(spec.id)) {
+      this._userId = spec.id;
+    }
+
+    // interactive
+    if (isBoolean(spec.interactive)) {
+      this._interactive = spec.interactive;
+    }
+    // zIndex
+    if (isValid(spec.zIndex)) {
+      this.setZIndex(spec.zIndex);
+    }
+    // visible
+    if (isBoolean(spec.visible)) {
+      this.setVisible(spec.visible);
+    }
+    // style
+    this._initSpecStyle(spec, this.stateStyle, key);
+  }
+
+  convertAngleToRadian(styleConverter: StyleConvert<number>): StyleConvert<any> {
+    // 用户传入的angle配置，需要做一层转换
+    if (isNumber(styleConverter)) {
+      return radians(styleConverter) as StyleConvert<any>;
+    } else if ((styleConverter as VisualScaleType).scale) {
+      const range = (styleConverter as VisualScaleType).scale.range();
+
+      (styleConverter as VisualScaleType).scale.range(range.map(radians));
+
+      return styleConverter as StyleConvert<any>;
+    } else if (typeof styleConverter === 'function') {
+      return ((item: any, ctx: any, opt: IAttributeOpt, source?: DataView) => {
+        return radians((styleConverter as FunctionType<number>)(item, ctx, opt, source));
+      }) as StyleConvert<any>;
+    }
+
+    return styleConverter;
+  }
+
+  isUserLevel(level: number) {
+    return [AttributeLevel.User_Mark, AttributeLevel.User_Series, AttributeLevel.User_Chart].includes(level);
+  }
+
+  /**
+   * 由外部series调用，设置markStyle的接口（如果由 IModel 派生类调用，请使用 IModel.setMarkStyle）
+   * @param style
+   * @param level
+   * @param state
+   */
+  setStyle<U extends keyof T>(
+    style: Partial<IMarkStyle<T>>,
+    state: StateValueType = 'normal',
+    level: number = 0,
+    stateStyle = this.stateStyle
+  ): void {
+    if (isNil(style)) {
+      return;
+    }
+    style = this._filterStyle(style, state, level, stateStyle);
+
+    if (stateStyle[state] === undefined) {
+      stateStyle[state] = {};
+    }
+
+    const isUserLevel = this.isUserLevel(level);
+
+    // 目前只有 line mark 存在 ignoreAttributes，而且目前 line 也覆写了 setStyle 方法
+    // 所以为了优化性能先不在基类上做判断，后续有需要再开启
+    // const ignoreAttributes = this.getIgnoreAttributes();
+    Object.keys(style).forEach((attr: string) => {
+      // if (isNil(style[attr]) || ignoreAttributes.includes(attr)) {
+      //   return;
+      // }
+      let attrStyle = style[attr] as MarkInputStyle<T[U]>;
+      if (isNil(attrStyle)) {
+        return;
+      }
+
+      attrStyle = this._filterAttribute(attr as any, attrStyle, state, level, isUserLevel, stateStyle);
+
+      this.setAttribute(
+        DUPLICATED_ATTRS[attr] ? DUPLICATED_ATTRS[attr] : (attr as any),
+        attrStyle,
+        state,
+        level,
+        stateStyle
+      );
+    });
+  }
+
+  getStyle(key: string, state: StateValueType = 'normal'): any {
+    return this.stateStyle[state][key]?.style;
+  }
+
+  /** 过滤用户传来的 style 对象 */
+  protected _filterStyle(
+    style: Partial<IMarkStyle<T>>,
+    state: StateValueType,
+    level: number,
+    stateStyle = this.stateStyle
+  ): Partial<IMarkStyle<T>> {
+    return style;
+  }
+
+  /** 过滤单个 attribute */
+  protected _filterAttribute<U extends keyof T>(
+    attr: U,
+    style: MarkInputStyle<T[U]>,
+    state: StateValueType,
+    level: number,
+    isUserLevel: boolean,
+    stateStyle = this.stateStyle
+  ): StyleConvert<T[U]> {
+    let newStyle = this._styleConvert(style);
+    if (isUserLevel && attr === 'angle') {
+      newStyle = this.convertAngleToRadian(newStyle as StyleConvert<number>);
+    }
+    return newStyle;
+  }
+
+  /**
+   * TODO: 没有外部调用
+   * 设置mark样式所参考的图元
+   */
+  setReferer<U extends keyof T>(mark: IMarkRaw<T>, styleKey?: U, state?: StateValueType, stateStyle = this.stateStyle) {
+    if (!mark) {
+      return;
+    }
+    if (styleKey && state) {
+      const style = stateStyle[state] ?? { [styleKey]: {} };
+      stateStyle[state][styleKey] = {
+        ...(style[styleKey] as unknown as any),
+        ...{ referer: mark }
+      };
+      return;
+    }
+
+    Object.entries(stateStyle).forEach(([state, style]) => {
+      Object.entries(style).forEach(([styleKey, style]) => {
+        stateStyle[state][styleKey].referer = mark;
+      });
+    });
+  }
+
+  getAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType = 'normal', opt?: IAttributeOpt) {
+    return this._computeAttribute(key, datum, state, opt);
+  }
+
+  setAttribute<U extends keyof T>(
+    attr: U,
+    style: MarkInputStyle<T[U]>,
+    state: StateValueType = 'normal',
+    level: number = 0,
+    stateStyle = this.stateStyle
+  ) {
+    if (stateStyle[state] === undefined) {
+      stateStyle[state] = {};
+    }
+
+    if (stateStyle[state][attr] === undefined) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      stateStyle[state][attr] = {
+        level,
+        style,
+        referer: undefined
+      };
+    }
+    const attrLevel = stateStyle[state][attr]?.level;
+    if (isValid(attrLevel) && attrLevel <= level) {
+      merge(stateStyle[state][attr], { style, level });
+    }
+  }
+
+  /**
+   * 与 vgrammar 默认值一致的样式可以不设置默认值或设置为undefined, 减少encode属性
+   */
+  protected _getDefaultStyle() {
+    return {
+      visible: true,
+      // mark的层级应该在mark层 不在encode属性层
+      // zIndex: LayoutZIndex.Mark,
+      x: 0,
+      y: 0
+    } as IMarkStyle<T>;
+  }
+
+  // /**
+  //  * 获取该 mark 不支持的图形属性，由子类覆写
+  //  * @returns
+  //  */
+  // protected getIgnoreAttributes(): string[] {
+  //   return [];
+  // }
+
+  protected _styleConvert<U extends keyof T>(style?: MarkInputStyle<T[U]>): StyleConvert<T[U]> | undefined {
+    if (!style) {
+      return style as undefined;
+    }
+    // visual spec 转换为 scale 类型的mark style
+    if (isValidScaleType((style as IVisualSpecStyle<unknown, T[U]>).type) || (style as IVisualScale).scale) {
+      // const _style = style as IVisual<T[U]>;
+      const scale = createScaleWithSpec(style as IVisual<T[U]>, {
+        globalScale: this._option.globalScale,
+        dataStatistics: this._option.dataStatistics
+      });
+      if (scale) {
+        return {
+          scale,
+          field: (style as IVisual<T[U]>).field,
+          changeDomain: (style as IVisualScale).changeDomain
+        };
+      }
+    }
+    return style as StyleConvert<T[U]>;
+  }
+
+  protected _computeAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType, opt: IAttributeOpt) {
+    if (!this.stateStyle[state]?.[key]) {
+      return this._computeStateAttribute(this.stateStyle.normal[key], key, datum, state, opt);
+    }
+    return this._computeStateAttribute(this.stateStyle[state][key], key, datum, state, opt);
+  }
+
+  protected _computeStateAttribute<U extends keyof T>(
+    stateStyle: any,
+    key: U,
+    datum: Datum,
+    state: StateValueType,
+    opt: IAttributeOpt
+  ) {
+    if (!stateStyle) {
+      return;
+    }
+    if (stateStyle.referer) {
+      return stateStyle.referer.getAttribute(key, datum, state, opt);
+    }
+    if (typeof stateStyle.style === 'function') {
+      return stateStyle.style(datum, this._attributeContext, opt, this.getDataView());
+    }
+
+    if (GradientType.includes(stateStyle.style.gradient)) {
+      // 渐变色处理，支持各个属性回调
+      return this._computeGradientAttr(stateStyle.style, datum, opt);
+    }
+
+    if (stateStyle.style.type === 'threshold') {
+      // 按阈值着色处理
+      return this._computeThresholdAttr(stateStyle.style);
+    }
+
+    if (isValidScaleType(stateStyle.style.scale?.type)) {
+      return stateStyle.style.scale.scale(datum[stateStyle.style.field]);
+    }
+
+    return stateStyle.style;
+  }
+
+  private _initStyle(): void {
+    const defaultStyle = this._getDefaultStyle();
+    this.setStyle(defaultStyle, 'normal', 0);
+  }
+
+  private _initSpecStyle(spec: IMarkSpec<T>, stateStyle: IMarkStateStyle<T>, key?: string) {
+    // style
+    if (spec.style) {
+      this.setStyle(spec.style, 'normal', AttributeLevel.User_Mark, stateStyle);
+    }
+    const state = spec.state;
+    if (state) {
+      Object.keys(state).forEach(key => {
+        const stateTemp = state[key];
+        if ('style' in stateTemp) {
+          const style = stateTemp.style;
+          let stateInfo: IStateInfo = { stateValue: key };
+          if ('level' in stateTemp) {
+            stateInfo.level = stateTemp.level as number;
+          }
+          if ('filter' in stateTemp) {
+            if (isFunction(stateTemp.filter)) {
+              stateInfo = {
+                filter: stateTemp.filter as (datum: any, options: Record<string, any>) => boolean,
+                ...stateInfo
+              };
+            } else {
+              stateInfo = { ...stateTemp.filter, ...stateInfo };
+            }
+          }
+          this.state.addStateInfo(stateInfo);
+          this.setStyle(style as ConvertToMarkStyleSpec<T>, key, AttributeLevel.User_Mark, stateStyle);
+        } else {
+          this.setStyle(stateTemp, key, AttributeLevel.User_Mark, stateStyle);
+        }
+      });
+    }
+  }
+
+  private _computeGradientAttr(gradientStyle: any, data: Datum, opt: IAttributeOpt) {
+    const { gradient, scale, field, ...rest } = gradientStyle;
+    const markData = this.getDataView();
+    let colorScale = scale;
+    let colorField = field;
+    if ((!scale || !field) && this.model.modelType === 'series') {
+      // 目前只有series有这个属性
+      const { scale: globalColorScale, field: globalField } = (this.model as BaseSeries<any>).getColorAttribute();
+      if (!scale) {
+        // 获取全局的 colorScale
+        colorScale = globalColorScale;
+      }
+      if (!colorField) {
+        colorField = globalField;
+      }
+    }
+
+    const themeColor = getDataScheme(
+      get(this.model, '_option.theme.colorScheme'),
+      this.model.modelType === 'series' ? (this.model.type as SeriesTypeEnum) : undefined
+    );
+    const computeStyle: any = {};
+    // 默认配置处理
+    const mergedStyle = {
+      ...DEFAULT_GRADIENT_CONFIG[gradient],
+      ...rest
+    };
+    Object.keys(mergedStyle).forEach(key => {
+      const value = mergedStyle[key];
+      if (key === 'stops') {
+        computeStyle.stops = value.map((stop: GradientStop) => {
+          const { opacity, color, offset } = stop;
+          let computeColor = color ?? colorScale?.scale(data[colorField]);
+          if (isFunction(color)) {
+            computeColor = color(data, this._attributeContext, opt, markData);
+          }
+
+          if (isValid(opacity)) {
+            computeColor = Color.SetOpacity(computeColor as string, opacity);
+          }
+
+          return {
+            offset: isFunction(offset) ? offset(data, this._attributeContext, opt, markData) : offset,
+            color: computeColor || themeColor[0]
+          };
+        });
+      } else if (isFunction(value)) {
+        computeStyle[key] = value(data, this._attributeContext, opt, markData);
+      } else {
+        computeStyle[key] = value;
+      }
+    });
+
+    computeStyle.gradient = gradient;
+
+    return computeStyle;
+  }
+
+  private _computeThresholdAttr(thresholdStyle: IThresholdStyle) {
+    const scale = new ThresholdScale().domain(thresholdStyle.domain).range(thresholdStyle.range);
+    return scale.scale(this.getDataView().latestData[0].value);
+  }
+}

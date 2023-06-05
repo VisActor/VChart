@@ -1,0 +1,24 @@
+<!-- index.wxml -->
+<view class="panel">
+  <view class="readme">
+    <text>Chartspace 是由数据平台前端共同打造的自研图表。\n \n</text>
+
+    <text>它以图形语法为基础，自研渲染为底层，封装了一系列常用图表，提供高度灵活的开发扩展能力，能够帮助开发者快速搭建属于自己的图表分析应用</text>
+    <text class="strong"> \n \n 需要飞书版本 >= 3.45.0</text>
+  </view>
+
+  <view
+    tt:for="{{ charts }}"
+    tt:for-item="chart"
+    tt:key="id"
+    class="chart-with-img"
+  >
+    <image
+      src="../../img/{{ chart.id }}.png"
+      mode="aspectFit"
+      bindtap="open"
+      data-chart="{{ chart }}"
+    ></image>
+    {{ chart.name }}
+  </view>
+</view>

@@ -1,0 +1,20 @@
+{
+  "extends": "@internal/ts-config/tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["jest", "offscreencanvas", "node"],
+    "lib": ["DOM", "ESNext"],
+    "baseUrl": "./",
+    "rootDir": "./",
+    "paths": {
+      "eventemitter3": ["./node_modules/eventemitter3"]
+    }
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
+  "include": ["src", "__tests__"],
+  "exclude": ["__tests__/runtime", "__tests__/data"]
+}

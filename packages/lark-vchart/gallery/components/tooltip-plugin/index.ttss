@@ -1,0 +1,46 @@
+.cs-tooltip-wrap {
+  pointer-events: none;
+  position: fixed;
+  z-index: 99999999999999;
+  border-radius: 3rpx;
+  color: #fff;
+  opacity: 0;
+}
+
+.cs-tooltip-container {
+  background-color: rgba(47, 59, 82, 0.8);
+  box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px 0px;
+  padding: 12rpx;
+  font-family: sans-serif;
+  font-size: 12rpx;
+}
+
+.cs-tooltip-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.cs-tooltip-title {
+  font-size: 22rpx;
+  margin-bottom: 12rpx;
+  font-weight: bolder;
+}
+
+.cs-tooltip-content-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  position: absolute;
+  background: red;
+}
+
+.cs-tooltip-content-group {
+  margin: 0 10rpx 0 20rpx;
+  font-size: 20rpx;
+}
+
+.cs-tooltip-content-value {
+  font-size: 20rpx;
+}

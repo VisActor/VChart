@@ -1,0 +1,2 @@
+export const USER_LAYOUT_RECT_LEVEL = 9;
+export const DEFAULT_LAYOUT_RECT_LEVEL = 0;
