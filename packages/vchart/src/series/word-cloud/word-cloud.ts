@@ -30,7 +30,7 @@ import type { Datum, IPoint } from '../../typings';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { LinearScale, OrdinalScale } from '@visactor/vscale';
-import { extent } from '@visactor/vgrammar';
+import { extent } from '@visactor/vgrammar-util';
 import {
   WORD_CLOUD_ANGLE,
   WORD_CLOUD_FILLING_ANGLE,
