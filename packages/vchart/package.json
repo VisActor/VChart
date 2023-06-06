@@ -23,9 +23,7 @@
     "test": "jest",
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit/",
-    "test-watch": "DEBUG_MODE=1 jest --watch",
-    "release": "cross-env NODE_ENV=production release-it major",
-    "release:alpha": "cross-env NODE_ENV=production release-it --preRelease"
+    "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "files": [
     "esm",
@@ -62,7 +60,6 @@
     "@internal/bundler": "workspace:*",
     "@internal/eslint-config": "workspace:*",
     "@internal/ts-config": "workspace:*",
-    "@release-it/conventional-changelog": "5.1.1",
     "@rushstack/eslint-patch": "~1.1.4",
     "@types/jest": "^26.0.0",
     "@types/node": "*",
@@ -80,7 +77,6 @@
     "react": "^18.0.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.0.0",
-    "release-it": "15.5.0",
     "rimraf": "3.0.2",
     "terser-webpack-plugin": "4.1.0",
     "tiny-async-pool": "^1.2.0",
@@ -116,32 +112,6 @@
     "@visactor/vgrammar-util": "0.0.10-alpha.0",
     "@visactor/vutils": "0.9.0-alpha.2",
     "@visactor/vrender-components": "0.9.0-alpha.1"
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore(release): publish ${version}"
-    },
-    "hooks": {
-      "after:bump": "npm run build"
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "infile": "CHANGELOG.md",
-        "preset": {
-          "name": "conventionalcommits",
-          "types": [
-            {
-              "type": "feat",
-              "section": "Features"
-            },
-            {
-              "type": "fix",
-              "section": "Bug Fixes"
-            }
-          ]
-        }
-      }
-    }
   },
   "publishConfig": {
     "access": "public",
