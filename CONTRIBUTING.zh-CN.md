@@ -61,7 +61,7 @@ VisActor 团队会关注所有的 pull request，我们会 review 以及合并�
 
 1. 基于 `main` 分支做修改
 2. （如果你已经安装，请跳过此步骤）全局安装 [@microsoft/rush](https://rushjs.io/pages/intro/get_started/)：`npm i --global @microsoft/rush`
-3. 根目录下运行 `rush update --full`
+3. 根目录下运行 `rush update`
 4. 如果你修复了一个 bug 或者新增了一个功能，请确保写了相应的测试，这很重要。
 5. 确认所有的测试都是通过的 `rush test`。 小贴士：开发过程中可以用 `rush test -- --watch TestName` 来运行指定的测试。
 6. 确保你的代码通过了 lint 检查 `rush lint`. 小贴士: Lint 会在你 git commit 的时候自动运行（通过 Git Hooks）。
@@ -69,10 +69,11 @@ VisActor 团队会关注所有的 pull request，我们会 review 以及合并�
 
 ## 开发流程
 
-在你 clone 了 VChart 的代码并且使用 `rush update --full` 安装完依赖后，你还可以运行下面几个常用的命令：
+在你 clone 了 VChart 的代码并且使用 `rush update` 安装完依赖后，你还可以运行下面几个常用的命令：
 
 1. `rush start` 在本地运行 VChart 代码的测试页面
-2. `rush eslint` 运行所有项目的 eslint 脚本
-3. `rush test` 运行所有项目的 test 脚本
-4. `rush run -p <project_name> -s <script>` 运行指定项目的指定脚本，eg. `rush run -p @visactor/vchart -s start`
-5. `rush prettier --dir <project_relative_path> --ext <file_type>` 格式化指定项目的源代码，eg. `rush prettier --dir packages/vchart --ext ts`
+2. `rush react` 在本地运行 React-VChart 代码的测试页面
+3. `rush eslint` 运行所有项目的 eslint 脚本
+4. `rush test` 运行所有项目的 test 脚本
+5. `rush run -p <project_name> -s <script>` 运行指定项目的指定脚本，eg. `rush run -p @visactor/vchart -s start`
+6. `rush prettier --dir <project_relative_path> --ext <file_type>` 格式化指定项目的源代码，eg. `rush prettier --dir packages/vchart --ext ts`
