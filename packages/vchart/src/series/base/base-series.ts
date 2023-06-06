@@ -52,7 +52,7 @@ import type { ITrigger } from '../../interaction/interface';
 import { Trigger } from '../../interaction/trigger';
 import { registerDataSetInstanceTransform } from '../../data/register';
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import { OrdinalScale } from '@visactor/vgrammar-scale';
+import { OrdinalScale } from '@visactor/vscale';
 import type { LayoutItem } from '../../model/layout-item';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';

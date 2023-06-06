@@ -1,4 +1,4 @@
-import type { BandScale } from '@visactor/vgrammar-scale';
+import type { BandScale } from '@visactor/vscale';
 import type { IArcMark } from '../../../mark/arc';
 import { MarkTypeEnum } from '../../../mark/interface';
 import type { Maybe, Datum } from '../../../typings';

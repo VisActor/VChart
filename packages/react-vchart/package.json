@@ -1,6 +1,6 @@
 {
   "name": "@visactor/react-vchart",
-  "version": "0.0.1-beta.10",
+  "version": "0.0.1-alpha.0",
   "description": "The react version of VChart 4.x",
   "keywords": [
     "react",
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@visactor/vchart": "workspace:*",
-    "@visactor/vutils": "latest",
+    "@visactor/vutils": "0.9.0-alpha.2",
     "react-is": "^18.2.0"
   },
   "devDependencies": {
@@ -71,5 +71,9 @@
     "name": "VisActor",
     "url": "https://VisActor.io/"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

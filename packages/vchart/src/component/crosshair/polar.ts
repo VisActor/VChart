@@ -4,9 +4,9 @@ import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
 import type { IPolarCrosshairSpec } from './interface';
-import type { BandScale } from '@visactor/vgrammar-scale';
+import type { BandScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import { isDiscrete, isContinuous } from '@visactor/vgrammar-scale';
+import { isDiscrete, isContinuous } from '@visactor/vscale';
 // import { registerComponent } from '@visactor/vgrammar';
 import { Tag } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports

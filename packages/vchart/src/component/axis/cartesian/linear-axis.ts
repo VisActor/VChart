@@ -1,4 +1,4 @@
-import { LinearScale } from '@visactor/vgrammar-scale';
+import { LinearScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
 import { isValid } from '../../../util';
 import type { IAxisHelper } from './interface';

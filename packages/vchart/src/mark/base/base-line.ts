@@ -1,4 +1,4 @@
-import { isValidScaleType } from '@visactor/vgrammar-scale';
+import { isValidScaleType } from '@visactor/vscale';
 import type { StateValueType } from '../../compile/mark';
 import type { ConvertToMarkStyleSpec, ILineLikeMarkSpec } from '../../typings/visual';
 import { isFunction, isNil } from '../../util';

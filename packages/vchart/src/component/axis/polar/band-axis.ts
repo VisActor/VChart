@@ -1,4 +1,4 @@
-import { BandScale } from '@visactor/vgrammar-scale';
+import { BandScale } from '@visactor/vscale';
 import { ComponentTypeEnum } from '../../interface';
 import { PolarAxis } from './axis';
 import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING } from './config';

@@ -1,6 +1,6 @@
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import { isContinuous } from '@visactor/vgrammar-scale';
+import { isContinuous } from '@visactor/vscale';
 import type { INode, IGroup } from '@visactor/vrender';
 import { AXIS_ELEMENT_NAME } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
