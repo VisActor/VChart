@@ -6,7 +6,7 @@
     "rootDir": "./src",
     "types": ["jest", "offscreencanvas", "node"],
     "lib": ["DOM", "ESNext"],
-    "paths": {},
+    "paths": {}
   },
   "ts-node": {
     "transpileOnly": true,
@@ -14,5 +14,10 @@
       "module": "commonjs"
     }
   },
+  "references": [
+    {
+      "path": "../vchart"
+    }
+  ],
   "include": ["src"]
 }

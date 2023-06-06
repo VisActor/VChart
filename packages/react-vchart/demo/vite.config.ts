@@ -14,7 +14,8 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   define: {
-    __DEV__: true
+    __DEV__: true,
+    __VERSION__: JSON.stringify(require('../../vchart/package.json').version)
   },
   optimizeDeps: {},
   server: {
@@ -24,7 +25,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      // '@visactor/react-vchart': path.resolve('../src/index.ts'),
+      '@visactor/vchart': path.resolve(__dirname, '../../vchart/src/index.ts')
       // ...localConf.resolve?.alias
     }
   }
