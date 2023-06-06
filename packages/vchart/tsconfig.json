@@ -3,8 +3,10 @@
   "compilerOptions": {
     "types": ["jest", "offscreencanvas", "node"],
     "lib": ["DOM", "ESNext"],
-    "baseUrl": "./",
-    "rootDir": "./",
+    "baseUrl": ".",
+    "outDir": "./esm",
+    "rootDir": "./src",
+    "composite": true,
     "paths": {
       "eventemitter3": ["./node_modules/eventemitter3"]
     }
