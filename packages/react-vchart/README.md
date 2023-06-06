@@ -6,18 +6,21 @@
 
 ### build
 
-```
-rush react
+```bash
+# root directory
+$ rush build
 ```
 
 ### Run demo：
 
-```
-rush react
+```bash
+# root directory
+$ rush react
 ```
 
 or
 
-```
-rushx start
+```bash
+$ cd packages/react-vchart
+$ rushx start
 ```

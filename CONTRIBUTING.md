@@ -54,7 +54,7 @@ The core team is monitoring for pull requests. We will review your pull request 
 
 1. Fork the [repository](todo) and create your branch from `main`.
 2. (If rush has been install, just go to step 3) global install [@microsoft/rush](https://rushjs.io/pages/intro/get_started/)：`npm i --global @microsoft/rush`.
-3. Run `rush update --full` in the repository root.
+3. Run `rush update` in the repository root.
 4. If you’ve fixed a bug or added code that should be tested, add tests!
 5. Ensure the test suite passes (`rush test`). Tip: `rush test -- --watch TestName` is helpful in development.
 6. Make sure your code lints (`rush lint`). Tip: Lint runs automatically when you git commit (Use Git Hooks).
@@ -62,10 +62,11 @@ The core team is monitoring for pull requests. We will review your pull request 
 
 ## Development Workflow
 
-After cloning VChart, run `rush update --full` to fetch its dependencies. Then, you can run several commands:
+After cloning VChart, run `rush update` to fetch its dependencies. Then, you can run several commands:
 
 1. `rush start` runs VChart test page locally.
-2. `rush eslint` checks the code style.
-3. `rush test` runs the complete test suite.
-4. `rush run -p <project_name> -s <script>` run the specified script for the specified project, eg. `rush run -p @visactor/vchart -s start`
-5. `rush prettier --dir <project_relative_path> --ext <file_type>` prettier the specified script for the specified project, eg. `rush prettier --dir packages/vchart --ext ts`
+2. `rush react` runs React VChart test page locally.
+3. `rush eslint` checks the code style.
+4. `rush test` runs the complete test suite.
+5. `rush run -p <project_name> -s <script>` run the specified script for the specified project, eg. `rush run -p @visactor/vchart -s start`
+6. `rush prettier --dir <project_relative_path> --ext <file_type>` prettier the specified script for the specified project, eg. `rush prettier --dir packages/vchart --ext ts`
