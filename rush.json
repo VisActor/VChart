@@ -10,8 +10,6 @@
   "projectFolderMaxDepth": 2,
   "allowMostlyStandardPackageNames": false,
   "gitPolicy": {
-    "allowedEmailRegExps": [".*@bytedance\\.com"],
-    "sampleEmail": "bytedancer@bytedance.com",
     "versionBumpCommitMessage": "Bump versions [skip ci]",
     "changeLogUpdateCommitMessage": "Update changelogs [skip ci]"
     // "changefilesCommitMessage": "Rush change"
