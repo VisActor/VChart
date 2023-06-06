@@ -15,7 +15,7 @@
   ],
   "main": "cjs/index.js",
   "module": "esm/index.js",
-  "type": "module",
+  "types": "esm/index.d.ts",
   "files": [
     "esm",
     "cjs",
@@ -24,12 +24,13 @@
   "scripts": {
     "compile": "tsc --noEmit",
     "start": "vite ./demo",
-    "build": "rollup -c rollup.config.js",
+    "build": "bundle --clean",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:*",
+    "@visactor/vchart": "workspace:0.0.1-alpha.0",
     "@visactor/vutils": "0.9.0-alpha.2",
+    "@visactor/vgrammar": "0.0.10-alpha.0",
     "react-is": "^18.2.0"
   },
   "devDependencies": {
@@ -64,7 +65,7 @@
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
-    "url": "GitHub - VisActor/VChart: The chart library for web and multi-platform",
+    "url": "https://github.com/VisActor/VChart.git",
     "directory": "packages/react-vchart"
   },
   "author": {
