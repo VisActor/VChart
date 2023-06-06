@@ -1,4 +1,4 @@
-import { isString } from '@visactor/vutils';
+import { isString, isValid } from '@visactor/vutils';
 import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../scale/interface';
 /**

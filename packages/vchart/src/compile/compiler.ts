@@ -20,7 +20,7 @@ import { isNil } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
-import type { VChart } from '../core/v-chart';
+import type { VChart } from '../core/vchart';
 import type { Stage } from '@visactor/vrender';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
