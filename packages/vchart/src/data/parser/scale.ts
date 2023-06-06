@@ -1,5 +1,5 @@
 import type { Parser } from '@visactor/vdataset';
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 
 /**
  * dataView数据 解析器

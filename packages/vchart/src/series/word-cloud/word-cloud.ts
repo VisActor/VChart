@@ -29,7 +29,7 @@ import { registerWordCloudShapeTransforms } from '@visactor/vgrammar-wordcloud-s
 import type { Datum, IPoint } from '../../typings';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { LinearScale, OrdinalScale } from '@visactor/vgrammar-scale';
+import { LinearScale, OrdinalScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar';
 import {
   WORD_CLOUD_ANGLE,

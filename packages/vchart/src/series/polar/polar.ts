@@ -1,10 +1,10 @@
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 import type { IPoint, IPolarPoint } from '../../typings/coordinate';
 import type { IPolarSeries } from '../interface';
 import { array, shallowCompare, isValid, isNil } from '../../util';
 import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { isContinuous } from '@visactor/vgrammar-scale';
+import { isContinuous } from '@visactor/vscale';
 import { POLAR_DEFAULT_RADIUS } from '../../constant/polar';
 import { BaseSeries } from '../base/base-series';
 import type { IPolarSeriesSpec } from './interface';

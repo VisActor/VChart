@@ -1,4 +1,4 @@
-import { LinearScale } from '@visactor/vgrammar-scale';
+import { LinearScale } from '@visactor/vscale';
 
 /**
  * scale的测试在底层库有较详细的测试用例

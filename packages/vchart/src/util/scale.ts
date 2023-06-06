@@ -4,9 +4,9 @@ import type { IGlobalScale } from '../scale/interface';
 /**
  * @description Scale 相关的工具函数
  */
-import { BandScale, LinearScale, OrdinalScale, PointScale } from '@visactor/vgrammar-scale';
+import { BandScale, LinearScale, OrdinalScale, PointScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 import type { ScaleType } from '../typings/scale';
 import type { IVisual, IVisualSpecBase } from '../typings/visual';
 

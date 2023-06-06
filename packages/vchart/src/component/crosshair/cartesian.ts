@@ -4,7 +4,7 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface';
 import type { ICartesianCrosshairSpec } from './interface';
 import type { ICartesianSeries } from '../../series/interface';
-import { isDiscrete, isContinuous } from '@visactor/vgrammar-scale';
+import { isDiscrete, isContinuous } from '@visactor/vscale';
 import { LineCrosshair, RectCrosshair, Tag } from '@visactor/vrender-components';
 import type { IHair } from './base';
 // eslint-disable-next-line no-duplicate-imports

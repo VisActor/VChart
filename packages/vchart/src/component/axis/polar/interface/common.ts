@@ -1,4 +1,4 @@
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 import type { IComponent } from '../../../interface';
 import type { IPoint, IPolarOrientType, IPolarPoint } from '../../../../typings';
 import type { IGrid, IGridTheme } from '../../interface';

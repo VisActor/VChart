@@ -1,8 +1,8 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from './interface';
 import { isArray, isEqual, isNil } from '@visactor/vutils';
-import type { IBaseScale } from '@visactor/vgrammar-scale';
-import { isContinuous } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
+import { isContinuous } from '@visactor/vscale';
 import type { IChart } from '../chart/interface';
 import type { IChartSpec } from '../typings/spec';
 import { createScale, isDataDomainSpec, mergeFields } from '../util';

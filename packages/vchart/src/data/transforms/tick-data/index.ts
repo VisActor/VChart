@@ -1,6 +1,6 @@
-import type { BandScale, ContinuousScale, IBaseScale } from '@visactor/vgrammar-scale';
+import type { BandScale, ContinuousScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import { isContinuous, isDiscrete } from '@visactor/vgrammar-scale';
+import { isContinuous, isDiscrete } from '@visactor/vscale';
 import { continuousTicks } from './continuous';
 import { linearDiscreteTicks } from './discrete/linear';
 import { polarAngleAxisDiscreteTicks } from './discrete/polar-angle';

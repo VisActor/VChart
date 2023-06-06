@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 import type { StatisticOperations } from '../data/transforms/dimension-statistics';
 import type { IVisualScale, IVisualSpecScale } from '../typings';
 

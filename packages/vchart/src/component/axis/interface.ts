@@ -4,7 +4,7 @@ import type { Datum, IPadding, IPolarOrientType, IRuleMarkSpec, ITextMarkSpec, S
 import type { ICartesianAxisSpec, ICartesianAxisTheme } from './cartesian/interface';
 import type { IPolarAxisTheme } from './polar/interface';
 import type { IComponent } from '../interface';
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 import type { IModelSpec } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AxisItemStateStyle } from '@visactor/vrender-components';

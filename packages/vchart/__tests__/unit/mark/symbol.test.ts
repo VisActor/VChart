@@ -1,6 +1,6 @@
 import { markContext as ctx } from '../../util/context';
 import { SymbolMark } from '../../../src/mark/symbol';
-import { OrdinalScale } from '@visactor/vgrammar-scale';
+import { OrdinalScale } from '@visactor/vscale';
 import { LayoutZIndex } from '../../../src/constant';
 
 test('symbol initial style', () => {
