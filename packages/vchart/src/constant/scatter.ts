@@ -1,4 +1,4 @@
-import { ScaleEnum } from '@visactor/vgrammar-scale';
+import { ScaleEnum } from '@visactor/vscale';
 
 export const SCATTER_DEFAULT_SIZE = 10;
 export const SCATTER_DEFAULT_RANGE_SIZE = [10, 20];

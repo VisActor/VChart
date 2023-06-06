@@ -1,4 +1,4 @@
-import type { LinearScale } from '@visactor/vgrammar-scale';
+import type { LinearScale } from '@visactor/vscale';
 import { isNil, isValid, maxInArr, minInArr } from '../../../util';
 import { getLinearAxisSpecDomain } from '../utils';
 import type { IAxisLocationCfg } from '../cartesian/interface';

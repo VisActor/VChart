@@ -1,5 +1,5 @@
 import type { IElement, IMark as IVGrammarMark } from '@visactor/vgrammar';
-import { isContinuous } from '@visactor/vgrammar-scale';
+import { isContinuous } from '@visactor/vscale';
 import { isArray, isObject, isValid, isBoolean } from '@visactor/vutils';
 import { PREFIX } from '../../constant';
 import type { MarkTypeEnum } from '../../mark/interface';

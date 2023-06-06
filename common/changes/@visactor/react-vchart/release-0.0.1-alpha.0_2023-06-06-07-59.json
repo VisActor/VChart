@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "release 0.0.1-alpha.0",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}

@@ -10,9 +10,9 @@ import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
 import type { IOrientType, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
-import { BandScale, isContinuous } from '@visactor/vgrammar-scale';
+import { BandScale, isContinuous } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { CartesianAxis } from '../axis/cartesian';

@@ -4,7 +4,7 @@ import type { Maybe, Datum } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { isValid } from '../../util';
 import type { IRuleMark } from '../../mark/rule';
-import { OrdinalScale } from '@visactor/vgrammar-scale';
+import { OrdinalScale } from '@visactor/vscale';
 import type { IMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';

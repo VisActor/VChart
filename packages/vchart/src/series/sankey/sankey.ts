@@ -21,7 +21,7 @@ import { SeriesData } from '../base/series-data';
 import { addChartSpaceProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { getDataScheme } from '../../theme/color-scheme/util';
-import { OrdinalScale } from '@visactor/vgrammar-scale';
+import { OrdinalScale } from '@visactor/vscale';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports

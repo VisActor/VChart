@@ -1,4 +1,4 @@
-import { LinearScale } from '@visactor/vgrammar-scale';
+import { LinearScale } from '@visactor/vscale';
 import { ComponentTypeEnum } from '../../interface';
 import { PolarAxis } from './axis';
 import type { IPolarLinearAxisSpec } from './interface/spec';

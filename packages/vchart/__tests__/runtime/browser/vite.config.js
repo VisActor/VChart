@@ -10,7 +10,7 @@ export default {
       '@visactor/vgrammar-label',
       '@visactor/vgrammar-wordcloud',
       '@visactor/vgrammar-wordcloud-fast',
-      '@visactor/vgrammar-scale',
+      '@visactor/vscale',
     ]
   },
   server: {

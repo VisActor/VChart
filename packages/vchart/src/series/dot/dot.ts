@@ -6,7 +6,7 @@ import { isValid, merge } from '../../util';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IRuleMark } from '../../mark/rule';
-import { OrdinalScale } from '@visactor/vgrammar-scale';
+import { OrdinalScale } from '@visactor/vscale';
 import type { IMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';

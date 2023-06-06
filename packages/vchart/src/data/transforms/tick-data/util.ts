@@ -1,4 +1,4 @@
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { AABBBounds, polarToCartesian } from '@visactor/vutils';

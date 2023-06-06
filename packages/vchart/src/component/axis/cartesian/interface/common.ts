@@ -1,5 +1,5 @@
 import type { SegmentAttributes } from '@visactor/vrender-components';
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 import type { IAxis, IDomainLine, IDomainLineTheme, ILabel, ITitle, ITitleTheme } from '../../interface';
 import type { StringOrNumber } from '../../../../typings';
 

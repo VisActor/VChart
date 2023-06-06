@@ -1,4 +1,4 @@
-import type { BandScale } from '@visactor/vgrammar-scale';
+import type { BandScale } from '@visactor/vscale';
 import { isValid } from '../../../../util';
 import type { ICartesianTickDataOpt, ITickData } from '../interface';
 import { convertDomainToTickData, getCartesianLabelBounds, labelDistance, labelOverlap } from '../util';

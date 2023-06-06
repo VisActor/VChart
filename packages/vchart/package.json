@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "4.0.0-release.2",
+  "version": "0.0.1-alpha.0",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -50,7 +50,7 @@
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
-    "url": "GitHub - VisActor/VChart: The chart library for web and multi-platform",
+    "url": "https://github.com/VisActor/VChart.git",
     "directory": "packages/vchart"
   },
   "author": {
@@ -104,18 +104,18 @@
     "d3-hierarchy": "^3.1.1"
   },
   "dependencies": {
-    "@visactor/vrender": "latest",
-    "@visactor/vdataset": "latest",
-    "@visactor/vgrammar-scale": "4.3.3",
-    "@visactor/vgrammar": "4.3.3",
-    "@visactor/vgrammar-projection": "4.3.3",
-    "@visactor/vgrammar-wordcloud": "4.3.3",
-    "@visactor/vgrammar-wordcloud-shape": "4.3.3",
-    "@visactor/vgrammar-hierarchy": "4.3.3",
-    "@visactor/vgrammar-sankey": "4.3.3",
-    "@visactor/vgrammar-util": "4.3.3",
-    "@visactor/vutils": "latest",
-    "@visactor/vrender-components": "^0.0.x"
+    "@visactor/vrender": "0.9.0-alpha.1",
+    "@visactor/vdataset": "0.9.0-alpha.2",
+    "@visactor/vscale": "0.9.0-alpha.2",
+    "@visactor/vgrammar": "0.0.10-alpha.0",
+    "@visactor/vgrammar-projection": "0.0.10-alpha.0",
+    "@visactor/vgrammar-wordcloud": "0.0.10-alpha.0",
+    "@visactor/vgrammar-wordcloud-shape": "0.0.10-alpha.0",
+    "@visactor/vgrammar-hierarchy": "0.0.10-alpha.0",
+    "@visactor/vgrammar-sankey": "0.0.10-alpha.0",
+    "@visactor/vgrammar-util": "0.0.10-alpha.0",
+    "@visactor/vutils": "0.9.0-alpha.2",
+    "@visactor/vrender-components": "0.9.0-alpha.1"
   },
   "release-it": {
     "git": {
@@ -142,5 +142,9 @@
         }
       }
     }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

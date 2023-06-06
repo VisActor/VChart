@@ -1,4 +1,4 @@
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 import type { ISeries } from '../../../../series/interface';
 import type { StringOrNumber } from '../../../../typings';
 
