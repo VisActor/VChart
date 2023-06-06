@@ -1,6 +1,6 @@
-import type { LinearScale, ContinuousScale } from '@visactor/vgrammar-scale';
+import type { LinearScale, ContinuousScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import { isContinuous } from '@visactor/vgrammar-scale';
+import { isContinuous } from '@visactor/vscale';
 import { isValid, peek } from '../../../util';
 import { DEFAULT_CONTINUOUS_TICK_COUNT } from './config';
 import type { ICartesianTickDataOpt, ITickData, ITickDataOpt } from './interface';

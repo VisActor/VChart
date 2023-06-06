@@ -1,4 +1,4 @@
-import { BandScale } from '@visactor/vgrammar-scale';
+import { BandScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
 import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING } from './config';
 import type { IAxisLocationCfg, ICartesianBandAxisSpec } from './interface';

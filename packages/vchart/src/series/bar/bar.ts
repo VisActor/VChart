@@ -1,4 +1,4 @@
-import { isContinuous } from '@visactor/vgrammar-scale';
+import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { MarkTypeEnum } from '../../mark/interface';

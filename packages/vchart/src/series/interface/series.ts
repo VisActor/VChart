@@ -5,7 +5,7 @@ import type { DataSet, DataView, ITransformOptions } from '@visactor/vdataset';
 import type { IMark } from '../../mark/interface';
 import type { CoordinateType, IPoint, IPolarPoint } from '../../typings/coordinate';
 import type { IRegion } from '../../region/interface';
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 import type { Group } from '../base/group';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IPolarAxisHelper } from '../../component/axis/polar/interface';

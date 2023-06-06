@@ -1,7 +1,7 @@
 import type { IChart } from '../../../../chart/interface';
 import type { ILayoutPoint } from '../../../../model/interface';
 import type { IDimensionInfo } from '../interface';
-import { isDiscrete } from '@visactor/vgrammar-scale';
+import { isDiscrete } from '@visactor/vscale';
 import { getDimensionData, isInRegionBound } from './common';
 import type { IPolarSeries } from '../../../../series/interface';
 import { isNil } from '@visactor/vutils';

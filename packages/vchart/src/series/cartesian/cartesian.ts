@@ -1,7 +1,7 @@
 import type { ICartesianSeries } from '../interface';
 import { BaseSeries } from '../base/base-series';
 import type { IPoint } from '../../typings/coordinate';
-import type { IBaseScale } from '@visactor/vgrammar-scale';
+import type { IBaseScale } from '@visactor/vscale';
 import {
   STACK_FIELD_END,
   STACK_FIELD_END_PERCENT,
@@ -17,7 +17,7 @@ import { Direction } from '../../typings/space';
 import type { Datum, StringOrNumber } from '../../typings';
 import { array, shallowCompare, isValid } from '../../util';
 // eslint-disable-next-line no-duplicate-imports
-import { isContinuous } from '@visactor/vgrammar-scale';
+import { isContinuous } from '@visactor/vscale';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { ICartesianSeriesSpec } from './interface';
 

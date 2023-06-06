@@ -34,19 +34,19 @@
     {
       "packageName": "@visactor/taro-vchart",
       "projectFolder": "packages/taro-vchart",
-      "tags": ["package"],
+      // "tags": ["package"],
       "shouldPublish": false
     },
     {
       "packageName": "@visactor/tt-vchart",
       "projectFolder": "packages/tt-vchart",
-      "tags": ["package"],
+      // "tags": ["package"],
       "shouldPublish": false
     },
     {
       "packageName": "@visactor/lark-vchart",
       "projectFolder": "packages/lark-vchart",
-      "tags": ["package"],
+      // "tags": ["package"],
       "shouldPublish": false
     },
     {
@@ -71,7 +71,7 @@
       "packageName": "@visactor/vchart",
       "projectFolder": "packages/vchart",
       "tags": ["package"],
-      "shouldPublish": false
+      "shouldPublish": true
     },
     {
       "packageName": "@visactor/react-vchart",

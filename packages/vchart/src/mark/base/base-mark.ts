@@ -26,7 +26,7 @@ import type {
   MarkInputStyle
 } from '../interface';
 import { AttributeLevel, GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant';
-import { isValidScaleType, ThresholdScale } from '@visactor/vgrammar-scale';
+import { isValidScaleType, ThresholdScale } from '@visactor/vscale';
 import type { DataView } from '@visactor/vdataset';
 import { DUPLICATED_ATTRS } from '../utils';
 import { getDataScheme } from '../../theme/color-scheme/util';

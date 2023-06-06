@@ -8,9 +8,9 @@ import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
 import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute } from '@visactor/vrender';
 import type { Datum } from '../../../typings';
-import type { ILinearScale } from '@visactor/vgrammar-scale';
+import type { ILinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import { LinearScale } from '@visactor/vgrammar-scale';
+import { LinearScale } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 
 export class DataZoom extends DataFilterBaseComponent {

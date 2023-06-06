@@ -1,4 +1,4 @@
-import type { BandScale } from '@visactor/vgrammar-scale';
+import type { BandScale } from '@visactor/vscale';
 import { isArray } from '../../../util';
 import type { StringOrNumber } from '../../../typings';
 
