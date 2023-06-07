@@ -91,3 +91,7 @@ common/autoinstallers/*/.npmrc
 packages/lark-vchart/index.json
 packages/lark-vchart/index.ttml
 packages/lark-vchart/index.ttss
+
+
+# git-hooks
+common/scripts/pre-commit
