@@ -27,8 +27,10 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
 
-          # Install rush
+        # Install rush
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
-      - name: Test VChart
-        run: node common/scripts/install-run-rush.js run -p @visactor/vchart -s test
+      - name: Build
+        run: node common/scripts/install-run-rush.js build --only tag:package
+      - name: Test
+        run: node common/scripts/install-run-rush.js test --only tag:package
