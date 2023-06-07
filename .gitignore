@@ -92,6 +92,9 @@ packages/lark-vchart/index.json
 packages/lark-vchart/index.ttml
 packages/lark-vchart/index.ttss
 
+# build
+.rollup.cache/
+tsconfig.tsbuildinfo
 
-# git-hooks
+# git-hook
 common/scripts/pre-commit

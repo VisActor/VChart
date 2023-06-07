@@ -4,7 +4,7 @@
     "types": ["jest", "offscreencanvas", "node"],
     "lib": ["DOM", "ESNext"],
     "baseUrl": "./",
-    "rootDir": "./",
+    "rootDir": "./src",
     "outDir": "./esm",
     "composite": true,
     "paths": {
