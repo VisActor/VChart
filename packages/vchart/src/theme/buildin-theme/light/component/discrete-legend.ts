@@ -1,6 +1,8 @@
 import type { IDiscreteLegendTheme } from '../../../../component/legend';
 
 export const discreteLegend: IDiscreteLegendTheme = {
+  orient: 'left',
+  position: 'middle',
   title: {
     visible: false,
     padding: 0,
@@ -15,13 +17,7 @@ export const discreteLegend: IDiscreteLegendTheme = {
     visible: true,
     spaceCol: 10,
     spaceRow: 10,
-    padding: {
-      top: 2,
-      bottom: 2,
-      left: 2,
-      right: 2
-    },
-    // style: {},
+    padding: 2,
     background: {
       state: {
         selectedHover: {
@@ -36,7 +32,6 @@ export const discreteLegend: IDiscreteLegendTheme = {
     },
     shape: {
       space: 4,
-      // visible: true,
       state: {
         unSelected: {
           fillOpacity: 0.5
@@ -45,8 +40,6 @@ export const discreteLegend: IDiscreteLegendTheme = {
     },
     label: {
       space: 4,
-
-      // visible: true,
       style: {
         fill: 'black',
         fontSize: 12

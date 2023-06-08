@@ -1,9 +1,7 @@
 import type { ITreemapSeriesTheme } from '../../../../series/treemap/interface';
-import { DEFAULT_TEXT_FONT_SIZE as fontSize, DEFAULT_TEXT_FONT_FAMILY as fontFamily } from '../../config';
+import { DEFAULT_TEXT_FONT_SIZE as fontSize } from '../../config';
 
 export const treemap: ITreemapSeriesTheme = {
-  fillOpacity: 1,
-  strokeOpacity: 1,
   gapWidth: 1,
   nodePadding: [5],
   nonLeaf: {
@@ -14,7 +12,6 @@ export const treemap: ITreemapSeriesTheme = {
   },
   label: {
     style: {
-      fontFamily: fontFamily,
       fontSize: fontSize,
       fill: 'white',
       textBaseline: 'middle',
@@ -27,7 +24,6 @@ export const treemap: ITreemapSeriesTheme = {
       fill: 'black',
       stroke: 'white',
       lineWidth: 2,
-      fontFamily: fontFamily,
       fontSize: fontSize,
       textBaseline: 'middle',
       textAlign: 'center'

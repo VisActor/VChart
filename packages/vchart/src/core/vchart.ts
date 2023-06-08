@@ -35,7 +35,7 @@ import { EventDispatcher } from '../event/event-dispatcher';
 import type { GeoSourceType } from '../typings/geo';
 import type { GeoSourceOption } from '../series/map/geo-source';
 // eslint-disable-next-line no-duplicate-imports
-import { clearMapSource, registerMapSource, getMapSource } from '../series/map/geo-source';
+import { clearMapSource, registerMapSource, getMapSource, unregisterMapSource } from '../series/map/geo-source';
 import type { IMark, MarkConstructor } from '../mark/interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
 import { dataToDataView } from '../data/initialize';
@@ -152,6 +152,14 @@ export class VChart implements IVChart {
   }
 
   /**
+   * 注销地图数据
+   * @param key 地图名称
+   */
+  static unregisterMap(key: string) {
+    unregisterMapSource(key);
+  }
+
+  /**
    * 根据地图名称获取地图数据
    * @param key 地图名称
    * @returns 地图数据
@@ -227,13 +235,17 @@ export class VChart implements IVChart {
         pickMode: isMiniAppLikeMode(this._option.mode) ? 'geoPick' : 'native',
         stage,
         ...restOptions,
-        background: spec.background || this._option.background // spec 的优先级更高
+        background: spec.background || this._currentTheme.background || this._option.background // spec > spec.theme > initOptions.theme
       }
     );
     this._eventDispatcher = new EventDispatcher(this, this._compiler);
     this._event = new Event(this._eventDispatcher, mode);
     this._compiler.initSrView();
-
+    // 设置全局字体
+    // FIXME: vrender 目前有 BUG，待修复
+    this.getStage()?.setTheme({
+      text: { fontFamily: this._currentTheme.fontFamily }
+    });
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowser(mode) ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._curSize = {
@@ -785,7 +797,6 @@ export class VChart implements IVChart {
     this._context.tooltipHandler = tooltipHandler;
     const tooltip = this._getTooltipComponent();
     if (tooltip) {
-      tooltip.tooltipHandler?.removeTooltip?.();
       tooltip.tooltipHandler?.release?.();
       tooltip.tooltipHandler = tooltipHandler;
     }

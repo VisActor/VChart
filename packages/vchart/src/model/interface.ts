@@ -66,6 +66,10 @@ export type ILayoutPaddingSpec = ILayoutOrientPadding | ILayoutNumber | ILayoutN
  * 因为这些元素都会继承到各个模块，所以这里统一有前缀避免语意冲突
  */
 export interface ILayoutItem {
+  /**
+   * 标记这个布局Item的方向（left->right, right->left, top->bottom, bottom->top）
+   */
+  directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
   layoutClip: boolean;
   layoutType: ILayoutType;
   layoutBindRegionID: number | number[];

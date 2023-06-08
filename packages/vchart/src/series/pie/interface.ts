@@ -67,6 +67,8 @@ export interface IPieSeriesTheme extends IPolarSeriesTheme {
 
 export type IPie3dSeriesSpec = {
   type: 'pie3d';
+  // 饼图整体绕x轴的旋转角度
+  angle3d?: number;
 } & Omit<IPieSeriesSpec, 'type'>;
 
 export interface IPie3dSeriesTheme extends IPolarSeriesTheme {

@@ -1,8 +1,6 @@
-import type { IMark, IGroupMark, IGrammarBase, IView } from '@visactor/vgrammar';
+import type { IGroupMark, IGrammarBase, IView } from '@visactor/vgrammar';
 import type { Compiler } from '../compiler';
 import type { Maybe, IPerformanceHook } from '../../typings';
-
-export type SceneNodeMap<T extends string> = Partial<Record<T, IMark | undefined>>;
 
 export interface ICompilable {
   /** 获取 compile 对象 */

@@ -50,7 +50,7 @@ export interface IRangeColumnSeriesSpec
       /** 是否可见 */
       visible: boolean;
       /** 标签位置 */
-      position?: minMaxPositionEnum;
+      position?: keyof typeof minMaxPositionEnum;
       /** 标签偏移量 */
       offset?: number;
       /**
@@ -83,7 +83,7 @@ export interface IRangeColumnSeriesSpec
 export interface IRangeColumnSeriesTheme extends ICartesianSeriesTheme {
   bar?: Partial<IMarkTheme<IRectMarkSpec>>;
   label?: Partial<ILabelSpec> & {
-    minLabel?: Partial<IMarkTheme<ITextMarkSpec> & { position?: minMaxPositionEnum }>;
-    maxLabel?: Partial<IMarkTheme<ITextMarkSpec> & { position?: minMaxPositionEnum }>;
+    minLabel?: Partial<IMarkTheme<ITextMarkSpec> & { position?: keyof typeof minMaxPositionEnum }>;
+    maxLabel?: Partial<IMarkTheme<ITextMarkSpec> & { position?: keyof typeof minMaxPositionEnum }>;
   };
 }

@@ -43,6 +43,7 @@ import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-components';
 import { getTooltipAttributes } from './utils/attribute';
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
+import type { IChartOption } from '../../../chart/interface';
 
 type ChangeTooltipFunc = (
   visible: boolean,
@@ -65,6 +66,8 @@ type ChangeTooltipPositionFunc = (
  * The tooltip handler class.
  */
 export abstract class BaseTooltipHandler implements ITooltipHandler {
+  readonly type: string;
+
   protected _tooltipSpec: ITooltipSpec;
 
   /** 是否可见 */
@@ -106,7 +109,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     envMode: RenderMode,
     chartContainer: Maybe<HTMLElement>,
     compiler: Compiler,
-    options?: any
+    options?: IChartOption
   ) {
     this._tooltipSpec = tooltipSpec;
     this._env = envMode;
@@ -115,7 +118,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     // 可能有多个 tooltip
     this._id = tooltipId;
     this._option = this._getDefaultOption();
-    this._style = this._getStyle();
+    this._style = this._getStyle(options);
     // 为方法加防抖
     this.changeTooltip = this._throttle(this._changeTooltip) as any;
     this.changeTooltipPosition = this._throttle(this._changeTooltipPosition) as any;
@@ -291,14 +294,14 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     this.changeTooltip(false, params);
   }
 
-  removeTooltip(): void {
+  release(): void {
     this._cacheViewSpec = undefined;
     this._cacheActualTooltip = undefined;
 
     const spec = this._tooltipSpec;
     /** 用户自定义逻辑 */
-    if (spec.handler?.removeTooltip) {
-      spec.handler?.removeTooltip();
+    if (spec.handler?.release) {
+      spec.handler?.release();
       return;
     }
     /** 默认逻辑 */
@@ -530,7 +533,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     };
   }
 
-  protected _getStyle(): ITooltipStyle {
+  protected _getStyle(options: IChartOption): ITooltipStyle {
     const { style = {}, maxWidth, minWidth, enterable, transitionDuration } = this._tooltipSpec;
 
     const {
@@ -569,14 +572,14 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
     return {
       panel: panelStyle,
-      title: getTextAttributes(titleLabel),
+      title: getTextAttributes(titleLabel, options.getTheme().fontFamily),
       shape: {
         fill: true,
         size: shape?.size ?? 8,
         spacing: shape?.spacing ?? 6
       },
-      key: getTextAttributes(keyLabel),
-      value: getTextAttributes(valueLabel),
+      key: getTextAttributes(keyLabel, options.getTheme().fontFamily),
+      value: getTextAttributes(valueLabel, options.getTheme().fontFamily),
       padding,
       minWidth,
       maxWidth,

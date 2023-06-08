@@ -102,7 +102,8 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
       // 创建语法元素
 
       const axisMark = this._createMark('component', `axis-${this.orient}`, {
-        componentType: this.orient === 'angle' ? 'circleAxis' : 'axis'
+        componentType: this.orient === 'angle' ? 'circleAxis' : 'axis',
+        mode: this._spec.mode
       });
       this._marks.addMark(axisMark);
 
@@ -167,18 +168,6 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
       }
     );
     return enable;
-  }
-
-  protected _initTheme(theme?: any) {
-    super._initTheme(theme);
-    const { domainLine, label, tick, grid, title, subTick, subGrid } = this._theme;
-    this._spec.domainLine = merge({}, domainLine, this._originalSpec.domainLine);
-    this._spec.label = merge({}, label, this._originalSpec.label);
-    this._spec.tick = merge({}, tick, this._originalSpec.tick);
-    this._spec.grid = merge({}, grid, this._originalSpec.grid);
-    this._spec.title = merge({}, title, this._originalSpec.title);
-    this._spec.subTick = merge({}, subTick, this._originalSpec.subTick);
-    this._spec.subGrid = merge({}, subGrid, this._originalSpec.subGrid);
   }
 
   protected setSeriesAndRegionsFromSpec() {

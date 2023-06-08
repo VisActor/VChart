@@ -7,13 +7,15 @@ import type { IDomTooltipStyle } from './interface';
 import type { Maybe } from '../../../../typings';
 import { TooltipModel } from './model/tooltip-model';
 import { domDocument } from './model/base-tooltip-model';
-import { TOOLTIP_CONTAINER_EL_CLASS_NAME } from '../constants';
+import { TOOLTIP_CONTAINER_EL_CLASS_NAME, TooltipHandlerType } from '../constants';
 import type { Compiler } from '../../../../compile/compiler';
 
 /**
  * The tooltip handler class.
  */
 export class DomTooltipHandler extends BaseTooltipHandler {
+  type = TooltipHandlerType.dom;
+
   protected _tooltipContainer: HTMLElement = globalThis.document?.body;
   protected _domStyle: IDomTooltipStyle;
   protected declare _container: HTMLDivElement;
@@ -36,9 +38,10 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     tooltipId: string,
     envMode: RenderMode,
     chartContainer: Maybe<HTMLElement>,
-    compiler: Compiler
+    compiler: Compiler,
+    options?: any
   ) {
-    super(tooltipSpec, tooltipId, envMode, chartContainer, compiler);
+    super(tooltipSpec, tooltipId, envMode, chartContainer, compiler, options);
 
     this._domStyle = getDomStyles(this._style);
     this.initEl();

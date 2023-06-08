@@ -1,6 +1,6 @@
 import type { SegmentAttributes } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
-import type { IAxis, IDomainLine, IDomainLineTheme, ILabel, ITitle, ITitleTheme } from '../../interface';
+import type { IAxis, IDomainLine, ILabel, ITitle } from '../../interface';
 import type { StringOrNumber } from '../../../../typings';
 
 export type ICartesianDomainLineSpec = {
@@ -37,7 +37,6 @@ export type ICartesianDomainLineSpec = {
   onZeroAxisId?: StringOrNumber;
 };
 export type ICartesianDomainLine = IDomainLine & ICartesianDomainLineSpec;
-export type ICartesianDomainLineTheme = IDomainLineTheme & ICartesianDomainLineSpec;
 
 export type ICartesianTitle = ITitle & {
   /**
@@ -52,9 +51,6 @@ export type ICartesianTitle = ITitle & {
    * @default false
    */
   inside?: boolean;
-};
-export type ICartesianTitleTheme = ITitleTheme & {
-  autoRotate?: boolean;
 };
 
 export type ICartesianLabel = ILabel & {

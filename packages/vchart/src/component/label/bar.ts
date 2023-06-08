@@ -44,9 +44,9 @@ export function barLabel(labelInfo: ILabelInfo) {
   }
 
   // encode smartInvert
-  const smartInvert = { enable: false };
-  if (isString(position) && position.includes('inside')) {
-    smartInvert.enable = true;
+  let smartInvert = false;
+  if (isString(labelPosition) && labelPosition.includes('inside')) {
+    smartInvert = true;
   }
 
   return { position, overlap, smartInvert };

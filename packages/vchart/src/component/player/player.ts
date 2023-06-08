@@ -126,12 +126,7 @@ export class Player extends BaseComponent implements IComponent {
 
   reInit() {
     super.reInit();
-    this.initTheme();
-  }
-
-  protected initTheme(theme?: any) {
-    super._initTheme(theme);
-    this._spec = merge({}, this._theme, this._originalSpec);
+    this._initTheme();
   }
 
   /**

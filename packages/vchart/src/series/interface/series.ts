@@ -159,6 +159,7 @@ export interface ISeries extends IModel, ILayoutItem {
   dataToPosition: (datum: any) => IPoint | null;
   dataToPositionX: (xValue: any) => number | null;
   dataToPositionY: (yValue: any) => number | null;
+  dataToPositionZ?: (yValue: any) => number | null;
 
   getColorAttribute: () => { scale: IBaseScale; field: string };
 
@@ -184,11 +185,15 @@ export interface ICartesianSeries extends ISeries {
   setScaleX: (s: IBaseScale) => void;
   scaleY: IBaseScale;
   setScaleY: (s: IBaseScale) => void;
+  scaleZ?: IBaseScale;
+  setScaleZ: (s: IBaseScale) => void;
   // 要考虑基于多个field的场景
   fieldX: string[];
   setFieldX: (field: string | string[], level?: number) => void;
   fieldY: string[];
   setFieldY: (field: string | string[], level?: number) => void;
+  fieldZ?: string[];
+  setFieldZ: (field: string | string[], level?: number) => void;
 
   positionToData: (p: IPoint) => any | null;
   positionToDataX: (xPos: number) => any | null;
@@ -199,6 +204,8 @@ export interface ICartesianSeries extends ISeries {
   setXAxisHelper: (h: IAxisHelper) => void;
   getYAxisHelper: () => IAxisHelper;
   setYAxisHelper: (h: IAxisHelper) => void;
+  getZAxisHelper: () => IAxisHelper | undefined;
+  setZAxisHelper: (h: IAxisHelper) => void;
 }
 
 export interface IPolarSeries extends ISeries {

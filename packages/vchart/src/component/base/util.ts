@@ -1,5 +1,6 @@
 import type { ITheme } from '../../theme';
-import { getCartesianAxisConfig, getOrient } from '../axis/cartesian/util';
+import { getOrient } from '../axis/cartesian/util';
+import { getCartesianAxisTheme, getPolarAxisTheme } from '../axis/utils';
 import { ComponentTypeEnum } from '../interface';
 import { getLayout } from '../legend/util';
 
@@ -14,11 +15,11 @@ export function getComponentThemeFromGlobalTheme(
     case ComponentTypeEnum.cartesianBandAxis:
     case ComponentTypeEnum.cartesianLinearAxis:
     case ComponentTypeEnum.cartesianTimeAxis:
-      return getCartesianAxisConfig(direction, getOrient(componentSpec), theme.cartesianAxis);
+      return getCartesianAxisTheme(direction, getOrient(componentSpec), theme);
     case ComponentTypeEnum.polarAxis:
     case ComponentTypeEnum.polarBandAxis:
     case ComponentTypeEnum.polarLinearAxis:
-      return theme.polarAxis?.common;
+      return getPolarAxisTheme(componentSpec.orient, theme);
     case ComponentTypeEnum.cartesianCrosshair:
     case ComponentTypeEnum.polarCrosshair:
       return theme.crosshair;

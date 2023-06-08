@@ -124,6 +124,10 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     return this.dataToPosition(datum).y;
   }
 
+  dataToPositionZ(datum: Datum): number {
+    return 0;
+  }
+
   // todo: 待实现
   positionToData(p: IPolarPoint): any {
     /* do nothing */

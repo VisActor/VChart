@@ -1,8 +1,10 @@
-import { getPaddingArray } from '../crosshair/util';
+import type { ITheme } from './../../theme/interface';
 import { isFunction, merge, get, isNil, degreeToRadian } from '@visactor/vutils';
-import type { Datum } from '../../typings';
+import type { Datum, IOrientType, IPolarOrientType } from '../../typings';
+import { Direction } from '../../typings';
 import type { ICommonAxisSpec, ILinearAxisSpec } from './interface';
 import { transformToGraphic, transformComponentStyle, transformStateStyle } from '../../util/style';
+import { isXAxis } from './cartesian/util';
 
 const DEFAULT_TITLE_STYLE = {
   left: {
@@ -106,7 +108,7 @@ export function getAxisAttributes(spec: any, theme: any) {
       autoRotate: false, // 默认不对外提供该配置
       angle: titleAngle ? degreeToRadian(titleAngle) : null,
       textStyle: merge({}, titleTextStyle, transformToGraphic(spec.title.style)),
-      padding: getPaddingArray(spec.title.padding),
+      padding: spec.title.padding,
       shape: {
         visible: spec.title.shape?.visible,
         space: spec.title.shape?.space,
@@ -159,10 +161,33 @@ export function getLinearAxisSpecDomain(
 
 export function isValidCartesianAxis(spec: any) {
   const orient = spec?.orient;
-  return orient === 'top' || orient === 'bottom' || orient === 'left' || orient === 'right';
+  return orient === 'top' || orient === 'bottom' || orient === 'left' || orient === 'right' || orient === 'z';
 }
 
 export function isValidPolarAxis(spec: any) {
   const orient = spec?.orient;
   return orient === 'angle' || orient === 'radius';
 }
+
+export const getCartesianAxisTheme = (direction: string, orient: IOrientType, theme: ITheme) => {
+  // 如果配置了 direction 发生了坐标轴转置需要进行处理，保持坐标轴配置一致
+  const axisTheme =
+    direction === Direction.horizontal
+      ? isXAxis(orient)
+        ? theme.axisY
+        : theme.axisX
+      : isXAxis(orient)
+      ? theme.axisX
+      : theme.axisY;
+  return merge({}, theme.axis, axisTheme);
+};
+
+export const getPolarAxisTheme = (orient: IPolarOrientType, theme: ITheme) => {
+  let axisTheme = theme.axis;
+  if (orient === 'angle') {
+    axisTheme = theme.axisAngle;
+  } else if (orient === 'radius') {
+    axisTheme = theme.axisRadius;
+  }
+  return merge({}, theme.axis, axisTheme);
+};

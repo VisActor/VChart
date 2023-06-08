@@ -5,6 +5,7 @@ import type { MarkTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
 import { isNil } from '@visactor/vutils';
 import type { ISeries } from '../../../series/interface';
+import { TooltipHandlerType } from '../handler/constants';
 
 export class MarkTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'mark';
@@ -25,6 +26,11 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
     const { tooltipInfo: info } = mouseEventData;
     if (isNil(info)) {
       return false;
+    }
+
+    // 自定义 handler
+    if (![TooltipHandlerType.dom, TooltipHandlerType.canvas].includes((this.component.tooltipHandler as any).type)) {
+      return true;
     }
 
     const helper = (params.model as ISeries)?.tooltipHelper;

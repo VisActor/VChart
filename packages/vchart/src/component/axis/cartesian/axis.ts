@@ -16,7 +16,7 @@ import type { IBaseScale, ILinearScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import type { LayoutItem } from '../../../model/layout-item';
 import { Factory } from '../../../core/factory';
-import { autoAxisType, isXAxis, getOrient } from './util';
+import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis } from './util';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
@@ -48,11 +48,16 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   type = ComponentTypeEnum.cartesianAxis;
   name: string = ComponentTypeEnum.cartesianAxis;
 
+  // 标记这个布局Item的方向（left->right, right->left, top->bottom, bottom->top）
+  declare directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
+
   layoutType: LayoutItem['layoutType'] = 'region-relative';
   layoutZIndex: number = LayoutZIndex.Axis;
   layoutLevel: number = LayoutLevel.Axis;
 
   protected _dataSet: DataSet;
+
+  layout3dBox?: { width: number; height: number; length: number };
 
   protected _orient: IOrientType = 'left';
   get orient() {
@@ -91,7 +96,10 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     super(spec, {
       ...options
     });
-    this._orient = getOrient(spec);
+    this._orient = getOrient(spec, ['z']);
+    if (isZAxis(this._orient)) {
+      this.layoutType = 'absolute';
+    }
     isValid(spec.autoIndent) && (this._autoIndent = spec.autoIndent);
     this._layoutOrient = this._orient;
     this._dataSet = options.dataSet;
@@ -129,19 +137,32 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     if (regions.find(r => r.coordinate !== 'cartesian')) {
       return null;
     }
-    const axesSpec = spec[CartesianAxis.specKey] || options.defaultSpec;
+    let axesSpec = spec[CartesianAxis.specKey] || options.defaultSpec;
     if (!axesSpec) {
       return null;
     }
     const isHorizontal = spec.direction === Direction.horizontal;
     if (!isArray(axesSpec)) {
+      // 如果非法，或者只有一个z轴就不创建
       if (!isValidCartesianAxis(axesSpec)) {
         return null;
       }
       return CartesianAxis.createAxis(axesSpec, options, isHorizontal);
     }
+    // 处理spec
+    const zAxis = axesSpec.filter(s => s.orient === 'z')[0];
+    let valid = true;
+    if (zAxis) {
+      const xAxis = axesSpec.filter(s => s.orient === 'bottom')[0];
+      const yAxis = axesSpec.filter(s => isYAxis(s.orient))[0];
+      // 必须有x和y，且x必须是bottom
+      valid = axesSpec.length === 3 && xAxis && yAxis;
+    }
+    if (!valid) {
+      axesSpec = axesSpec.filter(s => s.orient !== 'z');
+    }
     const axes: IAxis[] = [];
-    axesSpec.forEach((s, i) => {
+    axesSpec.forEach((s: any, i: any) => {
       if (!isValidCartesianAxis(s)) {
         return;
       }
@@ -160,6 +181,10 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     return axes;
   }
 
+  setLayout3dBox(box3d: { width: number; height: number; length: number }) {
+    this.layout3dBox = box3d;
+  }
+
   effect: IEffect = {
     scaleUpdate: () => {
       this.computeData();
@@ -168,8 +193,10 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         s => {
           if (isXAxis(this.orient)) {
             (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
-          } else {
+          } else if (isYAxis(this.orient)) {
             (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+          } else if (isZAxis(this.orient)) {
+            (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
           }
         },
         {
@@ -189,9 +216,15 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     const { width, height } = this.getLayoutRect();
     const inverse = this._spec.inverse;
     let newRange: number[] = [];
-    if (this._orient === 'bottom' || this.orient === 'top') {
+    if (isXAxis(this.orient)) {
       if (isValidNumber(width)) {
         newRange = inverse ? [width, 0] : [0, width];
+      }
+    } else if (isZAxis(this.orient)) {
+      if (isValidNumber(width)) {
+        // TODO 这里需要设置布局
+        newRange = inverse ? [width, 0] : [0, width];
+        this._scale.range(newRange);
       }
     } else {
       if (isValidNumber(height)) {
@@ -227,7 +260,14 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   }
 
   protected getSeriesStatisticsField(s: ICartesianSeries) {
-    const f = this.orient === 'bottom' || this.orient === 'top' ? s.fieldX : s.fieldY;
+    let f: string[];
+    if (isXAxis(this.orient)) {
+      f = s.fieldX;
+    } else if (isZAxis(this.orient)) {
+      f = s.fieldZ;
+    } else {
+      f = s.fieldY;
+    }
     if (isContinuous(this._scale.type)) {
       return f;
     }
@@ -366,7 +406,13 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         if (depth > 0) {
           field = s.getGroups()?.fields?.[depth];
         } else {
-          field = isXAxis(this.orient) ? (s as ICartesianSeries).fieldX : (s as ICartesianSeries).fieldY;
+          if (isXAxis(this.orient)) {
+            field = (s as ICartesianSeries).fieldX;
+          } else if (isZAxis(this.orient)) {
+            field = (s as ICartesianSeries).fieldZ;
+          } else {
+            field = (s as ICartesianSeries).fieldY;
+          }
         }
         field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
         if (!depth) {
@@ -396,9 +442,12 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         if (isXAxis(this.orient)) {
           (s as ICartesianSeries).setScaleX(this._scale);
           (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
-        } else {
+        } else if (isYAxis(this.orient)) {
           (s as ICartesianSeries).setScaleY(this._scale);
           (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+        } else if (isZAxis(this.orient)) {
+          (s as ICartesianSeries).setScaleZ(this._scale);
+          (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
         }
       },
       {
@@ -559,23 +608,57 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
 
     const { width, height } = this.getLayoutRect();
     const isX = isXAxis(this._orient);
+    const isY = isYAxis(this._orient);
+    const isZ = isZAxis(this._orient);
     let end = { x: 0, y: 0 };
     let gridLength = 0;
     let axisLength = 0;
+    const depth = this.layout3dBox ? this.layout3dBox.length : 0;
     if (isX) {
       end = { x: width, y: 0 };
       gridLength = regionHeight;
       axisLength = width;
-    } else {
+    } else if (isY) {
       end = { x: 0, y: height };
       gridLength = regionWidth;
       axisLength = height;
+    }
+    if (isZ) {
+      const directionStr = this.directionStr ?? 'r2l';
+      const depthZ = this.layout3dBox ? this.layout3dBox.width : 0;
+      let anchor3d = this._spec.depth ? [0, 0] : undefined;
+      let alpha = this._spec.depth ? -Math.PI / 2 : 0;
+      let z = 0;
+      if (directionStr === 'l2r') {
+        z = this.layout3dBox.length;
+        anchor3d = this._spec.depth ? [0, 0, 0] : undefined;
+        alpha = this._spec.depth ? Math.PI / 2 : 0;
+      }
+      return {
+        start: { x: 0, y: 0 },
+        end: { x: depth, y: 0 },
+        z: z,
+        alpha,
+        anchor3d,
+        grid: {
+          type: 'line',
+          depth: depthZ,
+          length: regionHeight,
+          visible: this._spec.grid.visible && !ignoreGrid
+        },
+        title: {
+          text: this._spec.title.text || this._dataFieldText,
+          maxWidth: this._getTitleLimit(isX)
+        },
+        items: this.getLabelItems(width)
+      } as LineAxisAttributes;
     }
     const attrs: LineAxisAttributes = {
       start: { x: 0, y: 0 },
       end,
       grid: {
         type: 'line',
+        depth,
         length: gridLength,
         visible: this._spec.grid.visible && !ignoreGrid
       },

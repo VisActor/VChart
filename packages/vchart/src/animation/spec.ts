@@ -1,4 +1,4 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar';
+import type { IAnimationConfig } from '@visactor/vgrammar';
 import type { EasingType } from '@visactor/vrender';
 export type { IMorphConfig, IMorphAnimationConfig } from '@visactor/vgrammar';
 
@@ -26,7 +26,7 @@ export type IStateAnimateSpec<Preset extends string> = {
 };
 
 export type IMarkAnimateSpec<MarkName extends string> = Partial<
-  Record<MarkName, IAnimationTypeConfig | IAnimationTypeConfig[]>
+  Record<MarkName, false | IAnimationConfig | IAnimationConfig[]>
 >;
 
 export interface IAnimationSpec<MarkName extends string, Preset extends string> {

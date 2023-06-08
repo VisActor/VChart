@@ -5,9 +5,8 @@ export interface IRect {
   height: number;
 }
 
-export type IOrientType = 'left' | 'top' | 'right' | 'bottom';
+export type IOrientType = 'left' | 'top' | 'right' | 'bottom' | 'z';
 
-// FIXME: 也许用 周向|径向 circumferential | radial 更好？
 export type IPolarOrientType = 'radius' | 'angle';
 
 export interface IPadding {

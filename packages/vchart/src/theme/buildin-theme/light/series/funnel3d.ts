@@ -9,7 +9,6 @@ export const funnel3d: IFunnel3dSeriesTheme = {
   },
   label: {
     style: {
-      fontFamily: 'sans-serif',
       fontSize,
       fill: 'white',
       textBaseline: 'middle',
@@ -18,7 +17,6 @@ export const funnel3d: IFunnel3dSeriesTheme = {
   },
   outerLabel: {
     style: {
-      fontFamily: 'sans-serif',
       fontSize,
       fill: '#707070'
     },
@@ -30,7 +28,6 @@ export const funnel3d: IFunnel3dSeriesTheme = {
   },
   transformLabel: {
     style: {
-      fontFamily: 'sans-serif',
       fontSize,
       fill: '#707070',
       textBaseline: 'middle'

@@ -7,6 +7,8 @@ export const DEFAULT_TEXT_FONT_SIZE = 11;
 export const DEFAULT_AXIS_TICK_SIZE = 4;
 
 export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
+  orient: 'left',
+  position: 'middle',
   title: {
     visible: false,
     padding: 0,

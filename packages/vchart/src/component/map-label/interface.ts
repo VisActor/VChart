@@ -1,5 +1,5 @@
 import type { IGraphic } from '@visactor/vrender';
-import type { IPadding, IOrientType } from '../../typings';
+import type { IPadding, IOrientType, StringOrNumber } from '../../typings';
 import type { IPathMarkSpec, IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IModelSpec } from '../../model/interface';
 
@@ -7,7 +7,7 @@ export type LabelPosition = IOrientType | 'outer';
 
 export interface IMapLabelSpec extends Pick<IModelSpec, 'id'> {
   /** 关联的系列 id */
-  seriesId: string;
+  seriesId: StringOrNumber;
   /** 是否显示，默认 false */
   visible?: boolean;
   /** 名称文本的数据字段 */

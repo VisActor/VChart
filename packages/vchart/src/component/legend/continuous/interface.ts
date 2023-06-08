@@ -125,16 +125,10 @@ export type ISizeLegendSpec = IContinuousLegendSpec & {
   sizeBackground?: Omit<NoVisibleMarkStyle<IRectMarkSpec>, 'visible' | 'width' | 'height'>;
 };
 
-export interface IContinuousLegendTheme {
-  /** 图例标题配置 */
-  title?: IContinuousLegendSpec['title'];
-  /** 滑块轨道配置 */
-  rail?: IContinuousLegendSpec['rail'];
-  /** 滑块操作条样式 */
-  handler?: IContinuousLegendSpec['handler'];
-  /** 选中区域配置 */
-  track?: IContinuousLegendSpec['track'];
-}
+export type IContinuousLegendTheme = Omit<
+  IContinuousLegendSpec,
+  'type' | 'field' | 'scale' | 'regionIndex' | 'regionId' | 'seriesIndex' | 'seriesId' | 'id' | 'defaultSelected'
+>;
 
 export interface IColorLegendTheme {
   horizontal?: IContinuousLegendTheme;

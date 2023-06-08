@@ -1,3 +1,4 @@
+import { array } from '@visactor/vutils';
 import type { IIndicatorItemSpec } from './interface';
 
 export interface IIndicatorDatum {
@@ -25,7 +26,7 @@ export const indicatorMapper = (data: Array<any>, op: IIndicatorMapper) => {
       spec: title
     } as IIndicatorDatum);
   }
-  content.forEach((c, i) => {
+  array(content).forEach((c, i) => {
     if (c.visible) {
       mappedData.push({
         type: 'content',

@@ -5,7 +5,7 @@ export type IColorSchemeStruct = {
   /** 主色调（可选） */
   bandColor?: ColorSchemeItem;
   /** 背景颜色（可选） */
-  backgroundColor?: ColorSchemeItem;
+  background?: ColorSchemeItem;
   /** 数据色板，承载3.x版原有色板的功能 */
   dataScheme: ColorDataSchemeItem[];
 } & {

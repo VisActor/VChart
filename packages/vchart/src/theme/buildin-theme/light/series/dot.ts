@@ -1,9 +1,17 @@
 import type { IDotSeriesTheme } from '../../../../series/dot/interface';
 
 export const dot: IDotSeriesTheme = {
-  size: 10,
-  fillOpacity: 1,
-  strokeOpacity: 1,
+  dot: {
+    style: {
+      size: 10,
+      fillOpacity: 1
+    }
+  },
+  symbol: {
+    style: {
+      size: 10
+    }
+  },
   title: {
     style: {
       textAlign: 'left',

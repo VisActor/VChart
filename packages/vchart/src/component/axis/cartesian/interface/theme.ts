@@ -1,28 +1,24 @@
-import type { ITickTheme, ILabelTheme, IGridTheme } from '../../interface';
-import type { ICartesianDomainLine, ICartesianTitleTheme } from './common';
-
-export interface ICartesianAxisTheme {
-  /** x轴 */
-  axisX?: ICartesianAxisCommonTheme;
-  /** y轴 */
-  axisY?: ICartesianAxisCommonTheme;
-  /** 公共配置，优先级低于axisX和axisY */
-  common?: ICartesianAxisCommonTheme;
-}
+import type { ITick, ILabel, IGrid } from '../../interface';
+import type { ICartesianDomainLine, ICartesianTitle } from './common';
+import type { ICartesianAxisCommonSpec } from './spec';
 
 export interface ICartesianAxisCommonTheme {
   /** 网格线配置 */
-  grid?: IGridTheme;
+  grid?: IGrid;
   /** 网格线配置 */
-  subGrid?: IGridTheme;
+  subGrid?: IGrid;
   /** 轴线配置 */
   domainLine?: ICartesianDomainLine;
   /** 轴标签配置 */
-  label?: ILabelTheme;
+  label?: ILabel;
   /** 轴标题配置 */
-  title?: ICartesianTitleTheme;
+  title?: ICartesianTitle;
   /** 轴刻度线配置 */
-  tick?: ITickTheme;
+  tick?: ITick;
   /** 轴刻度线配置 */
-  subTick?: ITickTheme;
+  subTick?: ITick;
+  /**
+   * 轴背景配置
+   */
+  background?: ICartesianAxisCommonSpec['background'];
 }

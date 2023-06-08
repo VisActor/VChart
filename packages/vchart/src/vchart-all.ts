@@ -4,6 +4,7 @@ import { BoxPlotSeries } from './series/box-plot/boxPlot';
 import { BoxPlotChart } from './chart/boxplot/boxPlot';
 import { GridLayout } from './layout/grid-layout/grid-layout';
 import { Layout } from './layout/index';
+import { Layout3d } from './layout/layout3d';
 import { VChart } from './core/vchart';
 import { DataZoom } from './component/data-zoom/data-zoom';
 import { Bar3dChart, BarChart } from './chart/bar/bar';
@@ -225,5 +226,6 @@ Factory.registerRegion('region', Region as any);
 // layout
 Factory.registerLayout('base', Layout as any);
 Factory.registerLayout('grid', GridLayout as any);
+Factory.registerLayout('layout3d', Layout3d as any);
 
 export { VChart };

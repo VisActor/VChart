@@ -37,6 +37,7 @@ export class RangeColumnSeries extends BarSeries {
   initMark(): void {
     const labelPosition = this._spec.label?.position;
     this._rectMark = this._createMark(this._barMarkType, 'bar', {
+      morph: this._spec.morph?.enable ?? true,
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       label: labelPosition === PositionEnum.bothEnd ? undefined : merge({}, this._spec.label),
@@ -64,7 +65,7 @@ export class RangeColumnSeries extends BarSeries {
         rectMark,
         {
           fill: this.getColorAttribute(),
-          fillOpacity: this._theme.fillOpacity
+          fillOpacity: this._theme?.bar?.style?.fillOpacity ?? 1
         },
         'normal',
         AttributeLevel.Series
@@ -171,7 +172,8 @@ export class RangeColumnSeries extends BarSeries {
           max = datum[this._spec.yField[1]];
         }
         return min + '-' + max;
-      }
+      },
+      z: this.dataToPositionZ.bind(this)
     });
     this._tooltipHelper?.ignoreTriggerSet.mark.add(labelMark);
   }
