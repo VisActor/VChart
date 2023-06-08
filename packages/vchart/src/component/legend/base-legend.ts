@@ -92,11 +92,6 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
   protected _regionUserId?: StringOrNumber[];
   protected _regionUserIndex?: number[];
 
-  protected _initTheme(theme?: any) {
-    super._initTheme(theme);
-    this._spec = merge({}, this._theme, this._originalSpec);
-  }
-
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
@@ -261,8 +256,11 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
   }
 
   clear(): void {
-    super.clear();
-    this._legendComponent = null;
+    if (this._legendComponent) {
+      this._container.removeChild(this._legendComponent);
+      this._legendComponent = null;
+    }
     this._cacheAttrs = null;
+    super.clear();
   }
 }

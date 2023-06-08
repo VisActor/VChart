@@ -28,6 +28,8 @@ export interface ICompilableMarkOption extends GrammarItemInitOption {
 
   /** 这个mark是否支持3d视角 */
   support3d?: boolean;
+  /* VGrammar 的组件是否支持 3d */
+  mode?: '2d' | '3d';
 }
 
 export interface ICompilableMark extends IGrammarItem {

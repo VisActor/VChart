@@ -20,7 +20,7 @@ import type {
   ICrosshairXFieldSpec
 } from './interface';
 import { Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../constant';
-import { defaultCrossHairConfig, defaultCrosshairTriggerEvent } from './config';
+import { defaultCrosshairTriggerEvent } from './config';
 import type { IPolarAxis } from '../axis/polar/interface';
 import type { IAxis } from '../axis/interface';
 
@@ -87,11 +87,6 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
   protected abstract layoutCrosshair(x: number, y: number): void;
   protected abstract parseFieldInfo(): void;
   protected abstract hide(): void;
-
-  protected _initTheme(theme?: any) {
-    super._initTheme(theme);
-    this._spec = merge({}, defaultCrossHairConfig, this._theme, this._originalSpec);
-  }
 
   protected getLimitBounds() {
     if (!this._limitBounds) {

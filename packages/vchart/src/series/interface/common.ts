@@ -82,6 +82,9 @@ export interface ISeriesMarkInitOption {
   /** 分组 key 值 */
   groupKey?: string;
 
+  /** morph 配置开关 */
+  morph?: boolean;
+
   /** morph元素的唯一key */
   defaultMorphElementKey?: string;
 

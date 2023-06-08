@@ -40,6 +40,7 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
 
   private initRoseMark() {
     this._roseMark = this._createMark(MarkTypeEnum.arc, 'rose', {
+      morph: this._spec.morph?.enable ?? true,
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true

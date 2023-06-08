@@ -6,11 +6,14 @@ import type { Maybe, RenderMode } from '../../../../typings';
 import { Tooltip } from '@visactor/vrender-components';
 import type { Compiler } from '../../../../compile/compiler';
 import { isValid } from '@visactor/vutils';
+import { TooltipHandlerType } from '../constants';
 
 /**
  * The tooltip handler class.
  */
 export class CanvasTooltipHandler extends BaseTooltipHandler {
+  type = TooltipHandlerType.canvas;
+
   private _layer: any;
   protected _el?: HTMLCanvasElement;
   protected _tooltipCanvasId?: string;
@@ -100,6 +103,7 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
   }
 
   release() {
+    super.release();
     this._layer?.release();
   }
 }

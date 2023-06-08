@@ -8,7 +8,7 @@ import { ComponentTypeEnum } from '../interface';
 import { Brush as BrushComponent } from '@visactor/vrender-components';
 import type { IBounds, IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, polygonContainPoint, isNil, merge, polygonIntersectPolygon, isValid } from '@visactor/vutils';
+import { array, polygonContainPoint, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IGraphic, INode, IPolygon, IRectGraphicAttribute } from '@visactor/vrender';
@@ -17,7 +17,6 @@ import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
 import type { IElement } from '@visactor/vgrammar';
 import type { IBrush, selectedItemStyle } from './interface';
-import { defaultBrushConfig } from './config';
 
 export class Brush extends BaseComponent implements IBrush {
   layoutType: LayoutItem['layoutType'] = 'absolute';
@@ -55,10 +54,6 @@ export class Brush extends BaseComponent implements IBrush {
     }
     return [new Brush(brushSpec, { ...options, specKey: Brush.speckey })];
   }
-  protected _initTheme(theme?: any) {
-    super._initTheme(theme);
-    this._spec = merge({}, defaultBrushConfig, this._theme, this._originalSpec);
-  }
 
   created() {
     super.created();
@@ -76,7 +71,7 @@ export class Brush extends BaseComponent implements IBrush {
     const seriesRegionEndY = seriesRegionStartY + region.getLayoutRect().height;
     const brush = new BrushComponent({
       zIndex: this.layoutZIndex,
-      brushStyle: transformToGraphic(this._spec?.brush?.style),
+      brushStyle: transformToGraphic(this._spec?.style),
       interactiveRange: {
         minY: seriesRegionStartY,
         maxY: seriesRegionEndY,
@@ -102,7 +97,7 @@ export class Brush extends BaseComponent implements IBrush {
         // 需要重置状态的情况：
         // 1. 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加_stateTag来识别
         // 2. 框选模式为'single' 且 removeOnClick 为true时, 单击会清空之前所有的mask, 此时也需要重置图元状态
-        if (this._isFristState || (brushMode === 'single' && removeOnClick && operateType === 'brushStart')) {
+        if (this._isFristState || (brushMode === 'single' && removeOnClick && operateType === 'drawStart')) {
           this._initMarkBrushState(componentIndex);
         }
 
@@ -341,7 +336,7 @@ export class Brush extends BaseComponent implements IBrush {
   protected _initMarkBrushState(componentIndex: number) {
     this._brushComponents.forEach((brush, index) => {
       if (index !== componentIndex) {
-        brush.removeAllChild();
+        brush.children[0].removeAllChild();
       }
     });
 

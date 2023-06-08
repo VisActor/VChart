@@ -1,7 +1,11 @@
 import type { ITooltipTheme } from '../../../../component/tooltip/interface';
-import { DEFAULT_TEXT_FONT_FAMILY as fontFamily } from '../../config';
 
 export const tooltip: ITooltipTheme = {
+  maxWidth: 440,
+  offset: {
+    x: 10,
+    y: 10
+  },
   panel: {
     padding: {
       top: 10,
@@ -25,7 +29,6 @@ export const tooltip: ITooltipTheme = {
   },
   spaceRow: 6,
   titleLabel: {
-    fontFamily,
     fontSize: 14,
     fontColor: '#4E5969',
     textAlign: 'left',
@@ -38,7 +41,6 @@ export const tooltip: ITooltipTheme = {
     spacing: 6
   },
   keyLabel: {
-    fontFamily,
     fontSize: 12,
     fontColor: '#4E5969',
     textAlign: 'left',
@@ -47,7 +49,6 @@ export const tooltip: ITooltipTheme = {
     spacing: 26
   },
   valueLabel: {
-    fontFamily,
     fontSize: 12,
     fontColor: '#4E5969',
     lineHeight: 18,

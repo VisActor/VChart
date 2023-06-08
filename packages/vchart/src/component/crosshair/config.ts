@@ -1,9 +1,4 @@
 import { RenderModeEnum } from '../../typings/spec/common';
-import type { ICommonCrosshairSpec } from './interface';
-
-export const defaultCrossHairConfig: ICommonCrosshairSpec = {
-  trigger: 'hover'
-};
 
 export const defaultCrosshairTriggerEvent = {
   [RenderModeEnum['desktop-browser']]: {

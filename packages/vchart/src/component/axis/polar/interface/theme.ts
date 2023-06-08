@@ -1,23 +1,19 @@
-import type { IDomainLineTheme, ITickTheme, ITitleTheme, ILabelTheme } from '../../interface';
-import type { IPolarGridTheme } from './common';
-
-export interface IPolarAxisTheme {
-  common?: IPolarAxisCommonTheme;
-}
+import type { IDomainLine, ITick, ITitle, ILabel } from '../../interface';
+import type { IPolarGrid } from './common';
 
 export interface IPolarAxisCommonTheme {
   /** 网格线配置 */
-  grid?: IPolarGridTheme;
+  grid?: IPolarGrid;
   /** 子网格线配置 */
-  subGrid?: IPolarGridTheme;
+  subGrid?: IPolarGrid;
   /** 轴线配置 */
-  domainLine?: IDomainLineTheme;
+  domainLine?: IDomainLine;
   /** 轴标签配置 */
-  label?: ILabelTheme;
+  label?: ILabel;
   /** 轴标题配置 */
-  title?: ITitleTheme;
+  title?: ITitle;
   /** 轴刻度线配置 */
-  tick?: ITickTheme;
+  tick?: ITick;
   /** 轴子刻度线配置 */
-  subTick?: ITickTheme;
+  subTick?: ITick;
 }

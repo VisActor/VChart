@@ -55,5 +55,4 @@ export interface IPolarSeriesTheme {
   innerRadius?: number;
   startAngle?: number;
   endAngle?: number;
-  fillOpacity?: number;
 }

@@ -1,19 +1,20 @@
-import type { IChart } from '../chart/interface/chart';
+import type { IChart } from './../../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { ILayoutItem } from '../model/interface';
-import type { IBaseLayout } from './interface';
-import type { IPadding, IRect } from '../typings/space';
-import type { IRegion } from '../region/interface';
+import type { ILayoutItem, ILayoutRect } from '../../model/interface';
+import type { IPadding, IRect } from '../../typings/space';
+import type { IRegion } from '../../region/interface';
+import type { IBaseLayout } from '../interface';
+import { Layout } from '..';
+import { isXAxis, isYAxis } from '../../component/axis/cartesian/util';
 
-export class Layout implements IBaseLayout {
-  protected _leftCurrent: number = 0;
-  protected _topCurrent: number = 0;
-  protected _rightCurrent: number = 0;
-  protected _bottomCurrent: number = 0;
+interface IOffset {
+  offsetLeft: number;
+  offsetRight: number;
+  offsetTop: number;
+  offsetBottom: number;
+}
 
-  _chartLayoutRect!: IRect;
-  _chartViewBox!: IBoundsLike;
-
+export class Layout3d extends Layout implements IBaseLayout {
   layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void {
     this._chartLayoutRect = chartLayoutRect;
     this._chartViewBox = chartViewBox;
@@ -35,10 +36,31 @@ export class Layout implements IBaseLayout {
     };
     const regionItems = items.filter(x => x.layoutType === 'region') as IRegion[];
     const relativeItems = items.filter(x => x.layoutType === 'region-relative');
+    // 计算3d轴
+    const absoluteItem = items.filter(x => x.layoutType === 'absolute');
+    const zItems = absoluteItem.filter(i => {
+      return i.layoutOrient === 'z';
+    });
+    let extraWH = { width: 0, height: 0 };
+    if (zItems.length) {
+      const layoutRect = zItems[0].getLayoutRect();
+      extraWH = layoutRect;
+    }
+    // this._leftCurrent += extraWH.width / 4;
+    this._rightCurrent -= extraWH.width;
+    this._topCurrent += (extraWH.height / 4) * 3;
+    this._bottomCurrent -= extraWH.height / 4;
+    const offsetWH: IOffset = {
+      offsetBottom: 0,
+      offsetTop: 0,
+      offsetLeft: 0,
+      offsetRight: 0
+    };
+
     // 有元素开启了自动缩进
     // TODO:目前只有普通占位布局下的 region-relative 元素支持
     // 主要考虑常规元素超出画布一般为用户个性设置，而且可以设置padding规避裁剪,不需要使用自动缩进
-    this.layoutRegionItems(regionItems, relativeItems);
+    this.layoutRegionItems(regionItems, relativeItems, offsetWH);
     if (relativeItems.some(i => i.getAutoIndent())) {
       // check auto indent
       const { top, bottom, left, right } = this._checkAutoIndent(relativeItems);
@@ -54,40 +76,53 @@ export class Layout implements IBaseLayout {
       }
     }
 
-    this.layoutAbsoluteItems(items.filter(x => x.layoutType === 'absolute'));
+    // z轴以外的绝对定位
+    const absoluteItemExceptZAxis = absoluteItem.filter(i => i.layoutOrient !== 'z');
+    this.layoutAbsoluteItems(absoluteItemExceptZAxis);
+
+    // 找到x轴
+    const xAxis = relativeItems.filter(item => {
+      return (item as any).specKey && (item as any).specKey === 'axes' && isXAxis(item.layoutOrient);
+    })[0];
+    const yAxis = relativeItems.filter(item => {
+      return (item as any).specKey && (item as any).specKey === 'axes' && isYAxis(item.layoutOrient);
+    })[0];
+    if (xAxis && zItems.length) {
+      const sp = xAxis.getLayoutStartPoint();
+      const lr = xAxis.getLayoutRect();
+      const zRect = {
+        x: yAxis.layoutOrient === 'left' ? sp.x + lr.width : sp.x,
+        y: sp.y,
+        width: this._chartLayoutRect.width,
+        height: this._chartLayoutRect.height
+      };
+      zItems[0].directionStr = yAxis.layoutOrient === 'left' ? 'r2l' : 'l2r';
+      // 将长宽高信息传给所有的轴
+      const xRect = xAxis.getLayoutRect();
+      const yRect = yAxis.getLayoutRect();
+      // const zRect = zItems[0].getLayoutRect();
+      const box3d = {
+        length: zItems[0].getLayoutRect().width,
+        width: xRect.width,
+        height: yRect.height
+      };
+
+      (xAxis as any).setLayout3dBox && (xAxis as any).setLayout3dBox(box3d);
+      (yAxis as any).setLayout3dBox && (yAxis as any).setLayout3dBox(box3d);
+      (zItems[0] as any).setLayout3dBox && (zItems[0] as any).setLayout3dBox(box3d);
+
+      this.layoutZAxisItems(zItems, zRect);
+    }
   }
 
-  protected layoutNormalItems(normalItems: ILayoutItem[]): void {
-    normalItems.forEach(item => {
-      const layoutRect = this.getItemComputeLayoutRect(item);
-      const rect = item.computeBoundsInRect(layoutRect);
-      item.setLayoutRect(rect);
-
-      if (item.layoutOrient === 'left') {
-        item.setLayoutStartPosition({
-          x: this._leftCurrent + item.layoutPaddingLeft,
-          y: this._topCurrent + item.layoutPaddingTop
-        });
-        this._leftCurrent += rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
-      } else if (item.layoutOrient === 'top') {
-        item.setLayoutStartPosition({
-          x: this._leftCurrent + item.layoutPaddingLeft,
-          y: this._topCurrent + item.layoutPaddingTop
-        });
-        this._topCurrent += rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
-      } else if (item.layoutOrient === 'right') {
-        item.setLayoutStartPosition({
-          x: this._rightCurrent - rect.width - item.layoutPaddingRight,
-          y: this._topCurrent + item.layoutPaddingTop
-        });
-        this._rightCurrent -= rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
-      } else if (item.layoutOrient === 'bottom') {
-        item.setLayoutStartPosition({
-          x: this._leftCurrent + item.layoutPaddingRight,
-          y: this._bottomCurrent - rect.height - item.layoutPaddingBottom
-        });
-        this._bottomCurrent -= rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
-      }
+  /**
+   * 对z轴进行布局
+   * @param zItems
+   */
+  protected layoutZAxisItems(zItems: ILayoutItem[], zRect: IRect) {
+    zItems.forEach(item => {
+      // 设置盒子
+      item.absoluteLayoutInRect(zRect);
     });
   }
 
@@ -97,24 +132,28 @@ export class Layout implements IBaseLayout {
    * 2. 补全 region rect 和 layoutStartPoint
    *
    */
-  protected layoutRegionItems(regionItems: IRegion[], regionRelativeItems: ILayoutItem[]): void {
+  protected layoutRegionItems(regionItems: IRegion[], regionRelativeItems: ILayoutItem[], extraOffset?: IOffset): void {
     let regionRelativeTotalWidth = this._rightCurrent - this._leftCurrent;
     let regionRelativeTotalHeight = this._bottomCurrent - this._topCurrent;
+
+    if (!extraOffset) {
+      extraOffset = { offsetLeft: 0, offsetRight: 0, offsetTop: 0, offsetBottom: 0 };
+    }
 
     regionRelativeItems
       .filter(x => x.layoutOrient === 'left' || x.layoutOrient === 'right')
       .forEach(item => {
-        const layoutRect = this.getItemComputeLayoutRect(item);
+        const layoutRect = this.getItemComputeLayoutRect(item, extraOffset);
         const rect = item.computeBoundsInRect(layoutRect);
         item.setLayoutRect({ width: rect.width });
         // 减少尺寸
         if (item.layoutOrient === 'left') {
           item.setLayoutStartPosition({
-            x: this._leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft
+            x: this._leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft + extraOffset.offsetLeft
           });
-          this._leftCurrent += rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+          this._leftCurrent += rect.width + item.layoutPaddingLeft + item.layoutPaddingRight + extraOffset.offsetLeft;
         } else if (item.layoutOrient === 'right') {
-          this._rightCurrent -= rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+          this._rightCurrent -= rect.width + item.layoutPaddingLeft + item.layoutPaddingRight + extraOffset.offsetRight;
           item.setLayoutStartPosition({
             x: this._rightCurrent + item.layoutOffsetX + item.layoutPaddingLeft
           });
@@ -126,18 +165,19 @@ export class Layout implements IBaseLayout {
     regionRelativeItems
       .filter(x => x.layoutOrient === 'top' || x.layoutOrient === 'bottom')
       .forEach(item => {
-        const layoutRect = this.getItemComputeLayoutRect(item);
+        const layoutRect = this.getItemComputeLayoutRect(item, extraOffset);
         const rect = item.computeBoundsInRect(layoutRect);
         item.setLayoutRect({ height: rect.height });
 
         // 减少尺寸
         if (item.layoutOrient === 'top') {
           item.setLayoutStartPosition({
-            y: this._topCurrent + item.layoutOffsetY + item.layoutPaddingTop
+            y: this._topCurrent + item.layoutOffsetY + item.layoutPaddingTop + extraOffset.offsetTop
           });
           this._topCurrent += rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
         } else if (item.layoutOrient === 'bottom') {
-          this._bottomCurrent -= rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
+          this._bottomCurrent -=
+            rect.height + item.layoutPaddingTop + item.layoutPaddingBottom + extraOffset.offsetBottom;
           item.setLayoutStartPosition({
             y: this._bottomCurrent + item.layoutOffsetY + item.layoutPaddingTop
           });
@@ -187,62 +227,27 @@ export class Layout implements IBaseLayout {
   }
 
   /**
-   * 再找出对 absolute 元素，无需排序，在 compiler 层需要排序放置
-   *
-   * 重要：absolute 默认依据 region 进行相对依赖
-   */
-  protected layoutAbsoluteItems(absoluteItems: ILayoutItem[]) {
-    absoluteItems.forEach(item => {
-      // 设置盒子
-      item.absoluteLayoutInRect(this._chartLayoutRect);
-    });
-  }
-
-  // 对普通布局来说，只出一个 region 绑定
-  filterRegionsWithID(regions: IRegion[], id: number): ILayoutItem {
-    const target = regions.find(x => x.id === id);
-    if (!target) {
-      throw Error('can not find target region item, invalid id');
-    }
-    return target;
-  }
-
-  /**
    * 工具方法 根据item属性获取给item提供的布局空间
    * @param item
    */
-  protected getItemComputeLayoutRect(item: ILayoutItem) {
+  protected getItemComputeLayoutRect(item: ILayoutItem, extraOffset?: IOffset) {
+    if (!extraOffset) {
+      extraOffset = { offsetLeft: 0, offsetRight: 0, offsetTop: 0, offsetBottom: 0 };
+    }
     const result = {
-      width: this._rightCurrent - this._leftCurrent - item.layoutPaddingLeft - item.layoutPaddingRight,
-      height: this._bottomCurrent - this._topCurrent - item.layoutPaddingTop - item.layoutPaddingBottom
+      width:
+        this._rightCurrent -
+        this._leftCurrent -
+        item.layoutPaddingLeft -
+        item.layoutPaddingRight -
+        (extraOffset.offsetLeft + extraOffset.offsetRight),
+      height:
+        this._bottomCurrent -
+        this._topCurrent -
+        item.layoutPaddingTop -
+        item.layoutPaddingBottom -
+        (extraOffset.offsetTop + extraOffset.offsetBottom)
     };
-    return result;
-  }
-
-  protected _checkAutoIndent(items: ILayoutItem[]): IPadding {
-    const result = {
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0
-    };
-    const rightCurrent = this._chartViewBox.x2 - this._chartViewBox.x1 - this._rightCurrent;
-    const bottomCurrent = this._chartViewBox.y2 - this._chartViewBox.y1 - this._bottomCurrent;
-    items.filter;
-    items.forEach(i => {
-      if (!i.getAutoIndent()) {
-        return;
-      }
-      const vOrH = i.layoutOrient === 'left' || i.layoutOrient === 'right';
-      const outer = i.getLastComputeOutBounds();
-      if (vOrH) {
-        result.top = Math.max(result.top, outer.y1 - this._topCurrent);
-        result.bottom = Math.max(result.bottom, outer.y2 - bottomCurrent);
-      } else {
-        result.left = Math.max(result.left, outer.x1 - this._leftCurrent);
-        result.right = Math.max(result.right, outer.x2 - rightCurrent);
-      }
-    });
     return result;
   }
 }

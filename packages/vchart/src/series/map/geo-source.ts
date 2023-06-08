@@ -64,6 +64,14 @@ export function registerMapSource(
   geoSourceMap.set(key, dataView);
 }
 
+export function unregisterMapSource(key: string) {
+  if (!geoSourceMap.has(key)) {
+    warn(`map type of '${key}' does not exists.`);
+    return;
+  }
+  geoSourceMap.delete(key);
+}
+
 export function getMapSource(type: string) {
   return geoSourceMap.get(type);
 }

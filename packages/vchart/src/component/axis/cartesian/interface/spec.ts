@@ -1,5 +1,4 @@
-import type { IRectGraphicAttribute } from '@visactor/vrender';
-import type { IOrientType } from '../../../../typings';
+import type { IOrientType, IRectMarkSpec } from '../../../../typings';
 import type { IBandAxisSpec, ILinearAxisSpec, IGrid, ICommonAxisSpec } from '../../interface';
 import type { ICartesianDomainLine, ICartesianLabel, ITimeLayerType, ICartesianTitle } from './common';
 import type { AxisItemStateStyle } from '@visactor/vrender-components';
@@ -47,12 +46,20 @@ export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
     /**
      * 背景样式
      */
-    style?: Partial<IRectGraphicAttribute>;
+    style?: Partial<IRectMarkSpec>;
     /**
      * 背景在交互状态下的样式配置
      */
-    state?: AxisItemStateStyle<Partial<IRectGraphicAttribute>>;
+    state?: AxisItemStateStyle<Partial<IRectMarkSpec>>;
   };
+  /**
+   * 是否是3d模式的轴
+   */
+  mode?: '2d' | '3d';
+  /**
+   * 轴的z方向深度
+   */
+  depth?: number;
 };
 
 export type ICartesianLinearAxisSpec = ICartesianAxisCommonSpec & ILinearAxisSpec;

@@ -20,6 +20,7 @@ export interface ITooltipTextTheme {
 }
 
 export interface ITooltipTheme {
+  /** 容器样式配置 */
   panel?: {
     /** tooltip 容器内边距 */
     padding?: IPadding;
@@ -55,4 +56,13 @@ export interface ITooltipTheme {
   valueLabel?: ITooltipTextTheme;
   /** 内容项行间距 */
   spaceRow?: number;
+  /** 最大宽度 */
+  maxWidth?: number;
+  /** 最小宽度 */
+  minWidth?: number;
+  /** 偏移量 */
+  offset?: {
+    x?: number;
+    y?: number;
+  };
 }

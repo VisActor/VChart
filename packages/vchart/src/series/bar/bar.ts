@@ -38,7 +38,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       largeThreshold: this._spec.largeThreshold
     };
 
-    this._rectMark = this._createMark(this._barMarkType, 'bar', {
+    this._rectMark = this._createMark(this._barMarkType, this.type, {
+      morph: this._spec.morph?.enable ?? true,
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
@@ -53,8 +54,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this.setMarkStyle(
         rectMark,
         {
-          fill: this.getColorAttribute(),
-          fillOpacity: this._theme.fillOpacity
+          fill: this.getColorAttribute()
         },
         'normal',
         AttributeLevel.Series
@@ -73,7 +73,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       fill: this.getColorAttribute(),
       text: (datum: Datum) => {
         return datum[this.getStackValueField()];
-      }
+      },
+      z: this.dataToPositionZ.bind(this)
     });
   }
 
@@ -177,7 +178,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     this._rectMark.setAnimationConfig(
       animationConfig(
         DEFAULT_MARK_ANIMATION.bar(animationParams, appearPreset),
-        userAnimationConfig('bar', this._spec),
+        userAnimationConfig(this.type, this._spec),
         { dataIndex }
       )
     );

@@ -26,10 +26,14 @@ export interface ICartesianSeriesSpec extends ISeriesSpec {
    * 用于区间数据，声明区间末尾的数据字段。
    */
   y2Field?: string;
+
+  /**
+   * z轴字段
+   * 用于3d散点图等
+   */
+  zField?: string | string[];
 }
 
 export interface ICartesianSeriesTheme {
-  fillOpacity: number;
-  strokeOpacity: number;
   label?: Partial<ILabelSpec>;
 }

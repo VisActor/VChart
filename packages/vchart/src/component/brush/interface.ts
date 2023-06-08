@@ -1,19 +1,10 @@
 import type { SymbolType } from '@visactor/vrender';
-import type { IMarkSpec, IPolygonMarkSpec } from '../../typings';
+import type { IPolygonMarkSpec } from '../../typings';
 import type { IComponent } from '../interface';
 
 export type IBrush = IComponent;
 
-export interface IBrushStyle {
-  brush?: IMarkSpec<IPolygonMarkSpec>;
-}
-
-export interface IBrushSpec {
-  /**
-   * 组件可见性
-   * @default true
-   */
-  visible?: boolean;
+interface IBrushDataBindSpec {
   /**
    * 可刷取的regionIndex
    */
@@ -38,6 +29,13 @@ export interface IBrushSpec {
    * 刷取联动的seriesId
    */
   brushLinkSeriesId?: string | string[]; // 默认无系列
+}
+
+export interface IBrushTheme {
+  /**
+   * brush 的框选样式
+   */
+  style?: Partial<IPolygonMarkSpec>;
 
   /**
    * 框选范围内的图元样式
@@ -79,6 +77,14 @@ export interface IBrushSpec {
   delayTime?: number;
 }
 
+export interface IBrushSpec extends IBrushTheme, IBrushDataBindSpec {
+  /**
+   * 组件可见性
+   * @default true
+   */
+  visible?: boolean;
+}
+
 export type IBrushType = 'x' | 'y' | 'rect' | 'polygon';
 export type IBrushMode = 'single' | 'multiple';
 
@@ -101,6 +107,4 @@ export type selectedItemStyle = {
    * 图元的颜色透明度
    */
   colorAlpha?: number;
-} & IMarkSpec<IPolygonMarkSpec>;
-
-export type IBrushTheme = IBrushStyle;
+} & Partial<IPolygonMarkSpec>;

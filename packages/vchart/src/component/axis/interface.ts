@@ -1,8 +1,7 @@
 import type { IRectMark } from '../../mark/rect';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { Datum, IPadding, IPolarOrientType, IRuleMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
-import type { ICartesianAxisSpec, ICartesianAxisTheme } from './cartesian/interface';
-import type { IPolarAxisTheme } from './polar/interface';
+import type { ICartesianAxisSpec } from './cartesian/interface';
 import type { IComponent } from '../interface';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IModelSpec } from '../../model/interface';
@@ -13,11 +12,6 @@ export interface IAxis extends IComponent {
   valueToPosition: (value: any) => number;
   getScale: () => IBaseScale;
   orient: ICartesianAxisSpec['orient'] | IPolarOrientType;
-}
-
-export interface IAxisTheme {
-  cartesian?: ICartesianAxisTheme;
-  polar?: IPolarAxisTheme;
 }
 
 export interface IAxisItem<T> {
@@ -162,7 +156,6 @@ export type IGrid = IAxisItem<IRuleMarkSpec> & {
    */
   style?: IRuleMarkSpec | StyleCallback<IRuleMarkSpec | undefined>;
 };
-export type IGridTheme = IAxisItemTheme<IRuleMarkSpec>;
 
 // 刻度线配置
 export type ITick = IAxisItem<IRuleMarkSpec> & {
@@ -211,15 +204,6 @@ export type ITick = IAxisItem<IRuleMarkSpec> & {
    */
   state?: AxisItemStateStyle<IRuleMarkSpec>;
 };
-
-export interface ITickTheme extends IAxisItemTheme<IRuleMarkSpec> {
-  /**
-   * Length of tick lines
-   * 坐标轴刻度线的长度
-   * @default 4
-   */
-  tickSize?: number;
-}
 
 // 子刻度线配置
 export type ISubTick = IAxisItem<IRuleMarkSpec> & {
@@ -279,10 +263,6 @@ export type ILabel = IAxisItem<ITextMarkSpec> & {
    */
   state?: AxisItemStateStyle<ITextMarkSpec>;
 };
-export type ILabelTheme = IAxisItemTheme<ITextMarkSpec> & {
-  /** 标签同 tick 之间的间距 */
-  space?: number;
-};
 
 // 轴线配置
 export type IDomainLine = IAxisItem<IRuleMarkSpec> & {
@@ -295,7 +275,6 @@ export type IDomainLine = IAxisItem<IRuleMarkSpec> & {
    */
   state?: AxisItemStateStyle<IRuleMarkSpec>;
 };
-export type IDomainLineTheme = IAxisItemTheme<IRuleMarkSpec>;
 
 // 轴标题配置
 export type ITitle = IAxisItem<ITextMarkSpec> & {
@@ -345,9 +324,23 @@ export type ITitle = IAxisItem<ITextMarkSpec> & {
    */
   state?: AxisItemStateStyle<Partial<ITextMarkSpec>>;
 };
-export type ITitleTheme = IAxisItemTheme<ITextMarkSpec> & {
-  space?: number;
-};
 
 export type StyleCallback<T> = (value: any, index: number, datum: Datum) => T;
 export type AxisType = 'linear' | 'ordinal' | 'band' | 'point' | 'time' | 'log';
+
+export interface IAxisCommonTheme {
+  /** 网格线配置 */
+  grid?: IGrid;
+  /** 网格线配置 */
+  subGrid?: IGrid;
+  /** 轴线配置 */
+  domainLine?: IDomainLine;
+  /** 轴标签配置 */
+  label?: ILabel;
+  /** 轴标题配置 */
+  title?: ITitle;
+  /** 轴刻度线配置 */
+  tick?: ITick;
+  /** 轴刻度线配置 */
+  subTick?: ITick;
+}

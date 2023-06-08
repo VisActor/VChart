@@ -24,11 +24,6 @@ export abstract class BaseMarker extends BaseComponent {
   // marker 组件
   protected _markerComponent!: any;
 
-  protected _initTheme(theme?: any) {
-    super._initTheme(theme);
-    this._spec = merge({}, this._theme, this._originalSpec);
-  }
-
   created() {
     super.created();
     // event

@@ -275,8 +275,7 @@ export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
           x: this.dataToPositionX.bind(this),
           y: this.dataToPositionY.bind(this),
           fill: this.getDotColorAttribute(),
-          fillOpacity: this.dataToOpacity.bind(this),
-          size: this._theme?.size
+          fillOpacity: this.dataToOpacity.bind(this)
         },
         'normal',
         AttributeLevel.Series
@@ -330,8 +329,7 @@ export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
         {
           x: this.getRegionRectLeft.bind(this),
           y: this.dataToPositionY.bind(this),
-          fill: this.getColorAttribute(),
-          size: this._theme?.size
+          fill: this.getColorAttribute()
         },
         'normal',
         AttributeLevel.Series
@@ -385,7 +383,7 @@ export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
     ) {
       return 0;
     }
-    return this._theme?.fillOpacity;
+    return this._theme?.dot?.style?.fillOpacity ?? 1;
   }
 
   dataToGridBackgroundOpacity(datum: Datum): VisualType<number> {

@@ -44,6 +44,14 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this._fieldY = array(f);
   }
 
+  protected _fieldZ?: string[];
+  get fieldZ(): string[] | undefined {
+    return this._fieldZ;
+  }
+  setFieldZ(f?: string | string[]) {
+    this._fieldZ = f && array(f);
+  }
+
   protected _fieldX2!: string;
   get fieldX2() {
     return this._fieldX2;
@@ -81,6 +89,14 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this._scaleY = s;
   }
 
+  protected _scaleZ?: IBaseScale;
+  get scaleZ() {
+    return this._scaleZ;
+  }
+  setScaleZ(s: IBaseScale) {
+    this._scaleZ = s;
+  }
+
   _xAxisHelper!: IAxisHelper;
   getXAxisHelper() {
     return this._xAxisHelper;
@@ -96,6 +112,15 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
   }
   setYAxisHelper(h: IAxisHelper) {
     this._yAxisHelper = h;
+    this.onYAxisHelperUpdate();
+  }
+
+  _zAxisHelper?: IAxisHelper;
+  getZAxisHelper() {
+    return this._zAxisHelper;
+  }
+  setZAxisHelper(h: IAxisHelper) {
+    this._zAxisHelper = h;
     this.onYAxisHelperUpdate();
   }
 
@@ -116,6 +141,17 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       this._fieldY.forEach(f => {
         const result: { key: string; operations: Array<'max' | 'min' | 'values'> } = { key: f, operations: [] };
         if (isContinuous(this.getYAxisHelper().getScale(0).type)) {
+          result.operations = ['max', 'min'];
+        } else {
+          result.operations = ['values'];
+        }
+        fields.push(result);
+      });
+    }
+    if (this._fieldZ && this.getZAxisHelper()?.getScale) {
+      this._fieldZ.forEach(f => {
+        const result: { key: string; operations: Array<'max' | 'min' | 'values'> } = { key: f, operations: [] };
+        if (isContinuous(this.getZAxisHelper().getScale(0).type)) {
           result.operations = ['max', 'min'];
         } else {
           result.operations = ['values'];
@@ -180,6 +216,10 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this.onMarkPositionUpdate();
   }
 
+  onZAxisHelperUpdate(): void {
+    this.onMarkPositionUpdate();
+  }
+
   updateSpec(spec: any) {
     const originalSpec = this._originalSpec;
     const { xField, yField } = originalSpec;
@@ -196,6 +236,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     super.setAttrFromSpec();
     this.setFieldX(this._spec.xField);
     this.setFieldY(this._spec.yField);
+    this.setFieldZ(this._spec.zField);
     if (isValid(this._spec.direction)) {
       this._direction = this._spec.direction;
     }
@@ -273,6 +314,17 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       return Number.NaN;
     }
     return this.valueToPositionY(this.getDatumPositionValues(datum, this._fieldY));
+  }
+
+  dataToPositionZ(datum: Datum): number {
+    if (!this._zAxisHelper) {
+      return Number.NaN;
+    }
+    const { dataToPosition } = this._zAxisHelper;
+
+    return dataToPosition(this.getDatumPositionValues(datum, this._fieldZ), {
+      bandPosition: this._bandPosition
+    });
   }
 
   dataToPositionX1(datum: Datum): number {

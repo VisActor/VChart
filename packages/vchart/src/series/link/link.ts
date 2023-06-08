@@ -208,7 +208,7 @@ export class LinkSeries extends CartesianSeries<ILinkSeriesSpec> {
 
     const arrowMark = this._arrowMark;
     if (arrowMark) {
-      const arrowSize = this._theme?.size;
+      const arrowSize = (this._theme?.arrow?.style?.size as number) ?? 10;
       this.setMarkStyle(
         arrowMark,
         {

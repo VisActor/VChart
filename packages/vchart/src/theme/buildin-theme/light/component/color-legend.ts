@@ -1,6 +1,7 @@
+import type { IColorLegendTheme } from '../../../../component/legend';
 import { DEFAULT_CONTINUOUS_LEGEND_THEME } from '../../config';
 
-export const colorLegend = {
+export const colorLegend: IColorLegendTheme = {
   horizontal: {
     ...DEFAULT_CONTINUOUS_LEGEND_THEME,
     rail: {

@@ -1,5 +1,5 @@
 import type { IWaterfallSeriesTheme } from '../../../../series/waterfall/interface';
-import { DEFAULT_TEXT_FONT_SIZE as fontSize, DEFAULT_TEXT_FONT_FAMILY as fontFamily } from '../../config';
+import { DEFAULT_TEXT_FONT_SIZE as fontSize } from '../../config';
 
 export const waterfall: IWaterfallSeriesTheme = {
   seriesFieldName: {
@@ -7,8 +7,6 @@ export const waterfall: IWaterfallSeriesTheme = {
     increase: 'increase',
     decrease: 'decrease'
   },
-  fillOpacity: 1,
-  strokeOpacity: 1,
   leaderLine: {
     style: {
       stroke: 'black',
@@ -21,7 +19,6 @@ export const waterfall: IWaterfallSeriesTheme = {
     position: 'withChange',
     style: {
       fill: 'black',
-      fontFamily,
       fontSize
     }
   },
@@ -30,7 +27,6 @@ export const waterfall: IWaterfallSeriesTheme = {
     offset: 12,
     position: 'inside',
     style: {
-      fontFamily,
       fontSize
     }
   }

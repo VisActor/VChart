@@ -206,7 +206,7 @@ export class ContinuousLegend extends BaseLegend {
             this.setSelectedData(selectedData);
           }
           this.event.emit(ChartEvent.legendFilter, { model: this, value: selectedData, event: e });
-        }, 100)
+        }, 30)
       );
     }
   }

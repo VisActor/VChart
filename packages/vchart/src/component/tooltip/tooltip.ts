@@ -29,7 +29,6 @@ import { TOOLTIP_EL_CLASS_NAME } from './handler/constants';
 // eslint-disable-next-line no-duplicate-imports
 import { getTooltipActualActiveType, showTooltip, isEmptyPos } from './utils';
 import { isSameDimensionInfo } from '../../event/events/dimension/util';
-import { defaultTooltipSpec } from './config';
 import { Event_Bubble_Level, Event_Source_Type } from '../../constant';
 import type { DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
 // eslint-disable-next-line no-duplicate-imports
@@ -117,10 +116,7 @@ export class Tooltip extends BaseComponent {
       this.event.off(eventType, handler);
     });
     this._eventList = [];
-    if (this.tooltipHandler) {
-      this.tooltipHandler.removeTooltip?.();
-      this.tooltipHandler.release?.();
-    }
+    this.tooltipHandler?.release?.();
   }
 
   protected initHandler() {
@@ -147,8 +143,8 @@ export class Tooltip extends BaseComponent {
   protected initProcessor() {
     // 初始化 tooltip 类型
     this._processor = {
-      mark: new MarkTooltipProcessor(this, this.tooltipHandler),
-      dimension: new DimensionTooltipProcessor(this, this.tooltipHandler)
+      mark: new MarkTooltipProcessor(this),
+      dimension: new DimensionTooltipProcessor(this)
     };
   }
 
@@ -330,7 +326,6 @@ export class Tooltip extends BaseComponent {
     super.setAttrFromSpec();
     const userSpec = this._spec as ITooltipSpec;
     this._spec = {
-      ...defaultTooltipSpec,
       ...userSpec,
       visible: isValid(userSpec.visible) ? userSpec.visible : true,
       activeType: getTooltipActualActiveType(userSpec),

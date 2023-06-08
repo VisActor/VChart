@@ -6,7 +6,6 @@
  * 3. 目前主题只到系列，不到系列的 mark，对于这个分界没有太清楚，后续根据需求再做开放
  */
 import type { ITheme } from '../../interface';
-import { cartesianAxis } from './component/cartesian-axis';
 import { colorLegend } from './component/color-legend';
 import { colorScheme } from './color-scheme';
 import { crosshair } from './component/crosshair';
@@ -15,22 +14,31 @@ import { discreteLegend } from './component/discrete-legend';
 import { markLine } from './component/mark-line';
 import { markArea } from './component/mark-area';
 import { markPoint } from './component/mark-point';
-import { polarAxis } from './component/polar-axis';
 import { sizeLegend } from './component/size-legend';
 import { tooltip } from './component/tooltip';
 import { player } from './component/player';
 import { series } from './series';
 import { brush } from './component/brush';
+import { commonAxis } from './component/common-axis';
+import { axisX, axisY } from './component/cartesian-axis';
+import { axisAngle, axisRadius } from './component/polar-axis';
+import { indicator } from './component/indicator';
+import { title } from './component/title';
+import { DEFAULT_TEXT_FONT_FAMILY } from '../config';
 
 export const lightTheme: ITheme = {
   name: 'light',
   padding: 12,
+  fontFamily: DEFAULT_TEXT_FONT_FAMILY,
   colorScheme,
   discreteLegend,
   colorLegend,
   sizeLegend,
-  cartesianAxis,
-  polarAxis,
+  axis: commonAxis,
+  axisX,
+  axisY,
+  axisAngle,
+  axisRadius,
   markLine,
   markArea,
   markPoint,
@@ -39,5 +47,7 @@ export const lightTheme: ITheme = {
   dataZoom,
   crosshair,
   player,
-  brush
+  brush,
+  indicator,
+  title
 };

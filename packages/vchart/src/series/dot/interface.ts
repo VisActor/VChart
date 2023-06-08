@@ -89,7 +89,6 @@ export interface IDotSeriesSpec extends ICartesianSeriesSpec {
 }
 
 export interface IDotSeriesTheme extends ICartesianSeriesTheme {
-  size: number;
   dot?: Partial<IMarkTheme<ISymbolMarkSpec>>;
   symbol?: Partial<IMarkTheme<ISymbolMarkSpec>>;
   title?: ISequenceLabel;

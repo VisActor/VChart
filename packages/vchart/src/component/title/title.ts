@@ -69,11 +69,6 @@ export class Title extends BaseComponent implements ITitle {
     return titles;
   }
 
-  protected _initTheme(theme?: any) {
-    super._initTheme(theme);
-    this._spec = merge({}, this._theme, this._originalSpec);
-  }
-
   onRender(ctx: any): void {
     // do nothing
   }

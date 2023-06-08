@@ -66,6 +66,10 @@ export interface IRenderOption {
    * @default false
    */
   disableDirtyBounds?: boolean;
+  /**
+   * 是否开启view3d的变换模式
+   */
+  enableView3dTransform?: boolean;
 }
 
 export type CompilerListenerParameters = {

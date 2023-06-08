@@ -1,10 +1,8 @@
-import type { ICartesianCrosshairSpec, IPolarCrosshairSpec } from '.';
+import type { ICartesianCrosshairSpec, ICommonCrosshairSpec, IPolarCrosshairSpec } from '.';
 
-export interface ICrosshairTheme {
+export interface ICrosshairTheme extends ICommonCrosshairSpec {
   xField?: ICartesianCrosshairSpec['xField'];
   yField?: ICartesianCrosshairSpec['yField'];
   categoryField?: IPolarCrosshairSpec['categoryField'];
   valueField?: IPolarCrosshairSpec['valueField'];
-  labelZIndex?: number;
-  gridZIndex?: number;
 }

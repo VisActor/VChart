@@ -1,5 +1,6 @@
 import type { ControllerLayout, OrientType } from '@visactor/vrender-components';
 import type { ISymbolMarkSpec, IRectMarkSpec } from '../../../typings';
+// FIXME: export in @visactor/vrender-components
 import type { BaseGraphicAttributes } from '@visactor/vrender-components/es/core/type';
 
 export interface IPlayerTheme {

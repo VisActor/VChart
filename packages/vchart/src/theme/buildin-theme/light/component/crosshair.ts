@@ -1,7 +1,7 @@
 import type { ICrosshairRectSpec, ICrosshairTheme } from '../../../../component/crosshair/interface';
-import { DEFAULT_TEXT_FONT_FAMILY as fontFamily } from '../../config';
 
 export const crosshair: ICrosshairTheme = {
+  trigger: 'hover',
   xField: {
     visible: false,
     line: {
@@ -16,7 +16,6 @@ export const crosshair: ICrosshairTheme = {
     label: {
       visible: true,
       style: {
-        fontFamily,
         fontWeight: 'normal',
         fill: '#fff',
         fontSize: 12
@@ -49,7 +48,6 @@ export const crosshair: ICrosshairTheme = {
     label: {
       visible: true,
       style: {
-        fontFamily,
         fontWeight: 'normal',
         fill: '#fff',
         fontSize: 12
@@ -82,7 +80,6 @@ export const crosshair: ICrosshairTheme = {
     label: {
       visible: true,
       style: {
-        fontFamily,
         fontWeight: 'normal',
         fill: '#fff',
         fontSize: 12
@@ -115,7 +112,6 @@ export const crosshair: ICrosshairTheme = {
     label: {
       visible: true,
       style: {
-        fontFamily,
         fontWeight: 'normal',
         fill: '#fff',
         fontSize: 12

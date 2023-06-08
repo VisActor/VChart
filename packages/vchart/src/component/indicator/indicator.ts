@@ -7,7 +7,6 @@ import type { LayoutItem } from '../../model/layout-item';
 import { BaseComponent } from '../base';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorItemSpec, IIndicatorTheme } from './interface';
-import { defaultIndicatorConfig } from './config';
 import type { Maybe } from '../../typings';
 import { isValid, isFunction, array, merge, eachSeries } from '../../util';
 import { isEqual } from '@visactor/vutils';
@@ -61,15 +60,6 @@ export class Indicator extends BaseComponent implements IIndicator {
     this.initData();
     // event
     this.initEvent();
-  }
-
-  _initTheme(theme?: any) {
-    super._initTheme(theme);
-    const { title, content } = defaultIndicatorConfig;
-    this._spec.title = merge({}, title, this._theme?.title, this._originalSpec.title);
-    this._spec.content = array(this._originalSpec.content || []).map(contentSpec =>
-      merge({}, content, this._theme?.content, contentSpec)
-    );
   }
 
   setAttrFromSpec() {
@@ -160,7 +150,8 @@ export class Indicator extends BaseComponent implements IIndicator {
     const { x, y } = region.getLayoutStartPoint();
 
     const contentComponentSpec: IIndicatorItemSpec[] = [];
-    array(this._spec.content).forEach((contentSpec: IIndicatorItemSpec) => {
+    array(this._spec.content).forEach((eachItem: IIndicatorItemSpec) => {
+      const contentSpec = merge({}, this._theme.content, eachItem);
       contentComponentSpec.push({
         visible: contentSpec.visible !== false && (contentSpec.field ? this._activeDatum !== null : true),
         space: contentSpec.space || this._gap,

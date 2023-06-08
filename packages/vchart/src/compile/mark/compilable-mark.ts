@@ -173,7 +173,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   }
 
   /** morph动画关联关系配置 */
-  protected _morph: boolean = true;
+  protected _morph: boolean = false;
   getMorph() {
     return this._morph;
   }
