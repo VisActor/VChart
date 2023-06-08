@@ -31,6 +31,7 @@
     "@visactor/vchart": "workspace:0.0.1-alpha.0",
     "@visactor/vutils": "0.9.0-alpha.2",
     "@visactor/vgrammar": "0.0.10-alpha.0",
+    "@visactor/vrender": "0.9.0-alpha.1",
     "react-is": "^18.2.0"
   },
   "devDependencies": {
@@ -38,6 +39,10 @@
     "@internal/eslint-config": "workspace:*",
     "@internal/ts-config": "workspace:*",
     "@rushstack/eslint-patch": "~1.1.4",
+    "@types/jest": "^26.0.0",
+    "@types/offscreencanvas": "2019.6.4",
+    "jest": "^26.0.0",
+    "ts-jest": "^26.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "@types/react": "^18.0.0",
