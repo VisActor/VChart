@@ -22,7 +22,8 @@
     "test": "jest",
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit/",
-    "test-watch": "DEBUG_MODE=1 jest --watch"
+    "test-watch": "DEBUG_MODE=1 jest --watch",
+    "ci": "node github-ci.js"
   },
   "files": [
     "esm",
@@ -83,7 +84,9 @@
     "d3-geo": "^3.0.1",
     "d3-hexbin": "^0.2.2",
     "d3-hierarchy": "^3.1.1",
-    "vite": "3.2.6"
+    "vite": "3.2.6",
+    "node-fetch": "2.6.7",
+    "form-data": "~4.0.0"
   },
   "dependencies": {
     "@visactor/vrender": "0.9.0-alpha.1",
