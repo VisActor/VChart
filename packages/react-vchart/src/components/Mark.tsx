@@ -5,7 +5,7 @@ import type { IView, MarkSpec } from '@visactor/vgrammar';
 import ViewContext from '../context/view';
 import { uid } from '../util';
 
-export interface MarkProps extends Omit<MarkSpec, 'name'> {
+export interface MarkProps extends Omit<MarkSpec, 'name' | 'id'> {
   id?: string | number;
   glyphType?: string;
 }

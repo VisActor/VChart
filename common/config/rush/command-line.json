@@ -18,6 +18,14 @@
       "allowWarningsInSuccessfulBuild": true
     },
     {
+      "name": "compile",
+      "summary": "",
+      "enableParallelism": true,
+      "commandKind": "bulk",
+      "ignoreMissingScript": true,
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
       "name": "eslint",
       "summary": "",
       "enableParallelism": true,

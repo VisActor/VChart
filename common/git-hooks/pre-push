@@ -1,3 +1,4 @@
 #!/bin/sh
 
+node common/scripts/install-run-rush.js compile --only tag:package
 node common/scripts/install-run-rush.js test --only tag:package
