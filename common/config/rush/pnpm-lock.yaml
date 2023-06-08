@@ -87,7 +87,7 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 20.2.5
       '@types/offscreencanvas': 2019.6.4
-      '@types/react': 18.2.8
+      '@types/react': 18.2.9
       '@types/react-dom': 18.2.4
       '@types/react-is': 17.0.4
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
@@ -173,7 +173,7 @@ importers:
       '@tarojs/runtime': 3.3.17
       '@tarojs/taro': 3.3.17
       '@tarojs/webpack-runner': 3.3.17
-      '@types/react': 18.2.8
+      '@types/react': 18.2.9
       '@types/webpack-env': 1.18.1
       '@typescript-eslint/eslint-plugin': 5.30.0_cow5zg7tx6c3eisi5a4ud5kwia
       '@typescript-eslint/parser': 5.30.0_vwud3sodsb5zxmzckoj7rdwdbq
@@ -3594,7 +3594,7 @@ packages:
   /@types/react-dom/18.2.4:
     resolution: {integrity: sha512-G2mHoTMTL4yoydITgOGwWdWMVd8sNgyEP85xVmMKAPUBwQWm9wBPQUmvbeF4V3WBY1P7mmL4BkjQ0SqUpf1snw==}
     dependencies:
-      '@types/react': 18.2.8
+      '@types/react': 18.2.9
     dev: true
 
   /@types/react-is/17.0.4:
@@ -3611,8 +3611,8 @@ packages:
       csstype: 3.1.2
     dev: true
 
-  /@types/react/18.2.8:
-    resolution: {integrity: sha512-lTyWUNrd8ntVkqycEEplasWy2OxNlShj3zqS0LuB1ENUGis5HodmhM7DtCoUGbxj3VW/WsGA0DUhpG6XrM7gPA==}
+  /@types/react/18.2.9:
+    resolution: {integrity: sha512-pL3JAesUkF7PEQGxh5XOwdXGV907te6m1/Qe1ERJLgomojS6Ne790QiA7GUl434JEkFA2aAaB6qJ5z4e1zJn/w==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
@@ -5939,7 +5939,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001495
-      electron-to-chromium: 1.4.421
+      electron-to-chromium: 1.4.425
     dev: true
 
   /browserslist/4.21.7:
@@ -5948,7 +5948,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001495
-      electron-to-chromium: 1.4.421
+      electron-to-chromium: 1.4.425
       node-releases: 2.0.12
       update-browserslist-db: 1.0.11_browserslist@4.21.7
 
@@ -8020,8 +8020,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.421:
-    resolution: {integrity: sha512-wZOyn3s/aQOtLGAwXMZfteQPN68kgls2wDAnYOA8kCjBvKVrW5RwmWVspxJYTqrcN7Y263XJVsC66VCIGzDO3g==}
+  /electron-to-chromium/1.4.425:
+    resolution: {integrity: sha512-wv1NufHxu11zfDbY4fglYQApMswleE9FL/DSeyOyauVXDZ+Kco96JK/tPfBUaDqfRarYp2WH2hJ/5UnVywp9Jg==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
@@ -9517,7 +9517,7 @@ packages:
       webpack: ^4.0.0 || ^5.0.0
     dependencies:
       loader-utils: 2.0.4
-      schema-utils: 3.1.2
+      schema-utils: 3.2.0
       webpack: 4.46.0
     dev: true
 
@@ -13355,7 +13355,7 @@ packages:
       klona: 2.0.6
       less: 4.1.3
       loader-utils: 2.0.4
-      schema-utils: 3.1.2
+      schema-utils: 3.2.0
       webpack: 4.46.0
     dev: true
 
@@ -13957,7 +13957,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.5
+      minimist: 1.2.8
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -15611,7 +15611,7 @@ packages:
       klona: 2.0.6
       loader-utils: 2.0.4
       postcss: 8.3.5
-      schema-utils: 3.1.2
+      schema-utils: 3.2.0
       semver: 7.3.4
       webpack: 4.46.0
     dev: true
@@ -16237,7 +16237,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.5
+      minimist: 1.2.8
       strip-json-comments: 2.0.1
     dev: true
 
@@ -17171,7 +17171,7 @@ packages:
       loader-utils: 2.0.4
       neo-async: 2.6.2
       sass: 1.32.11
-      schema-utils: 3.1.2
+      schema-utils: 3.2.0
       semver: 7.3.4
       webpack: 4.46.0
     dev: true
@@ -17232,8 +17232,8 @@ packages:
       ajv-keywords: 3.5.2_ajv@6.12.6
     dev: true
 
-  /schema-utils/3.1.2:
-    resolution: {integrity: sha512-pvjEHOgWc9OWA/f/DE3ohBWTD6EleVLf7iFUkoSwAxttdBhB9QUebQgxER2kWueOvRJXPHNnyrvvh9eZINB8Eg==}
+  /schema-utils/3.2.0:
+    resolution: {integrity: sha512-0zTyLGyDJYd/MBxG1AhJkKa6fpEBds4OQO2ut0w7OYG+ZGhGea09lijvzsqegYSik88zc7cUtIlnnO+/BvD6gQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
       '@types/json-schema': 7.0.12
@@ -19443,7 +19443,7 @@ packages:
       file-loader: 6.2.0_webpack@4.46.0
       loader-utils: 2.0.4
       mime-types: 2.1.35
-      schema-utils: 3.1.2
+      schema-utils: 3.2.0
       webpack: 4.46.0
     dev: true
 
