@@ -24,9 +24,9 @@ export interface ILabelSpec {
   animation?: BaseLabelAttrs['animation'];
 }
 
-interface LabelStateStyle<T> {
+type LabelStateStyle<T> = {
   hover?: T;
   hover_reverse?: T;
   selected?: T;
   selected_reverse?: T;
-}
+};
