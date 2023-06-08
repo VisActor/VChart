@@ -1,4 +1,4 @@
-import type { IElement, IAnimationTypeConfig } from '@visactor/vgrammar';
+import type { IAnimationTypeConfig } from '@visactor/vgrammar';
 import type { DirectionType } from '../../typings';
 import { Direction } from '../../typings';
 

@@ -68,7 +68,6 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
     style?: IMarkSpec<ITextMarkSpec>;
     formatMethod?: (text: string | number) => string | string[];
   };
-
   /**
    * 是否开启框选, 如果不开启则支持selectedBackground拖拽（框选和拖拽两者互斥）
    * @default true
@@ -76,4 +75,11 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
   brushSelect?: boolean;
 }
 
-export type IDataZoomTheme = IDataZoomStyle;
+export type IDataZoomTheme = IDataZoomStyle & {
+  /** 显示的位置 */
+  orient?: IDataZoomSpec['orient'];
+  /** 组件宽度 */
+  width?: IDataZoomSpec['width'];
+  /** 组件高度 */
+  height?: IDataZoomSpec['height'];
+};

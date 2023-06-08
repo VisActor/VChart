@@ -9,7 +9,6 @@ export const funnel: IFunnelSeriesTheme = {
   },
   label: {
     style: {
-      fontFamily: 'sans-serif',
       fontSize,
       fill: 'white',
       textBaseline: 'middle',
@@ -18,7 +17,6 @@ export const funnel: IFunnelSeriesTheme = {
   },
   outerLabel: {
     style: {
-      fontFamily: 'sans-serif',
       fontSize,
       fill: '#707070'
     },
@@ -30,7 +28,6 @@ export const funnel: IFunnelSeriesTheme = {
   },
   transformLabel: {
     style: {
-      fontFamily: 'sans-serif',
       fontSize,
       fill: '#707070',
       textBaseline: 'middle'

@@ -53,15 +53,15 @@ import type { IPieAnimationParams, PieAppearPreset } from './animation/animation
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
+import type { IArcLabelSpec, IPie3dSeriesSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar';
 import { centerOffsetConfig } from './animation/centerOffset';
 
-export class PieSeries extends PolarSeries<IPieSeriesSpec> implements IArcSeries {
-  static readonly type: string = SeriesTypeEnum.pie;
-  type = SeriesTypeEnum.pie;
+type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & { type: string };
+
+export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
   protected _arcMarkType: MarkTypeEnum = MarkTypeEnum.arc;
 
   protected _viewDataLabel!: SeriesData;
@@ -156,7 +156,8 @@ export class PieSeries extends PolarSeries<IPieSeriesSpec> implements IArcSeries
   }
 
   initMark(): void {
-    this._pieMark = this._createMark(this._arcMarkType, 'pie', {
+    this._pieMark = this._createMark(this._arcMarkType, this.type, {
+      morph: this._spec.morph?.enable ?? true,
       defaultMorphElementKey: this._seriesField,
       key: this._seriesField,
       groupKey: this._seriesField,
@@ -200,7 +201,7 @@ export class PieSeries extends PolarSeries<IPieSeriesSpec> implements IArcSeries
           x: () => this._center?.x ?? this._region.getLayoutRect().width / 2,
           y: () => this._center?.y ?? this._region.getLayoutRect().height / 2,
           fill: this.getColorAttribute(),
-          fillOpacity: this._theme?.fillOpacity,
+          fillOpacity: this._theme?.pie?.style?.fillOpacity ?? 1,
           outerRadius: isSpecValueWithScale(this._outerRadius)
             ? this._outerRadius
             : () => this.computeLayoutRadius() * this._outerRadius,
@@ -543,10 +544,21 @@ export class PieSeries extends PolarSeries<IPieSeriesSpec> implements IArcSeries
   }
 }
 
-export class Pie3dSeries extends PieSeries {
+export class PieSeries extends BasePieSeries<IPieSeriesSpec> implements IArcSeries {
+  static readonly type: string = SeriesTypeEnum.pie;
+  type = SeriesTypeEnum.pie;
+}
+
+export class Pie3dSeries extends BasePieSeries<IPie3dSeriesSpec> implements IArcSeries {
   static readonly type: string = SeriesTypeEnum.pie3d;
   type = SeriesTypeEnum.pie3d;
   protected _arcMarkType: MarkTypeEnum = MarkTypeEnum.arc3d;
+  protected _angle3d: number;
+
+  setAttrFromSpec(): void {
+    super.setAttrFromSpec();
+    this._angle3d = this._spec?.angle3d ?? -Math.PI / 3;
+  }
 
   initMarkStyle(): void {
     const pieMark = this._pieMark;
@@ -556,13 +568,9 @@ export class Pie3dSeries extends PieSeries {
         {
           x: () => this._center?.x ?? this._region.getLayoutRect().width / 2,
           y: () => this._center?.y ?? this._region.getLayoutRect().height / 2,
-          beta: () => -Math.PI / 3,
-          anchor3d: () => [
-            this._center?.x ?? this._region.getLayoutRect().width / 2,
-            this._center?.y ?? this._region.getLayoutRect().height / 2
-          ],
+          beta: () => this._angle3d,
           fill: this.getColorAttribute(),
-          fillOpacity: this._theme?.fillOpacity,
+          fillOpacity: this._theme?.pie?.style?.fillOpacity ?? 1,
           outerRadius: () => this.computeLayoutRadius() * this._outerRadius,
           innerRadius: () => this.computeLayoutRadius() * this._innerRadius,
           cornerRadius: () => this.computeLayoutRadius() * this._cornerRadius,

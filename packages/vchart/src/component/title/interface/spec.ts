@@ -1,4 +1,3 @@
-import type { SceneNodeMap } from '../../../compile/interface';
 import type { IComponent } from '../../interface';
 import type { ITextGraphicAttribute, IRichTextCharacter, RichTextWordBreak } from '@visactor/vrender';
 import type { IModelSpec } from '../../../model/interface';
@@ -153,7 +152,3 @@ export interface ITitleSpec extends Omit<IModelSpec, 'orient'> {
 export type Text = StringOrNumber;
 
 export type ITitle = IComponent;
-
-type ITitleComponents = 'title';
-
-export type TitleSceneNodeMap = SceneNodeMap<ITitleComponents>;

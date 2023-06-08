@@ -19,10 +19,10 @@ export interface ITooltipSpec
   triggerOff?: 'hover' | 'click' | 'none';
 
   /** tooltip样式 */
-  style?: ITooltipTheme;
+  style?: Omit<ITooltipTheme, 'maxWidth' | 'minWidth' | 'offset'>;
 
   /** 自定义handler方法 */
-  handler?: ITooltipHandlerSpec;
+  handler?: Partial<ITooltipHandlerSpec>;
 
   /** tooltip 渲染方式，默认为 html */
   renderMode?: 'html' | 'canvas';
@@ -63,13 +63,10 @@ export interface ITooltipSpec
 }
 
 export interface ITooltipHandlerSpec {
-  /** 显示tooltip，可选返回是否遇到异常 */
-  showTooltip?: (
-    activeType: TooltipActiveType,
-    data: TooltipData,
-    params: TooltipHandlerParams
-  ) => Maybe<TooltipResult>;
-  hideTooltip?: (params: TooltipHandlerParams) => void;
-  removeTooltip?: () => void;
-  release?: () => void;
+  /** 显示 tooltip，可以选择返回是否遇到异常 */
+  showTooltip: (activeType: TooltipActiveType, data: TooltipData, params: TooltipHandlerParams) => Maybe<TooltipResult>;
+  /** 隐藏 tooltip */
+  hideTooltip: (params: TooltipHandlerParams) => void;
+  /** 释放 tooltip */
+  release: () => void;
 }

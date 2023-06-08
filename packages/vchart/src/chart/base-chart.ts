@@ -367,7 +367,14 @@ export class BaseChart extends CompilableBase implements IChart {
   private _initLayoutFunc() {
     this._layoutFunc = this._option.layout;
     if (!this._layoutFunc) {
-      const layout = new (Factory.getLayout(this._spec.layout?.type ?? 'base'))(this._spec.layout);
+      // 判断是否使用3d的layout
+      let use3dLayout = false;
+      if (this._spec.zField) {
+        use3dLayout = true;
+      }
+      const layout = new (Factory.getLayout(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
+        this._spec.layout
+      );
       this._layoutFunc = layout.layoutItems.bind(layout);
     }
   }

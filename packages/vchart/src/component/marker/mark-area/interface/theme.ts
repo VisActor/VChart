@@ -1,10 +1,10 @@
 import type { IMarkAreaLabelPosition } from '@visactor/vrender-components';
-import type { ConvertToMarkStyleSpec, IRuleMarkSpec } from '../../../../typings';
+import type { ConvertToMarkStyleSpec, IPolygonMarkSpec } from '../../../../typings';
 import type { IMarkerLabelSpec } from '../../interface';
 
 export interface IMarkAreaTheme {
   area?: {
-    style?: ConvertToMarkStyleSpec<Omit<IRuleMarkSpec, 'visible'>>;
+    style?: ConvertToMarkStyleSpec<Omit<IPolygonMarkSpec, 'visible'>>;
   };
 
   label?: {

@@ -88,6 +88,8 @@ export interface ICommonSpec {
   opacity?: number;
   lineWidth?: number;
   lineDash?: number[];
+  lineDashOffset?: number;
+
   cursor?: Cursor;
   zIndex?: number;
   borderSize?: number;
@@ -125,6 +127,35 @@ export interface ICommonSpec {
    * 纹理之间空隙的大小
    */
   texturePadding?: number;
+
+  /**
+   * 外边框
+   */
+  outerBorder?: {
+    /**
+     * 间距
+     */
+    distance: number | string;
+    stroke?: string | IGradient;
+    strokeOpacity?: number;
+    lineWidth?: number;
+    lineDash?: number[];
+    lineDashOffset?: number;
+  };
+  /**
+   * 内边框
+   */
+  innerBorder?: {
+    /**
+     * 间距
+     */
+    distance: number | string;
+    stroke?: string | IGradient;
+    strokeOpacity?: number;
+    lineWidth?: number;
+    lineDash?: number[];
+    lineDashOffset?: number;
+  };
 
   [key: string]: any;
 }
@@ -173,6 +204,7 @@ export interface IAreaMarkSpec extends ILineLikeMarkSpec {
 export interface ILineMarkSpec extends ILineLikeMarkSpec {
   lineCap?: LineStrokeCap;
   lineJoin?: LineStrokeJoin;
+  miterLimit?: number;
   strokeBoundsBuffer?: number;
 }
 
@@ -208,11 +240,28 @@ export interface ITextMarkSpec extends IFillMarkSpec {
 export type IPositionedTextMarkSpec = Omit<ITextMarkSpec, 'align' | 'textAlign' | 'baseline' | 'textBaseline'>;
 
 export interface IRectMarkSpec extends IFillMarkSpec {
+  /**
+   * @deprecated 后续需要替换成 borderRadius
+   */
   cornerRadius?: number;
+  /**
+   * @deprecated 后续需要替换成 borderRadius
+   */
   cornerRadiusTopLeft?: number;
+  /**
+   * @deprecated 后续需要替换成 borderRadius
+   */
   cornerRadiusTopRight?: number;
+  /**
+   * @deprecated 后续需要替换成 borderRadius
+   */
   cornerRadiusBottomLeft?: number;
+  /**
+   * @deprecated 后续需要替换成 borderRadius
+   */
   cornerRadiusBottomRight?: number;
+
+  borderRadius?: number | number[];
 
   width?: number;
   height?: number;

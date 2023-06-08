@@ -123,57 +123,52 @@ export interface IChartSpec {
    * 图表色系配置
    */
   color?: string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>;
-  /** 系列 */
+  /**
+   * 系列
+   * @description 仅在组合图中使用, 文档中除组合图外均未透出该配置
+   */
   series?: ISeriesSpec[];
   /**
    * 系列样式
    * @description 仅在图表配置了seriesField时生效
    */
   seriesStyle?: ISeriesStyle;
-  /** region配置 */
-  region?: IRegionSpec[];
-  /** 图例配置 */
-  legends?: IDiscreteLegendSpec | IDiscreteLegendSpec[];
-  /**
-   * 十字辅助线配置
-   */
-  crosshair?: ICrosshairSpec | ICrosshairSpec[];
+
   /** hover 交互 */
   hover?: boolean | IHoverSpec;
   /** select 交互 */
   select?: boolean | ISelectSpec;
-  /** tooltip */
-  tooltip?: ITooltipSpec;
+
+  /** region配置 */
+  region?: IRegionSpec[];
+  /** 图表标题配置 */
+  title?: ITitleSpec;
   /** 布局配置 */
   layout?: ILayoutSpec;
+  /** 图例配置 */
+  legends?: IDiscreteLegendSpec | IDiscreteLegendSpec[];
+  /** 十字辅助线配置 */
+  crosshair?: ICrosshairSpec | ICrosshairSpec[];
+  /** tooltip配置 */
+  tooltip?: ITooltipSpec;
   /** 播放器配置 */
   player?: IPlayer;
   /** 缩略轴配置 */
   dataZoom?: IDataZoomSpec[];
+  /** 滚动条配置 */
+  scrollBar?: IScrollBarSpec[];
   /** 框选配置 */
   brush?: IBrushSpec;
-  /**
-   * 全局 scale 配置
-   */
+  /** 全局 scale 配置 */
   scales?: IVisualSpecScale<unknown, unknown>[];
-  /**
-   * 自定义mark
-   */
+  /** 自定义mark */
   customMark?: ICustomMarkSpec<EnableMarkType>[];
-  /**
-   * 图表上的主题定义
-   */
+  /** 图表上的主题定义 */
   theme?: Omit<ITheme, 'name'>;
-  /**
-   * 图表标题配置
-   */
-  title?: ITitleSpec;
   /**
    * 图表背景色配置，优先级高于构造函数中的 background 配置
    */
   background?: string;
-  /** 滚动条配置 */
-  scrollBar?: IScrollBarSpec[];
 
   // TODO: 补充动画配置
 }

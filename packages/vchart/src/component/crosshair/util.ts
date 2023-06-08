@@ -1,23 +1,5 @@
 import type { Tag } from '@visactor/vrender-components';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IPadding } from '../../typings';
-import { merge, isValidNumber } from '../../util';
-import { defaultCrossHairConfig } from './config';
-import type { ICartesianCrosshairSpec, IPolarCrosshairSpec, ICrosshairTheme } from './interface';
-
-export const getCrossHairConfig = (theme: ICrosshairTheme): ICartesianCrosshairSpec | IPolarCrosshairSpec => {
-  return merge({}, defaultCrossHairConfig, theme);
-};
-
-export const getPaddingArray = (padding?: number | IPadding): number[] => {
-  if (isValidNumber(padding)) {
-    return [padding, padding, padding, padding];
-  }
-  if (padding) {
-    return [padding.top || 0, padding.right || 0, padding.bottom || 0, padding.left || 0];
-  }
-  return [0, 0, 0, 0];
-};
 
 export function limitTagInBounds(shape: Tag, bounds: IBoundsLike) {
   const { x1: regionMinX, y1: regionMinY, x2: regionMaxX, y2: regionMaxY } = bounds;

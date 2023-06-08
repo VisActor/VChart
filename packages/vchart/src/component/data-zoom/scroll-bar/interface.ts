@@ -29,4 +29,17 @@ export interface IScrollBarSpec extends IDataFilterComponentSpec, IScrollBarStyl
   limitRange?: [number, number];
 }
 
-export type IScrollBarTheme = IScrollBarStyle;
+export type IScrollBarTheme = IScrollBarStyle & {
+  /** 显示的位置 */
+  orient?: IScrollBarSpec['orient'];
+  /** 组件宽度 */
+  width?: IScrollBarSpec['width'];
+  /** 组件高度 */
+  height?: IScrollBarSpec['height'];
+  /** 滑块是否圆角。 */
+  round?: IScrollBarSpec['round'];
+  /**
+   * 滚动条内边距，影响滑轨的实际可用空间 [top, right, bottom, left]
+   */
+  innerPadding?: IScrollBarSpec['innerPadding'];
+};

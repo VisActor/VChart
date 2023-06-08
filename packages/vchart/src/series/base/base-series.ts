@@ -542,8 +542,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   initRootMark() {
     this._rootMark = this._createMark(MarkTypeEnum.group, `seriesGroup_${this.type}_${this.id}`, {
       parent: this._region.getGroupMark?.(),
-      dataView: false,
-      support3d: this._spec.support3d
+      dataView: false
     }) as IGroupMark;
     this._rootMark.setZIndex(this.layoutZIndex);
   }
@@ -901,7 +900,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       depend,
       label,
       progressive,
-      support3d
+      support3d = this._spec.support3d || !!(this._spec as any).zField,
+      morph
     } = option;
     const m = super._createMark<T>(type, name, {
       key: key ?? this._getDataIdKey(),
@@ -942,14 +942,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
       const spec = this.getSpec() || {};
 
-      if ([MarkTypeEnum.area, MarkTypeEnum.line, MarkTypeEnum.group].includes(m.type as MarkTypeEnum)) {
-        // line 和 area 图元默认不参与 morph 动画
-        m.setMorph(false);
-      } else {
-        m.setMorph(spec.morph?.enable !== false);
-        m.setMorphKey(spec.morph?.morphKey || `${this._specIndex}`);
-        m.setMorphElementKey(spec.morph?.morphElementKey ?? option.defaultMorphElementKey);
-      }
+      m.setMorph(morph || false);
+      m.setMorphKey(spec.morph?.morphKey || `${this._specIndex}`);
+      m.setMorphElementKey(spec.morph?.morphElementKey ?? option.defaultMorphElementKey);
 
       if (!isNil(progressive)) {
         m.setProgressiveConfig(progressive);

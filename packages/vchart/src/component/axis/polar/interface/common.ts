@@ -1,7 +1,7 @@
 import type { IBaseScale } from '@visactor/vscale';
 import type { IComponent } from '../../../interface';
 import type { IPoint, IPolarOrientType, IPolarPoint } from '../../../../typings';
-import type { IGrid, IGridTheme } from '../../interface';
+import type { IGrid } from '../../interface';
 
 export type IPolarGrid = IGrid & {
   /**
@@ -10,10 +10,6 @@ export type IPolarGrid = IGrid & {
    */
   smooth?: boolean;
 };
-export type IPolarGridTheme = IGridTheme & {
-  smooth?: boolean;
-};
-
 export interface IPolarAxisHelper {
   dataToPosition: (values: any, cfg?: any) => number;
   coordToPoint: (point: IPolarPoint) => IPoint;

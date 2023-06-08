@@ -1,4 +1,3 @@
-import type { SceneNodeMap } from '../../compile/interface';
 import type { IModelSpec } from '../../model/interface';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IComponent } from '../interface';
@@ -93,7 +92,7 @@ export interface IIndicatorItemTheme extends IIndicatorItemSpec {
   style?: Omit<ITextMarkSpec, 'visible'>;
 }
 
-export interface IIndicatorTheme {
+export interface IIndicatorTheme extends IIndicatorSpec {
   /**
    * 指标卡标题文字配置
    */
@@ -103,7 +102,3 @@ export interface IIndicatorTheme {
    */
   content?: IIndicatorItemTheme;
 }
-
-type IIndicatorComponents = 'text';
-
-export type IndicatorSceneNodeMap = SceneNodeMap<IIndicatorComponents>;

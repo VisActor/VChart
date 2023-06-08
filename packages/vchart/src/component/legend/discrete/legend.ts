@@ -34,7 +34,7 @@ export class DiscreteLegend extends BaseLegend {
       return undefined;
     }
     if (!isArray(legendSpec)) {
-      if ((legendSpec.visible !== false && !legendSpec.type) || legendSpec.type === 'discrete') {
+      if (legendSpec.visible !== false && (!legendSpec.type || legendSpec.type === 'discrete')) {
         return new DiscreteLegend(legendSpec, {
           ...options,
           specIndex: 0,
@@ -45,7 +45,7 @@ export class DiscreteLegend extends BaseLegend {
     }
     const legends: ILegend[] = [];
     legendSpec.forEach((s: IDiscreteLegendSpec, i: number) => {
-      if ((s.visible !== false && !s.type) || s.type === 'discrete') {
+      if (s.visible !== false && (!s.type || s.type === 'discrete')) {
         legends.push(new DiscreteLegend(s, { ...options, specIndex: i, specKey: 'legends' }));
       }
     });
@@ -153,21 +153,34 @@ export class DiscreteLegend extends BaseLegend {
 
   private _getLegendItems() {
     const originData = (this._legendData.getLatestData() || []).map((datum: any) => {
+      const fill = datum.style('fill');
+      const stroke = datum.style('stroke');
+      const symbolType = datum.style('symbolType');
+      const fillOpacity = datum.style('fillOpacity');
+      const strokeOpacity = datum.style('strokeOpacity');
+      const opacity = datum.style('opacity');
+      const texture = datum.style('texture');
+      const textureColor = datum.style('textureColor');
+      const outerBorder = datum.style('outerBorder');
+      const innerBorder = datum.style('innerBorder');
+
       return {
         label: datum.key,
         shape: {
-          fill: !!datum.style('fill'),
-          fillColor: datum.style('fill'),
-          symbolType: datum.style('symbolType') ?? datum.shapeType ?? 'circle',
-          strokeColor: datum.style('stroke'),
-          stroke: !!datum.style('stroke'),
-          fillOpacity: isValidNumber(datum.style('fillOpacity')) ? datum.style('fillOpacity') : 1,
-          strokeOpacity: isValidNumber(datum.style('strokeOpacity')) ? datum.style('strokeOpacity') : 1,
-          opacity: isValidNumber(datum.style('opacity')) ? datum.style('opacity') : 1,
-          texture: datum.style('texture'),
-          texturePadding: datum.style('texture') ? 1 : null,
-          textureSize: datum.style('texture') ? 4 : null,
-          textureColor: datum.style('textureColor')
+          fill: !!fill,
+          fillColor: fill,
+          symbolType: symbolType ?? datum.shapeType ?? 'circle',
+          strokeColor: stroke,
+          stroke: !!stroke,
+          fillOpacity: isValidNumber(fillOpacity) ? fillOpacity : 1,
+          strokeOpacity: isValidNumber(strokeOpacity) ? strokeOpacity : 1,
+          opacity: isValidNumber(opacity) ? opacity : 1,
+          texture: texture,
+          texturePadding: texture ? 1 : null,
+          textureSize: texture ? 4 : null,
+          textureColor,
+          innerBorder,
+          outerBorder
         }
       };
     });

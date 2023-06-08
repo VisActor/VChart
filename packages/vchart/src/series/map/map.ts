@@ -110,6 +110,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
   // mark
   initMark() {
     this._pathMark = this._createMark(MarkTypeEnum.path, 'area', {
+      morph: this._spec.morph?.enable ?? true,
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this.getDimensionField()[0],
       isSeriesMark: true,

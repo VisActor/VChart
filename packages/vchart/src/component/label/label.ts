@@ -126,7 +126,8 @@ export class Label extends BaseComponent {
     this._labelInfo.forEach((regionLabelInfo, region) => {
       if (this._layoutRule === 'region') {
         const component = this._createMark(MarkTypeEnum.component, `${region.getGroupMark().name}-label-component`, {
-          componentType: 'label'
+          componentType: 'label',
+          support3d: this._spec.support3d
         });
         if (component) {
           this._marks.addMark(component);
@@ -135,7 +136,8 @@ export class Label extends BaseComponent {
       } else {
         regionLabelInfo.forEach(labelInfo => {
           const component = this._createMark(MarkTypeEnum.component, `${labelInfo.labelMark.name}-component`, {
-            componentType: 'label'
+            componentType: 'label',
+            support3d: this._spec.support3d
           });
           if (component) {
             this._marks.addMark(component);

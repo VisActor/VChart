@@ -37,18 +37,19 @@ export function findFields(
   return list.find(i => i.key === fieldKey);
 }
 
+// 如果不存在别名就返回 field
 export function getFieldAlias(dataView: DataView, field: string) {
   if (!dataView) {
-    return null;
+    return field ?? null;
   }
   const fields = dataView.getFields();
   if (!fields) {
-    return null;
+    return field ?? null;
   }
   if (!fields[field]) {
-    return null;
+    return field ?? null;
   }
-  return fields[field].alias;
+  return fields[field].alias ?? field;
 }
 
 export function getFieldFormat(dataView: DataView, key: string) {

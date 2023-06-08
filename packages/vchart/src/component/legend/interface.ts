@@ -1,5 +1,4 @@
 import type { LegendTitle } from '@visactor/vrender-components';
-import type { Dict } from '@visactor/vutils';
 import type {
   IOrientType,
   IPadding,
@@ -69,7 +68,7 @@ export type ILegendCommonSpec = {
    * 图例在当前行列的对齐方式，起始 | 居中 | 末尾
    * @default 'middle'
    */
-  position: 'start' | 'middle' | 'end';
+  position?: 'start' | 'middle' | 'end';
 
   /**
    * 是否进行数据筛选，默认为 true

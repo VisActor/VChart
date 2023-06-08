@@ -29,6 +29,5 @@ export interface IRadarSeriesSpec
 }
 
 export interface IRadarSeriesTheme extends IRoseLikeSeriesTheme, ILineLikeSeriesTheme {
-  strokeOpacity: number;
   area?: Partial<IMarkTheme<IAreaMarkSpec>>;
 }

@@ -20,7 +20,9 @@ export interface IDimensionInfo {
 }
 
 export interface IDimensionData {
+  /** 图元上的原始数据（考虑到有多个图元的情况，实际为数组类型） */
   datum: Datum[];
+  /** 图元所在的系列实例 */
   series: ISeries;
 }
 

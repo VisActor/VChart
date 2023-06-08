@@ -1,10 +1,12 @@
 import type { ILineSeriesTheme } from '../../../../series/line/interface';
-import { DEFAULT_TEXT_FONT_SIZE as fontSize, DEFAULT_TEXT_FONT_FAMILY as fontFamily } from '../../config';
+import { DEFAULT_TEXT_FONT_SIZE as fontSize } from '../../config';
 
 export const line: ILineSeriesTheme = {
-  size: 10,
-  fillOpacity: 1,
-  strokeOpacity: 1,
+  point: {
+    style: {
+      size: 10
+    }
+  },
   label: {
     visible: false,
     position: 'top',
@@ -12,7 +14,6 @@ export const line: ILineSeriesTheme = {
     style: {
       lineWidth: 2,
       stroke: 'white',
-      fontFamily,
       fontSize
     }
   }

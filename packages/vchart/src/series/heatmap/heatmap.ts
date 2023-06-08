@@ -48,6 +48,7 @@ export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
     };
 
     this._cellMark = this._createMark(MarkTypeEnum.cell, 'cell', {
+      morph: this._spec.morph?.enable ?? true,
       defaultMorphElementKey: this.getDimensionField()[0],
       isSeriesMark: true,
       label: merge({ animation: this._spec.animation }, this._spec.label),
@@ -92,7 +93,7 @@ export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
           return [this.getCellSize(this._xAxisHelper), this.getCellSize(this._yAxisHelper)];
         },
         fill: this.getColorAttribute(),
-        fillOpacity: this._theme.fillOpacity
+        fillOpacity: this._theme.cell?.style?.fillOpacity ?? 1
       },
       'normal',
       AttributeLevel.Series

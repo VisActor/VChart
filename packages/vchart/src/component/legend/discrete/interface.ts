@@ -156,13 +156,7 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
 } & Omit<DiscreteLegendAttrs, 'layout' | 'title' | 'items' | 'item' | 'pager'>;
 
 // theme 主题相关配置
-export interface IDiscreteLegendTheme {
-  /** 图例标题配置 */
-  title?: IDiscreteLegendSpec['title'];
-  /** 图例项配置 */
-  item?: IDiscreteLegendSpec['item'];
-  /**
-   * 是否允许图例全部取消，多选模式下生效
-   */
-  allowAllCanceled?: boolean;
-}
+export type IDiscreteLegendTheme = Omit<
+  IDiscreteLegendSpec,
+  'type' | 'data' | 'regionIndex' | 'regionId' | 'seriesIndex' | 'seriesId' | 'id' | 'defaultSelected'
+>;

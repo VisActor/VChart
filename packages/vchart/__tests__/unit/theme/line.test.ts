@@ -60,13 +60,15 @@ describe('theme switch test', () => {
       },
       series: {
         line: {
-          size: 20,
-          fillOpacity: 1,
-          strokeOpacity: 1,
           label: {
             visible: false,
             offset: 30,
             style: {}
+          },
+          point: {
+            style: {
+              size: 20
+            }
           }
         }
       }
@@ -77,8 +79,8 @@ describe('theme switch test', () => {
     const series = vchart?.getChart()?.getAllSeries()?.[0];
 
     // sepc
-    expect(vchart.getCurrentTheme().series?.line?.size).toBe(20);
-    expect(series?.getSpec()?.size).toBe(20);
+    expect(vchart.getCurrentTheme().series?.line?.point?.style?.size).toBe(20);
+    expect(series?.getSpec()?.point?.style?.size).toBe(20);
 
     // mark spec
     expect(vchart.getCurrentTheme().series?.line?.label?.offset).toBe(30);

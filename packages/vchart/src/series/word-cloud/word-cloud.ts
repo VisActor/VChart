@@ -45,7 +45,9 @@ import { BaseSeries } from '../base/base-series';
 registerWordCloudTransforms();
 registerWordCloudShapeTransforms();
 
-class BaseWordCloudSeries<T extends IWordCloudSeriesBaseSpec = IWordCloudSeriesBaseSpec> extends BaseSeries<T> {
+type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
+
+class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordCloudSeriesSpec> extends BaseSeries<T> {
   protected _nameField: string;
   protected _valueField?: string;
   setValueField(field: string) {
@@ -134,7 +136,7 @@ class BaseWordCloudSeries<T extends IWordCloudSeriesBaseSpec = IWordCloudSeriesB
   }
 
   protected _wordMark: ITextMark;
-  private _fillingWordMark: ITextMark;
+  protected _fillingWordMark: ITextMark;
   initMark(): void {
     this._wordMark = this._createMark(MarkTypeEnum.text, 'word', {
       defaultMorphElementKey: this._seriesField,
@@ -303,7 +305,7 @@ class BaseWordCloudSeries<T extends IWordCloudSeriesBaseSpec = IWordCloudSeriesB
         layoutType: !isTrueBrowser(this._option.mode) ? 'fast' : this._wordCloudConfig.layoutMode,
         size: [srView.width() - this._paddingLeft, srView.height() - this._paddingTop],
         shape: this._maskShape,
-
+        dataIndexKey: DEFAULT_DATA_KEY,
         text: { field: textField },
         fontSize: valueField ? { field: valueField } : this._fontSizeRange[0],
         fontSizeRange: this._fontSizeRange,
@@ -389,6 +391,9 @@ class BaseWordCloudSeries<T extends IWordCloudSeriesBaseSpec = IWordCloudSeriesB
     throw new Error('Method not implemented.');
   }
   dataToPositionY(data: any): number {
+    throw new Error('Method not implemented.');
+  }
+  dataToPositionZ(data: any): number {
     throw new Error('Method not implemented.');
   }
   setValueFieldToStackOffsetSilhouette(): void {
@@ -490,7 +495,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
         size: [srView.width() - this._paddingLeft, srView.height() - this._paddingTop],
         shape: this._maskShape,
         postProjection: this._spec.postProjection ?? 'StereographicProjection',
-
+        dataIndexKey: DEFAULT_DATA_KEY,
         text: { field: textField },
         fontSize: valueField ? { field: valueField } : this._fontSizeRange[0],
         fontSizeRange: this._fontSizeRange,
@@ -499,6 +504,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
         fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
+        depth_3d: this._spec.depth_3d,
 
         randomVisible: this._random,
         clip: this._wordCloudConfig.drawOutOfBound === 'clip',
@@ -517,7 +523,8 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
         type: 'wordcloudShape',
         size: [srView.width(), srView.height()],
         shape: this._maskShape,
-
+        postProjection: this._spec.postProjection ?? 'StereographicProjection',
+        dataIndexKey: DEFAULT_DATA_KEY,
         text: { field: textField },
         fontSize: valueField ? { field: valueField } : this._fontSizeRange[0],
         fontSizeRange: this._fontSizeRange,
@@ -526,6 +533,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
         fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
+        depth_3d: this._spec.depth_3d,
 
         fillingFontFamily: this._wordCloudShapeConfig?.fillingFontFamilyField ?? this._spec.word?.style?.fontFamily,
         fillingPadding: this._fillingFontPadding,
@@ -558,5 +566,110 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
     }
     // 把transform挂载到data的product上
     this._data.getProduct().transform(wordCloudTransforms);
+  }
+
+  initMark(): void {
+    this._wordMark = this._createMark(MarkTypeEnum.text, 'word', {
+      groupKey: this._seriesField,
+      support3d: true,
+      isSeriesMark: true
+    }) as ITextMark;
+    if (this._isWordCloudShape) {
+      this._fillingWordMark = this._createMark(MarkTypeEnum.text, 'fillingWord', {
+        groupKey: this._seriesField,
+        support3d: true,
+        isSeriesMark: true
+      }) as ITextMark;
+    }
+  }
+
+  initMarkStyle() {
+    const wordMark = this._wordMark;
+    const fillingWordMark = this._fillingWordMark;
+    if (wordMark) {
+      this.setMarkStyle(
+        wordMark,
+        {
+          fill: this._colorHexField
+            ? (datum: Datum) => datum[this._colorHexField]
+            : this.getWordColorAttribute(this._seriesField, false),
+          text: (datum: Datum) => datum[this._nameField],
+          x: (datum: Datum) => datum.x,
+          y: (datum: Datum) => datum.y,
+          z: (datum: Datum) => datum.z ?? 0,
+          fontFamily: (datum: Datum) => datum.fontFamily,
+          fontSize: (datum: Datum) => datum.fontSize,
+          fontStyle: (datum: Datum) => datum.fontStyle,
+          fontWeight: (datum: Datum) => datum.fontWeight,
+          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar 默认不提供弧度转换
+          visible: (datum: Datum) => !datum.isFillingWord
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+    if (fillingWordMark) {
+      this.setMarkStyle(
+        fillingWordMark,
+        {
+          fill: this._wordCloudShapeConfig.fillingColorHexField
+            ? (datum: Datum) => datum[this._wordCloudShapeConfig.fillingColorHexField]
+            : this.getWordColorAttribute(this._wordCloudShapeConfig.fillingSeriesField, true),
+          text: (datum: Datum) => datum[this._nameField],
+          x: (datum: Datum) => datum.x,
+          y: (datum: Datum) => datum.y,
+          z: (datum: Datum) => datum.z ?? 0,
+          fontFamily: (datum: Datum) => datum.fontFamily,
+          fontSize: (datum: Datum) => datum.fontSize,
+          fontStyle: (datum: Datum) => datum.fontStyle,
+          fontWeight: (datum: Datum) => datum.fontWeight,
+          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar 默认不提供弧度转换
+          visible: (datum: Datum) => datum.isFillingWord
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+    this._trigger.registerMark(wordMark);
+    this._tooltipHelper?.activeTriggerSet.mark.add(wordMark);
+    this._trigger.registerMark(fillingWordMark);
+    this._tooltipHelper?.activeTriggerSet.mark.add(fillingWordMark);
+  }
+
+  initAnimation() {
+    if (this._wordMark) {
+      this._wordMark.setAnimationConfig(
+        animationConfig(
+          DEFAULT_MARK_ANIMATION.wordCloud3d(() => {
+            const srView = this.getCompiler().getVGrammarView();
+            const width = srView.width() - this._paddingLeft;
+            const height = srView.height() - this._paddingTop;
+            const r = Math.max(width, height) / 2;
+            return {
+              center: { x: r, y: r, z: (this._spec as any).depth_3d ?? r },
+              r
+            };
+          }) as any,
+          userAnimationConfig(this._wordMark.name, this._spec)
+        )
+      );
+    }
+    if (this._fillingWordMark) {
+      this._fillingWordMark.setAnimationConfig(
+        animationConfig(
+          DEFAULT_MARK_ANIMATION.wordCloud3d(() => {
+            const srView = this.getCompiler().getVGrammarView();
+            const width = srView.width() - this._paddingLeft;
+            const height = srView.height() - this._paddingTop;
+            const r = Math.max(width, height) / 2;
+            return {
+              center: { x: r, y: r, z: (this._spec as any).depth_3d ?? r },
+              r
+            };
+          }) as any,
+          userAnimationConfig(this._fillingWordMark.name, this._spec)
+        )
+      );
+    }
   }
 }

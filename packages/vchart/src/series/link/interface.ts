@@ -1,6 +1,6 @@
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
-import type { ILineMarkSpec } from '../../typings/visual';
+import type { ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
 import type { SeriesTypeEnum } from '../interface';
 import type { DataView } from '@visactor/vdataset';
 import type { IDotSeriesSpec } from '../dot/interface';
@@ -63,6 +63,6 @@ type ILinkSeriesSpecFromDot = {
 };
 
 export interface ILinkSeriesTheme extends ICartesianSeriesTheme {
-  size: number;
   link?: Partial<IMarkTheme<ILineMarkSpec>>;
+  arrow?: Partial<IMarkTheme<ISymbolMarkSpec>>;
 }

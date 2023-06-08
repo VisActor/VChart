@@ -12,7 +12,7 @@ export const AnimationStates = ['appear', 'enter', 'update', 'exit', 'disappear'
 export function animationConfig<Preset extends string>(
   defaultConfig: MarkAnimationSpec,
   userConfig?: Partial<
-    Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationTypeConfig | IAnimationTypeConfig[]>
+    Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>
   >,
   params?: {
     dataIndex: (datum: any) => number;

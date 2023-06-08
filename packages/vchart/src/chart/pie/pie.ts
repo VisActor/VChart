@@ -1,3 +1,4 @@
+import type { ISeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { PolarChart } from '../polar/polar';
@@ -37,4 +38,13 @@ export class Pie3dChart extends BasePieChart {
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.pie3d;
   readonly seriesType: string = SeriesTypeEnum.pie3d;
+
+  transformSpec(spec: any): void {
+    super.transformSpec(spec);
+    spec.series.forEach((s: ISeries) => {
+      if (s.type === 'pie3d') {
+        (s as any).angle3d = spec.angle3d;
+      }
+    });
+  }
 }

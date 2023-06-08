@@ -23,7 +23,7 @@ export interface ITitleTextTheme {
 
 export interface ITitleTheme {
   /** 主标题样式 */
-  textStyle: ITitleTextTheme;
+  textStyle?: ITitleTextTheme;
   /** 副标题样式 */
-  subtextStyle: ITitleTextTheme;
+  subtextStyle?: ITitleTextTheme;
 }

@@ -51,6 +51,18 @@ export interface IBarSeriesSpec
 
 export interface IBarSeriesTheme extends ICartesianSeriesTheme {
   bar?: Partial<IMarkTheme<IRectMarkSpec>>;
+  /**
+   * 柱体宽度
+   */
+  barWidth?: number;
+  /**
+   * 柱体最小宽度
+   */
+  barMinWidth?: number;
+  /**
+   * 柱体最大宽度
+   */
+  barMaxWidth?: number;
 }
 
 export type IBar3dSeriesSpec = {

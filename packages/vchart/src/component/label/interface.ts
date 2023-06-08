@@ -15,7 +15,7 @@ export interface ILabelSpec {
   /** 标签样式配置 */
   style?: ConvertToMarkStyleSpec<ITextMarkSpec>;
   /** 交互样式配置 */
-  state?: ILabelStateStyle<Partial<ITextMarkSpec>>;
+  state?: LabelStateStyle<Partial<ITextMarkSpec>>;
   /** 标签防重叠配置 */
   overlap?: BaseLabelAttrs['overlap'];
   /** 标签智能反色配置 */
@@ -24,7 +24,7 @@ export interface ILabelSpec {
   animation?: BaseLabelAttrs['animation'];
 }
 
-interface ILabelStateStyle<T> {
+interface LabelStateStyle<T> {
   hover?: T;
   hover_reverse?: T;
   selected?: T;

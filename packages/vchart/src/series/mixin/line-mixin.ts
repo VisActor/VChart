@@ -28,7 +28,6 @@ import type { ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
 import type { ILabelSpec } from '../../component/label';
 
 export interface ILineLikeSeriesTheme {
-  size: number;
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
   point?: Partial<IMarkTheme<ISymbolMarkSpec>>;
   label?: Partial<ILabelSpec>;
@@ -128,7 +127,8 @@ export class LineLikeSeriesMixin {
         lineMark,
         {
           x: this.dataToPositionX.bind(this),
-          y: this.dataToPositionY.bind(this)
+          y: this.dataToPositionY.bind(this),
+          z: this.dataToPositionZ.bind(this)
         },
         'normal',
         AttributeLevel.Series
@@ -141,6 +141,7 @@ export class LineLikeSeriesMixin {
 
   initSymbolMark(progressive?: IMarkProgressiveConfig) {
     this._symbolMark = this._createMark(MarkTypeEnum.symbol, 'point', {
+      morph: this._spec.morph?.enable ?? true,
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       label: merge({ animation: this._spec.animation }, this._spec.label),
@@ -156,8 +157,7 @@ export class LineLikeSeriesMixin {
         symbolMark,
         {
           fill: this.getColorAttribute(),
-          fillOpacity: 1,
-          size: this._theme?.size
+          fillOpacity: 1
         },
         'normal',
         AttributeLevel.Series
@@ -184,7 +184,8 @@ export class LineLikeSeriesMixin {
         symbolMark,
         {
           x: this.dataToPositionX.bind(this),
-          y: this.dataToPositionY.bind(this)
+          y: this.dataToPositionY.bind(this),
+          z: this.dataToPositionZ.bind(this)
         },
         'normal',
         AttributeLevel.Series
@@ -203,7 +204,8 @@ export class LineLikeSeriesMixin {
       fill: this.getColorAttribute(),
       text: (datum: Datum) => {
         return datum[this.getStackValueField()];
-      }
+      },
+      z: this.dataToPositionZ.bind(this)
     });
     if (this._invalidType) {
       this.setMarkStyle(

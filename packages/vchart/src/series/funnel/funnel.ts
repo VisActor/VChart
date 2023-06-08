@@ -33,7 +33,7 @@ import { field, calcLayoutNumber, isNumber } from '../../util';
 import type { FunnelAppearPreset, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
 import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
-import { isValid } from '@visactor/vutils';
+import { isEqual, isValid } from '@visactor/vutils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
@@ -152,8 +152,9 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
   }
 
   initMark() {
-    this._funnelMark = this._createMark(this._funnelMarkType, 'funnel', {
+    this._funnelMark = this._createMark(this._funnelMarkType, this.type, {
       themeSpec: this._theme?.funnel,
+      morph: this._spec.morph?.enable ?? true,
       defaultMorphElementKey: this._seriesField,
       key: this._seriesField,
       groupKey: this._seriesField,
@@ -458,6 +459,10 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
 
   dataToPositionY(datum: any) {
     return this.dataToPosition(datum).y;
+  }
+
+  dataToPositionZ(datum: any) {
+    return 0;
   }
 
   private _getMainAxisLength(isTransform = false) {
@@ -789,6 +794,18 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
   getDefaultShapeType(): string {
     return 'square';
   }
+
+  updateSpec(spec: IFunnelSeriesSpec) {
+    const originalSpec = this._originalSpec as IFunnelSeriesSpec;
+    const result = super.updateSpec(spec);
+    if (!isEqual(originalSpec, spec)) {
+      result.reCompile = true;
+      result.reMake = true;
+      result.reRender = true;
+      result.change = true;
+    }
+    return result;
+  }
 }
 
 export class Funnel3dSeries extends FunnelSeries {
@@ -797,7 +814,7 @@ export class Funnel3dSeries extends FunnelSeries {
   protected _funnelMarkType: MarkTypeEnum = MarkTypeEnum.pyramid3d;
 
   initMark() {
-    this._funnelMark = this._createMark(this._funnelMarkType, 'funnel3d', {
+    this._funnelMark = this._createMark(this._funnelMarkType, this.type, {
       themeSpec: this._theme?.funnel,
       key: this._seriesField,
       isSeriesMark: true

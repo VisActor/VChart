@@ -19,6 +19,7 @@ export class CartesianChart extends BaseChart {
       ...super._getDefaultSeriesSpec(spec),
       xField: spec.xField,
       yField: spec.yField,
+      zField: spec.zField,
       seriesField: spec.seriesField,
       seriesStyle: spec.seriesStyle,
       direction: spec.direction,
@@ -42,7 +43,7 @@ export class CartesianChart extends BaseChart {
         spec.axes = [];
       }
       spec.region.forEach((r: IRegion) => {
-        const haxAxes = { x: false, y: false };
+        const haxAxes = { x: false, y: false, z: false };
         spec.axes.forEach((axis: IAxis) => {
           const orient = axis.orient;
           if (orient === 'top' || orient === 'bottom') {
@@ -50,6 +51,9 @@ export class CartesianChart extends BaseChart {
           }
           if (orient === 'left' || orient === 'right') {
             haxAxes.y = true;
+          }
+          if (orient === 'z') {
+            haxAxes.z = true;
           }
         });
         if (!haxAxes.x) {
@@ -60,6 +64,12 @@ export class CartesianChart extends BaseChart {
         if (!haxAxes.y) {
           spec.axes.push({
             orient: 'left'
+          });
+        }
+        // 如果有zField字段，但是没有配置z轴，那么添加一个z轴
+        if (spec.zField && !haxAxes.z) {
+          spec.axes.push({
+            orient: 'z'
           });
         }
       });

@@ -1,6 +1,6 @@
-import type { IIndicatorItemSpec } from './interface';
+import type { IIndicatorTheme } from '../../../../component/indicator/interface';
 
-export const defaultIndicatorConfig = {
+export const indicator: IIndicatorTheme = {
   title: {
     visible: true,
     autoLimit: false,
@@ -13,7 +13,7 @@ export const defaultIndicatorConfig = {
       textBaseline: 'top',
       textAlign: 'center'
     }
-  } as IIndicatorItemSpec,
+  },
   content: {
     visible: true,
     style: {
@@ -24,5 +24,5 @@ export const defaultIndicatorConfig = {
       textBaseline: 'top',
       textAlign: 'center'
     }
-  } as IIndicatorItemSpec
+  }
 };

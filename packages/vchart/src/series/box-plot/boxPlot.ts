@@ -177,7 +177,6 @@ export class BoxPlotSeries extends CartesianSeries<any> {
         outlierMark,
         {
           fill: this._outliersStyle?.fill ?? this.getColorAttribute(),
-          fillOpacity: this._theme?.fillOpacity,
           size: isNumber(this._outliersStyle?.size) ? this._outliersStyle.size : DEFAULT_OUTLIER_SIZE,
           shape: 'circle'
         },

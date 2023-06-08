@@ -8,6 +8,7 @@ import { isNil, isValid } from '@visactor/vutils';
 import type { ICartesianSeries, ISeries } from '../../../series/interface';
 import { getCartesianDimensionInfo, getPolarDimensionInfo } from '../../../event/events/dimension/util';
 import type { IDimensionInfo } from '../../../event/events/dimension/interface';
+import { TooltipHandlerType } from '../handler/constants';
 
 export class DimensionTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'dimension';
@@ -27,6 +28,11 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
     const { tooltipInfo: info } = mouseEventData;
     if (isNil(info)) {
       return false;
+    }
+
+    // 自定义 handler
+    if (![TooltipHandlerType.dom, TooltipHandlerType.canvas].includes((this.component.tooltipHandler as any).type)) {
+      return true;
     }
 
     const helper = (params.model as ISeries)?.tooltipHelper;

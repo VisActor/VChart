@@ -217,6 +217,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     };
 
     this._symbolMark = this._createMark(MarkTypeEnum.symbol, 'point', {
+      morph: this._spec.morph?.enable ?? true,
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       label: merge({ animation: this._spec.animation }, this._spec.label),
@@ -268,8 +269,9 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
       {
         x: this.dataToPositionX.bind(this),
         y: this.dataToPositionY.bind(this),
+        z: this.dataToPositionZ.bind(this),
         fill: this.getColorAttribute(),
-        fillOpacity: this._theme?.fillOpacity,
+        fillOpacity: this._theme?.point?.style?.fillOpacity ?? 1,
         size: isNumber(this._size) || isFunction(this._size) ? this._size : SCATTER_DEFAULT_SIZE,
         shape: isString(this._shape) || isFunction(this._shape) ? this._shape : SCATTER_DEFAULT_SHAPE
       },
@@ -323,7 +325,8 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
             return couldBeValidNumber(datum[this.getStackValueField()]);
           }
           return true;
-        }
+        },
+        z: this.dataToPositionZ.bind(this)
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series

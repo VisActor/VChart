@@ -80,7 +80,8 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
             y1: (datum: Datum) => {
               return valueInScaleRange(this.dataToPositionY1(datum), this._yAxisHelper?.getScale?.(0));
             },
-            y: this.dataToPositionY.bind(this)
+            y: this.dataToPositionY.bind(this),
+            z: this.dataToPositionZ.bind(this)
           },
           'normal',
           AttributeLevel.Series
@@ -94,6 +95,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
               return valueInScaleRange(this.dataToPositionX1(datum), this._xAxisHelper?.getScale?.(0));
             },
             y: this.dataToPositionY.bind(this),
+            z: this.dataToPositionZ.bind(this),
             orient: this._direction
           },
           'normal',
