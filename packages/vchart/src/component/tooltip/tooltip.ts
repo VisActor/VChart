@@ -158,7 +158,7 @@ export class Tooltip extends BaseComponent {
       this.mountEvent('pointermove', { level: Event_Bubble_Level.chart }, this.handleMouseMove);
       this.mountEvent('pointerleave', { level: Event_Bubble_Level.chart }, this.handleMouseOut);
       // TODO: 需要封装一个复合事件，用于移动端的点按+滑动触发
-      if (isMobileLikeMode(mode)) {
+      if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
         this.mountEvent('pointerdown', { level: Event_Bubble_Level.chart }, this.handleMouseMove);
       }
     } else if (trigger === 'click') {
