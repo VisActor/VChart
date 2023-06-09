@@ -17,19 +17,10 @@ export function textAttribute(labelInfo: ILabelInfo, datum: Datum) {
   const attributes = Object.keys(labelMark.stateStyle.normal);
   for (const key of attributes) {
     const attr = labelMark.getAttribute(key as any, datum);
-    if (key in TextAttributeMap) {
-      textAttribute[TextAttributeMap[key]] = attr;
-    } else {
-      textAttribute[key] = attr;
-    }
+    textAttribute[key] = attr;
     if (key === 'text' && formatMethod) {
       textAttribute[key] = formatMethod(textAttribute[key], datum);
     }
   }
   return textAttribute;
 }
-
-const TextAttributeMap = {
-  fill: 'fillColor',
-  stroke: 'strokeColor'
-};

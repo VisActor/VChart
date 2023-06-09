@@ -551,12 +551,10 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       shadow: !!shadow
     };
     if (border?.color) {
-      panelStyle.stroke = true;
-      panelStyle.strokeColor = border.color;
+      panelStyle.stroke = border.color;
     }
     if (backgroundColor) {
-      panelStyle.fill = true;
-      panelStyle.fillColor = backgroundColor;
+      panelStyle.fill = backgroundColor;
     }
 
     if (shadow) {

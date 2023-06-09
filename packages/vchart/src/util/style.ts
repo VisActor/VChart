@@ -40,14 +40,6 @@ export function transformToGraphic(style: any) {
   if (isEmpty(style)) {
     return style;
   }
-  if (isString(style.stroke)) {
-    style.strokeColor = style.stroke;
-    style.stroke = true;
-  }
-  if (isString(style.fill)) {
-    style.fillColor = style.fill;
-    style.fill = true;
-  }
   if (style.angle) {
     style.angle = degreeToRadian(style.angle);
   }

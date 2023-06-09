@@ -11,7 +11,6 @@ import { Title as TitleComponents } from '@visactor/vrender-components';
 import type { TitleAttrs } from '@visactor/vrender-components';
 import type { INode } from '@visactor/vrender';
 import type { IPoint, IOrientType } from '../../typings';
-import { transformFillAndStroke } from './utils';
 import { isEqual } from '@visactor/vutils';
 import type { LayoutItem } from '../../model/layout-item';
 import { LayoutLevel, LayoutZIndex } from '../../constant';
@@ -161,15 +160,11 @@ export class Title extends BaseComponent implements ITitle {
       verticalAlign: this._spec.verticalAlign ?? 'top',
       textStyle: {
         width: realWidth,
-        ...transformFillAndStroke({
-          style: merge({}, this._spec.textStyle)
-        }).style
+        ...this._spec.textStyle
       },
       subtextStyle: {
         width: realWidth,
-        ...transformFillAndStroke({
-          style: merge({}, this._spec.subtextStyle)
-        }).style
+        ...this._spec.subtextStyle
       }
     } as TitleAttrs;
   }
