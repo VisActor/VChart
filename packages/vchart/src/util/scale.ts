@@ -1,23 +1,26 @@
-import { isString, isValid } from '@visactor/vutils';
-import type { DataView } from '@visactor/vdataset';
-import type { IGlobalScale } from '../scale/interface';
 /**
  * @description Scale 相关的工具函数
  */
-import { BandScale, LinearScale, OrdinalScale, PointScale } from '@visactor/vscale';
+import { isString, isValid } from '@visactor/vutils';
+import type { DataView } from '@visactor/vdataset';
+import type { IGlobalScale } from '../scale/interface';
+import { BandScale, LinearScale, OrdinalScale, PointScale, ThresholdScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import type { IBaseScale } from '@visactor/vscale';
 import type { ScaleType } from '../typings/scale';
 import type { IVisual, IVisualSpecBase } from '../typings/visual';
+import { ColorOrdinalScale } from '../scale/color-ordinal-scale';
 
 const defaultScaleMap = {
   linear: LinearScale,
   band: BandScale,
   point: PointScale,
-  ordinal: OrdinalScale
+  ordinal: OrdinalScale,
+  threshold: ThresholdScale,
+  colorOrdinal: ColorOrdinalScale
 };
 
-export function createScale(type: ScaleType): IBaseScale | null {
+export function createScale(type: keyof typeof defaultScaleMap): IBaseScale | null {
   const scaleConstructor = defaultScaleMap[type];
   if (scaleConstructor) {
     return new scaleConstructor();

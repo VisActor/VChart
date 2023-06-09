@@ -1,3 +1,5 @@
+import type { ILayoutItemSpec } from '../../../model/interface';
+import type { IColorKey } from '../../../theme/color-scheme/interface';
 import type { StringOrNumber } from '../../../typings';
 import type { TextAlign, TextBaseLine } from '../../../typings/visual';
 export interface ITitleTextTheme {
@@ -10,7 +12,7 @@ export interface ITitleTextTheme {
   /** 字体大小 */
   fontSize?: number;
   /** 字体颜色 */
-  fontColor?: string;
+  fontColor?: string | IColorKey;
   /** 字重 */
   fontWeight?: StringOrNumber;
   /** 对齐方式 */
@@ -21,7 +23,7 @@ export interface ITitleTextTheme {
   lineHeight?: number;
 }
 
-export interface ITitleTheme {
+export interface ITitleTheme extends ILayoutItemSpec {
   /** 主标题样式 */
   textStyle?: ITitleTextTheme;
   /** 副标题样式 */

@@ -67,7 +67,7 @@ describe('[Domain-Series-WordCloud] WordCloud Series', () => {
     wordCloud.init({});
   });
 
-  test('wordCloud  series mark', () => {
+  test('wordCloud series mark', () => {
     const wordCloud = new WordCloudSeries(spec, ctx);
     wordCloud.created();
     wordCloud.init({});
@@ -82,7 +82,7 @@ describe('[Domain-Series-WordCloud] WordCloud Series', () => {
 
     // add
     const addMark = new TextMark('testText', markContext);
-    wordCloud.getMarkMap()[addMark.name] = addMark as any;
+    wordCloud.getMarkSet().addMark(addMark);
 
     marks = wordCloud.getMarks();
     expect(marks.length).toEqual(3);
@@ -90,7 +90,7 @@ describe('[Domain-Series-WordCloud] WordCloud Series', () => {
     expect(wordMark.name).toEqual('testText');
     expect(wordMark.type).toEqual('text');
 
-    delete wordCloud.getMarkMap()[addMark.name];
+    wordCloud.getMarkSet().removeMark(addMark.name);
     marks = wordCloud.getMarks();
     expect(marks.length).toEqual(2);
     wordMark = marks[1];

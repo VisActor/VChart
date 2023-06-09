@@ -1,4 +1,7 @@
 import type { ITooltipTheme } from '../../../../component/tooltip/interface';
+import { THEME_CONSTANTS } from '../constants';
+
+const fontSize = THEME_CONSTANTS.LABEL_FONT_SIZE;
 
 export const tooltip: ITooltipTheme = {
   maxWidth: 440,
@@ -41,7 +44,7 @@ export const tooltip: ITooltipTheme = {
     spacing: 6
   },
   keyLabel: {
-    fontSize: 12,
+    fontSize,
     fontColor: '#4E5969',
     textAlign: 'left',
     lineHeight: 18,
@@ -49,7 +52,7 @@ export const tooltip: ITooltipTheme = {
     spacing: 26
   },
   valueLabel: {
-    fontSize: 12,
+    fontSize,
     fontColor: '#4E5969',
     lineHeight: 18,
     textBaseline: 'middle',

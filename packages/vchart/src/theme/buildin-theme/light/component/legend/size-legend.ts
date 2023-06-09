@@ -1,5 +1,5 @@
-import type { ISizeLegendTheme } from '../../../../component/legend';
-import { DEFAULT_CONTINUOUS_LEGEND_THEME } from '../../config';
+import type { ISizeLegendTheme } from '../../../../../component/legend';
+import { DEFAULT_CONTINUOUS_LEGEND_THEME } from './continuous';
 
 export const sizeLegend: ISizeLegendTheme = {
   horizontal: {

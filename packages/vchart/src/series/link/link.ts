@@ -1,10 +1,9 @@
-import { AttributeLevel, ChartEvent, DEFAULT_DATA_SERIES_FIELD } from '../../constant/index';
+import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD } from '../../constant/index';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Maybe, Datum } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { isValid } from '../../util';
 import type { IRuleMark } from '../../mark/rule';
-import { OrdinalScale } from '@visactor/vscale';
 import type { IMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
@@ -18,21 +17,12 @@ import type { IDotSeriesSpec } from '../dot/interface';
 import type { IGroupMark } from '../../mark/group';
 import { LinkSeriesTooltipHelper } from './tooltip-helper';
 import type { ILinkSeriesSpec, ILinkSeriesTheme } from './interface';
-import { getDataScheme } from '../../theme/color-scheme/util';
 
 export class LinkSeries extends CartesianSeries<ILinkSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.link;
   type = SeriesTypeEnum.link;
 
   protected declare _theme: Maybe<ILinkSeriesTheme>;
-
-  protected _dotInfoDataView?: DataView;
-  getDotInfoDataView() {
-    return this._dotInfoDataView;
-  }
-  setDotInfoDataView(dv: DataView) {
-    this._dotInfoDataView = dv;
-  }
 
   protected _fromField?: string;
   getFromField() {
@@ -333,16 +323,12 @@ export class LinkSeries extends CartesianSeries<ILinkSeriesSpec> {
    * @override
    * @description 如果用户设置了dotType，则seriesGroup作为颜色映射字段
    */
-  protected getDefaultColorScale() {
-    return new OrdinalScale()
-      .domain(
-        this._dotTypeField
-          ? this._viewDataStatistics?.latestData[this._dotTypeField].values
-          : this._seriesField
-          ? this._viewDataStatistics?.latestData[this._seriesField].values
-          : []
-      )
-      .range(getDataScheme(this._option.getTheme().colorScheme, this.type));
+  getDefaultColorDomain() {
+    return this._dotTypeField
+      ? this._viewDataStatistics?.latestData[this._dotTypeField].values
+      : this._seriesField
+      ? this._viewDataStatistics?.latestData[this._seriesField].values
+      : [];
   }
 
   /**

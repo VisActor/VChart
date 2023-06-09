@@ -1,4 +1,3 @@
-import type { RenderMode } from '../../../typings/spec/common';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../../constant/base';
 import type { Options } from './constants';
 // eslint-disable-next-line no-duplicate-imports
@@ -20,7 +19,7 @@ import type {
 import { TooltipFixedPosition } from '../../../typings/tooltip';
 import type { BaseEventParams } from '../../../event/interface';
 import { getShowContent, getTooltipSpecForShow, getActualTooltipPositionValue } from './utils';
-import type { TooltipContent } from '../tooltip';
+import type { Tooltip, TooltipContent } from '../tooltip';
 import type { ISeries } from '../../../series/interface';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -77,6 +76,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
   protected _option: Options;
 
+  protected _chartOption: IChartOption;
+
   protected _id = '';
   public get id() {
     return this._id;
@@ -86,6 +87,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   public get env() {
     return this._env;
   }
+
+  protected _component: Tooltip;
 
   protected _chartContainer: Maybe<HTMLElement>;
   protected _compiler: Compiler;
@@ -103,22 +106,16 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   /**
    * Create the tooltip handler.
    */
-  constructor(
-    tooltipSpec: ITooltipSpec,
-    tooltipId: string,
-    envMode: RenderMode,
-    chartContainer: Maybe<HTMLElement>,
-    compiler: Compiler,
-    options?: IChartOption
-  ) {
+  constructor(tooltipSpec: ITooltipSpec, tooltipId: string, component: Tooltip) {
     this._tooltipSpec = tooltipSpec;
-    this._env = envMode;
-    this._chartContainer = chartContainer;
-    this._compiler = compiler;
-    // 可能有多个 tooltip
-    this._id = tooltipId;
+    this._component = component;
+    this._chartOption = component.getOption() as any;
+    this._env = this._chartOption.mode;
+    this._chartContainer = this._chartOption.globalInstance.getContainer();
+    this._compiler = component.getCompiler();
+    this._id = tooltipId; // 可能有多个 tooltip
     this._option = this._getDefaultOption();
-    this._style = this._getStyle(options);
+    this._style = this._getStyle();
     // 为方法加防抖
     this.changeTooltip = this._throttle(this._changeTooltip) as any;
     this.changeTooltipPosition = this._throttle(this._changeTooltipPosition) as any;
@@ -533,7 +530,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     };
   }
 
-  protected _getStyle(options: IChartOption): ITooltipStyle {
+  protected _getStyle(): ITooltipStyle {
     const { style = {}, maxWidth, minWidth, enterable, transitionDuration } = this._tooltipSpec;
 
     const {
@@ -570,14 +567,14 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
     return {
       panel: panelStyle,
-      title: getTextAttributes(titleLabel, options.getTheme().fontFamily),
+      title: getTextAttributes(titleLabel, this._chartOption.getTheme().fontFamily),
       shape: {
         fill: true,
         size: shape?.size ?? 8,
         spacing: shape?.spacing ?? 6
       },
-      key: getTextAttributes(keyLabel, options.getTheme().fontFamily),
-      value: getTextAttributes(valueLabel, options.getTheme().fontFamily),
+      key: getTextAttributes(keyLabel, this._chartOption.getTheme().fontFamily),
+      value: getTextAttributes(valueLabel, this._chartOption.getTheme().fontFamily),
       padding,
       minWidth,
       maxWidth,

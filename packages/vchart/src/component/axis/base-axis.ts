@@ -322,9 +322,4 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         this._delegateEvent(component as unknown as INode, event, type)) as LooseFunction);
     }
   }
-
-  reInit(): void {
-    super.reInit();
-    this._initTheme();
-  }
 }

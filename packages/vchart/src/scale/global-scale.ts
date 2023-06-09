@@ -29,7 +29,11 @@ export class GlobalScale implements IGlobalScale {
     }
     let scale = this._scaleMap.get(s.id);
     if (!scale) {
-      scale = createScale(s.type);
+      if (s.type === 'ordinal' && s.id === 'color') {
+        scale = createScale('colorOrdinal'); // 全局颜色色板的特殊逻辑
+      } else {
+        scale = createScale(s.type);
+      }
     }
     if (!scale) {
       return null;

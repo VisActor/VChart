@@ -38,7 +38,7 @@ test('symbol initial style', () => {
   expect(size).toEqual(1);
   expect(stroke).toEqual(undefined);
   expect(strokeOpacity).toEqual(undefined);
-  expect(strokeWidth).toEqual(undefined);
+  expect(strokeWidth).toEqual(0);
   expect(strokeDash).toEqual(undefined);
   expect(fill).toEqual(undefined);
   expect(fillOpacity).toEqual(undefined);

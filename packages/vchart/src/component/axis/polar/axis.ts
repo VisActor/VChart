@@ -154,20 +154,17 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
-    this._tick = this._spec.tick;
 
+    const axisStyle = getAxisAttributes(this._spec, this._theme);
+    this._axisStyle = axisStyle;
+
+    this._tick = this._spec.tick;
     this._orient = this._spec.orient === 'angle' ? 'angle' : 'radius';
     this._center = this._spec.center;
     this._startAngle = radians(this._spec.startAngle ?? POLAR_START_ANGLE);
     this._endAngle = radians(
       this._spec.endAngle ?? (isValid(this._spec.startAngle) ? this._spec.startAngle + 360 : POLAR_END_ANGLE)
     );
-  }
-
-  protected _initTheme(theme?: any) {
-    super._initTheme(theme);
-    const axisStyle = getAxisAttributes(this._spec, this._theme);
-    this._axisStyle = axisStyle;
   }
 
   setLayoutStartPosition(pos: Partial<IPoint>): void {

@@ -1,14 +1,12 @@
 import type { IGroup, INode } from '@visactor/vrender';
-import type { IMark, IMarkOption } from '../../mark/interface';
 import { BaseModel } from '../../model/base-model';
 import type { IRegion } from '../../region/interface';
 import type { ComponentTypeEnum, IComponent, IComponentOption } from '../interface';
 import type { BaseEventParams } from '../../event/interface';
 import { ComponentPluginService } from '../../plugin/components/plugin-service';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
-import { get, isArray, merge } from '@visactor/vutils';
+import { isArray, merge } from '@visactor/vutils';
 import { getComponentThemeFromGlobalTheme } from './util';
-import { MarkSet } from '../../mark/mark-set';
 import type { IGroupMark } from '@visactor/vgrammar';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
@@ -24,26 +22,12 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
   getRegions() {
     return this._regions;
   }
-  protected _marks: MarkSet = new MarkSet();
-  getMarks(): IMark[] {
-    return this._marks?.getMarks() ?? [];
-  }
 
   protected _container: IGroup;
 
   created() {
     super.created();
     this.pluginService = new ComponentPluginService(this);
-  }
-
-  get markOption(): IMarkOption {
-    return {
-      model: this,
-      map: this._option.map,
-      // 类型
-      getCompiler: this.getCompiler,
-      globalScale: this._option.globalScale
-    };
   }
 
   animate?: IAnimate;
@@ -77,9 +61,8 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
 
   async setCurrentTheme(theme: any, noRender?: boolean) {
     const modifyConfig = () => {
-      this._initTheme(theme);
       // 重新初始化
-      this.reInit();
+      this.reInit(theme);
 
       return { change: true, reMake: false };
     };
@@ -98,12 +81,7 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
       super._initTheme(theme);
     } else {
       super._initTheme(
-        getComponentThemeFromGlobalTheme(
-          this.type as ComponentTypeEnum,
-          globalTheme,
-          this._originalSpec,
-          get(this._option.getChart().getSpec(), 'direction')
-        )
+        getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, globalTheme, this._originalSpec)
       );
     }
 
@@ -113,6 +91,7 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
     } else {
       this._spec = merge({}, this._theme, this._originalSpec);
     }
+    this._preprocessSpec();
   }
 
   protected getContainer() {
@@ -126,7 +105,6 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
   release() {
     super.release();
     this.clear();
-    this._marks.clear();
   }
 
   clear() {

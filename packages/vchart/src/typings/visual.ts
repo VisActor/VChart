@@ -7,6 +7,7 @@ import type { IPoint } from './coordinate';
 import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark';
 import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
+import type { IColorKey } from '../theme/color-scheme/interface';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {
@@ -83,7 +84,7 @@ export interface ICommonSpec {
   x?: number;
   y?: number;
   z?: number;
-  stroke?: string | IGradient;
+  stroke?: string | IGradient | IColorKey;
   strokeOpacity?: number;
   opacity?: number;
   lineWidth?: number;
@@ -161,7 +162,7 @@ export interface ICommonSpec {
 }
 
 export interface IFillMarkSpec extends ICommonSpec {
-  fill?: VisualType<string> | IGradient | false;
+  fill?: VisualType<string> | IGradient | false | IColorKey;
   fillOpacity?: number;
 }
 

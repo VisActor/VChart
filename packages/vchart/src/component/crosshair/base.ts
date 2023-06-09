@@ -126,11 +126,6 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
     return result;
   }
 
-  reInit() {
-    super.reInit();
-    // TODO: setMarkStyle;
-  }
-
   protected initEvent() {
     const { in: triggerEvent, out: outTriggerEvent } = this.getTriggerEvent();
     if (isArray(triggerEvent)) {
@@ -348,7 +343,7 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
       maxWidth: labelBackground?.maxWidth,
       padding: labelBackground?.padding,
       textStyle: {
-        fontSize: 12,
+        fontSize: 14,
         pickable: false,
         ...labelStyle,
         fill: labelStyle?.fill ?? '#fff',

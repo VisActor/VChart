@@ -5,11 +5,13 @@ import { SeriesTypeEnum } from '../interface';
 import type { IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import type { IProgressArcMark } from '../../mark/progress-arc';
-import { DataSet, DataView, dataViewParser } from '@visactor/vdataset';
-import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
+import { registerDataSetInstanceTransform } from '../../data/register';
 import { SEGMENT_FIELD_END, SEGMENT_FIELD_START } from '../../constant';
 import type { Datum } from '@visactor/vgrammar';
 import type { Maybe } from '../../typings';
+import type { IStateAnimateSpec } from '../../animation/spec';
+import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 
 export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.gauge;
@@ -23,8 +25,6 @@ export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
   protected _stack: boolean = false;
   protected _padAngle: number = 0;
 
-  protected _segmentData: DataView;
-
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
 
@@ -37,9 +37,9 @@ export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
     /**
      * @description 将数据排序并调整图元的起始点为上一个数据的终点，但是终点维持不变
      */
-    const spiltSegment = (data: Array<DataView>, op: string) => {
+    const spiltSegment = (data: Datum[], op: string) => {
       // 数据处理
-      const dataCollect = [...data[0].latestData];
+      const dataCollect = [...data];
       dataCollect.sort((a, b) => a[this._angleField[0]] - b[this._angleField[0]]);
       dataCollect.forEach((datum: any, i) => {
         datum[SEGMENT_FIELD_END] = datum[this._angleField[0]];
@@ -52,29 +52,19 @@ export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
       return dataCollect;
     };
 
-    // data to dataview
-    const dataSet = new DataSet();
-    registerDataSetInstanceParser(dataSet, 'dataview', dataViewParser);
-    registerDataSetInstanceTransform(dataSet, 'spiltSegment', spiltSegment);
-    const segmentDataView = new DataView(dataSet);
-    segmentDataView.parse([this.getViewData()], {
-      type: 'dataview'
-    });
-    segmentDataView.transform(
+    registerDataSetInstanceTransform(this._option.dataSet, 'spiltSegment', spiltSegment);
+    this.getViewDataFilter()?.transform(
       {
         type: 'spiltSegment'
       },
       false
     );
-
-    this._segmentData = segmentDataView;
   }
 
   initMark(): void {
     this._trackMark = this._createMark(MarkTypeEnum.progressArc, 'track') as IProgressArcMark;
     this._segmentMark = this._createMark(MarkTypeEnum.progressArc, 'segment', {
-      isSeriesMark: true,
-      dataView: this._segmentData
+      isSeriesMark: true
     }) as IProgressArcMark;
   }
 
@@ -135,5 +125,21 @@ export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
   protected _getAngleValueEnd(datum: Datum) {
     const angle = this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_END]]);
     return angle - (this._spec.padAngle ?? 0) / 2;
+  }
+
+  initAnimation() {
+    const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<any>)?.preset;
+
+    this._segmentMark.setAnimationConfig(
+      animationConfig(
+        DEFAULT_MARK_ANIMATION.circularProgress(
+          {
+            startAngle: this._startAngle
+          },
+          appearPreset
+        ),
+        userAnimationConfig('pointer', this._spec)
+      )
+    );
   }
 }

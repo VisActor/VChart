@@ -35,15 +35,6 @@ export class Region extends BaseModel implements IRegion {
 
   interaction: IInteraction = new Interaction();
 
-  // scrollBar
-  // scrollBar.scroll() => lineMark.x += offsetX
-  // lineMark.x = lineMark.baseX + offsetX
-  // scrollBar. regionGroup.clip = true;
-  protected _marks: MarkSet = new MarkSet();
-  getMarks() {
-    return this._marks.getMarks();
-  }
-
   protected _groupMark!: IGroupMark;
   getGroupMark() {
     return this._groupMark;
@@ -207,8 +198,8 @@ export class Region extends BaseModel implements IRegion {
     return result;
   }
 
-  reInit() {
-    super.reInit();
+  reInit(theme?: any) {
+    super.reInit(theme);
     this._initBackgroundMarkStyle();
     this._initForegroundMarkStyle();
   }
@@ -291,7 +282,6 @@ export class Region extends BaseModel implements IRegion {
   release() {
     super.release();
     this._series = [];
-    this._marks.clear();
   }
   /** dimension */
   createTrigger() {

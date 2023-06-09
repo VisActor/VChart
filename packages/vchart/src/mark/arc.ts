@@ -21,7 +21,8 @@ export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements 
       endAngle: 0,
       outerRadius: 0,
       innerRadius: 0,
-      cornerRadius: 0
+      cornerRadius: 0,
+      lineWidth: 0
     };
     return defaultStyle;
   }

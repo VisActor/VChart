@@ -14,7 +14,7 @@ import type {
   IThresholdStyle
 } from '../../typings';
 
-import { isBoolean, isFunction, isNil, get, isValid, merge, Color, createScaleWithSpec, isNumber } from '../../util';
+import { isBoolean, isFunction, isNil, isValid, merge, Color, createScaleWithSpec, isNumber } from '../../util';
 import type {
   IMarkRaw,
   IMarkStateStyle,
@@ -29,8 +29,8 @@ import { AttributeLevel, GradientType, DEFAULT_GRADIENT_CONFIG } from '../../con
 import { isValidScaleType, ThresholdScale } from '@visactor/vscale';
 import type { DataView } from '@visactor/vdataset';
 import { DUPLICATED_ATTRS } from '../utils';
-import { getDataScheme } from '../../theme/color-scheme/util';
-import type { SeriesTypeEnum } from '../../series/interface';
+import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme/util';
+import type { ISeries, SeriesTypeEnum } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
 
@@ -377,9 +377,12 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       }
     }
 
-    const themeColor = getDataScheme(
-      get(this.model, '_option.theme.colorScheme'),
-      this.model.modelType === 'series' ? (this.model.type as SeriesTypeEnum) : undefined
+    const themeColor = computeActualDataScheme(
+      getDataScheme(
+        this.model.getOption()?.getTheme()?.colorScheme,
+        this.model.modelType === 'series' ? (this.model.type as SeriesTypeEnum) : undefined
+      ),
+      (this.model as ISeries).getDefaultColorDomain()
     );
     const computeStyle: any = {};
     // 默认配置处理

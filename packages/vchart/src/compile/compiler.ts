@@ -34,12 +34,12 @@ type EventListener = {
 registerBasicTransforms();
 
 export class Compiler {
-  protected _srView: IView;
+  protected _view: IView;
   /**
    * 获取 VGrammar View 实例
    */
   getVGrammarView() {
-    return this._srView;
+    return this._view;
   }
   protected _viewListeners: Map<(...args: any[]) => any, EventListener> = new Map();
   protected _windowListeners: Map<(...args: any[]) => any, EventListener> = new Map();
@@ -70,7 +70,7 @@ export class Compiler {
   }
 
   getRenderer() {
-    return this._srView?.renderer;
+    return this._view?.renderer;
   }
 
   /**
@@ -78,23 +78,23 @@ export class Compiler {
    * @returns HTMLCanvasElement | undefined
    */
   getCanvas(): HTMLCanvasElement | undefined {
-    return this._srView?.renderer.canvas();
+    return this._view?.renderer.canvas();
   }
 
   /**
    * 获取 渲染引擎
    */
   getStage(): Stage | undefined {
-    return this._srView?.renderer.stage();
+    return this._view?.renderer.stage();
   }
 
-  initSrView() {
+  initView() {
     this.isInited = true;
-    if (this._srView) {
+    if (this._view) {
       return;
     }
 
-    this._srView = new View({
+    this._view = new View({
       width: this._width,
       height: this._height,
       // 禁用默认交互，防止干扰数据流
@@ -112,7 +112,7 @@ export class Compiler {
         disable: this._option.interactive === false
       },
       doLayout: () => {
-        this._compileChart?.onLayout(this._srView);
+        this._compileChart?.onLayout(this._view);
       }
     });
     this._setCanvasStyle();
@@ -121,13 +121,13 @@ export class Compiler {
     if (interactive !== false) {
       // 将 view 实例化之前监听的事件挂载到 view 上
       this._viewListeners.forEach(listener => {
-        this._srView?.addEventListener(listener.type, listener.callback);
+        this._view?.addEventListener(listener.type, listener.callback);
       });
     }
   }
 
   private _setCanvasStyle() {
-    if (!this._srView) {
+    if (!this._view) {
       return;
     }
     if (this._container.dom && !isString(this._container.dom)) {
@@ -143,8 +143,8 @@ export class Compiler {
   compile(ctx: { chart: IChart; vChart: VChart }, option: any) {
     const { chart } = ctx;
     this._compileChart = chart;
-    this.initSrView();
-    if (!this._srView) {
+    this.initView();
+    if (!this._view) {
       return;
     }
 
@@ -153,35 +153,35 @@ export class Compiler {
   }
 
   async renderAsync(morphConfig?: IMorphConfig): Promise<any> {
-    this.initSrView();
-    if (!this._srView) {
+    this.initView();
+    if (!this._view) {
       return Promise.reject('srView init fail');
     }
-    await this._srView?.runNextTick(morphConfig);
+    await this._view?.runNextTick(morphConfig);
     return this;
   }
 
   renderSync(morphConfig?: IMorphConfig): void {
-    this.initSrView();
-    if (!this._srView) {
+    this.initView();
+    if (!this._view) {
       return;
     }
-    this._srView?.runSync(morphConfig);
+    this._view?.runSync(morphConfig);
   }
 
   updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {
-    if (!this._srView) {
+    if (!this._view) {
       return;
     }
 
-    this._srView.renderer.setViewBox(viewBox, reRender);
+    this._view.renderer.setViewBox(viewBox, reRender);
   }
 
   resize(width: number, height: number) {
-    if (!this._srView) {
+    if (!this._view) {
       return Promise.reject();
     }
-    this._srView.resize(width, height);
+    this._view.resize(width, height);
     return this.reRenderAsync({ morph: false });
   }
 
@@ -202,20 +202,20 @@ export class Compiler {
   setSize(width: number, height: number) {
     this._width = width;
     this._height = height;
-    if (!this._srView) {
+    if (!this._view) {
       return;
     }
 
-    this._srView.width(width);
-    this._srView.height(height);
+    this._view.width(width);
+    this._view.height(height);
   }
 
   setViewBox(viewBox: IBoundsLike, reRender: boolean = true) {
-    if (!this._srView) {
+    if (!this._view) {
       return;
     }
 
-    this._srView.renderer.setViewBox(viewBox, reRender);
+    this._view.renderer.setViewBox(viewBox, reRender);
   }
 
   addEventListener(
@@ -251,7 +251,7 @@ export class Compiler {
       this._viewListeners.set(callback, { type, callback: wrappedCallback });
       // 如果 view 已经初始化则立刻挂载监听
       // FIXME: 目前 vgrammar 类型声明没有对齐，事件相关类型声明并没有使用 SceneItem
-      this._srView?.addEventListener(type, wrappedCallback as any);
+      this._view?.addEventListener(type, wrappedCallback as any);
     } else if (source === Event_Source_Type.window) {
       const wrappedCallback = function wrappedCallback(event: any) {
         // TODO: vgrammar 暂未提供基于事件直接筛选相应 mark 的能力，这里无法获取到相应的 item
@@ -285,7 +285,7 @@ export class Compiler {
     }
     if (source === Event_Source_Type.chart) {
       const wrappedCallback = this._viewListeners.get(callback)?.callback;
-      wrappedCallback && this._srView?.removeEventListener(type, wrappedCallback);
+      wrappedCallback && this._view?.removeEventListener(type, wrappedCallback);
       this._viewListeners.delete(callback);
     } else if (source === Event_Source_Type.window) {
       const wrappedCallback = this._windowListeners.get(callback)?.callback;
@@ -305,15 +305,15 @@ export class Compiler {
     this._option = this._container = null as any;
     // vgrammar release
     this._releaseModel();
-    this._srView?.release();
-    this._srView = null;
+    this._view?.release();
+    this._view = null;
     this.isInited = false;
     this._rafId = null;
   }
 
   releaseGrammar() {
     this._releaseModel();
-    this._srView?.removeAllGrammars();
+    this._view?.removeAllGrammars();
   }
 
   protected _releaseModel() {
@@ -358,7 +358,7 @@ export class Compiler {
       }
     }
     if (!reserveVGrammarModel) {
-      this._srView?.removeGrammar(product);
+      this._view?.removeGrammar(product);
     }
   }
 

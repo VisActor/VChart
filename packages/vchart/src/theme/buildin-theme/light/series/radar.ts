@@ -1,5 +1,5 @@
 import type { IRadarSeriesTheme } from '../../../../series/radar/interface';
-import { DEFAULT_TEXT_FONT_SIZE as fontSize } from '../../config';
+import { THEME_CONSTANTS } from '../constants';
 
 export const radar: IRadarSeriesTheme = {
   area: {
@@ -12,13 +12,18 @@ export const radar: IRadarSeriesTheme = {
       size: 10
     }
   },
+  line: {
+    style: {
+      lineWidth: 2
+    }
+  },
   label: {
     visible: false,
     offset: 5,
     style: {
       lineWidth: 2,
       stroke: 'white',
-      fontSize
+      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
     }
   }
 };

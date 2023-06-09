@@ -244,6 +244,7 @@ export interface IModel extends ICompilable, ILayoutItem {
   getOption: () => IModelOption;
 
   getMarks: () => IMark[];
+  getMarkNameMap: () => Record<string, IMark>;
 
   getData: () => ICompilableData;
 
@@ -255,7 +256,7 @@ export interface IModel extends ICompilable, ILayoutItem {
   // 用来处理与其他图表模块的联系
   init: (option: IModelInitOption) => void;
   // updateSpec 或者切换主题后，根据新 spec 执行的初始化过程
-  reInit: () => void;
+  reInit: (theme?: any) => void;
 
   onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
   onLayoutEnd: (ctx: IModelLayoutOption) => void;

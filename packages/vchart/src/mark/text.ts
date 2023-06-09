@@ -15,7 +15,8 @@ export class TextMark extends BaseMark<ITextMarkSpec> implements ITextMark {
       ...super._getDefaultStyle(),
       // TODO: 删除后会有显示问题，待排查
       angle: 0,
-      textAlign: 'center'
+      textAlign: 'center',
+      lineWidth: 0
     };
     return defaultStyle;
   }

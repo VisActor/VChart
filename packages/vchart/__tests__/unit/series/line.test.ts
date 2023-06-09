@@ -122,7 +122,7 @@ describe('[Domain-Series-Line] Line Series', () => {
 
     // add
     const addMark = new SymbolMark('testSymbol', markContext);
-    line.getMarkMap()[addMark.name] = addMark as any;
+    line.getMarkSet().addMark(addMark);
 
     marks = line.getMarks();
     expect(marks.length).toEqual(4);
@@ -130,7 +130,7 @@ describe('[Domain-Series-Line] Line Series', () => {
     expect(symbolMark.name).toEqual('testSymbol');
     expect(symbolMark.type).toEqual('symbol');
 
-    delete line.getMarkMap()[addMark.name];
+    line.getMarkSet().removeMark(addMark.name);
     marks = line.getMarks();
     expect(marks.length).toEqual(3);
     symbolMark = marks[2];
