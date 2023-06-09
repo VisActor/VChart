@@ -295,10 +295,10 @@ export interface IBoxPlotMarkSpec extends ICommonSpec {
    * 盒子填充颜色，为空则不填充
    */
   boxFill?: string;
-  /**
-   * 描边颜色
-   */
-  stroke?: string;
+  // /**
+  //  * 描边颜色
+  //  */
+  // stroke?: string;
   /**
    * 中轴线透明度，仅当shaftType=bar时生效
    */
