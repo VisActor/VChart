@@ -89,7 +89,8 @@
    * PNPM documentation: https://pnpm.io/package_json#pnpmoverrides
    */
   "globalOverrides": {
-    // "example1": "^1.0.0",
+    "@visactor/vrender": "0.9.1",
+    "@visactor/vrender-components": "0.9.1"
     // "example2": "npm:@company/example2@^1.0.0"
   },
 
