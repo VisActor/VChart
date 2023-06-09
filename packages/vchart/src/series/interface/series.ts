@@ -93,7 +93,7 @@ export interface ISeries extends IModel, ILayoutItem {
   initMark: () => void;
   getMarks: () => IMark[];
   getMarksWithoutRoot: () => IMark[];
-  getMarkMap: () => Record<string, IMark>;
+  getMarkNameMap: () => Record<string, IMark>;
   getMarksInType: (type: string | string[]) => IMark[];
   getMarkInName: (name: string) => IMark | undefined;
   getMarkInId: (id: number) => IMark | undefined;
@@ -162,6 +162,7 @@ export interface ISeries extends IModel, ILayoutItem {
   dataToPositionZ?: (yValue: any) => number | null;
 
   getColorAttribute: () => { scale: IBaseScale; field: string };
+  getDefaultColorDomain: () => any[];
 
   getInvalidType: () => IInvalidType;
 

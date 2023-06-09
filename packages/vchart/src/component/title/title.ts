@@ -17,6 +17,7 @@ import { LayoutLevel, LayoutZIndex } from '../../constant';
 
 export class Title extends BaseComponent implements ITitle {
   static type = ComponentTypeEnum.title;
+  type = ComponentTypeEnum.title;
 
   layoutType: LayoutItem['layoutType'] = 'normal';
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Title;
@@ -191,10 +192,5 @@ export class Title extends BaseComponent implements ITitle {
     super.clear();
     this._titleComponent = null;
     this._cacheAttrs = null;
-  }
-
-  reInit() {
-    super.reInit();
-    this._initTheme();
   }
 }

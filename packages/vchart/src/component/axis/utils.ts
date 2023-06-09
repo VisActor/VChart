@@ -1,8 +1,7 @@
 import type { ITheme } from './../../theme/interface';
 import { isFunction, merge, get, isNil, degreeToRadian } from '@visactor/vutils';
 import type { Datum, IOrientType, IPolarOrientType } from '../../typings';
-import { Direction } from '../../typings';
-import type { ICommonAxisSpec, ILinearAxisSpec } from './interface';
+import type { AxisType, ICommonAxisSpec, ILinearAxisSpec } from './interface';
 import { transformToGraphic, transformComponentStyle, transformStateStyle } from '../../util/style';
 import { isXAxis } from './cartesian/util';
 
@@ -169,25 +168,16 @@ export function isValidPolarAxis(spec: any) {
   return orient === 'angle' || orient === 'radius';
 }
 
-export const getCartesianAxisTheme = (direction: string, orient: IOrientType, theme: ITheme) => {
-  // 如果配置了 direction 发生了坐标轴转置需要进行处理，保持坐标轴配置一致
-  const axisTheme =
-    direction === Direction.horizontal
-      ? isXAxis(orient)
-        ? theme.axisY
-        : theme.axisX
-      : isXAxis(orient)
-      ? theme.axisX
-      : theme.axisY;
-  return merge({}, theme.axis, axisTheme);
+export const getCartesianAxisTheme = (orient: IOrientType, type: AxisType, theme: ITheme) => {
+  const { axisBand, axisLinear, axisX, axisY, axis } = theme.component ?? {};
+  const axisTypeTheme = (type === 'band' ? axisBand : type === 'linear' ? axisLinear : {}) ?? {};
+  const axisTheme = isXAxis(orient) ? axisX : axisY;
+  return merge({}, axis, axisTypeTheme, axisTheme);
 };
 
-export const getPolarAxisTheme = (orient: IPolarOrientType, theme: ITheme) => {
-  let axisTheme = theme.axis;
-  if (orient === 'angle') {
-    axisTheme = theme.axisAngle;
-  } else if (orient === 'radius') {
-    axisTheme = theme.axisRadius;
-  }
-  return merge({}, theme.axis, axisTheme);
+export const getPolarAxisTheme = (orient: IPolarOrientType, type: AxisType, theme: ITheme) => {
+  const { axisBand, axisLinear, axisAngle, axisRadius, axis } = theme.component ?? {};
+  const axisTypeTheme = (type === 'band' ? axisBand : type === 'linear' ? axisLinear : {}) ?? {};
+  const axisTheme = orient === 'angle' ? axisAngle : axisRadius;
+  return merge({}, axis, axisTypeTheme, axisTheme);
 };

@@ -3,13 +3,14 @@ import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visa
 
 // eslint-disable-next-line no-duplicate-imports
 import { DiscretePlayer, ContinuousPlayer, PlayerEventEnum } from '@visactor/vrender-components';
-import { isNumber, array, isEqual, merge } from '@visactor/vutils';
+import { isNumber, array, isEqual } from '@visactor/vutils';
 
 import type { ILayoutRect, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IComponentOption } from '../interface';
 
 import type { DirectionType, IPlayer } from './interface';
+// eslint-disable-next-line no-duplicate-imports
 import type { IComponent } from '../interface';
 import type { IPoint, IOrientType } from '../../typings';
 import type { IChartSpec, IDataValues } from '../..';
@@ -122,11 +123,6 @@ export class Player extends BaseComponent implements IComponent {
   clear(): void {
     super.clear();
     this._playerComponent = null;
-  }
-
-  reInit() {
-    super.reInit();
-    this._initTheme();
   }
 
   /**

@@ -1,4 +1,4 @@
-import { merge, createID, isValid, cloneDeepSpec } from '../util';
+import { createID, isValid, cloneDeepSpec, getActualColor } from '../util';
 import { Event } from '../event/event';
 import type { IEvent } from '../event/interface';
 import { LayoutItem } from './layout-item';
@@ -14,16 +14,17 @@ import type {
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkType } from '../mark/interface';
-import { findColor, isColorKey } from '../theme/color-scheme/util';
-import type { SeriesTypeEnum } from '../series/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect } from '../typings';
 import type { ITooltipHelper } from './tooltip-helper';
 import type { CompilableData } from '../compile/data/compilable-data';
 import { ModelStateManager } from './model-state-manager';
 import { PREFIX } from '../constant';
 import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar';
-import { isEqual } from '@visactor/vutils';
+import { isArray, isEqual, isFunction, isNil, isObject, merge } from '@visactor/vutils';
 import { Factory } from '../core/factory';
+import { isColorKey } from '../theme/color-scheme/util';
+import type { SeriesTypeEnum } from '../series/interface';
+import { MarkSet } from '../mark/mark-set';
 
 export abstract class BaseModel extends LayoutItem implements IModel {
   readonly type: string = 'null';
@@ -66,7 +67,16 @@ export abstract class BaseModel extends LayoutItem implements IModel {
 
   protected _sceneNodeMap: Map<string, IElement>;
 
-  abstract getMarks(): IMark[];
+  protected _marks: MarkSet = new MarkSet();
+  getMarks(): IMark[] {
+    return this._marks?.getMarks() ?? [];
+  }
+  getMarkNameMap() {
+    return this._marks?.getMarkNameMap();
+  }
+  getMarkSet() {
+    return this._marks;
+  }
 
   getChart() {
     return this._option.getChart();
@@ -166,6 +176,7 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     this.state.release();
     this._data?.release();
     this._data = this._specIndex = this._sceneNodeMap = null;
+    this._marks.clear();
     super.release();
   }
 
@@ -182,27 +193,74 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     return result;
   }
 
-  reInit() {
+  reInit(theme?: any) {
+    this._initTheme(theme);
     this.setAttrFromSpec();
   }
 
   protected _initTheme(theme?: any) {
+    this._theme = theme;
+
+    this._mergeMarkTheme();
+  }
+
+  /** 将全局的 mark theme 合并进 model theme */
+  protected _mergeMarkTheme() {
     const globalTheme = this._option.getTheme?.();
-    if (!isValid(globalTheme)) {
+    if (isNil(globalTheme) || isNil(this._theme)) {
       return;
     }
 
-    this._theme = theme;
+    const { mark: markThemeByType, markByName: markThemeByName } = globalTheme;
+    this.getMarks().forEach(mark => {
+      this._theme[mark.name] = merge(
+        {},
+        markThemeByType?.[mark.type] ?? {},
+        markThemeByName?.[mark.name] ?? {},
+        this._theme[mark.name]
+      );
+    });
+  }
 
-    // 将全局的 mark theme 合并进 model theme
-    const { mark: markTheme } = globalTheme;
-    if (isValid(markTheme)) {
-      this.getMarks().forEach(mark => {
-        if (isValid(markTheme[mark.type])) {
-          this._theme[mark.name] = merge({}, markTheme[mark.type], this._theme[mark.name]);
+  /** 对 spec 进行遍历和转换 */
+  protected _preprocessSpec(obj?: any): any {
+    if (!arguments.length) {
+      obj = this._spec;
+    }
+
+    if (isArray(obj)) {
+      return obj.map(element => {
+        if (isObject(element) && !isFunction(element)) {
+          return this._preprocessSpec(element);
         }
+        return element;
       });
     }
+    const newObj = { ...obj };
+    Object.keys(newObj).forEach(key => {
+      // 绕过 DataView 对象
+      if (key.includes('data')) {
+        return;
+      }
+      const value = obj[key];
+      if (isObject(value) && !isFunction(value)) {
+        // 查询、替换语义化颜色
+        if (isColorKey(value)) {
+          newObj[key] = getActualColor(
+            value,
+            this._option.getTheme?.()?.colorScheme,
+            this.modelType === 'series' ? (this.type as SeriesTypeEnum) : undefined
+          );
+        } else {
+          newObj[key] = this._preprocessSpec(value);
+        }
+      }
+    });
+
+    if (!arguments.length) {
+      this._spec = newObj;
+    }
+    return newObj;
   }
 
   setCurrentTheme(theme: any, noRender?: boolean) {
@@ -217,33 +275,11 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     super.setAttrFromSpec(this._spec, this._option.getChartViewRect());
   }
 
-  /** mark style 内部转换逻辑，转换颜色、角度弧度等 */
+  /** mark style 内部转换逻辑，override 使用 */
   protected _convertMarkStyle<T extends ICommonSpec = ICommonSpec>(
     style: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>
   ): Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>> {
-    const newStyle: any = {
-      ...style
-    };
-
-    Object.keys(newStyle).forEach(key => {
-      const value = style[key];
-
-      // 查询语义化颜色
-      if (isColorKey(value)) {
-        const globalTheme = this._option.getTheme?.();
-        if (globalTheme) {
-          const color = findColor(
-            globalTheme.colorScheme,
-            value,
-            this.modelType === 'series' ? (this.type as SeriesTypeEnum) : undefined
-          );
-          if (color) {
-            newStyle[key] = color;
-          }
-        }
-      }
-    });
-
+    const newStyle: any = { ...style };
     return newStyle;
   }
 
@@ -264,9 +300,7 @@ export abstract class BaseModel extends LayoutItem implements IModel {
       return;
     }
     const { style, state } = spec;
-    const newSpec = {
-      ...spec
-    };
+    const newSpec = { ...spec };
 
     if (style) {
       newSpec.style = this._convertMarkStyle(style);

@@ -1,5 +1,5 @@
 import type { IScatterSeriesTheme } from '../../../../series/scatter/interface';
-import { DEFAULT_TEXT_FONT_SIZE as fontSize } from '../../config';
+import { THEME_CONSTANTS } from '../constants';
 
 export const scatter: IScatterSeriesTheme = {
   size: 10,
@@ -11,7 +11,7 @@ export const scatter: IScatterSeriesTheme = {
     style: {
       lineWidth: 2,
       stroke: 'white',
-      fontSize
+      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
     }
   }
 };

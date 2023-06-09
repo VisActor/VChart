@@ -59,7 +59,9 @@ export interface IGaugePointerSeriesTheme extends IProgressLikeSeriesTheme {
 
 export type GaugeMarks = 'segment' | 'track';
 
-export interface IGaugeSeriesSpec extends IProgressLikeSeriesSpec {
+export interface IGaugeSeriesSpec
+  extends IProgressLikeSeriesSpec,
+    IAnimationSpec<GaugeMarks, ProgressLikeAppearPreset> {
   type: 'gauge';
 
   /** 扇区间隔角度 */

@@ -29,7 +29,7 @@ import { registerWordCloudShapeTransforms } from '@visactor/vgrammar-wordcloud-s
 import type { Datum, IPoint } from '../../typings';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { LinearScale, OrdinalScale } from '@visactor/vscale';
+import { LinearScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar-util';
 import {
   WORD_CLOUD_ANGLE,
@@ -41,6 +41,7 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import type { ICompilableMark } from '../../compile/mark';
 import type { ILayoutOrientPadding } from '../../model/interface';
 import { BaseSeries } from '../base/base-series';
+import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 
 registerWordCloudTransforms();
 registerWordCloudShapeTransforms();
@@ -210,13 +211,12 @@ class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordCloudSer
 
   protected getWordOrdinalColorScale(field: string, isFillingWord: boolean) {
     const colorList = isFillingWord ? this._wordCloudShapeConfig.fillingColorList : this._colorList;
+    const colorDomain = field ? this.getViewData()?.latestData.map((datum: Datum) => datum[field]) : [];
     const colorRange =
       colorList ??
       this._option.globalScale.getScale('color')?.range() ??
       getDataScheme(this._option.getTheme().colorScheme, this.type as any);
-    return new OrdinalScale()
-      .domain(field ? this.getViewData()?.latestData.map((datum: Datum) => datum[field]) : [])
-      .range?.(colorRange);
+    return new ColorOrdinalScale().domain(colorDomain).range?.(colorRange);
   }
 
   getWordColorAttribute(field: string, isFillingWord: boolean) {
@@ -601,7 +601,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
           fontSize: (datum: Datum) => datum.fontSize,
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
-          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar 默认不提供弧度转换
+          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar默认不提供弧度转换
           visible: (datum: Datum) => !datum.isFillingWord
         },
         'normal',
@@ -623,7 +623,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
           fontSize: (datum: Datum) => datum.fontSize,
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
-          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar 默认不提供弧度转换
+          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar默认不提供弧度转换
           visible: (datum: Datum) => datum.isFillingWord
         },
         'normal',

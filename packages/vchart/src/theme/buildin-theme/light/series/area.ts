@@ -1,10 +1,15 @@
 import type { IAreaSeriesTheme } from '../../../../series/area/interface';
-import { DEFAULT_TEXT_FONT_SIZE as fontSize } from '../../config';
+import { THEME_CONSTANTS } from '../constants';
 
 export const area: IAreaSeriesTheme = {
   area: {
     style: {
       fillOpacity: 0.2
+    }
+  },
+  line: {
+    style: {
+      lineWidth: 2
     }
   },
   point: {
@@ -19,7 +24,7 @@ export const area: IAreaSeriesTheme = {
     style: {
       stroke: 'white',
       lineWidth: 2,
-      fontSize
+      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
     }
   }
 };
