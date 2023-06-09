@@ -318,16 +318,13 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
       ...restStyle
     };
     if (isLineType) {
-      hair.style.stroke = true;
-      hair.style.strokeColor = stroke || fill;
+      hair.style.stroke = stroke || fill;
       hair.style.lineWidth = line?.width || lineWidth || 2;
     } else {
-      hair.style.fill = true;
-      hair.style.fillColor = fill || stroke;
+      hair.style.fill = fill || stroke;
 
       if (this._originalSpec[fieldName]?.line?.style?.stroke) {
-        hair.style.stroke = true;
-        hair.style.strokeColor = this._originalSpec[fieldName].line.style.stroke;
+        hair.style.stroke = this._originalSpec[fieldName].line.style.stroke;
       }
       if (typeof line.width === 'string') {
         const percent = parseInt(line.width.substring(0, line.width.length - 1), 10) / 100;
@@ -354,19 +351,15 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
         fontSize: 12,
         pickable: false,
         ...labelStyle,
-        fill: true,
-        fillColor: labelStyle?.fill ?? '#fff',
-        stroke: !!get(labelStyle, 'stroke'),
-        strokeColor: get(labelStyle, 'stroke')
+        fill: labelStyle?.fill ?? '#fff',
+        stroke: get(labelStyle, 'stroke')
       },
       panel: {
         visible: isBoolean(labelBackground?.visible) ? labelBackground?.visible : !!labelBackground,
         pickable: false,
-        fill: !!rectFill,
-        fillColor: rectFill,
+        fill: rectFill,
         borderRadius,
-        stroke: !!rectStroke,
-        strokeColor: rectStroke,
+        stroke: rectStroke,
         ...rectStyle
       },
       zIndex: this.labelZIndex

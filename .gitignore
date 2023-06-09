@@ -91,6 +91,7 @@ common/autoinstallers/*/.npmrc
 packages/lark-vchart/index.json
 packages/lark-vchart/index.ttml
 packages/lark-vchart/index.ttss
+packages/vchart/examples
 
 # build
 .rollup.cache/

@@ -18,7 +18,7 @@ export class BoxPlotMark extends BaseMark<IBoxPlotMarkSpec> implements IBoxPlotM
   protected _getDefaultStyle() {
     const defaultStyle: IMarkStyle<IBoxPlotMarkSpec> = {
       ...super._getDefaultStyle(),
-      strokeWidth: 2,
+      lineWidth: 2,
       boxWidth: 30,
       shaftWidth: 20,
       shaftShape: 'line'

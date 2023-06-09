@@ -167,11 +167,9 @@ export class DiscreteLegend extends BaseLegend {
       return {
         label: datum.key,
         shape: {
-          fill: !!fill,
-          fillColor: fill,
+          fill,
           symbolType: symbolType ?? datum.shapeType ?? 'circle',
-          strokeColor: stroke,
-          stroke: !!stroke,
+          stroke,
           fillOpacity: isValidNumber(fillOpacity) ? fillOpacity : 1,
           strokeOpacity: isValidNumber(strokeOpacity) ? strokeOpacity : 1,
           opacity: isValidNumber(opacity) ? opacity : 1,

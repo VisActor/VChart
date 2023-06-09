@@ -5,7 +5,7 @@ export const brush: IBrushTheme = {
     fill: '#B0C8F9',
     fillOpacity: 0.2,
     stroke: '#B0C8F9',
-    strokeWidth: 2
+    lineWidth: 2
   },
   brushMode: 'single',
   brushType: 'rect',

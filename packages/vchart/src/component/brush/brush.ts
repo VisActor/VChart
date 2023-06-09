@@ -135,7 +135,7 @@ export class Brush extends BaseComponent implements IBrush {
       styleResult.size = brushedStyle.symbolSize;
     }
     if (brushedStyle?.color) {
-      styleResult.fillColor = brushedStyle.color;
+      styleResult.fill = brushedStyle.color;
     }
     if (brushedStyle?.colorAlpha) {
       styleResult.fillOpacity = brushedStyle.colorAlpha;
