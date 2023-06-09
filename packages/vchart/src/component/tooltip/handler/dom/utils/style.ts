@@ -19,8 +19,7 @@ const getPixelPropertyStr = (num?: number | number[], defaultStr?: string) => {
 export function getDomStyles(style: ITooltipStyle): IDomTooltipStyle {
   const {
     panel: {
-      fill,
-      fillColor,
+      fill: fillColor,
       shadow,
       shadowBlur,
       shadowColor,
@@ -28,7 +27,7 @@ export function getDomStyles(style: ITooltipStyle): IDomTooltipStyle {
       shadowOffsetY,
       shadowSpread,
       borderRadius,
-      strokeColor,
+      stroke: strokeColor,
       lineWidth
     },
     padding,
@@ -54,7 +53,7 @@ export function getDomStyles(style: ITooltipStyle): IDomTooltipStyle {
       borderColor: strokeColor,
       borderWidth: getPixelPropertyStr(lineWidth),
       borderRadius: getPixelPropertyStr(borderRadius),
-      backgroundColor: fill && backgroundColor ? `${backgroundColor}` : 'transparent',
+      backgroundColor: backgroundColor ? `${backgroundColor}` : 'transparent',
       boxShadow: shadow
         ? `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowSpread}px ${shadowColor}`
         : 'initial',
@@ -97,7 +96,7 @@ function getLabelStyle(labelStyle?: ITextStyle, defaultStyle?: Partial<ITextStyl
   const {
     fontFamily: labelFont,
     fontSize: labelFontSize,
-    fillColor: labelColor,
+    fill: labelColor,
     textAlign,
     lineHeight,
     fontWeight,

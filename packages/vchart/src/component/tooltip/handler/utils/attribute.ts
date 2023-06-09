@@ -1,4 +1,9 @@
-import type { IContainerSize, TooltipAttributes, TooltipRowAttrs, TooltipSymbolAttrs } from '@visactor/vrender-components';
+import type {
+  IContainerSize,
+  TooltipAttributes,
+  TooltipRowAttrs,
+  TooltipSymbolAttrs
+} from '@visactor/vrender-components';
 import type { IToolTipActual } from '../../../../typings';
 import type { ITooltipStyle } from '../interface';
 import { isValid } from '@visactor/vutils';
@@ -63,11 +68,9 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
         symbolType: titleShapeType
       };
       if (titleShapeHollow) {
-        titleShapeAttrs.stroke = true;
-        titleShapeAttrs.strokeColor = titleShapeColor;
+        titleShapeAttrs.stroke = titleShapeColor;
       } else {
-        titleShapeAttrs.fill = true;
-        titleShapeAttrs.fillColor = titleShapeColor;
+        titleShapeAttrs.fill = titleShapeColor;
       }
       attribute.title.shape = titleShapeAttrs;
       maxWidth += shapeStyle.size + shapeStyle.spacing;
@@ -120,11 +123,9 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
             symbolType: shapeType
           };
           if (shapeHollow) {
-            shape.stroke = true;
-            shape.strokeColor = shapeColor;
+            shape.stroke = shapeColor;
           } else {
-            shape.fill = true;
-            shape.fillColor = shapeColor;
+            shape.fill = shapeColor;
           }
           itemHeight = Math.max(shapeStyle.size, itemHeight);
           itemAttrs.shape = shape;

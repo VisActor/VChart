@@ -278,7 +278,7 @@ export interface IBoxPlotMarkSpec extends ICommonSpec {
   /**
    * box描边宽度
    */
-  strokeWidth?: number;
+  lineWidth?: number;
   /**
    * box宽度
    */
@@ -294,11 +294,11 @@ export interface IBoxPlotMarkSpec extends ICommonSpec {
   /**
    * 盒子填充颜色，为空则不填充
    */
-  boxFillColor?: string;
+  boxFill?: string;
   /**
    * 描边颜色
    */
-  strokeColor?: string;
+  stroke?: string;
   /**
    * 中轴线透明度，仅当shaftType=bar时生效
    */

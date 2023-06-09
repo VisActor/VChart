@@ -62,7 +62,7 @@ export class BoxPlotSeries extends CartesianSeries<any> {
   getOutliersField() {
     return this._outliersField;
   }
-  protected _strokeWidth: number;
+  protected _lineWidth: number;
   protected _boxWidth: number;
   protected _shaftShape: BoxPlotShaftShape;
   getShaftShape() {
@@ -98,12 +98,12 @@ export class BoxPlotSeries extends CartesianSeries<any> {
     this._medianField = this._spec.medianField;
     this._q3Field = this._spec.q3Field;
     this._outliersField = this._spec.outliersField;
-    this._strokeWidth = boxPlotStyle.strokeWidth ?? DEFAULT_STROKE_WIDTH;
+    this._lineWidth = boxPlotStyle.lineWidth ?? DEFAULT_STROKE_WIDTH;
     this._boxWidth = boxPlotStyle.boxWidth;
     this._shaftShape = boxPlotStyle.shaftShape ?? DEFAULT_SHAFT_SHAPE;
     this._shaftWidth = boxPlotStyle.shaftWidth;
-    this._boxFillColor = boxPlotStyle.boxFillColor;
-    this._strokeColor = boxPlotStyle.strokeColor;
+    this._boxFillColor = boxPlotStyle.boxFill;
+    this._strokeColor = boxPlotStyle.stroke;
 
     this._shaftFillOpacity =
       this._shaftShape === 'bar' ? boxPlotStyle.shaftFillOpacity ?? DEFAULT_SHAFT_FILL_OPACITY : undefined;
@@ -139,7 +139,7 @@ export class BoxPlotSeries extends CartesianSeries<any> {
     if (boxPlotMark) {
       const commonBoxplotStyles = {
         direction: this._direction,
-        lineWidth: this._strokeWidth,
+        lineWidth: this._lineWidth,
         shaftShape: this._shaftShape,
         fill: this._boxFillColor ?? (this._shaftShape === 'line' ? DEFAULT_FILL_COLOR : this.getColorAttribute()),
         minMaxFillOpacity: this._shaftFillOpacity,

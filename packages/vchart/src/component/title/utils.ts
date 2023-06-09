@@ -14,22 +14,3 @@ export function transformPadding(padding: number | IPadding) {
   ];
   return result;
 }
-
-export function transformFillAndStroke(cfg: any) {
-  const style = cfg.style;
-  if (style) {
-    if (style.stroke) {
-      style.strokeColor = style.stroke;
-      style.stroke = true;
-    }
-    if (isValid(style.strokeWidth)) {
-      style.lineWidth = style.strokeWidth;
-    }
-    if (style.fill) {
-      style.fillColor = style.fill;
-      style.fill = true;
-    }
-  }
-
-  return cfg;
-}

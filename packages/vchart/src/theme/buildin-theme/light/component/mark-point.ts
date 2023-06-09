@@ -9,9 +9,7 @@ export const markPoint: IMarkPointTheme = {
       size: 5,
       visible: true,
       style: {
-        fill: true,
-        fillColor: '#eee',
-        strokeColor: '#eee'
+        fill: '#eee'
       }
     },
     line: {
