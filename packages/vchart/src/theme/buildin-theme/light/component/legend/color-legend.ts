@@ -1,5 +1,5 @@
-import type { IColorLegendTheme } from '../../../../component/legend';
-import { DEFAULT_CONTINUOUS_LEGEND_THEME } from '../../config';
+import type { IColorLegendTheme } from '../../../../../component/legend';
+import { DEFAULT_CONTINUOUS_LEGEND_THEME } from './continuous';
 
 export const colorLegend: IColorLegendTheme = {
   horizontal: {

@@ -21,7 +21,6 @@ import { SeriesData } from '../base/series-data';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { getDataScheme } from '../../theme/color-scheme/util';
-import { OrdinalScale } from '@visactor/vscale';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -32,6 +31,7 @@ import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement } from '@visactor/vgrammar';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { array } from '../../util';
+import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 
 registerSankeyTransforms();
 
@@ -935,16 +935,13 @@ export class SankeySeries extends CartesianSeries<any> {
   }
 
   getNodeOrdinalColorScale(item: string) {
+    const colorDomain = this._nodesSeriesData.getDataView().latestData.map((datum: Datum) => {
+      return datum.key;
+    });
     const colorRange =
       this._option.globalScale.color?.range() ?? getDataScheme(this._option.getTheme().colorScheme, this.type as any);
-    const ordinalScale = new OrdinalScale();
-    ordinalScale
-      .domain(
-        this._nodesSeriesData.getDataView().latestData.map((datum: Datum) => {
-          return datum.key;
-        })
-      )
-      .range?.(colorRange);
+    const ordinalScale = new ColorOrdinalScale();
+    ordinalScale.domain(colorDomain).range?.(colorRange);
     return ordinalScale.scale(item);
   }
 

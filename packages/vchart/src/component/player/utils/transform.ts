@@ -3,7 +3,6 @@ import type { IPlayer } from '../interface';
 import type { IRectGraphicAttribute, ISymbolGraphicAttribute } from '@visactor/vrender';
 import type { IRectMarkSpec, ISymbolMarkSpec } from '../../../typings';
 import { transformToGraphic } from '../../../util/style';
-// FIXME: export in @visactor/vrender-components
 import type { BaseGraphicAttributes } from '@visactor/vrender-components/es/core/type';
 
 /**

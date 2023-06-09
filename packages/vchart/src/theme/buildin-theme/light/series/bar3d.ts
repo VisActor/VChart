@@ -1,5 +1,5 @@
 import type { IBar3dSeriesTheme } from '../../../../series/bar/interface';
-import { DEFAULT_TEXT_FONT_SIZE as fontSize } from '../../config';
+import { THEME_CONSTANTS } from '../constants';
 
 export const bar3d: IBar3dSeriesTheme = {
   bar3d: {
@@ -10,7 +10,7 @@ export const bar3d: IBar3dSeriesTheme = {
   label: {
     visible: false,
     style: {
-      fontSize,
+      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
       offset: 12,
       position: 'outside'
     }

@@ -1,12 +1,11 @@
-import type { Stage } from '@visactor/vrender';
+import type { ILayer, INode, Stage } from '@visactor/vrender';
 import type { IToolTipActual } from '../../../../typings/tooltip';
 import type { ITooltipSpec, TooltipHandlerParams } from '../../interface';
 import { BaseTooltipHandler } from '../base';
-import type { Maybe, RenderMode } from '../../../../typings';
-import { Tooltip } from '@visactor/vrender-components';
-import type { Compiler } from '../../../../compile/compiler';
+import { Tooltip as TooltipComponent } from '@visactor/vrender-components';
 import { isValid } from '@visactor/vutils';
 import { TooltipHandlerType } from '../constants';
+import type { Tooltip } from '../../tooltip';
 
 /**
  * The tooltip handler class.
@@ -14,30 +13,23 @@ import { TooltipHandlerType } from '../constants';
 export class CanvasTooltipHandler extends BaseTooltipHandler {
   type = TooltipHandlerType.canvas;
 
-  private _layer: any;
+  private _layer: ILayer;
   protected _el?: HTMLCanvasElement;
   protected _tooltipCanvasId?: string;
-  protected _tooltipComponent: Tooltip;
+  protected _tooltipComponent: TooltipComponent;
 
-  constructor(
-    tooltipSpec: ITooltipSpec,
-    tooltipId: string,
-    envMode: RenderMode,
-    chartContainer: Maybe<HTMLElement>,
-    compiler: Compiler,
-    options?: any
-  ) {
-    super(tooltipSpec, tooltipId, envMode, chartContainer, compiler, options);
-    this._tooltipCanvasId = options?.modeParams?.tooltipCanvasId;
+  constructor(tooltipSpec: ITooltipSpec, tooltipId: string, component: Tooltip) {
+    super(tooltipSpec, tooltipId, component);
+    this._tooltipCanvasId = (this._chartOption.modeParams as any)?.tooltipCanvasId;
   }
 
   private _initTooltipComponent(stage: Stage) {
     const layer = this._getLayer(stage);
-    this._tooltipComponent = new Tooltip({
+    this._tooltipComponent = new TooltipComponent({
       autoCalculatePosition: false,
       autoMeasure: false
     });
-    layer.add(this._tooltipComponent);
+    layer.add(this._tooltipComponent as unknown as INode);
   }
 
   private _getLayer(stage: Stage) {
@@ -60,7 +52,7 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
 
   protected _removeTooltip() {
     if (this._layer) {
-      this._layer.removeAllChild(false);
+      this._layer.removeAllChild();
       // this._layer.render();
     }
     this._attributeCache = null;

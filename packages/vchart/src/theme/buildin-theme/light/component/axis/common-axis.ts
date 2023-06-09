@@ -1,12 +1,12 @@
-import type { IAxisCommonTheme } from '../../../../component/axis';
-import { DEFAULT_AXIS_TICK_SIZE } from '../../config';
+import type { IAxisCommonTheme } from '../../../../../component/axis';
+import { THEME_CONSTANTS } from '../../constants';
 
 export const commonAxis: IAxisCommonTheme = {
   domainLine: {
     visible: true,
     style: {
       lineWidth: 1,
-      stroke: '#dfdfdf',
+      stroke: '#D8DCE3',
       strokeOpacity: 1
     }
   },
@@ -14,23 +14,23 @@ export const commonAxis: IAxisCommonTheme = {
     visible: true,
     style: {
       lineWidth: 1,
-      stroke: '#dfdfdf',
+      stroke: { type: 'palette', key: 'axisGridColor' },
       strokeOpacity: 1,
-      lineDash: [4, 4]
+      lineDash: []
     }
   },
   subGrid: {
     visible: false,
     style: {
       lineWidth: 1,
-      stroke: '#dfdfdf',
+      stroke: { type: 'palette', key: 'axisGridColor' },
       strokeOpacity: 1,
       lineDash: [4, 4]
     }
   },
   tick: {
     visible: true,
-    tickSize: DEFAULT_AXIS_TICK_SIZE,
+    tickSize: THEME_CONSTANTS.AXIS_TICK_SIZE,
     style: {
       lineWidth: 1,
       stroke: '#D8DCE3',
@@ -39,7 +39,7 @@ export const commonAxis: IAxisCommonTheme = {
   },
   subTick: {
     visible: false,
-    tickSize: DEFAULT_AXIS_TICK_SIZE / 2,
+    tickSize: THEME_CONSTANTS.AXIS_TICK_SIZE / 2,
     style: {
       lineWidth: 1,
       stroke: '#D8DCE3',
@@ -48,18 +48,18 @@ export const commonAxis: IAxisCommonTheme = {
   },
   label: {
     visible: true,
-    space: 4,
+    space: 10,
     style: {
-      fontSize: 12,
-      fill: '#6F6F6F',
+      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
+      fill: { type: 'palette', key: 'labelFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1
     }
   },
   title: {
-    space: 4,
+    space: 10,
     style: {
-      fontSize: 12,
+      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
       fill: '#333333',
       fontWeight: 'normal',
       fillOpacity: 1

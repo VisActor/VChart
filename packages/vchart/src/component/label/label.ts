@@ -1,5 +1,6 @@
 import { BaseComponent } from '../base';
 import type { IComponentOption } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption, IModelRenderOption } from '../../model/interface';
@@ -227,10 +228,5 @@ export class Label extends BaseComponent {
         mark.getProduct().release();
       }
     });
-  }
-
-  reInit(): void {
-    super.reInit();
-    this._initTheme();
   }
 }

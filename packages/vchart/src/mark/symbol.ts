@@ -13,7 +13,8 @@ export class BaseSymbolMark<T extends ISymbolMarkSpec> extends BaseMark<T> {
       ...super._getDefaultStyle(),
       size: 1,
       shape: ShapeTypeEnum.circle,
-      fill: undefined
+      fill: undefined,
+      lineWidth: 0
     };
     return defaultStyle as IMarkStyle<T>;
   }

@@ -1,9 +1,9 @@
 import type { ControllerLayout, OrientType } from '@visactor/vrender-components';
 import type { ISymbolMarkSpec, IRectMarkSpec } from '../../../typings';
-// FIXME: export in @visactor/vrender-components
 import type { BaseGraphicAttributes } from '@visactor/vrender-components/es/core/type';
+import type { ILayoutItemSpec } from '../../../model/interface';
 
-export interface IPlayerTheme {
+export interface IPlayerTheme extends ILayoutItemSpec {
   /**
    * 组件显隐配置
    * @default true

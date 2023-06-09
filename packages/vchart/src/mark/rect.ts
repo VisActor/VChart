@@ -15,7 +15,8 @@ export class RectMark extends BaseMark<IRectMarkSpec> implements IRectMark {
     const defaultStyle: IMarkStyle<IRectMarkSpec> = {
       ...super._getDefaultStyle(),
       width: undefined,
-      height: undefined
+      height: undefined,
+      lineWidth: 0
     };
     return defaultStyle;
   }
