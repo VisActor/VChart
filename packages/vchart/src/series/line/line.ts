@@ -1,7 +1,10 @@
 import { DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import { CartesianSeries } from '../cartesian/cartesian';
+import type { SeriesMarkMap } from '../interface';
+import { SeriesMarkNameEnum } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface';
-import { LineLikeSeriesMixin } from '../mixin/line-mixin';
+import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
 import type { IInvalidType, Maybe } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -9,6 +12,7 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
+import { BaseSeries } from '../base/base-series';
 
 export interface LineSeries
   extends Pick<
@@ -27,6 +31,11 @@ export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.line;
   type = SeriesTypeEnum.line;
   protected _invalidType: IInvalidType = 'break';
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    ...lineLikeSeriesMarkMap
+  };
 
   protected declare _theme: Maybe<ILineSeriesTheme>;
 
@@ -52,13 +61,13 @@ export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
     this._lineMark.setAnimationConfig(
       animationConfig(
         DEFAULT_MARK_ANIMATION.line(animationParams, appearPreset),
-        userAnimationConfig(this._lineMark.name, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.line, this._spec)
       )
     );
 
     if (this._symbolMark) {
       this._symbolMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.symbol(), userAnimationConfig(this._symbolMark.name, this._spec))
+        animationConfig(DEFAULT_MARK_ANIMATION.symbol(), userAnimationConfig(SeriesMarkNameEnum.point, this._spec))
       );
     }
   }

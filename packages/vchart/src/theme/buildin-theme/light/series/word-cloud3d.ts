@@ -1,7 +1,7 @@
 import type { IWordCloud3dSeriesTheme } from '../../../../series/word-cloud/interface';
 
 export const wordCloud3d: IWordCloud3dSeriesTheme = {
-  word3d: {
+  word: {
     padding: 1,
     style: {
       textAlign: 'center',

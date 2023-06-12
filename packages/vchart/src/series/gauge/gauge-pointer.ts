@@ -1,7 +1,9 @@
 import { MarkTypeEnum } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isValid } from '../../util';
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme } from './interface';
 import type { Datum, Maybe } from '../../typings';
 import type { IPathMark } from '../../mark/path';
@@ -10,10 +12,18 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { ProgressLikeSeries } from '../polar/progress-like';
 import type { IRectMark } from '../../mark/rect';
 import type { IStateAnimateSpec } from '../../animation/spec';
+import { BaseSeries } from '../base/base-series';
 
 export class GaugePointerSeries extends ProgressLikeSeries<IGaugePointerSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.gaugePointer;
   type = SeriesTypeEnum.gaugePointer;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.pin]: { name: SeriesMarkNameEnum.pin, type: MarkTypeEnum.path },
+    [SeriesMarkNameEnum.pinBackground]: { name: SeriesMarkNameEnum.pinBackground, type: MarkTypeEnum.path },
+    [SeriesMarkNameEnum.pointer]: { name: SeriesMarkNameEnum.pointer, type: [MarkTypeEnum.path, MarkTypeEnum.rect] }
+  };
 
   protected declare _theme: Maybe<IGaugePointerSeriesTheme>;
   protected declare _spec: IGaugePointerSeriesSpec;
@@ -33,11 +43,17 @@ export class GaugePointerSeries extends ProgressLikeSeries<IGaugePointerSeriesSp
   }
 
   initMark(): void {
-    this._pinBackgroundMark = this._createMark(MarkTypeEnum.path, 'pinBackground') as IPathMark;
-    this._pointerMark = this._createMark(this._pointerType, 'pointer', {
-      isSeriesMark: true
-    }) as IPathMark;
-    this._pinMark = this._createMark(MarkTypeEnum.path, 'pin') as IPathMark;
+    this._pinBackgroundMark = this._createMark(GaugePointerSeries.mark.pinBackground) as IPathMark;
+    this._pointerMark = this._createMark(
+      {
+        ...GaugePointerSeries.mark.pointer,
+        type: this._pointerType
+      },
+      {
+        isSeriesMark: true
+      }
+    ) as IPathMark;
+    this._pinMark = this._createMark(GaugePointerSeries.mark.pin) as IPathMark;
   }
 
   initMarkStyle(): void {
@@ -167,7 +183,7 @@ export class GaugePointerSeries extends ProgressLikeSeries<IGaugePointerSeriesSp
           },
           appearPreset
         ),
-        userAnimationConfig('pointer', this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.pointer, this._spec)
       )
     );
   }

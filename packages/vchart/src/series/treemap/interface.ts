@@ -4,6 +4,7 @@ import type { TreemapOptions } from '@visactor/vgrammar-hierarchy';
 import type { ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { TreemapAppearPreset, TreemapMark } from './animation';
+import type { SeriesMarkNameEnum } from '../interface';
 
 export interface ITreemapSeriesSpec
   extends Omit<ISeriesSpec, 'data'>,
@@ -92,19 +93,19 @@ export interface ITreemapSeriesSpec
   /**
    * 叶子节点样式配置
    */
-  leaf?: IMarkSpec<IRectMarkSpec>;
+  [SeriesMarkNameEnum.leaf]?: IMarkSpec<IRectMarkSpec>;
   /**
    * 非叶子节点样式配置
    */
-  nonLeaf?: IMarkSpec<IRectMarkSpec>;
+  [SeriesMarkNameEnum.nonLeaf]?: IMarkSpec<IRectMarkSpec>;
   /**
    * 叶子节点标签样式配置，默认不显示
    */
-  label?: IMarkSpec<ITextMarkSpec>;
+  [SeriesMarkNameEnum.label]?: IMarkSpec<ITextMarkSpec>;
   /**
    * 非叶子节点标签样式配置，默认不显示
    */
-  nonLeafLabel?: IMarkSpec<ITextMarkSpec> & {
+  [SeriesMarkNameEnum.nonLeafLabel]?: IMarkSpec<ITextMarkSpec> & {
     position?: TreemapOptions['labelPosition'];
     padding?: TreemapOptions['labelPadding'];
   };
@@ -113,8 +114,8 @@ export interface ITreemapSeriesSpec
 export interface ITreemapSeriesTheme extends ICartesianSeriesTheme {
   gapWidth?: TreemapOptions['padding'];
   nodePadding?: TreemapOptions['padding'];
-  leaf?: Partial<IMarkTheme<IRectMarkSpec>>;
-  nonLeaf?: Partial<IMarkTheme<IRectMarkSpec>>;
-  label?: Partial<IMarkTheme<ITextMarkSpec>>;
-  nonLeafLabel?: Partial<IMarkTheme<ITextMarkSpec> & { padding?: TreemapOptions['labelPadding'] }>;
+  [SeriesMarkNameEnum.leaf]?: Partial<IMarkTheme<IRectMarkSpec>>;
+  [SeriesMarkNameEnum.nonLeaf]?: Partial<IMarkTheme<IRectMarkSpec>>;
+  [SeriesMarkNameEnum.label]?: Partial<IMarkTheme<ITextMarkSpec>>;
+  [SeriesMarkNameEnum.nonLeafLabel]?: Partial<IMarkTheme<ITextMarkSpec> & { padding?: TreemapOptions['labelPadding'] }>;
 }

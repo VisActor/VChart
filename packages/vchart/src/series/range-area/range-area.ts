@@ -1,4 +1,6 @@
 import { AreaSeries } from '../area/area';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface';
 import type { IAreaMark } from '../../mark/area';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
@@ -7,15 +9,18 @@ import type { Datum } from '../../typings';
 import { couldBeValidNumber } from '../../util';
 import { AttributeLevel } from '../../constant';
 import { RangeAreaSeriesTooltipHelper } from './tooltip-helper';
-import { MarkTypeEnum } from '../../mark/interface';
 
 export class RangeAreaSeries extends AreaSeries {
   static readonly type: string = SeriesTypeEnum.rangeArea;
   type = SeriesTypeEnum.rangeArea;
 
+  static readonly mark: SeriesMarkMap = {
+    ...AreaSeries.mark
+  };
+
   initMark(): void {
     // area
-    this._areaMark = this._createMark(MarkTypeEnum.area, 'area', {
+    this._areaMark = this._createMark(RangeAreaSeries.mark.area, {
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true

@@ -1,7 +1,8 @@
 import type { IAnimationSpec } from '../../../animation/spec';
 import type { DirectionType } from '../../../typings';
 import type { IMarkSpec, IMarkTheme } from '../../../typings/spec/common';
-import type { IGroupMarkSpec, IRectMarkSpec } from '../../../typings/visual';
+import type { IRectMarkSpec } from '../../../typings/visual';
+import type { SeriesMarkNameEnum } from '../../interface';
 import type { IProgressSeriesSpec } from '../interface';
 import type { LinearProgressAppearPreset } from './animation';
 
@@ -37,7 +38,7 @@ export interface ILinearProgressSeriesSpec
    * 进度条样式
    * TODO: 支持百分比作为padding, 类型为string
    */
-  progress?: IMarkSpec<IRectMarkSpec> & {
+  [SeriesMarkNameEnum.progress]?: IMarkSpec<IRectMarkSpec> & {
     /** 进度条上侧 padding（水平生效） */
     topPadding?: number;
     /** 进度条下侧 padding（水平生效） */
@@ -49,11 +50,11 @@ export interface ILinearProgressSeriesSpec
   };
 
   /** 背景条样式 */
-  track?: IMarkSpec<IGroupMarkSpec>;
+  [SeriesMarkNameEnum.track]?: IMarkSpec<IRectMarkSpec>;
 }
 
 export interface ILinearProgressSeriesTheme {
   bandWidth?: number;
-  progress?: Partial<IMarkTheme<IRectMarkSpec>>;
-  track?: Partial<IMarkTheme<IGroupMarkSpec>>;
+  [SeriesMarkNameEnum.progress]?: Partial<IMarkTheme<IRectMarkSpec>>;
+  [SeriesMarkNameEnum.track]?: Partial<IMarkTheme<IRectMarkSpec>>;
 }

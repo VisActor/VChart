@@ -4,7 +4,7 @@ import { THEME_CONSTANTS } from '../constants';
 const fontSize = THEME_CONSTANTS.LABEL_FONT_SIZE;
 
 export const funnel3d: IFunnel3dSeriesTheme = {
-  transform: {
+  transform3d: {
     style: {
       fill: '#f5f5f5'
     }
@@ -24,7 +24,7 @@ export const funnel3d: IFunnel3dSeriesTheme = {
     },
     line: {
       style: {
-        stroke: '#ddd'
+        stroke: { type: 'palette', key: 'axisDomainColor' }
       }
     }
   },

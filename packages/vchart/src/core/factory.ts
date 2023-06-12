@@ -7,6 +7,7 @@ import { MarkTypeEnum } from '../mark/interface';
 import type { IRegion, IRegionConstructor } from '../region/interface';
 import type { IModelOption } from '../model/interface';
 import type { Transform, Parser } from '@visactor/vdataset';
+// eslint-disable-next-line no-duplicate-imports
 import { fields, filter, simplify, fold, csvParser, dsvParser, tsvParser } from '@visactor/vdataset';
 import type { ILayoutConstructor } from '../layout/interface';
 
@@ -100,5 +101,9 @@ export class Factory {
 
   static getLayout(name: string) {
     return Factory._layout[name];
+  }
+
+  static getSeries(type: string) {
+    return Factory._series[type];
   }
 }

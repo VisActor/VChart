@@ -6,6 +6,7 @@ import { isFunction, isValidNumber } from '../util/type';
 import { DEFAULT_DATA_INDEX } from '../constant';
 import { DEFAULT_ANIMATION_CONFIG } from './config';
 import { isArray } from '@visactor/vutils';
+import type { SeriesMarkNameEnum } from '../series/interface';
 
 export const AnimationStates = ['appear', 'enter', 'update', 'exit', 'disappear', 'normal'];
 
@@ -70,7 +71,7 @@ export function animationConfig<Preset extends string>(
 }
 
 export function userAnimationConfig<M extends string, Preset extends string>(
-  markName: string,
+  markName: SeriesMarkNameEnum | string,
   spec: IAnimationSpec<M, Preset>
 ) {
   return {

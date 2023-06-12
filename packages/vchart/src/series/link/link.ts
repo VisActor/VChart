@@ -17,10 +17,21 @@ import type { IDotSeriesSpec } from '../dot/interface';
 import type { IGroupMark } from '../../mark/group';
 import { LinkSeriesTooltipHelper } from './tooltip-helper';
 import type { ILinkSeriesSpec, ILinkSeriesTheme } from './interface';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum } from '../interface';
+import { BaseSeries } from '../base/base-series';
 
 export class LinkSeries extends CartesianSeries<ILinkSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.link;
   type = SeriesTypeEnum.link;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.group]: { name: SeriesMarkNameEnum.group, type: MarkTypeEnum.group },
+    [SeriesMarkNameEnum.link]: { name: SeriesMarkNameEnum.link, type: MarkTypeEnum.rule },
+    [SeriesMarkNameEnum.arrow]: { name: SeriesMarkNameEnum.arrow, type: MarkTypeEnum.symbol }
+  };
 
   protected declare _theme: Maybe<ILinkSeriesTheme>;
 
@@ -125,18 +136,18 @@ export class LinkSeries extends CartesianSeries<ILinkSeriesSpec> {
   private _linkMark: IRuleMark;
   private _arrowMark: ISymbolMark;
   initMark(): void {
-    this._clipMark = this._createMark(MarkTypeEnum.group, 'group') as IGroupMark;
+    this._clipMark = this._createMark(LinkSeries.mark.group) as IGroupMark;
 
-    this._containerMark = this._createMark(MarkTypeEnum.group, 'group', {
+    this._containerMark = this._createMark(LinkSeries.mark.group, {
       parent: this._clipMark
     }) as IGroupMark;
 
-    this._linkMark = this._createMark(MarkTypeEnum.rule, 'link', {
+    this._linkMark = this._createMark(LinkSeries.mark.link, {
       skipBeforeLayouted: false,
       parent: this._containerMark
     }) as IRuleMark;
 
-    this._arrowMark = this._createMark(MarkTypeEnum.symbol, 'arrow', {
+    this._arrowMark = this._createMark(LinkSeries.mark.arrow, {
       skipBeforeLayouted: false,
       isSeriesMark: true,
       parent: this._containerMark

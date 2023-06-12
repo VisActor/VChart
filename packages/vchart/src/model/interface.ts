@@ -1,7 +1,7 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { DataSet } from '@visactor/vdataset';
 import type { IEvent, IEventDispatcher } from '../event/interface';
-import type { IMark, IMarkRaw, IMarkStyle } from '../mark/interface';
+import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { VChart } from '../vchart-all';
 import type { IData, IElement, IMark as IVGrammarMark } from '@visactor/vgrammar';
@@ -245,6 +245,7 @@ export interface IModel extends ICompilable, ILayoutItem {
 
   getMarks: () => IMark[];
   getMarkNameMap: () => Record<string, IMark>;
+  getMarkInfoList: () => IModelMarkInfo[];
 
   getData: () => ICompilableData;
 
@@ -318,3 +319,10 @@ export type ILayoutModelState = ModelStateManager['_stateMap'];
 
 // TODO: 补充model共有配置
 export type IModelSpec = ILayoutItemSpec & { id?: StringOrNumber };
+
+export interface IModelMarkInfo {
+  /** mark 类型 */
+  type: MarkTypeEnum | string | (MarkTypeEnum | string)[];
+  /** mark 名称 */
+  name: string;
+}

@@ -1,7 +1,7 @@
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { ISymbolMarkSpec, IRuleMarkSpec, ITextMarkSpec, ConvertToMarkStyleSpec } from '../../typings/visual';
-import type { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 
 interface ISequenceLabel {
   visible?: boolean;
@@ -61,23 +61,23 @@ export interface IDotSeriesSpec extends ICartesianSeriesSpec {
   /**
    * 图元配置
    */
-  dot?: IMarkSpec<ISymbolMarkSpec>;
+  [SeriesMarkNameEnum.dot]?: IMarkSpec<ISymbolMarkSpec>;
   /**
    * 标题
    */
-  title?: ISequenceLabel;
+  [SeriesMarkNameEnum.title]?: ISequenceLabel;
   /**
    * 标识符
    */
-  symbol?: IMarkSpec<ISymbolMarkSpec>;
+  [SeriesMarkNameEnum.symbol]?: IMarkSpec<ISymbolMarkSpec>;
   /**
    * 具体信息
    */
-  subTitle?: ISequenceLabel;
+  [SeriesMarkNameEnum.subTitle]?: ISequenceLabel;
   /**
    * 时间线
    */
-  grid?: ISequenceGrid;
+  [SeriesMarkNameEnum.grid]?: ISequenceGrid;
   /**
    * dot 系列的左边距(主要用于放置title和subTitle)
    */
@@ -89,8 +89,8 @@ export interface IDotSeriesSpec extends ICartesianSeriesSpec {
 }
 
 export interface IDotSeriesTheme extends ICartesianSeriesTheme {
-  dot?: Partial<IMarkTheme<ISymbolMarkSpec>>;
-  symbol?: Partial<IMarkTheme<ISymbolMarkSpec>>;
-  title?: ISequenceLabel;
-  subTitle?: ISequenceLabel;
+  [SeriesMarkNameEnum.dot]?: Partial<IMarkTheme<ISymbolMarkSpec>>;
+  [SeriesMarkNameEnum.symbol]?: Partial<IMarkTheme<ISymbolMarkSpec>>;
+  [SeriesMarkNameEnum.title]?: ISequenceLabel;
+  [SeriesMarkNameEnum.subTitle]?: ISequenceLabel;
 }

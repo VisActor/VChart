@@ -10,12 +10,12 @@ import {
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
 } from '../../constant/index';
-import type { ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper } from '../interface';
+import { SeriesMarkNameEnum } from '../interface';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
-import type { IMark, MarkType } from '../../mark/interface';
+import type { IMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import type {
@@ -32,7 +32,15 @@ import type {
 } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 // eslint-disable-next-line no-duplicate-imports
-import type { ISeriesOption, ISeries } from '../interface';
+import type {
+  ISeriesOption,
+  ISeries,
+  ISeriesMarkInitOption,
+  ISeriesStackData,
+  ISeriesTooltipHelper,
+  SeriesMarkMap,
+  ISeriesMarkInfo
+} from '../interface';
 import { dataViewFromDataView } from '../../data/initialize';
 import {
   isNil,
@@ -66,12 +74,17 @@ import type { IGroupMark } from '../../mark/group';
 import { array } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
+import { Factory } from '../../core/factory';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implements ISeries {
   readonly type: string = 'series';
   layoutType: LayoutItem['layoutType'] = 'absolute';
   readonly modelType: string = 'series';
   readonly name: string | undefined = undefined;
+
+  static readonly mark: SeriesMarkMap = {
+    [SeriesMarkNameEnum.label]: { name: SeriesMarkNameEnum.label, type: MarkTypeEnum.text }
+  };
 
   protected _trigger!: ITrigger;
   /**
@@ -534,10 +547,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   abstract setValueFieldToStackOffsetSilhouette(): void;
 
   initRootMark() {
-    this._rootMark = this._createMark(MarkTypeEnum.group, `seriesGroup_${this.type}_${this.id}`, {
-      parent: this._region.getGroupMark?.(),
-      dataView: false
-    }) as IGroupMark;
+    this._rootMark = this._createMark(
+      { type: MarkTypeEnum.group, name: `seriesGroup_${this.type}_${this.id}` },
+      {
+        parent: this._region.getGroupMark?.(),
+        dataView: false
+      }
+    ) as IGroupMark;
     this._rootMark.setZIndex(this.layoutZIndex);
   }
 
@@ -556,11 +572,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     namePrefix: string,
     index: number
   ) {
-    const mark = this._createMark(spec.type, `${PREFIX}_${index}`, {
-      markSpec: spec,
-      parent: parentMark,
-      dataView: false
-    }) as IGroupMark;
+    const mark = this._createMark(
+      { type: spec.type, name: `${PREFIX}_${index}` },
+      {
+        markSpec: spec,
+        parent: parentMark,
+        dataView: false
+      }
+    ) as IGroupMark;
     if (!mark) {
       return;
     }
@@ -885,7 +904,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     return {};
   }
 
-  protected _createMark<T extends IMark>(type: MarkType, name: string, option: ISeriesMarkInitOption = {}) {
+  protected _createMark<T extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
     const {
       key,
       groupKey,
@@ -903,7 +922,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       support3d = this._spec.support3d || !!(this._spec as any).zField,
       morph = false
     } = option;
-    const m = super._createMark<T>(type, name, {
+    const m = super._createMark<T>(markInfo, {
       key: key ?? this._getDataIdKey(),
       support3d,
       dataStatistics: dataStatistics ?? this._rawDataStatistics,
@@ -1024,5 +1043,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       field = this.getStackValueField();
     }
     return getFieldAlias(this.getRawData(), field) ?? field;
+  }
+
+  getMarkInfoList() {
+    const list = super.getMarkInfoList();
+    if (!list.length) {
+      const SeriesConstructor = Factory.getSeries(this.type);
+      return Object.values(SeriesConstructor.mark ?? {});
+    }
+    return list;
   }
 }

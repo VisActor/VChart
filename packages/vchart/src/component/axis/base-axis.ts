@@ -101,10 +101,13 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
     if (this._visible) {
       // 创建语法元素
 
-      const axisMark = this._createMark('component', `axis-${this.orient}`, {
-        componentType: this.orient === 'angle' ? 'circleAxis' : 'axis',
-        mode: this._spec.mode
-      });
+      const axisMark = this._createMark(
+        { type: 'component', name: `axis-${this.orient}` },
+        {
+          componentType: this.orient === 'angle' ? 'circleAxis' : 'axis',
+          mode: this._spec.mode
+        }
+      );
       this._marks.addMark(axisMark);
 
       axisMark.setZIndex(this.layoutZIndex);

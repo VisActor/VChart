@@ -1,4 +1,6 @@
-import type { IFunnelSeries } from '../interface';
+import type { IFunnelSeries, SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum } from '../interface';
 import type { IOrientType, IPoint, TextAlign, TextBaseLine, Maybe, Datum, StringOrNumber } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface';
@@ -30,7 +32,7 @@ import {
 import type { ITextMark } from '../../mark/text';
 // eslint-disable-next-line no-duplicate-imports
 import { field, calcLayoutNumber, isNumber } from '../../util';
-import type { FunnelAppearPreset, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
+import type { FunnelAppearPreset, IFunnel3dSeriesTheme, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
 import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
 import { isEqual, isValid } from '@visactor/vutils';
@@ -42,7 +44,19 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunnelSeries {
   static readonly type: string = SeriesTypeEnum.funnel;
   type = SeriesTypeEnum.funnel;
+  protected _funnelMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.funnel;
   protected _funnelMarkType: MarkTypeEnum = MarkTypeEnum.polygon;
+  protected _transformMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.transform;
+  protected _transformMarkType: MarkTypeEnum = MarkTypeEnum.polygon;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.funnel]: { name: SeriesMarkNameEnum.funnel, type: MarkTypeEnum.polygon },
+    [SeriesMarkNameEnum.transform]: { name: SeriesMarkNameEnum.transform, type: MarkTypeEnum.polygon },
+    [SeriesMarkNameEnum.transformLabel]: { name: SeriesMarkNameEnum.transformLabel, type: MarkTypeEnum.text },
+    [SeriesMarkNameEnum.outerLabel]: { name: SeriesMarkNameEnum.outerLabel, type: MarkTypeEnum.text },
+    [SeriesMarkNameEnum.outerLabelLine]: { name: SeriesMarkNameEnum.outerLabelLine, type: MarkTypeEnum.rule }
+  };
 
   protected _categoryField!: string;
   public get categoryField() {
@@ -152,32 +166,46 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
   }
 
   initMark() {
-    this._funnelMark = this._createMark(this._funnelMarkType, this.type, {
-      themeSpec: this._theme?.funnel,
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
-      defaultMorphElementKey: this._seriesField,
-      key: this._seriesField,
-      groupKey: this._seriesField,
-      isSeriesMark: true
-    }) as IPolygonMark;
+    this._funnelMark = this._createMark(
+      {
+        ...FunnelSeries.mark.funnel,
+        name: this._funnelMarkName,
+        type: this._funnelMarkType
+      },
+      {
+        themeSpec: this._theme?.funnel,
+        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
+        defaultMorphElementKey: this._seriesField,
+        key: this._seriesField,
+        groupKey: this._seriesField,
+        isSeriesMark: true
+      }
+    ) as IPolygonMark;
 
     if (this._spec.isTransform) {
-      this._funnelTransformMark = this._createMark(this._funnelMarkType, 'transform', {
-        themeSpec: this._theme?.transform,
-        key: this._seriesField,
-        skipBeforeLayouted: false,
-        dataView: this._viewDataTransform.getDataView(),
-        dataProductId: this._viewDataTransform.getProductId()
-      });
+      this._funnelTransformMark = this._createMark(
+        {
+          ...FunnelSeries.mark.transform,
+          name: this._transformMarkName,
+          type: this._transformMarkType
+        },
+        {
+          themeSpec: this._theme?.transform,
+          key: this._seriesField,
+          skipBeforeLayouted: false,
+          dataView: this._viewDataTransform.getDataView(),
+          dataProductId: this._viewDataTransform.getProductId()
+        }
+      );
     }
     if (this._spec?.label?.visible) {
-      this._labelMark = this._createMark(MarkTypeEnum.text, 'label', {
+      this._labelMark = this._createMark(FunnelSeries.mark.label, {
         themeSpec: this._theme?.label,
         key: this._seriesField
       });
     }
     if (this._spec?.transformLabel?.visible) {
-      this._transformLabelMark = this._createMark(MarkTypeEnum.text, 'transformLabel', {
+      this._transformLabelMark = this._createMark(FunnelSeries.mark.transformLabel, {
         themeSpec: this._theme?.transformLabel,
         key: this._seriesField,
         skipBeforeLayouted: false,
@@ -189,14 +217,14 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
       const { line } = this._spec.outerLabel ?? {};
       const { line: lineTheme } = this._theme?.outerLabel ?? {};
 
-      this._funnelOuterLabelMark.label = this._createMark(MarkTypeEnum.text, 'outerLabelText', {
+      this._funnelOuterLabelMark.label = this._createMark(FunnelSeries.mark.outerLabel, {
         themeSpec: this._theme?.outerLabel,
         key: this._seriesField,
         markSpec: this._spec.outerLabel,
         depend: this._labelMark
       }) as ITextMark;
 
-      this._funnelOuterLabelMark.line = this._createMark(MarkTypeEnum.rule, 'outerLabelLine', {
+      this._funnelOuterLabelMark.line = this._createMark(FunnelSeries.mark.outerLabelLine, {
         themeSpec: lineTheme,
         key: this._seriesField,
         markSpec: line,
@@ -334,7 +362,7 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
               },
               appearPreset
             ),
-            userAnimationConfig('group', this._spec)
+            userAnimationConfig(SeriesMarkNameEnum.group, this._spec)
           )
         );
       }
@@ -355,7 +383,10 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
 
     if (this._funnelOuterLabelMark?.line) {
       this._funnelOuterLabelMark.line.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig('outerLabelLine', this._spec))
+        animationConfig(
+          DEFAULT_MARK_ANIMATION.label(),
+          userAnimationConfig(SeriesMarkNameEnum.outerLabelLine, this._spec)
+        )
       );
     }
   }
@@ -811,33 +842,61 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
 export class Funnel3dSeries extends FunnelSeries {
   static readonly type: string = SeriesTypeEnum.funnel3d;
   type = SeriesTypeEnum.funnel3d;
+  protected _funnelMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.funnel3d;
   protected _funnelMarkType: MarkTypeEnum = MarkTypeEnum.pyramid3d;
+  protected _transformMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.transform3d;
+  protected _transformMarkType: MarkTypeEnum = MarkTypeEnum.pyramid3d;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.funnel3d]: { name: SeriesMarkNameEnum.funnel3d, type: MarkTypeEnum.pyramid3d },
+    [SeriesMarkNameEnum.transform3d]: { name: SeriesMarkNameEnum.transform3d, type: MarkTypeEnum.pyramid3d },
+    [SeriesMarkNameEnum.transformLabel]: { name: SeriesMarkNameEnum.transformLabel, type: MarkTypeEnum.text },
+    [SeriesMarkNameEnum.outerLabel]: { name: SeriesMarkNameEnum.outerLabel, type: MarkTypeEnum.text },
+    [SeriesMarkNameEnum.outerLabelLine]: { name: SeriesMarkNameEnum.outerLabelLine, type: MarkTypeEnum.rule }
+  };
+
+  protected declare _theme: Maybe<IFunnel3dSeriesTheme>;
 
   initMark() {
-    this._funnelMark = this._createMark(this._funnelMarkType, this.type, {
-      themeSpec: this._theme?.funnel,
-      key: this._seriesField,
-      isSeriesMark: true
-    }) as IPolygonMark;
+    this._funnelMark = this._createMark(
+      {
+        ...FunnelSeries.mark.funnel,
+        name: this._funnelMarkName,
+        type: this._funnelMarkType
+      },
+      {
+        themeSpec: this._theme?.funnel3d,
+        key: this._seriesField,
+        isSeriesMark: true
+      }
+    ) as IPolygonMark;
 
     if (this._spec.isTransform) {
-      this._funnelTransformMark = this._createMark(this._funnelMarkType, 'transform', {
-        themeSpec: this._theme?.transform,
-        key: this._seriesField,
-        skipBeforeLayouted: false,
-        dataView: this._viewDataTransform.getDataView(),
-        dataProductId: this._viewDataTransform.getProductId()
-      });
+      this._funnelTransformMark = this._createMark(
+        {
+          ...FunnelSeries.mark.transform,
+          name: this._transformMarkName,
+          type: this._transformMarkType
+        },
+        {
+          themeSpec: this._theme?.transform3d,
+          key: this._seriesField,
+          skipBeforeLayouted: false,
+          dataView: this._viewDataTransform.getDataView(),
+          dataProductId: this._viewDataTransform.getProductId()
+        }
+      );
     }
     if (this._spec?.label?.visible) {
-      this._labelMark = this._createMark(MarkTypeEnum.text, 'label', {
+      this._labelMark = this._createMark(Funnel3dSeries.mark.label, {
         themeSpec: this._theme?.label,
         key: this._seriesField,
         support3d: this._spec.label.support3d
       });
     }
     if (this._spec?.transformLabel?.visible) {
-      this._transformLabelMark = this._createMark(MarkTypeEnum.text, 'transformLabel', {
+      this._transformLabelMark = this._createMark(Funnel3dSeries.mark.transformLabel, {
         themeSpec: this._theme?.transformLabel,
         key: this._seriesField,
         skipBeforeLayouted: false,
@@ -849,14 +908,14 @@ export class Funnel3dSeries extends FunnelSeries {
       const { line } = this._spec.outerLabel ?? {};
       const { line: lineTheme } = this._theme?.outerLabel ?? {};
 
-      this._funnelOuterLabelMark.label = this._createMark(MarkTypeEnum.text, 'outerLabelText', {
+      this._funnelOuterLabelMark.label = this._createMark(Funnel3dSeries.mark.outerLabel, {
         themeSpec: this._theme?.outerLabel,
         key: this._seriesField,
         markSpec: this._spec.outerLabel,
         depend: this._labelMark
       }) as ITextMark;
 
-      this._funnelOuterLabelMark.line = this._createMark(MarkTypeEnum.rule, 'outerLabelLine', {
+      this._funnelOuterLabelMark.line = this._createMark(Funnel3dSeries.mark.outerLabelLine, {
         themeSpec: lineTheme,
         key: this._seriesField,
         markSpec: line,

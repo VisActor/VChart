@@ -14,7 +14,6 @@ export const markByType: IGlobalMarkThemeByType = {
 export const markByName: IGlobalMarkThemeByName = {
   label: {
     style: {
-      fill: { type: 'palette', key: 'labelFontColor' },
       fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
       fontWeight: 'normal',
       fillOpacity: 1
@@ -33,7 +32,9 @@ export const markByName: IGlobalMarkThemeByName = {
   },
   point: {
     style: {
-      size: 10
+      size: 8,
+      stroke: '#ffffff',
+      lineWidth: 1
     }
   }
 };
