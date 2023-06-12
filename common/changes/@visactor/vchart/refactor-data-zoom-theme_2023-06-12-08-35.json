@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "reconfig dataZoom color theme",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
