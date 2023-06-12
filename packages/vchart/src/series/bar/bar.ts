@@ -7,7 +7,7 @@ import { getActualNumValue } from '../util/utils';
 import type { Maybe, Datum } from '../../typings';
 import { merge, valueInScaleRange } from '../../util';
 import type { BarAppearPreset, IBarAnimationParams } from './animation';
-import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IBarSeriesSpec, IBarSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IRectMark } from '../../mark/rect';
@@ -39,7 +39,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     };
 
     this._rectMark = this._createMark(this._barMarkType, this.type, {
-      morph: this._spec.morph?.enable ?? true,
+      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,

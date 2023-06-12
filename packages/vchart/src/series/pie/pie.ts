@@ -50,7 +50,7 @@ import { pie } from '../../data/transforms/pie';
 import { arcLabel } from '../../layout/label/arc-label';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IPieAnimationParams, PieAppearPreset } from './animation/animation';
-import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IArcLabelSpec, IPie3dSeriesSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
@@ -157,7 +157,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   initMark(): void {
     this._pieMark = this._createMark(this._arcMarkType, this.type, {
-      morph: this._spec.morph?.enable ?? true,
+      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
       defaultMorphElementKey: this._seriesField,
       key: this._seriesField,
       groupKey: this._seriesField,

@@ -21,7 +21,7 @@ import { SeriesTypeEnum } from '../interface';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
-import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 
 // 注册语法元素
@@ -110,7 +110,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
   // mark
   initMark() {
     this._pathMark = this._createMark(MarkTypeEnum.path, 'area', {
-      morph: this._spec.morph?.enable ?? true,
+      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('area', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this.getDimensionField()[0],
       isSeriesMark: true,
