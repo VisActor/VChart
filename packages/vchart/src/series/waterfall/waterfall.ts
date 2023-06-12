@@ -13,7 +13,9 @@ import { valueInScaleRange } from '../../util';
 import type { WaterfallAppearPreset } from './animation';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { IWaterfallSeriesSpec, IWaterfallSeriesTheme } from './interface';
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { ITransformOptions, DataView } from '@visactor/vdataset';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -33,6 +35,12 @@ export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有
 export class WaterfallSeries extends BarSeries<any> {
   static readonly type: string = SeriesTypeEnum.waterfall;
   type = SeriesTypeEnum.waterfall;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BarSeries.mark,
+    [SeriesMarkNameEnum.leaderLine]: { name: SeriesMarkNameEnum.leaderLine, type: MarkTypeEnum.rule },
+    [SeriesMarkNameEnum.stackLabel]: { name: SeriesMarkNameEnum.stackLabel, type: MarkTypeEnum.text }
+  };
 
   protected declare _theme: Maybe<IWaterfallSeriesTheme>;
 
@@ -137,14 +145,16 @@ export class WaterfallSeries extends BarSeries<any> {
     this._rectMark.setAnimationConfig(
       animationConfig(
         DEFAULT_MARK_ANIMATION.waterfall(animationParams, appearPreset),
-        userAnimationConfig('bar', this._spec),
+        userAnimationConfig(SeriesMarkNameEnum.bar, this._spec),
         { dataIndex }
       )
     );
 
     if (this._labelMark) {
       this._labelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig('label', this._spec), { dataIndex })
+        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec), {
+          dataIndex
+        })
       );
     }
   }
@@ -172,14 +182,14 @@ export class WaterfallSeries extends BarSeries<any> {
 
   initMark(): void {
     super.initMark();
-    const leaderLine = this._createMark(MarkTypeEnum.rule, 'leaderLine', {
+    const leaderLine = this._createMark(WaterfallSeries.mark.leaderLine, {
       key: 'index'
     }) as IRuleMark;
     if (leaderLine) {
       this._leaderLineMark = leaderLine;
       leaderLine.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
     }
-    const stackLabel = this._createMark(MarkTypeEnum.text, 'stackLabel', {
+    const stackLabel = this._createMark(WaterfallSeries.mark.stackLabel, {
       key: 'index'
     }) as ITextMark;
     if (stackLabel) {

@@ -2,7 +2,7 @@ import type { ITrigger } from '../../interaction/interface';
 import type { ISeries } from '../interface/series';
 import { AttributeLevel } from '../../constant';
 
-import type { IMark, IMarkProgressiveConfig, MarkType } from '../../mark/interface';
+import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import type { ILineMark } from '../../mark/line';
@@ -24,7 +24,9 @@ import { Direction } from '../../typings/space';
 import { DEFAULT_CLOSE_STROKE_JOIN, DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { couldBeValidNumber, isValid, merge } from '../../util';
-import type { ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
+import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper, SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum } from '../interface';
 import type { ILabelSpec } from '../../component/label';
 import { shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 
@@ -46,7 +48,7 @@ export interface LineLikeSeriesMixin extends ISeries {
   _symbolMark: ISymbolMark;
   _labelMark: ITextMark;
 
-  _createMark: (type: MarkType, name: string, option?: ISeriesMarkInitOption) => IMark;
+  _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption) => IMark;
 }
 
 export class LineLikeSeriesMixin {
@@ -60,7 +62,7 @@ export class LineLikeSeriesMixin {
   }
 
   initLineMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
-    this._lineMark = this._createMark(MarkTypeEnum.line, 'line', {
+    this._lineMark = this._createMark(lineLikeSeriesMarkMap.line, {
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: isSeriesMark ?? true,
@@ -141,7 +143,7 @@ export class LineLikeSeriesMixin {
   }
 
   initSymbolMark(progressive?: IMarkProgressiveConfig) {
-    this._symbolMark = this._createMark(MarkTypeEnum.symbol, 'point', {
+    this._symbolMark = this._createMark(lineLikeSeriesMarkMap.point, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
@@ -227,3 +229,8 @@ export class LineLikeSeriesMixin {
     }
   }
 }
+
+export const lineLikeSeriesMarkMap: SeriesMarkMap = {
+  [SeriesMarkNameEnum.point]: { name: SeriesMarkNameEnum.point, type: MarkTypeEnum.symbol },
+  [SeriesMarkNameEnum.line]: { name: SeriesMarkNameEnum.line, type: MarkTypeEnum.line }
+};

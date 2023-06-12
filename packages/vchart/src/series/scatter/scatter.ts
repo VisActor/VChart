@@ -20,7 +20,9 @@ import {
   merge
 } from '../../util';
 import { AttributeLevel } from '../../constant';
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import {
   SCATTER_DEFAULT_RANGE_SHAPE,
@@ -34,10 +36,16 @@ import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../anima
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ScatterAppearPreset } from './animation';
+import { BaseSeries } from '../base/base-series';
 
 export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.scatter;
   type = SeriesTypeEnum.scatter;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.point]: { name: SeriesMarkNameEnum.point, type: MarkTypeEnum.symbol }
+  };
 
   protected declare _theme: Maybe<IScatterSeriesTheme>;
 
@@ -216,7 +224,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
       largeThreshold: this._spec.largeThreshold
     };
 
-    this._symbolMark = this._createMark(MarkTypeEnum.symbol, 'point', {
+    this._symbolMark = this._createMark(ScatterSeries.mark.point, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
@@ -241,7 +249,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     this._symbolMark.setAnimationConfig(
       animationConfig(
         DEFAULT_MARK_ANIMATION.scatter({}, appearPreset),
-        userAnimationConfig(this._symbolMark.name, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.point, this._spec)
       )
     );
   }

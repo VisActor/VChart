@@ -1,7 +1,9 @@
 import { MarkTypeEnum } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isValid, radians } from '../../util';
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import type { IProgressArcMark } from '../../mark/progress-arc';
@@ -12,10 +14,17 @@ import type { Maybe } from '../../typings';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { BaseSeries } from '../base/base-series';
 
 export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.gauge;
   type = SeriesTypeEnum.gauge;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.segment]: { name: SeriesMarkNameEnum.segment, type: MarkTypeEnum.progressArc },
+    [SeriesMarkNameEnum.track]: { name: SeriesMarkNameEnum.track, type: MarkTypeEnum.progressArc }
+  };
 
   protected declare _theme: Maybe<IGaugeSeriesTheme>;
 
@@ -62,8 +71,8 @@ export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
   }
 
   initMark(): void {
-    this._trackMark = this._createMark(MarkTypeEnum.progressArc, 'track') as IProgressArcMark;
-    this._segmentMark = this._createMark(MarkTypeEnum.progressArc, 'segment', {
+    this._trackMark = this._createMark(GaugeSeries.mark.track) as IProgressArcMark;
+    this._segmentMark = this._createMark(GaugeSeries.mark.segment, {
       isSeriesMark: true
     }) as IProgressArcMark;
   }
@@ -138,7 +147,7 @@ export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
           },
           appearPreset
         ),
-        userAnimationConfig('pointer', this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.segment, this._spec)
       )
     );
   }

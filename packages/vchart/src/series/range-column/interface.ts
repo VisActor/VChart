@@ -5,6 +5,7 @@ import type { IPositionedTextMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../.
 import type { IAnimationSpec } from '../../animation/spec';
 import type { RangeColumnAppearPreset } from './animation';
 import type { ILabelSpec } from '../../component/label';
+import type { SeriesMarkNameEnum } from '../interface';
 
 export enum PositionEnum {
   middle = 'middle',
@@ -38,15 +39,15 @@ export interface IRangeColumnSeriesSpec
   /**
    * 图元配置
    */
-  bar?: IMarkSpec<IRectMarkSpec>;
+  [SeriesMarkNameEnum.bar]?: IMarkSpec<IRectMarkSpec>;
 
   /**
    * 标签配置
    */
-  label?: Partial<ILabelSpec> & {
+  [SeriesMarkNameEnum.label]?: Partial<ILabelSpec> & {
     /** 标签位置(支持两端显示 bothEnds) */
     position?: PositionEnum;
-    minLabel?: IMarkSpec<IPositionedTextMarkSpec> & {
+    [SeriesMarkNameEnum.minLabel]?: IMarkSpec<IPositionedTextMarkSpec> & {
       /** 是否可见 */
       visible: boolean;
       /** 标签位置 */
@@ -62,7 +63,7 @@ export interface IRangeColumnSeriesSpec
       formatMethod?: (text: string | string[], datum?: any) => string | string[];
     };
     /** 最大值标签 */
-    maxLabel?: IMarkSpec<IPositionedTextMarkSpec> & {
+    [SeriesMarkNameEnum.maxLabel]?: IMarkSpec<IPositionedTextMarkSpec> & {
       /** 是否可见 */
       visible: boolean;
       /** 标签位置 */
@@ -81,9 +82,9 @@ export interface IRangeColumnSeriesSpec
 }
 
 export interface IRangeColumnSeriesTheme extends ICartesianSeriesTheme {
-  bar?: Partial<IMarkTheme<IRectMarkSpec>>;
-  label?: Partial<ILabelSpec> & {
-    minLabel?: Partial<IMarkTheme<ITextMarkSpec> & { position?: keyof typeof minMaxPositionEnum }>;
-    maxLabel?: Partial<IMarkTheme<ITextMarkSpec> & { position?: keyof typeof minMaxPositionEnum }>;
+  [SeriesMarkNameEnum.bar]?: Partial<IMarkTheme<IRectMarkSpec>>;
+  [SeriesMarkNameEnum.label]?: Partial<ILabelSpec> & {
+    [SeriesMarkNameEnum.minLabel]?: Partial<IMarkTheme<ITextMarkSpec> & { position?: keyof typeof minMaxPositionEnum }>;
+    [SeriesMarkNameEnum.maxLabel]?: Partial<IMarkTheme<ITextMarkSpec> & { position?: keyof typeof minMaxPositionEnum }>;
   };
 }

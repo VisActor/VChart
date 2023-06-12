@@ -3,6 +3,7 @@ import type { IMarkSpec } from '../../typings/spec/common';
 import type { IRectMarkSpec, ITextMarkSpec, ILinkPathMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SankeyAppearPreset, SankeyMark } from './animation';
+import type { SeriesMarkNameEnum } from '../interface';
 
 export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimationSpec<SankeyMark, SankeyAppearPreset> {
   type: 'sankey';
@@ -75,10 +76,10 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
   setNodeLayer?: (datum: SankeyNodeDatum) => number;
 
   /** 节点配置 */
-  node?: IMarkSpec<IRectMarkSpec>;
+  [SeriesMarkNameEnum.node]?: IMarkSpec<IRectMarkSpec>;
 
   /** 边配置 */
-  link?: IMarkSpec<ILinkPathMarkSpec>;
+  [SeriesMarkNameEnum.link]?: IMarkSpec<ILinkPathMarkSpec>;
 
   /** 联动交互配置 */
   emphasis?: {
@@ -97,7 +98,7 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
   };
 
   /** 标签配置 */
-  label?: IMarkSpec<ITextMarkSpec> & {
+  [SeriesMarkNameEnum.label]?: IMarkSpec<ITextMarkSpec> & {
     /**
      * 标签布局方式
      * @default 'outside'
@@ -189,6 +190,6 @@ export type SankeyLayoutResult = {
 }[];
 
 export interface ISankeySeriesTheme {
-  nodes?: IMarkSpec<IRectMarkSpec>;
-  links?: IMarkSpec<ILinkPathMarkSpec>;
+  [SeriesMarkNameEnum.node]?: IMarkSpec<IRectMarkSpec>;
+  [SeriesMarkNameEnum.link]?: IMarkSpec<ILinkPathMarkSpec>;
 }

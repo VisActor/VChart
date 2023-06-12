@@ -8,7 +8,7 @@
 import type { ITheme } from '../../interface';
 import { colorScheme } from './color-scheme';
 import { series } from './series';
-import { markByType } from './mark';
+import { markByName, markByType } from './mark';
 import { THEME_CONSTANTS } from './constants';
 import { component } from './component';
 
@@ -18,7 +18,7 @@ export const lightTheme: ITheme = {
   fontFamily: THEME_CONSTANTS.FONT_FAMILY,
   colorScheme,
   mark: markByType,
-  // markByName,
+  markByName,
   series,
   component
 };

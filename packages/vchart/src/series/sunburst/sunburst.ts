@@ -15,7 +15,8 @@ import type { ISunburstOpt } from '../../data/transforms/sunburst';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { flatten } from '../../data/transforms/flatten';
 import { sunburstLayout } from '../../data/transforms/sunburst';
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
@@ -31,12 +32,18 @@ import { SunburstTooltipHelper } from './tooltip-helper';
 import type { animationInfo } from './animation/interface';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
+import { BaseSeries } from '../base/base-series';
 
 export class SunburstSeries extends PolarSeries<any> {
   protected declare _spec: ISunburstSeriesSpec;
 
   static readonly type: string = SeriesTypeEnum.sunburst;
   type = SeriesTypeEnum.sunburst;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.sunburst]: { name: SeriesMarkNameEnum.sunburst, type: MarkTypeEnum.arc }
+  };
 
   private _sunburstMark: IArcMark;
   private _labelMark: ITextMark;
@@ -245,7 +252,7 @@ export class SunburstSeries extends PolarSeries<any> {
       return;
     }
     // SunburstMark
-    const sunburstMark = this._createMark(MarkTypeEnum.arc, 'sunburst', {
+    const sunburstMark = this._createMark(SunburstSeries.mark.sunburst, {
       isSeriesMark: true
     }) as IArcMark;
     this._sunburstMark = sunburstMark;
@@ -278,7 +285,7 @@ export class SunburstSeries extends PolarSeries<any> {
       return;
     }
     // Label
-    const labelMark = this._createMark(MarkTypeEnum.text, 'label', {
+    const labelMark = this._createMark(SunburstSeries.mark.label, {
       isSeriesMark: false
     }) as ITextMark;
     this._labelMark = labelMark;

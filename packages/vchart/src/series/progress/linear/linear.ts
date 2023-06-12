@@ -1,5 +1,7 @@
 import { CartesianSeries } from '../../cartesian/cartesian';
-import { SeriesTypeEnum } from '../../interface';
+import type { SeriesMarkMap } from '../../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface';
 import type { IRectMark } from '../../../mark/rect';
 import type { IGroupMark } from '../../../mark/group';
 import { MarkTypeEnum } from '../../../mark/interface';
@@ -12,10 +14,18 @@ import type { ILinearProgressAnimationParams, LinearProgressAppearPreset } from 
 import type { ILinearProgressSeriesSpec, ILinearProgressSeriesTheme } from './interface';
 import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
+import { BaseSeries } from '../../base/base-series';
 
 export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.linearProgress;
   type = SeriesTypeEnum.linearProgress;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.track]: { name: SeriesMarkNameEnum.track, type: MarkTypeEnum.rect },
+    [SeriesMarkNameEnum.progress]: { name: SeriesMarkNameEnum.progress, type: MarkTypeEnum.rect },
+    [SeriesMarkNameEnum.group]: { name: SeriesMarkNameEnum.group, type: MarkTypeEnum.group }
+  };
 
   protected declare _theme: Maybe<ILinearProgressSeriesTheme>;
 
@@ -45,7 +55,7 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
   }
 
   private initProgressMark() {
-    this._progressMark = this._createMark(MarkTypeEnum.rect, 'progress', {
+    this._progressMark = this._createMark(LinearProgressSeries.mark.progress, {
       isSeriesMark: true,
       parent: this._progressGroupMark
     }) as IRectMark;
@@ -90,7 +100,7 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
   }
 
   private initTrackMark() {
-    this._trackMark = this._createMark(MarkTypeEnum.rect, 'track', {
+    this._trackMark = this._createMark(LinearProgressSeries.mark.track, {
       parent: this._progressGroupMark
     }) as IRectMark;
     return this._trackMark;
@@ -126,7 +136,7 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
   }
 
   private initProgressGroupMark() {
-    this._progressGroupMark = this._createMark(MarkTypeEnum.group, 'group') as IGroupMark;
+    this._progressGroupMark = this._createMark(LinearProgressSeries.mark.group) as IGroupMark;
     return this._progressGroupMark;
   }
 
@@ -184,12 +194,15 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
     this._progressMark.setAnimationConfig(
       animationConfig(
         DEFAULT_MARK_ANIMATION.linearProgress(animationParams, appearPreset),
-        userAnimationConfig('progress', this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.progress, this._spec)
       )
     );
 
     this._trackMark.setAnimationConfig(
-      animationConfig(DEFAULT_MARK_ANIMATION.progressBackground(), userAnimationConfig('track', this._spec))
+      animationConfig(
+        DEFAULT_MARK_ANIMATION.progressBackground(),
+        userAnimationConfig(SeriesMarkNameEnum.track, this._spec)
+      )
     );
   }
 

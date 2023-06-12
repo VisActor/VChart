@@ -10,17 +10,18 @@ import type {
   IModelRenderOption,
   IModelEvaluateOption,
   IModelSpec,
-  ILayoutRect
+  ILayoutRect,
+  IModelMarkInfo
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkType } from '../mark/interface';
+import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect } from '../typings';
 import type { ITooltipHelper } from './tooltip-helper';
 import type { CompilableData } from '../compile/data/compilable-data';
 import { ModelStateManager } from './model-state-manager';
 import { PREFIX } from '../constant';
 import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar';
-import { isArray, isEqual, isFunction, isNil, isObject, merge } from '@visactor/vutils';
+import { array, isArray, isEqual, isFunction, isNil, isObject, merge } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import { isColorKey } from '../theme/color-scheme/util';
 import type { SeriesTypeEnum } from '../series/interface';
@@ -76,6 +77,12 @@ export abstract class BaseModel extends LayoutItem implements IModel {
   }
   getMarkSet() {
     return this._marks;
+  }
+  getMarkInfoList(): IModelMarkInfo[] {
+    return this.getMarks().map(mark => ({
+      type: mark.type as MarkTypeEnum,
+      name: mark.name
+    }));
   }
 
   getChart() {
@@ -212,12 +219,12 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     }
 
     const { mark: markThemeByType, markByName: markThemeByName } = globalTheme;
-    this.getMarks().forEach(mark => {
-      this._theme[mark.name] = merge(
+    this.getMarkInfoList().forEach(({ type, name }) => {
+      this._theme[name] = merge(
         {},
-        markThemeByType?.[mark.type] ?? {},
-        markThemeByName?.[mark.name] ?? {},
-        this._theme[mark.name]
+        markThemeByType?.[array(type)[0]] ?? {},
+        markThemeByName?.[name] ?? {},
+        this._theme[name]
       );
     });
   }
@@ -346,8 +353,9 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     return this.getSceneNodes().map(node => node.mark as IVGrammarMark);
   }
 
-  protected _createMark<T extends IMark>(type: MarkType, name: string, option: Partial<IMarkOption> = {}): T {
-    const m = Factory.createMark(type, name, {
+  protected _createMark<T extends IMark>(markInfo: IModelMarkInfo, option: Partial<IMarkOption> = {}): T {
+    const { type, name } = markInfo;
+    const m = Factory.createMark(type as any, name, {
       model: this,
       map: this._option.map,
       getCompiler: this.getCompiler,

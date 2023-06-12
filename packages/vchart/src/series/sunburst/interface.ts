@@ -4,6 +4,7 @@ import type { SunburstLabelConfig } from '@visactor/vgrammar-hierarchy';
 import type { SunburstAppearPreset, SunburstMark } from './animation';
 import type { IArcMarkSpec, ITextMarkSpec } from '../../typings';
 import type { IPolarSeriesTheme } from '../polar/interface';
+import type { SeriesMarkNameEnum } from '../interface';
 
 export interface ISunburstSeriesSpec
   extends Omit<ISeriesSpec, 'data'>,
@@ -107,12 +108,12 @@ export interface ISunburstSeriesSpec
    * 标签配置
    * @description 对所有层生效
    */
-  label?: IMarkSpec<ITextMarkSpec>;
+  [SeriesMarkNameEnum.label]?: IMarkSpec<ITextMarkSpec>;
 
   /**
    * 图元配置
    */
-  sunburst?: IMarkSpec<IArcMarkSpec>;
+  [SeriesMarkNameEnum.sunburst]?: IMarkSpec<IArcMarkSpec>;
 }
 
 export interface ISunburstSeriesTheme extends Omit<IPolarSeriesTheme, 'label' | 'innerRadius' | 'outerRadius'> {
@@ -122,8 +123,8 @@ export interface ISunburstSeriesTheme extends Omit<IPolarSeriesTheme, 'label' | 
   outerRadius?: number | number[];
   gap?: number | number[];
   labelLayout?: SunburstLabelConfig | SunburstLabelConfig[];
-  label?: IMarkTheme<ITextMarkSpec>;
-  sunburst?: IMarkTheme<IArcMarkSpec>;
+  [SeriesMarkNameEnum.label]?: IMarkTheme<ITextMarkSpec>;
+  [SeriesMarkNameEnum.sunburst]?: IMarkTheme<IArcMarkSpec>;
 }
 
 export type LabelAutoVisibleType = {

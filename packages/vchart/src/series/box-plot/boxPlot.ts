@@ -8,7 +8,9 @@ import type { BoxPlotShaftShape, IOutlierMarkSpec, Maybe, Datum } from '../../ty
 import { Direction } from '../../typings';
 import { isNumber, valueInScaleRange } from '../../util';
 import { CartesianSeries } from '../cartesian/cartesian';
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IBoxPlotSeriesSpec, IBoxPlotSeriesTheme } from './interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -22,6 +24,7 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IMarkAnimateSpec } from '../../animation/spec';
+import { BaseSeries } from '../base/base-series';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -34,6 +37,12 @@ const DEFAULT_OUTLIER_SIZE = 10;
 export class BoxPlotSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.boxPlot;
   type = SeriesTypeEnum.boxPlot;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.boxPlot]: { name: SeriesMarkNameEnum.boxPlot, type: MarkTypeEnum.boxPlot },
+    [SeriesMarkNameEnum.outlier]: { name: SeriesMarkNameEnum.outlier, type: MarkTypeEnum.symbol }
+  };
 
   protected declare _spec: IBoxPlotSeriesSpec;
 
@@ -122,11 +131,11 @@ export class BoxPlotSeries extends CartesianSeries<any> {
       largeThreshold: this._spec.largeThreshold
     };
 
-    this._boxPlotMark = this._createMark(MarkTypeEnum.boxPlot, 'boxPlot', {
+    this._boxPlotMark = this._createMark(BoxPlotSeries.mark.boxPlot, {
       isSeriesMark: true,
       progressive
     }) as IBoxPlotMark;
-    this._outlierMark = this._createMark(MarkTypeEnum.symbol, 'outlier', {
+    this._outlierMark = this._createMark(BoxPlotSeries.mark.outlier, {
       progressive,
       key: DEFAULT_DATA_INDEX,
       dataView: this._outlierDataView.getDataView(),
@@ -354,7 +363,7 @@ export class BoxPlotSeries extends CartesianSeries<any> {
     };
     if (this._boxPlotMark) {
       const newDefaultConfig = this._initAnimationSpec(DEFAULT_MARK_ANIMATION.boxPlot());
-      const newConfig = this._initAnimationSpec(userAnimationConfig('boxPlot', this._spec));
+      const newConfig = this._initAnimationSpec(userAnimationConfig(SeriesMarkNameEnum.boxPlot, this._spec));
       this._boxPlotMark.setAnimationConfig(animationConfig(newDefaultConfig, newConfig, { dataIndex }));
     }
 

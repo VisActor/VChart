@@ -1,5 +1,6 @@
 import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, IChartPadding } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
+import type { SeriesMarkNameEnum } from '../interface';
 
 export enum WordCloudShapeEnum {
   triangleForward = 'triangleForward', // 右箭头
@@ -266,7 +267,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
    * 词云文字图元配置 或 形状词云核心词文字图元配置
    * @description hover配置随图元state，此外增加padding: 字体间距 和 formatMethod: 文本格式化
    */
-  word?: IMarkSpec<ITextMarkSpec> & {
+  [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
     formatMethod?: (text: string | string[], datum?: any) => string | string[];
   };
@@ -275,7 +276,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
    * @description hover配置随图元state，此外增加padding: 字体间距
    * @description 不增加formatMethod的原因：形状词云在做布局时，word和fillingWord用的是同一份数据，即text相同，所以fillingWords的format不会生效
    */
-  fillingWord?: IMarkSpec<ITextMarkSpec> & {
+  [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
     // formatMethod?: (text: string | string[], datum?: any) => string | string[];
   };
@@ -290,11 +291,11 @@ export interface IWordCloudSeriesSpec extends IWordCloudSeriesBaseSpec {
   type: 'wordCloud';
 }
 export interface IWordCloudSeriesTheme {
-  word?: IMarkSpec<ITextMarkSpec> & {
+  [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
     formatMethod?: (text: string | string[], datum?: any) => string | string[];
   };
-  fillingWord?: IMarkSpec<ITextMarkSpec> & {
+  [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
     formatMethod?: (text: string | string[], datum?: any) => string | string[];
   };
@@ -307,11 +308,11 @@ export interface IWordCloud3dSeriesSpec extends IWordCloudSeriesBaseSpec {
 }
 
 export interface IWordCloud3dSeriesTheme {
-  word3d?: IMarkSpec<ITextMarkSpec> & {
+  [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
     formatMethod?: (text: string | string[], datum?: any) => string | string[];
   };
-  fillingWord?: IMarkSpec<ITextMarkSpec> & {
+  [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
     formatMethod?: (text: string | string[], datum?: any) => string | string[];
   };

@@ -13,16 +13,27 @@ import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IRectMark } from '../../mark/rect';
 import type { IModelInitOption } from '../../model/interface';
 import type { ITextMark } from '../../mark/text';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
+import { BaseSeries } from '../base/base-series';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
 export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.bar;
   type = SeriesTypeEnum.bar;
+  protected _barMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.bar;
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.bar]: { name: SeriesMarkNameEnum.bar, type: MarkTypeEnum.rect }
+  };
 
   protected declare _theme: Maybe<IBarSeriesTheme>;
 
@@ -38,14 +49,21 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       largeThreshold: this._spec.largeThreshold
     };
 
-    this._rectMark = this._createMark(this._barMarkType, this.type, {
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
-      defaultMorphElementKey: this.getDimensionField()[0],
-      groupKey: this._seriesField,
-      isSeriesMark: true,
-      label: merge({ animation: this._spec.animation }, this._spec.label),
-      progressive
-    }) as IRectMark;
+    this._rectMark = this._createMark(
+      {
+        ...BarSeries.mark.bar,
+        name: this._barMarkName,
+        type: this._barMarkType
+      },
+      {
+        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
+        defaultMorphElementKey: this.getDimensionField()[0],
+        groupKey: this._seriesField,
+        isSeriesMark: true,
+        label: merge({ animation: this._spec.animation }, this._spec.label),
+        progressive
+      }
+    ) as IRectMark;
   }
 
   initMarkStyle(): void {
@@ -178,7 +196,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     this._rectMark.setAnimationConfig(
       animationConfig(
         DEFAULT_MARK_ANIMATION.bar(animationParams, appearPreset),
-        userAnimationConfig(this.type, this._spec),
+        userAnimationConfig(this._barMarkName, this._spec),
         { dataIndex }
       )
     );
@@ -227,5 +245,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 export class Bar3dSeries extends BarSeries {
   static readonly type: string = SeriesTypeEnum.bar3d;
   type = SeriesTypeEnum.bar3d;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.bar3d]: { name: SeriesMarkNameEnum.bar3d, type: MarkTypeEnum.rect3d }
+  };
+
+  protected _barMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.bar3d;
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect3d;
 }

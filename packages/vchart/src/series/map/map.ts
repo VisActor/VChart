@@ -17,12 +17,15 @@ import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
 import type { ITextMark } from '../../mark/text';
 import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY } from '../../constant/index';
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { BaseSeries } from '../base/base-series';
 
 // 注册语法元素
 registerGrammar('projection', Projection, 'projections');
@@ -30,6 +33,11 @@ registerGrammar('projection', Projection, 'projections');
 export class MapSeries extends GeoSeries<IMapSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.map;
   type = SeriesTypeEnum.map;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.area]: { name: SeriesMarkNameEnum.area, type: MarkTypeEnum.path }
+  };
 
   map!: string;
 
@@ -109,7 +117,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
 
   // mark
   initMark() {
-    this._pathMark = this._createMark(MarkTypeEnum.path, 'area', {
+    this._pathMark = this._createMark(MapSeries.mark.area, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('area', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this.getDimensionField()[0],
@@ -120,7 +128,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
     }) as IPathMark;
 
     if (this._spec.label?.visible) {
-      this._labelMark = this._createMark(MarkTypeEnum.text, 'label', {
+      this._labelMark = this._createMark(MapSeries.mark.label, {
         skipBeforeLayouted: true,
         dataView: this._mapViewData.getDataView(),
         dataProductId: this._mapViewData.getProductId()
@@ -175,12 +183,12 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
 
   initAnimation() {
     this._pathMark.setAnimationConfig(
-      animationConfig(DEFAULT_MARK_ANIMATION.path(), userAnimationConfig('area', this._spec))
+      animationConfig(DEFAULT_MARK_ANIMATION.path(), userAnimationConfig(SeriesMarkNameEnum.area, this._spec))
     );
 
     if (this._labelMark) {
       this._labelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig('label', this._spec))
+        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec))
       );
     }
   }

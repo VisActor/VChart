@@ -7,6 +7,8 @@ import type { ICirclePackingSeriesSpec } from './interface';
 import type { IMarkSpec } from '../..';
 import type { IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
+import type { SeriesMarkMap } from '../interface';
+import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
 
 import { CartesianSeries } from '../cartesian/cartesian';
@@ -29,12 +31,18 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import type { CirclePackingAppearPreset } from './animation';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
+import { BaseSeries } from '../base/base-series';
 
 export class CirclePackingSeries extends CartesianSeries<any> {
   protected declare _spec: ICirclePackingSeriesSpec;
 
   static readonly type: string = SeriesTypeEnum.circlePacking;
   type = SeriesTypeEnum.circlePacking;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.circlePacking]: { name: SeriesMarkNameEnum.circlePacking, type: MarkTypeEnum.arc }
+  };
 
   // 映射字段
   protected _categoryField!: string;
@@ -176,7 +184,7 @@ export class CirclePackingSeries extends CartesianSeries<any> {
       return;
     }
 
-    const circlePacking = this._createMark(MarkTypeEnum.arc, 'circlePacking', {
+    const circlePacking = this._createMark(CirclePackingSeries.mark.circlePacking, {
       isSeriesMark: true
     }) as IArcMark;
 
@@ -212,7 +220,7 @@ export class CirclePackingSeries extends CartesianSeries<any> {
     if (this._label?.visible === false) {
       return;
     }
-    const labelMark = this._createMark(MarkTypeEnum.text, 'label', {
+    const labelMark = this._createMark(CirclePackingSeries.mark.label, {
       isSeriesMark: false
     }) as IArcMark;
 
