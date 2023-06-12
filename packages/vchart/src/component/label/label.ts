@@ -113,7 +113,7 @@ export class Label extends BaseComponent {
         const mark = marks[i];
         if (mark.getLabelSpec()?.visible) {
           const info = this._labelInfo.get(region);
-          const labelMark = this._createMark(MarkTypeEnum.text, `${mark.name}-label`);
+          const labelMark = this._createMark({ type: MarkTypeEnum.text, name: `${mark.name}-label` });
           this.initMarkStyleWithSpec(labelMark, mark.getLabelSpec());
           s.initLabelMarkStyle?.(labelMark);
           const labelInfo = { labelMark, baseMark: mark, series: s };
@@ -126,20 +126,26 @@ export class Label extends BaseComponent {
   protected _initLabelComponent() {
     this._labelInfo.forEach((regionLabelInfo, region) => {
       if (this._layoutRule === 'region') {
-        const component = this._createMark(MarkTypeEnum.component, `${region.getGroupMark().name}-label-component`, {
-          componentType: 'label',
-          support3d: this._spec.support3d
-        });
+        const component = this._createMark(
+          { type: MarkTypeEnum.component, name: `${region.getGroupMark().name}-label-component` },
+          {
+            componentType: 'label',
+            support3d: this._spec.support3d
+          }
+        );
         if (component) {
           this._marks.addMark(component);
           this._labelComponentMap.set(component, { region, labelInfo: regionLabelInfo });
         }
       } else {
         regionLabelInfo.forEach(labelInfo => {
-          const component = this._createMark(MarkTypeEnum.component, `${labelInfo.labelMark.name}-component`, {
-            componentType: 'label',
-            support3d: this._spec.support3d
-          });
+          const component = this._createMark(
+            { type: MarkTypeEnum.component, name: `${labelInfo.labelMark.name}-component` },
+            {
+              componentType: 'label',
+              support3d: this._spec.support3d
+            }
+          );
           if (component) {
             this._marks.addMark(component);
             this._labelComponentMap.set(component, { region, labelInfo: [labelInfo] });

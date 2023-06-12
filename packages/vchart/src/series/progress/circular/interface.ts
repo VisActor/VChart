@@ -4,6 +4,7 @@ import type { IProgressArcMarkSpec } from '../../../typings/visual';
 import type { ProgressLikeAppearPreset } from '../../polar/progress-like/animation';
 import type { IProgressSeriesSpec } from '../interface';
 import type { IProgressLikeSeriesSpec, IProgressLikeSeriesTheme } from '../../polar/progress-like/interface';
+import type { SeriesMarkNameEnum } from '../../interface';
 
 export type CircularProgressMarks = 'progress' | 'track';
 
@@ -22,13 +23,13 @@ export interface ICircularProgressSeriesSpec
   maxValue?: number;
 
   /** 进度条样式 */
-  progress?: IMarkSpec<IProgressArcMarkSpec>;
+  [SeriesMarkNameEnum.progress]?: IMarkSpec<IProgressArcMarkSpec>;
 
   /** 背景样式 */
-  track?: IMarkSpec<IProgressArcMarkSpec>;
+  [SeriesMarkNameEnum.track]?: IMarkSpec<IProgressArcMarkSpec>;
 }
 
 export interface ICircularProgressSeriesTheme extends IProgressLikeSeriesTheme {
-  progress?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
-  track?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
+  [SeriesMarkNameEnum.progress]?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
+  [SeriesMarkNameEnum.track]?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
 }

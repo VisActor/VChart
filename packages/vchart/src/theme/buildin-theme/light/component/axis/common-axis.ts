@@ -6,7 +6,7 @@ export const commonAxis: IAxisCommonTheme = {
     visible: true,
     style: {
       lineWidth: 1,
-      stroke: '#D8DCE3',
+      stroke: { type: 'palette', key: 'axisDomainColor' },
       strokeOpacity: 1
     }
   },
@@ -33,7 +33,7 @@ export const commonAxis: IAxisCommonTheme = {
     tickSize: THEME_CONSTANTS.AXIS_TICK_SIZE,
     style: {
       lineWidth: 1,
-      stroke: '#D8DCE3',
+      stroke: { type: 'palette', key: 'axisDomainColor' },
       strokeOpacity: 1
     }
   },
@@ -42,7 +42,7 @@ export const commonAxis: IAxisCommonTheme = {
     tickSize: THEME_CONSTANTS.AXIS_TICK_SIZE / 2,
     style: {
       lineWidth: 1,
-      stroke: '#D8DCE3',
+      stroke: { type: 'palette', key: 'axisDomainColor' },
       strokeOpacity: 1
     }
   },

@@ -5,6 +5,7 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { ScatterAppearPreset, ScatterMarks } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { SeriesMarkNameEnum } from '../interface';
 
 export interface IScatterSeriesSpec
   extends ICartesianSeriesSpec,
@@ -17,7 +18,7 @@ export interface IScatterSeriesSpec
   /**
    * 图元配置
    */
-  point?: IMarkSpec<ISymbolMarkSpec>;
+  [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;
   /**
    * 尺寸 视觉通道
    */
@@ -36,7 +37,7 @@ export interface IScatterSeriesSpec
    */
   invalidType?: IInvalidType;
   /** 标签配置 */
-  label?: ILabelSpec & {
+  [SeriesMarkNameEnum.label]?: ILabelSpec & {
     /** 标签位置 */
     position?: 'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
   };
@@ -45,5 +46,5 @@ export interface IScatterSeriesSpec
 export interface IScatterSeriesTheme extends ICartesianSeriesTheme {
   size: number;
   shape: ShapeType;
-  point?: Partial<IMarkTheme<ISymbolMarkSpec>>;
+  [SeriesMarkNameEnum.point]?: Partial<IMarkTheme<ISymbolMarkSpec>>;
 }

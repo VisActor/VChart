@@ -49,7 +49,7 @@ export class CustomMark extends BaseComponent {
     namePrefix: string,
     index: number
   ) {
-    const mark = this._createMark(spec.type, `${PREFIX}_${index}`) as IGroupMark;
+    const mark = this._createMark({ type: spec.type, name: `${PREFIX}_${index}` }) as IGroupMark;
     if (!mark) {
       return;
     }

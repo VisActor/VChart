@@ -3,6 +3,7 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { WaterfallAppearPreset } from './animation';
 import type { IBarSeriesSpec, IBarSeriesTheme } from '../bar/interface';
 import type { ILabelSpec } from '../../component/label';
+import type { SeriesMarkNameEnum } from '../interface';
 
 type WaterfallMarks = 'bar';
 
@@ -54,11 +55,11 @@ export interface IWaterfallSeriesSpec
   /**
    * 引导线配置
    */
-  leaderLine?: IMarkSpec<IRuleMarkSpec>;
+  [SeriesMarkNameEnum.leaderLine]?: IMarkSpec<IRuleMarkSpec>;
   /**
    * 堆积值标签配置
    */
-  stackLabel?: ILabelSpec & {
+  [SeriesMarkNameEnum.stackLabel]?: ILabelSpec & {
     /** 标签位置 */
     position?: IWaterfallStackLabelPosition;
     /** 标签偏移量 */
@@ -69,7 +70,7 @@ export interface IWaterfallSeriesSpec
   /**
    * 标签配置
    */
-  label?: ILabelSpec & {
+  [SeriesMarkNameEnum.label]?: ILabelSpec & {
     /** 是否可见 */
     visible: boolean;
     /** 标签位置(支持两端显示 bothEnds) */
@@ -85,6 +86,8 @@ export interface IWaterfallSeriesTheme extends IBarSeriesTheme {
     increase: string;
     decrease: string;
   };
-  leaderLine?: Partial<IMarkTheme<IRuleMarkSpec>>;
-  stackLabel?: Partial<IMarkTheme<ITextMarkSpec> & { offset?: number; position?: IWaterfallStackLabelPosition }>;
+  [SeriesMarkNameEnum.leaderLine]?: Partial<IMarkTheme<IRuleMarkSpec>>;
+  [SeriesMarkNameEnum.stackLabel]?: Partial<
+    IMarkTheme<ITextMarkSpec> & { offset?: number; position?: IWaterfallStackLabelPosition }
+  >;
 }

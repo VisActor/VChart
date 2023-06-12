@@ -1,7 +1,7 @@
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { ISymbolMarkSpec, ILineMarkSpec, IAreaMarkSpec } from '../../typings/visual';
-import type { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { ILineLikeSeriesTheme } from '../mixin/line-mixin';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AreaAppearPreset } from './animation';
@@ -18,17 +18,17 @@ export interface IAreaSeriesSpec
   /**
    * 点图元配置
    */
-  point?: IMarkSpec<ISymbolMarkSpec>;
+  [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;
   /**
    * 线图元配置
    */
-  line?: IMarkSpec<ILineMarkSpec>;
+  [SeriesMarkNameEnum.line]?: IMarkSpec<ILineMarkSpec>;
   /**
    * 面积图元配置
    */
-  area?: IMarkSpec<IAreaMarkSpec>;
+  [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
 }
 
 export interface IAreaSeriesTheme extends ICartesianSeriesTheme, ILineLikeSeriesTheme {
-  area?: Partial<IMarkTheme<IAreaMarkSpec>>;
+  [SeriesMarkNameEnum.area]?: Partial<IMarkTheme<IAreaMarkSpec>>;
 }

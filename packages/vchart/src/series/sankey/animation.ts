@@ -1,5 +1,6 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar';
 import type { DirectionType } from '../../typings';
+// eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings';
 
 export type SankeyMark = 'node' | 'link' | 'label';

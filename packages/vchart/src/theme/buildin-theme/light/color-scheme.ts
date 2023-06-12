@@ -48,7 +48,8 @@ export const colorScheme: IThemeColorScheme = {
     palette: {
       labelFontColor: '#89909D',
       titleFontColor: '#000000',
-      axisGridColor: '#F1F2F5'
+      axisGridColor: '#EBEDF2',
+      axisDomainColor: '#D9DDE4'
     }
   }
 };

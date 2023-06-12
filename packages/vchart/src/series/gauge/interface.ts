@@ -3,6 +3,7 @@ import type { IArcMarkSpec, IPathMarkSpec, IProgressArcMarkSpec, IRectMarkSpec }
 import type { IProgressLikeSeriesSpec, IProgressLikeSeriesTheme } from '../polar/progress-like/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { ProgressLikeAppearPreset } from '../polar/progress-like';
+import type { SeriesMarkNameEnum } from '../interface';
 
 export type GaugePointerMarks = 'pointer' | 'pin' | 'pinBackground';
 
@@ -18,11 +19,11 @@ export interface IGaugePointerSeriesSpec
   radiusField: string;
 
   /** 图钉前景样式 */
-  pin?: IMarkSpec<IPathMarkSpec> & PinMarkSpec;
+  [SeriesMarkNameEnum.pin]?: IMarkSpec<IPathMarkSpec> & PinMarkSpec;
   /** 图钉背景样式 */
-  pinBackground?: IMarkSpec<IPathMarkSpec> & PinMarkSpec;
+  [SeriesMarkNameEnum.pinBackground]?: IMarkSpec<IPathMarkSpec> & PinMarkSpec;
   /** 指针样式 */
-  pointer?: IMarkSpec<IPathMarkSpec | IRectMarkSpec> & PointerMarkSpec;
+  [SeriesMarkNameEnum.pointer]?: IMarkSpec<IPathMarkSpec | IRectMarkSpec> & PointerMarkSpec;
 }
 
 export type PointerMarkSpec = {
@@ -50,11 +51,11 @@ export type PinMarkSpec = {
 
 export interface IGaugePointerSeriesTheme extends IProgressLikeSeriesTheme {
   /** 图钉前景样式 */
-  pin?: Partial<IMarkTheme<IPathMarkSpec> & PinMarkSpec>;
+  [SeriesMarkNameEnum.pin]?: Partial<IMarkTheme<IPathMarkSpec> & PinMarkSpec>;
   /** 图钉背景样式 */
-  pinBackground?: Partial<IMarkTheme<IPathMarkSpec> & PinMarkSpec>;
+  [SeriesMarkNameEnum.pinBackground]?: Partial<IMarkTheme<IPathMarkSpec> & PinMarkSpec>;
   /** 指针样式 */
-  pointer?: Partial<IMarkTheme<IPathMarkSpec | IRectMarkSpec> & PointerMarkSpec>;
+  [SeriesMarkNameEnum.pointer]?: Partial<IMarkTheme<IPathMarkSpec | IRectMarkSpec> & PointerMarkSpec>;
 }
 
 export type GaugeMarks = 'segment' | 'track';
@@ -68,9 +69,9 @@ export interface IGaugeSeriesSpec
   padAngle?: number;
 
   /** 扇区样式 */
-  segment?: IMarkSpec<IProgressArcMarkSpec>;
+  [SeriesMarkNameEnum.segment]?: IMarkSpec<IProgressArcMarkSpec>;
   /** 背景样式 */
-  track?: IMarkSpec<IArcMarkSpec>;
+  [SeriesMarkNameEnum.track]?: IMarkSpec<IArcMarkSpec>;
 }
 
 export interface IGaugeSeriesTheme extends IProgressLikeSeriesTheme {
@@ -78,7 +79,7 @@ export interface IGaugeSeriesTheme extends IProgressLikeSeriesTheme {
   padAngle?: number;
 
   /** 扇区样式 */
-  segment?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
+  [SeriesMarkNameEnum.segment]?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
   /** 背景样式 */
-  track?: Partial<IMarkTheme<IArcMarkSpec>>;
+  [SeriesMarkNameEnum.track]?: Partial<IMarkTheme<IArcMarkSpec>>;
 }

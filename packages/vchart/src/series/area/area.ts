@@ -1,4 +1,4 @@
-import { LineLikeSeriesMixin } from '../mixin/line-mixin';
+import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
 import { Direction } from '../../typings/space';
 import { MarkTypeEnum } from '../../mark/interface';
@@ -6,6 +6,10 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum, IInvalidType } from '../../typings';
 import { valueInScaleRange, couldBeValidNumber } from '../../util';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface';
 import { mixin } from '@visactor/vutils';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -13,6 +17,7 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
 import type { IMarkAnimateSpec } from '../../animation/spec';
+import { BaseSeries } from '../base/base-series';
 
 export interface AreaSeries
   extends Pick<
@@ -31,6 +36,12 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.area;
   type = SeriesTypeEnum.area;
 
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    ...lineLikeSeriesMarkMap,
+    [SeriesMarkNameEnum.area]: { name: SeriesMarkNameEnum.area, type: MarkTypeEnum.area }
+  };
+
   protected declare _theme: Maybe<IAreaSeriesTheme>;
 
   protected _areaMark!: IAreaMark;
@@ -47,7 +58,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
 
     const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
     // area
-    this._areaMark = this._createMark(MarkTypeEnum.area, 'area', {
+    this._areaMark = this._createMark(AreaSeries.mark.area, {
       groupKey: this._seriesField,
       defaultMorphElementKey: this.getDimensionField()[0],
       progressive,
@@ -141,7 +152,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
       this._lineMark.setAnimationConfig(
         animationConfig(
           DEFAULT_MARK_ANIMATION.line(animationParams, appearPreset),
-          userAnimationConfig(this._lineMark.name, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.line, this._spec)
         )
       );
     }
@@ -150,14 +161,14 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
       this._areaMark.setAnimationConfig(
         animationConfig(
           DEFAULT_MARK_ANIMATION.area(animationParams, appearPreset),
-          userAnimationConfig(this._areaMark.name, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.area, this._spec)
         )
       );
     }
 
     if (this._symbolMark) {
       this._symbolMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.symbol(), userAnimationConfig(this._symbolMark.name, this._spec))
+        animationConfig(DEFAULT_MARK_ANIMATION.symbol(), userAnimationConfig(SeriesMarkNameEnum.point, this._spec))
       );
     }
   }

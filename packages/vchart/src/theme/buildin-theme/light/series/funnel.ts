@@ -24,7 +24,7 @@ export const funnel: IFunnelSeriesTheme = {
     },
     line: {
       style: {
-        stroke: '#ddd'
+        stroke: { type: 'palette', key: 'axisDomainColor' }
       }
     }
   },

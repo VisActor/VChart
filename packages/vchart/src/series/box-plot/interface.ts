@@ -3,6 +3,7 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { DirectionType, IBoxPlotMarkSpec, IOutlierMarkSpec } from '../../typings';
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
+import type { SeriesMarkNameEnum } from '../interface';
 
 export interface IBoxPlotSeriesSpec
   extends Omit<ICartesianSeriesSpec, 'xField' | 'yField' | 'direction'>,
@@ -46,7 +47,7 @@ export interface IBoxPlotSeriesSpec
   /**
    * 图元配置
    */
-  boxPlot?: IMarkSpec<IBoxPlotMarkSpec>;
+  [SeriesMarkNameEnum.boxPlot]?: IMarkSpec<IBoxPlotMarkSpec>;
   /**
    * 异常值字段
    */
@@ -58,5 +59,5 @@ export interface IBoxPlotSeriesSpec
 }
 
 export interface IBoxPlotSeriesTheme extends ICartesianSeriesTheme {
-  boxPlot?: Partial<IMarkTheme<IBoxPlotMarkSpec>>;
+  [SeriesMarkNameEnum.boxPlot]?: Partial<IMarkTheme<IBoxPlotMarkSpec>>;
 }
