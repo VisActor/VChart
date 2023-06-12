@@ -8,7 +8,7 @@ import { merge, valueInScaleRange } from '../../util';
 import { setRectLabelPos } from '../util/label-mark';
 import { AttributeLevel } from '../../constant';
 import { isContinuous } from '@visactor/vscale';
-import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { RangeColumnSeriesTooltipHelper } from './tooltip-helper';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { Datum } from '../../typings';
@@ -37,7 +37,7 @@ export class RangeColumnSeries extends BarSeries {
   initMark(): void {
     const labelPosition = this._spec.label?.position;
     this._rectMark = this._createMark(this._barMarkType, 'bar', {
-      morph: this._spec.morph?.enable ?? true,
+      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('bar', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       label: labelPosition === PositionEnum.bothEnd ? undefined : merge({}, this._spec.label),

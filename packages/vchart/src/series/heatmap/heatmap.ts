@@ -4,7 +4,7 @@ import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum } from '../../typings';
 import { array, merge } from '../../util';
 import type { HeatmapAppearPreset } from './animation';
-import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { ITextMark } from '../../mark/text';
@@ -48,7 +48,7 @@ export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
     };
 
     this._cellMark = this._createMark(MarkTypeEnum.cell, 'cell', {
-      morph: this._spec.morph?.enable ?? true,
+      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('cell', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       isSeriesMark: true,
       label: merge({ animation: this._spec.animation }, this._spec.label),

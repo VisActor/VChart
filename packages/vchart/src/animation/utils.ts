@@ -1,7 +1,7 @@
 import { merge } from '../util';
 import type { IElement, IAnimationTypeConfig, IStateAnimationConfig, IAnimationConfig } from '@visactor/vgrammar';
 import type { MarkAnimationSpec, IAnimationState } from './interface';
-import type { IStateAnimateSpec, IAnimationSpec } from './spec';
+import type { IStateAnimateSpec, IAnimationSpec, IMorphSeriesSpec } from './spec';
 import { isFunction, isValidNumber } from '../util/type';
 import { DEFAULT_DATA_INDEX } from '../constant';
 import { DEFAULT_ANIMATION_CONFIG } from './config';
@@ -108,4 +108,24 @@ function produceOneByOne(stateConfig: IAnimationTypeConfig, dataIndex: (datum: a
 
 function defaultDataIndex(datum: any) {
   return datum?.[DEFAULT_DATA_INDEX];
+}
+
+export function shouldDoMorph(
+  hasAnimation: boolean,
+  morphConfig?: IMorphSeriesSpec,
+  animationConfig?: ReturnType<typeof userAnimationConfig>
+) {
+  if (hasAnimation === false) {
+    return false;
+  }
+
+  if (animationConfig?.appear === false || animationConfig?.update === false) {
+    return false;
+  }
+
+  if (morphConfig?.enable === false) {
+    return false;
+  }
+
+  return true;
 }

@@ -35,7 +35,7 @@ import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
 import { isEqual, isValid } from '@visactor/vutils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 
@@ -154,7 +154,7 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
   initMark() {
     this._funnelMark = this._createMark(this._funnelMarkType, this.type, {
       themeSpec: this._theme?.funnel,
-      morph: this._spec.morph?.enable ?? true,
+      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
       defaultMorphElementKey: this._seriesField,
       key: this._seriesField,
       groupKey: this._seriesField,
