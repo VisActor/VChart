@@ -30,7 +30,7 @@ import {
   SCATTER_DEFAULT_SIZE,
   SCATTER_DEFAULT_SIZE_SCALE_TYPE
 } from '../../constant/scatter';
-import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ScatterAppearPreset } from './animation';
@@ -217,7 +217,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     };
 
     this._symbolMark = this._createMark(MarkTypeEnum.symbol, 'point', {
-      morph: this._spec.morph?.enable ?? true,
+      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       label: merge({ animation: this._spec.animation }, this._spec.label),

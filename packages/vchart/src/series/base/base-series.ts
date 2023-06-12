@@ -901,7 +901,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       label,
       progressive,
       support3d = this._spec.support3d || !!(this._spec as any).zField,
-      morph
+      morph = false
     } = option;
     const m = super._createMark<T>(type, name, {
       key: key ?? this._getDataIdKey(),
@@ -942,7 +942,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
       const spec = this.getSpec() || {};
 
-      m.setMorph(morph || false);
+      m.setMorph(morph);
       m.setMorphKey(spec.morph?.morphKey || `${this._specIndex}`);
       m.setMorphElementKey(spec.morph?.morphElementKey ?? option.defaultMorphElementKey);
 

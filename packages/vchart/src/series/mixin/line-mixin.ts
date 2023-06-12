@@ -26,6 +26,7 @@ import { DEFAULT_CLOSE_STROKE_JOIN, DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '..
 import { couldBeValidNumber, isValid, merge } from '../../util';
 import type { ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
 import type { ILabelSpec } from '../../component/label';
+import { shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 
 export interface ILineLikeSeriesTheme {
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
@@ -141,7 +142,7 @@ export class LineLikeSeriesMixin {
 
   initSymbolMark(progressive?: IMarkProgressiveConfig) {
     this._symbolMark = this._createMark(MarkTypeEnum.symbol, 'point', {
-      morph: this._spec.morph?.enable ?? true,
+      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       label: merge({ animation: this._spec.animation }, this._spec.label),

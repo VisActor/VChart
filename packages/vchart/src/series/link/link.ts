@@ -15,7 +15,6 @@ import { registerDataSetInstanceTransform } from '../../data/register';
 import { ShapeTypeEnum } from '../../typings';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { IDotSeriesSpec } from '../dot/interface';
-import type { IEffect } from '../../model/interface';
 import type { IGroupMark } from '../../mark/group';
 import { LinkSeriesTooltipHelper } from './tooltip-helper';
 import type { ILinkSeriesSpec, ILinkSeriesTheme } from './interface';
