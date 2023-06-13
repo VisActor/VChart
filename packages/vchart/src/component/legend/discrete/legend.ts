@@ -169,7 +169,7 @@ export class DiscreteLegend extends BaseLegend {
         shape: {
           fill,
           symbolType: symbolType ?? datum.shapeType ?? 'circle',
-          stroke,
+          stroke: fill === stroke ? null : stroke,
           fillOpacity: isValidNumber(fillOpacity) ? fillOpacity : 1,
           strokeOpacity: isValidNumber(strokeOpacity) ? strokeOpacity : 1,
           opacity: isValidNumber(opacity) ? opacity : 1,
