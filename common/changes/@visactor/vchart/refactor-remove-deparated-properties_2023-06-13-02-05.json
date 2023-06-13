@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "if legend'shape has same value of stroke and fill, then skip stroke",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
