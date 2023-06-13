@@ -21,7 +21,9 @@ export type IColorSchemeStruct = {
 export type ProgressiveDataScheme<T> = Array<IProgressiveDataSchemeCase<T>>;
 
 export interface IProgressiveDataSchemeCase<T> {
-  /** 可以配置回调，返回是否应用此色板 */
+  /** 可选，适合此色板的 domain 数量 */
+  maxDomainLength?: number;
+  /** 可选，自定义回调，返回是否应用此色板，将覆盖 maxDomainLength 等配置 */
   isAvailable?: boolean | IsProgressiveDataSchemeAvailableCallback;
   /** 色板 */
   scheme: T[];
