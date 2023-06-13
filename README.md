@@ -14,7 +14,7 @@ VChart, more than just a cross-platform charting library, but also an expressive
 
 <p align="center">
   <a href="">Introduction</a> •
-  <a href="">demo</a> •
+  <a href="">Demo</a> •
   <a href="">Tutorial</a> •
   <a href="">API</a>•
   <a href="">Cross-Platform</a>
@@ -223,7 +223,7 @@ await vChart.renderAsync();
 
 # Contribution
 
-If you would like to contribute, please read the [Code of Conduct ](./CODE_OF_CONDUCT.md) 和 [ Guide](./CONTRIBUTING.zh-CN.md) first。
+If you would like to contribute, please read the [Code of Conduct ](./CODE_OF_CONDUCT.md) and [ Guide](./CONTRIBUTING.zh-CN.md) first。
 
 Small streams converge to make great rivers and seas!
 
