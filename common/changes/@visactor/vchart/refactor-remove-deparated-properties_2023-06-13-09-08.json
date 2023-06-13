@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "Change `renderAsync()` to `renderSync()` in `compiler.reRenderAsync()`",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
