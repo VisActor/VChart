@@ -68,10 +68,15 @@ export function computeActualDataScheme(
   if (isProgressiveDataColorScheme(dataScheme)) {
     return (
       dataScheme.find(item => {
-        if (isFunction(item.isAvailable)) {
-          return item.isAvailable(colorDomain);
+        if (isValid(item.isAvailable)) {
+          if (isFunction(item.isAvailable)) {
+            return item.isAvailable(colorDomain);
+          }
+          return !!item.isAvailable;
+        } else if (isValid(item.maxDomainLength)) {
+          return colorDomain.length <= item.maxDomainLength;
         }
-        return item.isAvailable;
+        return true;
       })?.scheme ?? dataScheme[dataScheme.length - 1].scheme
     );
   }
