@@ -15,13 +15,13 @@ import { toRenderMode } from './util';
 import { isMobileLikeMode, isString } from '../util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNil } from '@visactor/vutils';
-// eslint-disable-next-line no-duplicate-imports
-import { isValid } from '@visactor/vutils';
+import { isNil, isValid } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import type { VChart } from '../core/vchart';
 import type { Stage } from '@visactor/vrender';
+// eslint-disable-next-line no-duplicate-imports
+import { global } from '@visactor/vrender';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
 
@@ -62,6 +62,7 @@ export class Compiler {
   }
 
   private _compileChart: IChart = null;
+  private _rafId: number;
 
   constructor(container: IRenderContainer, option: IRenderOption) {
     this._container = container;
@@ -185,7 +186,19 @@ export class Compiler {
   }
 
   reRenderAsync(morphConfig?: IMorphConfig) {
-    return this.isInited ? this.renderAsync(morphConfig) : Promise.resolve();
+    if (this.isInited) {
+      // 合并多次 renderSync 调用，另外如果使用 renderAsync 异步渲染的话，在小程序环境会有问题
+      if (this._rafId) {
+        global.getCancelAnimationFrame()(this._rafId);
+      }
+
+      this._rafId = global.getRequestAnimationFrame()(() => {
+        this.renderSync(morphConfig);
+      });
+
+      return this;
+    }
+    return Promise.resolve();
   }
 
   setSize(width: number, height: number) {
@@ -297,6 +310,7 @@ export class Compiler {
     this._srView?.release();
     this._srView = null;
     this.isInited = false;
+    this._rafId = null;
   }
 
   releaseGrammar() {
