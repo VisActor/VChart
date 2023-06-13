@@ -16,29 +16,46 @@ import type { IGradientColor } from '@visactor/vrender';
 import type { IComponentTheme } from '../component/interface';
 
 export interface ITheme {
+  /**
+   * 第 1 种配置：主题信息
+   */
   /** 主题命名 */
   name?: string;
 
-  /** 图表层级的样式属性，用于配置背景色 */
+  /**
+   * 第 2 种配置：图表层级的样式属性
+   */
+  /** 图表背景色 */
   background?: string | IGradientColor;
   /** 图表内边距 */
   padding?: ILayoutPaddingSpec;
   /** 图表字体配置 */
   fontFamily?: string;
 
+  /**
+   * 第 3 种配置：色板
+   */
   /** 全局色板 */
   colorScheme?: IThemeColorScheme;
 
-  /** 全局 mark 样式属性，按 mark 类别区分 */
+  /**
+   * 第 4 种配置：全局 mark 属性配置
+   */
+  /** 全局 mark 样式属性，按 mark 类别索引 */
   mark?: IGlobalMarkThemeByType;
-
-  /** 全局 mark 样式属性，按 mark 名称区分 */
+  /** 全局 mark 样式属性，按 mark 名称索引，优先级更高 */
   markByName?: IGlobalMarkThemeByName;
 
-  /** 系列 */
+  /**
+   * 第 5 种配置：系列属性配置
+   */
+  /** 系列样式属性 */
   series?: ISeriesTheme;
 
-  /** 组件 */
+  /**
+   * 第 6 种配置：组件属性配置
+   */
+  /** 组件样式属性 */
   component?: IComponentTheme;
 }
 
