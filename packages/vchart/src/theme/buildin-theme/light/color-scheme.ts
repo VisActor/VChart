@@ -3,9 +3,9 @@ import type { IThemeColorScheme } from '../../color-scheme/interface';
 export const colorScheme: IThemeColorScheme = {
   default: {
     dataScheme: [
-      // 第一档颜色（n <= 10）
+      // 第一档颜色（数据项 <= 10）
       {
-        isAvailable: domain => domain?.length <= 10,
+        maxDomainLength: 10,
         scheme: [
           '#1664FF',
           '#1AC6FF',
@@ -19,7 +19,7 @@ export const colorScheme: IThemeColorScheme = {
           '#FF7DDA'
         ]
       },
-      // 第二档颜色
+      // 第二档颜色（数据项 > 10）
       {
         scheme: [
           '#1664FF',
