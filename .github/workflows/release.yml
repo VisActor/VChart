@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     permissions:
       contents: write
       pull-requests: write
@@ -46,18 +46,17 @@ jobs:
       - name: Update shrinkwrap
         run: node common/scripts/install-run-rush.js update
 
-      - name: Get npm version
+      - name: Get package version
         id: package-version
-        # See more about this action: https://github.com/marketplace/actions/get-current-package-version
-        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        uses: culshaw/read-package-node-version-actions@v1
         with:
-          path: packages/vchart # 各项目修改一下
+          path: './packages/vchart' # 各项目修改一下
 
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          message: 'build: prelease version ${{ steps.package-version.outputs.current-version }}'
+          message: 'build: prelease version ${{ steps.package-version.outputs.version }}'
           branch: ${{ github.ref_name }}
 
       - name: Create Release for Tag
@@ -67,8 +66,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.package-version.outputs.current-version }}
-          release_name: Release v${{ steps.package-version.outputs.current-version }}
+          tag_name: v${{ steps.package-version.outputs.version }}
+          release_name: Release v${{ steps.package-version.outputs.version }}
           prerelease: false #
 
       - name: Create Pull Request
@@ -77,5 +76,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: main
           branch: ${{ github.ref_name }}
-          title: '[Auto release] release ${{ steps.package-version.outputs.current-version }}'
+          title: '[Auto release] release ${{ steps.package-version.outputs.version }}'
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
