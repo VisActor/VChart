@@ -1,0 +1,81 @@
+name: Release CI
+
+on:
+  push:
+    branches:
+      - release/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          git config user.name ${{ github.actor }}
+          git config user.email ${{ github.actor }}@users.noreply.github.com
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
+
+          # Install rush
+      - name: Install rush
+        run: node common/scripts/install-run-rush.js install --bypass-policy
+
+      - name: Build packages
+        run: node common/scripts/install-run-rush.js version --bump
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        run: node common/scripts/install-run-rush.js publish --publish --include-all
+
+      - name: Update shrinkwrap
+        run: node common/scripts/install-run-rush.js update
+
+      - name: Get npm version
+        id: package-version
+        # See more about this action: https://github.com/marketplace/actions/get-current-package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        with:
+          path: packages/vchart # 各项目修改一下
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: 'build: prelease version ${{ steps.package-version.outputs.current-version }}'
+          branch: ${{ github.ref_name }}
+
+      - name: Create Release for Tag
+        id: release_tag
+        # See more about this action: https://github.com/actions/create-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.package-version.outputs.current-version }}
+          release_name: Release v${{ steps.package-version.outputs.current-version }}
+          prerelease: false #
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          branch: ${{ github.ref_name }}
+          title: '[Auto release] release ${{ steps.package-version.outputs.current-version }}'
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>

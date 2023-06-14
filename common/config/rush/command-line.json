@@ -96,6 +96,21 @@
       "summary": "Start the development server of react-vchart demo",
       "description": "Run this command to start creact-vchart development server",
       "shellCommand": "rush run -p @visactor/react-vchart -s start"
+    },
+    {
+      "name": "pre-release",
+      "summary": "pre release",
+      "commandKind": "global",
+      "autoinstallerName": "run-script",
+      "safeForSimultaneousRushProcesses": true,
+      "shellCommand": "ts-node common/scripts/pre-release.js"
+    },
+    {
+      "name": "release",
+      "summary": "relase",
+      "commandKind": "global",
+      "safeForSimultaneousRushProcesses": true,
+      "shellCommand": "ts-node common/scripts/release.js"
     }
   ],
   "parameters": [
