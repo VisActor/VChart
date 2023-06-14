@@ -195,8 +195,6 @@ export class Compiler {
       this._rafId = global.getRequestAnimationFrame()(() => {
         this.renderSync(morphConfig);
       });
-
-      return this;
     }
     return Promise.resolve();
   }
