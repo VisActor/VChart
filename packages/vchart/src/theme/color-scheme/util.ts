@@ -74,7 +74,7 @@ export function computeActualDataScheme(
           }
           return !!item.isAvailable;
         } else if (isValid(item.maxDomainLength)) {
-          return colorDomain.length <= item.maxDomainLength;
+          return colorDomain?.length <= item.maxDomainLength;
         }
         return true;
       })?.scheme ?? dataScheme[dataScheme.length - 1].scheme
@@ -129,5 +129,7 @@ export function isProgressiveDataColorScheme<T>(obj: any): obj is ProgressiveDat
   if (!isArray(obj)) {
     return false;
   }
-  return obj.some(item => isValid((item as IProgressiveDataSchemeCase<T>).isAvailable));
+  return obj.every(item => {
+    return isValid((item as IProgressiveDataSchemeCase<T>).scheme);
+  });
 }
