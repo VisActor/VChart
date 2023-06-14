@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     permissions:
       contents: write
@@ -52,17 +52,16 @@ jobs:
       - name: Update shrinkwrap
         run: node common/scripts/install-run-rush.js update
 
-      - name: Get npm version
+      - name: Get package version
         id: package-version
-        # See more about this action: https://github.com/marketplace/actions/get-current-package-version
-        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        uses: culshaw/read-package-node-version-actions@v1
         with:
-          path: packages/vchart
+          path: './packages/vchart'
 
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          message: 'build: prelease version ${{ steps.package-version.outputs.current-version }}'
+          message: 'build: prelease version ${{ steps.package-version.outputs.version }}'
           branch: ${{ github.ref_name }}
           author_name: ${{ github.actor }}
