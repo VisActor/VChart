@@ -1,6 +1,8 @@
 import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
 import { VChart } from '../../../src/vchart-all';
 import type { ITheme } from '../../../src/theme';
+// eslint-disable-next-line no-duplicate-imports
+import { ThemeManager } from '../../../src/theme';
 import { createCanvas, removeDom } from '../../util/dom';
 import type { ILineChartSpec } from '../../../src';
 
@@ -74,7 +76,7 @@ describe('theme switch test', () => {
       }
     };
 
-    VChart.ThemeManager.registerTheme('tmp', newTheme);
+    ThemeManager.registerTheme('tmp', newTheme);
     await vchart.setCurrentTheme('tmp');
     const series = vchart?.getChart()?.getAllSeries()?.[0];
 

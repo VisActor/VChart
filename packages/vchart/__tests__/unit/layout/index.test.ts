@@ -2,8 +2,6 @@ import { Layout } from '../../../src/layout';
 import type { ILayoutRect } from '../../../src/model/interface';
 import { LayoutItem } from '../../../src/model/layout-item';
 
-type IInvalidInput = any;
-
 describe('layout simple line chart', () => {
   test('get correct start point & rect', () => {
     // hack region

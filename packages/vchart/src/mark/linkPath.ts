@@ -1,4 +1,4 @@
-import { BaseMark } from './base';
+import { BaseMark } from './base/base-mark';
 import type { ILinkPathMarkSpec } from '../typings/visual';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports

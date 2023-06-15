@@ -1,7 +1,8 @@
 import type { IGroupMark } from '@visactor/vgrammar';
+// eslint-disable-next-line no-duplicate-imports
 import { GrammarMarkType } from '@visactor/vgrammar';
 import type { ICommonSpec } from '../typings';
-import { BaseMark } from './base';
+import { BaseMark } from './base/base-mark';
 import type { IMarkOption, IMarkRaw } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
