@@ -45,9 +45,9 @@ import {
 } from '../../util';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import { Group } from './group';
-import type { AddChartSpacePropertyContext } from '../../data/transforms/add-property';
+import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
-import { addChartSpaceProperty } from '../../data/transforms/add-property';
+import { addVChartProperty } from '../../data/transforms/add-property';
 import type { ITrigger } from '../../interaction/interface';
 import { Trigger } from '../../interaction/trigger';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -186,9 +186,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     return this._groups;
   }
 
-  // echarts 用法
   protected _stackValue!: string;
-  // chartspace用法
+
   protected _stack: boolean = false;
   getStack() {
     return this._stack;
@@ -432,7 +431,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     dataKey: DataKeyType,
     datum: Datum,
     index: number,
-    context: AddChartSpacePropertyContext
+    context: AddVChartPropertyContext
   ) {
     if (isNil(dataKey)) {
       const { keyMap } = context;
@@ -462,10 +461,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   protected _addDataIndexAndKey() {
     if (this._rawData?.dataSet) {
-      registerDataSetInstanceTransform(this._rawData.dataSet, 'addChartSpaceProperty', addChartSpaceProperty);
+      registerDataSetInstanceTransform(this._rawData.dataSet, 'addVChartProperty', addVChartProperty);
       this._rawData.transform(
         {
-          type: 'addChartSpaceProperty',
+          type: 'addVChartProperty',
           options: {
             beforeCall: initKeyMap,
             call: addDataKey.bind(this)

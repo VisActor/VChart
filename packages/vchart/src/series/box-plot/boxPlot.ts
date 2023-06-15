@@ -17,7 +17,7 @@ import { SeriesData } from '../base/series-data';
 import { foldOutlierData } from '../../data/transforms/box-plot';
 import { BOX_PLOT_OUTLIER_VALUE_FIELD } from '../../constant/box-plot';
 import { BoxPlotSeriesTooltipHelper } from './tooltip-helper';
-import { addChartSpaceProperty } from '../../data/transforms/add-property';
+import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
@@ -274,7 +274,7 @@ export class BoxPlotSeries extends CartesianSeries<any> {
     }
 
     registerDataSetInstanceTransform(this._dataSet, 'foldOutlierData', foldOutlierData);
-    registerDataSetInstanceTransform(this._dataSet, 'addChartSpaceProperty', addChartSpaceProperty);
+    registerDataSetInstanceTransform(this._dataSet, 'addVChartProperty', addVChartProperty);
 
     const outlierDataView = new DataView(this._dataSet);
     outlierDataView.parse([this.getViewData()], {
@@ -291,7 +291,7 @@ export class BoxPlotSeries extends CartesianSeries<any> {
 
     outlierDataView.transform(
       {
-        type: 'addChartSpaceProperty',
+        type: 'addVChartProperty',
         options: {
           beforeCall: initKeyMap,
           call: addDataKey.bind(this)

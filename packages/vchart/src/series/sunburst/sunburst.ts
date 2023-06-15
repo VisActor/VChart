@@ -23,7 +23,7 @@ import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
-import { addChartSpaceProperty } from '../../data/transforms/add-property';
+import { addVChartProperty } from '../../data/transforms/add-property';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { PolarSeries } from '../polar/polar';
 import { SUNBURST_AUTO_VISIBLE_DEFAULT_THRESHOLD } from '../../constant/sunburst';
@@ -220,9 +220,9 @@ export class SunburstSeries extends PolarSeries<any> {
       return;
     }
     // 为原始数据, 添加层级属性
-    registerDataSetInstanceTransform(rawData.dataSet, 'addChartSpaceProperty', addChartSpaceProperty);
+    registerDataSetInstanceTransform(rawData.dataSet, 'addVChartProperty', addVChartProperty);
     rawData.transform({
-      type: 'addChartSpaceProperty',
+      type: 'addVChartProperty',
       options: {
         beforeCall: initKeyMap,
         call: addHierarchyDataKey.bind(this)

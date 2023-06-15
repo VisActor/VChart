@@ -1,11 +1,11 @@
-let ChartSpaceId = 0;
-const ChartSpaceIdMax = 9999999;
+let VChartId = 0;
+const VChartIdMax = 9999999;
 
 export function createID(): number {
-  ChartSpaceId >= ChartSpaceIdMax && (ChartSpaceId = 0);
-  return ChartSpaceId++;
+  VChartId >= VChartIdMax && (VChartId = 0);
+  return VChartId++;
 }
 
 export function resetID() {
-  ChartSpaceId = 0;
+  VChartId = 0;
 }
