@@ -4,10 +4,11 @@ import { GlobalScale } from '../../../src/scale/global-scale';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { BarSeries, IChartSpec } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
+import { ThemeManager } from '../../../src';
+// eslint-disable-next-line no-duplicate-imports
 import { BarChart } from '../../../src';
 import { DataSet } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
-import { VChart } from '../../../src/vchart-all';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
@@ -114,7 +115,7 @@ describe('Bar chart test', () => {
           } as any;
         },
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => VChart.ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();

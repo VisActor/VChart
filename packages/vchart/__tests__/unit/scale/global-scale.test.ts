@@ -6,9 +6,10 @@ import { CommonChart } from '../../../src/chart/common/common';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { IChartSpec, ScatterSeries } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
+import { ThemeManager } from '../../../src';
+// eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
-import { VChart } from '../../../src/vchart-all';
 import type { IAttrs, VisualScaleType } from '../../../src/mark/interface';
 import { dimensionStatistics } from '../../../src/data/transforms/dimension-statistics';
 
@@ -315,7 +316,7 @@ describe('global-scale test', () => {
             }
           } as any;
         },
-        getTheme: () => VChart.ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();
@@ -470,7 +471,7 @@ describe('global-scale test', () => {
             }
           } as any;
         },
-        getTheme: () => VChart.ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();

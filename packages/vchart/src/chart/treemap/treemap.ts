@@ -1,4 +1,5 @@
 import type { ISeries } from '../../series/interface';
+// eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../../series/interface';
 import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';

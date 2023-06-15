@@ -6,8 +6,8 @@ import type { LineSeries } from '../../../src/series/line/line';
 import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
 import { LineChart } from '../../../src/chart/line/line';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
-import { VChart } from '../../../src/vchart-all';
 import { getTestCompiler } from '../../util/factory/compiler';
+import { ThemeManager } from '../../../src';
 
 const dataSet = new DataSet();
 dataSet.registerParser('csv', csvParser);
@@ -47,7 +47,7 @@ describe('line chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => VChart.ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme()
     } as any);
     chart.created();
     chart.init();
@@ -119,7 +119,7 @@ describe('line chart test', () => {
         mode: 'mobile-browser',
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => VChart.ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();
