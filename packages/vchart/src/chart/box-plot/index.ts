@@ -1,2 +1,2 @@
-export * from './boxPlot';
+export * from './box-plot';
 export * from './interface';

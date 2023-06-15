@@ -20,7 +20,7 @@ import type { ICircularProgressChartSpec } from '../../chart/progress/circular/i
 import type { ILinearProgressChartSpec } from '../../chart/progress/linear/interface';
 import type { IWordCloudChartSpec } from '../../chart/word-cloud/interface';
 import type { IFunnelChartSpec } from '../../chart/funnel/interface';
-import type { IBoxPlotChartSpec } from '../../chart/boxplot/interface';
+import type { IBoxPlotChartSpec } from '../../chart/box-plot/interface';
 import type { ISunburstChartSpec } from '../../chart/sunburst/interface';
 import type { ICirclePackingChartSpec } from '../../chart/circle-packing/interface';
 
