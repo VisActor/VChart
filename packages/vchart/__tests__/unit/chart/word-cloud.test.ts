@@ -3,7 +3,8 @@ import { GlobalScale } from '../../../src/scale/global-scale';
 // @ts-nocheck
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { IWordCloudChartSpec } from '../../../src';
-import { default as VChart } from '../../../src';
+// eslint-disable-next-line no-duplicate-imports
+import { ThemeManager, default as VChart } from '../../../src';
 import { DataSet, csvParser, dataViewParser } from '@visactor/vdataset';
 import { WordCloudChart } from '../../../src/chart/word-cloud/word-cloud';
 import type { WordCloudSeries } from '../../../src/series/word-cloud/word-cloud';
@@ -72,7 +73,7 @@ describe('wordCloud chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => VChart.ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme()
     } as any);
     chart.created();
     chart.init();

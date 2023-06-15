@@ -16,6 +16,8 @@ export * from './scatter';
 export * from './sunburst';
 export * from './circle-packing';
 export * from './boxplot';
+export * from './gauge';
+export * from './heatmap';
 
 export * from './common';
 export * from './base-chart';

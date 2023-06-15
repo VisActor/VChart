@@ -1,5 +1,5 @@
 import type { IAreaMarkSpec } from '../typings/visual';
-import { BaseLineMark } from './base';
+import { BaseLineMark } from './base/base-line';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';

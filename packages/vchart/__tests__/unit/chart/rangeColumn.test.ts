@@ -1,8 +1,7 @@
 import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
-import { RangeColumnChart } from '../../../src';
+import { RangeColumnChart, ThemeManager } from '../../../src';
 import type { RangeColumnSeries } from '../../../src/series/range-column/rangeColumn';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
-import { VChart } from '../../../src/vchart-all';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
 
@@ -63,7 +62,7 @@ describe('rangeColumn chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => VChart.ThemeManager.getCurrentTheme(),
+      getTheme: () => ThemeManager.getCurrentTheme(),
       animation: false
     } as any);
     chart.created();
