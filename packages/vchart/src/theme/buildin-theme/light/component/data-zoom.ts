@@ -68,7 +68,7 @@ export const dataZoom: IDataZoomTheme = {
   },
   selectedBackground: {
     style: {
-      fill: '#D8E4F7 '
+      fill: '#D8E4F7'
     }
   },
   dragMask: {
