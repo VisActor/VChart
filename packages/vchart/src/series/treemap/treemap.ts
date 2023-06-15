@@ -18,7 +18,7 @@ import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { TreemapNodeElement } from '@visactor/vgrammar-hierarchy';
 import { DataView } from '@visactor/vdataset';
 import { hierarchyDimensionStatistics } from '../../data/transforms/hierarchy-dimension-statistics';
-import { addChartSpaceProperty } from '../../data/transforms/add-property';
+import { addVChartProperty } from '../../data/transforms/add-property';
 import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { TreemapTooltipHelper } from './tooltip-helper';
@@ -149,10 +149,10 @@ export class TreeMapSeries extends CartesianSeries<any> {
 
   protected _addDataIndexAndKey() {
     if (this._rawData?.dataSet) {
-      registerDataSetInstanceTransform(this._rawData.dataSet, 'addChartSpaceProperty', addChartSpaceProperty);
+      registerDataSetInstanceTransform(this._rawData.dataSet, 'addVChartProperty', addVChartProperty);
       this._rawData.transform(
         {
-          type: 'addChartSpaceProperty',
+          type: 'addVChartProperty',
           options: {
             beforeCall: initKeyMap,
             call: addHierarchyDataKey.bind(this)

@@ -22,7 +22,7 @@ import { flatten } from '../../data/transforms/flatten';
 import { CirclePackingTooltipHelper } from './tooltip-helper';
 import type { ITextMark } from '../../mark/text';
 import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
-import { addChartSpaceProperty } from '../../data/transforms/add-property';
+import { addVChartProperty } from '../../data/transforms/add-property';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
@@ -151,9 +151,9 @@ export class CirclePackingSeries extends CartesianSeries<any> {
       return;
     }
     // 为原始数据, 添加层级属性
-    registerDataSetInstanceTransform(rawData.dataSet, 'addChartSpaceProperty', addChartSpaceProperty);
+    registerDataSetInstanceTransform(rawData.dataSet, 'addVChartProperty', addVChartProperty);
     rawData.transform({
-      type: 'addChartSpaceProperty',
+      type: 'addVChartProperty',
       options: {
         beforeCall: initKeyMap,
         call: addHierarchyDataKey.bind(this)

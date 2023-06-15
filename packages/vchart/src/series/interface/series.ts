@@ -109,7 +109,7 @@ export interface ISeries extends IModel, ILayoutItem {
    *  {
    *    fields: {
    *       x: '周一',
-   *       _CHARTSPACE_STACK: 'stack'
+   *       __VChart_STACK: 'stack'
    *    },
    *    valueField: 'y',
    *    values: [{x: '周一', y: 20}];

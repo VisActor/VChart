@@ -6,9 +6,6 @@ import { MarkTypeEnum } from './interface';
 
 export type ITextMark = IMarkRaw<ITextMarkSpec>;
 
-/**
- * text的text属性可能比较麻烦，因为文字测量在chartspace做了
- */
 export class TextMark extends BaseMark<ITextMarkSpec> implements ITextMark {
   static readonly type = MarkTypeEnum.text;
   readonly type = TextMark.type;

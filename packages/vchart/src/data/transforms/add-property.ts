@@ -1,10 +1,10 @@
-export type AddChartSpacePropertyContext = { keyMap: Map<string, number> };
-export interface IAddChartSpacePropertyOpt {
-  beforeCall: () => AddChartSpacePropertyContext;
-  call: (d: any, i: number, context: AddChartSpacePropertyContext) => void;
+export type AddVChartPropertyContext = { keyMap: Map<string, number> };
+export interface IAddVChartPropertyOpt {
+  beforeCall: () => AddVChartPropertyContext;
+  call: (d: any, i: number, context: AddVChartPropertyContext) => void;
 }
 
-export const addChartSpaceProperty = (data: Array<any>, op: IAddChartSpacePropertyOpt) => {
+export const addVChartProperty = (data: Array<any>, op: IAddVChartPropertyOpt) => {
   const context = op.beforeCall();
   data.forEach((d, i) => op.call(d, i, context));
 

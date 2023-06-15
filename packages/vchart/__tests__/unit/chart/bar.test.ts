@@ -132,7 +132,7 @@ describe('Bar chart test', () => {
 
     expect(series.getStackValueField()).toBe('y');
     expect(series.getStackGroupFields()).toEqual(['x', 'type']);
-    expect(series.fieldY2).toBe('__CHARTSPACE_STACK_START');
+    expect(series.fieldY2).toBe('__VCHART_STACK_START');
     expect(series.fieldX2).toBeUndefined();
   });
 
@@ -144,7 +144,7 @@ describe('Bar chart test', () => {
 
     expect(series.getStackValueField()).toBe('y');
     expect(series.getStackGroupFields()).toEqual(['x', 'type']);
-    expect(series.fieldY2).toBe('__CHARTSPACE_STACK_START');
+    expect(series.fieldY2).toBe('__VCHART_STACK_START');
     expect(series.fieldX2).toBeUndefined();
   });
 });

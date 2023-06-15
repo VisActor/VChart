@@ -1,8 +1,8 @@
 import { LinearScale } from '@visactor/vscale';
 
 /**
- * scale的测试在底层库有较详细的测试用例
- * chartspace可以不做单测
+ * scale 的测试在底层库有较详细的测试用例
+ * vchart 可以不做单测
  */
 describe('linear', () => {
   it('basic function', () => {
