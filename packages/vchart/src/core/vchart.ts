@@ -221,6 +221,7 @@ export class VChart implements IVChart {
     }
 
     this._viewBox = this._option.viewBox;
+    this._currentThemeName = VChart.ThemeManager.getCurrentThemeName();
     this._setSpec(spec);
     this._updateCurrentTheme();
 
