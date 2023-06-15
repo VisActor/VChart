@@ -56,45 +56,10 @@ import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../consta
 // eslint-disable-next-line no-duplicate-imports
 import { getContainerSize, isArray } from '@visactor/vutils';
 import type { IVChart } from './interface';
+import { InstanceManager } from './instance-manager';
 
 export class VChart implements IVChart {
   readonly id = createID();
-
-  /** 全局实例 map */
-  static readonly instances: Map<number, VChart> = new Map();
-  /** 注册实例 */
-  private static _registerInstance(instance: VChart) {
-    VChart.instances.set(instance.id, instance);
-  }
-  /** 注销实例 */
-  private static _unregisterInstance(instance: VChart) {
-    VChart.instances.delete(instance.id);
-  }
-  /**
-   * 创建图表实例
-   * @param spec spec 配置项
-   * @param options 初始化参数
-   * @returns VChart 实例
-   */
-  static createInstance(spec: ISpec, options: IInitOption): VChart {
-    return new VChart(spec, options);
-  }
-  /**
-   * 根据 vChart 实例的 id 获取 vChart 实例
-   * @param id VChart 实例的 id，通过 vChart.id 获取
-   * @returns
-   */
-  static getInstance(id: number): VChart | undefined {
-    return VChart.instances.get(id);
-  }
-  /**
-   * 根据图表 id 判断实例是否存在
-   * @param id VChart 实例的 id，通过 vChart.id 获取
-   * @returns
-   */
-  static instanceExist(id: number): boolean {
-    return VChart.instances.has(id);
-  }
 
   /**
    * 注册图表
@@ -167,6 +132,8 @@ export class VChart implements IVChart {
     return getMapSource(key);
   }
 
+  /** 图表实例管理器 */
+  static readonly InstanceManager = InstanceManager;
   /** 主题管理器 */
   static readonly ThemeManager = ThemeManager;
 
@@ -254,7 +221,7 @@ export class VChart implements IVChart {
     this._bindResizeEvent();
     this._event.emit(ChartEvent.initialized, {});
 
-    VChart._registerInstance(this);
+    InstanceManager.registerInstance(this);
   }
 
   private _setSpec(spec: any) {
@@ -505,7 +472,7 @@ export class VChart implements IVChart {
     this._event = null;
     this._eventDispatcher = null;
 
-    VChart._unregisterInstance(this);
+    InstanceManager.unregisterInstance(this);
   }
 
   /**
