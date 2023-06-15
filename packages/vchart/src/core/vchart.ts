@@ -221,7 +221,7 @@ export class VChart implements IVChart {
     }
 
     this._viewBox = this._option.viewBox;
-    this._currentThemeName = VChart.ThemeManager.getCurrentThemeName();
+    this._currentThemeName = ThemeManager.getCurrentThemeName();
     this._setSpec(spec);
     this._updateCurrentTheme();
 
@@ -745,7 +745,7 @@ export class VChart implements IVChart {
   // 主题相关方法
   /** 当 spec 或者 currentThemeName 有变化时需要调用此方法对 currentTheme 进行更新 */
   private _updateCurrentTheme() {
-    this._currentTheme = merge({}, VChart.ThemeManager.getTheme(this._currentThemeName), this._spec?.theme ?? {});
+    this._currentTheme = merge({}, ThemeManager.getTheme(this._currentThemeName), this._spec?.theme ?? {});
   }
 
   /**
@@ -768,7 +768,7 @@ export class VChart implements IVChart {
    * @returns
    */
   async setCurrentTheme(name: string) {
-    if (!VChart.ThemeManager.themeExist(name)) {
+    if (!ThemeManager.themeExist(name)) {
       return this as unknown as IVChart;
     }
 
