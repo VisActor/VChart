@@ -21,8 +21,18 @@ module.exports = {
   },
   verbose: true,
   collectCoverage: true,
-  coverageReporters: ['json-summary', 'lcov'],
+  coverageReporters: ['json-summary', 'lcov', 'text'],
   coveragePathIgnorePatterns: ['node_modules', '__tests__', 'interface.ts', '.d.ts', 'typings'],
+  collectCoverageFrom: [
+    '**/src/**',
+    '!**/cjs/**',
+    '!**/dist/**',
+    '!**/es/**',
+    '!**/node_modules/**',
+    '!**/__tests__/**',
+    '!**/types/**',
+    '!**/interface.ts'
+  ],
   moduleNameMapper: {
     'd3-color': path.resolve(__dirname, './node_modules/d3-color/dist/d3-color.min.js'),
     'd3-array': path.resolve(process.cwd(), './node_modules/d3-array/dist/d3-array.min.js'),
