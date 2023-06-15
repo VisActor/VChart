@@ -6,4 +6,4 @@ type TT = 'TT';
 type LARK = 'LARK';
 type WEB = 'WEB' | 'H5';
 
-export type ChartSpaceEnvType = tt | lark | web | TT | LARK | WEB;
+export type VChartEnvType = tt | lark | web | TT | LARK | WEB;
