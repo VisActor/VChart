@@ -280,8 +280,8 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
 
           dataCollection.push(s.getRawData());
           // 这里获取原始的spec中的xField和yField，而非经过stack处理后的fieldX和fieldY，原因如下：
-          // 1. dataFilterComputeDomain处理时拿到的viewData中没有__CHARTSPACE_STACK_START等属性，也就是还没处理
-          // 2. datazoom计算的是原始的value值，如果要根据stack后的数据来算，则需要__CHARTSPACE_STACK_END - __CHARTSPACE_STACK_START
+          // 1. dataFilterComputeDomain处理时拿到的viewData中没有__VCHART_STACK_START等属性，也就是还没处理
+          // 2. datazoom计算的是原始的value值，如果要根据stack后的数据来算，则需要__VCHART_STACK_END - __VCHART_STACK_START
           const seriesSpec = s.getSpec();
           const xField =
             s.coordinate === 'cartesian' ? seriesSpec.xField : seriesSpec.angleField ?? seriesSpec.categoryField;

@@ -18,7 +18,7 @@ import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
 import { DEFAULT_DATA_INDEX, LayoutZIndex, AttributeLevel, Event_Bubble_Level } from '../../constant';
 import { SeriesData } from '../base/series-data';
-import { addChartSpaceProperty } from '../../data/transforms/add-property';
+import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { getDataScheme } from '../../theme/color-scheme/util';
 import { OrdinalScale } from '@visactor/vscale';
@@ -117,7 +117,7 @@ export class SankeySeries extends CartesianSeries<any> {
       const nodesDataSet = new DataSet();
       registerDataSetInstanceParser(nodesDataSet, 'dataview', dataViewParser);
       registerDataSetInstanceTransform(nodesDataSet, 'sankeyNodes', sankeyNodes);
-      registerDataSetInstanceTransform(nodesDataSet, 'addChartSpaceProperty', addChartSpaceProperty);
+      registerDataSetInstanceTransform(nodesDataSet, 'addVChartProperty', addVChartProperty);
       const nodesDataView = new DataView(nodesDataSet);
       nodesDataView.parse([this.getViewData()], {
         type: 'dataview'
@@ -128,7 +128,7 @@ export class SankeySeries extends CartesianSeries<any> {
 
       nodesDataView.transform(
         {
-          type: 'addChartSpaceProperty',
+          type: 'addVChartProperty',
           options: {
             beforeCall: initKeyMap,
             call: addDataKey.bind(this)
@@ -142,7 +142,7 @@ export class SankeySeries extends CartesianSeries<any> {
       const linksDataSet = new DataSet();
       registerDataSetInstanceParser(linksDataSet, 'dataview', dataViewParser);
       registerDataSetInstanceTransform(linksDataSet, 'sankeyLinks', sankeyLinks);
-      registerDataSetInstanceTransform(linksDataSet, 'addChartSpaceProperty', addChartSpaceProperty);
+      registerDataSetInstanceTransform(linksDataSet, 'addVChartProperty', addVChartProperty);
       const linksDataView = new DataView(linksDataSet);
       linksDataView.parse([this.getViewData()], {
         type: 'dataview'
@@ -153,7 +153,7 @@ export class SankeySeries extends CartesianSeries<any> {
 
       linksDataView.transform(
         {
-          type: 'addChartSpaceProperty',
+          type: 'addVChartProperty',
           options: {
             beforeCall: initKeyMap,
             call: addDataKey.bind(this)

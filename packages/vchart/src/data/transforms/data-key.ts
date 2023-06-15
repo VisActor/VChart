@@ -1,7 +1,7 @@
 import { DEFAULT_DATA_INDEX, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import type { BaseSeries } from '../../series/base/base-series';
 import type { TreeMapSeries } from '../../series/treemap/treemap';
-import type { AddChartSpacePropertyContext } from './add-property';
+import type { AddVChartPropertyContext } from './add-property';
 import {
   DEFAULT_HIERARCHY_DEPTH,
   DEFAULT_HIERARCHY_ROOT,
@@ -14,7 +14,7 @@ export const initKeyMap = () => {
   return { keyMap: new Map() };
 };
 
-export function addDataKey(this: BaseSeries<any>, d: any, i: number, context: AddChartSpacePropertyContext) {
+export function addDataKey(this: BaseSeries<any>, d: any, i: number, context: AddVChartPropertyContext) {
   if (!d) {
     return;
   }
@@ -29,7 +29,7 @@ export function addHierarchyDataKey(
   this: TreeMapSeries | SunburstSeries | CirclePackingSeries,
   d: any,
   i: number,
-  context: AddChartSpacePropertyContext,
+  context: AddVChartPropertyContext,
   depth: number = 0,
   root?: string,
   rootIndex?: number
