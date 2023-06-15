@@ -1,6 +1,6 @@
 import type { ISymbolMark } from '../../mark/symbol';
 import { AttributeLevel, DEFAULT_DATA_INDEX, PREFIX } from '../../constant';
-import type { IBoxPlotMark } from '../../mark/boxPlot';
+import type { IBoxPlotMark } from '../../mark/box-plot';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IModelEvaluateOption, IModelInitOption } from '../../model/interface';
 import type { BoxPlotShaftShape, IOutlierMarkSpec, Maybe, Datum } from '../../typings';
