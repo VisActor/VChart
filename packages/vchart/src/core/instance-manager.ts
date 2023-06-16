@@ -1,6 +1,6 @@
 import type { IVChart } from './interface';
 
-/** vchart 全局实例管理类，为了防止循环依赖，单独从 VChart 类抽出 */
+/** vchart 全局实例管理类，为了防止与 ThemeManager 循环依赖，单独从 VChart 类抽出 */
 export class InstanceManager {
   /** 全局实例 map */
   static readonly instances: Map<number, IVChart> = new Map();
