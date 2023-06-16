@@ -691,10 +691,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     this._rawDataStatistics?.reRunAllTransform();
     this.setSeriesField(this._spec.seriesField);
     // set mark stroke color follow fill
-    // only set normal state in level Series
+    // only set normal state in the level lower than level Series
     this.getMarks().forEach(m => {
       if (m.stateStyle.normal?.fill?.style) {
-        m.setAttribute('stroke', m.stateStyle.normal.fill.style, 'normal', AttributeLevel.Series);
+        m.setAttribute('stroke', m.stateStyle.normal.fill.style, 'normal', AttributeLevel.Chart);
       }
     });
   }
