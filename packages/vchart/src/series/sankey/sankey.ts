@@ -254,7 +254,8 @@ export class SankeySeries extends CartesianSeries<any> {
         thickness: (datum: Datum) => datum.thickness,
         fill: (datum: Datum) => {
           return this._spec.link?.style?.fill ?? this.getNodeOrdinalColorScale(datum.source);
-        }
+        },
+        direction: this._spec.direction ?? 'horizontal'
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
