@@ -35,6 +35,9 @@ jobs:
         run: node common/scripts/install-run-rush.js install --bypass-policy
 
       - name: Build packages
+        run: node common/scripts/install-run-rush.js build --only tag:package
+
+      - name: Update version
         run: node common/scripts/install-run-rush.js version --bump
 
       - name: Publish to npm
