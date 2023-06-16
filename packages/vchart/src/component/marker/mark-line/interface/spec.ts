@@ -9,6 +9,7 @@ import type {
   IDataPos
 } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
+import type { IMarkLineTheme } from './theme';
 
 export type IMarkLine = IComponent;
 
@@ -20,7 +21,8 @@ export type IMarkLineSpec = IMarkerSpec &
     // | IMarkLineRadiusSpec // TODO: 标注目标：极坐标系坐标空间
     | IMarkLineCoordinateSpec // 标注目标：数据元素
     | IMarkLinePositionsSpec
-  ); // 标注目标：任意位置
+  ) &
+  IMarkLineTheme; // 标注目标：任意位置
 
 export interface IMarkLineXSpec extends IMarkerAxisSpec {
   /**

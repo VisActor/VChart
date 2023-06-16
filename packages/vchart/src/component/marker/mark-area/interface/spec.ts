@@ -1,5 +1,6 @@
 import type { IComponent } from '../../../interface';
 import type { IMarkerPositionsSpec, IDataPointSpec, IDataPos, IMarkerSpec, IMarkerAxisSpec } from '../../interface';
+import type { IMarkAreaTheme } from './theme';
 
 export type IMarkArea = IComponent;
 
@@ -13,7 +14,8 @@ export type IMarkAreaSpec = IMarkerSpec &
     // | IMarkAreaRadiusSpec // TODO: 标注目标：极坐标系坐标空间
     | IMarkAreaCoordinateSpec // 标注目标：数据元素
     | IMarkAreaPositionsSpec
-  ); // 标注目标：任意位置
+  ) &
+  IMarkAreaTheme; // 标注目标：任意位置
 
 export interface IMarkAreaXSpec extends IMarkerAxisSpec {
   /**
