@@ -21,6 +21,7 @@ Thank you!
 - [ ] Code style optimization
 - [ ] Test Case
 - [ ] Branch merge
+- [ ] Release
 - [ ] Site / documentation update
 - [ ] Demo update
 - [ ] Workflow
