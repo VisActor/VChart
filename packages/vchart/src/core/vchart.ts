@@ -232,7 +232,6 @@ export class VChart implements IVChart {
       },
       {
         mode: this._option.mode,
-        pickMode: isMiniAppLikeMode(this._option.mode) ? 'geoPick' : 'native',
         stage,
         ...restOptions,
         background: spec.background || this._currentTheme.background || this._option.background // spec > spec.theme > initOptions.theme
