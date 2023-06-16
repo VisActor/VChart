@@ -305,11 +305,11 @@ export interface IBoxPlotMarkSpec extends ICommonSpec {
    */
   shaftFillOpacity?: number;
 
-  min: (datum: Datum) => number;
-  q1: (datum: Datum) => number;
-  median: (datum: Datum) => number;
-  q3: (datum: Datum) => number;
-  max: (datum: Datum) => number;
+  min?: (datum: Datum) => number;
+  q1?: (datum: Datum) => number;
+  median?: (datum: Datum) => number;
+  q3?: (datum: Datum) => number;
+  max?: (datum: Datum) => number;
 }
 
 export interface IOutlierMarkSpec {
