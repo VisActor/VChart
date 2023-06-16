@@ -62,7 +62,7 @@ export class ThemeManager {
       return;
     }
     ThemeManager._currentThemeName = name;
-    InstanceManager.instances.forEach((instance: IVChart) => instance?.setCurrentTheme(name));
+    InstanceManager.forEach((instance: IVChart) => instance?.setCurrentTheme(name));
   }
 
   /** 获取当前主题（只能获取用户通过`setCurrentTheme`方法设置过的主题，默认值为默认主题） */
