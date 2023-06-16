@@ -26,6 +26,7 @@ import { circlePacking } from './circle-packing';
 import { heatmap } from './heatmap';
 import { sankey } from './sankey';
 import { rose } from './rose';
+import { boxPlot } from './box-plot';
 
 export const series: ISeriesTheme = {
   scatter,
@@ -54,5 +55,6 @@ export const series: ISeriesTheme = {
   circlePacking,
   heatmap,
   sankey,
-  rose
+  rose,
+  boxPlot
 };

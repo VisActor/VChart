@@ -293,7 +293,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
           size: this.getSizeAttribute(this._sizeField, this._size) as VisualType<number>
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
-        AttributeLevel.User_Series
+        AttributeLevel.User_Mark
       );
     }
 
@@ -304,7 +304,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
           shape: this.getShapeAttribute(this._shapeField, this._shape) as VisualType<string>
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
-        AttributeLevel.User_Series
+        AttributeLevel.User_Mark
       );
     }
 
