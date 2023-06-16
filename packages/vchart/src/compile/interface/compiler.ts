@@ -1,4 +1,4 @@
-import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender';
+import type { IColor, IStageParams, IStage, ILayer } from '@visactor/VRender';
 import type { EventSourceType, EventType } from '../../event/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -10,8 +10,17 @@ export interface IRenderContainer {
   canvas?: HTMLCanvasElement | string;
 }
 
-// TODO: 这里最好能够三层统一，直接引用 vrender/vgrammar 的类型定义
 export interface IRenderOption {
+  /**
+   * 配置渲染环境，默认为 'desktop-browser'，当需要在非浏览器环境渲染 VChart 时，需要配置该属性。
+   * - 'desktop-browser': 默认模式，使用与 PC 及 H5
+   * - 'mobile-browser': H5 模式
+   * - 'node': Node 渲染
+   * - 'worker': worker 模式
+   * - 'miniApp': 小程序模式
+   * - 'lynx': lynx 渲染
+   * @default 'desktop-browser'
+   */
   mode?: RenderMode;
   /**
    * 渲染环境参数配置
@@ -24,27 +33,30 @@ export interface IRenderOption {
     | unknown;
   engine?: '2d' | 'webgl' | 'webgl2';
   /**
-   * 用于设置内部拾取策略，如不设置，默认采用颜色拾取
-   * 'geoPick' 使用集合拾取
+   * 设置屏幕分辨率
    */
-  pickMode?: 'native' | 'geoPick';
-  webglOptions?: any;
-  preserveDrawingBuffer?: boolean;
   dpr?: number;
-  fullDraw?: boolean;
   /**
    * 图表交互全局开关，默认为 `true`，开启。
    * @default true
    */
   interactive?: boolean;
-  /** 指定绘制的区域 */
+  /**
+   * 指定绘制的区域
+   */
   viewBox?: IBoundsLike;
-  /** 是否是受控制的canvas，如果不是的话，不会进行resize等操作 */
+  /**
+   * 用于告诉底层的渲染引擎 VRender，图表的 Canvas 是否是受控制的canvas，如果不是的话，不会进行resize等操作。
+   * @default true
+   */
   canvasControled?: boolean;
-
-  /** 外部传入的 vrender stage */
+  /**
+   * 外部传入的 VRender stage
+   */
   stage?: IStage;
-  /** 外部传入的 vrender layer */
+  /**
+   * 外部传入的 VRender layer
+   */
   layer?: ILayer;
 
   /**
@@ -55,7 +67,9 @@ export interface IRenderOption {
    * 绘制之后的钩子函数
    */
   afterRender?: IStageParams['afterRender'];
-  /** 绘图区域背景色设置 */
+  /**
+   * 绘图区域背景色设置
+   */
   background?: IColor;
   /**
    * 日志类型，用于开发调试
