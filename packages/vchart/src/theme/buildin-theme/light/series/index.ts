@@ -24,6 +24,7 @@ import { sunburst } from './sunburst';
 import { rangeColumn } from './rangeColumn';
 import { circlePacking } from './circle-packing';
 import { heatmap } from './heatmap';
+import { sankey } from './sankey';
 
 export const series: ISeriesTheme = {
   scatter,
@@ -50,5 +51,6 @@ export const series: ISeriesTheme = {
   sunburst,
   rangeColumn,
   circlePacking,
-  heatmap
+  heatmap,
+  sankey
 };

@@ -1,4 +1,4 @@
-import type { ISeriesSpec, DirectionType } from '../../typings';
+import type { ISeriesSpec, DirectionType, IMarkTheme } from '../../typings';
 import type { IMarkSpec } from '../../typings/spec/common';
 import type { IRectMarkSpec, ITextMarkSpec, ILinkPathMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
@@ -190,6 +190,6 @@ export type SankeyLayoutResult = {
 }[];
 
 export interface ISankeySeriesTheme {
-  [SeriesMarkNameEnum.node]?: IMarkSpec<IRectMarkSpec>;
-  [SeriesMarkNameEnum.link]?: IMarkSpec<ILinkPathMarkSpec>;
+  [SeriesMarkNameEnum.node]?: IMarkTheme<IRectMarkSpec>;
+  [SeriesMarkNameEnum.link]?: IMarkTheme<ILinkPathMarkSpec>;
 }

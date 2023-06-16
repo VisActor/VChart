@@ -330,11 +330,11 @@ export interface IPathMarkSpec extends IFillMarkSpec {
 }
 
 export interface ILinkPathMarkSpec extends IFillMarkSpec {
-  x0: number;
-  y0: number;
-  x1: number;
-  y1: number;
-  thickness: number;
+  x0?: number;
+  y0?: number;
+  x1?: number;
+  y1?: number;
+  thickness?: number;
   curvature?: number;
   /** round all the coordinates */
   round?: boolean;
