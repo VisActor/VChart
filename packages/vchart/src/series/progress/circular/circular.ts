@@ -64,7 +64,6 @@ export class CircularProgressSeries extends ProgressLikeSeries<ICircularProgress
         boundsMode: 'imprecise',
         cornerRadius: this._spec.cornerRadius,
         fill: this.getColorAttribute(),
-        fillOpacity: 1,
         zIndex: 200,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -96,7 +95,6 @@ export class CircularProgressSeries extends ProgressLikeSeries<ICircularProgress
         outerRadius: this._getRadiusValueEnd.bind(this),
         cornerRadius: this._spec.cornerRadius,
         fill: this.getColorAttribute(),
-        fillOpacity: 0.2,
         zIndex: 100
       });
       this._trigger.registerMark(trackMark);

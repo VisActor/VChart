@@ -101,8 +101,7 @@ export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
         size: () => {
           return [this.getCellSize(this._xAxisHelper), this.getCellSize(this._yAxisHelper)];
         },
-        fill: this.getColorAttribute(),
-        fillOpacity: this._theme.cell?.style?.fillOpacity ?? 1
+        fill: this.getColorAttribute()
       },
       'normal',
       AttributeLevel.Series

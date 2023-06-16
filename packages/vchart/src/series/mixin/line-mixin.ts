@@ -159,8 +159,7 @@ export class LineLikeSeriesMixin {
       this.setMarkStyle(
         symbolMark,
         {
-          fill: this.getColorAttribute(),
-          fillOpacity: 1
+          fill: this.getColorAttribute()
         },
         'normal',
         AttributeLevel.Series

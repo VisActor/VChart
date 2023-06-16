@@ -279,7 +279,6 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
         y: this.dataToPositionY.bind(this),
         z: this.dataToPositionZ.bind(this),
         fill: this.getColorAttribute(),
-        fillOpacity: this._theme?.point?.style?.fillOpacity ?? 1,
         size: isNumber(this._size) || isFunction(this._size) ? this._size : SCATTER_DEFAULT_SIZE,
         shape: isString(this._shape) || isFunction(this._shape) ? this._shape : SCATTER_DEFAULT_SHAPE
       },
