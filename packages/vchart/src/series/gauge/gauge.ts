@@ -97,7 +97,6 @@ export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
         boundsMode: 'imprecise',
         cornerRadius: this._spec.cornerRadius,
         fill: this.getColorAttribute(),
-        fillOpacity: 1,
         zIndex: 200,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

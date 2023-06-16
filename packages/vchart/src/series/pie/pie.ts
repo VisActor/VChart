@@ -218,7 +218,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           x: () => this._center?.x ?? this._region.getLayoutRect().width / 2,
           y: () => this._center?.y ?? this._region.getLayoutRect().height / 2,
           fill: this.getColorAttribute(),
-          fillOpacity: this._theme?.pie?.style?.fillOpacity ?? 1,
           outerRadius: isSpecValueWithScale(this._outerRadius)
             ? this._outerRadius
             : () => this.computeLayoutRadius() * this._outerRadius,
@@ -595,7 +594,6 @@ export class Pie3dSeries extends BasePieSeries<IPie3dSeriesSpec> implements IArc
           y: () => this._center?.y ?? this._region.getLayoutRect().height / 2,
           beta: () => this._angle3d,
           fill: this.getColorAttribute(),
-          fillOpacity: this._theme?.pie?.style?.fillOpacity ?? 1,
           outerRadius: () => this.computeLayoutRadius() * this._outerRadius,
           innerRadius: () => this.computeLayoutRadius() * this._innerRadius,
           cornerRadius: () => this.computeLayoutRadius() * this._cornerRadius,

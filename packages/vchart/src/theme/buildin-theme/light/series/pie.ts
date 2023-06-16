@@ -3,6 +3,11 @@ import { THEME_CONSTANTS } from '../constants';
 
 export const pie: IPieSeriesTheme = {
   outerRadius: 0.6,
+  pie: {
+    style: {
+      fillOpacity: 1
+    }
+  },
   label: {
     visible: false,
     position: 'outside',
