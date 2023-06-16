@@ -19,7 +19,7 @@ import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber } from '../../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { isPolarAxisSeries } from '../../../series/util/utils';
-import { getAxisAttributes, isValidPolarAxis } from '../utils';
+import { isValidPolarAxis } from '../utils';
 
 import type { Dict } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -155,7 +155,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    const axisStyle = getAxisAttributes(this._spec, this._theme);
+    const axisStyle = this._getAxisAttributes();
     this._axisStyle = axisStyle;
 
     this._tick = this._spec.tick;
