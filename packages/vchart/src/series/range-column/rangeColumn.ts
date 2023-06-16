@@ -72,8 +72,7 @@ export class RangeColumnSeries extends BarSeries {
       this.setMarkStyle(
         rectMark,
         {
-          fill: this.getColorAttribute(),
-          fillOpacity: this._theme?.bar?.style?.fillOpacity ?? 1
+          fill: this.getColorAttribute()
         },
         'normal',
         AttributeLevel.Series

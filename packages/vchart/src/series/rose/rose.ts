@@ -87,7 +87,6 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
           this.getRoseAngle() -
           this.angleAxisHelper.getBandwidth(0) * 0.5,
         fill: this.getColorAttribute(),
-        fillOpacity: 1,
         outerRadius: (datum: Datum) =>
           valueInScaleRange(
             this.radiusAxisHelper.dataToPosition([datum[this._radiusField[0]]]),
@@ -140,12 +139,8 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
           text: (datum: Datum) => {
             return datum[this._radiusField[0]];
           },
-          fill: this._spec.label?.style?.fill || 'white',
           stroke: this._spec.label?.style?.stroke || this.getColorAttribute(),
-          textAlign: 'center',
-          textBaseline: 'middle',
-          angle: () => (this._spec.label?.style?.angle || (degrees(angle) ?? 0) + 90) as number,
-          fontSize: this._spec.label?.style?.fontSize || 10
+          angle: () => (this._spec.label?.style?.angle || (degrees(angle) ?? 0) + 90) as number
         },
         undefined,
         // 标签属性基于用户配置生成，样式优先级应当为用户级

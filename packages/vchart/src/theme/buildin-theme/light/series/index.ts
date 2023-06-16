@@ -25,6 +25,7 @@ import { rangeColumn } from './rangeColumn';
 import { circlePacking } from './circle-packing';
 import { heatmap } from './heatmap';
 import { sankey } from './sankey';
+import { rose } from './rose';
 
 export const series: ISeriesTheme = {
   scatter,
@@ -52,5 +53,6 @@ export const series: ISeriesTheme = {
   rangeColumn,
   circlePacking,
   heatmap,
-  sankey
+  sankey,
+  rose
 };

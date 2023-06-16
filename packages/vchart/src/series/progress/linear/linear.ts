@@ -75,8 +75,7 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
           height: () => this._yAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition }),
           width: this._spec.bandWidth - leftPadding - rightPadding,
           cornerRadius: this._spec.cornerRadius,
-          fill: this.getColorAttribute(),
-          fillOpacity: this._spec.progress?.style?.fillOpacity ?? 1
+          fill: this.getColorAttribute()
         });
       } else {
         const topPadding = this._spec.progress?.topPadding ?? 0;
@@ -90,8 +89,7 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
           height: this._spec.bandWidth - topPadding - bottomPadding,
           width: () => this._xAxisHelper?.dataToPosition([1], { bandPosition: this._bandPosition }),
           cornerRadius: this._spec.cornerRadius,
-          fill: this.getColorAttribute(),
-          fillOpacity: this._spec.progress?.style?.fillOpacity ?? 1
+          fill: this.getColorAttribute()
         });
       }
       this._trigger.registerMark(progressMark);
@@ -116,8 +114,7 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
           width: this._spec.bandWidth,
           height: () => this._scaleY.range()[0],
           cornerRadius: this._spec.cornerRadius,
-          fill: this._spec.track?.style?.fill,
-          fillOpacity: this._spec.progress?.style?.fillOpacity ?? 1
+          fill: this._spec.track?.style?.fill
         });
       } else {
         this.setMarkStyle(trackMark, {
@@ -126,8 +123,7 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
           height: this._spec.bandWidth,
           width: () => this._scaleX.range()[1],
           cornerRadius: this._spec.cornerRadius,
-          fill: this._spec.track?.style?.fill,
-          fillOpacity: this._spec.track?.style?.fillOpacity
+          fill: this._spec.track?.style?.fill
         });
       }
       this._trigger.registerMark(trackMark);

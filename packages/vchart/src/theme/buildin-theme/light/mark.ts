@@ -34,7 +34,8 @@ export const markByName: IGlobalMarkThemeByName = {
     style: {
       size: 8,
       stroke: '#ffffff',
-      lineWidth: 1
+      lineWidth: 1,
+      fillOpacity: 1
     }
   }
 };
