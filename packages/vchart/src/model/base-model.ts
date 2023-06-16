@@ -1,4 +1,4 @@
-import { createID, isValid, cloneDeepSpec, getActualColor } from '../util';
+import { createID, isValid, cloneDeepSpec } from '../util';
 import { Event } from '../event/event';
 import type { IEvent } from '../event/interface';
 import { LayoutItem } from './layout-item';
@@ -23,7 +23,7 @@ import { PREFIX } from '../constant';
 import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar';
 import { array, isArray, isEqual, isFunction, isNil, isObject, merge } from '@visactor/vutils';
 import { Factory } from '../core/factory';
-import { isColorKey } from '../theme/color-scheme/util';
+import { getActualColor, isColorKey } from '../theme/color-scheme/util';
 import type { SeriesTypeEnum } from '../series/interface';
 import { MarkSet } from '../mark/mark-set';
 
