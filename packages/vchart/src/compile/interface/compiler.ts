@@ -13,7 +13,7 @@ export interface IRenderContainer {
 export interface IRenderOption {
   /**
    * 配置渲染环境，默认为 'desktop-browser'，当需要在非浏览器环境渲染 VChart 时，需要配置该属性。
-   * - 'desktop-browser': 默认模式，使用与 PC 及 H5
+   * - 'desktop-browser': 默认模式，适用于 PC 及 H5
    * - 'mobile-browser': H5 模式
    * - 'node': Node 渲染
    * - 'worker': worker 模式
@@ -31,7 +31,6 @@ export interface IRenderOption {
         [key: string]: any;
       }
     | unknown;
-  engine?: '2d' | 'webgl' | 'webgl2';
   /**
    * 设置屏幕分辨率
    */
