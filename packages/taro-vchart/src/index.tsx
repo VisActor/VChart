@@ -1,13 +1,20 @@
 import React from 'react';
 import { WebChart } from './components/web-chart';
 import { GeneralChart } from './components/general-chart';
-import { IChartProps, ChartSpaceEnvType } from './typings';
+import { IChartProps, VChartEnvType } from './typings';
 
-interface IChartSpaceProps extends IChartProps {
-  type: ChartSpaceEnvType;
+interface IVChartProps extends IChartProps {
+  /**
+   * 配置环境。
+   * - `tt` 字节小程序。
+   * - `lark` 飞书小程序。
+   * - `h5` 浏览器环境, 与`web`等价。
+   * - `web` 浏览器环境, 与`h5`等价。
+   */
+  type: VChartEnvType;
 }
 
-export default function VChart({ type, ...args }: IChartSpaceProps) {
+export default function VChart({ type, ...args }: IVChartProps) {
   const env = type.toLocaleLowerCase();
   const strategies = {
     lark: () => {
@@ -33,6 +40,3 @@ export default function VChart({ type, ...args }: IChartSpaceProps) {
 }
 
 export { VChart };
-
-// // TO FIX: 兼容上一版本飞书的导出方式，目前在一些比较老的文档和用户中有部分使用
-export { GeneralChart as TaroChartSpace } from './components/general-chart';
