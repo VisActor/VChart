@@ -16,7 +16,6 @@ import type { Transform } from '@visactor/vdataset';
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender';
 import {
-  isMiniAppLikeMode,
   isString,
   isValid,
   isNil,
