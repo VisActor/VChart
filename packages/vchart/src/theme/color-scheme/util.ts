@@ -2,7 +2,7 @@ import { isArray, isFunction, isObject, isString, isValid } from '@visactor/vuti
 // eslint-disable-next-line no-duplicate-imports
 import { ColorUtil } from '@visactor/vutils';
 import type { SeriesTypeEnum } from '../../series/interface';
-import { Color } from '../../util';
+import { Color } from '../../util/color';
 import type {
   ColorSchemeItem,
   IColorKey,
@@ -13,7 +13,7 @@ import type {
 } from './interface';
 
 /**
- * 获取数据色板（在此步骤中替换语义色值）
+ * 从色板中获取数据色板（在此步骤中替换语义色值）
  * @param colorScheme
  * @param seriesType
  * @returns
@@ -36,21 +36,25 @@ export function getDataScheme(
     if (isProgressiveDataColorScheme(dataScheme)) {
       return dataScheme.map(item => ({
         ...item,
-        scheme: item.scheme.map(color => {
-          if (isColorKey(color)) {
-            return findColor(colorScheme, color, seriesType);
-          }
-          return color;
-        })
+        scheme: item.scheme
+          .map(color => {
+            if (isColorKey(color)) {
+              return queryColorFromColorScheme(colorScheme, color, seriesType);
+            }
+            return color;
+          })
+          .filter(isValid)
       }));
     }
     // 普通色板的情况
-    return dataScheme.map(color => {
-      if (isColorKey(color)) {
-        return findColor(colorScheme, color, seriesType);
-      }
-      return color;
-    });
+    return dataScheme
+      .map(color => {
+        if (isColorKey(color)) {
+          return queryColorFromColorScheme(colorScheme, color, seriesType);
+        }
+        return color;
+      })
+      .filter(isValid);
   }
   return [];
 }
@@ -90,7 +94,7 @@ export function computeActualDataScheme(
  * @param seriesType
  * @returns
  */
-export function findColor(
+export function queryColorFromColorScheme(
   colorScheme: IThemeColorScheme,
   colorKey: IColorKey,
   seriesType?: SeriesTypeEnum
@@ -120,6 +124,19 @@ export function findColor(
   }
   return c.toRGBA();
 }
+
+/** 查询语义化颜色 */
+export const getActualColor = (value: any, colorScheme?: IThemeColorScheme, seriesType?: SeriesTypeEnum) => {
+  if (isColorKey(value)) {
+    if (colorScheme) {
+      const color = queryColorFromColorScheme(colorScheme, value, seriesType);
+      if (color) {
+        return color;
+      }
+    }
+  }
+  return value;
+};
 
 export function isColorKey(obj: any): obj is IColorKey {
   return isObject(obj) && (obj as IColorKey).type === 'palette' && !!(obj as IColorKey).key;
