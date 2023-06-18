@@ -44,7 +44,7 @@ export interface IScatterSeriesSpec
 }
 
 export interface IScatterSeriesTheme extends ICartesianSeriesTheme {
-  size: number;
-  shape: ShapeType;
+  size?: number;
+  shape?: ShapeType;
   [SeriesMarkNameEnum.point]?: Partial<IMarkTheme<ISymbolMarkSpec>>;
 }

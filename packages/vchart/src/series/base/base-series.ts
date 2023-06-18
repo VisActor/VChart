@@ -703,11 +703,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     return this.getMarks().filter(m => !m.name.includes('seriesGroup'));
   }
   getMarksInType(type: string | string[]): IMark[] {
-    const typeList = array(type);
-    return this.getMarks().filter(m => typeList.includes(m.type));
+    return this._marks.getMarksInType(type);
   }
   getMarkInName(name: string): IMark | undefined {
-    return this.getMarks().find(m => m.name === name);
+    return this._marks.get(name);
   }
   getMarkInId(markId: number): IMark | undefined {
     return this.getMarks().find(m => m.id === markId);
