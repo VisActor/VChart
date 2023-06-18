@@ -1,4 +1,4 @@
-import { isNil, merge } from '@visactor/vutils';
+import { array, isNil, merge } from '@visactor/vutils';
 import type { IMark } from '../interface';
 
 /** 跟随 mark 一起存储的信息 */
@@ -59,8 +59,9 @@ export class MarkSet {
     return [...this._children];
   }
 
-  getMarksInType(type: string): IMark[] {
-    return this._children.filter(m => m.type === type);
+  getMarksInType(type: string | string[]): IMark[] {
+    const types = array(type);
+    return this._children.filter(m => types.includes(m.type));
   }
 
   getMarkInId(markId: number): IMark | undefined {

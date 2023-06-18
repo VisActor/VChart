@@ -2,11 +2,10 @@ import type { IScatterSeriesTheme } from '../../../../series/scatter/interface';
 import { THEME_CONSTANTS } from '../constants';
 
 export const scatter: IScatterSeriesTheme = {
-  size: 10,
-  shape: 'circle',
   point: {
     style: {
       size: 8,
+      symbolType: 'circle',
       lineWidth: 0,
       fillOpacity: 0.8
     }
