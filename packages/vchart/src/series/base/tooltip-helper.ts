@@ -1,9 +1,10 @@
-import type { ITooltipSpec } from '../../component/tooltip/interface';
-import type { IToolTipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
+import type { ITooltipSpec, TooltipHandlerParams } from '../../component/tooltip/interface';
+import type { IToolTipLinePattern, ITooltipPattern, ShapeType, TooltipActiveType } from '../../typings';
 import { array, isValid } from '../../util';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
 import { BaseTooltipHelper } from '../../model/tooltip-helper';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
+import type { Datum } from '@visactor/vgrammar';
 
 interface ISeriesCacheInfo {
   seriesFields: string[];
@@ -65,7 +66,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
     return defaultValue;
   };
 
-  contentKeyCallback = (datum: any) => {
+  contentKeyCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     const { dimensionFields, seriesFields } = this._seriesCacheInfo;
     const subDimensionField = dimensionFields[dimensionFields.length - 1];
 
@@ -80,19 +81,19 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
     return datum?.[subDimensionField];
   };
 
-  contentValueCallback = (datum: any) => {
+  contentValueCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getMeasureData(datum);
   };
 
-  contentShapeTypeCallback = (datum: any) => {
+  contentShapeTypeCallback = (datum: Datum, params?: TooltipHandlerParams): ShapeType | undefined => {
     return this._getSeriesStyle(datum, 'shape', this.getDefaultShapeType());
   };
 
-  contentShapeColorCallback = (datum: any) => {
+  contentShapeColorCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getSeriesStyle(datum, ['fill', 'stroke']);
   };
 
-  titleValueCallback = (datum: any) => {
+  titleValueCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getDimensionData(datum);
   };
 

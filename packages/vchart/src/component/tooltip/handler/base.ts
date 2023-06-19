@@ -18,7 +18,7 @@ import type {
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipFixedPosition } from '../../../typings/tooltip';
 import type { BaseEventParams } from '../../../event/interface';
-import { getShowContent, getTooltipSpecForShow, getActualTooltipPositionValue } from './utils';
+import { getShowContent, getTooltipSpecForShow, getActualTooltipPositionValue, getTooltipPatternValue } from './utils';
 import type { Tooltip, TooltipContent } from '../tooltip';
 import type { ISeries } from '../../../series/interface';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
@@ -173,15 +173,13 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       return TooltipResult.failed;
     }
 
-    const event = params.event as MouseEvent;
-
     /** spec预处理 */
     let spec: ITooltipSpec | undefined;
     if (changePositionOnly && this._cacheViewSpec) {
       spec = this._cacheViewSpec;
     } else {
       spec = getTooltipSpecForShow(
-        activeType,
+        activeType!,
         this._tooltipSpec,
         (params as BaseEventParams).model as ISeries,
         (params as DimensionEventParams).dimensionInfo
@@ -195,11 +193,11 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
     /** 用户自定义逻辑 */
     if (spec.handler?.showTooltip) {
-      return spec.handler?.showTooltip(activeType, data, params) ?? TooltipResult.success;
+      return spec.handler?.showTooltip(activeType!, data!, params) ?? TooltipResult.success;
     }
 
     /** 默认逻辑 */
-    const pattern = spec[activeType];
+    const pattern = spec[activeType!] as ITooltipPattern;
     if (!pattern) {
       return TooltipResult.failed;
     }
@@ -209,12 +207,12 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     if (changePositionOnly && this._cacheActualTooltip) {
       actualTooltip = this._cacheActualTooltip;
     } else {
-      actualTooltip = this._getActualTooltipContent(pattern, data, event);
+      actualTooltip = this._getActualTooltipContent(pattern, data!, params);
       if (pattern.updateTitle) {
-        actualTooltip.title = pattern.updateTitle(actualTooltip.title, data);
+        actualTooltip.title = pattern.updateTitle(actualTooltip.title, data, params);
       }
       if (pattern.updateContent) {
-        actualTooltip.content = pattern.updateContent(actualTooltip.content, data);
+        actualTooltip.content = pattern.updateContent(actualTooltip.content, data, params);
       }
     }
 
@@ -224,7 +222,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     this._cacheActualTooltip = actualTooltip;
-    return this._changeTooltipPosition(!!changePositionOnly, actualTooltip, spec, activeType, data, params);
+    return this._changeTooltipPosition(!!changePositionOnly, actualTooltip, spec, activeType!, data!, params);
   };
 
   /** 改变 tooltip 位置（带 throttle 版本），返回是否遇到异常 */
@@ -255,14 +253,14 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     // 计算tooltip位置
     const position = this._getActualTooltipPosition(
       actualTooltip,
-      pattern.position,
+      getTooltipPatternValue(pattern.position, data, params),
       params,
       this._getParentElement(spec),
       changePositionOnly
     );
     actualTooltip.position = position;
     if (pattern.updatePosition) {
-      actualTooltip.position = pattern.updatePosition(actualTooltip.position, data);
+      actualTooltip.position = pattern.updatePosition(actualTooltip.position, data, params);
     }
 
     // 判断tooltip可见性
@@ -344,15 +342,18 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   protected _getActualTooltipContent = (
     pattern: ITooltipPattern,
     data: TooltipData,
-    event: MouseEvent
+    params: TooltipHandlerParams
   ): IToolTipActual => {
+    // 可见性
+    const patternVisible = getTooltipPatternValue(pattern.visible, data, params);
+
     // 数据
     let tooltipContent: TooltipContent | null = null;
-    tooltipContent = getShowContent(pattern, data, event);
+    tooltipContent = getShowContent(pattern, data, params);
 
     const actualTooltip: IToolTipActual = {
       ...tooltipContent,
-      visible: isValid(tooltipContent) ? pattern.visible !== false : false, // 最终展示数据为 null 则不展示
+      visible: isValid(tooltipContent) ? patternVisible !== false : false, // 最终展示数据为 null 则不展示
       activeType: pattern.activeType
     };
 
@@ -454,8 +455,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
         const chartRenderer = this._compiler.getCanvas() ?? this._chartContainer;
         parentElementPosOffset = getElementAbsolutePosition(parentElement);
         parentElementScrollOffset = getElementAbsoluteScrollOffset(parentElement);
-        const chartPosOffset = getElementAbsolutePosition(chartRenderer);
-        const chartScrollOffset = getElementAbsoluteScrollOffset(chartRenderer);
+        const chartPosOffset = getElementAbsolutePosition(chartRenderer!);
+        const chartScrollOffset = getElementAbsoluteScrollOffset(chartRenderer!);
         absolutePosOffset = {
           x: chartPosOffset.x - parentElementPosOffset.x,
           y: chartPosOffset.y - parentElementPosOffset.y
@@ -525,8 +526,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       this._attributeCache = getTooltipAttributes(actualTooltip, this._style);
     }
     return {
-      width: this._attributeCache.panel.width,
-      height: this._attributeCache.panel.height
+      width: this._attributeCache?.panel?.width,
+      height: this._attributeCache?.panel?.height
     };
   }
 
@@ -534,7 +535,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const { style = {}, maxWidth, minWidth, enterable, transitionDuration } = this._tooltipSpec;
 
     const {
-      panel: { backgroundColor, border, shadow, padding },
+      panel: { backgroundColor, border, shadow, padding } = {},
       titleLabel,
       shape,
       keyLabel,
@@ -561,20 +562,23 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       panelStyle.shadowOffsetY = shadow.y;
       panelStyle.shadowSpread = shadow.spread;
     }
-    if (isValid(border?.radius)) {
-      panelStyle.cornerRadius = [border.radius, border.radius, border.radius, border.radius];
+    const { radius } = border ?? {};
+    if (isValid(radius)) {
+      panelStyle.cornerRadius = [radius, radius, radius, radius];
     }
+
+    const globalTheme = this._chartOption.getTheme?.();
 
     return {
       panel: panelStyle,
-      title: getTextAttributes(titleLabel, this._chartOption.getTheme().fontFamily),
+      title: getTextAttributes(titleLabel, globalTheme),
       shape: {
         fill: true,
         size: shape?.size ?? 8,
         spacing: shape?.spacing ?? 6
       },
-      key: getTextAttributes(keyLabel, this._chartOption.getTheme().fontFamily),
-      value: getTextAttributes(valueLabel, this._chartOption.getTheme().fontFamily),
+      key: getTextAttributes(keyLabel, globalTheme),
+      value: getTextAttributes(valueLabel, globalTheme),
       padding,
       minWidth,
       maxWidth,

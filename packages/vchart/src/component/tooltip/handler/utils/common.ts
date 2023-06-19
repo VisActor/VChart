@@ -1,5 +1,8 @@
-import type { TooltipContentCallback } from '../../../../typings';
+import type { Datum } from '@visactor/vgrammar';
+import type { TooltipContentProperty, TooltipData, TooltipPatternProperty } from '../../../../typings';
 import { isFunction, isObject, isString, isNil } from '../../../../util';
+import type { TooltipHandlerParams } from '../../interface';
+import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension';
 
 interface IGradientColor {
   [key: string]: any;
@@ -18,18 +21,49 @@ export function escapeHTML(value: any): string {
   return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\(/g, '&#40;');
 }
 
-export const getTooltipValue = (
-  field: string | TooltipContentCallback | null | undefined,
-  datum?: any
-): string | undefined => {
+export const getTooltipContentValue = <T>(
+  field?: TooltipContentProperty<T>,
+  datum?: any,
+  params?: TooltipHandlerParams
+): T | undefined => {
   if (isNil(field)) {
-    return null;
+    return field;
   }
   if (isFunction(field)) {
-    return field(datum);
+    return field(datum, params);
   }
-  return field.toString();
+  return field;
 };
+
+export const getTooltipPatternValue = <T>(
+  field?: TooltipPatternProperty<T>,
+  data?: TooltipData,
+  params?: TooltipHandlerParams
+): T | undefined => {
+  if (isNil(field)) {
+    return field;
+  }
+  if (isFunction(field)) {
+    return field(data, params);
+  }
+  return field;
+};
+
+export function getFirstDatumFromTooltipData(data: TooltipData): Datum {
+  // 找到第一个可用的datum
+  const dimInfoList: IDimensionInfo[] = (data as IDimensionData[])[0]?.series
+    ? [{ data: data as IDimensionData[], value: '' }]
+    : (data as IDimensionInfo[]);
+  for (const { data: dataList } of dimInfoList) {
+    for (const { datum: datumList } of dataList) {
+      for (const datumItem of datumList ?? []) {
+        if (datumItem) {
+          return datumItem;
+        }
+      }
+    }
+  }
+}
 
 export function pickFirstValidValue<T>(isValid: (element?: T) => any, ...elements: T[]): T | undefined {
   for (const ele of elements) {
