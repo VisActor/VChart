@@ -87,6 +87,7 @@ export interface IGlobalMarkThemeByName {
 export interface IThemeConstants {
   FONT_FAMILY: string;
   LABEL_FONT_SIZE: number;
+  MAP_LABEL_FONT_SIZE: number;
   TITLE_FONT_SIZE: number;
   AXIS_TICK_SIZE: number;
 }

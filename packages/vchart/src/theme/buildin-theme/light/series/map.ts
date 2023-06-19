@@ -13,7 +13,7 @@ export const map: IMapSeriesTheme = {
   label: {
     interactive: false,
     style: {
-      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
+      fontSize: THEME_CONSTANTS.MAP_LABEL_FONT_SIZE,
       textBaseline: 'middle',
       fill: { type: 'palette', key: 'labelFontColor' },
       stroke: 'white'
