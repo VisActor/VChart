@@ -90,7 +90,7 @@ export class ScrollBar extends DataFilterBaseComponent {
         height: this.getLayoutRect().height,
         range: [this._start, this._end],
         direction: this._isHorizontal ? 'horizontal' : 'vertical',
-        ...this._getComponentAtttrs()
+        ...this._getComponentAttrs()
       });
 
       container.add(this._component as unknown as INode);
@@ -133,7 +133,7 @@ export class ScrollBar extends DataFilterBaseComponent {
     }
   }
 
-  protected _getComponentAtttrs() {
+  protected _getComponentAttrs() {
     const { rail, slider, innerPadding } = this._spec;
     const attrs: Partial<ScrollBarAttributes> = {};
 
