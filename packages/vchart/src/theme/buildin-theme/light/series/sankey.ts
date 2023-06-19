@@ -5,7 +5,6 @@ export const sankey: ISankeySeriesTheme = {
     style: {
       lineWidth: 0,
       fillOpacity: 0.15,
-      direction: 'horizontal',
       round: true
     }
   }
