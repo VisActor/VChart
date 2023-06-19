@@ -92,49 +92,56 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
   chartLayoutRect!: ILayoutRect;
 
   private _setLayoutAttributeFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect) {
-    // 处理 user spec value to px;
-    const padding = normalizeLayoutPaddingSpec(spec.padding);
-    const paddingValue = calcPadding(padding, chartViewRect, chartViewRect);
-    this.layoutPaddingLeft = paddingValue.left;
-    this.layoutPaddingRight = paddingValue.right;
-    this.layoutPaddingTop = paddingValue.top;
-    this.layoutPaddingBottom = paddingValue.bottom;
-    this._minHeight = isNil(spec.minHeight)
-      ? null
-      : calcLayoutNumber(spec.minHeight, chartViewRect.height, chartViewRect);
-    this._maxHeight = isNil(spec.maxHeight)
-      ? null
-      : calcLayoutNumber(spec.maxHeight, chartViewRect.height, chartViewRect);
-    this._minWidth = isNil(spec.minWidth) ? null : calcLayoutNumber(spec.minWidth, chartViewRect.width, chartViewRect);
-    this._maxWidth = isNil(spec.maxWidth) ? null : calcLayoutNumber(spec.maxWidth, chartViewRect.width, chartViewRect);
-    // 处理 user width
-    if (spec.width) {
-      this.setLayoutRect(
-        {
-          width: calcLayoutNumber(spec.width, chartViewRect.width, chartViewRect)
-        },
-        {
-          width: USER_LAYOUT_RECT_LEVEL
-        }
-      );
-    }
-    if (spec.height) {
-      this.setLayoutRect(
-        {
-          height: calcLayoutNumber(spec.height, chartViewRect.height, chartViewRect)
-        },
-        {
-          height: USER_LAYOUT_RECT_LEVEL
-        }
-      );
-    }
+    if ((this._spec as unknown as any).visible !== false) {
+      // 处理 user spec value to px;
+      const padding = normalizeLayoutPaddingSpec(spec.padding);
+      const paddingValue = calcPadding(padding, chartViewRect, chartViewRect);
+      this.layoutPaddingLeft = paddingValue.left;
+      this.layoutPaddingRight = paddingValue.right;
+      this.layoutPaddingTop = paddingValue.top;
+      this.layoutPaddingBottom = paddingValue.bottom;
 
-    // offset
-    if (!isNil(spec.offsetX)) {
-      this.layoutOffsetX = calcLayoutNumber(spec.offsetX, chartViewRect.width, chartViewRect);
-    }
-    if (!isNil(spec.offsetY)) {
-      this.layoutOffsetY = calcLayoutNumber(spec.offsetY, chartViewRect.height, chartViewRect);
+      this._minHeight = isNil(spec.minHeight)
+        ? null
+        : calcLayoutNumber(spec.minHeight, chartViewRect.height, chartViewRect);
+      this._maxHeight = isNil(spec.maxHeight)
+        ? null
+        : calcLayoutNumber(spec.maxHeight, chartViewRect.height, chartViewRect);
+      this._minWidth = isNil(spec.minWidth)
+        ? null
+        : calcLayoutNumber(spec.minWidth, chartViewRect.width, chartViewRect);
+      this._maxWidth = isNil(spec.maxWidth)
+        ? null
+        : calcLayoutNumber(spec.maxWidth, chartViewRect.width, chartViewRect);
+      // 处理 user width
+      if (spec.width) {
+        this.setLayoutRect(
+          {
+            width: calcLayoutNumber(spec.width, chartViewRect.width, chartViewRect)
+          },
+          {
+            width: USER_LAYOUT_RECT_LEVEL
+          }
+        );
+      }
+      if (spec.height) {
+        this.setLayoutRect(
+          {
+            height: calcLayoutNumber(spec.height, chartViewRect.height, chartViewRect)
+          },
+          {
+            height: USER_LAYOUT_RECT_LEVEL
+          }
+        );
+      }
+
+      // offset
+      if (!isNil(spec.offsetX)) {
+        this.layoutOffsetX = calcLayoutNumber(spec.offsetX, chartViewRect.width, chartViewRect);
+      }
+      if (!isNil(spec.offsetY)) {
+        this.layoutOffsetY = calcLayoutNumber(spec.offsetY, chartViewRect.height, chartViewRect);
+      }
     }
   }
 
