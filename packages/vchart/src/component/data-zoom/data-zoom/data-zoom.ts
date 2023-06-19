@@ -215,7 +215,6 @@ export class DataZoom extends DataFilterBaseComponent {
       } else {
         this._component.setPreviewCallbackX1(this._dataToPositionX2);
       }
-      this._component.name = `dataZoom-${this._orient}`;
       this._component.setStatePointToData((state: number) => this._statePointToData(state));
       this._component.setUpdateStateCallback((start: number, end: number) => {
         this._handleChange(start, end);
