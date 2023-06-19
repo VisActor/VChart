@@ -84,7 +84,7 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
   setStartAndEnd(start: number, end: number) {
     this._handleChange(start, end, true);
   }
-  protected abstract _getComponentAtttrs(): any;
+  protected abstract _getComponentAttrs(): any;
   protected abstract _createOrUpdateComponent(): void;
   protected abstract _initEvent(): void;
   protected abstract _computeWidth(): number;

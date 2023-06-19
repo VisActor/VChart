@@ -207,7 +207,7 @@ export class DataZoom extends DataFilterBaseComponent {
         previewData: this._data.getLatestData(),
         previewCallbackX: this._dataToPositionX,
         previewCallbackY: this._dataToPositionY,
-        ...(this._getComponentAtttrs() as any)
+        ...(this._getComponentAttrs() as any)
       });
 
       if (this._isHorizontal) {
@@ -268,7 +268,7 @@ export class DataZoom extends DataFilterBaseComponent {
     // do nothing
   }
 
-  protected _getComponentAtttrs() {
+  protected _getComponentAttrs() {
     return {
       backgroundStyle: transformToGraphic(this._spec.background?.style) as unknown as IRectGraphicAttribute,
       startHandlerStyle: transformToGraphic(this._spec.startHandler?.style) as unknown as ISymbolGraphicAttribute,
