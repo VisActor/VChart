@@ -208,7 +208,6 @@ export class VChart implements IVChart {
     this._event = new Event(this._eventDispatcher, mode);
     this._compiler.initView();
     // 设置全局字体
-    // FIXME: vrender 目前有 BUG，待修复
     this.getStage()?.setTheme({
       text: { fontFamily: this._currentTheme.fontFamily }
     });
