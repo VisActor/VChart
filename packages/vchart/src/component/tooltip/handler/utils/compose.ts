@@ -6,9 +6,10 @@ import type {
   TooltipData,
   IToolTipLineActual
 } from '../../../../typings/tooltip';
-import { getTooltipValue } from './common';
+import { getFirstDatumFromTooltipData, getTooltipContentValue, getTooltipPatternValue } from './common';
 import { getTooltipActualActiveType } from '../../utils';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension/interface';
+import type { TooltipHandlerParams } from '../../interface';
 
 /**
  * 获得tooltip的实际显示内容
@@ -20,18 +21,22 @@ import type { IDimensionData, IDimensionInfo } from '../../../../event/events/di
 export const getShowContent = (
   pattern: ITooltipPattern,
   data: TooltipData,
-  event: MouseEvent
+  params: TooltipHandlerParams
 ): TooltipContent | null => {
   if (
     !data ||
     // data.key === undefined ||
-    event.type === 'mouseout'
+    params?.event?.type === 'mouseout'
   ) {
     return null;
   }
-  const tooltipContent: TooltipContent = {
+
+  const patternTitle = getTooltipPatternValue(pattern.title, data, params);
+  const patternContent = getTooltipPatternValue(pattern.content, data, params);
+
+  const tooltipContent: Required<TooltipContent> = {
     title: {
-      value: pattern.title?.value?.toString(),
+      value: patternTitle?.value?.toString(),
       hasShape: false,
       shapeType: undefined,
       shapeHollow: undefined
@@ -40,47 +45,28 @@ export const getShowContent = (
   };
 
   /** title */
-  if (!pattern.title || pattern.title.visible === false) {
+  if (!patternTitle || patternTitle.visible === false) {
     tooltipContent.title = {
       hasShape: false,
       visible: false
     };
   } else {
-    tooltipContent.title.hasShape = pattern.title.hasShape;
-    if (isValid(pattern.title) && isValid(pattern.title.value)) {
+    tooltipContent.title.hasShape = patternTitle.hasShape;
+    if (isValid(patternTitle.value)) {
       tooltipContent.title = {
-        hasShape: pattern.title?.hasShape,
-        shapeHollow: pattern.title?.shapeHollow
+        hasShape: patternTitle.hasShape,
+        shapeHollow: patternTitle.shapeHollow
       };
       // 找到第一个可用的datum
-      let datum: any;
-      const dimInfoList: IDimensionInfo[] = (data as IDimensionData[])[0]?.series
-        ? [{ data: data as IDimensionData[], value: '' }]
-        : (data as IDimensionInfo[]);
-      for (const { data: dataList } of dimInfoList) {
-        for (const { datum: datumList } of dataList) {
-          for (const datumItem of datumList ?? []) {
-            if (datumItem) {
-              datum = datumItem;
-              break;
-            }
-          }
-          if (datum) {
-            break;
-          }
-        }
-        if (datum) {
-          break;
-        }
-      }
-      tooltipContent.title.value = getTooltipValue(pattern.title?.value, datum);
+      const datum = getFirstDatumFromTooltipData(data);
+      tooltipContent.title.value = getTooltipContentValue(patternTitle?.value, datum, params);
     }
   }
 
   /** content */
   if (pattern.activeType === 'mark') {
-    pattern.content?.forEach(content => {
-      const oneLineData = getOneLineData((data as IDimensionData[])[0]?.datum[0], content);
+    patternContent?.forEach(content => {
+      const oneLineData = getOneLineData((data as IDimensionData[])[0]?.datum[0], content, params);
       if (oneLineData.visible !== false) {
         tooltipContent.content.push(oneLineData);
       }
@@ -92,12 +78,12 @@ export const getShowContent = (
           return;
         }
         const contentPatterns =
-          pattern.content?.filter(
+          patternContent?.filter(
             c => isNil(c.seriesId) || c.seriesId === series.id // 匹配对应series
           ) ?? [];
         datum.forEach(datumItem =>
           contentPatterns.forEach(c => {
-            const oneLineData = getOneLineData(datumItem, c);
+            const oneLineData = getOneLineData(datumItem, c, params);
             if (oneLineData.visible !== false) {
               tooltipContent.content.push(oneLineData);
             }
@@ -130,13 +116,17 @@ export const getShowContent = (
  * @param config
  * @returns
  */
-export const getOneLineData = (datum: any, config: IToolTipLinePattern): IToolTipLineActual => {
-  const key = getTooltipValue(config.key, datum);
-  const value = getTooltipValue(config.value, datum);
+export const getOneLineData = (
+  datum: any,
+  config: IToolTipLinePattern,
+  params: TooltipHandlerParams
+): IToolTipLineActual => {
+  const key = getTooltipContentValue(config.key, datum, params);
+  const value = getTooltipContentValue(config.value, datum, params);
   const visible: boolean = isValid(key) || isValid(value);
 
-  const shapeType = getTooltipValue(config.shapeType, datum);
-  const shapeColor = getTooltipValue(config.shapeColor, datum);
+  const shapeType = getTooltipContentValue(config.shapeType, datum, params);
+  const shapeColor = getTooltipContentValue(config.shapeColor, datum, params);
 
   return {
     key,
