@@ -8,18 +8,27 @@ import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../anima
 import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { ITextMark } from '../../mark/text';
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ICellMark } from '../../mark/cell';
 import { normalizePadding } from '@visactor/vutils';
 import { HeatmapSeriesTooltipHelper } from './tooltip-helper';
+import { BaseSeries } from '../base/base-series';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
 export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.heatmap;
   type = SeriesTypeEnum.heatmap;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.cell]: { name: SeriesMarkNameEnum.cell, type: MarkTypeEnum.cell },
+    [SeriesMarkNameEnum.cellBackground]: { name: SeriesMarkNameEnum.cellBackground, type: MarkTypeEnum.cell }
+  };
 
   protected declare _theme: Maybe<IHeatmapSeriesTheme>;
 
@@ -47,7 +56,7 @@ export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
       largeThreshold: this._spec.largeThreshold
     };
 
-    this._cellMark = this._createMark(MarkTypeEnum.cell, 'cell', {
+    this._cellMark = this._createMark(HeatmapSeries.mark.cell, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('cell', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       isSeriesMark: true,
@@ -55,7 +64,7 @@ export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
       progressive
     }) as ICellMark;
 
-    this._backgroundMark = this._createMark(MarkTypeEnum.cell, 'cellBackground', {
+    this._backgroundMark = this._createMark(HeatmapSeries.mark.cellBackground, {
       progressive
     }) as ICellMark;
   }
@@ -92,8 +101,7 @@ export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
         size: () => {
           return [this.getCellSize(this._xAxisHelper), this.getCellSize(this._yAxisHelper)];
         },
-        fill: this.getColorAttribute(),
-        fillOpacity: this._theme.cell?.style?.fillOpacity ?? 1
+        fill: this.getColorAttribute()
       },
       'normal',
       AttributeLevel.Series
@@ -150,9 +158,13 @@ export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
     };
 
     this._cellMark.setAnimationConfig(
-      animationConfig(DEFAULT_MARK_ANIMATION.heatmap(appearPreset), userAnimationConfig('cell', this._spec), {
-        dataIndex
-      })
+      animationConfig(
+        DEFAULT_MARK_ANIMATION.heatmap(appearPreset),
+        userAnimationConfig(SeriesMarkNameEnum.cell, this._spec),
+        {
+          dataIndex
+        }
+      )
     );
   }
 

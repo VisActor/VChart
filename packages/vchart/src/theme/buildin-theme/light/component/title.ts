@@ -1,10 +1,17 @@
 import type { ITitleTheme } from '../../../../component/title/interface';
+import { THEME_CONSTANTS } from '../constants';
 
 export const title: ITitleTheme = {
+  padding: {
+    bottom: 30
+  },
   textStyle: {
-    fontSize: 18
+    fontSize: THEME_CONSTANTS.TITLE_FONT_SIZE,
+    fontColor: { type: 'palette', key: 'titleFontColor' }
   },
   subtextStyle: {
-    fontSize: 12
+    fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
+    lineHeight: THEME_CONSTANTS.TITLE_FONT_SIZE,
+    fontColor: { type: 'palette', key: 'labelFontColor' }
   }
 };

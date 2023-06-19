@@ -2,8 +2,10 @@ import type { IArcMark } from '../../mark/arc';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { Maybe, Datum } from '../../typings';
 import { valueInScaleRange, degrees } from '../../util';
-import { SeriesTypeEnum } from '../interface';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IRoseAnimationParams, RoseAppearPreset } from './animation';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';
@@ -11,12 +13,18 @@ import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
 import { AttributeLevel } from '../../constant';
+import { BarSeries } from '../bar/bar';
 
 export const DefaultBandWidth = 0.5;
 
 export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.rose;
   type = SeriesTypeEnum.rose;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BarSeries.mark,
+    [SeriesMarkNameEnum.rose]: { name: SeriesMarkNameEnum.rose, type: MarkTypeEnum.arc }
+  };
 
   protected declare _theme: Maybe<IRoseSeriesTheme>;
   protected _stack: boolean = true;
@@ -39,7 +47,7 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
   // }
 
   private initRoseMark() {
-    this._roseMark = this._createMark(MarkTypeEnum.arc, 'rose', {
+    this._roseMark = this._createMark(RoseSeries.mark.rose, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('rose', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
@@ -49,7 +57,7 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
 
   private initLabelMark() {
     if (this._spec?.label?.visible) {
-      this._labelMark = this._createMark(MarkTypeEnum.text, 'label', {
+      this._labelMark = this._createMark(RoseSeries.mark.label, {
         themeSpec: this._theme?.label,
         markSpec: {
           visible: true,
@@ -79,7 +87,6 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
           this.getRoseAngle() -
           this.angleAxisHelper.getBandwidth(0) * 0.5,
         fill: this.getColorAttribute(),
-        fillOpacity: 1,
         outerRadius: (datum: Datum) =>
           valueInScaleRange(
             this.radiusAxisHelper.dataToPosition([datum[this._radiusField[0]]]),
@@ -132,12 +139,8 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
           text: (datum: Datum) => {
             return datum[this._radiusField[0]];
           },
-          fill: this._spec.label?.style?.fill || 'white',
           stroke: this._spec.label?.style?.stroke || this.getColorAttribute(),
-          textAlign: 'center',
-          textBaseline: 'middle',
-          angle: () => (this._spec.label?.style?.angle || (degrees(angle) ?? 0) + 90) as number,
-          fontSize: this._spec.label?.style?.fontSize || 10
+          angle: () => (this._spec.label?.style?.angle || (degrees(angle) ?? 0) + 90) as number
         },
         undefined,
         // 标签属性基于用户配置生成，样式优先级应当为用户级
@@ -158,7 +161,7 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
       this._roseMark.setAnimationConfig(
         animationConfig(
           DEFAULT_MARK_ANIMATION.rose(animationParams, appearPreset),
-          userAnimationConfig(this._roseMark.name, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.rose, this._spec)
         )
       );
     }

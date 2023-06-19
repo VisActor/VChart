@@ -18,7 +18,6 @@ import { array, isValid, log } from '../util';
 import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
-import { MarkSet } from '../mark/mark-set';
 import type { StringOrNumber } from '../typings';
 import type { IDataZoomSpec, IScrollBarSpec } from '../component/data-zoom';
 
@@ -34,15 +33,6 @@ export class Region extends BaseModel implements IRegion {
   animate?: IAnimate;
 
   interaction: IInteraction = new Interaction();
-
-  // scrollBar
-  // scrollBar.scroll() => lineMark.x += offsetX
-  // lineMark.x = lineMark.baseX + offsetX
-  // scrollBar. regionGroup.clip = true;
-  protected _marks: MarkSet = new MarkSet();
-  getMarks() {
-    return this._marks.getMarks();
-  }
 
   protected _groupMark!: IGroupMark;
   getGroupMark() {
@@ -86,7 +76,7 @@ export class Region extends BaseModel implements IRegion {
 
   created(): void {
     super.created();
-    this._groupMark = this._createMark(MarkTypeEnum.group, 'regionGroup') as IGroupMark;
+    this._groupMark = this._createMark({ type: MarkTypeEnum.group, name: 'regionGroup' }) as IGroupMark;
     this._groupMark.setUserId(this.userId);
     this._groupMark.setZIndex(this.layoutZIndex);
     const clip = this._spec.clip ?? this._getClipDefaultValue();
@@ -117,9 +107,9 @@ export class Region extends BaseModel implements IRegion {
     this._marks.addMark(this._groupMark);
     // hack: region 的样式不能设置在groupMark上，因为groupMark目前没有计算dirtyBound，会导致拖影问题
     if (this._spec.style) {
-      this._backgroundMark = this._createMark('rect', 'regionBackground') as IRectMark;
+      this._backgroundMark = this._createMark({ type: MarkTypeEnum.rect, name: 'regionBackground' }) as IRectMark;
       if (clip) {
-        this._foregroundMark = this._createMark('rect', 'regionForeground') as IRectMark;
+        this._foregroundMark = this._createMark({ type: MarkTypeEnum.rect, name: 'regionForeground' }) as IRectMark;
       }
       [this._backgroundMark, this._foregroundMark].forEach(mark => {
         if (mark) {
@@ -207,8 +197,8 @@ export class Region extends BaseModel implements IRegion {
     return result;
   }
 
-  reInit() {
-    super.reInit();
+  reInit(theme?: any) {
+    super.reInit(theme);
     this._initBackgroundMarkStyle();
     this._initForegroundMarkStyle();
   }
@@ -291,7 +281,6 @@ export class Region extends BaseModel implements IRegion {
   release() {
     super.release();
     this._series = [];
-    this._marks.clear();
   }
   /** dimension */
   createTrigger() {

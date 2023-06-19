@@ -1,4 +1,7 @@
 import type { ICrosshairRectSpec, ICrosshairTheme } from '../../../../component/crosshair/interface';
+import { THEME_CONSTANTS } from '../constants';
+
+const fontSize = THEME_CONSTANTS.LABEL_FONT_SIZE;
 
 export const crosshair: ICrosshairTheme = {
   trigger: 'hover',
@@ -10,7 +13,7 @@ export const crosshair: ICrosshairTheme = {
       style: {
         fill: '#b2bacf',
         opacity: 0.2,
-        lineDash: [] as number[]
+        lineDash: []
       }
     } as ICrosshairRectSpec,
     label: {
@@ -18,7 +21,7 @@ export const crosshair: ICrosshairTheme = {
       style: {
         fontWeight: 'normal',
         fill: '#fff',
-        fontSize: 12
+        fontSize
       },
       labelBackground: {
         padding: {
@@ -42,7 +45,7 @@ export const crosshair: ICrosshairTheme = {
       style: {
         stroke: '#b2bacf',
         opacity: 0.2,
-        lineDash: [] as number[]
+        lineDash: []
       }
     },
     label: {
@@ -50,7 +53,7 @@ export const crosshair: ICrosshairTheme = {
       style: {
         fontWeight: 'normal',
         fill: '#fff',
-        fontSize: 12
+        fontSize
       },
       labelBackground: {
         padding: {
@@ -74,7 +77,7 @@ export const crosshair: ICrosshairTheme = {
       style: {
         stroke: '#b2bacf',
         opacity: 0.2,
-        lineDash: [] as number[]
+        lineDash: []
       }
     },
     label: {
@@ -82,7 +85,7 @@ export const crosshair: ICrosshairTheme = {
       style: {
         fontWeight: 'normal',
         fill: '#fff',
-        fontSize: 12
+        fontSize
       },
       labelBackground: {
         padding: {
@@ -106,7 +109,7 @@ export const crosshair: ICrosshairTheme = {
       style: {
         stroke: '#b2bacf',
         opacity: 0.2,
-        lineDash: [] as number[]
+        lineDash: []
       }
     },
     label: {
@@ -114,7 +117,7 @@ export const crosshair: ICrosshairTheme = {
       style: {
         fontWeight: 'normal',
         fill: '#fff',
-        fontSize: 12
+        fontSize
       },
       labelBackground: {
         padding: {

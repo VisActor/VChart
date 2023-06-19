@@ -1,5 +1,6 @@
 import { CartesianSeries } from '../cartesian/cartesian';
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IRectMark } from '../../mark/rect';
 import type { ILinkPathMark } from '../../mark/linkPath';
@@ -21,7 +22,6 @@ import { SeriesData } from '../base/series-data';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { getDataScheme } from '../../theme/color-scheme/util';
-import { OrdinalScale } from '@visactor/vscale';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -32,12 +32,20 @@ import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement } from '@visactor/vgrammar';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { array } from '../../util';
+import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
+import { BarSeries } from '../bar/bar';
 
 registerSankeyTransforms();
 
 export class SankeySeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.sankey;
   type = SeriesTypeEnum.sankey;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BarSeries.mark,
+    [SeriesMarkNameEnum.node]: { name: SeriesMarkNameEnum.node, type: MarkTypeEnum.rect },
+    [SeriesMarkNameEnum.link]: { name: SeriesMarkNameEnum.link, type: MarkTypeEnum.linkPath }
+  };
 
   protected declare _spec: ISankeySeriesSpec;
 
@@ -167,7 +175,7 @@ export class SankeySeries extends CartesianSeries<any> {
   }
 
   initMark(): void {
-    const nodeMark = this._createMark(MarkTypeEnum.rect, 'node', {
+    const nodeMark = this._createMark(SankeySeries.mark.node, {
       isSeriesMark: true,
       key: DEFAULT_DATA_INDEX,
       dataView: this._nodesSeriesData.getDataView(),
@@ -178,7 +186,7 @@ export class SankeySeries extends CartesianSeries<any> {
       this._nodeMark = nodeMark;
     }
 
-    const linkMark = this._createMark(MarkTypeEnum.linkPath, 'link', {
+    const linkMark = this._createMark(SankeySeries.mark.link, {
       key: DEFAULT_DATA_INDEX,
       dataView: this._linksSeriesData.getDataView(),
       dataProductId: this._linksSeriesData.getProductId()
@@ -188,7 +196,7 @@ export class SankeySeries extends CartesianSeries<any> {
     }
 
     if (this._spec.label?.visible) {
-      const labelMark = this._createMark(MarkTypeEnum.text, 'label', {
+      const labelMark = this._createMark(SankeySeries.mark.label, {
         key: DEFAULT_DATA_INDEX,
         dataView: this._nodesSeriesData.getDataView(),
         dataProductId: this._nodesSeriesData.getProductId()
@@ -247,15 +255,7 @@ export class SankeySeries extends CartesianSeries<any> {
         fill: (datum: Datum) => {
           return this._spec.link?.style?.fill ?? this.getNodeOrdinalColorScale(datum.source);
         },
-        fillOpacity: this._spec.link?.style?.fillOpacity ?? 0.15,
-        direction: this._spec.direction ?? 'horizontal',
-        round: this._spec.link?.style?.round ?? true,
-        ratio: this._spec.link?.style?.ratio,
-        align: this._spec.link?.style?.align,
-        curvature: this._spec.link?.style?.curvature,
-        endArrow: this._spec.link?.style?.endArrow,
-        startArrow: this._spec.link?.style?.startArrow,
-        backgroundStyle: this._spec.link?.style?.backgroundStyle
+        direction: this._spec.direction ?? 'horizontal'
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
@@ -491,18 +491,21 @@ export class SankeySeries extends CartesianSeries<any> {
       this._nodeMark.setAnimationConfig(
         animationConfig(
           DEFAULT_MARK_ANIMATION.sankeyNode(animationParams, appearPreset),
-          userAnimationConfig(this._nodeMark.name, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.node, this._spec)
         )
       );
     }
     if (this._linkMark) {
       this._linkMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.sankeyLinkPath(), userAnimationConfig(this._linkMark.name, this._spec))
+        animationConfig(
+          DEFAULT_MARK_ANIMATION.sankeyLinkPath(),
+          userAnimationConfig(SeriesMarkNameEnum.link, this._spec)
+        )
       );
     }
     if (this._labelMark) {
       this._labelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(this._labelMark.name, this._spec))
+        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec))
       );
     }
   }
@@ -935,16 +938,13 @@ export class SankeySeries extends CartesianSeries<any> {
   }
 
   getNodeOrdinalColorScale(item: string) {
+    const colorDomain = this._nodesSeriesData.getDataView().latestData.map((datum: Datum) => {
+      return datum.key;
+    });
     const colorRange =
       this._option.globalScale.color?.range() ?? getDataScheme(this._option.getTheme().colorScheme, this.type as any);
-    const ordinalScale = new OrdinalScale();
-    ordinalScale
-      .domain(
-        this._nodesSeriesData.getDataView().latestData.map((datum: Datum) => {
-          return datum.key;
-        })
-      )
-      .range?.(colorRange);
+    const ordinalScale = new ColorOrdinalScale();
+    ordinalScale.domain(colorDomain).range?.(colorRange);
     return ordinalScale.scale(item);
   }
 

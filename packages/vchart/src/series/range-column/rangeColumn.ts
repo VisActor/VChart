@@ -1,6 +1,8 @@
 import { BarSeries } from '../bar/bar';
 import { MarkTypeEnum } from '../../mark/interface';
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { Direction } from '../../typings/space';
 import type { IRectMark } from '../../mark/rect';
 import type { ITextMark } from '../../mark/text';
@@ -26,6 +28,12 @@ export class RangeColumnSeries extends BarSeries {
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
   protected _barName: string = SeriesTypeEnum.bar;
 
+  static readonly mark: SeriesMarkMap = {
+    ...BarSeries.mark,
+    [SeriesMarkNameEnum.minLabel]: { name: SeriesMarkNameEnum.minLabel, type: MarkTypeEnum.text },
+    [SeriesMarkNameEnum.maxLabel]: { name: SeriesMarkNameEnum.maxLabel, type: MarkTypeEnum.text }
+  };
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   protected declare _spec: IRangeColumnSeriesSpec;
@@ -36,7 +44,7 @@ export class RangeColumnSeries extends BarSeries {
 
   initMark(): void {
     const labelPosition = this._spec.label?.position;
-    this._rectMark = this._createMark(this._barMarkType, 'bar', {
+    this._rectMark = this._createMark(RangeColumnSeries.mark.bar, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('bar', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
@@ -46,12 +54,12 @@ export class RangeColumnSeries extends BarSeries {
 
     if (labelPosition === PositionEnum.bothEnd) {
       if (this._spec.label?.minLabel?.visible !== false) {
-        this._minLabelMark = this._createMark(MarkTypeEnum.text, 'minLabel', {
+        this._minLabelMark = this._createMark(RangeColumnSeries.mark.minLabel, {
           markSpec: this._spec.label?.minLabel
         }) as ITextMark;
       }
       if (this._spec.label?.maxLabel?.visible !== false) {
-        this._maxLabelMark = this._createMark(MarkTypeEnum.text, 'maxLabel', {
+        this._maxLabelMark = this._createMark(RangeColumnSeries.mark.maxLabel, {
           markSpec: this._spec.label?.maxLabel
         }) as ITextMark;
       }
@@ -64,8 +72,7 @@ export class RangeColumnSeries extends BarSeries {
       this.setMarkStyle(
         rectMark,
         {
-          fill: this.getColorAttribute(),
-          fillOpacity: this._theme?.bar?.style?.fillOpacity ?? 1
+          fill: this.getColorAttribute()
         },
         'normal',
         AttributeLevel.Series
@@ -263,20 +270,24 @@ export class RangeColumnSeries extends BarSeries {
     this._rectMark.setAnimationConfig(
       animationConfig(
         DEFAULT_MARK_ANIMATION.rangeColumn({ direction: this.direction }, appearPreset),
-        userAnimationConfig('rangeColumn', this._spec),
+        userAnimationConfig(SeriesMarkNameEnum.bar, this._spec),
         { dataIndex }
       )
     );
 
     if (this._minLabelMark) {
       this._minLabelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig('label', this._spec), { dataIndex })
+        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec), {
+          dataIndex
+        })
       );
     }
 
     if (this._maxLabelMark) {
       this._maxLabelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig('label', this._spec), { dataIndex })
+        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec), {
+          dataIndex
+        })
       );
     }
   }

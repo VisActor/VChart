@@ -1,7 +1,7 @@
 import { ARC_MIDDLE_ANGLE } from '../constant';
 import type { IArcMarkSpec, VisualType, Datum, StateValueType, IArc3dMarkSpec } from '../typings';
 import { polarToCartesian } from '../util/math';
-import { BaseMark } from './base';
+import { BaseMark } from './base/base-mark';
 import type { IMarkRaw, IMarkStyle, StyleConvert } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
@@ -21,7 +21,8 @@ export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements 
       endAngle: 0,
       outerRadius: 0,
       innerRadius: 0,
-      cornerRadius: 0
+      cornerRadius: 0,
+      lineWidth: 0
     };
     return defaultStyle;
   }

@@ -5,11 +5,9 @@ import type { IModelSpec } from '../../model/interface';
 
 export type LabelPosition = IOrientType | 'outer';
 
-export interface IMapLabelSpec extends Pick<IModelSpec, 'id'> {
+export interface IMapLabelSpec extends IMapLabelTheme, Pick<IModelSpec, 'id'> {
   /** 关联的系列 id */
   seriesId: StringOrNumber;
-  /** 是否显示，默认 false */
-  visible?: boolean;
   /** 名称文本的数据字段 */
   nameField?: string;
   /** 数值文本的数据字段 */
@@ -19,6 +17,15 @@ export interface IMapLabelSpec extends Pick<IModelSpec, 'id'> {
    * @default 'none'
    */
   trigger?: 'hover' | 'click' | 'none';
+}
+
+export type IMapLabelNodes = 'nameLabel' | 'valueLabel' | 'icon' | 'labelBackground' | 'container';
+
+export type MapLabelSceneNodeMap = Partial<Record<IMapLabelNodes, IGraphic>>;
+
+export interface IMapLabelTheme {
+  /** 是否显示，默认 false */
+  visible?: boolean;
   /** 标签非 outer 位置下与标记点的间距 */
   offset?: number;
   /**
@@ -54,7 +61,3 @@ export interface IMapLabelSpec extends Pick<IModelSpec, 'id'> {
     style?: IPathMarkSpec;
   };
 }
-
-export type IMapLabelNodes = 'nameLabel' | 'valueLabel' | 'icon' | 'labelBackground' | 'container';
-
-export type MapLabelSceneNodeMap = Partial<Record<IMapLabelNodes, IGraphic>>;

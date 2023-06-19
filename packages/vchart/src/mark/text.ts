@@ -1,5 +1,5 @@
 import type { ITextMarkSpec } from '../typings/visual';
-import { BaseMark } from './base';
+import { BaseMark } from './base/base-mark';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
@@ -15,7 +15,8 @@ export class TextMark extends BaseMark<ITextMarkSpec> implements ITextMark {
       ...super._getDefaultStyle(),
       // TODO: 删除后会有显示问题，待排查
       angle: 0,
-      textAlign: 'center'
+      textAlign: 'center',
+      lineWidth: 0
     };
     return defaultStyle;
   }

@@ -1,10 +1,11 @@
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { BarSeries } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
+import { ThemeManager } from '../../../src';
+// eslint-disable-next-line no-duplicate-imports
 import { HistogramChart } from '../../../src';
 import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
-import { VChart } from '../../../src/vchart-all';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
 
@@ -62,7 +63,7 @@ describe('histogram chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => VChart.ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme()
     } as any);
     chart.created();
     chart.init();

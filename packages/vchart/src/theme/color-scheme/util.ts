@@ -1,29 +1,90 @@
-import { isArray, isObject, isString, isValid } from '@visactor/vutils';
+import { isArray, isFunction, isObject, isString, isValid } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { ColorUtil } from '@visactor/vutils';
 import type { SeriesTypeEnum } from '../../series/interface';
-import { Color } from '../../util';
-import type { ColorSchemeItem, IColorKey, IColorSchemeStruct, IThemeColorScheme } from './interface';
+import { Color } from '../../util/color';
+import type {
+  ColorSchemeItem,
+  IColorKey,
+  IColorSchemeStruct,
+  IProgressiveDataSchemeCase,
+  IThemeColorScheme,
+  ProgressiveDataScheme
+} from './interface';
 
 /**
- * 获取数据色板
+ * 从色板中获取数据色板（在此步骤中替换语义色值）
  * @param colorScheme
  * @param seriesType
  * @returns
  */
-export function getDataScheme(colorScheme: IThemeColorScheme, seriesType?: SeriesTypeEnum): ColorSchemeItem[] {
+export function getDataScheme(
+  colorScheme: IThemeColorScheme,
+  seriesType?: SeriesTypeEnum
+): Array<ColorSchemeItem> | ProgressiveDataScheme<ColorSchemeItem> {
   const scheme = !isValid(seriesType) ? colorScheme?.default : colorScheme?.[seriesType] ?? colorScheme?.default;
   if (!scheme || isArray(scheme)) {
-    return scheme as string[];
+    // 不带语义色板，直接输出
+    return scheme as Array<ColorSchemeItem> | ProgressiveDataScheme<ColorSchemeItem>;
   } else if (isObject(scheme)) {
-    return (scheme as IColorSchemeStruct).dataScheme.map(color => {
-      if (isColorKey(color)) {
-        return findColor(colorScheme, color, seriesType);
-      }
-      return color;
-    });
+    // 带语义色板，转换颜色后输出
+    const { dataScheme } = scheme as IColorSchemeStruct;
+    if (!dataScheme) {
+      return [];
+    }
+    // 渐进式色板的情况
+    if (isProgressiveDataColorScheme(dataScheme)) {
+      return dataScheme.map(item => ({
+        ...item,
+        scheme: item.scheme
+          .map(color => {
+            if (isColorKey(color)) {
+              return queryColorFromColorScheme(colorScheme, color, seriesType);
+            }
+            return color;
+          })
+          .filter(isValid)
+      }));
+    }
+    // 普通色板的情况
+    return dataScheme
+      .map(color => {
+        if (isColorKey(color)) {
+          return queryColorFromColorScheme(colorScheme, color, seriesType);
+        }
+        return color;
+      })
+      .filter(isValid);
   }
   return [];
+}
+
+/**
+ * 计算最终数据色板（在此步骤中获得渐进式色板的最终色板）
+ * @param colorScheme
+ * @param seriesType
+ * @returns
+ */
+export function computeActualDataScheme(
+  dataScheme: Array<ColorSchemeItem> | ProgressiveDataScheme<ColorSchemeItem>,
+  colorDomain: any[]
+): Array<ColorSchemeItem> {
+  if (isProgressiveDataColorScheme(dataScheme)) {
+    return (
+      dataScheme.find(item => {
+        if (isValid(item.isAvailable)) {
+          if (isFunction(item.isAvailable)) {
+            return item.isAvailable(colorDomain);
+          }
+          return !!item.isAvailable;
+        } else if (isValid(item.maxDomainLength)) {
+          return colorDomain?.length <= item.maxDomainLength;
+        }
+        return true;
+      })?.scheme ?? dataScheme[dataScheme.length - 1].scheme
+    );
+  }
+  return dataScheme;
 }
 
 /**
@@ -33,7 +94,7 @@ export function getDataScheme(colorScheme: IThemeColorScheme, seriesType?: Serie
  * @param seriesType
  * @returns
  */
-export function findColor(
+export function queryColorFromColorScheme(
   colorScheme: IThemeColorScheme,
   colorKey: IColorKey,
   seriesType?: SeriesTypeEnum
@@ -42,7 +103,7 @@ export function findColor(
   if (!scheme) {
     return undefined;
   }
-  const color = scheme[colorKey.key];
+  const color = (scheme as IColorSchemeStruct).palette?.[colorKey.key];
   if (!color) {
     return undefined;
   }
@@ -64,6 +125,28 @@ export function findColor(
   return c.toRGBA();
 }
 
+/** 查询语义化颜色 */
+export const getActualColor = (value: any, colorScheme?: IThemeColorScheme, seriesType?: SeriesTypeEnum) => {
+  if (isColorKey(value)) {
+    if (colorScheme) {
+      const color = queryColorFromColorScheme(colorScheme, value, seriesType);
+      if (color) {
+        return color;
+      }
+    }
+  }
+  return value;
+};
+
 export function isColorKey(obj: any): obj is IColorKey {
-  return isObject(obj) && (obj as IColorKey).type === 'scheme' && !!(obj as IColorKey).key;
+  return isObject(obj) && (obj as IColorKey).type === 'palette' && !!(obj as IColorKey).key;
+}
+
+export function isProgressiveDataColorScheme<T>(obj: any): obj is ProgressiveDataScheme<T> {
+  if (!isArray(obj)) {
+    return false;
+  }
+  return obj.every(item => {
+    return isValid((item as IProgressiveDataSchemeCase<T>).scheme);
+  });
 }

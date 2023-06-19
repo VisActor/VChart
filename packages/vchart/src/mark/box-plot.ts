@@ -1,5 +1,5 @@
 import type { IBoxPlotMarkSpec } from '../typings/visual';
-import { BaseMark } from './base';
+import { BaseMark } from './base/base-mark';
 import type { IGroupMark } from '@visactor/vgrammar';
 // eslint-disable-next-line no-duplicate-imports
 import { registerBarBoxplotGlyph, registerBoxplotGlyph } from '@visactor/vgrammar';

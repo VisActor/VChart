@@ -2,7 +2,9 @@ import { degreeToRadian, isValid } from '@visactor/vutils';
 import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { ITextMark } from '../../mark/text';
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { isTrueBrowser } from '../../util';
 import {
   DEFAULT_DRAW_OUT_OF_BOUND,
@@ -18,7 +20,6 @@ import {
 } from './config';
 import type {
   IWordCloud3dSeriesSpec,
-  IWordCloudSeriesBaseSpec,
   IWordCloudSeriesSpec,
   WordCloudConfigType,
   WordCloudShapeConfigType,
@@ -29,7 +30,7 @@ import { registerWordCloudShapeTransforms } from '@visactor/vgrammar-wordcloud-s
 import type { Datum, IPoint } from '../../typings';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { LinearScale, OrdinalScale } from '@visactor/vscale';
+import { LinearScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar-util';
 import {
   WORD_CLOUD_ANGLE,
@@ -41,6 +42,7 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import type { ICompilableMark } from '../../compile/mark';
 import type { ILayoutOrientPadding } from '../../model/interface';
 import { BaseSeries } from '../base/base-series';
+import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 
 registerWordCloudTransforms();
 registerWordCloudShapeTransforms();
@@ -48,6 +50,12 @@ registerWordCloudShapeTransforms();
 type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
 class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordCloudSeriesSpec> extends BaseSeries<T> {
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.word]: { name: SeriesMarkNameEnum.word, type: MarkTypeEnum.text },
+    [SeriesMarkNameEnum.fillingWord]: { name: SeriesMarkNameEnum.fillingWord, type: MarkTypeEnum.text }
+  };
+
   protected _nameField: string;
   protected _valueField?: string;
   setValueField(field: string) {
@@ -138,13 +146,13 @@ class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordCloudSer
   protected _wordMark: ITextMark;
   protected _fillingWordMark: ITextMark;
   initMark(): void {
-    this._wordMark = this._createMark(MarkTypeEnum.text, 'word', {
+    this._wordMark = this._createMark(WordCloudSeries.mark.word, {
       defaultMorphElementKey: this._seriesField,
       groupKey: this._seriesField,
       isSeriesMark: true
     }) as ITextMark;
     if (this._isWordCloudShape) {
-      this._fillingWordMark = this._createMark(MarkTypeEnum.text, 'fillingWord') as ITextMark;
+      this._fillingWordMark = this._createMark(WordCloudSeries.mark.fillingWord) as ITextMark;
     }
   }
 
@@ -203,20 +211,19 @@ class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordCloudSer
   initAnimation() {
     if (this._wordMark) {
       this._wordMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.wordCloud(), userAnimationConfig(this._wordMark.name, this._spec))
+        animationConfig(DEFAULT_MARK_ANIMATION.wordCloud(), userAnimationConfig(SeriesMarkNameEnum.word, this._spec))
       );
     }
   }
 
   protected getWordOrdinalColorScale(field: string, isFillingWord: boolean) {
     const colorList = isFillingWord ? this._wordCloudShapeConfig.fillingColorList : this._colorList;
+    const colorDomain = field ? this.getViewData()?.latestData.map((datum: Datum) => datum[field]) : [];
     const colorRange =
       colorList ??
       this._option.globalScale.getScale('color')?.range() ??
       getDataScheme(this._option.getTheme().colorScheme, this.type as any);
-    return new OrdinalScale()
-      .domain(field ? this.getViewData()?.latestData.map((datum: Datum) => datum[field]) : [])
-      .range?.(colorRange);
+    return new ColorOrdinalScale().domain(colorDomain).range?.(colorRange);
   }
 
   getWordColorAttribute(field: string, isFillingWord: boolean) {
@@ -569,13 +576,13 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
   }
 
   initMark(): void {
-    this._wordMark = this._createMark(MarkTypeEnum.text, 'word', {
+    this._wordMark = this._createMark(WordCloudSeries.mark.word, {
       groupKey: this._seriesField,
       support3d: true,
       isSeriesMark: true
     }) as ITextMark;
     if (this._isWordCloudShape) {
-      this._fillingWordMark = this._createMark(MarkTypeEnum.text, 'fillingWord', {
+      this._fillingWordMark = this._createMark(WordCloudSeries.mark.fillingWord, {
         groupKey: this._seriesField,
         support3d: true,
         isSeriesMark: true
@@ -601,7 +608,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
           fontSize: (datum: Datum) => datum.fontSize,
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
-          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar 默认不提供弧度转换
+          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar默认不提供弧度转换
           visible: (datum: Datum) => !datum.isFillingWord
         },
         'normal',
@@ -623,7 +630,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
           fontSize: (datum: Datum) => datum.fontSize,
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
-          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar 默认不提供弧度转换
+          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar默认不提供弧度转换
           visible: (datum: Datum) => datum.isFillingWord
         },
         'normal',
@@ -650,7 +657,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
               r
             };
           }) as any,
-          userAnimationConfig(this._wordMark.name, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
         )
       );
     }
@@ -667,7 +674,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
               r
             };
           }) as any,
-          userAnimationConfig(this._fillingWordMark.name, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.fillingWord, this._spec)
         )
       );
     }

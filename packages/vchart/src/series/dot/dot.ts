@@ -6,12 +6,10 @@ import { isValid, merge } from '../../util';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IRuleMark } from '../../mark/rule';
-import { OrdinalScale } from '@visactor/vscale';
 import type { IMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { dataViewParser } from '@visactor/vdataset';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
@@ -25,10 +23,26 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { copyDataView } from '../../data/transforms/copy-data-view';
 import { objFlat } from '../../data/transforms/obj-flat';
 import { DEFAULT_GRID_BACKGROUND } from './config';
+import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum } from '../interface';
+import { BaseSeries } from '../base/base-series';
 
 export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.dot;
   type = SeriesTypeEnum.dot;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.group]: { name: SeriesMarkNameEnum.group, type: MarkTypeEnum.group },
+    [SeriesMarkNameEnum.grid]: { name: SeriesMarkNameEnum.grid, type: MarkTypeEnum.rule },
+    [SeriesMarkNameEnum.gridBackground]: { name: SeriesMarkNameEnum.gridBackground, type: MarkTypeEnum.rect },
+    [SeriesMarkNameEnum.dot]: { name: SeriesMarkNameEnum.dot, type: MarkTypeEnum.symbol },
+    [SeriesMarkNameEnum.title]: { name: SeriesMarkNameEnum.title, type: MarkTypeEnum.text },
+    [SeriesMarkNameEnum.subTitle]: { name: SeriesMarkNameEnum.subTitle, type: MarkTypeEnum.text },
+    [SeriesMarkNameEnum.symbol]: { name: SeriesMarkNameEnum.symbol, type: MarkTypeEnum.symbol }
+  };
 
   protected declare _theme: Maybe<IDotSeriesTheme>;
 
@@ -90,11 +104,6 @@ export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
     if (isValid(gridBackground)) {
       this._gridBackground = gridBackground;
     }
-  }
-
-  protected _dotDataView: DataView;
-  getDotDataView() {
-    return this._dotDataView;
   }
 
   /**
@@ -159,40 +168,40 @@ export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
   private _subTitleMark: ITextMark;
   private _symbolMark: ISymbolMark;
   initMark(): void {
-    this._clipMark = this._createMark(MarkTypeEnum.group, 'group') as IGroupMark;
+    this._clipMark = this._createMark(DotSeries.mark.group) as IGroupMark;
 
-    this._containerMark = this._createMark(MarkTypeEnum.group, 'group', {
+    this._containerMark = this._createMark(DotSeries.mark.group, {
       parent: this._clipMark,
       dataView: this.getRawData()
     }) as IGroupMark;
 
-    this._gridBackgroundMark = this._createMark(MarkTypeEnum.rect, 'gridBackground', {
+    this._gridBackgroundMark = this._createMark(DotSeries.mark.gridBackground, {
       parent: this._containerMark,
       dataView: this.getRawData()
     }) as IRectMark;
 
-    this._gridMark = this._createMark(MarkTypeEnum.rule, 'grid', {
+    this._gridMark = this._createMark(DotSeries.mark.grid, {
       parent: this._containerMark,
       dataView: this.getRawData()
     }) as IRuleMark;
 
-    this._dotMark = this._createMark(MarkTypeEnum.symbol, 'dot', {
+    this._dotMark = this._createMark(DotSeries.mark.dot, {
       skipBeforeLayouted: false,
       isSeriesMark: true,
       parent: this._containerMark
     }) as ISymbolMark;
 
-    this._titleMark = this._createMark(MarkTypeEnum.text, 'title', {
+    this._titleMark = this._createMark(DotSeries.mark.title, {
       parent: this._containerMark,
       dataView: this.getRawData()
     }) as ITextMark;
 
-    this._subTitleMark = this._createMark(MarkTypeEnum.text, 'subTitle', {
+    this._subTitleMark = this._createMark(DotSeries.mark.subTitle, {
       parent: this._containerMark,
       dataView: this.getRawData()
     }) as ITextMark;
 
-    this._symbolMark = this._createMark(MarkTypeEnum.symbol, 'symbol', {
+    this._symbolMark = this._createMark(DotSeries.mark.symbol, {
       parent: this._containerMark,
       dataView: this.getRawData()
     }) as ISymbolMark;
@@ -397,16 +406,12 @@ export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
    * @override
    * @description 如果用户设置了seriesGroup，则seriesGroup作为颜色映射字段
    */
-  protected getDefaultColorScale() {
-    return new OrdinalScale()
-      .domain(
-        this._seriesGroupField
-          ? this._viewDataStatistics?.latestData[this._seriesGroupField].values
-          : this._seriesField
-          ? this._viewDataStatistics?.latestData[this._seriesField].values
-          : []
-      )
-      .range(getDataScheme(this._option.getTheme().colorScheme, this.type));
+  getDefaultColorDomain() {
+    return this._seriesGroupField
+      ? this._viewDataStatistics?.latestData[this._seriesGroupField].values
+      : this._seriesField
+      ? this._viewDataStatistics?.latestData[this._seriesField].values
+      : [];
   }
 
   /**
@@ -425,17 +430,15 @@ export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
    * @description 对于dot来说，dotType优先级高于seriesGroup，作为颜色映射字段
    */
   protected getDotColorScale() {
-    return new OrdinalScale()
-      .domain(
-        this._dotTypeField
-          ? this._viewDataStatistics?.latestData[this._dotTypeField].values
-          : this._seriesGroupField
-          ? this._viewDataStatistics?.latestData[this._seriesGroupField].values
-          : this._seriesField
-          ? this._viewDataStatistics?.latestData[this._seriesField].values
-          : []
-      )
-      .range(getDataScheme(this._option.getTheme().colorScheme, this.type));
+    const colorDomain = this._dotTypeField
+      ? this._viewDataStatistics?.latestData[this._dotTypeField].values
+      : this._seriesGroupField
+      ? this._viewDataStatistics?.latestData[this._seriesGroupField].values
+      : this._seriesField
+      ? this._viewDataStatistics?.latestData[this._seriesField].values
+      : [];
+    const colorRange = getDataScheme(this._option.getTheme().colorScheme, this.type);
+    return new ColorOrdinalScale().domain(colorDomain).range(colorRange);
   }
 
   /**

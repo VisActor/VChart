@@ -1,5 +1,7 @@
 import type { IFunnelSeriesTheme } from '../../../../series/funnel/interface';
-import { DEFAULT_TEXT_FONT_SIZE as fontSize } from '../../config';
+import { THEME_CONSTANTS } from '../constants';
+
+const fontSize = THEME_CONSTANTS.LABEL_FONT_SIZE;
 
 export const funnel: IFunnelSeriesTheme = {
   transform: {
@@ -22,7 +24,7 @@ export const funnel: IFunnelSeriesTheme = {
     },
     line: {
       style: {
-        stroke: '#ddd'
+        stroke: { type: 'palette', key: 'axisDomainColor' }
       }
     }
   },

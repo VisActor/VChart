@@ -1,14 +1,12 @@
-import type { RenderMode } from '../../../../typings/spec/common';
 import type { IToolTipActual } from '../../../../typings/tooltip';
 import type { ITooltipSpec, TooltipHandlerParams } from '../../interface';
 import { BaseTooltipHandler } from '../base';
 import { getDomStyles } from './utils/style';
 import type { IDomTooltipStyle } from './interface';
-import type { Maybe } from '../../../../typings';
 import { TooltipModel } from './model/tooltip-model';
 import { domDocument } from './model/base-tooltip-model';
 import { TOOLTIP_CONTAINER_EL_CLASS_NAME, TooltipHandlerType } from '../constants';
-import type { Compiler } from '../../../../compile/compiler';
+import type { Tooltip } from '../../tooltip';
 
 /**
  * The tooltip handler class.
@@ -33,15 +31,8 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     }
   }
 
-  constructor(
-    tooltipSpec: ITooltipSpec,
-    tooltipId: string,
-    envMode: RenderMode,
-    chartContainer: Maybe<HTMLElement>,
-    compiler: Compiler,
-    options?: any
-  ) {
-    super(tooltipSpec, tooltipId, envMode, chartContainer, compiler, options);
+  constructor(tooltipSpec: ITooltipSpec, tooltipId: string, component: Tooltip) {
+    super(tooltipSpec, tooltipId, component);
 
     this._domStyle = getDomStyles(this._style);
     this.initEl();

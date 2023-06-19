@@ -3,14 +3,23 @@ import type { IPlayerTheme } from '../../../../component/player';
 export const player: IPlayerTheme = {
   visible: true,
   position: 'start',
+  padding: {
+    top: 20,
+    bottom: 20
+  },
   slider: {
     space: 10,
     trackStyle: {
-      fill: '#63B5FC'
+      fill: '#3073F2'
     },
-    railStyle: {},
+    railStyle: {
+      fill: '#D1D5DA'
+    },
     handlerStyle: {
-      stroke: '#63B5FC'
+      size: 15,
+      stroke: '#FFFFFF',
+      lineWidth: 2,
+      fill: '#0564FE'
     }
   },
   controller: {
@@ -18,16 +27,16 @@ export const player: IPlayerTheme = {
       order: 0,
       space: 0,
       style: {
-        size: 20,
-        fill: '#63B5FC'
+        size: 25,
+        fill: '#3073F2'
       }
     },
     pause: {
       order: 0,
       space: 0,
       style: {
-        size: 20,
-        fill: '#63B5FC'
+        size: 25,
+        fill: '#3073F2'
       }
     },
     backward: {
@@ -35,8 +44,8 @@ export const player: IPlayerTheme = {
       space: 10,
       position: 'start',
       style: {
-        size: 20,
-        fill: '#63B5FC'
+        size: 12,
+        fill: '#3073F2'
       }
     },
     forward: {
@@ -44,8 +53,8 @@ export const player: IPlayerTheme = {
       space: 10,
       position: 'end',
       style: {
-        size: 20,
-        fill: '#63B5FC'
+        size: 12,
+        fill: '#3073F2'
       }
     }
   }

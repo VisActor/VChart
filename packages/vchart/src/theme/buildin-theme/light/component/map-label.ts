@@ -1,7 +1,10 @@
-import { DEFAULT_TEXT_FONT_FAMILY as fontFamily, DEFAULT_TEXT_FONT_SIZE as fontSize } from '../../theme';
-import type { IMapLabelSpec } from './interface';
+import type { IMapLabelTheme } from '../../../../component/map-label';
+import { THEME_CONSTANTS } from '../constants';
 
-export const DEFAULT_CONFIG: Partial<IMapLabelSpec> = {
+const fontSize = THEME_CONSTANTS.LABEL_FONT_SIZE;
+const fontFamily = THEME_CONSTANTS.FONT_FAMILY;
+
+export const mapLabel: IMapLabelTheme = {
   visible: true,
   offset: 12,
   position: 'top',

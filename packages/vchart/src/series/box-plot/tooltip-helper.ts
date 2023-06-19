@@ -3,7 +3,7 @@ import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type { Datum, ITooltipPattern, TooltipActiveType } from '../../typings';
 import { isValid } from '../../util';
 import { BOX_PLOT_OUTLIER_VALUE_FIELD, BOX_PLOT_TOOLTIP_KEYS } from '../../constant/box-plot';
-import type { BoxPlotSeries } from './boxPlot';
+import type { BoxPlotSeries } from './box-plot';
 
 export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   /** 获取默认的tooltip pattern */

@@ -1,6 +1,8 @@
 import { merge } from '@visactor/vutils';
 import { buildinThemeMap, defaultThemeName } from './buildin-theme';
 import type { ITheme } from './interface';
+import { InstanceManager } from '../core/instance-manager';
+import type { IVChart } from '../core/interface';
 
 export class ThemeManager {
   /** 主题字典 */
@@ -60,12 +62,17 @@ export class ThemeManager {
       return;
     }
     ThemeManager._currentThemeName = name;
-    //VChart.set
+    InstanceManager.forEach((instance: IVChart) => instance?.setCurrentTheme(name));
   }
 
   /** 获取当前主题（只能获取用户通过`setCurrentTheme`方法设置过的主题，默认值为默认主题） */
   static getCurrentTheme(): ITheme {
     return ThemeManager.getTheme(ThemeManager._currentThemeName);
+  }
+
+  /** 获取当前主题名称（只能获取用户通过`setCurrentTheme`方法设置过的主题，默认值为默认主题） */
+  static getCurrentThemeName(): string {
+    return ThemeManager._currentThemeName;
   }
 }
 

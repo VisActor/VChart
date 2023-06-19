@@ -1,5 +1,6 @@
 import { ChartEvent } from '../../constant/event';
 import {
+  AttributeLevel,
   DEFAULT_DATA_KEY,
   DEFAULT_DATA_SERIES_FIELD,
   DEFAULT_SERIES_STYLE_NAME,
@@ -9,12 +10,12 @@ import {
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
 } from '../../constant/index';
-import type { ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper } from '../interface';
+import { SeriesMarkNameEnum } from '../interface';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
-import type { IMark, MarkType } from '../../mark/interface';
+import type { IMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import type {
@@ -30,7 +31,16 @@ import type {
   EnableMarkType
 } from '../../typings';
 import { BaseModel } from '../../model/base-model';
-import type { ISeriesOption, ISeries } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import type {
+  ISeriesOption,
+  ISeries,
+  ISeriesMarkInitOption,
+  ISeriesStackData,
+  ISeriesTooltipHelper,
+  SeriesMarkMap,
+  ISeriesMarkInfo
+} from '../interface';
 import { dataViewFromDataView } from '../../data/initialize';
 import {
   isNil,
@@ -51,8 +61,6 @@ import { addVChartProperty } from '../../data/transforms/add-property';
 import type { ITrigger } from '../../interaction/interface';
 import { Trigger } from '../../interaction/trigger';
 import { registerDataSetInstanceTransform } from '../../data/register';
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import { OrdinalScale } from '@visactor/vscale';
 import type { LayoutItem } from '../../model/layout-item';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
@@ -65,12 +73,18 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
 import { array } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
+import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
+import { Factory } from '../../core/factory';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implements ISeries {
   readonly type: string = 'series';
   layoutType: LayoutItem['layoutType'] = 'absolute';
   readonly modelType: string = 'series';
   readonly name: string | undefined = undefined;
+
+  static readonly mark: SeriesMarkMap = {
+    [SeriesMarkNameEnum.label]: { name: SeriesMarkNameEnum.label, type: MarkTypeEnum.text }
+  };
 
   protected _trigger!: ITrigger;
   /**
@@ -101,12 +115,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   /** series field 所作用的 mark */
   protected _seriesMark: Maybe<IMark> = null;
-
-  /** key: mark name, value: mark */
-  protected _markMap: Record<string, IMark> = {};
-  getMarkMap() {
-    return this._markMap;
-  }
 
   protected _layoutLevel!: number;
 
@@ -539,10 +547,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   abstract setValueFieldToStackOffsetSilhouette(): void;
 
   initRootMark() {
-    this._rootMark = this._createMark(MarkTypeEnum.group, `seriesGroup_${this.type}_${this.id}`, {
-      parent: this._region.getGroupMark?.(),
-      dataView: false
-    }) as IGroupMark;
+    this._rootMark = this._createMark(
+      { type: MarkTypeEnum.group, name: `seriesGroup_${this.type}_${this.id}` },
+      {
+        parent: this._region.getGroupMark?.(),
+        dataView: false
+      }
+    ) as IGroupMark;
     this._rootMark.setZIndex(this.layoutZIndex);
   }
 
@@ -561,11 +572,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     namePrefix: string,
     index: number
   ) {
-    const mark = this._createMark(spec.type, `${PREFIX}_${index}`, {
-      markSpec: spec,
-      parent: parentMark,
-      dataView: false
-    }) as IGroupMark;
+    const mark = this._createMark(
+      { type: spec.type, name: `${PREFIX}_${index}` },
+      {
+        markSpec: spec,
+        parent: parentMark,
+        dataView: false
+      }
+    ) as IGroupMark;
     if (!mark) {
       return;
     }
@@ -676,26 +690,23 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     // 此时mark相关的统计数据收集完成
     this._rawDataStatistics?.reRunAllTransform();
     this.setSeriesField(this._spec.seriesField);
-    // this.getMarkWithoutRoot().forEach(m => {
-    //   m.state.addStateInfo({
-    //     stateValue: 'position',
-    //     filter: () => true
-    //   });
-    // });
+    // set mark stroke color follow fill
+    // only set normal state in the level lower than level Series
+    this.getMarks().forEach(m => {
+      if (m.stateStyle.normal?.fill?.style) {
+        m.setAttribute('stroke', m.stateStyle.normal.fill.style, 'normal', AttributeLevel.Chart);
+      }
+    });
   }
 
-  getMarks(): IMark[] {
-    return Object.values(this._markMap);
-  }
   getMarksWithoutRoot(): IMark[] {
-    return Object.values(this._markMap).filter(m => !m.name.includes('seriesGroup'));
+    return this.getMarks().filter(m => !m.name.includes('seriesGroup'));
   }
   getMarksInType(type: string | string[]): IMark[] {
-    const typeList = array(type);
-    return this.getMarks().filter(m => typeList.includes(m.type));
+    return this._marks.getMarksInType(type);
   }
   getMarkInName(name: string): IMark | undefined {
-    return this.getMarks().find(m => m.name === name);
+    return this._marks.get(name);
   }
   getMarkInId(markId: number): IMark | undefined {
     return this.getMarks().find(m => m.id === markId);
@@ -738,8 +749,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     return result;
   }
 
-  reInit() {
-    super.reInit();
+  reInit(theme?: any) {
+    super.reInit(theme);
 
     this.initMarkStyle();
 
@@ -757,7 +768,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   }
   release(): void {
     super.release();
-    this._markMap = {};
     this._viewDataMap.clear();
     // TODO: rawData transform clear;
     // this._dataSet=>// _rawData.tag = vchart
@@ -818,9 +828,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   // get default color scale
   // 重复代码太多了，整合一下
   protected getDefaultColorScale() {
-    return new OrdinalScale()
-      .domain(this._seriesField ? this._viewDataStatistics?.latestData[this._seriesField]?.values : [])
-      .range?.(getDataScheme(this._option.getTheme().colorScheme, this.type as any));
+    const colorDomain = this.getDefaultColorDomain();
+    const colorRange = getDataScheme(this._option.getTheme().colorScheme, this.type as any);
+    return new ColorOrdinalScale().domain(colorDomain).range?.(colorRange);
+  }
+
+  /** 获取默认 color scale 的 domain */
+  getDefaultColorDomain(): any[] {
+    return this._seriesField ? this._viewDataStatistics?.latestData[this._seriesField]?.values : [];
   }
 
   // 通用的默认颜色映射 用户设置优先级比这个高，会在setStyle中处理
@@ -851,9 +866,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   async setCurrentTheme(theme: any, noRender?: boolean) {
     const modifyConfig = () => {
-      this._initTheme(theme);
       // 重新初始化
-      this.reInit();
+      this.reInit(theme);
 
       return { change: true, reMake: false };
     };
@@ -874,7 +888,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       super._initTheme(globalTheme.series[this.type] ?? {});
     }
 
-    // 将 theme merge 到 spec 中
+    this._mergeThemeToSpec();
+    this._preprocessSpec();
+  }
+
+  /** 将 theme merge 到 spec 中 */
+  protected _mergeThemeToSpec() {
     const chartSpec = this.getChart().getSpec();
     this._spec = merge({}, this._theme, this._getDefaultSpecFromChart(chartSpec), this._originalSpec);
   }
@@ -884,7 +903,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     return {};
   }
 
-  protected _createMark<T extends IMark>(type: MarkType, name: string, option: ISeriesMarkInitOption = {}) {
+  protected _createMark<T extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
     const {
       key,
       groupKey,
@@ -902,14 +921,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       support3d = this._spec.support3d || !!(this._spec as any).zField,
       morph = false
     } = option;
-    const m = super._createMark<T>(type, name, {
+    const m = super._createMark<T>(markInfo, {
       key: key ?? this._getDataIdKey(),
       support3d,
       dataStatistics: dataStatistics ?? this._rawDataStatistics,
       attributeContext: this._markAttributeContext
     });
     if (isValid(m)) {
-      this._markMap[name] = m;
+      this._marks.addMark(m);
+
       if (isSeriesMark) {
         this._seriesMark = m;
       }
@@ -1022,5 +1042,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       field = this.getStackValueField();
     }
     return getFieldAlias(this.getRawData(), field) ?? field;
+  }
+
+  getMarkInfoList() {
+    const list = super.getMarkInfoList();
+    if (!list.length) {
+      const SeriesConstructor = Factory.getSeries(this.type);
+      return Object.values(SeriesConstructor.mark ?? {});
+    }
+    return list;
   }
 }

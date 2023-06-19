@@ -1,7 +1,7 @@
 import { WaterfallSeries } from './series/waterfall/waterfall';
-import { BoxPlotMark } from './mark/boxPlot';
-import { BoxPlotSeries } from './series/box-plot/boxPlot';
-import { BoxPlotChart } from './chart/boxplot/boxPlot';
+import { BoxPlotMark } from './mark/box-plot';
+import { BoxPlotSeries } from './series/box-plot/box-plot';
+import { BoxPlotChart } from './chart/box-plot/box-plot';
 import { GridLayout } from './layout/grid-layout/grid-layout';
 import { Layout } from './layout/index';
 import { Layout3d } from './layout/layout3d';
@@ -121,7 +121,6 @@ VChart.useChart([
   LinearProgressChart,
   RangeColumnChart,
   RangeColumn3dChart,
-  BoxPlotChart,
   SunburstChart,
   CirclePackingChart,
   TreeMapChart,
@@ -155,7 +154,6 @@ VChart.useSeries([
   LinearProgressSeries,
   RangeColumnSeries,
   RangeColumn3dSeries,
-  BoxPlotSeries,
   TreeMapSeries,
   SunburstSeries,
   CirclePackingSeries,

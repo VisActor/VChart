@@ -29,7 +29,7 @@ test('rule mark initial style', () => {
   expect(dy).toEqual(undefined);
   expect(stroke).toEqual(undefined);
   expect(strokeOpacity).toEqual(undefined);
-  expect(strokeWidth).toEqual(undefined);
+  expect(strokeWidth).toEqual(0);
   expect(lineDash).toEqual(undefined);
   expect(cursor).toEqual(undefined);
 });

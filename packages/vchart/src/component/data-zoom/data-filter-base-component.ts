@@ -504,8 +504,8 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
     return result;
   }
 
-  reInit() {
-    super.reInit();
+  reInit(theme?: any) {
+    super.reInit(theme);
 
     this._marks.forEach(g => {
       (<IGroupMark>g).getMarks().forEach(m => {

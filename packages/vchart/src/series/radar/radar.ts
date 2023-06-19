@@ -1,4 +1,4 @@
-import { LineLikeSeriesMixin } from '../mixin/line-mixin';
+import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
 import type { ILineMark } from '../../mark/line';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -9,7 +9,9 @@ import { DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
 import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
 import { isValid, radians } from '../../util';
 
-import { SeriesTypeEnum } from '../interface';
+import type { SeriesMarkMap } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { mixin } from '@visactor/vutils';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -18,6 +20,7 @@ import type { IRadarAnimationParams, RadarAppearPreset } from './animation';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAreaMark } from '../../mark/area';
+import { BaseSeries } from '../base/base-series';
 
 export interface RadarSeries
   extends Pick<
@@ -35,6 +38,12 @@ export interface RadarSeries
 export class RadarSeries extends RoseLikeSeries<IRadarSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.radar;
   type = SeriesTypeEnum.radar;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    ...lineLikeSeriesMarkMap,
+    [SeriesMarkNameEnum.area]: { name: SeriesMarkNameEnum.area, type: MarkTypeEnum.area }
+  };
 
   protected declare _theme: Maybe<IRadarSeriesTheme>;
 
@@ -65,7 +74,7 @@ export class RadarSeries extends RoseLikeSeries<IRadarSeriesSpec> {
   }
 
   initAreaMark(progressive: IMarkProgressiveConfig, isSeriesMark: boolean) {
-    this._areaMark = this._createMark(MarkTypeEnum.area, 'area', {
+    this._areaMark = this._createMark(RadarSeries.mark.area, {
       progressive,
       isSeriesMark
     }) as IAreaMark;
@@ -129,7 +138,7 @@ export class RadarSeries extends RoseLikeSeries<IRadarSeriesSpec> {
         this._rootMark.setAnimationConfig(
           animationConfig(
             DEFAULT_MARK_ANIMATION.radarGroup(animationParams, appearPreset),
-            userAnimationConfig('group', this._spec)
+            userAnimationConfig(SeriesMarkNameEnum.group, this._spec)
           )
         );
       }

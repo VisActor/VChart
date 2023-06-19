@@ -6,6 +6,6 @@
     "baseUrl": "./",
     "rootDir": "./"
   },
-  "include": ["src", "__tests__", "examples"]
+  "include": ["src", "__tests__"]
   // "exclude": ["bugserver-config"]
 }

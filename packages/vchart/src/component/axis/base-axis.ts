@@ -12,13 +12,15 @@ import type { ICartesianAxisCommonTheme } from './cartesian/interface';
 import type { CompilableData } from '../../compile/data';
 import type { IAxis, ITick } from './interface';
 import type { IComponentOption } from '../interface';
-import { array, eachSeries, get, getSeries, isArray, isBoolean, isValid, merge } from '../../util';
+import { array, eachSeries, get, getSeries, isArray, isBoolean, isFunction, isNil, isValid, merge } from '../../util';
 import type { ISeries } from '../../series/interface';
 import { ChartEvent } from '../../constant';
 import type { Group } from '../../series/base/group';
 import { animationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import type { LooseFunction } from '@visactor/vutils';
+import { degreeToRadian, type LooseFunction } from '@visactor/vutils';
+import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './utils';
+import { transformStateStyle, transformToGraphic } from '../../util/style';
 
 export abstract class AxisComponent extends BaseComponent implements IAxis {
   static specKey = 'axes';
@@ -101,10 +103,13 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
     if (this._visible) {
       // 创建语法元素
 
-      const axisMark = this._createMark('component', `axis-${this.orient}`, {
-        componentType: this.orient === 'angle' ? 'circleAxis' : 'axis',
-        mode: this._spec.mode
-      });
+      const axisMark = this._createMark(
+        { type: 'component', name: `axis-${this.orient}` },
+        {
+          componentType: this.orient === 'angle' ? 'circleAxis' : 'axis',
+          mode: this._spec.mode
+        }
+      );
       this._marks.addMark(axisMark);
 
       axisMark.setZIndex(this.layoutZIndex);
@@ -323,8 +328,109 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
     }
   }
 
-  reInit(): void {
-    super.reInit();
-    this._initTheme();
+  protected _getAxisAttributes() {
+    const spec = this._spec;
+    let titleAngle = spec.title.angle;
+    let titleTextStyle;
+    if (spec.orient === 'left' || spec.orient === 'right') {
+      // 处理纵轴的标题样式
+      if (spec.title?.autoRotate && isNil(spec.title.angle)) {
+        titleAngle = spec.orient === 'left' ? -90 : 90;
+        titleTextStyle = DEFAULT_TITLE_STYLE[spec.orient];
+      }
+    }
+
+    return {
+      select: spec.select,
+      hover: spec.hover,
+      line: transformAxisLineStyle(spec.domainLine),
+      label: {
+        visible: spec.label.visible,
+        space: spec.label.space,
+        inside: spec.label.inside,
+        style: isFunction(spec.label.style)
+          ? (datum: Datum, index: number) => {
+              const style = this._preprocessSpec(spec.label.style(datum.rawValue, index, datum));
+
+              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.label?.style, style)));
+            }
+          : transformToGraphic(spec.label.style),
+        formatMethod: spec.label.formatMethod
+          ? (value: any, datum: any, index: number) => {
+              return spec.label.formatMethod(datum.rawValue, datum);
+            }
+          : null,
+        state: transformStateStyle(spec.label.state)
+      },
+      tick: {
+        visible: spec.tick.visible,
+        length: spec.tick.tickSize,
+        inside: spec.tick.inside,
+        alignWithLabel: spec.tick.alignWithLabel,
+        style: isFunction(spec.tick.style)
+          ? (datum: Datum, index: number) => {
+              const style = this._preprocessSpec(spec.tick.style(datum.rawValue, index, datum));
+
+              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.tick?.style, style)));
+            }
+          : transformToGraphic(spec.tick.style),
+        state: transformStateStyle(spec.tick.state)
+      },
+      subTick: {
+        visible: spec.subTick.visible,
+        length: spec.subTick.tickSize,
+        inside: spec.subTick.inside,
+        count: spec.subTick.tickCount,
+        style: transformToGraphic(spec.subTick.style),
+        state: transformStateStyle(spec.subTick.state)
+      },
+      grid: {
+        type: 'line',
+        visible: spec.grid.visible,
+        alternateColor: spec.grid.alternateColor,
+        alignWithLabel: spec.grid.alignWithLabel,
+        style: isFunction(spec.grid.style)
+          ? (datum: Datum, index: number) => {
+              const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
+
+              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.grid?.style, style)));
+            }
+          : transformToGraphic(spec.grid.style)
+      },
+      subGrid: {
+        type: 'line',
+        visible: spec.subGrid.visible,
+        alternateColor: spec.subGrid.alternateColor,
+        style: transformToGraphic(spec.subGrid.style)
+      },
+      title: {
+        visible: spec.title.visible,
+        position: spec.title.position,
+        space: spec.title.space,
+        autoRotate: false, // 默认不对外提供该配置
+        angle: titleAngle ? degreeToRadian(titleAngle) : null,
+        textStyle: merge({}, titleTextStyle, transformToGraphic(spec.title.style)),
+        padding: spec.title.padding,
+        shape: {
+          visible: spec.title.shape?.visible,
+          space: spec.title.shape?.space,
+          style: transformToGraphic(spec.title.shape?.style)
+        },
+        background: {
+          visible: spec.title.background?.visible,
+          style: transformToGraphic(spec.title.background?.style)
+        },
+        state: {
+          text: transformStateStyle(spec.title.state),
+          shape: transformStateStyle(spec.title.shape?.state),
+          background: transformStateStyle(spec.title.background?.state)
+        }
+      },
+      panel: {
+        visible: spec.background?.visible,
+        style: transformToGraphic(spec.background?.style),
+        state: transformStateStyle(spec.background?.state)
+      }
+    };
   }
 }

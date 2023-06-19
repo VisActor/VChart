@@ -12,6 +12,7 @@ import type {
 } from '../../typings';
 import type { IPercent } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
+import type { SeriesMarkNameEnum } from '../interface';
 
 type FunnelMarks = 'funnel';
 
@@ -76,23 +77,23 @@ export interface IFunnelSeriesSpec extends ISeriesSpec, IAnimationSpec<FunnelMar
   /**
    * 漏斗层样式
    */
-  funnel?: IMarkSpec<IPathMarkSpec>;
+  [SeriesMarkNameEnum.funnel]?: IMarkSpec<IPathMarkSpec>;
   /**
    * 转化层样式
    */
-  transform?: IMarkSpec<IPathMarkSpec>;
+  [SeriesMarkNameEnum.transform]?: IMarkSpec<IPathMarkSpec>;
   /**
    * 漏斗层标签配置
    */
-  label?: IFunnelLabelSpec;
+  [SeriesMarkNameEnum.label]?: IFunnelLabelSpec;
   /**
    * 漏斗层外部标签配置
    */
-  outerLabel?: IFunnelOuterLabelSpec;
+  [SeriesMarkNameEnum.outerLabel]?: IFunnelOuterLabelSpec;
   /**
    * 转化层标签配置
    */
-  transformLabel?: IFunnelLabelSpec;
+  [SeriesMarkNameEnum.transformLabel]?: IFunnelLabelSpec;
 }
 
 interface IFunnelLabelSpec extends IMarkSpec<ITextMarkSpec> {
@@ -130,13 +131,13 @@ export interface IFunnelOuterLabelSpec extends IFunnelLabelSpec {
 }
 
 export interface IFunnelSeriesTheme {
-  funnel?: Partial<IMarkTheme<IPolygonMarkSpec>>;
-  transform?: Partial<IMarkTheme<IPolygonMarkSpec>>;
-  label?: Partial<IMarkTheme<ITextMarkSpec>>;
-  outerLabel?: Partial<IMarkTheme<ITextMarkSpec>> & {
+  [SeriesMarkNameEnum.funnel]?: Partial<IMarkTheme<IPolygonMarkSpec>>;
+  [SeriesMarkNameEnum.transform]?: Partial<IMarkTheme<IPolygonMarkSpec>>;
+  [SeriesMarkNameEnum.label]?: Partial<IMarkTheme<ITextMarkSpec>>;
+  [SeriesMarkNameEnum.outerLabel]?: Partial<IMarkTheme<ITextMarkSpec>> & {
     line?: Partial<IMarkTheme<IRuleMarkSpec>>;
   };
-  transformLabel?: Partial<IMarkTheme<ITextMarkSpec>>;
+  [SeriesMarkNameEnum.transformLabel]?: Partial<IMarkTheme<ITextMarkSpec>>;
 }
 
 export type IFunnel3dSeriesSpec = {
@@ -144,11 +145,11 @@ export type IFunnel3dSeriesSpec = {
 } & Omit<IFunnelSeriesSpec, 'type'>;
 
 export interface IFunnel3dSeriesTheme {
-  funnel3d?: Partial<IMarkTheme<IPyramid3dMarkSpec>>;
-  transform?: Partial<IMarkTheme<IPyramid3dMarkSpec>>;
-  label?: Partial<IMarkTheme<ITextMarkSpec>>;
-  outerLabel?: Partial<IMarkTheme<ITextMarkSpec>> & {
+  [SeriesMarkNameEnum.funnel3d]?: Partial<IMarkTheme<IPyramid3dMarkSpec>>;
+  [SeriesMarkNameEnum.transform3d]?: Partial<IMarkTheme<IPyramid3dMarkSpec>>;
+  [SeriesMarkNameEnum.label]?: Partial<IMarkTheme<ITextMarkSpec>>;
+  [SeriesMarkNameEnum.outerLabel]?: Partial<IMarkTheme<ITextMarkSpec>> & {
     line?: Partial<IMarkTheme<IRuleMarkSpec>>;
   };
-  transformLabel?: Partial<IMarkTheme<ITextMarkSpec>>;
+  [SeriesMarkNameEnum.transformLabel]?: Partial<IMarkTheme<ITextMarkSpec>>;
 }

@@ -1,14 +1,16 @@
-import type { IDiscreteLegendTheme } from '../../../../component/legend';
+import type { IDiscreteLegendTheme } from '../../../../../component/legend';
+import { THEME_CONSTANTS } from '../../constants';
 
 export const discreteLegend: IDiscreteLegendTheme = {
-  orient: 'left',
+  orient: 'bottom',
   position: 'middle',
+  padding: 30,
   title: {
     visible: false,
     padding: 0,
     textStyle: {
-      fontSize: 12,
-      fill: '#333333',
+      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
+      fill: { type: 'palette', key: 'titleFontColor' },
       fontWeight: 'normal'
     },
     space: 12
@@ -41,8 +43,8 @@ export const discreteLegend: IDiscreteLegendTheme = {
     label: {
       space: 4,
       style: {
-        fill: 'black',
-        fontSize: 12
+        fill: { type: 'palette', key: 'labelFontColor' },
+        fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
       },
       state: {
         unSelected: {

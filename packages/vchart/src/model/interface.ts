@@ -1,7 +1,7 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { DataSet } from '@visactor/vdataset';
 import type { IEvent, IEventDispatcher } from '../event/interface';
-import type { IMark, IMarkRaw, IMarkStyle } from '../mark/interface';
+import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { VChart } from '../vchart-all';
 import type { IData, IElement, IMark as IVGrammarMark } from '@visactor/vgrammar';
@@ -244,6 +244,8 @@ export interface IModel extends ICompilable, ILayoutItem {
   getOption: () => IModelOption;
 
   getMarks: () => IMark[];
+  getMarkNameMap: () => Record<string, IMark>;
+  getMarkInfoList: () => IModelMarkInfo[];
 
   getData: () => ICompilableData;
 
@@ -255,7 +257,7 @@ export interface IModel extends ICompilable, ILayoutItem {
   // 用来处理与其他图表模块的联系
   init: (option: IModelInitOption) => void;
   // updateSpec 或者切换主题后，根据新 spec 执行的初始化过程
-  reInit: () => void;
+  reInit: (theme?: any) => void;
 
   onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
   onLayoutEnd: (ctx: IModelLayoutOption) => void;
@@ -317,3 +319,10 @@ export type ILayoutModelState = ModelStateManager['_stateMap'];
 
 // TODO: 补充model共有配置
 export type IModelSpec = ILayoutItemSpec & { id?: StringOrNumber };
+
+export interface IModelMarkInfo {
+  /** mark 类型 */
+  type: MarkTypeEnum | string | (MarkTypeEnum | string)[];
+  /** mark 名称 */
+  name: string;
+}

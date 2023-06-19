@@ -7,7 +7,6 @@ import { ComponentTypeEnum } from '../interface';
 import { LayoutZIndex } from '../../constant';
 import { merge } from '../../util/object';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
-import { DEFAULT_CONFIG } from './config';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import type { IPoint, Datum } from '../../typings';
 import type { IPairInfo } from './layout';
@@ -59,7 +58,6 @@ export class MapLabelComponent extends BaseComponent {
   }
 
   setAttrFromSpec(): void {
-    this._spec = merge({}, DEFAULT_CONFIG, this._spec);
     this.nameField = this._spec.nameField ?? this._series?.getDimensionField()[0];
     this.valueField = this._spec.valueField ?? this._series?.getMeasureField()[0];
   }

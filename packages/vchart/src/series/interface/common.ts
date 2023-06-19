@@ -1,7 +1,7 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IGrammarItem } from '../../compile/interface';
 import type { IGroupMark } from '../../mark/group';
-import type { IModelOption } from '../../model/interface';
+import type { IModelMarkInfo, IModelOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
@@ -28,6 +28,7 @@ export interface ISeriesOption extends IModelOption {
 
 export interface ISeriesConstructor {
   type: string;
+  mark?: SeriesMarkMap;
   new (spec: any, options: ISeriesOption): ISeries;
 }
 
@@ -104,3 +105,61 @@ export interface ISeriesMarkInitOption {
   /** 是否支持 3d */
   support3d?: boolean;
 }
+
+export interface ISeriesMarkInfo extends IModelMarkInfo {
+  /** mark 名称 */
+  name: SeriesMarkNameEnum | string;
+}
+
+export enum SeriesMarkNameEnum {
+  label = 'label',
+  point = 'point',
+  line = 'line',
+  area = 'area',
+  bar = 'bar',
+  bar3d = 'bar3d',
+  boxPlot = 'boxPlot',
+  outlier = 'outlier',
+  circlePacking = 'circlePacking',
+  group = 'group',
+  gridBackground = 'gridBackground',
+  grid = 'grid',
+  dot = 'dot',
+  title = 'title',
+  subTitle = 'subTitle',
+  symbol = 'symbol',
+  funnel = 'funnel',
+  funnel3d = 'funnel3d',
+  transform = 'transform',
+  transform3d = 'transform3d',
+  transformLabel = 'transformLabel',
+  outerLabel = 'outerLabel',
+  outerLabelLine = 'outerLabelLine',
+  pin = 'pin',
+  pinBackground = 'pinBackground',
+  pointer = 'pointer',
+  segment = 'segment',
+  track = 'track',
+  cell = 'cell',
+  cellBackground = 'cellBackground',
+  link = 'link',
+  arrow = 'arrow',
+  pie = 'pie',
+  pie3d = 'pie3d',
+  labelLine = 'labelLine',
+  progress = 'progress',
+  minLabel = 'minLabel',
+  maxLabel = 'maxLabel',
+  rose = 'rose',
+  node = 'node',
+  sunburst = 'sunburst',
+  nonLeaf = 'nonLeaf',
+  leaf = 'leaf',
+  nonLeafLabel = 'nonLeafLabel',
+  leaderLine = 'leaderLine',
+  stackLabel = 'stackLabel',
+  word = 'word',
+  fillingWord = 'fillingWord'
+}
+
+export type SeriesMarkMap = Partial<Record<SeriesMarkNameEnum, ISeriesMarkInfo>>;

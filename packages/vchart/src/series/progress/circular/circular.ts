@@ -4,17 +4,26 @@ import { MarkTypeEnum } from '../../../mark/interface';
 import type { Maybe, Datum } from '../../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { isValidNumber } from '../../../util';
-import { SeriesTypeEnum } from '../../interface';
+import type { SeriesMarkMap } from '../../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../../animation/config';
 import type { ICircularProgressSeriesSpec, ICircularProgressSeriesTheme } from './interface';
 import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
 import type { IStateAnimateSpec } from '../../../animation/spec';
 import type { IProgressArcMark } from '../../../mark/progress-arc';
+import { BaseSeries } from '../../base/base-series';
 
 export class CircularProgressSeries extends ProgressLikeSeries<ICircularProgressSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.circularProgress;
   type = SeriesTypeEnum.circularProgress;
+
+  static readonly mark: SeriesMarkMap = {
+    ...BaseSeries.mark,
+    [SeriesMarkNameEnum.track]: { name: SeriesMarkNameEnum.track, type: MarkTypeEnum.progressArc },
+    [SeriesMarkNameEnum.progress]: { name: SeriesMarkNameEnum.progress, type: MarkTypeEnum.progressArc }
+  };
 
   protected declare _theme: Maybe<ICircularProgressSeriesTheme>;
 
@@ -30,8 +39,8 @@ export class CircularProgressSeries extends ProgressLikeSeries<ICircularProgress
   }
 
   initMark(): void {
-    this._trackMark = this._createMark(MarkTypeEnum.progressArc, 'track') as IArcMark;
-    this._progressMark = this._createMark(MarkTypeEnum.progressArc, 'progress', {
+    this._trackMark = this._createMark(CircularProgressSeries.mark.track) as IArcMark;
+    this._progressMark = this._createMark(CircularProgressSeries.mark.progress, {
       isSeriesMark: true
     }) as IArcMark;
   }
@@ -55,7 +64,6 @@ export class CircularProgressSeries extends ProgressLikeSeries<ICircularProgress
         boundsMode: 'imprecise',
         cornerRadius: this._spec.cornerRadius,
         fill: this.getColorAttribute(),
-        fillOpacity: 1,
         zIndex: 200,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -87,7 +95,6 @@ export class CircularProgressSeries extends ProgressLikeSeries<ICircularProgress
         outerRadius: this._getRadiusValueEnd.bind(this),
         cornerRadius: this._spec.cornerRadius,
         fill: this.getColorAttribute(),
-        fillOpacity: 0.2,
         zIndex: 100
       });
       this._trigger.registerMark(trackMark);
@@ -130,12 +137,15 @@ export class CircularProgressSeries extends ProgressLikeSeries<ICircularProgress
           },
           appearPreset
         ),
-        userAnimationConfig('progress', this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.progress, this._spec)
       )
     );
 
     this._trackMark.setAnimationConfig(
-      animationConfig(DEFAULT_MARK_ANIMATION.progressBackground(), userAnimationConfig('track', this._spec))
+      animationConfig(
+        DEFAULT_MARK_ANIMATION.progressBackground(),
+        userAnimationConfig(SeriesMarkNameEnum.track, this._spec)
+      )
     );
   }
 }

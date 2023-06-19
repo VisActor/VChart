@@ -25,10 +25,9 @@ import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar';
-
 import type { LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { getAxisAttributes, isValidCartesianAxis } from '../utils';
+import { isValidCartesianAxis } from '../utils';
 import type { IAxis, ITick } from '../interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { scaleParser } from '../../../data/parser/scale';
@@ -248,15 +247,13 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
-    this._tick = this._spec.tick;
-  }
 
-  protected _initTheme(theme?: any) {
-    super._initTheme(theme);
-    const axisStyle: any = getAxisAttributes(this._spec, this._theme);
+    const axisStyle: any = this._getAxisAttributes();
     axisStyle.label.formatMethod = this.getLabelFormatMethod();
     axisStyle.verticalFactor = this.orient === 'top' || this.orient === 'right' ? -1 : 1;
     this._axisStyle = axisStyle;
+
+    this._tick = this._spec.tick;
   }
 
   protected getSeriesStatisticsField(s: ICartesianSeries) {

@@ -1,5 +1,5 @@
 import type { IMapSeriesTheme } from '../../../../series/map/interface';
-import { DEFAULT_TEXT_FONT_SIZE as fontSize } from '../../config';
+import { THEME_CONSTANTS } from '../constants';
 
 export const map: IMapSeriesTheme = {
   defaultFillColor: '#f3f3f3',
@@ -7,15 +7,16 @@ export const map: IMapSeriesTheme = {
     style: {
       lineWidth: 0.5,
       strokeOpacity: 1,
-      stroke: 'black'
+      stroke: 'black',
+      fillOpacity: 1
     }
   },
   label: {
     interactive: false,
     style: {
-      fontSize,
+      fontSize: THEME_CONSTANTS.MAP_LABEL_FONT_SIZE,
       textBaseline: 'middle',
-      fill: 'black',
+      fill: { type: 'palette', key: 'labelFontColor' },
       stroke: 'white'
     }
   }

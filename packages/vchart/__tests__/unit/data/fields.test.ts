@@ -1,10 +1,10 @@
 import { LineChart } from '../../../src/chart/line/line';
 import { DataSet, dataViewParser } from '@visactor/vdataset';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
-import { VChart } from '../../../src/vchart-all';
 import * as bt from '../../../src/vchart-all';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
+import { ThemeManager } from '../../../src';
 bt;
 
 const dataSet = new DataSet();
@@ -68,7 +68,7 @@ describe('data fields test', () => {
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => VChart.ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();
@@ -143,7 +143,7 @@ describe('data fields test', () => {
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => VChart.ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();
