@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "when set legends's `visible` to false, the legend component should still needs to be instantiated, just not to create vrender components",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
