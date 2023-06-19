@@ -40,7 +40,7 @@ export class ContinuousLegend extends BaseLegend {
       return undefined;
     }
     if (!isArray(legendSpec)) {
-      if (legendSpec.visible !== false && isContinuousLegend(legendSpec.type)) {
+      if (isContinuousLegend(legendSpec.type)) {
         return new ContinuousLegend(legendSpec, {
           ...options,
           specIndex: 0,
@@ -52,7 +52,7 @@ export class ContinuousLegend extends BaseLegend {
     }
     const legends: ILegend[] = [];
     legendSpec.forEach((s: IColorLegendSpec | ISizeLegendSpec, i: number) => {
-      if (s.visible !== false && isContinuousLegend(s.type)) {
+      if (isContinuousLegend(s.type)) {
         legends.push(new ContinuousLegend(s, { ...options, specIndex: i, specKey: 'legends' }));
       }
     });
