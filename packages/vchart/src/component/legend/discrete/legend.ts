@@ -34,7 +34,7 @@ export class DiscreteLegend extends BaseLegend {
       return undefined;
     }
     if (!isArray(legendSpec)) {
-      if (legendSpec.visible !== false && (!legendSpec.type || legendSpec.type === 'discrete')) {
+      if (!legendSpec.type || legendSpec.type === 'discrete') {
         return new DiscreteLegend(legendSpec, {
           ...options,
           specIndex: 0,
@@ -45,7 +45,7 @@ export class DiscreteLegend extends BaseLegend {
     }
     const legends: ILegend[] = [];
     legendSpec.forEach((s: IDiscreteLegendSpec, i: number) => {
-      if (s.visible !== false && (!s.type || s.type === 'discrete')) {
+      if (!s.type || s.type === 'discrete') {
         legends.push(new DiscreteLegend(s, { ...options, specIndex: i, specKey: 'legends' }));
       }
     });

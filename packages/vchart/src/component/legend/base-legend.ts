@@ -97,6 +97,7 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
 
     this._orient = isValidOrient(this._spec.orient) ? this._spec.orient : 'left';
     this._position = this._spec.position ?? 'middle';
+    this._visible = this._spec.visible !== false;
 
     const { regionId, regionIndex, seriesId, seriesIndex } = this._spec;
 
@@ -193,6 +194,9 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
 
   boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
     const result = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };
+    if (!this._visible) {
+      return result;
+    }
 
     const attrs = this._getLegendAttributes(rect);
     if (this._legendComponent) {
