@@ -14,7 +14,7 @@ export const funnel: IFunnelSeriesTheme = {
       fontSize,
       fill: 'white',
       textBaseline: 'middle',
-      lineWidth: 0
+      lineWidth: 2
     }
   },
   outerLabel: {
