@@ -37,5 +37,27 @@ export const markByName: IGlobalMarkThemeByName = {
       lineWidth: 1,
       fillOpacity: 1
     }
+  },
+  word: {
+    style: {
+      fontSize: null
+    }
+  },
+  fillingWord: {
+    style: {
+      fontSize: null
+    }
+  },
+  sunburst: {
+    style: {
+      lineWidth: 1,
+      stroke: '#fff'
+    }
+  },
+  circlePacking: {
+    style: {
+      lineWidth: 1,
+      stroke: '#fff'
+    }
   }
 };
