@@ -7,7 +7,7 @@ import { TimeUtil } from '../../component/axis/cartesian/util';
 export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   updateTooltipSpec(spec: ITooltipSpec) {
     super.updateTooltipSpec(spec);
-    spec.mark.updateContent = (prev: any, datum: any) => {
+    spec.mark.updateContent = (prev: any, datum: any, params: any) => {
       const childrenContent: any = [];
       const childrenPrev = prev.filter((p: any) => p.key === 'children');
       childrenPrev.length > 0 &&
@@ -71,7 +71,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
             }
           }
         ],
-        updateContent: (prev: any, datum: any) => {
+        updateContent: (prev: any, datum: any, params: any) => {
           const childrenContent: any = [];
           prev[3].value.forEach((element: any) => {
             let flag = true;

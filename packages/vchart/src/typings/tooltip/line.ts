@@ -1,13 +1,13 @@
-import type { TooltipContentCallback } from './common';
+import type { TooltipContentProperty } from './common';
 import type { ITooltipShapeActual, ITooltipShapePattern } from './shape';
 
 export interface IToolTipLinePattern extends ITooltipShapePattern {
   /** 该 pattern 属于哪个系列id（用户不需要设置） */
   seriesId?: number;
   /** tooltip key 值内容或回调 */
-  key?: string | TooltipContentCallback;
+  key?: TooltipContentProperty<string>;
   /** tooltip value 值内容或回调 */
-  value?: string | TooltipContentCallback;
+  value?: TooltipContentProperty<string>;
   /** 该行是否可见 */
   visible?: boolean;
 }

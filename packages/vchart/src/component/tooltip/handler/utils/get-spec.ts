@@ -6,7 +6,7 @@ import type {
   TooltipActiveType
 } from '../../../../typings';
 import type { ISeries } from '../../../../series/interface';
-import { cloneDeep, isValid, isNil, merge, array } from '../../../../util';
+import { cloneDeep, isValid, isNil, merge, array, isFunction } from '../../../../util';
 import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../../event/events/dimension/interface';
 
@@ -52,7 +52,7 @@ export const getTooltipSpecForShow = (
     }
 
     // pattern
-    defaultPattern = makeDefaultPattern(series, 'mark');
+    defaultPattern = makeDefaultPattern(series, 'mark') ?? {};
     userPattern = merge({}, cloneDeep(globalSpec.mark), cloneDeep(seriesSpec.mark));
   } else if (activeType === 'dimension' && dimensionInfo) {
     // dimension目前仅支持global spec
@@ -75,22 +75,26 @@ export const getTooltipSpecForShow = (
 
     // pattern
     const firstSeries = dimensionInfo[0]?.data[0]?.series;
-    defaultPattern = firstSeries ? makeDefaultPattern(firstSeries, 'dimension', dimensionInfo) : {};
+    defaultPattern = firstSeries ? makeDefaultPattern(firstSeries, 'dimension', dimensionInfo) ?? {} : {};
     userPattern = cloneDeep(globalSpec.dimension) ?? {};
   }
 
   // 对pattern进行组装
+  const defaultPatternTitle = defaultPattern.title as IToolTipLinePattern | undefined;
   const titleShape: ITooltipShapePattern = {
-    hasShape: userPattern.hasShape ?? defaultPattern.title.hasShape,
-    shapeType: userPattern.shapeType ?? defaultPattern.title.shapeType,
-    shapeColor: userPattern.shapeColor ?? defaultPattern.title.shapeColor
+    hasShape: userPattern.hasShape ?? defaultPatternTitle?.hasShape,
+    shapeType: userPattern.shapeType ?? defaultPatternTitle?.shapeType,
+    shapeColor: userPattern.shapeColor ?? defaultPatternTitle?.shapeColor
   };
   if (isValid(userPattern.title)) {
-    userPattern.title = {
-      ...defaultPattern.title,
-      ...titleShape, // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
-      ...userPattern.title
-    };
+    // 排除是回调的情况
+    if (!isFunction(userPattern.title)) {
+      userPattern.title = {
+        ...defaultPattern.title,
+        ...titleShape, // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+        ...userPattern.title
+      };
+    }
   } else {
     userPattern.title = {
       ...defaultPattern.title,
@@ -103,15 +107,19 @@ export const getTooltipSpecForShow = (
     shapeType: userPattern.shapeType ?? defaultContentLine?.shapeType,
     shapeColor: userPattern.shapeColor ?? defaultContentLine?.shapeColor
   });
+  const defaultPatternContent = defaultPattern.content as IToolTipLinePattern[] | undefined;
   if (isValid(userPattern.content)) {
-    userPattern.content.forEach((line, i) => {
-      userPattern.content[i] = {
-        ...getContentShape(defaultPattern.content[0]), // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
-        ...line
-      };
-    });
+    // 排除是回调的情况
+    if (!isFunction(userPattern.content)) {
+      userPattern.content.forEach((line, i) => {
+        userPattern.content![i] = {
+          ...getContentShape(defaultPatternContent?.[0]), // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+          ...line
+        };
+      });
+    }
   } else {
-    userPattern.content = defaultPattern.content.map(line => ({
+    userPattern.content = defaultPatternContent?.map(line => ({
       ...line,
       ...getContentShape(line)
     }));
