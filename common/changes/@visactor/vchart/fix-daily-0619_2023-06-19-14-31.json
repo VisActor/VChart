@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "if layout model is hidden, igonre the size setting",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
