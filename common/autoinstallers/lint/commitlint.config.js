@@ -1,7 +1,8 @@
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
-    'not-allowed-chars': [2, 'always']
+    'not-allowed-chars': [2, 'always'],
+    'header-max-length': [0, 'always', 140]
   },
   plugins: [
     {
