@@ -7,7 +7,8 @@ export const map: IMapSeriesTheme = {
     style: {
       lineWidth: 0.5,
       strokeOpacity: 1,
-      stroke: 'black'
+      stroke: 'black',
+      fillOpacity: 1
     }
   },
   label: {
