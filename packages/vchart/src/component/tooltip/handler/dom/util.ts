@@ -1,9 +1,9 @@
 import type { Maybe } from '@visactor/vutils';
-import type { FontWeight, TextAlign } from '../../../../../typings';
-import { isValid, merge, isArray } from '../../../../../util';
-import type { ITooltipTheme } from '../../../interface';
-import type { ITextStyle, ITooltipStyle } from '../../interface';
-import type { ILabelStyle, IMargin, IShapeStyle, IDomTooltipStyle } from '../interface';
+import type { FontWeight, TextAlign } from '../../../../typings';
+import { isValid, merge, isArray } from '../../../../util';
+import type { ITooltipTheme } from '../../interface';
+import type { ITextStyle, ITooltipStyle } from '../interface';
+import type { ILabelStyle, IMargin, IShapeStyle, IDomTooltipStyle } from './interface';
 import type { TooltipAttributes } from '@visactor/vrender-components';
 
 const DEFAULT_SHAPE_SPACING = 8;
@@ -50,16 +50,8 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
 
   const styles = {
     panel: {
-      width: getPixelPropertyStr(
-        isValid(attributeCache?.panel?.width)
-          ? attributeCache!.panel!.width - (padding.left ?? 0) - (padding.right ?? 0)
-          : undefined
-      ),
-      height: getPixelPropertyStr(
-        isValid(attributeCache?.panel?.height)
-          ? attributeCache!.panel!.height - (padding.top ?? 0) - (padding.bottom ?? 0)
-          : undefined
-      ),
+      width: getPixelPropertyStr(attributeCache?.panel?.width),
+      height: getPixelPropertyStr(attributeCache?.panel?.height),
       paddingBottom: getPixelPropertyStr(padding.bottom),
       paddingLeft: getPixelPropertyStr(padding.left),
       paddingRight: getPixelPropertyStr(padding.right),
@@ -94,7 +86,8 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
       item: getLabelStyle(value),
       width: getPixelPropertyStr(attributeCache?.valueWidth),
       marginRight: getPixelPropertyStr(value.spacing ?? DEFAULT_VALUE_SPACING)
-    }
+    },
+    spaceRow: getPixelPropertyStr(spaceRow)
   } as IDomTooltipStyle;
 
   if (isValid(spaceRow)) {

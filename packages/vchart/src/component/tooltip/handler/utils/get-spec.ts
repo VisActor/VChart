@@ -107,19 +107,20 @@ export const getTooltipSpecForShow = (
     shapeType: userPattern.shapeType ?? defaultContentLine?.shapeType,
     shapeColor: userPattern.shapeColor ?? defaultContentLine?.shapeColor
   });
-  const defaultPatternContent = defaultPattern.content as IToolTipLinePattern[] | undefined;
+  const defaultPatternContent = array(defaultPattern.content) as IToolTipLinePattern[];
   if (isValid(userPattern.content)) {
     // 排除是回调的情况
     if (!isFunction(userPattern.content)) {
-      userPattern.content.forEach((line, i) => {
-        userPattern.content![i] = {
-          ...getContentShape(defaultPatternContent?.[0]), // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+      const userPatternContent = array(userPattern.content);
+      userPatternContent.forEach((line, i) => {
+        userPatternContent[i] = {
+          ...getContentShape(defaultPatternContent[0]), // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
           ...line
         };
       });
     }
   } else {
-    userPattern.content = defaultPatternContent?.map(line => ({
+    userPattern.content = defaultPatternContent.map(line => ({
       ...line,
       ...getContentShape(line)
     }));

@@ -1,4 +1,4 @@
-import { isValid, isNil } from '../../../../util';
+import { isValid, isNil, array } from '../../../../util';
 import type { TooltipContent } from '../../tooltip';
 import type {
   IToolTipLinePattern,
@@ -32,7 +32,7 @@ export const getShowContent = (
   }
 
   const patternTitle = getTooltipPatternValue(pattern.title, data, params);
-  const patternContent = getTooltipPatternValue(pattern.content, data, params);
+  const patternContent = array(getTooltipPatternValue(pattern.content, data, params));
 
   const tooltipContent: Required<TooltipContent> = {
     title: {
