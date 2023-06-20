@@ -1,11 +1,9 @@
-import type { Maybe } from '@visactor/vutils';
-// eslint-disable-next-line no-duplicate-imports
-import { isValid } from '@visactor/vutils';
-import type { IDomTooltipStyle } from '../interface';
+import { isValid, merge } from '@visactor/vutils';
 import { BaseTooltipModel } from './base-tooltip-model';
 import { ContentModel } from './content-model';
 import type { ITooltipModelOption } from './interface';
 import { TitleModel } from './title-model';
+import { defaultContainerStyle } from './style-constants';
 
 export class TooltipModel extends BaseTooltipModel {
   title: TitleModel | null = null;
@@ -14,17 +12,10 @@ export class TooltipModel extends BaseTooltipModel {
   private _classList: string[];
   private _id: string;
 
-  constructor(
-    parent: BaseTooltipModel | HTMLElement,
-    option: ITooltipModelOption,
-    classList: string[],
-    id: string,
-    style: IDomTooltipStyle
-  ) {
-    super(parent, option, 0, style);
+  constructor(parent: BaseTooltipModel | HTMLElement, option: ITooltipModelOption, classList: string[], id: string) {
+    super(parent, option, 0);
     this._classList = classList;
     this._id = id;
-    this._tooltipStyle = style;
   }
 
   setVisibility(visibility: boolean) {
@@ -41,15 +32,13 @@ export class TooltipModel extends BaseTooltipModel {
   }
 
   init(): void {
-    if (!this._tooltipActual) {
-      return;
-    }
+    const tooltipActual = this._option.getTooltipActual();
 
     if (!this.product) {
       this._initPanel(this._classList, this._id);
     }
 
-    const { title } = this._tooltipActual;
+    const { title } = tooltipActual;
     if (title?.visible !== false && isValid(title?.value)) {
       if (!this.title) {
         this._initTitle();
@@ -58,7 +47,7 @@ export class TooltipModel extends BaseTooltipModel {
       this._releaseTitle();
     }
 
-    const renderContent = this.getRenderContent();
+    const renderContent = this._option.getRenderContent();
     if (renderContent.length > 0) {
       if (!this.content) {
         this._initContent();
@@ -95,7 +84,7 @@ export class TooltipModel extends BaseTooltipModel {
   }
 
   private _initTitle() {
-    const title = new TitleModel(this.product!, this._option, 0, this._tooltipStyle, this._tooltipActual);
+    const title = new TitleModel(this.product!, this._option, 0);
     title.init();
     this.title = title;
     this.children[title.childIndex] = title;
@@ -111,7 +100,7 @@ export class TooltipModel extends BaseTooltipModel {
   }
 
   private _initContent() {
-    const content = new ContentModel(this.product!, this._option, 1, this._tooltipStyle, this._tooltipActual);
+    const content = new ContentModel(this.product!, this._option, 1);
     content.init();
     this.content = content;
     this.children[content.childIndex] = content;
@@ -126,23 +115,15 @@ export class TooltipModel extends BaseTooltipModel {
     this.content = null;
   }
 
-  updateTooltipStyle(style?: Maybe<IDomTooltipStyle>) {
-    if (style) {
-      super.updateTooltipStyle(style);
-      this.setStyle();
-    }
-  }
-
   setStyle(): void {
-    if (!this._tooltipStyle) {
-      return;
-    }
-    super.setStyle(this._tooltipStyle.panel as any);
+    const tooltipStyle = this._option.getTooltipStyle();
+
+    super.setStyle(merge({}, defaultContainerStyle, tooltipStyle.panel));
     Object.values(this.children).forEach((c, i) => {
       c.setStyle(
         i > 0
           ? {
-              marginTop: '10px'
+              marginTop: tooltipStyle.spaceRow
             }
           : {
               marginTop: '0px'

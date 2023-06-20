@@ -1,13 +1,14 @@
-import type { IToolTipActual } from '../../../../typings/tooltip';
+import type { IToolTipActual, IToolTipLineActual } from '../../../../typings/tooltip';
 import type { ITooltipSpec, TooltipHandlerParams } from '../../interface';
 import { BaseTooltipHandler } from '../base';
-import { getDomStyles } from './utils/style';
+import { getDomStyles } from './util';
 import type { IDomTooltipStyle } from './interface';
 import { TooltipModel } from './model/tooltip-model';
 import { domDocument } from './model/base-tooltip-model';
 import { TOOLTIP_CONTAINER_EL_CLASS_NAME, TooltipHandlerType } from '../constants';
 import type { Tooltip } from '../../tooltip';
 import type { Maybe } from '@visactor/vutils';
+import { TOOLTIP_MAX_COUNT } from './constants';
 
 /**
  * The tooltip handler class.
@@ -17,6 +18,8 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
   protected _tooltipContainer: HTMLElement = globalThis.document?.body;
   protected _domStyle: IDomTooltipStyle;
+  protected _tooltipActual: IToolTipActual;
+  protected _renderContent: IToolTipLineActual[];
   protected declare _container: Maybe<HTMLDivElement>;
 
   protected model: TooltipModel;
@@ -32,14 +35,15 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     }
   }
 
-  constructor(tooltipSpec: ITooltipSpec, tooltipId: string, component: Tooltip) {
-    super(tooltipSpec, tooltipId, component);
+  constructor(tooltipId: string, component: Tooltip) {
+    super(tooltipId, component);
     this._initStyle();
     this.initEl();
   }
 
   initEl() {
-    const { parentElement } = this._tooltipSpec;
+    const tooltipSpec = this._component.getSpec();
+    const { parentElement } = tooltipSpec;
     if (domDocument && parentElement) {
       for (let i = 0; i < parentElement.children.length; i++) {
         if (parentElement.children[i].classList.contains(TOOLTIP_CONTAINER_EL_CLASS_NAME)) {
@@ -55,10 +59,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       }
       this.model = new TooltipModel(
         this._container,
-        { valueToHtml: this._option.sanitize },
-        [this._tooltipSpec.className!],
-        this.id,
-        this._domStyle
+        {
+          valueToHtml: this._option.sanitize,
+          getTooltipStyle: () => this._domStyle,
+          getTooltipActual: () => this._tooltipActual,
+          getRenderContent: () => this._renderContent
+        },
+        [tooltipSpec.className],
+        this.id
       );
     }
   }
@@ -73,9 +81,12 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       this.setVisibility(visible);
     } else {
       if (!params.changePositionOnly) {
-        this.model.setTooltipActual(actualTooltip);
+        this._tooltipActual = actualTooltip;
+        this._updateRenderContent();
         this._initStyle();
-        this.model.updateTooltipStyle(this._domStyle);
+
+        this.model.initAll();
+        this.model.setStyle();
         this.model.setContent();
       }
       this.setVisibility(visible);
@@ -96,5 +107,31 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
   protected _getParentElement(spec: ITooltipSpec): HTMLElement {
     return this._container ?? super._getParentElement(spec);
+  }
+
+  protected _updateRenderContent() {
+    if (!this._tooltipActual) {
+      return [];
+    }
+
+    const { content: originContent = [] } = this._tooltipActual;
+    const renderContent = originContent.slice(0, TOOLTIP_MAX_COUNT);
+
+    // 最后一行被转化为省略
+    if (renderContent?.[TOOLTIP_MAX_COUNT - 1]) {
+      renderContent[TOOLTIP_MAX_COUNT - 1] = {
+        ...renderContent[TOOLTIP_MAX_COUNT - 1],
+        // TODO: i18n
+        key: '其他',
+        value: '...'
+      };
+    }
+
+    this._renderContent = renderContent;
+  }
+
+  reInit() {
+    super.reInit();
+    this._initStyle();
   }
 }
