@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix the bug of 3d scatter in common chart",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
