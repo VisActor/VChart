@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: optimize tooltip performance",
+      "type": "patch",
+      "packageName": "@visactor/react-vchart"
+    }
+  ],
+  "packageName": "@visactor/react-vchart",
+  "email": "zamhown@live.com"
+}
