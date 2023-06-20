@@ -129,7 +129,7 @@ export class Tooltip extends BaseComponent {
       // 构造内部默认 handler
       const Handler = renderMode === 'canvas' ? CanvasTooltipHandler : DomTooltipHandler;
       const id = `${this._spec.className}-${this._option.globalInstance.id ?? 0}-${this._option.specIndex ?? 0}`;
-      this.tooltipHandler = new Handler(this._spec, id, this);
+      this.tooltipHandler = new Handler(id, this);
     }
   }
 
@@ -304,6 +304,11 @@ export class Tooltip extends BaseComponent {
   protected _initTheme(theme?: any) {
     super._initTheme(theme);
     this._spec.style = merge({}, this._theme, this._originalSpec.style);
+  }
+
+  reInit(theme?: any) {
+    super.reInit(theme);
+    this.tooltipHandler?.reInit?.();
   }
 
   setAttrFromSpec() {

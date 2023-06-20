@@ -7,7 +7,7 @@ import type { ITooltipShapePattern } from './shape';
 export interface ITooltipPattern extends ITooltipShapePattern {
   visible?: TooltipPatternProperty<boolean>;
   title?: TooltipPatternProperty<IToolTipLinePattern>;
-  content?: TooltipPatternProperty<IToolTipLinePattern[]>;
+  content?: TooltipPatternProperty<IToolTipLinePattern | IToolTipLinePattern[]>;
   position?: TooltipPatternProperty<TooltipPosition>;
 
   updateTitle?: TooltipUpdateCallback<IToolTipLineActual>;

@@ -1,10 +1,6 @@
 import type { Maybe } from '@visactor/vutils';
-import type { IToolTipActual, IToolTipLineActual } from '../../../../../typings';
-import type { IDomTooltipStyle } from '../interface';
+import type { IToolTipLineActual } from '../../../../../typings';
 import type { ITooltipModelOption } from './interface';
-
-export const TOOLTIP_MAX_COUNT = 20;
-export const TOOLTIP_EMPTY_STRING = '';
 
 export const domDocument: Document | undefined = globalThis.document;
 
@@ -20,21 +16,6 @@ export class BaseTooltipModel {
 
   readonly parent: BaseTooltipModel | HTMLElement;
   readonly childIndex: number;
-
-  protected _tooltipActual: Maybe<IToolTipActual> = null;
-  setTooltipActual(tooltipActual: IToolTipActual) {
-    this._tooltipActual = tooltipActual;
-    this._renderContentCache = null; // 清除缓存
-    this.init();
-    Object.values(this.children).forEach(c => c.setTooltipActual(tooltipActual));
-  }
-
-  protected _tooltipStyle: Maybe<IDomTooltipStyle> = null;
-  setTooltipStyle(tooltipStyle: IDomTooltipStyle) {
-    this._tooltipStyle = tooltipStyle;
-    this.init();
-    Object.values(this.children).forEach(c => c.setTooltipStyle(tooltipStyle));
-  }
 
   protected _option: ITooltipModelOption;
   setOption(option: ITooltipModelOption) {
@@ -55,29 +36,19 @@ export class BaseTooltipModel {
     return this.parent;
   }
 
-  constructor(
-    parent: BaseTooltipModel | HTMLElement,
-    option: ITooltipModelOption,
-    childIndex?: number,
-    tooltipStyle?: Maybe<IDomTooltipStyle>,
-    tooltipActual?: Maybe<IToolTipActual>
-  ) {
+  constructor(parent: BaseTooltipModel | HTMLElement, option: ITooltipModelOption, childIndex?: number) {
     this.parent = parent;
     this._option = option;
     this.childIndex = childIndex ?? 0;
-    this._tooltipStyle = tooltipStyle;
-    this._tooltipActual = tooltipActual;
   }
 
   init(classList?: string[], id?: string) {
     // do nothing
   }
 
-  updateTooltipStyle(style?: Maybe<IDomTooltipStyle>) {
-    if (style) {
-      this._tooltipStyle = style;
-      Object.values(this.children).forEach(c => c.updateTooltipStyle(style));
-    }
+  initAll() {
+    this.init();
+    Object.values(this.children).forEach(c => c.initAll());
   }
 
   setStyle(style?: Partial<CSSStyleDeclaration>) {
@@ -166,29 +137,5 @@ export class BaseTooltipModel {
       parentEl.insertBefore(element, parentEl.children[ptr]);
     }
     return element;
-  }
-
-  protected getRenderContent() {
-    if (!this._tooltipActual) {
-      return [];
-    }
-    if (this._renderContentCache) {
-      return this._renderContentCache;
-    }
-
-    const { content: originContent = [] } = this._tooltipActual;
-    const renderContent = originContent.slice(0, TOOLTIP_MAX_COUNT);
-
-    // 最后一行被转化为省略
-    if (renderContent?.[TOOLTIP_MAX_COUNT - 1]) {
-      renderContent[TOOLTIP_MAX_COUNT - 1] = {
-        ...renderContent[TOOLTIP_MAX_COUNT - 1],
-        // TODO: i18n
-        key: '其他',
-        value: '...'
-      };
-    }
-
-    return renderContent;
   }
 }

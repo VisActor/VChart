@@ -28,6 +28,7 @@ export interface IDomTooltipStyle {
     width?: string;
     item?: ILabelStyle;
   };
+  spaceRow: string;
 }
 
 export interface ILabelStyle extends IMargin {

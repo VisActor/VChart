@@ -1,4 +1,4 @@
-import { defaultContainerStyle } from './style-constants';
+import { defaultContentContainerStyle } from './style-constants';
 import { BaseTooltipModel } from './base-tooltip-model';
 import { ContentColumnModel } from './content-column-model';
 import type { Maybe } from '@visactor/vutils';
@@ -26,49 +26,28 @@ export class ContentModel extends BaseTooltipModel {
   }
 
   private _initShapeBox() {
-    const shapeBox = new ContentColumnModel(
-      this.product!,
-      this._option,
-      'shape-box',
-      0,
-      this._tooltipStyle,
-      this._tooltipActual
-    );
+    const shapeBox = new ContentColumnModel(this.product!, this._option, 'shape-box', 0);
     shapeBox.init();
     this.shapeBox = shapeBox;
     this.children[shapeBox.childIndex] = shapeBox;
   }
 
   private _initKeyBox() {
-    const keyBox = new ContentColumnModel(
-      this.product!,
-      this._option,
-      'key-box',
-      1,
-      this._tooltipStyle,
-      this._tooltipActual
-    );
+    const keyBox = new ContentColumnModel(this.product!, this._option, 'key-box', 1);
     keyBox.init();
     this.keyBox = keyBox;
     this.children[keyBox.childIndex] = keyBox;
   }
 
   private _initValueBox() {
-    const valueBox = new ContentColumnModel(
-      this.product!,
-      this._option,
-      'value-box',
-      2,
-      this._tooltipStyle,
-      this._tooltipActual
-    );
+    const valueBox = new ContentColumnModel(this.product!, this._option, 'value-box', 2);
     valueBox.init();
     this.valueBox = valueBox;
     this.children[valueBox.childIndex] = valueBox;
   }
 
   setStyle(style?: Partial<CSSStyleDeclaration>): void {
-    super.setStyle(merge({}, defaultContainerStyle, style));
+    super.setStyle(merge({}, defaultContentContainerStyle, style));
     Object.values(this.children).forEach(c => {
       c.setStyle();
     });

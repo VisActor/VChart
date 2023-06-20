@@ -5,8 +5,11 @@ export const defaultH2Style: Partial<CSSStyleDeclaration> = {
 };
 
 export const defaultContainerStyle: Partial<CSSStyleDeclaration> = {
+  boxSizing: 'border-box'
+};
+
+export const defaultContentContainerStyle: Partial<CSSStyleDeclaration> = {
   display: 'flex',
-  maxWidth: '440px',
   whiteSpace: 'nowrap'
 };
 

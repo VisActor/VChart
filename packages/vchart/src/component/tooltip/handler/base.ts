@@ -67,8 +67,6 @@ type ChangeTooltipPositionFunc = (
 export abstract class BaseTooltipHandler implements ITooltipHandler {
   readonly type: string;
 
-  protected _tooltipSpec: ITooltipSpec;
-
   /** 是否可见 */
   protected _visible = true;
 
@@ -106,19 +104,14 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   /**
    * Create the tooltip handler.
    */
-  constructor(tooltipSpec: ITooltipSpec, tooltipId: string, component: Tooltip) {
-    this._tooltipSpec = tooltipSpec;
+  constructor(tooltipId: string, component: Tooltip) {
     this._component = component;
     this._chartOption = component.getOption() as any;
     this._env = this._chartOption.mode;
     this._chartContainer = this._chartOption.globalInstance.getContainer();
     this._compiler = component.getCompiler();
     this._id = tooltipId; // 可能有多个 tooltip
-    this._option = this._getDefaultOption();
-    this._style = this._getStyle();
-    // 为方法加防抖
-    this.changeTooltip = this._throttle(this._changeTooltip) as any;
-    this.changeTooltipPosition = this._throttle(this._changeTooltipPosition) as any;
+    this._initFromSpec();
   }
 
   showTooltip = (activeType: TooltipActiveType, data: TooltipData, params: TooltipHandlerParams) => {
@@ -158,7 +151,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       this._cacheViewSpec = undefined;
       this._cacheActualTooltip = undefined;
 
-      const spec = this._tooltipSpec;
+      const spec = this._component.getSpec();
       /** 用户自定义逻辑 */
       if (spec.handler?.hideTooltip) {
         spec.handler?.hideTooltip(params);
@@ -180,7 +173,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     } else {
       spec = getTooltipSpecForShow(
         activeType!,
-        this._tooltipSpec,
+        this._component.getSpec(),
         (params as BaseEventParams).model as ISeries,
         (params as DimensionEventParams).dimensionInfo
       );
@@ -293,7 +286,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     this._cacheViewSpec = undefined;
     this._cacheActualTooltip = undefined;
 
-    const spec = this._tooltipSpec;
+    const spec = this._component.getSpec();
     /** 用户自定义逻辑 */
     if (spec.handler?.release) {
       spec.handler?.release();
@@ -311,11 +304,12 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   /* -----需要子类继承的方法结束----- */
 
   protected _throttle(callback: any) {
+    const tooltipSpec = this._component.getSpec();
     let wait: number;
-    if (isNumber(this._tooltipSpec.throttleInterval)) {
-      wait = this._tooltipSpec.throttleInterval;
+    if (isNumber(tooltipSpec.throttleInterval)) {
+      wait = tooltipSpec.throttleInterval;
     } else {
-      if (this._tooltipSpec.renderMode !== 'html' || !this._tooltipSpec.transitionDuration) {
+      if (tooltipSpec.renderMode !== 'html' || !tooltipSpec.transitionDuration) {
         wait = 10;
       } else {
         wait = 50;
@@ -325,7 +319,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   }
 
   protected _getDefaultOption(): Options {
-    const { offset } = this._tooltipSpec;
+    const { offset } = this._component.getSpec();
     return {
       ...DEFAULT_OPTIONS,
       offsetX: offset?.x ?? DEFAULT_OPTIONS.offsetX,
@@ -379,8 +373,9 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       this._getTooltipBoxSize(actualTooltip, changePositionOnly) ?? {};
 
     const { offsetX, offsetY } = this._option;
+    const tooltipSpec = this._component.getSpec();
 
-    const isCanvas = this._tooltipSpec.renderMode === 'canvas';
+    const isCanvas = tooltipSpec.renderMode === 'canvas';
     const canvasRect = params?.chart?.getCanvasRect();
     const canvasWidth = canvasRect?.width ?? DEFAULT_CHART_WIDTH;
     const canvasHeight = canvasRect?.height ?? DEFAULT_CHART_HEIGHT;
@@ -446,7 +441,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     let parentElementScrollOffset = getDefaultOffest();
     let parentElementPosOffset = getDefaultOffest();
 
-    if (isTrueBrowser(this._env) && !this._tooltipSpec.confine) {
+    if (isTrueBrowser(this._env) && !tooltipSpec.confine) {
       // 只有在 browser 模式下才可以获取到 window 对象
       containerSize.width = window.innerWidth;
       containerSize.height = window.innerHeight;
@@ -532,10 +527,11 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   }
 
   protected _getStyle(): ITooltipStyle {
-    const { style = {}, maxWidth, minWidth, enterable, transitionDuration } = this._tooltipSpec;
+    const tooltipSpec = this._component.getSpec();
+    const { style = {}, maxWidth, minWidth, enterable, transitionDuration } = tooltipSpec;
 
     const {
-      panel: { backgroundColor, border, shadow, padding } = {},
+      panel: { backgroundColor, border, shadow, padding },
       titleLabel,
       shape,
       keyLabel,
@@ -589,10 +585,22 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   }
 
   protected _getParentElement(spec: ITooltipSpec): HTMLElement {
-    return spec.parentElement;
+    return spec.parentElement as any;
   }
 
   getTooltipContainer() {
     return this._container;
+  }
+
+  protected _initFromSpec() {
+    this._option = this._getDefaultOption();
+    this._style = this._getStyle();
+    // 为方法加防抖
+    this.changeTooltip = this._throttle(this._changeTooltip) as any;
+    this.changeTooltipPosition = this._throttle(this._changeTooltipPosition) as any;
+  }
+
+  reInit() {
+    this._initFromSpec();
   }
 }

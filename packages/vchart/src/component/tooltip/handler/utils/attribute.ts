@@ -125,6 +125,7 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
         if (hasShape && builtinSymbolsMap[shapeType]) {
           hasContentShape = true;
           const shape: TooltipSymbolAttrs = {
+            visible: true,
             symbolType: shapeType
           };
           if (shapeHollow) {
@@ -134,6 +135,8 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
           }
           itemHeight = Math.max(shapeStyle.size, itemHeight);
           itemAttrs.shape = shape;
+        } else {
+          itemAttrs.shape = { visible: false };
         }
 
         itemAttrs.height = itemHeight;
