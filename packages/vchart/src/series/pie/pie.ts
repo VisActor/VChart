@@ -201,6 +201,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         dataProductId: this._viewDataLabel.getProductId(),
         skipBeforeLayouted: true,
         themeSpec: this._theme?.label?.line,
+        support3d: spec?.label?.support3d,
         markSpec: {
           visible: true,
           ...this.getSpec()?.label?.line
@@ -667,7 +668,14 @@ export class Pie3dSeries extends BasePieSeries<IPie3dSeriesSpec> implements IArc
         visible: field(DEFAULT_LABEL_VISIBLE).bind(this),
         stroke: (this._spec.label?.line?.style?.stroke as any) || this.getColorAttribute(),
         lineWidth: 1,
-        ...this.generateLinePath('normal')
+        ...this.generateLinePath('normal'),
+        ...params3d,
+        anchor3d: () => {
+          return [
+            this._center?.x ?? this._region.getLayoutRect().width / 2,
+            this._center?.y ?? this._region.getLayoutRect().height / 2
+          ];
+        }
       });
       this.setMarkStyle(labelLineMark, this.generateLinePath('hover'), 'hover');
       this.setMarkStyle(labelLineMark, this.generateLinePath('selected'), 'selected');
