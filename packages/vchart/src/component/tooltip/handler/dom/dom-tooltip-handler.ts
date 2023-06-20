@@ -81,8 +81,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       this.setVisibility(visible);
     } else {
       if (!params.changePositionOnly) {
-        this._tooltipActual = actualTooltip;
-        this._updateRenderContent();
+        this._updateTooltipActual(actualTooltip);
         this._initStyle();
 
         this.model.initAll();
@@ -109,25 +108,27 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     return this._container ?? super._getParentElement(spec);
   }
 
-  protected _updateRenderContent() {
+  protected _updateTooltipActual(actualTooltip: IToolTipActual) {
+    this._tooltipActual = actualTooltip;
+
+    // 计算 renderContent
     if (!this._tooltipActual) {
-      return [];
+      this._renderContent = [];
+    } else {
+      const { content: originContent = [] } = this._tooltipActual;
+      const renderContent = originContent.slice(0, TOOLTIP_MAX_COUNT);
+
+      // 最后一行被转化为省略
+      if (renderContent?.[TOOLTIP_MAX_COUNT - 1]) {
+        renderContent[TOOLTIP_MAX_COUNT - 1] = {
+          ...renderContent[TOOLTIP_MAX_COUNT - 1],
+          // TODO: i18n
+          key: '其他',
+          value: '...'
+        };
+      }
+      this._renderContent = renderContent;
     }
-
-    const { content: originContent = [] } = this._tooltipActual;
-    const renderContent = originContent.slice(0, TOOLTIP_MAX_COUNT);
-
-    // 最后一行被转化为省略
-    if (renderContent?.[TOOLTIP_MAX_COUNT - 1]) {
-      renderContent[TOOLTIP_MAX_COUNT - 1] = {
-        ...renderContent[TOOLTIP_MAX_COUNT - 1],
-        // TODO: i18n
-        key: '其他',
-        value: '...'
-      };
-    }
-
-    this._renderContent = renderContent;
   }
 
   reInit() {
