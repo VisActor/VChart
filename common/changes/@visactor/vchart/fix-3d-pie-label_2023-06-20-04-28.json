@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix the bug of 3d pie label link",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
