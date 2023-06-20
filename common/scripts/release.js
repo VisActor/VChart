@@ -14,14 +14,16 @@ function getPackageJson(pkgJsonPath) {
 function run() {
   const cwd = process.cwd();
 
-  // 1. build all the packages
-  spawnSync('sh', ['-c', `rush build --only tag:package`], {
+
+
+  // 1. update version of package.json, this operation will remove the common/changes
+  spawnSync('sh', ['-c', `rush version --bump`], {
     stdio: 'inherit',
     shell: false,
   });
 
-  // 2. update version of package.json, this operation will remove the common/changes
-  spawnSync('sh', ['-c', `rush version --bump`], {
+  // 2. build all the packages
+  spawnSync('sh', ['-c', `rush build --only tag:package`], {
     stdio: 'inherit',
     shell: false,
   });
