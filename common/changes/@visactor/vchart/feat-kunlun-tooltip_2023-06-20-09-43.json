@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix the issue that tooltip don't hide when the pointer taps the blank area in mobile mode",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

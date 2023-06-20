@@ -34,6 +34,7 @@ export const tooltip: ITooltipTheme = {
   titleLabel: {
     fontSize: 14,
     fontColor: '#4E5969',
+    fontWeight: 'bold',
     textAlign: 'left',
     lineHeight: 18,
     textBaseline: 'middle',

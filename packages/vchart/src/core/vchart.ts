@@ -132,6 +132,13 @@ export class VChart implements IVChart {
     return getMapSource(key);
   }
 
+  /**
+   * 全局关闭 tooltip
+   */
+  static hideTooltip() {
+    InstanceManager.forEach(instance => instance?.hideTooltip?.());
+  }
+
   /** 图表实例管理器 */
   static readonly InstanceManager = InstanceManager;
   /** 主题管理器 */
