@@ -1,6 +1,7 @@
-import type { ISeriesTooltipHelper } from '../interface';
+import type { IFunnelSeries, ISeriesTooltipHelper } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import { FunnelSeries } from './funnel';
 import { FUNNEL_REACH_RATIO } from '../../constant/funnel';
 import { isValid } from '@visactor/vutils';
 import type { TooltipHandlerParams } from '../../component/tooltip/interface';
@@ -8,17 +9,16 @@ import type { Datum } from '@visactor/vgrammar';
 
 export class FunnelSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   titleValueCallback = (datum: Datum, params?: TooltipHandlerParams) => {
-    const series = this.series as FunnelSeries;
-    if (params?.mark?.name === FunnelSeries.mark.transform?.name) {
+    const series = this.series as IFunnelSeries;
+    if (params?.mark?.name === SeriesMarkNameEnum.transform) {
       // TODO: i18n
       return `转化率`;
     }
-    return this._getDimensionData(datum) ?? datum.properties?.[`${series.categoryField}`];
+    return this._getDimensionData(datum) ?? datum.properties?.[`${series.getCategoryField()}`];
   };
 
-  contentValueCallback = (datum: Datum) => {
-    const series = this.series as FunnelSeries;
-    if (series.isTransformLevel(datum)) {
+  contentValueCallback = (datum: Datum, params?: TooltipHandlerParams) => {
+    if (params?.mark?.name === SeriesMarkNameEnum.transform) {
       const measureData = datum?.[FUNNEL_REACH_RATIO];
       return `${(measureData * 100).toFixed(1)}%`;
     }
@@ -26,7 +26,7 @@ export class FunnelSeriesTooltipHelper extends BaseSeriesTooltipHelper implement
   };
 
   contentKeyCallback = (datum: Datum, params?: TooltipHandlerParams) => {
-    if (params?.mark?.name === FunnelSeries.mark.transform?.name) {
+    if (params?.mark?.name === SeriesMarkNameEnum.transform) {
       // TODO: i18n
       return `转化率`;
     }
