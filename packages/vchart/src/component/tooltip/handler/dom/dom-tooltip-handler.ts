@@ -33,8 +33,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
   constructor(tooltipSpec: ITooltipSpec, tooltipId: string, component: Tooltip) {
     super(tooltipSpec, tooltipId, component);
-
-    this._domStyle = getDomStyles(this._style);
+    this._initStyle();
     this.initEl();
   }
 
@@ -74,7 +73,8 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     } else {
       if (!params.changePositionOnly) {
         this.model.setTooltipActual(actualTooltip);
-        this.model.setStyle();
+        this._initStyle();
+        this.model.updateTooltipStyle(this._domStyle);
         this.model.setContent();
       }
       this.setVisibility(visible);
@@ -85,6 +85,10 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       // https://stackoverflow.com/questions/22111256/translate3d-vs-translate-performance
       el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
     }
+  }
+
+  protected _initStyle() {
+    this._domStyle = getDomStyles(this._style, this._attributeCache);
   }
 
   protected _getParentElement(spec: ITooltipSpec): HTMLElement {
