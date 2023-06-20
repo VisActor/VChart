@@ -20,9 +20,13 @@ VChart, more than just a cross-platform charting library, but also an expressive
   <a href="">Cross-Platform</a>
 </p>
 
+![](https://github.com/visactor/vchart/actions/workflows/bug-server.yml/badge.svg)
+![](https://github.com/visactor/vchart/actions/workflows/unit-test.yml/badge.svg)
 [![npm Version](https://img.shields.io/npm/v/@visactor/vchart.svg)](https://www.npmjs.com/package/@visactor/vchart)
 [![npm Download](https://img.shields.io/npm/dm/@visactor/vchart.svg)](https://www.npmjs.com/package/@visactor/vchart)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/visactor/vchart/blob/main/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
+
+![](https://img.shields.io/badge/language-TypeScript-red.svg) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/visactor/vchart/blob/main/LICENSE)
 
 </div>
 
@@ -38,197 +42,114 @@ English| [简体中文](./README.zh-CN.md)
 
 </div>
 
-# Introduction
+## Introduction
 
 VChart is a charting component library in VisActor visualization system. It wraps the charting logic based on visual grammar library [VGrammar](https://github.com/VisActor/VGrammar) and the component encapsulation based on visual rendering engine [VRender](https://github.com/VisActor/VRender). The core capabilities are as follows:
 
-1. Cross-platform: Automatically adapt to desktop, H5, and multiple small program environments
-2. Storytelling: Comprehensive annotation, animation, flow control, narrative templates, and other enhanced features for visual storytelling
-3. Scenes: Deliver visual storytelling capabilities to end-users, unlock developer productivity
+1. **Cross-platform**: Automatically adapt to desktop, H5, and multiple small program environments
+2. **Storytelling**: Comprehensive annotation, animation, flow control, narrative templates, and other enhanced features for visual storytelling
+3. **Scenes**: Deliver visual storytelling capabilities to end-users, unlock developer productivity
 
-# Repo Intro
+## Repo Intro
 
 This repository includes the following packages:
 
-1. vchart: Charting components
-2. react-vchart: React-based VChart
+1. [`vchart`](./packages/vchart/): The core code repository of VChart
+2. [`react-vchart`](./packages/react-vchart/): The VChart component encapsulated based on [React](https://react.dev/)
+3. [`taro-vchart`](./packages/taro-vchart/): The VChart component encapsulated based on [Taro](https://docs.taro.zone/docs/)
+4. [`lark-vchart`](./packages/lark-vchart/): The VChart component encapsulated based on [Lark miniAPP](https://open.feishu.cn/document/client-docs/gadget/introduction/host-environment)
+5. [`tt-vchart`](./packages/lark-vchart/): The VChart component encapsulated based on [TikTok miniAPP](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview/)
+6. [`block-vchart`](./packages/block-vchart/): The VChart component encapsulated based on [Lark Block](https://open.feishu.cn/document/client-docs/block/block-introduction)
 
-# Usage
+## 🔨 Usage
 
-## Installation
-
-[npm package](https://www.npmjs.com/package/@visactor/vchart)
+### 📦 Installation
 
 ```bash
-// npm
-npm install @visactor/vchart
+# npm
+$ npm install @visactor/vchart
 
-// yarn
-yarn add @visactor/vchart
+# yarn
+$ yarn add @visactor/vchart
 ```
 
-## Quick Start
+### 📊 A Chart Example
 
-```javascript
+<img src="https://user-images.githubusercontent.com/135952300/246996854-95cf0db3-42a2-41f9-8f15-8b7bbec1794c.png" style="width: 500px">
+
+```typescript
+import VChart from '@visactor/vchart';
+
 const spec = {
-  type: 'common',
-  data: {
-    values: [
-      {
-        time: '2:00',
-        value: 8,
-        type: 'TikTok'
-      },
-      {
-        time: '4:00',
-        value: 9,
-        type: 'TikTok'
-      },
-      {
-        time: '6:00',
-        value: 11,
-        type: 'TikTok'
-      },
-      {
-        time: '8:00',
-        value: 14,
-        type: 'TikTok'
-      },
-      {
-        time: '10:00',
-        value: 16,
-        type: 'TikTok'
-      },
-      {
-        time: '12:00',
-        value: 17,
-        type: 'TikTok'
-      },
-      {
-        time: '14:00',
-        value: 17,
-        type: 'TikTok'
-      },
-      {
-        time: '16:00',
-        value: 16,
-        type: 'TikTok'
-      },
-      {
-        time: '18:00',
-        value: 15,
-        type: 'TikTok'
-      },
-
-      {
-        time: '2:00',
-        value: 7,
-        type: 'Bilibili'
-      },
-      {
-        time: '4:00',
-        value: 8,
-        type: 'Bilibili'
-      },
-      {
-        time: '6:00',
-        value: 9,
-        type: 'Bilibili'
-      },
-      {
-        time: '8:00',
-        value: 10,
-        type: 'Bilibili'
-      },
-      {
-        time: '10:00',
-        value: 9,
-        type: 'Bilibili'
-      },
-      {
-        time: '12:00',
-        value: 12,
-        type: 'Bilibili'
-      },
-      {
-        time: '14:00',
-        value: 14,
-        type: 'Bilibili'
-      },
-      {
-        time: '16:00',
-        value: 12,
-        type: 'Bilibili'
-      },
-      {
-        time: '18:00',
-        value: 14,
-        type: 'Bilibili'
-      }
-    ]
-  },
-  color: ['#6690F2', '#70D6A3'],
-  series: [
+  type: 'bar',
+  data: [
     {
-      type: 'bar',
-      xField: 'time',
-      yField: 'value',
-      stack: true,
-      seriesField: 'type'
+      id: 'barData',
+      values: [
+        { month: 'Monday', sales: 22 },
+        { month: 'Tuesday', sales: 13 },
+        { month: 'Wednesday', sales: 25 },
+        { month: 'Thursday', sales: 29 },
+        { month: 'Friday', sales: 38 }
+      ]
     }
   ],
-  legends: {
-    visible: true,
-    orient: 'right'
-  },
-  axes: [
-    {
-      orient: 'bottom',
-      type: 'band'
-    },
-    {
-      orient: 'left',
-      type: 'linear'
-    }
-  ]
+  xField: 'month',
+  yField: 'sales',
+  crosshair: {
+    xField: { visible: true }
+  }
 };
 
-/**
- * Chart container dom id: CONTAINER_ID
- * VChart 类: VChart
- *
- */
-const vChart = new VChart(spec, { dom: CONTAINER_ID });
-await vChart.renderAsync();
+// 'chart' is the id of your dom container, such as <div id="chart"></chart>
+const vchart = new VChart(spec, { dom: 'chart' });
+vchart.renderAsync();
 ```
 
-##
+## ⌨️ Development
 
-[More demos and detailed tutorials](https://visactor.io/vchart)
+First of all, please install [@microsoft/rush](https://rushjs.io/pages/intro/get_started/)
 
-# Related Links
+```bash
+$ npm i --global @microsoft/rush
+```
 
-- [Official website](https://visactor.io/vchart)
+Then clone locally:
 
-- [Theme Configuration](https://visactor.io/vchart)
-- [React-VChart](https://visactor.io/react-vchart)
-- [Cross-platform](https://visactor.io/vchart)
+```bash
+# clone
+$ git clone git@github.com:VisActor/VChart.git
+$ cd VChart
+# install dependencies
+$ rush update
+# start vchart development server
+$ rush start
+# start react-vchart development server
+$ rush react
+```
 
-# Ecosystem
+## 🔗 Related Links
 
-| Project                                                     | Description                                                                            |
-| ----------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| [React Component Library](https://visactor.io/react-vchart) | A React chart component library based on [VisActor/VChart](https://visactor.io/vchart) |
-| [AI-generated Components](https://visactor.io/ai-vchart)    | AI-generated chart component.                                                          |
+- [Homepage](https://visactor.io/vchart)
+- [VCharts Gallery](todo)
+- [VChart Tutorials](todo)
+- [VChart Options](todo)
+- [VChart API](todo)
+- [VGrammar](https://visactor.io/vgrammar)
+- [VRender](https://visactor.io/vrender)
+- [FAQ](todo)
+- [CodeSandbox Template](todo) for bug reports
 
-# Contribution
+## 💫 Ecosystem
 
-If you would like to contribute, please read the [Code of Conduct ](./CODE_OF_CONDUCT.md) and [ Guide](./CONTRIBUTING.zh-CN.md) first。
+| Project                         | Description                   |
+| ------------------------------- | ----------------------------- |
+| [AI-generated Components](todo) | AI-generated chart component. |
+
+## 🤝 Contribution [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
+
+If you would like to contribute, please read the [Code of Conduct](./CODE_OF_CONDUCT.md) and our [contributing guide](./CONTRIBUTING.md) first。
 
 Small streams converge to make great rivers and seas!
 
 <a href="https://github.com/visactor/vchart/graphs/contributors"><img src="https://contrib.rocks/image?repo=visactor/vchart" /></a>
-
-# License
-
-[MIT License](./LICENSE)

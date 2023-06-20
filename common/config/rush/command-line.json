@@ -94,7 +94,7 @@
       "commandKind": "global",
       "name": "react",
       "summary": "Start the development server of react-vchart demo",
-      "description": "Run this command to start creact-vchart development server",
+      "description": "Run this command to start react-vchart development server",
       "shellCommand": "rush run -p @visactor/react-vchart -s start"
     },
     {

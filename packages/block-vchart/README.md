@@ -1,4 +1,4 @@
-# VChart 飞书小组件（Block） 图表示例
+# `block-vchart`
 
 TODO: @kkxxkk2019
 
