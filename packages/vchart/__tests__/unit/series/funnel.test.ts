@@ -131,13 +131,13 @@ describe('[Domain-Series-Funnel] Funnel Series', () => {
 
     // tooltip title
     expect(funnel.tooltipHelper?.titleValueCallback(transformData0, testParams)).toBe('转化率');
-    expect(funnel.tooltipHelper?.titleValueCallback(funnelData0)).toBe(funnelData0[funnel.categoryField]);
+    expect(funnel.tooltipHelper?.titleValueCallback(funnelData0)).toBe(funnelData0[funnel.getCategoryField()]);
     // tooltip content value
     expect(funnel.tooltipHelper?.contentValueCallback(transformData0)).toBe('84.0%');
     expect(funnel.tooltipHelper?.contentValueCallback(funnelData0)).toBe(funnelData0[funnel.getValueField()]);
     // tooltip content key
     expect(funnel.tooltipHelper?.contentKeyCallback(transformData0, testParams)).toBe('转化率');
-    expect(funnel.tooltipHelper?.contentKeyCallback(funnelData0)).toBe(funnelData0[funnel.categoryField]);
+    expect(funnel.tooltipHelper?.contentKeyCallback(funnelData0)).toBe(funnelData0[funnel.getCategoryField()]);
 
     // getPoints
     funnel.setLayoutRect({ width: 500, height: 500 });

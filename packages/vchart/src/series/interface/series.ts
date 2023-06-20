@@ -267,6 +267,7 @@ export interface IArcSeries extends IPolarSeries {
   computeDatumRadius: (datum: any, state?: StateValueType) => number;
 }
 
-export interface IFunnelSeries {
+export interface IFunnelSeries extends ISeries {
   getPoints: (datum: any) => IPoint[];
+  getCategoryField: () => string;
 }

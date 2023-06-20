@@ -59,7 +59,7 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
   };
 
   protected _categoryField!: string;
-  public get categoryField() {
+  getCategoryField() {
     return this._categoryField;
   }
   setCategoryField(f: string): string {
@@ -282,7 +282,7 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
       this.setMarkStyle(
         labelMark,
         {
-          text: (datum: Datum) => `${datum[this.categoryField]} ${datum[this.getValueField()]}`,
+          text: (datum: Datum) => `${datum[this.getCategoryField()]} ${datum[this.getValueField()]}`,
           x: (datum: Datum) => this._computeLabelPosition(datum).x,
           y: (datum: Datum) => this._computeLabelPosition(datum).y,
           limit: (datum: Datum) => this._computeLabelLimit(datum, this._spec.label),
@@ -320,7 +320,7 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
       this.setMarkStyle(
         outerLabelMark,
         {
-          text: (datum: Datum) => `${datum[this.categoryField]}`,
+          text: (datum: Datum) => `${datum[this.getCategoryField()]}`,
           x: (datum: Datum) => this._computeOuterLabelPosition(datum).x,
           y: (datum: Datum) => this._computeOuterLabelPosition(datum).y,
           textAlign: (datum: Datum) => this._computeOuterLabelPosition(datum).align,
@@ -497,7 +497,7 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
   }
 
   private _getMainAxisLength(isTransform = false) {
-    const funnelCount = this.getViewDataStatistics().latestData[this.categoryField].values.length;
+    const funnelCount = this.getViewDataStatistics().latestData[this.getCategoryField()].values.length;
     const viewHeight = this._isHorizontal() ? this.getLayoutRect().width : this.getLayoutRect().height;
 
     const hasTransform = !!this._spec.isTransform;
@@ -733,7 +733,7 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
     const shapeMiddleWidth = (Math.abs(points[0].x - points[1].x) + Math.abs(points[2].x - points[3].x)) / 2;
     const funnelLabelBounds = this._labelMark
       ?.getProduct()
-      ?.elements?.find((el: any) => el.data[0]?.[this.categoryField] === datum[this.categoryField])
+      ?.elements?.find((el: any) => el.data[0]?.[this.getCategoryField()] === datum[this.getCategoryField()])
       ?.getBounds();
 
     const funnelLabelWidth = funnelLabelBounds ? funnelLabelBounds.x2 - funnelLabelBounds.x1 : 0;
@@ -746,13 +746,14 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
   }
 
   private _computeOuterLabelLinePosition(datum: Datum) {
+    const categoryField = this.getCategoryField();
     const outerLabelMarkBounds = this._funnelOuterLabelMark?.label
       ?.getProduct()
-      ?.elements?.find((el: any) => el.data[0]?.[this.categoryField] === datum[this.categoryField])
+      ?.elements?.find((el: any) => el.data[0]?.[categoryField] === datum[categoryField])
       ?.getBounds();
     const labelMarkBounds = this._labelMark
       ?.getProduct()
-      ?.elements?.find((el: any) => el.data[0]?.[this.categoryField] === datum[this.categoryField])
+      ?.elements?.find((el: any) => el.data[0]?.[categoryField] === datum[categoryField])
       ?.getBounds();
     let x1;
     let x2;
