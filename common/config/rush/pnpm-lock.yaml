@@ -87,8 +87,8 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 20.3.1
       '@types/offscreencanvas': 2019.6.4
-      '@types/react': 18.2.12
-      '@types/react-dom': 18.2.5
+      '@types/react': 18.2.13
+      '@types/react-dom': 18.2.6
       '@types/react-is': 17.0.4
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
       eslint: 8.18.0
@@ -173,7 +173,7 @@ importers:
       '@tarojs/runtime': 3.3.17
       '@tarojs/taro': 3.3.17
       '@tarojs/webpack-runner': 3.3.17
-      '@types/react': 18.2.12
+      '@types/react': 18.2.13
       '@types/webpack-env': 1.18.1
       '@typescript-eslint/eslint-plugin': 5.30.0_cow5zg7tx6c3eisi5a4ud5kwia
       '@typescript-eslint/parser': 5.30.0_vwud3sodsb5zxmzckoj7rdwdbq
@@ -3152,7 +3152,7 @@ packages:
     resolution: {integrity: sha512-zt6QGPmYM0SnpG+1DtQpmHJxYVi3kGXkw+UFs26s7w/W/zv0VDHv+97Qbjv3P+wjmo4Hkz2vOlkCAnaDBSl60A==}
     dependencies:
       '@tarojs/helper': 3.3.17
-      acorn: 8.8.2
+      acorn: 8.9.0
       acorn-walk: 8.2.0
       loader-utils: 1.4.2
     transitivePeerDependencies:
@@ -3595,10 +3595,10 @@ packages:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
     dev: true
 
-  /@types/react-dom/18.2.5:
-    resolution: {integrity: sha512-sRQsOS/sCLnpQhR4DSKGTtWFE3FZjpQa86KPVbhUqdYMRZ9FEFcfAytKhR/vUG2rH1oFbOOej6cuD7MFSobDRQ==}
+  /@types/react-dom/18.2.6:
+    resolution: {integrity: sha512-2et4PDvg6PVCyS7fuTc4gPoksV58bW0RwSxWKcPRcHZf0PRUGq03TKcD/rUHe3azfV6/5/biUBJw+HhCQjaP0A==}
     dependencies:
-      '@types/react': 18.2.12
+      '@types/react': 18.2.13
     dev: true
 
   /@types/react-is/17.0.4:
@@ -3615,8 +3615,8 @@ packages:
       csstype: 3.1.2
     dev: true
 
-  /@types/react/18.2.12:
-    resolution: {integrity: sha512-ndmBMLCgn38v3SntMeoJaIrO6tGHYKMEBohCUmw8HoLLQdRMOIGXfeYaBTLe2lsFaSB3MOK1VXscYFnmLtTSmw==}
+  /@types/react/18.2.13:
+    resolution: {integrity: sha512-vJ+zElvi/Zn9cVXB5slX2xL8PZodPCwPRDpittQdw43JR2AJ5k3vKdgJJyneV/cYgIbLQUwXa9JVDvUZXGba+Q==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
@@ -4419,12 +4419,12 @@ packages:
       acorn: 7.4.1
     dev: true
 
-  /acorn-jsx/5.3.2_acorn@8.8.2:
+  /acorn-jsx/5.3.2_acorn@8.9.0:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      acorn: 8.8.2
+      acorn: 8.9.0
 
   /acorn-walk/6.2.0:
     resolution: {integrity: sha512-7evsyfH1cLOCdAzZAd43Cic04yKydNx0cF+7tiA19p1XnLLPU4dpCQOqpjqwokFe//vS0QqfqqjCS2JkiIs0cA==}
@@ -4458,8 +4458,8 @@ packages:
     hasBin: true
     dev: true
 
-  /acorn/8.8.2:
-    resolution: {integrity: sha512-xjIYgE8HBrkpd/sJqOGNspf8uHG+NOHGOw6a/Urj8taM2EXfdNAH2oFcPeIFfsv3+kz/mJrS5VuMqbNLjCa2vw==}
+  /acorn/8.9.0:
+    resolution: {integrity: sha512-jaVNAFBHNLXspO543WnNNPZFRtavh3skAkITqD0/2aeMkKZTN+254PyhwxFYrk3vQ1xfY+2wbesJMs/JC8/PwQ==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -5008,7 +5008,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.9
-      caniuse-lite: 1.0.30001503
+      caniuse-lite: 1.0.30001505
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -5021,7 +5021,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 3.2.8
-      caniuse-lite: 1.0.30001503
+      caniuse-lite: 1.0.30001505
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       postcss: 6.0.23
@@ -5034,7 +5034,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.9
-      caniuse-lite: 1.0.30001503
+      caniuse-lite: 1.0.30001505
       chalk: 2.4.2
       normalize-range: 0.1.2
       num2fraction: 1.2.2
@@ -5047,7 +5047,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.9
-      caniuse-lite: 1.0.30001503
+      caniuse-lite: 1.0.30001505
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       picocolors: 0.2.1
@@ -5947,8 +5947,8 @@ packages:
     resolution: {integrity: sha512-WHVocJYavUwVgVViC0ORikPHQquXwVh939TaelZ4WDqpWgTX/FsGhl/+P4qBUAGcRvtOgDgC+xftNWWp2RUTAQ==}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001503
-      electron-to-chromium: 1.4.432
+      caniuse-lite: 1.0.30001505
+      electron-to-chromium: 1.4.434
     dev: true
 
   /browserslist/4.21.9:
@@ -5956,8 +5956,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001503
-      electron-to-chromium: 1.4.432
+      caniuse-lite: 1.0.30001505
+      electron-to-chromium: 1.4.434
       node-releases: 2.0.12
       update-browserslist-db: 1.0.11_browserslist@4.21.9
 
@@ -6244,8 +6244,8 @@ packages:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
     dev: true
 
-  /caniuse-lite/1.0.30001503:
-    resolution: {integrity: sha512-Sf9NiF+wZxPfzv8Z3iS0rXM1Do+iOy2Lxvib38glFX+08TCYYYGR5fRJXk4d77C4AYwhUjgYgMsMudbh2TqCKw==}
+  /caniuse-lite/1.0.30001505:
+    resolution: {integrity: sha512-jaAOR5zVtxHfL0NjZyflVTtXm3D3J9P15zSJ7HmQF8dSKGA6tqzQq+0ZI3xkjyQj46I4/M0K2GbMpcAFOcbr3A==}
 
   /capture-exit/2.0.0:
     resolution: {integrity: sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g==}
@@ -8011,8 +8011,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.432:
-    resolution: {integrity: sha512-yz3U/khQgAFT2HURJA3/F4fKIyO2r5eK09BQzBZFd6BvBSSaRuzKc2ZNBHtJcO75/EKiRYbVYJZ2RB0P4BuD2g==}
+  /electron-to-chromium/1.4.434:
+    resolution: {integrity: sha512-5Gvm09UZTQRaWrimRtWRO5rvaX6Kpk5WHAPKDa7A4Gj6NIPuJ8w8WNpnxCXdd+CJJt6RBU6tUw0KyULoW6XuHw==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
@@ -8982,8 +8982,8 @@ packages:
     resolution: {integrity: sha512-7OASN1Wma5fum5SrNhFMAMJxOUAbhyfQ8dQ//PJaJbNw0URTPWqIghHWt1MmAANKhHZIYOHruW4Kw4ruUWOdGw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
-      acorn: 8.8.2
-      acorn-jsx: 5.3.2_acorn@8.8.2
+      acorn: 8.9.0
+      acorn-jsx: 5.3.2_acorn@8.9.0
       eslint-visitor-keys: 3.4.1
 
   /esprima/4.0.1:
@@ -10089,8 +10089,8 @@ packages:
     resolution: {integrity: sha512-zs9rlfa7HyaJAKG9o+V7C6qfMzyc+tb1IIXdUFcOBcR1U7siKy/uPdauLlrH1mc0vOgUwIv4BF+QxPiiTYz3Rw==}
     dev: true
 
-  /giturl/1.0.1:
-    resolution: {integrity: sha512-wQourBdI13n8tbjcZTDl6k+ZrCRMU6p9vfp9jknZq+zfWc8xXNztpZFM4XkPHVzHcMSUZxEMYYKZjIGkPlei6Q==}
+  /giturl/1.0.3:
+    resolution: {integrity: sha512-qVDEXufVtYUzYqI5hoDUONh9GCEPi0n+e35KNDafdsNt9fPxB0nvFW/kFiw7W42wkg8TUyhBqb+t24yyaoc87A==}
     engines: {node: '>= 0.10.0'}
     dev: true
 
@@ -13040,7 +13040,7 @@ packages:
         optional: true
     dependencies:
       abab: 2.0.6
-      acorn: 8.8.2
+      acorn: 8.9.0
       acorn-globals: 6.0.0
       cssom: 0.4.4
       cssstyle: 2.3.0
@@ -13924,7 +13924,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.8
+      minimist: 1.2.5
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -14321,7 +14321,7 @@ packages:
   /mlly/1.3.0:
     resolution: {integrity: sha512-HT5mcgIQKkOrZecOjOX3DJorTikWXwsBfpcr/MGBkhfWcjiqvnaL/9ppxvIUXfjT6xt4DVIAsN9fMUz1ev4bIw==}
     dependencies:
-      acorn: 8.8.2
+      acorn: 8.9.0
       pathe: 1.1.1
       pkg-types: 1.0.3
       ufo: 1.1.2
@@ -14623,7 +14623,7 @@ packages:
       co: 4.6.0
       depcheck: 0.8.3
       execa: 0.2.2
-      giturl: 1.0.1
+      giturl: 1.0.3
       global-modules: 1.0.0
       globby: 4.1.0
       inquirer: 0.12.0
@@ -16213,7 +16213,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.8
+      minimist: 1.2.5
       strip-json-comments: 2.0.1
     dev: true
 
@@ -18137,7 +18137,7 @@ packages:
   /strip-literal/1.0.1:
     resolution: {integrity: sha512-QZTsipNpa2Ppr6v1AmJHESqJ3Uz247MUS0OjrnnZjFAvEoWqxuyFuXn2xLgMtRnijJShAa1HL0gtJyUs7u7n3Q==}
     dependencies:
-      acorn: 8.8.2
+      acorn: 8.9.0
     dev: true
 
   /strip-outer/1.0.1:
@@ -18565,7 +18565,7 @@ packages:
     hasBin: true
     dependencies:
       '@jridgewell/source-map': 0.3.3
-      acorn: 8.8.2
+      acorn: 8.9.0
       commander: 2.20.3
       source-map-support: 0.5.21
 
@@ -18942,7 +18942,7 @@ packages:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 20.3.1
-      acorn: 8.8.2
+      acorn: 8.9.0
       acorn-walk: 8.2.0
       arg: 4.1.3
       create-require: 1.1.1
@@ -19813,7 +19813,7 @@ packages:
       '@vitest/snapshot': 0.30.1
       '@vitest/spy': 0.30.1
       '@vitest/utils': 0.30.1
-      acorn: 8.8.2
+      acorn: 8.9.0
       acorn-walk: 8.2.0
       cac: 6.7.14
       chai: 4.3.7
@@ -19849,7 +19849,7 @@ packages:
     engines: {node: '>=6.0'}
     hasBin: true
     dependencies:
-      acorn: 8.8.2
+      acorn: 8.9.0
       acorn-walk: 8.2.0
     dev: true
 
