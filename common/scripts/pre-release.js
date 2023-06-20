@@ -53,14 +53,17 @@ function run() {
   }
 
   if (preReleaseName && preReleaseType) {
-    // 1. build all the packages
-    spawnSync('sh', ['-c', `rush build --only tag:package`], {
+
+
+    // 1. apply version and update version of package.json
+    spawnSync('sh', ['-c', `rush publish --apply --prerelease-name ${preReleaseName} --partial-prerelease`], {
       stdio: 'inherit',
       shell: false,
     });
 
-    // 2. apply version and update version of package.json
-    spawnSync('sh', ['-c', `rush publish --apply --prerelease-name ${preReleaseName} --partial-prerelease`], {
+
+    // 2. build all the packages
+    spawnSync('sh', ['-c', `rush build --only tag:package`], {
       stdio: 'inherit',
       shell: false,
     });
