@@ -14,15 +14,19 @@ VChart，不只是开箱即用的多端图表库，更是生动灵活的数据�
 
 <p align="center">
   <a href="">简介</a> •
-  <a href="">demo</a> •
+  <a href="">Demo</a> •
   <a href="">教程</a> •
   <a href="">API</a>•
   <a href="">跨端</a>
 </p>
 
+![](https://github.com/visactor/vchart/actions/workflows/bug-server.yml/badge.svg)
+![](https://github.com/visactor/vchart/actions/workflows/unit-test.yml/badge.svg)
 [![npm Version](https://img.shields.io/npm/v/@visactor/vchart.svg)](https://www.npmjs.com/package/@visactor/vchart)
 [![npm Download](https://img.shields.io/npm/dm/@visactor/vchart.svg)](https://www.npmjs.com/package/@visactor/vchart)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/visactor/vchart/blob/main/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
+
+![](https://img.shields.io/badge/language-TypeScript-red.svg) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/visactor/vchart/blob/main/LICENSE)
 
 </div>
 
@@ -38,197 +42,114 @@ VChart，不只是开箱即用的多端图表库，更是生动灵活的数据�
 
 </div>
 
-# 简介
+## 简介
 
 VChart 是 VisActor 可视化体系中的图表组件库，基于可视化语法库[VGrammar](https://github.com/VisActor/VGrammar) 进行图表逻辑封装，基于可视化渲染引擎 [VRender](https://github.com/VisActor/VRender) 进行组件封装。核心能力如下：
 
-1. 一码多端：自动适配桌面、H5、多个小程序环境
-2. 面向叙事：综合应用标注、动画、流程控制、叙事模板等一系列增强功能进行叙事可视化创作。
-3. 场景沉淀：面向最终用户沉淀可视化能力，解放开发者生产力
+1. **一码多端**：自动适配桌面、H5、多个小程序环境
+2. **面向叙事**：综合应用标注、动画、流程控制、叙事模板等一系列增强功能进行叙事可视化创作。
+3. **场景沉淀**：面向最终用户沉淀可视化能力，解放开发者生产力
 
-# 仓库简介
+## 仓库简介
 
-本仓库包含如下 package
+本仓库包含如下包：
 
-1. vchart 图表组件
-2. react-vchart React 版 VChart
+1. [`vchart`](./packages/vchart/)：核心包，VChart 图表
+2. [`react-vchart`](./packages/react-vchart/)：基于 [React](https://react.dev/) 封装的 VChart 图表组件
+3. [`taro-vchart`](./packages/taro-vchart/)：基于 [Taro](https://docs.taro.zone/docs/) 封装的 VChart 图表组件
+4. [`lark-vchart`](./packages/lark-vchart/)：基于 [飞书小程序](https://open.feishu.cn/document/client-docs/gadget/introduction/host-environment) 封装的 VChart 图表组件
+5. [`tt-vchart`](./packages/lark-vchart/): 基于 [抖音小程序](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview/) 封装的 VChart 图表组件
+6. [`block-vchart`](./packages/block-vchart/)：基于 [飞书小组件](https://open.feishu.cn/document/client-docs/block/block-introduction) 封装的 VChart 图表组件
 
-# 使用
+## 🔨 使用
 
-## 安装
-
-[npm package](https://www.npmjs.com/package/@visactor/vchart)
+### 📦 安装
 
 ```bash
-// npm
-npm install @visactor/vchart
+# npm
+$ npm install @visactor/vchart
 
-// yarn
-yarn add @visactor/vchart
+# yarn
+$ yarn add @visactor/vchart
 ```
 
-## 快速上手
+### 📊 一个简单的图表
 
-```javascript
+<img src="https://user-images.githubusercontent.com/135952300/246996854-95cf0db3-42a2-41f9-8f15-8b7bbec1794c.png" style="width: 500px">
+
+```typescript
+import VChart from '@visactor/vchart';
+
 const spec = {
-  type: 'common',
-  data: {
-    values: [
-      {
-        time: '2:00',
-        value: 8,
-        type: '某音'
-      },
-      {
-        time: '4:00',
-        value: 9,
-        type: '某音'
-      },
-      {
-        time: '6:00',
-        value: 11,
-        type: '某音'
-      },
-      {
-        time: '8:00',
-        value: 14,
-        type: '某音'
-      },
-      {
-        time: '10:00',
-        value: 16,
-        type: '某音'
-      },
-      {
-        time: '12:00',
-        value: 17,
-        type: '某音'
-      },
-      {
-        time: '14:00',
-        value: 17,
-        type: '某音'
-      },
-      {
-        time: '16:00',
-        value: 16,
-        type: '某音'
-      },
-      {
-        time: '18:00',
-        value: 15,
-        type: '某音'
-      },
-
-      {
-        time: '2:00',
-        value: 7,
-        type: 'B站'
-      },
-      {
-        time: '4:00',
-        value: 8,
-        type: 'B站'
-      },
-      {
-        time: '6:00',
-        value: 9,
-        type: 'B站'
-      },
-      {
-        time: '8:00',
-        value: 10,
-        type: 'B站'
-      },
-      {
-        time: '10:00',
-        value: 9,
-        type: 'B站'
-      },
-      {
-        time: '12:00',
-        value: 12,
-        type: 'B站'
-      },
-      {
-        time: '14:00',
-        value: 14,
-        type: 'B站'
-      },
-      {
-        time: '16:00',
-        value: 12,
-        type: 'B站'
-      },
-      {
-        time: '18:00',
-        value: 14,
-        type: 'B站'
-      }
-    ]
-  },
-  color: ['#6690F2', '#70D6A3'],
-  series: [
+  type: 'bar',
+  data: [
     {
-      type: 'bar',
-      xField: 'time',
-      yField: 'value',
-      stack: true,
-      seriesField: 'type'
+      id: 'barData',
+      values: [
+        { month: 'Monday', sales: 22 },
+        { month: 'Tuesday', sales: 13 },
+        { month: 'Wednesday', sales: 25 },
+        { month: 'Thursday', sales: 29 },
+        { month: 'Friday', sales: 38 }
+      ]
     }
   ],
-  legends: {
-    visible: true,
-    orient: 'right'
-  },
-  axes: [
-    {
-      orient: 'bottom',
-      type: 'band'
-    },
-    {
-      orient: 'left',
-      type: 'linear'
-    }
-  ]
+  xField: 'month',
+  yField: 'sales',
+  crosshair: {
+    xField: { visible: true }
+  }
 };
 
-/**
- * 图表容器 dom id: CONTAINER_ID
- * VChart 类: VChart
- *
- */
-const vChart = new VChart(spec, { dom: CONTAINER_ID });
-await vChart.renderAsync();
+// 'chart' 是图表 dom 容器的 id，比如 <div id="chart"></chart>
+const vchart = new VChart(spec, { dom: 'chart' });
+vchart.renderAsync();
 ```
 
-##
+## ⌨️ 开发
 
-[更多 demo 和详细教程](https://visactor.io/vchart)
+首先，全局安装 [@microsoft/rush](https://rushjs.io/pages/intro/get_started/)
 
-# 相关链接
+```bash
+$ npm i --global @microsoft/rush
+```
 
-- [官网](https://visactor.io/vchart)
+接着将代码 clone 至本地：
 
-- [主题配置](https://visactor.io/vchart)
-- [React-VChart](https://visactor.io/react-vchart)
-- [跨端](https://visactor.io/vchart)
+```bash
+# clone
+$ git clone git@github.com:VisActor/VChart.git
+$ cd VChart
+# 安装依赖
+$ rush update
+# 开始 vchart 的本地开发
+$ rush start
+# 开始 react-vchart 的本地开发
+$ rush react
+```
 
-# 生态
+## 🔗 相关链接
 
-| 项目                                             | 介绍                                                                      |
-| ------------------------------------------------ | ------------------------------------------------------------------------- |
-| [React 组件库](https://visactor.io/react-vchart) | 基于 [VisActor/VChart](https://visactor.io/vchart) 的 React 图表 组件库。 |
-| [智能生成组件](https://visactor.io/ai-vchart)    | 基于 AI 的智能图表生成组件                                                |
+- [主页](https://visactor.io/vchart)
+- [VCharts 图表示例](todo)
+- [VChart 图表教程](todo)
+- [VChart 图表配置项](todo)
+- [VChart API](todo)
+- [VGrammar](https://visactor.io/vgrammar)
+- [VRender](https://visactor.io/vrender)
+- [FAQ](todo)
+- [CodeSandbox 模板](todo) 用于 bug 的提交
 
-# 参与贡献
+## 💫 生态
 
-如想参与贡献，请先阅读 [行为准则](./CODE_OF_CONDUCT.md) 和 [贡献指南](./CONTRIBUTING.zh-CN.md)。
+| 项目                 | 介绍                       |
+| -------------------- | -------------------------- |
+| [智能生成组件](todo) | 基于 AI 的智能图表生成组件 |
+
+## 🤝 参与贡献 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
+
+如想参与贡献，请先阅读[行为准则](./CODE_OF_CONDUCT.md) 和[贡献指南](./CONTRIBUTING.zh-CN.md)。
 
 细流成河，终成大海！
 
 <a href="https://github.com/visactor/vchart/graphs/contributors"><img src="https://contrib.rocks/image?repo=visactor/vchart" /></a>
-
-# 许可证
-
-[MIT 协议](./LICENSE)
