@@ -369,9 +369,7 @@ export class BaseChart extends CompilableBase implements IChart {
       // 判断是否使用3d的layout
       let use3dLayout = false;
       // 查找是否需要使用3d布局模块
-      if (this._spec.zField) {
-        use3dLayout = true;
-      } else if (this._spec.series && this._spec.series.some((s: any) => s.zField)) {
+      if (this._spec.zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
         use3dLayout = true;
       }
       const layout = new (Factory.getLayout(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
