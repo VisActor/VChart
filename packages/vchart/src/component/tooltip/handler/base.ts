@@ -447,11 +447,11 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       containerSize.height = window.innerHeight;
 
       if (!isCanvas) {
-        const chartRenderer = this._compiler.getCanvas() ?? this._chartContainer;
+        const chartRenderer = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
         parentElementPosOffset = getElementAbsolutePosition(parentElement);
         parentElementScrollOffset = getElementAbsoluteScrollOffset(parentElement);
-        const chartPosOffset = getElementAbsolutePosition(chartRenderer!);
-        const chartScrollOffset = getElementAbsoluteScrollOffset(chartRenderer!);
+        const chartPosOffset = getElementAbsolutePosition(chartRenderer);
+        const chartScrollOffset = getElementAbsoluteScrollOffset(chartRenderer);
         absolutePosOffset = {
           x: chartPosOffset.x - parentElementPosOffset.x,
           y: chartPosOffset.y - parentElementPosOffset.y
