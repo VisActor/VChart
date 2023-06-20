@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "0.0.1-alpha.2",
+  "version": "0.2.0",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
