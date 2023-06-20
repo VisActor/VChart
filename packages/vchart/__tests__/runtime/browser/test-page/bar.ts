@@ -3,191 +3,56 @@ import { default as VChart } from '../../../../src/index';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 
 const run = () => {
-  const data1 = [
-    { date: 'Day 1', workload: 7000 },
-    { date: 'Day 2', workload: 1000 },
-    { date: 'Day 3', workload: 6000 },
-    { date: 'Day 4', workload: 4000 },
-    { date: 'Day 5', workload: 8000 },
-    { date: 'Day 6', workload: 3000 },
-    { date: 'Day 7', workload: 9000 },
-    { date: 'Day 8', workload: 2000 },
-    { date: 'Day 9', workload: 5000 }
-  ];
+  const dataSet = new DataSet();
+  dataSet.registerParser('csv', csvParser);
+  const dataView = new DataView(dataSet);
+  const type1 = ['A', 'B'];
+  const type2 = ['A', 'B'];
+  const color = {
+    A: {
+      A: 'A',
+      B: 'B'
+    },
+    B: {
+      A: 'C',
+      B: 'D'
+    }
+  };
 
-  const data2 = [
-    { date: 'Day 1', workload: 1000 },
-    { date: 'Day 2', workload: 2000 },
-    { date: 'Day 3', workload: 3000 },
-    { date: 'Day 4', workload: 4000 },
-    { date: 'Day 5', workload: 5000 }
-  ];
+  let data = 'y,x,y2,type,type2,color';
+  type2.forEach(t2 => {
+    type1.forEach(t => {
+      for (let i = 0; i < 10; i++) {
+        data += `\n${Math.floor(Math.random() * 300) + 600},${i},0,${t},${t2},${color[t][t2]}`;
+      }
+    });
+  });
 
-  const data3 = [
-    { date: 'Day 0', workload: 3000 },
-    { date: 'Day 1', workload: 4000 },
-    { date: 'Day 2', workload: 5000 },
-    { date: 'Day3', workload: 6000 },
-    { date: 'Day4', workload: 7000 },
-    { date: 'Day5', workload: 8000 },
-    { date: 'Day 5', workload: 8000 },
-    { date: 'Day 10', workload: 8000 }
-  ];
-
+  dataView.parse(data, {
+    type: 'csv'
+  });
   const spec = {
     type: 'bar',
-    padding: {
-      top: 24,
-      right: 48,
-      bottom: 48,
-      left: 48
-    },
     data: [
       {
         id: 'id0',
-        values: data1
+        values: dataView.latestData
       }
     ],
-    xField: 'date',
-    yField: 'workload',
+    xField: ['x', 'type'],
+    yField: 'y',
+    seriesField: 'color',
     axes: [
-      {
-        orient: 'bottom',
-        label: {
-          space: 8,
-          style: {
-            fill: '#505050',
-            fontFamily: 'PingFang SC',
-            angle: -60,
-            textAlign: 'end',
-            textBaseline: 'middle'
-          }
-        },
-        tick: {
-          visible: false
-        },
-        title: {
-          visible: true,
-          space: 20,
-          style: {
-            fill: '#333',
-            fontFamily: 'PingFang SC',
-            fontSize: 14,
-            fontWeight: 'bold'
-          }
-        }
-      },
-      {
-        orient: 'left',
-        label: {
-          space: 8,
-          style: {
-            fill: '#6F6F6F',
-            fontFamily: 'PingFang SC'
-          },
-          formatMethod: label => `${label}K`
-        },
-        grid: {
-          visible: true,
-          style: {
-            lineDash: [0]
-          }
-        },
-        tick: {
-          visible: false
-        },
-        title: {
-          visible: true,
-          space: 20,
-          text: 'value',
-          autoRotate: false,
-          style: {
-            fill: '#333',
-            fontFamily: 'PingFang SC',
-            fontSize: 14,
-            fontWeight: 'bold',
-            textBaseline: 'bottom',
-            angle: -90
-          }
-        }
-      }
+      { orient: 'bottom', type: 'band' },
+      { orient: 'left', type: 'linear' }
     ],
-    dataZoom: {
-      orient: 'bottom',
-      showDetail: true,
-      middleHandler: {
-        visible: true
-      },
-      backgroundChart: {
-        area: {
-          style: {
-            fill: '#EAEAEA',
-            fillOpacity: 0.5
-          }
-        },
-        line: {
-          style: {
-            stroke: '#EAEAEA',
-            lineWidth: 3
-          }
-        }
-      },
-      selectedBackgroundChart: {
-        area: {
-          style: {
-            fill: '#EAEAEA'
-          }
-        },
-        line: {
-          style: {
-            stroke: '#EAEAEA',
-            lineWidth: 1
-          }
-        }
-      },
-      background: {
-        style: {
-          fill: '#fff',
-          lineWidth: 1,
-          stroke: '#EAEAEA'
-        }
-      },
-      selectedBackground: {
-        style: {
-          fillOpacity: 0.1
-        }
-      }
-    },
-    crosshair: {
-      xField: {
-        visible: true,
-        label: {
-          visible: false
-        }
-        // line: {
-        //   width: '120%'
-        // }
-      },
-      yField: {
-        visible: false
-      }
-    },
-    tooltip: {
-      enterable: true
-    },
-    bar: {
-      style: {
-        fill: '#00924F'
-      },
-      state: {
-        hover: {
-          fill: '#1664FF'
-        }
-      }
+    legends: {
+      visible: true
     }
   };
 
   const cs = new VChart(spec, {
+    dataSet,
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
