@@ -1,5 +1,12 @@
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isNumber, isString, merge, toNumber } from '@visactor/vutils';
-import { defaultKeyStyle, defaultShapeBoxStyle, defaultValueStyle } from './style-constants';
+import {
+  defaultKeyStyle,
+  defaultContentColumnStyle,
+  defaultValueStyle,
+  defaultAdaptiveKeyStyle
+} from './style-constants';
 import { BaseTooltipModel, TOOLTIP_EMPTY_STRING } from './base-tooltip-model';
 import type { ITooltipModelOption } from './interface';
 import type { IShapeSvgOption } from './shape-model';
@@ -19,8 +26,8 @@ export class ContentColumnModel extends BaseTooltipModel {
     option: ITooltipModelOption,
     className: ContentColumnType,
     childIndex?: number,
-    tooltipStyle?: IDomTooltipStyle,
-    tooltipActual?: IToolTipActual
+    tooltipStyle?: Maybe<IDomTooltipStyle>,
+    tooltipActual?: Maybe<IToolTipActual>
   ) {
     super(parent, option, childIndex, tooltipStyle, tooltipActual);
     this.className = className;
@@ -52,11 +59,11 @@ export class ContentColumnModel extends BaseTooltipModel {
       for (let i = 0; i < renderContent.length; i++) {
         if (!this.children[i]) {
           if (this.className === 'key-box' || this.className === 'value-box') {
-            const text = new TextModel(this.product, this._option, i, this._tooltipStyle, this._tooltipActual);
+            const text = new TextModel(this.product!, this._option, i, this._tooltipStyle, this._tooltipActual);
             text.init([this.className.substring(0, this.className.indexOf('-'))], undefined, 'div');
             this.children[i] = text;
           } else if (this.className === 'shape-box') {
-            const shape = new ShapeModel(this.product, this._option, i, this._tooltipStyle, this._tooltipActual);
+            const shape = new ShapeModel(this.product!, this._option, i, this._tooltipStyle, this._tooltipActual);
             shape.init(['shape'], undefined, 'div');
             this.children[i] = shape;
           }
@@ -70,18 +77,18 @@ export class ContentColumnModel extends BaseTooltipModel {
       return;
     }
 
-    super.setStyle(merge({}, defaultShapeBoxStyle, this._tooltipStyle.content));
+    super.setStyle(merge({}, defaultContentColumnStyle, this._tooltipStyle.content, this._getContentColumnStyle()));
 
     const renderContent = this.getRenderContent();
     renderContent.forEach((line, i) => {
       let childStyle: any = {};
       if (this.className === 'key-box') {
-        const keyContent = line.key;
-        childStyle = merge({}, defaultKeyStyle, {
+        const { key, isKeyAdaptive } = line;
+        childStyle = merge({}, isKeyAdaptive ? defaultAdaptiveKeyStyle : defaultKeyStyle, {
           height: `${100 / renderContent.length}%`,
-          ...this._tooltipStyle.content.key
+          ...this._tooltipStyle!.keyColumn.item
         });
-        const hasContent = (isString(keyContent) && keyContent?.trim?.() !== '') || isNumber(keyContent);
+        const hasContent = (isString(key) && key?.trim?.() !== '') || isNumber(key);
         if (!hasContent && !childStyle.visibility) {
           childStyle.visibility = 'hidden';
         } else {
@@ -91,15 +98,15 @@ export class ContentColumnModel extends BaseTooltipModel {
       } else if (this.className === 'value-box') {
         childStyle = merge({}, defaultValueStyle, {
           height: `${100 / renderContent.length}%`,
-          ...this._tooltipStyle.content.value
+          ...this._tooltipStyle!.valueColumn.item
         });
         (this.children[i] as TextModel).setStyle(childStyle);
       } else if (this.className === 'shape-box') {
-        childStyle = this._tooltipStyle.content.shape;
+        childStyle = this._tooltipStyle!.shapeColumn.item;
         const childContent = {
           hasShape: line.hasShape,
           shapeType: line.shapeType,
-          size: this._tooltipStyle.content.shape.width,
+          size: this._tooltipStyle!.shapeColumn.item?.width,
           color: line.shapeColor,
           hollow: line.shapeHollow
         } as IShapeSvgOption;
@@ -134,12 +141,23 @@ export class ContentColumnModel extends BaseTooltipModel {
         childContent = {
           hasShape: line.hasShape,
           shapeType: line.shapeType,
-          size: this._tooltipStyle.content.shape.width,
+          size: this._tooltipStyle!.shapeColumn.item?.width,
           color: line.shapeColor,
           hollow: line.shapeHollow
         } as IShapeSvgOption;
       }
       this.children[i]?.setContent(childContent);
     });
+  }
+
+  protected _getContentColumnStyle() {
+    switch (this.className) {
+      case 'shape-box':
+        return this._tooltipStyle?.shapeColumn;
+      case 'key-box':
+        return this._tooltipStyle?.keyColumn;
+      case 'value-box':
+        return this._tooltipStyle?.valueColumn;
+    }
   }
 }

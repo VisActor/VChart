@@ -3,29 +3,17 @@ export const defaultH2Style: Partial<CSSStyleDeclaration> = {
   marginBottom: '0px'
 };
 
-export const defaultContainerBoxStyle: Partial<CSSStyleDeclaration> = {
+export const defaultContainerStyle: Partial<CSSStyleDeclaration> = {
   display: 'flex',
   maxWidth: '440px',
   whiteSpace: 'nowrap'
 };
 
-export const defaultShapeBoxStyle: Partial<CSSStyleDeclaration> = {
+export const defaultContentColumnStyle: Partial<CSSStyleDeclaration> = {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-around',
   fontSize: '0'
-};
-
-export const defaultKeyBoxStyle: Partial<CSSStyleDeclaration> = {
-  flex: '1',
-  display: 'flex',
-  flexDirection: 'column',
-  overflow: 'hidden'
-};
-
-export const defaultValueBoxStyle: Partial<CSSStyleDeclaration> = {
-  display: 'flex',
-  flexDirection: 'column'
 };
 
 export const defaultKeyStyle: Partial<CSSStyleDeclaration> = {
@@ -33,6 +21,12 @@ export const defaultKeyStyle: Partial<CSSStyleDeclaration> = {
   paddingBottom: '0px',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
+  textAlign: 'left'
+};
+
+export const defaultAdaptiveKeyStyle: Partial<CSSStyleDeclaration> = {
+  paddingTop: '0px',
+  paddingBottom: '0px',
   textAlign: 'left'
 };
 

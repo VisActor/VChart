@@ -1,3 +1,5 @@
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { merge } from '@visactor/vutils';
 import { defaultH2Style } from './style-constants';
 import { BaseTooltipModel } from './base-tooltip-model';
@@ -5,8 +7,8 @@ import { ShapeModel } from './shape-model';
 import { TextModel } from './text-model';
 
 export class TitleModel extends BaseTooltipModel {
-  shape: ShapeModel | null = null;
-  textSpan: TextModel;
+  shape: Maybe<ShapeModel>;
+  textSpan: Maybe<TextModel>;
 
   init(): void {
     if (!this._tooltipActual) {
@@ -32,20 +34,23 @@ export class TitleModel extends BaseTooltipModel {
   }
 
   private _initShape() {
-    const shape = new ShapeModel(this.product, this._option, 0, this._tooltipStyle, this._tooltipActual);
+    const shape = new ShapeModel(this.product!, this._option, 0, this._tooltipStyle, this._tooltipActual);
     shape.init();
     this.shape = shape;
     this.children[shape.childIndex] = shape;
   }
 
   private _releaseShape() {
+    if (!this.shape) {
+      return;
+    }
     this.shape.release();
     delete this.children[this.shape.childIndex];
     this.shape = null;
   }
 
   private _initTextSpan() {
-    const textSpan = new TextModel(this.product, this._option, 1, this._tooltipStyle, this._tooltipActual);
+    const textSpan = new TextModel(this.product!, this._option, 1, this._tooltipStyle, this._tooltipActual);
     textSpan.init();
     this.textSpan = textSpan;
     this.children[textSpan.childIndex] = textSpan;
@@ -61,12 +66,12 @@ export class TitleModel extends BaseTooltipModel {
 
     this.shape?.setStyle(
       {
-        paddingRight: this._tooltipStyle.content.shape.marginRight
+        paddingRight: this._tooltipStyle.shapeColumn.item?.marginRight
       },
       {
         hasShape: title?.hasShape,
         shapeType: title?.shapeType,
-        size: this._tooltipStyle.content.shape.width,
+        size: this._tooltipStyle.shapeColumn.item?.width,
         color: title?.shapeColor,
         hollow: title?.shapeHollow
       }
@@ -83,11 +88,11 @@ export class TitleModel extends BaseTooltipModel {
     this.shape?.setStyle(undefined, {
       hasShape: title?.hasShape,
       shapeType: title?.shapeType,
-      size: this._tooltipStyle.content.shape.width,
+      size: this._tooltipStyle.shapeColumn.item?.width,
       color: title?.shapeColor,
       hollow: title?.shapeHollow
     });
-    this.textSpan.setContent(title.value);
+    this.textSpan?.setContent(title?.value);
   }
 
   release(): void {

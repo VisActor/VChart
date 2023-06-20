@@ -7,10 +7,10 @@ import type { ShapeType } from '../../../../../typings';
 import { BaseTooltipModel } from './base-tooltip-model';
 
 export interface IShapeSvgOption {
-  hasShape: boolean;
-  shapeType: ShapeType;
-  size: string;
-  color: string | IGradientColor;
+  hasShape?: boolean;
+  shapeType?: ShapeType;
+  size?: string;
+  color?: string | IGradientColor;
   hollow?: boolean;
 }
 
@@ -35,9 +35,9 @@ export class ShapeModel extends BaseTooltipModel {
     this.setSvg(option);
   }
 
-  setSvg(option: IShapeSvgOption) {
+  setSvg(option?: IShapeSvgOption) {
     const html = getSvgHtml(option);
-    if (html !== this._svgHtmlCache) {
+    if (this.product && html !== this._svgHtmlCache) {
       this._svgHtmlCache = html;
       this.product.innerHTML = html;
     }
@@ -49,8 +49,8 @@ export class ShapeModel extends BaseTooltipModel {
   }
 }
 
-function getSvgHtml(option: IShapeSvgOption) {
-  if (!option?.hasShape || !builtinSymbolsMap[option.shapeType]) {
+function getSvgHtml(option?: IShapeSvgOption) {
+  if (!option?.hasShape || !option.shapeType || !builtinSymbolsMap[option.shapeType]) {
     return '';
   }
 
@@ -63,7 +63,7 @@ function getSvgHtml(option: IShapeSvgOption) {
     fill = hollow ? 'none' : (color as string) ?? 'currentColor';
     return `
     <svg width="${size}"
-      height="${size}" viewBox="-0.8 -0.8 1.5 1.5" style="display: inline-block; vertical-align: middle;">
+      height="${size}" viewBox="-0.5 -0.5 1 1" style="display: inline-block; vertical-align: middle;">
       <path fill="${fill}" d="${path}" style="fill: ${fill};">
       </path>
     </svg>`;
@@ -92,7 +92,7 @@ function getSvgHtml(option: IShapeSvgOption) {
     }
     return `
     <svg width="${size}" height="${size}"
-      viewBox="-0.8 -0.8 1.5 1.5" style="display: inline-block; vertical-align: middle;">
+      viewBox="-0.5 -0.5 1 1" style="display: inline-block; vertical-align: middle;">
       ${gradient}
       <path fill="url(#${fill})" d="${path}" style="fill: url(#${fill});">
       </path>

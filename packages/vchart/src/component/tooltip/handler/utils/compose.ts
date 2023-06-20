@@ -45,7 +45,8 @@ export const getShowContent = (
   };
 
   /** title */
-  if (!patternTitle || patternTitle.visible === false) {
+  const patternTitleVisible = getTooltipContentValue(patternTitle?.visible, data, params) !== false;
+  if (!patternTitle || !patternTitleVisible) {
     tooltipContent.title = {
       hasShape: false,
       visible: false
@@ -123,7 +124,9 @@ export const getOneLineData = (
 ): IToolTipLineActual => {
   const key = getTooltipContentValue(config.key, datum, params);
   const value = getTooltipContentValue(config.value, datum, params);
-  const visible: boolean = isValid(key) || isValid(value);
+  const visible: boolean =
+    getTooltipContentValue(config.visible, datum, params) !== false && (isValid(key) || isValid(value));
+  const isKeyAdaptive = getTooltipContentValue(config.isKeyAdaptive, datum, params);
 
   const shapeType = getTooltipContentValue(config.shapeType, datum, params);
   const shapeColor = getTooltipContentValue(config.shapeColor, datum, params);
@@ -132,6 +135,7 @@ export const getOneLineData = (
     key,
     value,
     visible,
+    isKeyAdaptive,
     hasShape: config.hasShape,
     shapeType: shapeType as any,
     shapeHollow: config.shapeHollow,
