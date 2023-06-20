@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "chore: release major version",
+      "type": "major",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "just_star@qq.com"
+}
