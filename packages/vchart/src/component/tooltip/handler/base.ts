@@ -101,7 +101,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   protected _style: ITooltipStyle;
 
   // tooltip 容器
-  protected _container!: IGroup | HTMLElement;
+  protected _container!: Maybe<IGroup | HTMLElement>;
 
   /**
    * Create the tooltip handler.

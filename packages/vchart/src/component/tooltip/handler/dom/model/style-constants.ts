@@ -1,6 +1,7 @@
 export const defaultH2Style: Partial<CSSStyleDeclaration> = {
   fontSize: '13px',
-  marginBottom: '0px'
+  marginBottom: '0px',
+  fontWeight: 'normal'
 };
 
 export const defaultContainerStyle: Partial<CSSStyleDeclaration> = {
@@ -21,18 +22,21 @@ export const defaultKeyStyle: Partial<CSSStyleDeclaration> = {
   paddingBottom: '0px',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-  textAlign: 'left'
+  textAlign: 'left',
+  fontWeight: 'normal'
 };
 
 export const defaultAdaptiveKeyStyle: Partial<CSSStyleDeclaration> = {
   paddingTop: '0px',
   paddingBottom: '0px',
-  textAlign: 'left'
+  textAlign: 'left',
+  fontWeight: 'normal'
 };
 
 export const defaultValueStyle: Partial<CSSStyleDeclaration> = {
   paddingTop: '0px',
   paddingBottom: '0px',
   overflow: 'hidden',
-  textAlign: 'right'
+  textAlign: 'right',
+  fontWeight: 'normal'
 };

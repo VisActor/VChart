@@ -149,13 +149,14 @@ export class Tooltip extends BaseComponent {
 
     if (trigger === 'hover') {
       this.mountEvent('pointermove', { level: Event_Bubble_Level.chart }, this.handleMouseMove);
-      this.mountEvent('pointerleave', { level: Event_Bubble_Level.chart }, this.handleMouseOut);
-      // TODO: 需要封装一个复合事件，用于移动端的点按+滑动触发
+      // 移动端的点按 + 滑动触发
       if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
         this.mountEvent('pointerdown', { level: Event_Bubble_Level.chart }, this.handleMouseMove);
       }
+      this.mountEvent('pointermove', { source: 'window' }, this.handleMouseOut);
     } else if (trigger === 'click') {
       this.mountEvent('pointertap', { level: Event_Bubble_Level.chart }, this.handleMouseMove);
+      this.mountEvent('pointerup', { source: 'window' }, this.handleMouseOut);
     }
   }
 
@@ -172,9 +173,12 @@ export class Tooltip extends BaseComponent {
       return;
     }
 
-    // 当  enterable 为true，同时鼠标移入 tooltip 时 pointerleave 事件也会触发，所以这里做一个判断
+    // 当 enterable 为 true，同时鼠标移入 tooltip 时 pointerleave 事件也会触发，所以这里做一个判断
     const { clientX, clientY } = params.event as MouseEvent;
-    if (isTrueBrowser(this._option.mode) && this._isPointInChart({ x: clientX, y: clientY })) {
+    if (
+      isTrueBrowser(this._option.mode) &&
+      (this._isPointerInChart({ x: clientX, y: clientY }) || this._isPointerOnTooltip(params))
+    ) {
       return;
     }
 
@@ -198,21 +202,8 @@ export class Tooltip extends BaseComponent {
     if (this._alwaysShow) {
       return;
     }
-
-    // TODO：后续支持 renderMode === 'canvas' 场景
-    if (this._spec.enterable && this._spec.renderMode === 'html') {
-      // get native event object
-      const nativeEvent = params.event.nativeEvent;
-      let target = nativeEvent.target;
-      // if in shadow DOM use composedPath to access target
-      if (nativeEvent.composedPath && nativeEvent.composedPath().length > 0) {
-        target = nativeEvent.composedPath()[0];
-      }
-
-      const container = this.tooltipHandler?.getTooltipContainer?.();
-      if (isValid(container) && hasParentElement(target, container)) {
-        return;
-      }
+    if (this._isPointerOnTooltip(params)) {
+      return;
     }
 
     /* 获取 tooltip 原始数据 */
@@ -409,10 +400,12 @@ export class Tooltip extends BaseComponent {
     }
 
     const prevInfo = this._cacheInfo as MarkTooltipInfo;
-    return nextInfo.datum === prevInfo.datum && nextInfo.mark === prevInfo.mark && nextInfo.series === prevInfo.series;
+    return (
+      nextInfo?.datum === prevInfo.datum && nextInfo?.mark === prevInfo.mark && nextInfo?.series === prevInfo.series
+    );
   }
 
-  private _isPointInChart(point: IPoint): boolean {
+  private _isPointerInChart(point: IPoint): boolean {
     const globalInstance = this._option.globalInstance;
     const chart = globalInstance.getChart();
     if (!chart) {
@@ -435,6 +428,31 @@ export class Tooltip extends BaseComponent {
       return true;
     }
 
+    return false;
+  }
+
+  private _isPointerOnTooltip(params: BaseEventParams): boolean {
+    // TODO：后续支持 renderMode === 'canvas' 场景
+    if (this._spec.enterable && this._spec.renderMode === 'html') {
+      const { event } = params;
+      let target: any;
+      if (isValid(event.nativeEvent)) {
+        // get native event object
+        const nativeEvent = event.nativeEvent as Event;
+        target = nativeEvent.target;
+        // if in shadow DOM use composedPath to access target
+        if (nativeEvent.composedPath && nativeEvent.composedPath().length > 0) {
+          target = nativeEvent.composedPath()[0];
+        }
+      } else {
+        target = event.target;
+      }
+
+      const container = this.tooltipHandler?.getTooltipContainer?.();
+      if (isValid(container) && isValid(target) && hasParentElement(target, container)) {
+        return true;
+      }
+    }
     return false;
   }
 }

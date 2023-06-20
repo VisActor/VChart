@@ -29,7 +29,7 @@ export class InstanceManager {
     return InstanceManager.instances.has(id);
   }
 
-  static forEach(callbackfn: (value: IVChart, key: number, map: Map<number, IVChart>) => void, thisArg?: any) {
+  static forEach(callbackfn: (instance: IVChart, id: number, map: Map<number, IVChart>) => void, thisArg?: any) {
     return InstanceManager.instances.forEach(callbackfn, thisArg);
   }
 }

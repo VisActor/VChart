@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "tooltip supports setting based on mark type and adaptive key",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
