@@ -14,10 +14,6 @@ VChart follows [semantic versioning](https://semver.org/). We release patch vers
 
 Every significant change is documented in the changelog file.
 
-## Release Schedule
-
-todo
-
 ## Branch Organization
 
 Submit all changes directly to the main branch. We don’t use separate branches for development or for upcoming releases. We do our best to keep main in good shape, with all tests passing.
@@ -26,13 +22,13 @@ Code that lands in main must be compatible with the latest stable release. It ma
 
 ## Bugs
 
-We are using [GitHub Issues](todo) for our public bugs. We keep a close eye on this and try to make it clear when we have an internal fix in progress. Before filing a new task, try to make sure your problem doesn’t already exist.
+We are using [GitHub Issues](https://github.com/VisActor/VChart/issues) for our public bugs. We keep a close eye on this and try to make it clear when we have an internal fix in progress. Before filing a new task, try to make sure your problem doesn’t already exist.
 
-We have already prepared issue templates for bug reports and feature requests. If you want to fire an issue, just enter the [New issue](todo) page and select either of them to get started. The best way to get your bug fixed is by using our issue template and provide reproduction steps with this [template](todo).
+We have already prepared issue templates for bug reports and feature requests. If you want to fire an issue, just enter the [New issue](https://github.com/VisActor/VChart/issues/new/choose) page and select either of them to get started. The best way to get your bug fixed is by using our issue template and provide reproduction steps with this [template](https://github.com/VisActor/VChart/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml&title=%5BBug%5D+).
 
 ## Proposing a Change
 
-If you intend to change the public API, or make any non-trivial changes to the implementation, we recommend filing an issue, or just enter the [New issue](todo) page and select either of them to get started.
+If you intend to change the public API, or make any non-trivial changes to the implementation, we recommend filing an issue, or just enter the [New issue](https://github.com/VisActor/VChart/issues/new/choose) page and select either of them to get started.
 
 If you’re only fixing a bug, it’s fine to submit a pull request right away but we still recommend to file an issue detailing what you’re fixing. This is helpful in case we don’t accept that specific fix but want to keep track of the issue.
 
@@ -40,7 +36,7 @@ If you’re only fixing a bug, it’s fine to submit a pull request right away b
 
 Working on your first Pull Request? You can learn how from this free video series:[How to Contribute to an Open Source Project on GitHub](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github)
 
-To help you get your feet wet and get you familiar with our contribution process, we have a list of [good first issues](todo) that contain bugs that have a relatively limited scope. This is a great place to get started.
+To help you get your feet wet and get you familiar with our contribution process, we have a list of [good first issues](https://github.com/VisActor/VChart/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that contain bugs that have a relatively limited scope. This is a great place to get started.
 
 If you decide to fix an issue, please be sure to check the comment thread in case somebody is already working on a fix. If nobody is working on it at the moment, please leave a comment stating that you intend to work on it so other people don’t accidentally duplicate your effort.
 
@@ -52,13 +48,13 @@ The core team is monitoring for pull requests. We will review your pull request 
 
 **Before submitting a pull request**, please make sure the following is done:
 
-1. Fork the [repository](todo) and create your branch from `main`.
+1. Fork the [repository](git@github.com:VisActor/VChart.git) and create your branch from `main`.
 2. (If rush has been install, just go to step 3) global install [@microsoft/rush](https://rushjs.io/pages/intro/get_started/)：`npm i --global @microsoft/rush`.
 3. Run `rush update` in the repository root.
 4. If you’ve fixed a bug or added code that should be tested, add tests!
-5. Ensure the test suite passes (`rush test`). Tip: `rush test -- --watch TestName` is helpful in development.
-6. Make sure your code lints (`rush lint`). Tip: Lint runs automatically when you git commit (Use Git Hooks).
-7. Run `rush compile` for typecheck.
+5. Ensure the test suite passes (`rush test`).
+6. If you've modified sources code(The code in `src/` folder), make sure you've run `rush change`, and commit the rush changelog in `common/changes`.
+7. Run `rush compile` for typescript check. Tip: we will also do this check in github workflow.
 
 ## Development Workflow
 
