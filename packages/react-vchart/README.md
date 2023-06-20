@@ -1,17 +1,17 @@
 # React-VChart
 
----
+The VChart component encapsulated based on [React](https://react.dev/).
 
-## Usage:
+## Usage
 
-### build
+### Build
 
 ```bash
 # root directory
 $ rush build
 ```
 
-### Run demo：
+### Development
 
 ```bash
 # root directory
