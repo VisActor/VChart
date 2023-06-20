@@ -1,0 +1,27 @@
+{
+  "name": "@visactor/react-vchart",
+  "entries": [
+    {
+      "version": "1.0.0",
+      "tag": "@visactor/react-vchart_v1.0.0",
+      "date": "Tue, 20 Jun 2023 11:35:37 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "chore: release major version"
+          }
+        ],
+        "none": [
+          {
+            "comment": "release 0.0.1-alpha.0"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@visactor/vchart\" from `1.0.0-alpha.0` to `1.0.0`"
+          }
+        ]
+      }
+    }
+  ]
+}
