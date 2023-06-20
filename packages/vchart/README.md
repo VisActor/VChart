@@ -85,4 +85,4 @@ $ rush run -p @visactor/vchart -s test
 - [VGrammar](https://visactor.io/vgrammar)
 - [VRender](https://visactor.io/vrender)
 - [FAQ](todo)
-- [CodeSandbox Template](todo) for bug reports
+- [CodeSandbox Template](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww?file=/src/index.ts) for bug reports

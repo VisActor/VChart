@@ -138,7 +138,7 @@ $ rush react
 - [VGrammar](https://visactor.io/vgrammar)
 - [VRender](https://visactor.io/vrender)
 - [FAQ](todo)
-- [CodeSandbox 模板](todo) 用于 bug 的提交
+- [CodeSandbox 模板](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww?file=/src/index.ts) 用于 bug 的提交
 
 ## 💫 生态
 
