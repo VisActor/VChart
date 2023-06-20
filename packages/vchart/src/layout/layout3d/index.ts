@@ -41,15 +41,17 @@ export class Layout3d extends Layout implements IBaseLayout {
     const zItems = absoluteItem.filter(i => {
       return i.layoutOrient === 'z';
     });
+
+    // 计算z的宽高，让出一部分位置
     let extraWH = { width: 0, height: 0 };
     if (zItems.length) {
       const layoutRect = zItems[0].getLayoutRect();
       extraWH = layoutRect;
     }
-    // this._leftCurrent += extraWH.width / 4;
-    this._rightCurrent -= extraWH.width;
-    this._topCurrent += (extraWH.height / 4) * 3;
-    this._bottomCurrent -= extraWH.height / 4;
+    this._leftCurrent += extraWH.width / 8;
+    this._rightCurrent -= extraWH.width / 8;
+    this._topCurrent += extraWH.height / 8;
+    this._bottomCurrent -= extraWH.height / 8;
     const offsetWH: IOffset = {
       offsetBottom: 0,
       offsetTop: 0,
