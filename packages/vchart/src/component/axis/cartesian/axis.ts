@@ -623,13 +623,13 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     if (isZ) {
       const directionStr = this.directionStr ?? 'r2l';
       const depthZ = this.layout3dBox ? this.layout3dBox.width : 0;
-      let anchor3d = this._spec.depth ? [0, 0] : undefined;
-      let alpha = this._spec.depth ? -Math.PI / 2 : 0;
+      let anchor3d = [0, 0];
+      let alpha = -Math.PI / 2;
       let z = 0;
       if (directionStr === 'l2r') {
         z = this.layout3dBox.length;
-        anchor3d = this._spec.depth ? [0, 0, 0] : undefined;
-        alpha = this._spec.depth ? Math.PI / 2 : 0;
+        anchor3d = [0, 0, 0];
+        alpha = Math.PI / 2;
       }
       return {
         start: { x: 0, y: 0 },
