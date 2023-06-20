@@ -152,6 +152,7 @@ export class Tooltip extends BaseComponent {
       // 移动端的点按 + 滑动触发
       if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
         this.mountEvent('pointerdown', { level: Event_Bubble_Level.chart }, this.handleMouseMove);
+        this.mountEvent('pointerup', { source: 'window' }, this.handleMouseOut);
       }
       this.mountEvent('pointermove', { source: 'window' }, this.handleMouseOut);
     } else if (trigger === 'click') {
