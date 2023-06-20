@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix the bug of z axis in layout stage",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
