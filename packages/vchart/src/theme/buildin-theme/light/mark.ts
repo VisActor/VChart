@@ -59,5 +59,10 @@ export const markByName: IGlobalMarkThemeByName = {
       lineWidth: 1,
       stroke: '#fff'
     }
+  },
+  funnel3d: {
+    style: {
+      stroke: false
+    }
   }
 };
