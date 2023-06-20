@@ -41,7 +41,7 @@ body:
     attributes:
       label: Link to Minimal Reproduction
       description: |
-        If the reproduction does not need a build setup, please provide a link to [Official Editor](TODO), [JSFiddle](TODO), [JSBin](https://jsbin.com/) or [CodePen](TODO). If it requires a build setup, you can use [CodeSandbox](TODO) or provide a GitHub repo.
+        If the reproduction does not need a build setup, please provide a link to [JSFiddle](https://jsfiddle.net/pfv0azuc/4/),[CodePen](https://codepen.io/kkxxkk2019/pen/KKrMRqa) or [CodeSandbox](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww). If it requires a build setup, you can use [CodeSandbox](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww) or provide a GitHub repo.
         The reproduction should be **minimal** - i.e. it should contain only the bare minimum amount of code needed to show the bug.
         Please do not just fill in a random link. The issue will be closed if no valid reproduction is provided. [Why?](https://antfu.me/posts/why-reproductions-are-required)
 
