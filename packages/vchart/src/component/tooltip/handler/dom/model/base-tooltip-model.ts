@@ -133,7 +133,7 @@ export class BaseTooltipModel {
     const element = domDocument?.createElement(tag);
     const parentEl = this.getParentEl();
     if (!element || !parentEl) {
-      return;
+      return undefined;
     }
 
     if (classList) {
