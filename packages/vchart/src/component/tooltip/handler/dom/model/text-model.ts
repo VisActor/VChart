@@ -8,6 +8,9 @@ export class TextModel extends BaseTooltipModel {
   }
 
   setContent(content?: any): void {
+    if (!this.product) {
+      return;
+    }
     const html = this._option.valueToHtml(content);
     if (html !== this.product.innerHTML) {
       this.product.innerHTML = this._option.valueToHtml(content);

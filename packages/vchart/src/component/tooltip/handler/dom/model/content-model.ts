@@ -1,12 +1,14 @@
-import { defaultContainerBoxStyle } from './style-constants';
+import { defaultContainerStyle } from './style-constants';
 import { BaseTooltipModel } from './base-tooltip-model';
 import { ContentColumnModel } from './content-column-model';
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { merge } from '@visactor/vutils';
 
 export class ContentModel extends BaseTooltipModel {
-  shapeBox: ContentColumnModel;
-  keyBox: ContentColumnModel;
-  valueBox: ContentColumnModel;
+  shapeBox: Maybe<ContentColumnModel>;
+  keyBox: Maybe<ContentColumnModel>;
+  valueBox: Maybe<ContentColumnModel>;
 
   init(): void {
     if (!this.product) {
@@ -25,7 +27,7 @@ export class ContentModel extends BaseTooltipModel {
 
   private _initShapeBox() {
     const shapeBox = new ContentColumnModel(
-      this.product,
+      this.product!,
       this._option,
       'shape-box',
       0,
@@ -39,7 +41,7 @@ export class ContentModel extends BaseTooltipModel {
 
   private _initKeyBox() {
     const keyBox = new ContentColumnModel(
-      this.product,
+      this.product!,
       this._option,
       'key-box',
       1,
@@ -53,7 +55,7 @@ export class ContentModel extends BaseTooltipModel {
 
   private _initValueBox() {
     const valueBox = new ContentColumnModel(
-      this.product,
+      this.product!,
       this._option,
       'value-box',
       2,
@@ -66,7 +68,7 @@ export class ContentModel extends BaseTooltipModel {
   }
 
   setStyle(style?: Partial<CSSStyleDeclaration>): void {
-    super.setStyle(merge({}, defaultContainerBoxStyle, style));
+    super.setStyle(merge({}, defaultContainerStyle, style));
     Object.values(this.children).forEach(c => {
       c.setStyle();
     });

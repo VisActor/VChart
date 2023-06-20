@@ -92,6 +92,7 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
     if (filteredContent.length) {
       let hasContentShape = false;
       const keyWidths: number[] = [];
+      const adaptiveKeyWidths: number[] = [];
       const valueWidths: number[] = [];
 
       const keyTextMeasure = initTextMeasure(keyStyle as any);
@@ -100,13 +101,17 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
       attribute.content = filteredContent.map((item, i) => {
         const itemAttrs: TooltipRowAttrs = { height: 0, spaceRow };
         let itemHeight = 0;
-        const { hasShape, key, shapeColor, shapeHollow, shapeType = '', value } = item;
+        const { hasShape, key, shapeColor, shapeHollow, shapeType = '', value, isKeyAdaptive } = item;
         if (isValid(key)) {
           const { width, height } = keyTextMeasure.quickMeasure(key);
           itemAttrs.key = {
             text: key as any
           };
-          keyWidths.push(width);
+          if (!isKeyAdaptive) {
+            keyWidths.push(width);
+          } else {
+            adaptiveKeyWidths.push(width);
+          }
           itemHeight = Math.max(itemHeight, height);
         }
         if (isValid(value)) {
@@ -141,13 +146,12 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
       });
 
       const maxKeyWidth = keyWidths.length ? Math.max(...keyWidths) : 0; // name 需要对齐
+      const maxAdaptiveKeyWidth = adaptiveKeyWidths.length ? Math.max(...adaptiveKeyWidths) : 0;
       const maxValueWidth = valueWidths.length ? Math.max(...valueWidths) : 0; // value 需要对齐
+      const shapeWidth = hasContentShape ? shapeStyle.size + shapeStyle.spacing : 0; // shape 列宽度
       maxWidth = Math.max(
-        maxKeyWidth +
-          maxValueWidth +
-          keyStyle.spacing +
-          valueStyle.spacing +
-          (hasContentShape ? shapeStyle.size + shapeStyle.spacing : 0),
+        maxKeyWidth + maxValueWidth + keyStyle.spacing + valueStyle.spacing + shapeWidth,
+        maxAdaptiveKeyWidth + shapeWidth,
         maxWidth
       );
       attribute.hasContentShape = hasContentShape;

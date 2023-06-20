@@ -1,3 +1,5 @@
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isValid } from '@visactor/vutils';
 import type { IDomTooltipStyle } from '../interface';
 import { BaseTooltipModel } from './base-tooltip-model';
@@ -27,6 +29,9 @@ export class TooltipModel extends BaseTooltipModel {
 
   setVisibility(visibility: boolean) {
     super.setVisibility(visibility);
+    if (!this.product) {
+      return;
+    }
     const { classList } = this.product;
     if (visibility) {
       classList.add('visible');
@@ -45,7 +50,7 @@ export class TooltipModel extends BaseTooltipModel {
     }
 
     const { title } = this._tooltipActual;
-    if (title.visible !== false && isValid(title.value)) {
+    if (title?.visible !== false && isValid(title?.value)) {
       if (!this.title) {
         this._initTitle();
       }
@@ -90,29 +95,42 @@ export class TooltipModel extends BaseTooltipModel {
   }
 
   private _initTitle() {
-    const title = new TitleModel(this.product, this._option, 0, this._tooltipStyle, this._tooltipActual);
+    const title = new TitleModel(this.product!, this._option, 0, this._tooltipStyle, this._tooltipActual);
     title.init();
     this.title = title;
     this.children[title.childIndex] = title;
   }
 
   private _releaseTitle() {
+    if (!this.title) {
+      return;
+    }
     this.title.release();
     delete this.children[this.title.childIndex];
     this.title = null;
   }
 
   private _initContent() {
-    const content = new ContentModel(this.product, this._option, 1, this._tooltipStyle, this._tooltipActual);
+    const content = new ContentModel(this.product!, this._option, 1, this._tooltipStyle, this._tooltipActual);
     content.init();
     this.content = content;
     this.children[content.childIndex] = content;
   }
 
   private _releaseContent() {
+    if (!this.content) {
+      return;
+    }
     this.content.release();
     delete this.children[this.content.childIndex];
     this.content = null;
+  }
+
+  updateTooltipStyle(style?: Maybe<IDomTooltipStyle>) {
+    if (style) {
+      super.updateTooltipStyle(style);
+      this.setStyle();
+    }
   }
 
   setStyle(): void {

@@ -1,3 +1,4 @@
+import type { Maybe } from '@visactor/vutils';
 import type { IToolTipActual, IToolTipLineActual } from '../../../../../typings';
 import type { IDomTooltipStyle } from '../interface';
 import type { ITooltipModelOption } from './interface';
@@ -20,7 +21,7 @@ export class BaseTooltipModel {
   readonly parent: BaseTooltipModel | HTMLElement;
   readonly childIndex: number;
 
-  protected _tooltipActual: IToolTipActual | null = null;
+  protected _tooltipActual: Maybe<IToolTipActual> = null;
   setTooltipActual(tooltipActual: IToolTipActual) {
     this._tooltipActual = tooltipActual;
     this._renderContentCache = null; // 清除缓存
@@ -28,7 +29,7 @@ export class BaseTooltipModel {
     Object.values(this.children).forEach(c => c.setTooltipActual(tooltipActual));
   }
 
-  protected _tooltipStyle: IDomTooltipStyle | null = null;
+  protected _tooltipStyle: Maybe<IDomTooltipStyle> = null;
   setTooltipStyle(tooltipStyle: IDomTooltipStyle) {
     this._tooltipStyle = tooltipStyle;
     this.init();
@@ -41,11 +42,11 @@ export class BaseTooltipModel {
     Object.values(this.children).forEach(c => c.setOption(option));
   }
 
-  protected _renderContentCache: IToolTipLineActual[] = null;
+  protected _renderContentCache: IToolTipLineActual[] | null = null;
 
   children: Record<number, BaseTooltipModel> = {};
 
-  product: HTMLElement;
+  product: Maybe<HTMLElement>;
 
   getParentEl() {
     if (BaseTooltipModel.isInstance(this.parent)) {
@@ -58,8 +59,8 @@ export class BaseTooltipModel {
     parent: BaseTooltipModel | HTMLElement,
     option: ITooltipModelOption,
     childIndex?: number,
-    tooltipStyle?: IDomTooltipStyle,
-    tooltipActual?: IToolTipActual
+    tooltipStyle?: Maybe<IDomTooltipStyle>,
+    tooltipActual?: Maybe<IToolTipActual>
   ) {
     this.parent = parent;
     this._option = option;
@@ -72,14 +73,22 @@ export class BaseTooltipModel {
     // do nothing
   }
 
-  setStyle(style?: Partial<CSSStyleDeclaration>) {
+  updateTooltipStyle(style?: Maybe<IDomTooltipStyle>) {
     if (style) {
-      Object.keys(style).forEach(key => {
-        if (this.product.style[key] !== style[key]) {
-          this.product.style[key] = style[key];
-        }
-      });
+      this._tooltipStyle = style;
+      Object.values(this.children).forEach(c => c.updateTooltipStyle(style));
     }
+  }
+
+  setStyle(style?: Partial<CSSStyleDeclaration>) {
+    if (!this.product || !style) {
+      return;
+    }
+    Object.keys(style).forEach(key => {
+      if (this.product!.style[key] !== style[key]) {
+        this.product!.style[key] = style[key];
+      }
+    });
   }
 
   setContent(content?: any) {
@@ -110,7 +119,7 @@ export class BaseTooltipModel {
     Object.values(this.children).forEach(c => c.release());
     this.children = {};
     if (this.product) {
-      this.getParentEl().removeChild(this.product);
+      this.getParentEl()?.removeChild(this.product);
       this.product = null;
     }
   }
@@ -121,7 +130,12 @@ export class BaseTooltipModel {
     style?: Partial<CSSStyleDeclaration>,
     id?: string
   ) {
-    const element = domDocument.createElement(tag);
+    const element = domDocument?.createElement(tag);
+    const parentEl = this.getParentEl();
+    if (!element || !parentEl) {
+      return;
+    }
+
     if (classList) {
       element.classList.add(...classList);
     }
@@ -134,13 +148,12 @@ export class BaseTooltipModel {
       element.id = id;
     }
 
-    const parentEl = this.getParentEl();
     let ptr = this.childIndex;
     if (BaseTooltipModel.isInstance(this.parent)) {
       // 按照自身 childIndex 插入对应位置
       let nextChildIndex = Number.MAX_VALUE;
       for (let i = 0; i < parentEl.children.length; i++) {
-        const childModel = Object.values(this.parent.children).find(c => c.product === parentEl.children[i]);
+        const childModel = Object.values(this.parent.children).find(c => c.product === parentEl.children[i])!;
         if (childModel.childIndex > this.childIndex && childModel.childIndex < nextChildIndex) {
           nextChildIndex = childModel.childIndex;
           ptr = i;
@@ -170,6 +183,7 @@ export class BaseTooltipModel {
     if (renderContent?.[TOOLTIP_MAX_COUNT - 1]) {
       renderContent[TOOLTIP_MAX_COUNT - 1] = {
         ...renderContent[TOOLTIP_MAX_COUNT - 1],
+        // TODO: i18n
         key: '其他',
         value: '...'
       };
