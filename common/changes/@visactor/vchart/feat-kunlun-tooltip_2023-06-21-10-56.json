@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "sync maxLineCount api of 3.x version.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
