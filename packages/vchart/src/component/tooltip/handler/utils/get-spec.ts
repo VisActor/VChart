@@ -3,12 +3,15 @@ import type {
   IToolTipLinePattern,
   ITooltipPattern,
   ITooltipShapePattern,
-  TooltipActiveType
+  MaybeArray,
+  TooltipActiveType,
+  TooltipPatternProperty
 } from '../../../../typings';
 import type { ISeries } from '../../../../series/interface';
-import { cloneDeep, isValid, isNil, merge, array, isFunction } from '../../../../util';
+import { cloneDeep, isValid, merge, array, isFunction } from '../../../../util';
 import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../../event/events/dimension/interface';
+import { getTooltipActualActiveType } from '../../utils';
 
 export const getTooltipSpecForShow = (
   activeType: TooltipActiveType,
@@ -32,15 +35,9 @@ export const getTooltipSpecForShow = (
 
     // visible
     if (isValid(seriesSpec.visible) || isValid(seriesSpec.activeType)) {
-      finalSpec.visible =
-        seriesSpec.visible !== false &&
-        seriesSpec.mark?.visible !== false &&
-        (isNil(seriesSpec.activeType) || array(seriesSpec.activeType).includes?.('mark'));
+      finalSpec.visible = getTooltipActualActiveType(seriesSpec).includes('mark');
     } else if (isValid(globalSpec.visible) || isValid(globalSpec.activeType)) {
-      finalSpec.visible =
-        globalSpec.visible !== false &&
-        globalSpec.mark?.visible !== false &&
-        (isNil(globalSpec.activeType) || array(globalSpec.activeType).includes?.('mark'));
+      finalSpec.visible = getTooltipActualActiveType(globalSpec).includes('mark');
     } else {
       finalSpec.visible = true;
     }
@@ -54,15 +51,18 @@ export const getTooltipSpecForShow = (
     // pattern
     defaultPattern = makeDefaultPattern(series, 'mark') ?? {};
     userPattern = merge({}, cloneDeep(globalSpec.mark), cloneDeep(seriesSpec.mark));
-  } else if (activeType === 'dimension' && dimensionInfo) {
-    // dimension目前仅支持global spec
+  } else if (activeType === 'dimension' && dimensionInfo?.length) {
+    // tooltip spec覆盖优先级: series spec > global spec > default pattern
+    const seriesList = dimensionInfo.reduce(
+      (list, cur) => list.concat(cur.data.map(data => data.series).filter(isValid)),
+      [] as ISeries[]
+    );
 
     // visible
-    if (isValid(globalSpec.visible) || isValid(globalSpec.activeType)) {
-      finalSpec.visible =
-        globalSpec.visible !== false &&
-        globalSpec.dimension?.visible !== false &&
-        (isNil(globalSpec.activeType) || array(globalSpec.activeType).includes?.('dimension'));
+    if (seriesList.every(series => !getTooltipActualActiveType(series.tooltipHelper?.spec).includes('dimension'))) {
+      finalSpec.visible = false;
+    } else if (isValid(globalSpec.visible) || isValid(globalSpec.activeType)) {
+      finalSpec.visible = getTooltipActualActiveType(globalSpec).includes('dimension');
     } else {
       finalSpec.visible = true;
     }
@@ -73,10 +73,63 @@ export const getTooltipSpecForShow = (
       return finalSpec;
     }
 
-    // pattern
-    const firstSeries = dimensionInfo[0]?.data[0]?.series;
-    defaultPattern = firstSeries ? makeDefaultPattern(firstSeries, 'dimension', dimensionInfo) ?? {} : {};
-    userPattern = cloneDeep(globalSpec.dimension) ?? {};
+    // 默认 pattern
+    const patternList: ITooltipPattern[] = [];
+    dimensionInfo[0].data.forEach(data => {
+      const { series } = data;
+      const mockDimensionInfo = [
+        {
+          ...dimensionInfo[0],
+          data: [data]
+        }
+      ] as IDimensionInfo[];
+      const pattern = makeDefaultPattern(series, 'dimension', mockDimensionInfo);
+      if (pattern) {
+        patternList.push(pattern);
+      }
+    });
+    // 拼接默认 tooltip content
+    const defaultPatternContent: Array<TooltipPatternProperty<MaybeArray<IToolTipLinePattern>>> = [];
+    patternList.forEach(({ content }) => {
+      if (isFunction(content)) {
+        defaultPatternContent.push(content);
+      } else {
+        defaultPatternContent.push(...array(content));
+      }
+    });
+    defaultPattern = {
+      ...patternList[0],
+      content: defaultPatternContent
+    };
+
+    // 系列 pattern
+    let seriesDimensionPattern: ITooltipPattern = {};
+    const seriesPatternList = seriesList
+      .filter(series => {
+        const spec = series.tooltipHelper?.spec;
+        return isValid(spec?.dimension) && getTooltipActualActiveType(spec).includes('dimension');
+      })
+      .map(series => {
+        const pattern = series.tooltipHelper.spec!.dimension!;
+        return pattern;
+      });
+    if (seriesPatternList.length) {
+      // 拼接系列 tooltip content
+      const seriesPatternContent: Array<TooltipPatternProperty<MaybeArray<IToolTipLinePattern>>> = [];
+      seriesPatternList.forEach(({ content }) => {
+        if (isFunction(content)) {
+          seriesPatternContent.push(content);
+        } else {
+          seriesPatternContent.push(...array(content));
+        }
+      });
+      seriesDimensionPattern = {
+        ...seriesPatternList[0],
+        content: seriesPatternContent
+      };
+    }
+
+    userPattern = merge({}, cloneDeep(globalSpec.dimension), seriesDimensionPattern);
   }
 
   // 对pattern进行组装

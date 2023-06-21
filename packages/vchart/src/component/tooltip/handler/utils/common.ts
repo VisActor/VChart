@@ -1,6 +1,6 @@
 import type { Datum } from '@visactor/vgrammar';
-import type { TooltipContentProperty, TooltipData, TooltipPatternProperty } from '../../../../typings';
-import { isFunction, isObject, isString, isNil } from '../../../../util';
+import type { MaybeArray, TooltipContentProperty, TooltipData, TooltipPatternProperty } from '../../../../typings';
+import { isFunction, isObject, isString, isNil, isArray, isValid, field } from '../../../../util';
 import type { TooltipHandlerParams } from '../../interface';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension';
 
@@ -36,12 +36,26 @@ export const getTooltipContentValue = <T>(
 };
 
 export const getTooltipPatternValue = <T>(
-  field?: TooltipPatternProperty<T>,
+  field?: MaybeArray<TooltipPatternProperty<T>>,
   data?: TooltipData,
   params?: TooltipHandlerParams
-): T | undefined => {
+): (typeof field extends Array<TooltipPatternProperty<T>> ? MaybeArray<T> : T) | undefined => {
   if (isNil(field)) {
     return field;
+  }
+  if (isArray(field)) {
+    const result: T[] = [];
+    field.forEach(item => {
+      if (isFunction(item)) {
+        const value = item(data, params);
+        if (isValid(value)) {
+          result.push(value);
+        }
+      } else {
+        result.push(item);
+      }
+    });
+    return result as any;
   }
   if (isFunction(field)) {
     return field(data, params);
