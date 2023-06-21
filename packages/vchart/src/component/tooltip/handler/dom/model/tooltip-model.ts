@@ -47,7 +47,7 @@ export class TooltipModel extends BaseTooltipModel {
       this._releaseTitle();
     }
 
-    const renderContent = this._option.getRenderContent();
+    const renderContent = tooltipActual.content ?? [];
     if (renderContent.length > 0) {
       if (!this.content) {
         this._initContent();
