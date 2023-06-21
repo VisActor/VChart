@@ -23,8 +23,8 @@ export const defaultContentColumnStyle: Partial<CSSStyleDeclaration> = {
 export const defaultKeyStyle: Partial<CSSStyleDeclaration> = {
   paddingTop: '0px',
   paddingBottom: '0px',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
+  // overflow: 'hidden',
+  // textOverflow: 'ellipsis',
   textAlign: 'left',
   fontWeight: 'normal'
 };
@@ -39,7 +39,7 @@ export const defaultAdaptiveKeyStyle: Partial<CSSStyleDeclaration> = {
 export const defaultValueStyle: Partial<CSSStyleDeclaration> = {
   paddingTop: '0px',
   paddingBottom: '0px',
-  overflow: 'hidden',
+  // overflow: 'hidden',
   textAlign: 'right',
   fontWeight: 'normal'
 };
