@@ -22,7 +22,7 @@ export interface IDotSeriesSpec extends ICartesianSeriesSpec {
   /**
    * 系列类型
    */
-  type: SeriesTypeEnum.dot;
+  type: 'dot';
 
   /**
    * dot series group字段配置

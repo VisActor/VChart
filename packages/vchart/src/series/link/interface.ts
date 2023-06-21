@@ -9,7 +9,7 @@ export interface ILinkSeriesSpec extends ICartesianSeriesSpec, ILinkSeriesSpecFr
   /**
    * 系列类型
    */
-  type: SeriesTypeEnum.link;
+  type: 'link';
 
   /**
    * from 字段配置
