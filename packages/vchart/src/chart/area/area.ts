@@ -15,7 +15,8 @@ export class AreaChart extends CartesianChart {
       invalidType: spec.invalidType || 'break',
       point: spec.point,
       line: spec.line,
-      area: spec.area
+      area: spec.area,
+      stack: spec.stack !== false
     };
   }
 }
