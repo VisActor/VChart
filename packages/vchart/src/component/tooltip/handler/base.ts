@@ -562,6 +562,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       panelStyle.shadowSpread = shadow.spread;
     }
     if (isValid(border?.radius)) {
+      // borderRadius todo: 这里需要替换成 cornerRadius
       panelStyle.borderRadius = [border.radius, border.radius, border.radius, border.radius];
     }
 

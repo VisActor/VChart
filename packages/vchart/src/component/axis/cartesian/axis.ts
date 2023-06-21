@@ -7,7 +7,7 @@ import type { IEffect, IModelInitOption, ILayoutRect } from '../../../model/inte
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { IAxisLocationCfg, ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
-import { isArray, isValid, isValidNumber, merge, eachSeries, getFieldAlias } from '../../../util';
+import { isArray, isValid, isValidNumber, merge, eachSeries, getFieldAlias, isNil } from '../../../util';
 import type { IOrientType } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
@@ -559,7 +559,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   }
 
   private _getTitleLimit(isX: boolean) {
-    if (this._spec.title.visible && !this._spec.title.style?.limit) {
+    if (this._spec.title.visible && isNil(this._spec.title.style?.maxLineWidth)) {
       const angle = this._spec.title.style?.angle || 0;
       if (isX) {
         const width = this.getLayoutRect().width;

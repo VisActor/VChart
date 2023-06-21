@@ -364,7 +364,7 @@ export class TreeMapSeries extends CartesianSeries<any> {
         text: datum => {
           return datum.datum[datum.depth]?.[this.getDimensionField()[0]];
         },
-        limit: datum => {
+        limit: (datum: any) => {
           return datum.x1 === datum.x0 ? Number.MIN_VALUE : datum.x1 - datum.x0;
         }
       },
@@ -396,7 +396,7 @@ export class TreeMapSeries extends CartesianSeries<any> {
         text: datum => {
           return datum.datum[datum.depth]?.[this.getDimensionField()[0]];
         },
-        limit: datum => {
+        limit: (datum: any) => {
           return datum.x1 === datum.x0 ? Number.MIN_VALUE : datum.x1 - datum.x0;
         }
       },

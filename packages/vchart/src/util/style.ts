@@ -1,5 +1,4 @@
-import { degreeToRadian, isEmpty, isString, isValid } from '@visactor/vutils';
-import { DUPLICATED_ATTRS } from '../mark/utils';
+import { degreeToRadian, isEmpty, isValid, isValidNumber } from '@visactor/vutils';
 
 /**
  * 针对一些可以配置状态样式的属性的转换函数，结构如下：
@@ -36,6 +35,30 @@ export function transformStateStyle(stateStyle: any) {
   return stateStyle;
 }
 
+export function transformCornerRadius(style: any) {
+  if (isEmpty(style)) {
+    return style;
+  }
+
+  if (
+    isValidNumber(style.cornerRadiusBottomLeft) ||
+    isValidNumber(style.cornerRadiusBottomRight) ||
+    isValidNumber(style.cornerRadiusTopLeft) ||
+    isValidNumber(style.cornerRadiusTopRight)
+  ) {
+    style.cornerRadius = [
+      style.cornerRadiusTopLeft ?? 0,
+      style.cornerRadiusTopRight ?? 0,
+      style.cornerRadiusBottomRight ?? 0,
+      style.cornerRadiusBottomLeft ?? 0
+    ];
+  }
+
+  // borderRadius todo: 待 vrender 改完后删除
+  style.borderRadius = style.cornerRadius;
+  return style;
+}
+
 export function transformToGraphic(style: any) {
   if (isEmpty(style)) {
     return style;
@@ -43,19 +66,8 @@ export function transformToGraphic(style: any) {
   if (style.angle) {
     style.angle = degreeToRadian(style.angle);
   }
-  if (isValid(style.strokeWidth)) {
-    style.lineWidth = style.strokeWidth;
-  }
-  if (isValid(style.limit)) {
-    style.maxLineWidth = style.limit;
-    delete style.limit;
-  }
-  Object.keys(DUPLICATED_ATTRS).forEach(oldAttr => {
-    if (style[oldAttr]) {
-      style[DUPLICATED_ATTRS[oldAttr]] = style[oldAttr];
-      delete style[oldAttr];
-    }
-  });
+
+  transformCornerRadius(style);
 
   return style;
 }
