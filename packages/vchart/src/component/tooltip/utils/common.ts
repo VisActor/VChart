@@ -14,7 +14,9 @@ export const getTooltipActualActiveType = (spec?: ITooltipSpec): TooltipActiveTy
   };
 
   if (isValid(spec?.activeType)) {
-    Object.keys(activeTypeMap).forEach(t => (activeTypeMap[t] = spec?.activeType.includes(t as TooltipActiveType)));
+    Object.keys(activeTypeMap).forEach(t => {
+      activeTypeMap[t] = spec?.activeType?.includes(t as TooltipActiveType);
+    });
   }
 
   return Object.keys(activeTypeMap).filter(t => activeTypeMap[t]) as TooltipActiveType[];

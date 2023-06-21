@@ -1,4 +1,3 @@
-import { getTooltipActualActiveType } from '../component/tooltip/utils/common';
 import type { ITooltipActiveTypeAsKeys, ITooltipSpec } from '../component/tooltip/interface';
 import type { TooltipActiveType } from '../typings';
 import type { IModel } from './interface';
@@ -22,10 +21,10 @@ export interface ITooltipHelper {
   getDefaultShapeType: () => string;
 
   /** 更新spec */
-  updateTooltipSpec: (spec: ITooltipSpec) => void;
+  updateTooltipSpec: () => void;
 }
 
-export class BaseTooltipHelper implements ITooltipHelper {
+export abstract class BaseTooltipHelper implements ITooltipHelper {
   spec: ITooltipSpec | undefined;
   activeType: TooltipActiveType[];
 
@@ -42,12 +41,5 @@ export class BaseTooltipHelper implements ITooltipHelper {
     return 'circle';
   }
 
-  constructor(spec: ITooltipSpec) {
-    this.updateTooltipSpec(spec);
-  }
-
-  updateTooltipSpec(spec: ITooltipSpec) {
-    this.spec = spec;
-    this.activeType = getTooltipActualActiveType(spec);
-  }
+  abstract updateTooltipSpec(): void;
 }

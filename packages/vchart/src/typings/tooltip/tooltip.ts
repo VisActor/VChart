@@ -1,3 +1,4 @@
+import type { MaybeArray } from '../common';
 import type { TooltipPatternProperty, TooltipUpdateCallback } from './common';
 import type { TooltipActiveType } from './handler';
 import type { IToolTipLineActual, IToolTipLinePattern } from './line';
@@ -7,7 +8,7 @@ import type { ITooltipShapePattern } from './shape';
 export interface ITooltipPattern extends ITooltipShapePattern {
   visible?: TooltipPatternProperty<boolean>;
   title?: TooltipPatternProperty<IToolTipLinePattern>;
-  content?: TooltipPatternProperty<IToolTipLinePattern | IToolTipLinePattern[]>;
+  content?: MaybeArray<TooltipPatternProperty<MaybeArray<IToolTipLinePattern>>>;
   position?: TooltipPatternProperty<TooltipPosition>;
 
   updateTitle?: TooltipUpdateCallback<IToolTipLineActual>;
