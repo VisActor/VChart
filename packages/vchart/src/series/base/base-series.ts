@@ -296,7 +296,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     if (isValid(this._spec.invalidType)) {
       this._invalidType = this._spec.invalidType;
     }
-    this._tooltipHelper?.updateTooltipSpec(this._spec.tooltip);
+    this._tooltipHelper?.updateTooltipSpec();
   }
 
   /** data */
