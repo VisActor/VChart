@@ -40,22 +40,26 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
       if (isValid(pattern)) {
         spec[activeType] = {
           ...pattern,
-          title: isFunction(pattern.title)
-            ? pattern.title
-            : ({
-                ...pattern.title,
-                seriesId: this.series.id
-              } as IToolTipLinePattern),
-          content: isFunction(pattern.content)
-            ? pattern.content
-            : array(pattern.content).map(line =>
-                isFunction(line)
-                  ? line
-                  : ({
-                      ...line,
-                      seriesId: this.series.id
-                    } as IToolTipLinePattern)
-              )
+          title: isValid(pattern.title)
+            ? isFunction(pattern.title)
+              ? pattern.title
+              : ({
+                  ...pattern.title,
+                  seriesId: this.series.id
+                } as IToolTipLinePattern)
+            : undefined,
+          content: isValid(pattern.content)
+            ? isFunction(pattern.content)
+              ? pattern.content
+              : array(pattern.content).map(line =>
+                  isFunction(line)
+                    ? line
+                    : ({
+                        ...line,
+                        seriesId: this.series.id
+                      } as IToolTipLinePattern)
+                )
+            : undefined
         };
       }
     });
