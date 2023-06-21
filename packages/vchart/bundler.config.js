@@ -14,5 +14,10 @@ module.exports = {
   envs: {
     __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production')
   },
-  external: ['eventemitter3'],
+  globals: {
+    // '@visactor/vrender': 'VRender'
+  },
+  external: [
+    // '@visactor/vrender'
+  ]
 };
