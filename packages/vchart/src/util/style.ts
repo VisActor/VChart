@@ -55,7 +55,9 @@ export function transformCornerRadius(style: any) {
   }
 
   // borderRadius todo: 待 vrender 改完后删除
-  style.borderRadius = style.cornerRadius;
+  if (isValidNumber(style.cornerRadius)) {
+    style.borderRadius = style.cornerRadius;
+  }
   return style;
 }
 
