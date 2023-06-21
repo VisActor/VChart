@@ -11,7 +11,7 @@ import type { IShapeSvgOption } from './shape-model';
 // eslint-disable-next-line no-duplicate-imports
 import { ShapeModel } from './shape-model';
 import { TextModel } from './text-model';
-import { TOOLTIP_EMPTY_STRING } from '../constants';
+import { TOOLTIP_EMPTY_STRING } from '../../constants';
 
 export type ContentColumnType = 'shape-box' | 'key-box' | 'value-box';
 
@@ -32,7 +32,7 @@ export class ContentColumnModel extends BaseTooltipModel {
     if (!this.product) {
       this.product = this.createElement('div', [this.className]);
     }
-    const renderContent = this._option.getRenderContent();
+    const renderContent = this._option.getTooltipActual()?.content ?? [];
 
     if (this.className === 'shape-box' && !renderContent.some(c => c.hasShape && c.shapeType)) {
       // 当有一行配有形状的时候，其他行要对齐。如果没有一行配有形状，则删除所有的行
@@ -72,7 +72,7 @@ export class ContentColumnModel extends BaseTooltipModel {
 
     super.setStyle(merge({}, defaultContentColumnStyle, tooltipStyle.content, this._getContentColumnStyle()));
 
-    const renderContent = this._option.getRenderContent();
+    const renderContent = this._option.getTooltipActual()?.content ?? [];
     renderContent.forEach((line, i) => {
       let childStyle: any = {};
       if (this.className === 'key-box') {
@@ -111,7 +111,7 @@ export class ContentColumnModel extends BaseTooltipModel {
   setContent(): void {
     const tooltipStyle = this._option.getTooltipStyle();
 
-    const renderContent = this._option.getRenderContent();
+    const renderContent = this._option.getTooltipActual()?.content ?? [];
     renderContent.forEach((line, i) => {
       let childContent: any;
       if (this.className === 'key-box') {
@@ -146,7 +146,7 @@ export class ContentColumnModel extends BaseTooltipModel {
 
     switch (this.className) {
       case 'shape-box':
-        const renderContent = this._option.getRenderContent();
+        const renderContent = this._option.getTooltipActual()?.content ?? [];
         return {
           ...tooltipStyle.shapeColumn,
           ...(this.className === 'shape-box' && !renderContent.some(c => c.hasShape && c.shapeType)

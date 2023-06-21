@@ -10,6 +10,7 @@ import { getFirstDatumFromTooltipData, getTooltipContentValue, getTooltipPattern
 import { getTooltipActualActiveType } from '../../utils';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension/interface';
 import type { TooltipHandlerParams } from '../../interface';
+import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constants';
 
 /**
  * 获得tooltip的实际显示内容
@@ -44,6 +45,8 @@ export const getShowContent = (
     content: []
   };
 
+  const { maxLineCount = TOOLTIP_MAX_LINE_COUNT } = pattern;
+
   /** title */
   const patternTitleVisible = getTooltipContentValue(patternTitle?.visible, data, params) !== false;
   if (!patternTitle || !patternTitleVisible) {
@@ -66,32 +69,62 @@ export const getShowContent = (
 
   /** content */
   if (pattern.activeType === 'mark') {
-    patternContent?.forEach(content => {
+    for (const content of patternContent ?? []) {
       const oneLineData = getOneLineData((data as IDimensionData[])[0]?.datum[0], content, params);
       if (oneLineData.visible !== false) {
-        tooltipContent.content.push(oneLineData);
+        if (tooltipContent.content.length === maxLineCount - 1) {
+          tooltipContent.content.push({
+            ...oneLineData,
+            ...TOOLTIP_OTHERS_LINE
+          });
+          break;
+        } else if (tooltipContent.content.length < maxLineCount) {
+          tooltipContent.content.push(oneLineData);
+        } else {
+          break;
+        }
       }
-    });
+    }
   } else if (pattern.activeType === 'dimension') {
-    (data as IDimensionInfo[]).forEach(({ data: d }) =>
-      d.forEach(({ datum, series }) => {
+    for (const { data: d } of data as IDimensionInfo[]) {
+      for (const { datum, series } of d) {
         if (!getTooltipActualActiveType(series.tooltipHelper?.spec).includes('dimension')) {
-          return;
+          continue;
         }
         const contentPatterns =
           patternContent?.filter(
             c => isNil(c.seriesId) || c.seriesId === series.id // 匹配对应series
           ) ?? [];
-        datum.forEach(datumItem =>
-          contentPatterns.forEach(c => {
-            const oneLineData = getOneLineData(datumItem, c, params);
-            if (oneLineData.visible !== false) {
-              tooltipContent.content.push(oneLineData);
+        for (const datumItem of datum) {
+          for (const linePattern of contentPatterns) {
+            const oneLineData = getOneLineData(datumItem, linePattern, params);
+            if (oneLineData.visible === false) {
+              continue;
             }
-          })
-        );
-      })
-    );
+            if (tooltipContent.content.length === maxLineCount - 1) {
+              tooltipContent.content.push({
+                ...oneLineData,
+                ...TOOLTIP_OTHERS_LINE
+              });
+              break;
+            } else if (tooltipContent.content.length < maxLineCount) {
+              tooltipContent.content.push(oneLineData);
+            } else {
+              break;
+            }
+          }
+          if (tooltipContent.content.length >= maxLineCount) {
+            break;
+          }
+        }
+        if (tooltipContent.content.length >= maxLineCount) {
+          break;
+        }
+      }
+      if (tooltipContent.content.length >= maxLineCount) {
+        break;
+      }
+    }
   }
 
   if (tooltipContent.title) {

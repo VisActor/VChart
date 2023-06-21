@@ -8,7 +8,7 @@ import type {
   TooltipPatternProperty
 } from '../../../../typings';
 import type { ISeries } from '../../../../series/interface';
-import { cloneDeep, isValid, merge, array, isFunction } from '../../../../util';
+import { cloneDeep, isValid, merge, array, isFunction, isNil } from '../../../../util';
 import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../../event/events/dimension/interface';
 import { getTooltipActualActiveType } from '../../utils';
@@ -115,14 +115,21 @@ export const getTooltipSpecForShow = (
       });
     if (seriesPatternList.length) {
       // 拼接系列 tooltip content
-      const seriesPatternContent: Array<TooltipPatternProperty<MaybeArray<IToolTipLinePattern>>> = [];
-      seriesPatternList.forEach(({ content }) => {
-        if (isFunction(content)) {
-          seriesPatternContent.push(content);
-        } else {
-          seriesPatternContent.push(...array(content));
-        }
-      });
+      let seriesPatternContent: Array<TooltipPatternProperty<MaybeArray<IToolTipLinePattern>>> | undefined = [];
+      if (seriesPatternList.every(({ content }) => isNil(content))) {
+        seriesPatternContent = undefined;
+      } else {
+        seriesPatternList.forEach(({ content }) => {
+          if (isNil(content)) {
+            return;
+          }
+          if (isFunction(content)) {
+            seriesPatternContent?.push(content);
+          } else {
+            seriesPatternContent?.push(...array(content));
+          }
+        });
+      }
       seriesDimensionPattern = {
         ...seriesPatternList[0],
         content: seriesPatternContent
