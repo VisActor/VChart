@@ -15,6 +15,9 @@ export interface ITooltipPattern extends ITooltipShapePattern {
   updateContent?: TooltipUpdateCallback<IToolTipLineActual[]>;
   updatePosition?: TooltipUpdateCallback<ITooltipPositionActual>;
 
+  /** tooltip content 保留的最大数据行数，默认为 20 */
+  maxLineCount?: number;
+
   /** 方便内部逻辑辨别 tooltip 类型，不暴露给用户 */
   activeType?: TooltipActiveType;
 }

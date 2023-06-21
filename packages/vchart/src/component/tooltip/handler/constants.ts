@@ -1,8 +1,17 @@
 import { PREFIX } from '../../../constant';
+import type { IToolTipLineActual } from '../../../typings';
 import { escapeHTML } from './utils';
 
 export const TOOLTIP_EL_CLASS_NAME = 'vchart-tooltip-element';
 export const TOOLTIP_CONTAINER_EL_CLASS_NAME = 'vchart-tooltip-container';
+export const TOOLTIP_MAX_LINE_COUNT = 20;
+export const TOOLTIP_EMPTY_STRING = '';
+
+export const TOOLTIP_OTHERS_LINE = {
+  // TODO: i18n
+  key: '其他',
+  value: '...'
+} as IToolTipLineActual;
 
 export const DEFAULT_OPTIONS = {
   /**
