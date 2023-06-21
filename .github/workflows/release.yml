@@ -40,7 +40,7 @@ jobs:
       - name: Build packages
         run: node common/scripts/install-run-rush.js build --only tag:package
 
-      - name: Run CI
+      - name: Run Bugserver
         working-directory: ./packages/vchart
         env:
           BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
