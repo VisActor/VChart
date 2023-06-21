@@ -63,7 +63,7 @@ export class CustomMark extends BaseComponent {
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;
       spec.children?.forEach((s, i) => {
-        this._createExtensionMark(s, mark, namePrefix, i);
+        this._createExtensionMark(s as any, mark, namePrefix, i);
       });
     }
 
