@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "support dimension tooltip of several series",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}
