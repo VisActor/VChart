@@ -45,12 +45,8 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
   protected declare _theme: Maybe<IAreaSeriesTheme>;
 
   protected _areaMark!: IAreaMark;
+  protected _stack: boolean = true;
   protected _invalidType: IInvalidType = 'break';
-
-  setAttrFromSpec() {
-    this._stack = !!this._spec.seriesField;
-    super.setAttrFromSpec();
-  }
 
   initMark(): void {
     const progressive = {
