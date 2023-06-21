@@ -8,7 +8,7 @@ import type { IModelLayoutOption, IModelRenderOption } from '../../model/interfa
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base';
 import type { IPadding, Maybe, StringOrNumber } from '../../typings';
-import { isArray, merge, outOfBounds, isNumber, get, isBoolean } from '../../util';
+import { isArray, merge, outOfBounds, isNumber, get, isBoolean, transformCornerRadius } from '../../util';
 import type { LayoutItem } from '../../model/layout-item';
 import type { IComponentOption } from '../interface';
 import type {
@@ -330,12 +330,7 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
     }
     const labelBackground = label?.labelBackground;
     const labelStyle = label?.style || {};
-    const {
-      fill: rectFill = 'rgba(47, 59, 82, 0.9)',
-      cornerRadius: borderRadius = 0,
-      stroke: rectStroke,
-      ...rectStyle
-    } = labelBackground?.style || {};
+    const { fill: rectFill = 'rgba(47, 59, 82, 0.9)', stroke: rectStroke, ...rectStyle } = labelBackground?.style || {};
     hair.label = {
       visible: !!label?.visible,
       formatMethod: label?.formatMethod,
@@ -353,9 +348,8 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
         visible: isBoolean(labelBackground?.visible) ? labelBackground?.visible : !!labelBackground,
         pickable: false,
         fill: rectFill,
-        borderRadius,
         stroke: rectStroke,
-        ...rectStyle
+        ...transformCornerRadius(rectStyle)
       },
       zIndex: this.labelZIndex
     };
