@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/react-vchart",
-      "comment": "support dimension tooltip of several series",
+      "comment": "support unity dimension tooltip of several different series",
       "type": "patch"
     }
   ],
