@@ -45,7 +45,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
   protected declare _theme: Maybe<IAreaSeriesTheme>;
 
   protected _areaMark!: IAreaMark;
-  protected _stack: boolean = true;
+  protected _stack: boolean = false;
   protected _invalidType: IInvalidType = 'break';
 
   initMark(): void {
