@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: the default value of area series's _stack should be depend on seriesField",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
