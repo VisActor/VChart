@@ -1,4 +1,4 @@
-import type { IBarSeriesSpec } from '../../series/bar/interface';
+import type { IBarSeriesSpec, IBar3dSeriesSpec } from '../../series/bar/interface';
 import type { IChartExtendsSeriesSpec } from '../../typings/spec/common';
 import type { ICartesianChartSpec } from '../cartesian/interface';
 
@@ -6,4 +6,10 @@ export interface IBarChartSpec extends ICartesianChartSpec, IChartExtendsSeriesS
   type: 'bar';
   /** 系列配置 */
   series?: IBarSeriesSpec[];
+}
+
+export interface IBar3dChartSpec extends ICartesianChartSpec, IChartExtendsSeriesSpec<IBar3dSeriesSpec> {
+  type: 'bar3d';
+  /** 系列配置 */
+  series?: IBar3dSeriesSpec[];
 }
