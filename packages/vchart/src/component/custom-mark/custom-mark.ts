@@ -13,6 +13,7 @@ import { isNil, isValid, isValidNumber } from '@visactor/vutils';
 
 export class CustomMark extends BaseComponent {
   static type = ComponentTypeEnum.customMark;
+  type = ComponentTypeEnum.customMark;
 
   layoutType: LayoutItem['layoutType'] = 'absolute';
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CustomMark;

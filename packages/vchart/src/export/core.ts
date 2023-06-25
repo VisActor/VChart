@@ -19,7 +19,7 @@ Factory.registerRegion('region', Region as any);
 // install layout module
 Factory.registerLayout('base', Layout as any);
 
-export { VChart };
+export { VChart, Factory };
 
 // export the version
 export const version = __VERSION__;

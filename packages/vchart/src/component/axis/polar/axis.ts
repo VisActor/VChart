@@ -85,7 +85,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
   }
 
   static createComponent(spec: any, options: IComponentOption) {
-    if (this.type !== PolarAxis.type) {
+    if (!this.type.startsWith(PolarAxis.type)) {
       return null;
     }
     const axesSpec = spec.axes || options.defaultSpec;

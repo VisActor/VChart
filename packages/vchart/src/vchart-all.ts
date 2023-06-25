@@ -88,11 +88,9 @@ import {
 } from './export/mark';
 
 import {
-  CartesianAxis,
   CartesianLinearAxis,
   CartesianBandAxis,
   CartesianTimeAxis,
-  PolarAxis,
   PolarBandAxis,
   PolarLinearAxis,
   DiscreteLegend,
@@ -209,11 +207,9 @@ VChart.useMark([
 
 // components
 VChart.useComponent([
-  CartesianAxis as any,
   CartesianLinearAxis,
   CartesianBandAxis,
   CartesianTimeAxis,
-  PolarAxis as any,
   PolarBandAxis,
   PolarLinearAxis,
   DiscreteLegend,
