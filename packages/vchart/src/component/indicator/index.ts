@@ -1,2 +1,2 @@
-export * from './tooltip';
+export * from './indicator';
 export * from './interface';

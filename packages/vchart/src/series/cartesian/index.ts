@@ -1,2 +1,2 @@
-export * from './tooltip';
+export * from './cartesian';
 export * from './interface';
