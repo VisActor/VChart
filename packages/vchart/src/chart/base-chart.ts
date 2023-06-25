@@ -31,6 +31,8 @@ import type {
 } from './interface';
 import type { ISeries } from '../series/interface';
 import type { IRegion } from '../region/interface';
+import { ComponentTypeEnum } from '../component/interface';
+// eslint-disable-next-line no-duplicate-imports
 import type { IComponent } from '../component/interface';
 import type { IMark } from '../mark/interface';
 import type { IEvent } from '../event/interface';
@@ -311,32 +313,60 @@ export class BaseChart extends CompilableBase implements IChart {
     return this._series.find(x => x.id === id);
   }
 
-  createComponent(spec: any) {
-    Factory.getComponents().forEach(C => {
-      const cmp = C.createComponent(spec, {
-        ...this._modelOption,
-        getAllRegions: this.getAllRegions,
-        getRegionsInIndex: this.getRegionsInIndex,
-        getRegionsInIds: this.getRegionsInIds,
-        getRegionsInUserIdOrIndex: this.getRegionsInUserIdOrIndex,
-        getTheme: () => this._theme,
-        getAllSeries: this.getAllSeries,
-        getSeriesInIndex: this.getSeriesInIndex,
-        getSeriesInIds: this.getSeriesInIds,
-        getSeriesInUserIdOrIndex: this.getSeriesInUserIdOrIndex,
-        getAllComponents: this.getComponents,
-        getComponentByIndex: this.getComponentByIndex,
-        getComponentByUserId: this.getComponentByUserId,
-        getComponentsByKey: this.getComponentsByKey
-      });
-      if (!cmp) {
-        return;
-      }
-      array(cmp).forEach(c => {
-        c.created();
-        this._components.push(c);
-      });
+  private _createComponent(Component: any, spec: any) {
+    const component = Component.createComponent(spec, {
+      ...this._modelOption,
+      getAllRegions: this.getAllRegions,
+      getRegionsInIndex: this.getRegionsInIndex,
+      getRegionsInIds: this.getRegionsInIds,
+      getRegionsInUserIdOrIndex: this.getRegionsInUserIdOrIndex,
+      getTheme: () => this._theme,
+      getAllSeries: this.getAllSeries,
+      getSeriesInIndex: this.getSeriesInIndex,
+      getSeriesInIds: this.getSeriesInIds,
+      getSeriesInUserIdOrIndex: this.getSeriesInUserIdOrIndex,
+      getAllComponents: this.getComponents,
+      getComponentByIndex: this.getComponentByIndex,
+      getComponentByUserId: this.getComponentByUserId,
+      getComponentsByKey: this.getComponentsByKey
     });
+    if (!component) {
+      return;
+    }
+    array(component).forEach(c => {
+      c.created();
+      this._components.push(c);
+    });
+  }
+
+  createComponent(spec: any) {
+    const components = Factory.getComponents();
+    // 坐标轴组件只需要调用一次
+    let cartesianAxis;
+    let polarAxis;
+    const noAxisComponents = [];
+    for (let index = 0; index < components.length; index++) {
+      const component = components[index];
+      if (component.type.startsWith(ComponentTypeEnum.cartesianAxis)) {
+        cartesianAxis = component;
+      } else if (component.type.startsWith(ComponentTypeEnum.polarAxis)) {
+        polarAxis = component;
+      } else {
+        noAxisComponents.push(component);
+      }
+    }
+
+    noAxisComponents.forEach(C => {
+      this._createComponent(C, spec);
+    });
+
+    if (cartesianAxis) {
+      this._createComponent(cartesianAxis, spec);
+    }
+
+    if (polarAxis) {
+      this._createComponent(polarAxis, spec);
+    }
   }
 
   initComponent() {

@@ -129,7 +129,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   }
 
   static createComponent(spec: any, options: IComponentOption) {
-    if (this.type !== CartesianAxis.type) {
+    if (!this.type.startsWith(CartesianAxis.type)) {
       return null;
     }
     const regions = options.getRegionsInIndex();
