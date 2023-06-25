@@ -38,6 +38,7 @@ build
 build-es5
 *.zip
 
+
 *.zip
 stats.html
 report.html
@@ -99,3 +100,16 @@ tsconfig.tsbuildinfo
 
 # git-hook
 common/scripts/pre-commit
+
+packages/vchart/chart.d.ts
+packages/vchart/chart.js
+packages/vchart/component.d.ts
+packages/vchart/component.js
+packages/vchart/core.d.ts
+packages/vchart/core.js
+packages/vchart/layout.d.ts
+packages/vchart/layout.js
+packages/vchart/mark.d.ts
+packages/vchart/mark.js
+packages/vchart/series.d.ts
+packages/vchart/series.js
