@@ -4,10 +4,9 @@
 import { VChart } from './export/core';
 import { LineChart, BarChart, PieChart } from './export/chart';
 import { LineSeries, BarSeries, PieSeries } from './export/series';
-import { SymbolMark, LineMark, RectMark, ArcMark } from './export/mark';
+import { SymbolMark, LineMark, RectMark, ArcMark, TextMark, PathMark } from './export/mark';
 
 import {
-  CartesianAxis,
   CartesianLinearAxis,
   CartesianBandAxis,
   CartesianTimeAxis,
@@ -24,11 +23,10 @@ VChart.useChart([LineChart, BarChart, PieChart]);
 VChart.useSeries([LineSeries, BarSeries, PieSeries]);
 
 // marks
-VChart.useMark([SymbolMark, LineMark, RectMark, ArcMark]);
+VChart.useMark([SymbolMark, LineMark, RectMark, ArcMark, TextMark, PathMark]);
 
 // components
 VChart.useComponent([
-  CartesianAxis as any,
   CartesianLinearAxis,
   CartesianBandAxis,
   CartesianTimeAxis,
