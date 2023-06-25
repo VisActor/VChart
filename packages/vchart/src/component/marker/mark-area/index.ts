@@ -1,2 +1,2 @@
-export * from './tooltip';
+export * from './mark-area';
 export * from './interface';

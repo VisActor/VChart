@@ -15,6 +15,7 @@ import type { IDiscreteLegendSpec } from '../../component/legend/discrete/interf
 import type { IHoverSpec, ISelectSpec, ITriggerSpec } from '../../interaction/interface';
 import type { IRenderOption } from '../../compile/interface';
 import type { ITooltipSpec } from '../../component/tooltip/interface';
+// eslint-disable-next-line no-duplicate-imports
 import type { ILayoutSpec } from '../../layout/interface';
 import type {
   ConvertToMarkStyleSpec,

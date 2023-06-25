@@ -1,7 +1,7 @@
 import type { IChart } from './../../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { ILayoutItem, ILayoutRect } from '../../model/interface';
-import type { IPadding, IRect } from '../../typings/space';
+import type { ILayoutItem } from '../../model/interface';
+import type { IRect } from '../../typings/space';
 import type { IRegion } from '../../region/interface';
 import type { IBaseLayout } from '../interface';
 import { Layout } from '..';

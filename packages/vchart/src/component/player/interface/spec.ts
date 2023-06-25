@@ -62,6 +62,7 @@ export interface IPlayer extends IPlayerTheme {
   specs?: Partial<Omit<IChartSpec, 'player'>>[];
 }
 
+export type IPlayerSpec = IPlayer;
 /**
  * 播放器类型
  * 连续 | 离散.
