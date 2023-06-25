@@ -29,7 +29,19 @@
   "files": [
     "esm",
     "cjs",
-    "build"
+    "build",
+    "chart.d.ts",
+    "chart.js",
+    "component.d.ts",
+    "component.js",
+    "core.d.ts",
+    "core.js",
+    "layout.d.ts",
+    "layout.js",
+    "mark.d.ts",
+    "mark.js",
+    "series.d.ts",
+    "series.js"
   ],
   "unpkg": "latest",
   "unpkgFiles": [
