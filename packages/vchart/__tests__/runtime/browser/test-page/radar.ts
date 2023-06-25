@@ -1,6 +1,6 @@
 import { isMobile } from 'react-device-detect';
 import type { IRadarChartSpec } from '../../../../src/index';
-import { default as VChart } from '../../../../src/index';
+import { VChart } from '../../../../src/index';
 
 const run = () => {
   const mockData: any[] = [];
