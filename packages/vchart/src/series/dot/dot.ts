@@ -1,16 +1,14 @@
+/* eslint-disable no-duplicate-imports */
 import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD } from '../../constant/index';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Maybe, Datum } from '../../typings';
-// eslint-disable-next-line no-duplicate-imports
 import { isValid, merge } from '../../util';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IRuleMark } from '../../mark/rule';
 import type { IMark } from '../../mark/interface';
-// eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
-// eslint-disable-next-line no-duplicate-imports
 import { dataViewParser } from '@visactor/vdataset';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import type { IGroupMark } from '../../mark/group';
@@ -25,9 +23,16 @@ import { objFlat } from '../../data/transforms/obj-flat';
 import { DEFAULT_GRID_BACKGROUND } from './config';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum } from '../interface';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { SymbolMark } from '../../mark/symbol';
+import { TextMark } from '../../mark/text';
+import { GroupMark } from '../../mark/group';
+import { RuleMark } from '../../mark/rule';
+import { RectMark } from '../../mark/rect';
+
+VChart.useMark([SymbolMark, TextMark, GroupMark, RuleMark, RectMark]);
 
 export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.dot;

@@ -33,6 +33,11 @@ import type { animationInfo } from './animation/interface';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { ArcMark } from '../../mark/arc';
+import { TextMark } from '../../mark/text';
+
+VChart.useMark([ArcMark, TextMark]);
 
 export class SunburstSeries extends PolarSeries<any> {
   protected declare _spec: ISunburstSeriesSpec;

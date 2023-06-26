@@ -1,3 +1,4 @@
+/* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../cartesian/cartesian';
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel } from '../../constant';
@@ -9,7 +10,6 @@ import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
@@ -17,6 +17,11 @@ import type { ICellMark } from '../../mark/cell';
 import { normalizePadding } from '@visactor/vutils';
 import { HeatmapSeriesTooltipHelper } from './tooltip-helper';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { CellMark } from '../../mark/cell';
+import { TextMark } from '../../mark/text';
+
+VChart.useMark([CellMark, TextMark]);
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 

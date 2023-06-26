@@ -1,5 +1,5 @@
 import { ARC_MIDDLE_ANGLE } from '../constant';
-import type { IArcMarkSpec, Datum, StateValueType, IArc3dMarkSpec } from '../typings';
+import type { IArcMarkSpec, Datum, StateValueType } from '../typings';
 import { polarToCartesian } from '../util/math';
 import type { ExChannelCall } from './base/base-mark';
 import { BaseMark } from './base/base-mark';
@@ -8,7 +8,6 @@ import type { IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface';
 
 export type IArcMark = IMarkRaw<IArcMarkSpec>;
-export type IArc3dMark = IMarkRaw<IArc3dMarkSpec>;
 
 export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements IMarkRaw<T> {
   readonly type: MarkTypeEnum = ArcMark.type;
@@ -69,9 +68,4 @@ export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements 
 export class ArcMark extends BaseArcMark<IArcMarkSpec> implements IArcMark {
   static readonly type = MarkTypeEnum.arc;
   readonly type: MarkTypeEnum = ArcMark.type;
-}
-
-export class Arc3dMark extends BaseArcMark<IArc3dMarkSpec> implements IArc3dMark {
-  static readonly type = MarkTypeEnum.arc3d;
-  readonly type: MarkTypeEnum = Arc3dMark.type;
 }
