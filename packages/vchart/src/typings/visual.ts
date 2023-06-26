@@ -278,12 +278,12 @@ export interface ITextMarkSpec extends IFillMarkSpec {
 export type IPositionedTextMarkSpec = Omit<ITextMarkSpec, 'align' | 'textAlign' | 'baseline' | 'textBaseline'>;
 
 export interface IRectMarkSpec extends IFillMarkSpec {
-  cornerRadius?: number;
-  cornerRadiusTopLeft?: number;
-  cornerRadiusTopRight?: number;
-  cornerRadiusBottomLeft?: number;
-  cornerRadiusBottomRight?: number;
-
+  /**
+   * 圆角配置。
+   * 1. 如果传入数值，则统一为四个角设置圆角
+   * 2. 如果传入数组，则分别为 [上左, 上右, 下右, 下左]
+   */
+  cornerRadius?: number | number[];
   width?: number;
   height?: number;
   x1?: number;
@@ -406,7 +406,12 @@ export interface IGroupMarkSpec extends ICommonSpec, IFillMarkSpec {
   clip?: boolean;
   width?: number;
   height?: number;
-  cornerRadius?: number;
+  /**
+   * 圆角配置。
+   * 1. 如果传入数值，则统一为四个角设置圆角
+   * 2. 如果传入数组，则分别为 [上左, 上右, 下右, 下左]
+   */
+  cornerRadius?: number | number[];
 }
 
 export interface IPolygonMarkSpec extends ICommonSpec, IFillMarkSpec {
@@ -414,7 +419,7 @@ export interface IPolygonMarkSpec extends ICommonSpec, IFillMarkSpec {
   /**
    * 圆角配置
    */
-  cornerRadius?: number | number[];
+  cornerRadius?: number;
   scaleX?: number;
   scaleY?: number;
 }
