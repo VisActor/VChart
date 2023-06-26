@@ -8,7 +8,7 @@ import type { IModelLayoutOption, IModelRenderOption } from '../../model/interfa
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base';
 import type { IPadding, Maybe, StringOrNumber } from '../../typings';
-import { isArray, merge, outOfBounds, isNumber, get, isBoolean, transformCornerRadius } from '../../util';
+import { isArray, outOfBounds, isNumber, get, isBoolean } from '../../util';
 import type { LayoutItem } from '../../model/layout-item';
 import type { IComponentOption } from '../interface';
 import type {
@@ -349,7 +349,7 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
         pickable: false,
         fill: rectFill,
         stroke: rectStroke,
-        ...transformCornerRadius(rectStyle)
+        ...rectStyle
       },
       zIndex: this.labelZIndex
     };

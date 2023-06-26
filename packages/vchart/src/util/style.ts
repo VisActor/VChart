@@ -35,28 +35,6 @@ export function transformStateStyle(stateStyle: any) {
   return stateStyle;
 }
 
-export function transformCornerRadius(style: any) {
-  if (isEmpty(style)) {
-    return style;
-  }
-
-  if (
-    isValidNumber(style.cornerRadiusBottomLeft) ||
-    isValidNumber(style.cornerRadiusBottomRight) ||
-    isValidNumber(style.cornerRadiusTopLeft) ||
-    isValidNumber(style.cornerRadiusTopRight)
-  ) {
-    style.cornerRadius = [
-      style.cornerRadiusTopLeft ?? 0,
-      style.cornerRadiusTopRight ?? 0,
-      style.cornerRadiusBottomRight ?? 0,
-      style.cornerRadiusBottomLeft ?? 0
-    ];
-  }
-
-  return style;
-}
-
 export function transformToGraphic(style: any) {
   if (isEmpty(style)) {
     return style;
@@ -64,8 +42,6 @@ export function transformToGraphic(style: any) {
   if (style.angle) {
     style.angle = degreeToRadian(style.angle);
   }
-
-  transformCornerRadius(style);
 
   return style;
 }
