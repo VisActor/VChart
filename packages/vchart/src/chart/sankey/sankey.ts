@@ -4,6 +4,9 @@ import { SeriesTypeEnum } from '../../series/interface';
 import type { ISankeyChartSpec } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../series/interface';
+import { VChart } from '../../core/vchart';
+import { SankeySeries } from '../../series';
+VChart.useSeries([SankeySeries]);
 
 export class SankeyChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sankey;

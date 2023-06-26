@@ -3,6 +3,9 @@ import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import type { IAreaChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
+import { VChart } from '../../core/vchart';
+import { AreaSeries } from '../../series';
+VChart.useSeries([AreaSeries]);
 
 export class AreaChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.area;

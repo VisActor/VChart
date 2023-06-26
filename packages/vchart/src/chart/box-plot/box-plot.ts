@@ -5,6 +5,9 @@ import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBoxPlotChartSpec } from './interface';
+import { VChart } from '../../core/vchart';
+import { BoxPlotSeries } from '../../series';
+VChart.useSeries([BoxPlotSeries]);
 
 export class BoxPlotChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.boxPlot;

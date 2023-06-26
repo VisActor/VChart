@@ -5,6 +5,9 @@ import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import type { ISunburstChartSpec } from './interface';
 import { POLAR_START_ANGLE } from '../../constant';
+import { VChart } from '../../core/vchart';
+import { SunburstSeries } from '../../series';
+VChart.useSeries([SunburstSeries]);
 
 export class SunburstChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sunburst;
