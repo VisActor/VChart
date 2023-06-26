@@ -80,12 +80,10 @@ export class GridLayout implements IBaseLayout {
    * 设置用户设置的 colWidth 和 rowHeight
    */
   protected setSizeFromUserSetting(
-    userSetting: [
-      {
-        index: number;
-        size: number | ((maxSize: number) => number);
-      }
-    ],
+    userSetting: {
+      index: number;
+      size: number | ((maxSize: number) => number);
+    }[],
     gridSize: GridSize[],
     gridMax: number,
     maxSize: number
