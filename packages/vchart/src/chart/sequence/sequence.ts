@@ -1,3 +1,4 @@
+import type { IGridLayoutSpec } from './../../layout/interface';
 import { BaseChart } from '../base-chart';
 import type { ISequenceChartSpec, ISequenceSeriesSpec } from './interface';
 import type { IRegion, IRegionSpec } from '../../region/interface';
@@ -220,7 +221,7 @@ export class SequenceChart extends BaseChart {
     //   (spec as any).dataZoom[0].regionIndex = Array.from({length: region.length - 1},(item, index)=> index+1);
     // }
 
-    const layout = {
+    const layout: IGridLayoutSpec = {
       type: 'grid',
       col: 3,
       row: rowNum,
