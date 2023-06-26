@@ -1,1 +1,1 @@
-export * from './esm/export/series.d.ts';
+export * from './esm/series/index.d.ts';

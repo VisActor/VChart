@@ -1,1 +1,1 @@
-export * from './esm/export/core.js';
+export * from './esm/core/index.js';
