@@ -1,8 +1,7 @@
+/* eslint-disable no-duplicate-imports */
 import { MarkTypeEnum } from '../../mark/interface';
-// eslint-disable-next-line no-duplicate-imports
 import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme } from './interface';
 import type { Datum, Maybe } from '../../typings';
@@ -13,6 +12,11 @@ import { ProgressLikeSeries } from '../polar/progress-like';
 import type { IRectMark } from '../../mark/rect';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { PathMark } from '../../mark/path';
+import { RectMark } from '../../mark/rect';
+
+VChart.useMark([PathMark, RectMark]);
 
 export class GaugePointerSeries extends ProgressLikeSeries<IGaugePointerSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.gaugePointer;

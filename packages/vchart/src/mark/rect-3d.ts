@@ -1,21 +1,21 @@
-import type { IRectMarkSpec } from '../typings/visual';
+import type { IRect3dMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
 
-export type IRectMark = IMarkRaw<IRectMarkSpec>;
+export type IRect3dMark = IMarkRaw<IRect3dMarkSpec>;
 
-export class RectMark extends BaseMark<IRectMarkSpec> implements IRectMark {
-  static readonly type = MarkTypeEnum.rect;
-  readonly type = RectMark.type;
+export class Rect3dMark extends BaseMark<IRect3dMarkSpec> implements IRect3dMark {
+  static readonly type = MarkTypeEnum.rect3d;
+  readonly type = Rect3dMark.type;
 
   protected _getDefaultStyle() {
-    const defaultStyle: IMarkStyle<IRectMarkSpec> = {
+    const defaultStyle: IMarkStyle<IRect3dMarkSpec> = {
       ...super._getDefaultStyle(),
       width: undefined,
       height: undefined,
-      lineWidth: 0
+      length: 3
     };
     return defaultStyle;
   }

@@ -1,16 +1,14 @@
+/* eslint-disable no-duplicate-imports */
 import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD } from '../../constant/index';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Maybe, Datum } from '../../typings';
-// eslint-disable-next-line no-duplicate-imports
 import { isValid } from '../../util';
 import type { IRuleMark } from '../../mark/rule';
 import type { IMark } from '../../mark/interface';
-// eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { DataView } from '@visactor/vdataset';
 import { registerDataSetInstanceTransform } from '../../data/register';
-// eslint-disable-next-line no-duplicate-imports
 import { ShapeTypeEnum } from '../../typings';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { IDotSeriesSpec } from '../dot/interface';
@@ -18,9 +16,14 @@ import type { IGroupMark } from '../../mark/group';
 import { LinkSeriesTooltipHelper } from './tooltip-helper';
 import type { ILinkSeriesSpec, ILinkSeriesTheme } from './interface';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum } from '../interface';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { RuleMark } from '../../mark/rule';
+import { SymbolMark } from '../../mark/symbol';
+import { GroupMark } from '../../mark/group';
+
+VChart.useMark([RuleMark, SymbolMark, GroupMark]);
 
 export class LinkSeries extends CartesianSeries<ILinkSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.link;

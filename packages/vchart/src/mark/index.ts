@@ -2,22 +2,25 @@
 /**
  * @description export all mark modules
  */
-import { BoxPlotMark } from '../mark/box-plot';
-import { LineMark } from '../mark/line';
-import { SymbolMark } from '../mark/symbol';
-import { GroupMark } from '../mark/group';
-import { RuleMark } from '../mark/rule';
-import { TextMark } from '../mark/text';
-import { AreaMark } from '../mark/area';
-import { Rect3dMark, RectMark } from '../mark/rect';
-import { PathMark } from '../mark/path';
-import { Arc3dMark, ArcMark } from '../mark/arc';
-import { ComponentMark } from '../mark/component';
-import { PolygonMark, Pyramid3dMark } from '../mark/polygon';
-import { LinkPathMark } from '../mark/linkPath';
-import { ProgressArcMark } from '../mark/progress-arc';
-import { CellMark } from '../mark/cell';
-import { BaseMark } from '../mark/base';
+import { BoxPlotMark } from './box-plot';
+import { LineMark } from './line';
+import { SymbolMark } from './symbol';
+import { GroupMark } from './group';
+import { RuleMark } from './rule';
+import { TextMark } from './text';
+import { AreaMark } from './area';
+import { RectMark } from './rect';
+import { Rect3dMark } from './rect-3d';
+import { PathMark } from './path';
+import { ArcMark } from './arc';
+import { Arc3dMark } from './arc-3d';
+import { ComponentMark } from './component';
+import { LinkPathMark } from './link-path';
+import { ProgressArcMark } from './progress-arc';
+import { CellMark } from './cell';
+import { BaseMark } from './base';
+import { PolygonMark } from './polygon/polygon';
+import { Pyramid3dMark } from './polygon/pyramid-3d';
 
 export type {
   IBoxPlotMarkSpec,

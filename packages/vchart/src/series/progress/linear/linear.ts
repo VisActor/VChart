@@ -1,6 +1,6 @@
+/* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../../cartesian/cartesian';
 import type { SeriesMarkMap } from '../../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface';
 import type { IRectMark } from '../../../mark/rect';
 import type { IGroupMark } from '../../../mark/group';
@@ -15,6 +15,10 @@ import type { ILinearProgressSeriesSpec, ILinearProgressSeriesTheme } from './in
 import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
 import { BaseSeries } from '../../base/base-series';
+import { VChart } from '../../../core/vchart';
+import { RectMark } from '../../../mark/rect';
+
+VChart.useMark([RectMark]);
 
 export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.linearProgress;

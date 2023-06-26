@@ -31,6 +31,11 @@ import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { RectMark } from '../../mark/rect';
+import { TextMark } from '../../mark/text';
+
+VChart.useMark([RectMark, TextMark]);
 
 export class TreeMapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;

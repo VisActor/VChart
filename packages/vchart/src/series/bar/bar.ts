@@ -1,3 +1,4 @@
+/* eslint-disable no-duplicate-imports */
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
@@ -14,13 +15,16 @@ import type { IRectMark } from '../../mark/rect';
 import type { IModelInitOption } from '../../model/interface';
 import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { RectMark } from '../../mark/rect';
+import { TextMark } from '../../mark/text';
+
+VChart.useMark([RectMark, TextMark]);
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -240,17 +244,4 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   getDefaultShapeType(): string {
     return 'square';
   }
-}
-
-export class Bar3dSeries extends BarSeries {
-  static readonly type: string = SeriesTypeEnum.bar3d;
-  type = SeriesTypeEnum.bar3d;
-
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.bar3d]: { name: SeriesMarkNameEnum.bar3d, type: MarkTypeEnum.rect3d }
-  };
-
-  protected _barMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.bar3d;
-  protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect3d;
 }
