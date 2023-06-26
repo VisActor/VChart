@@ -1,3 +1,4 @@
+/* eslint-disable no-duplicate-imports */
 import { PREFIX } from '../../constant/base';
 import type { IElement } from '@visactor/vgrammar';
 import type { DataView } from '@visactor/vdataset';
@@ -21,7 +22,6 @@ import {
 } from '../../util';
 import { AttributeLevel } from '../../constant';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import {
@@ -37,6 +37,11 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ScatterAppearPreset } from './animation';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { SymbolMark } from '../../mark/symbol';
+import { TextMark } from '../../mark/text';
+
+VChart.useMark([SymbolMark, TextMark]);
 
 export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.scatter;

@@ -1,16 +1,13 @@
+/* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
 import type { ILineMark } from '../../mark/line';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
-// eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel, POLAR_START_RADIAN } from '../../constant';
 import { DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
-// eslint-disable-next-line no-duplicate-imports
 import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
 import { isValid, radians } from '../../util';
-
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { mixin } from '@visactor/vutils';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
@@ -21,6 +18,13 @@ import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAreaMark } from '../../mark/area';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { AreaMark } from '../../mark/area';
+import { LineMark } from '../../mark/line';
+import { SymbolMark } from '../../mark/symbol';
+import { TextMark } from '../../mark/text';
+
+VChart.useMark([AreaMark, LineMark, SymbolMark, TextMark]);
 
 export interface RadarSeries
   extends Pick<

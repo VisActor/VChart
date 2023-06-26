@@ -1,9 +1,10 @@
+/* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IRectMark } from '../../mark/rect';
-import type { ILinkPathMark } from '../../mark/linkPath';
+import type { ILinkPathMark } from '../../mark/link-path';
 import type { ITextMark } from '../../mark/text';
 import { registerSankeyTransforms } from '@visactor/vgrammar-sankey';
 import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, ITextMarkSpec } from '../../typings';
@@ -11,7 +12,6 @@ import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { registerDataSetInstanceTransform, registerDataSetInstanceParser } from '../../data/register';
 import type { ISankeyOpt } from '../../data/transforms/sankey';
-// eslint-disable-next-line no-duplicate-imports
 import { sankey } from '../../data/transforms/sankey';
 import { sankeyNodes } from '../../data/transforms/sankey-nodes';
 import { sankeyLinks } from '../../data/transforms/sankey-links';
@@ -24,7 +24,6 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { getDataScheme } from '../../theme/color-scheme/util';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
-// eslint-disable-next-line no-duplicate-imports
 import { Bounds } from '@visactor/vutils';
 import type { ISankeyAnimationParams } from './animation';
 import type { ISankeySeriesSpec } from './interface';
@@ -34,6 +33,12 @@ import type { IMarkAnimateSpec } from '../../animation/spec';
 import { array } from '../../util';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { BarSeries } from '../bar/bar';
+import { VChart } from '../../core/vchart';
+import { RectMark } from '../../mark/rect';
+import { TextMark } from '../../mark/text';
+import { LinkPathMark } from '../../mark/link-path';
+
+VChart.useMark([RectMark, LinkPathMark, TextMark]);
 
 registerSankeyTransforms();
 

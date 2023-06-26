@@ -1,12 +1,11 @@
 /**
- * @description VChart 的核心模块，包含 VChart 使用必须要的接口。
- * The core module of VChart, containing the necessary interfaces for using VChart.
+ * @description The core module of VChart, containing the necessary interfaces for using VChart.
  */
 
-import { VChart } from '../core/vchart';
-import { Factory } from '../core/factory';
+import { VChart } from './vchart';
+import { Factory } from './factory';
 import { Region } from '../region/region';
-import { Layout } from '../layout/index';
+import { Layout } from '../layout/base-layout';
 import { GroupMark } from '../mark/group';
 import { ComponentMark } from '../mark/component';
 
@@ -25,7 +24,7 @@ export { VChart, Factory };
 export const version = __VERSION__;
 
 // export necessary types
-export type { IVChart } from '../core/interface';
+export type { IVChart } from './interface';
 // the event types
 export * from '../event/interface';
 export * from '../typings/spec/common';

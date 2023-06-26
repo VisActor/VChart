@@ -32,6 +32,11 @@ import type { CirclePackingAppearPreset } from './animation';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { ArcMark } from '../../mark/arc';
+import { TextMark } from '../../mark/text';
+
+VChart.useMark([ArcMark, TextMark]);
 
 export class CirclePackingSeries extends CartesianSeries<any> {
   protected declare _spec: ICirclePackingSeriesSpec;

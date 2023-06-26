@@ -1,17 +1,15 @@
+/* eslint-disable no-duplicate-imports */
 import type { IFunnelSeries, SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum } from '../interface';
 import type { IOrientType, IPoint, TextAlign, TextBaseLine, Maybe, Datum, StringOrNumber } from '../../typings';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface';
-import type { IPolygonMark } from '../../mark/polygon';
+import type { IPolygonMark } from '../../mark/polygon/polygon';
 import { BaseSeries } from '../base/base-series';
 import { AttributeLevel, PREFIX } from '../../constant';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { DataView } from '@visactor/vdataset';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IFunnelOpt } from '../../data/transforms/funnel';
-// eslint-disable-next-line no-duplicate-imports
 import { funnel, funnelTransform } from '../../data/transforms/funnel';
 import {
   FUNNEL_CURRENT_VALUE,
@@ -30,9 +28,8 @@ import {
   FUNNEL_VALUE_RATIO
 } from '../../constant/funnel';
 import type { ITextMark } from '../../mark/text';
-// eslint-disable-next-line no-duplicate-imports
 import { field, calcLayoutNumber, isNumber } from '../../util';
-import type { FunnelAppearPreset, IFunnel3dSeriesTheme, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
+import type { FunnelAppearPreset, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
 import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
 import { isEqual, isValid } from '@visactor/vutils';
@@ -40,6 +37,12 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
+import { VChart } from '../../core/vchart';
+import { PolygonMark } from '../../mark/polygon/polygon';
+import { TextMark } from '../../mark/text';
+import { RuleMark } from '../../mark/rule';
+
+VChart.useMark([PolygonMark, TextMark, RuleMark]);
 
 export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunnelSeries {
   static readonly type: string = SeriesTypeEnum.funnel;
@@ -837,132 +840,5 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
       result.change = true;
     }
     return result;
-  }
-}
-
-export class Funnel3dSeries extends FunnelSeries {
-  static readonly type: string = SeriesTypeEnum.funnel3d;
-  type = SeriesTypeEnum.funnel3d;
-  protected _funnelMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.funnel3d;
-  protected _funnelMarkType: MarkTypeEnum = MarkTypeEnum.pyramid3d;
-  protected _transformMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.transform3d;
-  protected _transformMarkType: MarkTypeEnum = MarkTypeEnum.pyramid3d;
-
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.funnel3d]: { name: SeriesMarkNameEnum.funnel3d, type: MarkTypeEnum.pyramid3d },
-    [SeriesMarkNameEnum.transform3d]: { name: SeriesMarkNameEnum.transform3d, type: MarkTypeEnum.pyramid3d },
-    [SeriesMarkNameEnum.transformLabel]: { name: SeriesMarkNameEnum.transformLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.outerLabel]: { name: SeriesMarkNameEnum.outerLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.outerLabelLine]: { name: SeriesMarkNameEnum.outerLabelLine, type: MarkTypeEnum.rule }
-  };
-
-  protected declare _theme: Maybe<IFunnel3dSeriesTheme>;
-
-  initMark() {
-    this._funnelMark = this._createMark(
-      {
-        ...FunnelSeries.mark.funnel,
-        name: this._funnelMarkName,
-        type: this._funnelMarkType
-      },
-      {
-        themeSpec: this._theme?.funnel3d,
-        key: this._seriesField,
-        isSeriesMark: true
-      }
-    ) as IPolygonMark;
-
-    if (this._spec.isTransform) {
-      this._funnelTransformMark = this._createMark(
-        {
-          ...FunnelSeries.mark.transform,
-          name: this._transformMarkName,
-          type: this._transformMarkType
-        },
-        {
-          themeSpec: this._theme?.transform3d,
-          key: this._seriesField,
-          skipBeforeLayouted: false,
-          dataView: this._viewDataTransform.getDataView(),
-          dataProductId: this._viewDataTransform.getProductId()
-        }
-      );
-    }
-    if (this._spec?.label?.visible) {
-      this._labelMark = this._createMark(Funnel3dSeries.mark.label, {
-        themeSpec: this._theme?.label,
-        key: this._seriesField,
-        support3d: this._spec.label.support3d
-      });
-    }
-    if (this._spec?.transformLabel?.visible) {
-      this._transformLabelMark = this._createMark(Funnel3dSeries.mark.transformLabel, {
-        themeSpec: this._theme?.transformLabel,
-        key: this._seriesField,
-        skipBeforeLayouted: false,
-        dataView: this._viewDataTransform.getDataView(),
-        dataProductId: this._viewDataTransform.getProductId()
-      });
-    }
-    if (this._spec?.outerLabel?.visible) {
-      const { line } = this._spec.outerLabel ?? {};
-      const { line: lineTheme } = this._theme?.outerLabel ?? {};
-
-      this._funnelOuterLabelMark.label = this._createMark(Funnel3dSeries.mark.outerLabel, {
-        themeSpec: this._theme?.outerLabel,
-        key: this._seriesField,
-        markSpec: this._spec.outerLabel,
-        depend: this._labelMark
-      }) as ITextMark;
-
-      this._funnelOuterLabelMark.line = this._createMark(Funnel3dSeries.mark.outerLabelLine, {
-        themeSpec: lineTheme,
-        key: this._seriesField,
-        markSpec: line,
-        depend: [this._funnelOuterLabelMark.label, this._labelMark]
-      }) as IRuleMark;
-    }
-  }
-
-  initMarkStyle() {
-    super.initMarkStyle();
-    const funnelMark = this._funnelMark;
-    if (funnelMark) {
-      this.setMarkStyle(
-        funnelMark,
-        {
-          z: _ => {
-            if (this._isHorizontal()) {
-              return 0;
-            }
-            const points = this.getPoints(_);
-            const width = Math.max(Math.abs(points[0].x - points[1].x), Math.abs(points[2].x - points[3].x));
-            return (this._computeMaxSize() - width) / 2;
-          }
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    }
-
-    const labelMark = this._labelMark;
-    if (labelMark) {
-      this.setMarkStyle(
-        labelMark,
-        {
-          z: _ => {
-            if (this._isHorizontal()) {
-              return 0;
-            }
-            const points = this.getPoints(_);
-            const width = Math.max(Math.abs(points[0].x - points[1].x), Math.abs(points[2].x - points[3].x));
-            return (this._computeMaxSize() - width) / 2;
-          }
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    }
   }
 }

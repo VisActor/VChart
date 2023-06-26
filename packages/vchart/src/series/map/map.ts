@@ -1,6 +1,6 @@
+/* eslint-disable no-duplicate-imports */
 import { MarkTypeEnum } from '../../mark/interface';
 import { registerGrammar } from '@visactor/vgrammar';
-// eslint-disable-next-line no-duplicate-imports
 import type { IElement } from '@visactor/vgrammar';
 import { Projection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
@@ -8,7 +8,6 @@ import type { IPathMark } from '../../mark/path';
 import { geoSourceMap } from './geo-source';
 import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-// eslint-disable-next-line no-duplicate-imports
 import { isValid, isValidNumber } from '../../util';
 import { GeoSeries } from '../geo/geo';
 import { map } from '../../data/transforms/map';
@@ -18,7 +17,6 @@ import { MapSeriesTooltipHelper } from './tooltip-helper';
 import type { ITextMark } from '../../mark/text';
 import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY } from '../../constant/index';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
@@ -26,6 +24,11 @@ import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { PathMark } from '../../mark/path';
+import { TextMark } from '../../mark/text';
+
+VChart.useMark([PathMark, TextMark]);
 
 // 注册语法元素
 registerGrammar('projection', Projection, 'projections');

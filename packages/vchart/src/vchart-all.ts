@@ -1,5 +1,4 @@
-import { Factory } from './core/factory';
-import { VChart } from './export/core';
+import { VChart, Factory } from './core';
 import {
   AreaChart,
   LineChart,
@@ -32,7 +31,7 @@ import {
   GaugeChart,
   RangeAreaChart,
   HeatmapChart
-} from './export/chart';
+} from './chart';
 import {
   LineSeries,
   AreaSeries,
@@ -64,7 +63,7 @@ import {
   GaugeSeries,
   RangeAreaSeries,
   HeatmapSeries
-} from './export/series';
+} from './series';
 
 import {
   SymbolMark,
@@ -85,7 +84,7 @@ import {
   ProgressArcMark,
   CellMark,
   ComponentMark
-} from './export/mark';
+} from './mark';
 
 import {
   CartesianLinearAxis,
@@ -111,8 +110,8 @@ import {
   Brush,
   CustomMark,
   MapLabelComponent
-} from './export/component';
-import { GridLayout, Layout3d } from './export/layout';
+} from './component';
+import { GridLayout, Layout3d } from './layout';
 
 // charts
 VChart.useChart([
@@ -183,27 +182,27 @@ VChart.useSeries([
   HeatmapSeries
 ]);
 
-// marks
-VChart.useMark([
-  SymbolMark,
-  LineMark,
-  RuleMark,
-  TextMark,
-  AreaMark,
-  RectMark,
-  Rect3dMark,
-  PathMark,
-  ArcMark,
-  Arc3dMark,
-  GroupMark,
-  PolygonMark,
-  Pyramid3dMark,
-  BoxPlotMark,
-  LinkPathMark,
-  ProgressArcMark,
-  CellMark,
-  ComponentMark
-]);
+// // marks
+// VChart.useMark([
+//   SymbolMark,
+//   LineMark,
+//   RuleMark,
+//   TextMark,
+//   AreaMark,
+//   RectMark,
+//   Rect3dMark,
+//   PathMark,
+//   ArcMark,
+//   Arc3dMark,
+//   GroupMark,
+//   PolygonMark,
+//   Pyramid3dMark,
+//   BoxPlotMark,
+//   LinkPathMark,
+//   ProgressArcMark,
+//   CellMark,
+//   ComponentMark
+// ]);
 
 // components
 VChart.useComponent([
