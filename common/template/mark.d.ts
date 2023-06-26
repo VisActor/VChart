@@ -1,1 +1,1 @@
-export * from './esm/export/mark.d.ts';
+export * from './esm/mark/index.d.ts';

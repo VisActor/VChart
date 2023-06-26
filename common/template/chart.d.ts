@@ -1,1 +1,1 @@
-export * from './esm/export/chart.d.ts';
+export * from './esm/chart/index.d.ts';

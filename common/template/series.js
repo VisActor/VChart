@@ -1,1 +1,1 @@
-export * from './esm/export/series.js';
+export * from './esm/series/index.js';
