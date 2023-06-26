@@ -50,9 +50,7 @@ class BasePolygonMark<T extends ICommonSpec> extends BaseMark<T> {
 
       attrStyle = this._filterAttribute(attr as any, attrStyle, state, level, isUserLevel, stateStyle);
 
-      // borderRadius todo: vrender 改造好后使用注释的语句
-      // this.setAttribute((attr === 'borderRadius' ? 'cornerRadius' : attr) as any, attrStyle, state, level, stateStyle);
-      this.setAttribute((attr === 'cornerRadius' ? 'borderRadius' : attr) as any, attrStyle, state, level, stateStyle);
+      this.setAttribute((attr === 'borderRadius' ? 'cornerRadius' : attr) as any, attrStyle, state, level, stateStyle);
     });
   }
 }
