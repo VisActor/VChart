@@ -355,11 +355,7 @@ export class BaseChart extends CompilableBase implements IChart {
         noAxisComponents.push(component);
       }
     }
-
-    noAxisComponents.forEach(C => {
-      this._createComponent(C, spec);
-    });
-
+    // NOTE: 坐标轴组件需要在其他组件之前创建
     if (cartesianAxis) {
       this._createComponent(cartesianAxis, spec);
     }
@@ -367,6 +363,10 @@ export class BaseChart extends CompilableBase implements IChart {
     if (polarAxis) {
       this._createComponent(polarAxis, spec);
     }
+
+    noAxisComponents.forEach(C => {
+      this._createComponent(C, spec);
+    });
   }
 
   initComponent() {
