@@ -23,8 +23,7 @@
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit/",
     "test-watch": "DEBUG_MODE=1 jest --watch",
-    "ci": "node github-ci.js",
-    "demo": "vite serve examples"
+    "ci": "node github-ci.js"
   },
   "files": [
     "esm",
@@ -99,9 +98,7 @@
     "d3-hierarchy": "^3.1.1",
     "vite": "3.2.6",
     "node-fetch": "2.6.7",
-    "form-data": "~4.0.0",
-    "vite-plugin-markdown": "^2.1.0",
-    "markdown-it": "13.0.1"
+    "form-data": "~4.0.0"
   },
   "dependencies": {
     "@visactor/vutils": "~0.11.1",
