@@ -22,12 +22,49 @@ export type LayoutCallBack = (
   chartViewBox: IBoundsLike
 ) => void;
 
-// TODO:
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ILayoutSpec {
-  type?: string;
-  [key: string]: any;
+export interface ILayoutSpecBase {
+  type: string;
 }
+
+export type ElementSpec = (
+  | {
+      modelKey: string; // spec key
+      modelIndex: number;
+    }
+  | {
+      modelId: string;
+    }
+) & {
+  col: number;
+  colSpan?: number;
+  row: number;
+  rowSpan?: number;
+};
+
+export interface IGridLayoutSpec extends ILayoutSpecBase {
+  type: 'grid';
+  col: number;
+  row: number;
+  colWidth?: [
+    {
+      index: number;
+      size: number | ((maxSize: number) => number);
+    }
+  ];
+  rowHeight?: [
+    {
+      index: number;
+      size: number | ((maxSize: number) => number);
+    }
+  ];
+  elements: ElementSpec[];
+}
+
+export interface IBaseLayoutSpec extends ILayoutSpecBase {
+  type: 'base';
+}
+
+export type ILayoutSpec = IBaseLayoutSpec | IGridLayoutSpec;
 
 export interface ILayoutConstructor {
   type: string;
