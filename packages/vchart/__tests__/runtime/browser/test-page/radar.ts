@@ -61,7 +61,6 @@ const run = () => {
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
   console.time('renderTime');
-  cs.setCurrentTheme('dark');
 
   cs.renderAsync().then(() => {
     console.timeEnd('renderTime');

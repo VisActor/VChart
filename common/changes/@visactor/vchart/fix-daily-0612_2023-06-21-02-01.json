@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: the `type` should be a string",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
