@@ -45,18 +45,14 @@ export interface IGridLayoutSpec extends ILayoutSpecBase {
   type: 'grid';
   col: number;
   row: number;
-  colWidth?: [
-    {
-      index: number;
-      size: number | ((maxSize: number) => number);
-    }
-  ];
-  rowHeight?: [
-    {
-      index: number;
-      size: number | ((maxSize: number) => number);
-    }
-  ];
+  colWidth?: {
+    index: number;
+    size: number | ((maxSize: number) => number);
+  }[];
+  rowHeight?: {
+    index: number;
+    size: number | ((maxSize: number) => number);
+  }[];
   elements: ElementSpec[];
 }
 
