@@ -1,19 +1,18 @@
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
-import type { IWordCloudChartSpec } from './interface';
+import type { IWordCloud3dChartSpec } from './interface';
 import { BaseWordCloudChart } from './base';
 import { VChart } from '../../core/vchart';
-import { WordCloudSeries } from '../../series';
-VChart.useSeries([WordCloudSeries]);
+import { WordCloud3dSeries } from '../../series';
+VChart.useSeries([WordCloud3dSeries]);
 
-export class WordCloudChart extends BaseWordCloudChart {
-  static readonly type: string = ChartTypeEnum.wordCloud;
+export class WordCloud3dChart extends BaseWordCloudChart {
+  static readonly type: string = ChartTypeEnum.wordCloud3d;
   static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.wordCloud;
-  readonly seriesType: string = SeriesTypeEnum.wordCloud;
+  readonly type: string = ChartTypeEnum.wordCloud3d;
+  readonly seriesType: string = SeriesTypeEnum.wordCloud3d;
 
-  protected _getDefaultSeriesSpec(spec: IWordCloudChartSpec): any {
+  protected _getDefaultSeriesSpec(spec: IWordCloud3dChartSpec): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
       nameField: spec.nameField,
@@ -28,6 +27,7 @@ export class WordCloudChart extends BaseWordCloudChart {
       rotateAngles: spec.rotateAngles,
       fontWeightRange: spec.fontWeightRange,
       fontSizeRange: spec.fontSizeRange,
+      depth_3d: spec.depth_3d,
       maskShape: spec.maskShape,
       keepAspect: spec.keepAspect,
       random: spec.random,

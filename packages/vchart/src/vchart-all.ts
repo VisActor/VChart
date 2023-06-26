@@ -32,59 +32,6 @@ import {
   RangeAreaChart,
   HeatmapChart
 } from './chart';
-import {
-  LineSeries,
-  AreaSeries,
-  BarSeries,
-  Bar3dSeries,
-  ScatterSeries,
-  MapSeries,
-  PieSeries,
-  Pie3dSeries,
-  RoseSeries,
-  RadarSeries,
-  DotSeries,
-  LinkSeries,
-  CircularProgressSeries,
-  WordCloud3dSeries,
-  WordCloudSeries,
-  FunnelSeries,
-  Funnel3dSeries,
-  LinearProgressSeries,
-  RangeColumnSeries,
-  RangeColumn3dSeries,
-  TreeMapSeries,
-  SunburstSeries,
-  CirclePackingSeries,
-  WaterfallSeries,
-  BoxPlotSeries,
-  SankeySeries,
-  GaugePointerSeries,
-  GaugeSeries,
-  RangeAreaSeries,
-  HeatmapSeries
-} from './series';
-
-import {
-  SymbolMark,
-  LineMark,
-  RuleMark,
-  TextMark,
-  AreaMark,
-  RectMark,
-  Rect3dMark,
-  PathMark,
-  ArcMark,
-  Arc3dMark,
-  GroupMark,
-  PolygonMark,
-  Pyramid3dMark,
-  BoxPlotMark,
-  LinkPathMark,
-  ProgressArcMark,
-  CellMark,
-  ComponentMark
-} from './mark';
 
 import {
   CartesianLinearAxis,
@@ -147,62 +94,6 @@ VChart.useChart([
   RangeAreaChart,
   HeatmapChart
 ]);
-
-// series
-VChart.useSeries([
-  LineSeries,
-  AreaSeries,
-  BarSeries,
-  Bar3dSeries,
-  ScatterSeries,
-  MapSeries,
-  PieSeries,
-  Pie3dSeries,
-  RoseSeries,
-  RadarSeries,
-  DotSeries,
-  LinkSeries,
-  CircularProgressSeries,
-  WordCloud3dSeries,
-  WordCloudSeries,
-  FunnelSeries,
-  Funnel3dSeries,
-  LinearProgressSeries,
-  RangeColumnSeries,
-  RangeColumn3dSeries,
-  TreeMapSeries,
-  SunburstSeries,
-  CirclePackingSeries,
-  WaterfallSeries,
-  BoxPlotSeries,
-  SankeySeries,
-  GaugePointerSeries,
-  GaugeSeries,
-  RangeAreaSeries,
-  HeatmapSeries
-]);
-
-// // marks
-// VChart.useMark([
-//   SymbolMark,
-//   LineMark,
-//   RuleMark,
-//   TextMark,
-//   AreaMark,
-//   RectMark,
-//   Rect3dMark,
-//   PathMark,
-//   ArcMark,
-//   Arc3dMark,
-//   GroupMark,
-//   PolygonMark,
-//   Pyramid3dMark,
-//   BoxPlotMark,
-//   LinkPathMark,
-//   ProgressArcMark,
-//   CellMark,
-//   ComponentMark
-// ]);
 
 // components
 VChart.useComponent([

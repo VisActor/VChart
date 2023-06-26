@@ -3,6 +3,9 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import type { ICirclePackingChartSpec } from './interface';
+import { VChart } from '../../core/vchart';
+import { CirclePackingSeries } from '../../series';
+VChart.useSeries([CirclePackingSeries]);
 
 export class CirclePackingChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.circlePacking;

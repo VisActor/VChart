@@ -9,6 +9,9 @@ import { ChartTypeEnum } from '../interface';
 import type { Datum } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../series/interface';
+import { VChart } from '../../core/vchart';
+import { DotSeries, LineSeries } from '../../series';
+VChart.useSeries([DotSeries, LineSeries]);
 
 export class SequenceChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sequence;

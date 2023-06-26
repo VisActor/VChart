@@ -11,7 +11,7 @@ export interface IMarkLineTheme {
     /**
      * label整体 - 相对line的位置
      */
-    position?: keyof typeof IMarkLineLabelPosition;
+    position?: IMarkLineLabelPosition;
   } & IMarkerLabelSpec;
 
   startSymbol: IMarkerSymbol;

@@ -1,8 +1,9 @@
+/* eslint-disable no-duplicate-imports */
 import type { EasingType } from '@visactor/vrender';
 import type { IPointLike } from '@visactor/vutils';
 import { ACustomAnimate, TagPointsUpdate } from '@visactor/vrender';
-import type { IPolarAxisHelper } from '../../component';
 import { Point, isFunction, isValidNumber } from '@visactor/vutils';
+import type { IPolarAxisHelper } from '../../component/axis';
 
 export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
   declare valid: boolean;

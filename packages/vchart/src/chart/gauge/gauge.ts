@@ -6,6 +6,9 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ICircularProgressSeriesSpec } from '../../series/progress/circular/interface';
 import { ChartTypeEnum } from '../interface';
 import { ProgressLikeChart } from '../polar/progress-like';
+import { VChart } from '../../core/vchart';
+import { GaugePointerSeries, GaugeSeries } from '../../series';
+VChart.useSeries([GaugePointerSeries, GaugeSeries]);
 
 export class GaugeChart extends ProgressLikeChart {
   static readonly type: string = ChartTypeEnum.gauge;

@@ -2,6 +2,10 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { merge } from '../../util';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
+import { VChart } from '../../core/vchart';
+import { RadarSeries } from '../../series';
+VChart.useSeries([RadarSeries]);
+
 export class RadarChart extends RoseLikeChart {
   static readonly type: string = ChartTypeEnum.radar;
   static readonly view: string = 'singleDefault';
