@@ -1,1 +1,1 @@
-export * from './esm/export/chart.js';
+export * from './esm/chart/index.js';
