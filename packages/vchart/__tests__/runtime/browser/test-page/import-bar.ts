@@ -1,13 +1,9 @@
 import { isMobile } from 'react-device-detect';
-import { VChart } from '../../../../src/export/core';
-import { BarChart } from '../../../../src/export/chart';
-import { BarSeries } from '../../../../src/export/series';
-import { RectMark } from '../../../../src/export/mark';
-import { CartesianAxis, CartesianBandAxis, CartesianLinearAxis } from '../../../../src/export/component';
+import { VChart } from '../../../../src/core';
+import { BarChart } from '../../../../src/chart';
+import { CartesianBandAxis, CartesianLinearAxis } from '../../../../src/component';
 
 VChart.useChart([BarChart]);
-VChart.useSeries([BarSeries]);
-VChart.useMark([RectMark]);
 VChart.useComponent([CartesianBandAxis, CartesianLinearAxis]);
 
 const run = () => {
