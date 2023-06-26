@@ -4,7 +4,7 @@ import type { ILayoutItem } from '../../model/interface';
 import type { IRect } from '../../typings/space';
 import type { IRegion } from '../../region/interface';
 import type { IBaseLayout } from '../interface';
-import { Layout } from '..';
+import { Layout } from '../base-layout';
 import { isXAxis, isYAxis } from '../../component/axis/cartesian/util';
 
 interface IOffset {
