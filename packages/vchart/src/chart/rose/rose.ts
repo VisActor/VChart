@@ -3,6 +3,9 @@ import { POLAR_DEFAULT_RADIUS } from '../../constant';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
+import { VChart } from '../../core/vchart';
+import { RoseSeries } from '../../series';
+VChart.useSeries([RoseSeries]);
 
 export class RoseChart extends RoseLikeChart {
   static readonly type: string = ChartTypeEnum.rose;

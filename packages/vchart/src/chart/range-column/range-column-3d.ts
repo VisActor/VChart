@@ -2,33 +2,26 @@ import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
-import { setDefaultCrosshairForCartesianChart } from '../util';
 import { VChart } from '../../core/vchart';
-import { RangeAreaSeries } from '../../series';
-VChart.useSeries([RangeAreaSeries]);
+import { RangeColumn3dSeries } from '../../series';
+VChart.useSeries([RangeColumn3dSeries]);
 
-export class RangeAreaChart extends CartesianChart {
-  static readonly type: string = ChartTypeEnum.rangeArea;
+export class RangeColumn3dChart extends CartesianChart {
+  static readonly type: string = ChartTypeEnum.rangeColumn3d;
   static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.rangeArea;
-  readonly seriesType: string = SeriesTypeEnum.rangeArea;
+  readonly type: string = ChartTypeEnum.rangeColumn3d;
+  readonly seriesType: string = SeriesTypeEnum.rangeColumn3d;
 
   protected _getDefaultSeriesSpec(spec: any): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec)
     };
-    series.area = spec.area;
+    series.bar3d = spec.bar3d;
     if (spec.direction === Direction.horizontal) {
       series.xField = spec.xField ?? [spec.minField, spec.maxField];
     } else {
       series.yField = spec.yField ?? [spec.minField, spec.maxField];
     }
-    series.stack = false;
     return series;
-  }
-
-  transformSpec(spec: any): void {
-    super.transformSpec(spec);
-    setDefaultCrosshairForCartesianChart(spec);
   }
 }

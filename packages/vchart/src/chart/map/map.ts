@@ -5,6 +5,9 @@ import { ChartTypeEnum } from '../interface/type';
 import type { IMapChartSpec } from './interface';
 import type { IMapSeriesSpec } from '../../series/map/interface';
 import type { ISeriesSpec } from '../../typings/spec';
+import { VChart } from '../../core/vchart';
+import { MapSeries } from '../../series';
+VChart.useSeries([MapSeries]);
 
 export class MapChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.map;

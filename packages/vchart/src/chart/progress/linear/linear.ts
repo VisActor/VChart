@@ -9,6 +9,9 @@ import type {
 import { isNil } from '../../../util';
 import type { ILinearProgressChartSpec } from './interface';
 import { getLinearAxisSpecDomain } from '../../../component/axis/utils';
+import { VChart } from '../../../core/vchart';
+import { LinearProgressSeries } from '../../../series';
+VChart.useSeries([LinearProgressSeries]);
 
 export class LinearProgressChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.linearProgress;

@@ -3,6 +3,9 @@ import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { ILineChartSpec } from './interface';
+import { VChart } from '../../core/vchart';
+import { LineSeries } from '../../series';
+VChart.useSeries([LineSeries]);
 
 export class LineChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.line;
