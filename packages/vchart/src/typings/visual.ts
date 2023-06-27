@@ -417,9 +417,9 @@ export interface IGroupMarkSpec extends ICommonSpec, IFillMarkSpec {
 export interface IPolygonMarkSpec extends ICommonSpec, IFillMarkSpec {
   points?: IPoint[];
   /**
-   * 圆角配置
+   * 圆角配置，支持数组配置，数组的顺序同组成 polygon 的顺序对应
    */
-  cornerRadius?: number;
+  cornerRadius?: number | number[];
   scaleX?: number;
   scaleY?: number;
 }
