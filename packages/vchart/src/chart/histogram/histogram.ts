@@ -2,6 +2,7 @@ import type { ICartesianAxisCommonSpec } from '../../component/axis/cartesian/in
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
+import { setDefaultCrosshairForChart } from '../util';
 
 class BaseHistogramChart extends CartesianChart {
   transformSpec(spec: any): void {
@@ -23,6 +24,11 @@ export class HistogramChart extends BaseHistogramChart {
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.histogram;
   readonly seriesType: string = SeriesTypeEnum.bar;
+
+  transformSpec(spec: any): void {
+    super.transformSpec(spec);
+    setDefaultCrosshairForChart(spec);
+  }
 }
 
 export class Histogram3dChart extends BaseHistogramChart {
