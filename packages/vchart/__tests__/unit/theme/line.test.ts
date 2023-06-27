@@ -92,4 +92,89 @@ describe('theme switch test', () => {
     expect(vchart.getCurrentTheme().colorScheme?.default[0]).toBe('red');
     expect(series?.getSeriesInfoList()[0].style('fill')).toBe('red');
   });
+
+  it('set theme in spec and theme is a string', async () => {
+    const dataSet = new DataSet();
+    dataSet.registerParser('csv', csvParser);
+    dataSet.registerParser('dataview', dataViewParser);
+    const dataView = new DataView(dataSet);
+    const data = `x,type,y
+    1,1,850
+    2,2,740
+    3,3,900
+    4,4,570
+    5,5,670`;
+    dataView.parse(data, {
+      type: 'csv'
+    });
+    VChart.ThemeManager.registerTheme('newTheme', {
+      background: 'red'
+    });
+    const spec: ILineChartSpec = {
+      type: 'line',
+      xField: 'x',
+      yField: 'y',
+      data: dataView,
+      animation: false,
+      tooltip: {
+        visible: false
+      },
+      theme: 'newTheme'
+    };
+
+    vchart = new VChart(spec, {
+      renderCanvas: canvasDom,
+      background: 'yellow',
+      autoFit: true
+    });
+
+    await vchart.renderAsync();
+    await vchart.setCurrentTheme('light');
+    // sepc
+    expect(vchart.getCurrentTheme().background).toBe('red');
+    expect(vchart.getCurrentThemeName()).toBe('newTheme');
+  });
+
+  it('set theme in spec and theme is an object', async () => {
+    const dataSet = new DataSet();
+    dataSet.registerParser('csv', csvParser);
+    dataSet.registerParser('dataview', dataViewParser);
+    const dataView = new DataView(dataSet);
+    const data = `x,type,y
+    1,1,850
+    2,2,740
+    3,3,900
+    4,4,570
+    5,5,670`;
+    dataView.parse(data, {
+      type: 'csv'
+    });
+    VChart.ThemeManager.registerTheme('newTheme', {
+      background: 'red'
+    });
+    const spec: ILineChartSpec = {
+      type: 'line',
+      xField: 'x',
+      yField: 'y',
+      data: dataView,
+      animation: false,
+      tooltip: {
+        visible: false
+      },
+      theme: {
+        background: 'red'
+      }
+    };
+
+    vchart = new VChart(spec, {
+      renderCanvas: canvasDom,
+      background: 'yellow',
+      autoFit: true
+    });
+
+    await vchart.renderAsync();
+    // sepc
+    expect(vchart.getCurrentTheme().background).toBe('red');
+    expect(vchart.getCurrentThemeName()).toBe('light');
+  });
 });
