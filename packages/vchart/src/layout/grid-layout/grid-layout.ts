@@ -2,53 +2,15 @@ import type { IChart } from '../../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IModel } from '../../model/interface';
 import type { ILayoutItem } from '../../model/interface';
-import type { IBaseLayout, ILayoutSpec } from '../interface';
+import type { IBaseLayout, IGridLayoutSpec, ElementSpec } from '../interface';
 import { isFunction, isValid, isValidNumber } from '../../util';
 import type { IRect } from '../../typings/space';
-
-type ElementSpec = (
-  | {
-      modelKey: string; // spec key
-      modelIndex: number;
-    }
-  | {
-      modelId: string;
-    }
-) & {
-  col: number;
-  colSpan?: number;
-  row: number;
-  rowSpan?: number;
-};
-
-export interface IGridInfo extends ILayoutSpec {
-  col: number;
-  row: number;
-  colWidth?: [
-    {
-      index: number;
-      size: number | ((maxSize: number) => number);
-    }
-  ];
-  rowHeight?: [
-    {
-      index: number;
-      size: number | ((maxSize: number) => number);
-    }
-  ];
-  elements: ElementSpec[];
-}
 
 type GridSize = {
   value: number;
   isUserSetting: boolean;
   isLayoutSetting: boolean;
 };
-
-// type ElementType = {
-//   spec: ElementSpec;
-//   item: ILayoutItem;
-// };
 
 export class GridLayout implements IBaseLayout {
   static type: 'grid';
@@ -63,11 +25,11 @@ export class GridLayout implements IBaseLayout {
   protected _colElements: ILayoutItem[][];
   protected _rowElements: ILayoutItem[][];
 
-  protected _gridInfo: IGridInfo;
+  protected _gridInfo: IGridLayoutSpec;
 
   protected _elementMap: Map<ILayoutItem, ElementSpec> = new Map();
 
-  constructor(gridInfo: IGridInfo) {
+  constructor(gridInfo: IGridLayoutSpec) {
     this.standardizationSpec(gridInfo);
     this._gridInfo = gridInfo;
     this._col = gridInfo.col;
@@ -80,7 +42,7 @@ export class GridLayout implements IBaseLayout {
     this.initUserSetting();
   }
 
-  protected standardizationSpec(gridInfo: IGridInfo) {
+  protected standardizationSpec(gridInfo: IGridLayoutSpec) {
     gridInfo.col = gridInfo.col ?? 1;
     gridInfo.row = gridInfo.row ?? 1;
     gridInfo.elements = gridInfo.elements ?? [];
@@ -118,12 +80,10 @@ export class GridLayout implements IBaseLayout {
    * 设置用户设置的 colWidth 和 rowHeight
    */
   protected setSizeFromUserSetting(
-    userSetting: [
-      {
-        index: number;
-        size: number | ((maxSize: number) => number);
-      }
-    ],
+    userSetting: {
+      index: number;
+      size: number | ((maxSize: number) => number);
+    }[],
     gridSize: GridSize[],
     gridMax: number,
     maxSize: number
