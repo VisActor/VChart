@@ -3,7 +3,7 @@ name: Release CI
 on:
   push:
     branches:
-      - release/*
+      - 'release/[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build:
@@ -39,6 +39,12 @@ jobs:
 
       - name: Build packages
         run: node common/scripts/install-run-rush.js build --only tag:package
+
+      - name: Run Bugserver
+        working-directory: ./packages/vchart
+        env:
+          BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
+        run: node ../../common/scripts/install-run-rushx.js ci
 
       - name: Publish to npm
         env:

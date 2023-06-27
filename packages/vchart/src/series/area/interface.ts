@@ -14,7 +14,7 @@ export interface IAreaSeriesSpec
   /**
    * 系列类型
    */
-  type: SeriesTypeEnum.area;
+  type: 'area';
   /**
    * 点图元配置
    */

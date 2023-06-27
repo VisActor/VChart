@@ -45,6 +45,8 @@ export class Compiler {
   protected _windowListeners: Map<(...args: any[]) => any, EventListener> = new Map();
 
   isInited: boolean = false;
+  // 是否已经销毁
+  isReleased: boolean = false;
 
   protected _width: number;
   protected _height: number;
@@ -89,6 +91,9 @@ export class Compiler {
   }
 
   initView() {
+    if (this.isReleased) {
+      return;
+    }
     this.isInited = true;
     if (this._view) {
       return;
@@ -309,6 +314,7 @@ export class Compiler {
     this._view = null;
     this.isInited = false;
     this._rafId = null;
+    this.isReleased = true;
   }
 
   releaseGrammar() {
