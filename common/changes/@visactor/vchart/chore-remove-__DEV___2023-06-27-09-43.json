@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "chore: remove __DEV__",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
