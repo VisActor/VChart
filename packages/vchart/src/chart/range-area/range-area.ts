@@ -2,6 +2,7 @@ import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
+import { setDefaultCrosshairForChart } from '../util';
 
 export class RangeAreaChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.rangeArea;
@@ -21,5 +22,10 @@ export class RangeAreaChart extends CartesianChart {
     }
     series.stack = false;
     return series;
+  }
+
+  transformSpec(spec: any): void {
+    super.transformSpec(spec);
+    setDefaultCrosshairForChart(spec);
   }
 }
