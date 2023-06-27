@@ -80,7 +80,7 @@ export class Zoomable implements IZoomable {
       if (!(params as BaseEventParams).event) {
         return;
       }
-      const { event } = params as BaseEventParams;
+      const event = (params as BaseEventParams).event.clone();
       this._zoomableTrigger.parserZoomEvent(event);
       // FIXME: event类型目前不全
       const { zoomDelta, zoomX, zoomY } = event as any;
@@ -102,15 +102,15 @@ export class Zoomable implements IZoomable {
         return;
       }
       this._clickEnable = false;
-      const scale = zoomDelta;
 
       if (callback) {
+        // zoomDelta, zoomX, zoomY can be changed in the callback
         callback({ zoomDelta, zoomX, zoomY }, event);
       }
 
       this._eventObj.emit('zoom', {
-        scale,
-        scaleCenter: { x: zoomX, y: zoomY },
+        scale: event.zoomDelta,
+        scaleCenter: { x: event.zoomX, y: event.zoomY },
         model: this
       } as unknown as ExtendEventParam);
 

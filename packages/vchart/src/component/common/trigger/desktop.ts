@@ -19,7 +19,7 @@ export class DeskTopTrigger implements IZoomTrigger {
   }
 
   parserZoomEvent(e: any) {
-    if (!e || !e.ctrlKey) {
+    if (!e) {
       return e;
     }
     // @see https://vega.github.io/vega/examples/zoomable-world-map/
