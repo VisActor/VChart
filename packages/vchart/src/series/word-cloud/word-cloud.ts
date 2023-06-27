@@ -1,4 +1,4 @@
-import { degreeToRadian, isValid } from '@visactor/vutils';
+import { isValid } from '@visactor/vutils';
 import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { ITextMark } from '../../mark/text';
@@ -174,7 +174,7 @@ class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordCloudSer
           fontSize: (datum: Datum) => datum.fontSize,
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
-          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar 默认不提供弧度转换
+          angle: (datum: Datum) => datum.angle,
           visible: (datum: Datum) => !datum.isFillingWord
         },
         'normal',
@@ -195,7 +195,7 @@ class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordCloudSer
           fontSize: (datum: Datum) => datum.fontSize,
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
-          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar 默认不提供弧度转换
+          angle: (datum: Datum) => datum.angle,
           visible: (datum: Datum) => datum.isFillingWord
         },
         'normal',
@@ -608,7 +608,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
           fontSize: (datum: Datum) => datum.fontSize,
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
-          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar默认不提供弧度转换
+          angle: (datum: Datum) => datum.angle,
           visible: (datum: Datum) => !datum.isFillingWord
         },
         'normal',
@@ -630,7 +630,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
           fontSize: (datum: Datum) => datum.fontSize,
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
-          angle: (datum: Datum) => datum.angle && degreeToRadian(datum.angle), // VGrammar默认不提供弧度转换
+          angle: (datum: Datum) => datum.angle,
           visible: (datum: Datum) => datum.isFillingWord
         },
         'normal',
