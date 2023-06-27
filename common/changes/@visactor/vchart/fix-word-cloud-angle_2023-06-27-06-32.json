@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix wordCloud angle config not effect",
+      "comment": "fix(wordCloud): angle config not effect",
       "type": "none"
     }
   ],
