@@ -1,44 +1,32 @@
 import { Logger, isFunction } from '@visactor/vutils';
 
-export let log = (msg: string, ...args: any[]) => {
-  // do nothing
-};
-export let warn = (msg: string, detail?: any) => {
-  // do nothing
-};
-export let error = (msg: string, detail?: any, err?: Error) => {
-  // do nothing
+const hasConsole = typeof console !== 'undefined';
+
+export const log = (msg: string, ...args: any[]) => {
+  if (!config.silent) {
+    return Logger.logger(Logger.Info, 'log').info(msg, ...args);
+  }
 };
 
-if (__DEV__) {
-  const hasConsole = typeof console !== 'undefined';
-
-  log = (msg: string, ...args: any[]) => {
-    if (!config.silent) {
-      return Logger.logger(Logger.Info, 'log').info(msg, ...args);
+export const warn = (msg: string, detail?: any) => {
+  if (isFunction(config.warnHandler)) {
+    config.warnHandler.call(null, msg, detail);
+  } else if (hasConsole && !config.silent) {
+    if (detail) {
+      return Logger.logger(Logger.Warn, 'warn').warn(`[VChart warn]: ${msg}\n`, detail);
     }
-  };
+    return Logger.logger(Logger.Warn, 'warn').warn(`[VChart warn]: ${msg}`);
+  }
+};
 
-  warn = (msg: string, detail?: any) => {
-    if (isFunction(config.warnHandler)) {
-      config.warnHandler.call(null, msg, detail);
-    } else if (hasConsole && !config.silent) {
-      if (detail) {
-        return Logger.logger(Logger.Warn, 'warn').warn(`[VChart warn]: ${msg}\n`, detail);
-      }
-      return Logger.logger(Logger.Warn, 'warn').warn(`[VChart warn]: ${msg}`);
-    }
-  };
-
-  error = (msg: string, detail?: any, err?: Error) => {
-    const errIns = new Error(msg);
-    if (isFunction(config.errorHandler)) {
-      config.errorHandler.call(null, errIns, detail);
-    } else if (!config.silent) {
-      return Logger.logger(Logger.Error, 'error').error(`[VChart error]: ${errIns}`, detail);
-    }
-  };
-}
+export const error = (msg: string, detail?: any, err?: Error) => {
+  const errIns = new Error(msg);
+  if (isFunction(config.errorHandler)) {
+    config.errorHandler.call(null, errIns, detail);
+  } else if (!config.silent) {
+    return Logger.logger(Logger.Error, 'error').error(`[VChart error]: ${errIns}`, detail);
+  }
+};
 
 export const config = {
   silent: false,
