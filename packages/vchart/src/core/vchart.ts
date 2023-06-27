@@ -233,7 +233,7 @@ export class VChart implements IVChart {
 
   private _initData() {
     if (isNil(this._dataSet)) {
-      __DEV__ && warn('dataSet is not initialized');
+      warn('dataSet is not initialized');
       return;
     }
     const specData: (DataView | IDataValues)[] = array(this._spec.data);
