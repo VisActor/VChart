@@ -28,11 +28,10 @@ import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
-import { GroupMark } from '../../mark/group';
 import { RuleMark } from '../../mark/rule';
 import { RectMark } from '../../mark/rect';
 
-VChart.useMark([SymbolMark, TextMark, GroupMark, RuleMark, RectMark]);
+VChart.useMark([SymbolMark, TextMark, RuleMark, RectMark]);
 
 export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.dot;
