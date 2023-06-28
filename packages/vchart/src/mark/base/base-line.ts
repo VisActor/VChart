@@ -4,7 +4,6 @@ import type { ConvertToMarkStyleSpec, ILineLikeMarkSpec } from '../../typings/vi
 import { isFunction, isNil } from '../../util';
 import { BaseMark } from './base-mark';
 import type { IMarkStyle, StyleConvert } from '../interface';
-import { DUPLICATED_ATTRS } from '../utils';
 
 export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSpec> extends BaseMark<T> {
   protected abstract _getIgnoreAttributes(): string[];
@@ -42,12 +41,11 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
       'strokeOpacity',
       'opacity',
       'fill',
-      'fillOpacity'
-      // TODO: 以下属性待 vgrammar 增加上后删除注释
-      // 'texture',
-      // 'texturePadding',
-      // 'textureSize',
-      // 'textureColor'
+      'fillOpacity',
+      'texture',
+      'texturePadding',
+      'textureSize',
+      'textureColor'
     ];
     const isUserLevel = this.isUserLevel(level);
     let enableSegments = false;
@@ -70,13 +68,7 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
         styleConverter = this.convertAngleToRadian(styleConverter as StyleConvert<number>);
       }
 
-      this.setAttribute(
-        DUPLICATED_ATTRS[attr] ? DUPLICATED_ATTRS[attr] : (attr as any),
-        styleConverter,
-        state,
-        level,
-        stateStyle
-      );
+      this.setAttribute(attr as any, styleConverter, state, level, stateStyle);
     });
 
     if (enableSegments) {

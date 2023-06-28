@@ -26,7 +26,7 @@ export function getDomStyles(style: ITooltipStyle): IDomTooltipStyle {
       shadowOffsetX,
       shadowOffsetY,
       shadowSpread,
-      borderRadius,
+      cornerRadius,
       stroke: strokeColor,
       lineWidth
     },
@@ -52,7 +52,7 @@ export function getDomStyles(style: ITooltipStyle): IDomTooltipStyle {
       paddingTop: getPixelPropertyStr(padding.top),
       borderColor: strokeColor,
       borderWidth: getPixelPropertyStr(lineWidth),
-      borderRadius: getPixelPropertyStr(borderRadius),
+      borderRadius: getPixelPropertyStr(cornerRadius),
       backgroundColor: backgroundColor ? `${backgroundColor}` : 'transparent',
       boxShadow: shadow
         ? `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowSpread}px ${shadowColor}`

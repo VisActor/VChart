@@ -90,11 +90,7 @@ export class Region extends BaseModel implements IRegion {
     this.setMarkStyle(
       this._groupMark,
       {
-        cornerRadius: this._spec.style?.cornerRadius,
-        cornerRadiusTopLeft: this._spec.style?.cornerRadiusTopLeft,
-        cornerRadiusTopRight: this._spec.style?.cornerRadiusTopRight,
-        cornerRadiusBottomLeft: this._spec.style?.cornerRadiusBottomLeft,
-        cornerRadiusBottomRight: this._spec.style?.cornerRadiusBottomRight
+        cornerRadius: this._spec.style?.cornerRadius
       },
       'normal',
       AttributeLevel.User_Mark

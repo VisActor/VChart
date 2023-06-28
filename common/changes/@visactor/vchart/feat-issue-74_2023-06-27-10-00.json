@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: spec.theme can be a string, which means a registered theme name",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

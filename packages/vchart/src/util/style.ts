@@ -1,5 +1,4 @@
-import { degreeToRadian, isEmpty, isString, isValid } from '@visactor/vutils';
-import { DUPLICATED_ATTRS } from '../mark/utils';
+import { degreeToRadian, isEmpty, isValid, isValidNumber } from '@visactor/vutils';
 
 /**
  * 针对一些可以配置状态样式的属性的转换函数，结构如下：
@@ -43,19 +42,6 @@ export function transformToGraphic(style: any) {
   if (style.angle) {
     style.angle = degreeToRadian(style.angle);
   }
-  if (isValid(style.strokeWidth)) {
-    style.lineWidth = style.strokeWidth;
-  }
-  if (isValid(style.limit)) {
-    style.maxLineWidth = style.limit;
-    delete style.limit;
-  }
-  Object.keys(DUPLICATED_ATTRS).forEach(oldAttr => {
-    if (style[oldAttr]) {
-      style[DUPLICATED_ATTRS[oldAttr]] = style[oldAttr];
-      delete style[oldAttr];
-    }
-  });
 
   return style;
 }
