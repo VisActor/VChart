@@ -8,9 +8,6 @@ export function setDefaultCrosshairForCartesianChart(spec: ICartesianChartSpec) 
       {
         [spec.direction === Direction.horizontal ? 'yField' : 'xField']: {
           visible: true,
-          label: {
-            visible: false
-          },
           line: {
             visible: true,
             type: 'rect'
