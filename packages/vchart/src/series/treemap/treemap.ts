@@ -4,7 +4,7 @@ import { AttributeLevel, DEFAULT_DATA_KEY, PREFIX, VGRAMMAR_HOOK_EVENT } from '.
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IRectMark } from '../../mark/rect';
 import type { ITextMark } from '../../mark/text';
-import type { IRectMarkSpec, ITextMarkSpec } from '../../typings';
+import type { Datum, IRectMarkSpec, ITextMarkSpec } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
@@ -364,7 +364,7 @@ export class TreeMapSeries extends CartesianSeries<any> {
         text: datum => {
           return datum.datum[datum.depth]?.[this.getDimensionField()[0]];
         },
-        limit: datum => {
+        limit: (datum: Datum) => {
           return datum.x1 === datum.x0 ? Number.MIN_VALUE : datum.x1 - datum.x0;
         }
       },
@@ -396,7 +396,7 @@ export class TreeMapSeries extends CartesianSeries<any> {
         text: datum => {
           return datum.datum[datum.depth]?.[this.getDimensionField()[0]];
         },
-        limit: datum => {
+        limit: (datum: any) => {
           return datum.x1 === datum.x0 ? Number.MIN_VALUE : datum.x1 - datum.x0;
         }
       },

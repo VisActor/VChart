@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: unified borderRadius to cornerRadius",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

@@ -215,26 +215,63 @@ export interface IRuleMarkSpec extends ILineMarkSpec {
 }
 
 export interface ITextMarkSpec extends IFillMarkSpec {
-  text?: StringOrNumber | string[]; // todo: text配置支持回调
+  /**
+   * 文字内容
+   */
+  text?: StringOrNumber | string[];
+  /**
+   * x 方向偏移
+   */
   dx?: number;
+  /**
+   * y 方向偏移
+   */
   dy?: number;
+  /**
+   * 字号
+   */
   fontSize?: number;
-  /** @deprecated 后续需要替换成 textAlign，暂时会兼容两种写法 */
-  align?: TextAlign;
+  /**
+   * 文字对齐方式
+   */
   textAlign?: TextAlign;
-  /** @deprecated 后续需要替换成 textBaseline，暂时会兼容两种写法 */
-  baseline?: TextBaseLine;
+  /**
+   * 文字居中方式
+   */
   textBaseline?: TextBaseLine;
-  /** VRender 升级后，统一通过fontFamily声明，老的font配置不再支持 */
+  /**
+   * 字体
+   */
   fontFamily?: string;
+  /**
+   * 字重
+   */
   fontWeight?: FontWeight;
+  /**
+   * 字体样式
+   */
   fontStyle?: FontStyle;
-  limit?: number;
+  /**
+   * 文字的最大长度
+   */
+  maxLineWidth?: number;
+  /**
+   * 文字超出 maxLineWidth 后的省略符
+   */
   ellipsis?: string;
   // TODO: 这些不是常规的文字mark属性，待确认需求背景
   lineBreak?: string;
+  /**
+   * 下划线
+   */
   underline?: boolean;
+  /**
+   * 中划线
+   */
   lineThrough?: boolean;
+  /**
+   * 行高
+   */
   lineHeight?: number;
 }
 
@@ -242,28 +279,11 @@ export type IPositionedTextMarkSpec = Omit<ITextMarkSpec, 'align' | 'textAlign' 
 
 export interface IRectMarkSpec extends IFillMarkSpec {
   /**
-   * @deprecated 后续需要替换成 borderRadius
+   * 圆角配置。
+   * 1. 如果传入数值，则统一为四个角设置圆角
+   * 2. 如果传入数组，则分别为 [上左, 上右, 下右, 下左]
    */
-  cornerRadius?: number;
-  /**
-   * @deprecated 后续需要替换成 borderRadius
-   */
-  cornerRadiusTopLeft?: number;
-  /**
-   * @deprecated 后续需要替换成 borderRadius
-   */
-  cornerRadiusTopRight?: number;
-  /**
-   * @deprecated 后续需要替换成 borderRadius
-   */
-  cornerRadiusBottomLeft?: number;
-  /**
-   * @deprecated 后续需要替换成 borderRadius
-   */
-  cornerRadiusBottomRight?: number;
-
-  borderRadius?: number | number[];
-
+  cornerRadius?: number | number[];
   width?: number;
   height?: number;
   x1?: number;
@@ -386,12 +406,20 @@ export interface IGroupMarkSpec extends ICommonSpec, IFillMarkSpec {
   clip?: boolean;
   width?: number;
   height?: number;
-  cornerRadius?: number;
+  /**
+   * 圆角配置。
+   * 1. 如果传入数值，则统一为四个角设置圆角
+   * 2. 如果传入数组，则分别为 [上左, 上右, 下右, 下左]
+   */
+  cornerRadius?: number | number[];
 }
 
 export interface IPolygonMarkSpec extends ICommonSpec, IFillMarkSpec {
   points?: IPoint[];
-  borderRadius?: number | number[];
+  /**
+   * 圆角配置，支持数组配置，数组的顺序同组成 polygon 的顺序对应
+   */
+  cornerRadius?: number | number[];
   scaleX?: number;
   scaleY?: number;
 }
