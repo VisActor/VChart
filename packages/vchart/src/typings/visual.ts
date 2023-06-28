@@ -360,6 +360,9 @@ export interface IArcMarkSpec extends IFillMarkSpec {
   /** arc的中心点偏移距离 */
   centerOffset?: number;
 
+  /** arc的外半径偏移大小 */
+  radiusOffset?: number;
+
   /** arc 的 roundCap 属性，即圆角是否伸出 startAngle 和 endAngle 之外 */
   cap?: boolean | [boolean, boolean];
   /** arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效 */

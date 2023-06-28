@@ -1,8 +1,9 @@
 import { ARC_MIDDLE_ANGLE } from '../constant';
-import type { IArcMarkSpec, VisualType, Datum, StateValueType, IArc3dMarkSpec } from '../typings';
+import type { IArcMarkSpec, Datum, StateValueType, IArc3dMarkSpec } from '../typings';
 import { polarToCartesian } from '../util/math';
+import type { ExChannelCall } from './base/base-mark';
 import { BaseMark } from './base/base-mark';
-import type { IMarkRaw, IMarkStyle, StyleConvert } from './interface';
+import type { IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
 
@@ -12,7 +13,19 @@ export type IArc3dMark = IMarkRaw<IArc3dMarkSpec>;
 export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements IMarkRaw<T> {
   readonly type: MarkTypeEnum = ArcMark.type;
 
-  _unCompileChannel = { centerOffset: true };
+  _unCompileChannel = { centerOffset: true, radiusOffset: true };
+
+  constructor(name: string, option: IMarkOption) {
+    super(name, option);
+
+    // because of set object.function, this setting should be write after object init
+    this._computeExChannel.x = this.computeCenter as ExChannelCall;
+    this._computeExChannel.y = this.computeCenter as ExChannelCall;
+    this._computeExChannel.outerRadius = this.computeOuterRadius as ExChannelCall;
+
+    this._extensionChannel.centerOffset = ['x', 'y'];
+    this._extensionChannel.radiusOffset = ['outerRadius'];
+  }
 
   protected _getDefaultStyle() {
     const defaultStyle: IMarkStyle<T> = {
@@ -27,33 +40,16 @@ export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements 
     return defaultStyle;
   }
 
-  setAttribute<U extends keyof T>(
-    attr: U,
-    style: StyleConvert<T[U]> | VisualType<T[U]>,
-    state: StateValueType = 'normal',
-    level: number = 0,
-    stateStyle = this.stateStyle
-  ) {
-    super.setAttribute(attr, style, state, level, stateStyle);
-    // centerOffset 在图表侧实现，如果只设置了centerOffset 则自动补充一个与normal一样的 xy
-    if (attr === 'centerOffset' && state !== 'normal') {
-      if (stateStyle[state].x === undefined) {
-        stateStyle[state].x = stateStyle.normal.x;
-      }
-      if (stateStyle[state].y === undefined) {
-        stateStyle[state].y = stateStyle.normal.y;
-      }
-    }
-  }
-
-  protected _computeAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType = 'normal', opt: any) {
-    const superValue = super._computeAttribute(key, datum, state, opt);
-    if (superValue === undefined || (key !== 'x' && key !== 'y')) {
-      return superValue;
-    }
-    // 额外的offset计算
-    return this.computeCenter(key, datum, state, opt, superValue);
-  }
+  protected computeOuterRadius = (
+    key: string,
+    datum: Datum,
+    states: StateValueType = 'normal',
+    opt: any,
+    superValue: number
+  ): number => {
+    const offset = this._computeAttribute('radiusOffset', datum, states, opt) ?? 0;
+    return superValue + offset;
+  };
 
   protected computeCenter = (
     key: 'x' | 'y',
