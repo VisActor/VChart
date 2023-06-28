@@ -80,7 +80,7 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
     attribute.title.width = maxWidth;
     attribute.title.height = titleMaxHeight;
 
-    containerHeight += titleMaxHeight + spaceRow;
+    containerHeight += titleMaxHeight;
   }
 
   // calculate content
@@ -90,6 +90,10 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
       return (item.key || item.value) && item.visible !== false;
     });
     if (filteredContent.length) {
+      if (titleVisible) {
+        containerHeight += spaceRow; // title 与 content 之前的间隔
+      }
+
       let hasContentShape = false;
       const keyWidths: number[] = [];
       const adaptiveKeyWidths: number[] = [];
