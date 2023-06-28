@@ -13,23 +13,6 @@ const rectToAttribute = (markSpec: IRectMarkSpec): IRectGraphicAttribute => {
     ...(markSpec as unknown as IRectGraphicAttribute)
   };
 
-  // TODO: 是否要迁移到transformToGraphic ?
-  if (markSpec.cornerRadius) {
-    result.borderRadius = markSpec.cornerRadius;
-  } else if (
-    markSpec.cornerRadiusBottomLeft ||
-    markSpec.cornerRadiusBottomRight ||
-    markSpec.cornerRadiusTopLeft ||
-    markSpec.cornerRadiusTopRight
-  ) {
-    result.borderRadius = [
-      markSpec?.cornerRadiusTopLeft ?? 0,
-      markSpec?.cornerRadiusTopRight ?? 0,
-      markSpec?.cornerRadiusBottomRight ?? 0,
-      markSpec?.cornerRadiusBottomLeft ?? 0
-    ];
-  }
-
   return transformToGraphic(result) as IRectGraphicAttribute;
 };
 
