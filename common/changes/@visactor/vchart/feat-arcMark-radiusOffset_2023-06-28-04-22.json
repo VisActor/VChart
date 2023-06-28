@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "support radiusOffset for arc mark",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
