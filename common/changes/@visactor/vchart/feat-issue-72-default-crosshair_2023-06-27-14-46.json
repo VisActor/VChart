@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add default crosshair config for some cartesian charts",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
