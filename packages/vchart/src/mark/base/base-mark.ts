@@ -299,8 +299,9 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     let baseValue;
     if (!this.stateStyle[state]?.[key]) {
       baseValue = this._computeStateAttribute(this.stateStyle.normal[key], key, datum, state, opt);
+    } else {
+      baseValue = this._computeStateAttribute(this.stateStyle[state][key], key, datum, state, opt);
     }
-    baseValue = this._computeStateAttribute(this.stateStyle[state][key], key, datum, state, opt);
     // add effect to base
     if (key in this._computeExChannel) {
       return this._computeExChannel[key](key, datum, state, opt, baseValue);
