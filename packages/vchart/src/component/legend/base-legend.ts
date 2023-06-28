@@ -193,11 +193,10 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
   }
 
   boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
-    const result = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };
     if (!this._visible) {
-      return result;
+      return { x1: 0, y1: 0, x2: 0, y2: 0 };
     }
-
+    const result = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };
     const attrs = this._getLegendAttributes(rect);
     if (this._legendComponent) {
       if (!isEqual(attrs, this._cacheAttrs)) {
