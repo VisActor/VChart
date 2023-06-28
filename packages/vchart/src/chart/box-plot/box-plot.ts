@@ -3,7 +3,7 @@ import { Direction } from '../../typings';
 import { isNil } from '../../util';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
-import { setDefaultCrosshairForChart } from '../util';
+import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBoxPlotChartSpec } from './interface';
 
 export class BoxPlotChart extends CartesianChart {
@@ -57,6 +57,6 @@ export class BoxPlotChart extends CartesianChart {
         }
       }
     });
-    setDefaultCrosshairForChart(spec);
+    setDefaultCrosshairForCartesianChart(spec);
   }
 }
