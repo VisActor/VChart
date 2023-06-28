@@ -17,7 +17,7 @@ export const crosshair: ICrosshairTheme = {
       }
     } as ICrosshairRectSpec,
     label: {
-      visible: true,
+      visible: false,
       style: {
         fontWeight: 'normal',
         fill: '#fff',
@@ -49,7 +49,7 @@ export const crosshair: ICrosshairTheme = {
       }
     },
     label: {
-      visible: true,
+      visible: false,
       style: {
         fontWeight: 'normal',
         fill: '#fff',
@@ -81,7 +81,7 @@ export const crosshair: ICrosshairTheme = {
       }
     },
     label: {
-      visible: true,
+      visible: false,
       style: {
         fontWeight: 'normal',
         fill: '#fff',
@@ -113,7 +113,7 @@ export const crosshair: ICrosshairTheme = {
       }
     },
     label: {
-      visible: true,
+      visible: false,
       style: {
         fontWeight: 'normal',
         fill: '#fff',
