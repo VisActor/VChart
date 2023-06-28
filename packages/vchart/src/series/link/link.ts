@@ -21,9 +21,8 @@ import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { RuleMark } from '../../mark/rule';
 import { SymbolMark } from '../../mark/symbol';
-import { GroupMark } from '../../mark/group';
 
-VChart.useMark([RuleMark, SymbolMark, GroupMark]);
+VChart.useMark([RuleMark, SymbolMark]);
 
 export class LinkSeries extends CartesianSeries<ILinkSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.link;
