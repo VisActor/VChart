@@ -236,8 +236,8 @@ export class GridLayout implements IBaseLayout {
     for (let row = 0; row < gridSpec.row; row++) {
       point.y += this._rowSize[row].value;
     }
-    point.x += item.layoutPaddingLeft;
-    point.y += item.layoutPaddingTop;
+    point.x += item.layoutPaddingLeft + item.layoutOffsetX;
+    point.y += item.layoutPaddingTop + item.layoutOffsetY;
     return point;
   }
 

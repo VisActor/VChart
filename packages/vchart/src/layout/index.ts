@@ -65,26 +65,26 @@ export class Layout implements IBaseLayout {
 
       if (item.layoutOrient === 'left') {
         item.setLayoutStartPosition({
-          x: this._leftCurrent + item.layoutPaddingLeft,
-          y: this._topCurrent + item.layoutPaddingTop
+          x: this._leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft,
+          y: this._topCurrent + item.layoutOffsetY + item.layoutPaddingTop
         });
         this._leftCurrent += rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
       } else if (item.layoutOrient === 'top') {
         item.setLayoutStartPosition({
-          x: this._leftCurrent + item.layoutPaddingLeft,
-          y: this._topCurrent + item.layoutPaddingTop
+          x: this._leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft,
+          y: this._topCurrent + item.layoutOffsetY + item.layoutPaddingTop
         });
         this._topCurrent += rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
       } else if (item.layoutOrient === 'right') {
         item.setLayoutStartPosition({
-          x: this._rightCurrent - rect.width - item.layoutPaddingRight,
-          y: this._topCurrent + item.layoutPaddingTop
+          x: this._rightCurrent + item.layoutOffsetX - rect.width - item.layoutPaddingRight,
+          y: this._topCurrent + item.layoutOffsetY + item.layoutPaddingTop
         });
         this._rightCurrent -= rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
       } else if (item.layoutOrient === 'bottom') {
         item.setLayoutStartPosition({
-          x: this._leftCurrent + item.layoutPaddingRight,
-          y: this._bottomCurrent - rect.height - item.layoutPaddingBottom
+          x: this._leftCurrent + item.layoutOffsetX + item.layoutPaddingRight,
+          y: this._bottomCurrent + item.layoutOffsetY - rect.height - item.layoutPaddingBottom
         });
         this._bottomCurrent -= rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
       }

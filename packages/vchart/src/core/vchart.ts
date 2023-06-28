@@ -711,7 +711,12 @@ export class VChart implements IVChart {
   // 主题相关方法
   /** 当 spec 或者 currentThemeName 有变化时需要调用此方法对 currentTheme 进行更新 */
   private _updateCurrentTheme() {
-    this._currentTheme = merge({}, ThemeManager.getTheme(this._currentThemeName), this._spec?.theme ?? {});
+    if (isString(this._spec?.theme)) {
+      this._currentTheme = merge({}, ThemeManager.getTheme(this._spec.theme));
+      this._currentThemeName = this._spec.theme;
+    } else {
+      this._currentTheme = merge({}, ThemeManager.getTheme(this._currentThemeName), this._spec?.theme ?? {});
+    }
   }
 
   /**
@@ -729,7 +734,8 @@ export class VChart implements IVChart {
   }
 
   /**
-   * **异步方法**， 设置当前主题
+   * **异步方法**， 设置当前主题。
+   * **注意，如果在 spec 上配置了 theme，则 spec 上的 theme 优先级更高。**
    * @param name 主题名称
    * @returns
    */
