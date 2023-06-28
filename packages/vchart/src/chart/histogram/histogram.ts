@@ -2,7 +2,7 @@ import type { ICartesianAxisCommonSpec } from '../../component/axis/cartesian/in
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
-import { setDefaultCrosshairForChart } from '../util';
+import { setDefaultCrosshairForCartesianChart } from '../util';
 
 class BaseHistogramChart extends CartesianChart {
   transformSpec(spec: any): void {
@@ -27,7 +27,7 @@ export class HistogramChart extends BaseHistogramChart {
 
   transformSpec(spec: any): void {
     super.transformSpec(spec);
-    setDefaultCrosshairForChart(spec);
+    setDefaultCrosshairForCartesianChart(spec);
   }
 }
 

@@ -1,7 +1,7 @@
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
-import { setDefaultCrosshairForChart } from '../util';
+import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { ILineChartSpec } from './interface';
 
 export class LineChart extends CartesianChart {
@@ -20,6 +20,6 @@ export class LineChart extends CartesianChart {
   }
   transformSpec(spec: any): void {
     super.transformSpec(spec);
-    setDefaultCrosshairForChart(spec);
+    setDefaultCrosshairForCartesianChart(spec);
   }
 }
