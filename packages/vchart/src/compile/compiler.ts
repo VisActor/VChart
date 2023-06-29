@@ -274,9 +274,7 @@ export class Compiler {
         callback.call(null, params);
       }.bind(this);
       this._windowListeners.set(callback, { type, callback: wrappedCallback });
-      // TODO: 还需处理兼容性。同时目前 vgrammar 提供的 view.events api 并不支持事件的卸载，
-      //  因此暂时交由 vchart 层挂载 window 事件。
-      window?.addEventListener(type, wrappedCallback);
+      this.getStage()?.window?.addEventListener(type, wrappedCallback);
     }
   }
 
