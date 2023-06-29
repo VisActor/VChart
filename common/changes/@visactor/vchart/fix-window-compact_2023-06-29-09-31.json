@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: compact window variable for non-browser env",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
