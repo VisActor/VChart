@@ -1,11 +1,10 @@
+/* eslint-disable no-duplicate-imports */
 import type { BandScale } from '@visactor/vscale';
 import type { IArcMark } from '../../../mark/arc';
 import { MarkTypeEnum } from '../../../mark/interface';
 import type { Maybe, Datum } from '../../../typings';
-// eslint-disable-next-line no-duplicate-imports
 import { isValidNumber } from '../../../util';
 import type { SeriesMarkMap } from '../../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../../animation/config';
@@ -14,6 +13,11 @@ import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
 import type { IStateAnimateSpec } from '../../../animation/spec';
 import type { IProgressArcMark } from '../../../mark/progress-arc';
 import { BaseSeries } from '../../base/base-series';
+import { VChart } from '../../../core/vchart';
+import { ArcMark } from '../../../mark/arc';
+import { ProgressArcMark } from '../../../mark/progress-arc';
+
+VChart.useMark([ArcMark, ProgressArcMark]);
 
 export class CircularProgressSeries extends ProgressLikeSeries<ICircularProgressSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.circularProgress;

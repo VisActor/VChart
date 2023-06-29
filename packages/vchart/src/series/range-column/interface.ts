@@ -88,3 +88,7 @@ export interface IRangeColumnSeriesTheme extends ICartesianSeriesTheme {
     [SeriesMarkNameEnum.maxLabel]?: Partial<IMarkTheme<ITextMarkSpec> & { position?: keyof typeof minMaxPositionEnum }>;
   };
 }
+
+export interface IRangeColumn3dSeriesSpec extends Omit<IRangeColumnSeriesSpec, 'type'> {
+  type: 'rangeColumn3d';
+}

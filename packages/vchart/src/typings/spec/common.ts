@@ -15,6 +15,7 @@ import type { IDiscreteLegendSpec } from '../../component/legend/discrete/interf
 import type { IHoverSpec, ISelectSpec, ITriggerSpec } from '../../interaction/interface';
 import type { IRenderOption } from '../../compile/interface';
 import type { ITooltipSpec } from '../../component/tooltip/interface';
+// eslint-disable-next-line no-duplicate-imports
 import type { ILayoutSpec } from '../../layout/interface';
 import type {
   ConvertToMarkStyleSpec,
@@ -163,8 +164,11 @@ export interface IChartSpec {
   scales?: IVisualSpecScale<unknown, unknown>[];
   /** 自定义mark */
   customMark?: ICustomMarkSpec<EnableMarkType>[];
-  /** 图表上的主题定义 */
-  theme?: Omit<ITheme, 'name'>;
+  /**
+   * 图表上的主题定义。
+   * 可以直接配置主题名，前提是该主题名已经注册
+   */
+  theme?: Omit<ITheme, 'name'> | string;
   /**
    * 图表背景色配置，优先级高于构造函数中的 background 配置
    */

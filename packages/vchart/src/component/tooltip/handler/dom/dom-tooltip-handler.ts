@@ -1,12 +1,13 @@
 import type { IToolTipActual } from '../../../../typings/tooltip';
 import type { ITooltipSpec, TooltipHandlerParams } from '../../interface';
 import { BaseTooltipHandler } from '../base';
-import { getDomStyles } from './utils/style';
+import { getDomStyles } from './util';
 import type { IDomTooltipStyle } from './interface';
 import { TooltipModel } from './model/tooltip-model';
 import { domDocument } from './model/base-tooltip-model';
 import { TOOLTIP_CONTAINER_EL_CLASS_NAME, TooltipHandlerType } from '../constants';
 import type { Tooltip } from '../../tooltip';
+import type { Maybe } from '@visactor/vutils';
 
 /**
  * The tooltip handler class.
@@ -16,7 +17,8 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
   protected _tooltipContainer: HTMLElement = globalThis.document?.body;
   protected _domStyle: IDomTooltipStyle;
-  protected declare _container: HTMLDivElement;
+  protected _tooltipActual: IToolTipActual;
+  protected declare _container: Maybe<HTMLDivElement>;
 
   protected model: TooltipModel;
 
@@ -31,16 +33,16 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     }
   }
 
-  constructor(tooltipSpec: ITooltipSpec, tooltipId: string, component: Tooltip) {
-    super(tooltipSpec, tooltipId, component);
-
-    this._domStyle = getDomStyles(this._style);
+  constructor(tooltipId: string, component: Tooltip) {
+    super(tooltipId, component);
+    this._initStyle();
     this.initEl();
   }
 
   initEl() {
-    if (domDocument) {
-      const { parentElement } = this._tooltipSpec;
+    const tooltipSpec = this._component.getSpec();
+    const { parentElement } = tooltipSpec;
+    if (domDocument && parentElement) {
       for (let i = 0; i < parentElement.children.length; i++) {
         if (parentElement.children[i].classList.contains(TOOLTIP_CONTAINER_EL_CLASS_NAME)) {
           this._container = parentElement.children[i] as HTMLDivElement;
@@ -55,10 +57,13 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       }
       this.model = new TooltipModel(
         this._container,
-        { valueToHtml: this._option.sanitize },
-        [this._tooltipSpec.className],
-        this.id,
-        this._domStyle
+        {
+          valueToHtml: this._option.sanitize,
+          getTooltipStyle: () => this._domStyle,
+          getTooltipActual: () => this._tooltipActual
+        },
+        [tooltipSpec.className],
+        this.id
       );
     }
   }
@@ -73,7 +78,10 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       this.setVisibility(visible);
     } else {
       if (!params.changePositionOnly) {
-        this.model.setTooltipActual(actualTooltip);
+        this._tooltipActual = actualTooltip;
+        this._initStyle();
+
+        this.model.initAll();
         this.model.setStyle();
         this.model.setContent();
       }
@@ -82,12 +90,23 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       // 位置
       const { x = 0, y = 0 } = actualTooltip.position ?? {};
       const el = this.model.product;
-      // https://stackoverflow.com/questions/22111256/translate3d-vs-translate-performance
-      el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      if (el) {
+        // https://stackoverflow.com/questions/22111256/translate3d-vs-translate-performance
+        el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      }
     }
+  }
+
+  protected _initStyle() {
+    this._domStyle = getDomStyles(this._style, this._attributeCache);
   }
 
   protected _getParentElement(spec: ITooltipSpec): HTMLElement {
     return this._container ?? super._getParentElement(spec);
+  }
+
+  reInit() {
+    super.reInit();
+    this._initStyle();
   }
 }

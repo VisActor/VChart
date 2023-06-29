@@ -81,7 +81,7 @@ export type ICrosshairLineStyle = Pick<
   ILineMarkSpec,
   'stroke' | 'strokeOpacity' | 'opacity' | 'lineDash' | 'lineWidth'
 >;
-export type ICrosshairRectStyle = ICrosshairLineStyle & Pick<IRectMarkSpec, 'fill' | 'fillOpacity' | 'borderRadius'>;
+export type ICrosshairRectStyle = ICrosshairLineStyle & Pick<IRectMarkSpec, 'fill' | 'fillOpacity' | 'cornerRadius'>;
 
 export interface ICrosshairLineSpec {
   visible?: boolean;

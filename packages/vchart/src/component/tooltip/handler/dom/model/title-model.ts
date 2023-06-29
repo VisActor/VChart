@@ -1,3 +1,5 @@
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { merge } from '@visactor/vutils';
 import { defaultH2Style } from './style-constants';
 import { BaseTooltipModel } from './base-tooltip-model';
@@ -5,19 +7,17 @@ import { ShapeModel } from './shape-model';
 import { TextModel } from './text-model';
 
 export class TitleModel extends BaseTooltipModel {
-  shape: ShapeModel | null = null;
-  textSpan: TextModel;
+  shape: Maybe<ShapeModel>;
+  textSpan: Maybe<TextModel>;
 
   init(): void {
-    if (!this._tooltipActual) {
-      return;
-    }
+    const tooltipActual = this._option.getTooltipActual();
 
     if (!this.product) {
       this.product = this.createElement('h2');
     }
 
-    const { title } = this._tooltipActual;
+    const { title } = tooltipActual;
     if (title?.hasShape && title?.shapeType) {
       if (!this.shape) {
         this._initShape();
@@ -32,41 +32,43 @@ export class TitleModel extends BaseTooltipModel {
   }
 
   private _initShape() {
-    const shape = new ShapeModel(this.product, this._option, 0, this._tooltipStyle, this._tooltipActual);
+    const shape = new ShapeModel(this.product!, this._option, 0);
     shape.init();
     this.shape = shape;
     this.children[shape.childIndex] = shape;
   }
 
   private _releaseShape() {
+    if (!this.shape) {
+      return;
+    }
     this.shape.release();
     delete this.children[this.shape.childIndex];
     this.shape = null;
   }
 
   private _initTextSpan() {
-    const textSpan = new TextModel(this.product, this._option, 1, this._tooltipStyle, this._tooltipActual);
+    const textSpan = new TextModel(this.product!, this._option, 1);
     textSpan.init();
     this.textSpan = textSpan;
     this.children[textSpan.childIndex] = textSpan;
   }
 
   setStyle(style?: Partial<CSSStyleDeclaration>): void {
-    if (!this._tooltipActual || !this._tooltipStyle) {
-      return;
-    }
+    const tooltipStyle = this._option.getTooltipStyle();
+    const tooltipActual = this._option.getTooltipActual();
 
-    const { title } = this._tooltipActual;
-    super.setStyle(merge({}, defaultH2Style, this._tooltipStyle.title, style));
+    const { title } = tooltipActual;
+    super.setStyle(merge({}, defaultH2Style, tooltipStyle.title, style));
 
     this.shape?.setStyle(
       {
-        paddingRight: this._tooltipStyle.content.shape.marginRight
+        paddingRight: tooltipStyle.shapeColumn.item?.marginRight
       },
       {
         hasShape: title?.hasShape,
         shapeType: title?.shapeType,
-        size: this._tooltipStyle.content.shape.width,
+        size: tooltipStyle.shapeColumn.item?.width,
         color: title?.shapeColor,
         hollow: title?.shapeHollow
       }
@@ -74,20 +76,19 @@ export class TitleModel extends BaseTooltipModel {
   }
 
   setContent(): void {
-    if (!this._tooltipActual || !this._tooltipStyle) {
-      return;
-    }
+    const tooltipStyle = this._option.getTooltipStyle();
+    const tooltipActual = this._option.getTooltipActual();
 
-    const { title } = this._tooltipActual;
+    const { title } = tooltipActual;
     this.init();
     this.shape?.setStyle(undefined, {
       hasShape: title?.hasShape,
       shapeType: title?.shapeType,
-      size: this._tooltipStyle.content.shape.width,
+      size: tooltipStyle.shapeColumn.item?.width,
       color: title?.shapeColor,
       hollow: title?.shapeHollow
     });
-    this.textSpan.setContent(title.value);
+    this.textSpan?.setContent(title?.value);
   }
 
   release(): void {

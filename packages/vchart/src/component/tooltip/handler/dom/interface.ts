@@ -3,6 +3,8 @@ import type { FontWeight, TextAlign } from '../../../../typings/visual';
 export interface IDomTooltipStyle {
   panel: IPadding &
     IBorder & {
+      width?: string;
+      height?: string;
       backgroundColor?: string;
       boxShadow?: string;
       maxWidth?: string;
@@ -12,12 +14,21 @@ export interface IDomTooltipStyle {
       transitionProperty?: string;
       transitionTimingFunction?: string;
     };
-  title?: ILabelStyle;
-  content: IMargin & {
-    key?: ILabelStyle;
-    value?: ILabelStyle;
-    shape?: IShapeStyle;
+  title: ILabelStyle;
+  content: IMargin;
+  shapeColumn: IMargin & {
+    width?: string;
+    item?: IShapeStyle;
   };
+  keyColumn: IMargin & {
+    width?: string;
+    item?: ILabelStyle;
+  };
+  valueColumn: IMargin & {
+    width?: string;
+    item?: ILabelStyle;
+  };
+  spaceRow: string;
 }
 
 export interface ILabelStyle extends IMargin {

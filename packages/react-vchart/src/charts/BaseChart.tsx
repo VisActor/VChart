@@ -108,7 +108,9 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec)) {
         // eslint-disable-next-line promise/catch-or-return
-        chartContext.current.chart.updateSpec(parseSpec(props)).then(handleChartRender);
+        chartContext.current.chart
+          .updateSpec(parseSpec(props), undefined, { morph: false }) // morph临时关掉
+          .then(handleChartRender);
       }
       return;
     }
@@ -118,7 +120,9 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     if (!isEqual(newSpec, prevSpec.current) || chartContext.current.isChildrenUpdated) {
       prevSpec.current = newSpec;
       // eslint-disable-next-line promise/catch-or-return
-      chartContext.current.chart.updateSpec(parseSpec(props)).then(handleChartRender);
+      chartContext.current.chart
+        .updateSpec(parseSpec(props), undefined, { morph: false }) // morph临时关掉
+        .then(handleChartRender);
     }
     chartContext.current = {
       ...chartContext.current,

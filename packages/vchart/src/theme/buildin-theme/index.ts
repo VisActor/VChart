@@ -1,15 +1,13 @@
 export * from './config';
 export * from './light';
-export * from './dark';
 
 import type { ITheme } from '../interface';
 import { lightTheme } from './light';
-import { darkTheme } from './dark';
 
 /** 内置主题 map */
 export const buildinThemeMap: Map<string, ITheme> = new Map([
-  [lightTheme.name, lightTheme],
-  [darkTheme.name, darkTheme]
+  [lightTheme.name, lightTheme]
+  // [darkTheme.name, darkTheme] // TODO: wip
 ]);
 
 /** 默认主题 */

@@ -1,10 +1,10 @@
+/* eslint-disable no-duplicate-imports */
 import type { IArcMark } from '../../mark/arc';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { Maybe, Datum } from '../../typings';
 import { valueInScaleRange, degrees } from '../../util';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IRoseAnimationParams, RoseAppearPreset } from './animation';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
@@ -14,6 +14,11 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
 import { AttributeLevel } from '../../constant';
 import { BarSeries } from '../bar/bar';
+import { VChart } from '../../core/vchart';
+import { ArcMark } from '../../mark/arc';
+import { TextMark } from '../../mark/text';
+
+VChart.useMark([ArcMark, TextMark]);
 
 export const DefaultBandWidth = 0.5;
 

@@ -1,4 +1,4 @@
-import { isValid, isNil } from '../../../../util';
+import { isValid, isNil, array } from '../../../../util';
 import type { TooltipContent } from '../../tooltip';
 import type {
   IToolTipLinePattern,
@@ -6,9 +6,11 @@ import type {
   TooltipData,
   IToolTipLineActual
 } from '../../../../typings/tooltip';
-import { getTooltipValue } from './common';
+import { getFirstDatumFromTooltipData, getTooltipContentValue, getTooltipPatternValue } from './common';
 import { getTooltipActualActiveType } from '../../utils';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension/interface';
+import type { TooltipHandlerParams } from '../../interface';
+import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constants';
 
 /**
  * 获得tooltip的实际显示内容
@@ -20,18 +22,22 @@ import type { IDimensionData, IDimensionInfo } from '../../../../event/events/di
 export const getShowContent = (
   pattern: ITooltipPattern,
   data: TooltipData,
-  event: MouseEvent
+  params: TooltipHandlerParams
 ): TooltipContent | null => {
   if (
     !data ||
     // data.key === undefined ||
-    event.type === 'mouseout'
+    params?.event?.type === 'mouseout'
   ) {
     return null;
   }
-  const tooltipContent: TooltipContent = {
+
+  const patternTitle = getTooltipPatternValue(pattern.title, data, params);
+  const patternContent = array(getTooltipPatternValue(pattern.content, data, params));
+
+  const tooltipContent: Required<TooltipContent> = {
     title: {
-      value: pattern.title?.value?.toString(),
+      value: patternTitle?.value?.toString(),
       hasShape: false,
       shapeType: undefined,
       shapeHollow: undefined
@@ -39,72 +45,86 @@ export const getShowContent = (
     content: []
   };
 
+  const { maxLineCount = TOOLTIP_MAX_LINE_COUNT } = pattern;
+
   /** title */
-  if (!pattern.title || pattern.title.visible === false) {
+  const patternTitleVisible = getTooltipContentValue(patternTitle?.visible, data, params) !== false;
+  if (!patternTitle || !patternTitleVisible) {
     tooltipContent.title = {
       hasShape: false,
       visible: false
     };
   } else {
-    tooltipContent.title.hasShape = pattern.title.hasShape;
-    if (isValid(pattern.title) && isValid(pattern.title.value)) {
+    tooltipContent.title.hasShape = patternTitle.hasShape;
+    if (isValid(patternTitle.value)) {
       tooltipContent.title = {
-        hasShape: pattern.title?.hasShape,
-        shapeHollow: pattern.title?.shapeHollow
+        hasShape: patternTitle.hasShape,
+        shapeHollow: patternTitle.shapeHollow
       };
       // 找到第一个可用的datum
-      let datum: any;
-      const dimInfoList: IDimensionInfo[] = (data as IDimensionData[])[0]?.series
-        ? [{ data: data as IDimensionData[], value: '' }]
-        : (data as IDimensionInfo[]);
-      for (const { data: dataList } of dimInfoList) {
-        for (const { datum: datumList } of dataList) {
-          for (const datumItem of datumList ?? []) {
-            if (datumItem) {
-              datum = datumItem;
-              break;
-            }
-          }
-          if (datum) {
-            break;
-          }
-        }
-        if (datum) {
-          break;
-        }
-      }
-      tooltipContent.title.value = getTooltipValue(pattern.title?.value, datum);
+      const datum = getFirstDatumFromTooltipData(data);
+      tooltipContent.title.value = getTooltipContentValue(patternTitle?.value, datum, params);
     }
   }
 
   /** content */
   if (pattern.activeType === 'mark') {
-    pattern.content?.forEach(content => {
-      const oneLineData = getOneLineData((data as IDimensionData[])[0]?.datum[0], content);
+    for (const content of patternContent ?? []) {
+      const oneLineData = getOneLineData((data as IDimensionData[])[0]?.datum[0], content, params);
       if (oneLineData.visible !== false) {
-        tooltipContent.content.push(oneLineData);
+        if (tooltipContent.content.length === maxLineCount - 1) {
+          tooltipContent.content.push({
+            ...oneLineData,
+            ...TOOLTIP_OTHERS_LINE
+          });
+          break;
+        } else if (tooltipContent.content.length < maxLineCount) {
+          tooltipContent.content.push(oneLineData);
+        } else {
+          break;
+        }
       }
-    });
+    }
   } else if (pattern.activeType === 'dimension') {
-    (data as IDimensionInfo[]).forEach(({ data: d }) =>
-      d.forEach(({ datum, series }) => {
+    for (const { data: d } of data as IDimensionInfo[]) {
+      for (const { datum, series } of d) {
         if (!getTooltipActualActiveType(series.tooltipHelper?.spec).includes('dimension')) {
-          return;
+          continue;
         }
         const contentPatterns =
-          pattern.content?.filter(
+          patternContent?.filter(
             c => isNil(c.seriesId) || c.seriesId === series.id // 匹配对应series
           ) ?? [];
-        datum.forEach(datumItem =>
-          contentPatterns.forEach(c => {
-            const oneLineData = getOneLineData(datumItem, c);
-            if (oneLineData.visible !== false) {
-              tooltipContent.content.push(oneLineData);
+        for (const datumItem of datum) {
+          for (const linePattern of contentPatterns) {
+            const oneLineData = getOneLineData(datumItem, linePattern, params);
+            if (oneLineData.visible === false) {
+              continue;
             }
-          })
-        );
-      })
-    );
+            if (tooltipContent.content.length === maxLineCount - 1) {
+              tooltipContent.content.push({
+                ...oneLineData,
+                ...TOOLTIP_OTHERS_LINE
+              });
+              break;
+            } else if (tooltipContent.content.length < maxLineCount) {
+              tooltipContent.content.push(oneLineData);
+            } else {
+              break;
+            }
+          }
+          if (tooltipContent.content.length >= maxLineCount) {
+            break;
+          }
+        }
+        if (tooltipContent.content.length >= maxLineCount) {
+          break;
+        }
+      }
+      if (tooltipContent.content.length >= maxLineCount) {
+        break;
+      }
+    }
   }
 
   if (tooltipContent.title) {
@@ -130,18 +150,25 @@ export const getShowContent = (
  * @param config
  * @returns
  */
-export const getOneLineData = (datum: any, config: IToolTipLinePattern): IToolTipLineActual => {
-  const key = getTooltipValue(config.key, datum);
-  const value = getTooltipValue(config.value, datum);
-  const visible: boolean = isValid(key) || isValid(value);
+export const getOneLineData = (
+  datum: any,
+  config: IToolTipLinePattern,
+  params: TooltipHandlerParams
+): IToolTipLineActual => {
+  const key = getTooltipContentValue(config.key, datum, params);
+  const value = getTooltipContentValue(config.value, datum, params);
+  const visible: boolean =
+    getTooltipContentValue(config.visible, datum, params) !== false && (isValid(key) || isValid(value));
+  const isKeyAdaptive = getTooltipContentValue(config.isKeyAdaptive, datum, params);
 
-  const shapeType = getTooltipValue(config.shapeType, datum);
-  const shapeColor = getTooltipValue(config.shapeColor, datum);
+  const shapeType = getTooltipContentValue(config.shapeType, datum, params);
+  const shapeColor = getTooltipContentValue(config.shapeColor, datum, params);
 
   return {
     key,
     value,
     visible,
+    isKeyAdaptive,
     hasShape: config.hasShape,
     shapeType: shapeType as any,
     shapeHollow: config.shapeHollow,

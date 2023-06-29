@@ -1,10 +1,10 @@
 import type { ShapeType } from '../shape';
-import type { TooltipContentCallback } from './common';
+import type { TooltipContentProperty } from './common';
 
 export interface ITooltipShapePattern {
   hasShape?: boolean;
-  shapeType?: ShapeType | TooltipContentCallback;
-  shapeColor?: string | TooltipContentCallback;
+  shapeType?: TooltipContentProperty<ShapeType>;
+  shapeColor?: TooltipContentProperty<string>;
   shapeHollow?: boolean;
 }
 

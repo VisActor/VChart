@@ -1,15 +1,14 @@
+/* eslint-disable no-duplicate-imports */
 import type { ISymbolMark } from '../../mark/symbol';
 import { AttributeLevel, DEFAULT_DATA_INDEX, PREFIX } from '../../constant';
 import type { IBoxPlotMark } from '../../mark/box-plot';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IModelEvaluateOption, IModelInitOption } from '../../model/interface';
 import type { BoxPlotShaftShape, IOutlierMarkSpec, Maybe, Datum } from '../../typings';
-// eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings';
 import { isNumber, valueInScaleRange } from '../../util';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IBoxPlotSeriesSpec, IBoxPlotSeriesTheme } from './interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
@@ -25,6 +24,11 @@ import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { BoxPlotMark } from '../../mark/box-plot';
+import { SymbolMark } from '../../mark/symbol';
+
+VChart.useMark([BoxPlotMark, SymbolMark]);
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;

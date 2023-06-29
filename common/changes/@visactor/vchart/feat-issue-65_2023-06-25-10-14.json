@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: cartesianAxis and polarAxis are abstract class, should not be imported by users",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

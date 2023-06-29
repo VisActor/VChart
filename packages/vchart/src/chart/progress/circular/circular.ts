@@ -1,6 +1,9 @@
 import { SeriesTypeEnum } from '../../../series/interface/type';
 import { ChartTypeEnum } from '../../interface';
 import { ProgressLikeChart } from '../../polar/progress-like';
+import { VChart } from '../../../core/vchart';
+import { CircularProgressSeries } from '../../../series';
+VChart.useSeries([CircularProgressSeries]);
 
 export class CircularProgressChart extends ProgressLikeChart {
   static readonly type: string = ChartTypeEnum.circularProgress;

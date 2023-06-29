@@ -1,6 +1,6 @@
 import type { ILayer, INode, Stage } from '@visactor/vrender';
 import type { IToolTipActual } from '../../../../typings/tooltip';
-import type { ITooltipSpec, TooltipHandlerParams } from '../../interface';
+import type { TooltipHandlerParams } from '../../interface';
 import { BaseTooltipHandler } from '../base';
 import { Tooltip as TooltipComponent } from '@visactor/vrender-components';
 import { isValid } from '@visactor/vutils';
@@ -18,8 +18,8 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
   protected _tooltipCanvasId?: string;
   protected _tooltipComponent: TooltipComponent;
 
-  constructor(tooltipSpec: ITooltipSpec, tooltipId: string, component: Tooltip) {
-    super(tooltipSpec, tooltipId, component);
+  constructor(tooltipId: string, component: Tooltip) {
+    super(tooltipId, component);
     this._tooltipCanvasId = (this._chartOption.modeParams as any)?.tooltipCanvasId;
   }
 

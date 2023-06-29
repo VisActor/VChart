@@ -296,10 +296,3 @@ export class RangeColumnSeries extends BarSeries {
     this._tooltipHelper = new RangeColumnSeriesTooltipHelper(this);
   }
 }
-
-export class RangeColumn3dSeries extends RangeColumnSeries {
-  static readonly type: string = SeriesTypeEnum.rangeColumn3d;
-  type = SeriesTypeEnum.rangeColumn3d;
-  protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect3d;
-  protected _barName: string = SeriesTypeEnum.bar3d;
-}

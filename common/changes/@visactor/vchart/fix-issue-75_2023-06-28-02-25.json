@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: the issue where the legend component is hidden but still affect the layout calculation",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

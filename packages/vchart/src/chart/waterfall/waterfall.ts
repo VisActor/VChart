@@ -3,6 +3,10 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { BarChart } from '../bar';
 import { ChartTypeEnum } from '../interface';
 import type { IWaterfallChartSpec } from './interface';
+import { setDefaultCrosshairForCartesianChart } from '../util';
+import { VChart } from '../../core/vchart';
+import { WaterfallSeries } from '../../series';
+VChart.useSeries([WaterfallSeries]);
 
 export class WaterfallChart extends BarChart {
   static readonly type: string = ChartTypeEnum.waterfall;
@@ -19,6 +23,8 @@ export class WaterfallChart extends BarChart {
         l.filter = false;
       });
     }
+
+    setDefaultCrosshairForCartesianChart(spec);
   }
 
   protected _getDefaultSeriesSpec(spec: IWaterfallChartSpec): any {

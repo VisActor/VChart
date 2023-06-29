@@ -13,6 +13,7 @@ import { isNil, isValid, isValidNumber } from '@visactor/vutils';
 
 export class CustomMark extends BaseComponent {
   static type = ComponentTypeEnum.customMark;
+  type = ComponentTypeEnum.customMark;
 
   layoutType: LayoutItem['layoutType'] = 'absolute';
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CustomMark;
@@ -63,7 +64,7 @@ export class CustomMark extends BaseComponent {
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;
       spec.children?.forEach((s, i) => {
-        this._createExtensionMark(s, mark, namePrefix, i);
+        this._createExtensionMark(s as any, mark, namePrefix, i);
       });
     }
 

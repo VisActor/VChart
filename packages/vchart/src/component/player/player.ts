@@ -27,6 +27,7 @@ export class Player extends BaseComponent implements IComponent {
   layoutZIndex: number = LayoutZIndex.Player;
   layoutLevel: number = LayoutLevel.Player;
 
+  static type = ComponentTypeEnum.player;
   type = ComponentTypeEnum.player;
   specKey = 'player';
   protected declare _spec: IPlayer;

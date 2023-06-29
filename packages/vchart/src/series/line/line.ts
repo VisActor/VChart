@@ -1,8 +1,8 @@
+/* eslint-disable no-duplicate-imports */
 import { DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface';
 import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
@@ -13,6 +13,12 @@ import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
 import { BaseSeries } from '../base/base-series';
+import { VChart } from '../../core/vchart';
+import { LineMark } from '../../mark/line';
+import { SymbolMark } from '../../mark/symbol';
+import { TextMark } from '../../mark/text';
+
+VChart.useMark([LineMark, SymbolMark, TextMark]);
 
 export interface LineSeries
   extends Pick<

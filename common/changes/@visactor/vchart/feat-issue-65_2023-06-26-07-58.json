@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: series auto install mark",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

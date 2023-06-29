@@ -1,3 +1,4 @@
+/* eslint-disable no-duplicate-imports */
 import type { IRuleMark } from '../../mark/rule';
 import { isNil } from '@visactor/vutils';
 import {
@@ -14,7 +15,6 @@ import type { WaterfallAppearPreset } from './animation';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { IWaterfallSeriesSpec, IWaterfallSeriesTheme } from './interface';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { ITransformOptions, DataView } from '@visactor/vdataset';
@@ -26,9 +26,12 @@ import { MarkTypeEnum } from '../../mark/interface';
 import type { ITextMark } from '../../mark/text';
 import type { IModelEvaluateOption } from '../../model/interface';
 import type { Datum, Maybe } from '../../typings';
-// eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings';
 import type { IBarAnimationParams } from '../bar/animation';
+import { VChart } from '../../core/vchart';
+import { RuleMark } from '../../mark/rule';
+
+VChart.useMark([RuleMark]);
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 

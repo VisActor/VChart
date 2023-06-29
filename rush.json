@@ -61,7 +61,6 @@
     {
       "packageName": "@visactor/react-vchart",
       "projectFolder": "packages/react-vchart",
-      "tags": ["package"],
       "shouldPublish": true
     }
   ]

@@ -1,3 +1,4 @@
+/* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
 import { Direction } from '../../typings/space';
@@ -7,9 +8,7 @@ import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum, IInvalidType } from '../../typings';
 import { valueInScaleRange, couldBeValidNumber } from '../../util';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface';
 import { mixin } from '@visactor/vutils';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -18,6 +17,13 @@ import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { BaseSeries } from '../base/base-series';
+
+import { VChart } from '../../core/vchart';
+import { LineMark } from '../../mark/line';
+import { AreaMark } from '../../mark/area';
+import { TextMark } from '../../mark/text';
+import { SymbolMark } from '../../mark/symbol';
+VChart.useMark([LineMark, AreaMark, TextMark, SymbolMark]);
 
 export interface AreaSeries
   extends Pick<

@@ -28,11 +28,18 @@ import type {
 import { AttributeLevel, GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant';
 import { isValidScaleType, ThresholdScale } from '@visactor/vscale';
 import type { DataView } from '@visactor/vdataset';
-import { DUPLICATED_ATTRS } from '../utils';
 import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme/util';
 import type { ISeries, SeriesTypeEnum } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
+
+export type ExChannelCall = (
+  key: string | number | symbol,
+  datum: Datum,
+  states: StateValueType,
+  opt: unknown,
+  baseValue: unknown
+) => unknown;
 
 export class BaseMark<T extends ICommonSpec> extends CompilableMark implements IMarkRaw<T> {
   declare stateStyle: IMarkStateStyle<T>;
@@ -40,6 +47,15 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   protected declare _option: IMarkOption;
 
   protected _attributeContext: IModelMarkAttributeContext;
+
+  /** by _unCompileChannel, some channel need add default channel to make sure update available */
+  _extensionChannel: {
+    [key: string | number | symbol]: string[];
+  } = {};
+  /** same as _extensionChannel. when compute channel, add extension channel effect */
+  _computeExChannel: {
+    [key: string | number | symbol]: ExChannelCall;
+  } = {};
 
   constructor(name: string, option: IMarkOption) {
     super(option, name, option.model);
@@ -129,13 +145,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
 
     const isUserLevel = this.isUserLevel(level);
 
-    // 目前只有 line mark 存在 ignoreAttributes，而且目前 line 也覆写了 setStyle 方法
-    // 所以为了优化性能先不在基类上做判断，后续有需要再开启
-    // const ignoreAttributes = this.getIgnoreAttributes();
     Object.keys(style).forEach((attr: string) => {
-      // if (isNil(style[attr]) || ignoreAttributes.includes(attr)) {
-      //   return;
-      // }
       let attrStyle = style[attr] as MarkInputStyle<T[U]>;
       if (isNil(attrStyle)) {
         return;
@@ -143,13 +153,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
 
       attrStyle = this._filterAttribute(attr as any, attrStyle, state, level, isUserLevel, stateStyle);
 
-      this.setAttribute(
-        DUPLICATED_ATTRS[attr] ? DUPLICATED_ATTRS[attr] : (attr as any),
-        attrStyle,
-        state,
-        level,
-        stateStyle
-      );
+      this.setAttribute(attr as any, attrStyle, state, level, stateStyle);
     });
   }
 
@@ -235,6 +239,17 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     if (isValid(attrLevel) && attrLevel <= level) {
       merge(stateStyle[state][attr], { style, level });
     }
+
+    // some attr has extension channel in VChart to make some effect
+    if (state !== 'normal') {
+      if (attr in this._extensionChannel) {
+        this._extensionChannel[attr].forEach(key => {
+          if (stateStyle[state][key] === undefined) {
+            stateStyle[state][key as keyof T] = stateStyle.normal[key];
+          }
+        });
+      }
+    }
   }
 
   /**
@@ -281,10 +296,17 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   }
 
   protected _computeAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType, opt: IAttributeOpt) {
+    let baseValue;
     if (!this.stateStyle[state]?.[key]) {
-      return this._computeStateAttribute(this.stateStyle.normal[key], key, datum, state, opt);
+      baseValue = this._computeStateAttribute(this.stateStyle.normal[key], key, datum, state, opt);
+    } else {
+      baseValue = this._computeStateAttribute(this.stateStyle[state][key], key, datum, state, opt);
     }
-    return this._computeStateAttribute(this.stateStyle[state][key], key, datum, state, opt);
+    // add effect to base
+    if (key in this._computeExChannel) {
+      return this._computeExChannel[key](key, datum, state, opt, baseValue);
+    }
+    return baseValue;
   }
 
   protected _computeStateAttribute<U extends keyof T>(

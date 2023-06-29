@@ -1,9 +1,11 @@
-import type { ITooltipSpec } from '../../component/tooltip/interface';
-import type { IToolTipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
-import { array, isValid } from '../../util';
+import type { ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams } from '../../component/tooltip/interface';
+import type { IToolTipLinePattern, ITooltipPattern, ShapeType, TooltipActiveType } from '../../typings';
+import { array, isFunction, isValid } from '../../util';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
 import { BaseTooltipHelper } from '../../model/tooltip-helper';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
+import type { Datum } from '@visactor/vgrammar';
+import { getTooltipActualActiveType } from '../../component/tooltip/utils';
 
 interface ISeriesCacheInfo {
   seriesFields: string[];
@@ -18,19 +20,54 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
   protected _seriesCacheInfo: ISeriesCacheInfo;
 
   constructor(series: ISeries) {
-    const seriesTooltipSpec = series.getSpec()?.tooltip ?? {};
-    const chartTooltipSpec = series.getChart().getSpec()?.tooltip ?? {};
-    super({
-      ...chartTooltipSpec,
-      ...seriesTooltipSpec
-    });
+    super();
     this.series = series;
-    this._seriesCacheInfo = this._getSeriesCacheInfo();
+    this.updateTooltipSpec();
   }
 
-  updateTooltipSpec(spec: ITooltipSpec) {
-    super.updateTooltipSpec(spec);
-    this._seriesCacheInfo = this._getSeriesCacheInfo?.();
+  updateTooltipSpec() {
+    const seriesTooltipSpec = this.series.getSpec()?.tooltip ?? {};
+    const chartTooltipSpec = this.series.getChart().getSpec()?.tooltip ?? {};
+
+    const spec = {
+      ...chartTooltipSpec,
+      ...seriesTooltipSpec
+    } as ITooltipSpec;
+
+    // 将 series id 放入 pattern
+    (['mark', 'dimension'] as Array<keyof ITooltipActiveTypeAsKeys<any, any>>).forEach(activeType => {
+      const pattern = spec[activeType];
+      if (isValid(pattern)) {
+        spec[activeType] = {
+          ...pattern,
+          title: isValid(pattern.title)
+            ? isFunction(pattern.title)
+              ? pattern.title
+              : ({
+                  ...pattern.title,
+                  seriesId: this.series.id
+                } as IToolTipLinePattern)
+            : undefined,
+          content: isValid(pattern.content)
+            ? isFunction(pattern.content)
+              ? pattern.content
+              : array(pattern.content).map(line =>
+                  isFunction(line)
+                    ? line
+                    : ({
+                        ...line,
+                        seriesId: this.series.id
+                      } as IToolTipLinePattern)
+                )
+            : undefined
+        };
+      }
+    });
+
+    this.spec = spec;
+    this.activeType = getTooltipActualActiveType(spec);
+
+    this._seriesCacheInfo = this._getSeriesCacheInfo();
   }
 
   protected _getSeriesCacheInfo = (): ISeriesCacheInfo => {
@@ -65,7 +102,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
     return defaultValue;
   };
 
-  contentKeyCallback = (datum: any) => {
+  contentKeyCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     const { dimensionFields, seriesFields } = this._seriesCacheInfo;
     const subDimensionField = dimensionFields[dimensionFields.length - 1];
 
@@ -80,19 +117,19 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
     return datum?.[subDimensionField];
   };
 
-  contentValueCallback = (datum: any) => {
+  contentValueCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getMeasureData(datum);
   };
 
-  contentShapeTypeCallback = (datum: any) => {
+  contentShapeTypeCallback = (datum: Datum, params?: TooltipHandlerParams): ShapeType | undefined => {
     return this._getSeriesStyle(datum, 'shape', this.getDefaultShapeType());
   };
 
-  contentShapeColorCallback = (datum: any) => {
+  contentShapeColorCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getSeriesStyle(datum, ['fill', 'stroke']);
   };
 
-  titleValueCallback = (datum: any) => {
+  titleValueCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getDimensionData(datum);
   };
 

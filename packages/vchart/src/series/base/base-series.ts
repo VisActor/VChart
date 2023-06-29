@@ -296,7 +296,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     if (isValid(this._spec.invalidType)) {
       this._invalidType = this._spec.invalidType;
     }
-    this._tooltipHelper?.updateTooltipSpec(this._spec.tooltip);
+    this._tooltipHelper?.updateTooltipSpec();
   }
 
   /** data */
@@ -587,7 +587,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;
       spec.children?.forEach((s, i) => {
-        this._createExtensionMark(s, mark, namePrefix, i);
+        this._createExtensionMark(s as any, mark, namePrefix, i);
       });
     } else if (!parentMark && (!isNil(spec.dataId) || !isNil(spec.dataIndex))) {
       const dataView = this._option.getSeriesData(spec.id, spec.dataIndex);

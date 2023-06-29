@@ -14,7 +14,7 @@ import type { IGroupMark } from '../mark/group';
 import type { IInteraction, ITrigger } from '../interaction/interface';
 import { Interaction } from '../interaction/interaction';
 import { AttributeLevel, ChartEvent, LayoutZIndex } from '../constant';
-import { array, isValid, log } from '../util';
+import { array, isValid } from '../util';
 import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
@@ -59,11 +59,6 @@ export class Region extends BaseModel implements IRegion {
     if (isValid(spec.zIndex)) {
       this.layoutZIndex = spec.zIndex;
     }
-
-    if (__DEV__) {
-      // TODO: remove me
-      log('region created');
-    }
   }
 
   protected _getClipDefaultValue() {
@@ -95,11 +90,7 @@ export class Region extends BaseModel implements IRegion {
     this.setMarkStyle(
       this._groupMark,
       {
-        cornerRadius: this._spec.style?.cornerRadius,
-        cornerRadiusTopLeft: this._spec.style?.cornerRadiusTopLeft,
-        cornerRadiusTopRight: this._spec.style?.cornerRadiusTopRight,
-        cornerRadiusBottomLeft: this._spec.style?.cornerRadiusBottomLeft,
-        cornerRadiusBottomRight: this._spec.style?.cornerRadiusBottomRight
+        cornerRadius: this._spec.style?.cornerRadius
       },
       'normal',
       AttributeLevel.User_Mark
@@ -134,10 +125,6 @@ export class Region extends BaseModel implements IRegion {
 
   init(option: any) {
     super.init(option);
-    if (__DEV__) {
-      // TODO: remove me
-      log('region init');
-    }
     this.initMark();
     this.initSeriesDataflow();
     this.initInteraction();

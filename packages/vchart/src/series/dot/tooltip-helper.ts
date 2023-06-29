@@ -1,32 +1,33 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type { ITooltipPattern, TooltipActiveType } from '../../typings';
-import type { ITooltipSpec } from '../../component/tooltip/interface';
 import { TimeUtil } from '../../component/axis/cartesian/util';
+import { isValid } from '@visactor/vutils';
 
 export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
-  updateTooltipSpec(spec: ITooltipSpec) {
-    super.updateTooltipSpec(spec);
-    spec.mark.updateContent = (prev: any, datum: any) => {
-      const childrenContent: any = [];
-      const childrenPrev = prev.filter((p: any) => p.key === 'children');
-      childrenPrev.length > 0 &&
-        childrenPrev[0].value.forEach((element: any) => {
-          let flag = true;
-          for (const key in element) {
-            childrenContent.push({
-              shapeType: 'circle',
-              hasShape: flag,
-              shapeColor: this.contentShapeColorCallback(datum[0].datum[0]),
-              key: key,
-              value: element[key] + ''
-            });
-            flag = false;
-          }
-        });
-      return prev.concat(childrenContent);
-    };
-    this.spec = spec;
+  updateTooltipSpec() {
+    super.updateTooltipSpec();
+    if (isValid(this.spec?.mark)) {
+      this.spec!.mark.updateContent = (prev: any, datum: any, params: any) => {
+        const childrenContent: any = [];
+        const childrenPrev = prev.filter((p: any) => p.key === 'children');
+        childrenPrev.length > 0 &&
+          childrenPrev[0].value.forEach((element: any) => {
+            let flag = true;
+            for (const key in element) {
+              childrenContent.push({
+                shapeType: 'circle',
+                hasShape: flag,
+                shapeColor: this.contentShapeColorCallback(datum[0].datum[0]),
+                key: key,
+                value: element[key] + ''
+              });
+              flag = false;
+            }
+          });
+        return prev.concat(childrenContent);
+      };
+    }
   }
 
   /** 获取默认的tooltip pattern */
@@ -71,7 +72,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
             }
           }
         ],
-        updateContent: (prev: any, datum: any) => {
+        updateContent: (prev: any, datum: any, params: any) => {
           const childrenContent: any = [];
           prev[3].value.forEach((element: any) => {
             let flag = true;

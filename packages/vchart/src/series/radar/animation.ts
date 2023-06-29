@@ -1,7 +1,7 @@
 import type { Datum, IAnimationTypeConfig, IElement } from '@visactor/vgrammar';
 import type { IPoint, Maybe } from '../../typings';
 import { ClipAngleAnimate } from '@visactor/vrender';
-import type { IPolarAxisHelper } from '../../component';
+import type { IPolarAxisHelper } from '../../component/axis';
 
 export interface IRadarAnimationParams {
   center: () => Maybe<IPoint>;
