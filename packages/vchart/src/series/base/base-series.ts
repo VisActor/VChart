@@ -809,18 +809,26 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     return (attribute: string) => this._seriesMark?.getAttribute(attribute as any, datum) ?? null;
   }
 
-  getSeriesInfoList() {
-    const seriesKeys = this.getSeriesKeys();
+  protected _getSeriesInfo(field: string, keys: string[]) {
     const defaultShapeType = this.getDefaultShapeType();
-    return seriesKeys.map(key => {
+    return keys.map(key => {
       return {
         key,
         style: this.getSeriesStyle({
-          [this._seriesField ?? DEFAULT_DATA_SERIES_FIELD]: key
+          [field]: key
         }),
         shapeType: defaultShapeType
       };
     });
+  }
+
+  getSeriesInfoInField(field: string) {
+    const keys = this._rawDataStatistics.latestData[field]?.values;
+    return this._getSeriesInfo(field, keys);
+  }
+
+  getSeriesInfoList() {
+    return this._getSeriesInfo(this._seriesField ?? DEFAULT_DATA_SERIES_FIELD, this.getSeriesKeys());
   }
 
   /** seriesField end */

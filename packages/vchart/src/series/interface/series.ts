@@ -145,6 +145,7 @@ export interface ISeries extends IModel, ILayoutItem {
   getSeriesField: () => string | undefined;
   getSeriesKeys: () => string[];
   getSeriesStyle: (datum: Datum) => ISeriesSeriesInfo['style'];
+  getSeriesInfoInField: (field: string) => ISeriesSeriesInfo[];
   getSeriesInfoList: () => ISeriesSeriesInfo[];
   getGroups: () => Group | undefined;
   getDimensionField: () => string[];
