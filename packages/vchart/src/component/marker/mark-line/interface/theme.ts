@@ -4,7 +4,7 @@ import type { IMarkerLabelSpec, IMarkerSymbol } from '../../interface';
 
 export interface IMarkLineTheme {
   line?: {
-    style?: Omit<ILineMarkSpec, 'visible'>;
+    style?: ILineMarkSpec;
   };
 
   label?: {

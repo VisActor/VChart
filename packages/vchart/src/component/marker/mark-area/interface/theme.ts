@@ -4,7 +4,7 @@ import type { IMarkerLabelSpec } from '../../interface';
 
 export interface IMarkAreaTheme {
   area?: {
-    style?: Omit<IPolygonMarkSpec, 'visible'>;
+    style?: IPolygonMarkSpec;
   };
 
   label?: {
