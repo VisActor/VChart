@@ -24,7 +24,7 @@ export interface IItemContent extends IMarkerRef {
    * type为symbol时, symbol的样式
    */
   symbol?: {
-    style?: Omit<ISymbolMarkSpec, 'visible'>;
+    style?: ISymbolMarkSpec;
   };
   /**
    * type为image时, image的样式
