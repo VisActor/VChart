@@ -7,11 +7,11 @@ export interface IScrollBarStyle {
   /**
    * 滚动条轨道样式。
    */
-  rail?: Omit<IMarkSpec<IRectMarkSpec>, 'width' | 'height'>;
+  rail?: Omit<IRectMarkSpec, 'width' | 'height'>;
   /**
    * 滚动条滑块样式。
    */
-  slider?: Omit<IMarkSpec<IRectMarkSpec>, 'width' | 'height'>;
+  slider?: Omit<IRectMarkSpec, 'width' | 'height'>;
 }
 
 export interface IScrollBarSpec extends IDataFilterComponentSpec, IScrollBarStyle {
