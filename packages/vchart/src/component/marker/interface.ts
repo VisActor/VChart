@@ -1,13 +1,7 @@
-import type { IPadding, IPointLike } from '@visactor/vutils';
-import type { SymbolType } from '@visactor/vrender';
+import type { IPadding, IPointLike } from '@dp/vis-util';
+import type { SymbolType } from '@dp/canopus';
 import type { IModelSpec } from '../../model/interface';
-import type {
-  ConvertToMarkStyleSpec,
-  IRectMarkSpec,
-  ISymbolMarkSpec,
-  ITextMarkSpec,
-  StringOrNumber
-} from '../../typings';
+import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = string | number | IAggrType;
@@ -47,7 +41,7 @@ export type IMarkerLabelSpec = {
      * 内部边距
      */
     padding?: IPadding;
-    style: ConvertToMarkStyleSpec<Omit<IRectMarkSpec, 'visible'>>;
+    style: Omit<IRectMarkSpec, 'visible'>;
   };
   /**
    * label文本 - 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
@@ -60,14 +54,14 @@ export type IMarkerLabelSpec = {
   /**
    * label文本 - 文本样式
    */
-  style?: ConvertToMarkStyleSpec<Omit<ITextMarkSpec, 'visible'>>;
+  style?: Omit<ITextMarkSpec, 'visible'>;
 
   /**
    * label文本 - 文本前 mark 图元
    */
   shape?: {
     visible?: boolean;
-    style: ConvertToMarkStyleSpec<Omit<ISymbolMarkSpec, 'visible'>>;
+    style: Omit<ISymbolMarkSpec, 'visible'>;
   };
   /**
    * label文本 - shape 同文本之间的间距
@@ -128,5 +122,5 @@ export type IMarkerSymbol = {
    * symbol 大小
    */
   size?: number;
-  style?: ConvertToMarkStyleSpec<Omit<ISymbolMarkSpec, 'visible'>>;
+  style?: Omit<ISymbolMarkSpec, 'visible'>;
 } & IMarkerRef;
