@@ -43,3 +43,7 @@ export const defaultValueStyle: Partial<CSSStyleDeclaration> = {
   textAlign: 'right',
   fontWeight: 'normal'
 };
+
+export const defaultShapeStyle: Partial<CSSStyleDeclaration> = {
+  lineHeight: 'normal'
+};

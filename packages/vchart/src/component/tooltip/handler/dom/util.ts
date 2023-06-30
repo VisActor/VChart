@@ -32,7 +32,7 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
       shadowSpread,
       cornerRadius,
       stroke: strokeColor,
-      lineWidth
+      lineWidth = 0
     },
     padding,
     key,
@@ -50,8 +50,8 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
 
   const styles = {
     panel: {
-      width: getPixelPropertyStr(attributeCache?.panel?.width),
-      height: getPixelPropertyStr(attributeCache?.panel?.height),
+      width: getPixelPropertyStr((attributeCache?.panel?.width ?? 0) + lineWidth * 2),
+      height: getPixelPropertyStr((attributeCache?.panel?.height ?? 0) + lineWidth * 2),
       paddingBottom: getPixelPropertyStr(padding.bottom),
       paddingLeft: getPixelPropertyStr(padding.left),
       paddingRight: getPixelPropertyStr(padding.right),
