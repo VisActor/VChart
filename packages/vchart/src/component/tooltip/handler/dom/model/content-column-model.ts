@@ -3,7 +3,8 @@ import {
   defaultKeyStyle,
   defaultContentColumnStyle,
   defaultValueStyle,
-  defaultAdaptiveKeyStyle
+  defaultAdaptiveKeyStyle,
+  defaultShapeStyle
 } from './style-constants';
 import { BaseTooltipModel } from './base-tooltip-model';
 import type { ITooltipModelOption } from './interface';
@@ -95,7 +96,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         });
         (this.children[i] as TextModel).setStyle(childStyle);
       } else if (this.className === 'shape-box') {
-        childStyle = tooltipStyle.shapeColumn.item;
+        childStyle = merge({}, defaultShapeStyle, tooltipStyle.shapeColumn.item);
         const childContent = {
           hasShape: line.hasShape,
           shapeType: line.shapeType,
