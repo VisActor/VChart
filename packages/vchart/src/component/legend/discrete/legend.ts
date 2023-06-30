@@ -10,7 +10,7 @@ import { ComponentTypeEnum } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { getLegendAttributes } from './util';
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import { isArray, eachSeries, get, getFieldAlias } from '../../../util';
+import { isArray, eachSeries, get, getFieldAlias, isDataDomainSpec } from '../../../util';
 // eslint-disable-next-line no-duplicate-imports
 import { LegendEvent } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
@@ -61,7 +61,7 @@ export class DiscreteLegend extends BaseLegend {
           type: 'discreteLegendFilter',
           options: {
             selected: () => this._selectedData,
-            field: () => s.getSeriesField(),
+            field: () => this._getSeriesLegendField(s),
             data: () => this._legendData.getLatestData().map((obj: any) => obj.key)
           }
         });
@@ -85,11 +85,37 @@ export class DiscreteLegend extends BaseLegend {
             pre.push(...r.getSeries());
             return pre;
           }, [] as ISeries[]);
-        }
+        },
+        seriesField: (s: ISeries) => this._getSeriesLegendField(s)
       }
     });
 
     return legendData;
+  }
+
+  protected _getSeriesLegendField(s: ISeries) {
+    const defaultField = s.getSeriesField();
+    if (!this._spec.scaleName) {
+      return defaultField;
+    }
+    if (!s.getRawData()) {
+      return defaultField;
+    }
+    const scaleSpec = this._option.globalScale.getScaleSpec(this._spec.scaleName);
+    if (!scaleSpec) {
+      return defaultField;
+    }
+    if (this._spec.field) {
+      return this._spec.field;
+    }
+    if (!isDataDomainSpec(scaleSpec.domain)) {
+      return defaultField;
+    }
+    const seriesData = scaleSpec.domain.find(d => d.dataId === s.getRawData().name);
+    if (!seriesData) {
+      return defaultField;
+    }
+    return seriesData.fields?.[0] ?? defaultField;
   }
 
   protected _initSelectedData(): void {

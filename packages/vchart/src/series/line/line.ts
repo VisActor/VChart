@@ -6,7 +6,7 @@ import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
 import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
-import type { IInvalidType, Maybe } from '../../typings';
+import type { Datum, IInvalidType, Maybe } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
@@ -72,29 +72,17 @@ export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
     }
   }
 
-  getSeriesInfoList() {
-    const seriesKeys = this.getSeriesKeys();
-    const shapeType = this.getDefaultShapeType();
-    return seriesKeys.map(key => {
-      return {
-        key,
-        style: (attribute: string) => {
-          if (!this._lineMark) {
-            return null;
-          }
-          const attr = this._lineMark.getAttribute(attribute as any, {
-            [this._seriesField ?? DEFAULT_DATA_SERIES_FIELD]: key
-          });
-          if (attr) {
-            return attr;
-          }
-          return this._symbolMark.getAttribute(attribute as any, {
-            [this._seriesField ?? DEFAULT_DATA_SERIES_FIELD]: key
-          });
-        },
-        shapeType
-      };
-    });
+  getSeriesStyle(datum: Datum) {
+    return (attribute: string) => {
+      if (!this._lineMark) {
+        return null;
+      }
+      const attr = this._lineMark.getAttribute(attribute as any, datum);
+      if (attr) {
+        return attr;
+      }
+      return this._symbolMark.getAttribute(attribute as any, datum);
+    };
   }
 }
 

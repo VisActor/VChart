@@ -8,6 +8,7 @@ export interface IDiscreteLegendData {
 
 export interface IDiscreteLegendDataMakeOption {
   series: () => ISeries[];
+  seriesField: (s: ISeries) => string;
 }
 
 export interface IDiscreteLegendFilterOption {

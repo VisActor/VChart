@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "support discrete legend bind scale",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}
