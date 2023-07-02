@@ -5,6 +5,7 @@ import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
 import { VChart } from '../../core/vchart';
 import { RoseSeries } from '../../series';
+import { array, merge } from '../../util';
 VChart.useSeries([RoseSeries]);
 
 export class RoseChart extends RoseLikeChart {
@@ -25,6 +26,7 @@ export class RoseChart extends RoseLikeChart {
       // startAngle: radians(spec.startAngle || 0),
     };
   }
+
   transformSpec(spec: any) {
     super.transformSpec(spec);
     //默认不显示轴
@@ -34,6 +36,22 @@ export class RoseChart extends RoseLikeChart {
           axis[configName] = { visible: false };
         }
       });
+    });
+
+    // set default config for crosshair
+    spec.crosshair = array(spec.crosshair || {}).map(crosshairCfg => {
+      return merge(
+        {
+          categoryField: {
+            visible: true,
+            line: {
+              visible: true,
+              type: 'rect'
+            }
+          }
+        },
+        crosshairCfg
+      );
     });
   }
 }

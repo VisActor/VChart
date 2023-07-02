@@ -20,7 +20,7 @@ export class RoseLikeChart extends PolarChart {
   transformSpec(spec: any): void {
     super.transformSpec(spec);
 
-    /* 处理 axis 配置 */
+    // set default config for axis
     if (this.needAxes()) {
       if (!spec.axes) {
         spec.axes = [];
