@@ -10,7 +10,7 @@ import type { IHair } from './base';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseCrossHair } from './base';
 import type { IGroup, INode } from '@visactor/vrender';
-import { limitTagInBounds } from './util';
+import { getDatumByValue, limitTagInBounds } from './util';
 import { getAxisLabelOffset } from '../axis/utils';
 import type { IAxis } from '../axis/interface';
 import type { StringOrNumber } from '../../typings';
@@ -298,6 +298,22 @@ export class CartesianCrossHair extends BaseCrossHair {
         if (isDiscrete(xScale.type)) {
           const eachBand = (xScale as any)._step;
           indexWidth = axis ? series.getXAxisHelper().getBandwidth?.(0) : eachBand;
+        } else if (isContinuous(xScale.type)) {
+          const fieldX = series.fieldX[0];
+          const fieldX2 = series.fieldX2;
+          const datum = getDatumByValue(series.getViewData().latestData, +v, fieldX, fieldX2);
+          if (datum) {
+            const startX = series.dataToPositionX(datum);
+            if (fieldX2) {
+              indexWidth = Math.abs(startX - series.dataToPositionX1(datum));
+              v = `${datum[fieldX]} ~ ${datum[fieldX2]}`;
+            } else {
+              indexWidth = 1;
+            }
+            x = startX;
+          } else {
+            indexWidth = 1;
+          }
         }
         if (this.xHair.label?.visible) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());
@@ -323,6 +339,22 @@ export class CartesianCrossHair extends BaseCrossHair {
         if (isDiscrete(yScale.type)) {
           const eachBand = (yScale as any)._step;
           valueHeight = yScale ? series.getYAxisHelper().getBandwidth?.(0) : eachBand;
+        } else if (isContinuous(yScale.type)) {
+          const fieldY = series.fieldY[0];
+          const fieldY2 = series.fieldY2;
+          const datum = getDatumByValue(series.getViewData().latestData, +v, fieldY, fieldY2);
+          if (datum) {
+            const startY = series.dataToPositionY(datum);
+            if (fieldY2) {
+              valueHeight = Math.abs(startY - series.dataToPositionY1(datum));
+              v = `${datum[fieldY]} ~ ${datum[fieldY2]}`;
+            } else {
+              valueHeight = 1;
+            }
+            y = startY;
+          } else {
+            valueHeight = 1;
+          }
         }
         if (this.yHair.label?.visible) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());

@@ -1,5 +1,6 @@
 import type { Tag } from '@visactor/vrender-components';
 import type { IBoundsLike } from '@visactor/vutils';
+import type { Datum } from '../../typings';
 
 export function limitTagInBounds(shape: Tag, bounds: IBoundsLike) {
   const { x1: regionMinX, y1: regionMinY, x2: regionMaxX, y2: regionMaxY } = bounds;
@@ -32,4 +33,27 @@ export function limitTagInBounds(shape: Tag, bounds: IBoundsLike) {
   if (dy) {
     shape.setAttribute('dy', dy + originDy);
   }
+}
+
+// 二分查找数据
+export function getDatumByValue(data: Datum[], value: number, startField: string, endField?: string): Datum | null {
+  let left = 0;
+  let right = data.length - 1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    const record = data[mid];
+
+    if (record[startField] <= value && record[endField || startField] >= value) {
+      return record;
+    }
+
+    if (record[startField] > value) {
+      right = mid - 1;
+    } else {
+      left = mid + 1;
+    }
+  }
+
+  return null;
 }
