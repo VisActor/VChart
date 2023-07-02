@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the bug that linear axis can not show crosshair",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

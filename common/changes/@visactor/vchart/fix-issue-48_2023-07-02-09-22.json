@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: set default crosshair configuration for radar and rose chart",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
