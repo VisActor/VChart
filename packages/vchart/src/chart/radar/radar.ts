@@ -1,5 +1,5 @@
 import { SeriesTypeEnum } from '../../series/interface';
-import { merge } from '../../util';
+import { array, merge } from '../../util';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
 import { VChart } from '../../core/vchart';
@@ -44,6 +44,22 @@ export class RadarChart extends RoseLikeChart {
           axis.grid = { visible: true, smooth: true };
         }
       }
+    });
+
+    // set default config for crosshair
+    spec.crosshair = array(spec.crosshair || {}).map(crosshairCfg => {
+      return merge(
+        {
+          categoryField: {
+            visible: true,
+            line: {
+              visible: true,
+              type: 'line'
+            }
+          }
+        },
+        crosshairCfg
+      );
     });
   }
 }
