@@ -157,10 +157,10 @@ export interface ISeries extends IModel, ILayoutItem {
   handlePan?: (e: PanEventParam) => void;
 
   // 数据映射
-  dataToPosition: (datum: any) => IPoint | null;
-  dataToPositionX: (xValue: any) => number | null;
-  dataToPositionY: (yValue: any) => number | null;
-  dataToPositionZ?: (yValue: any) => number | null;
+  dataToPosition: (datum: Datum) => IPoint | null;
+  dataToPositionX: (datum: Datum) => number | null;
+  dataToPositionY: (datum: Datum) => number | null;
+  dataToPositionZ?: (datum: Datum) => number | null;
 
   getColorAttribute: () => { scale: IBaseScale; field: string };
   getDefaultColorDomain: () => any[];
@@ -192,8 +192,12 @@ export interface ICartesianSeries extends ISeries {
   // 要考虑基于多个field的场景
   fieldX: string[];
   setFieldX: (field: string | string[], level?: number) => void;
+  fieldX2: string;
+  setFieldX2: (field: string) => void;
   fieldY: string[];
   setFieldY: (field: string | string[], level?: number) => void;
+  fieldY2: string;
+  setFieldY2: (field: string) => void;
   fieldZ?: string[];
   setFieldZ: (field: string | string[], level?: number) => void;
 
@@ -208,6 +212,9 @@ export interface ICartesianSeries extends ISeries {
   setYAxisHelper: (h: IAxisHelper) => void;
   getZAxisHelper: () => IAxisHelper | undefined;
   setZAxisHelper: (h: IAxisHelper) => void;
+
+  dataToPositionX1: (datum: Datum) => number | null;
+  dataToPositionY1: (datum: Datum) => number | null;
 }
 
 export interface IPolarSeries extends ISeries {
