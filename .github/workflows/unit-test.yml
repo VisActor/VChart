@@ -27,6 +27,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
 
+      - name: Update rush
+        run: node common/scripts/install-run-rush.js update --bypass-policy
         # Install rush
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
