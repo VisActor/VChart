@@ -72,17 +72,28 @@ export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
     }
   }
 
-  getSeriesStyle(datum: Datum) {
-    return (attribute: string) => {
-      if (!this._lineMark) {
-        return null;
-      }
-      const attr = this._lineMark.getAttribute(attribute as any, datum);
-      if (attr) {
-        return attr;
-      }
-      return this._symbolMark.getAttribute(attribute as any, datum);
-    };
+  getSeriesInfoList() {
+    const seriesKeys = this.getSeriesKeys();
+    const shapeType = this.getDefaultShapeType();
+    return seriesKeys.map(key => {
+      const datum = {
+        [this._seriesField ?? DEFAULT_DATA_SERIES_FIELD]: key
+      };
+      return {
+        key,
+        style: (attribute: string) => {
+          if (!this._lineMark) {
+            return null;
+          }
+          const attr = this._lineMark.getAttribute(attribute as any, datum);
+          if (attr) {
+            return attr;
+          }
+          return this._symbolMark.getAttribute(attribute as any, datum);
+        },
+        shapeType
+      };
+    });
   }
 }
 
