@@ -127,7 +127,7 @@ export abstract class BaseModel extends LayoutItem implements IModel {
   }
   coordinate?: CoordinateType;
 
-  protected releaseEvent() {
+  protected _releaseEvent() {
     this.event.release();
   }
 
@@ -176,7 +176,7 @@ export abstract class BaseModel extends LayoutItem implements IModel {
   }
 
   release() {
-    this.releaseEvent();
+    this._releaseEvent();
     this._originalSpec = {};
     this._spec = {};
     this.getMarks().forEach(m => m.release());
