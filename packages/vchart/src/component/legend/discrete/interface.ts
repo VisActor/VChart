@@ -153,6 +153,17 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
    * 翻页器配置
    */
   pager?: IPager;
+
+  /**
+   * scaleName must match the id of the scale configured in **scales**
+   */
+  scaleName?: string;
+  /**
+   * After the legend is bound to the scale, the dimension associated with the series data and the legend can be configured through field.
+   * If the field is not configured, the first item of fields in the domain of scale is used by default
+   * If the domain of the scale is not dependent on data statistics, series.getSeriesField() is used by default
+   */
+  field?: string;
 } & Omit<DiscreteLegendAttrs, 'layout' | 'title' | 'items' | 'item' | 'pager'>;
 
 // theme 主题相关配置
