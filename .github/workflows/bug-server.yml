@@ -30,8 +30,8 @@ jobs:
 
       - name: Update rush
         run: node common/scripts/install-run-rush.js update --bypass-policy
-      - name: Install rush
-        run: node common/scripts/install-run-rush.js install --bypass-policy
+      # - name: Install rush
+      #   run: node common/scripts/install-run-rush.js install --bypass-policy
 
       - name: Build
         run: node common/scripts/install-run-rush.js build -t @visactor/vchart

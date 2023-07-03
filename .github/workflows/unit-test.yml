@@ -30,8 +30,8 @@ jobs:
       - name: Update rush
         run: node common/scripts/install-run-rush.js update --bypass-policy
         # Install rush
-      - name: Install rush
-        run: node common/scripts/install-run-rush.js install --bypass-policy
+      # - name: Install rush
+      #   run: node common/scripts/install-run-rush.js install --bypass-policy
       - name: Build
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
