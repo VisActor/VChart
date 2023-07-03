@@ -40,6 +40,11 @@ export type TooltipContent = {
   content?: IToolTipLineActual[];
 };
 
+type EventHandlerList = {
+  eventType: EventType;
+  handler: any;
+}[];
+
 export class Tooltip extends BaseComponent {
   static type = ComponentTypeEnum.tooltip;
   type = ComponentTypeEnum.tooltip;
@@ -68,10 +73,7 @@ export class Tooltip extends BaseComponent {
 
   private _cacheInfo: TooltipInfo | undefined;
 
-  private _eventList: {
-    eventType: EventType;
-    handler: any;
-  }[] = [];
+  private _eventList: EventHandlerList = [];
 
   protected declare _spec: ITooltipSpec;
 
@@ -82,10 +84,10 @@ export class Tooltip extends BaseComponent {
   changeRegions(regions: IRegion[]) {
     /* do nothing */
   }
-  protected registerEvent() {
+  protected _registerEvent() {
     /* do nothing */
   }
-  protected releaseEvent() {
+  protected _releaseEvent() {
     /* do nothing */
   }
   onLayout(ctx: IModelLayoutOption) {
@@ -102,11 +104,11 @@ export class Tooltip extends BaseComponent {
     super.created();
     this._regions = this._option.getAllRegions();
     // handler
-    this.initHandler();
+    this._initHandler();
     // processor
-    this.initProcessor();
+    this._initProcessor();
     // event
-    this.initEvent();
+    this._initEvent();
   }
 
   release() {
@@ -119,7 +121,7 @@ export class Tooltip extends BaseComponent {
     this.tooltipHandler?.release?.();
   }
 
-  protected initHandler() {
+  protected _initHandler() {
     const renderMode = this._spec.renderMode ?? 'html';
 
     const userTooltipHandler = this._option.globalInstance.getTooltipHandlerByUser();
@@ -133,7 +135,7 @@ export class Tooltip extends BaseComponent {
     }
   }
 
-  protected initProcessor() {
+  protected _initProcessor() {
     // 初始化 tooltip 类型
     this._processor = {
       mark: new MarkTooltipProcessor(this),
@@ -141,27 +143,27 @@ export class Tooltip extends BaseComponent {
     };
   }
 
-  protected initEvent() {
+  protected _initEvent() {
     const trigger = this._spec.trigger ?? 'hover';
     // TODO: triggerOff完整支持
     // const triggerOff = this._spec.triggerOff ?? trigger;
     const mode = this._option.mode;
 
     if (trigger === 'hover') {
-      this.mountEvent('pointermove', { level: Event_Bubble_Level.chart }, this.handleMouseMove);
+      this._mountEvent('pointermove', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
       // 移动端的点按 + 滑动触发
       if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
-        this.mountEvent('pointerdown', { level: Event_Bubble_Level.chart }, this.handleMouseMove);
-        this.mountEvent('pointerup', { source: 'window' }, this.handleMouseOut);
+        this._mountEvent('pointerdown', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
+        this._mountEvent('pointerup', { source: 'window' }, this._handleMouseOut);
       }
-      this.mountEvent('pointermove', { source: 'window' }, this.handleMouseOut);
+      this._mountEvent('pointermove', { source: 'window' }, this._handleMouseOut);
     } else if (trigger === 'click') {
-      this.mountEvent('pointertap', { level: Event_Bubble_Level.chart }, this.handleMouseMove);
-      this.mountEvent('pointerup', { source: 'window' }, this.handleMouseOut);
+      this._mountEvent('pointertap', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
+      this._mountEvent('pointerup', { source: 'window' }, this._handleMouseOut);
     }
   }
 
-  protected mountEvent = (eType: EventType, query: EventQuery, callback: EventCallback<any>) => {
+  protected _mountEvent = (eType: EventType, query: EventQuery, callback: EventCallback<any>) => {
     this.event.on(eType, query, callback);
     this._eventList.push({
       eventType: eType,
@@ -169,7 +171,7 @@ export class Tooltip extends BaseComponent {
     });
   };
 
-  protected handleMouseOut = (params: BaseEventParams) => {
+  protected _handleMouseOut = (params: BaseEventParams) => {
     if (this._alwaysShow) {
       return;
     }
@@ -183,10 +185,10 @@ export class Tooltip extends BaseComponent {
       return;
     }
 
-    this.handleChartMouseOut(params);
+    this._handleChartMouseOut(params);
   };
 
-  protected handleChartMouseOut = (params: BaseEventParams) => {
+  protected _handleChartMouseOut = (params: BaseEventParams) => {
     if (this._alwaysShow) {
       return;
     }
@@ -199,7 +201,7 @@ export class Tooltip extends BaseComponent {
     }
   };
 
-  protected handleMouseMove = (params: BaseEventParams) => {
+  protected _handleMouseMove = (params: BaseEventParams) => {
     if (this._alwaysShow) {
       return;
     }
@@ -238,7 +240,7 @@ export class Tooltip extends BaseComponent {
 
     /* 如果还是不应该显示tooltip，则隐藏上一次tooltip */
     if (!markTooltipSuccess && (!dimensionTooltipSuccess || isNil(dimensionInfo))) {
-      this.handleChartMouseOut(params);
+      this._handleChartMouseOut(params);
     }
   };
 

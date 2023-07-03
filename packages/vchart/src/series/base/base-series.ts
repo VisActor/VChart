@@ -722,8 +722,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     this._rawDataStatistics?.target.addListener('change', this.rawDataStatisticsUpdate.bind(this));
   }
 
-  protected releaseEvent(): void {
-    super.releaseEvent();
+  protected _releaseEvent(): void {
+    super._releaseEvent();
     this._trigger.release();
   }
 

@@ -96,14 +96,14 @@ export class PolarCrossHair extends BaseCrossHair {
     this.currValueY = new Map();
   }
 
-  protected showDefaultCrosshair() {
+  protected _showDefaultCrosshair() {
     if (!this.showDefault) {
       return;
     }
     // TODO: 待支持
   }
 
-  protected hide() {
+  protected _hide() {
     this._radiusCrosshair && this._radiusCrosshair.hideAll();
     this._radiusLabelCrosshair && this._radiusLabelCrosshair.hideAll();
     this._angleCrosshair && this._angleCrosshair.hideAll();
@@ -179,7 +179,7 @@ export class PolarCrossHair extends BaseCrossHair {
     return true;
   }
 
-  protected layoutCrosshair(relativeX: number, relativeY: number) {
+  protected _layoutCrosshair(relativeX: number, relativeY: number) {
     // 找到所有的包含这个点的轴
     const { xAxisMap, yAxisMap } = this.findAllAxisContains(relativeX, relativeY);
     if (xAxisMap.size === 0 && yAxisMap.size === 0) {
@@ -187,7 +187,7 @@ export class PolarCrossHair extends BaseCrossHair {
         return;
       }
       // 隐藏
-      this.hide();
+      this._hide();
       return;
     }
     // 删除之前的currValue
@@ -205,7 +205,7 @@ export class PolarCrossHair extends BaseCrossHair {
       return;
     }
     // 获取axisHelper
-    const series = this.firstSeries<IPolarSeries>();
+    const series = this._firstSeries<IPolarSeries>();
     if (!series) {
       return;
     }
@@ -470,8 +470,8 @@ export class PolarCrossHair extends BaseCrossHair {
     }
   }
 
-  protected parseFieldInfo() {
-    const { categoryField, valueField } = this.crosshairConfig as IPolarCrosshairSpec;
+  protected _parseFieldInfo() {
+    const { categoryField, valueField } = this._crosshairConfig as IPolarCrosshairSpec;
     if (categoryField && categoryField.visible) {
       this.xHair = this._parseField(categoryField, 'categoryField');
     }
@@ -491,7 +491,7 @@ export class PolarCrossHair extends BaseCrossHair {
       container.add(label as unknown as INode);
       callback(label);
     }
-    limitTagInBounds(label, this.getLimitBounds());
+    limitTagInBounds(label, this._getLimitBounds());
   }
 
   clear() {

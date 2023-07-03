@@ -100,7 +100,7 @@ export class CartesianCrossHair extends BaseCrossHair {
     this.currValueY = new Map();
   }
 
-  protected showDefaultCrosshair() {
+  protected _showDefaultCrosshair() {
     if (!this.showDefault) {
       return;
     }
@@ -197,7 +197,7 @@ export class CartesianCrossHair extends BaseCrossHair {
     return true;
   }
 
-  protected layoutCrosshair(relativeX: number, relativeY: number) {
+  protected _layoutCrosshair(relativeX: number, relativeY: number) {
     // 找到所有的包含这个点的轴
     const { xAxisMap, yAxisMap } = this.findAllAxisContains(relativeX, relativeY);
     if (xAxisMap && xAxisMap.size === 0 && yAxisMap && yAxisMap.size === 0) {
@@ -205,7 +205,7 @@ export class CartesianCrossHair extends BaseCrossHair {
         return;
       }
       // 隐藏
-      this.hide();
+      this._hide();
       return;
     }
     // 删除之前的currValue
@@ -218,7 +218,7 @@ export class CartesianCrossHair extends BaseCrossHair {
     this.layoutByValue(LayoutType.ALL);
   }
 
-  protected hide() {
+  protected _hide() {
     // 隐藏
     this._xCrosshair && this._xCrosshair.hideAll();
     this._xTopLabel && this._xTopLabel.hideAll();
@@ -234,7 +234,7 @@ export class CartesianCrossHair extends BaseCrossHair {
       return;
     }
     // 获取axisHelper
-    const series = this.firstSeries<ICartesianSeries>();
+    const series = this._firstSeries<ICartesianSeries>();
     if (!series) {
       return;
     }
@@ -556,8 +556,8 @@ export class CartesianCrossHair extends BaseCrossHair {
     }
   }
 
-  protected parseFieldInfo() {
-    const { xField, yField } = this.crosshairConfig as ICartesianCrosshairSpec;
+  protected _parseFieldInfo() {
+    const { xField, yField } = this._crosshairConfig as ICartesianCrosshairSpec;
     if (xField && xField.visible) {
       this.xHair = this._parseField(xField, 'xField');
     }
@@ -613,7 +613,7 @@ export class CartesianCrossHair extends BaseCrossHair {
       callback(label);
       container.add(label as unknown as INode);
     }
-    limitTagInBounds(label, this.getLimitBounds());
+    limitTagInBounds(label, this._getLimitBounds());
   }
 
   clear() {
