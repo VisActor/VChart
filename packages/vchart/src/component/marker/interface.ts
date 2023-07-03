@@ -1,5 +1,5 @@
-import type { IPadding, IPointLike } from '@dp/vis-util';
-import type { SymbolType } from '@dp/canopus';
+import type { IPadding, IPointLike } from '@visactor/vutils';
+import type { SymbolType } from '@visactor/vrender';
 import type { IModelSpec } from '../../model/interface';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 
