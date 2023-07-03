@@ -12,7 +12,7 @@ import type {
 // eslint-disable-next-line no-duplicate-imports
 import { GrammarType } from './interface';
 import { toRenderMode } from './util';
-import { isMobileLikeMode, isString } from '../util';
+import { isMobileLikeMode, isString, isTrueBrowser } from '../util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isNil, isValid } from '@visactor/vutils';
@@ -274,7 +274,8 @@ export class Compiler {
         callback.call(null, params);
       }.bind(this);
       this._windowListeners.set(callback, { type, callback: wrappedCallback });
-      this.getStage()?.window?.addEventListener(type, wrappedCallback);
+      const windowObject = isTrueBrowser(this._option.mode) ? globalThis : this.getStage()?.window;
+      windowObject?.addEventListener(type, wrappedCallback);
     }
   }
 

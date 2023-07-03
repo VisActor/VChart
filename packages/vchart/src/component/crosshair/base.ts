@@ -71,7 +71,7 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
     return this.triggerOff === 'none';
   }
 
-  protected crosshairConfig: ICartesianCrosshairSpec | IPolarCrosshairSpec;
+  protected _crosshairConfig: ICartesianCrosshairSpec | IPolarCrosshairSpec;
   private _limitBounds: Maybe<IBoundsLike>;
 
   constructor(spec: ICartesianCrosshairSpec | IPolarCrosshairSpec, options: IComponentOption) {
@@ -83,12 +83,12 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
     this.showDefault = true;
   }
 
-  protected abstract showDefaultCrosshair(): void;
-  protected abstract layoutCrosshair(x: number, y: number): void;
-  protected abstract parseFieldInfo(): void;
-  protected abstract hide(): void;
+  protected abstract _showDefaultCrosshair(): void;
+  protected abstract _layoutCrosshair(x: number, y: number): void;
+  protected abstract _parseFieldInfo(): void;
+  protected abstract _hide(): void;
 
-  protected getLimitBounds() {
+  protected _getLimitBounds() {
     if (!this._limitBounds) {
       const { width, height } = this._option.globalInstance.getChart()?.getCanvasRect() ?? {
         width: 0,
@@ -106,14 +106,14 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
-    this.crosshairConfig = this._spec;
-    this.parseCrosshairSpec();
+    this._crosshairConfig = this._spec;
+    this._parseCrosshairSpec();
   }
 
   created() {
     super.created();
     // event
-    this.initEvent();
+    this._initEvent();
   }
 
   /**
@@ -126,8 +126,8 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
     return result;
   }
 
-  protected initEvent() {
-    const { in: triggerEvent, out: outTriggerEvent } = this.getTriggerEvent();
+  protected _initEvent() {
+    const { in: triggerEvent, out: outTriggerEvent } = this._getTriggerEvent();
     if (isArray(triggerEvent)) {
       triggerEvent.forEach((eventName, index) =>
         this._registerEvent(eventName, isArray(outTriggerEvent) ? outTriggerEvent[index] : outTriggerEvent)
@@ -138,34 +138,34 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
   }
 
   private _registerEvent(inEventName: EventType, outEventName: EventType) {
-    this.event.on(inEventName, { source: Event_Source_Type.chart }, this.handleEvent);
+    this.event.on(inEventName, { source: Event_Source_Type.chart }, this._handleEvent);
     this.event.on(outEventName, { level: Event_Bubble_Level.chart }, (...arg: any) => {
       if (this.enableRemain) {
         return;
       }
-      this.hide();
+      this._hide();
     });
   }
 
-  private _releaseEvent(eventName: EventType) {
-    this.event.off(eventName, this.handleEvent);
+  private _eventOff(eventName: EventType) {
+    this.event.off(eventName, this._handleEvent);
   }
 
   updateLayoutAttribute() {
     this._limitBounds = null;
-    this.showDefaultCrosshair();
+    this._showDefaultCrosshair();
   }
 
-  private handleEvent = throttle((params: any) => {
+  private _handleEvent = throttle((params: any) => {
     const { event } = params as BaseEventParams;
     const x = (event as any).viewX - this.getLayoutStartPoint().x;
     const y = (event as any).viewY - this.getLayoutStartPoint().y;
     // 索引到datum
     this.showDefault = false;
-    this.layoutCrosshair(x, y);
+    this._layoutCrosshair(x, y);
   }, 10);
 
-  private getTriggerEvent() {
+  private _getTriggerEvent() {
     const { mode = RenderModeEnum['desktop-browser'] } = this._option;
     const trigger = this.trigger || 'hover';
     const outTrigger = (trigger: CrossHairTrigger) => (trigger === 'click' ? 'clickOut' : 'hoverOut');
@@ -246,21 +246,21 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
     // do nothing
   }
 
-  protected releaseEvent(): void {
-    const { in: triggerEvent, out: outTriggerEvent } = this.getTriggerEvent();
+  protected _releaseEvent(): void {
+    const { in: triggerEvent, out: outTriggerEvent } = this._getTriggerEvent();
     if (isArray(triggerEvent)) {
-      triggerEvent.forEach(eachTriggerEvent => this._releaseEvent(eachTriggerEvent));
+      triggerEvent.forEach(eachTriggerEvent => this._eventOff(eachTriggerEvent));
     } else {
-      this._releaseEvent(triggerEvent);
+      this._eventOff(triggerEvent);
     }
     if (isArray(outTriggerEvent)) {
-      outTriggerEvent.forEach(eachTriggerEvent => this._releaseEvent(eachTriggerEvent));
+      outTriggerEvent.forEach(eachTriggerEvent => this._eventOff(eachTriggerEvent));
     } else {
-      this._releaseEvent(outTriggerEvent);
+      this._eventOff(outTriggerEvent);
     }
   }
 
-  protected firstSeries<T>(): T | null {
+  protected _firstSeries<T>(): T | null {
     for (let i = 0; i < this._regions.length; i++) {
       const r = this._regions[i];
       const series = r.getSeries();
@@ -274,10 +274,10 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
     return null;
   }
 
-  protected parseCrosshairSpec() {
-    this.parseFieldInfo();
+  protected _parseCrosshairSpec() {
+    this._parseFieldInfo();
 
-    const { trigger, triggerOff, labelZIndex, gridZIndex } = this.crosshairConfig;
+    const { trigger, triggerOff, labelZIndex, gridZIndex } = this._crosshairConfig;
     if (trigger) {
       this.trigger = trigger;
     }

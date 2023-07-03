@@ -1,10 +1,11 @@
-import type { ITooltipSpec } from '../../interface';
+import type { ITooltipSpec, TooltipHandlerParams } from '../../interface';
 import type {
   IToolTipLinePattern,
   ITooltipPattern,
   ITooltipShapePattern,
   MaybeArray,
   TooltipActiveType,
+  TooltipData,
   TooltipPatternProperty
 } from '../../../../typings';
 import type { ISeries } from '../../../../series/interface';
@@ -154,6 +155,15 @@ export const getTooltipSpecForShow = (
         ...titleShape, // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
         ...userPattern.title
       };
+    } else {
+      const userPatternTitle = userPattern.title;
+      userPattern.title = (data?: TooltipData, params?: TooltipHandlerParams) => {
+        const userResult = userPatternTitle(data, params) ?? {};
+        return {
+          ...titleShape, // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+          ...userResult
+        };
+      };
     }
   } else {
     userPattern.title = {
@@ -178,6 +188,18 @@ export const getTooltipSpecForShow = (
           ...line
         };
       });
+    } else {
+      const userPatternContent = userPattern.content;
+      userPattern.content = (data?: TooltipData, params?: TooltipHandlerParams) => {
+        const userResult = array(userPatternContent(data, params) ?? []);
+        userResult.forEach((line, i) => {
+          userResult[i] = {
+            ...getContentShape(defaultPatternContent[0]), // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+            ...line
+          };
+        });
+        return userResult;
+      };
     }
   } else {
     userPattern.content = defaultPatternContent.map(line => ({
