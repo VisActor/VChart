@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix the default shape config when tooltip pattern has been set to a custom callback",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
