@@ -155,13 +155,13 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
   pager?: IPager;
 
   /**
-   * scaleName 必须是全局 scale 中配置的 scale 的 id
+   * scaleName must match the id of the scale configured in **scales**
    */
   scaleName?: string;
   /**
-   * 当图例与 scale 绑定后，可以通过 field 配置系列数据与图例关联的维度。
-   * 如果不配置 field 默认使用 scale 的 domain 中的 fields 第一项
-   * 如果 scale 的 domain 不是依赖数据统计，则默认使用 series.getSeriesField()
+   * After the legend is bound to the scale, the dimension associated with the series data and the legend can be configured through field.
+   * If the field is not configured, the first item of fields in the domain of scale is used by default
+   * If the domain of the scale is not dependent on data statistics, series.getSeriesField() is used by default
    */
   field?: string;
 } & Omit<DiscreteLegendAttrs, 'layout' | 'title' | 'items' | 'item' | 'pager'>;
