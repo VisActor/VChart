@@ -1,6 +1,6 @@
 import type { IImageGraphicAttribute, IRichTextGraphicAttribute } from '@visactor/vrender';
 import type { IMarkPointItemPosition } from '@visactor/vrender-components';
-import type { ConvertToMarkStyleSpec, ILineMarkSpec, ISymbolMarkSpec } from '../../../../typings';
+import type { ILineMarkSpec, ISymbolMarkSpec } from '../../../../typings';
 import type { IMarkerLabelSpec, IMarkerRef, IMarkerSymbol } from '../../interface';
 
 export interface IItemContent extends IMarkerRef {
@@ -24,7 +24,7 @@ export interface IItemContent extends IMarkerRef {
    * type为symbol时, symbol的样式
    */
   symbol?: {
-    style?: ConvertToMarkStyleSpec<Omit<ISymbolMarkSpec, 'visible'>>;
+    style?: ISymbolMarkSpec;
   };
   /**
    * type为image时, image的样式
@@ -81,7 +81,7 @@ export type IItemLine = {
    * 引导线样式
    */
   line?: {
-    style?: ConvertToMarkStyleSpec<Omit<ILineMarkSpec, 'visible'>>;
+    style?: Omit<ILineMarkSpec, 'visible'>;
   };
 };
 

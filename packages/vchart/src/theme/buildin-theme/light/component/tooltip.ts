@@ -4,7 +4,6 @@ import { THEME_CONSTANTS } from '../constants';
 const fontSize = THEME_CONSTANTS.LABEL_FONT_SIZE;
 
 export const tooltip: ITooltipTheme = {
-  maxWidth: 440,
   offset: {
     x: 10,
     y: 10

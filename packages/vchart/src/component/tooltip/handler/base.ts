@@ -528,7 +528,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
   protected _getStyle(): ITooltipStyle {
     const tooltipSpec = this._component.getSpec();
-    const { style = {}, maxWidth, minWidth, enterable, transitionDuration } = tooltipSpec;
+    const { style = {}, maxWidth, minWidth, enterable, transitionDuration } = tooltipSpec as ITooltipSpec;
 
     const {
       panel: { backgroundColor, border, shadow, padding },

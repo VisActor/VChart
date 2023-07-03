@@ -21,31 +21,31 @@ export interface IDataZoomStyle {
 
   middleHandler?: {
     visible?: boolean;
-    icon?: IMarkSpec<ISymbolMarkSpec>;
+    icon?: ISymbolMarkSpec;
     background?: {
       size?: number;
-    } & IMarkSpec<IRectMarkSpec>;
+    } & IRectMarkSpec;
   };
   background?: {
     size?: number;
-  } & IMarkSpec<IRectMarkSpec>;
-  startHandler?: IMarkSpec<ISymbolMarkSpec>;
-  endHandler?: IMarkSpec<ISymbolMarkSpec>;
+  } & IRectMarkSpec;
+  startHandler?: ISymbolMarkSpec;
+  endHandler?: ISymbolMarkSpec;
   startText?: {
     padding?: number;
-  } & IMarkSpec<ITextMarkSpec>;
+  } & ITextMarkSpec;
   endText?: {
     padding?: number;
-  } & IMarkSpec<ITextMarkSpec>;
-  dragMask?: IMarkSpec<IRectMarkSpec>;
-  selectedBackground?: IMarkSpec<IRectMarkSpec>;
+  } & ITextMarkSpec;
+  dragMask?: IRectMarkSpec;
+  selectedBackground?: IRectMarkSpec;
   backgroundChart?: {
-    line?: IMarkSpec<ILineMarkSpec>;
-    area?: IMarkSpec<IAreaMarkSpec>;
+    line?: ILineMarkSpec;
+    area?: IAreaMarkSpec;
   };
   selectedBackgroundChart?: {
-    line?: IMarkSpec<ILineMarkSpec>;
-    area?: IMarkSpec<IAreaMarkSpec>;
+    line?: ILineMarkSpec;
+    area?: IAreaMarkSpec;
   };
 }
 
