@@ -311,8 +311,6 @@ export class CartesianCrossHair extends BaseCrossHair {
               indexWidth = 1;
             }
             x = startX;
-          } else {
-            indexWidth = 1;
           }
         }
         if (this.xHair.label?.visible) {
@@ -352,8 +350,6 @@ export class CartesianCrossHair extends BaseCrossHair {
               valueHeight = 1;
             }
             y = startY;
-          } else {
-            valueHeight = 1;
           }
         }
         if (this.yHair.label?.visible) {
