@@ -1,5 +1,4 @@
 /* eslint-disable no-duplicate-imports */
-import { DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
