@@ -39,7 +39,16 @@ export interface IScatterSeriesSpec
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: ILabelSpec & {
     /** 标签位置 */
-    position?: 'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+    position?:
+      | 'top'
+      | 'bottom'
+      | 'left'
+      | 'right'
+      | 'top-right'
+      | 'top-left'
+      | 'bottom-right'
+      | 'bottom-left'
+      | 'center';
   };
 }
 

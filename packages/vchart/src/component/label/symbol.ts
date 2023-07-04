@@ -1,4 +1,3 @@
-import { merge } from '@visactor/vutils';
 import type { ILabelInfo } from './label';
 import type { Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
@@ -16,18 +15,16 @@ export function symbolLabel(labelInfo: ILabelInfo) {
   if (labelSpec.overlap === false) {
     overlap = false;
   } else {
-    overlap = merge(
-      {},
-      {
-        strategy: labelSpec.overlap?.strategy ?? symbolLabelOverlapStrategy(series as ICartesianSeries)
-      }
-    );
+    overlap = {
+      strategy: labelSpec.overlap?.strategy ?? symbolLabelOverlapStrategy(),
+      avoidBaseMark: position !== 'center'
+    };
   }
 
   return { position, overlap };
 }
 
-function symbolLabelOverlapStrategy(series: ICartesianSeries) {
+function symbolLabelOverlapStrategy() {
   const strategy: Strategy[] = [
     {
       type: 'position',

@@ -1,4 +1,4 @@
-import { isString, merge } from '@visactor/vutils';
+import { isString } from '@visactor/vutils';
 import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
@@ -35,12 +35,9 @@ export function barLabel(labelInfo: ILabelInfo) {
   if (labelSpec.overlap === false) {
     overlap = false;
   } else {
-    overlap = merge(
-      {},
-      {
-        strategy: labelSpec.overlap?.strategy ?? barLabelOverlapStrategy(series as ICartesianSeries)
-      }
-    );
+    overlap = {
+      strategy: labelSpec.overlap?.strategy ?? barLabelOverlapStrategy(series as ICartesianSeries)
+    };
   }
 
   // encode smartInvert
