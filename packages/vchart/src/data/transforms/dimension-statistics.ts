@@ -99,11 +99,7 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
   }
 
   // merge same key
-  const temp: IStatisticsOption['fields'] = [];
-  Object.keys(fields).forEach(k => {
-    mergeFields(temp, fields[k]);
-  });
-  fields = temp;
+  fields = mergeFields([], fields);
 
   const dataKey = op.target === 'parser' ? 'parserData' : 'latestData';
   const latestData = data[0][dataKey] ? data[0][dataKey] : data || [];
