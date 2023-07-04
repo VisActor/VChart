@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: symbol center label not work",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
