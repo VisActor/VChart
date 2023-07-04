@@ -36,7 +36,16 @@ export interface ILineSeriesSpec
   /** 标签配置 */
   label?: ILabelSpec & {
     /** 标签位置 */
-    position?: 'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+    position?:
+      | 'top'
+      | 'bottom'
+      | 'left'
+      | 'right'
+      | 'top-right'
+      | 'top-left'
+      | 'bottom-right'
+      | 'bottom-left'
+      | 'center';
   };
 }
 
