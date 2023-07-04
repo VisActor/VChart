@@ -17,6 +17,7 @@ import type { IStateAnimateSpec } from '../../../animation/spec';
 import { BaseSeries } from '../../base/base-series';
 import { VChart } from '../../../core/vchart';
 import { RectMark } from '../../../mark/rect';
+import { createRect } from '@visactor/vrender';
 
 VChart.useMark([RectMark]);
 
@@ -45,6 +46,10 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
    * 为了解决在配置tooltip时，trackMark设置为GroupMark无法绑定数据的问题，
    * 1. 原本的设置为groupMark的trackMark更名为GroupMark。用来保证在clip效果下progressMark小数据值的绘图效果。
    * 1. 增加一层设置为rectMark的trackMark，形状大小与GroupMark相同
+   *
+   * 为了解决成组
+   * 给groupMark的path字段赋值为一个rect数组 也就是一个groupMark具有多个以背景条为轮廓的rect的path
+   * trackMark与progressMark使用绝对定位
    */
   initMark(): void {
     this.initProgressGroupMark();
@@ -74,7 +79,13 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
         const rightPadding = this._spec.progress?.rightPadding ?? 0;
 
         this.setMarkStyle(progressMark, {
-          x: leftPadding,
+          x: (datum: Datum) => {
+            return (
+              valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
+              this._spec.bandWidth / 2 +
+              leftPadding
+            );
+          },
           y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)),
           height: () => this._yAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition }),
           width: this._spec.bandWidth - leftPadding - rightPadding,
@@ -89,7 +100,13 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
           x: (datum: Datum) =>
             valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
             this._xAxisHelper.dataToPosition([1], { bandPosition: this._bandPosition }),
-          y: topPadding,
+          y: (datum: Datum) => {
+            return (
+              valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
+              this._spec.bandWidth / 2 +
+              topPadding
+            );
+          },
           height: this._spec.bandWidth - topPadding - bottomPadding,
           width: () => this._xAxisHelper?.dataToPosition([1], { bandPosition: this._bandPosition }),
           cornerRadius: this._spec.cornerRadius,
@@ -113,7 +130,12 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
     if (trackMark) {
       if (this._spec.direction === 'vertical') {
         this.setMarkStyle(trackMark, {
-          x: 0,
+          x: (datum: any) => {
+            return (
+              valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
+              this._spec.bandWidth / 2
+            );
+          },
           y: 0,
           width: this._spec.bandWidth,
           height: () => this._scaleY.range()[0],
@@ -123,7 +145,12 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
       } else {
         this.setMarkStyle(trackMark, {
           x: 0,
-          y: 0,
+          y: (datum: any) => {
+            return (
+              valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
+              this._spec.bandWidth / 2
+            );
+          },
           height: this._spec.bandWidth,
           width: () => this._scaleX.range()[1],
           cornerRadius: this._spec.cornerRadius,
@@ -142,46 +169,59 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
 
   private initProgressGroupMarkStyle() {
     const groupMark = this._progressGroupMark;
-    if (groupMark) {
-      const datum = this._rawData?.rawData[0];
-      groupMark.setZIndex(this.layoutZIndex);
-      groupMark.created();
-      if (this._spec.direction === 'vertical') {
-        this.setMarkStyle(
-          groupMark,
-          {
-            x: () =>
-              valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
-              this._spec.bandWidth / 2,
-            y: 0,
-            height: () => this._scaleY.range()[0],
-            width: this._spec.bandWidth,
-            clip: true,
-            cornerRadius: this._spec.cornerRadius
-          },
-          'normal',
-          AttributeLevel.Series
-        );
-      } else {
-        this.setMarkStyle(
-          groupMark,
-          {
-            x: 0,
-            y: () =>
-              valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
-              this._spec.bandWidth / 2,
-            height: this._spec.bandWidth,
-            width: () => this._scaleX.range()[1],
-            clip: true,
-            cornerRadius: this._spec.cornerRadius
-          },
-          'normal',
-          AttributeLevel.Series
-        );
-      }
+    groupMark.setZIndex(this.layoutZIndex);
+    groupMark.created();
 
-      this._progressGroupMark.setInteractive(false);
-    }
+    this.setMarkStyle(
+      groupMark,
+      {
+        clip: true,
+        x: 0,
+        y: 0,
+        path: () => {
+          const rectPaths: any[] = [];
+          this._rawData?.rawData.forEach((datum: any, index: number) => {
+            if (this._spec.direction === 'vertical') {
+              const x =
+                valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
+                this._spec.bandWidth / 2;
+              const height = this._scaleY.range()[0];
+
+              rectPaths.push(
+                createRect({
+                  x: x,
+                  y: 0,
+                  height: height,
+                  width: this._spec.bandWidth,
+                  cornerRadius: this._spec.cornerRadius,
+                  fill: true
+                })
+              );
+            } else {
+              const y =
+                valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
+                this._spec.bandWidth / 2;
+              const width = this._scaleX.range()[1];
+
+              rectPaths.push(
+                createRect({
+                  x: 0,
+                  y: y,
+                  height: this._spec.bandWidth,
+                  width: width,
+                  cornerRadius: this._spec.cornerRadius,
+                  fill: true
+                })
+              );
+            }
+          });
+          return rectPaths;
+        }
+      },
+      'normal',
+      AttributeLevel.Series
+    );
+    this._progressGroupMark.setInteractive(false);
   }
 
   initAnimation() {
