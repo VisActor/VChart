@@ -106,7 +106,12 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
     IFieldsMeta
   >;
   fields.forEach(f => {
-    result[f.key] = {};
+    // NOTE: fields 中可能存在相同的 key
+    // 比如折线图的 xField 和 yField 相同，但是 x 轴默认是 band 进行 values 统计，y 轴是 linear 进行 min max 统计，
+    // 如果直接赋空对象则会将上一次的计算删除了
+    result[f.key] = {
+      ...result[f.key]
+    };
     const dataFiledInKey = dataFields?.[f.key];
     // default value
     f.operations.forEach(op => {
