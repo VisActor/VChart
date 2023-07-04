@@ -96,7 +96,7 @@ export const DEFAULT_MARK_ANIMATION: Record<string, (params?: any, preset?: any)
           channel: ['points'],
           custom: TagPointsUpdate,
           duration: DEFAULT_ANIMATION_CONFIG.update.duration,
-          easing: 'quartOut'
+          easing: DEFAULT_ANIMATION_CONFIG.update.easing
         }
       ],
       disappear: { type: 'clipOut' }

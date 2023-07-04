@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: line mark has a different easing in update animation causes strange animation effect",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
