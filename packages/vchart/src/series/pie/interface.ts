@@ -1,4 +1,5 @@
 import type { IAnimationSpec } from '../../animation/spec';
+import type { ThemeType } from '../../theme';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IArcMarkSpec, ITextMarkSpec, TextAlign, IPathMarkSpec, IArc3dMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface';
@@ -60,7 +61,7 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
   [SeriesMarkNameEnum.label]?: IArcLabelSpec;
 }
 
-export interface IPieSeriesTheme extends IPolarSeriesTheme {
+export interface IPieSeriesTheme extends IPolarSeriesTheme, ThemeType<IPieSeriesSpec> {
   [SeriesMarkNameEnum.pie]?: Partial<IMarkTheme<IArcMarkSpec>>;
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: IArcLabelSpec;
@@ -72,7 +73,7 @@ export type IPie3dSeriesSpec = {
   angle3d?: number;
 } & Omit<IPieSeriesSpec, 'type'>;
 
-export interface IPie3dSeriesTheme extends IPolarSeriesTheme {
+export interface IPie3dSeriesTheme extends IPolarSeriesTheme, ThemeType<IPie3dSeriesSpec> {
   [SeriesMarkNameEnum.pie3d]?: Partial<IMarkTheme<IArc3dMarkSpec>>;
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: IArcLabelSpec;

@@ -41,7 +41,6 @@ export interface ISeriesTheme {
   [SeriesTypeEnum.wordCloud3d]?: IWordCloud3dSeriesTheme;
   [SeriesTypeEnum.funnel]?: IFunnelSeriesTheme;
   [SeriesTypeEnum.funnel3d]?: IFunnel3dSeriesTheme;
-  [SeriesTypeEnum.wordCloud]?: IWordCloudSeriesTheme;
   [SeriesTypeEnum.linearProgress]?: ILinearProgressSeriesTheme;
   [SeriesTypeEnum.waterfall]?: IWaterfallSeriesTheme;
   [SeriesTypeEnum.boxPlot]?: IBoxPlotSeriesTheme;

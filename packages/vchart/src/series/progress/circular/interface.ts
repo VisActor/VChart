@@ -5,6 +5,7 @@ import type { ProgressLikeAppearPreset } from '../../polar/progress-like/animati
 import type { IProgressSeriesSpec } from '../interface';
 import type { IProgressLikeSeriesSpec, IProgressLikeSeriesTheme } from '../../polar/progress-like/interface';
 import type { SeriesMarkNameEnum } from '../../interface';
+import type { ThemeType } from '../../../theme';
 
 export type CircularProgressMarks = 'progress' | 'track';
 
@@ -29,7 +30,7 @@ export interface ICircularProgressSeriesSpec
   [SeriesMarkNameEnum.track]?: IMarkSpec<IProgressArcMarkSpec>;
 }
 
-export interface ICircularProgressSeriesTheme extends IProgressLikeSeriesTheme {
+export interface ICircularProgressSeriesTheme extends IProgressLikeSeriesTheme, ThemeType<ICircularProgressSeriesSpec> {
   [SeriesMarkNameEnum.progress]?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
   [SeriesMarkNameEnum.track]?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
 }

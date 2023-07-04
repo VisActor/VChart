@@ -6,6 +6,7 @@ import type { BarAppearPreset } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 type BarMarks = 'bar';
 
@@ -50,7 +51,7 @@ export interface IBarSeriesSpec
   barMaxWidth?: number;
 }
 
-export interface IBarSeriesTheme extends ICartesianSeriesTheme {
+export interface IBarSeriesTheme extends ICartesianSeriesTheme, ThemeType<IBarSeriesSpec> {
   [SeriesMarkNameEnum.bar]?: Partial<IMarkTheme<IRectMarkSpec>>;
   /**
    * 柱体宽度
@@ -72,6 +73,6 @@ export type IBar3dSeriesSpec = {
   ICartesianSeriesSpec &
   IAnimationSpec<BarMarks, BarAppearPreset>;
 
-export interface IBar3dSeriesTheme extends ICartesianSeriesTheme {
+export interface IBar3dSeriesTheme extends ICartesianSeriesTheme, ThemeType<IBar3dSeriesSpec> {
   [SeriesMarkNameEnum.bar3d]?: Partial<IMarkTheme<IRect3dMarkSpec>>;
 }

@@ -6,6 +6,7 @@ import type { HeatmapAppearPreset } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 type HeatmapMarks = 'cell' | 'background' | 'label';
 
@@ -34,7 +35,7 @@ export interface IHeatmapSeriesSpec
   };
 }
 
-export interface IHeatmapSeriesTheme extends ICartesianSeriesTheme {
+export interface IHeatmapSeriesTheme extends ICartesianSeriesTheme, ThemeType<IHeatmapSeriesSpec> {
   [SeriesMarkNameEnum.cell]?: Partial<IMarkTheme<IRectMarkSpec>>;
   [SeriesMarkNameEnum.cellBackground]?: Partial<IMarkTheme<IRectMarkSpec>>;
 }

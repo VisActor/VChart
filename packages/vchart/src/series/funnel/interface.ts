@@ -13,6 +13,7 @@ import type {
 import type { IPercent } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 type FunnelMarks = 'funnel';
 
@@ -130,7 +131,7 @@ export interface IFunnelOuterLabelSpec extends IFunnelLabelSpec {
   line?: IMarkSpec<IRuleMarkSpec>;
 }
 
-export interface IFunnelSeriesTheme {
+export interface IFunnelSeriesTheme extends ThemeType<IFunnelSeriesSpec> {
   [SeriesMarkNameEnum.funnel]?: Partial<IMarkTheme<IPolygonMarkSpec>>;
   [SeriesMarkNameEnum.transform]?: Partial<IMarkTheme<IPolygonMarkSpec>>;
   [SeriesMarkNameEnum.label]?: Partial<IMarkTheme<ITextMarkSpec>>;
@@ -144,7 +145,7 @@ export type IFunnel3dSeriesSpec = {
   type: 'funnel3d';
 } & Omit<IFunnelSeriesSpec, 'type'>;
 
-export interface IFunnel3dSeriesTheme {
+export interface IFunnel3dSeriesTheme extends ThemeType<IFunnel3dSeriesSpec> {
   [SeriesMarkNameEnum.funnel3d]?: Partial<IMarkTheme<IPyramid3dMarkSpec>>;
   [SeriesMarkNameEnum.transform3d]?: Partial<IMarkTheme<IPyramid3dMarkSpec>>;
   [SeriesMarkNameEnum.label]?: Partial<IMarkTheme<ITextMarkSpec>>;

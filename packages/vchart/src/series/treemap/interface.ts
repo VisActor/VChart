@@ -5,6 +5,7 @@ import type { ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { TreemapAppearPreset, TreemapMark } from './animation';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 export interface ITreemapSeriesSpec
   extends Omit<ISeriesSpec, 'data'>,
@@ -111,7 +112,7 @@ export interface ITreemapSeriesSpec
   };
 }
 
-export interface ITreemapSeriesTheme extends ICartesianSeriesTheme {
+export interface ITreemapSeriesTheme extends ICartesianSeriesTheme, ThemeType<ITreemapSeriesSpec> {
   gapWidth?: TreemapOptions['padding'];
   nodePadding?: TreemapOptions['padding'];
   [SeriesMarkNameEnum.leaf]?: Partial<IMarkTheme<IRectMarkSpec>>;

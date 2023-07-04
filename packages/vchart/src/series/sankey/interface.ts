@@ -4,6 +4,7 @@ import type { IRectMarkSpec, ITextMarkSpec, ILinkPathMarkSpec } from '../../typi
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SankeyAppearPreset, SankeyMark } from './animation';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimationSpec<SankeyMark, SankeyAppearPreset> {
   type: 'sankey';
@@ -189,7 +190,7 @@ export type SankeyLayoutResult = {
   columns: SankeyNodeElement[][];
 }[];
 
-export interface ISankeySeriesTheme {
+export interface ISankeySeriesTheme extends ThemeType<ISankeySeriesSpec> {
   [SeriesMarkNameEnum.node]?: IMarkTheme<IRectMarkSpec>;
   [SeriesMarkNameEnum.link]?: IMarkTheme<ILinkPathMarkSpec>;
 }

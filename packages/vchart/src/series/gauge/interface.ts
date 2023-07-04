@@ -4,6 +4,7 @@ import type { IProgressLikeSeriesSpec, IProgressLikeSeriesTheme } from '../polar
 import type { IAnimationSpec } from '../../animation/spec';
 import type { ProgressLikeAppearPreset } from '../polar/progress-like';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 export type GaugePointerMarks = 'pointer' | 'pin' | 'pinBackground';
 
@@ -49,7 +50,7 @@ export type PinMarkSpec = {
   height?: number;
 };
 
-export interface IGaugePointerSeriesTheme extends IProgressLikeSeriesTheme {
+export interface IGaugePointerSeriesTheme extends IProgressLikeSeriesTheme, ThemeType<IGaugePointerSeriesSpec> {
   /** 图钉前景样式 */
   [SeriesMarkNameEnum.pin]?: Partial<IMarkTheme<IPathMarkSpec> & PinMarkSpec>;
   /** 图钉背景样式 */
@@ -74,7 +75,7 @@ export interface IGaugeSeriesSpec
   [SeriesMarkNameEnum.track]?: IMarkSpec<IArcMarkSpec>;
 }
 
-export interface IGaugeSeriesTheme extends IProgressLikeSeriesTheme {
+export interface IGaugeSeriesTheme extends IProgressLikeSeriesTheme, ThemeType<IGaugeSeriesSpec> {
   /** 扇区间隔角度 */
   padAngle?: number;
 

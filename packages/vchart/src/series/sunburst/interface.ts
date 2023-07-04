@@ -5,6 +5,7 @@ import type { SunburstAppearPreset, SunburstMark } from './animation';
 import type { IArcMarkSpec, ITextMarkSpec } from '../../typings';
 import type { IPolarSeriesTheme } from '../polar/interface';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 export interface ISunburstSeriesSpec
   extends Omit<ISeriesSpec, 'data'>,
@@ -116,7 +117,9 @@ export interface ISunburstSeriesSpec
   [SeriesMarkNameEnum.sunburst]?: IMarkSpec<IArcMarkSpec>;
 }
 
-export interface ISunburstSeriesTheme extends Omit<IPolarSeriesTheme, 'label' | 'innerRadius' | 'outerRadius'> {
+export interface ISunburstSeriesTheme
+  extends Omit<IPolarSeriesTheme, 'label' | 'innerRadius' | 'outerRadius'>,
+    ThemeType<ISunburstSeriesSpec> {
   startAngle?: number;
   endAngle?: number;
   innerRadius?: number | number[];

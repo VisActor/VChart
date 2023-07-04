@@ -4,6 +4,7 @@ import type { ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { DataView } from '@visactor/vdataset';
 import type { IDotSeriesSpec } from '../dot/interface';
+import type { ThemeType } from '../../theme';
 
 export interface ILinkSeriesSpec extends ICartesianSeriesSpec, ILinkSeriesSpecFromDot {
   /**
@@ -62,7 +63,7 @@ type ILinkSeriesSpecFromDot = {
   clipHeight?: number;
 };
 
-export interface ILinkSeriesTheme extends ICartesianSeriesTheme {
+export interface ILinkSeriesTheme extends ICartesianSeriesTheme, ThemeType<ILinkSeriesSpec> {
   [SeriesMarkNameEnum.link]?: Partial<IMarkTheme<ILineMarkSpec>>;
   [SeriesMarkNameEnum.arrow]?: Partial<IMarkTheme<ISymbolMarkSpec>>;
 }

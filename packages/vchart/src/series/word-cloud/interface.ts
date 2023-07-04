@@ -1,6 +1,7 @@
 import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, IChartPadding } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 export enum WordCloudShapeEnum {
   triangleForward = 'triangleForward', // 右箭头
@@ -290,7 +291,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
 export interface IWordCloudSeriesSpec extends IWordCloudSeriesBaseSpec {
   type: 'wordCloud';
 }
-export interface IWordCloudSeriesTheme {
+export interface IWordCloudSeriesTheme extends ThemeType<IWordCloudSeriesSpec> {
   [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
     formatMethod?: (text: string | string[], datum?: any) => string | string[];
@@ -307,7 +308,7 @@ export interface IWordCloud3dSeriesSpec extends IWordCloudSeriesBaseSpec {
   postProjection?: 'StereographicProjection'; // 词云投影的算法
 }
 
-export interface IWordCloud3dSeriesTheme {
+export interface IWordCloud3dSeriesTheme extends ThemeType<IWordCloud3dSeriesSpec> {
   [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
     formatMethod?: (text: string | string[], datum?: any) => string | string[];

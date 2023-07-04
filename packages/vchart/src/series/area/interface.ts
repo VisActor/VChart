@@ -1,11 +1,12 @@
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { ISymbolMarkSpec, ILineMarkSpec, IAreaMarkSpec } from '../../typings/visual';
-import type { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface';
 import type { ILineLikeSeriesTheme } from '../mixin/line-mixin';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AreaAppearPreset } from './animation';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { ThemeType } from '../../theme';
 
 export interface IAreaSeriesSpec
   extends ICartesianSeriesSpec,
@@ -29,6 +30,6 @@ export interface IAreaSeriesSpec
   [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
 }
 
-export interface IAreaSeriesTheme extends ICartesianSeriesTheme, ILineLikeSeriesTheme {
+export interface IAreaSeriesTheme extends ICartesianSeriesTheme, ILineLikeSeriesTheme, ThemeType<IAreaSeriesSpec> {
   [SeriesMarkNameEnum.area]?: Partial<IMarkTheme<IAreaMarkSpec>>;
 }

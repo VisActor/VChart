@@ -6,6 +6,7 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { RangeColumnAppearPreset } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 export enum PositionEnum {
   middle = 'middle',
@@ -81,7 +82,7 @@ export interface IRangeColumnSeriesSpec
   };
 }
 
-export interface IRangeColumnSeriesTheme extends ICartesianSeriesTheme {
+export interface IRangeColumnSeriesTheme extends ICartesianSeriesTheme, ThemeType<IRangeColumnSeriesSpec> {
   [SeriesMarkNameEnum.bar]?: Partial<IMarkTheme<IRectMarkSpec>>;
   [SeriesMarkNameEnum.label]?: Partial<ILabelSpec> & {
     [SeriesMarkNameEnum.minLabel]?: Partial<IMarkTheme<ITextMarkSpec> & { position?: keyof typeof minMaxPositionEnum }>;

@@ -1,4 +1,4 @@
-import type { IMarkSpec, IMarkTheme, ISeriesSpec } from '../..';
+import type { IMarkSpec, IMarkTheme, ISeriesSpec, ThemeType } from '../..';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { IArcMarkSpec, ITextMarkSpec } from '../../typings';
 import type { SeriesMarkNameEnum } from '../interface';
@@ -54,7 +54,9 @@ export interface ICirclePackingSeriesSpec
   drillField?: string;
 }
 
-export interface ICirclePackingSeriesTheme extends Omit<IPolarSeriesTheme, 'label'> {
+export interface ICirclePackingSeriesTheme
+  extends Omit<IPolarSeriesTheme, 'label'>,
+    ThemeType<ICirclePackingSeriesSpec> {
   layoutPadding?: number | number[];
   [SeriesMarkNameEnum.label]?: IMarkTheme<ITextMarkSpec>;
   [SeriesMarkNameEnum.circlePacking]?: IMarkTheme<IArcMarkSpec>;

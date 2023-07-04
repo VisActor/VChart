@@ -91,3 +91,5 @@ export interface IThemeConstants {
   TITLE_FONT_SIZE: number;
   AXIS_TICK_SIZE: number;
 }
+
+export type ThemeType<T extends { type: string }> = Pick<T, 'type'>;

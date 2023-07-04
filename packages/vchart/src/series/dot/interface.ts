@@ -2,6 +2,7 @@ import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/i
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { ISymbolMarkSpec, IRuleMarkSpec, ITextMarkSpec, ConvertToMarkStyleSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 interface ISequenceLabel {
   visible?: boolean;
@@ -88,7 +89,7 @@ export interface IDotSeriesSpec extends ICartesianSeriesSpec {
   clipHeight?: number;
 }
 
-export interface IDotSeriesTheme extends ICartesianSeriesTheme {
+export interface IDotSeriesTheme extends ICartesianSeriesTheme, ThemeType<IDotSeriesSpec> {
   [SeriesMarkNameEnum.dot]?: Partial<IMarkTheme<ISymbolMarkSpec>>;
   [SeriesMarkNameEnum.symbol]?: Partial<IMarkTheme<ISymbolMarkSpec>>;
   [SeriesMarkNameEnum.title]?: ISequenceLabel;

@@ -4,6 +4,7 @@ import type { WaterfallAppearPreset } from './animation';
 import type { IBarSeriesSpec, IBarSeriesTheme } from '../bar/interface';
 import type { ILabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 type WaterfallMarks = 'bar';
 
@@ -80,7 +81,7 @@ export interface IWaterfallSeriesSpec
   };
 }
 
-export interface IWaterfallSeriesTheme extends IBarSeriesTheme {
+export interface IWaterfallSeriesTheme extends Omit<IBarSeriesTheme, 'type'>, ThemeType<IWaterfallSeriesSpec> {
   seriesFieldName: {
     total: string;
     increase: string;

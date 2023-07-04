@@ -1,4 +1,5 @@
 import type { IAnimationSpec } from '../../animation/spec';
+import type { ThemeType } from '../../theme';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec';
 import type { IArcMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface';
@@ -21,6 +22,6 @@ export interface IRoseSeriesSpec extends IRoseLikeSeriesSpec, IAnimationSpec<Ros
   [SeriesMarkNameEnum.rose]?: IMarkSpec<IArcMarkSpec>;
 }
 
-export interface IRoseSeriesTheme extends IRoseLikeSeriesTheme {
+export interface IRoseSeriesTheme extends IRoseLikeSeriesTheme, ThemeType<IRoseSeriesSpec> {
   [SeriesMarkNameEnum.rose]?: Partial<IMarkTheme<IArcMarkSpec>>;
 }

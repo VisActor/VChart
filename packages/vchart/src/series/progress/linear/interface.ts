@@ -1,4 +1,5 @@
 import type { IAnimationSpec } from '../../../animation/spec';
+import type { ThemeType } from '../../../theme';
 import type { DirectionType } from '../../../typings';
 import type { IMarkSpec, IMarkTheme } from '../../../typings/spec/common';
 import type { IRectMarkSpec } from '../../../typings/visual';
@@ -53,7 +54,7 @@ export interface ILinearProgressSeriesSpec
   [SeriesMarkNameEnum.track]?: IMarkSpec<IRectMarkSpec>;
 }
 
-export interface ILinearProgressSeriesTheme {
+export interface ILinearProgressSeriesTheme extends ThemeType<ILinearProgressSeriesSpec> {
   bandWidth?: number;
   [SeriesMarkNameEnum.progress]?: Partial<IMarkTheme<IRectMarkSpec>>;
   [SeriesMarkNameEnum.track]?: Partial<IMarkTheme<IRectMarkSpec>>;

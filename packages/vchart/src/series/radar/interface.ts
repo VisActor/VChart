@@ -1,5 +1,6 @@
 import type { IAnimationSpec } from '../../animation/spec';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { ThemeType } from '../../theme';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IAreaMarkSpec, ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface';
@@ -29,6 +30,6 @@ export interface IRadarSeriesSpec
   [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
 }
 
-export interface IRadarSeriesTheme extends IRoseLikeSeriesTheme, ILineLikeSeriesTheme {
+export interface IRadarSeriesTheme extends IRoseLikeSeriesTheme, ILineLikeSeriesTheme, ThemeType<IRadarSeriesSpec> {
   [SeriesMarkNameEnum.area]?: Partial<IMarkTheme<IAreaMarkSpec>>;
 }

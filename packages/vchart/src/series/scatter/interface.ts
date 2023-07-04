@@ -6,6 +6,7 @@ import type { ScatterAppearPreset, ScatterMarks } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ThemeType } from '../../theme';
 
 export interface IScatterSeriesSpec
   extends ICartesianSeriesSpec,
@@ -52,7 +53,7 @@ export interface IScatterSeriesSpec
   };
 }
 
-export interface IScatterSeriesTheme extends ICartesianSeriesTheme {
+export interface IScatterSeriesTheme extends ICartesianSeriesTheme, ThemeType<IScatterSeriesSpec> {
   size?: number;
   shape?: ShapeType;
   [SeriesMarkNameEnum.point]?: Partial<IMarkTheme<ISymbolMarkSpec>>;

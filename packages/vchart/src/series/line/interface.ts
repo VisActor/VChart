@@ -7,6 +7,7 @@ import type { LineAppearPreset } from './animation';
 import type { ILineLikeSeriesTheme } from '../mixin/line-mixin';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { ThemeType } from '../../theme';
 
 type LineMarks = 'point' | 'line';
 
@@ -49,6 +50,9 @@ export interface ILineSeriesSpec
   };
 }
 
-export interface ILineSeriesTheme extends Omit<ICartesianSeriesTheme, 'label'>, ILineLikeSeriesTheme {
+export interface ILineSeriesTheme
+  extends Omit<ICartesianSeriesTheme, 'label'>,
+    ILineLikeSeriesTheme,
+    ThemeType<ILineSeriesSpec> {
   label?: Partial<ILineSeriesSpec['label']>;
 }

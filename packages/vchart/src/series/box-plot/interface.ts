@@ -1,4 +1,4 @@
-import type { IMarkSpec, IMarkTheme } from '../..';
+import type { IMarkSpec, IMarkTheme, ThemeType } from '../..';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { DirectionType, IBoxPlotMarkSpec, IOutlierMarkSpec } from '../../typings';
@@ -58,6 +58,6 @@ export interface IBoxPlotSeriesSpec
   outliersStyle?: IOutlierMarkSpec;
 }
 
-export interface IBoxPlotSeriesTheme extends ICartesianSeriesTheme {
+export interface IBoxPlotSeriesTheme extends ICartesianSeriesTheme, ThemeType<IBoxPlotSeriesSpec> {
   [SeriesMarkNameEnum.boxPlot]?: Partial<IMarkTheme<IBoxPlotMarkSpec>>;
 }
