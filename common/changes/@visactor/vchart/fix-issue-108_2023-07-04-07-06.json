@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the bug in line chart when the xField and yField fields are the same, fixed#108",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
