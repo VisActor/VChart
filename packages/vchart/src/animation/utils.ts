@@ -1,11 +1,12 @@
 import { merge } from '../util';
-import type { IElement, IAnimationTypeConfig, IStateAnimationConfig, IAnimationConfig } from '@visactor/vgrammar';
+import type { IAnimationConfig } from '@visactor/vgrammar';
+import type { IElement, IAnimationTypeConfig, IStateAnimationConfig, IAnimationTimeline } from '@visactor/vgrammar';
 import type { MarkAnimationSpec, IAnimationState } from './interface';
 import type { IStateAnimateSpec, IAnimationSpec, IMorphSeriesSpec } from './spec';
 import { isFunction, isValidNumber } from '../util/type';
 import { DEFAULT_DATA_INDEX } from '../constant';
 import { DEFAULT_ANIMATION_CONFIG } from './config';
-import { isArray } from '@visactor/vutils';
+import { isArray, isValid } from '@visactor/vutils';
 import type { SeriesMarkNameEnum } from '../series/interface';
 
 export const AnimationStates = ['appear', 'enter', 'update', 'exit', 'disappear', 'normal'];
@@ -51,15 +52,24 @@ export function animationConfig<Preset extends string>(
     }
 
     // 开始处理用户配置的动画逻辑
-    let stateConfig: IAnimationTypeConfig[];
+    let stateConfig: IAnimationConfig[];
 
     if (isArray(userConfig[state])) {
       stateConfig = userConfig[state];
     } else {
-      stateConfig = [merge({}, defaultStateConfig[0], userConfig[state])];
-      if (stateConfig[0].oneByOne) {
-        stateConfig[0] = produceOneByOne(stateConfig[0], params?.dataIndex ?? defaultDataIndex);
+      let singleConfig: IAnimationConfig = merge({}, defaultStateConfig[0], userConfig[state]) as IAnimationConfig;
+
+      if (isChannelAnimation(singleConfig)) {
+        // `type` and `channel` is conflict, and `type` has a higher priority.
+        // here if user configured `channel`, we should remove `type` which will come from default animation config
+        delete (singleConfig as IAnimationTypeConfig).type;
       }
+
+      if (singleConfig.oneByOne) {
+        singleConfig = produceOneByOne(singleConfig as IAnimationTypeConfig, params?.dataIndex ?? defaultDataIndex);
+      }
+
+      stateConfig = [singleConfig];
     }
 
     config[state] = stateConfig;
@@ -129,4 +139,12 @@ export function shouldDoMorph(
   }
 
   return true;
+}
+
+export function isTimeLineAnimation(animationConfig: IAnimationConfig) {
+  return isValid((animationConfig as IAnimationTimeline).timeSlices);
+}
+
+export function isChannelAnimation(animationConfig: IAnimationConfig) {
+  return !isTimeLineAnimation(animationConfig) && isValid((animationConfig as IAnimationTypeConfig).channel);
 }
