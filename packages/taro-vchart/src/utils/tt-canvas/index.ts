@@ -1,3 +1,4 @@
+// @ts-ignore
 import VChart from '@visactor/vchart/build';
 import { IEvent, IOptions, IVChart, IChartProps, IDomRef } from '../../typings';
 
@@ -120,10 +121,6 @@ export class TTCanvas implements ITTCanvas {
   }
 
   release() {
-    /**
-     * 修复各种内存泄漏问题
-     */
-
     if (!this.chartInstance) return;
     // 释放: 图表
     this.chartInstance.release();

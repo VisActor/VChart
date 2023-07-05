@@ -15,11 +15,8 @@ VChart 基于 [Taro](https://docs.taro.zone/docs/) 封装的图表组件。
 以上环境通过 `type` 属性进行声明，`type` 属性值及对应环境如下：
 
 - `tt` 字节小程序。
-
 - `lark` 飞书小程序。
-
 - `h5` 浏览器环境, 与`web`等价。
-
 - `web` 浏览器环境, 与`h5`等价。
 
 ### 跨端支持
@@ -40,22 +37,22 @@ VChart 基于 [Taro](https://docs.taro.zone/docs/) 封装的图表组件。
 
 ### 版本要求
 
-**字节小程序端**
+1. **字节小程序端**
 
-需要确保 **Taro 版本 >= 3.3.17**
+需要确保 **Taro 版本 >= 3.3.17** (taro 因为小版本有一些不兼容的 break change，所以尽量使用 3.3 版本)
 
-> taro 因为小版本有一些不兼容的 break change，所以尽量使用 3.3 版本
+2. **飞书小程序端**
 
-**飞书小程序端**
-
-需要确保 **Taro 版本 >= 3.2.0**, **飞书版本 >= 3.45.0**
-
-> taro 因为小版本有一些不兼容的 break change，所以尽量使用 3.3 版本
+需要确保 **Taro 版本 >= 3.2.0**, **飞书版本 >= 3.45.0** (taro 因为小版本有一些不兼容的 break change，所以尽量使用 3.3 版本)
 
 ## 安装
 
-```
-npm install @visactor/taro-vchart
+```bash
+# npm
+$ npm install @visactor/taro-vchart
+
+# yarn
+$ yarn add @visactor/taro-vchart
 ```
 
 ## API
@@ -63,34 +60,56 @@ npm install @visactor/taro-vchart
 图表组件使用示例如下：
 
 ```tsx
-<VCHart
+import VChart from '@visactor/taro-vchart';
+
+<VChart
   type="tt"
   spec={spec}
   canvasId="pie"
   style={{ height: '35vh', width: '100%' }}
   onChartInit={chart => {
-    console.log('init pie');
+    console.log('onChartInit');
   }}
   onChartReady={chart => {
-    console.log('ready pie');
+    console.log('onChartReady');
   }}
   onChartUpdate={chart => {
-    console.log('update pie');
+    console.log('onChartUpdate');
   }}
-/>
+/>;
 ```
 
-| API           | 类型     | 说明                                                                                                    |
-| ------------- | -------- | ------------------------------------------------------------------------------------------------------- |
-| type          | string   | 配置的环境，目前组件支持的环境有：**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web') |
-| canvasId      | String   | 图表 id, 必确唯一                                                                                       |
-| spec          | Object   | 图表配置项, 请参考[VChart 配置项](todo)                                                                 |
-| style         | Object   | 图表容器样式                                                                                            |
-| events        | Object[] | 事件绑定配置                                                                                            |
-| options       | Object   | 初始化 VChart 实例传入的额外配置项，同 [VChart 实例化配置项](todo)                                      |
-| onChartInit   | Function | 图表初始化完后触发的回调                                                                                |
-| onChartReady  | Function | 图表渲染完毕后触发的回调                                                                                |
-| onChartUpdate | Function | 图表更新完毕后触发的回调                                                                                |
+| API           | 类型     | 说明                                                                                                                                                      |
+| ------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type          | String   | 配置的环境，目前组件支持的环境有：**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web') ，如果没有声明，则会通过 `Taro.getEnv()` 自动获取 |
+| canvasId      | String   | 图表 id, 必确唯一                                                                                                                                         |
+| spec          | Object   | 图表配置项, 请参考[VChart 配置项](todo)                                                                                                                   |
+| style         | Object   | 图表容器样式                                                                                                                                              |
+| events        | Object[] | 事件绑定配置，具体配置为定义[如下](#)                                                                                                                     |
+| options       | Object   | 初始化 VChart 实例传入的额外配置项，同 [VChart 实例化配置项](todo)                                                                                        |
+| onChartInit   | Function | 图表初始化完后触发的回调                                                                                                                                  |
+| onChartReady  | Function | 图表渲染完毕后触发的回调                                                                                                                                  |
+| onChartUpdate | Function | 图表更新完毕后触发的回调                                                                                                                                  |
+
+### 事件配置
+
+```ts
+interface IEvent {
+  /**
+   * 事件的名称
+   */
+  type: EventType;
+  /**
+   * 事件 API 中的事件筛选配置
+   */
+  query?: EventQuery;
+  handler: EventCallback<EventParams>;
+}
+```
+
+- `type` 代表事件名称，支持的值详见：[事件分类](todo)
+- `query` 事件 API 中的事件筛选配置，使用详见：[事件过滤](todo)
+- `handler` 即事件监听函数，函数的参数类型详见：[事件参数](todo)
 
 ## 快速上手
 
@@ -173,18 +192,13 @@ export function Pie() {
 
 图表内部, 监听了 `spec` 的变化. 当 spec 变化时, 则会基于新的 `spec` 更新图表。
 
-此外用户也可以使用 VChart 实例提供的渲染接口，进行图表的渲染、更新、销毁操作。
+此外用户也可以使用 VChart 实例提供的渲染接口，进行图表的渲染、更新、销毁操作（可以通过 `onChartInit` 接口, 获取到 VChart 实例）。
 
-> 可以通过 `onChartInit` 接口, 获取到 VChart 实例.
+下面是 VChart 实例上提供的较常用的 API：
 
-#### API
-
-- `chartInstance.renderAsync()` 更新图表
-
+- `chartInstance.renderAsync()` 渲染图表
 - `chartInstance.release()` 销毁图表
-
 - `chartInstance.updateSpec()` 基于 Spec 更新图表
-
 - `chartInstance.updateData()` 基于数据更新图表
 
 详细使用方法请参考:[VChart API](todo)

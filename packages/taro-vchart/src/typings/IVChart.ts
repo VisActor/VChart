@@ -1,3 +1,3 @@
-import { IVChart, ISpec } from '@visactor/vchart/esm';
+import { IVChart, ISpec } from '@visactor/vchart';
 
 export { IVChart, ISpec };
