@@ -3,7 +3,7 @@
     {
       "packageName": "@visactor/taro-vchart",
       "comment": "ready for release",
-      "type": "minor"
+      "type": "patch"
     }
   ],
   "packageName": "@visactor/taro-vchart"
