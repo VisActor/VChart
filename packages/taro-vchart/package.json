@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "description": "Taro VChart 图表组件",
   "sideEffects": false,
-  "type": "module",
   "main": "lib/src/index.js",
   "files": [
     "lib"
   ],
   "scripts": {
-    "build": "rm -rf lib && rollup -c",
+    "build": "rm -rf lib && rollup -c --bundleConfigAsCjs",
     "build:tt": "taro build --type tt",
     "build:lark": "taro build --type lark",
     "build:h5": "taro build --type h5",
