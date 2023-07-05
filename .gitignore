@@ -114,4 +114,6 @@ packages/vchart/mark.d.ts
 packages/vchart/mark.js
 packages/vchart/series.d.ts
 packages/vchart/series.js
+
 packages/taro-vchart/lib/
+packages/lark-vchart/index.js

@@ -98,7 +98,7 @@ Component({
             }
           );
           this.chart = chartInstance;
-          this.triggerEvent('chartinit');
+          this.triggerEvent('chartinit', { chart: chartInstance });
 
           if (this.data.events) {
             this.data.events.forEach(event => {
@@ -107,7 +107,7 @@ Component({
           }
 
           chartInstance.renderAsync().then(res => {
-            this.triggerEvent('chartready');
+            this.triggerEvent('chartready', { chart: chartInstance });
           });
         })
         .exec();
