@@ -274,7 +274,7 @@ export class Compiler {
         callback.call(null, params);
       }.bind(this);
       this._windowListeners.set(callback, { type, callback: wrappedCallback });
-      const windowObject = isTrueBrowser(this._option.mode) ? globalThis : this.getStage()?.window;
+      const windowObject = this._getGlobalThis();
       windowObject?.addEventListener(type, wrappedCallback);
     }
   }
@@ -292,8 +292,9 @@ export class Compiler {
       wrappedCallback && this._view?.removeEventListener(type, wrappedCallback);
       this._viewListeners.delete(callback);
     } else if (source === Event_Source_Type.window) {
+      const windowObject = this._getGlobalThis();
       const wrappedCallback = this._windowListeners.get(callback)?.callback;
-      wrappedCallback && window?.removeEventListener(type, wrappedCallback);
+      wrappedCallback && windowObject?.removeEventListener(type, wrappedCallback);
       this._windowListeners.delete(callback);
     }
   }
@@ -396,5 +397,9 @@ export class Compiler {
       });
     });
     return true;
+  }
+
+  private _getGlobalThis() {
+    return isTrueBrowser(this._option.mode) ? globalThis : this.getStage()?.window;
   }
 }
