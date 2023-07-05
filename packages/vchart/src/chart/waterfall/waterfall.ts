@@ -1,3 +1,4 @@
+import type { IBarChartSpec } from '@visactor/vchart';
 import { array } from '@visactor/vutils';
 import { SeriesTypeEnum } from '../../series/interface';
 import { BarChart } from '../bar';
@@ -14,8 +15,8 @@ export class WaterfallChart extends BarChart {
   readonly type: string = ChartTypeEnum.waterfall;
   readonly seriesType: string = SeriesTypeEnum.waterfall;
 
-  transformSpec(spec: IWaterfallChartSpec): void {
-    super.transformSpec(spec);
+  transformSpec(spec: IWaterfallChartSpec | Omit<IBarChartSpec, 'type'>): void {
+    super.transformSpec(spec as IBarChartSpec);
     if (spec.legends) {
       array(spec.legends).forEach(l => {
         l.select = false;
@@ -24,12 +25,12 @@ export class WaterfallChart extends BarChart {
       });
     }
 
-    setDefaultCrosshairForCartesianChart(spec);
+    setDefaultCrosshairForCartesianChart(spec as IWaterfallChartSpec);
   }
 
-  protected _getDefaultSeriesSpec(spec: IWaterfallChartSpec): any {
+  protected _getDefaultSeriesSpec(spec: IWaterfallChartSpec | Omit<IBarChartSpec, 'type'>): any {
     return {
-      ...super._getDefaultSeriesSpec(spec),
+      ...super._getDefaultSeriesSpec(spec as IBarChartSpec),
       stackLabel: spec.stackLabel,
       leaderLine: spec.leaderLine,
       total: spec.total
