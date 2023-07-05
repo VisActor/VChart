@@ -1,3 +1,3 @@
-import { IInitOption } from '@visactor/vchart/esm';
+import { IInitOption } from '@visactor/vchart';
 
 export { IInitOption as IOptions };

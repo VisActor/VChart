@@ -1,4 +1,5 @@
 import React from 'react';
+// @ts-ignore
 import VChart from '@visactor/vchart/build';
 import { IChartProps, IVChart } from '../../typings';
 

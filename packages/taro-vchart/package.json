@@ -1,8 +1,9 @@
 {
   "name": "@visactor/taro-vchart",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Taro VChart 图表组件",
   "sideEffects": false,
+  "type": "module",
   "main": "lib/src/index.js",
   "files": [
     "lib"
@@ -43,10 +44,9 @@
     "@visactor/vchart": "workspace:1.1.0-beta.1"
   },
   "devDependencies": {
-    "@internal/bundler": "workspace:*",
     "@internal/eslint-config": "workspace:*",
-    "@internal/ts-config": "workspace:*",
     "@rushstack/eslint-patch": "~1.1.4",
+    "@internal/ts-config": "workspace:*",
     "@vitejs/plugin-react": "3.1.0",
     "eslint": "~8.18.0",
     "vite": "3.2.6",
@@ -83,5 +83,9 @@
     "rollup-plugin-import-css": "^3.0.2",
     "stylelint": "9.3.0",
     "tslib": "2.3.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
