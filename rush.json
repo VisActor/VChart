@@ -20,9 +20,22 @@
   "allowedProjectTags": ["tool", "share", "package"],
   "projects": [
     {
+      "packageName": "@visactor/vchart",
+      "projectFolder": "packages/vchart",
+      "tags": ["package"],
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@visactor/react-vchart",
+      "projectFolder": "packages/react-vchart",
+      "tags": ["package"],
+      "shouldPublish": true
+    },
+    {
       "packageName": "@visactor/taro-vchart",
       "projectFolder": "packages/taro-vchart",
-      "shouldPublish": false
+      "tags": ["package"],
+      "shouldPublish": true
     },
     {
       "packageName": "@visactor/tt-vchart",
@@ -51,17 +64,6 @@
       "projectFolder": "share/ts-config",
       "tags": ["share"],
       "shouldPublish": false
-    },
-    {
-      "packageName": "@visactor/vchart",
-      "projectFolder": "packages/vchart",
-      "tags": ["package"],
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@visactor/react-vchart",
-      "projectFolder": "packages/react-vchart",
-      "shouldPublish": true
     }
   ]
 }
