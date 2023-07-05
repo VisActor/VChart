@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix barWidth not work in bar chart",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
