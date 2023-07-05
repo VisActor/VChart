@@ -1,6 +1,6 @@
-import type { IBarChartSpec } from '@visactor/vchart';
 import { array } from '@visactor/vutils';
 import { SeriesTypeEnum } from '../../series/interface';
+import type { IBarChartSpec } from '../bar';
 import { BarChart } from '../bar';
 import { ChartTypeEnum } from '../interface';
 import type { IWaterfallChartSpec } from './interface';
@@ -30,10 +30,10 @@ export class WaterfallChart extends BarChart {
 
   protected _getDefaultSeriesSpec(spec: IWaterfallChartSpec | Omit<IBarChartSpec, 'type'>): any {
     return {
-      ...super._getDefaultSeriesSpec(spec as IBarChartSpec),
-      stackLabel: spec.stackLabel,
-      leaderLine: spec.leaderLine,
-      total: spec.total
+      ...super._getDefaultSeriesSpec(spec as any),
+      stackLabel: (<IWaterfallChartSpec>spec).stackLabel,
+      leaderLine: (<IWaterfallChartSpec>spec).leaderLine,
+      total: (<IWaterfallChartSpec>spec).total
     };
   }
 }
