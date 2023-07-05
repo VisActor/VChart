@@ -101,6 +101,7 @@ tsconfig.tsbuildinfo
 # git-hook
 common/scripts/pre-commit
 
+# build results for each repo
 packages/vchart/chart.d.ts
 packages/vchart/chart.js
 packages/vchart/component.d.ts
@@ -113,3 +114,4 @@ packages/vchart/mark.d.ts
 packages/vchart/mark.js
 packages/vchart/series.d.ts
 packages/vchart/series.js
+packages/taro-vchart/lib/
