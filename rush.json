@@ -40,7 +40,7 @@
     {
       "packageName": "@visactor/tt-vchart",
       "projectFolder": "packages/tt-vchart",
-      "shouldPublish": false
+      "shouldPublish": true
     },
     {
       "packageName": "@visactor/lark-vchart",
