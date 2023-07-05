@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "chore: sync version",
+      "type": "patch",
+      "packageName": "@visactor/taro-vchart"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart",
+  "email": "just_star@qq.com"
+}
