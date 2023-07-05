@@ -44,7 +44,7 @@ $ rushx start
 
 # 文档指引
 
-项目文档位于 `React-VChart` 目录中的 `docs` 路径
+项目文档位于 `React-VChart` 目录中的 [docs](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart/docs) 路径
 
 1. 快速开始
 
