@@ -51,6 +51,7 @@ module.exports = {
     copy: (config, projectRoot, rawPackageJson) => {
       const vchartSource = path.join(__dirname, config.outputDir.umd, 'index.min.js');
       const packagesDestinations = [
+        path.join(__dirname, '../block-vchart/block/vchart/index.js'),
         path.join(__dirname, '../tt-vchart/src/vchart/index.js'),
         path.join(__dirname, '../lark-vchart/src/vchart/index.js')
       ];

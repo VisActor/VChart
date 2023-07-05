@@ -45,7 +45,8 @@
     {
       "packageName": "@visactor/lark-vchart",
       "projectFolder": "packages/lark-vchart",
-      "shouldPublish": false
+      "tags": ["package"],
+      "shouldPublish": true
     },
     {
       "packageName": "@internal/bundler",
