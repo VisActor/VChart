@@ -1,5 +1,6 @@
 {
   "name": "@visactor/tt-vchart",
+  "version": "1.1.0",
   "description": "VChart 字节小程序图表组件",
   "miniprogramType": "tt-npm",
   "files": [
@@ -10,7 +11,6 @@
       "index": "./src/index"
     }
   },
-  "version": "1.0.0",
   "main": "",
   "scripts": {},
   "keywords": [
@@ -35,5 +35,9 @@
     "name": "VisActor",
     "url": "https://VisActor.io/"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }
