@@ -1,6 +1,6 @@
 {
   "name": "@visactor/lark-vchart",
-  "version": "0.1.0-alpha.0",
+  "version": "1.1.0",
   "description": "VChart 飞书小程序组件",
   "main": "index.js",
   "files": [

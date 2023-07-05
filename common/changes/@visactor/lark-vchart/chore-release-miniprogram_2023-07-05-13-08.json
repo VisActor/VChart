@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "chore: sync version",
+      "type": "patch",
+      "packageName": "@visactor/lark-vchart"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart",
+  "email": "just_star@qq.com"
+}
