@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/taro-vchart",
+      "comment": "ready for release",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart"
+}
