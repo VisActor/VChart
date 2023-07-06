@@ -122,7 +122,8 @@ export class TestRegion implements IRegion {
     return this._series.filter(
       s =>
         (opt.name ? s?.name === opt.name : true) &&
-        (opt.userId && s.userId ? array(opt.userId).includes(s.userId) : true) &&
+        (opt.userId ? (s.userId ? array(opt.userId).includes(s.userId) : false) : true) &&
+        // (opt.userId && s.userId ? array(opt.userId).includes(s.userId) : true) &&
         (isValid(opt.specIndex) && s.getSpecIndex ? array(opt.specIndex).includes(s.getSpecIndex()) : true) &&
         (opt.id ? s.id === opt.id : true) &&
         (opt.type ? s.type === opt.type : true) &&
