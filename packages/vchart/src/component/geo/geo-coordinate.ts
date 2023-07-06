@@ -116,7 +116,7 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
 
   private _handleChartZoom = (
     params: { zoomDelta: number; zoomX: number; zoomY: number },
-    e: BaseEventParams['event']
+    event: BaseEventParams['event']
   ) => {
     let scale = params.zoomDelta;
     // check if the next scale will outrange
@@ -129,6 +129,7 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
       this._actualScale = this._spec.zoomLimit?.max;
       scale = this._spec.zoomLimit?.max / _lastActualScale;
     }
+    (event as any).zoomDelta = scale;
     this.zoom(scale, [params.zoomX, params.zoomY]);
   };
 
