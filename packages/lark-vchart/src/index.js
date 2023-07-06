@@ -1,4 +1,4 @@
-import VChart from './vchart/index';
+import { VChart } from './vchart/index';
 // import mapJson from "./data/map-data-china";
 
 const systemInfo = tt.getSystemInfoSync();
