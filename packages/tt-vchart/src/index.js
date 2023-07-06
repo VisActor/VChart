@@ -72,7 +72,6 @@ Component({
             offscreenCanvasWidth: domref.width,
             offscreenCanvasHeight: domref.height
           });
-
           const chartInstance = new VChart(
             {
               ...this.data.spec,
@@ -97,7 +96,7 @@ Component({
 
           if (this.data.events) {
             this.data.events.forEach(event => {
-              chartInstance.on(event.type, { source: event.element }, event.handler);
+              event && chartInstance.on(event.type, { ...event.query, source: 'chart' }, event.handler);
             });
           }
 
