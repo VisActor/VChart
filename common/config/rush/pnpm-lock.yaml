@@ -495,7 +495,7 @@ packages:
       '@babel/helpers': 7.22.6
       '@babel/parser': 7.22.7
       '@babel/template': 7.22.5
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@babel/types': 7.22.5
       convert-source-map: 1.9.0
       debug: 4.3.4
@@ -656,7 +656,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.22.6
       '@babel/helper-validator-identifier': 7.22.5
       '@babel/template': 7.22.5
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@babel/types': 7.22.5
     transitivePeerDependencies:
       - supports-color
@@ -693,7 +693,7 @@ packages:
       '@babel/helper-member-expression-to-functions': 7.22.5
       '@babel/helper-optimise-call-expression': 7.22.5
       '@babel/template': 7.22.5
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@babel/types': 7.22.5
     transitivePeerDependencies:
       - supports-color
@@ -740,7 +740,7 @@ packages:
     dependencies:
       '@babel/helper-function-name': 7.22.5
       '@babel/template': 7.22.5
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@babel/types': 7.22.5
     transitivePeerDependencies:
       - supports-color
@@ -750,7 +750,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 7.22.5
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@babel/types': 7.22.5
     transitivePeerDependencies:
       - supports-color
@@ -1873,8 +1873,8 @@ packages:
       lodash: 4.17.21
     dev: true
 
-  /@babel/traverse/7.22.7:
-    resolution: {integrity: sha512-vQn61YQzktf1wFNzCka2dynnnbmBpUDeUCds3Y+FBHZpcVxpBq0XscQGDDVN7sV2Vf1pZDY1HmPR3U/5t7VfMQ==}
+  /@babel/traverse/7.22.8:
+    resolution: {integrity: sha512-y6LPR+wpM2I3qJrsheCTwhIinzkETbplIgPBbwvqPKc+uljeA5gP+3nP8irdYt1mjQaDnlIcG+dw8OjAco4GXw==}
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.22.5
@@ -4135,7 +4135,7 @@ packages:
       '@babel/helper-module-imports': 7.22.5
       '@babel/plugin-syntax-jsx': 7.22.5_@babel+core@7.20.12
       '@babel/template': 7.22.5
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@babel/types': 7.22.5
       '@vue/babel-helper-vue-transform-on': 1.1.5
       camelcase: 6.3.0
@@ -5146,7 +5146,7 @@ packages:
     dependencies:
       '@babel/code-frame': 7.22.5
       '@babel/parser': 7.22.7
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@babel/types': 7.22.5
       eslint: 6.8.0
       eslint-visitor-keys: 1.3.0
@@ -5164,7 +5164,7 @@ packages:
     dependencies:
       '@babel/code-frame': 7.22.5
       '@babel/parser': 7.22.7
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@babel/types': 7.22.5
       eslint: 8.18.0
       eslint-visitor-keys: 1.3.0
@@ -7669,7 +7669,7 @@ packages:
     hasBin: true
     dependencies:
       '@babel/parser': 7.22.7
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       builtin-modules: 3.3.0
       deprecate: 1.1.1
       deps-regex: 0.1.4
@@ -11882,7 +11882,7 @@ packages:
       '@babel/generator': 7.21.1
       '@babel/parser': 7.22.7
       '@babel/template': 7.22.5
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@babel/types': 7.22.5
       istanbul-lib-coverage: 2.0.5
       semver: 6.3.0
@@ -12324,7 +12324,7 @@ packages:
     resolution: {integrity: sha512-Cq7vkAgaYKp+PsX+2/JbTarrk0DmNhsEtqBXNwUHkdlbrTBLtMJINADf2mf5FkowNsq8evbPc07/qFO0AdKTzw==}
     engines: {node: '>= 6'}
     dependencies:
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@jest/environment': 24.9.0
       '@jest/test-result': 24.9.0
       '@jest/types': 24.9.0
@@ -12348,7 +12348,7 @@ packages:
     resolution: {integrity: sha512-kPKUrQtc8aYwBV7CqBg5pu+tmYXlvFlSFYn18ev4gPFtrRzB15N2gW/Roew3187q2w2eHuu0MU9TJz6w0/nPEg==}
     engines: {node: '>= 10.14.2'}
     dependencies:
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@jest/environment': 26.6.2
       '@jest/source-map': 26.6.2
       '@jest/test-result': 26.6.2
@@ -12378,7 +12378,7 @@ packages:
     resolution: {integrity: sha512-kPKUrQtc8aYwBV7CqBg5pu+tmYXlvFlSFYn18ev4gPFtrRzB15N2gW/Roew3187q2w2eHuu0MU9TJz6w0/nPEg==}
     engines: {node: '>= 10.14.2'}
     dependencies:
-      '@babel/traverse': 7.22.7
+      '@babel/traverse': 7.22.8
       '@jest/environment': 26.6.2
       '@jest/source-map': 26.6.2
       '@jest/test-result': 26.6.2
@@ -13926,7 +13926,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.8
+      minimist: 1.2.5
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -16215,7 +16215,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.8
+      minimist: 1.2.5
       strip-json-comments: 2.0.1
     dev: true
 
