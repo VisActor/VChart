@@ -52,6 +52,7 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
   protected _createMarkerComponent() {
     const markPoint = new MarkPointComponent({
       zIndex: this.layoutZIndex,
+      interactive: this._spec.interactive ?? false,
       position: { x: 0, y: 0 },
       itemLine: {
         lineStyle: transformToGraphic(this._spec.itemLine?.line?.style),

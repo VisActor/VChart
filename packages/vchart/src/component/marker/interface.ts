@@ -109,6 +109,11 @@ export interface IMarkerSpec extends IModelSpec {
    * @default true
    */
   visible?: boolean;
+  /**
+   * marker组件是否可交互
+   * @default false
+   */
+  interactive?: boolean;
 }
 
 export type IMarkerSymbol = {
