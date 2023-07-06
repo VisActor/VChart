@@ -230,7 +230,6 @@ importers:
       node-fetch: 2.6.7
       prettier: 2.6.1
       react-device-detect: ^2.2.2
-      rimraf: 3.0.2
       ts-jest: ^26.0.0
       ts-loader: 8.0.2
       ts-node: 10.9.0
@@ -274,7 +273,6 @@ importers:
       node-fetch: 2.6.7
       prettier: 2.6.1
       react-device-detect: 2.2.3
-      rimraf: 3.0.2
       ts-jest: 26.5.6_xuote2qreek47x2di7kesslrai
       ts-loader: 8.0.2_typescript@4.9.5
       ts-node: 10.9.0_5sm3rhjh3rci2k2uikp54k4e7m
