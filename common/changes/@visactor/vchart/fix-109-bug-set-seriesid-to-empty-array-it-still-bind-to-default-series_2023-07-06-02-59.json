@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix region getSeries bug when option.userId = []",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
