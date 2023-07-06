@@ -34,6 +34,10 @@ Thank you!
 2. close #xxxx or fix #xxxx for instance.
 -->
 
+### 🐞 Bugserver case id
+
+<!-- paste the `fileid` field in the bugserver case url -->
+
 ### 💡 Background and solution
 
 <!--

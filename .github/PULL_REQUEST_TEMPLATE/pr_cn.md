@@ -32,6 +32,10 @@
 2. close #xxxx or fix #xxxx for instance.
 -->
 
+### 🐞 Bugserver 用例 id
+
+<!-- 将 bugserver case 上的 `fileid` 字段值黏贴过来 -->
+
 ### 💡 问题的背景&解决方案
 
 <!--
