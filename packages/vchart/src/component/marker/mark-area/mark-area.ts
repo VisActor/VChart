@@ -56,6 +56,7 @@ export class MarkArea extends BaseMarker implements IMarkArea {
   protected _createMarkerComponent() {
     const markArea = new MarkAreaComponent({
       zIndex: this.layoutZIndex,
+      interactive: this._spec.interactive ?? false,
       points: [
         {
           x: 0,
