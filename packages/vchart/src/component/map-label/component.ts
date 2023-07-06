@@ -365,7 +365,6 @@ export class MapLabelComponent extends BaseComponent {
         x: this.getRegions()[0].getLayoutStartPoint().x,
         y: this.getRegions()[0].getLayoutStartPoint().y,
         position: anchor,
-        pickable: false,
         visible: this._activeDatum.includes(datum),
         itemContent: {
           refX: 0,

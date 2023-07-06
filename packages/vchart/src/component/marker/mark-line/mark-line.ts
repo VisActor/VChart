@@ -57,6 +57,7 @@ export class MarkLine extends BaseMarker implements IMarkLine {
   protected _createMarkerComponent() {
     const markLine = new MarkLineComponent({
       zIndex: this.layoutZIndex,
+      interactive: this._spec.interactive ?? false,
       points: [
         {
           x: 0,
