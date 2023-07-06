@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "add bandwidth attribute to context that in mark function call",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}
