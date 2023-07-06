@@ -85,7 +85,7 @@ import VChart from '@visactor/taro-vchart';
 | canvasId      | String   | 图表 id, 必确唯一                                                                                                                                         |
 | spec          | Object   | 图表配置项, 请参考[VChart 配置项](todo)                                                                                                                   |
 | style         | Object   | 图表容器样式                                                                                                                                              |
-| events        | Object[] | 事件绑定配置，具体配置为定义[如下](#)                                                                                                                     |
+| events        | Object[] | 事件绑定配置，具体配置为定义[如下](#事件配置)                                                                                                             |
 | options       | Object   | 初始化 VChart 实例传入的额外配置项，同 [VChart 实例化配置项](todo)                                                                                        |
 | onChartInit   | Function | 图表初始化完后触发的回调                                                                                                                                  |
 | onChartReady  | Function | 图表渲染完毕后触发的回调                                                                                                                                  |
@@ -103,6 +103,9 @@ interface IEvent {
    * 事件 API 中的事件筛选配置
    */
   query?: EventQuery;
+  /**
+   * 事件监听函数
+   */
   handler: EventCallback<EventParams>;
 }
 ```
