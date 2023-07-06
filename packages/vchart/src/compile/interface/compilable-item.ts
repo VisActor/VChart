@@ -17,6 +17,9 @@ export interface ICompilable {
   /** 编译所有 signal */
   compileSignal?: () => void;
 
+  /** 全部编译完成 lift circle */
+  afterCompile?: () => void;
+
   /** 释放总入口 */
   release: () => void;
 }
