@@ -9,7 +9,9 @@ const PRODUCT = "VisActor/VChart";
 const CHECK_SCM_BUILD_INTERVAL_MS = 10 * 1000;
 const CHECK_SCM_BUILD_MAX_COUNT = 30;
 const CHECK_PHOTO_TEST_INTERVAL_MS = 10 * 1000;
-const CHECK_PHOTO_TEST_MAX_COUNT = 30;
+const CHECK_PHOTO_TEST_MAX_COUNT = 60;
+
+let checkPhotoTestMaxCount = CHECK_PHOTO_TEST_MAX_COUNT;
 
 const fetch = async (url, options) => {
   const newOptions = {
@@ -160,7 +162,7 @@ async function waitUntilPhotoTestOK({ bundleId, scmVersion }) {
       count++;
       const { data } = await getPhotoResult({ scmVersion, bundleId });
       // pending / ok
-      if (["ok"].includes(data.status) || count > CHECK_PHOTO_TEST_MAX_COUNT) {
+      if (["ok"].includes(data.status) || count > checkPhotoTestMaxCount) {
         resolve(data);
         clearInterval(interval);
       }
@@ -193,9 +195,14 @@ async function trigger() {
   }
 
   const {
-    data: { bundleId },
+    data: { bundleId, taskAmount },
   } = await triggerPhotoTest({ scmVersion, scmVersionStatus });
   console.log(`triggerPhotoTest bundleId:${bundleId}`);
+  console.log(`triggerPhotoTest taskAmount:${taskAmount}`);
+
+  if (taskAmount) {
+    checkPhotoTestMaxCount = Math.ceil(taskAmount / 10);
+  }
 
   const {
     status: photoTestStatus,
