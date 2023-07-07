@@ -114,7 +114,7 @@ $ npm install @visactor/tt-vchart
 与我们的图表组件对应起来:
 
 - `packageName` 为: `@visactor/tt-vchart`
-- `componentName` 为: `index` (由 chartspace 组件库预设)
+- `componentName` 为: `index` (由 VChart 组件库预设)
 
 更加细致的描述, 请参考: [使用 npm](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/develop/developer-instrument/development-assistance/npm/#_%E4%BD%BF%E7%94%A8-npm)
 

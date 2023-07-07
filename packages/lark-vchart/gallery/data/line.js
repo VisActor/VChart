@@ -45,24 +45,6 @@ export default {
       ],
     },
   ],
-  axes: [
-    {
-      orient: "right",
-      range: {
-        min: -0.05,
-        max: 0.05,
-      },
-      label: {
-        format: {
-          name: "formatNumber",
-          type: "percent",
-        },
-      },
-    },
-    {
-      orient: "bottom",
-    },
-  ],
   label: {
     visible: false,
     format: {
@@ -85,11 +67,29 @@ export default {
           [4, 4],
         ],
       },
+      stroke: {
+        scale: "color",
+        field: "latest",
+      },
     },
+  },
+  point: {
+    style: {
+      fill: {
+        scale: "color",
+        field: "latest",
+      },
+    },
+    state: {
+      dimension_hover: {
+        scaleX: 1.5,
+        scaleY: 1.5,
+      }
+    }
   },
   color: {
     type: "ordinal",
     field: "latest",
-    range: ["#468DFF", "#86DF6C"],
+    range: ["#ccc", "#468DFF"],
   },
 };
