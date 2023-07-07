@@ -1,8 +1,8 @@
 Page({
   onShareAppMessage() {
     return {
-      title: "vchart 小程序示例",
-      path: "/pages/index/index",
+      title: 'VChart 飞书小程序示例',
+      path: '/pages/index/index',
       success() {},
       fail() {}
     };
@@ -10,61 +10,61 @@ Page({
   data: {
     charts: [
       {
-        id: "scatter",
-        name: "scatter"
+        id: 'scatter',
+        name: 'scatter'
       },
       {
-        id: "line",
-        name: "line"
+        id: 'line',
+        name: 'line'
       },
       {
-        id: "area",
-        name: "area"
+        id: 'area',
+        name: 'area'
       },
       {
-        id: "funnel",
-        name: "funnel"
+        id: 'funnel',
+        name: 'funnel'
       },
       {
-        id: "bar",
-        name: "bar"
+        id: 'bar',
+        name: 'bar'
       },
       {
-        id: "horizontal-bar",
-        name: "horizontal-bar"
+        id: 'horizontal-bar',
+        name: 'horizontal-bar'
       },
       {
-        id: "radar",
-        name: "radar"
+        id: 'radar',
+        name: 'radar'
       },
       {
-        id: "sankey",
-        name: "sankey"
+        id: 'sankey',
+        name: 'sankey'
       },
       {
-        id: "pie",
-        name: "pie"
+        id: 'pie',
+        name: 'pie'
       },
       {
-        id: "ring",
-        name: "ring"
+        id: 'ring',
+        name: 'ring'
       },
       {
-        id: "rose",
-        name: "rose"
+        id: 'rose',
+        name: 'rose'
       },
       {
-        id: "wordcloud",
-        name: "wordcloud"
+        id: 'wordcloud',
+        name: 'wordcloud'
       },
       {
-        id: "boxplot",
-        name: "boxplot"
+        id: 'boxplot',
+        name: 'boxplot'
       },
       {
-        id: "dual-axis",
-        name: "dual-axis"
-      },
+        id: 'dual-axis',
+        name: 'dual-axis'
+      }
     ]
   },
 

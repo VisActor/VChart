@@ -1,9 +1,9 @@
 <!-- index.wxml -->
 <view class="panel">
   <view class="readme">
-    <text>Chartspace 是由数据平台前端共同打造的自研图表。\n \n</text>
+    <text>VChart，不只是开箱即用的多端图表库，更是生动灵活的数据故事讲述者。\n \n</text>
 
-    <text>它以图形语法为基础，自研渲染为底层，封装了一系列常用图表，提供高度灵活的开发扩展能力，能够帮助开发者快速搭建属于自己的图表分析应用</text>
+    <text>VChart 是 VisActor 可视化体系中的图表组件库，基于可视化语法库 VGrammar 进行图表逻辑封装，基于可视化渲染引擎 VRender 进行组件封装。</text>
     <text class="strong"> \n \n 需要飞书版本 >= 3.45.0</text>
   </view>
 

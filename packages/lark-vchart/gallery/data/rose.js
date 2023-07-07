@@ -66,16 +66,6 @@ export default {
       "#267FFF",
     ],
   },
-  // axes: {
-  //   smooth: true,
-  //   domainNumber: 3,
-  //   domainColor: "#F4F4F4",
-  //   gridColor: "#F4F4F4",
-  //   label: {
-  //     labelPadding: 20,
-  //     labelColor: "rgba(22, 24, 35, 0.5)",
-  //   },
-  // },
   axes: [
     {
       orient: 'angle',
@@ -103,5 +93,13 @@ export default {
       },
       grid: { visible: true, smooth: true, style: { lineDash: [0], stroke: '#F4F4F4' } }
     }
-  ]
+  ],
+  rose: {
+    state: {
+      hover: {
+        lineWidth: 1,
+        stroke: '#000'
+      }
+    }
+  }
 };
