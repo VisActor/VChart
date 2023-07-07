@@ -16,7 +16,11 @@ function packageNameToPath(name: string) {
   return name.replace('@', '').replace('/', '_');
 }
 export async function buildUmd(config: Config, projectRoot: string, rawPackageJson: RawPackageJson, minify: boolean) {
-  const babelPlugins = getBabelPlugins(rawPackageJson.name);
+  const babelPlugins = getBabelPlugins(rawPackageJson.name, {
+    envOptions: {
+      targets: config.targets
+    }
+  });
   const entry = path.resolve(
     projectRoot,
     config.sourceDir,
