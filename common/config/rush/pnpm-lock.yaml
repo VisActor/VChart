@@ -1,9 +1,5 @@
 lockfileVersion: 5.4
 
-overrides:
-  '@visactor/vrender': 0.12.0
-  '@visactor/vrender-components': 0.12.0
-
 importers:
 
   .:
@@ -58,7 +54,7 @@ importers:
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.1.0-beta.1
       '@visactor/vgrammar': ~0.3.0
-      '@visactor/vrender': 0.12.0
+      '@visactor/vrender': ~0.12.0
       '@visactor/vutils': ~0.11.1
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
@@ -78,7 +74,7 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vgrammar': 0.3.1
+      '@visactor/vgrammar': 0.3.2
       '@visactor/vrender': 0.12.0
       '@visactor/vutils': 0.11.1
       react-is: 18.2.0
@@ -217,8 +213,8 @@ importers:
       '@visactor/vgrammar-util': ~0.3.0
       '@visactor/vgrammar-wordcloud': ~0.3.0
       '@visactor/vgrammar-wordcloud-shape': ~0.3.0
-      '@visactor/vrender': 0.12.0
-      '@visactor/vrender-components': 0.12.0
+      '@visactor/vrender': ~0.12.0
+      '@visactor/vrender-components': ~0.12.0
       '@visactor/vscale': ~0.11.1
       '@visactor/vutils': ~0.11.1
       d3-array: 3.2.3
@@ -246,13 +242,13 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vdataset': 0.11.1
-      '@visactor/vgrammar': 0.3.1
-      '@visactor/vgrammar-hierarchy': 0.3.1
-      '@visactor/vgrammar-projection': 0.3.1
-      '@visactor/vgrammar-sankey': 0.3.1
-      '@visactor/vgrammar-util': 0.3.0
-      '@visactor/vgrammar-wordcloud': 0.3.1
-      '@visactor/vgrammar-wordcloud-shape': 0.3.1
+      '@visactor/vgrammar': 0.3.2
+      '@visactor/vgrammar-hierarchy': 0.3.2
+      '@visactor/vgrammar-projection': 0.3.2
+      '@visactor/vgrammar-sankey': 0.3.2
+      '@visactor/vgrammar-util': 0.3.1
+      '@visactor/vgrammar-wordcloud': 0.3.2
+      '@visactor/vgrammar-wordcloud-shape': 0.3.2
       '@visactor/vrender': 0.12.0
       '@visactor/vrender-components': 0.12.0
       '@visactor/vscale': 0.11.2
@@ -3547,7 +3543,7 @@ packages:
   /@types/mdast/3.0.11:
     resolution: {integrity: sha512-Y/uImid8aAwrEA24/1tcRZwpxX3pIFTSilcNDKSPn+Y2iDywSEachzRuvgAYYLR3wpGXAsMbv5lvKLDZLeYPAw==}
     dependencies:
-      '@types/unist': 2.0.6
+      '@types/unist': 3.0.0
     dev: true
 
   /@types/merge2/1.4.0:
@@ -3707,6 +3703,10 @@ packages:
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
+    dev: true
+
+  /@types/unist/3.0.0:
+    resolution: {integrity: sha512-MFETx3tbTjE7Uk6vvnWINA/1iJ7LuMdO4fcq8UfF0pRbj01aGLduVvQcRyswuACJdpnHgg8E3rQLhaRdNEJS0w==}
     dev: true
 
   /@types/vinyl-fs/3.0.2:
@@ -3965,70 +3965,70 @@ packages:
       topojson-client: 3.1.0
     dev: false
 
-  /@visactor/vgrammar-coordinate/0.3.0:
-    resolution: {integrity: sha512-rNEQjLs9/j5mDH9XGADn49UvwSf+ZhnsdpDM0W0tgzF9HqnTVoBNYU3BI86knwVo2EYstHT2MnsGx4OQyWduAQ==}
+  /@visactor/vgrammar-coordinate/0.3.1:
+    resolution: {integrity: sha512-a0uOlHX+TQwGPAkrxOJsivo/AOmjPiI9icjfVtOJ72ctbU46Q/60Zv96PVyQ69f9ezCrQr8I72DyEGo2+95L5w==}
     dependencies:
-      '@visactor/vgrammar-util': 0.3.0
+      '@visactor/vgrammar-util': 0.3.1
       '@visactor/vutils': 0.11.1
     dev: false
 
-  /@visactor/vgrammar-hierarchy/0.3.1:
-    resolution: {integrity: sha512-uEX5euH75x41n/KYUFOI9l60bi9F6BZNr9zD7ggEhh6tI8BIn3KhqWH8qXHS53apPeDPb0bAwpF4bQ7NmGbpfg==}
+  /@visactor/vgrammar-hierarchy/0.3.2:
+    resolution: {integrity: sha512-rL/pmxs8mbYLzVRSmEXS1e2diI+Yo3dWh49vw3VmVIb2sv+9ZCQSRVMgiovHQcNb2skk7d0QviXQhBVwT3teMQ==}
     dependencies:
-      '@visactor/vgrammar': 0.3.1
-      '@visactor/vgrammar-util': 0.3.0
+      '@visactor/vgrammar': 0.3.2
+      '@visactor/vgrammar-util': 0.3.1
       '@visactor/vrender': 0.12.0
       '@visactor/vutils': 0.11.1
     dev: false
 
-  /@visactor/vgrammar-projection/0.3.1:
-    resolution: {integrity: sha512-GwNnvMcfYG4AuAj537JpSlta+EedphHOWD0+dQ80pWrafoNxt7amz1d3IYPdLo4gx/wVDBd0Yf6foT3jXGjdfQ==}
+  /@visactor/vgrammar-projection/0.3.2:
+    resolution: {integrity: sha512-c1EiclUuxTG1jYHeaNywIb/Rog7CxPP3PUel5PMZnAN0V6of4XesDSFI2DZ4osnISQeNob6cgrqzPEBEmFAgRQ==}
     dependencies:
-      '@visactor/vgrammar': 0.3.1
-      '@visactor/vgrammar-util': 0.3.0
+      '@visactor/vgrammar': 0.3.2
+      '@visactor/vgrammar-util': 0.3.1
       '@visactor/vutils': 0.11.1
       d3-geo: 1.12.1
     dev: false
 
-  /@visactor/vgrammar-sankey/0.3.1:
-    resolution: {integrity: sha512-t7YqWp7b6vTZZ8CVKQax5IVK+lURYNV0eJ4A8Rc9ImntUc0NduuXOEqVmqxQ2tIGfIX18l88EYuY/uaLUI8bJQ==}
+  /@visactor/vgrammar-sankey/0.3.2:
+    resolution: {integrity: sha512-4EnX1sqQA5b60kqyxWR7+uIDV6RS1soN6xRtEBB6dqLQQJt1Ihu3pPC7t3aoaTscaNDcy9EDAp5ZT/v31P8b9A==}
     dependencies:
-      '@visactor/vgrammar': 0.3.1
-      '@visactor/vgrammar-util': 0.3.0
+      '@visactor/vgrammar': 0.3.2
+      '@visactor/vgrammar-util': 0.3.1
       '@visactor/vrender': 0.12.0
       '@visactor/vutils': 0.11.1
     dev: false
 
-  /@visactor/vgrammar-util/0.3.0:
-    resolution: {integrity: sha512-BAREnyMf8n4IorhKLXYR+T0NHp3vzMyvd/7r7q51g2i0bYb6MWVMiAc1O8cPk0OTadfdpKxcIrbvt0vDgyQIzg==}
+  /@visactor/vgrammar-util/0.3.1:
+    resolution: {integrity: sha512-MzA7arlEp21X+xn2K21Vw50Qj5oiqE+y7IrfCha88NSgpcNAQtfODb0sBUeXhzw2KT5tpxqC2xSJ33H3zR8aWQ==}
     dependencies:
       '@visactor/vutils': 0.11.1
     dev: false
 
-  /@visactor/vgrammar-wordcloud-shape/0.3.1:
-    resolution: {integrity: sha512-9peKPf76DH1e/3e86Yxfn/Qimu5P6dBQZwCvomooZO9NYNp37g60x8Ma2dxfX6ir4I5qndsVLzFsRzUXYrpfOw==}
+  /@visactor/vgrammar-wordcloud-shape/0.3.2:
+    resolution: {integrity: sha512-VulsTFJRmkfALrPne+xPD7UksTU9uhQn4UmsgBXWYApAy9Eiu6YsQuuMvJq5AuWL4sr0l4B+/VlpjU+KA/TQtA==}
     dependencies:
-      '@visactor/vgrammar': 0.3.1
-      '@visactor/vgrammar-util': 0.3.0
+      '@visactor/vgrammar': 0.3.2
+      '@visactor/vgrammar-util': 0.3.1
       '@visactor/vrender': 0.12.0
       '@visactor/vscale': 0.11.2
       '@visactor/vutils': 0.11.1
     dev: false
 
-  /@visactor/vgrammar-wordcloud/0.3.1:
-    resolution: {integrity: sha512-7gXJoKE6aAfMUu/7W7kw3A203YBbG/lJ3AtTOnq1iv0earqd8Utd08km+yTLCByr41MXaekSXUqZyxGhMjE4tw==}
+  /@visactor/vgrammar-wordcloud/0.3.2:
+    resolution: {integrity: sha512-GdSmvpq+3WOFKR/4OqRmkKK4PDYnVSBMJUlKWNaK2ZnBPQrxObGdoVT1kWbq3TW9IQ9+GVbsml5YMitOvo3JHQ==}
     dependencies:
-      '@visactor/vgrammar': 0.3.1
-      '@visactor/vgrammar-util': 0.3.0
+      '@visactor/vgrammar': 0.3.2
+      '@visactor/vgrammar-util': 0.3.1
       '@visactor/vrender': 0.12.0
       '@visactor/vutils': 0.11.1
     dev: false
 
-  /@visactor/vgrammar/0.3.1:
-    resolution: {integrity: sha512-5bcFlvSeWGTZHbWSKnii8Cr3muhOCirryOnrh7FsE6rTDB4Zyuh3zW4oB8XgWh314Q/MrS734D/z3KpxNidlKg==}
+  /@visactor/vgrammar/0.3.2:
+    resolution: {integrity: sha512-ZBVgA5DPUSjOo8BrfyKlVJvEs1tdT7TMzZZdu26+208hIM1kWlmoBY800rQDFM21H01seXNpclMy/cI5A0KL5g==}
     dependencies:
-      '@visactor/vgrammar-coordinate': 0.3.0
-      '@visactor/vgrammar-util': 0.3.0
+      '@visactor/vgrammar-coordinate': 0.3.1
+      '@visactor/vgrammar-util': 0.3.1
       '@visactor/vrender': 0.12.0
       '@visactor/vrender-components': 0.12.0
       '@visactor/vscale': 0.11.2
@@ -5013,7 +5013,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.9
-      caniuse-lite: 1.0.30001512
+      caniuse-lite: 1.0.30001513
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -5026,7 +5026,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 3.2.8
-      caniuse-lite: 1.0.30001512
+      caniuse-lite: 1.0.30001513
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       postcss: 6.0.23
@@ -5039,7 +5039,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.9
-      caniuse-lite: 1.0.30001512
+      caniuse-lite: 1.0.30001513
       chalk: 2.4.2
       normalize-range: 0.1.2
       num2fraction: 1.2.2
@@ -5052,7 +5052,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.9
-      caniuse-lite: 1.0.30001512
+      caniuse-lite: 1.0.30001513
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       picocolors: 0.2.1
@@ -5952,8 +5952,8 @@ packages:
     resolution: {integrity: sha512-WHVocJYavUwVgVViC0ORikPHQquXwVh939TaelZ4WDqpWgTX/FsGhl/+P4qBUAGcRvtOgDgC+xftNWWp2RUTAQ==}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001512
-      electron-to-chromium: 1.4.451
+      caniuse-lite: 1.0.30001513
+      electron-to-chromium: 1.4.453
     dev: true
 
   /browserslist/4.21.9:
@@ -5961,9 +5961,9 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001512
-      electron-to-chromium: 1.4.451
-      node-releases: 2.0.12
+      caniuse-lite: 1.0.30001513
+      electron-to-chromium: 1.4.453
+      node-releases: 2.0.13
       update-browserslist-db: 1.0.11_browserslist@4.21.9
 
   /bs-logger/0.2.6:
@@ -6249,8 +6249,8 @@ packages:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
     dev: true
 
-  /caniuse-lite/1.0.30001512:
-    resolution: {integrity: sha512-2S9nK0G/mE+jasCUsMPlARhRCts1ebcp2Ji8Y8PWi4NDE1iRdLCnEPHkEfeBrGC45L4isBx5ur3IQ6yTE2mRZw==}
+  /caniuse-lite/1.0.30001513:
+    resolution: {integrity: sha512-pnjGJo7SOOjAGytZZ203Em95MRM8Cr6jhCXNF/FAXTpCTRTECnqQWLpiTRqrFtdYcth8hf4WECUpkezuYsMVww==}
 
   /capture-exit/2.0.0:
     resolution: {integrity: sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g==}
@@ -8016,8 +8016,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.451:
-    resolution: {integrity: sha512-YYbXHIBxAHe3KWvGOJOuWa6f3tgow44rBW+QAuwVp2DvGqNZeE//K2MowNdWS7XE8li5cgQDrX1LdBr41LufkA==}
+  /electron-to-chromium/1.4.453:
+    resolution: {integrity: sha512-BU8UtQz6CB3T7RIGhId4BjmjJVXQDujb0+amGL8jpcluFJr6lwspBOvkUbnttfpZCm4zFMHmjrX1QrdPWBBMjQ==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
@@ -14553,8 +14553,8 @@ packages:
     dev: true
     optional: true
 
-  /node-releases/2.0.12:
-    resolution: {integrity: sha512-QzsYKWhXTWx8h1kIvqfnC++o0pEmpRQA/aenALsL2F4pqNVr7YzcdMlDij5WBnwftRbJCNJL/O7zdKaxKPHqgQ==}
+  /node-releases/2.0.13:
+    resolution: {integrity: sha512-uYr7J37ae/ORWdZeQ1xxMJe3NtdmqMC/JZK+geofDrkLUApKRHPd18/TxtBOJ4A0/+uUIliorNrfYV6s1b02eQ==}
 
   /node-sass-tilde-importer/1.0.2:
     resolution: {integrity: sha512-Swcmr38Y7uB78itQeBm3mThjxBy9/Ah/ykPIaURY/L6Nec9AyRoL/jJ7ECfMR+oZeCTVQNxVMu/aHU+TLRVbdg==}
