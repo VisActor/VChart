@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix(react-vchart): rebind event to chart after chart is re-render, fix #68\n\n",
+      "type": "patch",
+      "packageName": "@visactor/tt-vchart"
+    }
+  ],
+  "packageName": "@visactor/tt-vchart",
+  "email": "dingling112@gmail.com"
+}
