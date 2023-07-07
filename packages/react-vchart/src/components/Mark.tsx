@@ -19,9 +19,14 @@ type Props = MarkProps & { updateId: number };
 export const Mark: React.FC<Props> = (props: Props) => {
   const context = useContext(ViewContext);
   const id = React.useRef<string | number>(isNil(props.id) ? uid('mark') : props.id);
+  const updateId = React.useRef<number>(props.updateId);
 
-  if (context) {
-    addOrUpdateMark(context, id.current as string, props);
+  if (props.updateId !== updateId.current) {
+    // only update mark when chart finished render
+    updateId.current = props.updateId;
+    if (context) {
+      addOrUpdateMark(context, id.current as string, props);
+    }
   }
 
   useEffect(() => {

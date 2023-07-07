@@ -108,7 +108,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec)) {
-        console.log(parseSpec(props));
         // eslint-disable-next-line promise/catch-or-return
         chartContext.current.chart
           .updateSpec(parseSpec(props), undefined, { morph: false }) // morph临时关掉
@@ -121,7 +120,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (!isEqual(newSpec, prevSpec.current) || chartContext.current.isChildrenUpdated) {
       prevSpec.current = newSpec;
-      console.log(parseSpec(props));
       // eslint-disable-next-line promise/catch-or-return
       chartContext.current.chart
         .updateSpec(parseSpec(props), undefined, { morph: false }) // morph临时关掉
@@ -149,7 +147,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     <RootChartContext.Provider value={chartContext.current}>
       <ViewContext.Provider value={view}>
         {toArray(props.children).map((child, index) => {
-          console.log(child, index);
           return (
             <React.Fragment key={(child as any)?.props?.id ?? (child as any)?.id ?? `child-${index}`}>
               {React.cloneElement(child as IMarkElement, {
