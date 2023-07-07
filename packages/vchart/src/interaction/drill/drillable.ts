@@ -57,7 +57,7 @@ export class Drillable implements IDrillable {
 
   private _getTriggerEvent(type: string): EventType {
     const { mode } = this._drillParams;
-    return defaultTriggerEvent[mode][type];
+    return defaultTriggerEvent[mode]?.[type];
   }
 
   private _hideTooltip() {
@@ -90,27 +90,29 @@ export class Drillable implements IDrillable {
   bindDrillEvent() {
     const { event, getRawData, drillField } = this._drillParams;
     const keyField = drillField();
-    event.on(this._getTriggerEvent('start'), e => {
-      if (isNil(e.datum) || isNil(e.datum?.[keyField])) {
-        this.drillUp();
-        return;
-      }
+    if (this._getTriggerEvent('start')) {
+      event.on(this._getTriggerEvent('start'), e => {
+        if (isNil(e.datum) || isNil(e.datum?.[keyField])) {
+          this.drillUp();
+          return;
+        }
 
-      // Drill交互后, 隐藏Tooltip
-      this._hideTooltip();
-      // 获取数据key
-      const dataKey = e.datum[keyField];
-      // 已钻取的路径
-      const selectPath = this._drillInfo?.path ?? [];
-      // 用户点击的路径
-      const clickedPath = findHierarchyPath(getRawData().rawData, dataKey, keyField, 'children');
-      // 已钻取过, 则一定上卷
-      if (selectPath[selectPath.length - 1] === clickedPath[clickedPath.length - 1]) {
-        this.drillUp();
-      } else {
-        this.drillDown(clickedPath);
-      }
-    });
+        // Drill交互后, 隐藏Tooltip
+        this._hideTooltip();
+        // 获取数据key
+        const dataKey = e.datum[keyField];
+        // 已钻取的路径
+        const selectPath = this._drillInfo?.path ?? [];
+        // 用户点击的路径
+        const clickedPath = findHierarchyPath(getRawData().rawData, dataKey, keyField, 'children');
+        // 已钻取过, 则一定上卷
+        if (selectPath[selectPath.length - 1] === clickedPath[clickedPath.length - 1]) {
+          this.drillUp();
+        } else {
+          this.drillDown(clickedPath);
+        }
+      });
+    }
   }
 
   /**
