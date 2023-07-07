@@ -58,13 +58,15 @@ export class Zoomable implements IZoomable {
   initZoomable(evt: IEvent, mode: RenderMode = RenderModeEnum['desktop-browser']) {
     this._eventObj = evt;
     this._renderMode = mode;
-    // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
-    this._clickEnable = true;
-    this._zoomableTrigger = new (this.getTriggerEvent('trigger') as any)();
+    if (defaultTriggerEvent[this._renderMode]) {
+      // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
+      this._clickEnable = true;
+      this._zoomableTrigger = new (this._getTriggerEvent('trigger') as any)();
+    }
   }
 
   // event
-  private getTriggerEvent(type: string): EventType {
+  private _getTriggerEvent(type: string): EventType {
     return defaultTriggerEvent[this._renderMode][type];
   }
 
@@ -73,10 +75,10 @@ export class Zoomable implements IZoomable {
     regionOrSeries: IRegion | ISeries,
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
   ) {
-    eventObj.on(this.getTriggerEvent('scrollEnd'), { level: Event_Bubble_Level.chart, consume: false }, params => {
+    eventObj.on(this._getTriggerEvent('scrollEnd'), { level: Event_Bubble_Level.chart, consume: false }, params => {
       this._zoomableTrigger.clearZoom();
     });
-    eventObj.on(this.getTriggerEvent('scroll'), { level: Event_Bubble_Level.chart, consume: true }, params => {
+    eventObj.on(this._getTriggerEvent('scroll'), { level: Event_Bubble_Level.chart, consume: true }, params => {
       if (!(params as BaseEventParams).event) {
         return;
       }
@@ -126,7 +128,9 @@ export class Zoomable implements IZoomable {
     s: ISeries,
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
   ) {
-    this._bindZoomEventAsRegion(s.event, s, callback);
+    if (defaultTriggerEvent[this._renderMode]) {
+      this._bindZoomEventAsRegion(s.event, s, callback);
+    }
   }
 
   initZoomEventOfRegions(
@@ -134,24 +138,28 @@ export class Zoomable implements IZoomable {
     filter?: (s: ISeries) => boolean,
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
   ) {
-    regions.forEach(r => {
-      if (filter) {
-        r.getSeries().forEach(s => {
-          if (filter(s)) {
-            this._bindZoomEventAsRegion(s.event, s, callback);
-          }
-        });
-      } else {
-        this._bindZoomEventAsRegion(this._eventObj, r, callback);
-      }
-    });
+    if (defaultTriggerEvent[this._renderMode]) {
+      regions.forEach(r => {
+        if (filter) {
+          r.getSeries().forEach(s => {
+            if (filter(s)) {
+              this._bindZoomEventAsRegion(s.event, s, callback);
+            }
+          });
+        } else {
+          this._bindZoomEventAsRegion(this._eventObj, r, callback);
+        }
+      });
+    }
   }
 
   initScrollEventOfSeries(
     s: ISeries,
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
   ) {
-    this._bindScrollEventAsRegion(s.event, s, callback);
+    if (defaultTriggerEvent[this._renderMode]) {
+      this._bindScrollEventAsRegion(s.event, s, callback);
+    }
   }
 
   initScrollEventOfRegions(
@@ -159,17 +167,19 @@ export class Zoomable implements IZoomable {
     filter?: (s: ISeries) => boolean,
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
   ) {
-    regions.forEach(r => {
-      if (filter) {
-        r.getSeries().forEach(s => {
-          if (filter(s)) {
-            this._bindScrollEventAsRegion(s.event, s, callback);
-          }
-        });
-      } else {
-        this._bindScrollEventAsRegion(this._eventObj, r, callback);
-      }
-    });
+    if (defaultTriggerEvent[this._renderMode]) {
+      regions.forEach(r => {
+        if (filter) {
+          r.getSeries().forEach(s => {
+            if (filter(s)) {
+              this._bindScrollEventAsRegion(s.event, s, callback);
+            }
+          });
+        } else {
+          this._bindScrollEventAsRegion(this._eventObj, r, callback);
+        }
+      });
+    }
   }
 
   private _bindScrollEventAsRegion(
@@ -177,10 +187,10 @@ export class Zoomable implements IZoomable {
     regionOrSeries: IRegion | ISeries,
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
   ) {
-    eventObj.on(this.getTriggerEvent('scrollEnd'), { level: Event_Bubble_Level.chart, consume: false }, params => {
+    eventObj.on(this._getTriggerEvent('scrollEnd'), { level: Event_Bubble_Level.chart, consume: false }, params => {
       this._zoomableTrigger.clearScroll();
     });
-    eventObj.on(this.getTriggerEvent('scroll'), { level: Event_Bubble_Level.chart, consume: true }, params => {
+    eventObj.on(this._getTriggerEvent('scroll'), { level: Event_Bubble_Level.chart, consume: true }, params => {
       if (!(params as BaseEventParams).event) {
         return;
       }
@@ -224,7 +234,7 @@ export class Zoomable implements IZoomable {
     regionOrSeries: IRegion | ISeries,
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void
   ) {
-    eventObj.on(this.getTriggerEvent('start'), { level: Event_Bubble_Level.chart }, params => {
+    eventObj.on(this._getTriggerEvent('start'), { level: Event_Bubble_Level.chart }, params => {
       if (!(params as BaseEventParams).event) {
         return;
       }
@@ -252,13 +262,15 @@ export class Zoomable implements IZoomable {
   }
 
   initDragEventOfSeries(s: ISeries, callback?: (delta: [number, number], e: BaseEventParams['event']) => void) {
-    s.event.on(
-      this.getTriggerEvent('start'),
-      { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id },
-      params => {
-        this._handleDrag(params, callback);
-      }
-    );
+    if (defaultTriggerEvent[this._renderMode]) {
+      s.event.on(
+        this._getTriggerEvent('start'),
+        { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id },
+        params => {
+          this._handleDrag(params, callback);
+        }
+      );
+    }
   }
 
   initDragEventOfRegions(
@@ -266,29 +278,35 @@ export class Zoomable implements IZoomable {
     filter?: (s: ISeries) => boolean,
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void
   ) {
-    regions.forEach(r => {
-      if (filter) {
-        r.getSeries().forEach(s => {
-          if (filter(s)) {
-            s.event.on(
-              this.getTriggerEvent('start'),
-              { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id },
-              params => {
-                this._handleDrag(params, callback);
-              }
-            );
+    if (defaultTriggerEvent[this._renderMode]) {
+      regions.forEach(r => {
+        if (filter) {
+          r.getSeries().forEach(s => {
+            if (filter(s)) {
+              s.event.on(
+                this._getTriggerEvent('start'),
+                { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id },
+                params => {
+                  this._handleDrag(params, callback);
+                }
+              );
 
-            // click 事件需要在drag和zoom时被屏蔽
-            // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
-            s.event.on('click', { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id }, () => {
-              return !this._clickEnable;
-            });
-          }
-        });
-      } else {
-        this._bindDragEventAsRegion(this._eventObj, r, callback);
-      }
-    });
+              // click 事件需要在drag和zoom时被屏蔽
+              // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
+              s.event.on(
+                'click',
+                { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id },
+                () => {
+                  return !this._clickEnable;
+                }
+              );
+            }
+          });
+        } else {
+          this._bindDragEventAsRegion(this._eventObj, r, callback);
+        }
+      });
+    }
   }
 
   protected _handleDrag(
@@ -299,8 +317,8 @@ export class Zoomable implements IZoomable {
     if (!this._zoomableTrigger.parserDragEvent(params.event)) {
       return;
     }
-    const move = this.getTriggerEvent('move');
-    const end = this.getTriggerEvent('end');
+    const move = this._getTriggerEvent('move');
+    const end = this._getTriggerEvent('end');
     const event = params.event as any;
     let x = event.canvasX;
     let y = event.canvasY;
