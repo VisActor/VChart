@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "rollup": "npm run build",
-    "build": "npm run clear && rollup -c --configPlugin typescript --bundleConfigAsCjs",
+    "build": "npm run clear && rollup -c --configPlugin typescript",
     "clear": "rimraf lib"
   },
   "keywords": [
