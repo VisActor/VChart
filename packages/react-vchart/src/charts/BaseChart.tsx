@@ -73,8 +73,11 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   };
 
   const handleChartRender = () => {
+    // rebind events after render
+    bindEventsToChart(chartContext.current.chart, props, eventsBinded.current, CHART_EVENTS);
+
     const newView = chartContext.current.chart.getCompiler().getVGrammarView();
-    if (newView !== view && !isUnmount.current) {
+    if (!isUnmount.current) {
       setUpdateId(updateId + 1);
       if (props.onReady) {
         props.onReady(chartContext.current.chart, updateId === 0);
@@ -102,8 +105,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       eventsBinded.current = props;
       return;
     }
-
-    bindEventsToChart(chartContext.current.chart, props, eventsBinded.current, CHART_EVENTS);
 
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec)) {

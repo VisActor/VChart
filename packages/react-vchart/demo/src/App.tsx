@@ -43,6 +43,7 @@ const simpleData = [
 
 function App() {
   const [count, setCount] = useState(0);
+  const [markFill, setMarkFill] = useState('red');
   const [barData, setBarData] = useState(
     generateData(
       [
@@ -52,6 +53,13 @@ function App() {
       10
     )
   );
+  const handleUpdateMark = () => {
+    if (markFill === 'red') {
+      setMarkFill('green');
+    } else {
+      setMarkFill('red');
+    }
+  };
   const handleClick = () => {
     setBarData(
       generateData(
@@ -86,6 +94,7 @@ function App() {
   return (
     <div className="App">
       <button onClick={handleClick}>更新柱图数据</button>
+      <button onClick={handleUpdateMark}>更新mark属性</button>
       <BarChart
         ref={chartRef}
         data={[{ id: 'id0', values: barData }]}
@@ -126,7 +135,7 @@ function App() {
               size: 30,
               x: 100,
               y: 100,
-              fill: 'red',
+              fill: markFill,
               stroke: 'pink',
               lineWidth: 2
             }
@@ -169,7 +178,7 @@ function App() {
         <Legend visible={true} />
       </FunnelChart>
 
-      {/* <WordCloudChart data={simpleData} nameField={"x"} valueField={"y"}>
+      {/* <WordCloudChart data={simpleData} nameField={'x'} valueField={'y'}>
         <Legend visible={true} />
       </WordCloudChart> */}
 
