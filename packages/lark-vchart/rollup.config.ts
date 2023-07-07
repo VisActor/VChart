@@ -17,7 +17,9 @@ let options = defineConfig([
     ],
     plugins: [
       resolve(),
-      commonjs(),
+      commonjs({
+        include: './src/vchart/index.js'
+      }),
       babel({
         presets: [['@babel/preset-env']],
         babelHelpers: 'bundled'
