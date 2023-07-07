@@ -40,13 +40,13 @@
     {
       "packageName": "@visactor/tt-vchart",
       "projectFolder": "packages/tt-vchart",
-      "shouldPublish": true
+      "shouldPublish": false
     },
     {
       "packageName": "@visactor/lark-vchart",
       "projectFolder": "packages/lark-vchart",
-      "tags": ["package"],
-      "shouldPublish": true
+      // "tags": ["package"],
+      "shouldPublish": false
     },
     {
       "packageName": "@internal/bundler",
