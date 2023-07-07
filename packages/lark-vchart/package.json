@@ -12,7 +12,7 @@
   "scripts": {
     "rollup": "npm run build",
     "build": "npm run clear && rollup -c --configPlugin typescript",
-    "clear": "rimraf lib"
+    "clear": "rimraf index.js"
   },
   "keywords": [
     "lark",
