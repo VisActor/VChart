@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: delegated events on component models should not participate in bubbling",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
