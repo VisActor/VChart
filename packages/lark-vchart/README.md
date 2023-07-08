@@ -48,6 +48,8 @@ interface IEvent {
 
 ## 如何使用
 
+除了阅读下面的使用说明，也可以直接移步 [lark-vchart-example](https://github.com/VisActor/lark-vchart-example)。
+
 ### 前提
 
 在使用 VChart 飞书小程序组件库前，请确保你已经了解过飞书开放平台的相关文档介绍。

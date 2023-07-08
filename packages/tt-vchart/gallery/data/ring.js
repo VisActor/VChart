@@ -1,73 +1,103 @@
+const data = [
+  { type: 'oxygen', value: '46.60', formula: 'O', texture: 'circle' },
+  { type: 'silicon', value: '27.72', formula: 'Si', texture: 'horizontal-line' },
+  { type: 'aluminum', value: '8.13', formula: 'Al', texture: 'vertical-line' },
+  { type: 'iron', value: '5', formula: 'Fe', texture: 'rect' },
+  { type: 'calcium', value: '3.63', formula: 'Ca', texture: 'grid' },
+  { type: 'sodium', value: '2.83', formula: 'Na', texture: 'bias-rl' },
+  { type: 'potassium', value: '2.59', formula: 'K', texture: 'diamond' },
+  { type: 'others', value: '3.5', formula: 'Others', texture: 'bias-lr' }
+];
 export default {
   type: 'pie',
   data: [
     {
       id: 'id0',
-      values: [{"value":"832","type":"Aris","stack":"A"},{"value":"669","type":"Blank","stack":"A"},{"value":"723","type":"Constraint","stack":"A"},{"value":"632","type":"Dominate","stack":"A"}]
+      values: data
     }
   ],
-  radius: 0.8,
-  innerRadius: 0.4,
+  outerRadius: 0.8,
+  innerRadius: 0.5,
+  padAngle: 0.6,
   valueField: 'value',
   categoryField: 'type',
-  legends: {
-    visible: true,
-    orient: 'bottom',
-    title: {
-      visible: false
+  pie: {
+    style: {
+      cornerRadius: 10,
     },
-    item: {
-      visible: true,
-      shape: {
-        state: {
-          unSelected: {
-            fill: 'gray'
-          }
-        }
+    state: {
+      hover: {
+        outerRadius: 0.85,
+        stroke: '#000',
+        lineWidth: 1
       },
-      label: {
-        state: {
-          selectedHover: {
-            fill: 'red'
-          }
-        }
+      selected: {
+        outerRadius: 0.85,
+        stroke: '#000',
+        lineWidth: 1
       }
     }
   },
+  title: {
+    visible: true,
+    text: '地表元素含量统计'
+  },
   indicator: {
     visible: true,
-    // fixed: false,
     trigger: 'hover',
-    // gap: 16,
-    // offset: { y: 100 },
+    limitRatio: 0.4,
     title: {
       visible: true,
-      field: 'type',
       autoFit: true,
-      // fitPercent: 1,
+      field: 'formula',
       style: {
-        fontSize: 42,
-        // text: 'TITLE',
-        fill: 'red'
+        fontWeight: 'bolder',
+        fontFamily: 'Times New Roman',
+        fill: '#888',
       }
     },
     content: [
       {
         visible: true,
+        field: 'type',
         style: {
-          fontSize: 16,
-          text: 'CONTENT0'
+          fontSize: 20,
+          fill: 'orange',
+          fontWeight: 'bolder',
+          fontFamily: 'Times New Roman',
         }
       },
       {
-        autoLimit: true,
+        visible: true,
+        field: 'value',
         style: {
-          fontSize: 16,
-          text: 'CONTENT111111111111111111111111111111111111111',
-          fill: 'blue',
-          fontWeight: 'bolder'
+          fontSize: 18,
+          fill: 'orange',
+          fontFamily: 'Times New Roman',
         }
       }
     ]
+  },
+  legends: {
+    visible: true,
+    orient: 'left',
+    item: {
+      shape: {
+        style: {
+          symbolType: 'circle',
+          texture: datum => datum['texture']
+        }
+      }
+    }
+  },
+  tooltip: {
+    mark: {
+      content: [
+        {
+          key: datum => datum['type'],
+          value: datum => datum['value'] + '%'
+        }
+      ]
+    }
   }
 };
