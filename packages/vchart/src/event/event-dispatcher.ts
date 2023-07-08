@@ -111,7 +111,7 @@ export class EventDispatcher implements IEventDispatcher {
     return this;
   }
 
-  dispatch<Evt extends EventType>(eType: Evt, params: EventParamsDefinition[Evt]): this {
+  dispatch<Evt extends EventType>(eType: Evt, params: EventParamsDefinition[Evt], level?: EventBubbleLevel): this {
     // 默认事件类别为 view
     const bubble = this.getEventBubble((params as BaseEventParams).source || Event_Source_Type.chart).get(
       eType
@@ -123,21 +123,28 @@ export class EventDispatcher implements IEventDispatcher {
 
     // 事件冒泡逻辑：Mark -> Model -> Chart -> VChart
     let stopBubble: boolean = false;
-    // Mark 级别的事件只包含对语法层代理的基础事件
-    const handlers = bubble.getHandlers(Event_Bubble_Level.mark);
-    stopBubble = this._invoke(handlers, eType, params);
 
-    if (!stopBubble) {
-      const handlers = bubble.getHandlers(Event_Bubble_Level.model);
+    if (level) {
+      // 如果指定了 level，则直接处理，不进行冒泡
+      const handlers = bubble.getHandlers(level);
       stopBubble = this._invoke(handlers, eType, params);
-    }
-    if (!stopBubble) {
-      const handlers = bubble.getHandlers(Event_Bubble_Level.chart);
+    } else {
+      // Mark 级别的事件只包含对语法层代理的基础事件
+      const handlers = bubble.getHandlers(Event_Bubble_Level.mark);
       stopBubble = this._invoke(handlers, eType, params);
-    }
-    if (!stopBubble) {
-      const handlers = bubble.getHandlers(Event_Bubble_Level.vchart);
-      stopBubble = this._invoke(handlers, eType, params);
+
+      if (!stopBubble) {
+        const handlers = bubble.getHandlers(Event_Bubble_Level.model);
+        stopBubble = this._invoke(handlers, eType, params);
+      }
+      if (!stopBubble) {
+        const handlers = bubble.getHandlers(Event_Bubble_Level.chart);
+        stopBubble = this._invoke(handlers, eType, params);
+      }
+      if (!stopBubble) {
+        const handlers = bubble.getHandlers(Event_Bubble_Level.vchart);
+        stopBubble = this._invoke(handlers, eType, params);
+      }
     }
 
     return this;

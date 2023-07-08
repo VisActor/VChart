@@ -11,7 +11,8 @@ import type {
   IEventDispatcher,
   IComposedEvent,
   EventParams,
-  EventHandler
+  EventHandler,
+  EventBubbleLevel
 } from './interface';
 
 export class Event implements IEvent {
@@ -102,8 +103,8 @@ export class Event implements IEvent {
     return this;
   }
 
-  emit<Evt extends EventType>(eType: Evt, params: EventParamsDefinition[Evt]): this {
-    this._eventDispatcher.dispatch(eType, params);
+  emit<Evt extends EventType>(eType: Evt, params: EventParamsDefinition[Evt], level?: EventBubbleLevel): this {
+    this._eventDispatcher.dispatch(eType, params, level);
     return this;
   }
 

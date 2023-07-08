@@ -129,14 +129,18 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
 
   // 代理组件事件
   protected _delegateEvent = (component: INode, event: any, type: string) => {
-    this.event.emit(type, {
-      model: this,
-      node: component,
-      event,
-      item: null,
-      datum: null,
-      source: Event_Source_Type.chart,
-      chart: this._option?.globalInstance?.getChart()
-    });
+    this.event.emit(
+      type,
+      {
+        model: this,
+        node: component,
+        event,
+        item: null,
+        datum: null,
+        source: Event_Source_Type.chart,
+        chart: this._option?.globalInstance?.getChart()
+      },
+      'model'
+    );
   };
 }
