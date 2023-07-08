@@ -1,83 +1,95 @@
 export default {
   type: 'funnel',
-  height: 500,
-  width: 500,
-  padding: 0,
-  funnelOrient: 'left',
-  isCone: false,
-  gap: 10,
-  legends: {
-    visible: true
-  },
-  transform: {
-    style: {
-      // fill:"red"
-    }
+  maxSize: '75%',
+  minSize: '10%',
+  isTransform: true,
+  shape: 'rect',
+  color: {
+    type: 'ordinal',
+    range: ['#00328E', '#0048AA', '#005FC5', '#2778E2', '#4E91FF', '#70ABFF', '#8FC7FF', '#AEE2FF']
   },
   funnel: {
     style: {
-      borderRadius: [0, 10, 0, 10],
-      stroke: 'red',
-      strokeWidth: 1
+      cornerRadius: 4,
+      stroke: 'white',
+      lineWidth: 2
+    },
+    state: {
+      hover: {
+        stroke: '#4e83fd',
+        lineWidth: 1
+      }
+    }
+  },
+  transform: {
+    style: {
+      stroke: 'white',
+      lineWidth: 2
+    },
+    state: {
+      hover: {
+        stroke: '#4e83fd',
+        lineWidth: 1
+      }
     }
   },
   label: {
     visible: true,
-    // limit: Infinity,
     style: {
-      // stroke: 'pink'
-      // lineWidth: 40
-      // text:(datum)=> `${datum.name}`
+      lineHeight: 16,
+      limit: Infinity,
+      text: datum => [`${datum.name}`, `${datum.value}`]
     }
   },
   outerLabel: {
-    // position: 'right',
-    // position:'top',
     visible: true,
+    position: 'right',
     alignLabel: false,
-    // spaceWidth:5,
     style: {
-      limit: Infinity
+      text: datum => {
+        return `${datum.percent * 100}%`;
+      }
+    },
+    line: {
+      style: {
+        lineDash: [2, 2]
+      }
     }
   },
   transformLabel: {
-    visible: true
+    visible: true,
+    style: {
+      fill: 'black'
+    }
   },
-  // range:{
-  //   min: 0,
-  //   max:100
-  // },
-  transformTooltip: {
-    visible: true
-  },
-  isTransform: true,
   data: [
     {
       name: 'funnel',
       values: [
         {
           value: 100,
-          name: '收入阿斯顿阿斯顿阿斯顿'
+          name: '简历初筛',
+          percent: 1
         },
         {
-          value: 90,
-          name: '展现展现展'
+          value: 80,
+          name: '简历评估',
+          percent: 0.8
         },
         {
           value: 50,
-          name: '点击'
+          name: '评估通过',
+          percent: 0.5
         },
         {
           value: 30,
-          name: '访问'
+          name: '面试',
+          percent: 0.3
         },
         {
           value: 10,
-          name: '咨询咨询咨询'
-        },
-        {
-          value: 5,
-          name: '订单'
+          name: '终面通过',
+          percent: 0.1
         }
       ]
     }
