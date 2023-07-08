@@ -1,54 +1,49 @@
 export default {
+  type: 'pie',
   data: [
     {
-      name: 'data1',
+      id: 'id0',
       values: [
-        {
-          value: 348,
-          name: '中介渠道: 34.8%'
-        },
-        {
-          value: 152,
-          name: '会员: 15.2%'
-        },
-        {
-          value: 500,
-          name: '散客: 50%'
-        }
+        { type: 'oxygen', value: '46.60' },
+        { type: 'silicon', value: '27.72' },
+        { type: 'aluminum', value: '8.13' },
+        { type: 'iron', value: '5' },
+        { type: 'calcium', value: '3.63' },
+        { type: 'sodium', value: '2.83' },
+        { type: 'potassium', value: '2.59' },
+        { type: 'others', value: '3.5' }
       ]
     }
   ],
-  type: 'pie',
+  outerRadius: 0.8,
   valueField: 'value',
-  categoryField: 'name',
-  radius: 0.6,
-  innerRadius: 0.5,
-  color: ['#87DBDD', '#FF8406', '#468DFF'],
-  pie: {
-    state: {
-      hover: {
-        outerRadius: 0.85,
-        stroke: '#000',
-        lineWidth: 1
-      },
-      selected: {
-        outerRadius: 0.85,
-        stroke: '#000',
-        lineWidth: 1
-      }
-    }
+  categoryField: 'type',
+  title: {
+    visible: true,
+    text: '地表元素含量统计'
+  },
+  legends: {
+    visible: true,
+    orient: 'left'
   },
   label: {
     visible: true
   },
-  legends: {
-    visible: true,
-    orient: 'bottom',
-    title: {
-      visible: false
-    },
-    item: {
-      visible: true
+  tooltip: {
+    mark: {
+      content: [
+        {
+          key: datum => datum['type'],
+          value: datum => datum['value'] + '%'
+        }
+      ]
+    }
+  },
+  pie: {
+    state: {
+      hover: {
+        radiusOffset: 10
+      }
     }
   }
 }

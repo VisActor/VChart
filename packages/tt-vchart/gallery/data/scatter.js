@@ -1,176 +1,108 @@
-const data = [
-  {
-    values: [
-      {
-        "x": 936196,
-        "size": 83431,
-        "y": 1371,
-        "type": "技术",
-        "area": "东北"
-      },
-      {
-        "x": 1270911,
-        "size": 219815,
-        "y": 5590,
-        "type": "办公用品",
-        "area": "中南"
-      },
-      {
-        "x": 453898,
-        "size": 19061,
-        "y": 727,
-        "type": "技术",
-        "area": "西南"
-      },
-      {
-        "x": 919743,
-        "size": 148800,
-        "y": 1199,
-        "type": "家具",
-        "area": "华北"
-      },
-      {
-        "x": 1676224,
-        "size": 163453,
-        "y": 2517,
-        "type": "家具",
-        "area": "华东"
-      },
-      {
-        "x": 1466575,
-        "size": 251487,
-        "y": 2087,
-        "type": "技术",
-        "area": "中南"
-      },
-      {
-        "x": 824673,
-        "size": 86067,
-        "y": 3622,
-        "type": "办公用品",
-        "area": "东北"
-      },
-      {
-        "x": 230956,
-        "size": 24016,
-        "y": 347,
-        "type": "技术",
-        "area": "西北"
-      },
-      {
-        "x": 1599653,
-        "size": 228179,
-        "y": 2183,
-        "type": "技术",
-        "area": "华东"
-      },
-      {
-        "x": 745813,
-        "size": 137265,
-        "y": 3020,
-        "type": "办公用品",
-        "area": "华北"
-      },
-      {
-        "x": 267870,
-        "size": 49633,
-        "y": 970,
-        "type": "办公用品",
-        "area": "西北"
-      },
-      {
-        "x": 1408628,
-        "size": 215585,
-        "y": 6341,
-        "type": "办公用品",
-        "area": "华东"
-      },
-      {
-        "x": 781743,
-        "size": 144986,
-        "y": 927,
-        "type": "技术",
-        "area": "华北"
-      },
-      {
-        "x": 501533,
-        "size": 29303,
-        "y": 814,
-        "type": "家具",
-        "area": "西南"
-      },
-      {
-        "x": 920698,
-        "size": 72692,
-        "y": 1470,
-        "type": "家具",
-        "area": "东北"
-      },
-      {
-        "x": 316212,
-        "size": 24903,
-        "y": 468,
-        "type": "家具",
-        "area": "西北"
-      },
-      {
-        "x": 1399928,
-        "size": 199582,
-        "y": 2023,
-        "type": "家具",
-        "area": "中南"
-      },
-      {
-        "x": 347692,
-        "size": 49272,
-        "y": 1858,
-        "type": "办公用品",
-        "area": "西南"
-      }
-    ]
-  }
-]
-
-// 图表配置
 export default {
   type: 'scatter',
-  data: data,
+  padding: [12, 20, 12, 12],
   xField: 'x',
   yField: 'y',
-  seriesField: 'type',
-
-  sizeField:'size',
-  size: [10, 25],
-  shapeField:'type',
-  shape:['circle', 'triangle'],
+  sizeField: 'z',
+  size: {
+    type: 'linear',
+    range: [20, 80]
+  },
+  axes: [
+    { orient: 'bottom', type: 'linear', min: 60, max: 95 },
+    { orient: 'left', type: 'linear', min: 0, max: 200 }
+  ],
   point: {
-    state: {
-      hover: {
-        scaleX: 1.2,
-        scaleY: 1.2
-      },
+    style: {
+      fillOpacity: 0.25,
+      lineWidth: 1,
+      stroke: '#6690F2',
+      fill: '#6690F2'
     }
   },
-
-  axes: [
-    { orient: 'left', range: { min: 0 }, type: 'linear' },
-    { orient: 'bottom', label: { visible: true }, type: 'band' }
-  ],
-  legends: [
+  label: {
+    visible: true,
+    position: 'center',
+    overlap: {
+      avoidBaseMark: false
+    },
+    style: {
+      stroke: '#fff',
+      lineWidth: 1
+    }
+  },
+  markLine: [
     {
-      visible: true,
-      orient: 'left',
-      position: 'start',
-      title: {
+      x: 65,
+      label: {
         visible: true,
+        position: 'end',
+        text: 'Safe fat intake 65g/day',
         style: {
-          text: '标题'
+          textAlign: 'left',
+          textBaseline: 'top',
+          fill: '#000',
+          dx: 10
+        },
+        labelBackground: {
+          visible: false
         }
       },
-      item: {
-        visible: true
+      line: {
+        style: {
+          stroke: '#000',
+          lineDash: [0]
+        }
+      }
+    },
+    {
+      y: 50,
+      label: {
+        visible: true,
+        position: 'end',
+        text: 'Safe sugar intake 50g/day',
+        style: {
+          textAlign: 'right',
+          textBaseline: 'bottom',
+          fill: '#000'
+        },
+        labelBackground: {
+          visible: false
+        }
+      },
+      line: {
+        style: {
+          stroke: '#000',
+          lineDash: [0]
+        }
       }
     }
   ],
-  direction: 'horizontal'
-};
+  tooltip: {
+    mark: {
+      title: {
+        value: datum => datum.country
+      }
+    }
+  },
+  data: {
+    id: 'data',
+    values: [
+      { x: 95, y: 95, z: 13.8, name: 'BE', country: 'Belgium' },
+      { x: 86.5, y: 102.9, z: 14.7, name: 'DE', country: 'Germany' },
+      { x: 80.8, y: 91.5, z: 15.8, name: 'FI', country: 'Finland' },
+      { x: 80.4, y: 102.5, z: 12, name: 'NL', country: 'Netherlands' },
+      { x: 80.3, y: 86.1, z: 11.8, name: 'SE', country: 'Sweden' },
+      { x: 78.4, y: 70.1, z: 16.6, name: 'ES', country: 'Spain' },
+      { x: 74.2, y: 68.5, z: 14.5, name: 'FR', country: 'France' },
+      { x: 73.5, y: 83.1, z: 10, name: 'NO', country: 'Norway' },
+      { x: 71, y: 93.2, z: 24.7, name: 'UK', country: 'United Kingdom' },
+      { x: 69.2, y: 57.6, z: 10.4, name: 'IT', country: 'Italy' },
+      { x: 68.6, y: 20, z: 16, name: 'RU', country: 'Russia' },
+      { x: 65.5, y: 126.4, z: 35.3, name: 'US', country: 'United States' },
+      { x: 65.4, y: 50.8, z: 28.5, name: 'HU', country: 'Hungary' },
+      { x: 63.4, y: 51.8, z: 15.4, name: 'PT', country: 'Portugal' },
+      { x: 64, y: 82.9, z: 31.3, name: 'NZ', country: 'New Zealand' }
+    ]
+  }
+}
