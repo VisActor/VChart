@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/lark-vchart",
+      "comment": "fix(wordCloud): text clip when layoutmode is fast",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart"
+}

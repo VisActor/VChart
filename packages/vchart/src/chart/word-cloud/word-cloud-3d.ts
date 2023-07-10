@@ -34,8 +34,7 @@ export class WordCloud3dChart extends BaseWordCloudChart {
       wordCloudConfig: spec.wordCloudConfig,
       wordCloudShapeConfig: spec.wordCloudShapeConfig,
       word: spec.word,
-      fillingWord: spec.fillingWord,
-      chartPadding: spec.padding
+      fillingWord: spec.fillingWord
     };
     const seriesType = this.seriesType;
     if (seriesType) {

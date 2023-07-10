@@ -39,7 +39,7 @@ import {
 } from '../../constant/word-cloud';
 import { getDataScheme } from '../../theme/color-scheme/util';
 import type { ICompilableMark } from '../../compile/mark';
-import type { ILayoutOrientPadding } from '../../model/interface';
+import type { ILayoutNumber, ILayoutOrientPadding } from '../../model/interface';
 import { BaseSeries } from '../base/base-series';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { VChart } from '../../core/vchart';
@@ -103,10 +103,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   setAttrFromSpec() {
     super.setAttrFromSpec();
     // series布局相关
-    this._paddingLeft =
-      ((this._spec?.chartPadding as ILayoutOrientPadding)?.left as number) ?? (this._spec.chartPadding as number) ?? 0;
-    this._paddingTop =
-      ((this._spec?.chartPadding as ILayoutOrientPadding)?.top as number) ?? (this._spec.chartPadding as number) ?? 0;
+    // 词云不支持百分比padding
+    this._paddingLeft = (this._option.getChart().getPaddingSpec().left as number) ?? 0;
+    this._paddingTop = (this._option.getChart().getPaddingSpec().top as number) ?? 0;
 
     // 普通词云 & 形状词云 共有spec相关
     this._nameField = this._spec.nameField;

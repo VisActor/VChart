@@ -84,6 +84,7 @@ export interface IChart extends ICompilable {
 
   // spec
   updateSpec: (spec: any, morphConfig?: IMorphConfig) => IUpdateSpecResult;
+  getPaddingSpec: () => ILayoutOrientPadding;
 
   // state
   /**
