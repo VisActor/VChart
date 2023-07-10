@@ -27,6 +27,10 @@ function run() {
     stdio: 'inherit',
     shell: false,
   });
+  spawnSync('sh', ['-c', `rush build --only @visactor/lark-vchart`], {
+    stdio: 'inherit',
+    shell: false,
+  });
 
   // 3. publish to npm
   spawnSync('sh', ['-c', 'rush publish --publish --include-all'], {
