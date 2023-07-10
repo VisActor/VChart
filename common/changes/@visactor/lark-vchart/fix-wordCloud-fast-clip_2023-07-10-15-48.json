@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/lark-vchart",
+      "comment": "fix(wordCloud): get padding from chartInstance padding",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart"
+}

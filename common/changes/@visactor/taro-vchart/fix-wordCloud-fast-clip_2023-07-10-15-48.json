@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/taro-vchart",
+      "comment": "fix(wordCloud): get padding from chartInstance padding",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart"
+}
