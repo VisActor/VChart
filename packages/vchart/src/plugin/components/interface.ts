@@ -12,6 +12,8 @@ export interface IComponentPlugin {
   onAdd: (service: IComponentPluginService) => void;
   init?: () => void;
   dispose?: (service: IComponentPluginService) => void;
+  onInit?: (service: IComponentPluginService, ...params: any) => MaybePromise<void>;
+  onDidCompile?: (service: IComponentPluginService, ...params: any) => MaybePromise<void>;
   onWillLayout?: (service: IComponentPluginService, ...params: any) => MaybePromise<void>;
   onDidLayout?: (service: IComponentPluginService, ...params: any) => MaybePromise<void>;
   onWillLayoutVertical?: (service: IComponentPluginService, context: IContext, ...params: any) => MaybePromise<void>;

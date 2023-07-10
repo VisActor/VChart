@@ -72,6 +72,7 @@ export enum ChartEvent {
   viewDataLabelUpdate = 'viewDataLabelUpdate',
   /** series end */
   // scale
+  scaleDomainUpdate = 'scaleDomainUpdate',
   scaleUpdate = 'scaleUpdate',
   // datazoom
   dataZoomChange = 'dataZoomChange',

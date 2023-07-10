@@ -21,6 +21,7 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { degreeToRadian, type LooseFunction } from '@visactor/vutils';
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './utils';
 import { transformStateStyle, transformToGraphic } from '../../util/style';
+import type { ITransformOptions } from '@visactor/vdataset';
 
 export abstract class AxisComponent extends BaseComponent implements IAxis {
   static specKey = 'axes';
@@ -43,6 +44,9 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
   protected declare _theme: ICartesianAxisCommonTheme | IPolarAxisCommonTheme;
 
   protected _tickData!: CompilableData;
+  getTickData() {
+    return this._tickData;
+  }
 
   protected _statisticsDomain: {
     domain: any[];
@@ -247,6 +251,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
       this._scales[i].domain(domain);
     }
     this.transformScaleDomain();
+    this.event.emit(ChartEvent.scaleDomainUpdate, { model: this });
     this.event.emit(ChartEvent.scaleUpdate, { model: this });
   }
 
@@ -432,5 +437,9 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         state: transformStateStyle(spec.background?.state)
       }
     };
+  }
+
+  addTransformToTickData(options: ITransformOptions, execute?: boolean) {
+    this._tickData?.getDataView()?.transform(options, execute);
   }
 }
