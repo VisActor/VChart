@@ -109,6 +109,8 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
 
   clear() {
     this._container = null;
+    this.pluginService?.disposeAll();
+    this.pluginService = null;
   }
 
   compile(): void {
