@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(type): add more public methods for IAxis interface",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
