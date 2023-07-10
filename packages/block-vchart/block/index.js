@@ -15,6 +15,7 @@ import lineSpec from './data/line';
 import funnelSpec from './data/funnel';
 
 import VChart from './vchart/index';
+import { debounce } from './utils/utils';
 
 Block({
   data: {
@@ -35,25 +36,6 @@ Block({
         spec: barSpec,
         chart: undefined
       }
-      // {
-      //   id: "line",
-      //   // spec: areaSpec,
-      //   // spec: barSpec,
-      //   // spec: columnSpec,
-      //   // spec: groupColumnSpec,
-      //   // spec: pieIndicatorSpec,
-      //   // spec: pieInnerLabelSpec,
-      //   // spec: pieSpec,
-      //   // spec: roseSpec,
-      //   // spec: scatterSpec,
-      //   // spec: stackAreaSpec,
-      //   // spec: stackBarSpec,
-      //   // spec: stackColumnSpec,
-      //   // spec: cloudSpec,
-      //   // spec: lineSpec,
-      //   // spec: funnelSpec,
-      //   chart: undefined
-      // },
     ]
   },
   onLoad(options) {
@@ -91,17 +73,13 @@ Block({
         }
       ];
     });
-    tt.getContainerRect({
-      success: res => {
-        // 初始化图表库
-        this.methods.init(res);
-      },
-      fail(res) {
-        // console.log("getContainerRect 调用失败", res);
-      },
-      complete(res) {
-        // console.log("getContainerRect 调用结束", res);
-      }
+    this.methods.initChart();
+
+    // 通过监听容器变化，图表自适应宽高
+    this.onResize = debounce(this.methods.initChart, 300);
+    tt.onContainerResize(({ width, height }) => {
+      this.onResize();
+      console.log('容器尺寸变化 width = ', width, ' height = ', height);
     });
   },
   onShow() {
@@ -128,6 +106,20 @@ Block({
     });
   },
   methods: {
+    initChart() {
+      tt.getContainerRect({
+        success: res => {
+          // 初始化图表库
+          this.methods.init(res);
+        },
+        fail(res) {
+          // console.log("getContainerRect 调用失败", res);
+        },
+        complete(res) {
+          // console.log("getContainerRect 调用结束", res);
+        }
+      });
+    },
     init() {
       this.data.chartList.forEach(item => {
         tt.createSelectorQuery()

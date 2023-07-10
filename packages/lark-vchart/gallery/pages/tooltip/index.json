@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "vchart": "../../../index",
-    "cs-tooltip": "../../components/tooltip-plugin/index"
-  }
-}

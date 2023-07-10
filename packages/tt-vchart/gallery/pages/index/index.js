@@ -3,112 +3,76 @@ const app = getApp();
 Page({
   onShareAppMessage() {
     return {
-      title: "vchart 小程序示例",
-      path: "/pages/index/index",
+      title: 'VChart 字节小程序示例',
+      path: '/pages/index/index',
       success() {},
-      fail() {},
+      fail() {}
     };
   },
   data: {
     charts: [
       {
-        id: "scatter",
-        name: "scatter",
+        id: 'scatter',
+        name: 'scatter'
       },
       {
-        id: "line",
-        name: "line",
+        id: 'line',
+        name: 'line'
       },
       {
-        id: "area",
-        name: "area",
+        id: 'area',
+        name: 'area'
       },
       {
-        id: "funnel",
-        name: "funnel",
+        id: 'funnel',
+        name: 'funnel'
       },
       {
-        id: "bar",
-        name: "bar",
+        id: 'bar',
+        name: 'bar'
       },
       {
-        id: "horizontal-bar",
-        name: "horizontal-bar",
+        id: 'horizontal-bar',
+        name: 'horizontal-bar'
       },
       {
-        id: "radar",
-        name: "radar",
+        id: 'radar',
+        name: 'radar'
       },
       {
-        id: "sankey",
-        name: "sankey",
+        id: 'sankey',
+        name: 'sankey'
       },
       {
-        id: "pie",
-        name: "pie",
+        id: 'pie',
+        name: 'pie'
       },
       {
-        id: "ring",
-        name: "ring",
+        id: 'ring',
+        name: 'ring'
       },
       {
-        id: "rose",
-        name: "rose",
-      },
-      // {
-      //   id: "map",
-      //   name: "map",
-      // },
-      {
-        id: "wordcloud",
-        name: "wordcloud",
+        id: 'rose',
+        name: 'rose'
       },
       {
-        id: "boxplot",
-        name: "boxplot",
+        id: 'wordcloud',
+        name: 'wordcloud'
       },
-      // {
-      //   id: "contour",
-      //   name: "contour",
-      // },
-      // {
-      //   id: "indicator",
-      //   name: "indicator",
-      // },
-      // {
-      //   id: "pivot-combination",
-      //   name: "pivot",
-      // },
-      // {
-      //   id: "zd-bar",
-      //   name: "zd-bar",
-      // },
-      // {
-      //   id: "zd-line",
-      //   name: "zd-line",
-      // },
-      // {
-      //   id: "zd-pie",
-      //   name: "zd-pie",
-      // },
-      // {
-      //   id: "zd-line-bar",
-      //   name: "zd-line-bar",
-      // },
-      // {
-      //   id: "zd-line-bars",
-      //   name: "zd-line",
-      // },
       {
-        id: "dual-axis",
-        name: "dual-axis",
+        id: 'boxplot',
+        name: 'boxplot'
       },
-    ],
+      {
+        id: 'dual-axis',
+        name: 'dual-axis'
+      }
+    ]
   },
 
   open(e) {
     tt.navigateTo({
-      url: `../chart/index?type=${e.target.dataset.chart.id}`,
+      url: `../chart/index?type=${e.target.dataset.chart.id}`
     });
-  },
+  }
 });

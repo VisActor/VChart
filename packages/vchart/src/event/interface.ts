@@ -271,7 +271,7 @@ export interface IEventDispatcher {
   globalInstance: VChart;
   register: <Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) => this;
   unregister: <Evt extends EventType>(eType: Evt, handler?: EventHandler<EventParamsDefinition[Evt]>) => this;
-  dispatch: <Evt extends EventType>(eType: Evt, params?: EventParamsDefinition[Evt]) => this;
+  dispatch: <Evt extends EventType>(eType: Evt, params?: EventParamsDefinition[Evt], level?: EventBubbleLevel) => this;
   release: () => void;
 }
 
@@ -288,7 +288,7 @@ export interface IEvent {
       query: EventQuery,
       callback: EventCallback<EventParamsDefinition[Evt]>
     ) => this);
-  emit: <Evt extends EventType>(eType: Evt, params: EventParamsDefinition[Evt]) => void;
+  emit: <Evt extends EventType>(eType: Evt, params: EventParamsDefinition[Evt], level?: EventBubbleLevel) => void;
   release: () => void;
 }
 

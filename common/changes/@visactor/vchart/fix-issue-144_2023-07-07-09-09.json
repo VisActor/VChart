@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: the issue that mode value does not exit in trigger config",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "just_star@qq.com"
+}

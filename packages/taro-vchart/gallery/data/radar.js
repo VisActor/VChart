@@ -1,155 +1,243 @@
 export default {
-  description: "敌人前进路线图",
-  type: "radar",
+  type: 'radar',
   data: [
     {
-      name: "地图",
-      fields: {
-        category: {
-          alias: "敌人",
-        },
-        value: {
-          alias: "攻击力",
-        },
-      },
       values: [
         {
-          key: "北",
-          value: 31,
-          category: "驱逐舰",
+          month: '1月',
+          value: 45,
+          type: 'A'
         },
         {
-          key: "东北",
-          value: 32,
-          category: "驱逐舰",
+          month: '2月',
+          value: 61,
+          type: 'A'
         },
         {
-          key: "东",
-          value: 21,
-          category: "驱逐舰",
+          month: '3月',
+          value: 92,
+          type: 'A'
         },
         {
-          key: "东南",
-          value: 15,
-          category: "驱逐舰",
+          month: '4月',
+          value: 57,
+          type: 'A'
         },
         {
-          key: "南",
-          value: 50,
-          category: "驱逐舰",
+          month: '5月',
+          value: 46,
+          type: 'A'
         },
         {
-          key: "西南",
-          value: 44,
-          category: "驱逐舰",
+          month: '6月',
+          value: 36,
+          type: 'A'
         },
         {
-          key: "西",
-          value: 32,
-          category: "驱逐舰",
+          month: '7月',
+          value: 33,
+          type: 'A'
         },
         {
-          key: "西北",
-          value: 32,
-          category: "驱逐舰",
+          month: '8月',
+          value: 63,
+          type: 'A'
         },
         {
-          key: "北",
-          value: 31,
-          category: "驱逐舰",
+          month: '9月',
+          value: 57,
+          type: 'A'
         },
         {
-          key: "东北",
-          value: 32,
-          category: "驱逐舰",
+          month: '10月',
+          value: 53,
+          type: 'A'
         },
         {
-          key: "东",
-          value: 21,
-          category: "驱逐舰",
+          month: '11月',
+          value: 69,
+          type: 'A'
         },
         {
-          key: "东南",
+          month: '12月',
           value: 40,
-          category: "航母",
+          type: 'A'
         },
         {
-          key: "南",
-          value: 25,
-          category: "航母",
+          month: '1月',
+          value: 31,
+          type: 'B'
         },
         {
-          key: "西南",
-          value: 22,
-          category: "航母",
+          month: '2月',
+          value: 39,
+          type: 'B'
         },
         {
-          key: "西",
-          value: 18,
-          category: "航母",
+          month: '3月',
+          value: 81,
+          type: 'B'
         },
         {
-          key: "西北",
-          value: 7,
-          category: "航母",
+          month: '4月',
+          value: 39,
+          type: 'B'
         },
         {
-          key: "北",
-          value: 24,
-          category: "航母",
+          month: '5月',
+          value: 64,
+          type: 'B'
         },
         {
-          key: "东北",
-          value: 43,
-          category: "航母",
+          month: '6月',
+          value: 21,
+          type: 'B'
         },
         {
-          key: "东",
-          value: 42,
-          category: "航母",
+          month: '7月',
+          value: 58,
+          type: 'B'
         },
-      ],
-    },
+        {
+          month: '8月',
+          value: 72,
+          type: 'B'
+        },
+        {
+          month: '9月',
+          value: 47,
+          type: 'B'
+        },
+        {
+          month: '10月',
+          value: 37,
+          type: 'B'
+        },
+        {
+          month: '11月',
+          value: 80,
+          type: 'B'
+        },
+        {
+          month: '12月',
+          value: 74,
+          type: 'B'
+        },
+        {
+          month: '1月',
+          value: 90,
+          type: 'C'
+        },
+        {
+          month: '2月',
+          value: 95,
+          type: 'C'
+        },
+        {
+          month: '3月',
+          value: 62,
+          type: 'C'
+        },
+        {
+          month: '4月',
+          value: 52,
+          type: 'C'
+        },
+        {
+          month: '5月',
+          value: 74,
+          type: 'C'
+        },
+        {
+          month: '6月',
+          value: 87,
+          type: 'C'
+        },
+        {
+          month: '7月',
+          value: 80,
+          type: 'C'
+        },
+        {
+          month: '8月',
+          value: 69,
+          type: 'C'
+        },
+        {
+          month: '9月',
+          value: 74,
+          type: 'C'
+        },
+        {
+          month: '10月',
+          value: 84,
+          type: 'C'
+        },
+        {
+          month: '11月',
+          value: 94,
+          type: 'C'
+        },
+        {
+          month: '12月',
+          value: 23,
+          type: 'C'
+        }
+      ]
+    }
   ],
-  categoryField: "key",
-  valueField: "value",
-  seriesField: "category",
-  legends: {
-    visible: true,
-    orient: "bottom",
-  },
-  label: {
-    visible: false,
-  },
+  categoryField: 'month',
+  valueField: 'value',
+  seriesField: 'type', // 声明分组字段
+  stack: true,
+  percent: true,
   area: {
-    visible: false,
+    visible: true // 展示面积
   },
-  point: {
-    visible: true
-  },
-  radius: 0.8,
   axes: [
     {
-      orient: 'angle',
-      domainLine: { visible: false },
-      grid: { style: { lineDash: [0] } },
-      tick: {
-        visible: false,
+      orient: 'radius', // 半径轴配置
+      min: 0,
+      domainLine: {
+        visible: true
       },
       label: {
-        space: 20
+        visible: true,
+        formatMethod: val => {
+          return val * 100 + '%'
+        }
+      },
+      grid: {
+        smooth: false,
+        style: {
+          lineDash: [0]
+        }
       }
     },
     {
-      orient: 'radius',
+      orient: 'angle', // 角度轴配置
       tick: {
-        visible: false,
-        tickCount: 3,
-      },
-      label: {
         visible: false
       },
-      grid: { visible: true, smooth: false, style: { lineDash: [0] } }
+      domainLine: {
+        visible: false
+      },
+      grid: {
+        style: {
+          lineDash: [0]
+        }
+      }
     }
-  ]
-};
+  ],
+  legends: {
+    visible: true,
+    orient: 'top'
+  },
+  crosshair: {
+    categoryField: {
+      label: {
+        visible: true
+      }
+    }
+  }
+}

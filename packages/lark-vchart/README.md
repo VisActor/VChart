@@ -48,6 +48,8 @@ interface IEvent {
 
 ## 如何使用
 
+除了阅读下面的使用说明，也可以直接移步 [lark-vchart-example](https://github.com/VisActor/lark-vchart-example)。
+
 ### 前提
 
 在使用 VChart 飞书小程序组件库前，请确保你已经了解过飞书开放平台的相关文档介绍。
@@ -148,14 +150,14 @@ Page({
 
 1. 飞书小程序现阶段由于序列化问题，还不支持在 setData 以及 triggerEvent 中传递复杂对象及函数，只支持可序列号的数据。**因此 `events` 功能, `chartinit` 回调参数, `chartready` 回调参数暂不可用**
 
-针对一些需要使用到 chart 实例的功能，目前可以通过 [selectComponent](https://open.feishu.cn/document/uYjL24iN/uADMx4CMwEjLwATM) ，在给组件 `<chart-space id="chart1">` 标明 id 属性后，通过 `selectComponent` 拿到图表实例，如下所示：
+针对一些需要使用到 chart 实例的功能，目前可以通过 [selectComponent](https://open.feishu.cn/document/uYjL24iN/uADMx4CMwEjLwATM) ，在给组件 `<chart id="chart1">` 标明 id 属性后，通过 `selectComponent` 拿到图表实例，如下所示：
 
 ```javascript
 onChartReady() {
 	console.log('chart 实例渲染完成');
 	this.selectComponent("#chart1", res => {
-		const chartInstance = res && res.ttCanvas && res.ttCanvas.chart; // 获取 chart 实例
-		// ...
+		const chartInstance = res && res.chart; // 获取 chart 实例
+    console.log('获取 VChart 实例', chartInstance);
 	});
 },
 ```

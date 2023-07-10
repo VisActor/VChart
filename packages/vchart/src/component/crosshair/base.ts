@@ -127,13 +127,15 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
   }
 
   protected _initEvent() {
-    const { in: triggerEvent, out: outTriggerEvent } = this._getTriggerEvent();
-    if (isArray(triggerEvent)) {
-      triggerEvent.forEach((eventName, index) =>
-        this._registerEvent(eventName, isArray(outTriggerEvent) ? outTriggerEvent[index] : outTriggerEvent)
-      );
-    } else {
-      this._registerEvent(triggerEvent, outTriggerEvent);
+    if (this._getTriggerEvent()) {
+      const { in: triggerEvent, out: outTriggerEvent } = this._getTriggerEvent();
+      if (isArray(triggerEvent)) {
+        triggerEvent.forEach((eventName, index) =>
+          this._registerEvent(eventName, isArray(outTriggerEvent) ? outTriggerEvent[index] : outTriggerEvent)
+        );
+      } else {
+        this._registerEvent(triggerEvent, outTriggerEvent);
+      }
     }
   }
 
@@ -167,25 +169,28 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
 
   private _getTriggerEvent() {
     const { mode = RenderModeEnum['desktop-browser'] } = this._option;
-    const trigger = this.trigger || 'hover';
-    const outTrigger = (trigger: CrossHairTrigger) => (trigger === 'click' ? 'clickOut' : 'hoverOut');
-    if (isArray(trigger)) {
-      // 同时配置了多个触发事件
-      let inResult: string[] = [];
-      let outResult: string[] = [];
-      trigger.forEach(item => {
-        inResult = inResult.concat(defaultCrosshairTriggerEvent[mode][item]);
-        outResult = outResult.concat(defaultCrosshairTriggerEvent[mode][outTrigger(item)]);
-      });
+    if (defaultCrosshairTriggerEvent[mode]) {
+      const trigger = this.trigger || 'hover';
+      const outTrigger = (trigger: CrossHairTrigger) => (trigger === 'click' ? 'clickOut' : 'hoverOut');
+      if (isArray(trigger)) {
+        // 同时配置了多个触发事件
+        let inResult: string[] = [];
+        let outResult: string[] = [];
+        trigger.forEach(item => {
+          inResult = inResult.concat(defaultCrosshairTriggerEvent[mode][item]);
+          outResult = outResult.concat(defaultCrosshairTriggerEvent[mode][outTrigger(item)]);
+        });
+        return {
+          in: inResult,
+          out: outResult
+        };
+      }
       return {
-        in: inResult,
-        out: outResult
+        in: defaultCrosshairTriggerEvent[mode][trigger],
+        out: defaultCrosshairTriggerEvent[mode][outTrigger(trigger)]
       };
     }
-    return {
-      in: defaultCrosshairTriggerEvent[mode][trigger],
-      out: defaultCrosshairTriggerEvent[mode][outTrigger(trigger)]
-    };
+    return null;
   }
 
   protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value') {
@@ -247,16 +252,18 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
   }
 
   protected _releaseEvent(): void {
-    const { in: triggerEvent, out: outTriggerEvent } = this._getTriggerEvent();
-    if (isArray(triggerEvent)) {
-      triggerEvent.forEach(eachTriggerEvent => this._eventOff(eachTriggerEvent));
-    } else {
-      this._eventOff(triggerEvent);
-    }
-    if (isArray(outTriggerEvent)) {
-      outTriggerEvent.forEach(eachTriggerEvent => this._eventOff(eachTriggerEvent));
-    } else {
-      this._eventOff(outTriggerEvent);
+    if (this._getTriggerEvent()) {
+      const { in: triggerEvent, out: outTriggerEvent } = this._getTriggerEvent();
+      if (isArray(triggerEvent)) {
+        triggerEvent.forEach(eachTriggerEvent => this._eventOff(eachTriggerEvent));
+      } else {
+        this._eventOff(triggerEvent);
+      }
+      if (isArray(outTriggerEvent)) {
+        outTriggerEvent.forEach(eachTriggerEvent => this._eventOff(eachTriggerEvent));
+      } else {
+        this._eventOff(outTriggerEvent);
+      }
     }
   }
 
