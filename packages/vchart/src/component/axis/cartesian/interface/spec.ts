@@ -1,4 +1,4 @@
-import type { IOrientType, IRectMarkSpec } from '../../../../typings';
+import type { IOrientType, IRectMarkSpec, StringOrNumber } from '../../../../typings';
 import type { IBandAxisSpec, ILinearAxisSpec, IGrid, ICommonAxisSpec } from '../../interface';
 import type { ICartesianDomainLine, ICartesianLabel, ITimeLayerType, ICartesianTitle } from './common';
 import type { AxisItemStateStyle } from '@visactor/vrender-components';
@@ -62,7 +62,16 @@ export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
   depth?: number;
 };
 
-export type ICartesianLinearAxisSpec = ICartesianAxisCommonSpec & ILinearAxisSpec;
+export interface ILinearAxisSync {
+  axisId: StringOrNumber;
+  zeroAlign?: boolean;
+  tickAlign?: boolean;
+}
+
+export type ICartesianLinearAxisSpec = ICartesianAxisCommonSpec &
+  ILinearAxisSpec & {
+    sync?: ILinearAxisSync;
+  };
 
 export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec & IBandAxisSpec;
 

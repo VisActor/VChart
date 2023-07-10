@@ -7,10 +7,12 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IModelSpec } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AxisItemStateStyle } from '@visactor/vrender-components';
+import type { ICompilableData } from '../../compile/data';
 
 export interface IAxis extends IComponent {
   valueToPosition: (value: any) => number;
   getScale: () => IBaseScale;
+  getTickData: () => ICompilableData;
   orient: ICartesianAxisSpec['orient'] | IPolarOrientType;
 }
 
