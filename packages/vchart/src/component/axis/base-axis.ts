@@ -10,7 +10,7 @@ import { BaseComponent } from '../base';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
 import type { CompilableData } from '../../compile/data';
-import type { IAxis, ITick } from './interface';
+import type { IAxis, ITick, StatisticsDomain } from './interface';
 import type { IComponentOption } from '../interface';
 import { array, eachSeries, get, getSeries, isArray, isBoolean, isFunction, isNil, isValid, merge } from '../../util';
 import type { ISeries } from '../../series/interface';
@@ -48,10 +48,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
     return this._tickData;
   }
 
-  protected _statisticsDomain: {
-    domain: any[];
-    index: { [key in StringOrNumber]: number };
-  } = { domain: [], index: {} };
+  protected _statisticsDomain: StatisticsDomain = { domain: [], index: {} };
   getStatisticsDomain() {
     return this._statisticsDomain;
   }

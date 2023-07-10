@@ -9,11 +9,18 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { AxisItemStateStyle } from '@visactor/vrender-components';
 import type { ICompilableData } from '../../compile/data';
 
+export type StatisticsDomain = {
+  domain: any[];
+  index: { [key in StringOrNumber]: number };
+};
+
 export interface IAxis extends IComponent {
   valueToPosition: (value: any) => number;
   getScale: () => IBaseScale;
-  getTickData: () => ICompilableData;
+  getScales: () => IBaseScale[];
   orient: ICartesianAxisSpec['orient'] | IPolarOrientType;
+  visible: boolean;
+  getStatisticsDomain: () => StatisticsDomain;
 }
 
 export interface IAxisItem<T> {
