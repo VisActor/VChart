@@ -158,16 +158,21 @@ async function getPhotoResult({ scmVersion, bundleId }) {
     bundleId,
   });
 
-  const res = await fetch(`${host}/api/ci/trigger`, {
-    method: "POST",
-    headers: {
-      ...formData.getHeaders(),
-    },
-    body: formData,
-  });
-
-  console.log(`getPhotoResult, result: ${JSON.stringify(res)} `);
-  return res;
+  try {
+    const res = await fetch(`${host}/api/ci/trigger`, {
+      method: "POST",
+      headers: {
+        ...formData.getHeaders(),
+      },
+      body: formData,
+    });
+    console.log(`getPhotoResult, result: ${JSON.stringify(res)} `);
+    return res;
+  } catch (err) {
+    console.error(`getPhotoResult, err: `);
+    console.error(err);
+    return {};
+  }
 }
 
 async function waitUntilPhotoTestOK({ bundleId, scmVersion }) {
