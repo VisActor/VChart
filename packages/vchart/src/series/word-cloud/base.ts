@@ -1,4 +1,5 @@
 /* eslint-disable no-duplicate-imports */
+import type { IPadding } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
@@ -39,7 +40,6 @@ import {
 } from '../../constant/word-cloud';
 import { getDataScheme } from '../../theme/color-scheme/util';
 import type { ICompilableMark } from '../../compile/mark';
-import type { ILayoutNumber, ILayoutOrientPadding } from '../../model/interface';
 import { BaseSeries } from '../base/base-series';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { VChart } from '../../core/vchart';
@@ -94,8 +94,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected _wordCloudConfig?: WordCloudConfigType;
   protected _wordCloudShapeConfig?: WordCloudShapeConfigType;
 
-  protected _paddingLeft?: number;
-  protected _paddingTop?: number;
+  protected _padding?: IPadding;
 
   /**
    * @override
@@ -103,9 +102,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   setAttrFromSpec() {
     super.setAttrFromSpec();
     // series布局相关
-    // 词云不支持百分比padding
-    this._paddingLeft = (this._option.getChart().getPaddingSpec().left as number) ?? 0;
-    this._paddingTop = (this._option.getChart().getPaddingSpec().top as number) ?? 0;
+    this._padding = this._option.getChart().padding;
 
     // 普通词云 & 形状词云 共有spec相关
     this._nameField = this._spec.nameField;
@@ -312,7 +309,10 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         type: 'wordcloud',
         // TIP: 非浏览器环境下，使用 fast 布局，否则会出现兼容问题
         layoutType: !isTrueBrowser(this._option.mode) ? 'fast' : this._wordCloudConfig.layoutMode,
-        size: [srView.width() - this._paddingLeft, srView.height() - this._paddingTop],
+        size: [
+          srView.width() - this._padding?.left || 0 - this._padding?.right || 0,
+          srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0
+        ],
         shape: this._maskShape,
         dataIndexKey: DEFAULT_DATA_KEY,
         text: { field: textField },
