@@ -53,7 +53,11 @@ describe('[event] Event', () => {
 
     eventB.emit('event1', { node: { name: 'axis-label' } });
     eventB.emit('event2', { model: { type: 'bar', userId: 'bar0' } });
-    eventB.emit('event3', { model: { type: 0, userId: 'bar0' }, itemMap });
+    eventB.emit('event3', {
+      model: { type: 0, userId: 'bar0' },
+      mark: { name: 'bar', getProductId: () => 'bar' },
+      itemMap
+    });
     eventB.emit('event4', { model: { type: 'bar', userId: 'bar0' }, itemMap });
     eventB.emit('event5', { model: { type: 'bar', userId: 'bar0', id: 4 }, itemMap });
 
