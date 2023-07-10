@@ -40,7 +40,7 @@ import { DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
 
-const CartesianAxisPlugin = [pluginMap.AxisLabelOverlapPlugin];
+const CartesianAxisPlugin = [pluginMap.AxisLabelOverlapPlugin, pluginMap.AxisSyncPlugin];
 
 export abstract class CartesianAxis extends AxisComponent implements IAxis {
   static type = ComponentTypeEnum.cartesianAxis;
@@ -243,6 +243,9 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   init(option: IModelInitOption): void {
     super.init(option);
     this.pluginService?.load(CartesianAxisPlugin.map(P => new P()));
+    this.callPlugin(plugin => {
+      this.pluginService && plugin.onInit && plugin.onInit(this.pluginService, this);
+    });
   }
 
   setAttrFromSpec() {
@@ -321,6 +324,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     };
   }
 
+  /** LifeCycle API**/
   afterCompile() {
     const product = this.getMarks()[0]?.getProduct();
     if (product) {
@@ -344,34 +348,11 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         }
       });
     }
+    this.callPlugin(plugin => {
+      this.pluginService && plugin.onDidCompile && plugin.onDidCompile(this.pluginService, this);
+    });
   }
 
-  // onLayoutStart(ctx: any): void {
-  //   const product = this.getMarks()[0]?.getProduct();
-  //   if (product) {
-  //     product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
-  //       if (this._isLayout === false) {
-  //         // 布局结束之后再进行插件的调用
-  //         // 插件在布局后
-  //         if (isXAxis(this.orient)) {
-  //           this.callPlugin(plugin => {
-  //             this.pluginService &&
-  //               plugin.onDidLayoutHorizontal &&
-  //               plugin.onDidLayoutHorizontal(this.pluginService, this);
-  //           });
-  //         } else {
-  //           this.callPlugin(plugin => {
-  //             this.pluginService && plugin.onDidLayoutVertical && plugin.onDidLayoutVertical(this.pluginService, this);
-  //           });
-  //         }
-  //         // 代理组件上的事件，目前坐标轴组件比较特殊，包含了网格线，但是事件这块只提供不包含网格线部分的响应
-  //         this._delegateAxisContainerEvent(product.getGroupGraphicItem());
-  //       }
-  //     });
-  //   }
-  // }
-
-  /** LifeCycle API**/
   onLayoutEnd(ctx: any): void {
     const isRangeChange = this.updateScaleRange();
     if (isRangeChange) {
