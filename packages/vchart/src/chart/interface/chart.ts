@@ -3,7 +3,7 @@ import type { IMorphConfig, IView } from '@visactor/vgrammar';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IComponent } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
-import type { ILayoutOrientPadding, ILayoutRect, IModel, IUpdateSpecResult } from '../../model/interface';
+import type { ILayoutRect, IModel, IUpdateSpecResult } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
 import type { ITheme } from '../../theme';
@@ -15,13 +15,13 @@ import type {
   IChartRenderOption,
   ILayoutParams
 } from './common';
-import type { IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike, IPadding } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
 import type { IRegionQuerier, MaybeArray, Datum, IMarkStateSpec, StringOrNumber } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
 
 export interface IChart extends ICompilable {
-  padding: ILayoutOrientPadding;
+  padding: IPadding;
 
   readonly type: string;
 
@@ -84,7 +84,6 @@ export interface IChart extends ICompilable {
 
   // spec
   updateSpec: (spec: any, morphConfig?: IMorphConfig) => IUpdateSpecResult;
-  getPaddingSpec: () => ILayoutOrientPadding;
 
   // state
   /**

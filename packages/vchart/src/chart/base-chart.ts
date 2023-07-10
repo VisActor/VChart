@@ -313,10 +313,6 @@ export class BaseChart extends CompilableBase implements IChart {
     return this._series.find(x => x.id === id);
   }
 
-  getPaddingSpec(): ILayoutOrientPadding {
-    return this._paddingSpec;
-  }
-
   private _createComponent(Component: any, spec: any) {
     const component = Component.createComponent(spec, {
       ...this._modelOption,
