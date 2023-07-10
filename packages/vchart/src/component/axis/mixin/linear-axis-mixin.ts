@@ -171,6 +171,10 @@ export class LinearAxisMixin {
     }
   }
 
+  getDomainSpec() {
+    return this._domain;
+  }
+
   protected setDomainMinMax(domain: number[]): void {
     if (!this._domain) {
       return;
@@ -216,7 +220,7 @@ export class LinearAxisMixin {
     this._scale.domain(domain, this._nice);
     // 设置scale的nice-min-max
     this.niceMinMax();
-
+    this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any });
   }
 }

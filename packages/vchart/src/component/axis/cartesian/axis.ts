@@ -40,7 +40,7 @@ import { DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
 
-const CartesianAxisPlugin = [pluginMap.AxisLabelOverlapPlugin];
+const CartesianAxisPlugin = [pluginMap.AxisLabelOverlapPlugin, pluginMap.AxisSyncPlugin];
 
 export abstract class CartesianAxis extends AxisComponent implements IAxis {
   static type = ComponentTypeEnum.cartesianAxis;
@@ -243,6 +243,9 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   init(option: IModelInitOption): void {
     super.init(option);
     this.pluginService?.load(CartesianAxisPlugin.map(P => new P()));
+    this.callPlugin(plugin => {
+      this.pluginService && plugin.onInit && plugin.onInit(this.pluginService, this);
+    });
   }
 
   setAttrFromSpec() {
@@ -321,7 +324,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     };
   }
 
-  onLayoutStart(ctx: any): void {
+  /** LifeCycle API**/
+  afterCompile() {
     const product = this.getMarks()[0]?.getProduct();
     if (product) {
       product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
@@ -345,9 +349,11 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         }
       });
     }
+    this.callPlugin(plugin => {
+      this.pluginService && plugin.onDidCompile && plugin.onDidCompile(this.pluginService, this);
+    });
   }
 
-  /** LifeCycle API**/
   onLayoutEnd(ctx: any): void {
     const isRangeChange = this.updateScaleRange();
     if (isRangeChange) {

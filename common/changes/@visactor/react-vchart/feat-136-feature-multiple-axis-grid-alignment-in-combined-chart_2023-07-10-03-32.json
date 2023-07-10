@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "support zeroAlign & tick align in two axes",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}
