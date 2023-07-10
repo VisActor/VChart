@@ -15,11 +15,11 @@ import type { LayoutCallBack } from '../layout/interface';
 import { GlobalScale } from '../scale/global-scale';
 import type {
   ILayoutModelState,
+  ILayoutOrientPadding,
+  ILayoutRect,
   IModel,
   IModelOption,
-  IUpdateSpecResult,
-  ILayoutOrientPadding,
-  ILayoutRect
+  IUpdateSpecResult
 } from '../model/interface';
 import type {
   IChart,
@@ -311,6 +311,10 @@ export class BaseChart extends CompilableBase implements IChart {
 
   getSeriesById(id: number): ISeries | undefined {
     return this._series.find(x => x.id === id);
+  }
+
+  getPaddingSpec(): ILayoutOrientPadding {
+    return this._paddingSpec;
   }
 
   private _createComponent(Component: any, spec: any) {

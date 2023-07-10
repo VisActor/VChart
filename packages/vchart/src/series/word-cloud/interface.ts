@@ -280,11 +280,6 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
     padding?: number;
     // formatMethod?: (text: string | string[], datum?: any) => string | string[];
   };
-
-  /**
-   * 从chart配置中传过来的padding属性，用于transform的时候配置size
-   */
-  chartPadding?: IChartPadding;
 }
 // TODO: 补充 IAnimationSpec 动画类型 @hefeifei
 export interface IWordCloudSeriesSpec extends IWordCloudSeriesBaseSpec {
