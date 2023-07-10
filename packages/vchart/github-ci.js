@@ -11,7 +11,7 @@ const CHECK_SCM_BUILD_MAX_COUNT = 30;
 const CHECK_PHOTO_TEST_INTERVAL_MS = 10 * 1000;
 const CHECK_PHOTO_TEST_MAX_COUNT = 60;
 
-const checkPhotoTestMaxCount = CHECK_PHOTO_TEST_MAX_COUNT;
+let checkPhotoTestMaxCount = CHECK_PHOTO_TEST_MAX_COUNT;
 
 const fetch = async (url, options) => {
   const newOptions = {
@@ -53,16 +53,16 @@ const getFormData = (data) => {
 
 async function uploadFile() {
   console.log(`file path: ${path.resolve(process.cwd(), `build/index.js`)}`)
-  // const formData = getFormData({
-  //   bundleFile: fs.createReadStream(path.resolve(process.cwd(), `build/index.js`)),
-  //   triggerType: "upload-file",
-  // });
+  const formData = getFormData({
+    bundleFile: fs.createReadStream(path.resolve(process.cwd(), `build/index.js`)),
+    triggerType: "upload-file",
+  });
   const res = await fetch(`${host}/api/ci/trigger`, {
     method: "POST",
-    // headers: {
-    //   ...formData.getHeaders(),
-    // },
-    // body: formData,
+    headers: {
+      ...formData.getHeaders(),
+    },
+    body: formData,
   });
   return res;
 }
@@ -188,48 +188,48 @@ async function trigger() {
   }
   console.log('uploadFile success');
 
-  // const {
-  //   data: { scmVersion },
-  // } = await triggerScmBuild({ fileUrl });
-  // console.log(`triggerScmBuild scmVersion: ${scmVersion}`);
+  const {
+    data: { scmVersion },
+  } = await triggerScmBuild({ fileUrl });
+  console.log(`triggerScmBuild scmVersion: ${scmVersion}`);
 
-  // const { status: scmVersionStatus } = await waitUntilScmBuildOK({
-  //   scmVersion,
-  // });
-  // console.log(`waitUntilScmBuildOK scmVersionStatus: ${scmVersionStatus}`);
+  const { status: scmVersionStatus } = await waitUntilScmBuildOK({
+    scmVersion,
+  });
+  console.log(`waitUntilScmBuildOK scmVersionStatus: ${scmVersionStatus}`);
 
-  // if (scmVersionStatus !== "build_ok") {
-  //   throw new Error(`scm build status: ${scmVersionStatus}`);
-  // }
+  if (scmVersionStatus !== "build_ok") {
+    throw new Error(`scm build status: ${scmVersionStatus}`);
+  }
 
-  // const {
-  //   data: { bundleId, taskAmount },
-  // } = await triggerPhotoTest({ scmVersion, scmVersionStatus });
-  // console.log(`triggerPhotoTest bundleId:${bundleId}`);
-  // console.log(`triggerPhotoTest taskAmount:${taskAmount}`);
+  const {
+    data: { bundleId, taskAmount },
+  } = await triggerPhotoTest({ scmVersion, scmVersionStatus });
+  console.log(`triggerPhotoTest bundleId:${bundleId}`);
+  console.log(`triggerPhotoTest taskAmount:${taskAmount}`);
 
-  // if (taskAmount) {
-  //   checkPhotoTestMaxCount = Math.ceil(taskAmount / 10);
-  // }
+  if (taskAmount) {
+    checkPhotoTestMaxCount = Math.ceil(taskAmount / 10);
+  }
 
-  // const {
-  //   status: photoTestStatus,
-  //   successCount,
-  //   totalCount,
-  // } = await waitUntilPhotoTestOK({
-  //   bundleId,
-  //   scmVersion,
-  // });
-  // console.log(
-  //   `waitUntilPhotoTestOK, status: ${photoTestStatus}, totalCount: ${totalCount}, successCount: ${successCount}`
-  // );
+  const {
+    status: photoTestStatus,
+    successCount,
+    totalCount,
+  } = await waitUntilPhotoTestOK({
+    bundleId,
+    scmVersion,
+  });
+  console.log(
+    `waitUntilPhotoTestOK, status: ${photoTestStatus}, totalCount: ${totalCount}, successCount: ${successCount}`
+  );
 
-  // if (photoTestStatus !== "ok") {
-  //   throw new Error(`photo test status: ${photoTestStatus}`);
-  // }
+  if (photoTestStatus !== "ok") {
+    throw new Error(`photo test status: ${photoTestStatus}`);
+  }
 
-  // if (successCount !== totalCount) {
-  //   throw new Error(`totalCount: ${totalCount}, successCount: ${successCount}`);
-  // }
+  if (successCount !== totalCount) {
+    throw new Error(`totalCount: ${totalCount}, successCount: ${successCount}`);
+  }
 }
 trigger();
