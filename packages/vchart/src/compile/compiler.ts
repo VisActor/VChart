@@ -154,6 +154,7 @@ export class Compiler {
     }
 
     chart.compile();
+    chart.afterCompile();
     this.updateDepend();
   }
 
