@@ -182,7 +182,7 @@ export class EventDispatcher implements IEventDispatcher {
       return false;
     }
 
-    if (filter.markName && !(params as BaseEventParams)?.itemMap.has(filter.markName)) {
+    if (filter.markName && (params as BaseEventParams)?.mark?.name !== filter.markName) {
       // 对于 markName 的筛选需要包含所有父级 mark 的 name
       return false;
     }
@@ -207,8 +207,9 @@ export class EventDispatcher implements IEventDispatcher {
     params: EventParamsDefinition[Evt]
   ): EventParamsDefinition[Evt] {
     // 如果针对于 mark 做了筛选，则事件参数转为筛选器制定的父级 mark
-    if (filter.markName && (params as BaseEventParams).itemMap) {
-      const item = (params as BaseEventParams).itemMap.get(filter.markName);
+    if (filter.markName && params.mark && (params as BaseEventParams).itemMap) {
+      const markId = params.mark.getProductId();
+      const item = (params as BaseEventParams).itemMap.get(markId);
       const datum = item?.getDatum();
       return { ...params, item, datum };
     }
