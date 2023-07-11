@@ -1,8 +1,7 @@
 import type { Maybe } from '@visactor/vutils';
 import type { IToolTipLineActual } from '../../../../../typings';
 import type { ITooltipModelOption } from './interface';
-
-export const domDocument: Document | undefined = globalThis.document;
+import { domDocument } from '../../../../../util/env';
 
 export class BaseTooltipModel {
   static type = 'tooltipModel';

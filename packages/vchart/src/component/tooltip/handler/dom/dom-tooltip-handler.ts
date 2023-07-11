@@ -4,10 +4,10 @@ import { BaseTooltipHandler } from '../base';
 import { getDomStyles } from './util';
 import type { IDomTooltipStyle } from './interface';
 import { TooltipModel } from './model/tooltip-model';
-import { domDocument } from './model/base-tooltip-model';
 import { TOOLTIP_CONTAINER_EL_CLASS_NAME, TooltipHandlerType } from '../constants';
 import type { Tooltip } from '../../tooltip';
 import type { Maybe } from '@visactor/vutils';
+import { domDocument } from '../../../../util/env';
 
 /**
  * The tooltip handler class.
@@ -15,7 +15,7 @@ import type { Maybe } from '@visactor/vutils';
 export class DomTooltipHandler extends BaseTooltipHandler {
   type = TooltipHandlerType.dom;
 
-  protected _tooltipContainer: HTMLElement = globalThis.document?.body;
+  protected _tooltipContainer: HTMLElement = domDocument?.body;
   protected _domStyle: IDomTooltipStyle;
   protected _tooltipActual: IToolTipActual;
   protected declare _container: Maybe<HTMLDivElement>;
