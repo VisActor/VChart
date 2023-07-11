@@ -234,8 +234,8 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
         animationConfig(
           DEFAULT_MARK_ANIMATION.wordCloud3d(() => {
             const srView = this.getCompiler().getVGrammarView();
-            const width = srView.width() - this._paddingLeft;
-            const height = srView.height() - this._paddingTop;
+            const width = srView.width() - this._padding?.left || 0 - this._padding?.right || 0;
+            const height = srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0;
             const r = Math.max(width, height) / 2;
             return {
               center: { x: r, y: r, z: (this._spec as any).depth_3d ?? r },
@@ -251,8 +251,8 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
         animationConfig(
           DEFAULT_MARK_ANIMATION.wordCloud3d(() => {
             const srView = this.getCompiler().getVGrammarView();
-            const width = srView.width() - this._paddingLeft;
-            const height = srView.height() - this._paddingTop;
+            const width = srView.width() - this._padding?.left || 0 - this._padding?.right || 0;
+            const height = srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0;
             const r = Math.max(width, height) / 2;
             return {
               center: { x: r, y: r, z: (this._spec as any).depth_3d ?? r },
