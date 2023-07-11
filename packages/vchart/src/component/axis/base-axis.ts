@@ -238,18 +238,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
   }
 
   protected updateScaleDomain() {
-    if (!this.isSeriesDataEnable()) {
-      return;
-    }
-    this.computeStatisticsDomain();
-    for (let i = 0; i < this._scales.length; i++) {
-      const data = this.collectData(i);
-      const domain = this.computeDomain(data);
-      this._scales[i].domain(domain);
-    }
-    this.transformScaleDomain();
-    this.event.emit(ChartEvent.scaleDomainUpdate, { model: this });
-    this.event.emit(ChartEvent.scaleUpdate, { model: this });
+    // 留给各个类型的 axis 来 override
   }
 
   protected computeData(): void {

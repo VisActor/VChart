@@ -1,11 +1,20 @@
 import type { BandScale } from '@visactor/vscale';
 import { isArray } from '../../../util';
 import type { StringOrNumber } from '../../../typings';
+import type { IEvent } from '../../../event/interface';
+import { ChartEvent } from '../../../constant/event';
+import type { IModel } from '../../../model/interface';
 
 export interface BandAxisMixin {
   _scale: BandScale;
   _scales: BandScale[];
   _spec: any;
+  event: IEvent;
+  isSeriesDataEnable: () => boolean;
+  computeStatisticsDomain: () => void;
+  collectData: (depth: number) => { min: number; max: number; values: any[] }[];
+  computeDomain: (data: { min: number; max: number; values: any[] }[]) => StringOrNumber[];
+  transformScaleDomain: () => void;
 }
 
 export class BandAxisMixin {
@@ -71,5 +80,26 @@ export class BandAxisMixin {
       }
     }
     return Array.from(tempSet) as StringOrNumber[];
+  }
+
+  protected updateScaleDomain() {
+    if (!this.isSeriesDataEnable()) {
+      return;
+    }
+    this.computeStatisticsDomain();
+    const userDomain = this._spec.domain;
+    for (let i = 0; i < this._scales.length; i++) {
+      if (userDomain && userDomain.length && i === 0) {
+        // 当数字映射字段存在分组时，只作用于第一个分组的domain，如 xField: ['x', 'type']
+        this._scales[i].domain(userDomain);
+      } else {
+        const data = this.collectData(i);
+        const domain = this.computeDomain(data);
+        this._scales[i].domain(domain);
+      }
+    }
+    this.transformScaleDomain();
+    this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as unknown as IModel });
+    this.event.emit(ChartEvent.scaleUpdate, { model: this as unknown as IModel });
   }
 }
