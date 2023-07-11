@@ -11,7 +11,7 @@
       "index": "./src/index"
     }
   },
-  "main": "",
+  "main": "./src/index.js",
   "scripts": {},
   "keywords": [
     "tt",
