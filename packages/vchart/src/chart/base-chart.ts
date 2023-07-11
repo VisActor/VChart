@@ -130,6 +130,9 @@ export class BaseChart extends CompilableBase implements IChart {
   protected _idMap: Map<number, IModel | IMark> = new Map();
 
   protected _event: IEvent;
+  getEvent() {
+    return this._event;
+  }
   protected _dataSet: DataSet;
   protected declare _option: IChartOption;
 

@@ -35,7 +35,7 @@ export class DimensionTrigger implements ITrigger {
 
   constructor(option: ITriggerOption) {
     this._option = option;
-    this.event = new Event(option.eventDispatcher, option.mode);
+    this.event = this._option.model.getOption().getChart().getEvent(); //  new Event(option.eventDispatcher, option.mode);
     this.interaction = option.interaction;
     this.initConfig(option.mode);
   }
