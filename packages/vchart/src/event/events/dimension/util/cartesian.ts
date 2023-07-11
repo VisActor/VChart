@@ -7,6 +7,7 @@ import type { CartesianAxis } from '../../../../component/axis/cartesian';
 import type { ICartesianSeries } from '../../../../series/interface';
 import { isNil } from '@visactor/vutils';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
+import { isXAxis } from '../../../../component/axis/cartesian/util';
 
 const getAxis = (chart: IChart, type: 'x' | 'y', pos: ILayoutPoint): CartesianAxis[] | null => {
   const axesComponents = chart
@@ -40,6 +41,9 @@ const getFirstSeries = (chart: IChart) => {
   return null;
 };
 
+const XAxisGetDimensionField = (series: ICartesianSeries) => series.fieldX[0];
+const YAxisGetDimensionField = (series: ICartesianSeries) => series.fieldY[0];
+
 export const getCartesianDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoint): IDimensionInfo[] | null => {
   if (!chart) {
     return null;
@@ -55,67 +59,65 @@ export const getCartesianDimensionInfo = (chart: IChart | undefined, pos: ILayou
   const targetAxisInfo: IDimensionInfo[] = [];
 
   if (xAxisList) {
-    const getDimensionField = (series: ICartesianSeries) => series.fieldX[0];
-
     xAxisList.forEach(axis => {
-      const xScale = axis.getScale();
-
-      // 限定为离散轴
-      if (xScale && isDiscrete(xScale.type)) {
-        const xValue = x - axis.getLayoutStartPoint().x;
-
-        // 判断是否在 range 范围内
-        if ((xValue - xScale.range()[0]) * (xValue - xScale.range()[1]) > 0) {
-          return;
-        }
-
-        const value = xScale.invert(xValue);
-        if (isNil(value)) {
-          return;
-        }
-        const domain = xScale.domain();
-        let index: number | undefined = domain.findIndex((v: any) => v?.toString() === value.toString());
-        if (index < 0) {
-          index = undefined;
-        }
-
-        const data = getDimensionData(value, axis, 'cartesian', getDimensionField);
-        targetAxisInfo.push({ index, value, axis, data });
-      }
+      const info = getDiscreteAxisDimensionInfo(axis, x, 'x', XAxisGetDimensionField);
+      info && targetAxisInfo.push(info);
     });
   }
   if (yAxisList) {
-    const getDimensionField = (series: ICartesianSeries) => series.fieldY[0];
-
     yAxisList.forEach(axis => {
-      const yScale = axis.getScale();
-
-      // 限定为离散轴
-      if (yScale && isDiscrete(yScale.type)) {
-        const yValue = y - axis.getLayoutStartPoint().y;
-
-        // 判断是否在 range 范围内
-        if ((yValue - yScale.range()[0]) * (yValue - yScale.range()[1]) > 0) {
-          return;
-        }
-
-        const value = yScale.invert(yValue);
-        if (isNil(value)) {
-          return;
-        }
-        const domain = yScale.domain();
-        let index: number | undefined = domain.findIndex((v: any) => v?.toString() === value.toString());
-        if (index < 0) {
-          index = undefined;
-        }
-
-        const data = getDimensionData(value, axis, 'cartesian', getDimensionField);
-        targetAxisInfo.push({ index, value, axis, data });
-      }
+      const info = getDiscreteAxisDimensionInfo(axis, y, 'y', YAxisGetDimensionField);
+      info && targetAxisInfo.push(info);
     });
   }
   if (!targetAxisInfo.length) {
     return null;
   }
   return targetAxisInfo;
+};
+
+export const getDiscreteAxisDimensionInfo = (
+  axis: CartesianAxis,
+  posValue: number,
+  posKey: 'x' | 'y',
+  getDimensionField: (series: ICartesianSeries) => string
+): IDimensionInfo | null => {
+  const scale = axis.getScale();
+  const scalePos = posValue - axis.getLayoutStartPoint()[posKey];
+  // 判断是否在 range 范围内
+  if ((scalePos - scale.range()[0]) * (scalePos - scale.range()[1]) > 0) {
+    return null;
+  }
+
+  const value = scale.invert(scalePos);
+  return getDimensionInfoInAxis(axis, value, getDimensionField);
+};
+
+export const getDimensionInfoInAxis = (
+  axis: CartesianAxis,
+  value: any,
+  getDimensionField?: (series: ICartesianSeries) => string
+): IDimensionInfo | null => {
+  const scale = axis.getScale();
+
+  // 限定为离散轴
+  if (!scale || !isDiscrete(scale.type)) {
+    return null;
+  }
+  if (isNil(value)) {
+    return null;
+  }
+  const domain = scale.domain();
+  let index: number | undefined = domain.findIndex((v: any) => v?.toString() === value.toString());
+  if (index < 0) {
+    index = undefined;
+  }
+
+  const data = getDimensionData(
+    value,
+    axis,
+    'cartesian',
+    getDimensionField ?? (isXAxis(axis.orient) ? XAxisGetDimensionField : YAxisGetDimensionField)
+  );
+  return { index, value, axis, data };
 };
