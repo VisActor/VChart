@@ -148,6 +148,10 @@ export type IBandAxisSpec = {
   bandPadding?: number | number[];
   paddingInner?: number | number[];
   paddingOuter?: number | number[];
+  /**
+   * 配置离散轴的数值范围
+   */
+  domain?: StringOrNumber[];
 };
 // Grid 配置项
 export type IGrid = IAxisItem<IRuleMarkSpec> & {
