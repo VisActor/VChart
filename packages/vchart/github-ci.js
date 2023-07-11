@@ -11,24 +11,40 @@ const CHECK_SCM_BUILD_MAX_COUNT = 30;
 const CHECK_PHOTO_TEST_INTERVAL_MS = 10 * 1000;
 const CHECK_PHOTO_TEST_MAX_COUNT = 60;
 
+const FETCH_RETRY_COUNT = 3;
+const FETCH_RETRY_WAIT_MS = 2000;
+
 let checkPhotoTestMaxCount = CHECK_PHOTO_TEST_MAX_COUNT;
 
-const fetch = async (url, options) => {
-  const newOptions = {
-    ...options,
-    headers: {
-      ...options.headers,
-      ...commonHeader
+async function fetch(url, options) {
+  let count = FETCH_RETRY_COUNT + 1;
+  while (count > 0) {
+    try {
+      const result = await nodeFetch(url, options);
+      const json = await result.json();
+      if(json.code === -1) {
+        throw new Error(`Request Fail, msg: ${json.msg}`)
+      }
+      return json;
+    } catch(error) {
+      console.error('**************fetch error! Error: **************');
+      console.error(error);
+      count = count - 1;
+      if (count === 0) {
+        throw error;        
+      }
+
+      console.log(
+        `**************fetch retry: ${FETCH_RETRY_COUNT - count + 1} / ${FETCH_RETRY_COUNT} **************`);
+
+      await fetchWait(FETCH_RETRY_WAIT_MS);
     }
   }
-  const result = await nodeFetch(url, newOptions);
-  const json = await result.json();
-  if(json.code === -1) {
-    console.log(`request url: ${url}`)
-    throw new Error(`Request Fail, msg: ${json.msg}`)
-  }
-  return json;
-  
+};
+
+
+function fetchWait(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
 }
 
 const getFormData = (data) => {
@@ -142,16 +158,21 @@ async function getPhotoResult({ scmVersion, bundleId }) {
     bundleId,
   });
 
-  const res = await fetch(`${host}/api/ci/trigger`, {
-    method: "POST",
-    headers: {
-      ...formData.getHeaders(),
-    },
-    body: formData,
-  });
-
-  console.log(`getPhotoResult, result: ${JSON.stringify(res)} `);
-  return res;
+  try {
+    const res = await fetch(`${host}/api/ci/trigger`, {
+      method: "POST",
+      headers: {
+        ...formData.getHeaders(),
+      },
+      body: formData,
+    });
+    console.log(`getPhotoResult, result: ${JSON.stringify(res)} `);
+    return res;
+  } catch (err) {
+    console.error(`getPhotoResult, err: `);
+    console.error(err);
+    return {};
+  }
 }
 
 async function waitUntilPhotoTestOK({ bundleId, scmVersion }) {
