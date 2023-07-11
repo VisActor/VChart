@@ -81,7 +81,10 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
       wordCloudTransforms.push({
         type: 'wordcloud',
         layoutType: this._wordCloudConfig.layoutMode,
-        size: [srView.width() - this._paddingLeft, srView.height() - this._paddingTop],
+        size: [
+          srView.width() - this._padding?.left || 0 - this._padding?.right || 0,
+          srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0
+        ],
         shape: this._maskShape,
         postProjection: this._spec.postProjection ?? 'StereographicProjection',
         dataIndexKey: DEFAULT_DATA_KEY,
