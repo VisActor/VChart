@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(axis): band type axis support domain property",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
