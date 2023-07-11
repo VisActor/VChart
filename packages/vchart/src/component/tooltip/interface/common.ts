@@ -1,6 +1,8 @@
+import type { IModel } from './../../../model/interface';
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { BaseEventParams } from '../../../event/interface';
 import type { DimensionTooltipInfo, MarkTooltipInfo } from '../processor/interface';
+import type { Datum, IShowTooltipOption } from '../../../typings';
 
 export type TooltipHandlerParams = (BaseEventParams | DimensionEventParams) & {
   changePositionOnly?: boolean;
@@ -21,4 +23,9 @@ export enum TooltipResult {
   success = 0,
   /** tooltip 未成功显示 */
   failed = 1
+}
+
+export interface ITooltip extends IModel {
+  getVisible: () => boolean;
+  showTooltip: (datum: Datum, options: IShowTooltipOption) => void;
 }

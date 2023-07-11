@@ -1,3 +1,4 @@
+import type { IAxis } from './../../../component/axis/interface';
 import type { RenderMode } from '../../../typings/spec/common';
 import type {
   BaseEventParams,
@@ -8,8 +9,9 @@ import type {
 } from '../../interface';
 import type { IChart } from '../../../chart/interface';
 import type { IDimensionInfo } from './interface';
-import { getCartesianDimensionInfo, getPolarDimensionInfo } from './util';
+import { getCartesianDimensionInfo, getDimensionInfoInAxis, getPolarDimensionInfo } from './util';
 import type { Maybe } from '../../../typings';
+import { isDiscrete } from '@visactor/vscale';
 
 export class DimensionEvent implements IComposedEvent {
   protected _eventDispatcher: IEventDispatcher;
@@ -43,5 +45,34 @@ export class DimensionEvent implements IComposedEvent {
     }
 
     return result;
+  }
+
+  dispatch(v: unknown, opt: { filter?: (axis: IAxis) => boolean }) {
+    // get all enable axis
+    const axis = this._chart.getAllComponents().filter(c => {
+      if (c.specKey !== 'axes') {
+        return false;
+      }
+      const scale = (<IAxis>c).getScale();
+      if (!isDiscrete(scale.type)) {
+        return false;
+      }
+      if (opt?.filter) {
+        return opt.filter(<IAxis>c);
+      }
+      return true;
+    }) as IAxis[];
+    const dimensionInfo: IDimensionInfo[] = [];
+    axis.forEach(a => {
+      const info = getDimensionInfoInAxis(a as unknown as any, v);
+      if (info) {
+        dimensionInfo.push(info);
+      }
+    });
+    this._callback.call(null, {
+      action: 'enter',
+      dimensionInfo
+    } as unknown as BaseEventParams);
+    return dimensionInfo;
   }
 }

@@ -13,7 +13,8 @@ import type { IGroup, INode } from '@visactor/vrender';
 import { getDatumByValue, limitTagInBounds } from './util';
 import { getAxisLabelOffset } from '../axis/utils';
 import type { IAxis } from '../axis/interface';
-import type { StringOrNumber } from '../../typings';
+import type { IOrientType, StringOrNumber } from '../../typings';
+import { isXAxis } from '../axis/cartesian/util';
 
 interface ICrosshairInfoX {
   height: number;
@@ -155,6 +156,30 @@ export class CartesianCrossHair extends BaseCrossHair {
   }
 
   /**
+   * clear axis value of crosshair
+   */
+  clearAxisValue() {
+    this.currValueX.clear();
+    this.currValueY.clear();
+  }
+
+  /**
+   * set axis value of crosshair
+   */
+  setAxisValue(v: StringOrNumber, axis: IAxis) {
+    if (isXAxis(axis.orient as unknown as IOrientType)) {
+      this.currValueX.set(axis.getSpecIndex(), {
+        v,
+        axis
+      });
+    } else {
+      this.currValueX.set(axis.getSpecIndex(), {
+        v,
+        axis
+      });
+    }
+  }
+  /**
    * 根据位置获取所有轴上的value
    * @param axisMap
    * @param p
@@ -229,7 +254,7 @@ export class CartesianCrossHair extends BaseCrossHair {
     this._yRightLabel && this._yRightLabel.hideAll();
   }
 
-  private layoutByValue(tag: number) {
+  private layoutByValue(tag: number = LayoutType.ALL) {
     if (!this.enable) {
       return;
     }

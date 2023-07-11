@@ -1,8 +1,13 @@
 import type { IModelSpec } from '../../../model/interface';
 import type { IPadding, StringOrNumber, ILineMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../../../typings';
+import type { IAxis } from '../../axis/interface';
 import type { IComponent } from '../../interface';
 
-export type ICrossHair = IComponent;
+export interface ICrossHair extends IComponent {
+  clearAxisValue?: () => void;
+  setAxisValue?: (v: StringOrNumber, axis: IAxis) => void;
+  layoutByValue?: (v?: number) => void;
+}
 
 export type CrossHairTrigger = 'click' | 'hover' | ['click', 'hover'];
 

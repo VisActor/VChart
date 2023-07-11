@@ -5,7 +5,7 @@ import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/c
 // eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
-import type { IChart, IChartConstructor } from '../chart/interface';
+import type { DimensionIndexOption, IChart, IChartConstructor } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../component/interface';
@@ -1046,5 +1046,14 @@ export class VChart implements IVChart {
    */
   getComponents() {
     return this._chart.getAllComponents();
+  }
+
+  /**
+   * setDimensionIndex could trigger make state, tooltip, crosshair
+   * @param value dimension value
+   * @param opt option for set trigger
+   */
+  setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption = {}) {
+    return this._chart.setDimensionIndex(value, opt);
   }
 }

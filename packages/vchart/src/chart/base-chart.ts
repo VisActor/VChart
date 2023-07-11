@@ -1,3 +1,5 @@
+import type { ICrossHair } from './../component/crosshair/interface/spec';
+import type { IDimensionInfo } from './../event/events/dimension/interface';
 import type {
   ISeriesSpec,
   Datum,
@@ -27,9 +29,10 @@ import type {
   IChartRenderOption,
   IChartOption,
   IChartEvaluateOption,
-  ILayoutParams
+  ILayoutParams,
+  DimensionIndexOption
 } from './interface';
-import type { ISeries } from '../series/interface';
+import type { ICartesianSeries, ISeries } from '../series/interface';
 import type { IRegion } from '../region/interface';
 import { ComponentTypeEnum } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -68,6 +71,8 @@ import type { IStateInfo } from '../compile/mark/interface';
 import { STATE_VALUE_ENUM } from '../compile/mark/interface';
 import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../constant';
 import type { IGlobalScale } from '../scale/interface';
+import { DimensionEventEnum } from '../event/events/dimension';
+import type { ITooltip } from '../component/tooltip/interface';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -1243,5 +1248,59 @@ export class BaseChart extends CompilableBase implements IChart {
         r.interaction.reverseEventElement(stateKey);
       }
     });
+  }
+
+  /**
+   * setDimensionIndex could trigger make state, tooltip, crosshair
+   * @param value dimension value
+   * @param opt option for set trigger
+   */
+  setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption) {
+    // event
+    let dimensionInfo: IDimensionInfo[] | null = null;
+    Array.from(this._event.composedEventMap().values()).forEach(e => {
+      const { eventType, event } = e;
+      if (eventType === DimensionEventEnum.dimensionHover || eventType === DimensionEventEnum.dimensionClick) {
+        const info = event.dispatch(value, opt) as [];
+        if (info?.length) {
+          dimensionInfo = info;
+        }
+      }
+    });
+    if (!dimensionInfo) {
+      return;
+    }
+    // tooltip
+    if (opt.tooltip) {
+      const tooltip = this._components.find(c => c.type === ComponentTypeEnum.tooltip) as unknown as ITooltip;
+      if (tooltip.getVisible()) {
+        const dataFilter = {};
+        dimensionInfo.forEach((d: IDimensionInfo) => {
+          const { axis, value, data } = d;
+          const isY = axis.orient === 'left' || axis.orient === 'right';
+          data.forEach(d => {
+            if (isY) {
+              dataFilter[(<ICartesianSeries>d.series).fieldY[0]] = value;
+            } else {
+              dataFilter[(<ICartesianSeries>d.series).fieldX[0]] = value;
+            }
+          });
+        });
+        tooltip.showTooltip(dataFilter, opt.showTooltipOption);
+      }
+    }
+    if (opt.crosshair) {
+      const crosshair = this._components.find(
+        c => c.type === ComponentTypeEnum.cartesianCrosshair
+      ) as unknown as ICrossHair;
+      if (crosshair && crosshair.clearAxisValue && crosshair.setAxisValue) {
+        dimensionInfo.forEach((d: IDimensionInfo) => {
+          const { axis, value } = d;
+          crosshair.clearAxisValue();
+          crosshair.setAxisValue(value, axis);
+          crosshair.layoutByValue();
+        });
+      }
+    }
   }
 }
