@@ -82,7 +82,9 @@ export class DimensionTrigger implements ITrigger {
     const items: { el: IElement; mark: IMark }[] = [] as unknown as { el: IElement; mark: IMark }[];
     params.dimensionInfo.forEach(df => {
       df.data.forEach(dd => {
-        const seriesMark = (reverse ? this._markReverse : this._marks).getMarks().filter(m => m.model === dd.series);
+        const seriesMark = (reverse ? this._markReverse : this._marks)
+          .getMarks()
+          .filter(m => m.model === dd.series && m.getVisible());
         seriesMark.forEach(m => {
           const elements = m
             .getProduct()
