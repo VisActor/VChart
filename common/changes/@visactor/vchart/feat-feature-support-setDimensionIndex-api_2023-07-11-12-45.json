@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "support setDimensionIndex api for vchart",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

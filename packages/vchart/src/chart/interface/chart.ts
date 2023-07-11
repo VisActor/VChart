@@ -18,8 +18,22 @@ import type {
 } from './common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
-import type { IRegionQuerier, MaybeArray, Datum, IMarkStateSpec, StringOrNumber } from '../../typings';
+import type {
+  IRegionQuerier,
+  MaybeArray,
+  Datum,
+  IMarkStateSpec,
+  StringOrNumber,
+  IShowTooltipOption
+} from '../../typings';
 import type { DataView } from '@visactor/vdataset';
+
+export type DimensionIndexOption = {
+  filter?: (cmp: IComponent) => boolean;
+  tooltip?: boolean;
+  showTooltipOption?: IShowTooltipOption;
+  crosshair?: boolean;
+};
 
 export interface IChart extends ICompilable {
   padding: ILayoutOrientPadding;
@@ -135,6 +149,8 @@ export interface IChart extends ICompilable {
   setCurrentTheme: (theme: ITheme, noRender?: boolean) => void;
 
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
+  // setDimensionIndex
+  setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
 }
 
 export interface IChartConstructor {

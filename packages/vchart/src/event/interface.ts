@@ -290,9 +290,12 @@ export interface IEvent {
     ) => this);
   emit: <Evt extends EventType>(eType: Evt, params: EventParamsDefinition[Evt], level?: EventBubbleLevel) => void;
   release: () => void;
+
+  composedEventMap: () => Map<EventCallback<EventParams>, { eventType: EventType; event: IComposedEvent }>;
 }
 
 export interface IComposedEvent {
   register: <Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) => void;
   unregister: () => void;
+  dispatch: (v: unknown, opt: unknown) => unknown;
 }

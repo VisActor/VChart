@@ -19,6 +19,7 @@ import {
   isMiniAppLikeMode
 } from '../../util';
 import type {
+  ITooltip,
   ITooltipActiveTypeAsKeys,
   ITooltipSpec,
   ITooltipTheme,
@@ -45,7 +46,7 @@ type EventHandlerList = {
   handler: any;
 }[];
 
-export class Tooltip extends BaseComponent {
+export class Tooltip extends BaseComponent implements ITooltip {
   static type = ComponentTypeEnum.tooltip;
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
@@ -462,5 +463,9 @@ export class Tooltip extends BaseComponent {
       }
     }
     return false;
+  }
+
+  getVisible() {
+    return this._spec.visible === true;
   }
 }

@@ -21,6 +21,9 @@ export class Event implements IEvent {
 
   private _composedEventMap: Map<EventCallback<EventParams>, { eventType: EventType; event: IComposedEvent }> =
     new Map();
+  composedEventMap() {
+    return this._composedEventMap;
+  }
 
   constructor(eventDispatcher: IEventDispatcher, mode: RenderMode) {
     this._eventDispatcher = eventDispatcher;
