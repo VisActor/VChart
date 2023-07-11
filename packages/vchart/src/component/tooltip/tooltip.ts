@@ -16,7 +16,8 @@ import {
   isMobileLikeMode,
   isTrueBrowser,
   isNil,
-  isMiniAppLikeMode
+  isMiniAppLikeMode,
+  domDocument
 } from '../../util';
 import type {
   ITooltipActiveTypeAsKeys,
@@ -352,7 +353,7 @@ export class Tooltip extends BaseComponent {
     if (isValid(userSpec.parentElement)) {
       this._spec.parentElement = userSpec.parentElement;
     } else if (isTrueBrowser(this._option.mode)) {
-      this._spec.parentElement = globalThis.document?.body;
+      this._spec.parentElement = domDocument?.body;
     }
 
     if (isValid(userSpec.confine)) {
