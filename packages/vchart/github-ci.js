@@ -5,7 +5,7 @@ const path = require("path");
 
 const host = `https://bug-server.zijieapi.com`;
 const commonHeader = {};
-const PRODUCT = "VisActor/VChart"; 
+const PRODUCT = "VisActor/VChart";
 const CHECK_SCM_BUILD_INTERVAL_MS = 10 * 1000;
 const CHECK_SCM_BUILD_MAX_COUNT = 30;
 const CHECK_PHOTO_TEST_INTERVAL_MS = 10 * 1000;
@@ -21,14 +21,30 @@ const fetch = async (url, options) => {
       ...commonHeader
     }
   }
-  const result = await nodeFetch(url, newOptions);
-  const json = await result.json();
-  if(json.code === -1) {
-    console.log(`request url: ${url}`)
-    throw new Error(`Request Fail, msg: ${json.msg}`)
+
+  let data = null;
+  try {
+    const response = await nodeFetch(url, newOptions);
+
+    console.info("[fetch][response.url]", response.url);
+    console.info("[fetch][response.status]", response.status);
+    console.info("[fetch][response.headers]", JSON.stringify(response.headers.raw()));
+
+    data = await response.json();
+
+    if (data.code === -1) {
+      throw new Error(`Request failed with data: ${JSON.stringify(data)}`);
+    }
+  } catch (err) {
+    console.error("[fetch][err]", err);
   }
-  return json;
-  
+
+  if (data === null) {
+    throw new Error(`[fetch][failed] response data not exists`);
+  }
+
+  return data;
+
 }
 
 const getFormData = (data) => {
