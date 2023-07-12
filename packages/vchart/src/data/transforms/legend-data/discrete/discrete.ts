@@ -3,9 +3,8 @@ import type { ISeries } from '../../../../series/interface';
 import type { IDiscreteLegendData, IDiscreteLegendDataMakeOption, IDiscreteLegendFilterOption } from './interface';
 
 export const discreteLegendDataMake = (data: Array<ISeries>, op: IDiscreteLegendDataMakeOption) => {
-  const result: {
-    [key in string]: IDiscreteLegendData;
-  } = {};
+  const result: IDiscreteLegendData[] = [];
+  const tempKey: { [key in string]: boolean } = {};
   const { series, seriesField } = op;
   series().forEach(s => {
     const field = seriesField(s);
@@ -16,13 +15,14 @@ export const discreteLegendDataMake = (data: Array<ISeries>, op: IDiscreteLegend
       infoList = s.getSeriesInfoInField(field);
     }
     infoList.forEach(info => {
-      if (result[info.key]) {
+      if (tempKey[info.key]) {
         return;
       }
-      result[info.key] = info;
+      tempKey[info.key] = true;
+      result.push(info);
     });
   });
-  return Object.values(result);
+  return result;
 };
 
 export const discreteLegendFilter = (data: Array<any>, op: IDiscreteLegendFilterOption) => {
