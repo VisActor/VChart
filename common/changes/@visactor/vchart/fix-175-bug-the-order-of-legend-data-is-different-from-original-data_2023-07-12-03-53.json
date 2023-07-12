@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix discrete legend data sorted by js object attribute order",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
