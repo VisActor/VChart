@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: change mark default stroke color to the series color",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
