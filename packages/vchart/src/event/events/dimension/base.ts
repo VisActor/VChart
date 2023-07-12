@@ -49,7 +49,7 @@ export class DimensionEvent implements IComposedEvent {
 
   dispatch(v: unknown, opt: { filter?: (axis: IAxis) => boolean }) {
     // get all enable axis
-    const axis = this._chart.getAllComponents().filter(c => {
+    const axis = this._chart?.getAllComponents().filter(c => {
       if (c.specKey !== 'axes') {
         return false;
       }

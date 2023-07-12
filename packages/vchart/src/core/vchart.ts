@@ -1049,11 +1049,11 @@ export class VChart implements IVChart {
   }
 
   /**
-   * setDimensionIndex could trigger make state, tooltip, crosshair
+   * setDimensionIndex could trigger mark state, tooltip, crosshair
    * @param value dimension value
    * @param opt option for set trigger
    */
   setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption = {}) {
-    return this._chart.setDimensionIndex(value, opt);
+    return this._chart?.setDimensionIndex(value, opt);
   }
 }

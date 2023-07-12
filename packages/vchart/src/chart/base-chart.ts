@@ -1251,14 +1251,14 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   /**
-   * setDimensionIndex could trigger make state, tooltip, crosshair
+   * setDimensionIndex could trigger mark state, tooltip, crosshair
    * @param value dimension value
    * @param opt option for set trigger
    */
   setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption) {
     // event
     let dimensionInfo: IDimensionInfo[] | null = null;
-    Array.from(this._event.composedEventMap().values()).forEach(e => {
+    Array.from(this._event.getComposedEventMap().values()).forEach(e => {
       const { eventType, event } = e;
       if (eventType === DimensionEventEnum.dimensionHover || eventType === DimensionEventEnum.dimensionClick) {
         const info = event.dispatch(value, opt) as [];
