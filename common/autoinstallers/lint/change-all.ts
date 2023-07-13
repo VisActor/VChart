@@ -26,7 +26,7 @@ function run() {
 
     console.log(
       chalk.green(
-        `[Notice] no message is supplied, we'll use latest commit mesage: ${chalk.red.bold(lastCommitMessage)}`
+        `[Notice] no message is supplied, we'll use latest commit message: ${chalk.red.bold(lastCommitMessage)}`
       )
     );
     message = lastCommitMessage;
