@@ -1,9 +1,11 @@
-import type { Group, Text } from '@visactor/vrender';
+import type { Group, IArc, Text } from '@visactor/vrender';
 import type { IBarChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
 import { createDiv, createCanvas, removeDom } from '../../util/dom';
 import type { ICommonChartSpec } from '../../../src/chart/common';
 import type { IAreaSeriesSpec } from '../../../src/series/area/interface';
+import type { IPoint } from '../../../src/typings';
+import { polarToCartesian } from '@visactor/vutils';
 
 describe('VChart', () => {
   describe('render and update', () => {
@@ -411,6 +413,266 @@ describe('VChart', () => {
       // @ts-ignore
       legend?.event.emit('pointerdown', { model: legend });
       expect(legendEventSpy).toBeCalledTimes(2);
+    });
+  });
+
+  describe('convertDatumToPosition', () => {
+    let canvasDom: HTMLCanvasElement;
+    let vchart: VChart;
+    beforeEach(() => {
+      canvasDom = createCanvas();
+      canvasDom.style.position = 'relative';
+      canvasDom.style.width = '500px';
+      canvasDom.style.height = '500px';
+      canvasDom.width = 500;
+      canvasDom.height = 500;
+    });
+
+    afterEach(() => {
+      removeDom(canvasDom);
+      vchart.release();
+    });
+
+    it('should convert correctly in bar chart', () => {
+      vchart = new VChart(
+        {
+          type: 'bar',
+          data: [
+            {
+              id: 'barData',
+              values: [
+                {
+                  State: 'WY',
+                  年龄段: '小于5岁',
+                  人口数量: 25635
+                },
+                {
+                  State: 'WY',
+                  年龄段: '5至13岁',
+                  人口数量: 1890
+                },
+                {
+                  State: 'WY',
+                  年龄段: '14至17岁',
+                  人口数量: 9314
+                },
+                {
+                  State: 'DC',
+                  年龄段: '小于5岁',
+                  人口数量: 30352
+                },
+                {
+                  State: 'DC',
+                  年龄段: '5至13岁',
+                  人口数量: 20439
+                },
+                {
+                  State: 'DC',
+                  年龄段: '14至17岁',
+                  人口数量: 10225
+                },
+                {
+                  State: 'VT',
+                  年龄段: '小于5岁',
+                  人口数量: 38253
+                },
+                {
+                  State: 'VT',
+                  年龄段: '5至13岁',
+                  人口数量: 42538
+                },
+                {
+                  State: 'VT',
+                  年龄段: '14至17岁',
+                  人口数量: 15757
+                },
+                {
+                  State: 'ND',
+                  年龄段: '小于5岁',
+                  人口数量: 51896
+                },
+                {
+                  State: 'ND',
+                  年龄段: '5至13岁',
+                  人口数量: 67358
+                },
+                {
+                  State: 'ND',
+                  年龄段: '14至17岁',
+                  人口数量: 18794
+                },
+                {
+                  State: 'AK',
+                  年龄段: '小于5岁',
+                  人口数量: 72083
+                },
+                {
+                  State: 'AK',
+                  年龄段: '5至13岁',
+                  人口数量: 85640
+                },
+                {
+                  State: 'AK',
+                  年龄段: '14至17岁',
+                  人口数量: 22153
+                }
+              ]
+            }
+          ],
+          xField: 'State',
+          yField: '人口数量',
+          seriesField: '年龄段',
+          stack: true,
+          legends: {
+            visible: true
+          },
+          bar: {
+            // 配置柱图 hover 时的样式
+            state: {
+              hover: {
+                stroke: '#000',
+                lineWidth: 1
+              }
+            }
+          }
+        },
+        {
+          renderCanvas: canvasDom,
+          animation: false
+        }
+      ) as VChart;
+      vchart.renderSync();
+      const mark = vchart.getChart()!.getVGrammarView().getMarksByType('rect')[0].elements[0].getGraphicItem();
+      const point = vchart.convertDatumToPosition({
+        State: 'WY',
+        年龄段: '小于5岁',
+        人口数量: 25635
+      }) as IPoint;
+      expect(point.x).toBe(mark.attribute.x);
+      expect(point.y).toBe(mark.attribute.y);
+    });
+
+    it('should convert correctly in funnel chart', () => {
+      vchart = new VChart(
+        {
+          type: 'common',
+          data: [
+            {
+              id: 'funnel',
+              values: [
+                {
+                  value: 100,
+                  name: 'Step1'
+                },
+                {
+                  value: 80,
+                  name: 'Step2'
+                },
+                {
+                  value: 60,
+                  name: 'Step3'
+                },
+                {
+                  value: 40,
+                  name: 'Step4'
+                },
+                {
+                  value: 20,
+                  name: 'Step5'
+                }
+              ]
+            }
+          ],
+          series: [
+            {
+              id: 'funnel',
+              type: 'funnel',
+              categoryField: 'name',
+              valueField: 'value',
+              label: {
+                visible: true
+              }
+            }
+          ]
+        },
+        {
+          renderCanvas: canvasDom,
+          animation: false
+        }
+      ) as VChart;
+      vchart.renderSync();
+      const mark = vchart.getChart()!.getVGrammarView().getMarksByType('polygon')[0].elements[1].getGraphicItem();
+      // @ts-ignore
+      const centerX = (mark.attribute.points[0].x + mark.attribute.points[1].x) / 2;
+      // @ts-ignore
+      const centerY = (mark.attribute.points[0].y + mark.attribute.points[2].y) / 2;
+
+      const point = vchart.convertDatumToPosition(
+        {
+          value: 80,
+          name: 'Step2'
+        },
+        { seriesId: 'funnel' }
+      ) as IPoint;
+
+      expect(point.x).toBe(centerX);
+      expect(point.y).toBe(centerY);
+    });
+
+    it('should convert correctly in pie chart', () => {
+      vchart = new VChart(
+        {
+          type: 'pie',
+          data: [
+            {
+              id: 'id0',
+              values: [
+                { type: 'oxygen', value: '46.60' },
+                { type: 'silicon', value: '27.72' },
+                { type: 'aluminum', value: '8.13' },
+                { type: 'iron', value: '5' },
+                { type: 'calcium', value: '3.63' },
+                { type: 'sodium', value: '2.83' },
+                { type: 'potassium', value: '2.59' },
+                { type: 'others', value: '3.5' }
+              ]
+            }
+          ],
+          valueField: 'value',
+          categoryField: 'type'
+        },
+        {
+          renderCanvas: canvasDom,
+          animation: false
+        }
+      ) as VChart;
+      vchart.renderSync();
+
+      const point = vchart.convertDatumToPosition(
+        {
+          value: 80,
+          name: 'Step2'
+        },
+        { seriesId: 'funnel' }
+      ) as IPoint;
+
+      expect(point).toBeNull();
+      const point1 = vchart.convertDatumToPosition({ type: 'sodium', value: '2.83' }) as IPoint;
+      const mark = vchart
+        .getChart()!
+        .getVGrammarView()
+        .getMarksByType('arc')[0]
+        .elements.filter(ele => ele.key === 'sodium')[0]
+        .getGraphicItem() as IArc;
+
+      const markCoord = polarToCartesian(
+        { x: mark.attribute.x as number, y: mark.attribute.y as number },
+        mark.attribute.outerRadius as number,
+        ((mark.attribute.startAngle as number) + (mark.attribute.endAngle as number)) / 2
+      );
+
+      expect(point1.x).toBe(markCoord.x);
+      expect(point1.y).toBe(markCoord.y);
     });
   });
 });
