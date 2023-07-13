@@ -9,15 +9,12 @@ module.exports = {
   silent: true,
   globals: {
     'ts-jest': {
-      diagnostics: {
-        exclude: ['**']
-      },
-      tsconfig: {
-        resolveJsonModule: true,
-        esModuleInterop: true
-      }
-    },
-    __DEV__: true
+      resolveJsonModule: true,
+      esModuleInterop: true,
+      experimentalDecorators: true,
+      module: 'ESNext',
+      tsconfig: './tsconfig.test.json'
+    }
   },
   verbose: true,
   collectCoverage: true,
