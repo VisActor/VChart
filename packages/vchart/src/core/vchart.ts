@@ -13,7 +13,7 @@ import type { EventCallback, EventParams, EventQuery, EventType, IEvent, IEventD
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
+import { DataSet, dataViewParser, DataView, filter } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender';
 import {
   isString,
@@ -42,7 +42,16 @@ import { stackSplit } from '../data/transforms/stack-split';
 import { copyDataView } from '../data/transforms/copy-data-view';
 import type { ITooltipHandler } from '../typings/tooltip';
 import type { Tooltip } from '../component/tooltip';
-import type { Datum, IRegionQuerier, IShowTooltipOption, ISpec, Maybe, MaybeArray, StringOrNumber } from '../typings';
+import type {
+  Datum,
+  IPoint,
+  IRegionQuerier,
+  IShowTooltipOption,
+  ISpec,
+  Maybe,
+  MaybeArray,
+  StringOrNumber
+} from '../typings';
 import { AnimationStateEnum } from '../animation/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import { ThemeManager } from '../theme/theme-manager';
@@ -54,8 +63,8 @@ import type { ILegend } from '../component/legend/interface';
 import { getCanvasDataURL, URLToImage } from '../util/image';
 import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant';
 // eslint-disable-next-line no-duplicate-imports
-import { getContainerSize, isArray } from '@visactor/vutils';
-import type { IGlobalConfig, IVChart } from './interface';
+import { getContainerSize, isArray, isEmpty } from '@visactor/vutils';
+import type { DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 
 export class VChart implements IVChart {
@@ -1061,5 +1070,41 @@ export class VChart implements IVChart {
    */
   setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption = {}) {
     return this._chart?.setDimensionIndex(value, opt);
+  }
+
+  /**
+   * Convert the data to coordinate position
+   * @param datum the datum to convert
+   * @param dataLinkInfo the data link info, could be seriesId or seriesIndex, default is { seriesIndex: 0 }
+   * @returns
+   */
+  convertDatumToPosition(datum: Datum, dataLinkInfo: DataLinkSeries = {}): IPoint | null {
+    if (!this._chart) {
+      return null;
+    }
+    if (isEmpty(datum)) {
+      return null;
+    }
+    const { seriesId, seriesIndex = 0 } = dataLinkInfo;
+
+    let series: ISeries;
+    if (isValid(seriesId)) {
+      series = this._chart.getSeriesInUserId(seriesId);
+    } else if (isValid(seriesIndex)) {
+      series = this._chart.getSeriesInIndex([seriesIndex])?.[0];
+    }
+
+    if (series) {
+      const keys = Object.keys(datum);
+      const handledDatum = series
+        .getViewData()
+        // eslint-disable-next-line eqeqeq
+        .latestData.find((viewDatum: Datum) => keys.every(k => viewDatum[k] == datum[k]));
+      if (handledDatum) {
+        return series.dataToPosition(handledDatum);
+      }
+    }
+
+    return null;
   }
 }
