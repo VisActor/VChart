@@ -134,6 +134,7 @@ export class VChart implements IVChart {
 
   /**
    * 全局关闭 tooltip
+   * @param excludeId 可选，指定不需要关闭 tooltip 的实例 id
    */
   static hideTooltip(excludeId: MaybeArray<number> = []): void {
     InstanceManager.forEach(instance => instance?.hideTooltip?.(), excludeId);
