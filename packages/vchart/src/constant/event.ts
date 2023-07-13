@@ -91,7 +91,9 @@ export enum ChartEvent {
   // scrollBar
   scrollBarChange = 'scrollBarChange',
   // brush
+  brushStart = 'brushStart',
   brushChange = 'brushChange',
+  brushEnd = 'brushEnd',
   // legend
   legendSelectedDataChange = 'legendSelectedDataChange',
   legendFilter = 'legendFilter',
