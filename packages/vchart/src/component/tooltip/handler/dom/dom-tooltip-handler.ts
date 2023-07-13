@@ -60,7 +60,8 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         {
           valueToHtml: this._option.sanitize,
           getTooltipStyle: () => this._domStyle,
-          getTooltipActual: () => this._tooltipActual
+          getTooltipActual: () => this._tooltipActual,
+          getTooltipAttributes: () => this._attributeCache
         },
         [tooltipSpec.className],
         this.id

@@ -4,10 +4,12 @@ import type {
   TooltipRowAttrs,
   TooltipSymbolAttrs
 } from '@visactor/vrender-components';
-import type { IToolTipActual } from '../../../../typings';
-import type { ITooltipStyle } from '../interface';
+import type { IToolTipActual, MaybeArray } from '../../../../typings';
+import type { ITooltipStyle, ITooltipTextStyle } from '../interface';
 import { isValid } from '@visactor/vutils';
-import { initTextMeasure } from '../../../../util';
+import { getRichTextBounds, initTextMeasure } from '../../../../util';
+import type { IRichTextParagraphCharacter } from '@visactor/vrender';
+// eslint-disable-next-line no-duplicate-imports
 import { builtinSymbolsMap } from '@visactor/vrender';
 
 export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITooltipStyle): TooltipAttributes => {
@@ -55,11 +57,15 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
   } = title;
   attribute.title.visible = titleVisible;
   if (titleVisible) {
-    const { width, height } = initTextMeasure(titleStyle as any).quickMeasure(titleValue);
+    const { text, width, height } = measureTooltipText(titleValue, titleStyle);
+    // FIXME: vrender 发版后去掉 any
     attribute.title.value = {
-      // width, height,
-      text: titleValue
-    };
+      width,
+      height,
+      text,
+      multiLine: titleStyle.multiLine,
+      wordBreak: titleStyle.wordBreak
+    } as any;
     maxWidth = width;
     titleMaxHeight = height;
 
@@ -99,18 +105,20 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
       const adaptiveKeyWidths: number[] = [];
       const valueWidths: number[] = [];
 
-      const keyTextMeasure = initTextMeasure(keyStyle as any);
-      const valueTextMeasure = initTextMeasure(valueStyle as any);
-
       attribute.content = filteredContent.map((item, i) => {
         const itemAttrs: TooltipRowAttrs = { height: 0, spaceRow };
         let itemHeight = 0;
         const { hasShape, key, shapeColor, shapeHollow, shapeType = '', value, isKeyAdaptive } = item;
         if (isValid(key)) {
-          const { width, height } = keyTextMeasure.quickMeasure(key);
+          const { width, height, text } = measureTooltipText(key, keyStyle);
+          // FIXME: vrender 发版后去掉 any
           itemAttrs.key = {
-            text: key as any
-          };
+            width,
+            height,
+            text,
+            multiLine: keyStyle.multiLine,
+            wordBreak: titleStyle.wordBreak
+          } as any;
           if (!isKeyAdaptive) {
             keyWidths.push(width);
           } else {
@@ -119,10 +127,15 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
           itemHeight = Math.max(itemHeight, height);
         }
         if (isValid(value)) {
-          const { width, height } = valueTextMeasure.quickMeasure(value);
+          const { width, height, text } = measureTooltipText(value, valueStyle);
+          // FIXME: vrender 发版后去掉 any
           itemAttrs.value = {
-            text: value as any
-          };
+            width,
+            height,
+            text,
+            multiLine: valueStyle.multiLine,
+            wordBreak: titleStyle.wordBreak
+          } as any;
           valueWidths.push(width);
           itemHeight = Math.max(itemHeight, height);
         }
@@ -175,4 +188,55 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
   attribute.panel.width = containerSize.width;
   attribute.panel.height = containerSize.height;
   return attribute;
+};
+
+interface ITooltipTextInfo {
+  width: number;
+  height: number;
+  text: MaybeArray<number> | MaybeArray<string>;
+}
+
+export const measureTooltipText = (text: string, style: ITooltipTextStyle): ITooltipTextInfo => {
+  const measure = initTextMeasure(style as any);
+  if (!style.multiLine) {
+    // 单行文本
+    const { width, height } = measure.fullMeasure(text);
+    return {
+      width,
+      height,
+      text
+    };
+  }
+  // 多行文本
+  let textLines = text.split('\n');
+  textLines = textLines.map((line, i) => (i < textLines.length - 1 ? line + '\n' : line));
+  const { width, height } = measure.fullMeasure(textLines);
+
+  if (style.maxWidth && style.maxWidth <= width) {
+    // 允许自动换行的情况，改用 richText 测量
+    const bound = getRichTextBounds({
+      wordBreak: style.wordBreak,
+      maxWidth: style.maxWidth,
+      width: 0,
+      height: 0,
+      textConfig: textLines.map(
+        (line, i) =>
+          ({
+            ...style,
+            text: line
+          } as unknown as IRichTextParagraphCharacter)
+      )
+    });
+    return {
+      width: bound.width(),
+      height: bound.height(),
+      text: textLines
+    };
+  }
+
+  return {
+    width,
+    height,
+    text: textLines
+  };
 };

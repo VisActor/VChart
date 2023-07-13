@@ -7,13 +7,16 @@ export class TextModel extends BaseTooltipModel {
     }
   }
 
-  setContent(content?: any): void {
+  setContent(content?: any, multiLine?: boolean): void {
     if (!this.product) {
       return;
     }
-    const html = this._option.valueToHtml(content);
+    let html = this._option.valueToHtml(content);
+    if (multiLine) {
+      html = html.replaceAll('\n', '<br>');
+    }
     if (html !== this.product.innerHTML) {
-      this.product.innerHTML = this._option.valueToHtml(content);
+      this.product.innerHTML = html;
     }
   }
 }
