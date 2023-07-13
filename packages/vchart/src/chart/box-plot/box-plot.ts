@@ -46,5 +46,6 @@ export class BoxPlotChart extends CartesianChart {
         }
       ];
     }
+    setDefaultCrosshairForCartesianChart(spec);
   }
 }
