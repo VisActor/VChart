@@ -1,3 +1,4 @@
+import type { RichTextWordBreak } from '@visactor/vrender';
 import type { IPadding, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 
 export interface ITooltipTextTheme {
@@ -17,6 +18,12 @@ export interface ITooltipTextTheme {
   lineHeight?: number;
   /** 与相邻元素的水平间距 */
   spacing?: number;
+  /** 是否支持换行 */
+  multiLine?: boolean;
+  /** 最大宽度 */
+  maxWidth?: number;
+  /** 换行模式，默认为'break-word' */
+  wordBreak?: RichTextWordBreak;
 }
 
 export interface ITooltipTheme {

@@ -1,25 +1,28 @@
-import type { ITextAttribute, IFillStyle, IRectGraphicAttribute } from '@visactor/vrender';
+import type { ITextAttribute, IFillStyle, IRectGraphicAttribute, RichTextWordBreak } from '@visactor/vrender';
 import type { IPadding } from '../../../../typings';
 
-export interface ITextStyle extends Partial<ITextAttribute & IFillStyle> {
+export interface ITooltipTextStyle extends Partial<ITextAttribute & IFillStyle> {
   spacing: number;
+  multiLine: boolean;
+  maxWidth?: number;
+  wordBreak?: RichTextWordBreak;
 }
 
-export interface IPanelStyle extends Partial<IRectGraphicAttribute> {
+export interface ITooltipPanelStyle extends Partial<IRectGraphicAttribute> {
   shadow: boolean;
   shadowSpread?: number;
 }
 
 export interface ITooltipStyle {
-  panel: IPanelStyle;
-  title: ITextStyle;
+  panel: ITooltipPanelStyle;
+  title: ITooltipTextStyle;
   shape: {
     fill: boolean;
     size: number;
     spacing: number;
   };
-  key: ITextStyle;
-  value: ITextStyle;
+  key: ITooltipTextStyle;
+  value: ITooltipTextStyle;
   padding: IPadding;
   minWidth: number;
   maxWidth: number;

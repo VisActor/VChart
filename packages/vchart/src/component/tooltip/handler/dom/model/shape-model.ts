@@ -12,6 +12,7 @@ export interface IShapeSvgOption {
   size?: string;
   color?: string | IGradientColor;
   hollow?: boolean;
+  marginTop?: string;
 }
 
 export class ShapeModel extends BaseTooltipModel {
@@ -54,7 +55,7 @@ function getSvgHtml(option?: IShapeSvgOption) {
     return '';
   }
 
-  const { shapeType, size, color, hollow = false } = option;
+  const { shapeType, size, color, hollow = false, marginTop = '0px' } = option;
 
   // FIXME 通过 VRender 获取symbol path
   const path = builtinSymbolsMap[shapeType].pathStr;
@@ -62,8 +63,8 @@ function getSvgHtml(option?: IShapeSvgOption) {
   if (!color || isString(color) || hollow) {
     fill = hollow ? 'none' : (color as string) ?? 'currentColor';
     return `
-    <svg width="${size}"
-      height="${size}" viewBox="-0.5 -0.5 1 1" style="display: inline-block; vertical-align: middle;">
+    <svg width="${size}" height="${size}" viewBox="-0.5 -0.5 1 1"
+      style="display: inline-block; vertical-align: middle; margin-top: ${marginTop};">
       <path fill="${fill}" d="${path}" style="fill: ${fill};">
       </path>
     </svg>`;
@@ -91,8 +92,8 @@ function getSvgHtml(option?: IShapeSvgOption) {
       `;
     }
     return `
-    <svg width="${size}" height="${size}"
-      viewBox="-0.5 -0.5 1 1" style="display: inline-block; vertical-align: middle;">
+    <svg width="${size}" height="${size}" viewBox="-0.5 -0.5 1 1"
+      style="display: inline-block; vertical-align: middle; margin-top: ${marginTop};">
       ${gradient}
       <path fill="url(#${fill})" d="${path}" style="fill: url(#${fill});">
       </path>

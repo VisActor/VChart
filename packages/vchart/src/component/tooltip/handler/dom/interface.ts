@@ -38,6 +38,9 @@ export interface ILabelStyle extends IMargin {
   textAlign?: TextAlign;
   lineHeight?: string;
   fontWeight?: FontWeight;
+  whiteSpace?: string;
+  wordBreak?: string;
+  maxWidth?: string;
 }
 
 export interface IShapeStyle extends IMargin {

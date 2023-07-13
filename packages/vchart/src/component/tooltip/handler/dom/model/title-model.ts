@@ -78,6 +78,7 @@ export class TitleModel extends BaseTooltipModel {
   setContent(): void {
     const tooltipStyle = this._option.getTooltipStyle();
     const tooltipActual = this._option.getTooltipActual();
+    const tooltipAttributes = this._option.getTooltipAttributes();
 
     const { title } = tooltipActual;
     this.init();
@@ -88,7 +89,8 @@ export class TitleModel extends BaseTooltipModel {
       color: title?.shapeColor,
       hollow: title?.shapeHollow
     });
-    this.textSpan?.setContent(title?.value);
+    // FIXME: vrender 发版后去掉 any
+    this.textSpan?.setContent(title?.value, (tooltipAttributes.title?.value as any)?.multiLine);
   }
 
   release(): void {
