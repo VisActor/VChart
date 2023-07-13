@@ -64,6 +64,24 @@ export class Brush extends BaseComponent implements IBrush {
     this._initNeedOperatedItem();
   }
 
+  protected _extendDataInBrush(elementsMap: { [brushName: string]: { [elementKey: string]: IElement } }) {
+    const data = [];
+    for (const brushName in elementsMap) {
+      for (const elementKey in elementsMap[brushName]) {
+        data.push(elementsMap[brushName][elementKey].data[0]);
+      }
+    }
+    return data;
+  }
+
+  protected _extendDatumOutOfBrush(elementsMap: { [elementKey: string]: IElement }) {
+    const data = [];
+    for (const elementKey in elementsMap) {
+      data.push(elementsMap[elementKey].data[0]);
+    }
+    return data;
+  }
+
   protected _createBrushComponent(region: IRegion, componentIndex: number) {
     const seriesRegionStartX = region.getLayoutStartPoint().x;
     const seriesRegionEndX = seriesRegionStartX + region.getLayoutRect().width;
@@ -104,13 +122,30 @@ export class Brush extends BaseComponent implements IBrush {
         this._reconfigItem(operateMask, region);
         this._reconfigLinkedItem(operateMask, region);
 
-        this.event.emit(ChartEvent.brushChange, {
+        let eventType: string = ChartEvent.brushChange;
+        if (operateType === 'brushStart' || operateType === 'brushDown') {
+          eventType = ChartEvent.brushStart;
+        } else if (operateType === 'brushEnd' || operateType === 'brushMaskUp') {
+          eventType = ChartEvent.brushEnd;
+        } else {
+          eventType = ChartEvent.brushChange;
+        }
+
+        this.event.emit(eventType, {
           model: this,
           value: {
             // 操作类型
             operateType,
             // 正在操作的region
             operateRegion: region,
+            // 在选框内的 element data
+            inBrushData: this._extendDataInBrush(this._inBrushElementsMap),
+            // 在选框外的 element data
+            outOfBrushData: this._extendDatumOutOfBrush(this._outOfBrushElementsMap),
+            // 被链接的系列中：在选框内的 element data
+            linkInBrushData: this._extendDataInBrush(this._linkedInBrushElementsMap),
+            // 被链接的系列中：在选框外的 element data
+            linkOutOfBrushData: this._extendDatumOutOfBrush(this._linkedOutOfBrushElementsMap),
             // 在选框内的 vgrammar elements
             inBrushElementsMap: this._inBrushElementsMap,
             // 在选框外的 vgrammar elements
@@ -179,6 +214,7 @@ export class Brush extends BaseComponent implements IBrush {
           graphicItem.removeState('inBrush');
           graphicItem.addState('outOfBrush');
           this._outOfBrushElementsMap[el.key] = el;
+          delete this._inBrushElementsMap[operateMask.name][el.key];
         }
       });
     });
