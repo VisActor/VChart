@@ -53,12 +53,12 @@ export class RangeColumnSeries extends BarSeries {
     }) as IRectMark;
 
     if (labelPosition === PositionEnum.bothEnd) {
-      if (this._spec.label?.minLabel?.visible !== false) {
+      if (this._spec.label?.visible !== false && this._spec.label?.minLabel?.visible !== false) {
         this._minLabelMark = this._createMark(RangeColumnSeries.mark.minLabel, {
           markSpec: this._spec.label?.minLabel
         }) as ITextMark;
       }
-      if (this._spec.label?.maxLabel?.visible !== false) {
+      if (this._spec.label?.visible !== false && this._spec.label?.maxLabel?.visible !== false) {
         this._maxLabelMark = this._createMark(RangeColumnSeries.mark.maxLabel, {
           markSpec: this._spec.label?.maxLabel
         }) as ITextMark;

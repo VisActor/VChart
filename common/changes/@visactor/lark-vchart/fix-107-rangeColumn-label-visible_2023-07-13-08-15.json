@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/lark-vchart",
+      "comment": "fix(rangeColumn): The \"label.visible\" is not effect in RangeColumn Chart",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart"
+}
