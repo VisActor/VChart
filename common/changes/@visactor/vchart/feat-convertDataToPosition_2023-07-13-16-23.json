@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: add a new api `feat: add a new api 'convertDatumToPosition` for vchart, used for coverting data ro coordinate position",
+      "comment": "feat: add a new api `convertDatumToPosition` for vchart, used for converting data to coordinate position",
       "type": "patch"
     }
   ],
