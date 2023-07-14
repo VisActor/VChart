@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(brush): add operate type and export data",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
