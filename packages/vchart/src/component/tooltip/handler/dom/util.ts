@@ -39,8 +39,6 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
     value,
     title,
     shape,
-    maxWidth,
-    minWidth,
     enterable,
     spaceRow,
     transitionDuration
@@ -63,8 +61,6 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
       boxShadow: shadow
         ? `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowSpread}px ${shadowColor}`
         : 'initial',
-      maxWidth: getPixelPropertyStr(maxWidth),
-      minWidth: getPixelPropertyStr(minWidth),
       pointerEvents: enterable ? 'auto' : 'none',
       transitionDuration: transitionDuration ? `${transitionDuration}ms` : 'initial',
       transitionProperty: transitionDuration ? 'transform' : 'initial',

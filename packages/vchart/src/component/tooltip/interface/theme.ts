@@ -63,10 +63,6 @@ export interface ITooltipTheme {
   valueLabel?: ITooltipTextTheme;
   /** 内容项行间距 */
   spaceRow?: number;
-  /** 最大宽度 */
-  maxWidth?: number;
-  /** 最小宽度 */
-  minWidth?: number;
   /** 偏移量 */
   offset?: {
     x?: number;
