@@ -4,6 +4,7 @@ import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type {
   Datum,
   IMarkStateSpec,
+  IPoint,
   IRegionQuerier,
   IShowTooltipOption,
   ISpec,
@@ -23,6 +24,17 @@ import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
 import type { IChart } from '../chart/interface';
 import type { Stage } from '@visactor/vrender';
+
+export type DataLinkSeries = {
+  /**
+   * 关联的系列 id
+   */
+  seriesId?: StringOrNumber;
+  /**
+   * 关联的系列索引
+   */
+  seriesIndex?: number;
+};
 
 export interface IVChart {
   readonly id: number;
@@ -299,6 +311,15 @@ export interface IVChart {
    * @returns DataSet 实例
    */
   getDataSet: () => Maybe<DataSet>;
+
+  // 数据转换相关的 api
+  /**
+   * Convert the data to coordinate position
+   * @param datum the datum to convert
+   * @param dataLinkInfo the data link info, could be seriesId or seriesIndex, default is { seriesIndex: 0 }
+   * @returns
+   */
+  convertDatumToPosition: (datum: Datum, dataLinkInfo?: DataLinkSeries) => IPoint | null;
 }
 
 export interface IGlobalConfig {

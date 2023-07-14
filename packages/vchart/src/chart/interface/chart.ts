@@ -84,6 +84,7 @@ export interface IChart extends ICompilable {
   getSeriesInIndex: (index?: number[]) => ISeries[];
   getSeriesInIds: (ids?: number[]) => ISeries[];
   getSeriesInUserIdOrIndex: (user_ids?: StringOrNumber[], index?: number[]) => ISeries[];
+  getSeriesInUserId: (userId: StringOrNumber) => ISeries | undefined;
 
   // component
   getComponentByIndex: (key: string, index: number) => IComponent | undefined;

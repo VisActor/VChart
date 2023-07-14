@@ -533,9 +533,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   /** 数据到坐标点的映射 */
   abstract dataToPosition(data: Datum): IPoint;
   /** 数据到 x 坐标点的映射 */
-  abstract dataToPositionX(data: any): number;
+  abstract dataToPositionX(data: Datum): number;
   /** 数据到 y 坐标点的映射 */
-  abstract dataToPositionY(data: any): number;
+  abstract dataToPositionY(data: Datum): number;
   abstract initMark(): void;
   abstract initMarkStyle(): void;
 

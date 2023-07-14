@@ -524,7 +524,7 @@ export class BaseChart extends CompilableBase implements IChart {
     return this._series.filter(r => ids.includes(r.id));
   };
 
-  getSeriesInUserId = (userId: string): ISeries | undefined => {
+  getSeriesInUserId = (userId: StringOrNumber): ISeries | undefined => {
     if (!userId) {
       return undefined;
     }
