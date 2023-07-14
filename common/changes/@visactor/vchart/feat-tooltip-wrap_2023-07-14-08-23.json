@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: remove deprecated maxWidth/minWidth api in tooltip",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
