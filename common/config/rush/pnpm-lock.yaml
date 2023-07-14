@@ -87,7 +87,7 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 20.4.2
       '@types/offscreencanvas': 2019.6.4
-      '@types/react': 18.2.14
+      '@types/react': 18.2.15
       '@types/react-dom': 18.2.7
       '@types/react-is': 17.0.4
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
@@ -171,7 +171,7 @@ importers:
       '@tarojs/runtime': 3.3.17
       '@tarojs/taro': 3.3.17
       '@tarojs/webpack-runner': 3.3.17
-      '@types/react': 18.2.14
+      '@types/react': 18.2.15
       '@types/webpack-env': 1.18.1
       '@typescript-eslint/eslint-plugin': 5.30.0_cow5zg7tx6c3eisi5a4ud5kwia
       '@typescript-eslint/parser': 5.30.0_vwud3sodsb5zxmzckoj7rdwdbq
@@ -3572,7 +3572,7 @@ packages:
   /@types/react-dom/18.2.7:
     resolution: {integrity: sha512-GRaAEriuT4zp9N4p1i8BDBYmEyfo+xQ3yHjJU4eiK5NDa1RmUZG+unZABUTK4/Ox/M+GaHwb6Ow8rUITrtjszA==}
     dependencies:
-      '@types/react': 18.2.14
+      '@types/react': 18.2.15
     dev: true
 
   /@types/react-is/17.0.4:
@@ -3589,8 +3589,8 @@ packages:
       csstype: 3.1.2
     dev: true
 
-  /@types/react/18.2.14:
-    resolution: {integrity: sha512-A0zjq+QN/O0Kpe30hA1GidzyFjatVvrpIvWLxD+xv67Vt91TWWgco9IvrJBkeyHm1trGaFS/FSGqPlhyeZRm0g==}
+  /@types/react/18.2.15:
+    resolution: {integrity: sha512-oEjE7TQt1fFTFSbf8kkNuc798ahTUzn3Le67/PWjE8MAfYAD/qB7O8hSTcromLFqHCt9bcdOg5GXMokzTjJ5SA==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
@@ -5930,7 +5930,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001515
-      electron-to-chromium: 1.4.459
+      electron-to-chromium: 1.4.460
     dev: true
 
   /browserslist/4.21.9:
@@ -5939,7 +5939,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001515
-      electron-to-chromium: 1.4.459
+      electron-to-chromium: 1.4.460
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11_browserslist@4.21.9
 
@@ -8025,8 +8025,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.459:
-    resolution: {integrity: sha512-XXRS5NFv8nCrBL74Rm3qhJjA2VCsRFx0OjHKBMPI0otij56aun8UWiKTDABmd5/7GTR021pA4wivs+Ri6XCElg==}
+  /electron-to-chromium/1.4.460:
+    resolution: {integrity: sha512-kKiHnbrHME7z8E6AYaw0ehyxY5+hdaRmeUbjBO22LZMdqTYCO29EvF0T1cQ3pJ1RN5fyMcHl1Lmcsdt9WWJpJQ==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
