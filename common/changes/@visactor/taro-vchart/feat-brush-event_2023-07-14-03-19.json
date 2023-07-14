@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/taro-vchart",
-      "comment": "feat(brush): add operate type and export data",
+      "comment": "feat(brush): add operate type about 'brushStart' | 'brushEnd' and export element data of inBrush and outOfBrush",
       "type": "none"
     }
   ],
