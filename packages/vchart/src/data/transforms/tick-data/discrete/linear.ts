@@ -26,7 +26,7 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
     scaleTicks = scale.forceTicks(forceTickCount);
   } else if (isValid(tickCount)) {
     scaleTicks = scale.ticks(tickCount);
-  } else {
+  } else if (op.sampling) {
     const domain = scale.domain();
     const range = scale.range();
 
@@ -53,6 +53,8 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
       scaleTicks = scaleTicks.slice(0, scaleTicks.length - result.delCount);
       scaleTicks.push(domain[domain.length - 1]);
     }
+  } else {
+    scaleTicks = scale.domain();
   }
 
   return convertDomainToTickData(scaleTicks, op);

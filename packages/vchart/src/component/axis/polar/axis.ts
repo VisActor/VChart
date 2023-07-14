@@ -204,6 +204,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
         {
           type: 'ticks',
           options: {
+            sampling: this._spec.sampling !== false, // default do sampling
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,

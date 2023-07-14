@@ -288,6 +288,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         {
           type: 'ticks',
           options: {
+            sampling: this._spec.sampling !== false, // default do sampling
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,

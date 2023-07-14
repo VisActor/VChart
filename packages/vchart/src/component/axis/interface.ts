@@ -92,6 +92,14 @@ export type ICommonAxisSpec = {
    * @default false
    */
   hover?: boolean;
+
+  /**
+   * 是否开启轴数据采样，默认开启。
+   * 轴采样开启之后，会对轴数据进行采样显示，防止轴数据的重叠。
+   * 通过配置 `label.minGap` 可以控制轴标签之间的间距。
+   * @default true
+   */
+  sampling?: boolean;
 } & Omit<IModelSpec, 'orient'> &
   IAnimationSpec<string, string>;
 
@@ -258,11 +266,11 @@ export type ILabel = IAxisItem<ITextMarkSpec> & {
    * @default false
    */
   inside?: boolean;
-  // /**
-  //  * TODO: 暂未支持
-  //  * 标签之间的最小间距（单位为像素）
-  //  */
-  // minGap?: number;
+  /**
+   * 标签之间的最小间距（单位为像素），仅当轴采样开始时生效（`sampling: true`）。
+   * 该配置会影响轴采样的结果。
+   */
+  minGap?: number;
   /**
    * 文本样式设置
    */
