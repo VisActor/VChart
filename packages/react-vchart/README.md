@@ -10,7 +10,7 @@
 - **兼容性好**：`@visactor/react-vchart` 完全继承了 VChart 的可视化能力，可以在不同的浏览器和设备上运行。
 - **支持多种图表类型**：`@visactor/react-vchart` 支持多种类型的图表，包括折线图、柱状图、饼图、雷达图等。
 
-`@visactor/react-vchart` 在能力上完全对齐 VChart，并且 API 配置也与 VChart 几乎一致，关于图表的定义和配置可参考[VChart](todo)。
+`@visactor/react-vchart` 在能力上完全对齐 VChart，并且 API 配置也与 VChart 几乎一致，关于图表的定义和配置可参考[VChart](https://www.visactor.io/vchart)。
 
 ## 开发指引
 

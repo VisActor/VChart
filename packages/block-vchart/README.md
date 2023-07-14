@@ -21,7 +21,7 @@
 
 下载[飞书开发者工具](https://open.feishu.cn/document/client-docs/block/devtools)，选择【小组件】，将本项目导入即可。
 
-**具体图表的配置项及 API 使用详见 [VChart](todo)。**
+**具体图表的配置项及 API 使用详见 [VChart](https://www.visactor.io/vchart/option)。**
 
 ### 项目说明
 

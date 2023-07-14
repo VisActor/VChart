@@ -130,14 +130,14 @@ $ rush react
 
 ## 🔗 相关链接
 
-- [主页](https://visactor.io/vchart)
-- [VCharts 图表示例](todo)
-- [VChart 图表教程](todo)
-- [VChart 图表配置项](todo)
-- [VChart API](todo)
-- [VGrammar](https://visactor.io/vgrammar)
-- [VRender](https://visactor.io/vrender)
-- [FAQ](todo)
+- [主页](https://www.visactor.io/vchart)
+- [VCharts 图表示例](https://www.visactor.io/vchart/example)
+- [VChart 图表教程](https://www.visactor.io/vchart/guide/tutorial_docs/VChart_Website_Guide)
+- [VChart 图表配置项](https://www.visactor.io/vchart/option/)
+- [VChart API](https://www.visactor.io/vchart/api/API/vchart)
+- [VGrammar](https://www.visactor.io/vgrammar)
+- [VRender](https://www.visactor.io/vrender)
+- [FAQ](https://www.visactor.io/vchart/guide/tutorial_docs/FAQ)
 - [CodeSandbox 模板](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww?file=/src/index.ts) 用于 bug 的提交
 
 ## 💫 生态
