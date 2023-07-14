@@ -19,7 +19,7 @@ export interface ITooltipSpec
   triggerOff?: 'hover' | 'click' | 'none';
 
   /** tooltip样式 */
-  style?: Omit<ITooltipTheme, 'maxWidth' | 'minWidth' | 'offset'>;
+  style?: Omit<ITooltipTheme, 'offset'>;
 
   /** 自定义handler方法 */
   handler?: Partial<ITooltipHandlerSpec>;
@@ -54,8 +54,6 @@ export interface ITooltipSpec
   /** 更新 tooltip 的防抖动时间间隔，单位是 ms */
   throttleInterval?: number;
 
-  maxWidth?: number;
-  minWidth?: number;
   offset?: {
     x?: number;
     y?: number;

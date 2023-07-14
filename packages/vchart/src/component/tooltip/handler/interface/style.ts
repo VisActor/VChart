@@ -28,8 +28,6 @@ export interface ITooltipStyle {
   key: ITooltipTextStyle;
   value: ITooltipTextStyle;
   padding: IPadding;
-  minWidth: number;
-  maxWidth: number;
   spaceRow: number;
   enterable: boolean;
   transitionDuration: number;

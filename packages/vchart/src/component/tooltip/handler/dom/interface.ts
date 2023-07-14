@@ -7,8 +7,6 @@ export interface IDomTooltipStyle {
       height?: string;
       backgroundColor?: string;
       boxShadow?: string;
-      maxWidth?: string;
-      minWidth?: string;
       pointerEvents?: 'auto' | 'none';
       transitionDuration?: string;
       transitionProperty?: string;
