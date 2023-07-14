@@ -52,7 +52,7 @@ export class RangeColumnSeries extends BarSeries {
       isSeriesMark: true
     }) as IRectMark;
 
-    if (labelPosition === PositionEnum.bothEnd) {
+    if (this._spec.label?.visible !== false && labelPosition === PositionEnum.bothEnd) {
       if (this._spec.label?.minLabel?.visible !== false) {
         this._minLabelMark = this._createMark(RangeColumnSeries.mark.minLabel, {
           markSpec: this._spec.label?.minLabel

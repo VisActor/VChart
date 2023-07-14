@@ -11,6 +11,7 @@ import type { TooltipHandlerParams } from '../interface';
 import { Event_Source_Type } from '../../../constant';
 import { getElementAbsolutePosition } from '@visactor/vutils';
 import type { IDimensionInfo } from '../../../event/events/dimension/interface';
+import { VChart } from '../../../core/vchart';
 
 const getDataArrayFromFieldArray = (fields: string[], datum?: Datum) =>
   isValid(datum) ? fields.map(f => datum[f]) : undefined;
@@ -379,6 +380,11 @@ export function showTooltip(
       itemMap: new Map<string, any>()
     };
     tooltipHandler?.showTooltip?.(activeType, mockDimensionInfo, mockParams);
+    // 全局唯一 tooltip
+    const vchart = componentOptions.globalInstance;
+    if (VChart.globalConfig.uniqueTooltip) {
+      VChart.hideTooltip(vchart.id);
+    }
     return activeType;
   } else if (activeType === 'mark') {
     const info = markInfoList[0];
@@ -409,6 +415,11 @@ export function showTooltip(
       ],
       mockParams
     );
+    // 全局唯一 tooltip
+    const vchart = componentOptions.globalInstance;
+    if (VChart.globalConfig.uniqueTooltip) {
+      VChart.hideTooltip(vchart.id);
+    }
     return activeType;
   }
   return 'none';

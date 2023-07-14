@@ -157,7 +157,7 @@
       "description": "Write a message for change",
       "associatedCommands": ["change-all"],
       "argumentName": "MESSAGE",
-      "required": true
+      "required": false
     },
     {
       "parameterKind": "flag",

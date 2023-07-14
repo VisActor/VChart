@@ -1,3 +1,5 @@
+import { array } from '@visactor/vutils';
+import type { MaybeArray } from '../typings';
 import type { IVChart } from './interface';
 
 /** vchart 全局实例管理类，为了防止与 ThemeManager 循环依赖，单独从 VChart 类抽出 */
@@ -29,7 +31,17 @@ export class InstanceManager {
     return InstanceManager.instances.has(id);
   }
 
-  static forEach(callbackfn: (instance: IVChart, id: number, map: Map<number, IVChart>) => void, thisArg?: any) {
-    return InstanceManager.instances.forEach(callbackfn, thisArg);
+  static forEach(
+    callbackfn: (instance: IVChart, id: number, map: Map<number, IVChart>) => void,
+    excludeId: MaybeArray<number> = [],
+    thisArg?: any
+  ) {
+    const excludeIdList = array(excludeId);
+    return InstanceManager.instances.forEach((instance: IVChart, id: number, map: Map<number, IVChart>) => {
+      if (excludeIdList.includes(id)) {
+        return;
+      }
+      callbackfn(instance, id, map);
+    }, thisArg);
   }
 }

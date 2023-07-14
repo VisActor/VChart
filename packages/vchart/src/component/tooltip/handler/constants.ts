@@ -1,6 +1,6 @@
 import { PREFIX } from '../../../constant';
 import type { IToolTipLineActual } from '../../../typings';
-import { escapeHTML } from './utils';
+import { escapeHTML } from './utils/common';
 
 export const TOOLTIP_EL_CLASS_NAME = 'vchart-tooltip-element';
 export const TOOLTIP_CONTAINER_EL_CLASS_NAME = 'vchart-tooltip-container';

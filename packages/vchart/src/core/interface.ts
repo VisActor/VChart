@@ -321,3 +321,11 @@ export interface IVChart {
    */
   convertDatumToPosition: (datum: Datum, dataLinkInfo?: DataLinkSeries) => IPoint | null;
 }
+
+export interface IGlobalConfig {
+  /** 是否全局显示唯一 tooltip */
+  uniqueTooltip?: boolean;
+  /** 是否监测图表 dom 变化自动 release */
+  // TODO
+  // autoRelease?: boolean;
+}

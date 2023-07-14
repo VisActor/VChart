@@ -36,6 +36,7 @@ import type { DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './proce
 // eslint-disable-next-line no-duplicate-imports
 import { isDimensionInfo, isMarkInfo, MarkTooltipProcessor, DimensionTooltipProcessor } from './processor';
 import { getElementAbsolutePosition, getElementAbsoluteScrollOffset, hasParentElement } from '@visactor/vutils';
+import { VChart } from '../../core/vchart';
 
 export type TooltipContent = {
   title?: IToolTipLineActual;
@@ -283,6 +284,11 @@ export class Tooltip extends BaseComponent implements ITooltip {
         // 成功显示 tooltip，则更新缓存
         this._cacheInfo = tooltipInfo;
       }
+    }
+    // 全局唯一 tooltip
+    const vchart = this._option.globalInstance;
+    if (success && VChart.globalConfig.uniqueTooltip) {
+      VChart.hideTooltip(vchart.id);
     }
     return success;
   };

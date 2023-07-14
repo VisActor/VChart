@@ -29,7 +29,7 @@ export class BoxPlotChart extends CartesianChart {
       outliersField: spec.outliersField,
       outliersStyle: spec.outliersStyle
     };
-    seriesSpec[spec.direction === Direction.vertical ? 'yField' : 'xField'] = dataFields;
+    seriesSpec[seriesSpec.direction === Direction.vertical ? 'yField' : 'xField'] = dataFields;
 
     return seriesSpec;
   }
@@ -46,20 +46,6 @@ export class BoxPlotChart extends CartesianChart {
         }
       ];
     }
-    //补全轴类型
-    (spec.axes ?? []).forEach(axis => {
-      const { orient, type } = axis;
-      if (orient === 'left') {
-        if (isNil(type)) {
-          axis.type = spec.direction === Direction.vertical ? 'linear' : 'band';
-        }
-      }
-      if (orient === 'bottom') {
-        if (isNil(type)) {
-          axis.type = spec.direction === Direction.vertical ? 'band' : 'linear';
-        }
-      }
-    });
     setDefaultCrosshairForCartesianChart(spec);
   }
 }
