@@ -32,32 +32,35 @@ export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITick
     scaleTicks = (scale as LinearScale).ticks(tickCount ?? DEFAULT_CONTINUOUS_TICK_COUNT);
   }
 
-  // 判断重叠
-  if (op.coordinateType === 'cartesian' || (op.coordinateType === 'polar' && op.axisOrientType === 'radius')) {
-    const { labelGap = 4, labelFlush } = op as ICartesianTickDataOpt;
-    let items = getCartesianLabelBounds(scale, scaleTicks, op as ICartesianTickDataOpt).map(
-      (bounds, i) =>
-        ({
-          AABBBounds: bounds,
-          value: scaleTicks[i]
-        } as ILabelItem<number>)
-    );
-    while (items.length >= 3 && hasOverlap(items, labelGap)) {
-      items = methods.parity(items);
-    }
-    const ticks = items.map(item => item.value);
-
-    if (ticks.length < 3 && labelFlush) {
-      if (ticks.length > 1) {
-        ticks.pop();
+  if (op.sampling) {
+    // 判断重叠
+    if (op.coordinateType === 'cartesian' || (op.coordinateType === 'polar' && op.axisOrientType === 'radius')) {
+      const { labelGap = 4, labelFlush } = op as ICartesianTickDataOpt;
+      let items = getCartesianLabelBounds(scale, scaleTicks, op as ICartesianTickDataOpt).map(
+        (bounds, i) =>
+          ({
+            AABBBounds: bounds,
+            value: scaleTicks[i]
+          } as ILabelItem<number>)
+      );
+      while (items.length >= 3 && hasOverlap(items, labelGap)) {
+        items = methods.parity(items);
       }
-      if (peek(ticks) !== peek(scaleTicks)) {
-        ticks.push(peek(scaleTicks));
-      }
-    }
+      const ticks = items.map(item => item.value);
 
-    scaleTicks = ticks;
+      if (ticks.length < 3 && labelFlush) {
+        if (ticks.length > 1) {
+          ticks.pop();
+        }
+        if (peek(ticks) !== peek(scaleTicks)) {
+          ticks.push(peek(scaleTicks));
+        }
+      }
+
+      scaleTicks = ticks;
+    }
   }
+
   return convertDomainToTickData(scaleTicks, op);
 };
 
