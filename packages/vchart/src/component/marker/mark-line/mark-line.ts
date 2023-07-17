@@ -127,7 +127,7 @@ export class MarkLine extends BaseMarker implements IMarkLine {
     } else if (isPositionLayout) {
       points = spec.positions;
     }
-    this._markerComponent.setAttributes({
+    this._markerComponent?.setAttributes({
       points: points
     });
   }

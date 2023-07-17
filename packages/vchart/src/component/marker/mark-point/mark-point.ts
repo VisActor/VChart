@@ -98,7 +98,7 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
     } else if (isPositionLayout) {
       point = spec.position;
     }
-    this._markerComponent.setAttributes({
+    this._markerComponent?.setAttributes({
       position: point
     });
   }
