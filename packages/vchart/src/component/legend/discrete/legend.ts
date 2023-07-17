@@ -180,7 +180,8 @@ export class DiscreteLegend extends BaseLegend {
   private _getLegendItems() {
     const originData = (this._legendData.getLatestData() || []).map((datum: any) => {
       const fill = datum.style('fill');
-      // const stroke = datum.style('stroke');
+      const stroke = datum.style('stroke');
+      const lineWidth = datum.style('lineWidth');
       const symbolType = datum.style('symbolType');
       const fillOpacity = datum.style('fillOpacity');
       const strokeOpacity = datum.style('strokeOpacity');
@@ -195,7 +196,7 @@ export class DiscreteLegend extends BaseLegend {
         shape: {
           fill,
           symbolType: symbolType ?? datum.shapeType ?? 'circle',
-          // stroke: fill === stroke ? null : stroke,
+          stroke: lineWidth === 0 || fill === stroke ? null : stroke,
           fillOpacity: isValidNumber(fillOpacity) ? fillOpacity : 1,
           strokeOpacity: isValidNumber(strokeOpacity) ? strokeOpacity : 1,
           opacity: isValidNumber(opacity) ? opacity : 1,
