@@ -14,11 +14,12 @@ export enum AttributeLevel {
   Default = 0,
   Theme = 1,
   Chart = 2,
-  Series = 3,
-  Mark = 4,
-  User_Chart = 5,
-  User_Series = 6,
-  User_Mark = 7,
+  Base_Series = 3, // general operation in base series
+  Series = 4, // specified operation in derived series
+  Mark = 5,
+  User_Chart = 6,
+  User_Series = 7,
+  User_Mark = 8,
   Built_In = 99
 }
 

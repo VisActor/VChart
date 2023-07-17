@@ -13,6 +13,7 @@ export class PathMark extends BaseMark<IPathMarkSpec> implements IPathMark {
   protected _getDefaultStyle() {
     const defaultStyle: IMarkStyle<IPathMarkSpec> = {
       ...super._getDefaultStyle(),
+      lineWidth: 0,
       path: ''
     };
     return defaultStyle;

@@ -694,7 +694,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     // only set normal state in the level lower than level Series
     this.getMarks().forEach(m => {
       if (m.stateStyle?.normal?.lineWidth) {
-        m.setAttribute('stroke', this.getColorAttribute(), 'normal', AttributeLevel.Series);
+        m.setAttribute('stroke', this.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
       }
     });
   }
