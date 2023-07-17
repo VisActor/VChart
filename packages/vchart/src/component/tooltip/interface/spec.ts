@@ -36,9 +36,9 @@ export interface ITooltipSpec
    */
   className?: string;
   /**
-   * tooltip dom 元素的挂载点
+   * tooltip dom 元素的挂载点，可传 id 或 dom 对象
    */
-  parentElement?: HTMLElement | HTMLCanvasElement;
+  parentElement?: Maybe<string | HTMLElement | HTMLCanvasElement>;
   /**
    * 鼠标是否可进入提示框浮层中，默认为false，如需详情内交互，如添加链接，按钮，可设置为 true。
    * 该属性目前只对 renderMode 为 html 时生效
