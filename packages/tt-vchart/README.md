@@ -22,9 +22,9 @@
 ```
 
 - `canvasId` 为图表 id，与 dom 的 id 一致，请确保**id 不重复**。
-- `spec` 是 VChart 的核心概念，跨端组件的 spec 与 PC 端保持一致。图表配置例子可以参见 [VChart 图表示例](todo../../../../example)。对于不熟悉 VChart 的用户，可以参见[快速开始 VChart](todo../../Getting_Started) 教程。
+- `spec` 是 VChart 的核心概念，跨端组件的 spec 与 PC 端保持一致。图表配置例子可以参见 [VChart 图表示例](https://www.visactor.io/vchart/example)。对于不熟悉 VChart 的用户，可以参见[快速开始 VChart](https://www.visactor.io/vchart/guide/tutorial_docs/Getting_Started) 教程。
 - `styles` 为图表容器样式，可以用于控制图表宽高等样式。
-- `events` 是一个对象数组，用于注册一系列事件，其定义如下，具体的事件名称、事件筛选配置以及回调函数的参数详见 [VChart 事件 API](todo)
+- `events` 是一个对象数组，用于注册一系列事件，其定义如下，具体的事件名称、事件筛选配置以及回调函数的参数详见 [VChart 事件 API](https://www.visactor.io/vchart/api/API/event)
 
 ```ts
 interface IEvent {

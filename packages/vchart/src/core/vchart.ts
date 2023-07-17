@@ -55,7 +55,7 @@ import { getCanvasDataURL, URLToImage } from '../util/image';
 import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant';
 // eslint-disable-next-line no-duplicate-imports
 import { getContainerSize, isArray } from '@visactor/vutils';
-import type { IVChart } from './interface';
+import type { IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 
 export class VChart implements IVChart {
@@ -134,15 +134,21 @@ export class VChart implements IVChart {
 
   /**
    * 全局关闭 tooltip
+   * @param excludeId 可选，指定不需要关闭 tooltip 的实例 id
    */
-  static hideTooltip() {
-    InstanceManager.forEach(instance => instance?.hideTooltip?.());
+  static hideTooltip(excludeId: MaybeArray<number> = []): void {
+    InstanceManager.forEach(instance => instance?.hideTooltip?.(), excludeId);
   }
 
   /** 图表实例管理器 */
   static readonly InstanceManager = InstanceManager;
   /** 主题管理器 */
   static readonly ThemeManager = ThemeManager;
+
+  /** 全局配置 */
+  static globalConfig: IGlobalConfig = {
+    uniqueTooltip: true
+  };
 
   protected _spec: any;
 

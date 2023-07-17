@@ -77,12 +77,12 @@ $ rush run -p @visactor/vchart -s test
 
 ## 🔗 Related Links
 
-- [Homepage](https://visactor.io/vchart)
-- [VCharts Gallery](todo)
-- [VChart Tutorials](todo)
-- [VChart Options](todo)
-- [VChart API](todo)
-- [VGrammar](https://visactor.io/vgrammar)
-- [VRender](https://visactor.io/vrender)
-- [FAQ](todo)
+- [Homepage](https://www.visactor.io/vchart)
+- [VCharts Gallery](https://www.visactor.io/vchart/example)
+- [VChart Tutorials](https://www.visactor.io/vchart/guide/tutorial_docs/VChart_Website_Guide)
+- [VChart Options](https://www.visactor.io/vchart/option/)
+- [VChart API](https://www.visactor.io/vchart/api/API/vchart)
+- [VGrammar](https://www.visactor.io/vgrammar)
+- [VRender](https://www.visactor.io/vrender)
+- [FAQ](https://www.visactor.io/vchart/guide/tutorial_docs/FAQ)
 - [CodeSandbox Template](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww?file=/src/index.ts) for bug reports

@@ -2,7 +2,7 @@ import type { Maybe } from '@visactor/vutils';
 import type { FontWeight, TextAlign } from '../../../../typings';
 import { isValid, merge, isArray } from '../../../../util';
 import type { ITooltipTheme } from '../../interface';
-import type { ITextStyle, ITooltipStyle } from '../interface';
+import type { ITooltipTextStyle, ITooltipStyle } from '../interface';
 import type { ILabelStyle, IMargin, IShapeStyle, IDomTooltipStyle } from './interface';
 import type { TooltipAttributes } from '@visactor/vrender-components';
 
@@ -10,7 +10,7 @@ const DEFAULT_SHAPE_SPACING = 8;
 const DEFAULT_KEY_SPACING = 26;
 const DEFAULT_VALUE_SPACING = 0;
 
-const getPixelPropertyStr = (num?: number | number[], defaultStr?: string) => {
+export const getPixelPropertyStr = (num?: number | number[], defaultStr?: string) => {
   if (isValid(num)) {
     if (isArray(num)) {
       return num.map(n => `${n}px`).join(' ');
@@ -39,8 +39,6 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
     value,
     title,
     shape,
-    maxWidth,
-    minWidth,
     enterable,
     spaceRow,
     transitionDuration
@@ -63,8 +61,6 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
       boxShadow: shadow
         ? `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowSpread}px ${shadowColor}`
         : 'initial',
-      maxWidth: getPixelPropertyStr(maxWidth),
-      minWidth: getPixelPropertyStr(minWidth),
       pointerEvents: enterable ? 'auto' : 'none',
       transitionDuration: transitionDuration ? `${transitionDuration}ms` : 'initial',
       transitionProperty: transitionDuration ? 'transform' : 'initial',
@@ -109,7 +105,10 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
   return styles;
 }
 
-function getLabelStyle(labelStyle?: ITextStyle, defaultStyle?: Partial<ITextStyle>): ILabelStyle | undefined {
+function getLabelStyle(
+  labelStyle?: ITooltipTextStyle,
+  defaultStyle?: Partial<ITooltipTextStyle>
+): ILabelStyle | undefined {
   if (!labelStyle) {
     return undefined;
   }
@@ -119,8 +118,11 @@ function getLabelStyle(labelStyle?: ITextStyle, defaultStyle?: Partial<ITextStyl
     fill: labelColor,
     textAlign,
     lineHeight,
-    fontWeight
-  } = merge({}, defaultStyle, labelStyle) as ITextStyle;
+    fontWeight,
+    multiLine,
+    wordBreak,
+    maxWidth
+  } = merge({}, defaultStyle, labelStyle) as ITooltipTextStyle;
   const styleObj: ILabelStyle = {};
 
   styleObj.fontFamily = labelFont;
@@ -129,6 +131,9 @@ function getLabelStyle(labelStyle?: ITextStyle, defaultStyle?: Partial<ITextStyl
   styleObj.textAlign = textAlign as TextAlign;
   styleObj.lineHeight = getPixelPropertyStr(lineHeight);
   styleObj.fontWeight = fontWeight as FontWeight;
+  styleObj.whiteSpace = multiLine ? 'initial' : 'nowrap';
+  styleObj.wordBreak = wordBreak;
+  styleObj.maxWidth = getPixelPropertyStr(maxWidth);
   return styleObj;
 }
 
@@ -143,6 +148,5 @@ function getShapeStyle(
   const styleObj: IShapeStyle = {};
 
   styleObj.width = getPixelPropertyStr(size);
-  styleObj.height = styleObj.width;
   return styleObj;
 }

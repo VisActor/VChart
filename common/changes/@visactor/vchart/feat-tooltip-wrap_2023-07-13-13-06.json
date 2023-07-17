@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: tooltip supports multiline config",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

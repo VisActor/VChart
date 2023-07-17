@@ -24,7 +24,7 @@ import type { ISeries } from '../../../series/interface';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipResult } from '../interface';
-import type { IPanelStyle, ITooltipStyle } from './interface';
+import type { ITooltipPanelStyle, ITooltipStyle } from './interface';
 import type { IGroup } from '@visactor/vrender';
 import { getTextAttributes } from './utils/style';
 import type { AABBBounds } from '@visactor/vutils';
@@ -528,7 +528,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
   protected _getStyle(): ITooltipStyle {
     const tooltipSpec = this._component.getSpec();
-    const { style = {}, maxWidth, minWidth, enterable, transitionDuration } = tooltipSpec as ITooltipSpec;
+    const { style = {}, enterable, transitionDuration } = tooltipSpec as ITooltipSpec;
 
     const {
       panel: { backgroundColor, border, shadow, padding },
@@ -540,7 +540,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     } = style;
 
     // tooltip background style
-    const panelStyle: IPanelStyle = {
+    const panelStyle: ITooltipPanelStyle = {
       lineWidth: border?.width ?? 0,
       shadow: !!shadow
     };
@@ -576,8 +576,6 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       key: getTextAttributes(keyLabel, globalTheme),
       value: getTextAttributes(valueLabel, globalTheme),
       padding,
-      minWidth,
-      maxWidth,
       spaceRow,
       enterable,
       transitionDuration

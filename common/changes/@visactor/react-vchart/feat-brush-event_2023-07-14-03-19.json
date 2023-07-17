@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "feat(brush): add operate type about 'brushStart' | 'brushEnd' and export element data of inBrush and outOfBrush",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}

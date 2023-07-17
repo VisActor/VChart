@@ -7,8 +7,6 @@ export interface IDomTooltipStyle {
       height?: string;
       backgroundColor?: string;
       boxShadow?: string;
-      maxWidth?: string;
-      minWidth?: string;
       pointerEvents?: 'auto' | 'none';
       transitionDuration?: string;
       transitionProperty?: string;
@@ -38,6 +36,9 @@ export interface ILabelStyle extends IMargin {
   textAlign?: TextAlign;
   lineHeight?: string;
   fontWeight?: FontWeight;
+  whiteSpace?: string;
+  wordBreak?: string;
+  maxWidth?: string;
 }
 
 export interface IShapeStyle extends IMargin {

@@ -2,10 +2,10 @@ import type { ITheme } from '../../../../theme';
 // eslint-disable-next-line no-duplicate-imports
 import { DEFAULT_TEXT_FONT_FAMILY } from '../../../../theme';
 import type { ITooltipTextTheme } from '../../interface';
-import type { ITextStyle } from '../interface';
+import type { ITooltipTextStyle } from '../interface';
 
 export function getTextAttributes(style: ITooltipTextTheme = {}, globalTheme?: ITheme) {
-  const attrs: ITextStyle = {
+  const attrs: ITooltipTextStyle = {
     fill: style.fontColor,
     textAlign: style.textAlign,
     textBaseline: style.textBaseline,
@@ -13,7 +13,10 @@ export function getTextAttributes(style: ITooltipTextTheme = {}, globalTheme?: I
     fontSize: style.fontSize,
     fontWeight: style.fontWeight,
     lineHeight: style.lineHeight,
-    spacing: style.spacing ?? 10
+    spacing: style.spacing ?? 10,
+    multiLine: style.multiLine ?? false,
+    maxWidth: style.maxWidth,
+    wordBreak: style.wordBreak ?? 'break-word'
   };
   return attrs;
 }

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: new config of global unique tooltip",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
