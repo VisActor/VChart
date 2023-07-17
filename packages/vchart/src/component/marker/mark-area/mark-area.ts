@@ -110,7 +110,7 @@ export class MarkArea extends BaseMarker implements IMarkArea {
     } else if (isPositionLayout) {
       points = spec.positions;
     }
-    this._markerComponent.setAttributes({
+    this._markerComponent?.setAttributes({
       points: points
     });
   }
