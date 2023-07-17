@@ -29,13 +29,7 @@ import type { IGroup } from '@visactor/vrender';
 import { getTextAttributes } from './utils/style';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import {
-  getElementAbsolutePosition,
-  getElementAbsoluteScrollOffset,
-  isNumber,
-  isObject,
-  isValidNumber
-} from '@visactor/vutils';
+import { isNumber, isObject, isValidNumber } from '@visactor/vutils';
 import type { IElement } from '@visactor/vgrammar';
 import type { IModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
@@ -365,7 +359,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     actualTooltip: IToolTipActual,
     position: TooltipPosition | undefined,
     params: TooltipHandlerParams,
-    parentElement: HTMLElement,
+    tooltipParentElement: HTMLElement,
     changePositionOnly: boolean
   ): ITooltipPositionActual => {
     const event = params.event as MouseEvent;
@@ -379,6 +373,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const canvasRect = params?.chart?.getCanvasRect();
     const canvasWidth = canvasRect?.width ?? DEFAULT_CHART_WIDTH;
     const canvasHeight = canvasRect?.height ?? DEFAULT_CHART_HEIGHT;
+    let isFixedPosition = false;
 
     /* 一、计算left、top、right、bottom */
     let left: number | undefined;
@@ -392,6 +387,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       right = getActualTooltipPositionValue(posRight, event);
       bottom = getActualTooltipPositionValue(posBottom, event);
     } else if (isValid(position) && actualTooltip.activeType === 'mark') {
+      isFixedPosition = true;
       const element = params.item as IElement;
       const model = params.model as IModel;
       const bounds = element?.getBounds() as AABBBounds;
@@ -435,11 +431,11 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       width: 0,
       height: 0
     };
-    const getDefaultOffest = (): IPoint => ({ x: 0, y: 0 });
-    let absolutePosOffset = getDefaultOffest();
-    let scrollOffset = getDefaultOffest();
-    let parentElementScrollOffset = getDefaultOffest();
-    let parentElementPosOffset = getDefaultOffest();
+    const getDefaultPointValue = (defaultValue = 0): IPoint => ({ x: defaultValue, y: defaultValue });
+    let relativePosOffset = getDefaultPointValue();
+    let tooltipParentElementPos = getDefaultPointValue();
+    let chartElementScale = 1;
+    let tooltipParentElementScale = 1;
 
     if (isTrueBrowser(this._env) && !tooltipSpec.confine) {
       // 只有在 browser 模式下才可以获取到 window 对象
@@ -447,19 +443,15 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       containerSize.height = window.innerHeight;
 
       if (!isCanvas) {
-        const chartRenderer = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
-        parentElementPosOffset = getElementAbsolutePosition(parentElement);
-        parentElementScrollOffset = getElementAbsoluteScrollOffset(parentElement);
-        const chartPosOffset = getElementAbsolutePosition(chartRenderer);
-        const chartScrollOffset = getElementAbsoluteScrollOffset(chartRenderer);
-        absolutePosOffset = {
-          x: chartPosOffset.x - parentElementPosOffset.x,
-          y: chartPosOffset.y - parentElementPosOffset.y
+        const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
+        tooltipParentElementPos = tooltipParentElement.getBoundingClientRect();
+        const chartPosOffset = chartElement.getBoundingClientRect();
+        relativePosOffset = {
+          x: chartPosOffset.x - tooltipParentElementPos.x,
+          y: chartPosOffset.y - tooltipParentElementPos.y
         };
-        scrollOffset = {
-          x: chartScrollOffset.x - parentElementScrollOffset.x,
-          y: chartScrollOffset.y - parentElementScrollOffset.y
-        };
+        chartElementScale = getScale(chartElement);
+        tooltipParentElementScale = getScale(tooltipParentElement);
       }
     } else {
       containerSize.width = canvasWidth;
@@ -472,44 +464,51 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     } else if (isValidNumber(right)) {
       x = canvasWidth - tooltipBoxWidth - right;
     } else {
-      x = canvasX - scrollOffset.x + offsetX;
+      x = canvasX + offsetX;
     }
     if (isValidNumber(top)) {
       y = top;
     } else if (isValidNumber(bottom)) {
       y = canvasHeight - tooltipBoxHeight - bottom;
     } else {
-      y = canvasY - scrollOffset.y + offsetY;
+      y = canvasY + offsetY;
     }
 
+    x *= chartElementScale;
+    y *= chartElementScale;
     if (isTrueBrowser(this._env)) {
-      x += absolutePosOffset.x;
-      y += absolutePosOffset.y;
+      x += relativePosOffset.x;
+      y += relativePosOffset.y;
     }
+    x /= tooltipParentElementScale;
+    y /= tooltipParentElementScale;
 
     /* 三、确保tooltip在视区内 */
     const { width: containerWidth, height: containerHeight } = containerSize;
 
-    const parentElementTotalOffset = {
-      x: parentElementPosOffset.x - parentElementScrollOffset.x,
-      y: parentElementPosOffset.y - parentElementScrollOffset.y
-    };
-
-    if (x + tooltipBoxWidth + parentElementTotalOffset.x > containerWidth) {
+    if ((x + tooltipBoxWidth) * tooltipParentElementScale + tooltipParentElementPos.x > containerWidth) {
       // 位置不超出视区右界
-      x -= offsetX * 2 + tooltipBoxWidth;
+      if (isFixedPosition) {
+        x = (containerWidth - tooltipParentElementPos.x) / tooltipParentElementScale - tooltipBoxWidth;
+      } else {
+        x -= offsetX * 2 + tooltipBoxWidth;
+      }
     }
-    if (y + tooltipBoxHeight + parentElementTotalOffset.y > containerHeight) {
+    if ((y + tooltipBoxHeight) * tooltipParentElementScale + tooltipParentElementPos.y > containerHeight) {
       // 位置不超出视区下界
-      y -= offsetY * 2 + tooltipBoxHeight;
+      if (isFixedPosition) {
+        y = (containerHeight - tooltipParentElementPos.y) / tooltipParentElementScale - tooltipBoxHeight;
+      } else {
+        y -= offsetY * 2 + tooltipBoxHeight;
+      }
     }
-    if (x + parentElementTotalOffset.x < 0) {
+    if (x * tooltipParentElementScale + tooltipParentElementPos.x < 0) {
       // 位置不超出视区左界
-      x = 0 - parentElementTotalOffset.x;
+      x = 0 - tooltipParentElementPos.x / tooltipParentElementScale;
     }
-    if (y + parentElementTotalOffset.y < 0) {
+    if (y * tooltipParentElementScale + tooltipParentElementPos.y < 0) {
       // 位置不超出视区上界
-      y = 0 - parentElementTotalOffset.y;
+      y = 0 - tooltipParentElementPos.y / tooltipParentElementScale;
     }
 
     return { x, y };
@@ -602,3 +601,11 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     this._initFromSpec();
   }
 }
+
+// FIXME: 以下代码等 vutil 发版后删除
+export const getScale = (element: HTMLElement) => {
+  if (element.offsetWidth > 0) {
+    return element.getBoundingClientRect().width / element.offsetWidth;
+  }
+  return element.getBoundingClientRect().height / element.offsetHeight;
+};

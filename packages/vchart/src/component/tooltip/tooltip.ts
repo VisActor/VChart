@@ -35,7 +35,7 @@ import { Event_Bubble_Level, Event_Source_Type } from '../../constant';
 import type { DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
 // eslint-disable-next-line no-duplicate-imports
 import { isDimensionInfo, isMarkInfo, MarkTooltipProcessor, DimensionTooltipProcessor } from './processor';
-import { getElementAbsolutePosition, getElementAbsoluteScrollOffset, hasParentElement } from '@visactor/vutils';
+import { hasParentElement, isString } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 
 export type TooltipContent = {
@@ -358,7 +358,11 @@ export class Tooltip extends BaseComponent implements ITooltip {
     }
 
     if (isValid(userSpec.parentElement)) {
-      this._spec.parentElement = userSpec.parentElement;
+      if (isString(userSpec.parentElement)) {
+        this._spec.parentElement = globalThis.document?.getElementById(userSpec.parentElement);
+      } else {
+        this._spec.parentElement = userSpec.parentElement;
+      }
     } else if (isTrueBrowser(this._option.mode)) {
       this._spec.parentElement = domDocument?.body;
     }
@@ -428,19 +432,10 @@ export class Tooltip extends BaseComponent implements ITooltip {
       return false;
     }
     const { x, y } = point;
-    const container = globalInstance.getContainer();
-    const { x: chartX, y: chartY } = getElementAbsolutePosition(container);
-    const { x: scrollOffsetX, y: scrollOffsetY } = getElementAbsoluteScrollOffset(container);
-    const canvasRect = chart.getCanvasRect();
-    const chartWidth = canvasRect?.width;
-    const chartHeight = canvasRect?.height;
+    const canvas = globalInstance.getCanvas();
+    const { x: chartX, y: chartY, width: chartWidth, height: chartHeight } = canvas.getBoundingClientRect();
     // 鼠标仍在图表范围内，则不处理
-    if (
-      x >= chartX - scrollOffsetX &&
-      x <= chartX + chartWidth - scrollOffsetX &&
-      y >= chartY - scrollOffsetY &&
-      y <= chartY + chartHeight - scrollOffsetY
-    ) {
+    if (x >= chartX && x <= chartX + chartWidth && y >= chartY && y <= chartY + chartHeight) {
       return true;
     }
 
