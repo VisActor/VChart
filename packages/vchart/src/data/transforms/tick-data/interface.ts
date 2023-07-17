@@ -2,6 +2,10 @@ import type { IPolarAxisSpec } from '../../../component/axis/polar/interface';
 import type { CoordinateType, IOrientType, IPolarOrientType, ITextMarkSpec } from '../../../typings';
 
 export interface ITickDataOpt {
+  /**
+   * 是否进行轴采样
+   */
+  sampling?: boolean;
   tickCount?: number;
   forceTickCount?: number;
   tickStep?: number;
@@ -30,5 +34,5 @@ export interface IPolarTickDataOpt extends ITickDataOpt {
 export interface ITickData {
   index: number;
   value: number | string;
-  label: string;
+  // label: string;
 }
