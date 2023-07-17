@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: default tooltip handler needs to adapt to the scale property",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
