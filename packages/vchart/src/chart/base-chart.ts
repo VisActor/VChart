@@ -214,7 +214,7 @@ export class BaseChart extends CompilableBase implements IChart {
     this.initSeries();
     // global scale 应当在series初始化完成后，组件初始化之前
     // 此时 globalScale 已经生效组件可以获取到正确的映射
-    this.initGlobalScale();
+    this.updateGlobalScaleDomain();
     // component
     this.initComponent();
     // event
@@ -705,8 +705,7 @@ export class BaseChart extends CompilableBase implements IChart {
     return this._spec.data[0];
   }
 
-  // 全局通道
-  createGlobalScale() {
+  private _transformSpecScale() {
     const scales: IChartSpec['scales'] = this._spec.scales ?? [];
     let colorScaleSpec: IVisualSpecScale<any, any> = scales.find(s => s.id === 'color');
     if (!colorScaleSpec) {
@@ -739,11 +738,16 @@ export class BaseChart extends CompilableBase implements IChart {
       // @ts-ignore
       colorScaleSpec.rangeTheme = true;
     }
-    this._globalScale = new GlobalScale(scales, this);
+    return scales;
+  }
+
+  // 全局通道
+  createGlobalScale() {
+    this._globalScale = new GlobalScale(this._transformSpecScale(), this);
     this._modelOption.globalScale = this._globalScale;
   }
 
-  initGlobalScale() {
+  updateGlobalScaleDomain() {
     const domainSet = new Set();
     this._series.forEach(s => {
       const keys = s.getSeriesKeys();
@@ -756,6 +760,10 @@ export class BaseChart extends CompilableBase implements IChart {
     // 但是考虑到组件也可能会有修改 scale 的逻辑
     // 增加一个属性设置优先级也许是必须的？
     this._globalScale.updateScaleDomain(domain);
+  }
+
+  updateGlobalScale(result: IUpdateSpecResult) {
+    this._mergeUpdateResult(result, this._globalScale.updateSpec(this._transformSpecScale()));
   }
 
   updateGlobalScaleTheme() {
@@ -795,10 +803,16 @@ export class BaseChart extends CompilableBase implements IChart {
       return result;
     }
     this._spec = spec;
+    this.updateGlobalScale(result);
+    if (result.reMake) {
+      return result;
+    }
     this.updateDataSpec(result);
     if (result.reMake) {
       return result;
     }
+    // ensure that the domain of the scale follows the data change
+    this.updateGlobalScaleDomain();
     // region 变化
     this.updateRegionSpec(result);
     if (result.reMake) {
