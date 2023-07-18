@@ -1126,7 +1126,7 @@ export class VChart implements IVChart {
       const { axisId, axisIndex } = dataLinkInfo as DataLinkAxis;
       let axis;
       if (isValid(axisId)) {
-        axis = this._chart.getComponentByUserId(axisId);
+        axis = this._chart.getComponentsByKey('axes').find(s => s.userId === axisId);
       } else if (isValid(axisIndex)) {
         axis = this._chart.getComponentsByKey('axes')?.[axisIndex];
       }
@@ -1134,7 +1134,7 @@ export class VChart implements IVChart {
         warn('Please check whether the `axisId` or `axisIndex` is set!');
         return null;
       }
-      return (axis as IAxis).valueToPosition(value);
+      return (axis as IAxis)?.valueToPosition(value);
     }
     const { seriesId, seriesIndex } = dataLinkInfo as DataLinkSeries;
     let series;
