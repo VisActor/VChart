@@ -1,4 +1,4 @@
-import type { SegmentAttributes } from '@visactor/vrender-components';
+import type { SegmentAttributes, AxisLabelOverlap } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IAxis, IDomainLine, ILabel, ITitle } from '../../interface';
 import type { StringOrNumber } from '../../../../typings';
@@ -60,17 +60,18 @@ export type ICartesianLabel = ILabel & {
    * @default false
    */
   flush?: boolean;
+  // /**
+  //  * 第一个坐标轴文字是否显示。默认根据标签重叠策略自动判定。
+  //  * @default null
+  //  */
+  // firstVisible?: boolean | null;
   /**
-   * 第一个坐标轴文字是否显示。默认根据标签重叠策略自动判定。
-   * @default null
-   */
-  firstVisible?: boolean | null;
-  /**
+   * `sampling` 开启时生效。
    * 最后一个坐标轴文字是否显示。默认根据标签重叠策略自动判定。
    * @default null
    */
   lastVisible?: boolean | null;
-};
+} & AxisLabelOverlap;
 
 export interface ILinearAxis extends IAxis {
   readonly zero: boolean;

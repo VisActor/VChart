@@ -332,6 +332,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
     }
 
     return {
+      orient: this.orient,
       select: spec.select,
       hover: spec.hover,
       line: transformAxisLineStyle(spec.domainLine),
@@ -351,7 +352,15 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
               return spec.label.formatMethod(datum.rawValue, datum);
             }
           : null,
-        state: transformStateStyle(spec.label.state)
+        state: transformStateStyle(spec.label.state),
+        autoRotate: !!spec.label.autoRotate,
+        autoHide: !!spec.label.autoHide,
+        autoLimit: !!spec.label.autoLimit,
+        autoRotateAngle: spec.label.autoRotateAngle,
+        autoHideMethod: spec.label.autoHideMethod,
+        autoHideSeparation: spec.label.autoHideSeparation,
+        limitEllipsis: spec.label.limitEllipsis,
+        layoutFunc: spec.label.layoutFunc
       },
       tick: {
         visible: spec.tick.visible,

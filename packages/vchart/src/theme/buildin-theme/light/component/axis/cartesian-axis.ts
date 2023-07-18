@@ -6,7 +6,8 @@ export const axisX: ICartesianAxisCommonTheme = {
   },
   title: {
     space: 10
-  }
+  },
+  maxHeight: '30%'
 };
 
 export const axisY: ICartesianAxisCommonTheme = {
@@ -16,5 +17,6 @@ export const axisY: ICartesianAxisCommonTheme = {
   title: {
     space: 20,
     autoRotate: true
-  }
+  },
+  maxWidth: '30%'
 };
