@@ -34,6 +34,10 @@ Thank you!
 2. close #xxxx or fix #xxxx for instance.
 -->
 
+### 🔗 Related PR link
+
+<!-- Put the related PR links here. -->
+
 ### 🐞 Bugserver case id
 
 <!-- paste the `fileid` field in the bugserver case url -->
