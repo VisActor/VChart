@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(marker): markline support autoRange and marker performance enhance",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
