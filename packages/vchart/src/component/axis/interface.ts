@@ -6,7 +6,7 @@ import type { IComponent } from '../interface';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IModelSpec } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { AxisItemStateStyle } from '@visactor/vrender-components';
+import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
 import type { ICompilableData } from '../../compile/data';
 
 export type StatisticsDomain = {
@@ -224,6 +224,12 @@ export type ITick = IAxisItem<IRuleMarkSpec> & {
    * 4. selected_reverse
    */
   state?: AxisItemStateStyle<IRuleMarkSpec>;
+  /**
+   * 用于 tick 的数据过滤
+   * @param data
+   * @returns
+   */
+  dataFilter?: (data: AxisItem[]) => AxisItem[];
 };
 
 // 子刻度线配置
@@ -283,6 +289,13 @@ export type ILabel = IAxisItem<ITextMarkSpec> & {
    * 4. selected_reverse
    */
   state?: AxisItemStateStyle<ITextMarkSpec>;
+  /**
+   * 用于 label 的数据过滤
+   * @param data
+   * @param layer
+   * @returns
+   */
+  dataFilter?: (data: AxisItem[], layer: number) => AxisItem[];
 };
 
 // 轴线配置
