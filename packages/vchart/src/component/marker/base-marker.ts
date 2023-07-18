@@ -154,4 +154,12 @@ export abstract class BaseMarker extends BaseComponent {
     }
     throw new Error('need at least one series');
   }
+
+  clear(): void {
+    if (this._markerComponent) {
+      this._container.removeChild(this._markerComponent as unknown as INode);
+      this._markerComponent = null;
+    }
+    super.clear();
+  }
 }
