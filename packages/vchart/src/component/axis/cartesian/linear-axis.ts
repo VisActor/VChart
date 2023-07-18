@@ -1,3 +1,4 @@
+import type { LogScale } from '@visactor/vscale';
 import { LinearScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
 import { isValid } from '../../../util';
@@ -29,8 +30,8 @@ export class CartesianLinearAxis extends CartesianAxis {
   protected _nice: boolean = true;
   protected _extend: { [key: string]: number } = {};
 
-  protected _scale: LinearScale = new LinearScale();
-  protected declare _scales: LinearScale[];
+  protected _scale: LinearScale | LogScale = new LinearScale();
+  protected declare _scales: LinearScale[] | LogScale[];
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
@@ -51,7 +52,7 @@ export class CartesianLinearAxis extends CartesianAxis {
       range[1] = this._domain.max;
     }
     this._scale.domain(range);
-    this.setScaleNice();
+    // this.setScaleNice();
   }
 
   protected computeDomain(data: { min: number; max: number; values: any[] }[]): number[] {
