@@ -114,6 +114,11 @@ export interface IMarkerSpec extends IModelSpec {
    * @default false
    */
   interactive?: boolean;
+  /**
+   * marker组件是否自动拓展轴范围
+   * @default false
+   */
+  autoRange?: boolean;
 }
 
 export type IMarkerSymbol = {
