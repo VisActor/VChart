@@ -28,7 +28,8 @@ import type {
   ISeriesSpec,
   IExtensionMarkSpec,
   IExtensionGroupMarkSpec,
-  EnableMarkType
+  EnableMarkType,
+  StringOrNumber
 } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 // eslint-disable-next-line no-duplicate-imports
@@ -536,6 +537,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   abstract dataToPositionX(data: Datum): number;
   /** 数据到 y 坐标点的映射 */
   abstract dataToPositionY(data: Datum): number;
+  /** 数据到坐标点的映射 */
+  abstract valueToPosition(value1: any, value2?: any): IPoint;
   abstract initMark(): void;
   abstract initMarkStyle(): void;
 

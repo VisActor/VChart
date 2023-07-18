@@ -277,14 +277,13 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this._markAttributeContext.valueToY = this.valueToPositionY.bind(this);
     this._markAttributeContext.xBandwidth = (depth: number = 0) => this.getXAxisHelper().getBandwidth?.(depth) ?? 0;
     this._markAttributeContext.yBandwidth = (depth: number = 0) => this.getYAxisHelper().getBandwidth?.(depth) ?? 0;
-    this._markAttributeContext.valueToPosition = (
-      valueX: StringOrNumber | StringOrNumber[],
-      valueY: StringOrNumber | StringOrNumber[]
-    ) => {
-      return {
-        x: this.valueToPositionX(valueX),
-        y: this.valueToPositionY(valueY)
-      };
+    this._markAttributeContext.valueToPosition = this.valueToPosition.bind(this);
+  }
+
+  valueToPosition(xValue: StringOrNumber | StringOrNumber[], yValue: StringOrNumber | StringOrNumber[]) {
+    return {
+      x: this.valueToPositionX(xValue),
+      y: this.valueToPositionY(yValue)
     };
   }
 

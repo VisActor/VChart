@@ -1,3 +1,4 @@
+import { series } from './../theme/buildin-theme/light/series/index';
 import type { ISeries } from '../series/interface/series';
 import { arrayParser } from '../data/parser/array';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
@@ -64,8 +65,9 @@ import { getCanvasDataURL, URLToImage } from '../util/image';
 import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant';
 // eslint-disable-next-line no-duplicate-imports
 import { getContainerSize, isArray, isEmpty } from '@visactor/vutils';
-import type { DataLinkSeries, IGlobalConfig, IVChart } from './interface';
+import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
+import type { IAxis } from '../component/axis';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -1103,8 +1105,49 @@ export class VChart implements IVChart {
       if (handledDatum) {
         return series.dataToPosition(handledDatum);
       }
+      return series.dataToPosition(datum);
     }
 
     return null;
+  }
+
+  convertValueToPosition(value: StringOrNumber, dataLinkInfo: DataLinkAxis): number | null;
+  convertValueToPosition(value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries): IPoint | null;
+  convertValueToPosition(
+    value: StringOrNumber | [StringOrNumber, StringOrNumber],
+    dataLinkInfo: DataLinkAxis | DataLinkSeries
+  ): number | IPoint | null {
+    if (!this._chart || isNil(value) || isEmpty(dataLinkInfo)) {
+      return null;
+    }
+
+    if (!isArray(value)) {
+      // 如果单个值，则默认使用 axis 绑定信息
+      const { axisId, axisIndex } = dataLinkInfo as DataLinkAxis;
+      let axis;
+      if (isValid(axisId)) {
+        axis = this._chart.getComponentByUserId(axisId);
+      } else if (isValid(axisIndex)) {
+        axis = this._chart.getComponentsByKey('axes')?.[axisIndex];
+      }
+      if (!axis) {
+        warn('Please check whether the `axisId` or `axisIndex` is set!');
+        return null;
+      }
+      return (axis as IAxis).valueToPosition(value);
+    }
+    const { seriesId, seriesIndex } = dataLinkInfo as DataLinkSeries;
+    let series;
+    if (isValid(seriesId)) {
+      series = this._chart.getSeriesInUserId(seriesId);
+    } else if (isValid(seriesIndex)) {
+      series = this._chart.getSeriesInIndex([seriesIndex])?.[0];
+    }
+
+    if (!series) {
+      warn('Please check whether the `seriesId` or `seriesIndex` is set!');
+      return null;
+    }
+    return (series as ISeries).valueToPosition(value[0], value[1]);
   }
 }

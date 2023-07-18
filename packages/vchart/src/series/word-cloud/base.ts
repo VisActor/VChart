@@ -394,16 +394,19 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     return fields;
   }
   dataToPosition(data: Datum): IPoint {
-    throw new Error('Method not implemented.');
+    return null;
   }
   dataToPositionX(data: any): number {
-    throw new Error('Method not implemented.');
+    return null;
   }
   dataToPositionY(data: any): number {
-    throw new Error('Method not implemented.');
+    return null;
   }
   dataToPositionZ(data: any): number {
-    throw new Error('Method not implemented.');
+    return null;
+  }
+  valueToPosition(value1: any, value2?: any): IPoint {
+    return null;
   }
   setValueFieldToStackOffsetSilhouette(): void {
     // do nothing
