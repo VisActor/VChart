@@ -36,24 +36,24 @@ export class LinearAxisMixin {
     this._domain = getLinearAxisSpecDomain(this._spec);
   }
   transformScaleDomain() {
-    this.setScaleNice();
+    // this.setScaleNice();
   }
-  setScaleNice() {
-    let tickCount = this._spec.tick?.forceTickCount ?? this._spec.tick?.tickCount ?? 10;
-    // 如果配置了精度优先，那么最低是10
-    // 否则就直接使用tickCount即可
-    if (this._spec.niceType === 'accurateFirst') {
-      tickCount = Math.max(10, tickCount);
-    }
+  // setScaleNice() {
+  //   let tickCount = this._spec.tick?.forceTickCount ?? this._spec.tick?.tickCount ?? 10;
+  //   // 如果配置了精度优先，那么最低是10
+  //   // 否则就直接使用tickCount即可
+  //   if (this._spec.niceType === 'accurateFirst') {
+  //     tickCount = Math.max(10, tickCount);
+  //   }
 
-    if (isNil(this._domain?.min) && isNil(this._domain?.max)) {
-      this._nice && this._scale.nice(tickCount);
-    } else if (isValid(this._domain?.min) && isNil(this._domain?.max)) {
-      this._nice && this._scale.niceMax(tickCount);
-    } else if (isNil(this._domain?.min) && isValid(this._domain?.max)) {
-      this._nice && this._scale.niceMin(tickCount);
-    }
-  }
+  //   if (isNil(this._domain?.min) && isNil(this._domain?.max)) {
+  //     this._nice && this._scale.nice(tickCount);
+  //   } else if (isValid(this._domain?.min) && isNil(this._domain?.max)) {
+  //     this._nice && this._scale.niceMax(tickCount);
+  //   } else if (isNil(this._domain?.min) && isValid(this._domain?.max)) {
+  //     this._nice && this._scale.niceMin(tickCount);
+  //   }
+  // }
   dataToPosition(values: any[], cfg?: IAxisLocationCfg): number {
     return this.valueToPosition(values[0]);
   }
@@ -153,7 +153,7 @@ export class LinearAxisMixin {
     this.setDomainMinMax(domain);
     this.niceDomain(domain);
     this._scale.domain(domain, this._nice);
-    this.niceMinMax();
+    // this.niceMinMax();
 
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any });
   }
@@ -219,7 +219,7 @@ export class LinearAxisMixin {
     this.niceDomain(domain);
     this._scale.domain(domain, this._nice);
     // 设置scale的nice-min-max
-    this.niceMinMax();
+    // this.niceMinMax();
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any });
   }
