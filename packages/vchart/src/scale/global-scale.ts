@@ -88,8 +88,39 @@ export class GlobalScale implements IGlobalScale {
       return result;
     }
     result.change = true;
+    for (let i = 0; i < spec.length; i++) {
+      const s = spec[i];
+      const scale = this._scaleMap.get(s.id);
+      if (!scale) {
+        // new global scale need remake chart
+        result.reMake = true;
+        return result;
+      }
+      const lastSpec = this._spec.find(_s => _s.id === s.id);
+      if (!lastSpec.id) {
+        // new global scale need remake chart
+        result.reMake = true;
+        return result;
+      }
+      if (lastSpec.type !== s.type) {
+        // scale cannot change type, need remake chart
+        result.reMake = true;
+        return result;
+      }
+      if (s.range && !isEqual(s.range, scale.range())) {
+        scale.range(s.range);
+        result.reRender = true;
+      }
+      if (isDataDomainSpec(s.domain)) {
+        result.reRender = true;
+      } else if (!isEqual(s.domain, scale.domain())) {
+        scale.domain(s.domain);
+        result.reRender = true;
+      }
+      // replace specMap, this use for data domain
+      this._scaleSpecMap.set(s.id, s);
+    }
     this._spec = spec;
-    this._setAttrFromSpec();
     return result;
   }
 
@@ -228,7 +259,7 @@ export class GlobalScale implements IGlobalScale {
     });
   }
 
-  private _updateMarkScale(id: string, scale: IBaseScale, domain: any[] | Set<string>) {
+  private _updateMarkScale(id: string, scale: IBaseScale, domain: unknown[] | Set<string>) {
     const list = this._markAttributeScaleMap.get(id);
     if (!list || list.length === 0) {
       return;
@@ -243,7 +274,7 @@ export class GlobalScale implements IGlobalScale {
         !info.dataStatistics ||
         !info.dataStatistics.latestData[info.field]
       ) {
-        isContinuous(scale.type) ? info.markScale.domain(domain as any[]) : scale.domain(Array.from(domain));
+        isContinuous(scale.type) ? info.markScale.domain(domain as unknown[]) : scale.domain(Array.from(domain));
         return;
       }
 

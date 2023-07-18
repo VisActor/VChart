@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(global-scale): Correctly update global-scale when updateSpec",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
