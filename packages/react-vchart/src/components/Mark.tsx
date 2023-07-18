@@ -14,7 +14,7 @@ export interface IMarkElement extends React.ReactElement<Props, React.JSXElement
   id: string | number;
 }
 
-type Props = MarkProps & { updateId: number };
+type Props = MarkProps & { updateId?: number };
 
 export const Mark: React.FC<Props> = (props: Props) => {
   const context = useContext(ViewContext);

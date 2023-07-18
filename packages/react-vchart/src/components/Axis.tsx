@@ -1,7 +1,6 @@
-import { createComponent } from "./BaseComponent";
+import { BaseComponentProps, createComponent } from './BaseComponent';
+import type { ICartesianAxisSpec, IPolarAxisSpec } from '@visactor/vchart';
 
-export interface AxisProps {
-  //
-}
+export type AxisProps = (ICartesianAxisSpec | IPolarAxisSpec) & BaseComponentProps;
 
-export const Axis = createComponent("Axis", "axes");
+export const Axis = createComponent<AxisProps>('Axis', 'axes');
