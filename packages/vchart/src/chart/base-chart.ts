@@ -1271,7 +1271,7 @@ export class BaseChart extends CompilableBase implements IChart {
       return;
     }
     // tooltip
-    if (opt.tooltip) {
+    if (opt.tooltip !== false) {
       const tooltip = this._components.find(c => c.type === ComponentTypeEnum.tooltip) as unknown as ITooltip;
       if (tooltip.getVisible()) {
         const dataFilter = {};
@@ -1289,7 +1289,7 @@ export class BaseChart extends CompilableBase implements IChart {
         tooltip.showTooltip(dataFilter, opt.showTooltipOption);
       }
     }
-    if (opt.crosshair) {
+    if (opt.crosshair !== false) {
       const crosshair = this._components.find(
         c => c.type === ComponentTypeEnum.cartesianCrosshair
       ) as unknown as ICrossHair;
