@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "modify api setDimensionIndex  parameters to make it more user-friendly",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
