@@ -1,8 +1,8 @@
-// import type { IRegionSpec } from '@visactor/vchart'
-import { createComponent } from './BaseComponent';
+import type { IRegionSpec } from '@visactor/vchart';
+import { BaseComponentProps, createComponent } from './BaseComponent';
 
-export interface RegionProps {
+export interface RegionProps extends BaseComponentProps, IRegionSpec {
   //
 }
 
-export const Region = createComponent('Region', 'region');
+export const Region = createComponent<RegionProps>('Region', 'region');
