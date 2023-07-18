@@ -1,4 +1,4 @@
-import VChart, { IData, IInitOption } from '@visactor/vchart';
+import VChart, { IData, IInitOption, IChartSpec } from '@visactor/vchart';
 import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
@@ -19,7 +19,7 @@ export interface BaseChartProps extends EventsProps {
   /**
    * used only by <VChart />
    */
-  spec?: any;
+  spec?: IChartSpec;
   /** 数据 */
   data?: IData;
   /** 画布宽度 */
@@ -31,20 +31,28 @@ export interface BaseChartProps extends EventsProps {
 
   /** 图表渲染完成事件 */
   onReady?: (instance: VChart, isInitial: boolean) => void;
+  /** throw error when chart run into an error */
+  onError?: () => void;
 }
 
 type Props = React.PropsWithChildren<BaseChartProps>;
 
-const notSpecKeys = [...REACT_PRIVATE_PROPS, ...CHART_EVENTS_KEYS, 'spec', 'container', 'options'];
+const notSpecKeys = [
+  ...REACT_PRIVATE_PROPS,
+  ...CHART_EVENTS_KEYS,
+  'onError',
+  'onReady',
+  'spec',
+  'container',
+  'options'
+];
 
 const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const [updateId, setUpdateId] = useState<number>(0);
   const chartContext = useRef<ChartContextType>({
     specFromChildren: {}
   });
-
   useImperativeHandle(ref, () => chartContext.current.chart);
-
   const hasSpec = !!props.spec;
   const [view, setView] = useState<IView>(null);
   const isUnmount = useRef<boolean>(false);
@@ -89,7 +97,11 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const renderChart = () => {
     if (chartContext.current.chart) {
       // eslint-disable-next-line promise/catch-or-return
-      chartContext.current.chart.renderAsync().then(handleChartRender);
+      const renderPromise = chartContext.current.chart.renderAsync().then(handleChartRender);
+
+      if (props.onError) {
+        renderPromise.catch(props.onError);
+      }
     }
   };
 
@@ -109,9 +121,13 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec)) {
         // eslint-disable-next-line promise/catch-or-return
-        chartContext.current.chart
+        const updatePromise = chartContext.current.chart
           .updateSpec(parseSpec(props), undefined, { morph: false }) // morph临时关掉
           .then(handleChartRender);
+
+        if (props.onError) {
+          updatePromise.catch(props.onError);
+        }
       }
       return;
     }
@@ -121,9 +137,13 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     if (!isEqual(newSpec, prevSpec.current) || chartContext.current.isChildrenUpdated) {
       prevSpec.current = newSpec;
       // eslint-disable-next-line promise/catch-or-return
-      chartContext.current.chart
+      const updatePromise = chartContext.current.chart
         .updateSpec(parseSpec(props), undefined, { morph: false }) // morph临时关掉
         .then(handleChartRender);
+
+      if (props.onError) {
+        updatePromise.catch(props.onError);
+      }
     }
     chartContext.current = {
       ...chartContext.current,
@@ -161,7 +181,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 });
 
 export const createChart = <T extends Props>(componentName: string, type?: string, callback?: (props: T) => T) => {
-  const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: any) => {
+  const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: T) => {
     props.type = type;
 
     if (callback) {
