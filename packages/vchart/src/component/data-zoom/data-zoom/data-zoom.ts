@@ -312,4 +312,12 @@ export class DataZoom extends DataFilterBaseComponent {
       }
     };
   }
+
+  clear(): void {
+    if (this._component) {
+      this._container.removeChild(this._component as unknown as INode);
+      this._component = null;
+    }
+    super.clear();
+  }
 }
