@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/lark-vchart",
-      "comment": "Ensure that dpr is updated in real time and release old charts in time",
+      "comment": "fix(mini-program): Ensure that dpr is updated in real time and release old charts in time",
       "type": "patch"
     }
   ],
