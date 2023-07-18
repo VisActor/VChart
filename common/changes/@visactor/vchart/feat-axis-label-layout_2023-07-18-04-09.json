@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(axis): add anti-overlapping logic for cartesian axis labels",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
