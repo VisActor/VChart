@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(axis): support \\`dataFilter\\` property for axis label and tick for data filter",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
