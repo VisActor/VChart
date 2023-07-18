@@ -117,6 +117,13 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     return dataToLatitude(lonValue);
   }
 
+  valueToPosition(lonValue: number, latValue: number): IPoint {
+    return {
+      x: this.dataToLongitude(lonValue),
+      y: this.dataToLatitude(latValue)
+    };
+  }
+
   positionToData(p: IPoint) {
     // TODO
   }

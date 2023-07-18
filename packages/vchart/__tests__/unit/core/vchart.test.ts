@@ -416,7 +416,7 @@ describe('VChart', () => {
     });
   });
 
-  describe('convertDatumToPosition', () => {
+  describe('convertDatumToPosition and convertValueToPosition', () => {
     let canvasDom: HTMLCanvasElement;
     let vchart: VChart;
     beforeEach(() => {
@@ -534,7 +534,17 @@ describe('VChart', () => {
                 lineWidth: 1
               }
             }
-          }
+          },
+          axes: [
+            {
+              orient: 'bottom',
+              id: 'bottom'
+            },
+            {
+              orient: 'left',
+              id: 'left'
+            }
+          ]
         },
         {
           renderCanvas: canvasDom,
@@ -550,6 +560,12 @@ describe('VChart', () => {
       }) as IPoint;
       expect(point.x).toBe(mark.attribute.x);
       expect(point.y).toBe(mark.attribute.y);
+
+      const value1 = vchart.convertValueToPosition('WY', { axisId: 'bottom' });
+      expect(value1).toBe(mark.attribute.x);
+
+      const value2 = vchart.convertValueToPosition(0, { axisId: 'left' });
+      expect(value2).toBe(370);
     });
 
     it('should convert correctly in funnel chart', () => {
@@ -617,6 +633,8 @@ describe('VChart', () => {
 
       expect(point.x).toBe(centerX);
       expect(point.y).toBe(centerY);
+
+      expect(vchart.convertValueToPosition(['Step2', 80], { seriesId: 'funnel' })).toEqual({ x: centerX, y: centerY });
     });
 
     it('should convert correctly in pie chart', () => {

@@ -11,7 +11,7 @@ import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
 import type { ISeriesSeriesInfo, ISeriesStackData, ISeriesUpdateDataOption } from './common';
 import type { ISeriesTooltipHelper } from './tooltip-helper';
-import type { IInvalidType, Datum, DirectionType } from '../../typings';
+import type { IInvalidType, Datum, DirectionType, StringOrNumber } from '../../typings';
 import type { StateValueType } from '../../compile/mark';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { IGroupMark } from '../../mark/group';
@@ -161,6 +161,7 @@ export interface ISeries extends IModel, ILayoutItem {
   dataToPositionX: (datum: Datum) => number | null;
   dataToPositionY: (datum: Datum) => number | null;
   dataToPositionZ?: (datum: Datum) => number | null;
+  valueToPosition: (value1: any, value2?: any) => IPoint;
 
   getColorAttribute: () => { scale: IBaseScale; field: string };
   getDefaultColorDomain: () => any[];
@@ -215,6 +216,8 @@ export interface ICartesianSeries extends ISeries {
 
   dataToPositionX1: (datum: Datum) => number | null;
   dataToPositionY1: (datum: Datum) => number | null;
+
+  valueToPosition: (value1: any, value2: any) => IPoint;
 }
 
 export interface IPolarSeries extends ISeries {
@@ -242,6 +245,8 @@ export interface IPolarSeries extends ISeries {
   // 轴
   radiusAxisHelper: IPolarAxisHelper;
   angleAxisHelper: IPolarAxisHelper;
+
+  valueToPosition: (value1: any, value2: any) => IPoint;
 }
 
 export interface IGeoSeries extends ISeries {
@@ -262,6 +267,8 @@ export interface IGeoSeries extends ISeries {
 
   getCoordinateHelper: () => IGeoCoordinateHelper;
   setCoordinateHelper: (helper: IGeoCoordinateHelper) => void;
+
+  valueToPosition: (value1: any, value2: any) => IPoint;
 }
 
 // 收拢扇区标签形式依赖的 api
@@ -278,4 +285,6 @@ export interface IArcSeries extends IPolarSeries {
 export interface IFunnelSeries extends ISeries {
   getPoints: (datum: any) => IPoint[];
   getCategoryField: () => string;
+
+  valueToPosition: (value: any) => IPoint;
 }

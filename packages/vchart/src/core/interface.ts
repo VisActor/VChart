@@ -28,12 +28,27 @@ import type { Stage } from '@visactor/vrender';
 export type DataLinkSeries = {
   /**
    * 关联的系列 id
+   * the binding series id
    */
   seriesId?: StringOrNumber;
   /**
    * 关联的系列索引
+   * the binding series index
    */
   seriesIndex?: number;
+};
+
+export type DataLinkAxis = {
+  /**
+   * 关联的轴 id
+   * the binding axis id
+   */
+  axisId?: StringOrNumber;
+  /**
+   * 关联的轴索引
+   * the binding axis index
+   */
+  axisIndex?: number;
 };
 
 export interface IVChart {
@@ -320,6 +335,15 @@ export interface IVChart {
    * @returns
    */
   convertDatumToPosition: (datum: Datum, dataLinkInfo?: DataLinkSeries) => IPoint | null;
+
+  /**
+   * Convert the value to coordinate position
+   * @param value number | [number, number], the value to convert
+   * @param dataLinkInfo the data link info, could be seriesId,seriesIndex,axisId,axisIndex
+   * returns
+   */
+  convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis) => number | null) &
+    ((value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries) => IPoint | null);
 }
 
 export interface IGlobalConfig {
