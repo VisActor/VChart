@@ -1,9 +1,5 @@
 import VChart from './vchart/index';
 
-const systemInfo = tt.getSystemInfoSync();
-
-const { pixelRatio } = systemInfo;
-
 Component({
   properties: {
     styles: {
@@ -53,6 +49,12 @@ Component({
     //   type: "geojson"
     // });
 
+    // rerender after resize
+    tt.onWindowResize &&
+      tt.onWindowResize(res => {
+        this.init();
+      });
+
     // 初始化图表库
     this.init();
   },
@@ -72,6 +74,10 @@ Component({
             offscreenCanvasWidth: domref.width,
             offscreenCanvasHeight: domref.height
           });
+
+          // release first
+          this.chart && this.chart.release();
+
           const chartInstance = new VChart(
             {
               ...this.data.spec,
@@ -87,7 +93,8 @@ Component({
                 tooltipCanvasId: `${this.data.canvasId}_tooltip_canvas`,
                 freeCanvasIdx: 1
               },
-              dpr: pixelRatio,
+              // Get the dpr live as it will change at runtime due to dragging to different monitors
+              dpr: tt.getSystemInfoSync().pixelRatio,
               renderCanvas: `${this.data.canvasId}_draw_canvas`
             }
           );

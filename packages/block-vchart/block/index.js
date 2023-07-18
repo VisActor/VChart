@@ -129,6 +129,11 @@ Block({
               console.error(`未找到 #${item.id} 画布`);
               return;
             }
+
+            // will call on resize
+            // release old first
+            item.chart && item.chart.release();
+
             const chartInstance = new VChart(
               {
                 width: domRef.width,
@@ -144,6 +149,7 @@ Block({
                   tooltipCanvasId: `${item.id}_tooltip_canvas`,
                   freeCanvasIdx: 1
                 },
+                // Please ensure that dpr can be updated to the object in real time when it changes
                 dpr: this.dpr,
                 renderCanvas: `${item.id}_draw_canvas`
               }

@@ -1,10 +1,6 @@
 import VChart from './vchart/index';
 // import mapJson from "./data/map-data-china";
 
-const systemInfo = tt.getSystemInfoSync();
-
-const { pixelRatio } = systemInfo;
-
 Component({
   properties: {
     styles: {
@@ -78,6 +74,10 @@ Component({
             offscreenCanvasHeight: domref.height
           });
 
+          // will call on WindowResize
+          // release old chart first
+          this.chart && this.chart.release();
+
           const chartInstance = new VChart(
             {
               ...this.data.spec,
@@ -93,7 +93,8 @@ Component({
                 tooltipCanvasId: `${this.data.canvasId}_tooltip_canvas`,
                 freeCanvasIdx: 1
               },
-              dpr: pixelRatio,
+              // Get the dpr live as it will change at runtime due to dragging to different monitors
+              dpr: tt.getSystemInfoSync().pixelRatio,
               renderCanvas: `${this.data.canvasId}_draw_canvas`
             }
           );
