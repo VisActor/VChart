@@ -1,3 +1,4 @@
+import type { PopTipAttributes } from '@visactor/vrender-components';
 import type { DataView } from '@visactor/vdataset';
 import type { Cursor } from './cursor';
 import type { InterpolateType } from './interpolate';
@@ -273,6 +274,10 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    * 行高
    */
   lineHeight?: number;
+  /**
+   * poptip 相关配置
+   */
+  poptip?: PopTipAttributes;
 }
 
 export type IPositionedTextMarkSpec = Omit<ITextMarkSpec, 'align' | 'textAlign' | 'baseline' | 'textBaseline'>;

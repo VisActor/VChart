@@ -59,6 +59,9 @@ import {
   MapLabelComponent
 } from './component';
 import { GridLayout, Layout3d } from './layout';
+import { enablePoptip } from '@visactor/vrender-components';
+
+enablePoptip();
 
 // charts
 VChart.useChart([

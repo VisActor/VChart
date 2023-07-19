@@ -1,4 +1,3 @@
-import { series } from './../theme/buildin-theme/light/series/index';
 import type { ISeries } from '../series/interface/series';
 import { arrayParser } from '../data/parser/array';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
@@ -14,7 +13,7 @@ import type { EventCallback, EventParams, EventQuery, EventType, IEvent, IEventD
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { DataSet, dataViewParser, DataView, filter } from '@visactor/vdataset';
+import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender';
 import {
   isString,
@@ -195,7 +194,7 @@ export class VChart implements IVChart {
   constructor(spec: ISpec, options: IInitOption) {
     this._option = merge(this._option, options);
 
-    const { dom, renderCanvas, mode, stage, ...restOptions } = this._option;
+    const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
 
     if (dom) {
       this._container = isString(dom) ? document?.getElementById(dom) : dom;
@@ -225,6 +224,7 @@ export class VChart implements IVChart {
       {
         mode: this._option.mode,
         stage,
+        pluginList: poptip !== false ? ['poptip'] : [],
         ...restOptions,
         background: spec.background || this._currentTheme.background || this._option.background // spec > spec.theme > initOptions.theme
       }
