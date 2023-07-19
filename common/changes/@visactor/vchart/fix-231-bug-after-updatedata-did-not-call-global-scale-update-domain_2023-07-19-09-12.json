@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(global-scale): add global-scale updateDomain on chart updateData",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
