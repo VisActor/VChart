@@ -81,7 +81,7 @@ export const dataZoom: IDataZoomTheme = {
   backgroundChart: {
     area: {
       style: {
-        lineWidth: 1,
+        stroke: false,
         fill: '#CACFD7'
       }
     },
@@ -95,7 +95,7 @@ export const dataZoom: IDataZoomTheme = {
   selectedBackgroundChart: {
     area: {
       style: {
-        lineWidth: 1,
+        stroke: false,
         fill: '#CACFD7'
       }
     },
