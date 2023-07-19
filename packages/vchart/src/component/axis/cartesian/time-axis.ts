@@ -61,6 +61,7 @@ export class CartesianTimeAxis extends CartesianLinearAxis {
           {
             type: 'ticks',
             options: {
+              sampling: this._spec.sampling !== false, // default do sampling
               tickCount: this._spec.layers?.[1]?.tickCount,
               forceTickCount: this._spec.layers?.[1]?.forceTickCount,
               tickStep: this._spec.layers?.[1]?.tickStep,
