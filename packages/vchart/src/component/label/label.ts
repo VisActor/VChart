@@ -191,13 +191,19 @@ export class Label extends BaseComponent {
             const labelSpec = baseMark.getLabelSpec() ?? {};
             const { smartInvert, offset, overlap, animation } = labelSpec;
             const interactive = this._interactiveConfig(labelSpec);
-            return merge({}, configFunc(labelInfo[baseMarks.findIndex(mark => mark === baseMark)]), {
-              smartInvert,
-              offset,
-              animation,
-              overlap,
-              ...interactive
-            });
+            return merge(
+              {
+                textStyle: { pickable: labelSpec.interactive === true }
+              },
+              configFunc(labelInfo[baseMarks.findIndex(mark => mark === baseMark)]),
+              {
+                smartInvert,
+                offset,
+                animation,
+                overlap,
+                ...interactive
+              }
+            );
           }
         })
         .encode((datum, element) => {

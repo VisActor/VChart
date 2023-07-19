@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(label): pickable shoule be false if label component is configured `interactive: false`",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
