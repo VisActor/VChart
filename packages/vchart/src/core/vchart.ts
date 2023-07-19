@@ -511,7 +511,7 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     if (this._chart) {
-      this._chart.updateData(id, data, options);
+      this._chart.updateData(id, data, true, options);
 
       // after layout
       await this._compiler.renderAsync();
@@ -548,8 +548,9 @@ export class VChart implements IVChart {
   ): Promise<IVChart> {
     if (this._chart) {
       list.forEach(({ id, data, options }) => {
-        this._chart.updateData(id, data, options);
+        this._chart.updateData(id, data, false, options);
       });
+      this._chart.updateGlobalScaleDomain();
       await this._compiler.renderAsync();
       return this as unknown as IVChart;
     }
@@ -578,7 +579,7 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     if (this._chart) {
-      this._chart.updateData(id, data, options);
+      this._chart.updateData(id, data, true, options);
       // after layout
       this._compiler.renderSync();
       return this as unknown as IVChart;
