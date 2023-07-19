@@ -608,12 +608,14 @@ export class BaseChart extends CompilableBase implements IChart {
     }
   }
 
-  updateData(id: StringOrNumber, data: unknown, options?: IParserOptions) {
+  updateData(id: StringOrNumber, data: unknown, updateGlobalScale: boolean = true, options?: IParserOptions) {
     const dv = this._dataSet.getDataView(id as string);
     if (dv) {
       dv.parseNewData(data);
     }
-    // this.updateGlobalScaleDomain();
+    if (updateGlobalScale) {
+      this.updateGlobalScaleDomain();
+    }
     this.getAllModels().forEach(model => model.onDataUpdate());
   }
 

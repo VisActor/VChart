@@ -57,8 +57,9 @@ export interface IChart extends ICompilable {
   // 使用parse后的数据结构，直接更新数据
   updateParseData: (id: string, data: Datum[], options?: IParserOptions) => void;
   // 使用parse前的原始数据结构更新数据
-  updateData: (id: StringOrNumber, data: unknown, options?: IParserOptions) => void;
-
+  updateData: (id: StringOrNumber, data: unknown, updateGlobalScale?: boolean, options?: IParserOptions) => void;
+  // update scale domain which in GlobalScale
+  updateGlobalScaleDomain: () => void;
   //生命周期
   created: () => void;
   transformSpec: (spec: any) => void;
