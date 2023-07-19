@@ -1,7 +1,6 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
+import { IMapSeriesSpec } from '@visactor/vchart';
 
-export interface MapProps extends BaseSeriesProps {
-  //
-}
+export type MapProps = BaseSeriesProps & Omit<IMapSeriesSpec, 'type'>;
 
-export const Map = createSeries("Map", ["map"], "map");
+export const Map = createSeries<MapProps>('Map', ['map'], 'map');

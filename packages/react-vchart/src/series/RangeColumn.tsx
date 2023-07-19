@@ -1,11 +1,6 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
+import { IRangeColumnSeriesSpec } from '@visactor/vchart';
 
-export interface RangeColumnProps extends BaseSeriesProps {
-  //
-}
+export type RangeColumnProps = BaseSeriesProps & Omit<IRangeColumnSeriesSpec, 'type'>;
 
-export const RangeColumn = createSeries(
-  "RangeColumn",
-  ["rangeColumn"],
-  "rangeColumn"
-);
+export const RangeColumn = createSeries<RangeColumnProps>('RangeColumn', ['rangeColumn'], 'rangeColumn');

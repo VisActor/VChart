@@ -18,7 +18,7 @@ export const createSeries = <T extends BaseSeriesProps>(componentName: string, m
   const ignoreKeys = ['id', 'updateId'];
   const notSpecKeys = COMMON_EVENTK_KEYS.concat(ignoreKeys);
 
-  const Comp: React.FC<T & { updateId: number }> = props => {
+  const Comp: React.FC<T & { updateId?: number }> = props => {
     const context = React.useContext(RootChartContext);
 
     const id = React.useRef<string | number>(isNil(props.id) ? uid(type ?? 'series') : props.id);

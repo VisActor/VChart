@@ -1,7 +1,6 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
+import { IDotSeriesSpec } from '@visactor/vchart';
 
-export interface DotProps extends BaseSeriesProps {
-  //
-}
+export type DotProps = BaseSeriesProps & Omit<IDotSeriesSpec, 'type'>;
 
-export const Dot = createSeries("Dot", ["dot"], "dot");
+export const Dot = createSeries<DotProps>('Dot', ['dot'], 'dot');

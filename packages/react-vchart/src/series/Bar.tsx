@@ -1,7 +1,7 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
 
-export interface BarProps extends BaseSeriesProps {
-  //
-}
+import { IBarSeriesSpec } from '@visactor/vchart';
 
-export const Bar = createSeries("Bar", ["bar"], "bar");
+export type BarProps = BaseSeriesProps & Omit<IBarSeriesSpec, 'type'>;
+
+export const Bar = createSeries<BarProps>('Bar', ['bar'], 'bar');

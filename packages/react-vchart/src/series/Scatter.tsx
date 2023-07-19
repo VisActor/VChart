@@ -1,7 +1,6 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
+import { IScatterSeriesSpec } from '@visactor/vchart';
 
-export interface ScatterProps extends BaseSeriesProps {
-  //
-}
+export type ScatterProps = BaseSeriesProps & Omit<IScatterSeriesSpec, 'type'>;
 
-export const Scatter = createSeries("Scatter", ["scatter"], "scatter");
+export const Scatter = createSeries<ScatterProps>('Scatter', ['scatter'], 'scatter');
