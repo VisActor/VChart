@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/lark-vchart",
+      "comment": "feat(lark): support mouse event for lark",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart"
+}
