@@ -13,11 +13,11 @@
 VChart, more than just a cross-platform charting library, but also an expressive data storyteller.
 
 <p align="center">
-  <a href="">Introduction</a> •
-  <a href="">Demo</a> •
-  <a href="">Tutorial</a> •
-  <a href="">API</a>•
-  <a href="">Cross-Platform</a>
+  <a href="https://www.visactor.io/vchart">Introduction</a> •
+  <a href="https://www.visactor.io/vchart/example">Demo</a> •
+  <a href="https://www.visactor.io/vchart/guide/tutorial_docs/VChart_Website_Guide">Tutorial</a> •
+  <a href="https://www.visactor.io/vchart/option/barChart">API</a>•
+  <a href="https://www.visactor.io/vchart/guide/tutorial_docs/cross-terminal_and_developer_ecology/node">Cross-Platform</a>
 </p>
 
 ![](https://github.com/visactor/vchart/actions/workflows/bug-server.yml/badge.svg)
@@ -50,7 +50,7 @@ VChart is a charting component library in VisActor visualization system. It wrap
 2. **Storytelling**: Comprehensive annotation, animation, flow control, narrative templates, and other enhanced features for visual storytelling
 3. **Scenes**: Deliver visual storytelling capabilities to end-users, unlock developer productivity
 
-## Repo Intro
+### Repository Introduction
 
 This repository includes the following packages:
 
