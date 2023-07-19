@@ -28,7 +28,8 @@ export default {
     },
     style: {
       stroke: '#fff',
-      lineWidth: 1
+      lineWidth: 1,
+      pickable: false
     }
   },
   markLine: [
@@ -105,4 +106,4 @@ export default {
       { x: 64, y: 82.9, z: 31.3, name: 'NZ', country: 'New Zealand' }
     ]
   }
-}
+};

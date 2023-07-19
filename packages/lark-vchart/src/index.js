@@ -115,6 +115,14 @@ Component({
     },
 
     bindEvent(event) {
+      // 处理下 mouse 事件和 touch 事件，防止重复触发
+      const { brand } = tt.getSystemInfoSync();
+      if (brand === 'PC' && event.type.startsWith('touch')) {
+        return;
+      }
+      if (brand !== 'PC' && event.type.startsWith('mouse')) {
+        return;
+      }
       const chartInstance = this.chart;
       if (chartInstance) {
         event.target = chartInstance.getCanvas(); // Tip: 必须设置

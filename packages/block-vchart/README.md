@@ -163,13 +163,42 @@ methods: {
 
 飞书小组件桌面端也支持 mouse 事件，所以你也可以绑定 `mousemove` `mouseover` 等事件，**但是要注意事件冲突的处理（这个需要在自己的业务层处理）**。
 
+具体可以参照如下绑定及处理：
+
 ```html
 <!-- index.ttml  -->
 <canvas
   class="cs-canvas"
   id="line_draw_canvas"
   canvas-id="line_draw_canvas"
+  bindtouchstart="bindChartEvent"
+  bindtouchmove="bindChartEvent"
+  bindtouchend="bindChartEvent"
   bindmousemove="bindChartEvent"
   bindmouseover="bindChartEvent"
+  bindmouseout="bindChartEvent"
+  bindmousedown="bindChartEvent"
+  bindmouseup="bindChartEvent"
 ></canvas>
+```
+
+```js
+// index.js
+ bindChartEvent(event) {
+  const { brand } = tt.getSystemInfoSync();
+  // 处理下 mouse 事件和 touch 事件，防止重复触发
+  if (brand === 'PC' && event.type.startsWith('touch')) {
+    return;
+  }
+  if (brand !== 'PC' && event.type.startsWith('mouse')) {
+    return;
+  }
+  const id = event.target.id.split('_')[0];
+  const targetChart = this.data.chartList.find(x => x.id === id);
+  const chartInstance = targetChart?.chart;
+  if (chartInstance) {
+    event.target = chartInstance.getCanvas(); // Tip: 必须设置
+    chartInstance.getStage().window.dispatchEvent(event);
+  }
+}
 ```
