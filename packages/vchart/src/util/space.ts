@@ -159,3 +159,13 @@ export function normalizeLayoutPaddingSpec(spec: ILayoutPaddingSpec): ILayoutOri
   }
   return result;
 }
+
+export function convertPoint(point: IPoint, relativePoint: IPoint, convert: boolean) {
+  if (convert) {
+    return {
+      x: point.x + relativePoint.x,
+      y: point.y + relativePoint.y
+    };
+  }
+  return point;
+}

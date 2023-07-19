@@ -40,12 +40,12 @@ export type DataLinkSeries = {
 
 export type DataLinkAxis = {
   /**
-   * 关联的轴 id
+   * 关联的轴 id，目前仅支持直角坐标轴
    * the binding axis id
    */
   axisId?: StringOrNumber;
   /**
-   * 关联的轴索引
+   * 关联的轴索引，目前仅支持直角坐标轴
    * the binding axis index
    */
   axisIndex?: number;
@@ -332,18 +332,28 @@ export interface IVChart {
    * Convert the data to coordinate position
    * @param datum the datum to convert
    * @param dataLinkInfo the data link info, could be seriesId or seriesIndex, default is { seriesIndex: 0 }
+   * @param isRelativeToCanvas 是否相对画布坐标，默认为 false Whether relative to canvas coordinates, default is false
    * @returns
    */
-  convertDatumToPosition: (datum: Datum, dataLinkInfo?: DataLinkSeries) => IPoint | null;
+  convertDatumToPosition: (datum: Datum, dataLinkInfo?: DataLinkSeries, isRelativeToCanvas?: boolean) => IPoint | null;
 
   /**
    * Convert the value to coordinate position
    * @param value number | [number, number], the value to convert
    * @param dataLinkInfo the data link info, could be seriesId,seriesIndex,axisId,axisIndex
+   * @param isRelativeToCanvas 是否相对画布坐标，默认为 false Whether relative to canvas coordinates, default is false
    * returns
    */
-  convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis) => number | null) &
-    ((value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries) => IPoint | null);
+  convertValueToPosition: ((
+    value: StringOrNumber,
+    dataLinkInfo: DataLinkAxis,
+    isRelativeToCanvas?: boolean
+  ) => number | null) &
+    ((
+      value: [StringOrNumber, StringOrNumber],
+      dataLinkInfo: DataLinkSeries,
+      isRelativeToCanvas?: boolean
+    ) => IPoint | null);
 }
 
 export interface IGlobalConfig {

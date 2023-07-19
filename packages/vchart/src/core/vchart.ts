@@ -27,7 +27,8 @@ import {
   isTrueBrowser,
   warn,
   error,
-  specTransform
+  specTransform,
+  convertPoint
 } from '../util';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -1074,13 +1075,20 @@ export class VChart implements IVChart {
     return this._chart?.setDimensionIndex(value, opt);
   }
 
+  // TODO: 后续需要考虑滚动场景
   /**
-   * Convert the data to coordinate position
-   * @param datum the datum to convert
-   * @param dataLinkInfo the data link info, could be seriesId or seriesIndex, default is { seriesIndex: 0 }
+   * Convert the data corresponding to the graph into coordinates
+   * 将图形对应的数据转换为坐标，该数据需要从传入图表的数据集中获取，如果数据不存在数据集中，可以使用 `convertValueToPosition` 方法
+   * @param datum 要转化的数据 the datum（from data source）to convert
+   * @param dataLinkInfo 数据的绑定信息，the data link info, could be seriesId or seriesIndex, default is { seriesIndex: 0 }
+   * @param isRelativeToCanvas 是否相对画布坐标 Whether relative to canvas coordinates
    * @returns
    */
-  convertDatumToPosition(datum: Datum, dataLinkInfo: DataLinkSeries = {}): IPoint | null {
+  convertDatumToPosition(
+    datum: Datum,
+    dataLinkInfo: DataLinkSeries = {},
+    isRelativeToCanvas: boolean = false
+  ): IPoint | null {
     if (!this._chart) {
       return null;
     }
@@ -1102,20 +1110,34 @@ export class VChart implements IVChart {
         .getViewData()
         // eslint-disable-next-line eqeqeq
         .latestData.find((viewDatum: Datum) => keys.every(k => viewDatum[k] == datum[k]));
+      const seriesLayoutStartPoint = series.getLayoutStartPoint();
+      let point: IPoint;
       if (handledDatum) {
-        return series.dataToPosition(handledDatum);
+        point = series.dataToPosition(handledDatum);
+      } else {
+        point = series.dataToPosition(datum);
       }
-      return series.dataToPosition(datum);
+      return convertPoint(point, seriesLayoutStartPoint, isRelativeToCanvas);
     }
 
     return null;
   }
 
-  convertValueToPosition(value: StringOrNumber, dataLinkInfo: DataLinkAxis): number | null;
-  convertValueToPosition(value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries): IPoint | null;
+  // TODO: 1. 后续需要考虑滚动场景 2. 极坐标场景支持
+  convertValueToPosition(
+    value: StringOrNumber,
+    dataLinkInfo: DataLinkAxis,
+    isRelativeToCanvas?: boolean
+  ): number | null;
+  convertValueToPosition(
+    value: [StringOrNumber, StringOrNumber],
+    dataLinkInfo: DataLinkSeries,
+    isRelativeToCanvas?: boolean
+  ): IPoint | null;
   convertValueToPosition(
     value: StringOrNumber | [StringOrNumber, StringOrNumber],
-    dataLinkInfo: DataLinkAxis | DataLinkSeries
+    dataLinkInfo: DataLinkAxis | DataLinkSeries,
+    isRelativeToCanvas: boolean = false
   ): number | IPoint | null {
     if (!this._chart || isNil(value) || isEmpty(dataLinkInfo)) {
       return null;
@@ -1134,7 +1156,18 @@ export class VChart implements IVChart {
         warn('Please check whether the `axisId` or `axisIndex` is set!');
         return null;
       }
-      return (axis as IAxis)?.valueToPosition(value);
+
+      const pointValue = (axis as IAxis)?.valueToPosition(value);
+      if (isRelativeToCanvas) {
+        const axisLayoutStartPoint = axis.getLayoutStartPoint();
+        const axisOrient = (axis as IAxis).orient;
+        return (
+          pointValue +
+          (axisOrient === 'bottom' || axisOrient === 'top' ? axisLayoutStartPoint.x : axisLayoutStartPoint.y)
+        );
+      }
+
+      return pointValue;
     }
     const { seriesId, seriesIndex } = dataLinkInfo as DataLinkSeries;
     let series;
@@ -1148,6 +1181,11 @@ export class VChart implements IVChart {
       warn('Please check whether the `seriesId` or `seriesIndex` is set!');
       return null;
     }
-    return (series as ISeries).valueToPosition(value[0], value[1]);
+
+    return convertPoint(
+      (series as ISeries).valueToPosition(value[0], value[1]),
+      series.getLayoutStartPoint(),
+      isRelativeToCanvas
+    );
   }
 }
