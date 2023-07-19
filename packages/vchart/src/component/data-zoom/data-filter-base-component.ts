@@ -283,10 +283,17 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
           // 1. dataFilterComputeDomain处理时拿到的viewData中没有__VCHART_STACK_START等属性，也就是还没处理
           // 2. datazoom计算的是原始的value值，如果要根据stack后的数据来算，则需要__VCHART_STACK_END - __VCHART_STACK_START
           const seriesSpec = s.getSpec();
+
+          const xFields = array(seriesSpec.xField);
+          const yFields = array(seriesSpec.yField);
           const xField =
-            s.coordinate === 'cartesian' ? seriesSpec.xField : seriesSpec.angleField ?? seriesSpec.categoryField;
+            s.coordinate === 'cartesian'
+              ? xFields[xFields.length - 1]
+              : seriesSpec.angleField ?? seriesSpec.categoryField;
           const yField =
-            s.coordinate === 'cartesian' ? seriesSpec.yField : seriesSpec.radiusField ?? seriesSpec.valueField;
+            s.coordinate === 'cartesian'
+              ? yFields[yFields.length - 1]
+              : seriesSpec.radiusField ?? seriesSpec.valueField;
 
           originalStateFields[s.id] =
             s.type === 'link' ? 'from_xField' : stateAxisHelper === xAxisHelper ? xField : yField;

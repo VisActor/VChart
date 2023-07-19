@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "fix(dataZoom): fix bug of datazoom not clear when updateSpec and mark disappear when xField is array",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}

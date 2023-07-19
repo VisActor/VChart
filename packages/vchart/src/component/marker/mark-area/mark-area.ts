@@ -95,21 +95,22 @@ export class MarkArea extends BaseMarker implements IMarkArea {
     const isYLayout = isValid(spec.y) && isValid(spec.y1);
     const isCoordinateLayout = isValid(spec.coordinates);
     const isPositionLayout = isValid(spec.positions);
+    const autoRange = spec?.autoRange ?? false;
 
     let points: IPointLike[] = [];
     let lines: [IPointLike, IPointLike][] = [];
     if (isXLayout) {
-      lines = xLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries);
+      lines = xLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
       points = [...lines[0], lines[1][1], lines[1][0]];
     } else if (isYLayout) {
-      lines = yLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries);
+      lines = yLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
       points = [...lines[0], lines[1][1], lines[1][0]];
     } else if (isCoordinateLayout) {
-      points = coordinateLayout(data, relativeSeries);
+      points = coordinateLayout(data, relativeSeries, autoRange);
     } else if (isPositionLayout) {
       points = spec.positions;
     }
-    this._markerComponent.setAttributes({
+    this._markerComponent?.setAttributes({
       points: points
     });
   }

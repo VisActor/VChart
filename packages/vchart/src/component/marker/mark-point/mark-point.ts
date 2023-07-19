@@ -90,14 +90,15 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
     const relativeSeries = this._relativeSeries;
     const isCoordinateLayout = 'coordinate' in spec;
     const isPositionLayout = 'position' in spec;
+    const autoRange = spec?.autoRange ?? false;
 
     let point: IPointLike;
     if (isCoordinateLayout) {
-      point = coordinateLayout(data, relativeSeries)[0];
+      point = coordinateLayout(data, relativeSeries, autoRange)[0];
     } else if (isPositionLayout) {
       point = spec.position;
     }
-    this._markerComponent.setAttributes({
+    this._markerComponent?.setAttributes({
       position: point
     });
   }

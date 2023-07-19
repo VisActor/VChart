@@ -115,18 +115,19 @@ export class MarkLine extends BaseMarker implements IMarkLine {
     const isCoordinateLayout =
       isValid(spec.coordinates) && (!isValid(spec.process) || ('process' in spec && 'xy' in spec.process));
     const isPositionLayout = isValid(spec.positions);
+    const autoRange = spec?.autoRange ?? false;
 
     let points: IPointLike[] = [];
     if (isXLayout) {
-      points = xLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries)[0];
+      points = xLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
     } else if (isYLayout) {
-      points = yLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries)[0];
+      points = yLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
     } else if (isCoordinateLayout) {
-      points = coordinateLayout(data, relativeSeries);
+      points = coordinateLayout(data, relativeSeries, autoRange);
     } else if (isPositionLayout) {
       points = spec.positions;
     }
-    this._markerComponent.setAttributes({
+    this._markerComponent?.setAttributes({
       points: points
     });
   }

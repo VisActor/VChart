@@ -29,6 +29,8 @@ export abstract class BaseMarker extends BaseComponent {
     super.created();
     // event
     this.initEvent();
+    this._bindSeries();
+    this._initDataView();
   }
 
   private _isSpecAggrOrRege(spec: IDataPos) {
@@ -103,8 +105,6 @@ export abstract class BaseMarker extends BaseComponent {
           this._delegateEvent(this._markerComponent as unknown as INode, event, type)
         );
       }
-      this._bindSeries();
-      this._initDataView();
       this._markerLayout();
     }
 
@@ -153,5 +153,13 @@ export abstract class BaseMarker extends BaseComponent {
       }
     }
     throw new Error('need at least one series');
+  }
+
+  clear(): void {
+    if (this._markerComponent) {
+      this._container.removeChild(this._markerComponent as unknown as INode);
+      this._markerComponent = null;
+    }
+    super.clear();
   }
 }
