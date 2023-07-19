@@ -72,21 +72,21 @@ function App() {
     );
   };
 
-  const handleChartClick = (a: any, b: any, c: any) => {
+  const handleChartClick = (a: any) => {
     console.log('chart, click');
-    console.log(a, b, c);
+    console.log(a);
 
     console.log('chartRef', chartRef);
   };
 
-  const handleBarClick = (a: any, b: any, c: any) => {
+  const handleBarClick = (a: any) => {
     console.log('bar click');
-    console.log(a, b, c);
+    console.log(a);
   };
 
-  const handleLegendItemClick = (a: any, b: any, c: any) => {
+  const handleLegendItemClick = (a: any) => {
     console.log('legend item click');
-    console.log(a, b, c);
+    console.log(a);
   };
 
   const chartRef = useRef(null);
@@ -99,6 +99,7 @@ function App() {
         ref={chartRef}
         data={[{ id: 'id0', values: barData }]}
         onClick={handleChartClick}
+        onLegendItemClick={handleLegendItemClick}
         onReady={(...d) => {
           console.log(d);
         }}
