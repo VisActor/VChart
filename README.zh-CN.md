@@ -13,11 +13,11 @@
 VChart，不只是开箱即用的多端图表库，更是生动灵活的数据故事讲述者。
 
 <p align="center">
-  <a href="">简介</a> •
-  <a href="">Demo</a> •
-  <a href="">教程</a> •
-  <a href="">API</a>•
-  <a href="">跨端</a>
+  <a href="https://www.visactor.io/vchart">简介</a> •
+  <a href="https://www.visactor.io/vchart/example">Demo</a> •
+  <a href="https://www.visactor.io/vchart/guide/tutorial_docs/VChart_Website_Guide">教程</a> •
+  <a href="https://www.visactor.io/vchart/option/barChart">API</a>•
+  <a href="https://www.visactor.io/vchart/guide/tutorial_docs/cross-terminal_and_developer_ecology/node">跨端</a>
 </p>
 
 ![](https://github.com/visactor/vchart/actions/workflows/bug-server.yml/badge.svg)
