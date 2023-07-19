@@ -1,11 +1,6 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
+import { ILinearProgressSeriesSpec } from '@visactor/vchart';
 
-export interface LinearProgressProps extends BaseSeriesProps {
-  //
-}
+export type LinearProgressProps = BaseSeriesProps & Omit<ILinearProgressSeriesSpec, 'type'>;
 
-export const LinearProgress = createSeries(
-  "LinearProgress",
-  ["linearProgress"],
-  "linearProgress"
-);
+export const LinearProgress = createSeries<LinearProgressProps>('LinearProgress', ['linearProgress'], 'linearProgress');

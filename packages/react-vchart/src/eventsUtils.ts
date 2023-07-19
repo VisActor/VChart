@@ -1,51 +1,51 @@
-import type VChart from '@visactor/vchart';
+import type { IVChart, EventCallback, EventParamsDefinition } from '@visactor/vchart';
 
 export interface EventsProps {
-  onPointerDown?: (e: any) => void | boolean;
-  onPointerUp?: (e: any) => void | boolean;
-  onPointerUpOutside?: (e: any) => void | boolean;
-  onPointerTap?: (e: any) => void | boolean;
-  onPointerOver?: (e: any) => void | boolean;
-  onPointerMove?: (e: any) => void | boolean;
-  onPointerEnter?: (e: any) => void | boolean;
-  onPointerLeave?: (e: any) => void | boolean;
-  onPointerOut?: (e: any) => void | boolean;
-  onMouseDown?: (e: any) => void | boolean;
-  onMouseUp?: (e: any) => void | boolean;
-  onMouseUpOutside?: (e: any) => void | boolean;
-  onMouseMove?: (e: any) => void | boolean;
-  onMouseOver?: (e: any) => void | boolean;
-  onMouseOut?: (e: any) => void | boolean;
-  onMouseEnter?: (e: any) => void | boolean;
-  onMouseLeave?: (e: any) => void | boolean;
-  onPinch?: (e: any) => void | boolean;
-  onPinchStart?: (e: any) => void | boolean;
-  onPinchEnd?: (e: any) => void | boolean;
-  onPan?: (e: any) => void | boolean;
-  onPanStart?: (e: any) => void | boolean;
-  onPanEnd?: (e: any) => void | boolean;
-  onDrag?: (e: any) => void | boolean;
-  onDragStart?: (e: any) => void | boolean;
-  onDragEnter?: (e: any) => void | boolean;
-  onDragLeave?: (e: any) => void | boolean;
-  onDragOver?: (e: any) => void | boolean;
-  onDragEnd?: (e: any) => void | boolean;
-  onRightDown?: (e: any) => void | boolean;
-  onRightUp?: (e: any) => void | boolean;
-  onRightUpOutside?: (e: any) => void | boolean;
-  onTouchStart?: (e: any) => void | boolean;
-  onTouchEnd?: (e: any) => void | boolean;
-  onTouchEndOutside?: (e: any) => void | boolean;
-  onTouchMove?: (e: any) => void | boolean;
-  onTouchCancel?: (e: any) => void | boolean;
-  onPress?: (e: any) => void | boolean;
-  onPressUp?: (e: any) => void | boolean;
-  onPressEnd?: (e: any) => void | boolean;
-  onSwipe?: (e: any) => void | boolean;
-  onDrop?: (e: any) => void | boolean;
-  onWeel?: (e: any) => void | boolean;
-  onClick?: (e: any) => void | boolean;
-  onDblClick?: (e: any) => void | boolean;
+  onPointerDown?: EventCallback<EventParamsDefinition['pointerdown']>;
+  onPointerUp?: EventCallback<EventParamsDefinition['pointerup']>;
+  onPointerUpOutside?: EventCallback<EventParamsDefinition['pointerupoutside']>;
+  onPointerTap?: EventCallback<EventParamsDefinition['pointertap']>;
+  onPointerOver?: EventCallback<EventParamsDefinition['pointerover']>;
+  onPointerMove?: EventCallback<EventParamsDefinition['pointermove']>;
+  onPointerEnter?: EventCallback<EventParamsDefinition['pointerenter']>;
+  onPointerLeave?: EventCallback<EventParamsDefinition['pointerleave']>;
+  onPointerOut?: EventCallback<EventParamsDefinition['pointerout']>;
+  onMouseDown?: EventCallback<EventParamsDefinition['mousedown']>;
+  onMouseUp?: EventCallback<EventParamsDefinition['mouseup']>;
+  onMouseUpOutside?: EventCallback<EventParamsDefinition['mouseupoutside']>;
+  onMouseMove?: EventCallback<EventParamsDefinition['mousemove']>;
+  onMouseOver?: EventCallback<EventParamsDefinition['mouseover']>;
+  onMouseOut?: EventCallback<EventParamsDefinition['mouseout']>;
+  onMouseEnter?: EventCallback<EventParamsDefinition['mouseenter']>;
+  onMouseLeave?: EventCallback<EventParamsDefinition['mouseleave']>;
+  onPinch?: EventCallback<EventParamsDefinition['pinch']>;
+  onPinchStart?: EventCallback<EventParamsDefinition['pinchstart']>;
+  onPinchEnd?: EventCallback<EventParamsDefinition['pinchend']>;
+  onPan?: EventCallback<EventParamsDefinition['pan']>;
+  onPanStart?: EventCallback<EventParamsDefinition['panstart']>;
+  onPanEnd?: EventCallback<EventParamsDefinition['panend']>;
+  onDrag?: EventCallback<EventParamsDefinition['drag']>;
+  onDragStart?: EventCallback<EventParamsDefinition['dragstart']>;
+  onDragEnter?: EventCallback<EventParamsDefinition['dragenter']>;
+  onDragLeave?: EventCallback<EventParamsDefinition['dragleave']>;
+  onDragOver?: EventCallback<EventParamsDefinition['dragover']>;
+  onDragEnd?: EventCallback<EventParamsDefinition['dragend']>;
+  onRightDown?: EventCallback<EventParamsDefinition['rightdown']>;
+  onRightUp?: EventCallback<EventParamsDefinition['rightup']>;
+  onRightUpOutside?: EventCallback<EventParamsDefinition['rightupoutside']>;
+  onTouchStart?: EventCallback<EventParamsDefinition['touchstart']>;
+  onTouchEnd?: EventCallback<EventParamsDefinition['touchend']>;
+  onTouchEndOutside?: EventCallback<EventParamsDefinition['touchendoutside']>;
+  onTouchMove?: EventCallback<EventParamsDefinition['touchmove']>;
+  onTouchCancel?: EventCallback<EventParamsDefinition['touchcancel']>;
+  onPress?: EventCallback<EventParamsDefinition['press']>;
+  onPressUp?: EventCallback<EventParamsDefinition['pressup']>;
+  onPressEnd?: EventCallback<EventParamsDefinition['pressend']>;
+  onSwipe?: EventCallback<EventParamsDefinition['swipe']>;
+  onDrop?: EventCallback<EventParamsDefinition['drop']>;
+  onWeel?: EventCallback<EventParamsDefinition['weel']>;
+  onClick?: EventCallback<EventParamsDefinition['click']>;
+  onDblClick?: EventCallback<EventParamsDefinition['dblclick']>;
 }
 
 export const REACT_TO_VCHART_EVENTS = {
@@ -133,7 +133,7 @@ export const findEventProps = <T extends EventsProps>(
 };
 
 export const bindEventsToChart = <T>(
-  chart: VChart,
+  chart: IVChart,
   newProps?: T | null,
   prevProps?: T | null,
   supportedEvents: Record<string, string> = REACT_TO_VCHART_EVENTS

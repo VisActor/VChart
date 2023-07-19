@@ -1,7 +1,6 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
+import { IRoseSeriesSpec } from '@visactor/vchart';
 
-export interface RoseProps extends BaseSeriesProps {
-  //
-}
+export type RoseProps = BaseSeriesProps & Omit<IRoseSeriesSpec, 'type'>;
 
-export const Rose = createSeries("Rose", ["rose"], "rose");
+export const Rose = createSeries<RoseProps>('Rose', ['rose'], 'rose');

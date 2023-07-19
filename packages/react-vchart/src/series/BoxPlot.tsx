@@ -1,7 +1,6 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
+import { IBoxPlotSeriesSpec } from '@visactor/vchart';
 
-export interface BoxPlotProps extends BaseSeriesProps {
-  //
-}
+export type BoxPlotProps = BaseSeriesProps & Omit<IBoxPlotSeriesSpec, 'type'>;
 
-export const BoxPlot = createSeries("BoxPlot", ["boxPlot"], "boxPlot");
+export const BoxPlot = createSeries<BoxPlotProps>('BoxPlot', ['boxPlot'], 'boxPlot');

@@ -1,7 +1,5 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
+import { IAreaSeriesSpec } from '@visactor/vchart';
 
-export interface AreaProps extends BaseSeriesProps {
-  //
-}
-
-export const Area = createSeries("Area", ["area"], "area");
+export type AreaProps = BaseSeriesProps & Omit<IAreaSeriesSpec, 'type'>;
+export const Area = createSeries<AreaProps>('Area', ['area'], 'area');

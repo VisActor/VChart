@@ -1,7 +1,40 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
+import {
+  IBarSeriesSpec,
+  IAreaSeriesSpec,
+  IBoxPlotSeriesSpec,
+  ICircularProgressSeriesSpec,
+  IDotSeriesSpec,
+  IFunnelSeriesSpec,
+  ILineSeriesSpec,
+  ILinearProgressSeriesSpec,
+  ILinkSeriesSpec,
+  IMapSeriesSpec,
+  IPieSeriesSpec,
+  IRadarSeriesSpec,
+  IRangeColumnSeriesSpec,
+  IRoseSeriesSpec,
+  IScatterSeriesSpec,
+  IWordCloudSeriesSpec
+} from '@visactor/vchart';
+export type SeriesProps = (
+  | IBarSeriesSpec
+  | IAreaSeriesSpec
+  | IBoxPlotSeriesSpec
+  | ICircularProgressSeriesSpec
+  | IDotSeriesSpec
+  | IFunnelSeriesSpec
+  | ILineSeriesSpec
+  | ILinearProgressSeriesSpec
+  | ILinkSeriesSpec
+  | IMapSeriesSpec
+  | IPieSeriesSpec
+  | IRadarSeriesSpec
+  | IRangeColumnSeriesSpec
+  | IRoseSeriesSpec
+  | IScatterSeriesSpec
+  | IWordCloudSeriesSpec
+) &
+  BaseSeriesProps;
 
-export interface SeriesProps extends BaseSeriesProps {
-  type: string;
-}
-
-export const Series = createSeries("Series", ["bar", "line", "area"]);
+export const Series = createSeries<SeriesProps>('Series', ['bar', 'line', 'area']);

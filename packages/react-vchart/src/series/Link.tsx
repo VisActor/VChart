@@ -1,7 +1,6 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
+import { ILinkSeriesSpec } from '@visactor/vchart';
 
-export interface LinkProps extends BaseSeriesProps {
-  //
-}
+export type LinkProps = BaseSeriesProps & Omit<ILinkSeriesSpec, 'type'>;
 
-export const Link = createSeries("Link", ["link"], "link");
+export const Link = createSeries<LinkProps>('Link', ['link'], 'link');

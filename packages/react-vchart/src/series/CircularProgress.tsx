@@ -1,11 +1,10 @@
-import { BaseSeriesProps, createSeries } from "./BaseSeries";
+import { BaseSeriesProps, createSeries } from './BaseSeries';
+import { ICircularProgressSeriesSpec } from '@visactor/vchart';
 
-export interface CircularProgressProps extends BaseSeriesProps {
-  //
-}
+export type CircularProgressProps = BaseSeriesProps & Omit<ICircularProgressSeriesSpec, 'type'>;
 
-export const CircularProgress = createSeries(
-  "CircularProgress",
-  ["circularProgress"],
-  "circularProgress"
+export const CircularProgress = createSeries<CircularProgressProps>(
+  'CircularProgress',
+  ['circularProgress'],
+  'circularProgress'
 );
