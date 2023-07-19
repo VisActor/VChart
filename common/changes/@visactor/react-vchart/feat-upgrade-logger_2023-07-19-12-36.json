@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: pickable shoule be false if label component is configured `interactive: false`\n\n",
+      "type": "patch",
+      "packageName": "@visactor/react-vchart"
+    }
+  ],
+  "packageName": "@visactor/react-vchart",
+  "email": "lixuef1313@163.com"
+}
