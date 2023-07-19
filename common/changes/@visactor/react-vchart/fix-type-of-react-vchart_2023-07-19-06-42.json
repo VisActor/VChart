@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "    feat: add customized events of <Brush/> and other components",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}
