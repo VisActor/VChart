@@ -7,6 +7,11 @@ export interface IGeoJsonOption {
   type: 'geojson';
   centroid?: boolean;
   simplify?: boolean;
+  rewind?: // 逆时针回绕(Multi)LineString或(Multi)Polygon的外部环，内部环顺时针。默认 false
+  | boolean
+    | {
+        reverse?: boolean; // 启用反向绕行，默认 false
+      };
 }
 
 export interface ITopoJsonOption extends Omit<IGeoJsonOption, 'type'> {

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(map): support rewind geojson data",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
