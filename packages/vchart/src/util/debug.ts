@@ -1,31 +1,28 @@
 import { Logger, isFunction } from '@visactor/vutils';
 
-const hasConsole = typeof console !== 'undefined';
-
 export const log = (msg: string, ...args: any[]) => {
   if (!config.silent) {
-    return Logger.logger(Logger.Info, 'log').info(msg, ...args);
+    return Logger.getInstance().info(msg, ...args);
   }
 };
 
 export const warn = (msg: string, detail?: any) => {
   if (isFunction(config.warnHandler)) {
     config.warnHandler.call(null, msg, detail);
-  } else if (hasConsole && !config.silent) {
-    if (detail) {
-      return Logger.logger(Logger.Warn, 'warn').warn(`[VChart warn]: ${msg}\n`, detail);
-    }
-    return Logger.logger(Logger.Warn, 'warn').warn(`[VChart warn]: ${msg}`);
   }
+  if (detail) {
+    return Logger.getInstance().warn(`[VChart warn]: ${msg}`, detail);
+  }
+  return Logger.getInstance().warn(`[VChart warn]: ${msg}`);
 };
 
 export const error = (msg: string, detail?: any, err?: Error) => {
-  const errIns = new Error(msg);
-  if (isFunction(config.errorHandler)) {
-    config.errorHandler.call(null, errIns, detail);
-  } else if (!config.silent) {
-    return Logger.logger(Logger.Error, 'error').error(`[VChart error]: ${errIns}`, detail);
+  if (config.silent) {
+    return null;
   }
+  const errIns = new Error(msg);
+  // use Logger.getInstance().addErrorHandler() instead of config.errorHandler
+  return Logger.getInstance().error(`[VChart error]: ${errIns}`, detail);
 };
 
 export const config = {
