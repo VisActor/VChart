@@ -7,10 +7,11 @@
       bindtouchstart="bindChartEvent"
       bindtouchmove="bindChartEvent"
       bindtouchend="bindChartEvent"
-
       bindmousemove="bindChartEvent"
       bindmouseover="bindChartEvent"
       bindmouseout="bindChartEvent"
+      bindmousedown="bindChartEvent"
+      bindmouseup="bindChartEvent"
     >
     </canvas>
     <!-- 注意 canvas 顺序 -->
@@ -31,6 +32,11 @@
       bindtouchstart="bindChartEvent"
       bindtouchmove="bindChartEvent"
       bindtouchend="bindChartEvent"
+      bindmousemove="bindChartEvent"
+      bindmouseover="bindChartEvent"
+      bindmouseout="bindChartEvent"
+      bindmousedown="bindChartEvent"
+      bindmouseup="bindChartEvent"
     >
     </canvas>
     <!-- 注意 canvas 顺序 -->
@@ -51,6 +57,11 @@
       bindtouchstart="bindChartEvent"
       bindtouchmove="bindChartEvent"
       bindtouchend="bindChartEvent"
+      bindmousemove="bindChartEvent"
+      bindmouseover="bindChartEvent"
+      bindmouseout="bindChartEvent"
+      bindmousedown="bindChartEvent"
+      bindmouseup="bindChartEvent"
     >
     </canvas>
     <!-- 注意 canvas 顺序 -->
@@ -70,6 +81,11 @@
       bindtouchstart="bindChartEvent"
       bindtouchmove="bindChartEvent"
       bindtouchend="bindChartEvent"
+      bindmousemove="bindChartEvent"
+      bindmouseover="bindChartEvent"
+      bindmouseout="bindChartEvent"
+      bindmousedown="bindChartEvent"
+      bindmouseup="bindChartEvent"
     >
     </canvas>
     <!-- 注意 canvas 顺序 -->

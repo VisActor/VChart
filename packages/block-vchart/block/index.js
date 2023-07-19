@@ -168,6 +168,14 @@ Block({
       });
     },
     bindChartEvent(event) {
+      const { brand } = tt.getSystemInfoSync();
+      // 处理下 mouse 事件和 touch 事件，防止重复触发
+      if (brand === 'PC' && event.type.startsWith('touch')) {
+        return;
+      }
+      if (brand !== 'PC' && event.type.startsWith('mouse')) {
+        return;
+      }
       const id = event.target.id.split('_')[0];
       const targetChart = this.data.chartList.find(x => x.id === id);
       const chartInstance = targetChart?.chart;
