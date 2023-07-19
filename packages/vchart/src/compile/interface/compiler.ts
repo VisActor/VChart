@@ -83,6 +83,10 @@ export interface IRenderOption {
    * 是否开启view3d的变换模式
    */
   enableView3dTransform?: boolean;
+  /**
+   * vrender 的插件列表
+   */
+  pluginList?: string[];
 }
 
 export type CompilerListenerParameters = {

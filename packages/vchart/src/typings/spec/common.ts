@@ -56,7 +56,7 @@ import type { IBrushSpec } from '../../component/brush';
 export type IChartPadding = ILayoutOrientPadding | number;
 
 /** chart option */
-export interface IInitOption extends IRenderOption {
+export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
   /**
    * **仅生效于浏览器环境。**
    * 图表挂载的父容器，可以直接指定容器 id，也可以传入 dom 对象
@@ -88,6 +88,12 @@ export interface IInitOption extends IRenderOption {
    * 自定义布局函数
    */
   layout?: LayoutCallBack;
+
+  /**
+   * 当文本省略时，鼠标 hover 到文本上时是否显示 poptip
+   * @default true
+   */
+  poptip?: boolean;
 }
 
 export enum RenderModeEnum {
