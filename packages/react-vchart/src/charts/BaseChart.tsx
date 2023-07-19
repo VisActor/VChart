@@ -8,11 +8,27 @@ import ViewContext from '../context/view';
 import { toArray } from '../util';
 import { REACT_PRIVATE_PROPS } from '../constants';
 import { IMarkElement } from '../components';
-import { bindEventsToChart, EventsProps, CHART_EVENTS_KEYS, CHART_EVENTS } from '../eventsUtils';
+import {
+  bindEventsToChart,
+  EventsProps,
+  CHART_EVENTS_KEYS,
+  CHART_EVENTS,
+  LegendEventProps,
+  ScrollBarEventProps,
+  BrushEventProps,
+  DataZoomEventProps,
+  PlayerEventProps
+} from '../eventsUtils';
 
 export type ChartOptions = Omit<IInitOption, 'dom'>;
 
-export interface BaseChartProps extends EventsProps {
+export interface BaseChartProps
+  extends EventsProps,
+    LegendEventProps,
+    ScrollBarEventProps,
+    BrushEventProps,
+    DataZoomEventProps,
+    PlayerEventProps {
   type?: string;
   /** 上层container */
   container?: HTMLDivElement;
