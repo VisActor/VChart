@@ -561,6 +561,20 @@ describe('VChart', () => {
       expect(point.x).toBe(mark.attribute.x);
       expect(point.y).toBe(mark.attribute.y);
 
+      const point2 = vchart.convertDatumToPosition(
+        {
+          State: 'WY',
+          年龄段: '小于5岁',
+          人口数量: 25635
+        },
+        {
+          seriesIndex: 0
+        },
+        true
+      ) as IPoint;
+      expect(point2.x).toBe(mark.attribute.x + vchart.getChart()?.getAllSeries()[0].getLayoutStartPoint().x);
+      expect(point2.y).toBe(mark.attribute.y + vchart.getChart()?.getAllSeries()[0].getLayoutStartPoint().y);
+
       const value1 = vchart.convertValueToPosition('WY', { axisId: 'bottom' });
       expect(value1).toBe(mark.attribute.x);
 
