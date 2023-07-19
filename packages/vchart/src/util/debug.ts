@@ -4,6 +4,7 @@ export const log = (msg: string, ...args: any[]) => {
   if (!config.silent) {
     return Logger.getInstance().info(msg, ...args);
   }
+  return null;
 };
 
 export const warn = (msg: string, detail?: any) => {
