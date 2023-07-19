@@ -930,7 +930,12 @@ export class BaseChart extends CompilableBase implements IChart {
       animationExit: spec.animationExit,
       animationNormal: spec.animationNormal,
 
-      extensionMark: spec.extensionMark
+      extensionMark: spec.extensionMark,
+
+      large: spec.large,
+      largeThreshold: spec.largeThreshold,
+      progressiveStep: spec.progressiveStep,
+      progressiveThreshold: spec.progressiveThreshold
     };
     return series;
   }
