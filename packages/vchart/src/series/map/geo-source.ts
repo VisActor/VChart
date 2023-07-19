@@ -5,12 +5,20 @@ import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from 
 
 export interface IGeoJsonOption {
   type: 'geojson';
+  /** 计算中心点 */
+  /** @default true */
   centroid?: boolean;
+  /** 地图简化 */
+  /** @default false */
   simplify?: boolean;
-  rewind?: // 逆时针回绕(Multi)LineString或(Multi)Polygon的外部环，内部环顺时针。默认 false
-  | boolean
+  /** 逆时针回绕(Multi)LineString或(Multi)Polygon的外部环，内部环顺时针。*/
+  /** @default false */
+  rewind?:
+    | boolean
     | {
-        reverse?: boolean; // 启用反向绕行，默认 false
+        /** 启用反向绕行 */
+        /** @default false */
+        reverse?: boolean;
       };
 }
 
