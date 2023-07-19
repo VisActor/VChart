@@ -89,8 +89,7 @@ export class TitleModel extends BaseTooltipModel {
       color: title?.shapeColor,
       hollow: title?.shapeHollow
     });
-    // FIXME: vrender 发版后去掉 any
-    this.textSpan?.setContent(title?.value, (tooltipAttributes.title?.value as any)?.multiLine);
+    this.textSpan?.setContent(title?.value, tooltipAttributes.title?.value?.multiLine);
   }
 
   release(): void {

@@ -4040,7 +4040,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.22.5_@babel+core@7.20.12
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 3.2.6
+      vite: 3.2.6_@types+node@20.4.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -5002,7 +5002,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.9
-      caniuse-lite: 1.0.30001516
+      caniuse-lite: 1.0.30001517
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -5015,7 +5015,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 3.2.8
-      caniuse-lite: 1.0.30001516
+      caniuse-lite: 1.0.30001517
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       postcss: 6.0.23
@@ -5028,7 +5028,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.9
-      caniuse-lite: 1.0.30001516
+      caniuse-lite: 1.0.30001517
       chalk: 2.4.2
       normalize-range: 0.1.2
       num2fraction: 1.2.2
@@ -5041,7 +5041,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.9
-      caniuse-lite: 1.0.30001516
+      caniuse-lite: 1.0.30001517
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       picocolors: 0.2.1
@@ -5941,7 +5941,7 @@ packages:
     resolution: {integrity: sha512-WHVocJYavUwVgVViC0ORikPHQquXwVh939TaelZ4WDqpWgTX/FsGhl/+P4qBUAGcRvtOgDgC+xftNWWp2RUTAQ==}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001516
+      caniuse-lite: 1.0.30001517
       electron-to-chromium: 1.4.464
     dev: true
 
@@ -5950,7 +5950,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001516
+      caniuse-lite: 1.0.30001517
       electron-to-chromium: 1.4.464
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11_browserslist@4.21.9
@@ -6238,8 +6238,8 @@ packages:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
     dev: true
 
-  /caniuse-lite/1.0.30001516:
-    resolution: {integrity: sha512-Wmec9pCBY8CWbmI4HsjBeQLqDTqV91nFVR83DnZpYyRnPI1wePDsTg0bGLPC5VU/3OIZV1fmxEea1b+tFKe86g==}
+  /caniuse-lite/1.0.30001517:
+    resolution: {integrity: sha512-Vdhm5S11DaFVLlyiKu4hiUTkpZu+y1KA/rZZqVQfOD5YdDT/eQKlkt7NaE0WGOFgX32diqt9MiP9CAiFeRklaA==}
 
   /canvas/2.11.2:
     resolution: {integrity: sha512-ItanGBMrmRV7Py2Z+Xhs7cT+FNt5K0vPL4p9EZ/UX/Mu7hFbkxSjKF2KVtPwX7UYWp7dRKnrTvReflgrItJbdw==}

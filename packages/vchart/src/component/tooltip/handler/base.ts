@@ -18,7 +18,13 @@ import type {
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipFixedPosition } from '../../../typings/tooltip';
 import type { BaseEventParams } from '../../../event/interface';
-import { getShowContent, getTooltipSpecForShow, getActualTooltipPositionValue, getTooltipPatternValue } from './utils';
+import {
+  getShowContent,
+  getTooltipSpecForShow,
+  getActualTooltipPositionValue,
+  getTooltipPatternValue,
+  getScale
+} from './utils';
 import type { Tooltip, TooltipContent } from '../tooltip';
 import type { ISeries } from '../../../series/interface';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
@@ -433,7 +439,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     };
     const getDefaultPointValue = (defaultValue = 0): IPoint => ({ x: defaultValue, y: defaultValue });
     let relativePosOffset = getDefaultPointValue();
-    let tooltipParentElementPos = getDefaultPointValue();
+    let tooltipParentElementRect: IPoint | DOMRect = getDefaultPointValue();
     let chartElementScale = 1;
     let tooltipParentElementScale = 1;
 
@@ -443,15 +449,15 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       containerSize.height = window.innerHeight;
 
       if (!isCanvas) {
+        tooltipParentElementRect = tooltipParentElement.getBoundingClientRect();
         const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
-        tooltipParentElementPos = tooltipParentElement.getBoundingClientRect();
-        const chartPosOffset = chartElement.getBoundingClientRect();
+        const chartElementRect = chartElement.getBoundingClientRect();
         relativePosOffset = {
-          x: chartPosOffset.x - tooltipParentElementPos.x,
-          y: chartPosOffset.y - tooltipParentElementPos.y
+          x: chartElementRect.x - tooltipParentElementRect.x,
+          y: chartElementRect.y - tooltipParentElementRect.y
         };
-        chartElementScale = getScale(chartElement);
-        tooltipParentElementScale = getScale(tooltipParentElement);
+        chartElementScale = getScale(chartElement, chartElementRect);
+        tooltipParentElementScale = getScale(tooltipParentElement, tooltipParentElementRect as DOMRect);
       }
     } else {
       containerSize.width = canvasWidth;
@@ -486,29 +492,29 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     /* 三、确保tooltip在视区内 */
     const { width: containerWidth, height: containerHeight } = containerSize;
 
-    if ((x + tooltipBoxWidth) * tooltipParentElementScale + tooltipParentElementPos.x > containerWidth) {
+    if ((x + tooltipBoxWidth) * tooltipParentElementScale + tooltipParentElementRect.x > containerWidth) {
       // 位置不超出视区右界
       if (isFixedPosition) {
-        x = (containerWidth - tooltipParentElementPos.x) / tooltipParentElementScale - tooltipBoxWidth;
+        x = (containerWidth - tooltipParentElementRect.x) / tooltipParentElementScale - tooltipBoxWidth;
       } else {
         x -= offsetX * 2 + tooltipBoxWidth;
       }
     }
-    if ((y + tooltipBoxHeight) * tooltipParentElementScale + tooltipParentElementPos.y > containerHeight) {
+    if ((y + tooltipBoxHeight) * tooltipParentElementScale + tooltipParentElementRect.y > containerHeight) {
       // 位置不超出视区下界
       if (isFixedPosition) {
-        y = (containerHeight - tooltipParentElementPos.y) / tooltipParentElementScale - tooltipBoxHeight;
+        y = (containerHeight - tooltipParentElementRect.y) / tooltipParentElementScale - tooltipBoxHeight;
       } else {
         y -= offsetY * 2 + tooltipBoxHeight;
       }
     }
-    if (x * tooltipParentElementScale + tooltipParentElementPos.x < 0) {
+    if (x * tooltipParentElementScale + tooltipParentElementRect.x < 0) {
       // 位置不超出视区左界
-      x = 0 - tooltipParentElementPos.x / tooltipParentElementScale;
+      x = 0 - tooltipParentElementRect.x / tooltipParentElementScale;
     }
-    if (y * tooltipParentElementScale + tooltipParentElementPos.y < 0) {
+    if (y * tooltipParentElementScale + tooltipParentElementRect.y < 0) {
       // 位置不超出视区上界
-      y = 0 - tooltipParentElementPos.y / tooltipParentElementScale;
+      y = 0 - tooltipParentElementRect.y / tooltipParentElementScale;
     }
 
     return { x, y };
@@ -601,11 +607,3 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     this._initFromSpec();
   }
 }
-
-// FIXME: 以下代码等 vutil 发版后删除
-export const getScale = (element: HTMLElement) => {
-  if (element.offsetWidth > 0) {
-    return element.getBoundingClientRect().width / element.offsetWidth;
-  }
-  return element.getBoundingClientRect().height / element.offsetHeight;
-};
