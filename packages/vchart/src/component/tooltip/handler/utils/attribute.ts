@@ -58,14 +58,13 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
   attribute.title.visible = titleVisible;
   if (titleVisible) {
     const { text, width, height } = measureTooltipText(titleValue, titleStyle);
-    // FIXME: vrender 发版后去掉 any
     attribute.title.value = {
       width,
       height,
       text,
       multiLine: titleStyle.multiLine,
       wordBreak: titleStyle.wordBreak
-    } as any;
+    };
     maxWidth = width;
     titleMaxHeight = height;
 
@@ -111,14 +110,13 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
         const { hasShape, key, shapeColor, shapeHollow, shapeType = '', value, isKeyAdaptive } = item;
         if (isValid(key)) {
           const { width, height, text } = measureTooltipText(key, keyStyle);
-          // FIXME: vrender 发版后去掉 any
           itemAttrs.key = {
             width,
             height,
             text,
             multiLine: keyStyle.multiLine,
             wordBreak: titleStyle.wordBreak
-          } as any;
+          };
           if (!isKeyAdaptive) {
             keyWidths.push(width);
           } else {
@@ -128,14 +126,13 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
         }
         if (isValid(value)) {
           const { width, height, text } = measureTooltipText(value, valueStyle);
-          // FIXME: vrender 发版后去掉 any
           itemAttrs.value = {
             width,
             height,
             text,
             multiLine: valueStyle.multiLine,
             wordBreak: titleStyle.wordBreak
-          } as any;
+          };
           valueWidths.push(width);
           itemHeight = Math.max(itemHeight, height);
         }
