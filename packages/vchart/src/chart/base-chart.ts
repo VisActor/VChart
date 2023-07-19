@@ -613,6 +613,7 @@ export class BaseChart extends CompilableBase implements IChart {
     if (dv) {
       dv.parseNewData(data);
     }
+    // this.updateGlobalScaleDomain();
     this.getAllModels().forEach(model => model.onDataUpdate());
   }
 
