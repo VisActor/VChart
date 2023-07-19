@@ -1,5 +1,36 @@
 import type { IVChart, EventCallback, EventParamsDefinition } from '@visactor/vchart';
 
+export interface LegendEventProps {
+  onLegendItemHover?: (e: any) => void;
+  onLegendItemUnHover?: (e: any) => void;
+  onLegendItemClick?: (e: any) => void;
+  onLegendFilter?: (e: any) => void;
+  onLegendSelectedDataChange?: (e: any) => void;
+}
+
+export interface BrushEventProps {
+  onBrushStart?: (e: any) => void;
+  onBrushChange?: (e: any) => void;
+  onBrushEnd?: (e: any) => void;
+}
+
+export interface DataZoomEventProps {
+  onDataZoomChange?: (e: any) => void;
+}
+
+export interface PlayerEventProps {
+  onPlayerPlay?: (e: any) => void;
+  onPlayerPause?: (e: any) => void;
+  onPlayerEnd?: (e: any) => void;
+  onPlayerChange?: (e: any) => void;
+  onPlayerForward?: (e: any) => void;
+  onPlayerBackward?: (e: any) => void;
+}
+
+export interface ScrollBarEventProps {
+  onScrollBarChange?: (e: any) => void;
+}
+
 export interface EventsProps {
   onPointerDown?: EventCallback<EventParamsDefinition['pointerdown']>;
   onPointerUp?: EventCallback<EventParamsDefinition['pointerup']>;
@@ -99,11 +130,39 @@ export const REACT_TO_VCHART_EVENTS = {
 export const LEGEND_CUSTOMIZED_EVENTS = {
   onLegendItemHover: 'legendItemHover',
   onLegendItemUnHover: 'legendItemUnHover',
-  onLegendItemClick: 'legendItemClick'
+  onLegendItemClick: 'legendItemClick',
+  onLegendFilter: 'legendFilter',
+  onLegendSelectedDataChange: 'legendSelectedDataChange'
+};
+export const BRUSH_CUSTOMIZED_EVENTS = {
+  onBrushStart: 'brushStart',
+  onBrushChange: 'brushChange',
+  onBrushEnd: 'brushEnd'
+};
+
+export const DATAZOOM_CUSTOMIZED_EVENTS = {
+  onDataZoomChange: 'dataZoomChange'
+};
+
+export const PLAYER_CUSTOMIZED_EVENTS = {
+  onPlayerPlay: 'playerPlay',
+  onPlayerPause: 'playerPause',
+  onPlayerEnd: 'playerEnd',
+  onPlayerChange: 'playerChange',
+  onPlayerForward: 'playerForward',
+  onPlayerBackward: 'playerBackward'
+};
+
+export const SCROLLBAR_CUSTOMIZED_EVENTS = {
+  onScrollBarChange: 'scrollBarChange'
 };
 
 export const CHART_EVENTS = {
   ...LEGEND_CUSTOMIZED_EVENTS,
+  ...BRUSH_CUSTOMIZED_EVENTS,
+  ...PLAYER_CUSTOMIZED_EVENTS,
+  ...DATAZOOM_CUSTOMIZED_EVENTS,
+  ...SCROLLBAR_CUSTOMIZED_EVENTS,
   ...REACT_TO_VCHART_EVENTS
 };
 
