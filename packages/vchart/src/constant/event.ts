@@ -51,8 +51,9 @@ export const BASE_EVENTS = [
 ];
 
 export enum ChartEvent {
-  initialized = 'initialized',
-  rendered = 'rendered',
+  initialized = 'initialized', // 图表实例初始化完成
+  rendered = 'rendered', // 图表渲染方法被调用时触发，表明图表已经执行过渲染逻辑，只会触发一次
+  renderFinished = 'renderFinished', // 每次画布渲染完成触发的事件，如果图表配置了动画，那么会在动画停止时触发，未配置则每次画布渲染结束后触发
   // region
   regionSeriesDataFilterOver = 'regionSeriesDataFilterOver',
   // series start

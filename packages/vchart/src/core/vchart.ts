@@ -62,7 +62,7 @@ import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
 import type { ILegend } from '../component/legend/interface';
 import { getCanvasDataURL, URLToImage } from '../util/image';
-import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant';
+import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH, VGRAMMAR_HOOK_EVENT } from '../constant';
 // eslint-disable-next-line no-duplicate-imports
 import { getContainerSize, isArray, isEmpty } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
@@ -243,6 +243,7 @@ export class VChart implements IVChart {
       height: spec.height || 0
     };
     this._bindResizeEvent();
+    this._bindVGrammarViewEvent();
     this._event.emit(ChartEvent.initialized, {});
 
     InstanceManager.registerInstance(this);
@@ -311,6 +312,21 @@ export class VChart implements IVChart {
     if (this._dataSet) {
       this._dataSet.dataViewMap = {};
       this._dataSet = null;
+    }
+  }
+
+  private _bindVGrammarViewEvent() {
+    // TODO: 这里有问题
+    // 1. 动画是否关闭的判断不全面，除了 animation 还会有 animationEnter 等配置，并且这些配置还可以配置在 series 中
+    // 2. 图例筛选之后的更新，会触发两次 finished 事件
+    if (this._option.animation !== false && this._spec.animation !== false) {
+      this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ANIMATION_END, () => {
+        this._event.emit(ChartEvent.renderFinished, {});
+      });
+    } else {
+      this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
+        this._event.emit(ChartEvent.renderFinished, {});
+      });
     }
   }
 
@@ -433,7 +449,6 @@ export class VChart implements IVChart {
       });
     }
 
-    // TODO: 渲染结束与动画结束, 需要2个事件. 应该由底层抛出.
     this._event.emit(ChartEvent.rendered, {});
     return this as unknown as IVChart;
   }
@@ -468,7 +483,6 @@ export class VChart implements IVChart {
       });
     }
 
-    // TODO: 渲染结束与动画结束, 需要2个事件. 应该由底层抛出.
     this._event.emit(ChartEvent.rendered, {});
     return this as unknown as IVChart;
   }
