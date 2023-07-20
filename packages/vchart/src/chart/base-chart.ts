@@ -726,10 +726,11 @@ export class BaseChart extends CompilableBase implements IChart {
         if (isArray(colorSpec)) {
           colorScaleSpec.range = colorSpec.map(color => getActualColor(color, this._theme?.colorScheme));
         } else {
-          colorScaleSpec.type = (colorSpec as IVisualSpecScale<any, any>).type;
-          (colorSpec as IVisualSpecScale<any, any>).domain &&
-            (colorScaleSpec.domain = (colorSpec as IVisualSpecScale<any, any>).domain);
-          colorScaleSpec.range = (colorSpec as IVisualSpecScale<any, any>).range;
+          const tempSpec = colorSpec as IVisualSpecScale<any, any>;
+          tempSpec.type && (colorScaleSpec.type = tempSpec.type);
+          tempSpec.domain && (colorScaleSpec.domain = tempSpec.domain);
+          tempSpec.range && (colorScaleSpec.range = tempSpec.range);
+          tempSpec.specified && (colorScaleSpec.specified = tempSpec.specified);
         }
       }
     }
