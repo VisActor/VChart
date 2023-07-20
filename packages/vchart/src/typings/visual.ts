@@ -14,6 +14,7 @@ export interface IVisualSpecBase<D, T> {
   type: ScaleType;
   domain: D[];
   range: T[];
+  specified?: { [key: string]: unknown };
 }
 // 用来给用户进行mark.style上的映射配置。所以要配置数据维度
 export interface IVisualSpecStyle<D, T> extends IVisualSpecBase<D, T> {
