@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: support specified of scale in vchart\n\n",
+      "type": "patch",
+      "packageName": "@visactor/react-vchart"
+    }
+  ],
+  "packageName": "@visactor/react-vchart",
+  "email": "lixuef1313@163.com"
+}
