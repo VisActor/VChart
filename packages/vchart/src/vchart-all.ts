@@ -61,7 +61,8 @@ import {
 import { GridLayout, Layout3d } from './layout';
 import { loadPoptip } from '@visactor/vrender-components';
 
-loadPoptip({});
+// TODO：主题无法定义
+loadPoptip(VChart.ThemeManager.getCurrentTheme().component?.poptip ?? {});
 
 // charts
 VChart.useChart([

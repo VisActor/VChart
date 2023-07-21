@@ -18,6 +18,7 @@ import { markPoint } from './mark-point';
 import { player } from './player';
 import { title } from './title';
 import { tooltip } from './tooltip';
+import { poptip } from './poptip';
 
 export const component: IComponentTheme = {
   discreteLegend,
@@ -40,5 +41,6 @@ export const component: IComponentTheme = {
   brush,
   indicator,
   title,
-  mapLabel
+  mapLabel,
+  poptip
 };
