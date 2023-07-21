@@ -7,7 +7,7 @@ const path = require('path');
 function copyFile(source, target) {
   fs.copyFile(source, target, error => {
     if (error) {
-      console.error(err);
+      console.error(error);
     }
     console.log('File copied successfully!');
   });
