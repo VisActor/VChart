@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "refactor: refactor ci trigger test script and support retry request while fetch failed\n\n",
+      "type": "patch",
+      "packageName": "@visactor/lark-vchart"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart",
+  "email": "lixuef1313@163.com"
+}
