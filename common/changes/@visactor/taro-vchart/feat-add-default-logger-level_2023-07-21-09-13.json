@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: set default logger level to level error\n\n",
+      "type": "patch",
+      "packageName": "@visactor/taro-vchart"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart",
+  "email": "lixuef1313@163.com"
+}
