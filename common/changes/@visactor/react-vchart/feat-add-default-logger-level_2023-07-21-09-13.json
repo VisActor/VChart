@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "refactor: refactor ci trigger test script and support retry request while fetch failed\n\n",
+      "comment": "feat: set default logger level to level error\n\n",
       "type": "patch",
       "packageName": "@visactor/react-vchart"
     }
