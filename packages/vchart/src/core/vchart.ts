@@ -68,7 +68,6 @@ import { getContainerSize, isArray, isEmpty } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
-
 export class VChart implements IVChart {
   readonly id = createID();
 
@@ -224,7 +223,7 @@ export class VChart implements IVChart {
       {
         mode: this._option.mode,
         stage,
-        pluginList: poptip !== false ? ['poptip'] : [],
+        pluginList: poptip !== false ? ['poptipForText'] : [],
         ...restOptions,
         background: spec.background || this._currentTheme.background || this._option.background // spec > spec.theme > initOptions.theme
       }
