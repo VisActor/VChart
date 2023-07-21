@@ -6,7 +6,7 @@ import type { IComponent } from '../interface';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IModelSpec } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { AxisItemStateStyle } from '@visactor/vrender-components';
+import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
 import type { ICompilableData } from '../../compile/data';
 
 export type StatisticsDomain = {
@@ -92,6 +92,14 @@ export type ICommonAxisSpec = {
    * @default false
    */
   hover?: boolean;
+
+  /**
+   * 是否开启轴数据采样，默认开启。
+   * 轴采样开启之后，会对轴数据进行采样显示，防止轴数据的重叠。
+   * 通过配置 `label.minGap` 可以控制轴标签之间的间距。
+   * @default true
+   */
+  sampling?: boolean;
 } & Omit<IModelSpec, 'orient'> &
   IAnimationSpec<string, string>;
 
@@ -216,6 +224,12 @@ export type ITick = IAxisItem<IRuleMarkSpec> & {
    * 4. selected_reverse
    */
   state?: AxisItemStateStyle<IRuleMarkSpec>;
+  /**
+   * 用于 tick 的数据过滤
+   * @param data
+   * @returns
+   */
+  dataFilter?: (data: AxisItem[]) => AxisItem[];
 };
 
 // 子刻度线配置
@@ -258,11 +272,11 @@ export type ILabel = IAxisItem<ITextMarkSpec> & {
    * @default false
    */
   inside?: boolean;
-  // /**
-  //  * TODO: 暂未支持
-  //  * 标签之间的最小间距（单位为像素）
-  //  */
-  // minGap?: number;
+  /**
+   * 标签之间的最小间距（单位为像素），仅当轴采样开始时生效（`sampling: true`）。
+   * 该配置会影响轴采样的结果。
+   */
+  minGap?: number;
   /**
    * 文本样式设置
    */
@@ -275,6 +289,13 @@ export type ILabel = IAxisItem<ITextMarkSpec> & {
    * 4. selected_reverse
    */
   state?: AxisItemStateStyle<ITextMarkSpec>;
+  /**
+   * 用于 label 的数据过滤
+   * @param data
+   * @param layer
+   * @returns
+   */
+  dataFilter?: (data: AxisItem[], layer: number) => AxisItem[];
 };
 
 // 轴线配置

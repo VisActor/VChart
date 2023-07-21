@@ -12,9 +12,14 @@ import type { IColorKey } from '../theme/color-scheme/interface';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {
+  // type of scale
   type: ScaleType;
+  // will set to scale.domain, it means input of scale
   domain: D[];
+  // will set to scale.range, it means output of scale
   range: T[];
+  // will set to scale.specified if scale support, as a key-value pair matching capability
+  specified?: { [key: string]: unknown };
 }
 // 用来给用户进行mark.style上的映射配置。所以要配置数据维度
 export interface IVisualSpecStyle<D, T> extends IVisualSpecBase<D, T> {

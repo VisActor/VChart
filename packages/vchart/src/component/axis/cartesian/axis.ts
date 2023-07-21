@@ -90,6 +90,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
 
   private _axisStyle: Partial<LineAxisAttributes>;
   private _latestBounds: IBounds;
+  private _verticalLimitSize: number;
 
   constructor(spec: ICartesianAxisCommonSpec, options: IComponentOption) {
     super(spec, {
@@ -116,7 +117,6 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       if (isHorizontal && !isXAxis(spec.orient)) {
         inverse = isValid(spec.inverse) ? !spec.inverse : true;
       }
-
       return new C(
         {
           ...spec,
@@ -251,6 +251,15 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
+    const isX = isXAxis(this.orient);
+    if (isX) {
+      if (isNil(this._spec.maxHeight)) {
+        this._spec.maxHeight = '30%';
+      }
+    } else if (isNil(this._spec.maxWidth)) {
+      this._spec.maxWidth = '30%';
+    }
+
     const axisStyle: any = this._getAxisAttributes();
     axisStyle.label.formatMethod = this.getLabelFormatMethod();
     axisStyle.verticalFactor = this.orient === 'top' || this.orient === 'right' ? -1 : 1;
@@ -288,6 +297,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         {
           type: 'ticks',
           options: {
+            sampling: this._spec.sampling !== false, // default do sampling
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,
@@ -516,6 +526,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     if (!this._visible) {
       return result;
     }
+    this._verticalLimitSize = isXAxis(this.orient) ? rect.height : rect.width;
 
     this.setLayoutRect(rect);
     this.updateScaleRange();
@@ -669,7 +680,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         text: this._spec.title.text || this._dataFieldText,
         maxWidth: this._getTitleLimit(isX)
       },
-      items: this.getLabelItems(axisLength)
+      items: this.getLabelItems(axisLength),
+      verticalLimitSize: this._verticalLimitSize
     };
 
     return attrs;

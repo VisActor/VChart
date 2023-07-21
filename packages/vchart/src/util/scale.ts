@@ -62,6 +62,10 @@ export function initScaleWithSpec(scale: IBaseScale, spec: IVisualSpecBase<any, 
   if (spec.range) {
     scale.range(spec.range);
   }
+
+  if (spec.specified && (<OrdinalScale>scale).specified) {
+    (<OrdinalScale>scale).specified(spec.specified);
+  }
 }
 
 export function isValidScaleType(type: ScaleType): boolean {

@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "1.1.0-beta.7",
+  "version": "1.1.0-beta.8",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -23,7 +23,7 @@
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit/",
     "test-watch": "DEBUG_MODE=1 jest --watch",
-    "ci": "node github-ci.js"
+    "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts"
   },
   "files": [
     "esm",
@@ -96,23 +96,26 @@
     "d3-hexbin": "^0.2.2",
     "d3-hierarchy": "^3.1.1",
     "vite": "3.2.6",
+    "@esbuild-plugins/node-globals-polyfill": "0.1.1",
+    "@esbuild-plugins/node-modules-polyfill": "0.1.4",
+    "rollup-plugin-node-polyfills": "0.2.1",
     "node-fetch": "2.6.7",
     "form-data": "~4.0.0",
     "canvas": "2.11.2"
   },
   "dependencies": {
     "@visactor/vutils": "~0.13.3",
-    "@visactor/vdataset": "~0.13.3",
+    "@visactor/vdataset": "~0.13.4",
     "@visactor/vscale": "~0.13.3",
-    "@visactor/vgrammar": "0.4.0",
-    "@visactor/vgrammar-projection": "0.4.0",
-    "@visactor/vgrammar-wordcloud": "0.4.0",
-    "@visactor/vgrammar-wordcloud-shape": "0.4.0",
-    "@visactor/vgrammar-hierarchy": "0.4.0",
-    "@visactor/vgrammar-sankey": "0.4.0",
-    "@visactor/vgrammar-util": "~0.4.0",
-    "@visactor/vrender": "~0.13.0",
-    "@visactor/vrender-components": "~0.13.0"
+    "@visactor/vgrammar": "~0.4.1",
+    "@visactor/vgrammar-projection": "~0.4.1",
+    "@visactor/vgrammar-wordcloud": "~0.4.1",
+    "@visactor/vgrammar-wordcloud-shape": "~0.4.1",
+    "@visactor/vgrammar-hierarchy": "~0.4.1",
+    "@visactor/vgrammar-sankey": "~0.4.1",
+    "@visactor/vgrammar-util": "~0.4.1",
+    "@visactor/vrender": "~0.13.2",
+    "@visactor/vrender-components": "~0.13.2"
   },
   "publishConfig": {
     "access": "public",

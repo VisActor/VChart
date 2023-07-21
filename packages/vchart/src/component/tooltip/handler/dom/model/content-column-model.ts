@@ -120,8 +120,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         } else {
           childContent = TOOLTIP_EMPTY_STRING;
         }
-        // FIXME: vrender 发版后去掉 any
-        (this.children[i] as TextModel)?.setContent(childContent, (contentAttributes[i].value as any)?.multiLine);
+        (this.children[i] as TextModel)?.setContent(childContent, contentAttributes[i].value?.multiLine);
       } else if (this.className === 'value-box') {
         const valueContent = line.value;
         if ((isString(valueContent) && valueContent?.trim?.() !== '') || isNumber(valueContent)) {
@@ -129,8 +128,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         } else {
           childContent = TOOLTIP_EMPTY_STRING;
         }
-        // FIXME: vrender 发版后去掉 any
-        (this.children[i] as TextModel)?.setContent(childContent, (contentAttributes[i].value as any)?.multiLine);
+        (this.children[i] as TextModel)?.setContent(childContent, contentAttributes[i].value?.multiLine);
       } else if (this.className === 'shape-box') {
         childContent = this._getShapeSvgOption(line);
         this.children[i]?.setContent(childContent);

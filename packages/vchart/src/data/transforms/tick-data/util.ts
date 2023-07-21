@@ -12,8 +12,8 @@ export const convertDomainToTickData = (domain: any[], op: ITickDataOpt): ITickD
   const ticks = domain.map((t: number, index: number) => {
     return {
       index,
-      value: t,
-      label: op.labelFormatter ? op.labelFormatter(t) : `${t}`
+      value: t
+      // label: op.labelFormatter ? op.labelFormatter(t) : `${t}`
     };
   });
   return ticks;

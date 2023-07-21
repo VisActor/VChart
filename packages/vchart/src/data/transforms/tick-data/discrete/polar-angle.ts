@@ -29,7 +29,7 @@ export const polarAngleAxisDiscreteTicks = (scale: BandScale, op: IPolarTickData
     scaleTicks = scale.forceTicks(forceTickCount);
   } else if (isValid(tickCount)) {
     scaleTicks = scale.ticks(tickCount);
-  } else {
+  } else if (op.sampling) {
     const domain = scale.domain();
     const range = scale.range();
 
@@ -54,6 +54,8 @@ export const polarAngleAxisDiscreteTicks = (scale: BandScale, op: IPolarTickData
 
     scaleTicks = (scale as BandScale).stepTicks(step);
     scaleTicks = scaleTicks.slice(0, scaleTicks.length - delCount);
+  } else {
+    scaleTicks = scale.domain();
   }
 
   return convertDomainToTickData(scaleTicks, op);
