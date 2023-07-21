@@ -321,18 +321,16 @@ export class VChart implements IVChart {
   }
 
   private _bindVGrammarViewEvent() {
-    // TODO: 这里有问题
-    // 1. 动画是否关闭的判断不全面，除了 animation 还会有 animationEnter 等配置，并且这些配置还可以配置在 series 中
-    // 2. 图例筛选之后的更新，会触发两次 finished 事件
-    if (this._option.animation !== false && this._spec.animation !== false) {
-      this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ANIMATION_END, () => {
-        this._event.emit(ChartEvent.renderFinished, {});
-      });
-    } else {
-      this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
-        this._event.emit(ChartEvent.renderFinished, {});
-      });
+    if (!this._compiler || this._compiler.isReleased) {
+      return;
     }
+    // TODO: 这里有问题， VGrammar 的动画事件会触发多次，待修复 https://github.com/VisActor/VGrammar/issues/72
+    this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ANIMATION_END, () => {
+      this._event.emit(ChartEvent.animationEnd, {});
+    });
+    this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
+      this._event.emit(ChartEvent.renderFinished, {});
+    });
   }
 
   private _bindResizeEvent() {
