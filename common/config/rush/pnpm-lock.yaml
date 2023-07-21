@@ -1,5 +1,8 @@
 lockfileVersion: 5.4
 
+overrides:
+  '@visactor/vrender-components': 0.13.2-alpha.2
+
 importers:
 
   .:
@@ -214,7 +217,7 @@ importers:
       '@visactor/vgrammar-wordcloud': ~0.4.0
       '@visactor/vgrammar-wordcloud-shape': ~0.4.0
       '@visactor/vrender': ~0.13.0
-      '@visactor/vrender-components': ~0.13.0
+      '@visactor/vrender-components': 0.13.2-alpha.2
       '@visactor/vscale': ~0.13.3
       '@visactor/vutils': ~0.13.3
       canvas: 2.11.2
@@ -251,7 +254,7 @@ importers:
       '@visactor/vgrammar-wordcloud': 0.4.0
       '@visactor/vgrammar-wordcloud-shape': 0.4.0
       '@visactor/vrender': 0.13.1
-      '@visactor/vrender-components': 0.13.1
+      '@visactor/vrender-components': 0.13.2-alpha.2
       '@visactor/vscale': 0.13.3
       '@visactor/vutils': 0.13.3
     devDependencies:
@@ -4013,13 +4016,13 @@ packages:
       '@visactor/vgrammar-coordinate': 0.4.0
       '@visactor/vgrammar-util': 0.4.0
       '@visactor/vrender': 0.13.1
-      '@visactor/vrender-components': 0.13.1
+      '@visactor/vrender-components': 0.13.2-alpha.2
       '@visactor/vscale': 0.13.3
       '@visactor/vutils': 0.13.3
     dev: false
 
-  /@visactor/vrender-components/0.13.1:
-    resolution: {integrity: sha512-r25hJ5WDyxeKM3z9crn/AjG5ypE/Q1xRlVyWxWCdygdFqrB0kLVt3t7VaIn28P5s0mETv6jwMsPPXoZ7IFhc/w==}
+  /@visactor/vrender-components/0.13.2-alpha.2:
+    resolution: {integrity: sha512-EyngHXBIhIKYp+u6Zv9zqqkMaNKSisv387KIRXHkpaB2NPXPRryA5W5NJK4PpSzI16CwEM8Xhy61j988ob1ZVQ==}
     dependencies:
       '@visactor/vrender': 0.13.1
       '@visactor/vscale': 0.13.3
