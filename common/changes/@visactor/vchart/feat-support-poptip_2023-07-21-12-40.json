@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(vchart): add poptip theme configuration",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
