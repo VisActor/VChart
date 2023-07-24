@@ -2,7 +2,7 @@ import { MarkTypeEnum } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { RangeColumnSeries } from './rangeColumn';
+import { RangeColumnSeries } from './range-column';
 import { VChart } from '../../core/vchart';
 import { Rect3dMark } from '../../mark/rect-3d';
 
