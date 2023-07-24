@@ -3,7 +3,27 @@ module.exports = {
   rules: {
     'not-allowed-chars': [2, 'always'],
     'header-max-length': [0, 'always', 200],
-    'header-min-length': [2, 'always', 16]
+    'header-min-length': [2, 'always', 16],
+    'type-enum': [
+      2,
+      'always',
+      [
+        'build',
+        'chore',
+        'ci',
+        'docs',
+        'feat',
+        'fix',
+        'perf',
+        'refactor',
+        'revert',
+        'style',
+        'test',
+        'wip',
+        'release',
+        'demo'
+      ]
+    ]
   },
   plugins: [
     {
