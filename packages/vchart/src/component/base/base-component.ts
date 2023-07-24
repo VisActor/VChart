@@ -84,7 +84,6 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
         getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, globalTheme, this._originalSpec)
       );
     }
-    this._theme = this._preprocessSpec(this._theme);
 
     // 将 theme merge 到 spec 中
     if (isArray(this._originalSpec)) {
@@ -92,6 +91,7 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
     } else {
       this._spec = merge({}, this._theme, this._originalSpec);
     }
+    this._preprocessSpec();
   }
 
   protected getContainer() {

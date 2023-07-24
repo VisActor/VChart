@@ -342,8 +342,8 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         inside: spec.label.inside,
         style: isFunction(spec.label.style)
           ? (datum: Datum, index: number, data: Datum[], layer?: number) => {
-              const style = spec.label.style(datum.rawValue, index, datum, data, layer);
-              return transformToGraphic(merge({}, this._theme.label?.style, style));
+              const style = this._preprocessSpec(spec.label.style(datum.rawValue, index, datum, data, layer));
+              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.label?.style, style)));
             }
           : transformToGraphic(spec.label.style),
         formatMethod: spec.label.formatMethod
@@ -368,8 +368,8 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         alignWithLabel: spec.tick.alignWithLabel,
         style: isFunction(spec.tick.style)
           ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = spec.tick.style(value, index, datum, data);
-              return transformToGraphic(merge({}, this._theme.tick?.style, style));
+              const style = this._preprocessSpec(spec.tick.style(value, index, datum, data));
+              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.tick?.style, style)));
             }
           : transformToGraphic(spec.tick.style),
         state: transformStateStyle(spec.tick.state)
