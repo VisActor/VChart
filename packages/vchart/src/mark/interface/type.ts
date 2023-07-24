@@ -9,6 +9,7 @@ export enum MarkTypeEnum {
   text = 'text',
   rect = 'rect',
   rect3d = 'rect3d',
+  image = 'image',
   path = 'path',
   area = 'area',
   arc = 'arc',
