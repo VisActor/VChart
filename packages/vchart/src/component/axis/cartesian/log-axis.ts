@@ -1,13 +1,5 @@
-import type { IEffect } from '../../../model/interface';
-import { DataView } from '@visactor/vdataset';
-import { isXAxis, TimeUtil } from './util';
-import { eachSeries, isArray, merge } from '../../../util';
-import type { ICartesianSeries } from '../../../series/interface';
 import { CartesianLinearAxis } from './linear-axis';
-import type { ICartesianTickDataOpt } from '../../../data/transforms/tick-data';
 import { ComponentTypeEnum } from '../../interface';
-import type { Datum } from '../../../typings';
-import { CompilableData } from '../../../compile/data';
 import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { LogScale } from '@visactor/vscale';
 
