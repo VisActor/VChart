@@ -50,7 +50,7 @@ export type ILayoutPercent = IPercent | number;
  * 绝对布局会只根据 chart 进行相对处理
  */
 
-type ILayoutType = 'region-relative' | 'region' | 'normal' | 'absolute';
+type ILayoutType = 'region-relative' | 'region' | 'normal' | 'absolute' | 'normal-inline';
 
 export type ILayoutOrientPadding = {
   left?: ILayoutNumber;

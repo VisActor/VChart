@@ -25,6 +25,7 @@ export class Layout implements IBaseLayout {
     // 越大越先处理，进行排序调整，利用原地排序特性，排序会受 level 和传进来的数组顺序共同影响
     items.sort((a, b) => b.layoutLevel - a.layoutLevel);
 
+    this.layoutNormalInlineItems(items.filter(x => x.layoutType === 'normal-inline'));
     this.layoutNormalItems(items.filter(x => x.layoutType === 'normal'));
 
     const layoutTemp = {
@@ -89,6 +90,130 @@ export class Layout implements IBaseLayout {
         this._bottomCurrent -= rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
       }
     });
+  }
+
+  protected layoutNormalInlineItems(normalItems: ILayoutItem[]): void {
+    const leftItems = normalItems.filter(item => item.layoutOrient === 'left');
+    const rightItems = normalItems.filter(item => item.layoutOrient === 'right');
+    const topItems = normalItems.filter(item => item.layoutOrient === 'top');
+    const bottomItems = normalItems.filter(item => item.layoutOrient === 'bottom');
+    const limitWidth = this._chartLayoutRect.width + this._chartLayoutRect.x;
+    const limitHeight = this._chartLayoutRect.height + this._chartLayoutRect.y;
+
+    // 同 normal，按照 left、top、right、bottom 的顺序进行布局
+    let maxWidth = 0;
+    let preLeft = this._leftCurrent;
+    let preTop = this._topCurrent;
+    leftItems.forEach((item, index) => {
+      const layoutRect = this.getItemComputeLayoutRect(item);
+      const rect = item.computeBoundsInRect(layoutRect);
+      item.setLayoutRect(rect);
+      const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
+      const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+      item.setLayoutStartPosition({
+        x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
+        y: preTop + item.layoutOffsetY + item.layoutPaddingTop
+      });
+
+      maxWidth = Math.max(maxWidth, itemTotalWidth);
+      preTop += itemTotalHeight;
+      if (preTop > limitHeight) {
+        preLeft += maxWidth;
+        maxWidth = itemTotalWidth;
+        preTop = this._topCurrent + itemTotalHeight;
+
+        item.setLayoutStartPosition({
+          x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
+          y: this._topCurrent + item.layoutOffsetY + item.layoutPaddingTop
+        });
+      }
+    });
+    this._leftCurrent = preLeft + maxWidth;
+
+    let maxHeight = 0;
+    preLeft = this._leftCurrent;
+    preTop = this._topCurrent;
+    topItems.forEach((item, index) => {
+      const layoutRect = this.getItemComputeLayoutRect(item);
+      const rect = item.computeBoundsInRect(layoutRect);
+      item.setLayoutRect(rect);
+      const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
+      const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+      item.setLayoutStartPosition({
+        x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
+        y: preTop + item.layoutOffsetY + item.layoutPaddingTop
+      });
+
+      maxHeight = Math.max(maxHeight, itemTotalHeight);
+      preLeft += itemTotalWidth;
+      if (preLeft > limitWidth) {
+        preLeft = this._leftCurrent + itemTotalWidth;
+        preTop += maxHeight;
+        maxHeight = itemTotalHeight;
+        item.setLayoutStartPosition({
+          x: this._leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft,
+          y: preTop + item.layoutOffsetY + item.layoutPaddingTop
+        });
+      }
+    });
+    this._topCurrent = preTop + maxHeight;
+
+    maxWidth = 0;
+    let preRight = this._rightCurrent;
+    preTop = this._topCurrent;
+    rightItems.forEach((item, index) => {
+      const layoutRect = this.getItemComputeLayoutRect(item);
+      const rect = item.computeBoundsInRect(layoutRect);
+      item.setLayoutRect(rect);
+      const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
+      const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+      item.setLayoutStartPosition({
+        x: preRight + item.layoutOffsetX - rect.width - item.layoutPaddingRight,
+        y: preTop + item.layoutOffsetY + item.layoutPaddingTop
+      });
+
+      maxWidth = Math.max(maxWidth, itemTotalWidth);
+      preTop += itemTotalHeight;
+      if (preTop > limitHeight) {
+        preRight -= maxWidth;
+        maxWidth = itemTotalWidth;
+        preTop = this._topCurrent + itemTotalHeight;
+
+        item.setLayoutStartPosition({
+          x: preRight + item.layoutOffsetX - rect.width - item.layoutPaddingRight,
+          y: this._topCurrent + item.layoutOffsetY + item.layoutPaddingTop
+        });
+      }
+    });
+    this._rightCurrent = preRight - maxWidth;
+
+    maxHeight = 0;
+    preLeft = this._leftCurrent;
+    let preBottom = this._bottomCurrent;
+    bottomItems.forEach((item, index) => {
+      const layoutRect = this.getItemComputeLayoutRect(item);
+      const rect = item.computeBoundsInRect(layoutRect);
+      item.setLayoutRect(rect);
+      const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
+      const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+      item.setLayoutStartPosition({
+        x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
+        y: preBottom + item.layoutOffsetY - rect.height - item.layoutPaddingBottom
+      });
+
+      maxHeight = Math.max(maxHeight, itemTotalHeight);
+      preLeft += itemTotalWidth;
+      if (preLeft > limitWidth) {
+        preLeft = this._leftCurrent + itemTotalWidth;
+        preBottom -= maxHeight;
+        maxHeight = itemTotalHeight;
+        item.setLayoutStartPosition({
+          x: this._leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft,
+          y: preBottom + item.layoutOffsetY - rect.height - item.layoutPaddingBottom
+        });
+      }
+    });
+    this._bottomCurrent = preBottom - maxHeight;
   }
 
   /**
