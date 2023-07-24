@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(image): support image-mark & add background attribute to fill-mark",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

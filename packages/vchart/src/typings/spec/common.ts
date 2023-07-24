@@ -1,3 +1,4 @@
+import type { IImageMarkSpec } from './../visual';
 import type { ILayoutPaddingSpec } from '../../model/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar';
@@ -514,6 +515,7 @@ export type IBuildinMarkSpec = {
   [MarkTypeEnum.text]: ITextMarkSpec;
   [MarkTypeEnum.rect]: IRectMarkSpec;
   [MarkTypeEnum.rect3d]: IRect3dMarkSpec;
+  [MarkTypeEnum.image]: IImageMarkSpec;
   [MarkTypeEnum.path]: IPathMarkSpec;
   [MarkTypeEnum.area]: IAreaMarkSpec;
   [MarkTypeEnum.arc]: IArcMarkSpec;
