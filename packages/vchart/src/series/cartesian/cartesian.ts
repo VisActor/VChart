@@ -127,7 +127,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
   getStatisticFields() {
     const fields: { key: string; operations: StatisticOperations }[] = [];
     if (this.getXAxisHelper()?.getScale) {
-      this._fieldX.forEach(f => {
+      (this._fieldX2 ? [...this._fieldX, this._fieldX2] : this._fieldX).forEach(f => {
         const result: { key: string; operations: Array<'max' | 'min' | 'values'> } = { key: f, operations: [] };
         if (isContinuous(this.getXAxisHelper().getScale(0).type)) {
           result.operations = ['max', 'min'];
@@ -138,7 +138,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       });
     }
     if (this.getYAxisHelper()?.getScale) {
-      this._fieldY.forEach(f => {
+      (this._fieldY2 ? [...this._fieldY, this._fieldY2] : this._fieldY).forEach(f => {
         const result: { key: string; operations: Array<'max' | 'min' | 'values'> } = { key: f, operations: [] };
         if (isContinuous(this.getYAxisHelper().getScale(0).type)) {
           result.operations = ['max', 'min'];
