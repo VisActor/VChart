@@ -66,8 +66,9 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
             resultObj[d[state]] = 0;
           }
           if (!isNil(valueFields[i])) {
-            // 传进来的d[yFields[i]]可能是string
-            resultObj[d[state]] += parseFloat(d[valueFields[i]]);
+            // 传进来的d[yFields[i]]可能是stringnumber
+            // 传进来的d[yFields[i]]可能是普通的字符串，这时计数按1计算（其实相当于计算数据条数）
+            resultObj[d[state]] += isNaN(parseFloat(d[valueFields[i]])) ? 1 : parseFloat(d[valueFields[i]]);
           }
         }
       });
