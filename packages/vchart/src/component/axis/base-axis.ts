@@ -20,7 +20,7 @@ import { animationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { degreeToRadian, type LooseFunction } from '@visactor/vutils';
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './utils';
-import { transformStateStyle, transformToGraphic } from '../../util/style';
+import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
 
 export abstract class AxisComponent extends BaseComponent implements IAxis {
@@ -341,10 +341,9 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         space: spec.label.space,
         inside: spec.label.inside,
         style: isFunction(spec.label.style)
-          ? (datum: Datum, index: number) => {
-              const style = this._preprocessSpec(spec.label.style(datum.rawValue, index, datum));
-
-              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.label?.style, style)));
+          ? (datum: Datum, index: number, data: Datum[], layer?: number) => {
+              const style = spec.label.style(datum.rawValue, index, datum, data, layer);
+              return transformToGraphic(merge({}, this._theme.label?.style, style));
             }
           : transformToGraphic(spec.label.style),
         formatMethod: spec.label.formatMethod
@@ -352,7 +351,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
               return spec.label.formatMethod(datum.rawValue, datum);
             }
           : null,
-        state: transformStateStyle(spec.label.state),
+        state: transformAxisLabelStateStyle(spec.label.state),
         autoRotate: !!spec.label.autoRotate,
         autoHide: !!spec.label.autoHide,
         autoLimit: !!spec.label.autoLimit,
@@ -368,10 +367,9 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         inside: spec.tick.inside,
         alignWithLabel: spec.tick.alignWithLabel,
         style: isFunction(spec.tick.style)
-          ? (datum: Datum, index: number) => {
-              const style = this._preprocessSpec(spec.tick.style(datum.rawValue, index, datum));
-
-              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.tick?.style, style)));
+          ? (value: number, index: number, datum: Datum, data: Datum[]) => {
+              const style = spec.tick.style(value, index, datum, data);
+              return transformToGraphic(merge({}, this._theme.tick?.style, style));
             }
           : transformToGraphic(spec.tick.style),
         state: transformStateStyle(spec.tick.state)
@@ -381,7 +379,12 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         length: spec.subTick.tickSize,
         inside: spec.subTick.inside,
         count: spec.subTick.tickCount,
-        style: transformToGraphic(spec.subTick.style),
+        style: isFunction(spec.subTick.style)
+          ? (value: number, index: number, datum: Datum, data: Datum[]) => {
+              const style = spec.subTick.style(value, index, datum, data);
+              return transformToGraphic(merge({}, this._theme.subTick?.style, style));
+            }
+          : transformToGraphic(spec.subTick.style),
         state: transformStateStyle(spec.subTick.state)
       },
       grid: {
@@ -392,7 +395,6 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         style: isFunction(spec.grid.style)
           ? (datum: Datum, index: number) => {
               const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
-
               return transformToGraphic(this._preprocessSpec(merge({}, this._theme.grid?.style, style)));
             }
           : transformToGraphic(spec.grid.style)
