@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: discrete legend's item's style and state style supports function",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
