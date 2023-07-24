@@ -1,6 +1,6 @@
 import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
 import { RangeColumnChart, ThemeManager } from '../../../src';
-import type { RangeColumnSeries } from '../../../src/series/range-column/rangeColumn';
+import type { RangeColumnSeries } from '../../../src/series/range-column/range-column';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';

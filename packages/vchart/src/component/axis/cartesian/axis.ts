@@ -420,7 +420,9 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
           field = s.getGroups()?.fields?.[depth];
         } else {
           if (isXAxis(this.orient)) {
-            field = (s as ICartesianSeries).fieldX;
+            field = (s as ICartesianSeries).fieldX2
+              ? [...(s as ICartesianSeries).fieldX, (s as ICartesianSeries).fieldX2]
+              : (s as ICartesianSeries).fieldX;
           } else if (isZAxis(this.orient)) {
             field = (s as ICartesianSeries).fieldZ;
           } else {
