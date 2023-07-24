@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/lark-vchart",
+      "comment": "fix(dataZoom): preview compute and theme config",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart"
+}
