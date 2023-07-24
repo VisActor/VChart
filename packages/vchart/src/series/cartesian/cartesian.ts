@@ -242,10 +242,10 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     }
 
     if (this._direction === Direction.vertical) {
-      this.setFieldY2('y1');
+      // this.setFieldY2('y1');
       this.setFieldX2(this._spec?.x2Field);
     } else {
-      this.setFieldX2('x1');
+      // this.setFieldX2('x1');
       this.setFieldY2(this._spec?.y2Field);
     }
 
