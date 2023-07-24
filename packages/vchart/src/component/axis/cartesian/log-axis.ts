@@ -2,6 +2,8 @@ import { CartesianLinearAxis } from './linear-axis';
 import { ComponentTypeEnum } from '../../interface';
 import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { LogScale } from '@visactor/vscale';
+import { mixin } from '@visactor/vutils';
+import { LogAxisMixin } from '../mixin/log-axis-mixin';
 
 export interface CartesianLogAxis
   extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
@@ -25,3 +27,5 @@ export class CartesianLogAxis extends CartesianLinearAxis {
     // do nothing
   }
 }
+
+mixin(CartesianLogAxis, LogAxisMixin);
