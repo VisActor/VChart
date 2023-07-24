@@ -90,7 +90,7 @@ export class WaterfallSeries extends BarSeries<any> {
           type: 'waterfallFillTotal',
           options: {
             indexField: this.getGroupFields()[0],
-            valueField: this.getStackValueField()[0],
+            valueField: this.getStackValueField(),
             seriesField: this.getSeriesField(),
             seriesFieldName: this._theme.seriesFieldName,
             total: this._spec.total
@@ -110,7 +110,7 @@ export class WaterfallSeries extends BarSeries<any> {
         type: 'waterfall',
         options: {
           indexField: this.getGroupFields()[0],
-          valueField: this.getStackValueField()[0],
+          valueField: this.getStackValueField(),
           seriesField: this.getSeriesField(),
           seriesFieldName: this._theme.seriesFieldName,
           startAs: STACK_FIELD_START,
