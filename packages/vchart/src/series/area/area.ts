@@ -1,3 +1,4 @@
+import { isValid, merge } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
@@ -54,6 +55,32 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
   protected _stack: boolean = true;
   protected _invalidType: IInvalidType = 'break';
 
+  setAttrFromSpec(): void {
+    super.setAttrFromSpec();
+    // merge line to area
+    const areaSpec = this._spec.area ?? {};
+    const lineSpec = this._spec.line ?? {};
+    areaSpec.visible = areaSpec.visible || lineSpec.visible;
+    areaSpec.interactive = areaSpec.interactive || lineSpec.interactive;
+    areaSpec.support3d = areaSpec.support3d || lineSpec.support3d;
+    areaSpec.zIndex =
+      isValid(areaSpec.zIndex) || isValid(lineSpec.zIndex)
+        ? Math.max(areaSpec.zIndex ?? 0, lineSpec.zIndex ?? 0)
+        : undefined;
+
+    // check which one is main
+    const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
+    const isLineVisible = this._spec.line?.visible !== false && this._spec.line?.style?.visible !== false;
+    let mainSpec = areaSpec;
+    let subSpec = lineSpec;
+    if (isLineVisible && !isAreaVisible) {
+      mainSpec = lineSpec;
+      subSpec = areaSpec;
+    }
+    areaSpec.style = merge({}, subSpec.style, mainSpec.style);
+    areaSpec.state = merge({}, subSpec.state, mainSpec.state);
+  }
+
   initMark(): void {
     const progressive = {
       progressiveStep: this._spec.progressiveStep,
@@ -72,7 +99,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
       isSeriesMark: isAreaVisible && seriesMark === 'area'
     }) as IAreaMark;
 
-    this.initLineMark(progressive, seriesMark === 'line' || (seriesMark === 'area' && !isAreaVisible));
+    // this.initLineMark(progressive, seriesMark === 'line' || (seriesMark === 'area' && !isAreaVisible));
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
@@ -124,6 +151,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
         areaMark,
         {
           fill: this.getColorAttribute(),
+          stroke: this.getColorAttribute(),
           defined: (datum: Datum) => {
             if (this._invalidType === 'break') {
               return couldBeValidNumber(datum[this.getStackValueField()]);
@@ -144,6 +172,30 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
       );
       this._trigger.registerMark(areaMark);
       this._tooltipHelper.activeTriggerSet.dimension.add(areaMark);
+
+      // change stroke to area stoke = [lineStroke,false,false,false]
+      // set value to special state
+      Object.keys(areaMark.stateStyle).forEach(state => {
+        if (areaMark.stateStyle[state].stroke) {
+          // copy this to temp
+          areaMark.stateStyle[`_temp_${state}`] = areaMark.stateStyle[`_temp_${state}`] || {};
+          areaMark.stateStyle[`_temp_${state}`].stroke = merge(
+            {},
+            { stroke: areaMark.stateStyle[state].stroke }
+          ).stroke;
+          this.setMarkStyle(
+            areaMark,
+            {
+              stroke: datum => {
+                const stroke = areaMark.getAttribute('stroke', datum, `_temp_${state}`);
+                return [stroke, false, false, false] as unknown as any;
+              }
+            },
+            state,
+            areaMark.stateStyle[state].stroke.level
+          );
+        }
+      });
     }
 
     this.initLineMarkStyle(this._direction, userCurveType);
