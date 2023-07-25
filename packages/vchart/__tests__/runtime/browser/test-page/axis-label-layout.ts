@@ -478,7 +478,8 @@ const run = () => {
     },
     {
       dom: document.getElementById('chart') as HTMLElement,
-      mode: isMobile ? 'mobile-browser' : 'desktop-browser'
+      mode: isMobile ? 'mobile-browser' : 'desktop-browser',
+      poptip: false
     }
   );
   cs2.renderAsync();
