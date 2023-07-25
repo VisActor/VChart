@@ -52,8 +52,7 @@ import {
   isFunction,
   isArray,
   mergeFields,
-  getFieldAlias,
-  convertBackgroundSpec
+  getFieldAlias
 } from '../../util';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import { Group } from './group';
@@ -77,9 +76,6 @@ import { array } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { Factory } from '../../core/factory';
-import { VChart } from '../../core/vchart';
-
-VChart.useMark([RectMark]);
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implements ISeries {
   readonly type: string = 'series';
