@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(background): support background of chart & series",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
