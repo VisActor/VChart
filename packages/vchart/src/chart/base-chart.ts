@@ -37,7 +37,7 @@ import type { IRegion } from '../region/interface';
 import { ComponentTypeEnum } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent } from '../component/interface';
-import type { IMark } from '../mark/interface';
+import { MarkTypeEnum, type IMark } from '../mark/interface';
 import type { IEvent } from '../event/interface';
 import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset/es/data-set';
@@ -52,7 +52,8 @@ import {
   array,
   isTrueBrowser,
   isString,
-  config
+  config,
+  convertBackgroundSpec
 } from '../util';
 import { Stack } from './stack';
 import { BaseModel } from '../model/base-model';
@@ -74,6 +75,7 @@ import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../constant';
 import type { IGlobalScale } from '../scale/interface';
 import { DimensionEventEnum } from '../event/events/dimension';
 import type { ITooltip } from '../component/tooltip/interface';
+import type { IRectMark } from '../mark/rect';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -172,6 +174,9 @@ export class BaseChart extends CompilableBase implements IChart {
 
   protected _canvasRect: ILayoutRect;
 
+  // background
+  protected _backgroundMark: IRectMark;
+
   constructor(spec: any, option: IChartOption) {
     super(option);
 
@@ -197,6 +202,8 @@ export class BaseChart extends CompilableBase implements IChart {
   created() {
     this.transformSpec(this._spec);
     this.createGlobalScale();
+    // background
+    this.createBackground(this._spec.background);
     // 基础内容
     this.createLayout();
     // 基于spec 创建元素。
@@ -247,6 +254,31 @@ export class BaseChart extends CompilableBase implements IChart {
   updateViewBox(viewBox: IBoundsLike) {
     this._updateLayoutRect(viewBox);
     this.setLayoutTag(true);
+  }
+
+  createBackground(bg: IChartSpec['background']) {
+    // this._regions = [];
+    if (!bg) {
+      return;
+    }
+    // if background is string, set to grammar background
+    if (typeof bg !== 'object') {
+      return;
+    }
+    this._backgroundMark = Factory.createMark(MarkTypeEnum.group, 'chart-background', {
+      model: this as any,
+      map: this._option.map,
+      getCompiler: this.getCompiler,
+      globalScale: this._globalScale
+    }) as IRectMark;
+    this._backgroundMark.created();
+    this._backgroundMark.setStyle(convertBackgroundSpec(bg));
+    this._backgroundMark.setStyle({
+      x: () => this._viewBox.x1,
+      y: () => this._viewBox.y1,
+      width: () => this._viewBox.x2 - this._viewBox.x1,
+      height: () => this._viewBox.y2 - this._viewBox.y1
+    });
   }
 
   createRegion(regionSpec: any[]) {
@@ -954,7 +986,8 @@ export class BaseChart extends CompilableBase implements IChart {
       large: spec.large,
       largeThreshold: spec.largeThreshold,
       progressiveStep: spec.progressiveStep,
-      progressiveThreshold: spec.progressiveThreshold
+      progressiveThreshold: spec.progressiveThreshold,
+      background: spec.seriesBackground
     };
     return series;
   }
@@ -1030,6 +1063,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   compile() {
+    this.compileBackground();
     this.compileLayout();
     this.compileRegions();
     this.compileSeries();
@@ -1051,6 +1085,23 @@ export class BaseChart extends CompilableBase implements IChart {
   compileLayout() {
     const { width, height } = this.getCanvasRect();
     this.getCompiler().setSize(width, height);
+  }
+
+  compileBackground() {
+    if (!this._backgroundMark) {
+      return;
+    }
+    this._backgroundMark.compile();
+    this._backgroundMark
+      .getProduct()
+      ?.configure({
+        context: {
+          model: this
+        }
+      })
+      .layout(() => {
+        // console.log('region mark layout');
+      });
   }
 
   compileRegions() {
@@ -1112,7 +1163,6 @@ export class BaseChart extends CompilableBase implements IChart {
     }
     if (model && mark.isUpdated) {
       model.bindSceneNode?.(sceneRoot.elements[0]);
-      model.setAttributeTag(true);
       return;
     }
     if (mark.markType === 'group') {

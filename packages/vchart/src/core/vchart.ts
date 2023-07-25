@@ -227,7 +227,7 @@ export class VChart implements IVChart {
     this._currentThemeName = ThemeManager.getCurrentThemeName();
     this._setSpec(spec);
     this._updateCurrentTheme();
-
+    const specBackground = typeof spec.background === 'string' ? spec.background : null;
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -238,7 +238,7 @@ export class VChart implements IVChart {
         stage,
         pluginList: poptip !== false ? ['poptipForText'] : [],
         ...restOptions,
-        background: spec.background || this._currentTheme.background || this._option.background, // spec > spec.theme > initOptions.theme
+        background: specBackground || this._currentTheme.background || this._option.background, // spec > spec.theme > initOptions.theme
         onError: this._onError
       }
     );
