@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: axis's label, tick's state style supports function",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

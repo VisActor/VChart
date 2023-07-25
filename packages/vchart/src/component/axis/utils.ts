@@ -19,9 +19,9 @@ export const DEFAULT_TITLE_STYLE = {
 };
 
 export function transformAxisLineStyle(lineCfg: any) {
-  transformComponentStyle(lineCfg);
-  transformComponentStyle(lineCfg.startSymbol);
-  transformComponentStyle(lineCfg.endSymbol);
+  lineCfg = transformComponentStyle(lineCfg);
+  lineCfg.startSymbol = transformComponentStyle(lineCfg.startSymbol);
+  lineCfg.endSymbol = transformComponentStyle(lineCfg.endSymbol);
 
   return lineCfg;
 }

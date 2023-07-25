@@ -4,7 +4,9 @@ import type { ILegendCommonSpec, NoVisibleMarkStyle } from '../interface';
 import type { StringOrNumber } from '../../../typings';
 
 export type formatterCallback = (text: StringOrNumber, item: LegendItemDatum, index: number) => any;
-
+export type LegendItemStyleValue<T> =
+  | T
+  | ((item: LegendItemDatum, isSelected: boolean, index: number, allItems: LegendItemDatum[]) => T);
 export type LegendItemStyle<T> = {
   /**
    * 样式配置
@@ -42,7 +44,7 @@ export type IItem = {
      * 是否展示图例项背景
      */
     visible?: boolean;
-  } & LegendItemStyle<NoVisibleMarkStyle<IRectMarkSpec>>;
+  } & LegendItemStyle<LegendItemStyleValue<NoVisibleMarkStyle<IRectMarkSpec>>>;
   /**
    * 图例项的 shape 图标的配置
    */
@@ -53,7 +55,7 @@ export type IItem = {
     visible?: boolean;
     /** shape 同后面 label 的间距 */
     space?: number;
-  } & LegendItemStyle<Partial<NoVisibleMarkStyle<ISymbolMarkSpec>>>;
+  } & LegendItemStyle<LegendItemStyleValue<Partial<NoVisibleMarkStyle<ISymbolMarkSpec>>>>;
   /**
    * 图例项的 label 文本配置
    */
@@ -66,7 +68,7 @@ export type IItem = {
      * 格式化文本函数
      */
     formatMethod?: formatterCallback;
-  } & LegendItemStyle<NoVisibleMarkStyle<ITextMarkSpec>>;
+  } & LegendItemStyle<LegendItemStyleValue<NoVisibleMarkStyle<ITextMarkSpec>>>;
   /**
    * 图例项 value 配置
    */
@@ -82,7 +84,7 @@ export type IItem = {
      * 格式化文本函数
      */
     formatMethod?: formatterCallback;
-  } & LegendItemStyle<NoVisibleMarkStyle<ITextMarkSpec>>;
+  } & LegendItemStyle<LegendItemStyleValue<NoVisibleMarkStyle<ITextMarkSpec>>>;
   /**
    * 聚焦按钮配置
    */

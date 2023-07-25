@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series ",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

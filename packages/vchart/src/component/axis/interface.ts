@@ -264,7 +264,7 @@ export type ILabel = IAxisItem<ITextMarkSpec> & {
    * @param datum 图形数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[];
+  formatMethod?: (text: string | string[], datum?: Datum) => string | string[];
   /** 标签同 tick 之间的间距 */
   space?: number;
   /**
@@ -359,7 +359,7 @@ export type ITitle = IAxisItem<ITextMarkSpec> & {
   state?: AxisItemStateStyle<Partial<ITextMarkSpec>>;
 };
 
-export type StyleCallback<T> = (value: any, index: number, datum: Datum) => T;
+export type StyleCallback<T> = (value: any, index: number, datum: Datum, data: Datum[]) => T;
 export type AxisType = 'linear' | 'ordinal' | 'band' | 'point' | 'time' | 'log';
 
 export interface IAxisCommonTheme {
@@ -376,5 +376,5 @@ export interface IAxisCommonTheme {
   /** 轴刻度线配置 */
   tick?: ITick;
   /** 轴刻度线配置 */
-  subTick?: ITick;
+  subTick?: ISubTick;
 }
