@@ -106,5 +106,5 @@ export interface IComponentTheme {
   /**
    * 省略文本配置
    */
-  poptip?: PopTipAttributes;
+  [ComponentTypeEnum.poptip]?: PopTipAttributes;
 }

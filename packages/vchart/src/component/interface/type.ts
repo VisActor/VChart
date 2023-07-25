@@ -29,5 +29,7 @@ export enum ComponentTypeEnum {
   label = 'label',
   brush = 'brush',
 
+  poptip = 'poptip',
+
   customMark = 'customMark'
 }
