@@ -181,6 +181,9 @@ export interface IChartSpec {
    */
   background?: string;
 
+  // TODO：后续开放，现在仍有问题
+  // poptip?: PopTipAttributes;
+
   // TODO: 补充动画配置
 }
 

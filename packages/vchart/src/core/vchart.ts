@@ -68,6 +68,7 @@ import { getContainerSize, isArray, isEmpty } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
+import { setPoptipTheme } from '@visactor/vrender-components';
 export class VChart implements IVChart {
   readonly id = createID();
 
@@ -742,6 +743,8 @@ export class VChart implements IVChart {
     } else {
       this._currentTheme = merge({}, ThemeManager.getTheme(this._currentThemeName), this._spec?.theme ?? {});
     }
+    // 设置 poptip 的主题
+    setPoptipTheme(merge({}, this._currentTheme.component?.poptip));
   }
 
   /**
