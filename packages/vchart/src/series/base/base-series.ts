@@ -52,7 +52,8 @@ import {
   isFunction,
   isArray,
   mergeFields,
-  getFieldAlias
+  getFieldAlias,
+  convertBackgroundSpec
 } from '../../util';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import { Group } from './group';
@@ -76,6 +77,9 @@ import { array } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { Factory } from '../../core/factory';
+import { VChart } from '../../core/vchart';
+
+VChart.useMark([RectMark]);
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implements ISeries {
   readonly type: string = 'series';
@@ -558,6 +562,22 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       }
     ) as IGroupMark;
     this._rootMark.setZIndex(this.layoutZIndex);
+    const backgroundSpec = convertBackgroundSpec(this._spec.background);
+    if (backgroundSpec) {
+      const backgroundMark = this._createMark(
+        { type: MarkTypeEnum.rect, name: `series_${this.type}_${this.id}_background` },
+        {
+          parent: this._rootMark,
+          dataView: false
+        }
+      ) as IRectMark;
+      backgroundMark.setZIndex(0);
+      this.setMarkStyle(backgroundMark, convertBackgroundSpec(this._spec.background));
+      this.setMarkStyle(backgroundMark, {
+        width: () => this.getLayoutRect().width,
+        height: () => this.getLayoutRect().height
+      });
+    }
   }
 
   protected _initExtensionMark() {
@@ -788,7 +808,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   onLayoutEnd(ctx: any) {
     const region = this.getRegion();
-    this.setLayoutRect(region.getLayoutRect());
+    const rect = region.getLayoutRect();
+    this.setLayoutRect(rect);
     this.setLayoutStartPosition(region.getLayoutStartPoint());
 
     super.onLayoutEnd(ctx);
