@@ -88,7 +88,7 @@ export class TTCanvas implements ITTCanvas {
           force: true, // 是否强制使用 canvas 绘制
           canvasIdLists: [`${domref.id}_draw_canvas`, `${domref.id}_tooltip_canvas`, `${domref.id}_hidden_canvas`], // canvasId 列表
           tooltipCanvasId: `${domref.id}_tooltip_canvas`, // tooltip canvasId
-          freeCanvasIdx: 1 // 自由 canvas 索引
+          freeCanvasIdx: 2 // 自由 canvas 索引
         },
         dpr: this.dpr, // Tip: 跨端环境需要手动传入 dpr
         renderCanvas: `${domref.id}_draw_canvas`, // 声明用于绘制的 canvasId

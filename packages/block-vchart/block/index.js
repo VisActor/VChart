@@ -145,9 +145,9 @@ Block({
                 modeParams: {
                   domref: domRef,
                   force: true,
-                  canvasIdLists: [`${item.id}_draw_canvas`, `${item.id}_tooltip_canvas`],
+                  canvasIdLists: [`${item.id}_draw_canvas`, `${item.id}_tooltip_canvas`, `${item.id}_hit_canvas`],
                   tooltipCanvasId: `${item.id}_tooltip_canvas`,
-                  freeCanvasIdx: 1
+                  freeCanvasIdx: 2
                 },
                 // Please ensure that dpr can be updated to the object in real time when it changes
                 dpr: this.dpr,
