@@ -28,6 +28,8 @@ export class DataZoom extends DataFilterBaseComponent {
 
   protected _backgroundSize!: number;
   protected _middleHandlerSize!: number;
+  protected _startHandlerSize!: number;
+  protected _endHandlerSize!: number;
 
   static createComponent(spec: any, options: IComponentOption) {
     const compSpec = spec.dataZoom || options.defaultSpec;
@@ -76,6 +78,10 @@ export class DataZoom extends DataFilterBaseComponent {
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
     }
+    const startHandlerVisble = this._spec.startHandler.style.visible ?? true;
+    const endHandlerVisble = this._spec.endHandler.style.visible ?? true;
+    this._startHandlerSize = startHandlerVisble ? this._spec.startHandler.style.size : 0;
+    this._endHandlerSize = endHandlerVisble ? this._spec.endHandler.style.size : 0;
   }
 
   /** LifeCycle API**/
@@ -95,17 +101,18 @@ export class DataZoom extends DataFilterBaseComponent {
   }
 
   protected _updateScaleRange() {
+    const handlerSize = (this._startHandlerSize + this._endHandlerSize) / 2;
     if (!this._stateScale || !this._valueScale) {
       return;
     }
     if (this._isHorizontal) {
-      this._stateScale.range([0, this._computeWidth()]);
+      this._stateScale.range([0, this._computeWidth() - handlerSize]);
       this._valueScale.range([this._computeHeight() - this._middleHandlerSize, 0]);
     } else if (this.layoutOrient === 'left') {
-      this._stateScale.range([0, this._computeHeight()]);
+      this._stateScale.range([0, this._computeHeight() - handlerSize]);
       this._valueScale.range([this._computeWidth() - this._middleHandlerSize, 0]);
     } else {
-      this._stateScale.range([0, this._computeHeight()]);
+      this._stateScale.range([0, this._computeHeight() - handlerSize]);
       this._valueScale.range([0, this._computeWidth() - this._middleHandlerSize]);
     }
 
@@ -155,35 +162,38 @@ export class DataZoom extends DataFilterBaseComponent {
     if (this._isHorizontal) {
       return this._backgroundSize + this._middleHandlerSize;
     }
-    return this.getLayoutRect().height;
+    return this.getLayoutRect().height - (this._startHandlerSize + this._endHandlerSize) / 2;
   }
 
   protected _dataToPositionX = (datum: Datum): number => {
     const offsetLeft = this._orient === 'left' ? this._middleHandlerSize : 0;
+    const offsetHandler = this._isHorizontal ? this._startHandlerSize / 2 : 0;
     const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
-
-    return xScale.scale(datum[this._stateField]) + this.getLayoutStartPoint().x + offsetLeft;
+    return xScale.scale(datum[this._stateField]) + this.getLayoutStartPoint().x + offsetLeft + offsetHandler;
   };
 
   protected _dataToPositionX2 = (datum: Datum): number => {
     const offsetLeft = this._orient === 'left' ? this._middleHandlerSize : 0;
+    const offsetHandler = this._isHorizontal ? this._startHandlerSize / 2 : 0;
     const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
     const min = xScale.domain()[0];
-    return xScale.scale(min) + this.getLayoutStartPoint().x + offsetLeft;
+    return xScale.scale(min) + this.getLayoutStartPoint().x + offsetLeft + offsetHandler;
   };
 
   protected _dataToPositionY = (datum: Datum): number => {
     const offsetTop = this._isHorizontal ? this._middleHandlerSize : 0;
+    const offsetHandler = this._isHorizontal ? 0 : this._startHandlerSize / 2;
     const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
 
-    return yScale.scale(datum[this._valueField]) + this.getLayoutStartPoint().y + offsetTop;
+    return yScale.scale(datum[this._valueField]) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
   };
 
   protected _dataToPositionY2 = (datum: Datum): number => {
     const offsetTop = this._isHorizontal ? this._middleHandlerSize : 0;
+    const offsetHandler = this._isHorizontal ? 0 : this._startHandlerSize / 2;
     const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
     const min = yScale.domain()[0];
-    return yScale.scale(min) + this.getLayoutStartPoint().y + offsetTop;
+    return yScale.scale(min) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
   };
 
   protected _createOrUpdateComponent() {
