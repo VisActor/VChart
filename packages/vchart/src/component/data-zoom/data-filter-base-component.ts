@@ -338,7 +338,7 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
           },
           output: {
             stateField: this._stateField,
-            valueField: hasValidateValueField ? this._valueField : null
+            valueField: this._valueField
           }
         }
       },
