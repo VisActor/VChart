@@ -808,8 +808,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   onLayoutEnd(ctx: any) {
     const region = this.getRegion();
-    const rect = region.getLayoutRect();
-    this.setLayoutRect(rect);
+    this.setLayoutRect(region.getLayoutRect());
     this.setLayoutStartPosition(region.getLayoutStartPoint());
 
     super.onLayoutEnd(ctx);
