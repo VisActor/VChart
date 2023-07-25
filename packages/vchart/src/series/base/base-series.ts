@@ -562,22 +562,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       }
     ) as IGroupMark;
     this._rootMark.setZIndex(this.layoutZIndex);
-    const backgroundSpec = convertBackgroundSpec(this._spec.background);
-    if (backgroundSpec) {
-      const backgroundMark = this._createMark(
-        { type: MarkTypeEnum.rect, name: `series_${this.type}_${this.id}_background` },
-        {
-          parent: this._rootMark,
-          dataView: false
-        }
-      ) as IRectMark;
-      backgroundMark.setZIndex(0);
-      this.setMarkStyle(backgroundMark, convertBackgroundSpec(this._spec.background));
-      this.setMarkStyle(backgroundMark, {
-        width: () => this.getLayoutRect().width,
-        height: () => this.getLayoutRect().height
-      });
-    }
   }
 
   protected _initExtensionMark() {

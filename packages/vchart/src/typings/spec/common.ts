@@ -189,10 +189,6 @@ export interface IChartSpec {
 
   // TODO：后续开放，现在仍有问题
   // poptip?: PopTipAttributes;
-  /**
-   * background of series
-   */
-  seriesBackground?: ISeriesSpec['background'];
   // TODO: 补充动画配置
 }
 
@@ -382,9 +378,11 @@ export interface ISeriesSpec extends ITriggerSpec {
   extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | IExtensionGroupMarkSpec)[];
 
   /**
-   *  style of series background
+   * series background
+   * 作用是支持系列的图形对系列背景进行 mask，或者切分等效果。不是作为背景图
+   * 暂时不开放api，避免出现break change
    */
-  background?: IBackgroundSpec;
+  // background?: IBackgroundSpec;
 }
 
 export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph'>;
