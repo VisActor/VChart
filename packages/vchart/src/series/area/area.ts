@@ -81,6 +81,32 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
     areaSpec.state = merge({}, subSpec.state, mainSpec.state);
   }
 
+  setAttrFromSpec(): void {
+    super.setAttrFromSpec();
+    // merge line to area
+    const areaSpec = this._spec.area ?? {};
+    const lineSpec = this._spec.line ?? {};
+    areaSpec.visible = areaSpec.visible || lineSpec.visible;
+    areaSpec.interactive = areaSpec.interactive || lineSpec.interactive;
+    areaSpec.support3d = areaSpec.support3d || lineSpec.support3d;
+    areaSpec.zIndex =
+      isValid(areaSpec.zIndex) || isValid(lineSpec.zIndex)
+        ? Math.max(areaSpec.zIndex ?? 0, lineSpec.zIndex ?? 0)
+        : undefined;
+
+    // check which one is main
+    const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
+    const isLineVisible = this._spec.line?.visible !== false && this._spec.line?.style?.visible !== false;
+    let mainSpec = areaSpec;
+    let subSpec = lineSpec;
+    if (isLineVisible && !isAreaVisible) {
+      mainSpec = lineSpec;
+      subSpec = areaSpec;
+    }
+    areaSpec.style = merge({}, subSpec.style, mainSpec.style);
+    areaSpec.state = merge({}, subSpec.state, mainSpec.state);
+  }
+
   initMark(): void {
     const progressive = {
       progressiveStep: this._spec.progressiveStep,
