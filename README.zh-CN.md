@@ -142,14 +142,9 @@ $ rush react
 
 ## 💫 生态
 
-| 项目                 | 介绍                       |
-| -------------------- | -------------------------- |
-<<<<<<< HEAD
-| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React for  @VisActor/VChart |
-=======
-| [智能生成组件](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React for  @VisActor/VChart |
->>>>>>> 3d516b2 (chore: add React-VChart link to  cn readme)
-
+| 项目                                                                                  | 介绍                       |
+| ------------------------------------------------------------------------------------- | -------------------------- |
+| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React for @VisActor/VChart |
 
 ## 🤝 参与贡献 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
 
