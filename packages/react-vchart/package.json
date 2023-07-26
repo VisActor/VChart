@@ -32,7 +32,6 @@
     "@visactor/vutils": "~0.13.3",
     "@visactor/vgrammar": "~0.4.1",
     "@visactor/vrender": "~0.13.4",
-    "@visactor/vrender-components": "~0.13.4",
     "react-is": "^18.2.0"
   },
   "devDependencies": {

@@ -55,7 +55,6 @@ importers:
       '@visactor/vchart': workspace:1.1.0
       '@visactor/vgrammar': ~0.4.1
       '@visactor/vrender': ~0.13.4
-      '@visactor/vrender-components': ~0.13.4
       '@visactor/vutils': ~0.13.3
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
@@ -77,7 +76,6 @@ importers:
       '@visactor/vchart': link:../vchart
       '@visactor/vgrammar': 0.4.1
       '@visactor/vrender': 0.13.4
-      '@visactor/vrender-components': 0.13.4
       '@visactor/vutils': 0.13.3
       react-is: 18.2.0
     devDependencies:
