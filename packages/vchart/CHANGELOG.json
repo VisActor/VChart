@@ -2,6 +2,280 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.1.0",
+      "tag": "@visactor/vchart_v1.1.0",
+      "date": "Wed, 26 Jul 2023 03:18:52 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "chore: sync version"
+          },
+          {
+            "comment": "chore: remove __DEV__"
+          },
+          {
+            "comment": "fix the issue that mark dimension_hover state causes error when mark visible is false"
+          },
+          {
+            "comment": "add bandwidth attribute to context that in mark function call"
+          },
+          {
+            "comment": "support discrete legend bind scale"
+          },
+          {
+            "comment": "feat: set default logger level to level error\n\n"
+          },
+          {
+            "comment": "feat(axis): axis adds `sampling` property, which is used to control whether to enable the axis sampling logic, which is enabled by default"
+          },
+          {
+            "comment": "feat(axis): add anti-overlapping logic for cartesian axis labels"
+          },
+          {
+            "comment": "feat(axis): support \\`dataFilter\\` property for axis label and tick for data filter"
+          },
+          {
+            "comment": "fix: unified borderRadius to cornerRadius"
+          },
+          {
+            "comment": "fix: not support cornerRadiusXXX anymore, use cornerRadius"
+          },
+          {
+            "comment": "feat: axis's label, tick's state style supports function"
+          },
+          {
+            "comment": "feat: discrete legend's item's style and state style supports function"
+          },
+          {
+            "comment": "feat: add a new api `convertDatumToPosition` for vchart, used for converting data to coordinate position"
+          },
+          {
+            "comment": "feat: add `convertValueToPosition` api for vchart"
+          },
+          {
+            "comment": "feat: modify function parameters to make it more user-friendly\n\n"
+          },
+          {
+            "comment": "modify api setDimensionIndex  parameters to make it more user-friendly"
+          },
+          {
+            "comment": "feat(image): support image-mark & add background attribute to fill-mark"
+          },
+          {
+            "comment": "feat: support specified of scale in vchart\n\n"
+          },
+          {
+            "comment": "support setDimensionIndex api for vchart"
+          },
+          {
+            "comment": "feat: new config of global unique tooltip"
+          },
+          {
+            "comment": "feat: add 'normal-inline' layoutType"
+          },
+          {
+            "comment": "feat(axis): band type axis support domain property"
+          },
+          {
+            "comment": "feat: add export folder unified export entry"
+          },
+          {
+            "comment": "fix: cartesianAxis and polarAxis are abstract class, should not be imported by users"
+          },
+          {
+            "comment": "refactor: series auto install mark"
+          },
+          {
+            "comment": "refactor: chart auto install series"
+          },
+          {
+            "comment": "feat: add default crosshair config for some cartesian charts"
+          },
+          {
+            "comment": "feat: spec.theme can be a string, which means a registered theme name"
+          },
+          {
+            "comment": "fix the issue that tooltip don't hide when the pointer taps the blank area in mobile mode"
+          },
+          {
+            "comment": "optimize tooltip performance"
+          },
+          {
+            "comment": "feat: optimize tooltip performance"
+          },
+          {
+            "comment": "support unity dimension tooltip of several different series"
+          },
+          {
+            "comment": "optimize tooltip style performance"
+          },
+          {
+            "comment": "fix the default shape config when tooltip pattern has been set to a custom callback"
+          },
+          {
+            "comment": "feat(map): support rewind geojson data"
+          },
+          {
+            "comment": "feat: support poptip for ellipsis text"
+          },
+          {
+            "comment": "feat(vchart): add poptip theme configuration"
+          },
+          {
+            "comment": "fix: remove deprecated maxWidth/minWidth api in tooltip"
+          },
+          {
+            "comment": "fix: pickable shoule be false if label component is configured `interactive: false`\n\n"
+          },
+          {
+            "comment": "fix region getSeries bug when option.userId = []"
+          },
+          {
+            "comment": "fix: change mark default stroke color to the series color"
+          },
+          {
+            "comment": "fix discrete legend data sorted by js object attribute order"
+          },
+          {
+            "comment": "fix(global-scale): Correctly update global-scale when updateSpec"
+          },
+          {
+            "comment": "fix: typed chart cannot enable progressive render"
+          },
+          {
+            "comment": "fix: add global-scale updateDomain on chart updateData\n\n"
+          },
+          {
+            "comment": "fix(global-scale): add global-scale updateDomain on chart updateData"
+          },
+          {
+            "comment": "fix(data): add miss params of data.parse in chart updateData"
+          },
+          {
+            "comment": "fix barWidth not work in bar chart"
+          },
+          {
+            "comment": "fix: the `type` should be a string"
+          },
+          {
+            "comment": "fix: add isReleased tag for compiler to stop the render after chart's release"
+          },
+          {
+            "comment": "fix(type): add more public methods for IAxis interface"
+          },
+          {
+            "comment": "fix(event): fix the issue that markName filter can not work in event query"
+          },
+          {
+            "comment": "fix(react-vchart): rebind event to chart after chart is re-render, fix #68\n\n"
+          },
+          {
+            "comment": "fix: compact the globalThis in non-browser env"
+          },
+          {
+            "comment": "fix: fix the bug in line chart when the xField and yField fields are the same, fixed#108"
+          },
+          {
+            "comment": "fix: the issue that mode value does not exit in trigger config"
+          },
+          {
+            "comment": "fix: delegated events on component models should not participate in bubbling"
+          },
+          {
+            "comment": "feat: delegate the events on marker component"
+          },
+          {
+            "comment": "fix: fix the issue that fieldX2 does not involved in statistics. closed#254"
+          },
+          {
+            "comment": "feat: set default crosshair configuration for radar and rose chart"
+          },
+          {
+            "comment": "fix: fix the bug that linear axis can not show crosshair"
+          },
+          {
+            "comment": "fix: the issue where the legend component is hidden but still affect the layout calculation"
+          },
+          {
+            "comment": "fix: symbol center label not work"
+          },
+          {
+            "comment": "fix(label): pickable shoule be false if label component is configured `interactive: false`"
+          },
+          {
+            "comment": "fix the layoutOffsetX|Y not work in normal items"
+          },
+          {
+            "comment": "fix: line mark has a different easing in update animation causes strange animation effect"
+          },
+          {
+            "comment": "fix: `channel` config not work in animation "
+          },
+          {
+            "comment": "No longer requires to hold down the Ctrl key for zoom interaction & fix zoomLimit bug"
+          },
+          {
+            "comment": "fix: default tooltip handler needs to adapt to the scale property"
+          },
+          {
+            "comment": "fix(vchart): export IRegionSpec from VChart"
+          },
+          {
+            "comment": "fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series "
+          },
+          {
+            "comment": "fix: compact window variable for non-browser env"
+          },
+          {
+            "comment": "fix: compact window variable for non-browser env"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "support zeroAlign & tick align in two axes"
+          },
+          {
+            "comment": "tooltip supports setting based on mark type and adaptive key"
+          },
+          {
+            "comment": "sync maxLineCount api of 3.x version."
+          },
+          {
+            "comment": "feat: tooltip supports multiline config"
+          }
+        ],
+        "none": [
+          {
+            "comment": "feat(marker): markline support autoRange and marker performance enhance"
+          },
+          {
+            "comment": "feat(brush): add operate type about 'brushStart' | 'brushEnd' and export element data of inBrush and outOfBrush"
+          },
+          {
+            "comment": "feat(marker): support interactive"
+          },
+          {
+            "comment": "fix(component): upgrade some spec"
+          },
+          {
+            "comment": "fix(dataZoom): fix bug of datazoom not clear when updateSpec and mark disappear when xField is array"
+          },
+          {
+            "comment": "fix(dataZoom): preview compute and theme config"
+          },
+          {
+            "comment": "fix(wordCloud): angle config not effect"
+          },
+          {
+            "comment": "fix(wordCloud): text clip when layoutmode is fast"
+          },
+          {
+            "comment": "fix(wordCloud): get padding from chartInstance padding"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.0",
       "tag": "@visactor/vchart_v1.0.0",
       "date": "Tue, 20 Jun 2023 11:35:37 GMT",

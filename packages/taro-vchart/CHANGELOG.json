@@ -1,23 +1,17 @@
 {
-  "name": "@visactor/react-vchart",
+  "name": "@visactor/taro-vchart",
   "entries": [
     {
       "version": "1.1.0",
-      "tag": "@visactor/react-vchart_v1.1.0",
+      "tag": "@visactor/taro-vchart_v1.1.0",
       "date": "Wed, 26 Jul 2023 03:18:52 GMT",
       "comments": {
         "patch": [
           {
+            "comment": "ready for release"
+          },
+          {
             "comment": "chore: sync version"
-          },
-          {
-            "comment": "add bandwidth attribute to context that in mark function call"
-          },
-          {
-            "comment": "support zeroAlign & tick align in two axes"
-          },
-          {
-            "comment": "support discrete legend bind scale"
           },
           {
             "comment": "feat: set default logger level to level error\n\n"
@@ -32,25 +26,16 @@
             "comment": "fix: pickable shoule be false if label component is configured `interactive: false`\n\n"
           },
           {
-            "comment": "fix region getSeries bug when option.userId = []"
-          },
-          {
             "comment": "fix: add global-scale updateDomain on chart updateData\n\n"
           },
           {
-            "comment": "fix barWidth not work in bar chart"
+            "comment": "fix: fix the freecanvasId for block-vchart lark-vchart and taro-vchart"
           },
           {
             "comment": "fix(react-vchart): rebind event to chart after chart is re-render, fix #68\n\n"
           },
           {
             "comment": "fix: the issue that mode value does not exit in trigger config"
-          },
-          {
-            "comment": "fix(react-vchart): fix type of event handlers, series, charts and components"
-          },
-          {
-            "comment": "    feat: add customized events of <Brush/> and other components"
           }
         ],
         "none": [
@@ -59,9 +44,6 @@
           },
           {
             "comment": "feat(brush): add operate type about 'brushStart' | 'brushEnd' and export element data of inBrush and outOfBrush"
-          },
-          {
-            "comment": "feat(marker): support interactive"
           },
           {
             "comment": "fix(dataZoom): fix bug of datazoom not clear when updateSpec and mark disappear when xField is array"
@@ -76,36 +58,9 @@
             "comment": "fix(wordCloud): get padding from chartInstance padding"
           }
         ],
-        "minor": [
-          {
-            "comment": "feat: optimize tooltip performance"
-          }
-        ],
         "dependency": [
           {
             "comment": "Updating dependency \"@visactor/vchart\" from `1.1.0-beta.9` to `1.1.0`"
-          }
-        ]
-      }
-    },
-    {
-      "version": "1.0.0",
-      "tag": "@visactor/react-vchart_v1.0.0",
-      "date": "Tue, 20 Jun 2023 11:35:37 GMT",
-      "comments": {
-        "major": [
-          {
-            "comment": "chore: release major version"
-          }
-        ],
-        "none": [
-          {
-            "comment": "release 0.0.1-alpha.0"
-          }
-        ],
-        "dependency": [
-          {
-            "comment": "Updating dependency \"@visactor/vchart\" from `1.0.0-alpha.0` to `1.0.0`"
           }
         ]
       }

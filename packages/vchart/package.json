@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "1.1.0-beta.9",
+  "version": "1.1.0",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -114,8 +114,8 @@
     "@visactor/vgrammar-hierarchy": "~0.4.1",
     "@visactor/vgrammar-sankey": "~0.4.1",
     "@visactor/vgrammar-util": "~0.4.1",
-    "@visactor/vrender": "~0.13.2",
-    "@visactor/vrender-components": "~0.13.2"
+    "@visactor/vrender": "~0.13.4",
+    "@visactor/vrender-components": "~0.13.4"
   },
   "publishConfig": {
     "access": "public",
