@@ -15,7 +15,7 @@ import { copyDataView } from '../../data/transforms/copy-data-view';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
 import type { ITextMark } from '../../mark/text';
-import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY } from '../../constant/index';
+import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY, DEFAULT_DATA_INDEX } from '../../constant/index';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
@@ -74,6 +74,10 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
 
     if (!geoSourceMap.get(this.map)) {
       throw new Error(`'${this.map}' data is not registered !`);
+    }
+
+    if (this._spec.nameField) {
+      this.setSeriesField(this._spec.nameField);
     }
   }
 
@@ -151,13 +155,21 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
                 datum[this._seriesField ?? DEFAULT_DATA_SERIES_FIELD]
               );
             }
-            return this._theme?.defaultFillColor;
+            return this._spec?.defaultFillColor;
           },
           path: this.getPath.bind(this)
         },
         'normal',
         AttributeLevel.Series
       );
+
+      pathMark.setPostProcess('fill', result => {
+        if (!isValid(result)) {
+          return this._spec.defaultFillColor;
+        }
+        return result;
+      });
+
       this.setMarkStyle(
         pathMark,
         {
