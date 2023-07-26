@@ -828,8 +828,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   }
 
   getSeriesInfoInField(field: string) {
-    const keys = this._rawDataStatistics.latestData[field]?.values;
-    return this._getSeriesInfo(field, keys);
+    return this._getSeriesInfo(field, this._rawDataStatistics.latestData[field]?.values ?? []);
   }
 
   getSeriesInfoList() {
