@@ -75,10 +75,6 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
     if (!geoSourceMap.get(this.map)) {
       throw new Error(`'${this.map}' data is not registered !`);
     }
-
-    if (this._spec.nameField) {
-      this.setSeriesField(this._spec.nameField);
-    }
   }
 
   // data
