@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(map): fix the issue that some map data cannot be drawn",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
