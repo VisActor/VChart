@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(map): fix the issue that defaultFillColor does not work in map",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
