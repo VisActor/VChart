@@ -144,7 +144,7 @@ $ rush react
 
 | 项目                 | 介绍                       |
 | -------------------- | -------------------------- |
-| [智能生成组件](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React for  @VisActor/VChart |
+| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React for  @VisActor/VChart |
 
 
 ## 🤝 参与贡献 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
