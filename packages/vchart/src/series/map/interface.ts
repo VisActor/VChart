@@ -16,11 +16,11 @@ export interface IMapSeriesSpec extends ISeriesSpec, IAnimationSpec<LineMarks, '
   /**
    *  名称维度
    */
-  nameField: string;
+  nameField?: string;
   /**
    *  值维度
    */
-  valueField: string;
+  valueField?: string;
   /**
    * 名称映射字段
    * @default 'name'

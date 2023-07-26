@@ -188,9 +188,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
         text: (datum: Datum) => {
           return this._getDatumName(datum);
         },
-        x: (datum: Datum) => {
-          return this.dataToPosition(datum)?.x;
-        },
+        x: (datum: Datum) => this.dataToPosition(datum)?.x,
         y: (datum: Datum) => this.dataToPosition(datum)?.y
       });
     }
@@ -213,12 +211,12 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
   }
 
   protected getPath(datum: any) {
-    const area = this._areaCache.get(datum?.properties?.[this._nameProperty]);
+    const area = this._areaCache.get(datum[DEFAULT_DATA_INDEX]);
     if (area) {
       return area.shape;
     }
     const shape = this._coordinateHelper?.shape(datum);
-    this._areaCache.set(datum?.properties?.[this._nameProperty], {
+    this._areaCache.set(datum[DEFAULT_DATA_INDEX], {
       shape
     });
     return shape;
@@ -342,7 +340,16 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
   }
 
   protected _getDatumName(datum: any): string {
-    return datum[this.nameField] ?? datum.properties?.[this.nameField] ?? '';
+    if (datum[this.nameField]) {
+      return datum[this.nameField];
+    }
+    if (datum.properties?.[this._nameProperty]) {
+      if (this._spec.nameMap) {
+        return this._spec.nameMap[datum.properties[this._nameProperty]] ?? '';
+      }
+      return datum.properties[this._nameProperty] ?? '';
+    }
+    return '';
   }
 
   dataToPositionX(data: any): number {
@@ -359,6 +366,6 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
   }
 
   protected _getDataIdKey() {
-    return (datum: Datum) => datum?.properties?.[this._nameProperty] as string;
+    return DEFAULT_DATA_INDEX;
   }
 }
