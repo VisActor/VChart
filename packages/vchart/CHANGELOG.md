@@ -105,11 +105,11 @@ Wed, 26 Jul 2023 03:18:52 GMT
 - fix(label): pickable shoule be false if label component is configured `interactive: false`
 - fix the layoutOffsetX|Y not work in normal items
 - fix: line mark has a different easing in update animation causes strange animation effect
-- fix: `channel` config not work in animation 
+- fix: `channel` config not work in animation
 - No longer requires to hold down the Ctrl key for zoom interaction & fix zoomLimit bug
 - fix: default tooltip handler needs to adapt to the scale property
 - fix(vchart): export IRegionSpec from VChart
-- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series 
+- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series
 - fix: compact window variable for non-browser env
 - fix: compact window variable for non-browser env
 
