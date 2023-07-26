@@ -144,7 +144,7 @@ $ rush react
 
 | Project                         | Description                   |
 | ------------------------------- | ----------------------------- |
-| [React-VChart]([todo](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart)) | React interface for @VisActor/VChart |
+| [React-VChart]((https://github.com/VisActor/VChart/tree/develop/packages/react-vchart)) | React interface for @VisActor/VChart |
 
 
 
