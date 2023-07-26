@@ -211,6 +211,12 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     });
   }
 
+  setPostProcess<U extends keyof T>(key: U, postProcessFunc: any, state: StateValueType = 'normal') {
+    if (this.stateStyle[state]?.[key]) {
+      this.stateStyle[state][key].postProcess = postProcessFunc;
+    }
+  }
+
   getAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType = 'normal', opt?: IAttributeOpt) {
     return this._computeAttribute(key, datum, state, opt);
   }
@@ -245,6 +251,8 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       if (attr in this._extensionChannel) {
         this._extensionChannel[attr].forEach(key => {
           if (stateStyle[state][key] === undefined) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             stateStyle[state][key as keyof T] = stateStyle.normal[key];
           }
         });
@@ -296,11 +304,16 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   }
 
   protected _computeAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType, opt: IAttributeOpt) {
-    let baseValue;
+    let stateStyle;
     if (!this.stateStyle[state]?.[key]) {
-      baseValue = this._computeStateAttribute(this.stateStyle.normal[key], key, datum, state, opt);
+      stateStyle = this.stateStyle.normal[key];
     } else {
-      baseValue = this._computeStateAttribute(this.stateStyle[state][key], key, datum, state, opt);
+      stateStyle = this.stateStyle[state][key];
+    }
+    let baseValue = this._computeStateAttribute(stateStyle, key, datum, state, opt);
+
+    if (isFunction(stateStyle?.postProcess)) {
+      baseValue = stateStyle.postProcess(baseValue, datum, this._attributeContext, opt, this.getDataView());
     }
     // add effect to base
     if (key in this._computeExChannel) {
