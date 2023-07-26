@@ -136,6 +136,9 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
 
     if (this._spec.label?.visible) {
       this._labelMark = this._createMark(MapSeries.mark.label, {
+        // map zoom/scale need to be transformed in path.group
+        // so label mark cannot be in the same groupMark
+        parent: this.getRegion().getGroupMark(),
         skipBeforeLayouted: true,
         dataView: this._mapViewData.getDataView(),
         dataProductId: this._mapViewData.getProductId()
@@ -272,10 +275,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       const elements = vGrammarMark.elements;
 
       if (mark.type === MarkTypeEnum.path) {
-        elements.forEach((el: IElement) => {
-          const graphicItem = el.getGraphicItem();
-          graphicItem.scale(scale, scale, scaleCenter);
-        });
+        vGrammarMark.group.getGroupGraphicItem().scale(scale, scale, scaleCenter);
       } else {
         // label Mark 的定位，需要通过 dataToPosition 来计算
         elements.forEach((el: IElement) => {
@@ -305,10 +305,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       const elements = vGrammarMark.elements;
 
       if (mark.type === MarkTypeEnum.path) {
-        elements.forEach((el: IElement) => {
-          const graphicItem = el.getGraphicItem();
-          graphicItem.translate(delta[0], delta[1]);
-        });
+        vGrammarMark.group.getGroupGraphicItem().translate(delta[0], delta[1]);
       } else {
         // label Mark 的定位，需要通过 dataToPosition 来计算
         elements.forEach((el: IElement, i: number) => {
