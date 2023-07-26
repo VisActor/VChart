@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(map): fix the issue of misalignment of the map after interaction with legend",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
