@@ -10,7 +10,7 @@ import type {
 } from '../../interface';
 import type { IChart } from '../../../chart/interface';
 import type { IDimensionInfo } from './interface';
-import { getCartesianDimensionInfo, getDimensionInfoInAxis, getPolarDimensionInfo } from './util';
+import { getCartesianDimensionInfo, getDimensionInfoByValue, getPolarDimensionInfo } from './util';
 import type { Maybe } from '../../../typings';
 import { isDiscrete } from '@visactor/vscale';
 
@@ -65,7 +65,7 @@ export class DimensionEvent implements IComposedEvent {
     }) as IAxis[];
     const dimensionInfo: IDimensionInfo[] = [];
     axis.forEach(a => {
-      const info = getDimensionInfoInAxis(a as unknown as any, v);
+      const info = getDimensionInfoByValue(a as unknown as any, v);
       if (info) {
         dimensionInfo.push(info);
       }
