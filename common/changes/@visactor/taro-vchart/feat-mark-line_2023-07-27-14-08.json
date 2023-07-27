@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/taro-vchart",
+      "comment": "feat(marker): marker support formatMethod",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart"
+}

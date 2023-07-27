@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/lark-vchart",
+      "comment": "feat(marker): marker support formatMethod",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart"
+}
