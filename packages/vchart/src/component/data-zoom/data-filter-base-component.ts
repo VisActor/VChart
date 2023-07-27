@@ -15,24 +15,32 @@ import { BandScale, isContinuous } from '@visactor/vscale';
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
-import type { CartesianAxis } from '../axis/cartesian';
+import type { CartesianAxis, CartesianBandAxis } from '../axis/cartesian';
 import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { mixin, clamp, isNil } from '@visactor/vutils';
-import type { IDataFilterComponent } from './interface';
+import { mixin, clamp, isNil, throttle } from '@visactor/vutils';
+import type { IDataFilterComponent, IDataFilterComponentSpec } from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../compile/data';
 import type { BaseEventParams } from '../../event/interface';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 // eslint-disable-next-line no-duplicate-imports
 import { Zoomable } from '../../interaction/zoom/zoomable';
+import type { AbstractComponent } from '@visactor/vrender-components';
 
 export abstract class DataFilterBaseComponent extends BaseComponent implements IDataFilterComponent {
   layoutType: LayoutItem['layoutType'] = 'region-relative';
 
+  protected declare _spec: IDataFilterComponentSpec;
+
+  protected _component: AbstractComponent;
+
   protected _orient: IOrientType = 'left';
   protected _isHorizontal: boolean;
+
+  // 是否为自动模式
+  protected _auto?: boolean;
 
   get orient() {
     return this._orient;
@@ -96,6 +104,7 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
     onZoomChange: () => {
       if (this._relatedAxisComponent && this._spec.filterMode === 'axis') {
         const scale = (this._relatedAxisComponent as CartesianAxis).getScale();
+        //debugger;
         (scale as any).rangeFactor(this._isHorizontal ? [this._start, this._end] : [1 - this._end, 1 - this._start]);
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
@@ -175,6 +184,10 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
 
         this._relatedAxisComponent = bandAxis;
       }
+    }
+
+    if (this._relatedAxisComponent && this._spec.auto) {
+      (this._relatedAxisComponent as CartesianBandAxis).setAutoDataFilterComponent(this);
     }
   }
 
@@ -396,6 +409,8 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
   }
 
   protected _setStateFromSpec() {
+    this._auto = !!this._spec.auto;
+
     let start;
     let end;
     if (this._spec.rangeMode) {
@@ -436,12 +451,14 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
       const isContinuousScale = isContinuous(scale.type);
       const domain = this._computeDomainOfStateScale(isContinuousScale);
 
-      this._stateScale = scale.clone();
       if (isContinuousScale) {
+        this._stateScale = scale.clone();
         this._stateScale
           .domain(domain.length ? [Math.min.apply(null, domain), Math.max.apply(null, domain)] : [0, 1], true)
           .range(defaultRange);
       } else {
+        (this._relatedAxisComponent as CartesianBandAxis).updateFixedWholeLength();
+        this._stateScale = scale.clone();
         this._stateScale.domain(domain, true).range(defaultRange);
       }
     } else {
@@ -535,7 +552,15 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
     return allDomain.slice(Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
   }
 
-  protected _handleStateChange = (startValue: number, endValue: number) => {
+  protected _handleStateChange = throttle((start: number, end: number, startValue: number, endValue: number) => {
+    this._start = start;
+    this._end = end;
+
+    const valueChanged = startValue !== this._startValue || endValue !== this._endValue;
+
+    if (this._spec.filterMode !== 'axis' && !valueChanged) {
+      return false;
+    }
     this._startValue = startValue;
     this._endValue = endValue;
 
@@ -543,7 +568,7 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
 
     this.effect.onZoomChange?.();
     return true;
-  };
+  }, 30);
 
   protected _handleChartScroll = (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => {
     this._handleChartDrag([params.scrollX, params.scrollY], e);
@@ -623,6 +648,14 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
       result.y2 = result.y1 + rect.height;
     }
     return result;
+  }
+
+  hide() {
+    this._component?.hideAll();
+  }
+
+  show() {
+    this._component?.showAll();
   }
 
   clear() {

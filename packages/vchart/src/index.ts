@@ -9,10 +9,9 @@ export * from './series';
 export * from './mark';
 export * from './component';
 export * from './layout';
-/**
- * spec
- */
-export * from './typings/spec/index';
+
+// type
+export * from './typings';
 
 // theme
 export { ThemeManager } from './theme/index';

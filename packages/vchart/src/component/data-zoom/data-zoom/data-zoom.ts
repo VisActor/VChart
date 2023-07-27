@@ -12,17 +12,20 @@ import type { ILinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
+import type { IDataZoomSpec } from '../..';
 
 export class DataZoom extends DataFilterBaseComponent {
   static type = ComponentTypeEnum.dataZoom;
   type = ComponentTypeEnum.dataZoom;
   name: string = ComponentTypeEnum.dataZoom;
 
+  protected declare _spec: IDataZoomSpec;
+
   layoutZIndex: number = LayoutZIndex.DataZoom;
   layoutLevel: number = LayoutLevel.DataZoom;
 
   // datazoom组件
-  protected _component!: DataZoomComponent;
+  protected declare _component: DataZoomComponent;
 
   protected _valueScale!: ILinearScale;
 
@@ -242,9 +245,7 @@ export class DataZoom extends DataFilterBaseComponent {
       this._component.setStartAndEnd(start, end);
     }
 
-    this._start = start;
-    this._end = end;
-    const hasChange = this._handleStateChange(this._statePointToData(start), this._statePointToData(end));
+    const hasChange = this._handleStateChange(start, end, this._statePointToData(start), this._statePointToData(end));
     if (hasChange) {
       this.event.emit(ChartEvent.dataZoomChange, {
         model: this,

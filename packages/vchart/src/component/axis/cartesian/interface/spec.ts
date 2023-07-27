@@ -77,7 +77,12 @@ export type ICartesianLinearAxisSpec = ICartesianAxisCommonSpec &
     sync?: ILinearAxisSync;
   };
 
-export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec & IBandAxisSpec;
+export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec &
+  IBandAxisSpec & {
+    bandSize?: number;
+    bandMaxSize?: number;
+    bandMinSize?: number;
+  };
 
 export type ICartesianTimeAxisSpec = Omit<ICartesianAxisCommonSpec, 'inverse'> & {
   /**

@@ -10,17 +10,20 @@ import { transformToGraphic } from '../../../util/style';
 import type { IRectGraphicAttribute, INode } from '@visactor/vrender';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
+import type { IScrollBarSpec } from './interface';
 
 export class ScrollBar extends DataFilterBaseComponent {
   static type = ComponentTypeEnum.scrollBar;
   type = ComponentTypeEnum.scrollBar;
   name: string = ComponentTypeEnum.scrollBar;
 
+  protected declare _spec: IScrollBarSpec;
+
   layoutZIndex: number = LayoutZIndex.DataZoom;
   layoutLevel: number = LayoutLevel.DataZoom;
 
   // datazoom组件
-  protected _component!: ScrollBarComponent;
+  protected declare _component: ScrollBarComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
     const compSpec = spec.scrollBar || options.defaultSpec;
@@ -102,9 +105,7 @@ export class ScrollBar extends DataFilterBaseComponent {
       this._component.setAttribute('range', [start, end]);
     }
 
-    this._start = start;
-    this._end = end;
-    const hasChange = this._handleStateChange(this._statePointToData(start), this._statePointToData(end));
+    const hasChange = this._handleStateChange(start, end, this._statePointToData(start), this._statePointToData(end));
     if (hasChange) {
       this.event.emit(ChartEvent.scrollBarChange, {
         model: this,
