@@ -324,8 +324,7 @@ export class VChart implements IVChart {
     if (!this._compiler || this._compiler.isReleased) {
       return;
     }
-    // TODO: 这里有问题， VGrammar 的动画事件会触发多次，待修复 https://github.com/VisActor/VGrammar/issues/72
-    this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ANIMATION_END, () => {
+    this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
       this._event.emit(ChartEvent.animationEnd, {});
     });
     this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
