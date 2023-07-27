@@ -1,21 +1,24 @@
-export { AreaChart } from './AreaChart'
-export { BarChart } from './BarChart'
-export { LineChart } from './LineChart'
-export { ScatterChart } from './ScatterChart'
+export * from './AreaChart';
+export * from './BarChart';
+export * from './LineChart';
+export * from './ScatterChart';
 
-export { PieChart } from './PieChart'
-export { RoseChart } from './RoseChart'
+export * from './PieChart';
+export * from './RoseChart';
 
-export { RadarChart } from './RadarChart'
+export * from './RadarChart';
 
-export { MapChart } from './MapChart'
-export { HistogramChart } from './HistogramChart'
-export { WordCloudChart } from './WordCloudChart'
-export { FunnelChart } from './FunnelChart'
-export { BoxPlotChart } from './BoxPlotChart'
+export * from './MapChart';
+export * from './HistogramChart';
+export * from './WordCloudChart';
+export * from './FunnelChart';
+export * from './BoxPlotChart';
 
-export { CircularProgressChart } from './CircularProgressChart'
-export { LinearProgressChart } from './LinearProgressChart'
-export { RangeColumnChart } from './RangeColumnChart'
+export * from './CircularProgressChart';
+export * from './LinearProgressChart';
+export * from './RangeColumnChart';
 
-export { CommonChart } from './CommonChart'
+export * from './CommonChart';
+
+export type { ChartOptions } from './BaseChart';
+export type { IData, IChartSpec } from '@visactor/vchart';
