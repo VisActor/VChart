@@ -27,7 +27,7 @@
     "graphics",
     "interaction"
   ],
-  "homepage": "",
+  "homepage": "https://www.visactor.io/vchart",
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
@@ -36,7 +36,7 @@
   },
   "author": {
     "name": "VisActor",
-    "url": "https://VisActor.io/"
+    "url": "https://www.visactor.io/"
   },
   "license": "MIT",
   "dependencies": {
