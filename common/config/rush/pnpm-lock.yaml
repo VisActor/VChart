@@ -87,7 +87,7 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 20.4.5
       '@types/offscreencanvas': 2019.6.4
-      '@types/react': 18.2.16
+      '@types/react': 18.2.17
       '@types/react-dom': 18.2.7
       '@types/react-is': 17.0.4
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
@@ -171,7 +171,7 @@ importers:
       '@tarojs/runtime': 3.3.17
       '@tarojs/taro': 3.3.17
       '@tarojs/webpack-runner': 3.3.17
-      '@types/react': 18.2.16
+      '@types/react': 18.2.17
       '@types/webpack-env': 1.18.1
       '@typescript-eslint/eslint-plugin': 5.30.0_cow5zg7tx6c3eisi5a4ud5kwia
       '@typescript-eslint/parser': 5.30.0_vwud3sodsb5zxmzckoj7rdwdbq
@@ -3657,7 +3657,7 @@ packages:
   /@types/react-dom/18.2.7:
     resolution: {integrity: sha512-GRaAEriuT4zp9N4p1i8BDBYmEyfo+xQ3yHjJU4eiK5NDa1RmUZG+unZABUTK4/Ox/M+GaHwb6Ow8rUITrtjszA==}
     dependencies:
-      '@types/react': 18.2.16
+      '@types/react': 18.2.17
     dev: true
 
   /@types/react-is/17.0.4:
@@ -3674,8 +3674,8 @@ packages:
       csstype: 3.1.2
     dev: true
 
-  /@types/react/18.2.16:
-    resolution: {integrity: sha512-LLFWr12ZhBJ4YVw7neWLe6Pk7Ey5R9OCydfuMsz1L8bZxzaawJj2p06Q8/EFEHDeTBQNFLF62X+CG7B2zIyu0Q==}
+  /@types/react/18.2.17:
+    resolution: {integrity: sha512-u+e7OlgPPh+aryjOm5UJMX32OvB2E3QASOAqVMY6Ahs90djagxwv2ya0IctglNbNTexC12qCSMZG47KPfy1hAA==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
@@ -6067,7 +6067,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001517
-      electron-to-chromium: 1.4.471
+      electron-to-chromium: 1.4.472
     dev: true
 
   /browserslist/4.21.9:
@@ -6076,7 +6076,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001517
-      electron-to-chromium: 1.4.471
+      electron-to-chromium: 1.4.472
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11_browserslist@4.21.9
 
@@ -8198,8 +8198,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.471:
-    resolution: {integrity: sha512-GpmGRC1vTl60w/k6YpQ18pSiqnmr0j3un//5TV1idPi6aheNfkT1Ye71tMEabWyNDO6sBMgAR+95Eb0eUUr1tA==}
+  /electron-to-chromium/1.4.472:
+    resolution: {integrity: sha512-JL+vQaO4/3mnE68YLaO6tS61YFTlQp8/9JJj1kMP0CL9GHjLYt8t3T0aA3sW3PvdiXjnVeaZ6Kf0mGtt9+2j+Q==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
@@ -14236,7 +14236,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.5
+      minimist: 1.2.8
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -16599,7 +16599,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.5
+      minimist: 1.2.8
       strip-json-comments: 2.0.1
     dev: true
 
