@@ -325,7 +325,7 @@ export class VChart implements IVChart {
       return;
     }
     this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
-      this._event.emit(ChartEvent.animationEnd, {});
+      this._event.emit(ChartEvent.animationFinished, {});
     });
     this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
       this._event.emit(ChartEvent.renderFinished, {});
