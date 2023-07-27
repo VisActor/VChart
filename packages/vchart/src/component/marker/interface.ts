@@ -53,7 +53,7 @@ export type IMarkerLabelSpec = {
    * @param datum marker组件聚合或回归计算后的数据值
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: number | number[] | string | string[], datum?: any) => string | string[];
+  formatMethod?: (text: number | number[] | string | string[], datum?: any) => string;
   /**
    * label文本 - 文本样式
    */
