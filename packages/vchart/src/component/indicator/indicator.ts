@@ -241,6 +241,7 @@ export class Indicator extends BaseComponent implements IIndicator {
       this._container.removeChild(this._indicatorComponent as unknown as INode);
       this._indicatorComponent = null;
     }
+    this._cacheAttrs = null;
     super.clear();
   }
 }
