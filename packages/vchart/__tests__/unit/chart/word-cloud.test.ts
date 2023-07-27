@@ -122,7 +122,7 @@ describe('wordCloud chart test', () => {
     // expect(dataResult.filter(d => d.x && d.y).length).toBe(33); // 实际绘制单词总数
     // expect(dataResult[1].x).toBe(173);
     // expect(dataResult[1].y).toBe(238);
-    expect(dataResult[1].fontFamily).toBe('sans-serif');
+    expect(dataResult[1].fontFamily).toBeUndefined();
     expect(dataResult[1].fontSize).toBe(37);
     expect(dataResult[1].fontStyle).toBe('normal');
     expect(dataResult[1].fontWeight).toBe(440.94488188976374);
