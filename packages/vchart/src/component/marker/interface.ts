@@ -117,11 +117,12 @@ export interface IMarkerSpec extends IModelSpec {
   /**
    * marker组件是否自动拓展轴范围
    * @default false
+   * @since 1.1.0
    */
   autoRange?: boolean;
 }
 
-export type IMarkerSymbol = {
+export interface IMarkerSymbol extends IMarkerRef {
   /** 是否展示 symbol */
   visible: boolean;
   /**
@@ -133,4 +134,4 @@ export type IMarkerSymbol = {
    */
   size?: number;
   style?: Omit<ISymbolMarkSpec, 'visible'>;
-} & IMarkerRef;
+}
