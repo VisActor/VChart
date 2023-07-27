@@ -81,6 +81,7 @@ export class MarkLine extends BaseMarker implements IMarkLine {
       },
       label: {
         ...this._spec.label,
+        formatMethod: null,
         padding: this._spec.label?.labelBackground?.padding,
         shape: {
           ...transformToGraphic(this._spec.label?.shape),
@@ -127,8 +128,15 @@ export class MarkLine extends BaseMarker implements IMarkLine {
     } else if (isPositionLayout) {
       points = spec.positions;
     }
+
+    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+
     this._markerComponent?.setAttributes({
-      points: points
+      points: points,
+      label: {
+        ...this._markerComponent.attribute?.label,
+        formatMethod: this._spec.label.formatMethod ? text => this._spec.label.formatMethod(text, dataPoints) : null
+      }
     });
   }
 

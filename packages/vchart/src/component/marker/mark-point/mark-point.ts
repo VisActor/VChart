@@ -63,6 +63,7 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
         imageStyle: this._spec.itemContent?.image?.style,
         textStyle: {
           ...this._spec.itemContent?.text,
+          formatMethod: null,
           padding: this._spec.itemContent?.text?.labelBackground?.padding,
           shape: {
             ...transformToGraphic(this._spec.itemContent?.text?.shape),
@@ -98,8 +99,20 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
     } else if (isPositionLayout) {
       point = spec.position;
     }
+
+    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+
     this._markerComponent?.setAttributes({
-      position: point
+      position: point,
+      itemContent: {
+        ...this._markerComponent.attribute?.itemContent,
+        textStyle: {
+          ...this._markerComponent.attribute?.itemContent?.textStyle,
+          formatMethod: this._spec.itemContent.text?.formatMethod
+            ? text => this._spec.itemContent.text.formatMethod(text, dataPoints)
+            : null
+        }
+      }
     });
   }
 
