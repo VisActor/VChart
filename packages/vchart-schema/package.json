@@ -27,6 +27,18 @@
     "ts-jest": "^26.0.0",
     "@types/semver": "7.3.12"
   },
+  "homepage": "",
+  "bugs": "https://github.com/VisActor/VChart/issues",
+  "repository": {
+    "type": "git",
+    "url": "GitHub - VisActor/VChart: The chart library for web and multi-platform",
+    "directory": "packages/vchart-schema"
+  },
+  "author": {
+    "name": "VisActor",
+    "url": "https://www.visactor.io/"
+  },
+  "license": "MIT",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
