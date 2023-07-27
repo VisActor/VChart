@@ -29,7 +29,9 @@ export class MapChart extends BaseChart {
 
       nameProperty: spec.nameProperty,
       nameMap: spec.nameMap,
-      area: spec.area
+      area: spec.area,
+
+      defaultFillColor: spec.defaultFillColor
     };
 
     return series;
