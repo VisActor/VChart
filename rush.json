@@ -48,8 +48,19 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@visactor/vchart-schema",
+      "projectFolder": "packages/vchart-schema",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@internal/bundler",
       "projectFolder": "tools/bundler",
+      "tags": ["tool"],
+      "shouldPublish": false
+    },
+    {
+      "packageName": "@internal/typescript-json-schema",
+      "projectFolder": "tools/typescript-json-schema",
       "tags": ["tool"],
       "shouldPublish": false
     },
