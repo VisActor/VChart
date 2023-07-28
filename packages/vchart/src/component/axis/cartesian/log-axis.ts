@@ -1,6 +1,6 @@
 import { CartesianLinearAxis } from './linear-axis';
 import { ComponentTypeEnum } from '../../interface';
-import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
+import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { LogScale } from '@visactor/vscale';
 import { mixin } from '@visactor/vutils';
 import { LogAxisMixin } from '../mixin/log-axis-mixin';
@@ -18,9 +18,12 @@ export class CartesianLogAxis extends CartesianLinearAxis {
   protected _scale: LogScale = new LogScale();
   protected declare _scales: LogScale[];
 
-  protected _initData() {
+  /**
+   * @override
+   */
+  protected initScales() {
+    super.initScales();
     this._scale.base(this._spec.base ?? 10);
-    super._initData();
   }
 
   transformScaleDomain() {
@@ -28,4 +31,4 @@ export class CartesianLogAxis extends CartesianLinearAxis {
   }
 }
 
-mixin(CartesianLogAxis, LogAxisMixin);
+mixin(CartesianLogAxis, LinearAxisMixin);
