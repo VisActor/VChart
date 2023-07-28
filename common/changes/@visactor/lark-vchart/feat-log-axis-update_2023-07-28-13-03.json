@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/lark-vchart",
+      "comment": "feat(logAxis): add logAxis",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart"
+}

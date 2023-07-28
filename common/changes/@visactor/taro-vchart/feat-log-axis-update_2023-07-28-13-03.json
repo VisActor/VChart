@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/taro-vchart",
+      "comment": "feat(logAxis): add logAxis",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart"
+}

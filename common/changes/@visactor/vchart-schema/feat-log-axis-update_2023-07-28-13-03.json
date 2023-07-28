@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart-schema",
+      "comment": "feat(logAxis): add logAxis",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart-schema"
+}
