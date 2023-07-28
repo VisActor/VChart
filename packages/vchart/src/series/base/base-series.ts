@@ -698,7 +698,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     this._rawDataStatistics?.reRunAllTransform();
     this.setSeriesField(this._spec.seriesField);
 
-    let animationThreshold = this._spec.animationThreshold;
+    let animationThreshold = this._spec.animationThreshold ?? Number.MAX_SAFE_INTEGER;
     // set mark stroke color follow series color
     // only set normal state in the level lower than level Series
     this.getMarks().forEach(m => {
