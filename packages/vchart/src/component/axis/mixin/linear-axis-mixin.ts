@@ -67,7 +67,7 @@ export class LinearAxisMixin {
   }
 
   setScaleNice() {
-    if (this._scale.type === 'log') {
+    if (this._spec.type === 'log') {
       this.setLogScaleNice();
     } else {
       this.setLinearScaleNice();
