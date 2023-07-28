@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(vchart): fix the problem of default logLevel not sync to vgrammar",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
