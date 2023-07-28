@@ -3,7 +3,7 @@
     {
       "packageName": "@visactor/lark-vchart",
       "comment": "",
-      "type": "none"
+      "type": "patch"
     }
   ],
   "packageName": "@visactor/lark-vchart"
