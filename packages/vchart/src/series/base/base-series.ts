@@ -716,7 +716,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       }
     });
     // auto close animation
-    if (this._rawData.latestData.length >= animationThreshold) {
+    if (this._rawData?.latestData?.length >= animationThreshold) {
       this._spec.animation = false;
     }
   }
