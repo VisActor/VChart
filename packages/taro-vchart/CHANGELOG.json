@@ -2,6 +2,18 @@
   "name": "@visactor/taro-vchart",
   "entries": [
     {
+      "version": "1.1.1",
+      "tag": "@visactor/taro-vchart_v1.1.1",
+      "date": "Fri, 28 Jul 2023 08:52:08 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@visactor/vchart\" from `1.1.0` to `1.1.1`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.0",
       "tag": "@visactor/taro-vchart_v1.1.0",
       "date": "Wed, 26 Jul 2023 03:18:52 GMT",

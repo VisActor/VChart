@@ -2,6 +2,33 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.1.1",
+      "tag": "@visactor/vchart_v1.1.1",
+      "date": "Fri, 28 Jul 2023 08:52:08 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "feat(logger): support static api `getLogger` in vchart class"
+          },
+          {
+            "comment": "fix(vchart): fix the problem of default logLevel not sync to vgrammar"
+          },
+          {
+            "comment": "fix(map): fix the issue that some map data cannot be drawn"
+          },
+          {
+            "comment": "fix(map): fix the issue of misalignment of the map after interaction with legend"
+          },
+          {
+            "comment": "fix(indicator): add `specKey` for Indicator to fix the issue that the indicator text does not display after the update, close#251"
+          },
+          {
+            "comment": "fix(map): fix the issue that defaultFillColor does not work in map"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.0",
       "tag": "@visactor/vchart_v1.1.0",
       "date": "Wed, 26 Jul 2023 03:18:52 GMT",
