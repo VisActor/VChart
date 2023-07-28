@@ -151,11 +151,6 @@ export class VChart implements IVChart {
     InstanceManager.forEach(instance => instance?.hideTooltip?.(), excludeId);
   }
 
-  /** 获取 Logger */
-  static getLogger(): ILogger {
-    return Logger.getInstance();
-  }
-
   /** 图表实例管理器 */
   static readonly InstanceManager = InstanceManager;
   /** 主题管理器 */
