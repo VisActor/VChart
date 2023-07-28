@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(map): fix the issue that some map data cannot be drawn",
+      "comment": "fix(label): fix the issue that the update of label visible fails to take effect with updateSpec",
       "type": "patch"
     }
   ],
