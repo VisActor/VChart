@@ -51,7 +51,7 @@ export class Indicator extends BaseComponent implements IIndicator {
     const indicatorSpec = spec.indicator || options.defaultSpec;
     const indicators: IIndicator[] = array(indicatorSpec)
       .filter(s => s && s.visible !== false)
-      .map((s, index) => new Indicator(s, { ...options, specIndex: index, specKey: Indicator.speckey }));
+      .map(s => new Indicator(s, options));
     return indicators;
   }
 

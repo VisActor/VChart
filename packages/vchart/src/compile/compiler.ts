@@ -15,7 +15,7 @@ import { toRenderMode } from './util';
 import { isMobileLikeMode, isString, isTrueBrowser } from '../util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
+import { isNil, isValid } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import type { VChart } from '../core/vchart';
@@ -118,8 +118,7 @@ export class Compiler {
       },
       doLayout: () => {
         this._compileChart?.onLayout(this._view);
-      },
-      logLevel: Logger.getInstance().level() as number
+      }
     });
     this._setCanvasStyle();
 
