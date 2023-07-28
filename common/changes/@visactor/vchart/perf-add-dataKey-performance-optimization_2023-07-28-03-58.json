@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "perf(data): add animationThreshold configuration to support automatically close animationa when the amount of data is large' ",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

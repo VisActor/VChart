@@ -20,5 +20,6 @@ export const lightTheme: ITheme = {
   mark: markByType,
   markByName,
   series,
-  component
+  component,
+  animationThreshold: 2000
 };

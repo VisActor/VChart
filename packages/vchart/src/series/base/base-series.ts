@@ -255,10 +255,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     this._initExtensionMark();
     this.initMarkStyle();
     this.initMarkState();
+    this.afterInitMark();
     if (this._spec.animation !== false && isValid(this._region.animate)) {
       this.initAnimation();
     }
-    this.afterInitMark();
 
     // event
     this.initEvent();
@@ -443,6 +443,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     context: AddVChartPropertyContext
   ) {
     if (isNil(dataKey)) {
+      // check if need animation data key
+      if (this._spec.animation === false) {
+        return index;
+      }
       const { keyMap } = context;
       const seriesDataKey = this._getSeriesDataKey(datum);
       if (keyMap.get(seriesDataKey) === undefined) {
@@ -693,13 +697,28 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     // 此时mark相关的统计数据收集完成
     this._rawDataStatistics?.reRunAllTransform();
     this.setSeriesField(this._spec.seriesField);
+
+    let animationThreshold = this._spec.animationThreshold;
     // set mark stroke color follow series color
     // only set normal state in the level lower than level Series
     this.getMarks().forEach(m => {
       if (m.stateStyle?.normal?.lineWidth) {
         m.setAttribute('stroke', this.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
       }
+      const config = m.getProgressiveConfig();
+      if (config) {
+        if (config.large && config.largeThreshold) {
+          animationThreshold = Math.min(animationThreshold, config.largeThreshold);
+        }
+        if (config.progressiveThreshold) {
+          animationThreshold = Math.min(animationThreshold, config.progressiveThreshold);
+        }
+      }
     });
+    // auto close animation
+    if (this._rawData.latestData.length >= animationThreshold) {
+      this._spec.animation = false;
+    }
   }
 
   getMarksWithoutRoot(): IMark[] {
