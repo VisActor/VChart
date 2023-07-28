@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(logger): support static api `getLogger` in vchart class",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
