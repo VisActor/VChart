@@ -3,7 +3,6 @@ import { ComponentTypeEnum } from '../../interface';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { LogScale } from '@visactor/vscale';
 import { mixin } from '@visactor/vutils';
-import { LogAxisMixin } from '../mixin/log-axis-mixin';
 
 export interface CartesianLogAxis
   extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
