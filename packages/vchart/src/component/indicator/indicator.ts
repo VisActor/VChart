@@ -22,7 +22,6 @@ import { transformToGraphic } from '../../util/style';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 
 export class Indicator extends BaseComponent implements IIndicator {
-  static speckey = 'indicator';
   static type = ComponentTypeEnum.indicator;
   type = ComponentTypeEnum.indicator;
   name: string = ComponentTypeEnum.indicator;

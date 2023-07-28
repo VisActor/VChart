@@ -66,7 +66,7 @@ const run = () => {
     shape: ['circle', 'triangle'],
     axes: [
       { orient: 'left', range: { min: 0 }, type: 'linear' },
-      { orient: 'bottom', label: { visible: true }, type: 'log' }
+      { orient: 'bottom', label: { visible: true }, type: 'linear' }
     ],
     legends: [
       {
