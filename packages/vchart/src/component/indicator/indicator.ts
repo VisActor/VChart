@@ -22,6 +22,7 @@ import { transformToGraphic } from '../../util/style';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 
 export class Indicator extends BaseComponent implements IIndicator {
+  static speckey = 'indicator';
   static type = ComponentTypeEnum.indicator;
   type = ComponentTypeEnum.indicator;
   name: string = ComponentTypeEnum.indicator;
@@ -50,7 +51,7 @@ export class Indicator extends BaseComponent implements IIndicator {
     const indicatorSpec = spec.indicator || options.defaultSpec;
     const indicators: IIndicator[] = array(indicatorSpec)
       .filter(s => s && s.visible !== false)
-      .map(s => new Indicator(s, options));
+      .map((s, index) => new Indicator(s, { ...options, specIndex: index, specKey: Indicator.speckey }));
     return indicators;
   }
 
