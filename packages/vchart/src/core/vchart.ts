@@ -54,7 +54,7 @@ import type {
   StringOrNumber
 } from '../typings';
 import { AnimationStateEnum } from '../animation/interface';
-import type { IBoundsLike, ILogger } from '@visactor/vutils';
+import type { IBoundsLike } from '@visactor/vutils';
 import { ThemeManager } from '../theme/theme-manager';
 import type { ITheme } from '../theme';
 import type { IUpdateSpecResult } from '../model/interface';
@@ -64,7 +64,7 @@ import type { ILegend } from '../component/legend/interface';
 import { getCanvasDataURL, URLToImage } from '../util/image';
 import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH, VGRAMMAR_HOOK_EVENT } from '../constant';
 // eslint-disable-next-line no-duplicate-imports
-import { getContainerSize, isArray, isEmpty, Logger } from '@visactor/vutils';
+import { getContainerSize, isArray, isEmpty } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
