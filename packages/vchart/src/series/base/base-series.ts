@@ -436,6 +436,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     );
   }
 
+  // make sure this function fast
+  protected _noAnimationDataKey(datum: Datum, index: number, context: AddVChartPropertyContext): unknown | undefined {
+    return index;
+  }
+
   protected generateDefaultDataKey(
     dataKey: DataKeyType,
     datum: Datum,
@@ -445,7 +450,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     if (isNil(dataKey)) {
       // check if need animation data key
       if (this._spec.animation === false) {
-        return index;
+        const v = this._noAnimationDataKey(datum, index, context);
+        if (v !== undefined) {
+          return v;
+        }
       }
       const { keyMap } = context;
       const seriesDataKey = this._getSeriesDataKey(datum);
