@@ -91,7 +91,8 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       ...props.options,
       autoFit: true,
       mode: 'desktop-browser',
-      dom: props.container
+      dom: props.container,
+      onError: props.onError ?? props.options?.onError
     });
     chartContext.current = { ...chartContext.current, chart: cs };
   };
