@@ -103,11 +103,13 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
 
     if (isArray(spec)) {
       if (isNil(field)) {
-        throw new Error(`${key}Field is required.`);
+        this._option.onError(`${key}Field is required.`);
+        return spec;
       }
 
       if (spec.length > 2) {
-        throw new Error(`${key} length is invalid, specify up to 2 ${key}s.`);
+        this._option.onError(`${key} length is invalid, specify up to 2 ${key}s.`);
+        return spec;
       }
       const scaleName = `${PREFIX}_series_scatter_${this.id}_scale_${key}`;
       this._option.globalScale.registerModelScale({
@@ -130,7 +132,8 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     // 若sizeSpec是对象
     if (isObject(spec)) {
       if (isNil(field)) {
-        throw new Error(`${key}Field is required.`);
+        this._option.onError(`${key}Field is required.`);
+        return spec;
       }
       const scaleName = `${PREFIX}_series_scatter_${this.id}_scale_${key}`;
       const visualSpec = {
@@ -154,7 +157,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     }
 
     // 其余情况报错
-    throw new Error(`${key} attribute is invalid.`);
+    this._option.onError(`${key} attribute is invalid.`);
   }
 
   /**

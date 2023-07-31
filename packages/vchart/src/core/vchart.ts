@@ -27,7 +27,8 @@ import {
   warn,
   error,
   specTransform,
-  convertPoint
+  convertPoint,
+  config
 } from '../util';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -185,7 +186,10 @@ export class VChart implements IVChart {
   private _autoSize: boolean = true;
   private _option: IInitOption = {
     mode: RenderModeEnum['desktop-browser'],
-    animation: true
+    animation: true,
+    onError: (msg: string) => {
+      throw new Error(msg);
+    }
   };
 
   private _curSize = { width: 0, height: 0 };
@@ -194,10 +198,16 @@ export class VChart implements IVChart {
   private _currentThemeName: string;
   private _currentTheme: ITheme;
 
+  private _onError?: (...args: any[]) => void;
+
   private _context: any = {}; // 存放用户在model初始化前通过实例方法传入的配置等
 
   constructor(spec: ISpec, options: IInitOption) {
     this._option = merge(this._option, options);
+    this._onError = this._option.onError;
+    // save
+    const temp = config.errorHandler;
+    config.errorHandler = this._onError;
 
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
 
@@ -212,7 +222,7 @@ export class VChart implements IVChart {
     }
 
     if (mode !== 'node' && !this._container && !this._canvas && !this._stage) {
-      error('please specify container or renderCanvas!');
+      this._option.onError('please specify container or renderCanvas!');
       return;
     }
 
@@ -231,7 +241,8 @@ export class VChart implements IVChart {
         stage,
         pluginList: poptip !== false ? ['poptipForText'] : [],
         ...restOptions,
-        background: spec.background || this._currentTheme.background || this._option.background // spec > spec.theme > initOptions.theme
+        background: spec.background || this._currentTheme.background || this._option.background, // spec > spec.theme > initOptions.theme
+        onError: this._onError
       }
     );
     this._eventDispatcher = new EventDispatcher(this, this._compiler);
@@ -252,6 +263,9 @@ export class VChart implements IVChart {
     this._event.emit(ChartEvent.initialized, {});
 
     InstanceManager.registerInstance(this);
+
+    // restore
+    config.errorHandler = temp;
   }
 
   private _setSpec(spec: any) {
@@ -280,7 +294,7 @@ export class VChart implements IVChart {
 
   private _initChart(spec: any) {
     if (!this._compiler) {
-      error('compiler is not initialized');
+      this._option.onError('compiler is not initialized');
       return;
     }
     this._initData();
@@ -302,10 +316,11 @@ export class VChart implements IVChart {
       viewBox: this._viewBox,
       animation: this._option.animation,
       getTheme: () => this._currentTheme,
-      layout: this._option.layout
+      layout: this._option.layout,
+      onError: this._onError
     });
     if (!chart) {
-      error('init chart fail');
+      this._option.onError('init chart fail');
       return;
     }
     this._chart = chart;
@@ -445,6 +460,9 @@ export class VChart implements IVChart {
    */
   renderSync(morphConfig?: IMorphConfig) {
     if (!this._chart) {
+      // temp
+      const tempErrorHandler = config.errorHandler;
+      config.errorHandler = this._onError;
       this._option.performanceHook?.beforeInitializeChart?.();
       this._initChart(this._spec);
       this._option.performanceHook?.afterInitializeChart?.();
@@ -455,6 +473,7 @@ export class VChart implements IVChart {
       this._option.performanceHook?.beforeCompileToVGrammar?.();
       this._compiler.compile({ chart: this._chart, vChart: this }, { performanceHook: this._option.performanceHook });
       this._option.performanceHook?.afterCompileToVGrammar?.();
+      config.errorHandler = tempErrorHandler;
     }
     // 最后填充数据绘图
     this._compiler?.renderSync(morphConfig);
@@ -479,6 +498,9 @@ export class VChart implements IVChart {
    */
   async renderAsync(morphConfig?: IMorphConfig) {
     if (!this._chart) {
+      // temp
+      const tempErrorHandler = config.errorHandler;
+      config.errorHandler = this._onError;
       this._option.performanceHook?.beforeInitializeChart?.();
       this._initChart(this._spec);
       this._option.performanceHook?.afterInitializeChart?.();
@@ -489,6 +511,7 @@ export class VChart implements IVChart {
       this._option.performanceHook?.beforeCompileToVGrammar?.();
       this._compiler.compile({ chart: this._chart, vChart: this }, { performanceHook: this._option.performanceHook });
       this._option.performanceHook?.afterCompileToVGrammar?.();
+      config.errorHandler = tempErrorHandler;
     }
     // 最后填充数据绘图
     await this._compiler?.renderAsync(morphConfig);
@@ -1030,7 +1053,7 @@ export class VChart implements IVChart {
       const url = await getCanvasDataURL(canvas);
       return url;
     }
-    console.error(new ReferenceError(`render is not defined`));
+    this._option.onError(new ReferenceError(`render is not defined`));
 
     return null;
   }
@@ -1042,7 +1065,7 @@ export class VChart implements IVChart {
    */
   async exportImg(name?: string) {
     if (!isTrueBrowser(this._option.mode)) {
-      console.error(new TypeError(`non-browser environment can not export img`));
+      this._option.onError(new TypeError(`non-browser environment can not export img`));
       return;
     }
 
@@ -1050,7 +1073,7 @@ export class VChart implements IVChart {
     if (dataURL) {
       URLToImage(name, dataURL);
     } else {
-      console.error(new ReferenceError(`render is not defined`));
+      this._option.onError(new ReferenceError(`render is not defined`));
     }
   }
 
@@ -1060,7 +1083,7 @@ export class VChart implements IVChart {
    */
   getImageBuffer() {
     if (this._option.mode !== 'node') {
-      console.error(new TypeError('getImageBuffer() now only support node environment.'));
+      this._option.onError(new TypeError('getImageBuffer() now only support node environment.'));
       return;
     }
     const stage = this.getStage();
@@ -1069,7 +1092,7 @@ export class VChart implements IVChart {
       const buffer = stage.window.getImageBuffer();
       return buffer;
     }
-    console.error(new ReferenceError(`render is not defined`));
+    this._option.onError(new ReferenceError(`render is not defined`));
 
     return null;
   }

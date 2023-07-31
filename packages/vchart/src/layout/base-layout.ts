@@ -4,6 +4,7 @@ import type { ILayoutItem } from '../model/interface';
 import type { IBaseLayout } from './interface';
 import type { IPadding, IRect } from '../typings/space';
 import type { IRegion } from '../region/interface';
+import { error } from '../util/debug';
 
 export class Layout implements IBaseLayout {
   protected _leftCurrent: number = 0;
@@ -327,7 +328,7 @@ export class Layout implements IBaseLayout {
   filterRegionsWithID(regions: IRegion[], id: number): ILayoutItem {
     const target = regions.find(x => x.id === id);
     if (!target) {
-      throw Error('can not find target region item, invalid id');
+      error('can not find target region item, invalid id');
     }
     return target;
   }

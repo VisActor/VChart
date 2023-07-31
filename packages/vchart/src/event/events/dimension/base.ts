@@ -1,3 +1,4 @@
+import { error } from './../../../util/debug';
 import type { IAxis } from './../../../component/axis/interface';
 import type { RenderMode } from '../../../typings/spec/common';
 import type {
@@ -29,10 +30,10 @@ export class DimensionEvent implements IComposedEvent {
   }
 
   register<Evt extends string>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>): void {
-    throw new Error('Method not implemented.');
+    error('Method not implemented.');
   }
   unregister(): void {
-    throw new Error('Method not implemented.');
+    error('Method not implemented.');
   }
 
   protected getTargetDimensionInfo(x: number, y: number): IDimensionInfo[] | null {
