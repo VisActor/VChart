@@ -387,13 +387,32 @@ export class VChart implements IVChart {
     }
   }
 
+  /** **异步方法** 执行自定义的回调修改图表配置，并重新渲染 */
   async updateCustomConfigAndRerender(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
     const result = modifyConfig(); // 执行回调
     if (!isValid(result)) {
       return this as unknown as IVChart;
     }
 
-    if (result.reMake) {
+    this._reCompile(result);
+    await this.renderAsync(morphConfig);
+    return this as unknown as IVChart;
+  }
+
+  /** **同步方法** 执行自定义的回调修改图表配置，并重新渲染 */
+  updateCustomConfigAndRerenderSync(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
+    const result = modifyConfig(); // 执行回调
+    if (!isValid(result)) {
+      return this as unknown as IVChart;
+    }
+
+    this._reCompile(result);
+    this.renderSync(morphConfig);
+    return this as unknown as IVChart;
+  }
+
+  protected _reCompile(updateResult: IUpdateSpecResult) {
+    if (updateResult.reMake) {
       this._releaseData();
       this._initDataSet();
       // 释放图表等等
@@ -406,7 +425,7 @@ export class VChart implements IVChart {
       // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
       // VGrammar view 对象不需要释放，提供了reuse和morph能力之后，srView有上下文缓存
     } else {
-      if (result.reCompile) {
+      if (updateResult.reCompile) {
         // FIXME: 暂时这么处理，还需要整体设计下组件的生命周期
         this.getComponents().forEach(c => c.clear());
         // TODO: 释放事件？
@@ -417,12 +436,10 @@ export class VChart implements IVChart {
         this._compiler?.compile({ chart: this._chart, vChart: this }, {});
       }
     }
-    await this.renderAsync(morphConfig);
-    return this as unknown as IVChart;
   }
 
   /**
-   * 同步方法，渲染图表。
+   * **同步方法** 渲染图表。
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
@@ -456,7 +473,7 @@ export class VChart implements IVChart {
   }
 
   /**
-   * 异步方法，渲染图表。
+   * **异步方法** 渲染图表。
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
@@ -516,7 +533,7 @@ export class VChart implements IVChart {
   }
 
   /**
-   * **异步**更新数据。
+   * **异步方法** 更新数据。
    * @param id 数据 id
    * @param data 数据值
    * @param options 数据参数
@@ -555,7 +572,7 @@ export class VChart implements IVChart {
   }
 
   /**
-   * **异步**批量更新数据。
+   * **异步方法** 批量更新数据。
    * @param list 待更新的数据列表
    * @returns VChart 实例
    */
@@ -584,7 +601,7 @@ export class VChart implements IVChart {
   }
 
   /**
-   * **同步**更新数据
+   * **同步方法** 更新数据
    * @param id 数据 id
    * @param data 数据值
    * @param options 数据参数
@@ -612,7 +629,7 @@ export class VChart implements IVChart {
   }
 
   /**
-   * spec 更新
+   * **异步方法** spec 更新
    * @param spec
    * @param forceMerge
    * @returns
@@ -635,6 +652,39 @@ export class VChart implements IVChart {
     }
 
     await this.updateCustomConfigAndRerender(() => {
+      spec = specTransform(spec) as any;
+      this._spec = spec;
+      this._updateCurrentTheme();
+      this._compiler?.getVGrammarView()?.updateLayoutTag();
+      return this._chart.updateSpec(spec, morphConfig);
+    }, morphConfig);
+    return this as unknown as IVChart;
+  }
+
+  /**
+   * **同步方法** spec 更新
+   * @param spec
+   * @param forceMerge
+   * @returns
+   */
+  updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
+    if (!spec) {
+      return this as unknown as IVChart;
+    }
+    if (isString(spec)) {
+      spec = JSON.parse(spec);
+    }
+
+    // 没有配置变化 因为数据对象的原因，这里会报错
+    // if (specString == JSON.stringify(this._spec)) {
+    //   return;
+    // }
+
+    if (forceMerge) {
+      spec = merge({}, this._spec, spec);
+    }
+
+    this.updateCustomConfigAndRerenderSync(() => {
       spec = specTransform(spec) as any;
       this._spec = spec;
       this._updateCurrentTheme();
@@ -789,6 +839,27 @@ export class VChart implements IVChart {
     }
 
     await this.updateCustomConfigAndRerender(() => {
+      this._currentThemeName = name;
+      this._updateCurrentTheme();
+      this._chart?.setCurrentTheme(this._currentTheme, true);
+      return { change: true, reMake: false };
+    });
+
+    return this as unknown as IVChart;
+  }
+
+  /**
+   * **同步方法** 设置当前主题。
+   * **注意，如果在 spec 上配置了 theme，则 spec 上的 theme 优先级更高。**
+   * @param name 主题名称
+   * @returns
+   */
+  setCurrentThemeSync(name: string) {
+    if (!ThemeManager.themeExist(name)) {
+      return this as unknown as IVChart;
+    }
+
+    this.updateCustomConfigAndRerenderSync(() => {
       this._currentThemeName = name;
       this._updateCurrentTheme();
       this._chart?.setCurrentTheme(this._currentTheme, true);
