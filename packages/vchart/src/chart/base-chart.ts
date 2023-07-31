@@ -91,6 +91,10 @@ export class BaseChart extends CompilableBase implements IChart {
     this._spec = s;
   }
 
+  getOption() {
+    return this._option;
+  }
+
   // 主题
   protected _theme: ITheme;
 
@@ -274,7 +278,9 @@ export class BaseChart extends CompilableBase implements IChart {
         spec.data = this.getSeriesData(spec.dataId, spec.dataIndex);
       } else {
         // 保证数据最终是 DataView 实例
-        spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[]);
+        spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], {
+          onError: this._option.onError
+        });
       }
 
       // 如果用户在 vchart 构造函数参数中关闭了 animation, 则已该配置为准
@@ -413,15 +419,16 @@ export class BaseChart extends CompilableBase implements IChart {
         use3dLayout = true;
       }
       const layout = new (Factory.getLayout(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
-        this._spec.layout
+        this._spec.layout,
+        {
+          onError: this._option.onError
+        }
       );
       this._layoutFunc = layout.layoutItems.bind(layout);
     }
   }
 
   layout(params: ILayoutParams): void {
-    const temp = config.errorHandler;
-    config.errorHandler = this._option.onError;
     this._option.performanceHook?.beforeLayoutWithSceneGraph?.();
     if (this.getLayoutTag()) {
       this._event.emit(ChartEvent.layoutStart, { chart: this });
@@ -435,7 +442,6 @@ export class BaseChart extends CompilableBase implements IChart {
       this._event.emit(ChartEvent.layoutEnd, { chart: this });
     }
     this._option.performanceHook?.afterLayoutWithSceneGraph?.();
-    config.errorHandler = temp;
   }
 
   // 通知所有需要通知的元素 onLayout 钩子

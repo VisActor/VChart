@@ -1,3 +1,4 @@
+import type { utilFunctionCtx } from './../typings/params';
 import { warn } from './../util/debug';
 import { isString } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -43,7 +44,12 @@ export function dataViewFromDataView(rawData: DataView, dataSet?: DataSet, op?: 
  * @param dataSet 数据集
  * @returns
  */
-export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, sourceDataViews: DataView[] = []) {
+export function dataToDataView(
+  data: DataView | IDataValues,
+  dataSet: DataSet,
+  sourceDataViews: DataView[] = [],
+  ctx: utilFunctionCtx = {}
+) {
   if (data instanceof DataView) {
     return data;
   }
@@ -64,7 +70,7 @@ export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, s
       // 使用id查找上游dataview
       const fromDataView = sourceDataViews.find(dv => dv.name === fromDataId);
       if (!fromDataView) {
-        error(`no data matches fromDataId ${fromDataId}`);
+        (ctx.onError ?? error)(`no data matches fromDataId ${fromDataId}`);
         return null;
       }
 
@@ -78,7 +84,7 @@ export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, s
       // 使用index查找上游dataview
       const fromDataView = sourceDataViews[fromDataIndex];
       if (!fromDataView) {
-        error(`no data matches fromDataIndex ${fromDataIndex}`);
+        (ctx.onError ?? error)(`no data matches fromDataIndex ${fromDataIndex}`);
         return null;
       }
 
