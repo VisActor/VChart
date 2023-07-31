@@ -1,3 +1,4 @@
+import { warn } from './../util/debug';
 import { isString } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, DataView } from '@visactor/vdataset';
@@ -99,7 +100,7 @@ export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, s
     } else {
       // 如果 values 不符合要求，则默认设置为 []，同时打印错误信息
       dataView.parse([]);
-      error('values should be array');
+      warn('values should be array');
     }
     // 处理transform
     if (transforms && transforms.length) {
