@@ -125,7 +125,8 @@ describe('Bar chart test', () => {
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
       animation: true,
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(),
+      onError: () => {}
     } as any);
     scatterChart.created();
     scatterChart.init();
@@ -145,7 +146,8 @@ describe('Bar chart test', () => {
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
       animation: true,
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(),
+      onError: () => {}
     } as any);
     barChart.created();
     barChart.init();
@@ -181,7 +183,8 @@ describe('Bar chart test', () => {
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         animation: true,
-        getTheme: () => ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        onError: () => {}
       } as any
     );
     scatterChart.created();
