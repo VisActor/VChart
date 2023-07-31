@@ -1,3 +1,4 @@
+import { error } from './debug';
 /**
  * @description 图片导出相关接口
  */
@@ -31,8 +32,8 @@ export async function getCanvasDataURL(c: HTMLCanvasElement | OffscreenCanvas) {
     if (OffscreenCanvas !== undefined && c instanceof OffscreenCanvas) {
       return OffscreenCanvasToDataURL(c);
     }
-  } catch (error) {
-    console.error('getCanvasDataURL', error);
+  } catch (_error) {
+    error(`getCanvasDataURL error : ${_error.toString()}`);
   }
   return (<HTMLCanvasElement>c).toDataURL();
 }

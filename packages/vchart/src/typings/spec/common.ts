@@ -94,6 +94,11 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * @default true
    */
   poptip?: boolean;
+
+  /**
+   * 报错的回调函数
+   */
+  onError?: (...args: any[]) => void;
 }
 
 export enum RenderModeEnum {

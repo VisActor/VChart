@@ -465,7 +465,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       return dataKey(datum, index);
     }
 
-    throw new Error(`invalid dataKey: ${dataKey}`);
+    this._option.onError(`invalid dataKey: ${dataKey}`);
   }
 
   protected _addDataIndexAndKey() {

@@ -51,7 +51,8 @@ import {
   normalizeLayoutPaddingSpec,
   array,
   isTrueBrowser,
-  isString
+  isString,
+  config
 } from '../util';
 import { Stack } from './stack';
 import { BaseModel } from '../model/base-model';
@@ -182,7 +183,8 @@ export class BaseChart extends CompilableBase implements IChart {
       getChartLayoutRect: () => this._layoutRect,
       getChartViewRect: () => this._viewRect,
       getChart: () => this,
-      globalScale: this._globalScale
+      globalScale: this._globalScale,
+      onError: this._option.onError
     };
     this._stack = new Stack(this);
     this._spec = spec;
@@ -418,6 +420,8 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   layout(params: ILayoutParams): void {
+    const temp = config.errorHandler;
+    config.errorHandler = this._option.onError;
     this._option.performanceHook?.beforeLayoutWithSceneGraph?.();
     if (this.getLayoutTag()) {
       this._event.emit(ChartEvent.layoutStart, { chart: this });
@@ -431,6 +435,7 @@ export class BaseChart extends CompilableBase implements IChart {
       this._event.emit(ChartEvent.layoutEnd, { chart: this });
     }
     this._option.performanceHook?.afterLayoutWithSceneGraph?.();
+    config.errorHandler = temp;
   }
 
   // 通知所有需要通知的元素 onLayout 钩子
@@ -678,7 +683,8 @@ export class BaseChart extends CompilableBase implements IChart {
   getSeriesData(id: StringOrNumber | undefined, index: number | undefined): DataView | undefined {
     if (!this._spec.data) {
       // 没有数据，报错处理
-      throw new Error('no data in spec!');
+      this._option.onError('no data in spec!');
+      return null;
     }
 
     // dataId 优先
@@ -692,7 +698,8 @@ export class BaseChart extends CompilableBase implements IChart {
       }
 
       // id不匹配，报错处理
-      throw new Error(`no data matches dataId ${id}!`);
+      this._option.onError(`no data matches dataId ${id}!`);
+      return null;
     }
 
     // 其次使用dataIndex
@@ -701,7 +708,8 @@ export class BaseChart extends CompilableBase implements IChart {
         return this._spec.data[index];
       }
       // index不匹配，报错处理
-      throw new Error(`no data matches dataIndex ${index}!`);
+      this._option.onError(`no data matches dataIndex ${index}!`);
+      return null;
     }
 
     // 最后返回第一条数据

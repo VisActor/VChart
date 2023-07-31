@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(onError): support configuration of onerror in chart instance initoption",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

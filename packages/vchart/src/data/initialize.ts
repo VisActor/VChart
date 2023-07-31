@@ -63,7 +63,8 @@ export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, s
       // 使用id查找上游dataview
       const fromDataView = sourceDataViews.find(dv => dv.name === fromDataId);
       if (!fromDataView) {
-        throw new Error(`no data matches fromDataId ${fromDataId}`);
+        error(`no data matches fromDataId ${fromDataId}`);
+        return null;
       }
 
       dataView.parse([fromDataView], {
@@ -76,7 +77,8 @@ export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, s
       // 使用index查找上游dataview
       const fromDataView = sourceDataViews[fromDataIndex];
       if (!fromDataView) {
-        throw new Error(`no data matches fromDataIndex ${fromDataIndex}`);
+        error(`no data matches fromDataIndex ${fromDataIndex}`);
+        return null;
       }
 
       dataView.parse([fromDataView], {

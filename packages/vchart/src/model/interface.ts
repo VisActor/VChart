@@ -309,6 +309,10 @@ export interface IModelOption extends ICompilableInitOption {
 
   globalScale: IGlobalScale;
   animation: boolean;
+  /**
+   * 错误消息回调函数
+   */
+  onError: (...args: any[]) => void;
 }
 
 export interface IModelConstructor {
