@@ -158,6 +158,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
 
     // 其余情况报错
     this._option.onError(`${key} attribute is invalid.`);
+    return spec;
   }
 
   /**
