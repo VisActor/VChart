@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: supplement sync methods in vchart instance\n\n",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "zamhown@live.com"
+}
