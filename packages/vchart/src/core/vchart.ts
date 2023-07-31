@@ -205,9 +205,6 @@ export class VChart implements IVChart {
   constructor(spec: ISpec, options: IInitOption) {
     this._option = merge(this._option, options);
     this._onError = this._option.onError;
-    // save
-    const temp = config.errorHandler;
-    config.errorHandler = this._onError;
 
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
 
@@ -263,9 +260,6 @@ export class VChart implements IVChart {
     this._event.emit(ChartEvent.initialized, {});
 
     InstanceManager.registerInstance(this);
-
-    // restore
-    config.errorHandler = temp;
   }
 
   private _setSpec(spec: any) {
@@ -286,7 +280,11 @@ export class VChart implements IVChart {
     const dataViewArr: DataView[] = [];
     for (let i = 0; i < specData.length; i++) {
       const curSpecData = specData[i];
-      dataViewArr.push(dataToDataView(curSpecData, <DataSet>this._dataSet, dataViewArr));
+      dataViewArr.push(
+        dataToDataView(curSpecData, <DataSet>this._dataSet, dataViewArr, {
+          onError: this._option.onError
+        })
+      );
     }
 
     this._spec.data = dataViewArr;
@@ -460,9 +458,6 @@ export class VChart implements IVChart {
    */
   renderSync(morphConfig?: IMorphConfig) {
     if (!this._chart) {
-      // temp
-      const tempErrorHandler = config.errorHandler;
-      config.errorHandler = this._onError;
       this._option.performanceHook?.beforeInitializeChart?.();
       this._initChart(this._spec);
       this._option.performanceHook?.afterInitializeChart?.();
@@ -473,7 +468,6 @@ export class VChart implements IVChart {
       this._option.performanceHook?.beforeCompileToVGrammar?.();
       this._compiler.compile({ chart: this._chart, vChart: this }, { performanceHook: this._option.performanceHook });
       this._option.performanceHook?.afterCompileToVGrammar?.();
-      config.errorHandler = tempErrorHandler;
     }
     // 最后填充数据绘图
     this._compiler?.renderSync(morphConfig);
@@ -498,9 +492,6 @@ export class VChart implements IVChart {
    */
   async renderAsync(morphConfig?: IMorphConfig) {
     if (!this._chart) {
-      // temp
-      const tempErrorHandler = config.errorHandler;
-      config.errorHandler = this._onError;
       this._option.performanceHook?.beforeInitializeChart?.();
       this._initChart(this._spec);
       this._option.performanceHook?.afterInitializeChart?.();
@@ -511,7 +502,6 @@ export class VChart implements IVChart {
       this._option.performanceHook?.beforeCompileToVGrammar?.();
       this._compiler.compile({ chart: this._chart, vChart: this }, { performanceHook: this._option.performanceHook });
       this._option.performanceHook?.afterCompileToVGrammar?.();
-      config.errorHandler = tempErrorHandler;
     }
     // 最后填充数据绘图
     await this._compiler?.renderAsync(morphConfig);
@@ -1050,7 +1040,9 @@ export class VChart implements IVChart {
       // 因为 vrender 是 autoRender 的，它不能确认第几帧才是完整的图表，所以这里调用一次 render 以保证获取到的是完整的画布
       stage.render();
       const canvas = this._chart.getCanvas();
-      const url = await getCanvasDataURL(canvas);
+      const url = await getCanvasDataURL(canvas, {
+        onError: this._onError
+      });
       return url;
     }
     this._option.onError(new ReferenceError(`render is not defined`));

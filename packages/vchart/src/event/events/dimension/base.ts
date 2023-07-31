@@ -30,10 +30,10 @@ export class DimensionEvent implements IComposedEvent {
   }
 
   register<Evt extends string>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>): void {
-    error('Method not implemented.');
+    (this._chart?.getOption().onError ?? error)('Method not implemented.');
   }
   unregister(): void {
-    error('Method not implemented.');
+    (this._chart?.getOption().onError ?? error)('Method not implemented.');
   }
 
   protected getTargetDimensionInfo(x: number, y: number): IDimensionInfo[] | null {
