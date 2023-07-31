@@ -98,7 +98,7 @@ export class Compiler {
     if (this._view) {
       return;
     }
-    const logger = new Logger(LoggerLevel.Error);
+    const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);
     if (this._option.onError) {
       logger.addErrorHandler((...args) => {
         this._option.onError(...args);

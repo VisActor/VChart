@@ -96,6 +96,7 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
   poptip?: boolean;
 
   /**
+   * @since 1.2.0
    * 报错的回调函数
    */
   onError?: (...args: any[]) => void;
