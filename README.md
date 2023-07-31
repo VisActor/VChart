@@ -142,11 +142,9 @@ $ rush react
 
 ## 💫 Ecosystem
 
-| Project                         | Description                   |
-| ------------------------------- | ----------------------------- |
+| Project                                                                               | Description                          |
+| ------------------------------------------------------------------------------------- | ------------------------------------ |
 | [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React interface for @VisActor/VChart |
-
-
 
 ## 🤝 Contribution [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
 

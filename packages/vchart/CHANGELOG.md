@@ -1,6 +1,18 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 26 Jul 2023 03:18:52 GMT and should not be manually modified.
+This log was last generated on Fri, 28 Jul 2023 08:52:08 GMT and should not be manually modified.
+
+## 1.1.1
+Fri, 28 Jul 2023 08:52:08 GMT
+
+### Patches
+
+- feat(logger): support static api `getLogger` in vchart class
+- fix(vchart): fix the problem of default logLevel not sync to vgrammar
+- fix(map): fix the issue that some map data cannot be drawn
+- fix(map): fix the issue of misalignment of the map after interaction with legend
+- fix(indicator): add `specKey` for Indicator to fix the issue that the indicator text does not display after the update, close#251
+- fix(map): fix the issue that defaultFillColor does not work in map
 
 ## 1.1.0
 Wed, 26 Jul 2023 03:18:52 GMT
@@ -93,11 +105,11 @@ Wed, 26 Jul 2023 03:18:52 GMT
 - fix(label): pickable shoule be false if label component is configured `interactive: false`
 - fix the layoutOffsetX|Y not work in normal items
 - fix: line mark has a different easing in update animation causes strange animation effect
-- fix: `channel` config not work in animation 
+- fix: `channel` config not work in animation
 - No longer requires to hold down the Ctrl key for zoom interaction & fix zoomLimit bug
 - fix: default tooltip handler needs to adapt to the scale property
 - fix(vchart): export IRegionSpec from VChart
-- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series 
+- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series
 - fix: compact window variable for non-browser env
 - fix: compact window variable for non-browser env
 
