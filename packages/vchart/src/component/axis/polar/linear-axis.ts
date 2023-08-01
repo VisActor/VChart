@@ -10,9 +10,9 @@ export interface PolarLinearAxis
       LinearAxisMixin,
       'setExtraAttrFromSpec' | 'transformScaleDomain' | 'valueToPosition' | 'computeLinearDomain' | 'setScaleNice'
     >,
-    PolarAxis {}
+    PolarAxis<IPolarLinearAxisSpec> {}
 
-export class PolarLinearAxis extends PolarAxis {
+export class PolarLinearAxis extends PolarAxis<IPolarLinearAxisSpec> {
   static type = ComponentTypeEnum.polarLinearAxis;
   type = ComponentTypeEnum.polarLinearAxis;
 
@@ -21,8 +21,6 @@ export class PolarLinearAxis extends PolarAxis {
 
   protected _scale = new LinearScale();
   protected declare _groupScales: LinearScale[];
-
-  protected declare _spec: IPolarLinearAxisSpec;
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();

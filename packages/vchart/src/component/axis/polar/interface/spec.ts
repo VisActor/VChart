@@ -1,11 +1,11 @@
-import type { IPolarOrientType } from '../../../../typings';
+import type { IPoint, IPolarOrientType } from '../../../../typings';
 import type { IBandAxisSpec, IDomainLine, ILinearAxisSpec, ITitle, ILabel, ICommonAxisSpec } from '../../interface';
 import type { IPolarGrid } from './common';
 
 /** spec */
 export type IPolarAxisSpec = IPolarLinearAxisSpec | IPolarBandAxisSpec;
 
-export type IPolarAxisCommonSpec = ICommonAxisSpec & {
+export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
   /**
    * 当配置了 innerRadius 时，可以通过设置 inside: true，将坐标轴展示在内圆。
    * @default false
@@ -41,6 +41,26 @@ export type IPolarAxisCommonSpec = ICommonAxisSpec & {
    * 轴标题配置
    */
   title?: ITitle;
+  /**
+   * 内半径
+   */
+  innerRadius?: number;
+  /**
+   * 外半径
+   */
+  outerRadius?: number;
+  /**
+   * 中心点
+   */
+  center?: IPoint;
+  /**
+   * 起始角度
+   */
+  startAngle?: number;
+  /**
+   * 终止角度
+   */
+  endAngle?: number;
 };
 
 export type IPolarLinearAxisSpec = IPolarAxisCommonSpec & ILinearAxisSpec;

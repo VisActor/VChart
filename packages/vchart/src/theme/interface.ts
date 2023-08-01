@@ -11,7 +11,7 @@ import type {
   IPathMarkSpec
 } from '../typings';
 import type { MarkTypeEnum } from '../mark/interface';
-import type { IThemeColorScheme } from './color-scheme/interface';
+import type { IColorKey, IThemeColorScheme } from './color-scheme/interface';
 import type { IGradientColor } from '@visactor/vrender';
 import type { IComponentTheme } from '../component/interface';
 
@@ -26,7 +26,7 @@ export interface ITheme {
    * 第 2 种配置：图表层级的样式属性
    */
   /** 图表背景色 */
-  background?: string | IGradientColor;
+  background?: string | IGradientColor | IColorKey;
   /** 图表内边距 */
   padding?: ILayoutPaddingSpec;
   /** 图表字体配置 */

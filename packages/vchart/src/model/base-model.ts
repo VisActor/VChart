@@ -1,4 +1,4 @@
-import { createID, isValid, cloneDeepSpec, isDataView, isHTMLElement } from '../util';
+import { createID, isValid, cloneDeepSpec, preprocessSpecOrTheme } from '../util';
 import { Event } from '../event/event';
 import type { IEvent } from '../event/interface';
 import { LayoutItem } from './layout-item';
@@ -21,13 +21,12 @@ import type { CompilableData } from '../compile/data/compilable-data';
 import { ModelStateManager } from './model-state-manager';
 import { PREFIX } from '../constant';
 import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar';
-import { array, isArray, isEqual, isFunction, isNil, isObject, merge } from '@visactor/vutils';
+import { array, isEqual, isNil, merge } from '@visactor/vutils';
 import { Factory } from '../core/factory';
-import { getActualColor, isColorKey } from '../theme/color-scheme/util';
 import type { SeriesTypeEnum } from '../series/interface';
 import { MarkSet } from '../mark/mark-set';
 
-export abstract class BaseModel extends LayoutItem implements IModel {
+export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> implements IModel {
   readonly type: string = 'null';
   readonly modelType: string = 'null';
 
@@ -45,11 +44,6 @@ export abstract class BaseModel extends LayoutItem implements IModel {
   protected _data: CompilableData = null;
   getData() {
     return this._data;
-  }
-
-  protected declare _spec: any;
-  getSpec(): any {
-    return this._spec;
   }
 
   protected _specIndex: number = 0;
@@ -108,7 +102,7 @@ export abstract class BaseModel extends LayoutItem implements IModel {
   // TODO: 有些hack,这个tag是为了避免布局逻辑中，轴的数据变化，又由数据变化触发重新布局
   protected _isLayout: boolean = true;
 
-  constructor(spec: IModelSpec, option: IModelOption) {
+  constructor(spec: T, option: IModelOption) {
     super(option);
     this.id = createID();
     this._originalSpec = spec;
@@ -183,7 +177,7 @@ export abstract class BaseModel extends LayoutItem implements IModel {
   release() {
     this._releaseEvent();
     this._originalSpec = {};
-    this._spec = {};
+    this._spec = undefined;
     this.getMarks().forEach(m => m.release());
     this.state.release();
     this._data?.release();
@@ -235,44 +229,28 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     });
   }
 
+  /** 将 theme merge 到 spec 中 */
+  protected _mergeThemeToSpec() {
+    const chartSpec = this.getChart().getSpec();
+    this._spec = merge({}, this._theme, this._getDefaultSpecFromChart(chartSpec), this._originalSpec);
+  }
+
+  /** 从 chart spec 提取配置作为 model 的默认 spec 配置 */
+  protected _getDefaultSpecFromChart(chartSpec: any): Partial<T> {
+    return {};
+  }
+
   /** 对 spec 进行遍历和转换 */
   protected _preprocessSpec(obj?: any): any {
     if (!arguments.length) {
       obj = this._spec;
     }
 
-    if (isArray(obj)) {
-      return obj.map(element => {
-        if (isObject(element) && !isFunction(element)) {
-          return this._preprocessSpec(element);
-        }
-        return element;
-      });
-    }
-    const newObj = { ...obj };
-    Object.keys(newObj).forEach(key => {
-      // 绕过数据
-      if (key.includes('data')) {
-        return;
-      }
-      const value = obj[key];
-      // 绕过不可深拷贝的对象
-      if (isObject(value) && (isDataView(value) || isHTMLElement(value))) {
-        return;
-      }
-      if (isObject(value) && !isFunction(value)) {
-        // 查询、替换语义化颜色
-        if (isColorKey(value)) {
-          newObj[key] = getActualColor(
-            value,
-            this._option.getTheme?.()?.colorScheme,
-            this.modelType === 'series' ? (this.type as SeriesTypeEnum) : undefined
-          );
-        } else {
-          newObj[key] = this._preprocessSpec(value);
-        }
-      }
-    });
+    const newObj = preprocessSpecOrTheme(
+      obj,
+      this._option.getTheme?.()?.colorScheme,
+      this.modelType === 'series' ? (this.type as SeriesTypeEnum) : undefined
+    );
 
     if (!arguments.length) {
       this._spec = newObj;

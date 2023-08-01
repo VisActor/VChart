@@ -17,7 +17,7 @@ export const player: IPlayerTheme = {
     },
     handlerStyle: {
       size: 15,
-      stroke: '#FFFFFF',
+      stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 2,
       fill: '#0564FE'
     }

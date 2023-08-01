@@ -1,5 +1,5 @@
 import { merge } from '@visactor/vutils';
-import { buildinThemeMap, defaultThemeName } from './buildin-theme';
+import { builtinThemeMap, defaultThemeName } from './builtin';
 import type { ITheme } from './interface';
 import { InstanceManager } from '../core/instance-manager';
 import type { IVChart } from '../core/interface';
@@ -77,9 +77,9 @@ export class ThemeManager {
 }
 
 // 先注册默认主题
-ThemeManager.registerTheme(defaultThemeName, buildinThemeMap.get(defaultThemeName));
+ThemeManager.registerTheme(defaultThemeName, builtinThemeMap.get(defaultThemeName));
 // 再注册其他内置主题
-buildinThemeMap.forEach((theme, name) => {
+builtinThemeMap.forEach((theme, name) => {
   if (name !== defaultThemeName) {
     ThemeManager.registerTheme(name, theme);
   }

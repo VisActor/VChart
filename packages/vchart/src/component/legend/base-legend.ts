@@ -10,10 +10,10 @@ import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
 import { isValid, merge, isValidOrient, array, eachSeries, isValidNumber } from '../../util';
 import { CompilableData } from '../../compile/data';
 // eslint-disable-next-line no-duplicate-imports
-import type { ILegend } from './interface';
+import type { ILegend, ILegendCommonSpec } from './interface';
 import type { IGroup } from '@visactor/vrender';
 
-export abstract class BaseLegend extends BaseComponent implements ILegend {
+export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseComponent<T> implements ILegend {
   layoutType: LayoutItem['layoutType'] = 'normal';
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Legend;
   layoutLevel: number = LayoutLevel.Legend;

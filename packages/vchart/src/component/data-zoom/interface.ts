@@ -1,5 +1,5 @@
 import type { IModelSpec } from '../../model/interface';
-import type { IOrientType } from '../../typings';
+import type { IOrientType, MaybeArray } from '../../typings';
 import type { IComponent } from '../interface';
 
 /** spec */
@@ -46,8 +46,17 @@ export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'he
    * 已配置：用户配置与axis关联的region取交集
    * 配置优先级：index > id
    */
-  regionIndex?: number | number[];
-  regionId?: string | string[];
+  regionIndex?: MaybeArray<number>;
+  regionId?: MaybeArray<number | string>;
+
+  /**
+   * 关联的系列ID
+   */
+  seriesId?: MaybeArray<number | string>;
+  /**
+   * 关联的系列序号
+   */
+  seriesIndex?: MaybeArray<number>;
 
   /**
    * 数据过滤模式
@@ -72,6 +81,8 @@ export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'he
    */
   startValue?: number | string;
   endValue?: number | string;
+
+  valueField?: string;
 
   /**
    * start和end的配置模式：只有模式和配置匹配时才生效，比如rangeMode: ['percent', 'value'], 那么必须start和endValue都配置才可以生效

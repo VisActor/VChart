@@ -40,7 +40,7 @@ export interface IAxisItemTheme<T> {
 }
 export type AxisAnimationPreset = 'groupFadeIn' | 'fadeIn' | 'grow';
 
-export interface ICommonAxisSpec extends Omit<IModelSpec, 'orient'>, IAnimationSpec<string, string> {
+export interface ICommonAxisSpec extends Omit<IModelSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
   /**
    * 轴类型
    */

@@ -16,6 +16,6 @@ export const totalLabel: ITotalLabelTheme = {
   style: {
     fontSize,
     fontFamily,
-    fill: 'black'
+    fill: { type: 'palette', key: 'titleFontColor' }
   }
 };

@@ -15,7 +15,7 @@ import { isEqual } from '@visactor/vutils';
 import type { LayoutItem } from '../../model/layout-item';
 import { LayoutLevel, LayoutZIndex } from '../../constant';
 
-export class Title extends BaseComponent implements ITitle {
+export class Title extends BaseComponent<ITitleSpec> implements ITitle {
   static type = ComponentTypeEnum.title;
   type = ComponentTypeEnum.title;
 
@@ -23,7 +23,6 @@ export class Title extends BaseComponent implements ITitle {
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Title;
   layoutLevel: number = LayoutLevel.Title;
 
-  protected declare _spec: ITitleSpec;
   protected declare _theme: ITitleTheme;
 
   protected _orient: IOrientType = 'top';

@@ -33,7 +33,7 @@ export const markByName: IGlobalMarkThemeByName = {
   point: {
     style: {
       size: 8,
-      stroke: '#ffffff',
+      stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 1,
       fillOpacity: 1
     }
@@ -51,13 +51,13 @@ export const markByName: IGlobalMarkThemeByName = {
   sunburst: {
     style: {
       lineWidth: 1,
-      stroke: '#fff'
+      stroke: { type: 'palette', key: 'backgroundColor' }
     }
   },
   circlePacking: {
     style: {
       lineWidth: 1,
-      stroke: '#fff'
+      stroke: { type: 'palette', key: 'backgroundColor' }
     }
   },
   funnel3d: {
