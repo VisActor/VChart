@@ -36,6 +36,10 @@ export interface ILabelSpec {
    * @since 1.3.0
    */
   customOverlapFunc?: BaseLabelAttrs['customOverlapFunc'];
+  /** 标签布局 */
+  labelLayout?: 'series' | 'region';
+  /** 是否支持3D */
+  support3d?: boolean;
 }
 
 type LabelStateStyle<T> = {

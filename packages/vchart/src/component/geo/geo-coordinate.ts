@@ -21,14 +21,12 @@ import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 export function projectionName(key: string, id: number) {
   return `${PREFIX}_${id}_${key}`;
 }
-export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
+export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeoCoordinate {
   static type = ComponentTypeEnum.geoCoordinate;
   type = ComponentTypeEnum.geoCoordinate;
   name: string = ComponentTypeEnum.geoCoordinate;
 
   layoutType: ILayoutItem['layoutType'] = 'absolute';
-
-  protected declare _spec: IGeoRegionSpec;
 
   _longitudeField?: string;
   get longitudeField() {
@@ -71,7 +69,7 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
     spec.region.forEach((r: IRegionSpec, i: number) => {
       if (r.coordinate === 'geo') {
         // 去除 padding 配置，避免重复计算
-        const spec = { ...r, padding: 0 };
+        const spec = { ...r, padding: 0 } as any;
         const c = new GeoCoordinate(spec, options);
         // FIXME: hack，regions的关联关系不应该在具体的component中处理
         c._regions = options.getRegionsInIndex([i]);

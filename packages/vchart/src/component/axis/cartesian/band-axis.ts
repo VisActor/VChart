@@ -11,16 +11,15 @@ export interface CartesianBandAxis
       BandAxisMixin,
       'valueToPosition' | 'updateGroupScaleRange' | 'getPosition' | 'calcScales' | 'computeBandDomain'
     >,
-    CartesianAxis {}
+    CartesianAxis<ICartesianBandAxisSpec> {}
 
-export class CartesianBandAxis extends CartesianAxis {
+export class CartesianBandAxis extends CartesianAxis<ICartesianBandAxisSpec> {
   static type = ComponentTypeEnum.cartesianBandAxis;
   type = ComponentTypeEnum.cartesianBandAxis;
 
   protected _scale: BandScale = new BandScale();
 
   protected declare _scales: BandScale[];
-  protected declare _spec: ICartesianBandAxisSpec;
 
   protected computeDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[] {
     return this.computeBandDomain(data);

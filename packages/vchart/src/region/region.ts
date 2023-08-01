@@ -21,7 +21,7 @@ import type { IAnimate } from '../animation/interface';
 import type { StringOrNumber } from '../typings';
 import type { IDataZoomSpec, IScrollBarSpec } from '../component/data-zoom';
 
-export class Region extends BaseModel implements IRegion {
+export class Region extends BaseModel<IRegionSpec> implements IRegion {
   static type = 'region';
   readonly modelType: string = 'region';
 
@@ -43,8 +43,6 @@ export class Region extends BaseModel implements IRegion {
   protected _foregroundMark?: IRectMark;
 
   protected _trigger: ITrigger;
-
-  protected declare _spec: IRegionSpec;
 
   constructor(spec: IRegionSpec, ctx: IModelOption) {
     super(spec, ctx);

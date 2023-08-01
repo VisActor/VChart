@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { array, isFunction, merge } from '@visactor/vutils';
+import { array, isFunction } from '@visactor/vutils';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IOptionAggr } from '../../data/transforms/aggregation';
 import type { IOptionRegr } from '../../data/transforms/regression';
@@ -9,11 +9,11 @@ import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
 import type { StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base';
-import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback } from './interface';
+import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
 import type { IRegressType } from './mark-area/interface';
 import type { IGraphic, INode } from '@visactor/vrender';
 
-export abstract class BaseMarker extends BaseComponent {
+export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extends BaseComponent<T> {
   layoutType: LayoutItem['layoutType'] = 'absolute';
 
   protected _startRelativeSeries!: ICartesianSeries;
