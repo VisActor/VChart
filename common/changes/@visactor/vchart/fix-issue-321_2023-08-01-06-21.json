@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(pie): fix the issue of pie mark's \\`key\\` value duplication causes drawing error, closed #321",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
