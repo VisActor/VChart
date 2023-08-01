@@ -28,8 +28,7 @@ import type {
   ISeriesSpec,
   IExtensionMarkSpec,
   IExtensionGroupMarkSpec,
-  EnableMarkType,
-  StringOrNumber
+  EnableMarkType
 } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 // eslint-disable-next-line no-duplicate-imports
