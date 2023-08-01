@@ -35,7 +35,7 @@ import { EventDispatcher } from '../event/event-dispatcher';
 import type { GeoSourceType } from '../typings/geo';
 import type { GeoSourceOption } from '../series/map/geo-source';
 // eslint-disable-next-line no-duplicate-imports
-import { clearMapSource, registerMapSource, getMapSource, unregisterMapSource } from '../series/map/geo-source';
+import { registerMapSource, getMapSource, unregisterMapSource } from '../series/map/geo-source';
 import type { IMark, MarkConstructor } from '../mark/interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
 import { dataToDataView } from '../data/initialize';
@@ -489,7 +489,6 @@ export class VChart implements IVChart {
     this._compiler?.release();
     this._eventDispatcher?.release();
     this._unBindResizeEvent();
-    clearMapSource();
     // resetID(); // 为什么要重置ID呢？
 
     this._releaseData();
