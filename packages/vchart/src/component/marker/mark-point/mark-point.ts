@@ -63,9 +63,6 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
         imageStyle: this._spec.itemContent?.image?.style,
         textStyle: {
           ...this._spec.itemContent?.text,
-          text: this._spec.itemContent.text.formatMethod
-            ? this._spec.itemContent.text.formatMethod(this._markerData)
-            : this._spec.itemContent.text.text,
           padding: this._spec.itemContent?.text?.labelBackground?.padding,
           shape: {
             ...transformToGraphic(this._spec.itemContent?.text?.shape),
@@ -112,7 +109,7 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
           ...this._markerComponent.attribute?.itemContent?.textStyle,
           text: this._spec.itemContent.text.formatMethod
             ? this._spec.itemContent.text.formatMethod(dataPoints)
-            : this._markerComponent.attribute?.label?.text
+            : this._markerComponent.attribute?.itemContent?.textStyle?.text
         }
       }
     });

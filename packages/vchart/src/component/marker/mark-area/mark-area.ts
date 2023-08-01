@@ -66,7 +66,6 @@ export class MarkArea extends BaseMarker implements IMarkArea {
       areaStyle: transformToGraphic(this._spec.area?.style),
       label: {
         ...this._spec.label,
-        text: this._spec.label.formatMethod ? this._spec.label.formatMethod(this._markerData) : this._spec.label.text,
         padding: this._spec.label?.labelBackground?.padding,
         shape: {
           ...transformToGraphic(this._spec.label?.shape),
