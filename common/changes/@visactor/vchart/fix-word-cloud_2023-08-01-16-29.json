@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(wordCloud): word-cloud updateSpec not work as expected",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
