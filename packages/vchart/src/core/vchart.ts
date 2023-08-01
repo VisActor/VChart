@@ -36,7 +36,7 @@ import { EventDispatcher } from '../event/event-dispatcher';
 import type { GeoSourceType } from '../typings/geo';
 import type { GeoSourceOption } from '../series/map/geo-source';
 // eslint-disable-next-line no-duplicate-imports
-import { clearMapSource, registerMapSource, getMapSource, unregisterMapSource } from '../series/map/geo-source';
+import { registerMapSource, getMapSource, unregisterMapSource } from '../series/map/geo-source';
 import type { IMark, MarkConstructor } from '../mark/interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
 import { dataToDataView } from '../data/initialize';
@@ -227,7 +227,7 @@ export class VChart implements IVChart {
     this._currentThemeName = ThemeManager.getCurrentThemeName();
     this._setSpec(spec);
     this._updateCurrentTheme();
-
+    const specBackground = typeof spec.background === 'string' ? spec.background : null;
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -238,7 +238,7 @@ export class VChart implements IVChart {
         stage,
         pluginList: poptip !== false ? ['poptipForText'] : [],
         ...restOptions,
-        background: spec.background || this._currentTheme.background || this._option.background, // spec > spec.theme > initOptions.theme
+        background: specBackground || this._currentTheme.background || this._option.background, // spec > spec.theme > initOptions.theme
         onError: this._onError
       }
     );
@@ -530,7 +530,6 @@ export class VChart implements IVChart {
     this._compiler?.release();
     this._eventDispatcher?.release();
     this._unBindResizeEvent();
-    clearMapSource();
     // resetID(); // 为什么要重置ID呢？
 
     this._releaseData();

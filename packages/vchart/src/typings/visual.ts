@@ -426,7 +426,7 @@ export interface ICellMarkSpec extends ISymbolMarkSpec {
   padding?: number | number[] | IPadding;
 }
 
-export interface IGroupMarkSpec extends ICommonSpec, IFillMarkSpec {
+export interface IGroupMarkSpec extends IFillMarkSpec {
   clip?: boolean;
   width?: number;
   height?: number;

@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(label): fix the issue that the update of label visible fails to take effect with updateSpec",
+      "comment": "feat(background): support background of chart & series",
       "type": "patch"
     }
   ],

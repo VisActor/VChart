@@ -1,6 +1,11 @@
 # Change Log - @visactor/lark-vchart
 
-This log was last generated on Fri, 28 Jul 2023 08:52:08 GMT and should not be manually modified.
+This log was last generated on Tue, 01 Aug 2023 09:47:58 GMT and should not be manually modified.
+
+## 1.1.2
+Tue, 01 Aug 2023 09:47:58 GMT
+
+_Version update only_
 
 ## 1.1.1
 Fri, 28 Jul 2023 08:52:08 GMT

@@ -24,7 +24,8 @@ import {
   POLAR_START_RADIAN,
   POLAR_END_RADIAN,
   DEFAULT_DATA_INDEX,
-  ChartEvent
+  ChartEvent,
+  DEFAULT_DATA_KEY
 } from '../../constant';
 import type { Maybe, IPoint, Datum, StateValueType } from '../../typings';
 import {
@@ -181,7 +182,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       {
         morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
         defaultMorphElementKey: this._seriesField,
-        key: this._seriesField,
+        key: DEFAULT_DATA_KEY,
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true

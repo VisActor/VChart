@@ -73,15 +73,6 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
   layoutOffsetX: ILayoutItem['layoutOffsetX'] = 0;
   layoutOffsetY: ILayoutItem['layoutOffsetY'] = 0;
 
-  protected _attributeTag: boolean = true;
-  getAttributeTag(): boolean {
-    return this._attributeTag;
-  }
-  setAttributeTag(tag: boolean): boolean {
-    this._attributeTag = tag;
-    return this._attributeTag;
-  }
-
   layoutLevel: ILayoutItem['layoutLevel'] = LayoutLevel.Region;
 
   // layoutAbsoluteLeft: ILayoutItem['layoutAbsoluteLeft'] = Number.NaN;
