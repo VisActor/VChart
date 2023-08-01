@@ -9,11 +9,11 @@ import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
 import type { StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base';
-import type { IAggrType, IDataPointSpec, IDataPos } from './interface';
+import type { IAggrType, IDataPointSpec, IDataPos, IMarkerAxisSpec, IMarkerSpec } from './interface';
 import type { IRegressType } from './mark-area/interface';
 import type { INode } from '@visactor/vrender';
 
-export abstract class BaseMarker extends BaseComponent {
+export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extends BaseComponent<T> {
   layoutType: LayoutItem['layoutType'] = 'absolute';
 
   protected _startRelativeSeries!: ICartesianSeries;

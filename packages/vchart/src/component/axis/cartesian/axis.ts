@@ -42,7 +42,7 @@ import { AxisComponent } from '../base-axis';
 
 const CartesianAxisPlugin = [pluginMap.AxisLabelOverlapPlugin, pluginMap.AxisSyncPlugin];
 
-export abstract class CartesianAxis extends AxisComponent implements IAxis {
+export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec> extends AxisComponent<T> implements IAxis {
   static type = ComponentTypeEnum.cartesianAxis;
   type = ComponentTypeEnum.cartesianAxis;
   name: string = ComponentTypeEnum.cartesianAxis;
@@ -92,7 +92,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   private _latestBounds: IBounds;
   private _verticalLimitSize: number;
 
-  constructor(spec: ICartesianAxisCommonSpec, options: IComponentOption) {
+  constructor(spec: any, options: IComponentOption) {
     super(spec, {
       ...options
     });

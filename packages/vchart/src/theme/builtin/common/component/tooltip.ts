@@ -15,9 +15,9 @@ export const tooltip: ITooltipTheme = {
       right: 10,
       bottom: 10
     },
-    backgroundColor: '#fff',
+    backgroundColor: { type: 'palette', key: 'backgroundColor' },
     border: {
-      color: '#ffffff',
+      color: { type: 'palette', key: 'backgroundColor' },
       width: 0,
       radius: 3
     },
@@ -26,13 +26,13 @@ export const tooltip: ITooltipTheme = {
       y: 4,
       blur: 12,
       spread: 0,
-      color: 'rgba(0, 0, 0, 0.1)'
+      color: { type: 'palette', key: 'titleFontColor', a: 0.1 }
     }
   },
   spaceRow: 6,
   titleLabel: {
     fontSize: 14,
-    fontColor: '#4E5969',
+    fontColor: { type: 'palette', key: 'titleFontColor' },
     fontWeight: 'bold',
     textAlign: 'left',
     lineHeight: 18,
@@ -45,7 +45,7 @@ export const tooltip: ITooltipTheme = {
   },
   keyLabel: {
     fontSize,
-    fontColor: '#4E5969',
+    fontColor: { type: 'palette', key: 'titleFontColor' },
     textAlign: 'left',
     lineHeight: 18,
     textBaseline: 'middle',
@@ -53,7 +53,7 @@ export const tooltip: ITooltipTheme = {
   },
   valueLabel: {
     fontSize,
-    fontColor: '#4E5969',
+    fontColor: { type: 'palette', key: 'titleFontColor' },
     lineHeight: 18,
     textBaseline: 'middle',
     spacing: 0

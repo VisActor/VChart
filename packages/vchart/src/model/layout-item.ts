@@ -8,9 +8,9 @@ import { LayoutLevel, DEFAULT_LAYOUT_RECT_LEVEL, USER_LAYOUT_RECT_LEVEL } from '
 import type { ILayoutItem, ILayoutItemSpec, ILayoutPoint, ILayoutRect, ILayoutRectLevel } from './interface';
 import { CompilableBase } from '../compile/compilable-base';
 
-export class LayoutItem extends CompilableBase implements ILayoutItem {
-  protected _spec: ILayoutItemSpec;
-  getSpec(): any {
+export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends CompilableBase implements ILayoutItem {
+  protected _spec: T;
+  getSpec(): T {
     return this._spec;
   }
 

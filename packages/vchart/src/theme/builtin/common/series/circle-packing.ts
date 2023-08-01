@@ -6,14 +6,14 @@ export const circlePacking: ICirclePackingSeriesTheme = {
     visible: true,
     style: {
       cursor: 'pointer',
-      stroke: '#ffffff'
+      stroke: { type: 'palette', key: 'backgroundColor' }
     }
   },
   label: {
     visible: true,
     style: {
       cursor: 'pointer',
-      fill: '#000000'
+      fill: { type: 'palette', key: 'labelFontColor' }
     }
   }
 };

@@ -22,6 +22,10 @@ export interface ILabelSpec {
   smartInvert?: BaseLabelAttrs['smartInvert'];
   /** 动画配置 */
   animation?: BaseLabelAttrs['animation'];
+  /** 标签布局 */
+  labelLayout?: 'series' | 'region';
+  /** 是否支持3D */
+  support3d?: boolean;
 }
 
 type LabelStateStyle<T> = {

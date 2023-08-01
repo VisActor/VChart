@@ -1,5 +1,5 @@
 import type { IThemeConstants } from '../../interface';
-import { DEFAULT_TEXT_FONT_FAMILY, DEFAULT_TEXT_FONT_SIZE } from '../config';
+import { DEFAULT_TEXT_FONT_FAMILY, DEFAULT_TEXT_FONT_SIZE } from '../constant';
 
 export const THEME_CONSTANTS: IThemeConstants = {
   FONT_FAMILY: DEFAULT_TEXT_FONT_FAMILY,

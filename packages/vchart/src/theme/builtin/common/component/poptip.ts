@@ -7,16 +7,16 @@ export const poptip: PopTipAttributes = {
   titleStyle: {
     fontSize: 12,
     fontWeight: 'bold',
-    fill: '#4E5969'
+    fill: { type: 'palette', key: 'labelFontColor' } as any
   },
   contentStyle: {
     fontSize: 12,
-    fill: '#4E5969'
+    fill: { type: 'palette', key: 'labelFontColor' } as any
   },
   panel: {
     visible: true,
-    fill: '#fff',
-    stroke: '#ffffff',
+    fill: { type: 'palette', key: 'backgroundColor' } as any,
+    stroke: { type: 'palette', key: 'backgroundColor' } as any,
     lineWidth: 0,
     cornerRadius: 3,
     shadowBlur: 12,

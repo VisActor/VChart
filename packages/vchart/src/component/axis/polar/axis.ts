@@ -5,12 +5,12 @@ import type { IBaseScale, BandScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { ChartEvent, LayoutZIndex, POLAR_START_ANGLE, POLAR_START_RADIAN } from '../../../constant';
 import type { LayoutItem } from '../../../model/layout-item';
-import type { IPolarAxis, IPolarAxisCommonTheme } from './interface';
+import type { IPolarAxis, IPolarAxisCommonSpec, IPolarAxisCommonTheme } from './interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
 import { Factory } from '../../../core/factory';
-import { isArray, isValidNumber, merge, polarToCartesian, radians, eachSeries, getFieldAlias } from '../../../util';
+import { isArray, isValidNumber, merge, polarToCartesian, radians, eachSeries } from '../../../util';
 import { scaleParser } from '../../../data/parser/scale';
 import type { IPolarTickDataOpt } from '../../../data/transforms/tick-data';
 // eslint-disable-next-line no-duplicate-imports
@@ -29,7 +29,7 @@ import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
 import type { ITick } from '../interface';
 
-export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
+export abstract class PolarAxis<T extends IPolarAxisCommonSpec> extends AxisComponent<T> implements IPolarAxis {
   static type = ComponentTypeEnum.polarAxis;
   type = ComponentTypeEnum.polarAxis;
   name: string = ComponentTypeEnum.polarAxis;

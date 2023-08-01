@@ -10,7 +10,7 @@ import { BaseComponent } from '../base';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
 import type { CompilableData } from '../../compile/data';
-import type { IAxis, ITick, StatisticsDomain } from './interface';
+import type { IAxis, ICommonAxisSpec, ITick, StatisticsDomain } from './interface';
 import type { IComponentOption } from '../interface';
 import { array, eachSeries, get, getSeries, isArray, isBoolean, isFunction, isNil, isValid, merge } from '../../util';
 import type { ISeries } from '../../series/interface';
@@ -23,7 +23,10 @@ import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './utils';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
 
-export abstract class AxisComponent extends BaseComponent implements IAxis {
+export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any>> // FIXME: 补充公共类型，去掉 Record<string, any>
+  extends BaseComponent<T>
+  implements IAxis
+{
   static specKey = 'axes';
 
   protected _orient: IPolarOrientType | IOrientType;
@@ -82,7 +85,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
 
   protected _dataFieldText: string;
 
-  constructor(spec: any, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });
@@ -368,7 +371,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         alignWithLabel: spec.tick.alignWithLabel,
         style: isFunction(spec.tick.style)
           ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = this._preprocessSpec(spec.tick.style(value, index, datum, data));
+              const style = this._preprocessSpec((spec.tick.style as any)(value, index, datum, data));
               return transformToGraphic(this._preprocessSpec(merge({}, this._theme.tick?.style, style)));
             }
           : transformToGraphic(spec.tick.style),
@@ -381,7 +384,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         count: spec.subTick.tickCount,
         style: isFunction(spec.subTick.style)
           ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = spec.subTick.style(value, index, datum, data);
+              const style = (spec.subTick.style as any)(value, index, datum, data);
               return transformToGraphic(merge({}, this._theme.subTick?.style, style));
             }
           : transformToGraphic(spec.subTick.style),

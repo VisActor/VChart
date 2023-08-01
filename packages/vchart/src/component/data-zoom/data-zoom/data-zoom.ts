@@ -12,8 +12,9 @@ import type { ILinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
+import type { IDataZoomSpec } from './interface';
 
-export class DataZoom extends DataFilterBaseComponent {
+export class DataZoom extends DataFilterBaseComponent<IDataZoomSpec> {
   static type = ComponentTypeEnum.dataZoom;
   type = ComponentTypeEnum.dataZoom;
   name: string = ComponentTypeEnum.dataZoom;
@@ -46,7 +47,7 @@ export class DataZoom extends DataFilterBaseComponent {
     return zooms;
   }
 
-  constructor(spec: any, options: IComponentOption) {
+  constructor(spec: IDataZoomSpec, options: IComponentOption) {
     super(spec, {
       ...options
     });

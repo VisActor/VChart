@@ -23,7 +23,7 @@ import type { IOptionRegr } from '../../../data/transforms/regression';
 import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant';
 
-export class MarkLine extends BaseMarker implements IMarkLine {
+export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
   type = ComponentTypeEnum.markLine;
   name: string = ComponentTypeEnum.markLine;
@@ -32,7 +32,6 @@ export class MarkLine extends BaseMarker implements IMarkLine {
 
   static speckey = 'markLine';
 
-  protected declare _spec: IMarkLineSpec & IMarkLineTheme;
   protected declare _theme: IMarkLineTheme;
 
   protected declare _markerComponent: MarkLineComponent;

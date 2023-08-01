@@ -17,7 +17,7 @@ import { LayoutZIndex } from '../../../constant';
 import type { LayoutItem } from '../../../model/layout-item';
 import type { INode } from '@visactor/vrender';
 
-export class MarkPoint extends BaseMarker implements IMarkPoint {
+export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> implements IMarkPoint {
   static type = ComponentTypeEnum.markPoint;
   type = ComponentTypeEnum.markPoint;
   name: string = ComponentTypeEnum.markPoint;
@@ -26,7 +26,6 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
 
   static speckey = 'markPoint';
 
-  protected declare _spec: IMarkPointSpec & IMarkPointTheme;
   protected declare _theme: IMarkPointTheme;
 
   // markPoint组件

@@ -12,7 +12,7 @@ import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
 
-export abstract class BaseComponent extends BaseModel implements IComponent {
+export abstract class BaseComponent<T> extends BaseModel<T> implements IComponent {
   name: string = 'component';
   readonly modelType: string = 'component';
   pluginService?: IComponentPluginService;
@@ -32,7 +32,7 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
 
   animate?: IAnimate;
 
-  constructor(spec: any, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, options);
     this._regions = options.getRegionsInIndex();
     this.layoutBindRegionID = this._regions.map(x => x.id);
@@ -86,12 +86,19 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
     }
 
     // 将 theme merge 到 spec 中
-    if (isArray(this._originalSpec)) {
-      this._spec = this._originalSpec.map(spec => merge({}, this._theme, spec));
-    } else {
-      this._spec = merge({}, this._theme, this._originalSpec);
+    if (this._shouldMergeThemeToSpec) {
+      if (isArray(this._originalSpec)) {
+        this._spec = this._originalSpec.map(spec => merge({}, this._theme, spec)) as T;
+      } else {
+        this._mergeThemeToSpec();
+      }
     }
     this._preprocessSpec();
+  }
+
+  /** 是否在初始化时将 theme 自动 merge 到 spec */
+  protected _shouldMergeThemeToSpec() {
+    return true;
   }
 
   protected getContainer() {
