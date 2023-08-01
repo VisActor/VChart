@@ -12,4 +12,4 @@ export const builtinThemeMap: Map<string, ITheme> = new Map([
 ]);
 
 /** 默认主题 */
-export const defaultThemeName = 'dark'; //lightTheme.name;
+export const defaultThemeName = lightTheme.name;

@@ -9,12 +9,15 @@ import { ComponentTypeEnum } from '../../interface';
 import type { Datum } from '../../../typings';
 import { CompilableData } from '../../../compile/data';
 import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
+import type { ICartesianTimeAxisSpec } from './interface';
 
-export interface CartesianTimeAxis
+export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
-    CartesianLinearAxis {}
+    CartesianLinearAxis<T> {}
 
-export class CartesianTimeAxis extends CartesianLinearAxis {
+export class CartesianTimeAxis<
+  T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec
+> extends CartesianLinearAxis<T> {
   static type = ComponentTypeEnum.cartesianTimeAxis;
   type = ComponentTypeEnum.cartesianTimeAxis;
 
