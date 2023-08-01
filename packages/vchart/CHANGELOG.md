@@ -1,6 +1,30 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 26 Jul 2023 03:18:52 GMT and should not be manually modified.
+This log was last generated on Tue, 01 Aug 2023 09:47:58 GMT and should not be manually modified.
+
+## 1.1.2
+Tue, 01 Aug 2023 09:47:58 GMT
+
+### Patches
+
+- feat: geo-coordinate support zoom api
+- fix(pie): fix the issue of pie mark's \`key\` value duplication causes drawing error, closed #321
+- fix: fix the issue where linearAxis.expand does not work when there are identical data values in #358
+- fix: fix the issue of geo source lost
+- fix(label): fix the issue that the update of label visible fails to take effect with updateSpec, closed #304
+- fix(axis): fix the issue when the min and max of the axes are the same, closed #355
+
+## 1.1.1
+Fri, 28 Jul 2023 08:52:08 GMT
+
+### Patches
+
+- feat(logger): support static api `getLogger` in vchart class
+- fix(vchart): fix the problem of default logLevel not sync to vgrammar
+- fix(map): fix the issue that some map data cannot be drawn
+- fix(map): fix the issue of misalignment of the map after interaction with legend
+- fix(indicator): add `specKey` for Indicator to fix the issue that the indicator text does not display after the update, close#251
+- fix(map): fix the issue that defaultFillColor does not work in map
 
 ## 1.1.0
 Wed, 26 Jul 2023 03:18:52 GMT
@@ -93,11 +117,11 @@ Wed, 26 Jul 2023 03:18:52 GMT
 - fix(label): pickable shoule be false if label component is configured `interactive: false`
 - fix the layoutOffsetX|Y not work in normal items
 - fix: line mark has a different easing in update animation causes strange animation effect
-- fix: `channel` config not work in animation 
+- fix: `channel` config not work in animation
 - No longer requires to hold down the Ctrl key for zoom interaction & fix zoomLimit bug
 - fix: default tooltip handler needs to adapt to the scale property
 - fix(vchart): export IRegionSpec from VChart
-- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series 
+- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series
 - fix: compact window variable for non-browser env
 - fix: compact window variable for non-browser env
 

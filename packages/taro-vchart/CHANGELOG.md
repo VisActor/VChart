@@ -1,6 +1,16 @@
 # Change Log - @visactor/taro-vchart
 
-This log was last generated on Wed, 26 Jul 2023 03:18:52 GMT and should not be manually modified.
+This log was last generated on Tue, 01 Aug 2023 09:47:58 GMT and should not be manually modified.
+
+## 1.1.2
+Tue, 01 Aug 2023 09:47:58 GMT
+
+_Version update only_
+
+## 1.1.1
+Fri, 28 Jul 2023 08:52:08 GMT
+
+_Version update only_
 
 ## 1.1.0
 Wed, 26 Jul 2023 03:18:52 GMT
