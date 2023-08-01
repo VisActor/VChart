@@ -37,7 +37,7 @@ export const sankey = (data: SankeyData, op: ISankeyOpt) => {
       if (key === 'links') {
         const updatedData: {}[] = [];
         data[key].forEach((datum: any) => {
-          const updatedDatum = {};
+          const updatedDatum: any = {};
           for (const key in datum) {
             if (key === op.sourceField) {
               updatedDatum.source = datum[op.sourceField];
