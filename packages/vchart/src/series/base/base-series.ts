@@ -225,7 +225,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _markAttributeContext: ISeriesMarkAttributeContext;
 
-  constructor(spec: any, options: ISeriesOption) {
+  constructor(spec: T, options: ISeriesOption) {
     super(spec, {
       ...options
     });
