@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/taro-vchart",
+      "comment": "fix: [Bug] SankeyChart can't render, when unset nodeAlign#343",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart"
+}
