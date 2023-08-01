@@ -65,6 +65,7 @@ import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { TextMark } from '../../mark/text';
 import { ArcMark } from '../../mark/arc';
+import { merge } from '../../util';
 
 VChart.useMark([PathMark, TextMark, ArcMark]);
 
@@ -184,36 +185,37 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         key: this._seriesField,
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
-        isSeriesMark: true
+        isSeriesMark: true,
+        label: merge({ animation: this._spec.animation }, this._spec.label)
       }
     ) as IArcMark;
 
-    if (this._spec?.label?.visible) {
-      const spec = this.getSpec();
-      this._labelMark = this._createMark(BasePieSeries.mark.label, {
-        dataView: this._viewDataLabel.getDataView(),
-        dataProductId: this._viewDataLabel.getProductId(),
-        skipBeforeLayouted: true,
-        themeSpec: this._theme?.label,
-        support3d: spec?.label?.support3d,
-        markSpec: {
-          visible: true,
-          ...this.getSpec()?.label
-        }
-      }) as ITextMark;
+    // if (this._spec?.label?.visible) {
+    //   const spec = this.getSpec();
+    //   this._labelMark = this._createMark(BasePieSeries.mark.label, {
+    //     dataView: this._viewDataLabel.getDataView(),
+    //     dataProductId: this._viewDataLabel.getProductId(),
+    //     skipBeforeLayouted: true,
+    //     themeSpec: this._theme?.label,
+    //     support3d: spec?.label?.support3d,
+    //     markSpec: {
+    //       visible: true,
+    //       ...this.getSpec()?.label
+    //     }
+    //   }) as ITextMark;
 
-      this._labelLineMark = this._createMark(BasePieSeries.mark.labelLine, {
-        dataView: this._viewDataLabel.getDataView(),
-        dataProductId: this._viewDataLabel.getProductId(),
-        skipBeforeLayouted: true,
-        themeSpec: this._theme?.label?.line,
-        support3d: spec?.label?.support3d,
-        markSpec: {
-          visible: true,
-          ...this.getSpec()?.label?.line
-        }
-      }) as ITextMark;
-    }
+    //   this._labelLineMark = this._createMark(BasePieSeries.mark.labelLine, {
+    //     dataView: this._viewDataLabel.getDataView(),
+    //     dataProductId: this._viewDataLabel.getProductId(),
+    //     skipBeforeLayouted: true,
+    //     themeSpec: this._theme?.label?.line,
+    //     support3d: spec?.label?.support3d,
+    //     markSpec: {
+    //       visible: true,
+    //       ...this.getSpec()?.label?.line
+    //     }
+    //   }) as ITextMark;
+    // }
   }
 
   initMarkStyle(): void {
@@ -293,6 +295,33 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
       this._trigger.registerMark(labelLineMark);
     }
+  }
+
+  initLabelMarkStyle(textMark: ITextMark) {
+    if (!textMark) {
+      return;
+    }
+    this.setMarkStyle(
+      textMark,
+      {
+        visible: field(DEFAULT_LABEL_VISIBLE).bind(this),
+        x: field(DEFAULT_LABEL_X).bind(this),
+        y: field(DEFAULT_LABEL_Y).bind(this),
+        text: field(DEFAULT_LABEL_TEXT).bind(this),
+        fill: this._spec.label?.style?.fill || this.getColorAttribute(),
+        textAlign: field(DEFAULT_LABEL_ALIGN).bind(this),
+        textBaseline: this._spec.label?.position === 'inside' ? 'middle' : 'top',
+        angle: (datum: Datum) => {
+          const angle = datum[ARC_MIDDLE_ANGLE];
+          return this._spec.label?.position === 'inside' ? degrees(angle) : 0;
+        },
+        limit: field(DEFAULT_LABEL_LIMIT).bind(this),
+        z: this.dataToPositionZ.bind(this)
+      },
+      undefined,
+      // 标签属性基于用户配置生成，样式优先级应当为用户级
+      AttributeLevel.User_Mark
+    );
   }
 
   afterInitMark(): void {
