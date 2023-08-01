@@ -1,6 +1,7 @@
 import { isValid } from '@visactor/vutils';
 import type { ISeries } from '../../../../series/interface';
 import type { IDiscreteLegendData, IDiscreteLegendDataMakeOption, IDiscreteLegendFilterOption } from './interface';
+import { DEFAULT_DATA_SERIES_FIELD } from '../../../../constant';
 
 export const discreteLegendDataMake = (data: Array<ISeries>, op: IDiscreteLegendDataMakeOption) => {
   const result: IDiscreteLegendData[] = [];
@@ -41,7 +42,7 @@ export const discreteLegendFilter = (data: Array<any>, op: IDiscreteLegendFilter
   selectedData.forEach(s => {
     selectedFilter[s] = true;
   });
-  const datumField = field();
+  const datumField = field() ?? DEFAULT_DATA_SERIES_FIELD;
   if (isValid(datumField)) {
     data = data.filter(d => selectedFilter[d[datumField]] === true);
   }
