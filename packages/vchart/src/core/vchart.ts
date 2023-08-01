@@ -436,16 +436,14 @@ export class VChart implements IVChart {
       // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
       // VGrammar view 对象不需要释放，提供了reuse和morph能力之后，srView有上下文缓存
     } else {
-      if (updateResult.reCompile) {
-        // FIXME: 暂时这么处理，还需要整体设计下组件的生命周期
-        this.getComponents().forEach(c => c.clear());
-        // TODO: 释放事件？
-        // 重新绑定事件
-        // TODO: 释放XX？
-        // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
-        // 先compile
-        this._compiler?.compile({ chart: this._chart, vChart: this }, {});
-      }
+      // FIXME: 暂时这么处理，还需要整体设计下组件的生命周期
+      this.getComponents().forEach(c => c.clear());
+      // TODO: 释放事件？
+      // 重新绑定事件
+      // TODO: 释放XX？
+      // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
+      // 先compile
+      this._compiler?.compile({ chart: this._chart, vChart: this }, {});
     }
   }
 
