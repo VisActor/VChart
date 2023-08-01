@@ -1,6 +1,18 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 28 Jul 2023 08:52:08 GMT and should not be manually modified.
+This log was last generated on Tue, 01 Aug 2023 09:47:58 GMT and should not be manually modified.
+
+## 1.1.2
+Tue, 01 Aug 2023 09:47:58 GMT
+
+### Patches
+
+- feat: geo-coordinate support zoom api
+- fix(pie): fix the issue of pie mark's \`key\` value duplication causes drawing error, closed #321
+- fix: fix the issue where linearAxis.expand does not work when there are identical data values in #358
+- fix: fix the issue of geo source lost
+- fix(label): fix the issue that the update of label visible fails to take effect with updateSpec, closed #304
+- fix(axis): fix the issue when the min and max of the axes are the same, closed #355
 
 ## 1.1.1
 Fri, 28 Jul 2023 08:52:08 GMT
