@@ -1,6 +1,9 @@
 import type { IBackgroundSpec, IBackgroundStyleSpec } from './../typings/spec/common';
-import { isArray, isBoolean, isDate, isNumber, isString, isValid } from '@visactor/vutils';
+import { isArray, isBoolean, isDate, isFunction, isNumber, isObject, isString, isValid } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
+import { getActualColor, isColorKey } from '../theme/color-scheme/util';
+import type { IThemeColorScheme } from '../theme/color-scheme/interface';
+import type { SeriesTypeEnum } from '../series/interface';
 
 // todo 以目前的场景来看，并没有递归的需要。
 // 考虑到不确定性，还是递归处理spec对象，时间消耗很少
@@ -131,4 +134,35 @@ export function convertBackgroundSpec(
   const { x, y, width, height, x1, y1, image, ...rest } = bg;
   rest.background = image;
   return rest;
+}
+
+/** 对 spec 或者类 spec 配置（如 theme）进行预处理，如进行语义化颜色的转换 */
+export function preprocessSpecOrTheme(obj: any, colorScheme?: IThemeColorScheme, seriesType?: SeriesTypeEnum): any {
+  if (isArray(obj)) {
+    return obj.map(element => {
+      if (isObject(element) && !isFunction(element)) {
+        return preprocessSpecOrTheme(element, colorScheme, seriesType);
+      }
+      return element;
+    });
+  }
+
+  const newObj = { ...obj };
+  Object.keys(newObj).forEach(key => {
+    // 绕过 DataView 对象
+    if (key.includes('data')) {
+      return;
+    }
+    const value = obj[key];
+    if (isObject(value) && !isFunction(value)) {
+      // 查询、替换语义化颜色
+      if (isColorKey(value)) {
+        newObj[key] = getActualColor(value, colorScheme, seriesType);
+      } else {
+        newObj[key] = preprocessSpecOrTheme(value, colorScheme, seriesType);
+      }
+    }
+  });
+
+  return newObj;
 }

@@ -14,9 +14,11 @@ import { markLabelConfigFunc, textAttribute } from './util';
 import type { IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { pickWithout } from '@visactor/vutils';
 import type { IGroup, IText } from '@visactor/vrender';
 import type { LabelItem } from '@visactor/vrender-components';
+import type { ILabelSpec } from './interface';
 
 export interface ILabelInfo {
   baseMark: IMark;
@@ -29,7 +31,7 @@ export interface ILabelComponentContext {
   labelInfo: ILabelInfo[];
 }
 
-export class Label extends BaseLabelComponent {
+export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent<T> {
   static type = ComponentTypeEnum.label;
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
@@ -43,7 +45,7 @@ export class Label extends BaseLabelComponent {
 
   protected _layoutRule: 'series' | 'region';
 
-  constructor(spec: any, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, options);
     this._layoutRule = spec.labelLayout || 'series';
   }

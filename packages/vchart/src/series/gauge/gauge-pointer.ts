@@ -30,7 +30,6 @@ export class GaugePointerSeries extends ProgressLikeSeries<IGaugePointerSeriesSp
   };
 
   protected declare _theme: Maybe<IGaugePointerSeriesTheme>;
-  protected declare _spec: IGaugePointerSeriesSpec;
 
   private _pinMark: IPathMark | null = null;
   private _pointerMark: IPathMark | IRectMark | null = null;

@@ -25,11 +25,9 @@ import {
   debounce,
   isTrueBrowser,
   warn,
-  error,
   specTransform,
   convertPoint,
-  config,
-  isMiniAppLikeMode
+  preprocessSpecOrTheme
 } from '../util';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -889,10 +887,12 @@ export class VChart implements IVChart {
   /** 当 spec 或者 currentThemeName 有变化时需要调用此方法对 currentTheme 进行更新 */
   private _updateCurrentTheme() {
     if (isString(this._spec?.theme)) {
-      this._currentTheme = merge({}, ThemeManager.getTheme(this._spec.theme));
+      const theme = merge({}, ThemeManager.getTheme(this._spec.theme));
+      this._currentTheme = preprocessSpecOrTheme(theme, theme.colorScheme);
       this._currentThemeName = this._spec.theme;
     } else {
-      this._currentTheme = merge({}, ThemeManager.getTheme(this._currentThemeName), this._spec?.theme ?? {});
+      const theme = merge({}, ThemeManager.getTheme(this._currentThemeName), this._spec?.theme ?? {});
+      this._currentTheme = preprocessSpecOrTheme(theme, theme.colorScheme);
     }
     // 设置 poptip 的主题
     setPoptipTheme(merge({}, this._currentTheme.component?.poptip));
