@@ -6,14 +6,14 @@ import { ComponentTypeEnum } from '../../interface';
 import { mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
-export interface CartesianBandAxis
+export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec>
   extends Pick<
       BandAxisMixin,
       'valueToPosition' | 'updateGroupScaleRange' | 'getPosition' | 'calcScales' | 'computeBandDomain'
     >,
-    CartesianAxis<ICartesianBandAxisSpec> {}
+    CartesianAxis<T> {}
 
-export class CartesianBandAxis extends CartesianAxis<ICartesianBandAxisSpec> {
+export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec> extends CartesianAxis<T> {
   static type = ComponentTypeEnum.cartesianBandAxis;
   type = ComponentTypeEnum.cartesianBandAxis;
 

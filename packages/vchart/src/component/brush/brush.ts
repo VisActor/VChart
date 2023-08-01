@@ -16,9 +16,9 @@ import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
 import type { IElement } from '@visactor/vgrammar';
-import type { IBrush, selectedItemStyle } from './interface';
+import type { IBrush, IBrushSpec, selectedItemStyle } from './interface';
 
-export class Brush extends BaseComponent implements IBrush {
+export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   layoutType: LayoutItem['layoutType'] = 'absolute';
   static type = ComponentTypeEnum.brush;
   type = ComponentTypeEnum.brush;
@@ -354,7 +354,7 @@ export class Brush extends BaseComponent implements IBrush {
       const allMarks: IMark[] = [];
       r.getSeries().forEach((s: ISeries) => {
         if (
-          (seriesUserId && array(seriesUserId).includes(s.userId)) ||
+          (seriesUserId && array(seriesUserId).includes(s.userId.toString())) ||
           (seriesIndex && array(seriesIndex).includes(s.getSpecIndex())) ||
           (!seriesIndex && !seriesUserId)
         ) {

@@ -226,7 +226,6 @@ export class VChart implements IVChart {
     this._currentThemeName = ThemeManager.getCurrentThemeName();
     this._setSpec(spec);
     this._updateCurrentTheme();
-    const specBackground = typeof spec.background === 'string' ? spec.background : null;
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -237,7 +236,7 @@ export class VChart implements IVChart {
         stage,
         pluginList: poptip !== false ? ['poptipForText'] : [],
         ...restOptions,
-        background: specBackground || (this._currentTheme.background as string) || this._option.background, // spec > spec.theme > initOptions.theme
+        background: this._getBackground(),
         onError: this._onError
       }
     );
@@ -824,6 +823,14 @@ export class VChart implements IVChart {
     }
     // 设置 poptip 的主题
     setPoptipTheme(merge({}, this._currentTheme.component?.poptip));
+    // 设置背景色
+    this._compiler?.setBackground(this._getBackground());
+  }
+
+  private _getBackground() {
+    const specBackground = typeof this._spec.background === 'string' ? this._spec.background : null;
+    // spec > spec.theme > initOptions.theme
+    return specBackground || (this._currentTheme.background as string) || this._option.background;
   }
 
   /**

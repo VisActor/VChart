@@ -23,7 +23,9 @@ import { ChartEvent } from '../../../constant';
 const SINGLE_SEQUENCE = ['#C4E7FF', '#98CAFF', '#75ACFF', '#518FF9', '#2775DC', '#005CBE', '#00429F', '#00287E'];
 const SIZE = [2, 10];
 
-export class ContinuousLegend extends BaseLegend<IColorLegendSpec | ISizeLegendSpec> {
+export class ContinuousLegend<
+  T extends IColorLegendSpec | ISizeLegendSpec = IColorLegendSpec | ISizeLegendSpec
+> extends BaseLegend<T> {
   static type = ComponentTypeEnum.continuousLegend;
   type = ComponentTypeEnum.colorLegend;
   name: string = ComponentTypeEnum.colorLegend;
@@ -58,7 +60,7 @@ export class ContinuousLegend extends BaseLegend<IColorLegendSpec | ISizeLegendS
     return legends;
   }
 
-  constructor(spec: IColorLegendSpec | ISizeLegendSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, options);
 
     // 这里需要区分下是 colorLegend 还是 sizeLegend

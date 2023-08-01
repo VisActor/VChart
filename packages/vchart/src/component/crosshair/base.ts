@@ -56,7 +56,10 @@ const ORIENT_MAP = {
   value: ['radius']
 };
 
-export abstract class BaseCrossHair extends BaseComponent implements ICrossHair {
+export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCrosshairSpec>
+  extends BaseComponent<T>
+  implements ICrossHair
+{
   layoutType: LayoutItem['layoutType'] = 'absolute';
   gridZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair_Grid;
   labelZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair;
@@ -74,11 +77,10 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
   protected _crosshairConfig: ICartesianCrosshairSpec | IPolarCrosshairSpec;
   private _limitBounds: Maybe<IBoundsLike>;
 
-  constructor(spec: ICartesianCrosshairSpec | IPolarCrosshairSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });
-    this._spec = spec;
     this.enable = true;
     this.showDefault = true;
   }

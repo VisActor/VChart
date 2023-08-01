@@ -52,7 +52,7 @@ enum LayoutType {
 type IBound = { x1: number; y1: number; x2: number; y2: number };
 type IAxisInfo = Map<number, IBound & { axis: IAxis }>;
 
-export class CartesianCrossHair extends BaseCrossHair {
+export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCrosshairSpec> extends BaseCrossHair<T> {
   static type = ComponentTypeEnum.cartesianCrosshair;
   type = ComponentTypeEnum.cartesianCrosshair;
   name: string = ComponentTypeEnum.cartesianCrosshair;
@@ -93,7 +93,7 @@ export class CartesianCrossHair extends BaseCrossHair {
     return components;
   }
 
-  constructor(spec: ICartesianCrosshairSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });
@@ -105,7 +105,7 @@ export class CartesianCrossHair extends BaseCrossHair {
     if (!this.showDefault) {
       return;
     }
-    const { xField = {}, yField = {} } = this._spec;
+    const { xField = {}, yField = {} } = this._spec as any; // FIXME: spec 类型需要补全
     if (xField?.visible && xField.defaultSelect) {
       const { axisIndex, datum } = xField.defaultSelect;
       this.defaultCrosshair(axisIndex, datum, LayoutType.VERTICAL, true);

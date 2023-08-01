@@ -9,7 +9,7 @@ import type { CartesianLinearAxis } from '../../../../../src/index';
 import { CartesianAxis } from '../../../../../src/index';
 import type { IComponent, IComponentOption } from '../../../../../src/component/interface';
 import { EventDispatcher } from '../../../../../src/event/event-dispatcher';
-import { lightTheme } from '../../../../../src/theme/buildin-theme/light';
+import { lightTheme } from '../../../../../src/theme/builtin/light';
 import { getTestCompiler } from '../../../../util/factory/compiler';
 
 const dataSet = new DataSet();

@@ -23,7 +23,7 @@ import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './utils';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
 
-export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any>> // FIXME: 补充公共类型，去掉 Record<string, any>
+export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
   implements IAxis
 {

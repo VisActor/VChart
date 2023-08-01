@@ -27,7 +27,7 @@ export interface ILabelComponentContext {
   labelInfo: ILabelInfo[];
 }
 
-export class Label extends BaseComponent<ILabelSpec> {
+export class Label<T extends ILabelSpec = ILabelSpec> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
@@ -41,7 +41,7 @@ export class Label extends BaseComponent<ILabelSpec> {
 
   protected _layoutRule: 'series' | 'region';
 
-  constructor(spec: ILabelSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, options);
     this._regions = options.getRegionsInIndex([options.specIndex]);
     this.layoutBindRegionID = this._regions.map(x => x.id);

@@ -6,7 +6,7 @@ import type { ITooltipTextStyle } from '../interface';
 
 export function getTextAttributes(style: ITooltipTextTheme = {}, globalTheme?: ITheme) {
   const attrs: ITooltipTextStyle = {
-    fill: style.fontColor,
+    fill: style.fontColor as string,
     textAlign: style.textAlign,
     textBaseline: style.textBaseline,
     fontFamily: style.fontFamily ?? globalTheme?.fontFamily ?? DEFAULT_TEXT_FONT_FAMILY,

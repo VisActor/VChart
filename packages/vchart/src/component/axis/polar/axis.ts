@@ -29,7 +29,10 @@ import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
 import type { ITick } from '../interface';
 
-export abstract class PolarAxis<T extends IPolarAxisCommonSpec> extends AxisComponent<T> implements IPolarAxis {
+export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommonSpec>
+  extends AxisComponent<T>
+  implements IPolarAxis
+{
   static type = ComponentTypeEnum.polarAxis;
   type = ComponentTypeEnum.polarAxis;
   name: string = ComponentTypeEnum.polarAxis;

@@ -5,14 +5,14 @@ import type { IPolarLinearAxisSpec } from './interface/spec';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { mixin } from '@visactor/vutils';
 
-export interface PolarLinearAxis
+export interface PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSpec>
   extends Pick<
       LinearAxisMixin,
       'setExtraAttrFromSpec' | 'transformScaleDomain' | 'valueToPosition' | 'computeLinearDomain' | 'setScaleNice'
     >,
-    PolarAxis<IPolarLinearAxisSpec> {}
+    PolarAxis<T> {}
 
-export class PolarLinearAxis extends PolarAxis<IPolarLinearAxisSpec> {
+export class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSpec> extends PolarAxis<T> {
   static type = ComponentTypeEnum.polarLinearAxis;
   type = ComponentTypeEnum.polarLinearAxis;
 
