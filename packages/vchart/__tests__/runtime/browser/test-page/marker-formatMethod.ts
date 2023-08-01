@@ -39,7 +39,9 @@ const run = () => {
     markLine: [
       {
         x: (relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData) => {
-          // console.log('datum', relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData)
+          console.log('relativeSeriesData', relativeSeriesData);
+          console.log('startRelativeSeriesData', startRelativeSeriesData);
+          console.log('endRelativeSeriesData', endRelativeSeriesData);
           return 'Wed';
         },
         label: {
@@ -76,7 +78,7 @@ const run = () => {
           position: 'insideEndBottom',
           refY: -10,
           formatMethod: datum => {
-            console.log('datum', datum?.[0]['y']);
+            console.log('caculate-datum', datum);
             // return 'Average Visit Num:';
             return 'Average Visit Num:' + datum?.[0]['y'];
           },
