@@ -79,8 +79,9 @@ export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
   }
 
   getSeriesStyle(datum: Datum) {
-    return (attribute: string, flag: boolean = true) => {
-      if (flag) {
+    const isLineAsSeriesMark = this._spec.seriesMark !== 'point';
+    return (attribute: string) => {
+      if (isLineAsSeriesMark) {
         // 增加一个标识位，用于是否替换，因为图例获取颜色的时候是不需要替换的
         attribute === 'fill' && (attribute = 'stroke');
       }
