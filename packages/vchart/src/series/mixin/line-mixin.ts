@@ -142,13 +142,14 @@ export class LineLikeSeriesMixin {
     return lineMark;
   }
 
-  initSymbolMark(progressive?: IMarkProgressiveConfig) {
+  initSymbolMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
     this._symbolMark = this._createMark(lineLikeSeriesMarkMap.point, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       label: merge({ animation: this._spec.animation }, this._spec.label),
-      progressive
+      progressive,
+      isSeriesMark: !!isSeriesMark
     }) as ISymbolMark;
     return this._symbolMark;
   }
