@@ -111,6 +111,8 @@ export class SankeySeries extends CartesianSeries<any> {
               y1: this._viewBox.y2
             };
           },
+          sourceField: this._spec.sourceField,
+          targetField: this._spec.targetField,
           direction: this._spec.direction,
           nodeAlign: this._spec.nodeAlign ?? 'justify',
           nodeGap: this._spec.nodeGap ?? 8,
