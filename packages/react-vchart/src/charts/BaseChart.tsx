@@ -48,7 +48,7 @@ export interface BaseChartProps
   /** 图表渲染完成事件 */
   onReady?: (instance: VChart, isInitial: boolean) => void;
   /** throw error when chart run into an error */
-  onError?: () => void;
+  onError?: (err: Error) => void;
 }
 
 type Props = React.PropsWithChildren<BaseChartProps>;
@@ -91,8 +91,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       ...props.options,
       autoFit: true,
       mode: 'desktop-browser',
-      dom: props.container,
-      onError: props.onError ?? props.options?.onError
+      dom: props.container
     });
     chartContext.current = { ...chartContext.current, chart: cs };
   };
