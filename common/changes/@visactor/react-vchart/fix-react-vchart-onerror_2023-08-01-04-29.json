@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "fix(react-vchart): catch error in BaseChart",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}
