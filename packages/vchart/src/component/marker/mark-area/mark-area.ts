@@ -66,7 +66,7 @@ export class MarkArea extends BaseMarker implements IMarkArea {
       areaStyle: transformToGraphic(this._spec.area?.style),
       label: {
         ...this._spec.label,
-        formatMethod: null,
+        text: this._spec.label.formatMethod ? this._spec.label.formatMethod(this._markerData) : this._spec.label.text,
         padding: this._spec.label?.labelBackground?.padding,
         shape: {
           ...transformToGraphic(this._spec.label?.shape),
@@ -111,16 +111,6 @@ export class MarkArea extends BaseMarker implements IMarkArea {
     } else if (isPositionLayout) {
       points = spec.positions;
     }
-
-    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-
-    this._markerComponent?.setAttributes({
-      points: points,
-      label: {
-        ...this._markerComponent.attribute?.label,
-        formatMethod: this._spec.label.formatMethod ? text => this._spec.label.formatMethod(text, dataPoints) : null
-      }
-    });
   }
 
   protected _initDataView(): void {

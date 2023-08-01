@@ -38,7 +38,10 @@ const run = () => {
     seriesField: 'type',
     markLine: [
       {
-        x: 'Wed',
+        x: (relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData) => {
+          // console.log('datum', relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData)
+          return 'Wed';
+        },
         label: {
           text: 'National holiday',
           position: 'insideEndBottom',
@@ -69,12 +72,13 @@ const run = () => {
       {
         y: 'average',
         label: {
-          text: 'Average Visit Num',
+          // text: 'Average Visit Num',
           position: 'insideEndBottom',
           refY: -10,
-          formatMethod: (text, datum) => {
-            console.log('datum', text, datum);
-            return 'Average Visit Num:' + datum?.[0]['y'];
+          formatMethod: datum => {
+            console.log('datum', datum?.latestData[0]['y']);
+            return 'Average Visit Num:';
+            // return 'Average Visit Num:' + datum?.latestData[0]['y'];
           },
           labelBackground: {
             padding: 2,

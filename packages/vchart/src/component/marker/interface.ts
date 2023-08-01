@@ -5,6 +5,11 @@ import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } fr
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = string | number | IAggrType;
+export type IDataPosCallback = (
+  relativeSeriesData: any,
+  startRelativeSeriesData: any,
+  endRelativeSeriesData: any
+) => IDataPos;
 export type IDataPointSpec = {
   [key: string]: IDataPos;
   /**
@@ -46,14 +51,13 @@ export type IMarkerLabelSpec = {
   /**
    * label文本 - 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
    */
-  text?: string;
+  text?: string | string[] | number | number[];
   /**
    * label文本 - 文本格式化
-   * @param text 原始标签文本值
    * @param datum marker组件聚合或回归计算后的数据值
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: number | number[] | string | string[], datum?: any) => string;
+  formatMethod?: (datum?: any) => string | string[] | number | number[];
   /**
    * label文本 - 文本样式
    */
