@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "perf(stack): use 0 to replace Number.epsilon in stack operation",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
