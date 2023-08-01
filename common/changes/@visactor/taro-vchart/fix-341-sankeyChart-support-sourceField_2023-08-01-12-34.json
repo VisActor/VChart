@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/taro-vchart",
+      "comment": "fix: [Bug] SankeyChart sourceFiled and targetFiled not working.#341",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart"
+}
