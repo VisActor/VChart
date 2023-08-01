@@ -101,6 +101,7 @@ const run = () => {
     }
   };
 
+  //VChart.ThemeManager.setCurrentTheme('dark');
   const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'

@@ -14,7 +14,7 @@ import { LinearScale } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import type { IDataZoomSpec } from './interface';
 
-export class DataZoom extends DataFilterBaseComponent<IDataZoomSpec> {
+export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
   type = ComponentTypeEnum.dataZoom;
   name: string = ComponentTypeEnum.dataZoom;
@@ -47,7 +47,7 @@ export class DataZoom extends DataFilterBaseComponent<IDataZoomSpec> {
     return zooms;
   }
 
-  constructor(spec: IDataZoomSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });

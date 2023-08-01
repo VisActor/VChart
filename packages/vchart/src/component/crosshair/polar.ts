@@ -50,7 +50,7 @@ enum LayoutType {
 type IBound = { x1: number; y1: number; x2: number; y2: number };
 type IAxisInfo = Map<number, IBound & { axis: IPolarAxis }>;
 
-export class PolarCrossHair extends BaseCrossHair {
+export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
   static type = ComponentTypeEnum.polarCrosshair;
   type = ComponentTypeEnum.polarCrosshair;
   name: string = ComponentTypeEnum.polarCrosshair;
@@ -88,7 +88,7 @@ export class PolarCrossHair extends BaseCrossHair {
     return components;
   }
 
-  constructor(spec: IPolarCrosshairSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });

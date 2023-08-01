@@ -285,7 +285,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     this._cacheViewSpec = undefined;
     this._cacheActualTooltip = undefined;
 
-    const spec = this._component.getSpec() as ITooltipSpec;
+    const spec = this._component.getSpec() ?? {};
     /** 用户自定义逻辑 */
     if (spec.handler) {
       spec.handler.release?.();
@@ -552,14 +552,14 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       shadow: !!shadow
     };
     if (border?.color) {
-      panelStyle.stroke = border.color;
+      panelStyle.stroke = border.color as string;
     }
     if (backgroundColor) {
-      panelStyle.fill = backgroundColor;
+      panelStyle.fill = backgroundColor as string;
     }
 
     if (shadow) {
-      panelStyle.shadowColor = shadow.color;
+      panelStyle.shadowColor = shadow.color as string;
       panelStyle.shadowBlur = shadow.blur;
       panelStyle.shadowOffsetX = shadow.x;
       panelStyle.shadowOffsetY = shadow.y;

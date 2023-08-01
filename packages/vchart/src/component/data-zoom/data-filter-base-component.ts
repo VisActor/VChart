@@ -390,7 +390,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return (pos - range[0]) / (range[1] - range[0]);
   }
 
-  protected _modeCheck(statePoint: string, mode: string) {
+  protected _modeCheck(statePoint: string, mode: string): any {
     if (statePoint === 'start') {
       return (mode === 'percent' && this._spec.start) || (mode === 'value' && this._spec.startValue);
     } else if (statePoint === 'end') {
