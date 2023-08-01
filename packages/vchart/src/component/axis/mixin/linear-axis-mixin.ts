@@ -79,8 +79,20 @@ export class LinearAxisMixin {
     if (!this._expand) {
       return;
     }
-    const domainMin = domain[0];
-    const domainMax = domain[domain.length - 1];
+
+    let domainMin = domain[0];
+    let domainMax = domain[domain.length - 1];
+
+    if (domainMin === domainMax) {
+      if (domainMax === 0) {
+        domainMax = 1;
+      } else if (domainMax > 0) {
+        domainMin = 0;
+      } else if (domainMax < 0) {
+        domainMax = 0;
+      }
+    }
+
     if (isValid(this._expand.min)) {
       domain[0] = domainMin - (domainMax - domainMin) * this._expand.min;
     }
