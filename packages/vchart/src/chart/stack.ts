@@ -80,7 +80,7 @@ export class Stack {
   private stack(stackCache: IStackCacheNode) {
     if (stackCache.values.length > 0) {
       // 设置一个小数以保证 log 计算不会报错
-      let positiveStart = Number.EPSILON;
+      let positiveStart = 0;
       let negativeStart = 0;
       // temp
       let sign = 1;
@@ -104,8 +104,8 @@ export class Stack {
         value = v[STACK_FIELD_END];
         const denominator = value >= 0 ? positiveStart : negativeStart;
         sign = value >= 0 ? 1 : -1;
-        v[STACK_FIELD_START_PERCENT] = Math.min(1, v[STACK_FIELD_START] / denominator) * sign;
-        v[STACK_FIELD_END_PERCENT] = Math.min(1, v[STACK_FIELD_END] / denominator) * sign;
+        v[STACK_FIELD_START_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_START] / denominator) * sign;
+        v[STACK_FIELD_END_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_END] / denominator) * sign;
       });
     }
 
