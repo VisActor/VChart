@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(axis): fix the issue when the min and max of the axes are the same, closed #355",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

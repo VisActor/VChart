@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: geo-coordinate support zoom api",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
