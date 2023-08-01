@@ -114,19 +114,18 @@ describe('wordCloud chart test', () => {
       mode: 'desktop-browser',
       renderCanvas: canvasDom
     });
-    cs.renderAsync().then(() => {
-      const series: WordCloudSeries = cs.getChart().getAllSeries()[0] as WordCloudSeries;
-      const dataResult = series.getViewData().latestData;
-      expect(dataResult.length).toBe(2517); // 单词总数
-      // 绘制单词数量和属性有随机性
-      // expect(dataResult.filter(d => d.x && d.y).length).toBe(33); // 实际绘制单词总数
-      // expect(dataResult[1].x).toBe(173);
-      // expect(dataResult[1].y).toBe(238);
-      expect(dataResult[1].fontFamily).toBe('sans-serif');
-      expect(dataResult[1].fontSize).toBe(37);
-      expect(dataResult[1].fontStyle).toBe('normal');
-      expect(dataResult[1].fontWeight).toBe(440.94488188976374);
-      expect(dataResult[1].angle).toBe(0);
-    });
+    await cs.renderAsync();
+    const series: WordCloudSeries = cs.getChart().getAllSeries()[0] as WordCloudSeries;
+    const dataResult = series.getViewData().latestData;
+    expect(dataResult.length).toBe(2517); // 单词总数
+    // 绘制单词数量和属性有随机性
+    // expect(dataResult.filter(d => d.x && d.y).length).toBe(33); // 实际绘制单词总数
+    // expect(dataResult[1].x).toBe(173);
+    // expect(dataResult[1].y).toBe(238);
+    expect(dataResult[1].fontFamily).toBe('sans-serif');
+    expect(dataResult[1].fontSize).toBe(37);
+    expect(dataResult[1].fontStyle).toBe('normal');
+    expect(dataResult[1].fontWeight).toBe(440.94488188976374);
+    expect(dataResult[1].angle).toBe(0);
   });
 });

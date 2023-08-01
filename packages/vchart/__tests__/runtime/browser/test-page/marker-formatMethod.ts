@@ -32,59 +32,135 @@ const run = () => {
     type: 'csv'
   });
   const spec = {
-    width: 800,
     type: 'line',
     xField: 'x',
     yField: 'y',
-    markArea: [
+    seriesField: 'type',
+    markLine: [
       {
-        x: 'min',
-        x1: 4,
+        x: (relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData) => {
+          // console.log('datum', relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData)
+          return 'Wed';
+        },
         label: {
-          text: '区域: 从 minX 到 x = 4',
-          position: 'insideTop'
-        }
-      },
-      {
-        y: 20,
-        y1: 40,
-        label: {
-          text: '区域: 从 y = 20 到 y = 40',
-          position: 'insideRight'
-        }
-      },
-      {
-        coordinates: [
-          {
-            x: 1,
-            y: 10
+          text: 'National holiday',
+          position: 'insideEndBottom',
+          reY: 10,
+          labelBackground: {
+            padding: 5,
+            style: {
+              stroke: '#6690F2',
+              fillOpacity: 0
+            }
           },
-          {
-            x: 2,
-            y: 80
-          },
-          {
-            x: 3,
-            y: 80
-          },
-          {
-            x: 4,
-            y: 50
+          style: {
+            fill: '#6690F2'
           }
-        ],
+        },
+        line: {
+          style: {
+            stroke: '#6690F2',
+            lineDash: []
+          }
+        },
+        endSymbol: {
+          style: {
+            visible: false
+          }
+        }
+      },
+      {
+        y: 'average',
         label: {
-          text: '区域: 任意数据点连接',
-          position: 'middle'
+          // text: 'Average Visit Num',
+          position: 'insideEndBottom',
+          refY: -10,
+          formatMethod: datum => {
+            console.log('datum', datum?.[0]['y']);
+            // return 'Average Visit Num:';
+            return 'Average Visit Num:' + datum?.[0]['y'];
+          },
+          labelBackground: {
+            padding: 2,
+            style: {
+              fill: '#6690F2'
+            }
+          },
+          style: {
+            fontSize: 12
+          }
+        },
+        line: {
+          style: {
+            stroke: '#6690F2',
+            lineDash: []
+          }
+        },
+        endSymbol: {
+          style: {
+            visible: false
+          }
         }
       }
     ],
+    markArea: [
+      {
+        y: 'average',
+        y1: 'min',
+        label: {
+          // text: 'Average Visit Num',
+          position: 'insideEndBottom',
+          refY: -10,
+          formatMethod: datum => {
+            console.log('datum', datum?.[0]['y']);
+            // return 'Average Visit Num:';
+            return 'Average Visit Num:' + datum?.[0]['y'];
+          },
+          labelBackground: {
+            padding: 2,
+            style: {
+              fill: '#6690F2'
+            }
+          },
+          style: {
+            fontSize: 12
+          }
+        },
+        line: {
+          style: {
+            stroke: '#6690F2',
+            lineDash: []
+          }
+        },
+        endSymbol: {
+          style: {
+            visible: false
+          }
+        }
+      }
+    ],
+    line: {
+      style: {
+        curveType: 'monotone'
+      }
+    },
     data: {
       id: 'data2',
       values: [
-        { x: 1, y: 80 },
-        { x: 2, y: 40 },
-        { x: 3, y: 10 },
-        { x: 4, y: 20 }
+        { x: 'Mon', y: 14000, type: 'A' },
+        { x: 'Tue', y: 14500, type: 'A' },
+        { x: 'Wed', y: 24000, type: 'A' },
+        { x: 'Thu', y: 13000, type: 'A' },
+        { x: 'Fri', y: 15000, type: 'A' },
+        { x: 'Sat', y: 19000, type: 'A' },
+        { x: 'Sun', y: 21000, type: 'A' },
+        { x: 'Mon', y: 15000, type: 'B' },
+        { x: 'Tue', y: 14800, type: 'B' },
+        { x: 'Wed', y: 25000, type: 'B' },
+        { x: 'Thu', y: 9000, type: 'B' },
+        { x: 'Fri', y: 15000, type: 'B' },
+        { x: 'Sat', y: 20000, type: 'B' },
+        { x: 'Sun', y: 19000, type: 'B' }
       ]
     }
   };

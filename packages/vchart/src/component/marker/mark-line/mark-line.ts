@@ -218,9 +218,5 @@ export class MarkLine extends BaseMarker implements IMarkLine {
       this._markerLayout();
     });
     this._markerData = data;
-    // console.log('data', this._markerData,
-    // this._startRelativeSeries.getData().getLatestData(),
-    // this._endRelativeSeries.getData().getLatestData(),
-    // this._relativeSeries.getData().getLatestData())
   }
 }

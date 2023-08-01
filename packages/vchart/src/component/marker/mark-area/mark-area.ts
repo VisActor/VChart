@@ -110,6 +110,18 @@ export class MarkArea extends BaseMarker implements IMarkArea {
     } else if (isPositionLayout) {
       points = spec.positions;
     }
+
+    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+
+    this._markerComponent?.setAttributes({
+      points: points,
+      label: {
+        ...this._markerComponent.attribute?.label,
+        text: this._spec.label.formatMethod
+          ? this._spec.label.formatMethod(dataPoints)
+          : this._markerComponent.attribute?.label?.text
+      }
+    });
   }
 
   protected _initDataView(): void {
