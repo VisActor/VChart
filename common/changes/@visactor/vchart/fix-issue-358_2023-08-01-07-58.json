@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix the issue where linearAxis.expand does not work when there are identical data values ",
+      "comment": "fix: fix the issue where linearAxis.expand does not work when there are identical data values in #358",
       "type": "patch"
     }
   ],
