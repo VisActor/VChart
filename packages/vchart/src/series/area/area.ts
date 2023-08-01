@@ -6,8 +6,8 @@ import { Direction } from '../../typings/space';
 import { MarkTypeEnum } from '../../mark/interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
-import type { Maybe, Datum, ConvertToMarkStyleSpec, IAreaMarkSpec } from '../../typings';
-import { valueInScaleRange, couldBeValidNumber } from '../../util';
+import type { Maybe, Datum, ConvertToMarkStyleSpec, IAreaMarkSpec, InterpolateType } from '../../typings';
+import { valueInScaleRange } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
@@ -125,7 +125,8 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
   initMarkStyle(): void {
     // FIXME 是不是应该把curveType提前到上层配置
     // 不允许area和line的curveType不一致
-    const userCurveType = this.getSpec().area?.style?.curveType ?? this.getSpec().line?.style?.curveType;
+    const userCurveType = (this.getSpec().area?.style?.curveType ??
+      this.getSpec().line?.style?.curveType) as InterpolateType;
     const curveType =
       userCurveType === DEFAULT_SMOOTH_INTERPOLATE
         ? this._direction === Direction.vertical
