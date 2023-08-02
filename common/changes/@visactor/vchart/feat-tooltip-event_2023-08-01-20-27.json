@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: tooltipShow event and tooltipHide event",
+      "comment": "feat: add tooltipShow event and tooltipHide event for vchart, related #337",
       "type": "patch"
     }
   ],

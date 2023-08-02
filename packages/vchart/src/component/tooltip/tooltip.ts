@@ -318,7 +318,7 @@ export class Tooltip extends BaseComponent implements ITooltip {
   };
 
   protected _hideTooltipByHandler = (params: TooltipHandlerParams): TooltipResult => {
-    if (!this._isTooltipShown) {
+    if (!this._isTooltipShown && !this.tooltipHandler?.isTooltipShown?.()) {
       // 如果当前 tooltip 未显示，则提前退出
       return TooltipResult.success;
     }
