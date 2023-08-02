@@ -986,4 +986,9 @@ export class SankeySeries extends CartesianSeries<any> {
   getDefaultShapeType(): string {
     return 'square';
   }
+
+  // make sure this function fast
+  protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
+    return undefined;
+  }
 }
