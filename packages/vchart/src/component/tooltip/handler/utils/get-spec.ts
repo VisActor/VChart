@@ -13,6 +13,7 @@ import { cloneDeep, isValid, merge, array, isFunction, isNil } from '../../../..
 import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../../event/events/dimension/interface';
 import { getTooltipActualActiveType } from '../../utils';
+import { memoize } from '@visactor/vutils';
 
 export const getTooltipSpecForShow = (
   activeType: TooltipActiveType,
@@ -233,12 +234,12 @@ const getSeriesTooltipPattern = (
   return seriesPattern;
 };
 
-const getSeriesListFromDimensionInfo = (dimensionInfo: IDimensionInfo[]): ISeries[] => {
+const getSeriesListFromDimensionInfo = memoize((dimensionInfo: IDimensionInfo[]): ISeries[] => {
   return dimensionInfo.reduce(
     (list, cur) => list.concat(cur.data.map(data => data.series).filter(isValid)),
     [] as ISeries[]
   );
-};
+});
 
 /** 获取每个系列对应的 shape pattern */
 const getShapePatternMapOfEachSeries = (content: IToolTipLinePattern[]): Record<number, ITooltipShapePattern> => {

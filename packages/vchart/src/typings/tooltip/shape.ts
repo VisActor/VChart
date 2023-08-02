@@ -8,6 +8,7 @@ export interface ITooltipShapePattern {
   shapeType?: TooltipContentProperty<ShapeType>;
   shapeColor?: TooltipContentProperty<string>;
   shapeHollow?: boolean;
+  shapeSize?: TooltipContentProperty<number>;
 }
 
 export interface ITooltipShapeActual {
@@ -15,4 +16,5 @@ export interface ITooltipShapeActual {
   shapeType?: ShapeType;
   shapeColor?: string;
   shapeHollow?: boolean;
+  shapeSize?: number;
 }

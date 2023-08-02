@@ -163,6 +163,8 @@ export const getOneLineData = (
 
   const shapeType = getTooltipContentValue(config.shapeType, datum, params);
   const shapeColor = getTooltipContentValue(config.shapeColor, datum, params);
+  const keyStyle = getTooltipContentValue(config.keyStyle, datum, params);
+  const valueStyle = getTooltipContentValue(config.valueStyle, datum, params);
 
   return {
     key,
@@ -172,6 +174,8 @@ export const getOneLineData = (
     hasShape: config.hasShape,
     shapeType: shapeType as any,
     shapeHollow: config.shapeHollow,
-    shapeColor
+    shapeColor,
+    keyStyle,
+    valueStyle
   };
 };
