@@ -5,7 +5,7 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel } from '../../constant';
 import { getActualNumValue } from '../util/utils';
-import type { Maybe, Datum } from '../../typings';
+import type { Maybe, Datum, DirectionType } from '../../typings';
 import { merge, valueInScaleRange } from '../../util';
 import type { BarAppearPreset, IBarAnimationParams } from './animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
@@ -23,6 +23,7 @@ import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
+import { last } from '@visactor/vutils';
 
 VChart.useMark([RectMark, TextMark]);
 
@@ -121,16 +122,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         {
           x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
           x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
-          y: (datum: Datum) => {
-            const bandWidth =
-              this.getYAxisHelper().getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ??
-              DefaultBandWidth;
-            const continuous = isContinuous(yScale.type || 'band');
-            const pos = this.dataToPositionY(datum);
-            const width = this._rectMark.getAttribute('height', datum) as number;
-            return pos + (bandWidth - width) * 0.5 + (continuous ? -bandWidth / 2 : 0);
-          },
-          height: () => this.getBarWidth(this._yAxisHelper)
+          y: (datum: Datum) => this._getPosition(this.direction, datum),
+          height: () => this._getBarWidth(this._yAxisHelper)
         },
         'normal',
         AttributeLevel.Series
@@ -139,19 +132,11 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this.setMarkStyle(
         this._rectMark,
         {
-          x: (datum: Datum) => {
-            const bandWidth =
-              this.getXAxisHelper().getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ??
-              DefaultBandWidth;
-            const width = this._rectMark.getAttribute('width', datum) as number;
-            const continuous = isContinuous(this.getXAxisHelper().getScale?.(0).type || 'band');
-            const pos = this.dataToPositionX(datum);
-            return pos + (bandWidth - width) / 2 + (continuous ? -bandWidth / 2 : 0);
-          },
+          x: (datum: Datum) => this._getPosition(this.direction, datum),
           y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), yScale),
           y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY1(datum), yScale),
           width: () => {
-            return this.getBarWidth(this._xAxisHelper);
+            return this._getBarWidth(this._xAxisHelper);
           }
         },
         'normal',
@@ -206,9 +191,27 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     );
   }
 
-  protected getBarWidth(axisHelper: IAxisHelper) {
-    const hasBarWidth = this._spec.barWidth !== undefined;
+  private _getGroupValues() {
+    if (this._groups && this._groups.fields && this._groups.fields.length) {
+      const groupField = last(this._groups.fields);
+      return this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
+    }
+
+    return [];
+  }
+
+  private _getBarGapSize(axisHelper: IAxisHelper) {
     const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
+    const groupBandWidth = bandWidth * this._getGroupValues().length;
+    return getActualNumValue(this._spec.barGapInGroup ?? 0, groupBandWidth);
+  }
+
+  protected _getBarWidth(axisHelper: IAxisHelper) {
+    const hasBarWidth = this._spec.barWidth !== undefined;
+    let bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
+    const gapWidth = this._getBarGapSize(axisHelper);
+    const groupCount = this._getGroupValues().length;
+    bandWidth = (bandWidth * groupCount - (groupCount - 1) * gapWidth) / groupCount;
     if (hasBarWidth) {
       return getActualNumValue(this._spec.barWidth, bandWidth);
     }
@@ -222,6 +225,41 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       width = Math.min(width, getActualNumValue(this._spec.barMaxWidth, bandWidth));
     }
     return width;
+  }
+
+  protected _getPosition(direction: DirectionType, datum: Datum) {
+    let axisHelper;
+    let sizeAttribute;
+    let field;
+    let dataToPosition;
+    if (direction === Direction.horizontal) {
+      axisHelper = this.getYAxisHelper();
+      sizeAttribute = 'height';
+      field = this._fieldY[0];
+      dataToPosition = this.dataToPositionY.bind(this);
+    } else {
+      axisHelper = this.getXAxisHelper();
+      sizeAttribute = 'width';
+      field = this._fieldX[0];
+      dataToPosition = this.dataToPositionX.bind(this);
+    }
+    const scale = axisHelper.getScale(0);
+    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
+    const height = this._rectMark.getAttribute(sizeAttribute, datum) as number;
+    const groupField = last(this._groups.fields);
+    const groupValues = this._getGroupValues();
+    if (groupValues.length) {
+      const center = scale.scale(datum[field]) + axisHelper.getBandwidth(0) / 2;
+      const groupCount = groupValues.length;
+      const gap = this._getBarGapSize(axisHelper);
+      const i = groupValues.indexOf(datum[groupField]);
+      const totalWidth = groupCount * height + (groupCount - 1) * gap;
+      return center - totalWidth / 2 + i * (height + gap);
+    }
+
+    const continuous = isContinuous(scale.type || 'band');
+    const pos = dataToPosition(datum);
+    return pos + (bandWidth - height) * 0.5 + (continuous ? -bandWidth / 2 : 0);
   }
 
   /**

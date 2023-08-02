@@ -67,20 +67,7 @@ export class RangeColumnSeries extends BarSeries {
   }
 
   initMarkStyle(): void {
-    const rectMark = this._rectMark;
-    if (rectMark) {
-      this.setMarkStyle(
-        rectMark,
-        {
-          fill: this.getColorAttribute()
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-
-      this._trigger.registerMark(rectMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(rectMark);
-    }
+    super.initMarkStyle();
 
     const minLabelMark = this._minLabelMark;
     const minLabelSpec = this._spec.label?.minLabel;
@@ -207,16 +194,8 @@ export class RangeColumnSeries extends BarSeries {
               }),
               xScale
             ),
-          y: (datum: Datum) => {
-            const bandWidth =
-              this.getYAxisHelper().getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ??
-              DefaultBandWidth;
-            const continuous = isContinuous(yScale.type || 'band');
-            const pos = this.dataToPositionY(datum);
-            const width = this._rectMark.getAttribute('height', datum) as number;
-            return pos + (bandWidth - width) * 0.5 + (continuous ? -bandWidth / 2 : 0);
-          },
-          height: () => this.getBarWidth(this._yAxisHelper)
+          y: (datum: Datum) => this._getPosition(this.direction, datum),
+          height: () => this._getBarWidth(this._yAxisHelper)
         },
         'normal',
         AttributeLevel.Series
@@ -225,15 +204,7 @@ export class RangeColumnSeries extends BarSeries {
       this.setMarkStyle(
         this._rectMark,
         {
-          x: (datum: Datum) => {
-            const bandWidth =
-              this.getXAxisHelper().getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ??
-              DefaultBandWidth;
-            const width = this._rectMark.getAttribute('width', datum) as number;
-            const continuous = isContinuous(this.getXAxisHelper().getScale?.(0).type || 'band');
-            const pos = this.dataToPositionX(datum);
-            return pos + (bandWidth - width) / 2 + (continuous ? -bandWidth / 2 : 0);
-          },
+          x: (datum: Datum) => this._getPosition(this.direction, datum),
           y: (datum: Datum) =>
             valueInScaleRange(
               dataToPosition(this.getDatumPositionValues(datum, this._spec.yField[0]), {
@@ -249,7 +220,7 @@ export class RangeColumnSeries extends BarSeries {
               yScale
             ),
           width: () => {
-            return this.getBarWidth(this._xAxisHelper);
+            return this._getBarWidth(this._xAxisHelper);
           }
         },
         'normal',

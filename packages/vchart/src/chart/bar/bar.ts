@@ -18,7 +18,8 @@ export class BarChart extends CartesianChart {
       ...super._getDefaultSeriesSpec(spec),
       barWidth: (<IBarChartSpec>spec).barWidth,
       barMaxWidth: (<IBarChartSpec>spec).barMaxWidth,
-      barMinWidth: (<IBarChartSpec>spec).barMinWidth
+      barMinWidth: (<IBarChartSpec>spec).barMinWidth,
+      barGapInGroup: (<IBarChartSpec>spec).barGapInGroup ?? 0
     };
   }
 
