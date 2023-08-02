@@ -4,6 +4,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
 import { VChart } from '../../core/vchart';
 import { RangeColumn3dSeries } from '../../series';
+import type { IRangeColumn3dChartSpec } from './interface';
 VChart.useSeries([RangeColumn3dSeries]);
 
 export class RangeColumn3dChart extends CartesianChart {
@@ -14,7 +15,8 @@ export class RangeColumn3dChart extends CartesianChart {
 
   protected _getDefaultSeriesSpec(spec: any): any {
     const series: any = {
-      ...super._getDefaultSeriesSpec(spec)
+      ...super._getDefaultSeriesSpec(spec),
+      barGapInGroup: (spec as IRangeColumn3dChartSpec).barGapInGroup ?? 0
     };
     series.bar3d = spec.bar3d;
     if (spec.direction === Direction.horizontal) {

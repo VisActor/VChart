@@ -192,7 +192,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   }
 
   private _getGroupValues() {
-    if (this._groups && this._groups.fields && this._groups.fields.length) {
+    if (this._groups?.fields?.length > 1) {
       const groupField = last(this._groups.fields);
       return this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
     }
@@ -209,9 +209,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _getBarWidth(axisHelper: IAxisHelper) {
     const hasBarWidth = this._spec.barWidth !== undefined;
     let bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
-    const gapWidth = this._getBarGapSize(axisHelper);
-    const groupCount = this._getGroupValues().length;
-    bandWidth = (bandWidth * groupCount - (groupCount - 1) * gapWidth) / groupCount;
+    if (this._groups?.fields?.length > 1) {
+      const gapWidth = this._getBarGapSize(axisHelper);
+      const groupCount = this._getGroupValues().length;
+      bandWidth = (bandWidth * groupCount - (groupCount - 1) * gapWidth) / groupCount;
+    }
+
     if (hasBarWidth) {
       return getActualNumValue(this._spec.barWidth, bandWidth);
     }
@@ -248,7 +251,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const height = this._rectMark.getAttribute(sizeAttribute, datum) as number;
     const groupField = last(this._groups.fields);
     const groupValues = this._getGroupValues();
-    if (groupValues.length) {
+    if (this._groups?.fields?.length > 1 && groupValues.length) {
       const center = scale.scale(datum[field]) + axisHelper.getBandwidth(0) / 2;
       const groupCount = groupValues.length;
       const gap = this._getBarGapSize(axisHelper);
