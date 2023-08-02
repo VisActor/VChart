@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: [Bug] SankeyChart can't render, when unset nodeAlign#343",
+      "comment": "fix: fix the issue of SankeyChart can't render, when unset nodeAlign, closed #343",
       "type": "patch"
     }
   ],
