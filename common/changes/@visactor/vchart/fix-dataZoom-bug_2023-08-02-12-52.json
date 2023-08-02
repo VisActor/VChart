@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(dataZoom): fix backgroundChart data mapping problem. fix #306 fix #309",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
