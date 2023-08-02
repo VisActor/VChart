@@ -4,19 +4,31 @@ import { DEFAULT_TEXT_FONT_FAMILY } from '../../../../theme';
 import type { ITooltipTextTheme } from '../../interface';
 import type { ITooltipTextStyle } from '../interface';
 
-export function getTextAttributes(style: ITooltipTextTheme = {}, globalTheme?: ITheme) {
+const defaultTextAttributes: Partial<ITooltipTextStyle> = {
+  fontFamily: DEFAULT_TEXT_FONT_FAMILY,
+  spacing: 10,
+  multiLine: false,
+  wordBreak: 'break-word'
+};
+
+export function getTextAttributes(
+  style: ITooltipTextTheme = {},
+  globalTheme?: ITheme,
+  defaultAttributes?: Partial<ITooltipTextStyle>
+): ITooltipTextStyle {
   const attrs: ITooltipTextStyle = {
+    ...(defaultAttributes ?? defaultTextAttributes),
     fill: style.fontColor,
     textAlign: style.textAlign,
     textBaseline: style.textBaseline,
-    fontFamily: style.fontFamily ?? globalTheme?.fontFamily ?? DEFAULT_TEXT_FONT_FAMILY,
+    fontFamily: style.fontFamily ?? globalTheme?.fontFamily,
     fontSize: style.fontSize,
     fontWeight: style.fontWeight,
     lineHeight: style.lineHeight,
-    spacing: style.spacing ?? 10,
-    multiLine: style.multiLine ?? false,
+    spacing: style.spacing,
+    multiLine: style.multiLine,
     maxWidth: style.maxWidth,
-    wordBreak: style.wordBreak ?? 'break-word'
+    wordBreak: style.wordBreak
   };
   return attrs;
 }

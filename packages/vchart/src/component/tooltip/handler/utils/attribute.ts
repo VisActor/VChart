@@ -6,11 +6,12 @@ import type {
 } from '@visactor/vrender-components';
 import type { IToolTipActual, MaybeArray } from '../../../../typings';
 import type { ITooltipStyle, ITooltipTextStyle } from '../interface';
-import { isValid } from '@visactor/vutils';
+import { isValid, merge } from '@visactor/vutils';
 import { getRichTextBounds, initTextMeasure } from '../../../../util';
 import type { IRichTextParagraphCharacter } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
 import { builtinSymbolsMap } from '@visactor/vrender';
+import { getTextAttributes } from './style';
 
 export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITooltipStyle): TooltipAttributes => {
   const { spaceRow, padding, title: titleStyle, shape: shapeStyle, key: keyStyle, value: valueStyle } = style;
@@ -57,13 +58,13 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
   } = title;
   attribute.title.visible = titleVisible;
   if (titleVisible) {
-    const { text, width, height } = measureTooltipText(titleValue, titleStyle);
+    const lineTitleStyle = merge({}, titleStyle, getTextAttributes(title.valueStyle, undefined, {}));
+    const { text, width, height } = measureTooltipText(titleValue, lineTitleStyle);
     attribute.title.value = {
       width,
       height,
-      text,
-      multiLine: titleStyle.multiLine,
-      wordBreak: titleStyle.wordBreak
+      ...lineTitleStyle,
+      text
     };
     maxWidth = width;
     titleMaxHeight = height;
@@ -109,13 +110,13 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
         let itemHeight = 0;
         const { hasShape, key, shapeColor, shapeHollow, shapeType = '', value, isKeyAdaptive } = item;
         if (isValid(key)) {
-          const { width, height, text } = measureTooltipText(key, keyStyle);
+          const lineKeyStyle = merge({}, keyStyle, getTextAttributes(item.keyStyle, undefined, {}));
+          const { width, height, text } = measureTooltipText(key, lineKeyStyle);
           itemAttrs.key = {
             width,
             height,
-            text,
-            multiLine: keyStyle.multiLine,
-            wordBreak: titleStyle.wordBreak
+            ...lineKeyStyle,
+            text
           };
           if (!isKeyAdaptive) {
             keyWidths.push(width);
@@ -125,13 +126,13 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
           itemHeight = Math.max(itemHeight, height);
         }
         if (isValid(value)) {
-          const { width, height, text } = measureTooltipText(value, valueStyle);
+          const lineValueStyle = merge({}, valueStyle, getTextAttributes(item.valueStyle, undefined, {}));
+          const { width, height, text } = measureTooltipText(value, lineValueStyle);
           itemAttrs.value = {
             width,
             height,
-            text,
-            multiLine: valueStyle.multiLine,
-            wordBreak: titleStyle.wordBreak
+            ...lineValueStyle,
+            text
           };
           valueWidths.push(width);
           itemHeight = Math.max(itemHeight, height);
