@@ -37,6 +37,8 @@ import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { LinkPathMark } from '../../mark/link-path';
+import { flatten } from '../../data/transforms/flatten';
+import { SankeyNodeElement } from '@visactor/vgrammar-sankey';
 
 VChart.useMark([RectMark, LinkPathMark, TextMark]);
 
@@ -133,12 +135,27 @@ export class SankeySeries extends CartesianSeries<any> {
       registerDataSetInstanceParser(nodesDataSet, 'dataview', dataViewParser);
       registerDataSetInstanceTransform(nodesDataSet, 'sankeyNodes', sankeyNodes);
       registerDataSetInstanceTransform(nodesDataSet, 'addVChartProperty', addVChartProperty);
+      // 注册扁平化算法
+      registerDataSetInstanceTransform(nodesDataSet, 'flatten', flatten);
       const nodesDataView = new DataView(nodesDataSet);
       nodesDataView.parse([this.getViewData()], {
         type: 'dataview'
       });
       nodesDataView.transform({
         type: 'sankeyNodes'
+      });
+      // sankeyNode进行扁平化处理(针对层级数据)
+      nodesDataView.transform({
+        type: 'flatten',
+        options: {
+          callback: (node: SankeyNodeElement) => {
+            if (node.datum) {
+              const nodeData = node.datum[node.depth];
+              return { ...node, ...nodeData };
+            }
+            return node;
+          }
+        }
       });
 
       nodesDataView.transform(
