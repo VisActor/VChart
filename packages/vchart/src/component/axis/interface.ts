@@ -156,12 +156,19 @@ export interface ILinearAxisSpec {
 
 export interface IBandAxisSpec {
   /**
-   * 轴分组之间间隔，数值在(0,1)之间
-   * @default 0.2
+   * 同时设置轴的 paddingInner 和 paddingOuter
    */
-  bandPadding?: number | number[];
-  paddingInner?: number | number[];
-  paddingOuter?: number | number[];
+  bandPadding?: number;
+  /**
+   * band 轴的内边距
+   * @default 0.1
+   */
+  paddingInner?: number;
+  /**
+   * band 轴的外边距
+   * @default 0.3
+   */
+  paddingOuter?: number;
   /**
    * 配置离散轴的数值范围
    * @since 1.1.0
