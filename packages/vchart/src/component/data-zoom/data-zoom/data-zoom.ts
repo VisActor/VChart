@@ -68,12 +68,12 @@ export class DataZoom extends DataFilterBaseComponent {
     this._width = this._computeWidth();
     this._height = this._computeHeight();
     // startHandler和endHandler size如果没有配置，则默认跟随background宽 or 高
-    if (this._originalSpec.startHandler?.style?.size ?? true) {
+    if (this._originalSpec?.startHandler?.style?.size ?? true) {
       this._spec.startHandler.style.size = this._isHorizontal
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
     }
-    if (this._originalSpec.endHandler?.style?.size ?? true) {
+    if (this._originalSpec?.endHandler?.style?.size ?? true) {
       this._spec.endHandler.style.size = this._isHorizontal
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
@@ -169,7 +169,8 @@ export class DataZoom extends DataFilterBaseComponent {
     const offsetLeft = this._orient === 'left' ? this._middleHandlerSize : 0;
     const offsetHandler = this._isHorizontal ? this._startHandlerSize / 2 : 0;
     const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
-    return xScale.scale(datum[this._stateField]) + this.getLayoutStartPoint().x + offsetLeft + offsetHandler;
+    const xField = this._isHorizontal ? this._stateField : this._valueField;
+    return xScale.scale(datum[xField]) + this.getLayoutStartPoint().x + offsetLeft + offsetHandler;
   };
 
   protected _dataToPositionX2 = (datum: Datum): number => {
@@ -184,8 +185,8 @@ export class DataZoom extends DataFilterBaseComponent {
     const offsetTop = this._isHorizontal ? this._middleHandlerSize : 0;
     const offsetHandler = this._isHorizontal ? 0 : this._startHandlerSize / 2;
     const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
-
-    return yScale.scale(datum[this._valueField]) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
+    const yField = this._isHorizontal ? this._valueField : this._stateField;
+    return yScale.scale(datum[yField]) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
   };
 
   protected _dataToPositionY2 = (datum: Datum): number => {
