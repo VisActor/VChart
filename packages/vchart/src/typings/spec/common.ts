@@ -149,6 +149,7 @@ export interface IChartSpec {
   seriesStyle?: ISeriesStyle;
 
   /**
+   * @since 1.2.0
    * 自动关闭动画的阀值，对应的是单系列data的长度
    */
   animationThreshold?: number;
@@ -368,6 +369,7 @@ export interface ISeriesSpec extends ITriggerSpec {
    */
   animation?: boolean;
   /**
+   * @since 1.2.0
    * 自动关闭动画的阀值，对应的是单系列data的长度
    */
   animationThreshold?: number;
