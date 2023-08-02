@@ -974,7 +974,7 @@ export class BaseChart extends CompilableBase implements IChart {
       seriesStyle: spec.seriesStyle,
 
       animation: spec.animation,
-      animationThreshold: spec.animation ?? this._theme.animationThreshold,
+      animationThreshold: spec.animationThreshold ?? this._theme.animationThreshold,
       animationAppear: spec.animationAppear,
       animationDisappear: spec.animationDisappear,
       animationEnter: spec.animationEnter,
