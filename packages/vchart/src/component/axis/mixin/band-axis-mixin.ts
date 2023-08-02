@@ -50,29 +50,12 @@ export class BandAxisMixin {
   }
   calcScales(DEFAULT_BAND_INNER_PADDING: number, DEFAULT_BAND_OUTER_PADDING: number) {
     const { bandPadding, paddingInner, paddingOuter } = this._spec;
-    const isBandPaddingArray = isArray(bandPadding);
-    const isPaddingInnerArray = isArray(paddingInner);
-    const isPaddingOuterArray = isArray(paddingOuter);
-    for (let i = 0; i < this._scales.length; i++) {
-      const _padding = isBandPaddingArray ? bandPadding[i] : bandPadding;
-      const _paddingInner = isPaddingInnerArray ? paddingInner[i] : paddingInner;
-      const _paddingOuter = isPaddingOuterArray ? paddingOuter[i] : paddingOuter;
 
-      this._scales[i]
-        .paddingInner(_paddingInner ?? _padding ?? DEFAULT_BAND_INNER_PADDING, true)
-        .paddingOuter(_paddingOuter ?? _padding ?? DEFAULT_BAND_OUTER_PADDING);
-    }
+    this._scales[0]
+      .paddingInner(paddingInner ?? bandPadding ?? DEFAULT_BAND_INNER_PADDING, true)
+      .paddingOuter(paddingOuter ?? bandPadding ?? DEFAULT_BAND_OUTER_PADDING);
   }
   computeBandDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[] {
-    // const values = data.map(d => d.values);
-    // return Array.from(new Set(values.flat()));
-
-    // // 性能优化 old
-    // const reuslt = {};
-    // data.forEach(d => d.values.forEach(v => (reuslt[v] = true)));
-    // return Object.keys(reuslt);
-
-    // 性能优化 9.13
     const tempSet = new Set();
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < data[i].values.length; j++) {
