@@ -128,4 +128,63 @@ describe('wordCloud chart test', () => {
     expect(dataResult[1].fontWeight).toBe(440.94488188976374);
     expect(dataResult[1].angle).toBe(0);
   });
+
+  test('wordCloud updateSpec', async () => {
+    const spec1 = {
+      type: 'wordCloud',
+      nameField: 'name',
+      valueField: 'value',
+      data: {
+        name: '1',
+        values: [
+          {
+            name: '螺蛳粉',
+            value: 957
+          },
+          {
+            name: '钵钵鸡',
+            value: 942
+          },
+          {
+            name: '板栗',
+            value: 842
+          },
+          {
+            name: '胡辣汤',
+            value: 828
+          },
+          {
+            name: '关东煮',
+            value: 665
+          },
+          {
+            name: '羊肉汤',
+            value: 627
+          },
+          {
+            name: '热干面',
+            value: 574
+          }
+        ]
+      }
+    };
+    const cs = new VChart(spec, {
+      mode: 'desktop-browser',
+      renderCanvas: canvasDom
+    });
+    await cs.renderAsync();
+    await cs.updateSpec(spec1 as any);
+    const series: WordCloudSeries = cs.getChart().getAllSeries()[0] as WordCloudSeries;
+    const dataResult = series.getViewData().latestData;
+    expect(dataResult.length).toBe(7); // 单词总数
+    // 绘制单词数量和属性有随机性
+    // expect(dataResult.filter(d => d.x && d.y).length).toBe(33); // 实际绘制单词总数
+    // expect(dataResult[1].x).toBe(173);
+    // expect(dataResult[1].y).toBe(238);
+    expect(dataResult[1].fontFamily).toBe('sans-serif');
+    expect(dataResult[1].fontSize).toBe(39);
+    expect(dataResult[1].fontStyle).toBe('normal');
+    expect(dataResult[1].fontWeight).toBe(488.2506527415144);
+    expect(dataResult[1].angle).toBe(0);
+  });
 });
