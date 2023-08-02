@@ -69,7 +69,9 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
     if (!visible) {
       if (this._tooltipComponent && this._tooltipComponent.attribute.visible) {
         this._tooltipComponent.hideAll();
-        stage.renderNextFrame();
+        this._tooltipComponent.setAttributes({
+          visibleAll: false
+        });
       }
       return;
     }
@@ -81,7 +83,6 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
     const pos = actualTooltip?.position;
     if (!params.changePositionOnly) {
       this._tooltipComponent.setAttributes({
-        visible: true,
         ...this._attributeCache,
         ...pos
       });
@@ -91,7 +92,14 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
 
     if (!this._tooltipComponent.attribute.visible) {
       this._tooltipComponent.showAll();
+      this._tooltipComponent.setAttributes({
+        visibleAll: true
+      });
     }
+  }
+
+  isTooltipShown() {
+    return this._tooltipComponent?.attribute.visibleAll;
   }
 
   release() {

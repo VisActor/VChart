@@ -31,17 +31,9 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
       return false;
     }
 
-    // 自定义 handler
-    if (![TooltipHandlerType.dom, TooltipHandlerType.canvas].includes((this.component.tooltipHandler as any).type)) {
-      return true;
-    }
-
     const helper = (params.model as ISeries)?.tooltipHelper;
-    if (isEmptyPos(params) || isNil(helper)) {
-      return true;
-    }
-
-    if (!helper.activeType.includes('dimension')) {
+    const activeType = helper?.activeType ?? this.component.getSpec().activeType;
+    if (!activeType.includes('dimension')) {
       return false;
     }
     return true;
