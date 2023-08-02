@@ -569,7 +569,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   // make sure this function fast
   protected _noAnimationDataKey(datum: Datum, index: number) {
-    return datum[this._seriesField];
+    return index;
   }
 }
 
