@@ -9,7 +9,6 @@ import type { ITextMark } from '../../mark/text';
 import { merge, valueInScaleRange } from '../../util';
 import { setRectLabelPos } from '../util/label-mark';
 import { AttributeLevel } from '../../constant';
-import { isContinuous } from '@visactor/vscale';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { RangeColumnSeriesTooltipHelper } from './tooltip-helper';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
