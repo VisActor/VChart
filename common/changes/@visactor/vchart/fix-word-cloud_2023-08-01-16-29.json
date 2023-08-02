@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(wordCloud): word-cloud updateSpec not work as expected",
+      "comment": "fix(wordCloud): fixed#302 word-cloud updateSpec not work as expected",
       "type": "none"
     }
   ],
