@@ -96,7 +96,9 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
     onZoomChange: () => {
       if (this._relatedAxisComponent && this._spec.filterMode === 'axis') {
         const scale = (this._relatedAxisComponent as CartesianAxis).getScale();
-        (scale as any).rangeFactor(this._isHorizontal ? [this._start, this._end] : [1 - this._end, 1 - this._start]);
+        const start = this._start;
+        const end = this._end;
+        (scale as any).rangeFactor(this._isHorizontal ? [start, end] : [1 - end, 1 - start]);
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
         eachSeries(
@@ -536,9 +538,6 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
   }
 
   protected _handleStateChange = (startValue: number, endValue: number) => {
-    if (startValue === this._startValue && endValue === this._endValue) {
-      return false;
-    }
     this._startValue = startValue;
     this._endValue = endValue;
 
