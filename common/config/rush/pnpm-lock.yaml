@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 overrides:
   '@visactor/vutils': 0.14.0
-  '@visactor/vscales': 0.14.0
+  '@visactor/vscale': 0.14.0
 
 importers:
 
@@ -219,7 +219,7 @@ importers:
       '@visactor/vgrammar-wordcloud-shape': ~0.5.1
       '@visactor/vrender': ~0.13.4
       '@visactor/vrender-components': ~0.13.4
-      '@visactor/vscale': ~0.14.0
+      '@visactor/vscale': 0.14.0
       '@visactor/vutils': 0.14.0
       canvas: 2.11.2
       d3-array: 3.2.3
@@ -3998,7 +3998,7 @@ packages:
       '@visactor/vgrammar': 0.5.2
       '@visactor/vgrammar-util': 0.5.2
       '@visactor/vrender': 0.13.7
-      '@visactor/vscale': 0.13.4
+      '@visactor/vscale': 0.14.0
       '@visactor/vutils': 0.14.0
     dev: false
 
@@ -4018,7 +4018,7 @@ packages:
       '@visactor/vgrammar-util': 0.5.2
       '@visactor/vrender': 0.13.7
       '@visactor/vrender-components': 0.13.8
-      '@visactor/vscale': 0.13.4
+      '@visactor/vscale': 0.14.0
       '@visactor/vutils': 0.14.0
     dev: false
 
@@ -4026,7 +4026,7 @@ packages:
     resolution: {integrity: sha512-aSXvitpJ9U5zsFqplB5lzzHZF3uq2Mp5qkN8aSFLqd+p9PjO6J80wk1LijzQRSGnE8zjImIOib5QmgNRf+ct6w==}
     dependencies:
       '@visactor/vrender': 0.13.7
-      '@visactor/vscale': 0.13.4
+      '@visactor/vscale': 0.14.0
       '@visactor/vutils': 0.14.0
       inversify: 6.0.1
     dev: false
@@ -4038,12 +4038,6 @@ packages:
       color-convert: 2.0.1
       core-js: 3.31.1
       inversify: 6.0.1
-    dev: false
-
-  /@visactor/vscale/0.13.4:
-    resolution: {integrity: sha512-UeyPYN+vAmvI+CURCfRN1s+peKeFDGxdblTJCgvZj/bho1oJF6WeI/mqAOquLeCT4+Y3f3SYoqIqDL5nSHJkZw==}
-    dependencies:
-      '@visactor/vutils': 0.14.0
     dev: false
 
   /@visactor/vscale/0.14.0:
