@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix bar style could not work in waterfall chart\n\n",
+      "type": "patch",
+      "packageName": "@visactor/lark-vchart"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart",
+  "email": "lixuef1313@163.com"
+}
