@@ -251,7 +251,9 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       spec?.valueField !== valueField ||
       spec?.nameProperty !== nameProperty
     ) {
+      result.change = true;
       result.reRender = true;
+      result.reMake = true;
     }
     return result;
   }
