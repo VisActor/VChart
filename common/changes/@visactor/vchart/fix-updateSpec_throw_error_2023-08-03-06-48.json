@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fixing the exception thrown when updating the map updateSpec",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
