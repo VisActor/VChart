@@ -1,10 +1,10 @@
 {
   "changes": [
     {
-      "packageName": "@visactor/react-vchart",
-      "comment": "feat(logAxis): add logAxis",
+      "packageName": "@visactor/vchart",
+      "comment": "feat(logAxis): support axis of log type. close #392",
       "type": "none"
     }
   ],
-  "packageName": "@visactor/react-vchart"
+  "packageName": "@visactor/vchart"
 }
