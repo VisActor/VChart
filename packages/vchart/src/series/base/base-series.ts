@@ -1,3 +1,4 @@
+import { RectMark, type IRectMark } from './../../mark/rect';
 import { ChartEvent } from '../../constant/event';
 import {
   AttributeLevel,
@@ -28,8 +29,7 @@ import type {
   ISeriesSpec,
   IExtensionMarkSpec,
   IExtensionGroupMarkSpec,
-  EnableMarkType,
-  StringOrNumber
+  EnableMarkType
 } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 // eslint-disable-next-line no-duplicate-imports
@@ -465,7 +465,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       return dataKey(datum, index);
     }
 
-    throw new Error(`invalid dataKey: ${dataKey}`);
+    this._option.onError(`invalid dataKey: ${dataKey}`);
   }
 
   protected _addDataIndexAndKey() {

@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { array, merge } from '@visactor/vutils';
+import { array } from '@visactor/vutils';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IOptionAggr } from '../../data/transforms/aggregation';
 import type { IOptionRegr } from '../../data/transforms/regression';
@@ -152,7 +152,8 @@ export abstract class BaseMarker extends BaseComponent {
         }
       }
     }
-    throw new Error('need at least one series');
+    this._option.onError('need at least one series');
+    return null;
   }
 
   clear(): void {

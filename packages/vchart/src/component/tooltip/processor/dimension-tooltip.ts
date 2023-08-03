@@ -9,6 +9,7 @@ import type { ICartesianSeries, ISeries } from '../../../series/interface';
 import { getCartesianDimensionInfo, getPolarDimensionInfo } from '../../../event/events/dimension/util';
 import type { IDimensionInfo } from '../../../event/events/dimension/interface';
 import { TooltipHandlerType } from '../handler/constants';
+import { isDiscrete } from '@visactor/vscale';
 
 export class DimensionTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'dimension';
@@ -30,17 +31,9 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
       return false;
     }
 
-    // 自定义 handler
-    if (![TooltipHandlerType.dom, TooltipHandlerType.canvas].includes((this.component.tooltipHandler as any).type)) {
-      return true;
-    }
-
     const helper = (params.model as ISeries)?.tooltipHelper;
-    if (isEmptyPos(params) || isNil(helper)) {
-      return true;
-    }
-
-    if (!helper.activeType.includes('dimension')) {
+    const activeType = helper?.activeType ?? this.component.getSpec().activeType;
+    if (!activeType.includes('dimension')) {
       return false;
     }
     return true;
@@ -67,6 +60,11 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
       const dimensionAxisInfo =
         targetDimensionInfo.filter(info => {
           const axis = info.axis;
+          // 优先显示离散轴 tooltip
+          if (!isDiscrete(axis.getScale().type)) {
+            return false;
+          }
+          // 下面的逻辑用来判断当前的离散轴是不是维度轴
           let firstSeries: ICartesianSeries | undefined;
           for (const region of axis?.getRegions() ?? []) {
             for (const series of region.getSeries()) {
@@ -79,7 +77,7 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
               break;
             }
           }
-          if (isValid(firstSeries) && firstSeries.getDimensionField() === firstSeries.fieldY) {
+          if (isValid(firstSeries) && firstSeries.getDimensionField()[0] === firstSeries.fieldY[0]) {
             return axis.orient === 'left' || axis.orient === 'right'; // 维度轴为Y轴时，选择只显示Y轴tooltip
           }
           return axis.orient === 'bottom' || axis.orient === 'top'; // 维度轴为X轴时，选择只显示X轴tooltip

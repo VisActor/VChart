@@ -278,8 +278,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     return TooltipResult.success;
   };
 
-  hideTooltip(params: TooltipHandlerParams): void {
-    this.changeTooltip(false, params);
+  hideTooltip(params: TooltipHandlerParams): TooltipResult {
+    return this.changeTooltip(false, params);
   }
 
   release(): void {

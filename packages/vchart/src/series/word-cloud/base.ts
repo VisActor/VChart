@@ -1,5 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import type { IPadding } from '@visactor/vutils';
+import { isEqual } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
@@ -433,5 +434,16 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   setValueFieldToPercent(): void {
     //do nothing
+  }
+
+  updateSpec(spec: any) {
+    const originalSpec = this._originalSpec;
+    const result = super.updateSpec(spec);
+    if (!isEqual(originalSpec, spec)) {
+      result.reMake = true;
+      result.reCompile = true;
+      return result;
+    }
+    return result;
   }
 }

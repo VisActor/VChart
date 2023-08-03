@@ -115,8 +115,8 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
   }
 
   private _handleChartZoom = (
-    params: { zoomDelta: number; zoomX: number; zoomY: number },
-    event: BaseEventParams['event']
+    params: { zoomDelta: number; zoomX?: number; zoomY?: number },
+    event?: BaseEventParams['event']
   ) => {
     let scale = params.zoomDelta;
     // check if the next scale will outrange
@@ -129,9 +129,27 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
       this._actualScale = this._spec.zoomLimit?.max;
       scale = this._spec.zoomLimit?.max / _lastActualScale;
     }
-    (event as any).zoomDelta = scale;
+    if (event) {
+      (event as any).zoomDelta = scale;
+    }
     this.zoom(scale, [params.zoomX, params.zoomY]);
+    return scale;
   };
+
+  dispatchZoom(zoomDelta: number, center?: { x: number; y: number }) {
+    const scaleCenter = center || {
+      x: this.getLayoutStartPoint().x + this.getLayoutRect().width / 2,
+      y: this.getLayoutStartPoint().y + this.getLayoutRect().height / 2
+    };
+    const scale = this._handleChartZoom({ zoomDelta, zoomX: scaleCenter.x, zoomY: scaleCenter.y });
+    if (scale !== 1) {
+      this.event.emit('zoom', {
+        scale,
+        scaleCenter,
+        model: this
+      } as unknown as ExtendEventParam);
+    }
+  }
 
   initEvent() {
     this.event.on(
@@ -162,6 +180,10 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
 
   initProjection() {
     this._projection = new Projection(this._projectionSpec);
+    if (this._projection.projection === null) {
+      this._option.onError('unsupported projection type!');
+      return;
+    }
   }
 
   coordinateHelper() {

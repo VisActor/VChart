@@ -1,3 +1,4 @@
+import { error } from './../../../util/debug';
 import type { IAxis } from './../../../component/axis/interface';
 import type { RenderMode } from '../../../typings/spec/common';
 import type {
@@ -9,7 +10,7 @@ import type {
 } from '../../interface';
 import type { IChart } from '../../../chart/interface';
 import type { IDimensionInfo } from './interface';
-import { getCartesianDimensionInfo, getDimensionInfoInAxis, getPolarDimensionInfo } from './util';
+import { getCartesianDimensionInfo, getDimensionInfoByValue, getPolarDimensionInfo } from './util';
 import type { Maybe } from '../../../typings';
 import { isDiscrete } from '@visactor/vscale';
 
@@ -29,10 +30,10 @@ export class DimensionEvent implements IComposedEvent {
   }
 
   register<Evt extends string>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>): void {
-    throw new Error('Method not implemented.');
+    (this._chart?.getOption().onError ?? error)('Method not implemented.');
   }
   unregister(): void {
-    throw new Error('Method not implemented.');
+    (this._chart?.getOption().onError ?? error)('Method not implemented.');
   }
 
   protected getTargetDimensionInfo(x: number, y: number): IDimensionInfo[] | null {
@@ -64,7 +65,7 @@ export class DimensionEvent implements IComposedEvent {
     }) as IAxis[];
     const dimensionInfo: IDimensionInfo[] = [];
     axis.forEach(a => {
-      const info = getDimensionInfoInAxis(a as unknown as any, v);
+      const info = getDimensionInfoByValue(a as unknown as any, v);
       if (info) {
         dimensionInfo.push(info);
       }

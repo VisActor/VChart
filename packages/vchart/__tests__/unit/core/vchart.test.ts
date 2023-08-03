@@ -687,14 +687,13 @@ describe('VChart', () => {
         },
         { seriesId: 'funnel' }
       ) as IPoint;
-
       expect(point).toBeNull();
       const point1 = vchart.convertDatumToPosition({ type: 'sodium', value: '2.83' }) as IPoint;
       const mark = vchart
         .getChart()!
         .getVGrammarView()
         .getMarksByType('arc')[0]
-        .elements.filter(ele => ele.key === 'sodium')[0]
+        .elements.filter(ele => ele.groupKey === 'sodium')[0]
         .getGraphicItem() as IArc;
 
       const markCoord = polarToCartesian(

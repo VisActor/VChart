@@ -62,9 +62,13 @@ export interface ITooltipSpec
 
 export interface ITooltipHandlerSpec {
   /** 显示 tooltip，可以选择返回是否遇到异常 */
-  showTooltip: (activeType: TooltipActiveType, data: TooltipData, params: TooltipHandlerParams) => Maybe<TooltipResult>;
-  /** 隐藏 tooltip */
-  hideTooltip: (params: TooltipHandlerParams) => void;
+  showTooltip: (
+    activeType: TooltipActiveType,
+    tooltipData: TooltipData,
+    params: TooltipHandlerParams
+  ) => Maybe<TooltipResult>;
+  /** 隐藏 tooltip，可以选择返回是否遇到异常 */
+  hideTooltip: (params: TooltipHandlerParams) => Maybe<TooltipResult>;
   /** 释放 tooltip */
   release: () => void;
 }

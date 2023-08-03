@@ -65,7 +65,8 @@ describe('treemap chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(),
+      onError: () => {}
     } as any);
     chart.created();
     chart.init();

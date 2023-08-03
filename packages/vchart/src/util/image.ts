@@ -1,3 +1,5 @@
+import type { utilFunctionCtx } from './../typings/params';
+import { error } from './debug';
 /**
  * @description 图片导出相关接口
  */
@@ -23,7 +25,7 @@ export function OffscreenCanvasToDataURL(c: OffscreenCanvas) {
   });
 }
 
-export async function getCanvasDataURL(c: HTMLCanvasElement | OffscreenCanvas) {
+export async function getCanvasDataURL(c: HTMLCanvasElement | OffscreenCanvas, ctx?: utilFunctionCtx) {
   if (!c) {
     return '';
   }
@@ -31,8 +33,8 @@ export async function getCanvasDataURL(c: HTMLCanvasElement | OffscreenCanvas) {
     if (OffscreenCanvas !== undefined && c instanceof OffscreenCanvas) {
       return OffscreenCanvasToDataURL(c);
     }
-  } catch (error) {
-    console.error('getCanvasDataURL', error);
+  } catch (_error) {
+    (ctx?.onError ?? error)(`getCanvasDataURL error : ${_error.toString()}`);
   }
   return (<HTMLCanvasElement>c).toDataURL();
 }

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "fix: fix the issue of sankeyChart sourceFiled and targetFiled not working, closed #341",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}

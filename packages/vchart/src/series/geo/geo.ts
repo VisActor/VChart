@@ -135,13 +135,16 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
   }
 
   dataToPositionX(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
   dataToPositionY(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
   dataToPositionZ(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
 
   release() {

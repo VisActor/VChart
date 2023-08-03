@@ -2,7 +2,7 @@
   "changes": [
     {
       "comment": "fix: the issue that mode value does not exit in trigger config",
-      "type": "patch",
+      "type": "minor",
       "packageName": "@visactor/tt-vchart"
     }
   ],

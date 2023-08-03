@@ -94,7 +94,8 @@ const ctx: IComponentOption = {
   getComponentByUserId: function (user_id: string | number): IComponent | undefined {
     throw new Error('Function not implemented.');
   },
-  animation: false
+  animation: false,
+  onError: () => {}
 };
 
 const getAxisSpec = (spec: any) => {
@@ -301,4 +302,48 @@ test('extend', () => {
     const scale = linearAxis.getScale();
     expect(scale.domain()).toEqual([500, 800]);
   }
+});
+
+test('niceDomain should work when domain is 0, and user does not set min or max', () => {
+  // @ts-ignore
+  jest.spyOn(CartesianAxis.prototype, 'collectData').mockImplementation(() => {
+    return [{ min: 0, max: 0 }];
+  });
+  const linearAxis = CartesianAxis.createAxis(
+    getAxisSpec({
+      orient: 'left',
+      nice: false,
+      zero: false
+    }),
+    ctx
+  );
+
+  linearAxis.created();
+  linearAxis.init({});
+  // @ts-ignore
+  linearAxis.updateScaleDomain();
+  const scale = linearAxis.getScale();
+  expect(scale.domain()).toEqual([0, 1]);
+});
+
+test('niceDomain should not work when user set min or max', () => {
+  // @ts-ignore
+  jest.spyOn(CartesianAxis.prototype, 'collectData').mockImplementation(() => {
+    return [{ min: 0, max: 5000 }];
+  });
+  const linearAxis = CartesianAxis.createAxis(
+    getAxisSpec({
+      orient: 'left',
+      min: 300,
+      max: 300
+    }),
+    ctx
+  );
+
+  linearAxis.created();
+  linearAxis.init({});
+  // @ts-ignore
+  linearAxis.updateScaleDomain();
+  const scale = linearAxis.getScale();
+  expect(scale.domain()).toEqual([300, 300]);
 });

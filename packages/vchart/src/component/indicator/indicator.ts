@@ -114,7 +114,6 @@ export class Indicator extends BaseComponent implements IIndicator {
 
   private updateDatum(datum: any) {
     this._activeDatum = datum;
-    this.setAttributeTag(true);
     this._displayData.updateData();
     const attrs = this._getIndicatorAttrs();
     this._createOrUpdateIndicatorComponent(attrs);

@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(label): fix the issue that the update of label visible fails to take effect with updateSpec",
+      "comment": "fix: fix the issue of sankeyChart sourceFiled and targetFiled not working, closed #341",
       "type": "patch"
     }
   ],
