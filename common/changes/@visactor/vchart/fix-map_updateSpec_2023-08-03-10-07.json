@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fixing the issue where `updateSpec` does not have an effect on map type in #401",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
