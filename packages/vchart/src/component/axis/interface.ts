@@ -230,6 +230,11 @@ export interface ITick extends IAxisItem<IRuleMarkSpec> {
    */
   forceTickCount?: number;
   /**
+   * tick 生成逻辑
+   * @default 'average'
+   */
+  tickMode?: 'average' | 'd3';
+  /**
    * 刻度线样式设置，支持回调
    */
   style?: IRuleMarkSpec | StyleCallback<IRuleMarkSpec | undefined>;
