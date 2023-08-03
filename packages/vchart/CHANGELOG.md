@@ -1,6 +1,20 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 01 Aug 2023 09:47:58 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Aug 2023 10:32:10 GMT and should not be manually modified.
+
+## 1.1.3
+Thu, 03 Aug 2023 10:32:10 GMT
+
+### Patches
+
+- fix: fix the issue of sankeyChart sourceFiled and targetFiled not working, closed #341
+- fix: fix the issue of SankeyChart can't render, when unset nodeAlign, closed #343
+- fix: if series.getSeriesField() return undefined, use `DEFAULT_DATA_SERIES_FIELD` to ensure legend data filter, fixed #337"
+- fix: fixing the issue where `updateSpec` does not have an effect on map type in #401
+- fix: fixing the exception thrown when updating the map updateSpec
+- fix: fix bar style could not work in waterfall chart
+
+
 
 ## 1.1.2
 Tue, 01 Aug 2023 09:47:58 GMT
@@ -117,11 +131,11 @@ Wed, 26 Jul 2023 03:18:52 GMT
 - fix(label): pickable shoule be false if label component is configured `interactive: false`
 - fix the layoutOffsetX|Y not work in normal items
 - fix: line mark has a different easing in update animation causes strange animation effect
-- fix: `channel` config not work in animation
+- fix: `channel` config not work in animation 
 - No longer requires to hold down the Ctrl key for zoom interaction & fix zoomLimit bug
 - fix: default tooltip handler needs to adapt to the scale property
 - fix(vchart): export IRegionSpec from VChart
-- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series
+- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series 
 - fix: compact window variable for non-browser env
 - fix: compact window variable for non-browser env
 

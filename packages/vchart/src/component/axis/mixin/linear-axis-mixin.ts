@@ -38,7 +38,8 @@ export class LinearAxisMixin {
   transformScaleDomain() {
     this.setScaleNice();
   }
-  setScaleNice() {
+
+  setLinearScaleNice() {
     let tickCount = this._spec.tick?.forceTickCount ?? this._spec.tick?.tickCount ?? 10;
     // 如果配置了精度优先，那么最低是10
     // 否则就直接使用tickCount即可
@@ -54,6 +55,25 @@ export class LinearAxisMixin {
       this._nice && this._scale.niceMin(tickCount);
     }
   }
+
+  setLogScaleNice() {
+    if (isNil(this._domain?.min) && isNil(this._domain?.max)) {
+      this._nice && this._scale.nice();
+    } else if (isValid(this._domain?.min) && isNil(this._domain?.max)) {
+      this._nice && this._scale.niceMax();
+    } else if (isNil(this._domain?.min) && isValid(this._domain?.max)) {
+      this._nice && this._scale.niceMin();
+    }
+  }
+
+  setScaleNice() {
+    if (this._spec.type === 'log') {
+      this.setLogScaleNice();
+    } else {
+      this.setLinearScaleNice();
+    }
+  }
+
   dataToPosition(values: any[], cfg?: IAxisLocationCfg): number {
     return this.valueToPosition(values[0]);
   }

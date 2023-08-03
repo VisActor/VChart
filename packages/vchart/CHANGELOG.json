@@ -2,6 +2,44 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.1.3",
+      "tag": "@visactor/vchart_v1.1.3",
+      "date": "Thu, 03 Aug 2023 10:32:10 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix: fix the issue of sankeyChart sourceFiled and targetFiled not working, closed #341"
+          },
+          {
+            "comment": "fix: fix the issue of SankeyChart can't render, when unset nodeAlign, closed #343"
+          },
+          {
+            "comment": "fix: if series.getSeriesField() return undefined, use `DEFAULT_DATA_SERIES_FIELD` to ensure legend data filter, fixed #337\""
+          },
+          {
+            "comment": "fix: fixing the issue where `updateSpec` does not have an effect on map type in #401"
+          },
+          {
+            "comment": "fix: fixing the exception thrown when updating the map updateSpec"
+          },
+          {
+            "comment": "fix: fix bar style could not work in waterfall chart\n\n"
+          }
+        ],
+        "none": [
+          {
+            "comment": "fix(dataZoom): fix backgroundChart data mapping problem. fix #306 fix #309"
+          },
+          {
+            "comment": "fix(dataZoom): start and end cannot be setted correctly because of judging of data value. fix #334"
+          },
+          {
+            "comment": "fix(wordCloud): word-cloud updateSpec not work as expected. fixed #302"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.2",
       "tag": "@visactor/vchart_v1.1.2",
       "date": "Tue, 01 Aug 2023 09:47:58 GMT",

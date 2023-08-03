@@ -13,9 +13,9 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
   type = SeriesTypeEnum.geo;
   readonly coordinate = 'geo';
 
-  protected _mapViewData!: SeriesData;
+  protected _mapViewData: SeriesData;
   getMapViewData() {
-    return this._mapViewData.getDataView();
+    return this._mapViewData?.getDataView();
   }
 
   protected _mapViewDataStatistics!: DataView;

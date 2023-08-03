@@ -536,9 +536,6 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
   }
 
   protected _handleStateChange = (startValue: number, endValue: number) => {
-    if (startValue === this._startValue && endValue === this._endValue) {
-      return false;
-    }
     this._startValue = startValue;
     this._endValue = endValue;
 

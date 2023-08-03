@@ -106,6 +106,10 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     return this._container ?? super._getParentElement(spec);
   }
 
+  isTooltipShown() {
+    return this.getVisibility();
+  }
+
   reInit() {
     super.reInit();
     this._initStyle();

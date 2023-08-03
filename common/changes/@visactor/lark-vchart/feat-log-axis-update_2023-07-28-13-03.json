@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(wordCloud): word-cloud updateSpec not work as expected. fixed #302",
+      "comment": "feat(logAxis): support axis of type = 'log'. close #392",
       "type": "none"
     }
   ],
