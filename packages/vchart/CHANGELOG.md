@@ -1,5 +1,6 @@
 # Change Log - @visactor/vchart
 
+<<<<<<< HEAD
 This log was last generated on Thu, 10 Aug 2023 05:23:25 GMT and should not be manually modified.
 
 ## 1.2.0
@@ -47,6 +48,9 @@ Thu, 10 Aug 2023 05:23:25 GMT
 
 
 - perf(stack): use 0 to replace Number.epsilon in stack operation closed #350
+=======
+This log was last generated on Thu, 03 Aug 2023 10:32:10 GMT and should not be manually modified.
+>>>>>>> 56427d80 (build: prelease version 1.1.3)
 
 ## 1.1.3
 Thu, 03 Aug 2023 10:32:10 GMT
