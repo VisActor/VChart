@@ -104,7 +104,7 @@
     "canvas": "2.11.2"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.14.0",
+    "@visactor/vutils": "~0.13.3",
     "@visactor/vdataset": "~0.13.4",
     "@visactor/vscale": "~0.14.0",
     "@visactor/vgrammar": "~0.5.1",

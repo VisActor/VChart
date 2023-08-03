@@ -89,7 +89,6 @@
    * PNPM documentation: https://pnpm.io/package_json#pnpmoverrides
    */
   "globalOverrides": {
-    "@visactor/vutils": "0.14.0",
     "@visactor/vscale": "0.14.0"
 
     // "@visactor/vrender": "0.13.3",
