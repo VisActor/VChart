@@ -130,6 +130,23 @@ test('config linearAxis.nice default [true] ', () => {
   // @ts-ignore
   linearAxis.updateScaleDomain();
   const scale = linearAxis.getScale();
+  expect(scale.domain()).toEqual([0, 1600]);
+});
+
+test('config linearAxis.nice default [true] ', () => {
+  const linearAxis = CartesianAxis.createAxis(
+    getAxisSpec({
+      orient: 'left',
+      tick: { tickMode: 'd3' }
+    }),
+    ctx
+  );
+
+  linearAxis.created();
+  linearAxis.init({});
+  // @ts-ignore
+  linearAxis.updateScaleDomain();
+  const scale = linearAxis.getScale();
   expect(scale.domain()).toEqual([0, 1000]);
 });
 
@@ -207,6 +224,19 @@ test('zero === true && range is specific  ', () => {
     // @ts-ignore
     linearAxis.updateScaleDomain();
     const scale = linearAxis.getScale();
+    expect(scale.domain()).toEqual([560, 599]);
+  }
+  {
+    // range优先级要高于nice，一旦设置了max/min，nice不应该改变相应的值(d3 tick)
+    const linearAxis = CartesianAxis.createAxis(
+      { ...config, zero: false, range: { max: 599 }, tick: { tickMode: 'd3' } },
+      ctx
+    );
+    linearAxis.created();
+    linearAxis.init({});
+    // @ts-ignore
+    linearAxis.updateScaleDomain();
+    const scale = linearAxis.getScale();
     expect(scale.domain()).toEqual([565, 599]);
   }
   {
@@ -217,7 +247,7 @@ test('zero === true && range is specific  ', () => {
     // @ts-ignore
     linearAxis.updateScaleDomain();
     const scale = linearAxis.getScale();
-    expect(scale.domain()).toEqual([199, 1000]);
+    expect(scale.domain()).toEqual([199, 1200]);
   }
 });
 
@@ -233,7 +263,7 @@ test('expand', () => {
     // @ts-ignore
     linearAxis.updateScaleDomain();
     const scale = linearAxis.getScale();
-    expect(scale.domain()).toEqual([0, 1000]);
+    expect(scale.domain()).toEqual([0, 1600]);
   }
 
   /**
@@ -251,7 +281,7 @@ test('expand', () => {
     // @ts-ignore
     linearAxis.updateScaleDomain();
     const scale = linearAxis.getScale();
-    expect(scale.domain()).toEqual([500, 950]);
+    expect(scale.domain()).toEqual([500, 1050]);
   }
   /**
    * `range` is the highest priority, which will be the direct result for scale.domain.
@@ -268,7 +298,7 @@ test('expand', () => {
     // @ts-ignore
     linearAxis.updateScaleDomain();
     const scale = linearAxis.getScale();
-    expect(scale.domain()).toEqual([0, 1000]);
+    expect(scale.domain()).toEqual([0, 1600]);
   }
 });
 
@@ -281,7 +311,7 @@ test('extend', () => {
     linearAxis.created();
     linearAxis.setExtendDomain('test', 1100);
     const scale = linearAxis.getScale();
-    expect(scale.domain()).toEqual([0, 1100]);
+    expect(scale.domain()).toEqual([0, 1600]);
   }
 
   /**
