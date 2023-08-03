@@ -16,8 +16,22 @@ import type { AABBBounds } from '@visactor/vutils';
  * @returns
  */
 export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt): ITickData[] => {
+  const domain = scale.domain();
+  if (!domain.length) {
+    return [];
+  }
   const { tickCount, forceTickCount, tickStep, labelGap = 4, axisOrientType } = op;
   const isHorizontal = ['bottom', 'top'].includes(axisOrientType);
+  const range = scale.range();
+
+  // if range is so small
+  const rangeSize = Math.abs(range[range.length - 1] - range[0]);
+  if (rangeSize < 2) {
+    if (op.labelLastVisible) {
+      return domain[domain.length - 1];
+    }
+    return domain[0];
+  }
 
   let scaleTicks;
   if (isValid(tickStep)) {
@@ -29,8 +43,46 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
   } else if (op.sampling) {
     const domain = scale.domain();
     const range = scale.range();
-
-    const labelBoundsList = getCartesianLabelBounds(scale, domain, op);
+    let labelBoundsList: AABBBounds[];
+    if (domain.length < 10) {
+      labelBoundsList = getCartesianLabelBounds(scale, domain, op);
+    } else {
+      // only check first middle last, use the max size to sampling
+      const tempDomain = [domain[0], domain[Math.floor(domain.length / 2)], domain[domain.length - 1]];
+      const tempList = getCartesianLabelBounds(scale, tempDomain, op);
+      let maxBounds: AABBBounds = null;
+      let maxBoundsIndex = 0;
+      tempList.forEach((current, index) => {
+        if (!maxBounds) {
+          maxBounds = current;
+          maxBoundsIndex = index;
+          return;
+        }
+        if (isHorizontal) {
+          if (maxBounds.width() < current.width()) {
+            maxBounds = current;
+            maxBoundsIndex = index;
+          }
+        } else if (maxBounds.height() < current.height()) {
+          maxBounds = current;
+          maxBoundsIndex = index;
+        }
+      });
+      const maxBoundsDomainIndex =
+        maxBoundsIndex === 0 ? 0 : maxBoundsIndex === 2 ? domain.length - 1 : Math.floor(domain.length / 2);
+      const maxBoundsPos = scale.scale(domain[maxBoundsDomainIndex]);
+      labelBoundsList = new Array(domain.length);
+      // set bounds to each pos
+      for (let i = 0; i < labelBoundsList.length; i++) {
+        labelBoundsList[i] = maxBounds.clone();
+        const currentPos = scale.scale(domain[i]);
+        if (isHorizontal) {
+          labelBoundsList[i].translate(currentPos - maxBoundsPos, 0);
+        } else {
+          labelBoundsList[i].translate(0, currentPos - maxBoundsPos);
+        }
+      }
+    }
 
     const domainLengthList = labelBoundsList.map(b => {
       return isHorizontal ? b.width() : b.height();
