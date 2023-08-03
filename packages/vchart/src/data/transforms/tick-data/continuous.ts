@@ -28,6 +28,8 @@ export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITick
     scaleTicks = (scale as LinearScale).stepTicks(tickStep);
   } else if (isValid(forceTickCount)) {
     scaleTicks = (scale as LinearScale).forceTicks(forceTickCount);
+  } else if (op.tickMode === 'd3') {
+    scaleTicks = (scale as LinearScale).d3Ticks(tickCount ?? DEFAULT_CONTINUOUS_TICK_COUNT);
   } else {
     scaleTicks = (scale as LinearScale).ticks(tickCount ?? DEFAULT_CONTINUOUS_TICK_COUNT);
   }

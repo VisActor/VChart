@@ -208,6 +208,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,
+            tickMode: tick.tickMode,
 
             coordinateType: 'polar',
             axisOrientType: this._orient,
