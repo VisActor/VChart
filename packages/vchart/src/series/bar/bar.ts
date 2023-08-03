@@ -23,7 +23,7 @@ import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
-import { last } from '@visactor/vutils';
+import { isValidNumber, last } from '@visactor/vutils';
 
 VChart.useMark([RectMark, TextMark]);
 
@@ -203,13 +203,13 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   private _getBarGapSize(axisHelper: IAxisHelper) {
     const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
     const groupBandWidth = bandWidth * this._getGroupValues().length;
-    return getActualNumValue(this._spec.barGapInGroup ?? 0, groupBandWidth);
+    return getActualNumValue(this._spec.barGapInGroup, groupBandWidth);
   }
 
   protected _getBarWidth(axisHelper: IAxisHelper) {
     const hasBarWidth = this._spec.barWidth !== undefined;
     let bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
-    if (this._groups?.fields?.length > 1) {
+    if (this._groups?.fields?.length > 1 && isValidNumber(this._spec.barGapInGroup)) {
       const gapWidth = this._getBarGapSize(axisHelper);
       const groupCount = this._getGroupValues().length;
       bandWidth = (bandWidth * groupCount - (groupCount - 1) * gapWidth) / groupCount;
@@ -247,11 +247,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       dataToPosition = this.dataToPositionX.bind(this);
     }
     const scale = axisHelper.getScale(0);
-    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
     const height = this._rectMark.getAttribute(sizeAttribute, datum) as number;
-    const groupField = last(this._groups.fields);
     const groupValues = this._getGroupValues();
-    if (this._groups?.fields?.length > 1 && groupValues.length) {
+    if (this._groups?.fields?.length > 1 && groupValues.length && isValidNumber(this._spec.barGapInGroup)) {
+      const groupField = last(this._groups.fields);
       const center = scale.scale(datum[field]) + axisHelper.getBandwidth(0) / 2;
       const groupCount = groupValues.length;
       const gap = this._getBarGapSize(axisHelper);
@@ -260,6 +259,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       return center - totalWidth / 2 + i * (height + gap);
     }
 
+    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
     const continuous = isContinuous(scale.type || 'band');
     const pos = dataToPosition(datum);
     return pos + (bandWidth - height) * 0.5 + (continuous ? -bandWidth / 2 : 0);
