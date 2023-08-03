@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart-schema",
+      "comment": "fix(dataZoom): start and end cannot be setted correctly because of judging of data value. fix #334",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart-schema"
+}
