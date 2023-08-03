@@ -68,12 +68,12 @@ export class DataZoom extends DataFilterBaseComponent {
     this._width = this._computeWidth();
     this._height = this._computeHeight();
     // startHandler和endHandler size如果没有配置，则默认跟随background宽 or 高
-    if (this._originalSpec?.startHandler?.style?.size ?? true) {
+    if (isNil(this._originalSpec?.startHandler?.style?.size)) {
       this._spec.startHandler.style.size = this._isHorizontal
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
     }
-    if (this._originalSpec?.endHandler?.style?.size ?? true) {
+    if (isNil(this._originalSpec?.startHandler?.style?.size)) {
       this._spec.endHandler.style.size = this._isHorizontal
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
