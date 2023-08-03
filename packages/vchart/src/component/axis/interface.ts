@@ -157,18 +157,21 @@ export interface ILinearAxisSpec {
 export interface IBandAxisSpec {
   /**
    * 同时设置轴的 paddingInner 和 paddingOuter
+   * **因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 bandPadding 配置**
    */
-  bandPadding?: number;
+  bandPadding?: number | number[];
   /**
    * band 轴的内边距
+   * ** 因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 paddingInner 配置**
    * @default 0.1
    */
-  paddingInner?: number;
+  paddingInner?: number | number[];
   /**
    * band 轴的外边距
+   * ** 因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 paddingOuter 配置**
    * @default 0.3
    */
-  paddingOuter?: number;
+  paddingOuter?: number | number[];
   /**
    * 配置离散轴的数值范围
    * @since 1.1.0
