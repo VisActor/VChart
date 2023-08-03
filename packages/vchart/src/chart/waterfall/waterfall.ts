@@ -30,6 +30,7 @@ export class WaterfallChart extends BarChart {
   protected _getDefaultSeriesSpec(spec: IWaterfallChartSpec): any {
     return {
       ...super._getDefaultSeriesSpec(spec),
+      bar: spec.bar,
       stackLabel: spec.stackLabel,
       leaderLine: spec.leaderLine,
       total: spec.total
