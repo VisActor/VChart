@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat(logAxis): support axis of log type. close #392",
+      "comment": "feat(logAxis): support axis of type = 'log'. close #392",
       "type": "none"
     }
   ],
