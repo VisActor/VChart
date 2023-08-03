@@ -17,7 +17,7 @@ export class RangeColumnChart extends CartesianChart {
   protected _getDefaultSeriesSpec(spec: any): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
-      barGapInGroup: (spec as IRangeColumnChartSpec).barGapInGroup ?? 0
+      barGapInGroup: (spec as IRangeColumnChartSpec).barGapInGroup
     };
     series.bar = spec.bar;
     if (spec.direction === Direction.horizontal) {

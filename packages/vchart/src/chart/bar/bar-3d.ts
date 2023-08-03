@@ -18,7 +18,7 @@ export class Bar3dChart extends CartesianChart {
       barWidth: (<IBar3dChartSpec>spec).barWidth,
       barMaxWidth: (<IBar3dChartSpec>spec).barMaxWidth,
       barMinWidth: (<IBar3dChartSpec>spec).barMinWidth,
-      barGapInGroup: (<IBar3dChartSpec>spec).barGapInGroup ?? 0
+      barGapInGroup: (<IBar3dChartSpec>spec).barGapInGroup
     };
   }
 }
