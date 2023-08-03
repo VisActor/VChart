@@ -79,7 +79,7 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vgrammar': 0.5.2
-      '@visactor/vrender': 0.13.6
+      '@visactor/vrender': 0.13.7
       '@visactor/vutils': 0.14.0
       react-is: 18.2.0
     devDependencies:
@@ -254,8 +254,8 @@ importers:
       '@visactor/vgrammar-util': 0.5.2
       '@visactor/vgrammar-wordcloud': 0.5.2
       '@visactor/vgrammar-wordcloud-shape': 0.5.2
-      '@visactor/vrender': 0.13.6
-      '@visactor/vrender-components': 0.13.7
+      '@visactor/vrender': 0.13.7
+      '@visactor/vrender-components': 0.13.8
       '@visactor/vscale': 0.14.0
       '@visactor/vutils': 0.14.0
     devDependencies:
@@ -3964,7 +3964,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.2
       '@visactor/vgrammar-util': 0.5.2
-      '@visactor/vrender': 0.13.6
+      '@visactor/vrender': 0.13.7
       '@visactor/vutils': 0.14.0
     dev: false
 
@@ -3982,7 +3982,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.2
       '@visactor/vgrammar-util': 0.5.2
-      '@visactor/vrender': 0.13.6
+      '@visactor/vrender': 0.13.7
       '@visactor/vutils': 0.14.0
     dev: false
 
@@ -3997,7 +3997,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.2
       '@visactor/vgrammar-util': 0.5.2
-      '@visactor/vrender': 0.13.6
+      '@visactor/vrender': 0.13.7
       '@visactor/vscale': 0.13.4
       '@visactor/vutils': 0.14.0
     dev: false
@@ -4007,7 +4007,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.2
       '@visactor/vgrammar-util': 0.5.2
-      '@visactor/vrender': 0.13.6
+      '@visactor/vrender': 0.13.7
       '@visactor/vutils': 0.14.0
     dev: false
 
@@ -4016,23 +4016,23 @@ packages:
     dependencies:
       '@visactor/vgrammar-coordinate': 0.5.2
       '@visactor/vgrammar-util': 0.5.2
-      '@visactor/vrender': 0.13.6
-      '@visactor/vrender-components': 0.13.7
+      '@visactor/vrender': 0.13.7
+      '@visactor/vrender-components': 0.13.8
       '@visactor/vscale': 0.13.4
       '@visactor/vutils': 0.14.0
     dev: false
 
-  /@visactor/vrender-components/0.13.7:
-    resolution: {integrity: sha512-NlzJKgvS0AmokVv9cJow+ypT9f/pE5/3PpegO26uvtBdnMKoi7OaJygl8FCbg13jIOikmF/B09IkNGMOyYOqHQ==}
+  /@visactor/vrender-components/0.13.8:
+    resolution: {integrity: sha512-aSXvitpJ9U5zsFqplB5lzzHZF3uq2Mp5qkN8aSFLqd+p9PjO6J80wk1LijzQRSGnE8zjImIOib5QmgNRf+ct6w==}
     dependencies:
-      '@visactor/vrender': 0.13.6
+      '@visactor/vrender': 0.13.7
       '@visactor/vscale': 0.13.4
       '@visactor/vutils': 0.14.0
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vrender/0.13.6:
-    resolution: {integrity: sha512-/0fzRGCZen1AcrnPbq5YNEchW2gRmvLnlUhrn273snKKfBYmayIzAxOGebwCm1O9buL9V3Danl5JU+ekSM3jPw==}
+  /@visactor/vrender/0.13.7:
+    resolution: {integrity: sha512-6XDqXVPGcQ5005NCbsr+YjJgPdk+r8RoYGjcF+uCOi5Gf2wndHUvRhl1C8L1Ln8ppIvQbRKOaUPYHSzZO0LZXg==}
     dependencies:
       '@visactor/vutils': 0.14.0
       color-convert: 2.0.1
@@ -14094,7 +14094,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.5
+      minimist: 1.2.8
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -16411,7 +16411,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.5
+      minimist: 1.2.8
       strip-json-comments: 2.0.1
     dev: true
 
@@ -18375,8 +18375,8 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  /strip-literal/1.2.0:
-    resolution: {integrity: sha512-tbehiynUAVoOhVKgpGG/xSIEPq3mDH3MmZ3957hiCBt2SnxkgOfXnZ8X2Kjfzb2L/6Vsv8Lnh8WT9qV5zQ0tMA==}
+  /strip-literal/1.3.0:
+    resolution: {integrity: sha512-PugKzOsyXpArk0yWmUwqOZecSO0GH0bPoctLcqNDH9J04pVW3lflYE0ujElBGTloevcxF5MofAOZ7C5l2b+wLg==}
     dependencies:
       acorn: 8.10.0
     dev: true
@@ -20093,7 +20093,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       std-env: 3.3.3
-      strip-literal: 1.2.0
+      strip-literal: 1.3.0
       tinybench: 2.5.0
       tinypool: 0.4.0
       vite: 3.2.6_edggo2jvmjmmmve3uagbqkx2r4
