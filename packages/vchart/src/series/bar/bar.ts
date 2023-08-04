@@ -23,7 +23,7 @@ import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
-import { isValid, last } from '@visactor/vutils';
+import { array, isValid, last } from '@visactor/vutils';
 
 VChart.useMark([RectMark, TextMark]);
 
@@ -191,29 +191,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     );
   }
 
-  private _getGroupValues() {
-    if (this._groups?.fields?.length > 1) {
-      const groupField = last(this._groups.fields);
-      return this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
-    }
-
-    return [];
-  }
-
-  private _getBarGapSize(axisHelper: IAxisHelper) {
-    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
-    const groupBandWidth = bandWidth * this._getGroupValues().length;
-    return getActualNumValue(this._spec.barGapInGroup, groupBandWidth);
-  }
-
   protected _getBarWidth(axisHelper: IAxisHelper) {
     const hasBarWidth = this._spec.barWidth !== undefined;
-    let bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
-    if (this._groups?.fields?.length > 1 && isValid(this._spec.barGapInGroup)) {
-      const gapWidth = this._getBarGapSize(axisHelper);
-      const groupCount = this._getGroupValues().length;
-      bandWidth = (bandWidth * groupCount - (groupCount - 1) * gapWidth) / groupCount;
-    }
+    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
 
     if (hasBarWidth) {
       return getActualNumValue(this._spec.barWidth, bandWidth);
@@ -233,36 +213,48 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _getPosition(direction: DirectionType, datum: Datum) {
     let axisHelper;
     let sizeAttribute;
-    let field;
     let dataToPosition;
     if (direction === Direction.horizontal) {
       axisHelper = this.getYAxisHelper();
       sizeAttribute = 'height';
-      field = this._fieldY[0];
       dataToPosition = this.dataToPositionY.bind(this);
     } else {
       axisHelper = this.getXAxisHelper();
       sizeAttribute = 'width';
-      field = this._fieldX[0];
       dataToPosition = this.dataToPositionX.bind(this);
     }
     const scale = axisHelper.getScale(0);
-    const height = this._rectMark.getAttribute(sizeAttribute, datum) as number;
-    const groupValues = this._getGroupValues();
-    if (this._groups?.fields?.length > 1 && groupValues.length && isValid(this._spec.barGapInGroup)) {
-      const groupField = last(this._groups.fields);
-      const center = scale.scale(datum[field]) + axisHelper.getBandwidth(0) / 2;
-      const groupCount = groupValues.length;
-      const gap = this._getBarGapSize(axisHelper);
-      const i = groupValues.indexOf(datum[groupField]);
-      const totalWidth = groupCount * height + (groupCount - 1) * gap;
-      return center - totalWidth / 2 + i * (height + gap);
+    const size = this._rectMark.getAttribute(sizeAttribute, datum) as number;
+    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
+    if (this._groups?.fields?.length > 1 && isValid(this._spec.barGapInGroup)) {
+      // 自里向外计算，沿着第一层分组的中心点进行位置调整
+      const groupFields = this._groups.fields;
+      const barInGroup = array(this._spec.barGapInGroup);
+      let totalWidth: number = 0;
+      let offSet: number = 0;
+
+      for (let index = groupFields.length - 1; index >= 1; index--) {
+        const groupField = groupFields[index];
+        const groupValues = this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
+        const groupCount = groupValues.length;
+        const gap = getActualNumValue(barInGroup[index - 1] ?? last(barInGroup), bandWidth);
+        const i = groupValues.indexOf(datum[groupField]);
+        if (index === groupFields.length - 1) {
+          totalWidth += groupCount * size + (groupCount - 1) * gap;
+          offSet += i * (size + gap);
+        } else {
+          offSet += i * (totalWidth + gap);
+          totalWidth += totalWidth + (groupCount - 1) * gap;
+        }
+      }
+
+      const center = scale.scale(datum[groupFields[0]]) + axisHelper.getBandwidth(0) / 2;
+      return center - totalWidth / 2 + offSet;
     }
 
-    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
     const continuous = isContinuous(scale.type || 'band');
     const pos = dataToPosition(datum);
-    return pos + (bandWidth - height) * 0.5 + (continuous ? -bandWidth / 2 : 0);
+    return pos + (bandWidth - size) * 0.5 + (continuous ? -bandWidth / 2 : 0);
   }
 
   /**
