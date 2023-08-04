@@ -25,7 +25,7 @@ export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITick
   const range = scale.range();
   const rangeSize = Math.abs(range[range.length - 1] - range[0]);
   if (rangeSize < 2) {
-    return scale.domain()[0];
+    return convertDomainToTickData([scale.domain()[0]], op);
   }
 
   const { tickCount, forceTickCount, tickStep } = op;
