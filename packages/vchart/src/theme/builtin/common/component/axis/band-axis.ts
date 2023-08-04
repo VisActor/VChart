@@ -1,6 +1,6 @@
-import type { IAxisCommonTheme } from '../../../../../component/axis';
+import type { IBandAxisTheme } from '../../../../../component/axis';
 
-export const axisBand: IAxisCommonTheme = {
+export const axisBand: IBandAxisTheme = {
   domainLine: {
     visible: true
   },
