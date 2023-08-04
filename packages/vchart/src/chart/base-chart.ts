@@ -236,7 +236,6 @@ export class BaseChart extends CompilableBase implements IChart {
     // this._stack.stackAll();
     this._series.forEach(s => s.getRawData()?.markRunning());
     this._series.forEach(s => s.fillData());
-    // global scale 应当在series初始化完成后，组件初始化之前
     // 此时 globalScale 已经生效组件可以获取到正确的映射
     this.updateGlobalScaleDomain();
   }
