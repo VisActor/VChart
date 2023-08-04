@@ -98,8 +98,20 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
     } else if (isPositionLayout) {
       point = spec.position;
     }
+
+    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+
     this._markerComponent?.setAttributes({
-      position: point
+      position: point,
+      itemContent: {
+        ...this._markerComponent.attribute?.itemContent,
+        textStyle: {
+          ...this._markerComponent.attribute?.itemContent?.textStyle,
+          text: this._spec.itemContent.text?.formatMethod
+            ? this._spec.itemContent.text.formatMethod(dataPoints)
+            : this._markerComponent.attribute?.itemContent?.textStyle?.text
+        }
+      }
     });
   }
 
