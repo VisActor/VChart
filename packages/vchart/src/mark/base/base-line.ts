@@ -3,7 +3,7 @@ import type { StateValueType } from '../../compile/mark';
 import type { ILineLikeMarkSpec } from '../../typings/visual';
 import { isFunction, isNil } from '../../util';
 import { BaseMark } from './base-mark';
-import type { IMarkStyle, StyleConvert } from '../interface';
+import type { IMarkStyle, IStyleSetOption, StyleConvert } from '../interface';
 
 export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSpec> extends BaseMark<T> {
   protected abstract _getIgnoreAttributes(): string[];
@@ -20,7 +20,10 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
     style: Partial<IMarkStyle<T>>,
     state: StateValueType = 'normal',
     level: number = 0,
-    stateStyle = this.stateStyle
+    stateStyle = this.stateStyle,
+    opt: IStyleSetOption = {
+      ignoreSegmentsCheck: false
+    }
   ): void {
     if (isNil(style)) {
       return;
@@ -71,7 +74,7 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
       this.setAttribute(attr as any, styleConverter, state, level, stateStyle);
     });
 
-    if (enableSegments) {
+    if (enableSegments && !opt?.ignoreSegmentsCheck) {
       this.setAttribute('enableSegments', true, state, level, stateStyle);
     }
   }
