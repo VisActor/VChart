@@ -255,10 +255,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     this._initExtensionMark();
     this.initMarkStyle();
     this.initMarkState();
-    this.afterInitMark();
     if (this._spec.animation !== false && isValid(this._region.animate)) {
       this.initAnimation();
     }
+    this.afterInitMark();
 
     // event
     this.initEvent();
@@ -303,6 +303,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   /** data */
   protected initData(): void {
     this._rawData = this._spec.data as DataView;
+    this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
     this._addDataIndexAndKey();
     // 初始化viewData
     if (this._rawData) {
@@ -365,7 +366,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       this._option.globalScale.getStatisticalFields
     );
     this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
-    this._rawDataStatistics.reRunAllTransform();
   }
 
   protected _statisticViewData() {
@@ -503,8 +503,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     this._rawData.updateRawData(d);
   }
   rawDataUpdate(d: DataView): void {
-    this.event.emit(ChartEvent.rawDataUpdate, { model: this });
     this._rawDataStatistics?.reRunAllTransform();
+    this.event.emit(ChartEvent.rawDataUpdate, { model: this });
   }
   rawDataStatisticsUpdate(d: DataView): void {
     this.event.emit(ChartEvent.rawDataStatisticsUpdate, { model: this });
@@ -702,8 +702,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   afterInitMark(): void {
     this.event.emit(ChartEvent.afterInitMark, { model: this });
-    // 此时mark相关的统计数据收集完成
-    this._rawDataStatistics?.reRunAllTransform();
     this.setSeriesField(this._spec.seriesField);
 
     let animationThreshold = this._spec.animationThreshold ?? Number.MAX_SAFE_INTEGER;
@@ -746,7 +744,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   /** event */
   protected initEvent() {
     this._trigger.init();
-    this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
     this._data?.getDataView()?.target.addListener('change', this.viewDataUpdate.bind(this));
     this._viewDataStatistics?.target.addListener('change', this.viewDataStatisticsUpdate.bind(this));
     this._rawDataStatistics?.target.addListener('change', this.rawDataStatisticsUpdate.bind(this));
@@ -853,8 +850,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   }
 
   getSeriesInfoInField(field: string) {
-    const keys = this._rawDataStatistics.latestData[field]?.values;
-    return this._getSeriesInfo(field, keys);
+    return this._getSeriesInfo(field, this._rawDataStatistics.latestData[field]?.values ?? []);
   }
 
   getSeriesInfoList() {
