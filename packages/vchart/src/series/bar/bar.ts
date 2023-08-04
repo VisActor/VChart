@@ -23,7 +23,7 @@ import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
-import { isValidNumber, last } from '@visactor/vutils';
+import { isValid, last } from '@visactor/vutils';
 
 VChart.useMark([RectMark, TextMark]);
 
@@ -209,7 +209,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _getBarWidth(axisHelper: IAxisHelper) {
     const hasBarWidth = this._spec.barWidth !== undefined;
     let bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
-    if (this._groups?.fields?.length > 1 && isValidNumber(this._spec.barGapInGroup)) {
+    if (this._groups?.fields?.length > 1 && isValid(this._spec.barGapInGroup)) {
       const gapWidth = this._getBarGapSize(axisHelper);
       const groupCount = this._getGroupValues().length;
       bandWidth = (bandWidth * groupCount - (groupCount - 1) * gapWidth) / groupCount;
@@ -249,7 +249,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const scale = axisHelper.getScale(0);
     const height = this._rectMark.getAttribute(sizeAttribute, datum) as number;
     const groupValues = this._getGroupValues();
-    if (this._groups?.fields?.length > 1 && groupValues.length && isValidNumber(this._spec.barGapInGroup)) {
+    if (this._groups?.fields?.length > 1 && groupValues.length && isValid(this._spec.barGapInGroup)) {
       const groupField = last(this._groups.fields);
       const center = scale.scale(datum[field]) + axisHelper.getBandwidth(0) / 2;
       const groupCount = groupValues.length;
