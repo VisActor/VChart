@@ -28,9 +28,9 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
   const rangeSize = Math.abs(range[range.length - 1] - range[0]);
   if (rangeSize < 2) {
     if (op.labelLastVisible) {
-      return domain[domain.length - 1];
+      return convertDomainToTickData([domain[domain.length - 1]], op);
     }
-    return domain[0];
+    return convertDomainToTickData([domain[0]], op);
   }
 
   let scaleTicks;
