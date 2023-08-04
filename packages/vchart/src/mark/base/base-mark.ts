@@ -23,7 +23,8 @@ import type {
   IMarkOption,
   StyleConvert,
   VisualScaleType,
-  MarkInputStyle
+  MarkInputStyle,
+  IStyleSetOption
 } from '../interface';
 import { AttributeLevel, GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant';
 import { isValidScaleType, ThresholdScale } from '@visactor/vscale';
@@ -132,7 +133,10 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     style: Partial<IMarkStyle<T>>,
     state: StateValueType = 'normal',
     level: number = 0,
-    stateStyle = this.stateStyle
+    stateStyle = this.stateStyle,
+    _opt: IStyleSetOption = {
+      ignoreSegmentsCheck: false
+    }
   ): void {
     if (isNil(style)) {
       return;
