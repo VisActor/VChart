@@ -53,6 +53,11 @@ export type IMarkStateStyle<T extends ICommonSpec> = Record<StateValueType, Part
 export type IMarkStyle<T extends ICommonSpec> = {
   [key in keyof T]: MarkInputStyle<T[key]>;
 };
+
+export type IStyleSetOption = {
+  ignoreSegmentsCheck?: boolean;
+};
+
 /**********   mark  ***************/
 export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   readonly stateStyle: IMarkStateStyle<T>;
@@ -62,7 +67,13 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
 
   // 需要支持优先级并且可以使用优先级覆盖
   /** @deprecated VChart 层尽量使用 IModel.setMarkStyle() */
-  setStyle: (style: Partial<IMarkStyle<T>>, state?: StateValueType, level?: number) => void;
+  setStyle: (
+    style: Partial<IMarkStyle<T>>,
+    state?: StateValueType,
+    level?: number,
+    stateStyle?: IMarkStateStyle<T>,
+    opt?: IStyleSetOption
+  ) => void;
 
   setReferer: (mark: IMarkRaw<T>, styleKey?: string, state?: StateValueType, stateStyle?: IMarkStateStyle<T>) => void;
 

@@ -192,7 +192,8 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
               }
             },
             state,
-            areaMark.stateStyle[state].stroke.level
+            areaMark.stateStyle[state].stroke.level,
+            { ignoreSegmentsCheck: true }
           );
         }
       });
