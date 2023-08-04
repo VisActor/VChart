@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { isNil, pickWithout } from '@visactor/vutils';
+import { isEqual, isNil, pickWithout } from '@visactor/vutils';
 
 import RootChartContext, { ChartContextType } from '../context/chart';
 import { bindEventsToChart } from '../eventsUtils';
@@ -26,8 +26,7 @@ export const createComponent = <T extends ComponentProps>(
 
     const eventsBinded = React.useRef<T>(null);
     const updateId = React.useRef<number>(props.updateId);
-
-    const componentSpec: Partial<T> = pickWithout<T>(props, notSpecKeys);
+    const componentSpec = React.useRef<Partial<T>>();
 
     if (props.updateId !== updateId.current) {
       // update triggered by chart when chart is rendered
@@ -41,7 +40,12 @@ export const createComponent = <T extends ComponentProps>(
         eventsBinded.current = props;
       }
     } else {
-      updateToContext(context, id.current, specName, isSingle, componentSpec);
+      const newComponentSpec: Partial<T> = pickWithout<T>(props, notSpecKeys);
+
+      if (!isEqual(newComponentSpec, componentSpec.current)) {
+        componentSpec.current = newComponentSpec;
+        updateToContext(context, id.current, specName, isSingle, newComponentSpec);
+      }
     }
 
     useEffect(() => {
