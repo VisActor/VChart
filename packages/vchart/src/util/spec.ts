@@ -1,9 +1,12 @@
 import type { IBackgroundSpec, IBackgroundStyleSpec } from './../typings/spec/common';
-import { isArray, isBoolean, isDate, isFunction, isNumber, isObject, isString, isValid } from '@visactor/vutils';
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
+import { isArray, isBoolean, isDate, isFunction, isNumber, isObject, isString, isValid, merge } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
-import { getActualColor, isColorKey } from '../theme/color-scheme/util';
+import { getActualColor, isColorKey, transformColorSchemeToStandardStruct } from '../theme/color-scheme/util';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 import type { SeriesTypeEnum } from '../series/interface';
+import type { ITheme } from '../theme';
 
 // todo 以目前的场景来看，并没有递归的需要。
 // 考虑到不确定性，还是递归处理spec对象，时间消耗很少
@@ -165,4 +168,27 @@ export function preprocessSpecOrTheme(obj: any, colorScheme?: IThemeColorScheme,
   });
 
   return newObj;
+}
+
+export function mergeTheme(target: Maybe<ITheme>, ...sources: Maybe<ITheme>[]): Maybe<ITheme> {
+  return merge(preprocessThemeToMerge(target), ...sources.map(preprocessThemeToMerge));
+}
+
+function preprocessThemeToMerge(theme: Maybe<ITheme>): Maybe<ITheme> {
+  if (!theme) {
+    return theme;
+  }
+  // 将色板转化为标准形式
+  let { colorScheme } = theme;
+  if (colorScheme) {
+    colorScheme = Object.keys(colorScheme).reduce<IThemeColorScheme>((scheme, key) => {
+      const value = colorScheme[key];
+      scheme[key] = transformColorSchemeToStandardStruct(value);
+      return scheme;
+    }, {} as IThemeColorScheme);
+  }
+  return {
+    ...theme,
+    colorScheme
+  };
 }
