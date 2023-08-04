@@ -41,10 +41,9 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
   } else if (isValid(tickCount)) {
     scaleTicks = scale.ticks(tickCount);
   } else if (op.sampling) {
-    const domain = scale.domain();
-    const range = scale.range();
     let labelBoundsList: AABBBounds[];
-    if (domain.length < 10) {
+    const fontSize = (op.labelStyle.fontSize ?? 12) + 2;
+    if (domain.length <= rangeSize / fontSize) {
       labelBoundsList = getCartesianLabelBounds(scale, domain, op);
     } else {
       // only check first middle last, use the max size to sampling
