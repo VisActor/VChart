@@ -6,7 +6,7 @@ import type { IMarkSpec } from '../../typings/spec';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
 import type { IArcMark } from '../../mark/arc';
-import type { IArcMarkSpec, ITextMarkSpec } from '../../typings';
+import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
 import type { ISunburstAnimationParams, SunburstAppearPreset } from './animation';
 import type { ISunburstSeriesSpec, LabelAutoVisibleType } from './interface';
@@ -421,6 +421,11 @@ export class SunburstSeries extends PolarSeries<any> {
   }
   setValueFieldToPercent(): void {
     return;
+  }
+
+  // make sure this function fast
+  protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
+    return undefined;
   }
 }
 

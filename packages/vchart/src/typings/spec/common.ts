@@ -148,6 +148,12 @@ export interface IChartSpec {
    */
   seriesStyle?: ISeriesStyle;
 
+  /**
+   * @since 1.2.0
+   * 自动关闭动画的阀值，对应的是单系列data的长度
+   */
+  animationThreshold?: number;
+
   /** hover 交互 */
   hover?: boolean | IHoverSpec;
   /** select 交互 */
@@ -362,6 +368,11 @@ export interface ISeriesSpec extends ITriggerSpec {
    * 是否开启系列动画
    */
   animation?: boolean;
+  /**
+   * @since 1.2.0
+   * 自动关闭动画的阀值，对应的是单系列data的长度
+   */
+  animationThreshold?: number;
 
   /**
    * 是否支持3d视角
