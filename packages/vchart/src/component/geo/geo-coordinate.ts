@@ -180,6 +180,10 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
 
   initProjection() {
     this._projection = new Projection(this._projectionSpec);
+    if (this._projection.projection === null) {
+      this._option.onError('unsupported projection type!');
+      return;
+    }
   }
 
   coordinateHelper() {

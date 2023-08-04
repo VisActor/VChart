@@ -81,7 +81,8 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     if (C) {
       return new C(spec, options) as IPolarAxis;
     }
-    throw `Component ${componentName} not found`;
+    options.onError(`Component ${componentName} not found`);
+    return null;
   }
 
   static createComponent(spec: any, options: IComponentOption) {

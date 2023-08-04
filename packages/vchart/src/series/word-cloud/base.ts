@@ -1,5 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import type { IPadding } from '@visactor/vutils';
+import { isEqual } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
@@ -250,7 +251,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   compile(): void {
     super.compile();
-
     const wordCloudTransforms: any[] = [];
     const valueField = this._valueField;
     const valueScale = new LinearScale();
@@ -302,17 +302,13 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
     const textField = this._spec.word?.formatMethod ? WORD_CLOUD_TEXT : this._nameField;
 
-    const srView = this.getCompiler().getVGrammarView();
     // 词云 transform
     if (!this._isWordCloudShape) {
       wordCloudTransforms.push({
         type: 'wordcloud',
         // TIP: 非浏览器环境下，使用 fast 布局，否则会出现兼容问题
         layoutType: !isTrueBrowser(this._option.mode) ? 'fast' : this._wordCloudConfig.layoutMode,
-        size: [
-          srView.width() - this._padding?.left || 0 - this._padding?.right || 0,
-          srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0
-        ],
+        size: [this._region.getLayoutRect().width, this._region.getLayoutRect().height],
         shape: this._maskShape,
         dataIndexKey: DEFAULT_DATA_KEY,
         text: { field: textField },
@@ -342,7 +338,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         // 形状词云中必须要传入dataIndexKey, 否则填充词无法绘制
         dataIndexKey: DEFAULT_DATA_KEY,
 
-        size: [srView.width(), srView.height()],
+        size: [this._region.getLayoutRect().width, this._region.getLayoutRect().height],
         shape: this._maskShape,
 
         text: { field: this._spec.word?.formatMethod ? WORD_CLOUD_TEXT : this._nameField },
@@ -433,5 +429,21 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   setValueFieldToPercent(): void {
     //do nothing
+  }
+
+  onLayoutEnd(ctx: any): void {
+    super.onLayoutEnd(ctx);
+    this.compile();
+  }
+
+  updateSpec(spec: any) {
+    const originalSpec = this._originalSpec;
+    const result = super.updateSpec(spec);
+    if (!isEqual(originalSpec, spec)) {
+      result.reMake = true;
+      result.reCompile = true;
+      return result;
+    }
+    return result;
   }
 }

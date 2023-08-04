@@ -1,13 +1,14 @@
 {
   "name": "@visactor/vchart",
-  "version": "1.1.2",
+  "version": "1.2.0-beta.1",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "browser": "esm/index.js",
   "types": "esm/index.d.ts",
   "scripts": {
-    "build": "bundle --clean",
+    "build:schema": "schema src/typings/spec/chart.ts ISpec --useTypeOfKeyword --ignoreErrors --required > ../vchart-schema/vchart.json",
+    "build": "bundle --clean && npm run build:schema",
     "build:ci": "bundle --clean -f umd --minify=false --name ChartSpace",
     "dev": "bundle --clean -f es -w",
     "compile": "tsc --noEmit",
@@ -28,19 +29,7 @@
   "files": [
     "esm",
     "cjs",
-    "build",
-    "chart.d.ts",
-    "chart.js",
-    "component.d.ts",
-    "component.js",
-    "core.d.ts",
-    "core.js",
-    "layout.d.ts",
-    "layout.js",
-    "mark.d.ts",
-    "mark.js",
-    "series.d.ts",
-    "series.js"
+    "build"
   ],
   "unpkg": "latest",
   "unpkgFiles": [
@@ -56,7 +45,7 @@
     "graphics",
     "interaction"
   ],
-  "homepage": "",
+  "homepage": "https://www.visactor.io/vchart",
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
@@ -65,10 +54,11 @@
   },
   "author": {
     "name": "VisActor",
-    "url": "https://VisActor.io/"
+    "url": "https://www.visactor.io/"
   },
   "license": "MIT",
   "devDependencies": {
+    "@internal/typescript-json-schema": "workspace:*",
     "@internal/bundler": "workspace:*",
     "@internal/eslint-config": "workspace:*",
     "@internal/ts-config": "workspace:*",

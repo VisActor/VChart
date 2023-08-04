@@ -51,8 +51,9 @@ export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
       large: this._spec.large,
       largeThreshold: this._spec.largeThreshold
     };
-    this.initLineMark(progressive);
-    this.initSymbolMark(progressive);
+    const seriesMark = this._spec.seriesMark ?? 'line';
+    this.initLineMark(progressive, seriesMark === 'line');
+    this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
   initMarkStyle(): void {
@@ -78,8 +79,12 @@ export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
   }
 
   getSeriesStyle(datum: Datum) {
+    const isLineAsSeriesMark = this._spec.seriesMark !== 'point';
     return (attribute: string) => {
-      attribute === 'fill' && (attribute = 'stroke');
+      if (isLineAsSeriesMark) {
+        // 增加一个标识位，用于是否替换，因为图例获取颜色的时候是不需要替换的
+        attribute === 'fill' && (attribute = 'stroke');
+      }
       return this._seriesMark?.getAttribute(attribute as any, datum) ?? null;
     };
   }

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: supplement sync methods in vchart instance\n\n",
+      "type": "minor",
+      "packageName": "@visactor/taro-vchart"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart",
+  "email": "zamhown@live.com"
+}

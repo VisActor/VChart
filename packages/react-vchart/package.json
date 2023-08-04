@@ -1,6 +1,6 @@
 {
   "name": "@visactor/react-vchart",
-  "version": "1.1.2",
+  "version": "1.2.0-beta.1",
   "description": "The react version of VChart 4.x",
   "keywords": [
     "react",
@@ -28,7 +28,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.1.2",
+    "@visactor/vchart": "workspace:1.2.0-beta.1",
     "@visactor/vutils": "~0.13.3",
     "@visactor/vgrammar": "~0.5.1",
     "@visactor/vrender": "~0.13.4",
@@ -67,7 +67,7 @@
     "react": ">=16.0.0",
     "react-dom": ">=16.0.0"
   },
-  "homepage": "",
+  "homepage": "https://www.visactor.io/vchart",
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
@@ -76,7 +76,7 @@
   },
   "author": {
     "name": "VisActor",
-    "url": "https://VisActor.io/"
+    "url": "https://www.visactor.io/"
   },
   "license": "MIT",
   "publishConfig": {

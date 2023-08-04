@@ -49,6 +49,9 @@ export function seriesOption(opt: Partial<IModelOption> = {}, chart?: TestChart)
   option.globalScale = new GlobalScale([], chart as any);
   option.getTheme = () => ThemeManager.getCurrentTheme();
   option.region = (chart?.getAllRegions?.()?.[0] ?? new TestRegion({})) as IRegion;
+  option.onError = msg => {
+    console.log(msg);
+  };
   return option;
 }
 

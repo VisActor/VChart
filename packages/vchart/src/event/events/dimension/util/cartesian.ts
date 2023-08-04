@@ -41,8 +41,10 @@ const getFirstSeries = (chart: IChart) => {
   return null;
 };
 
-const XAxisGetDimensionField = (series: ICartesianSeries) => series.fieldX[0];
-const YAxisGetDimensionField = (series: ICartesianSeries) => series.fieldY[0];
+const discreteXAxisGetDimensionField = (series: ICartesianSeries) => series.fieldX[0];
+const discreteYAxisGetDimensionField = (series: ICartesianSeries) => series.fieldY[0];
+const continuousXAxisGetDimensionField = (series: ICartesianSeries) => [series.fieldX[0], series.fieldX2];
+const continuousYAxisGetDimensionField = (series: ICartesianSeries) => [series.fieldY[0], series.fieldY2];
 
 export const getCartesianDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoint): IDimensionInfo[] | null => {
   if (!chart) {
@@ -60,13 +62,25 @@ export const getCartesianDimensionInfo = (chart: IChart | undefined, pos: ILayou
 
   if (xAxisList) {
     xAxisList.forEach(axis => {
-      const info = getDiscreteAxisDimensionInfo(axis, x, 'x', XAxisGetDimensionField);
+      const isDiscreteAxis = isDiscrete(axis.getScale().type);
+      const info = getDimensionInfoByPosition(
+        axis,
+        x,
+        'x',
+        isDiscreteAxis ? discreteXAxisGetDimensionField : continuousXAxisGetDimensionField
+      );
       info && targetAxisInfo.push(info);
     });
   }
   if (yAxisList) {
     yAxisList.forEach(axis => {
-      const info = getDiscreteAxisDimensionInfo(axis, y, 'y', YAxisGetDimensionField);
+      const isDiscreteAxis = isDiscrete(axis.getScale().type);
+      const info = getDimensionInfoByPosition(
+        axis,
+        y,
+        'y',
+        isDiscreteAxis ? discreteYAxisGetDimensionField : continuousYAxisGetDimensionField
+      );
       info && targetAxisInfo.push(info);
     });
   }
@@ -76,11 +90,11 @@ export const getCartesianDimensionInfo = (chart: IChart | undefined, pos: ILayou
   return targetAxisInfo;
 };
 
-export const getDiscreteAxisDimensionInfo = (
+export const getDimensionInfoByPosition = (
   axis: CartesianAxis,
   posValue: number,
   posKey: 'x' | 'y',
-  getDimensionField: (series: ICartesianSeries) => string
+  getDimensionField: (series: ICartesianSeries) => string | string[]
 ): IDimensionInfo | null => {
   const scale = axis.getScale();
   const scalePos = posValue - axis.getLayoutStartPoint()[posKey];
@@ -90,20 +104,16 @@ export const getDiscreteAxisDimensionInfo = (
   }
 
   const value = scale.invert(scalePos);
-  return getDimensionInfoInAxis(axis, value, getDimensionField);
+  return getDimensionInfoByValue(axis, value, getDimensionField);
 };
 
-export const getDimensionInfoInAxis = (
+export const getDimensionInfoByValue = (
   axis: CartesianAxis,
   value: any,
-  getDimensionField?: (series: ICartesianSeries) => string
+  getDimensionField?: (series: ICartesianSeries) => string | string[]
 ): IDimensionInfo | null => {
   const scale = axis.getScale();
 
-  // 限定为离散轴
-  if (!scale || !isDiscrete(scale.type)) {
-    return null;
-  }
   if (isNil(value)) {
     return null;
   }
@@ -117,7 +127,7 @@ export const getDimensionInfoInAxis = (
     value,
     axis,
     'cartesian',
-    getDimensionField ?? (isXAxis(axis.orient) ? XAxisGetDimensionField : YAxisGetDimensionField)
+    getDimensionField ?? (isXAxis(axis.orient) ? discreteXAxisGetDimensionField : discreteYAxisGetDimensionField)
   );
   return { index, value, axis, data };
 };

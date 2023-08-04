@@ -48,7 +48,7 @@ export interface BaseChartProps
   /** 图表渲染完成事件 */
   onReady?: (instance: VChart, isInitial: boolean) => void;
   /** throw error when chart run into an error */
-  onError?: () => void;
+  onError?: (err: Error) => void;
 }
 
 type Props = React.PropsWithChildren<BaseChartProps>;

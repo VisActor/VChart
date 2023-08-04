@@ -1,4 +1,4 @@
-import type { IImageMarkSpec } from './../visual';
+import type { IFillMarkSpec, IImageMarkSpec } from './../visual';
 import type { ILayoutPaddingSpec } from '../../model/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar';
@@ -94,6 +94,12 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * @default true
    */
   poptip?: boolean;
+
+  /**
+   * @since 1.2.0
+   * 报错的回调函数
+   */
+  onError?: (...args: any[]) => void;
 }
 
 export enum RenderModeEnum {
@@ -179,13 +185,19 @@ export interface IChartSpec {
   /**
    * 图表背景色配置，优先级高于构造函数中的 background 配置
    */
-  background?: string;
+  background?: IBackgroundSpec;
 
   // TODO：后续开放，现在仍有问题
   // poptip?: PopTipAttributes;
-
   // TODO: 补充动画配置
 }
+
+export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {
+  image?: IRectMarkSpec['background'];
+  cornerRadius?: IRectMarkSpec['cornerRadius'];
+};
+
+export type IBackgroundSpec = string | IBackgroundStyleSpec;
 
 /** data */
 export type IDataType = IDataValues | DataView;
@@ -364,6 +376,13 @@ export interface ISeriesSpec extends ITriggerSpec {
    * 扩展mark
    */
   extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | IExtensionGroupMarkSpec)[];
+
+  /**
+   * series background
+   * 作用是支持系列的图形对系列背景进行 mask，或者切分等效果。不是作为背景图
+   * 暂时不开放api，避免出现break change
+   */
+  // background?: IBackgroundSpec;
 }
 
 export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph'>;

@@ -3,6 +3,8 @@ import { SankeyLayout } from '@visactor/vgrammar-sankey';
 import { isArray } from '@visactor/vutils';
 
 export interface ISankeyOpt extends SankeyOptions {
+  targetField: string;
+  sourceField: string;
   view: () => { x0: number; x1: number; y0: number; y1: number };
 }
 
@@ -24,10 +26,53 @@ export const sankey = (data: SankeyData, op: ISankeyOpt) => {
     return data;
   }
 
-  if (data[0]?.latestData) {
-    data = data[0].latestData[0];
+  if (data.length > 1) {
+    /**
+     * data structure for Fengshen:
+     * [{id:’nodes’, values:[xxx]},{id:’links’, values:[xxx]}]
+     */
+    const updateData: SankeyData = {
+      links: [],
+      nodes: []
+    };
+    data.forEach((datum: any) => {
+      if (datum.id === 'links' || datum.id === 'nodes') {
+        updateData[datum.id] = datum.values;
+      }
+    });
+    data = updateData;
   } else {
-    data = data[0];
+    /**
+     * data structure:
+     * [{nodes: [xxx], links: [xxx]}]
+     */
+    if (data[0]?.latestData) {
+      data = data[0].latestData[0];
+    } else {
+      data = data[0];
+    }
+  }
+
+  if (op.sourceField !== 'source' || op.targetField !== 'target') {
+    for (const key in data) {
+      if (key === 'links') {
+        const updatedData: {}[] = [];
+        data[key].forEach((datum: any) => {
+          const updatedDatum: any = {};
+          for (const key in datum) {
+            if (key === op.sourceField) {
+              updatedDatum.source = datum[op.sourceField];
+            } else if (key === op.targetField) {
+              updatedDatum.target = datum[op.targetField];
+            } else {
+              updatedDatum[key] = datum[key];
+            }
+          }
+          updatedData.push(updatedDatum);
+        });
+        data[key] = updatedData;
+      }
+    }
   }
 
   const layout = new SankeyLayout(op);

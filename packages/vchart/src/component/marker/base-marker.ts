@@ -166,7 +166,8 @@ export abstract class BaseMarker extends BaseComponent {
         }
       }
     }
-    throw new Error('need at least one series');
+    this._option.onError('need at least one series');
+    return null;
   }
 
   clear(): void {

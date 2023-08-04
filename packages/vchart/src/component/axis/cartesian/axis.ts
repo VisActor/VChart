@@ -125,7 +125,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         options
       ) as IAxis;
     }
-    throw `Component ${componentName} not found`;
+    options.onError(`Component ${componentName} not found`);
+    return null;
   }
 
   static createComponent(spec: any, options: IComponentOption) {

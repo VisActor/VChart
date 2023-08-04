@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(wordCloud): fix wordCloud size error probelm. fix #400, fix #260",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
