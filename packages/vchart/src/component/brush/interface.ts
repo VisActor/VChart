@@ -117,3 +117,14 @@ export enum IOperateType {
   brushMaskDown = 'brushMaskDown',
   brushMaskMove = 'brushMaskMove'
 }
+
+export type BrushInteractiveRangeAttr = {
+  interactiveRange: {
+    minY: number;
+    maxY: number;
+    minX: number;
+    maxX: number;
+  };
+  xRange: [number, number];
+  yRange: [number, number];
+};
