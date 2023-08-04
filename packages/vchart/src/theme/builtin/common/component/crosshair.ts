@@ -20,7 +20,7 @@ export const crosshair: ICrosshairTheme = {
       visible: false,
       style: {
         fontWeight: 'normal',
-        fill: { type: 'palette', key: 'backgroundColor' },
+        fill: { type: 'palette', key: 'labelReverseFontColor' },
         fontSize
       },
       labelBackground: {
@@ -52,7 +52,7 @@ export const crosshair: ICrosshairTheme = {
       visible: false,
       style: {
         fontWeight: 'normal',
-        fill: { type: 'palette', key: 'backgroundColor' },
+        fill: { type: 'palette', key: 'labelReverseFontColor' },
         fontSize
       },
       labelBackground: {
@@ -84,7 +84,7 @@ export const crosshair: ICrosshairTheme = {
       visible: false,
       style: {
         fontWeight: 'normal',
-        fill: { type: 'palette', key: 'backgroundColor' },
+        fill: { type: 'palette', key: 'labelReverseFontColor' },
         fontSize
       },
       labelBackground: {
@@ -116,7 +116,7 @@ export const crosshair: ICrosshairTheme = {
       visible: false,
       style: {
         fontWeight: 'normal',
-        fill: { type: 'palette', key: 'backgroundColor' },
+        fill: { type: 'palette', key: 'labelReverseFontColor' },
         fontSize
       },
       labelBackground: {
