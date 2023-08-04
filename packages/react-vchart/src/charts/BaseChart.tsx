@@ -136,7 +136,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec)) {
-        console.log(parseSpec(props));
         // eslint-disable-next-line promise/catch-or-return
         const updatePromise = chartContext.current.chart
           .updateSpec(parseSpec(props), undefined, { morph: false }) // morph临时关掉
@@ -152,9 +151,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     const newSpec = pickWithout(props, notSpecKeys);
 
     if (!isEqual(newSpec, prevSpec.current) || chartContext.current.isChildrenUpdated) {
-      if (props.type === 'area') {
-        console.log(isEqual(newSpec, prevSpec.current), chartContext.current.isChildrenUpdated);
-      }
       prevSpec.current = newSpec;
       // eslint-disable-next-line promise/catch-or-return
       const updatePromise = chartContext.current.chart
