@@ -382,3 +382,9 @@ export interface IAxisCommonTheme {
   /** 轴刻度线配置 */
   subTick?: ISubTick;
 }
+
+export interface IBandAxisTheme extends IAxisCommonTheme {
+  bandPadding?: number | number[];
+  paddingInner?: number | number[];
+  paddingOuter?: number | number[];
+}
