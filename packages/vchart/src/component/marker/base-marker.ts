@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { array } from '@visactor/vutils';
+import { array, isFunction, merge } from '@visactor/vutils';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IOptionAggr } from '../../data/transforms/aggregation';
 import type { IOptionRegr } from '../../data/transforms/regression';
@@ -9,7 +9,7 @@ import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
 import type { StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base';
-import type { IAggrType, IDataPointSpec, IDataPos } from './interface';
+import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback } from './interface';
 import type { IRegressType } from './mark-area/interface';
 import type { INode } from '@visactor/vrender';
 
@@ -37,9 +37,16 @@ export abstract class BaseMarker extends BaseComponent {
     return spec === 'regression' || AGGR_TYPE.includes(spec as any);
   }
 
-  protected _processSpecX(specX: IDataPos) {
+  protected _processSpecX(specX: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
     let processType: IAggrType | IRegressType;
+    if (isFunction(specX)) {
+      specX = specX(
+        this._relativeSeries.getData().getLatestData(),
+        this._startRelativeSeries.getData().getLatestData(),
+        this._endRelativeSeries.getData().getLatestData()
+      );
+    }
     if (this._isSpecAggrOrRege(specX)) {
       processType = specX as unknown as IAggrType;
       return {
@@ -52,9 +59,16 @@ export abstract class BaseMarker extends BaseComponent {
     return { x: specX };
   }
 
-  protected _processSpecY(specY: IDataPos) {
+  protected _processSpecY(specY: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
     let processType: IAggrType | IRegressType;
+    if (isFunction(specY)) {
+      specY = specY(
+        this._relativeSeries.getData().getLatestData(),
+        this._startRelativeSeries.getData().getLatestData(),
+        this._endRelativeSeries.getData().getLatestData()
+      );
+    }
     if (this._isSpecAggrOrRege(specY)) {
       processType = specY as unknown as IAggrType;
       return {

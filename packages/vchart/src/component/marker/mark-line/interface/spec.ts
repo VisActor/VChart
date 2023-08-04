@@ -1,12 +1,12 @@
 import type { IComponent } from '../../../interface';
-// eslint-disable-next-line max-len
 import type {
   IAggrType,
   IMarkerPositionsSpec,
   IDataPointSpec,
   IMarkerSpec,
   IMarkerAxisSpec,
-  IDataPos
+  IDataPos,
+  IDataPosCallback
 } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
@@ -26,30 +26,30 @@ export type IMarkLineSpec = IMarkerSpec &
 
 export interface IMarkLineXSpec extends IMarkerAxisSpec {
   /**
-   * x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型
+   * x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
    */
-  x: IDataPos;
+  x: IDataPos | IDataPosCallback;
 }
 
 export interface IMarkLineYSpec extends IMarkerAxisSpec {
   /**
-   * y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型
+   * y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
    */
-  y: IDataPos;
+  y: IDataPos | IDataPosCallback;
 }
 
 export interface IMarkLineAngleSpec extends IMarkerAxisSpec {
   /**
-   * todo: angle轴上的参考线。可以配置参考线在angle轴上的值，或者聚合计算类型
+   * todo: angle轴上的参考线。可以配置参考线在angle轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
    */
-  angle: IDataPos;
+  angle: IDataPos | IDataPosCallback;
 }
 
 export interface IMarkLineRadiusSpec extends IMarkerAxisSpec {
   /**
-   * todo: radius轴上的参考线。可以配置参考线在radius轴上的值，或者聚合计算类型
+   * todo: radius轴上的参考线。可以配置参考线在radius轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
    */
-  radius: IDataPos;
+  radius: IDataPos | IDataPosCallback;
 }
 
 export type IMarkLineCoordinateSpec = {
