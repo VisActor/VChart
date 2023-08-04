@@ -42,11 +42,11 @@ export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
    */
   title?: ITitle;
   /**
-   * 内半径
+   * 内半径（比例值，取值范围 0~1）
    */
   innerRadius?: number;
   /**
-   * 外半径
+   * 外半径（比例值，取值范围 0~1）
    */
   outerRadius?: number;
   /**

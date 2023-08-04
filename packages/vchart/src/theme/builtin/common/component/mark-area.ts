@@ -11,8 +11,8 @@ export const markArea: IMarkAreaTheme = {
       fontSize: 14,
       fontWeight: 'normal',
       fontStyle: 'normal',
-      fill: { type: 'palette', key: 'backgroundColor' },
-      stroke: { type: 'palette', key: 'backgroundColor' },
+      fill: { type: 'palette', key: 'labelReverseFontColor' },
+      stroke: { type: 'palette', key: 'labelReverseFontColor' },
       lineWidth: 0
     },
     labelBackground: {

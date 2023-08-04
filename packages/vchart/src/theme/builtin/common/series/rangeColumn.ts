@@ -7,7 +7,7 @@ export const rangeColumn: IRangeColumnSeriesTheme = {
     offset: 5,
     position: 'inside',
     style: {
-      fill: { type: 'palette', key: 'backgroundColor' },
+      fill: { type: 'palette', key: 'labelReverseFontColor' },
       fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
     },
     minLabel: {
