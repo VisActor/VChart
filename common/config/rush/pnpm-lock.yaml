@@ -58,7 +58,7 @@ importers:
       '@visactor/vchart': workspace:1.1.3
       '@visactor/vgrammar': ~0.5.1
       '@visactor/vrender': ~0.13.4
-      '@visactor/vutils': ~0.13.3
+      '@visactor/vutils': ~0.14.0
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
       eslint-config-prettier: 8.5.0
@@ -79,7 +79,7 @@ importers:
       '@visactor/vchart': link:../vchart
       '@visactor/vgrammar': 0.5.2
       '@visactor/vrender': 0.13.7
-      '@visactor/vutils': 0.13.3
+      '@visactor/vutils': 0.14.0
       react-is: 18.2.0
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
@@ -208,7 +208,7 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vdataset': ~0.13.4
+      '@visactor/vdataset': ~0.14.0
       '@visactor/vgrammar': ~0.5.1
       '@visactor/vgrammar-hierarchy': ~0.5.1
       '@visactor/vgrammar-projection': ~0.5.1
@@ -219,7 +219,7 @@ importers:
       '@visactor/vrender': ~0.13.4
       '@visactor/vrender-components': ~0.13.4
       '@visactor/vscale': 0.14.0
-      '@visactor/vutils': ~0.13.3
+      '@visactor/vutils': ~0.14.0
       canvas: 2.11.2
       d3-array: 3.2.3
       d3-dsv: ^3.0.1
@@ -245,7 +245,7 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vdataset': 0.13.4
+      '@visactor/vdataset': 0.14.0
       '@visactor/vgrammar': 0.5.2
       '@visactor/vgrammar-hierarchy': 0.5.2
       '@visactor/vgrammar-projection': 0.5.2
@@ -256,7 +256,7 @@ importers:
       '@visactor/vrender': 0.13.7
       '@visactor/vrender-components': 0.13.8
       '@visactor/vscale': 0.14.0
-      '@visactor/vutils': 0.13.3
+      '@visactor/vutils': 0.14.0
     devDependencies:
       '@esbuild-plugins/node-globals-polyfill': 0.1.1
       '@esbuild-plugins/node-modules-polyfill': 0.1.4
@@ -3929,13 +3929,13 @@ packages:
       '@typescript-eslint/types': 5.30.0
       eslint-visitor-keys: 3.4.2
 
-  /@visactor/vdataset/0.13.4:
-    resolution: {integrity: sha512-D70QAOZ3U4VletEvmw2c7pSF6yAxdyph4s7CPyIYPauyomuTmoImhkTG7BcUCC+PaKUUWsJEK7qLDbKNavIkjA==}
+  /@visactor/vdataset/0.14.0:
+    resolution: {integrity: sha512-peAgoQxerHzazRXB/zVc66MgzmmP8RZAg4j3Kv0Tg4HyppqfVvAPANDWtEin0BYVY0luZw06fbJ5npALbva7sQ==}
     dependencies:
       '@turf/flatten': 6.5.0
       '@turf/helpers': 6.5.0
       '@turf/rewind': 6.5.0
-      '@visactor/vutils': 0.13.3
+      '@visactor/vutils': 0.14.0
       d3-dsv: 3.0.1
       d3-geo: 1.12.1
       d3-hexbin: 0.2.2
@@ -4072,7 +4072,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.22.5_@babel+core@7.20.12
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 3.2.6_@types+node@20.4.7
+      vite: 3.2.6
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -14095,7 +14095,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.5
+      minimist: 1.2.8
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
