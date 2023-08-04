@@ -366,8 +366,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       this._option.globalScale.getStatisticalFields
     );
     this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
-    // console.log(1);
-    // this._rawDataStatistics.reRunAllTransform();
   }
 
   protected _statisticViewData() {
@@ -704,9 +702,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   afterInitMark(): void {
     this.event.emit(ChartEvent.afterInitMark, { model: this });
-    // 此时mark相关的统计数据收集完成
-    // console.log(3);
-    // this._rawDataStatistics?.reRunAllTransform();
     this.setSeriesField(this._spec.seriesField);
 
     let animationThreshold = this._spec.animationThreshold ?? Number.MAX_SAFE_INTEGER;
