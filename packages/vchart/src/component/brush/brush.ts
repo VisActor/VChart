@@ -16,8 +16,9 @@ import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
 import type { IElement } from '@visactor/vgrammar';
-import type { IBrush, selectedItemStyle } from './interface';
+import type { BrushInteractiveRangeAttr, IBrush, selectedItemStyle } from './interface';
 import { IOperateType } from './interface';
+import { isEqual } from '@visactor/vutils';
 export class Brush extends BaseComponent implements IBrush {
   layoutType: LayoutItem['layoutType'] = 'absolute';
   static type = ComponentTypeEnum.brush;
@@ -45,6 +46,8 @@ export class Brush extends BaseComponent implements IBrush {
 
   // FIXME: @chensiji 为了只执行一次initState
   private _isFristState: boolean = true;
+  private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
+  // private _cacheRegionLocation: RegionLocation[];
 
   static createComponent(spec: any, options: IComponentOption) {
     const brushSpec = spec.brush || options.defaultSpec;
@@ -82,14 +85,12 @@ export class Brush extends BaseComponent implements IBrush {
     return data;
   }
 
-  protected _createBrushComponent(region: IRegion, componentIndex: number) {
+  protected _getBrushInteractiveAttr(region: IRegion) {
     const seriesRegionStartX = region.getLayoutStartPoint().x;
     const seriesRegionEndX = seriesRegionStartX + region.getLayoutRect().width;
     const seriesRegionStartY = region.getLayoutStartPoint().y;
     const seriesRegionEndY = seriesRegionStartY + region.getLayoutRect().height;
-    const brush = new BrushComponent({
-      zIndex: this.layoutZIndex,
-      brushStyle: transformToGraphic(this._spec?.style),
+    return {
       interactiveRange: {
         minY: seriesRegionStartY,
         maxY: seriesRegionEndY,
@@ -97,71 +98,97 @@ export class Brush extends BaseComponent implements IBrush {
         maxX: seriesRegionEndX
       },
       xRange: [seriesRegionStartX, seriesRegionEndX],
-      yRange: [seriesRegionStartY, seriesRegionEndY],
-      ...this._spec
-    });
+      yRange: [seriesRegionStartY, seriesRegionEndY]
+    } as BrushInteractiveRangeAttr;
+  }
 
-    brush.id = this._spec.id ?? `brush-${this.id}`;
-    this.getContainer().add(brush as unknown as INode);
+  protected _createOrUpdateBrushComponent(region: IRegion, componentIndex: number) {
+    const interactiveAttr = this._getBrushInteractiveAttr(region);
+    if (this._brushComponents.length > 0) {
+      if (!isEqual(this._cacheInteractiveRangeAttrs[componentIndex], interactiveAttr)) {
+        // 布局变化后, 更新可交互范围
+        this._brushComponents.forEach((brushComponent: BrushComponent) => {
+          brushComponent.setAttributes(interactiveAttr as any);
 
-    const { brushMode = 'single', removeOnClick = true } = this._spec;
-    brush.setUpdateDragMaskCallback(
-      (operateParams: {
-        operateType: string;
-        operateMask: IPolygon;
-        operatedMaskAABBBounds: { [name: string]: IBounds };
-      }) => {
-        const { operateType, operateMask } = operateParams;
-        // 需要重置状态的情况：
-        // 1. 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加_stateTag来识别
-        // 2. 框选模式为'single' 且 removeOnClick 为true时, 单击会清空之前所有的mask, 此时也需要重置图元状态
-        if (
-          this._isFristState ||
-          (brushMode === 'single' && removeOnClick && operateType === IOperateType.brushStart)
-        ) {
+          // 布局变化后, 更新brush 和 图元状态
+          // 方案一:
+          // TODO: 更新mask位置（保持选框在画布中的相对位置）
+          // TODO: 是否更新mask大小有待商榷（保持选框位置和图元高亮区域一致）
+
+          // 方案二: 清空brushMask 和 图元高亮状态
           this._initMarkBrushState(componentIndex);
-        }
-
-        this._reconfigItem(operateMask, region);
-        this._reconfigLinkedItem(operateMask, region);
-
-        let eventType: string = ChartEvent.brushChange;
-        if (operateType === IOperateType.brushStart || operateType === IOperateType.brushMaskDown) {
-          eventType = ChartEvent.brushStart;
-        } else if (operateType === IOperateType.brushEnd || operateType === IOperateType.brushMaskUp) {
-          eventType = ChartEvent.brushEnd;
-        } else {
-          eventType = ChartEvent.brushChange;
-        }
-
-        this.event.emit(eventType, {
-          model: this,
-          value: {
-            // 操作类型
-            operateType,
-            // 正在操作的region
-            operateRegion: region,
-            // 在选框内的 element data
-            inBrushData: this._extendDataInBrush(this._inBrushElementsMap),
-            // 在选框外的 element data
-            outOfBrushData: this._extendDatumOutOfBrush(this._outOfBrushElementsMap),
-            // 被链接的系列中：在选框内的 element data
-            linkInBrushData: this._extendDataInBrush(this._linkedInBrushElementsMap),
-            // 被链接的系列中：在选框外的 element data
-            linkOutOfBrushData: this._extendDatumOutOfBrush(this._linkedOutOfBrushElementsMap),
-            // 在选框内的 vgrammar elements
-            inBrushElementsMap: this._inBrushElementsMap,
-            // 在选框外的 vgrammar elements
-            outOfBrushElementsMap: this._outOfBrushElementsMap,
-            // 被链接的系列中：在选框内的 vgrammar elements
-            linkedInBrushElementsMap: this._linkedInBrushElementsMap,
-            // 被链接的系列中：在选框外的 vgrammar elements
-            linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap
-          }
+          brushComponent.children[0].removeAllChild();
         });
       }
-    );
-    this._brushComponents.push(brush);
+    } else {
+      const brush = new BrushComponent({
+        zIndex: this.layoutZIndex,
+        brushStyle: transformToGraphic(this._spec?.style),
+        ...interactiveAttr,
+        ...this._spec
+      });
+      brush.id = this._spec.id ?? `brush-${this.id}`;
+      this.getContainer().add(brush as unknown as INode);
+      const { brushMode = 'single', removeOnClick = true } = this._spec;
+      this._brushComponents.push(brush);
+      this._cacheInteractiveRangeAttrs.push(interactiveAttr);
+      brush.setUpdateDragMaskCallback(
+        (operateParams: {
+          operateType: string;
+          operateMask: IPolygon;
+          operatedMaskAABBBounds: { [name: string]: IBounds };
+        }) => {
+          const { operateType, operateMask } = operateParams;
+          // 需要重置状态的情况：
+          // 1. 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加_stateTag来识别
+          // 2. 框选模式为'single' 且 removeOnClick 为true时, 单击会清空之前所有的mask, 此时也需要重置图元状态
+          if (
+            this._isFristState ||
+            (brushMode === 'single' && removeOnClick && operateType === IOperateType.brushStart)
+          ) {
+            this._initMarkBrushState(componentIndex);
+          }
+
+          this._reconfigItem(operateMask, region);
+          this._reconfigLinkedItem(operateMask, region);
+
+          let eventType: string = ChartEvent.brushChange;
+          if (operateType === IOperateType.brushStart || operateType === IOperateType.brushMaskDown) {
+            eventType = ChartEvent.brushStart;
+          } else if (operateType === IOperateType.brushEnd || operateType === IOperateType.brushMaskUp) {
+            eventType = ChartEvent.brushEnd;
+          } else {
+            eventType = ChartEvent.brushChange;
+          }
+
+          this.event.emit(eventType, {
+            model: this,
+            value: {
+              // 操作类型
+              operateType,
+              // 正在操作的region
+              operateRegion: region,
+              // 在选框内的 element data
+              inBrushData: this._extendDataInBrush(this._inBrushElementsMap),
+              // 在选框外的 element data
+              outOfBrushData: this._extendDatumOutOfBrush(this._outOfBrushElementsMap),
+              // 被链接的系列中：在选框内的 element data
+              linkInBrushData: this._extendDataInBrush(this._linkedInBrushElementsMap),
+              // 被链接的系列中：在选框外的 element data
+              linkOutOfBrushData: this._extendDatumOutOfBrush(this._linkedOutOfBrushElementsMap),
+              // 在选框内的 vgrammar elements
+              inBrushElementsMap: this._inBrushElementsMap,
+              // 在选框外的 vgrammar elements
+              outOfBrushElementsMap: this._outOfBrushElementsMap,
+              // 被链接的系列中：在选框内的 vgrammar elements
+              linkedInBrushElementsMap: this._linkedInBrushElementsMap,
+              // 被链接的系列中：在选框外的 vgrammar elements
+              linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap
+            }
+          });
+        }
+      );
+    }
   }
 
   private _transformBrushedMarkAttr(brushedStyle: selectedItemStyle) {
@@ -429,12 +456,10 @@ export class Brush extends BaseComponent implements IBrush {
     super.onLayoutEnd(ctx);
     const brushVisible = this._spec.visible ?? true;
     if (brushVisible) {
-      // 创建marker组件
-      if (this._brushComponents.length === 0) {
-        this._relativeRegions.forEach((region: IRegion, index: number) => {
-          this._createBrushComponent(region, index);
-        });
-      }
+      // 创建或更新marker组件
+      this._relativeRegions.forEach((region: IRegion, index: number) => {
+        this._createOrUpdateBrushComponent(region, index);
+      });
     }
   }
 }
