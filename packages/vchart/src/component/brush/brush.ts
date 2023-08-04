@@ -17,7 +17,7 @@ import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
 import type { IElement } from '@visactor/vgrammar';
 import type { IBrush, selectedItemStyle } from './interface';
-
+import { IOperateType } from './interface';
 export class Brush extends BaseComponent implements IBrush {
   layoutType: LayoutItem['layoutType'] = 'absolute';
   static type = ComponentTypeEnum.brush;
@@ -115,7 +115,10 @@ export class Brush extends BaseComponent implements IBrush {
         // 需要重置状态的情况：
         // 1. 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加_stateTag来识别
         // 2. 框选模式为'single' 且 removeOnClick 为true时, 单击会清空之前所有的mask, 此时也需要重置图元状态
-        if (this._isFristState || (brushMode === 'single' && removeOnClick && operateType === 'drawStart')) {
+        if (
+          this._isFristState ||
+          (brushMode === 'single' && removeOnClick && operateType === IOperateType.brushStart)
+        ) {
           this._initMarkBrushState(componentIndex);
         }
 
@@ -123,9 +126,9 @@ export class Brush extends BaseComponent implements IBrush {
         this._reconfigLinkedItem(operateMask, region);
 
         let eventType: string = ChartEvent.brushChange;
-        if (operateType === 'brushStart' || operateType === 'brushDown') {
+        if (operateType === IOperateType.brushStart || operateType === IOperateType.brushMaskDown) {
           eventType = ChartEvent.brushStart;
-        } else if (operateType === 'brushEnd' || operateType === 'brushMaskUp') {
+        } else if (operateType === IOperateType.brushEnd || operateType === IOperateType.brushMaskUp) {
           eventType = ChartEvent.brushEnd;
         } else {
           eventType = ChartEvent.brushChange;
