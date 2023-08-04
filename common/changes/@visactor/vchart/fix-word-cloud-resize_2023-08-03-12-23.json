@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(dataZoom): start and end cannot be setted correctly because of judging of data value. fix #334",
+      "comment": "fix(wordCloud): fix wordCloud size error probelm. fix #400, fix #260",
       "type": "none"
     }
   ],
