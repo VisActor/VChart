@@ -5,8 +5,9 @@ export const colorScheme: IThemeColorScheme = {
   default: {
     dataScheme,
     palette: {
-      labelFontColor: '#89909D',
       titleFontColor: '#21252c',
+      labelFontColor: '#89909D',
+      labelReverseFontColor: '#ffffff',
       axisGridColor: '#f1f2f5',
       axisDomainColor: '#D9DDE4',
       backgroundColor: '#ffffff'

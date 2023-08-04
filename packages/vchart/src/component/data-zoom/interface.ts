@@ -82,6 +82,7 @@ export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'he
   startValue?: number | string;
   endValue?: number | string;
 
+  /** 数据过滤对应的数据字段 */
   valueField?: string;
 
   /**
