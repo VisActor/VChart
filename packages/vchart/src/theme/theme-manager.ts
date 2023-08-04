@@ -1,8 +1,8 @@
-import { merge } from '@visactor/vutils';
 import { builtinThemeMap, defaultThemeName } from './builtin';
 import type { ITheme } from './interface';
 import { InstanceManager } from '../core/instance-manager';
 import type { IVChart } from '../core/interface';
+import { mergeTheme } from '../util';
 
 export class ThemeManager {
   /** 主题字典 */
@@ -21,7 +21,7 @@ export class ThemeManager {
       return;
     }
     // 所有主题基于默认主题扩展，保证基础值
-    ThemeManager.themes.set(name, merge({}, ThemeManager.getDefaultTheme(), theme));
+    ThemeManager.themes.set(name, mergeTheme({}, ThemeManager.getDefaultTheme(), theme));
   }
 
   /**
