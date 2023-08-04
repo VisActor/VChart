@@ -1,3 +1,4 @@
+import type { DataView } from '@visactor/vdataset';
 import { ChartEvent, LayoutZIndex } from '../../constant';
 import type { LayoutItem } from '../../model/layout-item';
 import { BaseComponent } from '../base';
@@ -39,12 +40,12 @@ export class Brush extends BaseComponent implements IBrush {
   // 用brushName做分组管理的原因是: 如果有多个brush, 某个图元A brush内, 但在B brush外, 该图元state会被B误变成out of brush。 但其实该图元只有在A brush外才能被判断out of brush
   // 用dict做存储因为方便查找和删减对应图元
   protected _inBrushElementsMap: { [brushName: string]: { [elementKey: string]: IElement } } = {};
-  protected _outOfBrushElementsMap: { [elementKey: string]: IElement } = {};
+  protected _outOfBrushElementsMap: { [key in string]: { [elementKey: string]: IElement } } = {};
   protected _linkedInBrushElementsMap: { [brushName: string]: { [elementKey: string]: IElement } } = {};
-  protected _linkedOutOfBrushElementsMap: { [elementKey: string]: IElement } = {};
+  protected _linkedOutOfBrushElementsMap: { [key in string]: { [elementKey: string]: IElement } } = {};
 
   // FIXME: @chensiji 为了只执行一次initState
-  private _isFristState: boolean = true;
+  private _isFirstState: boolean = true;
 
   static createComponent(spec: any, options: IComponentOption) {
     const brushSpec = spec.brush || options.defaultSpec;
@@ -74,10 +75,13 @@ export class Brush extends BaseComponent implements IBrush {
     return data;
   }
 
-  protected _extendDatumOutOfBrush(elementsMap: { [elementKey: string]: IElement }) {
-    const data = [];
-    for (const elementKey in elementsMap) {
-      data.push(elementsMap[elementKey].data[0]);
+  protected _extendDatumOutOfBrush(elementsMap: { [key in string]: { [elementKey: string]: IElement } }) {
+    const data = {};
+    for (const key in elementsMap) {
+      data[key] = [];
+      for (const elementKey in elementsMap[key]) {
+        data[key].push(elementsMap[key][elementKey].data[0]);
+      }
     }
     return data;
   }
@@ -115,7 +119,7 @@ export class Brush extends BaseComponent implements IBrush {
         // 需要重置状态的情况：
         // 1. 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加_stateTag来识别
         // 2. 框选模式为'single' 且 removeOnClick 为true时, 单击会清空之前所有的mask, 此时也需要重置图元状态
-        if (this._isFristState || (brushMode === 'single' && removeOnClick && operateType === 'drawStart')) {
+        if (this._isFirstState || (brushMode === 'single' && removeOnClick && operateType === 'drawStart')) {
           this._initMarkBrushState(componentIndex);
         }
 
@@ -200,20 +204,20 @@ export class Brush extends BaseComponent implements IBrush {
         // 应该被置为outOfBrush状态的图元:
         // before: 在当前brush 的 in brush element map中, 即在当前brush中
         // now: 不在当前brush中
-        if (this._outOfBrushElementsMap?.[el.key] && this._isBrushContainItem(operateMask, graphicItem)) {
+        if (this._outOfBrushElementsMap?.[mark.id]?.[el.key] && this._isBrushContainItem(operateMask, graphicItem)) {
           graphicItem.addState('inBrush');
           if (!this._inBrushElementsMap[operateMask?.name]) {
             this._inBrushElementsMap[operateMask?.name] = {};
           }
           this._inBrushElementsMap[operateMask?.name][el.key] = el;
-          delete this._outOfBrushElementsMap[el.key];
+          delete this._outOfBrushElementsMap[mark.id][el.key];
         } else if (
           this._inBrushElementsMap?.[operateMask?.name]?.[el.key] &&
           !this._isBrushContainItem(operateMask, graphicItem)
         ) {
           graphicItem.removeState('inBrush');
           graphicItem.addState('outOfBrush');
-          this._outOfBrushElementsMap[el.key] = el;
+          this._outOfBrushElementsMap[mark.id][el.key] = el;
           delete this._inBrushElementsMap[operateMask.name][el.key];
         }
       });
@@ -244,7 +248,7 @@ export class Brush extends BaseComponent implements IBrush {
             // before: 在当前brush 的 in brush element map中, 即在当前brush中
             // now: 不在当前brush中
             if (
-              this._linkedOutOfBrushElementsMap?.[el.key] &&
+              this._linkedOutOfBrushElementsMap?.[mark.id]?.[el.key] &&
               this._isBrushContainItem(operateMask, graphicItem, { dx: regionOffsetX, dy: regionOffsetY })
             ) {
               graphicItem.addState('inBrush');
@@ -252,14 +256,14 @@ export class Brush extends BaseComponent implements IBrush {
                 this._linkedInBrushElementsMap[operateMask?.name] = {};
               }
               this._linkedInBrushElementsMap[operateMask?.name][el.key] = el;
-              delete this._linkedOutOfBrushElementsMap[el.key];
+              delete this._linkedOutOfBrushElementsMap[mark.id][el.key];
             } else if (
               this._linkedInBrushElementsMap?.[operateMask?.name]?.[el.key] &&
               !this._isBrushContainItem(operateMask, graphicItem, { dx: regionOffsetX, dy: regionOffsetY })
             ) {
               graphicItem.removeState('inBrush');
               graphicItem.addState('outOfBrush');
-              this._linkedOutOfBrushElementsMap[el.key] = el;
+              this._linkedOutOfBrushElementsMap[mark.id][el.key] = el;
             }
           });
         });
@@ -350,6 +354,7 @@ export class Brush extends BaseComponent implements IBrush {
   private _initNeedOperatedItem() {
     const seriesUserId = this._spec.seriesId;
     const seriesIndex = this._spec.seriesIndex;
+    const seriesRawData: DataView[] = [];
     this._relativeRegions.forEach(r => {
       const allMarks: IMark[] = [];
       r.getSeries().forEach((s: ISeries) => {
@@ -358,6 +363,7 @@ export class Brush extends BaseComponent implements IBrush {
           (seriesIndex && array(seriesIndex).includes(s.getSpecIndex())) ||
           (!seriesIndex && !seriesUserId)
         ) {
+          seriesRawData.push(s.getRawData());
           allMarks.push(...s.getMarksWithoutRoot());
         }
         this._itemMap[r.id] = allMarks;
@@ -366,6 +372,10 @@ export class Brush extends BaseComponent implements IBrush {
 
     this._linkedSeries.forEach(s => {
       this._linkedItemMap[s.id] = s.getMarksWithoutRoot();
+    });
+    this._option.dataSet.multipleDataViewAddListener(seriesRawData, 'change', () => {
+      // if series raw data change, will re make link marks
+      this._isFirstState = true;
     });
   }
 
@@ -404,12 +414,14 @@ export class Brush extends BaseComponent implements IBrush {
           };
           // 所有图元置为out brush状态
           graphicItem.addState('outOfBrush');
-          this._outOfBrushElementsMap[el.key] = el;
-          this._linkedOutOfBrushElementsMap[el.key] = el;
+          this._outOfBrushElementsMap[mark.id] = this._outOfBrushElementsMap[mark.id] ?? {};
+          this._outOfBrushElementsMap[mark.id][el.key] = el;
+          this._linkedOutOfBrushElementsMap[mark.id] = this._linkedOutOfBrushElementsMap[mark.id] ?? {};
+          this._linkedOutOfBrushElementsMap[mark.id][el.key] = el;
         });
       });
     });
-    this._isFristState = false;
+    this._isFirstState = false;
   }
 
   protected initEvent() {
