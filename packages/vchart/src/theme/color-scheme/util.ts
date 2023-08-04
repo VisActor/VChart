@@ -4,6 +4,7 @@ import { ColorUtil } from '@visactor/vutils';
 import type { SeriesTypeEnum } from '../../series/interface';
 import { Color } from '../../util/color';
 import type {
+  ColorScheme,
   ColorSchemeItem,
   IColorKey,
   IColorSchemeStruct,
@@ -149,4 +150,14 @@ export function isProgressiveDataColorScheme<T>(obj: any): obj is ProgressiveDat
   return obj.every(item => {
     return isValid((item as IProgressiveDataSchemeCase<T>).scheme);
   });
+}
+
+/** 将色板转化为标准形式 */
+export function transformColorSchemeToStandardStruct(colorScheme: ColorScheme): IColorSchemeStruct {
+  if (isArray(colorScheme)) {
+    return {
+      dataScheme: colorScheme
+    };
+  }
+  return colorScheme;
 }
