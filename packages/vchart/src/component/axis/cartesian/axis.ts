@@ -303,6 +303,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,
             tickMode: tick.tickMode,
+            noDecimals: tick.noDecimals,
 
             axisOrientType: this._orient,
             coordinateType: 'cartesian',
