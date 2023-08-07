@@ -16,7 +16,6 @@ export class LineChart extends CartesianChart {
   protected _getDefaultSeriesSpec(spec: ILineChartSpec): any {
     return {
       ...super._getDefaultSeriesSpec(spec),
-      invalidType: spec.invalidType || 'break',
       point: spec.point,
       line: spec.line,
       seriesMark: spec.seriesMark ?? 'line',

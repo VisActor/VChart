@@ -11,7 +11,7 @@ import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
 import type { ISeriesSeriesInfo, ISeriesStackData, ISeriesUpdateDataOption } from './common';
 import type { ISeriesTooltipHelper } from './tooltip-helper';
-import type { IInvalidType, Datum, DirectionType, StringOrNumber } from '../../typings';
+import type { IInvalidType, Datum, DirectionType } from '../../typings';
 import type { StateValueType } from '../../compile/mark';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { IGroupMark } from '../../mark/group';
