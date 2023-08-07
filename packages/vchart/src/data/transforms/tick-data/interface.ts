@@ -11,6 +11,7 @@ export interface ITickDataOpt {
   forceTickCount?: number;
   tickStep?: number;
   tickMode?: ITick['tickMode'];
+  noDecimals?: ITick['noDecimals'];
 
   coordinateType: CoordinateType;
   axisOrientType: IOrientType | IPolarOrientType;

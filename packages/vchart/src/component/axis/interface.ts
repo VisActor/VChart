@@ -213,10 +213,18 @@ export type ITick = IAxisItem<IRuleMarkSpec> & {
    */
   forceTickCount?: number;
   /**
-   * tick 生成逻辑
+   * 连续轴 tick 生成算法：
+   * 'average': 尽可能均分；
+   * 'd3'：与 d3 默认逻辑一致，以 [1, 2, 5] 为基数生成；
    * @default 'average'
    */
   tickMode?: 'average' | 'd3';
+  /**
+   * 连续轴，是否避免小数 tick。
+   * @default false
+   * @description 当配置了 tickStep 或 forceTickCount 时不生效。
+   */
+  noDecimals?: boolean;
   /**
    * 刻度线样式设置，支持回调
    */
