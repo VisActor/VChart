@@ -1021,7 +1021,9 @@ export class BaseChart extends CompilableBase implements IChart {
       largeThreshold: spec.largeThreshold,
       progressiveStep: spec.progressiveStep,
       progressiveThreshold: spec.progressiveThreshold,
-      background: spec.seriesBackground
+      background: spec.seriesBackground,
+
+      invalidType: spec.invalidType
     };
     return series;
   }
