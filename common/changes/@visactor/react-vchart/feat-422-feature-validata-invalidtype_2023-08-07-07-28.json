@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat(invalidType): use the vrender function to realize the break and link of invalidType\n\n",
+      "type": "patch",
+      "packageName": "@visactor/react-vchart"
+    }
+  ],
+  "packageName": "@visactor/react-vchart",
+  "email": "lixuef1313@163.com"
+}
