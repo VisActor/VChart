@@ -49,6 +49,8 @@ export interface LineLikeSeriesMixin extends ISeries {
   _labelMark: ITextMark;
 
   _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption) => IMark;
+  _getInvalidDefined: () => boolean;
+  _getInvalidConnectType: () => IInvalidType;
 }
 
 export class LineLikeSeriesMixin {
@@ -82,6 +84,17 @@ export class LineLikeSeriesMixin {
         'normal',
         AttributeLevel.Series
       );
+      if (this._invalidType !== 'zero') {
+        this.setMarkStyle(
+          lineMark,
+          {
+            defined: this._getInvalidDefined,
+            connectedType: this._getInvalidConnectType()
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
       if (this.coordinate === 'polar') {
         // 极坐标系下需要关闭
         this.setMarkStyle(
@@ -111,21 +124,7 @@ export class LineLikeSeriesMixin {
           AttributeLevel.Built_In
         );
       }
-      if (this._invalidType) {
-        this.setMarkStyle(
-          lineMark,
-          {
-            defined: (datum: Datum) => {
-              if (this._invalidType === 'break') {
-                return couldBeValidNumber(datum[this.getStackValueField()]);
-              }
-              return true;
-            }
-          },
-          'normal',
-          AttributeLevel.Series
-        );
-      }
+
       this.setMarkStyle(
         lineMark,
         {
@@ -156,46 +155,40 @@ export class LineLikeSeriesMixin {
 
   initSymbolMarkStyle() {
     const symbolMark = this._symbolMark;
-    if (symbolMark) {
-      this.setMarkStyle(
-        symbolMark,
-        {
-          fill: this.getColorAttribute()
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-
-      if (this._invalidType) {
-        this.setMarkStyle(
-          symbolMark,
-          {
-            visible: (datum: Datum) => {
-              if (this._invalidType === 'break') {
-                return couldBeValidNumber(datum[this.getStackValueField()]);
-              } else if (this._invalidType === 'link') {
-                return couldBeValidNumber(datum[this.getStackValueField()]);
-              }
-              return true;
-            }
-          },
-          'normal',
-          AttributeLevel.Series
-        );
-      }
-      this.setMarkStyle(
-        symbolMark,
-        {
-          x: this.dataToPositionX.bind(this),
-          y: this.dataToPositionY.bind(this),
-          z: this.dataToPositionZ.bind(this)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-      this._trigger.registerMark(symbolMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
+    if (!symbolMark) {
+      return symbolMark;
     }
+    this.setMarkStyle(
+      symbolMark,
+      {
+        fill: this.getColorAttribute()
+      },
+      'normal',
+      AttributeLevel.Series
+    );
+    if (this._invalidType !== 'zero') {
+      this.setMarkStyle(
+        symbolMark,
+        {
+          visible: this._getInvalidDefined
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+
+    this.setMarkStyle(
+      symbolMark,
+      {
+        x: this.dataToPositionX.bind(this),
+        y: this.dataToPositionY.bind(this),
+        z: this.dataToPositionZ.bind(this)
+      },
+      'normal',
+      AttributeLevel.Series
+    );
+    this._trigger.registerMark(symbolMark);
+    this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
     return symbolMark;
   }
 
@@ -210,18 +203,11 @@ export class LineLikeSeriesMixin {
       },
       z: this.dataToPositionZ.bind(this)
     });
-    if (this._invalidType) {
+    if (this._invalidType !== 'zero') {
       this.setMarkStyle(
         labelMark,
         {
-          visible: (datum: Datum) => {
-            if (this._invalidType === 'break') {
-              return couldBeValidNumber(datum[this.getStackValueField()]);
-            } else if (this._invalidType === 'link') {
-              return couldBeValidNumber(datum[this.getStackValueField()]);
-            }
-            return true;
-          }
+          visible: this._getInvalidDefined
         },
         'normal',
         AttributeLevel.Series
