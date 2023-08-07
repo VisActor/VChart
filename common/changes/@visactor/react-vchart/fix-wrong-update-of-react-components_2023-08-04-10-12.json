@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix(react-vchart): the components of react vchart should not update when no props or children are updated\n\n",
+      "type": "patch",
+      "packageName": "@visactor/react-vchart"
+    }
+  ],
+  "packageName": "@visactor/react-vchart",
+  "email": "dingling112@gmail.com"
+}

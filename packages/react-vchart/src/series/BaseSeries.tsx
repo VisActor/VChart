@@ -64,14 +64,14 @@ export const createSeries = <T extends BaseSeriesProps>(componentName: string, m
       addMarkEvent({});
     };
 
-    const addMarkId = (seriesSpec: any) => {
+    const addMarkId = (spec: any) => {
       markNames.forEach(markName => {
         const defaultMarkId = `${id.current}-${markName}`;
 
-        if (isNil(seriesSpec[markName])) {
-          seriesSpec[markName] = { id: defaultMarkId };
-        } else if (isNil(seriesSpec[markName].id)) {
-          seriesSpec[markName].id = defaultMarkId;
+        if (isNil(spec[markName])) {
+          spec[markName] = { id: defaultMarkId };
+        } else if (isNil(spec[markName].id)) {
+          spec[markName].id = defaultMarkId;
         }
       });
     };
@@ -82,10 +82,10 @@ export const createSeries = <T extends BaseSeriesProps>(componentName: string, m
           context.specFromChildren.series = [];
         }
 
-        const seriesSpec = isNil(type) ? { ...props, id: id.current } : { ...props, id: id.current, type };
+        const spec = isNil(type) ? { ...props, id: id.current } : { ...props, id: id.current, type };
 
-        addMarkId(seriesSpec);
-        context.specFromChildren.series.push(seriesSpec);
+        addMarkId(spec);
+        context.specFromChildren.series.push(spec);
         context.isChildrenUpdated = true;
       }
     };
@@ -132,6 +132,8 @@ export const createSeries = <T extends BaseSeriesProps>(componentName: string, m
       updateId.current = props.updateId;
     } else {
       const newSeriesSpec = pickWithout<T>(props, notSpecKeys);
+
+      addMarkId(newSeriesSpec);
       if (!isEqual(newSeriesSpec, seriesSpec.current)) {
         seriesSpec.current = newSeriesSpec;
         updateToContext(newSeriesSpec);

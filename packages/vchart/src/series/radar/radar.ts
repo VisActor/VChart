@@ -97,19 +97,19 @@ export class RadarSeries extends RoseLikeSeries<IRadarSeriesSpec> {
             if (!datum || !this.angleAxisHelper || !this.radiusAxisHelper) {
               return Number.NaN;
             }
-
             return this.valueToPosition(
               this.getDatumPositionValues(datum, this._angleField),
-              this._stack ? this.getDatumPositionValues(datum, this._innerRadiusField) : 0
+              this._stack ? this.getDatumPositionValues(datum, this._innerRadiusField) : this.radiusScale.domain()[0]
             ).x;
           },
           y1: (datum: Datum) => {
             if (!datum || !this.angleAxisHelper || !this.radiusAxisHelper) {
               return Number.NaN;
             }
+
             const value = this.valueToPosition(
               this.getDatumPositionValues(datum, this._angleField),
-              this._stack ? this.getDatumPositionValues(datum, this._innerRadiusField) : 0
+              this._stack ? this.getDatumPositionValues(datum, this._innerRadiusField) : this.radiusScale.domain()[0]
             ).y;
             return value;
           },
