@@ -2,24 +2,13 @@
 import { PREFIX } from '../../constant/base';
 import type { IElement } from '@visactor/vgrammar';
 import type { DataView } from '@visactor/vdataset';
-import type { Maybe, Datum, ScaleType, VisualType, IInvalidType } from '../../typings';
+import type { Maybe, Datum, ScaleType, VisualType } from '../../typings';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { MarkTypeEnum } from '../../mark/interface';
-import {
-  isNil,
-  isValid,
-  isObject,
-  isFunction,
-  isString,
-  isArray,
-  isNumber,
-  isNumeric,
-  couldBeValidNumber,
-  merge
-} from '../../util';
+import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, merge } from '../../util';
 import { AttributeLevel } from '../../constant';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
@@ -53,8 +42,6 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
   };
 
   protected declare _theme: Maybe<IScatterSeriesTheme>;
-
-  _invalidType: IInvalidType = 'break';
 
   private _symbolMark: ISymbolMark;
 
@@ -272,14 +259,11 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
       return;
     }
 
-    this.setMarkStyle(symbolMark, {
-      visible: (datum: Datum) => {
-        if (this._invalidType === 'break') {
-          return couldBeValidNumber(datum[this.getStackValueField()]);
-        }
-        return true;
-      }
-    });
+    if (this._invalidType !== 'zero') {
+      this.setMarkStyle(symbolMark, {
+        visible: this._getInvalidDefined
+      });
+    }
 
     this.setMarkStyle(
       symbolMark,
@@ -336,17 +320,21 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
         text: (datum: Datum) => {
           return datum[this.getStackValueField()];
         },
-        visible: (datum: Datum) => {
-          if (this._invalidType === 'break') {
-            return couldBeValidNumber(datum[this.getStackValueField()]);
-          }
-          return true;
-        },
         z: this.dataToPositionZ.bind(this)
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
+    if (this._invalidType !== 'zero') {
+      this.setMarkStyle(
+        labelMark,
+        {
+          visible: this._getInvalidDefined
+        },
+        STATE_VALUE_ENUM.STATE_NORMAL,
+        AttributeLevel.Series
+      );
+    }
   }
 
   /**
