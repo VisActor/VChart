@@ -52,7 +52,8 @@ export class CartesianBandAxis extends CartesianAxis {
       getBandwidth,
       getStatisticsDomain: () => this.getStatisticsDomain(),
       getAxisType: () => this.type,
-      getAxisId: () => this.id
+      getAxisId: () => this.id,
+      isInverse: () => this._spec.inverse
     };
   }
 
