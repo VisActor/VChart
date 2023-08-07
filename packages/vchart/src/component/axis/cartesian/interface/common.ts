@@ -99,6 +99,8 @@ export interface IAxisHelper {
   getAxisType: () => string;
 
   getAxisId: () => number;
+
+  isInverse: () => boolean;
 }
 
 export interface IAxisLocationCfg {
