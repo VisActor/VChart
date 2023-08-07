@@ -52,7 +52,8 @@ import {
   isFunction,
   isArray,
   mergeFields,
-  getFieldAlias
+  getFieldAlias,
+  couldBeValidNumber
 } from '../../util';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import { Group } from './group';
@@ -220,7 +221,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     return this._tooltipHelper;
   }
 
-  protected _invalidType: IInvalidType;
+  protected _invalidType: IInvalidType = 'break';
   getInvalidType() {
     return this._invalidType;
   }
@@ -326,9 +327,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
 
     // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
-    if (this._invalidType === 'link' || this._invalidType === 'zero') {
+    if (this._invalidType === 'zero') {
       registerDataSetInstanceTransform(this._option.dataSet, 'invalidTravel', invalidTravel);
-      this.getViewData()?.transform(
+      // make sure each series only transform once
+      this._rawData?.transform(
         {
           type: 'invalidTravel',
           options: {
@@ -845,6 +847,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     if (spec.invalidType !== invalidType) {
       result.change = true;
       result.reRender = true;
+      result.reMake = true;
     }
     return result;
   }
@@ -1159,4 +1162,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
     return list;
   }
+
+  protected _getInvalidConnectType() {
+    return this._invalidType === 'zero' ? 'zero' : this._invalidType === 'link' ? 'connect' : 'none';
+  }
+
+  protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
 }

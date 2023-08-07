@@ -7,7 +7,7 @@ import { Direction } from '../../typings/space';
 import { MarkTypeEnum } from '../../mark/interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
-import type { Maybe, Datum, IInvalidType } from '../../typings';
+import type { Maybe, Datum } from '../../typings';
 import { valueInScaleRange, couldBeValidNumber } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
@@ -55,7 +55,6 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
 
   protected _areaMark!: IAreaMark;
   protected _stack: boolean = true;
-  protected _invalidType: IInvalidType = 'break';
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
@@ -153,17 +152,22 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
         areaMark,
         {
           fill: this.getColorAttribute(),
-          stroke: this.getColorAttribute(),
-          defined: (datum: Datum) => {
-            if (this._invalidType === 'break') {
-              return couldBeValidNumber(datum[this.getStackValueField()]);
-            }
-            return true;
-          }
+          stroke: this.getColorAttribute()
         },
         'normal',
         AttributeLevel.Series
       );
+      if (this._invalidType !== 'zero') {
+        this.setMarkStyle(
+          areaMark,
+          {
+            defined: this._getInvalidDefined,
+            connectedType: this._getInvalidConnectType()
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
       this.setMarkStyle(
         areaMark,
         {
