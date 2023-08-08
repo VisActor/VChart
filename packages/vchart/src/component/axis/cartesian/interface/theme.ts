@@ -1,6 +1,6 @@
 import type { ILayoutPaddingSpec, ILayoutNumber } from '../../../../model/interface';
-import type { ITick, ILabel, IGrid } from '../../interface';
-import type { ICartesianDomainLine, ICartesianTitle } from './common';
+import type { ITick, IGrid } from '../../interface';
+import type { ICartesianDomainLine, ICartesianLabel, ICartesianTitle } from './common';
 import type { ICartesianAxisCommonSpec } from './spec';
 
 export interface ICartesianAxisCommonTheme {
@@ -11,7 +11,7 @@ export interface ICartesianAxisCommonTheme {
   /** 轴线配置 */
   domainLine?: ICartesianDomainLine;
   /** 轴标签配置 */
-  label?: ILabel;
+  label?: ICartesianLabel;
   /** 轴标题配置 */
   title?: ICartesianTitle;
   /** 轴刻度线配置 */
