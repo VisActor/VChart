@@ -2,6 +2,7 @@
 import { MarkTypeEnum } from '../../mark/interface';
 import { registerGrammar } from '@visactor/vgrammar';
 import type { IElement } from '@visactor/vgrammar';
+import type { FeatureData } from '@visactor/vgrammar-projection';
 import { Projection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
 import type { IPathMark } from '../../mark/path';
@@ -110,8 +111,15 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
           from: () => this._data?.getLatestData(),
           key: 'name',
           fields: this._nameField,
-          values: [this.nameField, this.valueField, this._seriesField ?? DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY],
-          as: [this.nameField, this.valueField, this._seriesField ?? DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY]
+          set: (feature: FeatureData, datum: Datum) => {
+            if (datum) {
+              Object.keys(datum).forEach(key => {
+                if (!(key in feature)) {
+                  feature[key] = datum[key];
+                }
+              });
+            }
+          }
         }
       });
     this._data?.getDataView().target.addListener('change', mapData.reRunAllTransform);
