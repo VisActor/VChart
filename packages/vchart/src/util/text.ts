@@ -1,11 +1,9 @@
 import type { ITextMeasureOption } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { TextMeasure, TestTextMeasure } from '@visactor/vutils';
-import type { IRichTextAttribute } from '@visactor/vrender';
-// eslint-disable-next-line no-duplicate-imports
-import { createRichText, getTextBounds } from '@visactor/vrender';
+import { getTextBounds } from '@visactor/vrender';
 import type { ITextMarkSpec } from '../typings';
-import { DEFAULT_TEXT_FONT_FAMILY, DEFAULT_TEXT_FONT_SIZE } from '../theme';
+import { DEFAULT_TEXT_FONT_FAMILY, DEFAULT_TEXT_FONT_SIZE } from '../theme/builtin/constant';
 
 export const initTextMeasure = (
   textSpec?: Partial<ITextMarkSpec>,
@@ -39,12 +37,3 @@ export const testTextMeasure = (textSpec?: Partial<ITextMarkSpec>, useVRender?: 
     textSpec
   );
 };
-
-/** 测量富文本 */
-// FIXME: 等 vrender 支持后删掉
-type IRichTextBoundsParams = Partial<IRichTextAttribute>;
-const richText = createRichText({});
-export function getRichTextBounds(params: IRichTextBoundsParams) {
-  richText.setAttributes(params);
-  return richText.AABBBounds;
-}
