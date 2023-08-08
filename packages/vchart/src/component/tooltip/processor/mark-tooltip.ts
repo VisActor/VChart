@@ -5,17 +5,17 @@ import type { MarkTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
 import { isNil } from '@visactor/vutils';
 import type { ISeries } from '../../../series/interface';
-import { TooltipHandlerType } from '../handler/constants';
 
 export class MarkTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'mark';
 
   /** 触发对应类型的 tooltip */
   showTooltip(info: MarkTooltipInfo, params: BaseEventParams, changePositionOnly: boolean) {
-    const { datum, series } = info;
+    const { datum, series, dimensionInfo } = info;
     const tooltipData = [{ datum: [datum], series }];
     const newParams: TooltipHandlerParams = {
       ...params,
+      dimensionInfo: this._preprocessDimensionInfo(dimensionInfo),
       changePositionOnly
     };
     return this._showTooltipByHandler(tooltipData, newParams);
@@ -50,7 +50,8 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
         info = {
           mark: params.mark,
           datum: params.datum,
-          series
+          series,
+          dimensionInfo: this._getDimensionInfo(params)
         };
       } else if (ignoreTriggers?.has(params.model) || ignoreTriggers?.has(params.mark)) {
         ignore = true;

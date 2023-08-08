@@ -104,7 +104,8 @@ export enum ChartEvent {
   legendItemUnHover = 'legendItemUnHover',
   // tooltip
   tooltipShow = 'tooltipShow',
-  tooltipHide = 'tooltipHide'
+  tooltipHide = 'tooltipHide',
+  tooltipRelease = 'tooltipRelease'
 }
 
 export enum Event_Source_Type {

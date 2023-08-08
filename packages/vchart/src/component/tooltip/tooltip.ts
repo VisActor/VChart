@@ -38,6 +38,7 @@ import type { DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './proce
 import { isDimensionInfo, isMarkInfo, MarkTooltipProcessor, DimensionTooltipProcessor } from './processor';
 import { hasParentElement, isString } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
+import type { TooltipEventParams } from './interface/event';
 
 export type TooltipContent = {
   title?: IToolTipLineActual;
@@ -122,6 +123,10 @@ export class Tooltip extends BaseComponent implements ITooltip {
   }
 
   release() {
+    this.event.emit(ChartEvent.tooltipRelease, {
+      tooltip: this
+    } as unknown as TooltipEventParams);
+
     super.release();
 
     this._eventList.forEach(({ eventType, handler }) => {
