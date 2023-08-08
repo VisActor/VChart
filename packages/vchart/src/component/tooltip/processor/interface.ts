@@ -9,6 +9,7 @@ export type MarkTooltipInfo = {
   datum: Datum;
   mark: IMark;
   series: ISeries;
+  dimensionInfo: DimensionTooltipInfo;
 };
 
 export type TooltipInfo = DimensionTooltipInfo | MarkTooltipInfo;
