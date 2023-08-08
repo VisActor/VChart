@@ -189,7 +189,6 @@ export class Label extends BaseComponent {
           if (baseMark) {
             const configFunc = markLabelConfigFunc[baseMark.type] ?? markLabelConfigFunc.symbol;
             const labelSpec = baseMark.getLabelSpec() ?? {};
-            const { smartInvert, offset, overlap, animation } = labelSpec;
             const interactive = this._interactiveConfig(labelSpec);
             return merge(
               {
@@ -197,10 +196,7 @@ export class Label extends BaseComponent {
               },
               configFunc(labelInfo[baseMarks.findIndex(mark => mark === baseMark)]),
               {
-                smartInvert,
-                offset,
-                animation,
-                overlap,
+                ...labelSpec,
                 ...interactive
               }
             );
