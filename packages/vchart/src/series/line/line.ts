@@ -19,7 +19,7 @@ import { TextMark } from '../../mark/text';
 
 VChart.useMark([LineMark, SymbolMark, TextMark]);
 
-export interface LineSeries
+export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
       LineLikeSeriesMixin,
       | 'initLineMark'
@@ -30,9 +30,9 @@ export interface LineSeries
       | '_lineMark'
       | '_symbolMark'
     >,
-    CartesianSeries<ILineSeriesSpec> {}
+    CartesianSeries<T> {}
 
-export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
+export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.line;
   type = SeriesTypeEnum.line;
 

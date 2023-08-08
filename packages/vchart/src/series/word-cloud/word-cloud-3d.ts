@@ -17,7 +17,9 @@ import {
 import type { ICompilableMark } from '../../compile/mark';
 import { BaseWordCloudSeries } from './base';
 
-export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpec> {
+export class WordCloud3dSeries<
+  T extends IWordCloud3dSeriesSpec = IWordCloud3dSeriesSpec
+> extends BaseWordCloudSeries<T> {
   static readonly type: string = SeriesTypeEnum.wordCloud3d;
   type = SeriesTypeEnum.wordCloud3d;
 

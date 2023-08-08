@@ -32,7 +32,7 @@ import { TextMark } from '../../mark/text';
 
 VChart.useMark([SymbolMark, TextMark]);
 
-export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
+export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
   type = SeriesTypeEnum.scatter;
 

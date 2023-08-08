@@ -10,8 +10,9 @@ import type { Datum } from '../../typings';
 import { couldBeValidNumber } from '../../util';
 import { AttributeLevel } from '../../constant';
 import { RangeAreaSeriesTooltipHelper } from './tooltip-helper';
+import type { IAreaSeriesSpec } from '../area/interface';
 
-export class RangeAreaSeries extends AreaSeries {
+export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends AreaSeries<T> {
   static readonly type: string = SeriesTypeEnum.rangeArea;
   type = SeriesTypeEnum.rangeArea;
 

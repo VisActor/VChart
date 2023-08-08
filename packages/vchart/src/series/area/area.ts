@@ -28,7 +28,7 @@ import { SymbolMark } from '../../mark/symbol';
 import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 VChart.useMark([LineMark, AreaMark, TextMark, SymbolMark]);
 
-export interface AreaSeries
+export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
       LineLikeSeriesMixin,
       | 'initLineMark'
@@ -40,9 +40,9 @@ export interface AreaSeries
       | '_lineMark'
       | '_symbolMark'
     >,
-    CartesianSeries<IAreaSeriesSpec> {}
+    CartesianSeries<T> {}
 
-export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
+export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.area;
   type = SeriesTypeEnum.area;
 

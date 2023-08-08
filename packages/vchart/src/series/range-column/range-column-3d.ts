@@ -5,12 +5,16 @@ import { SeriesTypeEnum } from '../interface';
 import { RangeColumnSeries } from './range-column';
 import { VChart } from '../../core/vchart';
 import { Rect3dMark } from '../../mark/rect-3d';
+import type { AdaptiveSpec } from '../../typings';
+import type { IRangeColumn3dSeriesSpec } from './interface';
 
 VChart.useMark([Rect3dMark]);
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
-export class RangeColumn3dSeries extends RangeColumnSeries {
+export class RangeColumn3dSeries<
+  T extends IRangeColumn3dSeriesSpec = IRangeColumn3dSeriesSpec
+> extends RangeColumnSeries<AdaptiveSpec<T, 'type'>> {
   static readonly type: string = SeriesTypeEnum.rangeColumn3d;
   type = SeriesTypeEnum.rangeColumn3d;
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect3d;

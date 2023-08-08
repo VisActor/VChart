@@ -416,6 +416,10 @@ export interface ISeriesSpec extends ITriggerSpec {
 
 export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph'>;
 
+export type AdaptiveSpec<T, K extends keyof any> = {
+  [key in Exclude<keyof T, K>]: T[key];
+} & { [key in K]: any };
+
 /** markSpec */
 export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
   /**
