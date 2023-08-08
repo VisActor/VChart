@@ -157,9 +157,9 @@ export class Brush extends BaseComponent implements IBrush {
           this._reconfigLinkedItem(operateMask, region);
 
           let eventType: string = ChartEvent.brushChange;
-          if (operateType === IOperateType.brushStart || operateType === IOperateType.brushMaskDown) {
+          if (operateType === IOperateType.drawStart || operateType === IOperateType.moveStart) {
             eventType = ChartEvent.brushStart;
-          } else if (operateType === IOperateType.brushEnd || operateType === IOperateType.brushMaskUp) {
+          } else if (operateType === IOperateType.drawEnd || operateType === IOperateType.moveEnd) {
             eventType = ChartEvent.brushEnd;
           } else {
             eventType = ChartEvent.brushChange;
