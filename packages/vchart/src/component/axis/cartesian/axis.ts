@@ -518,7 +518,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     }
     result.width = Math.ceil(result.width);
     result.height = Math.ceil(result.height);
-    return result;
+    // because of changed width\height, reset result in spec configuration.
+    return this._setRectInSpec(result);
   }
   /**
    * bounds 预计算
