@@ -4,8 +4,9 @@ import { BaseComponent } from '../base';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { Brush as BrushComponent } from '@visactor/vrender-components';
+// eslint-disable-next-line no-duplicate-imports
+import { IOperateType } from '@visactor/vrender-components';
 import type { IBounds, IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, polygonContainPoint, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
@@ -17,7 +18,7 @@ import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
 import type { IElement } from '@visactor/vgrammar';
 import type { BrushInteractiveRangeAttr, IBrush, selectedItemStyle } from './interface';
-import { IOperateType } from './interface';
+// eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
 export class Brush extends BaseComponent implements IBrush {
   layoutType: LayoutItem['layoutType'] = 'absolute';
@@ -44,10 +45,9 @@ export class Brush extends BaseComponent implements IBrush {
   protected _linkedInBrushElementsMap: { [brushName: string]: { [elementKey: string]: IElement } } = {};
   protected _linkedOutOfBrushElementsMap: { [elementKey: string]: IElement } = {};
 
-  // FIXME: @chensiji 为了只执行一次initState
+  private _needInitOutState: boolean = true;
   private _isFristState: boolean = true;
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
-  // private _cacheRegionLocation: RegionLocation[];
 
   static createComponent(spec: any, options: IComponentOption) {
     const brushSpec = spec.brush || options.defaultSpec;
@@ -116,7 +116,8 @@ export class Brush extends BaseComponent implements IBrush {
           // TODO: 是否更新mask大小有待商榷（保持选框位置和图元高亮区域一致）
 
           // 方案二: 清空brushMask 和 图元高亮状态
-          this._initMarkBrushState(componentIndex);
+          this._initMarkBrushState(componentIndex, '');
+          this._needInitOutState = true;
           brushComponent.children[0].removeAllChild();
         });
       }
@@ -141,12 +142,17 @@ export class Brush extends BaseComponent implements IBrush {
           const { operateType, operateMask } = operateParams;
           // 需要重置状态的情况：
           // 1. 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加_stateTag来识别
-          // 2. 框选模式为'single' 且 removeOnClick 为true时, 单击会清空之前所有的mask, 此时也需要重置图元状态
+          // 2. 点击空白处清空brush之后的下一次绘制，需要重置图元状态
+          // 3. 框选模式为'single' 且 开始绘制brush时, 需要重置图元状态
           if (
             this._isFristState ||
-            (brushMode === 'single' && removeOnClick && operateType === IOperateType.brushStart)
+            (this._needInitOutState && brushMode === 'single' && operateType === IOperateType.drawStart)
           ) {
-            this._initMarkBrushState(componentIndex);
+            this._initMarkBrushState(componentIndex, 'outOfBrush');
+          }
+          if (operateType === IOperateType.brushClear) {
+            this._initMarkBrushState(componentIndex, '');
+            this._needInitOutState = true;
           }
 
           this._reconfigItem(operateMask, region);
@@ -399,7 +405,7 @@ export class Brush extends BaseComponent implements IBrush {
     });
   }
 
-  protected _initMarkBrushState(componentIndex: number) {
+  protected _initMarkBrushState(componentIndex: number, stateName: string) {
     this._brushComponents.forEach((brush, index) => {
       if (index !== componentIndex) {
         brush.children[0].removeAllChild();
@@ -433,7 +439,7 @@ export class Brush extends BaseComponent implements IBrush {
             return;
           };
           // 所有图元置为out brush状态
-          graphicItem.addState('outOfBrush');
+          graphicItem.addState(stateName);
           this._outOfBrushElementsMap[el.key] = el;
           this._linkedOutOfBrushElementsMap[el.key] = el;
         });
