@@ -5,6 +5,7 @@ import type { ITheme } from '../../../src/theme';
 import { ThemeManager } from '../../../src/theme';
 import { createCanvas, removeDom } from '../../util/dom';
 import type { ILineChartSpec } from '../../../src';
+import type { IColorSchemeStruct } from '../../../src/theme/color-scheme/interface';
 
 describe('theme switch test', () => {
   let canvasDom: HTMLCanvasElement;
@@ -89,7 +90,7 @@ describe('theme switch test', () => {
     expect(series?.getSpec()?.label?.offset).toBe(30);
 
     // color scheme
-    expect(vchart.getCurrentTheme().colorScheme?.default[0]).toBe('red');
+    expect((vchart.getCurrentTheme().colorScheme?.default as IColorSchemeStruct)?.dataScheme[0]).toBe('red');
     expect(series?.getSeriesInfoList()[0].style('fill')).toBe('red');
   });
 

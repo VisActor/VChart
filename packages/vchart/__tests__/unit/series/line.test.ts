@@ -46,12 +46,12 @@ describe('[Domain-Series-Line] Line Series', () => {
   });
 
   test('line  series init', () => {
-    const line = new LineSeries({}, ctx);
+    const line = new LineSeries<any>({}, ctx);
     line.init({});
   });
 
   test('line  series mark', () => {
-    const line = new LineSeries(
+    const line = new LineSeries<any>(
       {
         data: dataView,
         xField: 'x',
