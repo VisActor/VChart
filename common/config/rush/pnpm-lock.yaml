@@ -1,5 +1,9 @@
 lockfileVersion: 5.4
 
+overrides:
+  '@visactor/vrender': 0.14.0-alpha.1
+  '@visactor/vrender-components': 0.13.9-alpha.1
+
 importers:
 
   .:
@@ -54,7 +58,7 @@ importers:
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.2.0-beta.1
       '@visactor/vgrammar': ~0.5.1
-      '@visactor/vrender': ~0.13.4
+      '@visactor/vrender': 0.14.0-alpha.1
       '@visactor/vutils': ~0.13.3
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
@@ -75,7 +79,7 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vgrammar': 0.5.3
-      '@visactor/vrender': 0.13.7
+      '@visactor/vrender': 0.14.0-alpha.1
       '@visactor/vutils': 0.13.3
       react-is: 18.2.0
     devDependencies:
@@ -214,8 +218,8 @@ importers:
       '@visactor/vgrammar-util': ~0.5.1
       '@visactor/vgrammar-wordcloud': ~0.5.1
       '@visactor/vgrammar-wordcloud-shape': ~0.5.1
-      '@visactor/vrender': ~0.13.4
-      '@visactor/vrender-components': ~0.13.4
+      '@visactor/vrender': 0.14.0-alpha.1
+      '@visactor/vrender-components': 0.13.9-alpha.1
       '@visactor/vscale': ~0.13.3
       '@visactor/vutils': ~0.13.3
       canvas: 2.11.2
@@ -251,8 +255,8 @@ importers:
       '@visactor/vgrammar-util': 0.5.3
       '@visactor/vgrammar-wordcloud': 0.5.3
       '@visactor/vgrammar-wordcloud-shape': 0.5.3
-      '@visactor/vrender': 0.13.7
-      '@visactor/vrender-components': 0.13.8
+      '@visactor/vrender': 0.14.0-alpha.1
+      '@visactor/vrender-components': 0.13.9-alpha.1
       '@visactor/vscale': 0.13.4
       '@visactor/vutils': 0.13.3
     devDependencies:
@@ -4019,7 +4023,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.3
       '@visactor/vgrammar-util': 0.5.3
-      '@visactor/vrender': 0.13.7
+      '@visactor/vrender': 0.14.0-alpha.1
       '@visactor/vutils': 0.13.3
     dev: false
 
@@ -4037,7 +4041,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.3
       '@visactor/vgrammar-util': 0.5.3
-      '@visactor/vrender': 0.13.7
+      '@visactor/vrender': 0.14.0-alpha.1
       '@visactor/vutils': 0.13.3
     dev: false
 
@@ -4052,7 +4056,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.3
       '@visactor/vgrammar-util': 0.5.3
-      '@visactor/vrender': 0.13.7
+      '@visactor/vrender': 0.14.0-alpha.1
       '@visactor/vscale': 0.13.4
       '@visactor/vutils': 0.13.3
     dev: false
@@ -4062,7 +4066,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.3
       '@visactor/vgrammar-util': 0.5.3
-      '@visactor/vrender': 0.13.7
+      '@visactor/vrender': 0.14.0-alpha.1
       '@visactor/vutils': 0.13.3
     dev: false
 
@@ -4071,23 +4075,23 @@ packages:
     dependencies:
       '@visactor/vgrammar-coordinate': 0.5.3
       '@visactor/vgrammar-util': 0.5.3
-      '@visactor/vrender': 0.13.7
-      '@visactor/vrender-components': 0.13.8
+      '@visactor/vrender': 0.14.0-alpha.1
+      '@visactor/vrender-components': 0.13.9-alpha.1
       '@visactor/vscale': 0.13.4
       '@visactor/vutils': 0.13.3
     dev: false
 
-  /@visactor/vrender-components/0.13.8:
-    resolution: {integrity: sha512-aSXvitpJ9U5zsFqplB5lzzHZF3uq2Mp5qkN8aSFLqd+p9PjO6J80wk1LijzQRSGnE8zjImIOib5QmgNRf+ct6w==}
+  /@visactor/vrender-components/0.13.9-alpha.1:
+    resolution: {integrity: sha512-7rslcECc2E+Y6obvT3Wt2FllfvMFwoPOnH4jUSioQzyfo8hnaUDg6n5pjp/rRC1TAabv1y5UqVyXs4vKf4+4Wg==}
     dependencies:
-      '@visactor/vrender': 0.13.7
+      '@visactor/vrender': 0.14.0-alpha.1
       '@visactor/vscale': 0.13.4
       '@visactor/vutils': 0.13.3
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vrender/0.13.7:
-    resolution: {integrity: sha512-6XDqXVPGcQ5005NCbsr+YjJgPdk+r8RoYGjcF+uCOi5Gf2wndHUvRhl1C8L1Ln8ppIvQbRKOaUPYHSzZO0LZXg==}
+  /@visactor/vrender/0.14.0-alpha.1:
+    resolution: {integrity: sha512-ro4j9wU5DHq/0C9k4LVrE6X+XWLrsk+MHZA+VoAmkw0qVbLOlid25jkXhFW1FaR9j5BgStAcXDK13jjAeb1cLw==}
     dependencies:
       '@visactor/vutils': 0.13.3
       color-convert: 2.0.1
@@ -14250,7 +14254,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.5
+      minimist: 1.2.8
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -16622,7 +16626,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.5
+      minimist: 1.2.8
       strip-json-comments: 2.0.1
     dev: true
 
