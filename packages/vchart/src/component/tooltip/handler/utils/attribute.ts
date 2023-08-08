@@ -7,10 +7,10 @@ import type {
 import type { IToolTipActual, MaybeArray } from '../../../../typings';
 import type { ITooltipStyle, ITooltipTextStyle } from '../interface';
 import { isValid, merge } from '@visactor/vutils';
-import { getRichTextBounds, initTextMeasure } from '../../../../util';
+import { initTextMeasure } from '../../../../util';
 import type { IRichTextParagraphCharacter } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
-import { builtinSymbolsMap } from '@visactor/vrender';
+import { builtinSymbolsMap, getRichTextBounds } from '@visactor/vrender';
 import { getTextAttributes } from './style';
 
 export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITooltipStyle): TooltipAttributes => {
