@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: label support dataFilter and custom layout",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
