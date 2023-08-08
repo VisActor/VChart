@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: set the correct return type of `getLegendDataById` and `getLegendDataByIndex`, closed #472",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
