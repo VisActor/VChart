@@ -28,7 +28,7 @@ import { BasePieSeries } from './pie';
 
 VChart.useMark([PathMark, TextMark, Arc3dMark]);
 
-export class Pie3dSeries extends BasePieSeries<IPie3dSeriesSpec> implements IArcSeries {
+export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
   static readonly type: string = SeriesTypeEnum.pie3d;
   type = SeriesTypeEnum.pie3d;
   protected _pieMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.pie3d;

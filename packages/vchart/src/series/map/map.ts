@@ -34,7 +34,7 @@ VChart.useMark([PathMark, TextMark]);
 // 注册语法元素
 registerGrammar('projection', Projection, 'projections');
 
-export class MapSeries extends GeoSeries<IMapSeriesSpec> {
+export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;
   type = SeriesTypeEnum.map;
 

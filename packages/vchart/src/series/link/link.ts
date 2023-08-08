@@ -24,7 +24,7 @@ import { SymbolMark } from '../../mark/symbol';
 
 VChart.useMark([RuleMark, SymbolMark]);
 
-export class LinkSeries extends CartesianSeries<ILinkSeriesSpec> {
+export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.link;
   type = SeriesTypeEnum.link;
 

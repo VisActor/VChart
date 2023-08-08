@@ -22,7 +22,7 @@ VChart.useMark([ArcMark, TextMark]);
 
 export const DefaultBandWidth = 0.5;
 
-export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
+export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends RoseLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.rose;
   type = SeriesTypeEnum.rose;
 

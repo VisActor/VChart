@@ -11,7 +11,7 @@ export interface ICartesianSeriesSpec extends ISeriesSpec {
   /**
    * x轴字段
    */
-  xField: string | string[];
+  xField?: string | string[];
   /**
    * 用于区间数据，声明区间末尾的数据字段。
    */
@@ -21,7 +21,7 @@ export interface ICartesianSeriesSpec extends ISeriesSpec {
    * y轴字段
    * 运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度
    */
-  yField: string | string[];
+  yField?: string | string[];
   /**
    * 用于区间数据，声明区间末尾的数据字段。
    */

@@ -33,7 +33,7 @@ import { RectMark } from '../../mark/rect';
 
 VChart.useMark([SymbolMark, TextMark, RuleMark, RectMark]);
 
-export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
+export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.dot;
   type = SeriesTypeEnum.dot;
 
