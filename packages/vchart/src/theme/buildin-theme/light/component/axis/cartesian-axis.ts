@@ -12,8 +12,8 @@ export const axisX: ICartesianAxisCommonTheme = {
 
 export const axisY: ICartesianAxisCommonTheme = {
   label: {
-    space: 20
-    // autoLimit: true
+    space: 20,
+    autoLimit: true
   },
   title: {
     space: 20,
