@@ -205,7 +205,8 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
               return this.dataToLongitude(values[0]);
             },
             getAxisType: () => this.type,
-            getAxisId: () => this.id
+            getAxisId: () => this.id,
+            isInverse: () => false
           });
           (s as unknown as ICartesianSeries).setYAxisHelper({
             ...helper,
@@ -213,7 +214,8 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
               return this.dataToLatitude(values[0]);
             },
             getAxisType: () => this.type,
-            getAxisId: () => this.id
+            getAxisId: () => this.id,
+            isInverse: () => false
           });
           this._longitudeField && (s as unknown as ICartesianSeries).setFieldX(this._longitudeField);
           this._latitudeField && (s as unknown as ICartesianSeries).setFieldY(this._latitudeField);

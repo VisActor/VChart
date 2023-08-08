@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: bar label does not show in the expected position when axis is inversed, fix #378",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

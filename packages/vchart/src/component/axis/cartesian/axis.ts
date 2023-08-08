@@ -330,7 +330,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       // TODO 轴可以设置domain
       getStatisticsDomain: () => this.getStatisticsDomain(),
       getAxisType: () => this.type,
-      getAxisId: () => this.id
+      getAxisId: () => this.id,
+      isInverse: () => this._spec.inverse === true
     };
   }
 
