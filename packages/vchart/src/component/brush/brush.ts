@@ -102,22 +102,21 @@ export class Brush extends BaseComponent implements IBrush {
 
   protected _createOrUpdateBrushComponent(region: IRegion, componentIndex: number) {
     const interactiveAttr = this._getBrushInteractiveAttr(region);
-    if (this._brushComponents.length > 0) {
+    if (this._brushComponents.length === this._relativeRegions.length) {
       if (!isEqual(this._cacheInteractiveRangeAttrs[componentIndex], interactiveAttr)) {
         // 布局变化后, 更新可交互范围
-        this._brushComponents.forEach((brushComponent: BrushComponent) => {
-          brushComponent.setAttributes(interactiveAttr as any);
+        const brushComponent = this._brushComponents[componentIndex];
+        brushComponent.setAttributes(interactiveAttr as any);
 
-          // 布局变化后, 更新brush 和 图元状态
-          // 方案一:
-          // TODO: 更新mask位置（保持选框在画布中的相对位置）
-          // TODO: 是否更新mask大小有待商榷（保持选框位置和图元高亮区域一致）
+        // 布局变化后, 更新brush 和 图元状态
+        // 方案一:
+        // TODO: 更新mask位置（保持选框在画布中的相对位置）
+        // TODO: 是否更新mask大小有待商榷（保持选框位置和图元高亮区域一致）
 
-          // 方案二: 清空brushMask 和 图元高亮状态
-          this._initMarkBrushState(componentIndex, '');
-          this._needInitOutState = true;
-          brushComponent.children[0].removeAllChild();
-        });
+        // 方案二: 清空brushMask 和 图元高亮状态
+        this._initMarkBrushState(componentIndex, '');
+        this._needInitOutState = true;
+        brushComponent.children[0].removeAllChild();
       }
     } else {
       const brush = new BrushComponent({
@@ -128,7 +127,7 @@ export class Brush extends BaseComponent implements IBrush {
       });
       brush.id = this._spec.id ?? `brush-${this.id}`;
       this.getContainer().add(brush as unknown as INode);
-      const { brushMode = 'single', removeOnClick = true } = this._spec;
+      const { brushMode = 'single' } = this._spec;
       this._brushComponents.push(brush);
       this._cacheInteractiveRangeAttrs.push(interactiveAttr);
       brush.setUpdateDragMaskCallback(
