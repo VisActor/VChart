@@ -290,7 +290,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void {
     super.initMarkStyleWithSpec(mark, spec, key);
-    if (mark === this._pieMark) {
+    if (mark.name === this._pieMarkName) {
       // radius 配置需要额外处理比例值
       const pieSpec = this.getSpec()[mark.name];
       if (pieSpec) {
