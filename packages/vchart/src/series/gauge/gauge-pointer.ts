@@ -18,7 +18,9 @@ import { RectMark } from '../../mark/rect';
 
 VChart.useMark([PathMark, RectMark]);
 
-export class GaugePointerSeries extends ProgressLikeSeries<IGaugePointerSeriesSpec> {
+export class GaugePointerSeries<
+  T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec
+> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gaugePointer;
   type = SeriesTypeEnum.gaugePointer;
 

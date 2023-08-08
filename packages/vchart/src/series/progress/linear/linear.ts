@@ -21,7 +21,9 @@ import { createRect } from '@visactor/vrender';
 
 VChart.useMark([RectMark]);
 
-export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesSpec> {
+export class LinearProgressSeries<
+  T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec
+> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.linearProgress;
   type = SeriesTypeEnum.linearProgress;
 

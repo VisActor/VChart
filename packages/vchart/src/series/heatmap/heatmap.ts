@@ -25,7 +25,7 @@ VChart.useMark([CellMark, TextMark]);
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
-export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
+export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.heatmap;
   type = SeriesTypeEnum.heatmap;
 

@@ -19,7 +19,9 @@ import { ProgressArcMark } from '../../../mark/progress-arc';
 
 VChart.useMark([ArcMark, ProgressArcMark]);
 
-export class CircularProgressSeries extends ProgressLikeSeries<ICircularProgressSeriesSpec> {
+export class CircularProgressSeries<
+  T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
+> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.circularProgress;
   type = SeriesTypeEnum.circularProgress;
 

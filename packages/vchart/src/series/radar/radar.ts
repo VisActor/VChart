@@ -26,7 +26,7 @@ import { TextMark } from '../../mark/text';
 
 VChart.useMark([AreaMark, LineMark, SymbolMark, TextMark]);
 
-export interface RadarSeries
+export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<
       LineLikeSeriesMixin,
       | 'initLineMark'
@@ -37,9 +37,9 @@ export interface RadarSeries
       | '_lineMark'
       | '_symbolMark'
     >,
-    RoseLikeSeries<IRadarSeriesSpec> {}
+    RoseLikeSeries<T> {}
 
-export class RadarSeries extends RoseLikeSeries<IRadarSeriesSpec> {
+export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends RoseLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.radar;
   type = SeriesTypeEnum.radar;
 

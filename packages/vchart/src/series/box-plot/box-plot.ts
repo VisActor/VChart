@@ -38,7 +38,7 @@ export const DEFAULT_STROKE_COLOR = '#000';
 
 const DEFAULT_OUTLIER_SIZE = 10;
 
-export class BoxPlotSeries extends CartesianSeries<any> {
+export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.boxPlot;
   type = SeriesTypeEnum.boxPlot;
 
@@ -47,8 +47,6 @@ export class BoxPlotSeries extends CartesianSeries<any> {
     [SeriesMarkNameEnum.boxPlot]: { name: SeriesMarkNameEnum.boxPlot, type: MarkTypeEnum.boxPlot },
     [SeriesMarkNameEnum.outlier]: { name: SeriesMarkNameEnum.outlier, type: MarkTypeEnum.symbol }
   };
-
-  protected declare _spec: IBoxPlotSeriesSpec;
 
   protected declare _theme: Maybe<IBoxPlotSeriesTheme>;
   protected _minField: string;

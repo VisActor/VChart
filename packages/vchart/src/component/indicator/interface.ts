@@ -1,4 +1,5 @@
 import type { IModelSpec } from '../../model/interface';
+import type { MaybeArray } from '../../typings';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IComponent } from '../interface';
 
@@ -86,6 +87,14 @@ export interface IIndicatorSpec extends IModelSpec {
    * 指标卡内容文字配置
    */
   content?: IIndicatorItemSpec[] | IIndicatorItemSpec;
+  /**
+   * 组件关联的 region index
+   */
+  regionIndex?: MaybeArray<number>;
+  /**
+   * 组件关联的 region id
+   */
+  regionId?: MaybeArray<number | string>;
 }
 
 export interface IIndicatorItemTheme extends IIndicatorItemSpec {

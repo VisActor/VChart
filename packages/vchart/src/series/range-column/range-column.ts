@@ -21,21 +21,19 @@ import type { RangeColumnAppearPreset } from './animation';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
-export class RangeColumnSeries extends BarSeries {
+export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSeriesSpec> extends BarSeries<any> {
   static readonly type: string = SeriesTypeEnum.rangeColumn;
   type = SeriesTypeEnum.rangeColumn;
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
   protected _barName: string = SeriesTypeEnum.bar;
+
+  protected declare _spec: T;
 
   static readonly mark: SeriesMarkMap = {
     ...BarSeries.mark,
     [SeriesMarkNameEnum.minLabel]: { name: SeriesMarkNameEnum.minLabel, type: MarkTypeEnum.text },
     [SeriesMarkNameEnum.maxLabel]: { name: SeriesMarkNameEnum.maxLabel, type: MarkTypeEnum.text }
   };
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  protected declare _spec: IRangeColumnSeriesSpec;
 
   protected _stack: boolean = false;
   private _minLabelMark?: ITextMark;

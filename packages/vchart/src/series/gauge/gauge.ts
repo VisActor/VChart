@@ -19,7 +19,7 @@ import { ProgressArcMark } from '../../mark/progress-arc';
 
 VChart.useMark([ProgressArcMark]);
 
-export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
+export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
   type = SeriesTypeEnum.gauge;
 

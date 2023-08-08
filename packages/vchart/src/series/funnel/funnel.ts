@@ -44,7 +44,10 @@ import { RuleMark } from '../../mark/rule';
 
 VChart.useMark([PolygonMark, TextMark, RuleMark]);
 
-export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunnelSeries {
+export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
+  extends BaseSeries<T>
+  implements IFunnelSeries
+{
   static readonly type: string = SeriesTypeEnum.funnel;
   type = SeriesTypeEnum.funnel;
   protected _funnelMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.funnel;

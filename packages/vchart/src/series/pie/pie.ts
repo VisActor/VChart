@@ -504,7 +504,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 }
 
-export class PieSeries extends BasePieSeries<IPieSeriesSpec> implements IArcSeries {
+export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
   static readonly type: string = SeriesTypeEnum.pie;
   type = SeriesTypeEnum.pie;
 }

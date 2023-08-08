@@ -38,9 +38,9 @@ import { TextMark } from '../../mark/text';
 
 VChart.useMark([ArcMark, TextMark]);
 
-export class CirclePackingSeries extends CartesianSeries<any> {
-  protected declare _spec: ICirclePackingSeriesSpec;
-
+export class CirclePackingSeries<
+  T extends ICirclePackingSeriesSpec = ICirclePackingSeriesSpec
+> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.circlePacking;
   type = SeriesTypeEnum.circlePacking;
 
