@@ -16,12 +16,12 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
    * @param level
    * @param state
    */
-  setStyle<T>(
-    style: Partial<ConvertToMarkStyleSpec<T>> | Partial<IMarkStyle<T>>,
+  setStyle<U extends keyof T>(
+    style: Partial<IMarkStyle<T>>,
     state: StateValueType = 'normal',
     level: number = 0,
     stateStyle = this.stateStyle,
-    opt: IStyleSetOption = {
+    _opt: IStyleSetOption = {
       ignoreSegmentsCheck: false
     }
   ): void {
