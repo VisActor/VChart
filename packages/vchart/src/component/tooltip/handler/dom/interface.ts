@@ -5,6 +5,7 @@ export interface IDomTooltipStyle {
     IBorder & {
       width?: string;
       height?: string;
+      minHeight?: string;
       backgroundColor?: string;
       boxShadow?: string;
       pointerEvents?: 'auto' | 'none';
