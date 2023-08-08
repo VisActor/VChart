@@ -109,15 +109,6 @@ export type selectedItemStyle = {
   colorAlpha?: number;
 } & Partial<IPolygonMarkSpec>;
 
-export enum IOperateType {
-  brushStart = 'brushStart',
-  brushEnd = 'brushEnd',
-  brushMaskUp = 'brushMaskUp',
-  brushing = 'brushing',
-  brushMaskDown = 'brushMaskDown',
-  brushMaskMove = 'brushMaskMove'
-}
-
 export type BrushInteractiveRangeAttr = {
   interactiveRange: {
     minY: number;
