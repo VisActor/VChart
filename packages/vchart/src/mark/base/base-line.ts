@@ -21,7 +21,7 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
     state: StateValueType = 'normal',
     level: number = 0,
     stateStyle = this.stateStyle,
-    opt: IStyleSetOption = {
+    _opt: IStyleSetOption = {
       ignoreSegmentsCheck: false
     }
   ): void {
