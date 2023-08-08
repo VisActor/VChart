@@ -1,3 +1,4 @@
+import type { IEvent } from './../event/interface';
 import type { IChart } from '../chart/interface';
 import type { StringOrNumber } from './common';
 import type { TooltipActiveType } from './tooltip';
