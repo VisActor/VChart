@@ -71,4 +71,6 @@ export interface ITooltipHandlerSpec {
   hideTooltip: (params: TooltipHandlerParams) => Maybe<TooltipResult>;
   /** 释放 tooltip */
   release: () => void;
+  /** 可选，判断 tooltip 是否正在显示 */
+  isTooltipShown?: () => boolean;
 }
