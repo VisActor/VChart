@@ -63,12 +63,12 @@ describe('[Domain-Series-WordCloud] WordCloud Series', () => {
   });
 
   test('wordCloud  series init', () => {
-    const wordCloud = new WordCloudSeries({}, ctx);
+    const wordCloud = new WordCloudSeries<any>({}, ctx);
     wordCloud.init({});
   });
 
   test('wordCloud series mark', () => {
-    const wordCloud = new WordCloudSeries(spec, ctx);
+    const wordCloud = new WordCloudSeries<any>(spec, ctx);
     wordCloud.created();
     wordCloud.init({});
 
