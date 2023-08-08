@@ -4,9 +4,7 @@ import { BaseComponent } from '../base';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
-import { Brush as BrushComponent } from '@visactor/vrender-components';
-// eslint-disable-next-line no-duplicate-imports
-import { IOperateType } from '@visactor/vrender-components';
+import { Brush as BrushComponent, IOperateType } from '@visactor/vrender-components';
 import type { IBounds, IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, polygonContainPoint, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
