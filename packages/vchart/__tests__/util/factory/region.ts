@@ -162,14 +162,6 @@ export class TestRegion implements IRegion {
   marks?: IMark[];
   event: IEvent;
   effect: IEffect;
-  attributeTag: boolean;
-  getAttributeTag(): boolean {
-    return this.attributeTag;
-  }
-  setAttributeTag(tag: boolean): boolean {
-    this.attributeTag = tag;
-    return tag;
-  }
   getOption(): IModelOption {
     return null as any;
   }

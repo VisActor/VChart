@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "perf(data): remove redundant data statistics calculations\n\n",
+      "type": "patch",
+      "packageName": "@visactor/lark-vchart"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart",
+  "email": "lixuef1313@163.com"
+}

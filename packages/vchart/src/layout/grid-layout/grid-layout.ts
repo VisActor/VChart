@@ -1,3 +1,4 @@
+import type { utilFunctionCtx } from './../../typings/params';
 import type { IChart } from '../../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IModel } from '../../model/interface';
@@ -29,7 +30,9 @@ export class GridLayout implements IBaseLayout {
 
   protected _elementMap: Map<ILayoutItem, ElementSpec> = new Map();
 
-  constructor(gridInfo: IGridLayoutSpec) {
+  protected _onError: (...args: any[]) => void;
+
+  constructor(gridInfo: IGridLayoutSpec, ctx: utilFunctionCtx) {
     this.standardizationSpec(gridInfo);
     this._gridInfo = gridInfo;
     this._col = gridInfo.col;
@@ -38,6 +41,7 @@ export class GridLayout implements IBaseLayout {
     this._rowSize = new Array(this._row).fill(null);
     this._colElements = new Array(this._col).fill([]);
     this._rowElements = new Array(this._row).fill([]);
+    this._onError = ctx?.onError;
 
     this.initUserSetting();
   }

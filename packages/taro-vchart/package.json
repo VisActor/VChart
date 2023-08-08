@@ -1,6 +1,6 @@
 {
   "name": "@visactor/taro-vchart",
-  "version": "1.1.3",
+  "version": "1.2.0-beta.1",
   "description": "Taro VChart 图表组件",
   "sideEffects": false,
   "main": "lib/src/index.js",
@@ -27,7 +27,7 @@
     "graphics",
     "interaction"
   ],
-  "homepage": "",
+  "homepage": "https://www.visactor.io/vchart",
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
@@ -36,11 +36,11 @@
   },
   "author": {
     "name": "VisActor",
-    "url": "https://VisActor.io/"
+    "url": "https://www.visactor.io/"
   },
   "license": "MIT",
   "dependencies": {
-    "@visactor/vchart": "workspace:1.1.3"
+    "@visactor/vchart": "workspace:1.2.0-beta.1"
   },
   "devDependencies": {
     "@internal/eslint-config": "workspace:*",

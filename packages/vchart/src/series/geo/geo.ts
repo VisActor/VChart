@@ -135,13 +135,16 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
   }
 
   dataToPositionX(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
   dataToPositionY(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
   dataToPositionZ(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
 
   release() {
@@ -189,8 +192,8 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
   getSeriesKeys(): string[] {
     if (this._seriesField) {
       return (
+        this._rawDataStatistics?.latestData?.[this._seriesField]?.values ??
         this._mapViewDataStatistics?.latestData[this._seriesField]?.values ??
-        this._rawDataStatistics?.latestData[this._seriesField].values ??
         []
       );
     }

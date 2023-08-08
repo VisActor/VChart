@@ -27,6 +27,12 @@ export interface IRadarSeriesSpec
    * 面积图元配置
    */
   [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
+  /**
+   * 系列主 mark 类型配置，该配置会影响图例的展示
+   * @default 'line'
+   * @since 1.2.0
+   */
+  seriesMark?: 'point' | 'line' | 'area';
 }
 
 export interface IRadarSeriesTheme extends IRoseLikeSeriesTheme, ILineLikeSeriesTheme {

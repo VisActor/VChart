@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: dimension tooltip supports linear axis\n\n",
+      "type": "patch",
+      "packageName": "@visactor/lark-vchart"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart",
+  "email": "zamhown@live.com"
+}

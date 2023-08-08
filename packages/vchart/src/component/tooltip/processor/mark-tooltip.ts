@@ -28,11 +28,6 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
       return false;
     }
 
-    // 自定义 handler
-    if (![TooltipHandlerType.dom, TooltipHandlerType.canvas].includes((this.component.tooltipHandler as any).type)) {
-      return true;
-    }
-
     const helper = (params.model as ISeries)?.tooltipHelper;
     if (!helper?.activeType.includes('mark')) {
       return false;

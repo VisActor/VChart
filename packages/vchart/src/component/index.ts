@@ -15,9 +15,16 @@ import type {
   ICartesianLinearAxisSpec,
   ICartesianBandAxisSpec,
   ICartesianTimeAxisSpec,
-  ICartesianAxisSpec
+  ICartesianAxisSpec,
+  ICartesianLogAxisSpec
 } from './axis/cartesian/index';
-import { CartesianAxis, CartesianLinearAxis, CartesianBandAxis, CartesianTimeAxis } from './axis/cartesian/index';
+import {
+  CartesianAxis,
+  CartesianLinearAxis,
+  CartesianBandAxis,
+  CartesianTimeAxis,
+  CartesianLogAxis
+} from './axis/cartesian/index';
 import type { IPolarAxisSpec, IPolarBandAxisSpec, IPolarLinearAxisSpec } from './axis/polar';
 import { PolarAxis, PolarBandAxis, PolarLinearAxis } from './axis/polar';
 import type { IDiscreteLegendSpec } from './legend/discrete';
@@ -55,6 +62,7 @@ export {
   CartesianBandAxis,
   CartesianLinearAxis,
   CartesianTimeAxis,
+  CartesianLogAxis,
   PolarAxis,
   PolarBandAxis,
   PolarLinearAxis,
@@ -81,6 +89,7 @@ export type {
   ICartesianCrosshairSpec,
   ICartesianLinearAxisSpec,
   ICartesianTimeAxisSpec,
+  ICartesianLogAxisSpec,
   IContinuousLegendSpec,
   IDataZoomSpec,
   IDiscreteLegendSpec,

@@ -98,7 +98,12 @@ export class Compiler {
     if (this._view) {
       return;
     }
-
+    const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);
+    if (this._option.onError) {
+      logger.addErrorHandler((...args) => {
+        this._option.onError(...args);
+      });
+    }
     this._view = new View({
       width: this._width,
       height: this._height,
@@ -119,7 +124,8 @@ export class Compiler {
       doLayout: () => {
         this._compileChart?.onLayout(this._view);
       },
-      logLevel: Logger.getInstance().level() as number
+      logger: logger,
+      logLevel: logger.level()
     });
     this._setCanvasStyle();
 

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "feat(marker): marker support formatMethod. fix #288, fix #298",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}

@@ -571,6 +571,11 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   setValueFieldToPercent(): void {
     //do nothing
   }
+
+  // make sure this function fast
+  protected _noAnimationDataKey(datum: Datum, index: number) {
+    return index;
+  }
 }
 
 export class PieSeries extends BasePieSeries<IPieSeriesSpec> implements IArcSeries {

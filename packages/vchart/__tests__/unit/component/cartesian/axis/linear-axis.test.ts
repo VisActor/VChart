@@ -94,7 +94,8 @@ const ctx: IComponentOption = {
   getComponentByUserId: function (user_id: string | number): IComponent | undefined {
     throw new Error('Function not implemented.');
   },
-  animation: false
+  animation: false,
+  onError: () => {}
 };
 
 const getAxisSpec = (spec: any) => {

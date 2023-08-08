@@ -1,3 +1,4 @@
+import type { utilFunctionCtx } from './../typings/params';
 import type { IRect } from '../typings/space';
 import type { ILayoutItem } from '../model/interface';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -65,5 +66,5 @@ export type ILayoutSpec = IBaseLayoutSpec | IGridLayoutSpec;
 export interface ILayoutConstructor {
   type: string;
   // TODO: spec 类型生命
-  new (spec: ILayoutSpec | any): IBaseLayout;
+  new (spec: ILayoutSpec | any, ctx?: utilFunctionCtx): IBaseLayout;
 }

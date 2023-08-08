@@ -5,7 +5,7 @@ import type { ICirclePackingOpt } from '../../data/transforms/circle-packing';
 import type { ICirclePackingSeriesSpec } from './interface';
 
 import type { IMarkSpec } from '../..';
-import type { IArcMarkSpec, ITextMarkSpec } from '../../typings';
+import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
@@ -309,6 +309,11 @@ export class CirclePackingSeries extends CartesianSeries<any> {
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
     this._rawData.reRunAllTransform();
+  }
+
+  // make sure this function fast
+  protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
+    return undefined;
   }
 }
 

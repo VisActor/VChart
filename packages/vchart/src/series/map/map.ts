@@ -69,11 +69,11 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
     this._valueField = this._spec.valueField;
     this._spec.nameProperty && (this._nameProperty = this._spec.nameProperty);
     if (!this.map) {
-      throw new Error(`map type '${this.map}' is not specified !`);
+      this._option.onError(`map type '${this.map}' is not specified !`);
     }
 
     if (!geoSourceMap.get(this.map)) {
-      throw new Error(`'${this.map}' data is not registered !`);
+      this._option.onError(`'${this.map}' data is not registered !`);
     }
   }
 
@@ -88,7 +88,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
     // 初始化地图数据
     const features = geoSourceMap.get(this.map);
     if (!features) {
-      throw Error('no valid map data found!');
+      this._option.onError('no valid map data found!');
     }
     const mapData = new DataView(this._dataSet);
 
@@ -348,10 +348,12 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
   }
 
   dataToPositionX(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
   dataToPositionY(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
 
   viewDataUpdate(d: DataView): void {
