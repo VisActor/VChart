@@ -5,7 +5,6 @@ import type { MarkTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
 import { isNil } from '@visactor/vutils';
 import type { ISeries } from '../../../series/interface';
-import { TooltipHandlerType } from '../handler/constants';
 
 export class MarkTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'mark';
