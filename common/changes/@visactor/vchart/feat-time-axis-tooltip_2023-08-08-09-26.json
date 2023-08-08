@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support dimension tooltip for time axis, related #437",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
