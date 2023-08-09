@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(vchart): spilt 'finished' event into 'renderFinished' and 'animationEnd' event",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

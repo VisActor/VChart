@@ -95,9 +95,6 @@ export interface ILayoutItem {
   getLayoutRect: () => ILayoutRect;
   getLastComputeOutBounds: () => IBoundsLike;
 
-  getAttributeTag: () => boolean;
-  setAttributeTag: (tag: boolean) => boolean;
-
   /**
    * 更新元素布局的 layoutRect 大小，用来更新指定布局空间
    */
@@ -236,10 +233,6 @@ export interface IModel extends ICompilable, ILayoutItem {
 
   coordinate?: CoordinateType;
 
-  // 是否要 layout 的 tag
-  getAttributeTag: () => boolean;
-  setAttributeTag: (tag: boolean) => boolean;
-
   // 初始化参数
   getOption: () => IModelOption;
 
@@ -309,6 +302,10 @@ export interface IModelOption extends ICompilableInitOption {
 
   globalScale: IGlobalScale;
   animation: boolean;
+  /**
+   * 错误消息回调函数
+   */
+  onError: (...args: any[]) => void;
 }
 
 export interface IModelConstructor {

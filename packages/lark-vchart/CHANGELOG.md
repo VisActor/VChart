@@ -1,6 +1,24 @@
 # Change Log - @visactor/lark-vchart
 
-This log was last generated on Wed, 26 Jul 2023 03:18:52 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Aug 2023 10:32:10 GMT and should not be manually modified.
+
+## 1.1.3
+Thu, 03 Aug 2023 10:32:10 GMT
+
+### Patches
+
+- fix: fix the issue of sankeyChart sourceFiled and targetFiled not working, closed #341
+- fix: fix the issue of SankeyChart can't render, when unset nodeAlign, closed #343
+
+## 1.1.2
+Tue, 01 Aug 2023 09:47:58 GMT
+
+_Version update only_
+
+## 1.1.1
+Fri, 28 Jul 2023 08:52:08 GMT
+
+_Version update only_
 
 ## 1.1.0
 Wed, 26 Jul 2023 03:18:52 GMT

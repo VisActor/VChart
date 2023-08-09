@@ -53,6 +53,7 @@ export class BandAxisMixin {
     const isBandPaddingArray = isArray(bandPadding);
     const isPaddingInnerArray = isArray(paddingInner);
     const isPaddingOuterArray = isArray(paddingOuter);
+
     for (let i = 0; i < this._scales.length; i++) {
       const _padding = isBandPaddingArray ? bandPadding[i] : bandPadding;
       const _paddingInner = isPaddingInnerArray ? paddingInner[i] : paddingInner;
@@ -64,14 +65,6 @@ export class BandAxisMixin {
     }
   }
   computeBandDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[] {
-    // const values = data.map(d => d.values);
-    // return Array.from(new Set(values.flat()));
-
-    // // 性能优化 old
-    // const reuslt = {};
-    // data.forEach(d => d.values.forEach(v => (reuslt[v] = true)));
-    // return Object.keys(reuslt);
-
     // 性能优化 9.13
     const tempSet = new Set();
     for (let i = 0; i < data.length; i++) {

@@ -5,7 +5,7 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel } from '../../constant';
 import { getActualNumValue } from '../util/utils';
-import type { Maybe, Datum } from '../../typings';
+import type { Maybe, Datum, DirectionType } from '../../typings';
 import { merge, valueInScaleRange } from '../../util';
 import type { BarAppearPreset, IBarAnimationParams } from './animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
@@ -23,6 +23,7 @@ import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
+import { array, isValid, last } from '@visactor/vutils';
 
 VChart.useMark([RectMark, TextMark]);
 
@@ -121,16 +122,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         {
           x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
           x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
-          y: (datum: Datum) => {
-            const bandWidth =
-              this.getYAxisHelper().getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ??
-              DefaultBandWidth;
-            const continuous = isContinuous(yScale.type || 'band');
-            const pos = this.dataToPositionY(datum);
-            const width = this._rectMark.getAttribute('height', datum) as number;
-            return pos + (bandWidth - width) * 0.5 + (continuous ? -bandWidth / 2 : 0);
-          },
-          height: () => this.getBarWidth(this._yAxisHelper)
+          y: (datum: Datum) => this._getPosition(this.direction, datum),
+          height: () => this._getBarWidth(this._yAxisHelper)
         },
         'normal',
         AttributeLevel.Series
@@ -139,19 +132,11 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this.setMarkStyle(
         this._rectMark,
         {
-          x: (datum: Datum) => {
-            const bandWidth =
-              this.getXAxisHelper().getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ??
-              DefaultBandWidth;
-            const width = this._rectMark.getAttribute('width', datum) as number;
-            const continuous = isContinuous(this.getXAxisHelper().getScale?.(0).type || 'band');
-            const pos = this.dataToPositionX(datum);
-            return pos + (bandWidth - width) / 2 + (continuous ? -bandWidth / 2 : 0);
-          },
+          x: (datum: Datum) => this._getPosition(this.direction, datum),
           y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), yScale),
           y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY1(datum), yScale),
           width: () => {
-            return this.getBarWidth(this._xAxisHelper);
+            return this._getBarWidth(this._xAxisHelper);
           }
         },
         'normal',
@@ -206,9 +191,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     );
   }
 
-  protected getBarWidth(axisHelper: IAxisHelper) {
+  protected _getBarWidth(axisHelper: IAxisHelper) {
     const hasBarWidth = this._spec.barWidth !== undefined;
     const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
+
     if (hasBarWidth) {
       return getActualNumValue(this._spec.barWidth, bandWidth);
     }
@@ -222,6 +208,53 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       width = Math.min(width, getActualNumValue(this._spec.barMaxWidth, bandWidth));
     }
     return width;
+  }
+
+  protected _getPosition(direction: DirectionType, datum: Datum) {
+    let axisHelper;
+    let sizeAttribute;
+    let dataToPosition;
+    if (direction === Direction.horizontal) {
+      axisHelper = this.getYAxisHelper();
+      sizeAttribute = 'height';
+      dataToPosition = this.dataToPositionY.bind(this);
+    } else {
+      axisHelper = this.getXAxisHelper();
+      sizeAttribute = 'width';
+      dataToPosition = this.dataToPositionX.bind(this);
+    }
+    const scale = axisHelper.getScale(0);
+    const size = this._rectMark.getAttribute(sizeAttribute, datum) as number;
+    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
+    if (this._groups?.fields?.length > 1 && isValid(this._spec.barGapInGroup)) {
+      // 自里向外计算，沿着第一层分组的中心点进行位置调整
+      const groupFields = this._groups.fields;
+      const barInGroup = array(this._spec.barGapInGroup);
+      let totalWidth: number = 0;
+      let offSet: number = 0;
+
+      for (let index = groupFields.length - 1; index >= 1; index--) {
+        const groupField = groupFields[index];
+        const groupValues = this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
+        const groupCount = groupValues.length;
+        const gap = getActualNumValue(barInGroup[index - 1] ?? last(barInGroup), bandWidth);
+        const i = groupValues.indexOf(datum[groupField]);
+        if (index === groupFields.length - 1) {
+          totalWidth += groupCount * size + (groupCount - 1) * gap;
+          offSet += i * (size + gap);
+        } else {
+          offSet += i * (totalWidth + gap);
+          totalWidth += totalWidth + (groupCount - 1) * gap;
+        }
+      }
+
+      const center = scale.scale(datum[groupFields[0]]) + axisHelper.getBandwidth(0) / 2;
+      return center - totalWidth / 2 + offSet;
+    }
+
+    const continuous = isContinuous(scale.type || 'band');
+    const pos = dataToPosition(datum);
+    return pos + (bandWidth - size) * 0.5 + (continuous ? -bandWidth / 2 : 0);
   }
 
   /**

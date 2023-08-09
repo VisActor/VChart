@@ -1,4 +1,4 @@
-import VChart, { IData, IInitOption, IChartSpec } from '@visactor/vchart';
+import VChart, { IData, IInitOption, ISpec } from '@visactor/vchart';
 import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
@@ -35,7 +35,7 @@ export interface BaseChartProps
   /**
    * used only by <VChart />
    */
-  spec?: IChartSpec;
+  spec?: ISpec;
   /** 数据 */
   data?: IData;
   /** 画布宽度 */
@@ -48,7 +48,7 @@ export interface BaseChartProps
   /** 图表渲染完成事件 */
   onReady?: (instance: VChart, isInitial: boolean) => void;
   /** throw error when chart run into an error */
-  onError?: () => void;
+  onError?: (err: Error) => void;
 }
 
 type Props = React.PropsWithChildren<BaseChartProps>;
@@ -136,6 +136,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec)) {
+        eventsBinded.current = props;
         // eslint-disable-next-line promise/catch-or-return
         const updatePromise = chartContext.current.chart
           .updateSpec(parseSpec(props), undefined, { morph: false }) // morph临时关掉

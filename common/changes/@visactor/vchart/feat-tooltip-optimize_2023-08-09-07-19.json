@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(map): fix the issue of misalignment of the map after interaction with legend",
+      "comment": "feat: add attribute dimensionInfo in tooltip handler event params when activeType is mark. related #475",
       "type": "patch"
     }
   ],

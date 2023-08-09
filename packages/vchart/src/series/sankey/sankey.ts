@@ -111,13 +111,15 @@ export class SankeySeries extends CartesianSeries<any> {
               y1: this._viewBox.y2
             };
           },
+          sourceField: this._spec.sourceField,
+          targetField: this._spec.targetField,
           direction: this._spec.direction,
-          nodeAlign: this._spec.nodeAlign,
-          nodeGap: this._spec.nodeGap,
-          nodeWidth: this._spec.nodeWidth,
+          nodeAlign: this._spec.nodeAlign ?? 'justify',
+          nodeGap: this._spec.nodeGap ?? 8,
+          nodeWidth: this._spec.nodeWidth ?? 10,
           linkWidth: this._spec.linkWidth,
           minStepWidth: this._spec.minStepWidth,
-          minNodeHeight: this._spec.minNodeHeight,
+          minNodeHeight: this._spec.minNodeHeight ?? 4,
           minLinkHeight: this._spec.minLinkHeight,
           iterations: this._spec.iterations,
           nodeKey: this._spec.nodeKey,
@@ -983,5 +985,10 @@ export class SankeySeries extends CartesianSeries<any> {
 
   getDefaultShapeType(): string {
     return 'square';
+  }
+
+  // make sure this function fast
+  protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
+    return undefined;
   }
 }

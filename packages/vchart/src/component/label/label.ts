@@ -227,6 +227,14 @@ export class Label extends BaseComponent {
     });
   }
 
+  /** Update API **/
+  updateSpec(spec: any) {
+    const result = super.updateSpec(spec);
+    result.reRender = true;
+    result.reMake = true;
+    return result;
+  }
+
   onRender(ctx: IModelRenderOption): void {
     // do nothing
   }

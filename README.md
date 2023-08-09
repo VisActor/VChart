@@ -1,6 +1,9 @@
 <div align="center">
-  <a href="" target="_blank">
-    <img alt="VisActor Logo" width="200" src="https://github.com/VisActor/.github/blob/main/profile/500_200.svg"/>
+  <a href="https://github.com/VisActor#gh-light-mode-only" target="_blank">
+    <img alt="VisActor Logo" width="200" src="https://github.com/VisActor/.github/blob/main/profile/logo_500_200_light.svg"/>
+  </a>
+  <a href="https://github.com/VisActor#gh-dark-mode-only" target="_blank">
+    <img alt="VisActor Logo" width="200" src="https://github.com/VisActor/.github/blob/main/profile/logo_500_200_dark.svg"/>
   </a>
 </div>
 
@@ -142,11 +145,9 @@ $ rush react
 
 ## 💫 Ecosystem
 
-| Project                         | Description                   |
-| ------------------------------- | ----------------------------- |
+| Project                                                                               | Description                          |
+| ------------------------------------------------------------------------------------- | ------------------------------------ |
 | [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React interface for @VisActor/VChart |
-
-
 
 ## 🤝 Contribution [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
 

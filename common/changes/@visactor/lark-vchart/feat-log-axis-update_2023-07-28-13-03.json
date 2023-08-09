@@ -2,8 +2,8 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(map): fix the issue that defaultFillColor does not work in map",
-      "type": "patch"
+      "comment": "feat(logAxis): support axis of type = 'log'. close #392",
+      "type": "none"
     }
   ],
   "packageName": "@visactor/vchart"

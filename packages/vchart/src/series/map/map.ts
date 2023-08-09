@@ -2,6 +2,7 @@
 import { MarkTypeEnum } from '../../mark/interface';
 import { registerGrammar } from '@visactor/vgrammar';
 import type { IElement } from '@visactor/vgrammar';
+import type { FeatureData } from '@visactor/vgrammar-projection';
 import { Projection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
 import type { IPathMark } from '../../mark/path';
@@ -10,7 +11,7 @@ import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import { isValid, isValidNumber } from '../../util';
 import { GeoSeries } from '../geo/geo';
-import { map } from '../../data/transforms/map';
+import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
@@ -69,11 +70,11 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
     this._valueField = this._spec.valueField;
     this._spec.nameProperty && (this._nameProperty = this._spec.nameProperty);
     if (!this.map) {
-      throw new Error(`map type '${this.map}' is not specified !`);
+      this._option.onError(`map type '${this.map}' is not specified !`);
     }
 
     if (!geoSourceMap.get(this.map)) {
-      throw new Error(`'${this.map}' data is not registered !`);
+      this._option.onError(`'${this.map}' data is not registered !`);
     }
   }
 
@@ -88,7 +89,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
     // 初始化地图数据
     const features = geoSourceMap.get(this.map);
     if (!features) {
-      throw Error('no valid map data found!');
+      this._option.onError('no valid map data found!');
     }
     const mapData = new DataView(this._dataSet);
 
@@ -108,10 +109,17 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
         type: 'lookup',
         options: {
           from: () => this._data?.getLatestData(),
-          key: 'name',
+          key: DEFAULT_MAP_LOOK_UP_KEY,
           fields: this._nameField,
-          values: [this.nameField, this.valueField, this._seriesField ?? DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY],
-          as: [this.nameField, this.valueField, this._seriesField ?? DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY]
+          set: (feature: FeatureData, datum: Datum) => {
+            if (datum) {
+              Object.keys(datum).forEach(key => {
+                if (!(key in feature)) {
+                  feature[key] = datum[key];
+                }
+              });
+            }
+          }
         }
       });
     this._data?.getDataView().target.addListener('change', mapData.reRunAllTransform);
@@ -251,7 +259,9 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       spec?.valueField !== valueField ||
       spec?.nameProperty !== nameProperty
     ) {
+      result.change = true;
       result.reRender = true;
+      result.reMake = true;
     }
     return result;
   }
@@ -346,10 +356,12 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
   }
 
   dataToPositionX(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
   dataToPositionY(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
 
   viewDataUpdate(d: DataView): void {

@@ -75,6 +75,10 @@ export interface IRenderOption {
    */
   logLevel?: number;
   /**
+   * 错误消息回调函数
+   */
+  onError?: (...args: any[]) => void;
+  /**
    * 是否关闭dirtyBounds
    * @default false
    */

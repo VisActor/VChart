@@ -8,6 +8,7 @@ import type { DimensionEventParams } from './events/dimension/interface';
 import type { Datum, IPoint, StringOrNumber } from '../typings';
 import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant';
 import type { SeriesType } from '../series/interface';
+import type { TooltipEventParams } from '../component/tooltip/interface/event';
 
 export type EventType =
   | 'pointerdown'
@@ -262,6 +263,9 @@ export type EventParamsDefinition = {
 
   // VChart 内置的扩展组合事件
   dimension: DimensionEventParams;
+  tooltipShow: TooltipEventParams;
+  tooltipHide: TooltipEventParams;
+  tooltipRelease: TooltipEventParams;
 
   // 扩展事件参数
   [key: string]: ExtendEventParam;

@@ -2,6 +2,98 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.1.3",
+      "tag": "@visactor/vchart_v1.1.3",
+      "date": "Thu, 03 Aug 2023 10:32:10 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix: fix the issue of sankeyChart sourceFiled and targetFiled not working, closed #341"
+          },
+          {
+            "comment": "fix: fix the issue of SankeyChart can't render, when unset nodeAlign, closed #343"
+          },
+          {
+            "comment": "fix: if series.getSeriesField() return undefined, use `DEFAULT_DATA_SERIES_FIELD` to ensure legend data filter, fixed #337\""
+          },
+          {
+            "comment": "fix: fixing the issue where `updateSpec` does not have an effect on map type in #401"
+          },
+          {
+            "comment": "fix: fixing the exception thrown when updating the map updateSpec"
+          },
+          {
+            "comment": "fix: fix bar style could not work in waterfall chart\n\n"
+          }
+        ],
+        "none": [
+          {
+            "comment": "fix(dataZoom): fix backgroundChart data mapping problem. fix #306 fix #309"
+          },
+          {
+            "comment": "fix(dataZoom): start and end cannot be setted correctly because of judging of data value. fix #334"
+          },
+          {
+            "comment": "fix(wordCloud): word-cloud updateSpec not work as expected. fixed #302"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.1.2",
+      "tag": "@visactor/vchart_v1.1.2",
+      "date": "Tue, 01 Aug 2023 09:47:58 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "feat: geo-coordinate support zoom api"
+          },
+          {
+            "comment": "fix(pie): fix the issue of pie mark's \\`key\\` value duplication causes drawing error, closed #321"
+          },
+          {
+            "comment": "fix: fix the issue where linearAxis.expand does not work when there are identical data values in #358"
+          },
+          {
+            "comment": "fix: fix the issue of geo source lost"
+          },
+          {
+            "comment": "fix(label): fix the issue that the update of label visible fails to take effect with updateSpec, closed #304"
+          },
+          {
+            "comment": "fix(axis): fix the issue when the min and max of the axes are the same, closed #355"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.1.1",
+      "tag": "@visactor/vchart_v1.1.1",
+      "date": "Fri, 28 Jul 2023 08:52:08 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "feat(logger): support static api `getLogger` in vchart class"
+          },
+          {
+            "comment": "fix(vchart): fix the problem of default logLevel not sync to vgrammar"
+          },
+          {
+            "comment": "fix(map): fix the issue that some map data cannot be drawn"
+          },
+          {
+            "comment": "fix(map): fix the issue of misalignment of the map after interaction with legend"
+          },
+          {
+            "comment": "fix(indicator): add `specKey` for Indicator to fix the issue that the indicator text does not display after the update, close#251"
+          },
+          {
+            "comment": "fix(map): fix the issue that defaultFillColor does not work in map"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.0",
       "tag": "@visactor/vchart_v1.1.0",
       "date": "Wed, 26 Jul 2023 03:18:52 GMT",

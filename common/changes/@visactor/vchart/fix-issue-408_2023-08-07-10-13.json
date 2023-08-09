@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of the title color configured on the theme does not take effect, fixed #408\"",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

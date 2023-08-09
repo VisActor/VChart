@@ -12,7 +12,7 @@ export interface ITitleTextTheme {
   /** 字体大小 */
   fontSize?: number;
   /** 字体颜色 */
-  fontColor?: string | IColorKey;
+  fill?: string | IColorKey;
   /** 字重 */
   fontWeight?: StringOrNumber;
   /** 对齐方式 */

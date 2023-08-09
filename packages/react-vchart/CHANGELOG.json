@@ -2,6 +2,50 @@
   "name": "@visactor/react-vchart",
   "entries": [
     {
+      "version": "1.1.3",
+      "tag": "@visactor/react-vchart_v1.1.3",
+      "date": "Thu, 03 Aug 2023 10:32:10 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix: fix the issue of sankeyChart sourceFiled and targetFiled not working, closed #341"
+          },
+          {
+            "comment": "fix: fix the issue of SankeyChart can't render, when unset nodeAlign, closed #343"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@visactor/vchart\" from `1.1.2` to `1.1.3`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.1.2",
+      "tag": "@visactor/react-vchart_v1.1.2",
+      "date": "Tue, 01 Aug 2023 09:47:58 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@visactor/vchart\" from `1.1.1` to `1.1.2`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.1.1",
+      "tag": "@visactor/react-vchart_v1.1.1",
+      "date": "Fri, 28 Jul 2023 08:52:08 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@visactor/vchart\" from `1.1.0` to `1.1.1`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.0",
       "tag": "@visactor/react-vchart_v1.1.0",
       "date": "Wed, 26 Jul 2023 03:18:52 GMT",

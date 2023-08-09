@@ -1,5 +1,12 @@
 import type { IComponent } from '../../../interface';
-import type { IMarkerPositionsSpec, IDataPointSpec, IDataPos, IMarkerSpec, IMarkerAxisSpec } from '../../interface';
+import type {
+  IMarkerPositionsSpec,
+  IDataPointSpec,
+  IDataPos,
+  IMarkerSpec,
+  IMarkerAxisSpec,
+  IDataPosCallback
+} from '../../interface';
 import type { IMarkAreaTheme } from './theme';
 
 export type IMarkArea = IComponent;
@@ -21,32 +28,32 @@ export interface IMarkAreaXSpec extends IMarkerAxisSpec {
   /**
    * x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型
    */
-  x: IDataPos;
-  x1: IDataPos;
+  x: IDataPos | IDataPosCallback;
+  x1: IDataPos | IDataPosCallback;
 }
 
 export interface IMarkAreaYSpec extends IMarkerAxisSpec {
   /**
    * y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型
    */
-  y: IDataPos;
-  y1: IDataPos;
+  y: IDataPos | IDataPosCallback;
+  y1: IDataPos | IDataPosCallback;
 }
 
 export interface IMarkAreaAngleSpec extends IMarkerAxisSpec {
   /**
    * todo: angle轴上的参考线。可以配置参考线在angle轴上的值，或者聚合计算类型
    */
-  startAngle: IDataPos;
-  endAngle: IDataPos;
+  startAngle: IDataPos | IDataPosCallback;
+  endAngle: IDataPos | IDataPosCallback;
 }
 
 export interface IMarkAreaRadiusSpec extends IMarkerAxisSpec {
   /**
    * todo: radius轴上的参考线。可以配置参考线在radius轴上的值，或者聚合计算类型
    */
-  startRadius: IDataPos;
-  endRadius: IDataPos;
+  startRadius: IDataPos | IDataPosCallback;
+  endRadius: IDataPos | IDataPosCallback;
 }
 
 export type IMarkAreaCoordinateSpec = {

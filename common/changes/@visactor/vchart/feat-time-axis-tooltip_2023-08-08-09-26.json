@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(map): fix the issue that some map data cannot be drawn",
+      "comment": "feat: support dimension tooltip for time axis, related #437",
       "type": "patch"
     }
   ],

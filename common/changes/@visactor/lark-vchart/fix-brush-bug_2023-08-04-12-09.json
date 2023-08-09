@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/lark-vchart",
+      "comment": "fix(brush): fix mark can not resume to unselected state when click blank space. fix #307",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart"
+}

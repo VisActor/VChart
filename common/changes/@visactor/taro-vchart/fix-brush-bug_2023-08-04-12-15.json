@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/taro-vchart",
+      "comment": "fix(brush): fix brush interactive range cannot update when chart is resize. fix #194",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart"
+}

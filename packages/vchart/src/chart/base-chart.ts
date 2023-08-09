@@ -37,7 +37,7 @@ import type { IRegion } from '../region/interface';
 import { ComponentTypeEnum } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent } from '../component/interface';
-import type { IMark } from '../mark/interface';
+import { MarkTypeEnum, type IMark } from '../mark/interface';
 import type { IEvent } from '../event/interface';
 import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset/es/data-set';
@@ -51,7 +51,9 @@ import {
   normalizeLayoutPaddingSpec,
   array,
   isTrueBrowser,
-  isString
+  isString,
+  config,
+  convertBackgroundSpec
 } from '../util';
 import { Stack } from './stack';
 import { BaseModel } from '../model/base-model';
@@ -73,6 +75,7 @@ import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../constant';
 import type { IGlobalScale } from '../scale/interface';
 import { DimensionEventEnum } from '../event/events/dimension';
 import type { ITooltip } from '../component/tooltip/interface';
+import type { IRectMark } from '../mark/rect';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -88,6 +91,10 @@ export class BaseChart extends CompilableBase implements IChart {
     // TODO 通过spec设置进行图表更新
     this.transformSpec(s);
     this._spec = s;
+  }
+
+  getOption() {
+    return this._option;
   }
 
   // 主题
@@ -167,6 +174,9 @@ export class BaseChart extends CompilableBase implements IChart {
 
   protected _canvasRect: ILayoutRect;
 
+  // background
+  protected _backgroundMark: IRectMark;
+
   constructor(spec: any, option: IChartOption) {
     super(option);
 
@@ -182,7 +192,8 @@ export class BaseChart extends CompilableBase implements IChart {
       getChartLayoutRect: () => this._layoutRect,
       getChartViewRect: () => this._viewRect,
       getChart: () => this,
-      globalScale: this._globalScale
+      globalScale: this._globalScale,
+      onError: this._option.onError
     };
     this._stack = new Stack(this);
     this._spec = spec;
@@ -191,6 +202,8 @@ export class BaseChart extends CompilableBase implements IChart {
   created() {
     this.transformSpec(this._spec);
     this.createGlobalScale();
+    // background
+    this.createBackground(this._spec.background);
     // 基础内容
     this.createLayout();
     // 基于spec 创建元素。
@@ -212,9 +225,6 @@ export class BaseChart extends CompilableBase implements IChart {
     // 元素创建完毕后再执行各元素的初始化 方便各元素能获取到其他模块
     this.initRegion();
     this.initSeries();
-    // global scale 应当在series初始化完成后，组件初始化之前
-    // 此时 globalScale 已经生效组件可以获取到正确的映射
-    this.updateGlobalScaleDomain();
     // component
     this.initComponent();
     // event
@@ -226,6 +236,8 @@ export class BaseChart extends CompilableBase implements IChart {
     // this._stack.stackAll();
     this._series.forEach(s => s.getRawData()?.markRunning());
     this._series.forEach(s => s.fillData());
+    // 此时 globalScale 已经生效组件可以获取到正确的映射
+    this.updateGlobalScaleDomain();
   }
 
   onResize(width: number, height: number): void {
@@ -241,6 +253,31 @@ export class BaseChart extends CompilableBase implements IChart {
   updateViewBox(viewBox: IBoundsLike) {
     this._updateLayoutRect(viewBox);
     this.setLayoutTag(true);
+  }
+
+  createBackground(bg: IChartSpec['background']) {
+    // this._regions = [];
+    if (!bg) {
+      return;
+    }
+    // if background is string, set to grammar background
+    if (typeof bg !== 'object') {
+      return;
+    }
+    this._backgroundMark = Factory.createMark(MarkTypeEnum.group, 'chart-background', {
+      model: this as any,
+      map: this._option.map,
+      getCompiler: this.getCompiler,
+      globalScale: this._globalScale
+    }) as IRectMark;
+    this._backgroundMark.created();
+    this._backgroundMark.setStyle(convertBackgroundSpec(bg));
+    this._backgroundMark.setStyle({
+      x: () => this._viewBox.x1,
+      y: () => this._viewBox.y1,
+      width: () => this._viewBox.x2 - this._viewBox.x1,
+      height: () => this._viewBox.y2 - this._viewBox.y1
+    });
   }
 
   createRegion(regionSpec: any[]) {
@@ -272,7 +309,9 @@ export class BaseChart extends CompilableBase implements IChart {
         spec.data = this.getSeriesData(spec.dataId, spec.dataIndex);
       } else {
         // 保证数据最终是 DataView 实例
-        spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[]);
+        spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], {
+          onError: this._option.onError
+        });
       }
 
       // 如果用户在 vchart 构造函数参数中关闭了 animation, 则已该配置为准
@@ -411,7 +450,10 @@ export class BaseChart extends CompilableBase implements IChart {
         use3dLayout = true;
       }
       const layout = new (Factory.getLayout(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
-        this._spec.layout
+        this._spec.layout,
+        {
+          onError: this._option.onError
+        }
       );
       this._layoutFunc = layout.layoutItems.bind(layout);
     }
@@ -678,7 +720,8 @@ export class BaseChart extends CompilableBase implements IChart {
   getSeriesData(id: StringOrNumber | undefined, index: number | undefined): DataView | undefined {
     if (!this._spec.data) {
       // 没有数据，报错处理
-      throw new Error('no data in spec!');
+      this._option.onError('no data in spec!');
+      return null;
     }
 
     // dataId 优先
@@ -692,7 +735,8 @@ export class BaseChart extends CompilableBase implements IChart {
       }
 
       // id不匹配，报错处理
-      throw new Error(`no data matches dataId ${id}!`);
+      this._option.onError(`no data matches dataId ${id}!`);
+      return null;
     }
 
     // 其次使用dataIndex
@@ -701,7 +745,8 @@ export class BaseChart extends CompilableBase implements IChart {
         return this._spec.data[index];
       }
       // index不匹配，报错处理
-      throw new Error(`no data matches dataIndex ${index}!`);
+      this._option.onError(`no data matches dataIndex ${index}!`);
+      return null;
     }
 
     // 最后返回第一条数据
@@ -928,6 +973,7 @@ export class BaseChart extends CompilableBase implements IChart {
       seriesStyle: spec.seriesStyle,
 
       animation: spec.animation,
+      animationThreshold: spec.animationThreshold ?? this._theme.animationThreshold,
       animationAppear: spec.animationAppear,
       animationDisappear: spec.animationDisappear,
       animationEnter: spec.animationEnter,
@@ -940,7 +986,8 @@ export class BaseChart extends CompilableBase implements IChart {
       large: spec.large,
       largeThreshold: spec.largeThreshold,
       progressiveStep: spec.progressiveStep,
-      progressiveThreshold: spec.progressiveThreshold
+      progressiveThreshold: spec.progressiveThreshold,
+      background: spec.seriesBackground
     };
     return series;
   }
@@ -1016,6 +1063,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   compile() {
+    this.compileBackground();
     this.compileLayout();
     this.compileRegions();
     this.compileSeries();
@@ -1037,6 +1085,23 @@ export class BaseChart extends CompilableBase implements IChart {
   compileLayout() {
     const { width, height } = this.getCanvasRect();
     this.getCompiler().setSize(width, height);
+  }
+
+  compileBackground() {
+    if (!this._backgroundMark) {
+      return;
+    }
+    this._backgroundMark.compile();
+    this._backgroundMark
+      .getProduct()
+      ?.configure({
+        context: {
+          model: this
+        }
+      })
+      .layout(() => {
+        // console.log('region mark layout');
+      });
   }
 
   compileRegions() {
@@ -1098,7 +1163,6 @@ export class BaseChart extends CompilableBase implements IChart {
     }
     if (model && mark.isUpdated) {
       model.bindSceneNode?.(sceneRoot.elements[0]);
-      model.setAttributeTag(true);
       return;
     }
     if (mark.markType === 'group') {

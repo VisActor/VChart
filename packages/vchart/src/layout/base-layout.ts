@@ -1,9 +1,11 @@
+import type { utilFunctionCtx } from './../typings/params';
 import type { IChart } from '../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ILayoutItem } from '../model/interface';
 import type { IBaseLayout } from './interface';
 import type { IPadding, IRect } from '../typings/space';
 import type { IRegion } from '../region/interface';
+import { error } from '../util/debug';
 
 export class Layout implements IBaseLayout {
   protected _leftCurrent: number = 0;
@@ -13,6 +15,12 @@ export class Layout implements IBaseLayout {
 
   _chartLayoutRect!: IRect;
   _chartViewBox!: IBoundsLike;
+
+  protected _onError: (msg: string) => void;
+
+  constructor(_spec?: unknown, ctx?: utilFunctionCtx) {
+    this._onError = ctx?.onError;
+  }
 
   layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void {
     this._chartLayoutRect = chartLayoutRect;
@@ -327,7 +335,7 @@ export class Layout implements IBaseLayout {
   filterRegionsWithID(regions: IRegion[], id: number): ILayoutItem {
     const target = regions.find(x => x.id === id);
     if (!target) {
-      throw Error('can not find target region item, invalid id');
+      (this._onError ?? error)('can not find target region item, invalid id');
     }
     return target;
   }

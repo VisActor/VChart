@@ -5,6 +5,11 @@ import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } fr
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = string | number | IAggrType;
+export type IDataPosCallback = (
+  relativeSeriesData: any,
+  startRelativeSeriesData: any,
+  endRelativeSeriesData: any
+) => IDataPos;
 export type IDataPointSpec = {
   [key: string]: IDataPos;
   /**
@@ -46,11 +51,13 @@ export type IMarkerLabelSpec = {
   /**
    * label文本 - 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
    */
-  text?: string;
+  text?: string | string[] | number | number[];
   /**
    * label文本 - 文本格式化
+   * @param datum marker组件聚合或回归计算后的数据值
+   * @returns 格式化后的文本
    */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[];
+  formatMethod?: (datum: IDataPos) => string | string[] | number | number[];
   /**
    * label文本 - 文本样式
    */
@@ -117,11 +124,12 @@ export interface IMarkerSpec extends IModelSpec {
   /**
    * marker组件是否自动拓展轴范围
    * @default false
+   * @since 1.1.0
    */
   autoRange?: boolean;
 }
 
-export type IMarkerSymbol = {
+export interface IMarkerSymbol extends IMarkerRef {
   /** 是否展示 symbol */
   visible: boolean;
   /**
@@ -133,4 +141,4 @@ export type IMarkerSymbol = {
    */
   size?: number;
   style?: Omit<ISymbolMarkSpec, 'visible'>;
-} & IMarkerRef;
+}

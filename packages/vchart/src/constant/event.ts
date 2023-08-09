@@ -51,8 +51,10 @@ export const BASE_EVENTS = [
 ];
 
 export enum ChartEvent {
-  initialized = 'initialized',
-  rendered = 'rendered',
+  initialized = 'initialized', // 图表实例初始化完成
+  rendered = 'rendered', // 图表渲染方法被调用时触发，表明图表已经执行过渲染逻辑，只会触发一次
+  renderFinished = 'renderFinished', // 每次画布渲染完成触发的事件，不包含动画结束
+  animationFinished = 'animationFinished', // 图表动画结束时触发的事件
   // region
   regionSeriesDataFilterOver = 'regionSeriesDataFilterOver',
   // series start
@@ -99,7 +101,11 @@ export enum ChartEvent {
   legendFilter = 'legendFilter',
   legendItemClick = 'legendItemClick',
   legendItemHover = 'legendItemHover',
-  legendItemUnHover = 'legendItemUnHover'
+  legendItemUnHover = 'legendItemUnHover',
+  // tooltip
+  tooltipShow = 'tooltipShow',
+  tooltipHide = 'tooltipHide',
+  tooltipRelease = 'tooltipRelease'
 }
 
 export enum Event_Source_Type {
