@@ -8,6 +8,7 @@ import type { ICartesianSeries } from '../../../../series/interface';
 import { isNil } from '@visactor/vutils';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
 import { isXAxis } from '../../../../component/axis/cartesian/util';
+import { Direction } from '../../../../typings';
 
 const getAxis = (chart: IChart, type: 'x' | 'y', pos: ILayoutPoint): CartesianAxis[] | null => {
   const axesComponents = chart
@@ -56,34 +57,57 @@ export const getCartesianDimensionInfo = (chart: IChart | undefined, pos: ILayou
   }
 
   const { x, y } = pos;
-  const xAxisList = getAxis(chart, 'x', pos);
-  const yAxisList = getAxis(chart, 'y', pos);
+  const xAxisList = getAxis(chart, 'x', pos) ?? [];
+  const yAxisList = getAxis(chart, 'y', pos) ?? [];
+
+  const bandAxisSet: Set<CartesianAxis> = new Set();
+  const linearAxisSet: Set<CartesianAxis> = new Set();
+  [xAxisList, yAxisList].forEach(axisList =>
+    axisList.forEach(axis => {
+      const isDiscreteAxis = isDiscrete(axis.getScale().type);
+      if (isDiscreteAxis) {
+        bandAxisSet.add(axis);
+      } else {
+        linearAxisSet.add(axis);
+      }
+    })
+  );
+
   const targetAxisInfo: IDimensionInfo[] = [];
 
-  if (xAxisList) {
-    xAxisList.forEach(axis => {
-      const isDiscreteAxis = isDiscrete(axis.getScale().type);
-      const info = getDimensionInfoByPosition(
-        axis,
-        x,
-        'x',
-        isDiscreteAxis ? discreteXAxisGetDimensionField : continuousXAxisGetDimensionField
-      );
-      info && targetAxisInfo.push(info);
+  const addAxisDimensionInfo = (orient: 'x' | 'y', isDiscrete: boolean) => {
+    (orient === 'x' ? xAxisList : yAxisList).forEach(axis => {
+      if ((isDiscrete ? bandAxisSet : linearAxisSet).has(axis)) {
+        const info = getDimensionInfoByPosition(
+          axis,
+          orient === 'x' ? x : y,
+          orient,
+          orient === 'x'
+            ? isDiscrete
+              ? discreteXAxisGetDimensionField
+              : continuousXAxisGetDimensionField
+            : isDiscrete
+            ? discreteYAxisGetDimensionField
+            : continuousYAxisGetDimensionField
+        );
+        info && targetAxisInfo.push(info);
+      }
     });
+  };
+
+  // 优先筛选 band 轴，其次按照 direction 判断
+  if (chart.getSpec().direction === Direction.horizontal) {
+    addAxisDimensionInfo('y', bandAxisSet.size > 0);
+    if (targetAxisInfo.length === 0) {
+      addAxisDimensionInfo('x', bandAxisSet.size > 0);
+    }
+  } else {
+    addAxisDimensionInfo('x', bandAxisSet.size > 0);
+    if (targetAxisInfo.length === 0) {
+      addAxisDimensionInfo('y', bandAxisSet.size > 0);
+    }
   }
-  if (yAxisList) {
-    yAxisList.forEach(axis => {
-      const isDiscreteAxis = isDiscrete(axis.getScale().type);
-      const info = getDimensionInfoByPosition(
-        axis,
-        y,
-        'y',
-        isDiscreteAxis ? discreteYAxisGetDimensionField : continuousYAxisGetDimensionField
-      );
-      info && targetAxisInfo.push(info);
-    });
-  }
+
   if (!targetAxisInfo.length) {
     return null;
   }
