@@ -11,7 +11,8 @@ import type {
   IPadding,
   IRect,
   StringOrNumber,
-  IChartSpec
+  IChartSpec,
+  IDataValues
 } from '../typings';
 import type { LayoutCallBack } from '../layout/interface';
 import { GlobalScale } from '../scale/global-scale';
@@ -655,6 +656,25 @@ export class BaseChart extends CompilableBase implements IChart {
     if (dv) {
       dv.parseNewData(data, options);
     }
+    if (updateGlobalScale) {
+      this.updateGlobalScaleDomain();
+    }
+    this.getAllModels().forEach(model => model.onDataUpdate());
+  }
+
+  data(data: IDataValues | IDataValues[], updateGlobalScale: boolean = true) {
+    const dvs: { d: IDataValues; dv: DataView }[] = [];
+    array(data).forEach(d => {
+      const dv = this._dataSet.getDataView(d.id as string);
+      if (dv) {
+        dvs.push({ d, dv });
+        dv.markRunning();
+      }
+    });
+    dvs.forEach(({ d, dv }) => {
+      dv.setFields(d.fields);
+      dv.parseNewData(d, d.parser);
+    });
     if (updateGlobalScale) {
       this.updateGlobalScaleDomain();
     }
