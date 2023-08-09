@@ -75,6 +75,11 @@ export interface IBrushTheme {
    * @default 10
    */
   delayTime?: number;
+  /**
+   * brush选框的大小阈值
+   * @default 5
+   */
+  sizeThreshold?: number;
 }
 
 export interface IBrushSpec extends IBrushTheme, IBrushDataBindSpec {
