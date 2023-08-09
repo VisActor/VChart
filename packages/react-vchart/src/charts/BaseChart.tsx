@@ -136,6 +136,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec)) {
+        eventsBinded.current = props.spec;
         // eslint-disable-next-line promise/catch-or-return
         const updatePromise = chartContext.current.chart
           .updateSpec(parseSpec(props), undefined, { morph: false }) // morph临时关掉
