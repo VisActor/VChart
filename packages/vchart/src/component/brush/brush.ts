@@ -116,6 +116,7 @@ export class Brush extends BaseComponent implements IBrush {
         // 方案二: 清空brushMask 和 图元高亮状态
         this._initMarkBrushState(componentIndex, '');
         brushComponent.children[0].removeAllChild();
+        this._needInitOutState = true;
       }
     } else {
       const brush = new BrushComponent({
@@ -158,6 +159,7 @@ export class Brush extends BaseComponent implements IBrush {
           // 需要重置初始状态的情况：点击空白处clear所有状态
           if (operateType === IOperateType.brushClear) {
             this._initMarkBrushState(componentIndex, '');
+            this._needInitOutState = true;
           }
 
           this._reconfigItem(operateMask, region);
