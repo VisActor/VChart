@@ -31,7 +31,7 @@
     "@visactor/vchart": "workspace:1.2.0",
     "@visactor/vutils": "~0.13.3",
     "@visactor/vgrammar": "~0.5.1",
-    "@visactor/vrender": "0.14.0-alpha.9",
+    "@visactor/vrender": "0.14.0-alpha.10",
     "react-is": "^18.2.0"
   },
   "devDependencies": {

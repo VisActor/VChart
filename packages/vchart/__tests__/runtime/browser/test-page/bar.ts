@@ -291,6 +291,10 @@ const run = () => {
             hover: {
               fillOpacity: 0.08,
               fill: '#141414'
+            },
+            hover_reverse: {
+              fillOpacity: 0.08,
+              fill: '#141414'
             }
           }
         },
@@ -356,6 +360,10 @@ const run = () => {
             hover: {
               fillOpacity: 0.08,
               fill: '#141414'
+            },
+            hover_reverse: {
+              fillOpacity: 0.08,
+              fill: '#141414'
             }
           }
         },
@@ -415,6 +423,10 @@ const run = () => {
           visible: true,
           state: {
             hover: {
+              fillOpacity: 0.08,
+              fill: '#141414'
+            },
+            hover_reverse: {
               fillOpacity: 0.08,
               fill: '#141414'
             }
