@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/react-vchart",
+      "comment": "fix: <VChart /> shoud not update when spec is equal, fix #428",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/react-vchart"
+}
