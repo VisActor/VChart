@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: add a new event type tooltipRelease. related #427",
+      "comment": "feat: add a new event type tooltipRelease, related #427",
       "type": "patch"
     }
   ],
