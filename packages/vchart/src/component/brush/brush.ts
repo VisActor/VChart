@@ -115,7 +115,6 @@ export class Brush extends BaseComponent implements IBrush {
 
         // 方案二: 清空brushMask 和 图元高亮状态
         this._initMarkBrushState(componentIndex, '');
-        this._needInitOutState = true;
         brushComponent.children[0].removeAllChild();
       }
     } else {
@@ -137,19 +136,28 @@ export class Brush extends BaseComponent implements IBrush {
           operatedMaskAABBBounds: { [name: string]: IBounds };
         }) => {
           const { operateType, operateMask } = operateParams;
-          // 需要重置状态的情况：
-          // 1. 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加_stateTag来识别
-          // 2. 点击空白处清空brush之后的下一次绘制，需要重置图元状态
-          // 3. 框选模式为'single' 且 开始绘制brush时, 需要重置图元状态
+
+          // 需要重置out状态的情况：
+          // 1. _isFristState： 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加_isFristState来识别
+          // 2. _needInitOutState：框选模式为'single' 且 开始后的第一次drawing时（这里不选择drawStart而选择第一次触发drawing的时机是因为点击空白处也会触发drawStart）, 需要重置图元状态
           if (
             this._isFristState ||
-            (this._needInitOutState && brushMode === 'single' && operateType === IOperateType.drawStart)
+            (this._needInitOutState && brushMode === 'single' && operateType === IOperateType.drawing)
           ) {
             this._initMarkBrushState(componentIndex, 'outOfBrush');
           }
+
+          // 下面的步骤是为了标记出第一次drawing状态的
+          if (operateType === IOperateType.drawing) {
+            this._needInitOutState = false;
+          }
+          if (operateType === IOperateType.drawEnd) {
+            this._needInitOutState = true;
+          }
+
+          // 需要重置初始状态的情况：点击空白处clear所有状态
           if (operateType === IOperateType.brushClear) {
             this._initMarkBrushState(componentIndex, '');
-            this._needInitOutState = true;
           }
 
           this._reconfigItem(operateMask, region);
