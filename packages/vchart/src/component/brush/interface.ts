@@ -78,6 +78,7 @@ export interface IBrushTheme {
   /**
    * brush选框的大小阈值
    * @default 5
+   * @SInCE 1.2.0
    */
   sizeThreshold?: number;
 }
