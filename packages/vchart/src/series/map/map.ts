@@ -11,7 +11,7 @@ import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import { isValid, isValidNumber } from '../../util';
 import { GeoSeries } from '../geo/geo';
-import { map } from '../../data/transforms/map';
+import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
@@ -109,7 +109,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
         type: 'lookup',
         options: {
           from: () => this._data?.getLatestData(),
-          key: 'name',
+          key: DEFAULT_MAP_LOOK_UP_KEY,
           fields: this._nameField,
           set: (feature: FeatureData, datum: Datum) => {
             if (datum) {
