@@ -359,7 +359,8 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         autoHideMethod: spec.label.autoHideMethod,
         autoHideSeparation: spec.label.autoHideSeparation,
         limitEllipsis: spec.label.limitEllipsis,
-        layoutFunc: spec.label.layoutFunc
+        layoutFunc: spec.label.layoutFunc,
+        dataFilter: spec.label.dataFilter
       },
       tick: {
         visible: spec.tick.visible,
@@ -372,7 +373,8 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
               return transformToGraphic(this._preprocessSpec(merge({}, this._theme.tick?.style, style)));
             }
           : transformToGraphic(spec.tick.style),
-        state: transformStateStyle(spec.tick.state)
+        state: transformStateStyle(spec.tick.state),
+        dataFilter: spec.tick.dataFilter
       },
       subTick: {
         visible: spec.subTick.visible,
