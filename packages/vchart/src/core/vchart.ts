@@ -46,6 +46,7 @@ import type { ITooltipHandler } from '../typings/tooltip';
 import type { Tooltip } from '../component/tooltip';
 import type {
   Datum,
+  IData,
   IPoint,
   IRegionQuerier,
   IShowTooltipOption,
@@ -637,6 +638,56 @@ export class VChart implements IVChart {
       dataView.parse(data, options);
       this._spec.data.push(dataView);
     }
+    return this as unknown as IVChart;
+  }
+
+  dataSync(data: IDataValues | IDataValues[]) {
+    if (this._chart) {
+      this._chart.data(data);
+      this._compiler.renderSync();
+      return this as unknown as IVChart;
+    }
+    const list: IDataValues[] = array(data);
+    list.forEach(d => {
+      // only support update this attrs
+      const { id, values, parser, fields } = d;
+      const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
+      if (preDV) {
+        preDV.setFields(fields);
+        preDV.parse(values, parser);
+      } else {
+        // new data
+        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
+          onError: this._option.onError
+        });
+        this._spec.data.push(dataView);
+      }
+    });
+    return this as unknown as IVChart;
+  }
+
+  async data(data: IDataValues | IDataValues[]) {
+    if (this._chart) {
+      this._chart.data(data);
+      await this._compiler.renderAsync();
+      return this as unknown as IVChart;
+    }
+    const list: IDataValues[] = array(data);
+    list.forEach(d => {
+      // only support update this attrs
+      const { id, values, parser, fields } = d;
+      const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
+      if (preDV) {
+        preDV.setFields(fields);
+        preDV.parse(values, parser);
+      } else {
+        // new data
+        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
+          onError: this._option.onError
+        });
+        this._spec.data.push(dataView);
+      }
+    });
     return this as unknown as IVChart;
   }
 
