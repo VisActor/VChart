@@ -21,15 +21,9 @@ export const StatisticsValueTransform = {
 };
 
 function StatisticsMin(last: any, value: any) {
-  if (!couldBeValidNumber(value)) {
-    return last;
-  }
   return Math.min(last, value);
 }
 function StatisticsMax(last: any, value: any) {
-  if (!couldBeValidNumber(value)) {
-    return last;
-  }
   return Math.max(last, value);
 }
 
@@ -61,8 +55,8 @@ function StatisticsValues(last: Set<string>, value: any) {
 }
 
 export const StatisticsMethod = {
-  min: StatisticsMin,
-  max: StatisticsMax,
+  min: Math.min,
+  max: Math.max,
   values: StatisticsValues,
   //计算数组形式的data中的最大最小值
   'array-min': StatisticsArrayMin,
@@ -79,6 +73,8 @@ export interface IStatisticsOption {
   }[];
   // operations: Array<'max' | 'min' | 'values'>;
   target?: 'parser' | 'latest';
+  fieldFollowSource?: (key: string) => boolean;
+  sourceStatistics?: () => { [key: string]: unknown };
 }
 
 /**
@@ -98,6 +94,9 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
     return result;
   }
 
+  const sourceStatistics = op.sourceStatistics?.();
+  const fieldFollowSource = op.fieldFollowSource;
+
   // merge same key
   fields = mergeFields([], fields);
 
@@ -112,6 +111,10 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
     // NOTE: the same key in fields has been merge already
     result[f.key] = {};
     const dataFiledInKey = dataFields?.[f.key];
+    if (sourceStatistics && fieldFollowSource && fieldFollowSource(f.key) && sourceStatistics[f.key]) {
+      result[f.key] = sourceStatistics[f.key];
+      return;
+    }
     // default value
     f.operations.forEach(op => {
       // @chensij 如果指定了计算的domain结果，则忽略计算（目前该逻辑仅在dot series中维护，因为dot series期望在filter data之后x轴改变domain，y轴不改变domain）
@@ -133,10 +136,30 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
           }
         }
         result[f.key][op] = StatisticsDefault[op]();
-
+        const isValueOp = op === 'min' || op === 'max';
+        const isMin = op === 'min';
+        const isMax = op === 'max';
+        const isValues = op === 'values';
         latestData.forEach((d: any) => {
-          const value = d?.[f.key];
-          result[f.key][op] = StatisticsMethod[op](result[f.key][op], value);
+          if (!d) {
+            return;
+          }
+          const value = d[f.key];
+          if (isValueOp) {
+            if (!couldBeValidNumber(value)) {
+              result[f.key].allValid && (result[f.key].allValid = false);
+            } else {
+              if (isMin && result[f.key][op] > value) {
+                result[f.key][op] = value;
+              } else if (isMax && result[f.key][op] < value) {
+                result[f.key][op] = value;
+              }
+            }
+          } else if (isValues) {
+            StatisticsMethod[op](result[f.key][op], value);
+          } else {
+            result[f.key][op] = StatisticsMethod[op](result[f.key][op], value);
+          }
         });
         result[f.key][op] = StatisticsValueTransform[op](result[f.key][op]);
         if (op === 'array-max') {

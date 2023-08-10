@@ -359,18 +359,81 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   }
 
   protected _statisticRawData() {
-    const rawDataName = `${PREFIX}_series_${this.id}_rawDataStatic`;
-    this._rawDataStatistics = this.createStatisticalData(
-      rawDataName,
-      this._rawData,
-      this._option.globalScale.getStatisticalFields
+    registerDataSetInstanceTransform(this._dataSet, 'dimensionStatistics', dimensionStatistics);
+    const rawDataStatisticsName = `${PREFIX}_series_${this.id}_rawDataStatic`;
+    this._rawDataStatistics = new DataView(this._dataSet, { name: rawDataStatisticsName });
+    this._rawDataStatistics.parse([this._rawData], {
+      type: 'dataview'
+    });
+    // data.name = dataName;
+    this._rawDataStatistics.transform(
+      {
+        type: 'dimensionStatistics',
+        options: {
+          operations: ['max', 'min', 'values'],
+          fields: () => {
+            const fields = mergeFields(
+              this.getStatisticFields(),
+              this._option.globalScale.getStatisticalFields(this._rawData.name as string) ?? []
+            );
+            if (this._seriesField) {
+              mergeFields(fields, [
+                {
+                  key: this._seriesField,
+                  operations: ['values']
+                }
+              ]);
+            }
+            return fields.filter(
+              f =>
+                f.key !== STACK_FIELD_START_PERCENT &&
+                f.key !== STACK_FIELD_END_PERCENT &&
+                f.key !== STACK_FIELD_END &&
+                f.key !== STACK_FIELD_START
+            );
+          },
+          target: 'latest'
+        }
+      },
+      false
     );
+
     this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
   }
 
   protected _statisticViewData() {
-    const viewDataName = `${PREFIX}_series_${this.id}_viewDataStatic`;
-    this._viewDataStatistics = this.createStatisticalData(viewDataName, this._data.getDataView());
+    registerDataSetInstanceTransform(this._dataSet, 'dimensionStatistics', dimensionStatistics);
+    const viewDataStatisticsName = `${PREFIX}_series_${this.id}_viewDataStatic`;
+    this._viewDataStatistics = new DataView(this._dataSet, { name: viewDataStatisticsName });
+    this._viewDataStatistics.parse([this._data.getDataView()], {
+      type: 'dataview'
+    });
+    this._viewDataStatistics.transform(
+      {
+        type: 'dimensionStatistics',
+        options: {
+          fieldFollowSource: (key: string) => {
+            return this._viewDataFilter.transformsArr.length <= 1;
+          },
+          sourceStatistics: () => this._rawDataStatistics.latestData,
+          fields: () => {
+            const fields = this.getStatisticFields();
+            if (this._seriesField) {
+              mergeFields(fields, [
+                {
+                  key: this._seriesField,
+                  operations: ['values']
+                }
+              ]);
+            }
+            return fields;
+          },
+          target: 'latest'
+        }
+      },
+      false
+    );
+
     this._data.getDataView().target.removeListener('change', this._viewDataStatistics.reRunAllTransform);
     if (this._stack || this._stackValue) {
       this.createdStackData();
