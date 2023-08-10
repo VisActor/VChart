@@ -1,6 +1,32 @@
 # Change Log - @visactor/react-vchart
 
-This log was last generated on Thu, 03 Aug 2023 10:32:10 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Aug 2023 05:23:25 GMT and should not be manually modified.
+
+## 1.2.0
+Thu, 10 Aug 2023 05:23:25 GMT
+
+### Minor changes
+
+- feat: supplement sync methods in vchart instance
+
+
+
+### Patches
+
+- feat: dimension tooltip supports linear axis
+
+
+- fix(react-vchart): catch error in BaseChart
+- fix: <VChart /> shoud not update when spec is equal, fix #428
+- fix(react-vchart): the components of react vchart should not update when no props or children are updated
+
+
+- perf(axis-tick): optimize the calculation times of axis ticks, optimize the discrete axis sampling algorithm
+
+
+- perf(data): remove redundant data statistics calculations
+
+
 
 ## 1.1.3
 Thu, 03 Aug 2023 10:32:10 GMT

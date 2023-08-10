@@ -1,6 +1,52 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 03 Aug 2023 10:32:10 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Aug 2023 05:23:25 GMT and should not be manually modified.
+
+## 1.2.0
+Thu, 10 Aug 2023 05:23:25 GMT
+
+### Minor changes
+
+- feat(logAxis): support axis of type = 'log'. close #392
+- feat(vchart): spilt 'finished' event into 'renderFinished' and 'animationEnd' event
+- feat: support `barGapInGroup` for bar series and rangeColumn series, used to set the spacing between bars within a group, relate #328
+- feat: support \`seriesMark\` for area, line and radar series, which can used to set series main mark, closed #330
+- feat: extended data structures supported by sankey chart
+
+### Patches
+
+- feat: support `dataFilter` for axis label and axis tick
+- fix: optimize the type definition related to padding on the bandAxis, and it only takes effect on the first layer of scale
+- feat: dimension tooltip supports linear axis
+
+
+- feat: filling full data to map mark data in #420 
+- feat(background): support background of chart & series
+- feat(onError): support configuration of onerror in chart instance initoption
+- feat: supplement sync methods in vchart instance
+
+
+- feat: support dimension tooltip for time axis, related #437
+- feat: add tooltipShow event and tooltipHide event for vchart, related #337
+- feat: add attribute dimensionInfo in tooltip handler event params when activeType is mark. related #475
+- feat: add a new event type tooltipRelease. related #427
+- fix: set the correct return type of `getLegendDataById` and `getLegendDataByIndex`, closed #472
+- fix: the non-stack radar area should start from the minimum of radius axis, not o, fix #370
+- fix: bar label does not show in the expected position when axis is inversed, fix #378
+- fix: fix the issue of the title color configured on the theme does not take effect, fixed #408"
+- fix: fix the issue that updateSpec of pie chart causes innerRadius/outerRadius to be incorrect when hovering in #435
+- fix: fix the issue of y axis's title can not auto ellipsis, fixed #443, #417
+- fix: fix the issue of axis label flush config disable when axis inverse is true, fixed #449
+- fix: startAngle and endAngle of polar axis will be reset when executing updateSpec, related #332
+- fix: solve the issue that tooltip content is out of bounds in some uncommon case, related #397
+- perf(data): add animationThreshold configuration to support automatically close animationa when the amount of data is large
+- perf(axis-tick): optimize the calculation times of axis ticks, optimize the discrete axis sampling algorithm
+
+
+- perf(data): remove redundant data statistics calculations
+
+
+- perf(stack): use 0 to replace Number.epsilon in stack operation closed #350
 
 ## 1.1.3
 Thu, 03 Aug 2023 10:32:10 GMT
