@@ -100,7 +100,7 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
     }
 
     const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-
+    const { minX, maxX, minY, maxY } = this._computeClipRange([relativeSeries.getRegion()]);
     this._markerComponent?.setAttributes({
       position: point,
       itemContent: {
@@ -111,6 +111,12 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
             ? this._spec.itemContent.text.formatMethod(dataPoints)
             : this._markerComponent.attribute?.itemContent?.textStyle?.text
         }
+      },
+      clipRange: {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
       }
     });
   }

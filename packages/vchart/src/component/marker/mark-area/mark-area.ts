@@ -112,7 +112,11 @@ export class MarkArea extends BaseMarker implements IMarkArea {
     }
 
     const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-
+    const { minX, maxX, minY, maxY } = this._computeClipRange([
+      startRelativeSeries.getRegion(),
+      endRelativeSeries.getRegion(),
+      relativeSeries.getRegion()
+    ]);
     this._markerComponent?.setAttributes({
       points: points,
       label: {
@@ -120,6 +124,12 @@ export class MarkArea extends BaseMarker implements IMarkArea {
         text: this._spec.label.formatMethod
           ? this._spec.label.formatMethod(dataPoints)
           : this._markerComponent.attribute?.label?.text
+      },
+      clipRange: {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
       }
     });
   }
