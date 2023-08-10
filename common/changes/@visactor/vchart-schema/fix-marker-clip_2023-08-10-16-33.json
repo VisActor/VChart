@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart-schema",
+      "comment": "feat(marker): add config to control clip mode about marker. fix #181",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart-schema"
+}
