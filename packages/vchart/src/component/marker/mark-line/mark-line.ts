@@ -22,6 +22,7 @@ import type { IOptionRegr } from '../../../data/transforms/regression';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant';
+import type { IRegion } from '../../../region/interface';
 
 export class MarkLine extends BaseMarker implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
@@ -129,7 +130,11 @@ export class MarkLine extends BaseMarker implements IMarkLine {
     }
 
     const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-
+    const { minX, maxX, minY, maxY } = this._computeClipRange([
+      startRelativeSeries.getRegion(),
+      endRelativeSeries.getRegion(),
+      relativeSeries.getRegion()
+    ]);
     this._markerComponent?.setAttributes({
       points: points,
       label: {
@@ -137,6 +142,12 @@ export class MarkLine extends BaseMarker implements IMarkLine {
         text: this._spec.label.formatMethod
           ? this._spec.label.formatMethod(dataPoints)
           : this._markerComponent.attribute?.label?.text
+      },
+      clipRange: {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
       }
     });
   }
