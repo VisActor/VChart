@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/taro-vchart",
+      "comment": "fix: no need to check event.target.id",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart"
+}
