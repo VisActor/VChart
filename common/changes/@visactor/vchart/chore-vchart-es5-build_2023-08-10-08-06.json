@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "build: add es5 build product",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
