@@ -127,6 +127,11 @@ export interface IMarkerSpec extends IModelSpec {
    * @since 1.1.0
    */
   autoRange?: boolean;
+  /**
+   * marker组件超出图表区域是否被裁剪
+   * @default false
+   */
+  clip?: boolean;
 }
 
 export interface IMarkerSymbol extends IMarkerRef {
