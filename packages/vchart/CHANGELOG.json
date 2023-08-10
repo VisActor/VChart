@@ -2,6 +2,130 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.2.0",
+      "tag": "@visactor/vchart_v1.2.0",
+      "date": "Thu, 10 Aug 2023 05:23:25 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat(logAxis): support axis of type = 'log'. close #392"
+          },
+          {
+            "comment": "feat(logAxis): support axis of type = 'log'. close #392"
+          },
+          {
+            "comment": "feat(logAxis): support axis of type = 'log'. close #392"
+          },
+          {
+            "comment": "feat(logAxis): support axis of type = 'log'. close #392"
+          },
+          {
+            "comment": "feat(marker): marker support formatMethod. fix #288, fix #298"
+          },
+          {
+            "comment": "fix(brush): fix mark can not resume to unselected state when click blank space. fix #307"
+          },
+          {
+            "comment": "fix(brush): fix brush interactive range cannot update when chart is resize. fix #194"
+          },
+          {
+            "comment": "fix(wordCloud): fix wordCloud size error probelm. fix #400, fix #260"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "feat(logAxis): support axis of type = 'log'. close #392"
+          },
+          {
+            "comment": "feat(vchart): spilt 'finished' event into 'renderFinished' and 'animationEnd' event"
+          },
+          {
+            "comment": "feat: support `barGapInGroup` for bar series and rangeColumn series, used to set the spacing between bars within a group, relate #328"
+          },
+          {
+            "comment": "feat: support \\`seriesMark\\` for area, line and radar series, which can used to set series main mark, closed #330"
+          },
+          {
+            "comment": "feat: extended data structures supported by sankey chart"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "feat: support `dataFilter` for axis label and axis tick"
+          },
+          {
+            "comment": "fix: optimize the type definition related to padding on the bandAxis, and it only takes effect on the first layer of scale"
+          },
+          {
+            "comment": "feat: dimension tooltip supports linear axis\n\n"
+          },
+          {
+            "comment": "feat: filling full data to map mark data in #420 "
+          },
+          {
+            "comment": "feat(background): support background of chart & series"
+          },
+          {
+            "comment": "feat(onError): support configuration of onerror in chart instance initoption"
+          },
+          {
+            "comment": "feat: supplement sync methods in vchart instance\n\n"
+          },
+          {
+            "comment": "feat: support dimension tooltip for time axis, related #437"
+          },
+          {
+            "comment": "feat: add tooltipShow event and tooltipHide event for vchart, related #337"
+          },
+          {
+            "comment": "feat: add attribute dimensionInfo in tooltip handler event params when activeType is mark. related #475"
+          },
+          {
+            "comment": "feat: add a new event type tooltipRelease. related #427"
+          },
+          {
+            "comment": "fix: set the correct return type of `getLegendDataById` and `getLegendDataByIndex`, closed #472"
+          },
+          {
+            "comment": "fix: the non-stack radar area should start from the minimum of radius axis, not o, fix #370"
+          },
+          {
+            "comment": "fix: bar label does not show in the expected position when axis is inversed, fix #378"
+          },
+          {
+            "comment": "fix: fix the issue of the title color configured on the theme does not take effect, fixed #408\""
+          },
+          {
+            "comment": "fix: fix the issue that updateSpec of pie chart causes innerRadius/outerRadius to be incorrect when hovering in #435"
+          },
+          {
+            "comment": "fix: fix the issue of y axis's title can not auto ellipsis, fixed #443, #417"
+          },
+          {
+            "comment": "fix: fix the issue of axis label flush config disable when axis inverse is true, fixed #449"
+          },
+          {
+            "comment": "fix: startAngle and endAngle of polar axis will be reset when executing updateSpec, related #332"
+          },
+          {
+            "comment": "fix: solve the issue that tooltip content is out of bounds in some uncommon case, related #397"
+          },
+          {
+            "comment": "perf(data): add animationThreshold configuration to support automatically close animationa when the amount of data is large"
+          },
+          {
+            "comment": "perf(axis-tick): optimize the calculation times of axis ticks, optimize the discrete axis sampling algorithm\n\n"
+          },
+          {
+            "comment": "perf(data): remove redundant data statistics calculations\n\n"
+          },
+          {
+            "comment": "perf(stack): use 0 to replace Number.epsilon in stack operation closed #350"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.3",
       "tag": "@visactor/vchart_v1.1.3",
       "date": "Thu, 03 Aug 2023 10:32:10 GMT",

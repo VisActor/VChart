@@ -2,6 +2,7 @@
 import { MarkTypeEnum } from '../../mark/interface';
 import { registerGrammar } from '@visactor/vgrammar';
 import type { IElement } from '@visactor/vgrammar';
+import type { FeatureData } from '@visactor/vgrammar-projection';
 import { Projection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
 import type { IPathMark } from '../../mark/path';
@@ -10,7 +11,7 @@ import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import { isValid, isValidNumber } from '../../util';
 import { GeoSeries } from '../geo/geo';
-import { map } from '../../data/transforms/map';
+import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
@@ -108,10 +109,17 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
         type: 'lookup',
         options: {
           from: () => this._data?.getLatestData(),
-          key: 'name',
+          key: DEFAULT_MAP_LOOK_UP_KEY,
           fields: this._nameField,
-          values: [this.nameField, this.valueField, this._seriesField ?? DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY],
-          as: [this.nameField, this.valueField, this._seriesField ?? DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY]
+          set: (feature: FeatureData, datum: Datum) => {
+            if (datum) {
+              Object.keys(datum).forEach(key => {
+                if (!(key in feature)) {
+                  feature[key] = datum[key];
+                }
+              });
+            }
+          }
         }
       });
     this._data?.getDataView().target.addListener('change', mapData.reRunAllTransform);

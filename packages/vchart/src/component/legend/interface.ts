@@ -1,5 +1,6 @@
 import type { LegendTitle } from '@visactor/vrender-components';
 import type {
+  Datum,
   IOrientType,
   IPadding,
   IRectMarkSpec,
@@ -11,7 +12,7 @@ import type { IComponent } from '../interface';
 import type { IModelSpec } from '../../model/interface';
 
 export type ILegend = IComponent & {
-  getLegendData: () => StringOrNumber[];
+  getLegendData: () => Datum[];
   getSelectedData: () => StringOrNumber[];
   setSelectedData: (d: StringOrNumber[]) => void;
 };

@@ -265,6 +265,7 @@ export type EventParamsDefinition = {
   dimension: DimensionEventParams;
   tooltipShow: TooltipEventParams;
   tooltipHide: TooltipEventParams;
+  tooltipRelease: TooltipEventParams;
 
   // 扩展事件参数
   [key: string]: ExtendEventParam;

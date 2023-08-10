@@ -151,11 +151,10 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       this._cacheViewSpec = undefined;
       this._cacheActualTooltip = undefined;
 
-      const spec = this._component.getSpec();
+      const spec = this._component.getSpec() as ITooltipSpec;
       /** 用户自定义逻辑 */
-      if (spec.handler?.hideTooltip) {
-        spec.handler?.hideTooltip(params);
-        return TooltipResult.success;
+      if (spec.handler) {
+        return spec.handler.hideTooltip?.(params) ?? TooltipResult.success;
       }
       /** 默认逻辑 */
       this._updateTooltip(false, params);
@@ -185,8 +184,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     /** 用户自定义逻辑 */
-    if (spec.handler?.showTooltip) {
-      return spec.handler?.showTooltip(activeType!, data!, params) ?? TooltipResult.success;
+    if (spec.handler) {
+      return spec.handler.showTooltip?.(activeType!, data!, params) ?? TooltipResult.success;
     }
 
     /** 默认逻辑 */
@@ -233,8 +232,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const event = params.event as MouseEvent;
 
     /** 用户自定义逻辑 */
-    if (spec.handler?.showTooltip) {
-      return spec.handler.showTooltip(activeType, data, params) ?? TooltipResult.success;
+    if (spec.handler) {
+      return spec.handler.showTooltip?.(activeType, data, params) ?? TooltipResult.success;
     }
 
     /** 默认逻辑 */
@@ -286,10 +285,10 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     this._cacheViewSpec = undefined;
     this._cacheActualTooltip = undefined;
 
-    const spec = this._component.getSpec();
+    const spec = this._component.getSpec() as ITooltipSpec;
     /** 用户自定义逻辑 */
-    if (spec.handler?.release) {
-      spec.handler?.release();
+    if (spec.handler) {
+      spec.handler.release?.();
       return;
     }
     /** 默认逻辑 */
