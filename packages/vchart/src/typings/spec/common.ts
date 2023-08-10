@@ -96,8 +96,8 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
   poptip?: boolean;
 
   /**
-   * @since 1.2.0
    * 报错的回调函数
+   * @since 1.2.0
    */
   onError?: (...args: any[]) => void;
 }
@@ -149,8 +149,8 @@ export interface IChartSpec {
   seriesStyle?: ISeriesStyle;
 
   /**
-   * @since 1.2.0
    * 自动关闭动画的阀值，对应的是单系列data的长度
+   * @since 1.2.0
    */
   animationThreshold?: number;
 
@@ -369,8 +369,8 @@ export interface ISeriesSpec extends ITriggerSpec {
    */
   animation?: boolean;
   /**
-   * @since 1.2.0
    * 自动关闭动画的阀值，对应的是单系列data的长度
+   * @since 1.2.0
    */
   animationThreshold?: number;
 
