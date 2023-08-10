@@ -53,8 +53,8 @@ importers:
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.2.0
-      '@visactor/vgrammar': ~0.5.1
-      '@visactor/vrender': ~0.13.4
+      '@visactor/vgrammar': ~0.5.4
+      '@visactor/vrender': ~0.13.10
       '@visactor/vutils': ~0.13.3
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
@@ -207,16 +207,16 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vdataset': ~0.13.4
-      '@visactor/vgrammar': ~0.5.1
-      '@visactor/vgrammar-hierarchy': ~0.5.1
-      '@visactor/vgrammar-projection': ~0.5.1
-      '@visactor/vgrammar-sankey': ~0.5.1
-      '@visactor/vgrammar-util': ~0.5.1
-      '@visactor/vgrammar-wordcloud': ~0.5.1
-      '@visactor/vgrammar-wordcloud-shape': ~0.5.1
-      '@visactor/vrender': ~0.13.4
-      '@visactor/vrender-components': ~0.13.4
-      '@visactor/vscale': ~0.13.3
+      '@visactor/vgrammar': ~0.5.4
+      '@visactor/vgrammar-hierarchy': ~0.5.4
+      '@visactor/vgrammar-projection': ~0.5.4
+      '@visactor/vgrammar-sankey': ~0.5.4
+      '@visactor/vgrammar-util': ~0.5.4
+      '@visactor/vgrammar-wordcloud': ~0.5.4
+      '@visactor/vgrammar-wordcloud-shape': ~0.5.4
+      '@visactor/vrender': ~0.13.10
+      '@visactor/vrender-components': ~0.13.11
+      '@visactor/vscale': ~0.13.4
       '@visactor/vutils': ~0.13.3
       canvas: 2.11.2
       d3-array: 3.2.3
