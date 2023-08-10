@@ -3,7 +3,7 @@
     {
       "packageName": "@visactor/vchart",
       "comment": "feat(logAxis): support axis of type = 'log'. close #392",
-      "type": "none"
+      "type": "minor"
     }
   ],
   "packageName": "@visactor/vchart"
