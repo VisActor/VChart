@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: startAngle and endAngle of polar axis will be reset when executing updateSpec, related #332",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
