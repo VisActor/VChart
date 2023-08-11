@@ -333,7 +333,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       // TODO 轴可以设置domain
       getStatisticsDomain: () => this.getStatisticsDomain(),
       getAxisType: () => this.type,
-      getAxisId: () => this.id
+      getAxisId: () => this.id,
+      isInverse: () => this._spec.inverse === true
     };
   }
 
@@ -582,7 +583,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
 
   private _getTitleLimit(isX: boolean) {
     if (this._spec.title.visible && isNil(this._spec.title.style?.maxLineWidth)) {
-      const angle = this._spec.title.style?.angle || 0;
+      const angle = this._axisStyle.title?.angle ?? this._spec.title.style?.angle ?? 0;
       if (isX) {
         const width = this.getLayoutRect().width;
         const cosValue = Math.abs(Math.cos(angle));

@@ -10,16 +10,22 @@ export function barLabel(labelInfo: ILabelInfo) {
 
   // encode position config
   const labelPosition = labelSpec.position ?? 'outside';
+  const direction = (series as ICartesianSeries).direction ?? 'vertical';
+  const isInverse =
+    (series as ICartesianSeries).direction === 'horizontal'
+      ? (series as ICartesianSeries).getXAxisHelper()?.isInverse()
+      : (series as ICartesianSeries).getYAxisHelper()?.isInverse();
+
   let position = labelPosition as BaseLabelAttrs['position'];
+
   if (position !== 'inside') {
     position = (data: Datum) => {
       const { data: datum } = data;
       const dataField = series.getMeasureField()[0];
       if (labelPosition === 'outside') {
-        if ((series as ICartesianSeries).direction === 'horizontal') {
-          return datum?.[dataField] >= 0 ? 'right' : 'left';
-        }
-        return datum?.[dataField] >= 0 ? 'top' : 'bottom';
+        const positionMap = { vertical: ['top', 'bottom'], horizontal: ['right', 'left'] };
+        const index = (datum?.[dataField] >= 0 && isInverse) || (datum?.[dataField] < 0 && !isInverse) ? 1 : 0;
+        return positionMap[direction][index];
       }
       if (labelPosition === 'inside-bottom') {
         return (series as ICartesianSeries).direction === 'horizontal' ? 'inside-left' : 'inside-bottom';
@@ -56,6 +62,16 @@ function barLabelOverlapStrategy(series: ICartesianSeries) {
       position: (data: any) => {
         const { data: datum } = data;
         const dataField = series.getMeasureField()[0];
+        const isInverse =
+          (series as ICartesianSeries).direction === 'horizontal'
+            ? (series as ICartesianSeries).getXAxisHelper()?.isInverse()
+            : (series as ICartesianSeries).getYAxisHelper()?.isInverse();
+        if (isInverse) {
+          if (datum?.[dataField] >= 0) {
+            return series.direction === 'horizontal' ? ['left', 'inside-left'] : ['bottom', 'inside-bottom'];
+          }
+          return series.direction === 'horizontal' ? ['right', 'inside-right'] : ['top', 'inside-top'];
+        }
         if (datum?.[dataField] >= 0) {
           return series.direction === 'horizontal' ? ['right', 'inside-right'] : ['top', 'inside-top'];
         }

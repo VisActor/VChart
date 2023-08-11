@@ -1,0 +1,28 @@
+{
+  "name": "@visactor/vchart-schema",
+  "entries": [
+    {
+      "version": "1.2.0",
+      "tag": "@visactor/vchart-schema_v1.2.0",
+      "date": "Thu, 10 Aug 2023 05:23:25 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat(marker): marker support formatMethod. fix #288, fix #298"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "feat: supplement sync methods in vchart instance\n\n"
+          },
+          {
+            "comment": "perf(axis-tick): optimize the calculation times of axis ticks, optimize the discrete axis sampling algorithm\n\n"
+          },
+          {
+            "comment": "perf(data): remove redundant data statistics calculations\n\n"
+          }
+        ]
+      }
+    }
+  ]
+}

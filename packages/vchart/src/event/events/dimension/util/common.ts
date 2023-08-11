@@ -65,17 +65,45 @@ export const getDimensionData = (
               )
             });
           } else {
-            data.push({
-              series,
-              datum: viewData.filter(
-                (datum: any) =>
-                  datum[dimensionField[0]]?.toString() === value?.toString() ||
-                  (isValid(datum[dimensionField[0]]) &&
+            if (isValid(dimensionField[1])) {
+              // 根据范围取 datum
+              data.push({
+                series,
+                datum: viewData.filter((datum: any) => {
+                  if (datum[dimensionField[0]]?.toString() === value?.toString()) {
+                    return true;
+                  }
+                  return (
+                    isValid(datum[dimensionField[0]]) &&
                     isValid(datum[dimensionField[1]]) &&
                     value >= datum[dimensionField[0]] &&
-                    value < datum[dimensionField[1]])
-              )
-            });
+                    value < datum[dimensionField[1]]
+                  );
+                })
+              });
+            } else {
+              // 根据最近距离取 datum
+              let minDelta = Infinity;
+              let minDatums: any[] = [];
+              let deltaSign = 0;
+              viewData.forEach((datum: any) => {
+                if (isValid(datum[dimensionField[0]])) {
+                  const delta = Math.abs(datum[dimensionField[0]] - value);
+                  const sign = Math.sign(datum[dimensionField[0]] - value);
+                  if (delta < minDelta) {
+                    minDelta = delta;
+                    minDatums = [datum];
+                    deltaSign = sign;
+                  } else if (delta === minDelta && sign === deltaSign) {
+                    minDatums.push(datum);
+                  }
+                }
+              });
+              data.push({
+                series,
+                datum: minDatums
+              });
+            }
           }
         }
       }

@@ -38,6 +38,7 @@ import type { DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './proce
 import { isDimensionInfo, isMarkInfo, MarkTooltipProcessor, DimensionTooltipProcessor } from './processor';
 import { hasParentElement, isString } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
+import type { TooltipEventParams } from './interface/event';
 
 export type TooltipContent = {
   title?: IToolTipLineActual;
@@ -122,6 +123,10 @@ export class Tooltip extends BaseComponent implements ITooltip {
   }
 
   release() {
+    this.event.emit(ChartEvent.tooltipRelease, {
+      tooltip: this
+    } as unknown as TooltipEventParams);
+
     super.release();
 
     this._eventList.forEach(({ eventType, handler }) => {
@@ -167,6 +172,7 @@ export class Tooltip extends BaseComponent implements ITooltip {
         this._mountEvent('pointerdown', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
         this._mountEvent('pointerup', { source: 'window' }, this._handleMouseOut);
       }
+      // this._mountEvent('pointerout', { level: Event_Bubble_Level.chart, source: 'chart' }, this._handleMouseOut);
       this._mountEvent('pointermove', { source: 'window' }, this._handleMouseOut);
     } else if (trigger === 'click') {
       this._mountEvent('pointertap', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
@@ -184,6 +190,10 @@ export class Tooltip extends BaseComponent implements ITooltip {
 
   protected _handleMouseOut = (params: BaseEventParams) => {
     if (this._alwaysShow) {
+      return;
+    }
+
+    if (!this._isTooltipShown && !this.tooltipHandler?.isTooltipShown?.()) {
       return;
     }
 
