@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@visactor/vchart": "workspace:1.2.0-beta.1",
-    "@visactor/vutils": "~0.15.3",
+    "@visactor/vutils": "~0.15.4",
     "@visactor/vgrammar": "~0.5.1",
     "@visactor/vrender": "0.14.0-alpha.1",
     "react-is": "^18.2.0"
