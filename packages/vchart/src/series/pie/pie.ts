@@ -249,72 +249,61 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       this._tooltipHelper?.activeTriggerSet.mark.add(pieMark);
     }
 
-    const labelMark = this._labelMark;
-    if (labelMark) {
-      this.setMarkStyle(
-        labelMark,
-        {
-          visible: field(DEFAULT_LABEL_VISIBLE).bind(this),
-          x: field(DEFAULT_LABEL_X).bind(this),
-          y: field(DEFAULT_LABEL_Y).bind(this),
-          text: field(DEFAULT_LABEL_TEXT).bind(this),
-          fill: this._spec.label?.style?.fill || this.getColorAttribute(),
-          textAlign: field(DEFAULT_LABEL_ALIGN).bind(this),
-          textBaseline: this._spec.label?.position === 'inside' ? 'middle' : 'top',
-          angle: (datum: Datum) => {
-            const angle = datum[ARC_MIDDLE_ANGLE];
-            return this._spec.label?.position === 'inside' ? degrees(angle) : 0;
-          },
-          limit: field(DEFAULT_LABEL_LIMIT).bind(this)
-        },
-        undefined,
-        // 标签属性基于用户配置生成，样式优先级应当为用户级
-        AttributeLevel.User_Mark
-      );
+    // const labelMark = this._labelMark;
+    // if (labelMark) {
+    //   this.setMarkStyle(
+    //     labelMark,
+    //     {
+    //       visible: field(DEFAULT_LABEL_VISIBLE).bind(this),
+    //       x: field(DEFAULT_LABEL_X).bind(this),
+    //       y: field(DEFAULT_LABEL_Y).bind(this),
+    //       text: field(DEFAULT_LABEL_TEXT).bind(this),
+    //       fill: this._spec.label?.style?.fill || this.getColorAttribute(),
+    //       textAlign: field(DEFAULT_LABEL_ALIGN).bind(this),
+    //       textBaseline: this._spec.label?.position === 'inside' ? 'middle' : 'top',
+    //       angle: (datum: Datum) => {
+    //         const angle = datum[ARC_MIDDLE_ANGLE];
+    //         return this._spec.label?.position === 'inside' ? degrees(angle) : 0;
+    //       },
+    //       limit: field(DEFAULT_LABEL_LIMIT).bind(this)
+    //     },
+    //     undefined,
+    //     // 标签属性基于用户配置生成，样式优先级应当为用户级
+    //     AttributeLevel.User_Mark
+    //   );
 
-      this._trigger.registerMark(labelMark);
-    }
+    //   this._trigger.registerMark(labelMark);
+    // }
 
-    const labelLineMark = this._labelLineMark;
-    if (labelLineMark) {
-      this.setMarkStyle(labelLineMark, {
-        visible: field(DEFAULT_LABEL_VISIBLE).bind(this),
-        stroke: (this._spec.label?.line?.style?.stroke as any) || this.getColorAttribute(),
-        lineWidth: 1,
-        ...this.generateLinePath('normal')
-      });
-      this.setMarkStyle(labelLineMark, this.generateLinePath('hover'), 'hover');
-      this.setMarkStyle(labelLineMark, this.generateLinePath('selected'), 'selected');
+    // const labelLineMark = this._labelLineMark;
+    // if (labelLineMark) {
+    //   this.setMarkStyle(labelLineMark, {
+    //     visible: field(DEFAULT_LABEL_VISIBLE).bind(this),
+    //     stroke: (this._spec.label?.line?.style?.stroke as any) || this.getColorAttribute(),
+    //     lineWidth: 1,
+    //     ...this.generateLinePath('normal')
+    //   });
+    //   this.setMarkStyle(labelLineMark, this.generateLinePath('hover'), 'hover');
+    //   this.setMarkStyle(labelLineMark, this.generateLinePath('selected'), 'selected');
 
-      this._trigger.registerMark(labelLineMark);
-    }
+    //   this._trigger.registerMark(labelLineMark);
+    // }
   }
 
   initLabelMarkStyle(textMark: ITextMark) {
     if (!textMark) {
       return;
     }
-    this.setMarkStyle(
-      textMark,
-      {
-        visible: field(DEFAULT_LABEL_VISIBLE).bind(this),
-        x: field(DEFAULT_LABEL_X).bind(this),
-        y: field(DEFAULT_LABEL_Y).bind(this),
-        text: field(DEFAULT_LABEL_TEXT).bind(this),
-        fill: this._spec.label?.style?.fill || this.getColorAttribute(),
-        textAlign: field(DEFAULT_LABEL_ALIGN).bind(this),
-        textBaseline: this._spec.label?.position === 'inside' ? 'middle' : 'top',
-        angle: (datum: Datum) => {
-          const angle = datum[ARC_MIDDLE_ANGLE];
-          return this._spec.label?.position === 'inside' ? degrees(angle) : 0;
-        },
-        limit: field(DEFAULT_LABEL_LIMIT).bind(this),
-        z: this.dataToPositionZ.bind(this)
+    this.setMarkStyle(textMark, {
+      visible: field(DEFAULT_LABEL_VISIBLE).bind(this),
+      text: (datum: Datum) => {
+        return datum[this.getDimensionField()[0]];
       },
-      undefined,
-      // 标签属性基于用户配置生成，样式优先级应当为用户级
-      AttributeLevel.User_Mark
-    );
+      fill: this._spec.label?.style?.fill || this.getColorAttribute(),
+      angle: this._spec.label?.style?.angle,
+      limit: this._spec.label?.style?.limit,
+      z: this.dataToPositionZ.bind(this)
+    });
   }
 
   afterInitMark(): void {

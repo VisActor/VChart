@@ -116,16 +116,18 @@ const run = () => {
     outerRadius: 0.8,
     valueField: 'value',
     categoryField: 'type',
-    title: {
-      visible: true,
-      text: 'Statistics of Surface Element Content'
-    },
-    legends: {
-      visible: true,
-      orient: 'left'
-    },
+    // title: {
+    //   visible: true,
+    //   text: 'Statistics of Surface Element Content'
+    // },
+    // legends: {
+    //   visible: true,
+    //   orient: 'left'
+    // },
     label: {
-      visible: true
+      visible: true,
+      position: 'outside',
+      textAlign: 'center'
     },
     tooltip: {
       mark: {
