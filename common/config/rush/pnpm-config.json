@@ -90,7 +90,7 @@
    */
   "globalOverrides": {
     "@visactor/vrender": "0.14.0-alpha.1",
-    "@visactor/vrender-components": "0.13.9-alpha.1"
+    "@visactor/vrender-components": "0.13.11"
   },
 
   /**
