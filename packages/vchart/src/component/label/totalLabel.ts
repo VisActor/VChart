@@ -12,6 +12,7 @@ import type { IGroupMark, IView } from '@visactor/vgrammar';
 import { textAttribute } from './util';
 import { BaseLabelComponent } from './base-label';
 import type { ITotalLabelSpec, ITotalLabelTheme } from './interface';
+import type { IModelInitOption } from '../../model/interface';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;
@@ -44,7 +45,7 @@ export class TotalLabel extends BaseLabelComponent {
     return labelComponents;
   }
 
-  init(option: IComponentOption): void {
+  init(option: IModelInitOption): void {
     super.init(option);
     this._initTextMark();
     this._initLabelComponent();
