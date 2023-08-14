@@ -83,7 +83,7 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
   chartLayoutRect!: ILayoutRect;
 
   getVisible() {
-    return (this._spec as unknown as any).visible !== false;
+    return (this._spec as unknown as any)?.visible !== false;
   }
 
   private _setLayoutAttributeFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect) {
