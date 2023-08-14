@@ -1,8 +1,7 @@
 /* eslint-disable no-duplicate-imports */
-import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
+import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { ILineMark } from '../../mark/line';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel, POLAR_START_RADIAN } from '../../constant';
 import { DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
 import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
@@ -17,12 +16,12 @@ import type { IRadarAnimationParams, RadarAppearPreset } from './animation';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAreaMark } from '../../mark/area';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { AreaMark } from '../../mark/area';
 import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
+import { radarSeriesMark } from './constant';
 
 VChart.useMark([AreaMark, LineMark, SymbolMark, TextMark]);
 
@@ -43,11 +42,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
   static readonly type: string = SeriesTypeEnum.radar;
   type = SeriesTypeEnum.radar;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    ...lineLikeSeriesMarkMap,
-    [SeriesMarkNameEnum.area]: { name: SeriesMarkNameEnum.area, type: MarkTypeEnum.area }
-  };
+  static readonly mark: SeriesMarkMap = radarSeriesMark;
 
   protected declare _theme: Maybe<IRadarSeriesTheme>;
 

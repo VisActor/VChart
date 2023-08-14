@@ -12,7 +12,6 @@ import type { ICircularProgressSeriesTheme } from '../progress/circular/interfac
 import type { ILinkSeriesTheme } from '../link/interface';
 import type { IDotSeriesTheme } from '../dot/interface';
 import type { IWordCloud3dSeriesTheme, IWordCloudSeriesTheme } from '../word-cloud/interface';
-import type { SeriesTypeEnum } from './type';
 import type { IFunnel3dSeriesTheme, IFunnelSeriesTheme } from '../funnel/interface';
 import type { ILinearProgressSeriesTheme } from '../progress/linear/interface';
 import type { IGaugePointerSeriesTheme, IGaugeSeriesTheme } from '../gauge';
@@ -22,6 +21,31 @@ import type { ISunburstSeriesTheme } from '../sunburst/interface';
 import type { IRangeColumnSeriesTheme } from '../range-column/interface';
 import type { ICirclePackingSeriesTheme } from '../circle-packing/interface';
 import type { IHeatmapSeriesTheme } from '../heatmap/interface';
+import { SeriesTypeEnum } from './type';
+import type { SeriesMarkMap } from './common';
+import { bar3dSeriesMark, barSeriesMark } from '../bar/constant';
+import { lineSeriesMark } from '../line/constant';
+import { scatterSeriesMark } from '../scatter/constant';
+import { areaSeriesMark } from '../area/constant';
+import { radarSeriesMark } from '../radar/constant';
+import { pie3dSeriesMark, pieSeriesMark } from '../pie/constant';
+import { roseSeriesMark } from '../rose/constant';
+import { mapSeriesMark } from '../map/constant';
+import { circularProgressSeriesMark } from '../progress/circular/constant';
+import { linkSeriesMark } from '../link/constant';
+import { dotSeriesMark } from '../dot/constant';
+import { wordCloudSeriesMark } from '../word-cloud/constant';
+import { funnel3dSeriesMark, funnelSeriesMark } from '../funnel/constant';
+import { linearProgressSeriesMark } from '../progress/linear/constant';
+import { waterfallSeriesMark } from '../waterfall/constant';
+import { boxPlotSeriesMark } from '../box-plot/constant';
+import { treemapSeriesMark } from '../treemap/constant';
+import { sankeySeriesMark } from '../sankey/constant';
+import { gaugePointerSeriesMark, gaugeSeriesMark } from '../gauge/constant';
+import { sunburstSeriesMark } from '../sunburst/constant';
+import { rangeColumnSeriesMark } from '../range-column/constant';
+import { circlePackingSeriesMark } from '../circle-packing/constant';
+import { heatmapSeriesMark } from '../heatmap/constant';
 
 export interface ISeriesTheme {
   [SeriesTypeEnum.bar]?: IBarSeriesTheme;
@@ -41,7 +65,6 @@ export interface ISeriesTheme {
   [SeriesTypeEnum.wordCloud3d]?: IWordCloud3dSeriesTheme;
   [SeriesTypeEnum.funnel]?: IFunnelSeriesTheme;
   [SeriesTypeEnum.funnel3d]?: IFunnel3dSeriesTheme;
-  [SeriesTypeEnum.wordCloud]?: IWordCloudSeriesTheme;
   [SeriesTypeEnum.linearProgress]?: ILinearProgressSeriesTheme;
   [SeriesTypeEnum.waterfall]?: IWaterfallSeriesTheme;
   [SeriesTypeEnum.boxPlot]?: IBoxPlotSeriesTheme;
@@ -54,3 +77,34 @@ export interface ISeriesTheme {
   [SeriesTypeEnum.circlePacking]?: ICirclePackingSeriesTheme;
   [SeriesTypeEnum.heatmap]?: IHeatmapSeriesTheme;
 }
+
+export const seriesMarkInfoMap: Record<keyof ISeriesTheme, SeriesMarkMap> = {
+  [SeriesTypeEnum.bar]: barSeriesMark,
+  [SeriesTypeEnum.bar3d]: bar3dSeriesMark,
+  [SeriesTypeEnum.line]: lineSeriesMark,
+  [SeriesTypeEnum.scatter]: scatterSeriesMark,
+  [SeriesTypeEnum.area]: areaSeriesMark,
+  [SeriesTypeEnum.radar]: radarSeriesMark,
+  [SeriesTypeEnum.pie]: pieSeriesMark,
+  [SeriesTypeEnum.pie3d]: pie3dSeriesMark,
+  [SeriesTypeEnum.rose]: roseSeriesMark,
+  [SeriesTypeEnum.map]: mapSeriesMark,
+  [SeriesTypeEnum.circularProgress]: circularProgressSeriesMark,
+  [SeriesTypeEnum.link]: linkSeriesMark,
+  [SeriesTypeEnum.dot]: dotSeriesMark,
+  [SeriesTypeEnum.wordCloud]: wordCloudSeriesMark,
+  [SeriesTypeEnum.wordCloud3d]: wordCloudSeriesMark,
+  [SeriesTypeEnum.funnel]: funnelSeriesMark,
+  [SeriesTypeEnum.funnel3d]: funnel3dSeriesMark,
+  [SeriesTypeEnum.linearProgress]: linearProgressSeriesMark,
+  [SeriesTypeEnum.waterfall]: waterfallSeriesMark,
+  [SeriesTypeEnum.boxPlot]: boxPlotSeriesMark,
+  [SeriesTypeEnum.treemap]: treemapSeriesMark,
+  [SeriesTypeEnum.sankey]: sankeySeriesMark,
+  [SeriesTypeEnum.gauge]: gaugeSeriesMark,
+  [SeriesTypeEnum.gaugePointer]: gaugePointerSeriesMark,
+  [SeriesTypeEnum.sunburst]: sunburstSeriesMark,
+  [SeriesTypeEnum.rangeColumn]: rangeColumnSeriesMark,
+  [SeriesTypeEnum.circlePacking]: circlePackingSeriesMark,
+  [SeriesTypeEnum.heatmap]: heatmapSeriesMark
+};

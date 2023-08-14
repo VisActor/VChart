@@ -8,7 +8,7 @@ import { VChart } from '../../core/vchart';
 import { TreeMapSeries } from '../../series';
 VChart.useSeries([TreeMapSeries]);
 
-export class TreeMapChart extends BaseChart {
+export class TreemapChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.treemap;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.treemap;

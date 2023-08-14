@@ -16,7 +16,7 @@ import { copyDataView } from '../../data/transforms/copy-data-view';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
 import type { ITextMark } from '../../mark/text';
-import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY, DEFAULT_DATA_INDEX } from '../../constant/index';
+import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_INDEX } from '../../constant/index';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
@@ -24,10 +24,10 @@ import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { TextMark } from '../../mark/text';
+import { mapSeriesMark } from './constant';
 
 VChart.useMark([PathMark, TextMark]);
 
@@ -38,10 +38,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
   static readonly type: string = SeriesTypeEnum.map;
   type = SeriesTypeEnum.map;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.area]: { name: SeriesMarkNameEnum.area, type: MarkTypeEnum.path }
-  };
+  static readonly mark: SeriesMarkMap = mapSeriesMark;
 
   map!: string;
 

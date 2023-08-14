@@ -1,12 +1,25 @@
 import type { IBackgroundSpec, IBackgroundStyleSpec } from './../typings/spec/common';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isArray, isBoolean, isDate, isFunction, isNumber, isObject, isString, isValid, merge } from '@visactor/vutils';
+import {
+  array,
+  isArray,
+  isBoolean,
+  isDate,
+  isFunction,
+  isNumber,
+  isObject,
+  isString,
+  isValid,
+  merge
+} from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import { getActualColor, isColorKey, transformColorSchemeToStandardStruct } from '../theme/color-scheme/util';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
-import type { SeriesTypeEnum } from '../series/interface';
-import type { ITheme } from '../theme';
+import type { ISeriesMarkInfo, ISeriesTheme, SeriesTypeEnum } from '../series/interface';
+// eslint-disable-next-line no-duplicate-imports
+import { seriesMarkInfoMap } from '../series/interface';
+import type { IGlobalMarkThemeByName, IGlobalMarkThemeByType, ITheme } from '../theme';
 
 // todo 以目前的场景来看，并没有递归的需要。
 // 考虑到不确定性，还是递归处理spec对象，时间消耗很少
@@ -174,10 +187,11 @@ export function mergeTheme(target: Maybe<ITheme>, ...sources: Maybe<ITheme>[]): 
   return merge(preprocessThemeToMerge(target), ...sources.map(preprocessThemeToMerge));
 }
 
-function preprocessThemeToMerge(theme: Maybe<ITheme>): Maybe<ITheme> {
+function preprocessThemeToMerge(theme?: Maybe<ITheme>): Maybe<ITheme> {
   if (!theme) {
     return theme;
   }
+
   // 将色板转化为标准形式
   let { colorScheme } = theme;
   if (colorScheme) {
@@ -187,8 +201,28 @@ function preprocessThemeToMerge(theme: Maybe<ITheme>): Maybe<ITheme> {
       return scheme;
     }, {} as IThemeColorScheme);
   }
+
+  // 将全局 mark 主题 merge 进系列主题
+  let { series } = theme;
+  const { mark: markByType, markByName } = theme;
+  if (markByType || markByName) {
+    series = Object.keys(seriesMarkInfoMap).reduce((newSeriesTheme, key) => {
+      const value = series?.[key] ?? {};
+      const newValue = {};
+      Object.values<ISeriesMarkInfo>(seriesMarkInfoMap[key]).forEach(({ type, name }) => {
+        newValue[name] = merge({}, markByType?.[array(type)[0]] ?? {}, markByName?.[name] ?? {}, value[name]);
+      });
+      newSeriesTheme[key] = {
+        ...value,
+        ...newValue
+      };
+      return newSeriesTheme;
+    }, {} as ISeriesTheme);
+  }
+
   return {
     ...theme,
-    colorScheme
+    colorScheme,
+    series
   };
 }

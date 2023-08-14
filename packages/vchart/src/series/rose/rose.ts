@@ -1,6 +1,5 @@
 /* eslint-disable no-duplicate-imports */
 import type { IArcMark } from '../../mark/arc';
-import { MarkTypeEnum } from '../../mark/interface';
 import type { Maybe, Datum } from '../../typings';
 import { valueInScaleRange, degrees, merge } from '../../util';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
@@ -13,10 +12,10 @@ import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
 import { AttributeLevel } from '../../constant';
-import { BarSeries } from '../bar/bar';
 import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
 import { TextMark } from '../../mark/text';
+import { roseSeriesMark } from './constant';
 
 VChart.useMark([ArcMark, TextMark]);
 
@@ -26,10 +25,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
   static readonly type: string = SeriesTypeEnum.rose;
   type = SeriesTypeEnum.rose;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BarSeries.mark,
-    [SeriesMarkNameEnum.rose]: { name: SeriesMarkNameEnum.rose, type: MarkTypeEnum.arc }
-  };
+  static readonly mark: SeriesMarkMap = roseSeriesMark;
 
   protected declare _theme: Maybe<IRoseSeriesTheme>;
   protected _stack: boolean = true;

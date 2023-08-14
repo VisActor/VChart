@@ -73,7 +73,7 @@ export class LineLikeSeriesMixin {
   }
 
   initLineMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
-    this._lineMark = this._createMark(lineLikeSeriesMarkMap.line, {
+    this._lineMark = this._createMark(lineLikeSeriesMark.line, {
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: isSeriesMark ?? true,
@@ -184,7 +184,7 @@ export class LineLikeSeriesMixin {
   }
 
   initSymbolMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
-    this._symbolMark = this._createMark(lineLikeSeriesMarkMap.point, {
+    this._symbolMark = this._createMark(lineLikeSeriesMark.point, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
@@ -298,7 +298,7 @@ export class LineLikeSeriesMixin {
   }
 }
 
-export const lineLikeSeriesMarkMap: SeriesMarkMap = {
+export const lineLikeSeriesMark: SeriesMarkMap = {
   [SeriesMarkNameEnum.point]: { name: SeriesMarkNameEnum.point, type: MarkTypeEnum.symbol },
   [SeriesMarkNameEnum.line]: { name: SeriesMarkNameEnum.line, type: MarkTypeEnum.line }
 };

@@ -2,7 +2,6 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
-import { MarkTypeEnum } from '../../mark/interface';
 import type { IRectMark } from '../../mark/rect';
 import type { ILinkPathMark } from '../../mark/link-path';
 import type { ITextMark } from '../../mark/text';
@@ -32,27 +31,21 @@ import type { IElement, IGlyphElement } from '@visactor/vgrammar';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { array } from '../../util';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { BarSeries } from '../bar/bar';
 import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { LinkPathMark } from '../../mark/link-path';
+import { sankeySeriesMark } from './constant';
 
 VChart.useMark([RectMark, LinkPathMark, TextMark]);
 
 registerSankeyTransforms();
 
-export class SankeySeries extends CartesianSeries<any> {
+export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
   type = SeriesTypeEnum.sankey;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BarSeries.mark,
-    [SeriesMarkNameEnum.node]: { name: SeriesMarkNameEnum.node, type: MarkTypeEnum.rect },
-    [SeriesMarkNameEnum.link]: { name: SeriesMarkNameEnum.link, type: MarkTypeEnum.linkPath }
-  };
-
-  protected declare _spec: ISankeySeriesSpec;
+  static readonly mark: SeriesMarkMap = sankeySeriesMark;
 
   private _nodeMark: IRectMark;
   private _linkMark: ILinkPathMark;

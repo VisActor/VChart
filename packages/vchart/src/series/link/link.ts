@@ -5,7 +5,6 @@ import type { Maybe, Datum } from '../../typings';
 import { isValid } from '../../util';
 import type { IRuleMark } from '../../mark/rule';
 import type { IMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { DataView } from '@visactor/vdataset';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -16,11 +15,10 @@ import type { IGroupMark } from '../../mark/group';
 import { LinkSeriesTooltipHelper } from './tooltip-helper';
 import type { ILinkSeriesSpec, ILinkSeriesTheme } from './interface';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { RuleMark } from '../../mark/rule';
 import { SymbolMark } from '../../mark/symbol';
+import { linkSeriesMark } from './constant';
 
 VChart.useMark([RuleMark, SymbolMark]);
 
@@ -28,12 +26,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
   static readonly type: string = SeriesTypeEnum.link;
   type = SeriesTypeEnum.link;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.group]: { name: SeriesMarkNameEnum.group, type: MarkTypeEnum.group },
-    [SeriesMarkNameEnum.link]: { name: SeriesMarkNameEnum.link, type: MarkTypeEnum.rule },
-    [SeriesMarkNameEnum.arrow]: { name: SeriesMarkNameEnum.arrow, type: MarkTypeEnum.symbol }
-  };
+  static readonly mark: SeriesMarkMap = linkSeriesMark;
 
   protected declare _theme: Maybe<ILinkSeriesTheme>;
 

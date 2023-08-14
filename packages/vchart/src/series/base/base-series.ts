@@ -10,7 +10,7 @@ import {
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
 } from '../../constant/index';
-import { SeriesMarkNameEnum } from '../interface';
+import { seriesMarkInfoMap } from '../interface';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
@@ -75,7 +75,7 @@ import type { IGroupMark } from '../../mark/group';
 import { array } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { Factory } from '../../core/factory';
+import { baseSeriesMark } from './constant';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly type: string = 'series';
@@ -83,9 +83,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   readonly modelType: string = 'series';
   readonly name: string | undefined = undefined;
 
-  static readonly mark: SeriesMarkMap = {
-    [SeriesMarkNameEnum.label]: { name: SeriesMarkNameEnum.label, type: MarkTypeEnum.text }
-  };
+  static readonly mark: SeriesMarkMap = baseSeriesMark;
 
   protected _trigger!: ITrigger;
   /**
@@ -1071,8 +1069,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   getMarkInfoList() {
     const list = super.getMarkInfoList();
     if (!list.length) {
-      const SeriesConstructor = Factory.getSeries(this.type);
-      return Object.values(SeriesConstructor.mark ?? {});
+      return Object.values<ISeriesMarkInfo>(seriesMarkInfoMap[this.type] ?? {});
     }
     return list;
   }

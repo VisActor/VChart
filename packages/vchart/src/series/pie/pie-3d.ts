@@ -19,12 +19,12 @@ import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPie3dSeriesSpec } from './interface';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { TextMark } from '../../mark/text';
 import { Arc3dMark } from '../../mark/arc-3d';
 import { BasePieSeries } from './pie';
+import { pie3dSeriesMark } from './constant';
 
 VChart.useMark([PathMark, TextMark, Arc3dMark]);
 
@@ -34,11 +34,7 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
   protected _pieMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.pie3d;
   protected _pieMarkType: MarkTypeEnum = MarkTypeEnum.arc3d;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.pie3d]: { name: SeriesMarkNameEnum.pie3d, type: MarkTypeEnum.arc3d },
-    [SeriesMarkNameEnum.labelLine]: { name: SeriesMarkNameEnum.labelLine, type: MarkTypeEnum.path }
-  };
+  static readonly mark: SeriesMarkMap = pie3dSeriesMark;
 
   protected _angle3d: number;
 
