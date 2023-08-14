@@ -9,8 +9,8 @@ import { getTestCompiler } from '../../util/factory/compiler';
 import { disk } from '../../data/disk';
 import type { ITreemapChartSpec } from '../../../src/chart/treemap';
 // eslint-disable-next-line no-duplicate-imports
-import { TreeMapChart } from '../../../src/chart/treemap';
-import type { TreeMapSeries } from '../../../src/series/treemap/treemap';
+import { TreemapChart } from '../../../src/chart/treemap';
+import type { TreemapSeries } from '../../../src/series/treemap/treemap';
 import { DEFAULT_HIERARCHY_DEPTH } from '../../../src/constant/hierarchy';
 
 // 保证引入执行 Build-in
@@ -50,7 +50,7 @@ describe('treemap chart test', () => {
   });
 
   test('wordCloud chart init', () => {
-    const chart = new TreeMapChart(spec, {
+    const chart = new TreemapChart(spec, {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
@@ -71,7 +71,7 @@ describe('treemap chart test', () => {
     chart.created();
     chart.init();
 
-    const series: TreeMapSeries = chart.getAllSeries()[0] as TreeMapSeries;
+    const series: TreemapSeries = chart.getAllSeries()[0] as TreemapSeries;
     expect(series.type).toEqual('treemap');
 
     // mark
@@ -86,7 +86,7 @@ describe('treemap chart test', () => {
       renderCanvas: canvasDom
     });
     await cs.renderAsync();
-    const series: TreeMapSeries = cs.getChart().getAllSeries()[0] as TreeMapSeries;
+    const series: TreemapSeries = cs.getChart().getAllSeries()[0] as TreemapSeries;
     const leafMark = series.getMarkInName('leaf');
     const leafMarkProduct = leafMark?.getProduct();
     expect(leafMarkProduct?.elements.length).toBe(95); // 叶子图元
@@ -120,7 +120,7 @@ describe('treemap chart test', () => {
       }
     );
     await vchart.renderAsync();
-    const series: TreeMapSeries = vchart.getChart().getAllSeries()[0] as TreeMapSeries;
+    const series: TreemapSeries = vchart.getChart().getAllSeries()[0] as TreemapSeries;
     const leafMark = series.getMarkInName('leaf');
     const nonLeafMark = series.getMarkInName('nonLeaf');
     const labelMark = series.getMarkInName('label');
