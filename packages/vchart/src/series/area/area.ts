@@ -1,3 +1,4 @@
+import type { DataView } from '@visactor/vdataset';
 import { isValid, merge } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
@@ -34,6 +35,7 @@ export interface AreaSeries
       | 'initLabelMarkStyle'
       | 'initLineMarkStyle'
       | 'initSymbolMarkStyle'
+      | 'encodeDefined'
       | '_lineMark'
       | '_symbolMark'
     >,
@@ -220,6 +222,11 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
         animationConfig(DEFAULT_MARK_ANIMATION.symbol(), userAnimationConfig(SeriesMarkNameEnum.point, this._spec))
       );
     }
+  }
+
+  viewDataStatisticsUpdate(d: DataView) {
+    super.viewDataStatisticsUpdate(d);
+    this._areaMark && this.encodeDefined(this._areaMark);
   }
 }
 
