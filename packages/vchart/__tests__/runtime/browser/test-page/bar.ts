@@ -126,8 +126,7 @@ const run = () => {
     // },
     label: {
       visible: true,
-      position: 'outside',
-      textAlign: 'center'
+      position: 'outside'
     },
     tooltip: {
       mark: {

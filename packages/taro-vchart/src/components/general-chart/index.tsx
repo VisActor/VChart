@@ -115,8 +115,7 @@ export class GeneralChart extends React.Component<IChartProps> {
 
   render() {
     const handleEvent = (event: any) => {
-      const id = event.target.id.split('_')[0];
-      if (id === this.props.canvasId && this.ttCanvas.chartInstance) {
+      if (this.ttCanvas.chartInstance) {
         const chartInstance = this.ttCanvas.chartInstance;
 
         Object.defineProperty(event, 'target', {

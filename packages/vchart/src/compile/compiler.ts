@@ -21,7 +21,7 @@ import type { IChart } from '../chart/interface';
 import type { VChart } from '../core/vchart';
 import type { Stage } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
-import { global } from '@visactor/vrender';
+import { vglobal } from '@visactor/vrender';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
 
@@ -202,10 +202,10 @@ export class Compiler {
     if (this.isInited) {
       // 合并多次 renderSync 调用，另外如果使用 renderAsync 异步渲染的话，在小程序环境会有问题
       if (this._rafId) {
-        global.getCancelAnimationFrame()(this._rafId);
+        vglobal.getCancelAnimationFrame()(this._rafId);
       }
 
-      this._rafId = global.getRequestAnimationFrame()(() => {
+      this._rafId = vglobal.getRequestAnimationFrame()(() => {
         this.renderSync(morphConfig);
       });
     }

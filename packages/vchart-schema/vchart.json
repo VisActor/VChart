@@ -4658,6 +4658,148 @@
       },
       "type": "object"
     },
+    "ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+          "description": "style格式转换"
+        }
+      ],
+      "description": "style格式转换"
+    },
+    "ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_2",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
+          "description": "style格式转换"
+        }
+      ],
+      "description": "style格式转换"
+    },
     "ConvertToMarkStyleSpec<IRuleMarkSpec>": {
       "description": "style格式转换",
       "properties": {
@@ -4929,148 +5071,6 @@
         }
       },
       "type": "object"
-    },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
-          "description": "style格式转换"
-        }
-      ],
-      "description": "style格式转换"
-    },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_2",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
-          "description": "style格式转换"
-        }
-      ],
-      "description": "style格式转换"
     },
     "ConvertToMarkStyleSpec<ISymbolMarkSpec>": {
       "description": "style格式转换",
@@ -17831,6 +17831,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -17861,8 +17866,8 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -18090,6 +18095,17 @@
         },
         "seriesField": {
           "description": "分组字段",
+          "type": "string"
+        },
+        "seriesMark": {
+          "default": "'area'",
+          "description": "系列主 mark 类型配置，该配置会影响图例的展示",
+          "enum": [
+            "area",
+            "line",
+            "point"
+          ],
+          "since": "1.2.0",
           "type": "string"
         },
         "seriesStyle": {
@@ -18523,6 +18539,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -18652,6 +18673,17 @@
         },
         "seriesField": {
           "description": "分组字段",
+          "type": "string"
+        },
+        "seriesMark": {
+          "default": "'area'",
+          "description": "系列主 mark 类型配置，该配置会影响图例的展示",
+          "enum": [
+            "area",
+            "line",
+            "point"
+          ],
+          "since": "1.2.0",
           "type": "string"
         },
         "seriesStyle": {
@@ -18820,6 +18852,31 @@
       },
       "type": "object"
     },
+    "IBackgroundSpec": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IBackgroundStyleSpec"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "IBackgroundStyleSpec": {
+      "allOf": [
+        {
+          "additionalProperties": false,
+          "description": "style格式转换",
+          "patternProperties": {
+            "^[0-9]+$": {}
+          },
+          "type": "object"
+        },
+        {
+          "typeof": "function"
+        }
+      ]
+    },
     "IBandAxisSpec": {
       "properties": {
         "bandPadding": {
@@ -18834,8 +18891,7 @@
               "type": "number"
             }
           ],
-          "default": 0.2,
-          "description": "轴分组之间间隔，数值在(0,1)之间"
+          "description": "同时设置轴的 paddingInner 和 paddingOuter\n**因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 bandPadding 配置**"
         },
         "domain": {
           "description": "配置离散轴的数值范围",
@@ -18856,7 +18912,9 @@
             {
               "type": "number"
             }
-          ]
+          ],
+          "default": 0.1,
+          "description": "band 轴的内边距\n** 因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 paddingInner 配置**"
         },
         "paddingOuter": {
           "anyOf": [
@@ -18869,7 +18927,9 @@
             {
               "type": "number"
             }
-          ]
+          ],
+          "default": 0.3,
+          "description": "band 轴的外边距\n** 因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 paddingOuter 配置**"
         }
       },
       "type": "object"
@@ -18940,6 +19000,11 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -18966,24 +19031,38 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -19414,6 +19493,11 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -19440,24 +19524,38 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -19861,6 +19959,11 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -19879,17 +19982,31 @@
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -20340,6 +20457,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -20366,8 +20488,8 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "boxPlot": {
           "$ref": "#/definitions/IMarkSpec<IBoxPlotMarkSpec>",
@@ -20971,6 +21093,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -21347,6 +21474,12 @@
           ],
           "description": "可刷取的seriesIndex"
         },
+        "sizeThreshold": {
+          "default": 5,
+          "description": "brush选框的大小阈值",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "style": {
           "$ref": "#/definitions/Partial<IPolygonMarkSpec>",
           "description": "brush 的框选样式"
@@ -21398,6 +21531,12 @@
           "default": true,
           "description": "brushMode为'single'时，是否单击清除选框",
           "type": "boolean"
+        },
+        "sizeThreshold": {
+          "default": 5,
+          "description": "brush选框的大小阈值",
+          "since": "1.2.0",
+          "type": "number"
         },
         "style": {
           "$ref": "#/definitions/Partial<IPolygonMarkSpec>",
@@ -21626,6 +21765,9 @@
         },
         {
           "$ref": "#/definitions/ICartesianTimeAxisSpec"
+        },
+        {
+          "$ref": "#/definitions/ICartesianLogAxisSpec"
         }
       ],
       "description": "spec"
@@ -21815,11 +21957,35 @@
         }
       ]
     },
+    "ICartesianLogAxisSpec": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ICommonAxisSpec"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/ILinearAxisSpec"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "typeof": "function"
+        }
+      ]
+    },
     "ICartesianSeriesSpec": {
       "properties": {
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -22081,6 +22247,11 @@
           "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -22100,8 +22271,8 @@
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -22456,6 +22627,11 @@
           "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -22750,6 +22926,11 @@
           "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -22786,8 +22967,8 @@
           "description": "轴配置"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -23210,6 +23391,11 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "animationUpdate": {
           "anyOf": [
@@ -23819,6 +24005,11 @@
     },
     "ICommonChartSpec": {
       "properties": {
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "autoFit": {
           "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
           "type": "boolean"
@@ -23841,8 +24032,8 @@
           "description": "坐标轴配置"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -25202,11 +25393,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -25404,12 +25595,6 @@
           },
           "type": "array"
         }
-      ]
-    },
-    "IDataPos": {
-      "type": [
-        "string",
-        "number"
       ]
     },
     "IDataSetOptions": {
@@ -26582,6 +26767,11 @@
           "description": "是否开启系列动画",
           "type": "boolean"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "clipHeight": {
           "description": "dot 系列的可视高度",
           "type": "number"
@@ -26980,11 +27170,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -27188,6 +27378,11 @@
           "$ref": "#/definitions/Partial<Record<\"funnel\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -27207,8 +27402,8 @@
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -27659,6 +27854,11 @@
           "$ref": "#/definitions/Partial<Record<\"funnel\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -27678,8 +27878,8 @@
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -28244,6 +28444,11 @@
           "$ref": "#/definitions/Partial<Record<\"funnel\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -28585,6 +28790,11 @@
           "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -28621,8 +28831,8 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -29089,6 +29299,11 @@
           "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -29377,7 +29592,7 @@
           "description": "图钉背景样式"
         },
         "pointer": {
-          "$ref": "#/definitions/Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>",
+          "$ref": "#/definitions/Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>",
           "description": "指针样式"
         },
         "radius": {
@@ -29488,6 +29703,11 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<GaugeMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "animationUpdate": {
           "anyOf": [
@@ -31752,6 +31972,11 @@
           "$ref": "#/definitions/Partial<Record<HeatmapMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -31778,8 +32003,8 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -32195,6 +32420,11 @@
           "$ref": "#/definitions/Partial<Record<HeatmapMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -32560,6 +32790,11 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -32586,24 +32821,38 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -33007,6 +33256,11 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -33033,24 +33287,38 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -34771,6 +35039,11 @@
           "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -34797,8 +35070,8 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -35036,6 +35309,16 @@
         },
         "seriesField": {
           "description": "分组字段",
+          "type": "string"
+        },
+        "seriesMark": {
+          "default": "'line'",
+          "description": "系列主 mark 类型配置，该配置会影响图例的展示",
+          "enum": [
+            "line",
+            "point"
+          ],
+          "since": "1.2.0",
           "type": "string"
         },
         "seriesStyle": {
@@ -35423,6 +35706,11 @@
           "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -35558,6 +35846,16 @@
         },
         "seriesField": {
           "description": "分组字段",
+          "type": "string"
+        },
+        "seriesMark": {
+          "default": "'line'",
+          "description": "系列主 mark 类型配置，该配置会影响图例的展示",
+          "enum": [
+            "line",
+            "point"
+          ],
+          "since": "1.2.0",
           "type": "string"
         },
         "seriesStyle": {
@@ -35795,6 +36093,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -35821,8 +36124,8 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "bandWidth": {
           "description": "进度条宽度\n以像素值(px)为单位",
@@ -36196,6 +36499,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -36410,6 +36718,11 @@
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "clipHeight": {
           "description": "link 系列的可视高度",
@@ -36705,6 +37018,11 @@
           "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -36728,8 +37046,8 @@
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -37116,6 +37434,11 @@
           "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -37403,11 +37726,31 @@
           "type": "number"
         },
         "x": {
-          "$ref": "#/definitions/IDataPos",
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
           "description": "x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型"
         },
         "x1": {
-          "$ref": "#/definitions/IDataPos"
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ]
         }
       },
       "required": [
@@ -37436,11 +37779,31 @@
           "type": "number"
         },
         "y": {
-          "$ref": "#/definitions/IDataPos",
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
           "description": "y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型"
         },
         "y1": {
-          "$ref": "#/definitions/IDataPos"
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ]
         }
       },
       "required": [
@@ -37556,8 +37919,18 @@
           "type": "number"
         },
         "x": {
-          "$ref": "#/definitions/IDataPos",
-          "description": "x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型"
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算"
         }
       },
       "required": [
@@ -37585,8 +37958,18 @@
           "type": "number"
         },
         "y": {
-          "$ref": "#/definitions/IDataPos",
-          "description": "y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型"
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算"
         }
       },
       "required": [
@@ -38866,6 +39249,11 @@
           "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -38885,8 +39273,8 @@
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -39327,6 +39715,11 @@
           "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -39346,8 +39739,8 @@
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -39750,6 +40143,11 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "animationUpdate": {
           "anyOf": [
@@ -41453,6 +41851,11 @@
           "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -41483,8 +41886,8 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -41755,6 +42158,17 @@
           "description": "分组字段",
           "type": "string"
         },
+        "seriesMark": {
+          "default": "'line'",
+          "description": "系列主 mark 类型配置，该配置会影响图例的展示",
+          "enum": [
+            "area",
+            "line",
+            "point"
+          ],
+          "since": "1.2.0",
+          "type": "string"
+        },
         "seriesStyle": {
           "description": "仅在图表配置了seriesField时生效",
           "items": {
@@ -41904,6 +42318,11 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "animationUpdate": {
           "anyOf": [
@@ -42087,6 +42506,17 @@
         },
         "seriesField": {
           "description": "分组字段",
+          "type": "string"
+        },
+        "seriesMark": {
+          "default": "'line'",
+          "description": "系列主 mark 类型配置，该配置会影响图例的展示",
+          "enum": [
+            "area",
+            "line",
+            "point"
+          ],
+          "since": "1.2.0",
           "type": "string"
         },
         "seriesStyle": {
@@ -42277,6 +42707,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -42307,8 +42742,8 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -42545,6 +42980,17 @@
           "description": "分组字段",
           "type": "string"
         },
+        "seriesMark": {
+          "default": "'area'",
+          "description": "系列主 mark 类型配置，该配置会影响图例的展示",
+          "enum": [
+            "area",
+            "line",
+            "point"
+          ],
+          "since": "1.2.0",
+          "type": "string"
+        },
         "seriesStyle": {
           "description": "仅在图表配置了seriesField时生效",
           "items": {
@@ -42716,6 +43162,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -42852,6 +43303,17 @@
         },
         "seriesField": {
           "description": "分组字段",
+          "type": "string"
+        },
+        "seriesMark": {
+          "default": "'area'",
+          "description": "系列主 mark 类型配置，该配置会影响图例的展示",
+          "enum": [
+            "area",
+            "line",
+            "point"
+          ],
+          "since": "1.2.0",
           "type": "string"
         },
         "seriesStyle": {
@@ -43006,6 +43468,11 @@
           "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -43032,24 +43499,38 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -43462,6 +43943,11 @@
           "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -43480,17 +43966,31 @@
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -43768,6 +44268,11 @@
           "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -43794,24 +44299,38 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -44224,6 +44743,11 @@
           "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -44242,17 +44766,31 @@
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -45231,6 +45769,11 @@
           "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -45257,8 +45800,8 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -45660,6 +46203,11 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "animationUpdate": {
           "anyOf": [
@@ -46188,6 +46736,11 @@
           "$ref": "#/definitions/Partial<Record<SankeyMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -46207,8 +46760,8 @@
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -46643,6 +47196,11 @@
           "$ref": "#/definitions/Partial<Record<SankeyMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -46976,6 +47534,11 @@
           "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -47002,8 +47565,8 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -47455,6 +48018,11 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "animationUpdate": {
           "anyOf": [
@@ -48103,6 +48671,11 @@
     },
     "ISequenceChartSpec": {
       "properties": {
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "appendPadding": {
           "$ref": "#/definitions/IPadding",
           "description": "可以为左边的title预留padding"
@@ -48119,8 +48692,8 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -48350,6 +48923,11 @@
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -49776,6 +50354,11 @@
           "$ref": "#/definitions/Partial<Record<SunburstMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -49795,8 +50378,8 @@
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -50227,6 +50810,11 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<SunburstMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "animationUpdate": {
           "anyOf": [
@@ -51496,7 +52084,7 @@
     },
     "ITitleTextTheme": {
       "properties": {
-        "fontColor": {
+        "fill": {
           "anyOf": [
             {
               "$ref": "#/definitions/IColorKey"
@@ -52033,6 +52621,11 @@
           "$ref": "#/definitions/Partial<Record<TreemapMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -52057,8 +52650,8 @@
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -52515,6 +53108,11 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<TreemapMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "animationUpdate": {
           "anyOf": [
@@ -54325,6 +54923,11 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -54351,24 +54954,38 @@
           "type": "array"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -54801,6 +55418,11 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -54819,17 +55441,31 @@
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -55387,6 +56023,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -55406,8 +56047,8 @@
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -55852,6 +56493,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -56215,6 +56861,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -56234,8 +56885,8 @@
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -56673,6 +57324,11 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -57098,7 +57754,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@10979": {
+        "__@toStringTag@11023": {
           "type": "string"
         },
         "size": {
@@ -57106,14 +57762,14 @@
         }
       },
       "required": [
-        "__@toStringTag@10979",
+        "__@toStringTag@11023",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@10979": {
+        "__@toStringTag@11023": {
           "type": "string"
         },
         "size": {
@@ -57121,14 +57777,14 @@
         }
       },
       "required": [
-        "__@toStringTag@10979",
+        "__@toStringTag@11023",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@10979": {
+        "__@toStringTag@11023": {
           "type": "string"
         },
         "size": {
@@ -57136,14 +57792,14 @@
         }
       },
       "required": [
-        "__@toStringTag@10979",
+        "__@toStringTag@11023",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@10979": {
+        "__@toStringTag@11023": {
           "type": "string"
         },
         "size": {
@@ -57151,14 +57807,14 @@
         }
       },
       "required": [
-        "__@toStringTag@10979",
+        "__@toStringTag@11023",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@10979": {
+        "__@toStringTag@11023": {
           "type": "string"
         },
         "size": {
@@ -57166,14 +57822,14 @@
         }
       },
       "required": [
-        "__@toStringTag@10979",
+        "__@toStringTag@11023",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@10979": {
+        "__@toStringTag@11023": {
           "type": "string"
         },
         "size": {
@@ -57181,14 +57837,14 @@
         }
       },
       "required": [
-        "__@toStringTag@10979",
+        "__@toStringTag@11023",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@10979": {
+        "__@toStringTag@11023": {
           "type": "string"
         },
         "size": {
@@ -57196,14 +57852,14 @@
         }
       },
       "required": [
-        "__@toStringTag@10979",
+        "__@toStringTag@11023",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@10979": {
+        "__@toStringTag@11023": {
           "type": "string"
         },
         "size": {
@@ -57211,7 +57867,7 @@
         }
       },
       "required": [
-        "__@toStringTag@10979",
+        "__@toStringTag@11023",
         "size"
       ],
       "type": "object"
@@ -57258,6 +57914,25 @@
             "$ref": "#/definitions/TooltipPatternProperty<MaybeArray<IToolTipLinePattern>>"
           },
           "type": "array"
+        }
+      ]
+    },
+    "MaybeArray<string|number>": {
+      "anyOf": [
+        {
+          "items": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "type": "array"
+        },
+        {
+          "type": [
+            "string",
+            "number"
+          ]
         }
       ]
     },
@@ -57940,6 +58615,11 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -57958,17 +58638,31 @@
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "图元配置"
         },
+        "barGapInGroup": {
+          "$ref": "#/definitions/MaybeArray<string|number>",
+          "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "since": "1.2.0"
+        },
         "barMaxWidth": {
-          "description": "柱体最大宽度",
-          "type": "number"
+          "description": "柱体最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barMinWidth": {
-          "description": "柱体最小宽度",
-          "type": "number"
+          "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "barWidth": {
-          "description": "柱体宽度",
-          "type": "number"
+          "description": "柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -58546,6 +59240,11 @@
           "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -58839,6 +59538,11 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<\"funnel\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "animationUpdate": {
           "anyOf": [
@@ -59147,6 +59851,11 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<GaugeMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
         },
         "animationUpdate": {
           "anyOf": [
@@ -59839,6 +60548,11 @@
           "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -60400,6 +61114,10 @@
     },
     "Omit<ITheme,\"name\">": {
       "properties": {
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "type": "number"
+        },
         "background": {
           "anyOf": [
             {
@@ -63921,71 +64639,6 @@
       },
       "type": "object"
     },
-    "Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>": {
-      "properties": {
-        "center": {
-          "description": "中心点坐标（0~1）",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "height": {
-          "description": "指针长度比例（0~1）（为空则挂载 radius）",
-          "type": "number"
-        },
-        "innerPadding": {
-          "description": "指针靠近圆心的一端离圆心的距离",
-          "type": "number"
-        },
-        "interactive": {
-          "description": "可交互的开关",
-          "type": "boolean"
-        },
-        "outerPadding": {
-          "description": "指针靠近边缘的一端离边缘的距离",
-          "type": "number"
-        },
-        "state": {
-          "$ref": "#/definitions/Record<string,IPathMarkSpec|IRectMarkSpec>",
-          "description": "不同状态下的样式配置"
-        },
-        "style": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IPathMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IRectMarkSpec"
-            }
-          ],
-          "description": "默认样式设置"
-        },
-        "type": {
-          "enum": [
-            "path",
-            "rect"
-          ],
-          "type": "string"
-        },
-        "visible": {
-          "description": "mark 层 是否显示配置",
-          "type": "boolean"
-        },
-        "width": {
-          "description": "指针宽度比例（0~1）",
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
     "Partial<IMarkTheme<IPolygonMarkSpec>>": {
       "properties": {
         "interactive": {
@@ -64087,6 +64740,71 @@
         "visible": {
           "description": "mark 层 是否显示配置",
           "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>": {
+      "properties": {
+        "center": {
+          "description": "中心点坐标（0~1）",
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "height": {
+          "description": "指针长度比例（0~1）（为空则挂载 radius）",
+          "type": "number"
+        },
+        "innerPadding": {
+          "description": "指针靠近圆心的一端离圆心的距离",
+          "type": "number"
+        },
+        "interactive": {
+          "description": "可交互的开关",
+          "type": "boolean"
+        },
+        "outerPadding": {
+          "description": "指针靠近边缘的一端离边缘的距离",
+          "type": "number"
+        },
+        "state": {
+          "$ref": "#/definitions/Record<string,IRectMarkSpec|IPathMarkSpec>",
+          "description": "不同状态下的样式配置"
+        },
+        "style": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRectMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IPathMarkSpec"
+            }
+          ],
+          "description": "默认样式设置"
+        },
+        "type": {
+          "enum": [
+            "path",
+            "rect"
+          ],
+          "type": "string"
+        },
+        "visible": {
+          "description": "mark 层 是否显示配置",
+          "type": "boolean"
+        },
+        "width": {
+          "description": "指针宽度比例（0~1）",
+          "type": "number"
         }
       },
       "type": "object"
@@ -66824,6 +67542,9 @@
         "hideTooltip": {
           "typeof": "function"
         },
+        "isTooltipShown": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -66835,13 +67556,18 @@
     },
     "Partial<Omit<IChartSpec,\"player\">>": {
       "properties": {
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
         "autoFit": {
           "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
           "type": "boolean"
         },
         "background": {
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置",
-          "type": "string"
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -68588,34 +69314,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@10979": {
+        "__@toStringTag@11023": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@10979"
+        "__@toStringTag@11023"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@10979": {
+        "__@toStringTag@11023": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@10979"
+        "__@toStringTag@11023"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@10979": {
+        "__@toStringTag@11023": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@10979"
+        "__@toStringTag@11023"
       ],
       "type": "object"
     },
@@ -68625,10 +69351,10 @@
     "Record<string,ConvertToMarkStyleSpec<IPathMarkSpec>|IMarkStateSpec<IPathMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>": {
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>": {
@@ -68655,9 +69381,6 @@
     "Record<string,IPathMarkSpec>": {
       "type": "object"
     },
-    "Record<string,IPathMarkSpec|IRectMarkSpec>": {
-      "type": "object"
-    },
     "Record<string,IPolygonMarkSpec>": {
       "type": "object"
     },
@@ -68671,6 +69394,9 @@
       "type": "object"
     },
     "Record<string,IRectMarkSpec>": {
+      "type": "object"
+    },
+    "Record<string,IRectMarkSpec|IPathMarkSpec>": {
       "type": "object"
     },
     "Record<string,IRuleMarkSpec>": {
