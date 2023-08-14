@@ -47,6 +47,7 @@ export class CartesianBandAxis extends CartesianAxis {
     };
 
     return {
+      isContinuous: false,
       dataToPosition: this.dataToPosition.bind(this),
       getScale,
       getBandwidth,

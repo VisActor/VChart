@@ -337,6 +337,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     };
 
     const helper = {
+      isContinuous: isContinuous(this._scale.type),
       dataToPosition: this.dataToPosition.bind(this),
       coordToPoint: this.coordToPoint.bind(this),
       pointToCoord: this.pointToCoord.bind(this),

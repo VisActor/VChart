@@ -52,8 +52,8 @@ function symbolAttrTransform(attr: string, value: any) {
   switch (attr) {
     case 'shape':
       return chartShapes[value] ?? value;
-    case 'size':
-      return value;
+    // case 'size':
+    //   return value;
     default:
       return value;
   }
@@ -71,6 +71,21 @@ const chartShapes = {
 const transforms = {
   symbol: symbolAttrTransform
 };
+const transformsCheck = {
+  symbol: {
+    shape: true
+  }
+};
+
+export function needAttrTransform(type: MarkType, attr: string) {
+  if (!transformsCheck[type]) {
+    return false;
+  }
+  if (!transformsCheck[type][attr]) {
+    return false;
+  }
+  return true;
+}
 
 export function attrTransform(type: MarkType, attr: string, value: any) {
   if (!transforms[type]) {

@@ -526,6 +526,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   }
 
   // 数据到位置值
+  getDatumPositionValue(datum: Datum, field: string) {
+    if (!datum || isNil(field)) {
+      return null;
+    }
+    return datum[field];
+  }
   getDatumPositionValues(datum: Datum, fields: string | string[]) {
     if (!datum || isNil(fields)) {
       return [];
