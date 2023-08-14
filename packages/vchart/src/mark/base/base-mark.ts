@@ -308,12 +308,13 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   }
 
   protected _computeAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType, opt: IAttributeOpt) {
-    let stateStyle;
-    if (!this.stateStyle[state]?.[key]) {
+    let stateStyle = this.stateStyle[state]?.[key];
+    if (!stateStyle) {
       stateStyle = this.stateStyle.normal[key];
-    } else {
-      stateStyle = this.stateStyle[state][key];
     }
+    //  else {
+    //   stateStyle = this.stateStyle[state][key];
+    // }
     let baseValue = this._computeStateAttribute(stateStyle, key, datum, state, opt);
 
     if (isFunction(stateStyle?.postProcess)) {
@@ -334,7 +335,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     opt: IAttributeOpt
   ) {
     if (!stateStyle) {
-      return;
+      return undefined;
     }
     if (stateStyle.referer) {
       return stateStyle.referer.getAttribute(key, datum, state, opt);
