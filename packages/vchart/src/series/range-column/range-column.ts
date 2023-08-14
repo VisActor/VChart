@@ -180,7 +180,7 @@ export class RangeColumnSeries extends BarSeries {
         }
         return min + '-' + max;
       },
-      z: this.dataToPositionZ.bind(this)
+      z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });
     this._tooltipHelper?.ignoreTriggerSet.mark.add(labelMark);
   }

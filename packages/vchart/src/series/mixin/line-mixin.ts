@@ -1,8 +1,9 @@
+import { ChartEvent } from './../../constant/event';
 import type { ITrigger } from '../../interaction/interface';
 import type { ISeries } from '../interface/series';
 import { AttributeLevel, STACK_FIELD_END } from '../../constant';
 
-import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
+import type { IMark, IMarkProgressiveConfig, IMarkRaw } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import type { ILineMark } from '../../mark/line';
@@ -16,7 +17,8 @@ import type {
   ISymbolMarkSpec,
   Maybe,
   Datum,
-  IMarkTheme
+  IMarkTheme,
+  ICommonSpec
 } from '../../typings';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import { Direction } from '../../typings/space';
@@ -47,6 +49,7 @@ export interface LineLikeSeriesMixin extends ISeries {
   _lineMark: ILineMark;
   _symbolMark: ISymbolMark;
   _labelMark: ITextMark;
+  _fieldZ?: string[];
 
   _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption) => IMark;
   _getInvalidDefined: () => boolean;
@@ -54,15 +57,6 @@ export interface LineLikeSeriesMixin extends ISeries {
 }
 
 export class LineLikeSeriesMixin {
-  setSeriesField(field: string): void {
-    if (isValid(field)) {
-      this._seriesField = field;
-      this.getMarksInType([MarkTypeEnum.line, MarkTypeEnum.area]).forEach(m => {
-        m.setFacet(this._seriesField);
-      });
-    }
-  }
-
   initLineMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
     this._lineMark = this._createMark(lineLikeSeriesMarkMap.line, {
       defaultMorphElementKey: this.getDimensionField()[0],
@@ -95,6 +89,9 @@ export class LineLikeSeriesMixin {
           AttributeLevel.Series
         );
       }
+      this.event.on(ChartEvent.viewDataStatisticsUpdate, { filter: param => param.model === this }, () => {
+        this.encodeDefined(lineMark, 'defined');
+      });
       if (this.coordinate === 'polar') {
         // 极坐标系下需要关闭
         this.setMarkStyle(
@@ -130,7 +127,7 @@ export class LineLikeSeriesMixin {
         {
           x: this.dataToPositionX.bind(this),
           y: this.dataToPositionY.bind(this),
-          z: this.dataToPositionZ.bind(this)
+          z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
         },
         'normal',
         AttributeLevel.Series
@@ -177,12 +174,16 @@ export class LineLikeSeriesMixin {
       );
     }
 
+    this.event.on(ChartEvent.viewDataStatisticsUpdate, { filter: param => param.model === this }, () => {
+      this.encodeDefined(symbolMark, 'visible');
+    });
+
     this.setMarkStyle(
       symbolMark,
       {
         x: this.dataToPositionX.bind(this),
         y: this.dataToPositionY.bind(this),
-        z: this.dataToPositionZ.bind(this)
+        z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
       },
       'normal',
       AttributeLevel.Series
@@ -201,7 +202,7 @@ export class LineLikeSeriesMixin {
       text: (datum: Datum) => {
         return datum[this.getStackValueField()];
       },
-      z: this.dataToPositionZ.bind(this)
+      z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });
     if (this._invalidType !== 'zero') {
       this.setMarkStyle(
@@ -213,21 +214,21 @@ export class LineLikeSeriesMixin {
         AttributeLevel.Series
       );
     }
+
+    this.event.on(ChartEvent.viewDataStatisticsUpdate, { filter: param => param.model === this }, () => {
+      this.encodeDefined(labelMark, 'visible');
+    });
   }
 
-  encodeDefined(mark: IMark) {
-    if (
-      this.getViewDataStatistics()?.latestData?.[this.getStack() ? STACK_FIELD_END : this.getStackValueField()]
-        ?.allValid
-    ) {
-      this.setMarkStyle(
-        mark,
-        {
-          defined: true
-        },
-        'normal',
-        AttributeLevel.Series
-      );
+  encodeDefined(mark: IMark, attr: string) {
+    if (!mark) {
+      return;
+    }
+    const statistics = this.getViewDataStatistics()?.latestData?.[this.getStackValueField()];
+    if (this._invalidType === 'zero' || (statistics && statistics?.allValid)) {
+      this.setMarkStyle(mark, { [attr]: true }, 'normal', AttributeLevel.Series);
+    } else {
+      this.setMarkStyle(mark, { [attr]: this._getInvalidDefined }, 'normal', AttributeLevel.Series);
     }
   }
 }

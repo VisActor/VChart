@@ -167,6 +167,12 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
         fields.push(result);
       });
     }
+    if (this.getStack()) {
+      fields.push({
+        key: this.getStackValueField(),
+        operations: ['allValid']
+      });
+    }
     return fields;
   }
 

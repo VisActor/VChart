@@ -260,7 +260,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
       {
         x: this.dataToPositionX.bind(this),
         y: this.dataToPositionY.bind(this),
-        z: this.dataToPositionZ.bind(this),
+        z: this._fieldZ ? this.dataToPositionZ.bind(this) : null,
         fill: this.getColorAttribute(),
         size: isNumber(this._size) || isFunction(this._size) ? this._size : SCATTER_DEFAULT_SIZE,
         shape: isString(this._shape) || isFunction(this._shape) ? this._shape : SCATTER_DEFAULT_SHAPE
@@ -296,6 +296,18 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
   }
 
+  viewDataStatisticsUpdate(d: DataView) {
+    super.viewDataStatisticsUpdate(d);
+    if (
+      this._invalidType === 'zero' ||
+      this.getViewDataStatistics()?.latestData?.[this.getStackValueField()]?.allValid
+    ) {
+      this.setMarkStyle(this._symbolMark, { visible: true }, 'normal', AttributeLevel.Series);
+    } else {
+      this.setMarkStyle(this._symbolMark, { visible: this._getInvalidDefined }, 'normal', AttributeLevel.Series);
+    }
+  }
+
   /**
    * 初始化LabelMark
    */
@@ -310,7 +322,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
         text: (datum: Datum) => {
           return datum[this.getStackValueField()];
         },
-        z: this.dataToPositionZ.bind(this)
+        z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
