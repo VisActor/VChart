@@ -96,7 +96,7 @@ export {
   WordCloudSeries,
   Funnel3dSeries,
   FunnelSeries,
-  TreemapSeries as TreeMapSeries,
+  TreemapSeries as TreemapSeries,
   GaugePointerSeries,
   GaugeSeries,
   HeatmapSeries,

@@ -89,7 +89,7 @@ export {
   WaterfallChart,
   WordCloudChart,
   WordCloud3dChart,
-  TreemapChart as TreeMapChart,
+  TreemapChart as TreemapChart,
   BaseChart,
   PolarChart,
   ProgressLikeChart,
