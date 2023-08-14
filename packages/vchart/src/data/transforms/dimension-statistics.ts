@@ -140,6 +140,9 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
         const isMin = op === 'min';
         const isMax = op === 'max';
         const isValues = op === 'values';
+        if (isValueOp && isNil(result[f.key].allValid)) {
+          result[f.key].allValid = true;
+        }
         latestData.forEach((d: any) => {
           if (!d) {
             return;

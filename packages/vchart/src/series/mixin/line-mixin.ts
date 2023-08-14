@@ -3,7 +3,7 @@ import type { ISeriesOption } from './../interface/common';
 import { DataView } from '@visactor/vdataset';
 import type { ITrigger } from '../../interaction/interface';
 import type { ISeries } from '../interface/series';
-import { AttributeLevel } from '../../constant';
+import { AttributeLevel, STACK_FIELD_END } from '../../constant';
 
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -290,6 +290,22 @@ export class LineLikeSeriesMixin {
         labelMark,
         {
           visible: this._getInvalidDefined
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+  }
+
+  encodeDefined(mark: IMark) {
+    if (
+      this.getViewDataStatistics()?.latestData?.[this.getStack() ? STACK_FIELD_END : this.getStackValueField()]
+        ?.allValid
+    ) {
+      this.setMarkStyle(
+        mark,
+        {
+          defined: true
         },
         'normal',
         AttributeLevel.Series
