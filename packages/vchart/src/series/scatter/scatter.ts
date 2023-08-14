@@ -74,16 +74,6 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     this._shapeField = this._spec.shapeField;
   }
 
-  /**
-   * 统计数据更新
-   */
-  viewDataStatisticsUpdate(d: DataView): void {
-    super.viewDataStatisticsUpdate(d);
-
-    // 数据更新后, 更新markScale
-    // this.updateMarkScale();
-  }
-
   private _getSeriesAttribute<T>(
     field: string,
     spec: VisualType<T>,

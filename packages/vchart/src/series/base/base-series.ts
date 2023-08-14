@@ -184,9 +184,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   setSeriesField(field: string) {
     if (isValid(field)) {
       this._seriesField = field;
-      this.getMarksInType([MarkTypeEnum.line, MarkTypeEnum.area]).forEach(m => {
-        m.setFacet(this._seriesField);
-      });
+      this.getMarks()
+        .filter(m => {
+          return m.getDataView() === this.getViewData();
+        })
+        .forEach(m => {
+          m.setFacet(this._seriesField);
+        });
     }
   }
 
