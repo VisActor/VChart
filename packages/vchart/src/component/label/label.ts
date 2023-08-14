@@ -193,7 +193,7 @@ export class Label extends BaseComponent {
             const interactive = this._interactiveConfig(labelSpec);
             return merge(
               {
-                textStyle: { pickable: labelSpec.interactive === true }
+                textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style }
               },
               configFunc(labelInfo[baseMarks.findIndex(mark => mark === baseMark)]),
               {
@@ -201,7 +201,8 @@ export class Label extends BaseComponent {
                 offset,
                 animation,
                 overlap,
-                ...interactive
+                ...interactive,
+                ...labelSpec
               }
             );
           }
