@@ -16,6 +16,14 @@ export interface IAreaSeriesSpec
    */
   type: 'area';
   /**
+   * x轴字段
+   */
+  xField: string | string[];
+  /**
+   * y轴字段
+   */
+  yField: string | string[];
+  /**
    * 点图元配置
    */
   [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;

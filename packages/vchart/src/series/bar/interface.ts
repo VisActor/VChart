@@ -18,6 +18,14 @@ export interface IBarSeriesSpec
    */
   type: 'bar';
   /**
+   * x轴字段
+   */
+  xField: string | string[];
+  /**
+   * y轴字段
+   */
+  yField: string | string[];
+  /**
    * 图元配置
    */
   [SeriesMarkNameEnum.bar]?: IMarkSpec<IRectMarkSpec>;
