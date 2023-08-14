@@ -1,5 +1,5 @@
 import type { IModelSpec } from '../../model/interface';
-import type { IOrientType, MaybeArray } from '../../typings';
+import type { IOrientType } from '../../typings';
 import type { IComponent } from '../interface';
 
 /** spec */
@@ -46,17 +46,17 @@ export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'he
    * 已配置：用户配置与axis关联的region取交集
    * 配置优先级：index > id
    */
-  regionIndex?: MaybeArray<number>;
-  regionId?: MaybeArray<number | string>;
+  regionIndex?: number | number[];
+  regionId?: number | string | (number | string)[];
 
   /**
    * 关联的系列ID
    */
-  seriesId?: MaybeArray<number | string>;
+  seriesId?: number | string | (number | string)[];
   /**
    * 关联的系列序号
    */
-  seriesIndex?: MaybeArray<number>;
+  seriesIndex?: number | number[];
 
   /**
    * 数据过滤模式
