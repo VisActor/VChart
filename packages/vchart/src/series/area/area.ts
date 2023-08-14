@@ -147,7 +147,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
               return valueInScaleRange(this.dataToPositionY1(datum), this._yAxisHelper?.getScale?.(0));
             },
             y: this.dataToPositionY.bind(this),
-            z: this.dataToPositionZ.bind(this)
+            z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
           },
           'normal',
           AttributeLevel.Series
@@ -161,7 +161,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
               return valueInScaleRange(this.dataToPositionX1(datum), this._xAxisHelper?.getScale?.(0));
             },
             y: this.dataToPositionY.bind(this),
-            z: this.dataToPositionZ.bind(this),
+            z: this._fieldZ ? this.dataToPositionZ.bind(this) : null,
             orient: this._direction
           },
           'normal',
@@ -253,7 +253,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
 
   viewDataStatisticsUpdate(d: DataView) {
     super.viewDataStatisticsUpdate(d);
-    this._areaMark && this.encodeDefined(this._areaMark);
+    this.encodeDefined(this._areaMark, 'defined');
   }
 }
 
