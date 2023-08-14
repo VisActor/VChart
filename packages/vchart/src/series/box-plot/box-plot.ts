@@ -2,7 +2,6 @@
 import type { ISymbolMark } from '../../mark/symbol';
 import { AttributeLevel, DEFAULT_DATA_INDEX, PREFIX } from '../../constant';
 import type { IBoxPlotMark } from '../../mark/box-plot';
-import { MarkTypeEnum } from '../../mark/interface';
 import type { IModelEvaluateOption, IModelInitOption } from '../../model/interface';
 import type { BoxPlotShaftShape, IOutlierMarkSpec, Maybe, Datum } from '../../typings';
 import { Direction } from '../../typings';
@@ -23,10 +22,10 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { BoxPlotMark } from '../../mark/box-plot';
 import { SymbolMark } from '../../mark/symbol';
+import { boxPlotSeriesMark } from './constant';
 
 VChart.useMark([BoxPlotMark, SymbolMark]);
 
@@ -42,11 +41,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
   static readonly type: string = SeriesTypeEnum.boxPlot;
   type = SeriesTypeEnum.boxPlot;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.boxPlot]: { name: SeriesMarkNameEnum.boxPlot, type: MarkTypeEnum.boxPlot },
-    [SeriesMarkNameEnum.outlier]: { name: SeriesMarkNameEnum.outlier, type: MarkTypeEnum.symbol }
-  };
+  static readonly mark: SeriesMarkMap = boxPlotSeriesMark;
 
   protected declare _theme: Maybe<IBoxPlotSeriesTheme>;
   protected _minField: string;

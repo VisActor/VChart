@@ -19,11 +19,11 @@ import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { array, isValid, last } from '@visactor/vutils';
+import { barSeriesMark } from './constant';
 
 VChart.useMark([RectMark, TextMark]);
 
@@ -35,10 +35,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.bar;
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.bar]: { name: SeriesMarkNameEnum.bar, type: MarkTypeEnum.rect }
-  };
+  static readonly mark: SeriesMarkMap = barSeriesMark;
 
   protected declare _theme: Maybe<IBarSeriesTheme>;
 

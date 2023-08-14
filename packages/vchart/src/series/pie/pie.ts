@@ -49,12 +49,12 @@ import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar';
 import { centerOffsetConfig } from './animation/centerOffset';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { TextMark } from '../../mark/text';
 import { ArcMark } from '../../mark/arc';
 import { merge } from '../../util';
+import { pieSeriesMark } from './constant';
 
 VChart.useMark([PathMark, TextMark, ArcMark]);
 
@@ -64,11 +64,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _pieMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.pie;
   protected _pieMarkType: MarkTypeEnum = MarkTypeEnum.arc;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.pie]: { name: SeriesMarkNameEnum.pie, type: MarkTypeEnum.arc },
-    [SeriesMarkNameEnum.labelLine]: { name: SeriesMarkNameEnum.labelLine, type: MarkTypeEnum.path }
-  };
+  static readonly mark: SeriesMarkMap = pieSeriesMark;
 
   protected _viewDataLabel!: SeriesData;
 

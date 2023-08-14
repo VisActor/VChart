@@ -7,7 +7,6 @@ import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
-import { MarkTypeEnum } from '../../mark/interface';
 import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, merge } from '../../util';
 import { AttributeLevel } from '../../constant';
 import type { SeriesMarkMap } from '../interface';
@@ -25,10 +24,10 @@ import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../anima
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ScatterAppearPreset } from './animation';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
+import { scatterSeriesMark } from './constant';
 
 VChart.useMark([SymbolMark, TextMark]);
 
@@ -36,10 +35,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   static readonly type: string = SeriesTypeEnum.scatter;
   type = SeriesTypeEnum.scatter;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.point]: { name: SeriesMarkNameEnum.point, type: MarkTypeEnum.symbol }
-  };
+  static readonly mark: SeriesMarkMap = scatterSeriesMark;
 
   protected declare _theme: Maybe<IScatterSeriesTheme>;
 
