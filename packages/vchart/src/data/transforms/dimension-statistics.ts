@@ -2,8 +2,10 @@ import { isNil } from '@visactor/vutils';
 import type { IFieldsMeta } from '../../typings/spec';
 import { couldBeValidNumber, isFunction, mergeFields } from '../../util';
 import type { DataView } from '@visactor/vdataset';
+import type { Datum } from '../../typings';
 
 export const StatisticsDefault = {
+  allValid: () => true,
   min: () => Number.MAX_VALUE,
   max: () => Number.MIN_VALUE,
   values: () => new Set(),
@@ -12,6 +14,7 @@ export const StatisticsDefault = {
   'array-max': () => Number.MIN_VALUE
 };
 export const StatisticsValueTransform = {
+  allValid: (v: any) => v,
   min: (v: any) => (v === StatisticsDefault.min() ? 0 : v),
   max: (v: any) => (v === StatisticsDefault.max() ? 0 : v),
   values: (v: Set<string>) => Array.from(v),
@@ -55,6 +58,7 @@ function StatisticsValues(last: Set<string>, value: any) {
 }
 
 export const StatisticsMethod = {
+  allValid: couldBeValidNumber,
   min: Math.min,
   max: Math.max,
   values: StatisticsValues,
@@ -63,7 +67,7 @@ export const StatisticsMethod = {
   'array-max': StatisticsArrayMax
 };
 
-export type StatisticOperations = Array<'max' | 'min' | 'values' | 'array-max' | 'array-min'>;
+export type StatisticOperations = Array<'max' | 'min' | 'values' | 'array-max' | 'array-min' | 'allValid'>;
 
 export interface IStatisticsOption {
   fields: {
@@ -115,50 +119,41 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
       result[f.key] = sourceStatistics[f.key];
       return;
     }
-    // default value
-    f.operations.forEach(op => {
+    let willMin: boolean = false;
+    let willMax: boolean = false;
+    let willValid: boolean = false;
+    const operations: StatisticOperations = [];
+    f.operations.forEach(o => {
+      if (o === 'max') {
+        willMax = true;
+      } else if (o === 'min') {
+        willMin = true;
+      } else if (o === 'allValid') {
+        willValid = true;
+      } else {
+        operations.push(o);
+      }
+    });
+
+    operations.forEach(op => {
       // @chensij 如果指定了计算的domain结果，则忽略计算（目前该逻辑仅在dot series中维护，因为dot series期望在filter data之后x轴改变domain，y轴不改变domain）
       if (f.customize) {
         result[f.key][op] = f.customize;
       } else {
         if (dataFiledInKey && dataFiledInKey.lockStatisticsByDomain && !isNil(dataFiledInKey.domain)) {
-          if (op === 'min') {
-            result[f.key][op] = Math.min(...(dataFiledInKey.domain as number[]));
-            return;
-          }
-          if (op === 'max') {
-            result[f.key][op] = Math.max(...(dataFiledInKey.domain as number[]));
-            return;
-          }
           if (op === 'values') {
             result[f.key][op] = [...dataFiledInKey.domain];
             return;
           }
         }
         result[f.key][op] = StatisticsDefault[op]();
-        const isValueOp = op === 'min' || op === 'max';
-        const isMin = op === 'min';
-        const isMax = op === 'max';
         const isValues = op === 'values';
-        if (isValueOp && isNil(result[f.key].allValid)) {
-          result[f.key].allValid = true;
-        }
-        latestData.forEach((d: any) => {
+        latestData.forEach((d: Datum) => {
           if (!d) {
             return;
           }
           const value = d[f.key];
-          if (isValueOp) {
-            if (!couldBeValidNumber(value)) {
-              result[f.key].allValid && (result[f.key].allValid = false);
-            } else {
-              if (isMin && result[f.key][op] > value) {
-                result[f.key][op] = value;
-              } else if (isMax && result[f.key][op] < value) {
-                result[f.key][op] = value;
-              }
-            }
-          } else if (isValues) {
+          if (isValues) {
             StatisticsMethod[op](result[f.key][op], value);
           } else {
             result[f.key][op] = StatisticsMethod[op](result[f.key][op], value);
@@ -173,6 +168,59 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
         }
       }
     });
+
+    // min max valid
+    if (willMin || willMax || willValid) {
+      if (f.customize) {
+        if (willMin) {
+          result[f.key].min = f.customize;
+        }
+        if (willMax) {
+          result[f.key].max = f.customize;
+        }
+      } else {
+        if (dataFiledInKey && dataFiledInKey.lockStatisticsByDomain && !isNil(dataFiledInKey.domain)) {
+          if (willMin) {
+            result[f.key][op] = Math.min(...(dataFiledInKey.domain as number[]));
+          }
+          if (willMax) {
+            result[f.key][op] = Math.max(...(dataFiledInKey.domain as number[]));
+          }
+        }
+        if (willMin) {
+          result[f.key].min = StatisticsDefault.min();
+        }
+        if (willMax) {
+          result[f.key].max = StatisticsDefault.max();
+        }
+        result[f.key].allValid = StatisticsDefault.allValid();
+        latestData.forEach((d: Datum) => {
+          if (!d) {
+            return;
+          }
+
+          const value = d[f.key];
+          if (!couldBeValidNumber(value)) {
+            if (result[f.key].allValid) {
+              result[f.key].allValid = false;
+            }
+          } else {
+            if (willMin && result[f.key].min > value) {
+              result[f.key].min = value;
+            } else if (willMax && result[f.key].max < value) {
+              result[f.key].max = value;
+            }
+          }
+        });
+        if (willMin) {
+          result[f.key].min = StatisticsValueTransform.min(result[f.key].min);
+        }
+        if (willMax) {
+          result[f.key].max = StatisticsValueTransform.max(result[f.key].max);
+        }
+        result[f.key].allValid = StatisticsValueTransform.allValid(result[f.key].allValid);
+      }
+    }
   });
   return result;
 };
