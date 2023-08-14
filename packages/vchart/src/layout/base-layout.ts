@@ -363,7 +363,7 @@ export class Layout implements IBaseLayout {
     const bottomCurrent = this._chartViewBox.y2 - this._chartViewBox.y1 - this._bottomCurrent;
     items.filter;
     items.forEach(i => {
-      if (!i.getAutoIndent()) {
+      if (!i.getVisible() || !i.getAutoIndent()) {
         return;
       }
       const vOrH = i.layoutOrient === 'left' || i.layoutOrient === 'right';

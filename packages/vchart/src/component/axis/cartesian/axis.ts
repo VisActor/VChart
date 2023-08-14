@@ -704,6 +704,10 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     if (this.visible) {
       // 布局结束之后处理 0 基线问题
       this.event.on(ChartEvent.layoutEnd, this._fixAxisOnZero);
+      // 图表resize后，需要正常布局，清除布局缓存
+      this.event.on(ChartEvent.layoutRectUpdate, () => {
+        this._clearLayoutCache();
+      });
     }
   }
 
@@ -783,10 +787,14 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     return rect;
   }
 
-  onDataUpdate(): void {
-    // clear layout cache
+  _clearLayoutCache() {
     this._layoutCache.width = 0;
     this._layoutCache.height = 0;
     this._layoutCache._lastComputeOutBounds = { x1: 0, x2: 0, y1: 0, y2: 0 };
+  }
+
+  onDataUpdate(): void {
+    // clear layout cache
+    this._clearLayoutCache();
   }
 }
