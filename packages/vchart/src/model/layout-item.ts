@@ -82,6 +82,10 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
   layoutZIndex: ILayoutItem['layoutZIndex'] = 0;
   chartLayoutRect!: ILayoutRect;
 
+  getVisible() {
+    return (this._spec as unknown as any).visible !== false;
+  }
+
   private _setLayoutAttributeFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect) {
     if ((this._spec as unknown as any).visible !== false) {
       // 处理 user spec value to px;
