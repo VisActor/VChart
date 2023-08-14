@@ -62,6 +62,7 @@ export class CartesianLinearAxis extends CartesianAxis {
   protected axisHelper() {
     const helper: IAxisHelper = super.axisHelper();
     helper.setExtendDomain = this.setExtendDomain.bind(this);
+    helper.valueToPosition = this.valueToPosition.bind(this);
     return helper;
   }
 }

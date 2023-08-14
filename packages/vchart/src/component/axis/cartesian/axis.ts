@@ -335,6 +335,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       return this._scales[depth];
     };
     return {
+      isContinuous: isContinuous(this._scale.type),
       dataToPosition: this.dataToPosition.bind(this),
       getScale,
       // TODO 轴可以设置domain
