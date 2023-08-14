@@ -27,7 +27,7 @@ export function isAttrChangeable<T>(key: string, stateStyle: IMarkStateStyle<T>)
   return false;
 }
 
-export function isStateAttrChangeable<T>(key: string, stateStyle: Partial<IAttrs<T>>) {
+export function isStateAttrChangeable<T>(key: string, stateStyle: Partial<IAttrs<T>>, facetField: string) {
   const style = stateStyle[key]?.style;
   const isGradient = isGradientAttribute(key, style);
   if (isGradient) {
@@ -39,7 +39,9 @@ export function isStateAttrChangeable<T>(key: string, stateStyle: Partial<IAttrs
   }
   const isScale = !!style?.scale;
   if (isScale) {
-    return true;
+    if (style.field !== facetField) {
+      return true;
+    }
   }
   return false;
 }

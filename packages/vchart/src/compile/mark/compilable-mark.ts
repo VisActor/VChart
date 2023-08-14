@@ -329,7 +329,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       if (this._unCompileChannel[key]) {
         return;
       }
-      if (isStateAttrChangeable(key, normalStyle)) {
+      if (isStateAttrChangeable(key, normalStyle, this.getFacet())) {
         updateStyles[key] = {
           callback: this.compileCommonAttributeCallback(key, 'normal'),
           dependency: [this.stateKeyToSignalName('markUpdateRank')]
@@ -340,7 +340,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     });
 
     this._product.encode(updateStyles);
-    this._product.encodeState('enter', enterStyles);
+    this._product.encodeState('group', enterStyles);
+    // this._product.encodeState('enter', enterStyles);
 
     Object.keys(temp).forEach(state => {
       const styles: Record<string, MarkFunctionType<any>> = {};
@@ -348,6 +349,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         if (this._unCompileChannel[key]) {
           return;
         }
+        // console.log(state, key);
         styles[key] = {
           callback: this.compileCommonAttributeCallback(key, state),
           dependency: [this.stateKeyToSignalName('markUpdateRank')]
