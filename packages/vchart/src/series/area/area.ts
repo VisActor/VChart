@@ -1,10 +1,9 @@
 import type { DataView } from '@visactor/vdataset';
 import { isValid, merge } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
-import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
+import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
 import { Direction } from '../../typings/space';
-import { MarkTypeEnum } from '../../mark/interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum, ConvertToMarkStyleSpec, IAreaMarkSpec, InterpolateType } from '../../typings';
@@ -18,7 +17,6 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { BaseSeries } from '../base/base-series';
 
 import { VChart } from '../../core/vchart';
 import { LineMark } from '../../mark/line';
@@ -26,6 +24,7 @@ import { AreaMark } from '../../mark/area';
 import { TextMark } from '../../mark/text';
 import { SymbolMark } from '../../mark/symbol';
 import { AreaSeriesTooltipHelper } from './tooltip-helpter';
+import { areaSeriesMark } from './constant';
 VChart.useMark([LineMark, AreaMark, TextMark, SymbolMark]);
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
@@ -46,11 +45,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   static readonly type: string = SeriesTypeEnum.area;
   type = SeriesTypeEnum.area;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    ...lineLikeSeriesMarkMap,
-    [SeriesMarkNameEnum.area]: { name: SeriesMarkNameEnum.area, type: MarkTypeEnum.area }
-  };
+  static readonly mark: SeriesMarkMap = areaSeriesMark;
 
   protected declare _theme: Maybe<IAreaSeriesTheme>;
 

@@ -41,6 +41,7 @@ import { VChart } from '../../core/vchart';
 import { PolygonMark } from '../../mark/polygon/polygon';
 import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
+import { funnelSeriesMark } from './constant';
 
 VChart.useMark([PolygonMark, TextMark, RuleMark]);
 
@@ -55,14 +56,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   protected _transformMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.transform;
   protected _transformMarkType: MarkTypeEnum = MarkTypeEnum.polygon;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.funnel]: { name: SeriesMarkNameEnum.funnel, type: MarkTypeEnum.polygon },
-    [SeriesMarkNameEnum.transform]: { name: SeriesMarkNameEnum.transform, type: MarkTypeEnum.polygon },
-    [SeriesMarkNameEnum.transformLabel]: { name: SeriesMarkNameEnum.transformLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.outerLabel]: { name: SeriesMarkNameEnum.outerLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.outerLabelLine]: { name: SeriesMarkNameEnum.outerLabelLine, type: MarkTypeEnum.rule }
-  };
+  static readonly mark: SeriesMarkMap = funnelSeriesMark;
 
   protected _categoryField!: string;
   getCategoryField() {

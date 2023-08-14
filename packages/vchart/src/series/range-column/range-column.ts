@@ -18,6 +18,7 @@ import type { IRangeColumnSeriesSpec } from './interface';
 import { PositionEnum } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { RangeColumnAppearPreset } from './animation';
+import { rangeColumnSeriesMark } from './constant';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -29,11 +30,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 
   protected declare _spec: T;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BarSeries.mark,
-    [SeriesMarkNameEnum.minLabel]: { name: SeriesMarkNameEnum.minLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.maxLabel]: { name: SeriesMarkNameEnum.maxLabel, type: MarkTypeEnum.text }
-  };
+  static readonly mark: SeriesMarkMap = rangeColumnSeriesMark;
 
   protected _stack: boolean = false;
   private _minLabelMark?: ITextMark;

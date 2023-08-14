@@ -47,7 +47,7 @@ import { SequenceChart } from './sequence';
 import type { ISunburstChartSpec } from './sunburst';
 import { SunburstChart } from './sunburst';
 import type { ITreemapChartSpec } from './treemap';
-import { TreeMapChart } from './treemap';
+import { TreemapChart } from './treemap';
 import type { IWaterfallChartSpec } from './waterfall';
 import { WaterfallChart } from './waterfall';
 import type { IWordCloudChartSpec, IWordCloud3dChartSpec } from './word-cloud';
@@ -89,7 +89,7 @@ export {
   WaterfallChart,
   WordCloudChart,
   WordCloud3dChart,
-  TreeMapChart,
+  TreemapChart as TreeMapChart,
   BaseChart,
   PolarChart,
   ProgressLikeChart,

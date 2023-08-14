@@ -3,7 +3,7 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
-import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
+import { LineLikeSeriesMixin, lineLikeSeriesMark } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
 import type { Datum, Maybe } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -16,6 +16,7 @@ import { VChart } from '../../core/vchart';
 import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
+import { lineSeriesMark } from './constant';
 
 VChart.useMark([LineMark, SymbolMark, TextMark]);
 
@@ -36,10 +37,7 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
   static readonly type: string = SeriesTypeEnum.line;
   type = SeriesTypeEnum.line;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    ...lineLikeSeriesMarkMap
-  };
+  static readonly mark: SeriesMarkMap = lineSeriesMark;
 
   protected declare _theme: Maybe<ILineSeriesTheme>;
 
