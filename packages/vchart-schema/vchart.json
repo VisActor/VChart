@@ -18050,7 +18050,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -18617,7 +18617,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -18911,7 +18911,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -19244,7 +19254,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段\ny轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
         },
         "zField": {
           "anyOf": [
@@ -19396,7 +19406,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -19729,7 +19749,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -19839,7 +19859,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -20038,7 +20068,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -21246,6 +21276,10 @@
           "default": "'throttle'",
           "description": "事件触发延迟类型"
         },
+        "id": {
+          "description": "组件 id",
+          "type": "string"
+        },
         "inBrush": {
           "$ref": "#/definitions/selectedItemStyle",
           "description": "框选范围内的图元样式"
@@ -21981,7 +22015,7 @@
           "description": "z轴字段\n用于3d散点图等"
         }
       },
-      "required": ["type", "xField", "yField"],
+      "required": ["type"],
       "type": "object"
     },
     "ICartesianTimeAxisSpec": {
@@ -25613,10 +25647,30 @@
           "type": "array"
         },
         "regionId": {
-          "$ref": "#/definitions/MaybeArray<string|number>"
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ]
         },
         "regionIndex": {
-          "$ref": "#/definitions/MaybeArray<number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
           "description": "组件关联的region索引，与axis关联的region取交集\n未配置：默认跟随axis控制的region\n已配置：用户配置与axis关联的region取交集\n配置优先级：index > id"
         },
         "right": {
@@ -25634,11 +25688,31 @@
           "typeof": "function"
         },
         "seriesId": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "关联的系列ID"
         },
         "seriesIndex": {
-          "$ref": "#/definitions/MaybeArray<number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
           "description": "关联的系列序号"
         },
         "showDetail": {
@@ -26794,7 +26868,7 @@
           "description": "z轴字段\n用于3d散点图等"
         }
       },
-      "required": ["name", "type", "xField", "yField"],
+      "required": ["name", "type"],
       "type": "object"
     },
     "IDotSeriesTheme": {
@@ -32107,7 +32181,7 @@
           "description": "z轴字段\n用于3d散点图等"
         }
       },
-      "required": ["type", "xField", "yField"],
+      "required": ["type"],
       "type": "object"
     },
     "IHeatmapSeriesSpec": {
@@ -32407,7 +32481,7 @@
           "description": "z轴字段\n用于3d散点图等"
         }
       },
-      "required": ["type", "xField", "yField"],
+      "required": ["type"],
       "type": "object"
     },
     "IHeatmapSeriesTheme": {
@@ -32591,7 +32665,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -32924,7 +33008,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段\ny轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
         },
         "zField": {
           "anyOf": [
@@ -33049,7 +33133,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -33382,7 +33476,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -33579,6 +33673,34 @@
           "$ref": "#/definitions/ILayoutPaddingSpec",
           "description": "模块的布局间距"
         },
+        "regionId": {
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
+          "description": "组件关联的 region id"
+        },
+        "regionIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "组件关联的 region index"
+        },
         "right": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -33697,6 +33819,34 @@
         "padding": {
           "$ref": "#/definitions/ILayoutPaddingSpec",
           "description": "模块的布局间距"
+        },
+        "regionId": {
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
+          "description": "组件关联的 region id"
+        },
+        "regionIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "组件关联的 region index"
         },
         "right": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -35144,7 +35294,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -35664,7 +35814,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -36676,7 +36826,7 @@
           "description": "z轴字段\n用于3d散点图等"
         }
       },
-      "required": ["dotSeriesIndex", "fromField", "toField", "type", "xField", "yField"],
+      "required": ["dotSeriesIndex", "fromField", "toField", "type"],
       "type": "object"
     },
     "ILinkSeriesTheme": {
@@ -42735,7 +42885,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -43044,7 +43194,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -43169,7 +43319,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -43509,7 +43669,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -43619,7 +43779,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -43824,7 +43994,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -43949,7 +44119,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -44289,7 +44469,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -44399,7 +44579,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -44605,7 +44795,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -47514,7 +47704,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -47852,7 +48042,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -48062,10 +48252,30 @@
           "type": "array"
         },
         "regionId": {
-          "$ref": "#/definitions/MaybeArray<string|number>"
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ]
         },
         "regionIndex": {
-          "$ref": "#/definitions/MaybeArray<number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
           "description": "组件关联的region索引，与axis关联的region取交集\n未配置：默认跟随axis控制的region\n已配置：用户配置与axis关联的region取交集\n配置优先级：index > id"
         },
         "right": {
@@ -48081,11 +48291,31 @@
           "type": "boolean"
         },
         "seriesId": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "关联的系列ID"
         },
         "seriesIndex": {
-          "$ref": "#/definitions/MaybeArray<number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
           "description": "关联的系列序号"
         },
         "slider": {
@@ -48110,6 +48340,7 @@
           "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "valueField": {
+          "description": "数据过滤对应的数据字段",
           "type": "string"
         },
         "visible": {
@@ -54394,7 +54625,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -54756,7 +54997,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -54866,7 +55107,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -55094,7 +55345,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
@@ -57252,19 +57503,6 @@
         }
       ]
     },
-    "MaybeArray<string|number>": {
-      "anyOf": [
-        {
-          "items": {
-            "type": ["string", "number"]
-          },
-          "type": "array"
-        },
-        {
-          "type": ["string", "number"]
-        }
-      ]
-    },
     "MediaCapabilities": {
       "type": "object"
     },
@@ -57937,7 +58175,17 @@
           "description": "图元配置"
         },
         "barGapInGroup": {
-          "$ref": "#/definitions/MaybeArray<string|number>",
+          "anyOf": [
+            {
+              "items": {
+                "type": ["string", "number"]
+              },
+              "type": "array"
+            },
+            {
+              "type": ["string", "number"]
+            }
+          ],
           "description": "分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。\n如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "since": "1.2.0"
         },
@@ -58131,7 +58379,7 @@
               "type": "string"
             }
           ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+          "description": "y轴字段"
         },
         "zField": {
           "anyOf": [
