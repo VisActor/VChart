@@ -6,7 +6,6 @@ import type { BarAppearPreset } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface';
-import type { MaybeArray } from '../../typings';
 
 type BarMarks = 'bar';
 
@@ -63,7 +62,7 @@ export interface IBarSeriesSpec
    * 2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)
    * @since 1.2.0
    */
-  barGapInGroup?: MaybeArray<number | string>;
+  barGapInGroup?: number | string | (number | string)[];
 }
 
 export interface IBarSeriesTheme extends ICartesianSeriesTheme {
