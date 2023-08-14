@@ -4,7 +4,7 @@ import { BaseComponent } from '../base';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
-import { Brush as BrushComponent } from '@visactor/vrender-components';
+import { Brush as BrushComponent, IOperateType } from '@visactor/vrender-components';
 import type { IBounds, IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, polygonContainPoint, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
@@ -141,64 +141,64 @@ export class Brush extends BaseComponent implements IBrush {
           // 需要重置out状态的情况：
           // 1. _isFristState： 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加_isFristState来识别
           // 2. _needInitOutState：框选模式为'single' 且 开始后的第一次drawing时（这里不选择drawStart而选择第一次触发drawing的时机是因为点击空白处也会触发drawStart）, 需要重置图元状态
-          // if (
-          //   this._isFristState ||
-          //   (this._needInitOutState && brushMode === 'single' && operateType === IOperateType.drawing)
-          // ) {
-          //   this._initMarkBrushState(componentIndex, 'outOfBrush');
-          // }
+          if (
+            this._isFristState ||
+            (this._needInitOutState && brushMode === 'single' && operateType === IOperateType.drawing)
+          ) {
+            this._initMarkBrushState(componentIndex, 'outOfBrush');
+          }
 
-          // // 下面的步骤是为了标记出第一次drawing状态的
-          // if (operateType === IOperateType.drawing) {
-          //   this._needInitOutState = false;
-          // }
-          // if (operateType === IOperateType.drawEnd) {
-          //   this._needInitOutState = true;
-          // }
+          // 下面的步骤是为了标记出第一次drawing状态的
+          if (operateType === IOperateType.drawing) {
+            this._needInitOutState = false;
+          }
+          if (operateType === IOperateType.drawEnd) {
+            this._needInitOutState = true;
+          }
 
-          // // 需要重置初始状态的情况：点击空白处clear所有状态
-          // if (operateType === IOperateType.brushClear) {
-          //   this._initMarkBrushState(componentIndex, '');
-          //   this._needInitOutState = true;
-          // }
+          // 需要重置初始状态的情况：点击空白处clear所有状态
+          if (operateType === IOperateType.brushClear) {
+            this._initMarkBrushState(componentIndex, '');
+            this._needInitOutState = true;
+          }
 
-          // this._reconfigItem(operateMask, region);
-          // this._reconfigLinkedItem(operateMask, region);
+          this._reconfigItem(operateMask, region);
+          this._reconfigLinkedItem(operateMask, region);
 
-          // let eventType: string = ChartEvent.brushChange;
-          // if (operateType === IOperateType.drawStart || operateType === IOperateType.moveStart) {
-          //   eventType = ChartEvent.brushStart;
-          // } else if (operateType === IOperateType.drawEnd || operateType === IOperateType.moveEnd) {
-          //   eventType = ChartEvent.brushEnd;
-          // } else {
-          //   eventType = ChartEvent.brushChange;
-          // }
+          let eventType: string = ChartEvent.brushChange;
+          if (operateType === IOperateType.drawStart || operateType === IOperateType.moveStart) {
+            eventType = ChartEvent.brushStart;
+          } else if (operateType === IOperateType.drawEnd || operateType === IOperateType.moveEnd) {
+            eventType = ChartEvent.brushEnd;
+          } else {
+            eventType = ChartEvent.brushChange;
+          }
 
-          // this.event.emit(eventType, {
-          //   model: this,
-          //   value: {
-          //     // 操作类型
-          //     operateType,
-          //     // 正在操作的region
-          //     operateRegion: region,
-          //     // 在选框内的 element data
-          //     inBrushData: this._extendDataInBrush(this._inBrushElementsMap),
-          //     // 在选框外的 element data
-          //     outOfBrushData: this._extendDatumOutOfBrush(this._outOfBrushElementsMap),
-          //     // 被链接的系列中：在选框内的 element data
-          //     linkInBrushData: this._extendDataInBrush(this._linkedInBrushElementsMap),
-          //     // 被链接的系列中：在选框外的 element data
-          //     linkOutOfBrushData: this._extendDatumOutOfBrush(this._linkedOutOfBrushElementsMap),
-          //     // 在选框内的 vgrammar elements
-          //     inBrushElementsMap: this._inBrushElementsMap,
-          //     // 在选框外的 vgrammar elements
-          //     outOfBrushElementsMap: this._outOfBrushElementsMap,
-          //     // 被链接的系列中：在选框内的 vgrammar elements
-          //     linkedInBrushElementsMap: this._linkedInBrushElementsMap,
-          //     // 被链接的系列中：在选框外的 vgrammar elements
-          //     linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap
-          //   }
-          // });
+          this.event.emit(eventType, {
+            model: this,
+            value: {
+              // 操作类型
+              operateType,
+              // 正在操作的region
+              operateRegion: region,
+              // 在选框内的 element data
+              inBrushData: this._extendDataInBrush(this._inBrushElementsMap),
+              // 在选框外的 element data
+              outOfBrushData: this._extendDatumOutOfBrush(this._outOfBrushElementsMap),
+              // 被链接的系列中：在选框内的 element data
+              linkInBrushData: this._extendDataInBrush(this._linkedInBrushElementsMap),
+              // 被链接的系列中：在选框外的 element data
+              linkOutOfBrushData: this._extendDatumOutOfBrush(this._linkedOutOfBrushElementsMap),
+              // 在选框内的 vgrammar elements
+              inBrushElementsMap: this._inBrushElementsMap,
+              // 在选框外的 vgrammar elements
+              outOfBrushElementsMap: this._outOfBrushElementsMap,
+              // 被链接的系列中：在选框内的 vgrammar elements
+              linkedInBrushElementsMap: this._linkedInBrushElementsMap,
+              // 被链接的系列中：在选框外的 vgrammar elements
+              linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap
+            }
+          });
         }
       );
     }
