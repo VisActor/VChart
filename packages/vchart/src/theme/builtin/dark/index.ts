@@ -7,19 +7,9 @@
  */
 import type { ITheme } from '../../interface';
 import { colorScheme } from './color-scheme';
-import { series } from '../common/series';
-import { markByName, markByType } from '../common/mark';
-import { THEME_CONSTANTS } from '../common/constants';
-import { component } from '../common/component';
 
 export const darkTheme: ITheme = {
   name: 'dark',
   background: { type: 'palette', key: 'backgroundColor' },
-  padding: 12,
-  fontFamily: THEME_CONSTANTS.FONT_FAMILY,
-  colorScheme,
-  mark: markByType,
-  markByName,
-  series,
-  component
+  colorScheme
 };
