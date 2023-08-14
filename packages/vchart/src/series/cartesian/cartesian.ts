@@ -10,7 +10,7 @@ import {
   STACK_FIELD_START_PERCENT,
   STACK_FIELD_START_OffsetSilhouette
 } from '../../constant';
-import type { IAxisHelper } from '../../component/axis/cartesian/interface';
+import type { IAxisHelper, IAxisLocationCfg } from '../../component/axis/cartesian/interface';
 import type { DirectionType } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
@@ -27,6 +27,14 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
 {
   readonly coordinate: 'cartesian' = 'cartesian';
   protected _bandPosition = 0.5;
+  protected _scaleConfig: IAxisLocationCfg = {
+    bandPosition: this._bandPosition
+  };
+  protected _buildScaleConfig() {
+    this._scaleConfig = {
+      bandPosition: this._bandPosition
+    };
+  }
 
   protected _fieldX!: string[];
   get fieldX() {
@@ -282,34 +290,40 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     };
   }
 
-  valueToPositionX(value: StringOrNumber | StringOrNumber[]) {
-    if (!this._xAxisHelper) {
-      return Number.NaN;
+  protected _axisPosition(helper: IAxisHelper, value: StringOrNumber | StringOrNumber[]) {
+    if (helper.isContinuous) {
+      return helper.valueToPosition(value, this._scaleConfig);
     }
-    const { dataToPosition } = this._xAxisHelper;
-    return dataToPosition(array(value), { bandPosition: this._bandPosition });
+    return helper.dataToPosition(array(value), this._scaleConfig);
   }
 
+  valueToPositionX(value: StringOrNumber | StringOrNumber[]) {
+    return this._axisPosition(this._xAxisHelper, value);
+  }
   valueToPositionY(value: StringOrNumber | StringOrNumber[]) {
-    if (!this._yAxisHelper) {
-      return Number.NaN;
-    }
-    const { dataToPosition } = this._yAxisHelper;
-    return dataToPosition(array(value), { bandPosition: this._bandPosition });
+    return this._axisPosition(this._yAxisHelper, value);
   }
 
   dataToPositionX(datum: Datum): number {
     if (!this._xAxisHelper) {
       return Number.NaN;
     }
-    return this.valueToPositionX(this.getDatumPositionValues(datum, this._fieldX));
+    return this.valueToPositionX(
+      this._xAxisHelper.isContinuous
+        ? this.getDatumPositionValue(datum, this._fieldX[0])
+        : this.getDatumPositionValues(datum, this._fieldX)
+    );
   }
 
   dataToPositionY(datum: Datum): number {
     if (!this._yAxisHelper) {
       return Number.NaN;
     }
-    return this.valueToPositionY(this.getDatumPositionValues(datum, this._fieldY));
+    return this.valueToPositionY(
+      this._yAxisHelper.isContinuous
+        ? this.getDatumPositionValue(datum, this._fieldY[0])
+        : this.getDatumPositionValues(datum, this._fieldY)
+    );
   }
 
   dataToPositionZ(datum: Datum): number {
@@ -328,7 +342,9 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       return Number.NaN;
     }
     return this._fieldX2 && this._fieldX2 in datum
-      ? this.valueToPositionX(this.getDatumPositionValues(datum, this._fieldX2))
+      ? this.valueToPositionX(
+          this.getDatumPositionValues(datum, this._xAxisHelper.isContinuous ? this._fieldX2[0] : this._fieldX2)
+        )
       : this._xAxisHelper.getScale?.(0).range()[0];
   }
 
@@ -337,7 +353,9 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       return Number.NaN;
     }
     return this._fieldY2 && this._fieldY2 in datum
-      ? this.valueToPositionY(this.getDatumPositionValues(datum, this._fieldY2))
+      ? this.valueToPositionY(
+          this.getDatumPositionValues(datum, this._yAxisHelper.isContinuous ? this._fieldY2[0] : this._fieldY2)
+        )
       : this._yAxisHelper.getScale?.(0).range()[0];
   }
 
@@ -386,6 +404,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this.setFieldX(this._fieldX);
     this.setFieldY(this._fieldY);
     this._trigger.setStateKeys([...this._fieldX, ...this._fieldY]);
+    this._buildScaleConfig();
   }
 
   getDimensionField(): string[] {
