@@ -735,18 +735,20 @@ export class VChart implements IVChart {
    * @param reRender 是否重新渲染，默认为 true
    * @returns
    */
-  updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {
+  updateViewBox(viewBox: IBoundsLike, reRender: boolean = true, reLayout: boolean = true) {
     if (!this._chart || !this._compiler) {
       return this as unknown as IVChart;
     }
     this._viewBox = viewBox;
     // 更新 layout 参数
-    this._chart.updateViewBox(viewBox);
-    // 重新布局
-    this._compiler.renderSync();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    this._chart?.onEvaluateEnd();
+    this._chart.updateViewBox(viewBox, reLayout);
+    if (reLayout) {
+      // 重新布局
+      this._compiler.renderSync();
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this._chart?.onEvaluateEnd();
+    }
     // 获取 compiler
     this._compiler.updateViewBox(viewBox, reRender);
     return this as unknown as IVChart;
