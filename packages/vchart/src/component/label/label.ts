@@ -191,6 +191,7 @@ export class Label extends BaseComponent {
             const labelSpec = baseMark.getLabelSpec() ?? {};
             const { smartInvert, offset, overlap, animation } = labelSpec;
             const interactive = this._interactiveConfig(labelSpec);
+            const textStyle = labelSpec.style;
             return merge(
               {
                 textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style }
@@ -201,6 +202,7 @@ export class Label extends BaseComponent {
                 offset,
                 animation,
                 overlap,
+                textStyle,
                 ...interactive,
                 ...labelSpec
               }
