@@ -33,6 +33,13 @@ export interface IRadarSeriesSpec
    * @since 1.2.0
    */
   seriesMark?: 'point' | 'line' | 'area';
+
+  /**
+   * 是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点
+   * @default false
+   * @since 1.3.0
+   */
+  activePoint?: boolean;
 }
 
 export interface IRadarSeriesTheme extends IRoseLikeSeriesTheme, ILineLikeSeriesTheme {
