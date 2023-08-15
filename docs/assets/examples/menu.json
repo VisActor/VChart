@@ -1,0 +1,28 @@
+{
+  "menu": "examples",
+  "children": [
+    {
+      "path": "area-chart",
+      "title": {
+        "zh": "面积图",
+        "en": "Area Chart"
+      },
+      "children": [
+        {
+          "path": "basic-area",
+          "title": {
+            "zh": "基础面积图",
+            "en": "Basic area chart"
+          }
+        },
+        {
+          "path": "horizontal-area",
+          "title": {
+            "zh": "垂直面积图",
+            "en": "Horizontal area chart"
+          }
+        }
+      ]
+    }
+  ]
+}

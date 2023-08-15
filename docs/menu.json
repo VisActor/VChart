@@ -1,0 +1,14 @@
+[
+  {
+    "menu": "examples",
+    "type": "markdown"
+  },
+  {
+    "menu": "tutorials",
+    "type": "markdown"
+  },
+  {
+    "menu": "options",
+    "type": "markdown-template"
+  }
+]
