@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: tooltip shape style incorrect when configure custom key/value, related #336",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
