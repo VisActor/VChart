@@ -19,7 +19,7 @@ import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import type { VChart } from '../core/vchart';
-import type { Stage } from '@visactor/vrender';
+import type { IColor, Stage } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
 import { global } from '@visactor/vrender';
 import type { IMorphConfig } from '../animation/spec';
@@ -196,6 +196,10 @@ export class Compiler {
     }
     this._view.resize(width, height);
     return this.reRenderAsync({ morph: false });
+  }
+
+  setBackground(color: IColor) {
+    this._view?.background(color);
   }
 
   reRenderAsync(morphConfig?: IMorphConfig) {
