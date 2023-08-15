@@ -8,13 +8,14 @@ import type { LayoutItem } from '../../model/layout-item';
 import { ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
 import type { ITextMark } from '../../mark/text';
-import { eachSeries, merge } from '../../util';
+import { eachSeries, merge, pick } from '../../util';
 import type { ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar';
 import { markLabelConfigFunc, textAttribute } from './util';
 import type { IComponentMark } from '../../mark/component';
 import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import { pickWithout } from '@visactor/vutils';
 
 export interface ILabelInfo {
   baseMark: IMark;
@@ -190,13 +191,14 @@ export class Label extends BaseComponent {
             const configFunc = markLabelConfigFunc[baseMark.type] ?? markLabelConfigFunc.symbol;
             const labelSpec = baseMark.getLabelSpec() ?? {};
             const interactive = this._interactiveConfig(labelSpec);
+            const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
             return merge(
               {
                 textStyle: { pickable: labelSpec.interactive === true }
               },
               configFunc(labelInfo[baseMarks.findIndex(mark => mark === baseMark)]),
               {
-                ...labelSpec,
+                ...passiveLabelSpec,
                 ...interactive
               }
             );
