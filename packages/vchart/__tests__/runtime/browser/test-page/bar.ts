@@ -318,7 +318,7 @@ const run = () => {
     cornerRadius: 0.2,
 
     center: { x: 150, y: 200 },
-    centerOffset: 10,
+    // centerOffset: 10,
 
     startAngle: 90,
     endAngle: 270,
@@ -490,7 +490,7 @@ const run = () => {
     }
   };
 
-  const spec = {
+  const spec_rose = {
     type: 'rose',
     data: [
       {
@@ -524,7 +524,51 @@ const run = () => {
     }
   };
 
-  const cs = new VChart(spec, {
+  const spec = {
+    type: 'pie',
+    data: [
+      {
+        id: 'id0',
+        values: [
+          { type: 'oxygen', value: '46.60' },
+          { type: 'silicon', value: '27.72' },
+          { type: 'aluminum', value: '8.13' },
+          { type: 'iron', value: '5' },
+          { type: 'calcium', value: '3.63' },
+          { type: 'sodium', value: '2.83' },
+          { type: 'potassium', value: '2.59' },
+          { type: 'others', value: '3.5' }
+        ]
+      }
+    ],
+    outerRadius: 0.8,
+    valueField: 'value',
+    categoryField: 'type',
+    // centerOffset: 10,
+    title: {
+      visible: true,
+      text: 'Statistics of Surface Element Content'
+    },
+    legends: {
+      visible: true,
+      orient: 'left'
+    },
+    label: {
+      visible: true
+    },
+    tooltip: {
+      mark: {
+        content: [
+          {
+            key: datum => datum['type'],
+            value: datum => datum['value'] + '%'
+          }
+        ]
+      }
+    }
+  };
+
+  const cs = new VChart(spec_flower, {
     dataSet,
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
