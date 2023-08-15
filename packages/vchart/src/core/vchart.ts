@@ -733,6 +733,7 @@ export class VChart implements IVChart {
    * 更新绘制区域
    * @param viewBox 绘制区域
    * @param reRender 是否重新渲染，默认为 true
+   * @param reLayout 是否重新布局，默认为 true
    * @returns
    */
   updateViewBox(viewBox: IBoundsLike, reRender: boolean = true, reLayout: boolean = true) {
