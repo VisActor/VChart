@@ -39,7 +39,7 @@ import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 
 export interface ILineLikeSeriesTheme {
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
-  point?: Partial<IMarkTheme<ISymbolMarkSpec>>;
+  point?: Partial<IMarkTheme<ISymbolMarkSpec>> & { visibleInActive?: boolean };
   label?: Partial<ILabelSpec>;
 }
 
@@ -194,19 +194,22 @@ export class LineLikeSeriesMixin {
       isSeriesMark: !!isSeriesMark
     }) as ISymbolMark;
 
-    const activeData = new DataView(this._option.dataSet, { name: `${PREFIX}_series_${this.id}_active_point` });
-    activeData.parse([]);
-    this._symbolActiveMark = this._createMark(
-      { name: `active_point`, type: MarkTypeEnum.symbol },
-      {
-        morph: false,
-        groupKey: this._seriesField,
-        label: null,
-        isSeriesMark: false,
-        dataView: activeData
-      }
-    ) as ISymbolMark;
-    this._symbolActiveMark.setVisible(false);
+    if (this._spec.activePoint === true) {
+      const activeData = new DataView(this._option.dataSet, { name: `${PREFIX}_series_${this.id}_active_point` });
+      activeData.parse([]);
+      this._symbolActiveMark = this._createMark(
+        { name: `active_point`, type: MarkTypeEnum.symbol },
+        {
+          morph: false,
+          groupKey: this._seriesField,
+          label: null,
+          isSeriesMark: false,
+          dataView: activeData
+        }
+      ) as ISymbolMark;
+      this._symbolActiveMark.setVisible(false);
+    }
+
     return this._symbolMark;
   }
 
@@ -255,7 +258,7 @@ export class LineLikeSeriesMixin {
     this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
 
     // setStyle to active point
-    if (this._symbolMark.stateStyle.dimension_hover) {
+    if (this._symbolActiveMark && this._symbolMark.stateStyle.dimension_hover) {
       // active point will show
       this._symbolActiveMark.setVisible(true);
       this.event.on(DimensionEventEnum.dimensionHover, this._dimensionTrigger.bind(this) as EventCallback<EventParams>);
