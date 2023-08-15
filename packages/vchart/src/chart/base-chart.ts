@@ -1020,6 +1020,8 @@ export class BaseChart extends CompilableBase implements IChart {
     this._layoutRect.height = viewRect.height - this.padding.top - this.padding.bottom;
     this._layoutRect.x = this.padding.left;
     this._layoutRect.y = this.padding.top;
+
+    this._event.emit(ChartEvent.layoutRectUpdate, {});
   }
 
   /** 获取当前全局主题 */
