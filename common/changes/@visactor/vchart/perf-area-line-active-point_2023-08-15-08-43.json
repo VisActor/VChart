@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "Merge branch perf/area-line-active-point of https://github.com/VisActor/VChart into perf/area-line-active-point\n\n",
+      "comment": "feat(active): add active point for line & area series to optimization the performance of user interactive\n\n",
       "type": "patch",
       "packageName": "@visactor/vchart"
     }
