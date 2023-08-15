@@ -1,7 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import menu from '../menu.json';
+import { LanguageContext, LanguageEnum } from './i18n';
+import { useContext } from 'react';
 
 export function Header() {
+  const { language, setLanguage } = useContext(LanguageContext);
   const navigate = useNavigate();
 
   return (
@@ -45,8 +48,13 @@ export function Header() {
           );
         })}
       </div>
-      <div className="navigator-right">
-        <div className="navigator-tool"></div>
+      <div className="navigator-right" style={{ width: 100 }}>
+        <div
+          className="navigator-tool"
+          onClick={() => setLanguage(language === LanguageEnum.chinese ? LanguageEnum.english : LanguageEnum.chinese)}
+        >
+          {language}
+        </div>
       </div>
     </div>
   );
