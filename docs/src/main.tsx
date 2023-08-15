@@ -7,7 +7,7 @@ import { App } from './app';
 import '@arco-design/web-react/dist/css/arco.css';
 
 (window as any).VRender = VRender;
-(window as any).VChart = VChart;
+(window as any).VChart = VChart.VChart;
 (window as any).CONTAINER_ID = 'chart';
 (window as any).VisUtil = VisUtil;
 

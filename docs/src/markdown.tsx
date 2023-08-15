@@ -1,11 +1,13 @@
 import { Layout, Menu } from '@arco-design/web-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Header } from './header';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { LanguageContext } from './i18n';
 
 const SubMenu = Menu.SubMenu;
 const MenuItem = Menu.Item;
+
+let globalContainerId = 0;
 
 interface IMenuItem {
   path: string;
@@ -81,11 +83,44 @@ function Outline(props: IOutlineProps) {
 }
 
 function Content(props: IContentProps) {
+  const demos = [...props.content.matchAll(/<pre><code class="language-javascript">((.|\n)*)<\/code><\/pre>/g)];
+
+  let content = props.content;
+
+  const runnings = demos.map(demo => {
+    const pre = demo[0];
+    const code = demo[1];
+    const containerId = `markdown-demo-${globalContainerId++}`;
+    content = content.replace(pre, `<div id="${containerId}" class="markdown-demo"></div>`);
+    const evaluateCode = code.replace('CONTAINER_ID', `"${containerId}"`).concat(`window['${containerId}'] = vchart;`);
+    return {
+      code: evaluateCode,
+      id: containerId
+    };
+  });
+
+  useEffect(() => {
+    runnings.forEach(running => {
+      try {
+        console.log(running.code);
+        Function(running.code)(window);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      }
+    });
+    return () => {
+      runnings.forEach(running => {
+        (window as any)[running.id]?.release();
+      });
+    };
+  }, [runnings]);
+
   return (
     <div
       className="markdown-container"
       style={{ padding: '20px 40px' }}
-      dangerouslySetInnerHTML={{ __html: props.content }}
+      dangerouslySetInnerHTML={{ __html: content }}
     ></div>
   );
 }
