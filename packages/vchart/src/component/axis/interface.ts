@@ -230,6 +230,21 @@ export interface ITick extends IAxisItem<IRuleMarkSpec> {
    */
   forceTickCount?: number;
   /**
+   * 连续轴 tick 生成算法：
+   * 'average': 尽可能均分；
+   * 'd3'：与 d3 默认逻辑一致，以 [1, 2, 5] 为基数生成；
+   * @default 'average'
+   * @since 1.3.0
+   */
+  tickMode?: 'average' | 'd3';
+  /**
+   * 连续轴，是否避免小数 tick。
+   * @default false
+   * @description 当配置了 tickStep 或 forceTickCount 时不生效。
+   * @since 1.3.0
+   */
+  noDecimals?: boolean;
+  /**
    * 刻度线样式设置，支持回调
    */
   style?: IRuleMarkSpec | StyleCallback<IRuleMarkSpec | undefined>;

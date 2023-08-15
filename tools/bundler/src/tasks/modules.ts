@@ -13,12 +13,12 @@ import { DebugCompile, DebugConfig } from '../logic/debug';
 import { alias } from '../logic/alias';
 
 export function getTSCompilerOptions(
-  moduleKind: 'esnext' | 'commonjs',
+  moduleKind: 'esnext' | 'commonjs' | 'es2015',
   userTSCompilerOptions: Record<string, unknown> = {},
   noEmitOnError: boolean
 ): Settings {
   delete userTSCompilerOptions['outDir'];
-  return {
+  const res: Settings = {
     moduleResolution: 'node',
     target: 'es2016',
     ...userTSCompilerOptions,
@@ -29,8 +29,11 @@ export function getTSCompilerOptions(
     allowSyntheticDefaultImports: true,
     module: moduleKind,
     skipLibCheck: true,
-    noEmitOnError: noEmitOnError
+    noEmitOnError: noEmitOnError,
+    ...userTSCompilerOptions
   };
+
+  return res;
 }
 
 // getTSCompilerOptions(ModuleKind.ESNext)
