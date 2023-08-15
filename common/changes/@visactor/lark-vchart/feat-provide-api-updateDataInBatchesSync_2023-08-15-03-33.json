@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "feat: provite new api of update data in batches with sync\n\n",
+      "comment": "feat: provide new api of update data in batches with sync, details in #527ew api of update data in batches with sync\n\n",
       "type": "patch",
       "packageName": "@visactor/lark-vchart"
     }
