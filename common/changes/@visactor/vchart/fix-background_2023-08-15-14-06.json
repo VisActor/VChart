@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: background will not update when spec or theme updating, related #545",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
