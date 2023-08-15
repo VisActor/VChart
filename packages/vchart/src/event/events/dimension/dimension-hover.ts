@@ -1,12 +1,5 @@
 import { isMobileLikeMode } from '../../../util';
-import type { RenderMode } from '../../../typings/spec/common';
-import type {
-  BaseEventParams,
-  EventHandler,
-  EventParamsDefinition,
-  EventType,
-  IEventDispatcher
-} from '../../interface';
+import type { BaseEventParams, EventHandler, EventParamsDefinition, EventType } from '../../interface';
 import { DimensionEvent } from './base';
 import { isSameDimensionInfo } from './util';
 import { Event_Source_Type } from '../../../constant';
@@ -14,11 +7,6 @@ import type { IDimensionInfo } from './interface';
 
 export class DimensionHoverEvent extends DimensionEvent {
   private _cacheDimensionInfo: IDimensionInfo[] | null = null;
-
-  constructor(eventDispatcher: IEventDispatcher, mode: RenderMode) {
-    super(eventDispatcher, mode);
-    this.onMouseMove = this.onMouseMove.bind(this);
-  }
 
   register<Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) {
     this._callback = handler.callback;
@@ -28,8 +16,13 @@ export class DimensionHoverEvent extends DimensionEvent {
       callback: this.onMouseMove
     });
 
+    this._eventDispatcher.register<'pointerout'>('pointerout', {
+      query: { ...handler.query, source: Event_Source_Type.chart },
+      callback: this.onMouseOut
+    });
+
     if (isMobileLikeMode(this._mode)) {
-      // 移动端点按也出发 hover
+      // 移动端点按也触发 hover
       this._eventDispatcher.register<'pointerdown'>('pointerdown', {
         query: { ...handler.query, source: Event_Source_Type.chart },
         callback: this.onMouseMove
@@ -52,7 +45,7 @@ export class DimensionHoverEvent extends DimensionEvent {
     }
   }
 
-  private onMouseMove(params: BaseEventParams) {
+  private onMouseMove = (params: BaseEventParams) => {
     if (!params) {
       return;
     }
@@ -88,5 +81,18 @@ export class DimensionHoverEvent extends DimensionEvent {
         dimensionInfo: [...targetDimensionInfo]
       });
     }
-  }
+  };
+
+  private onMouseOut = (params: BaseEventParams) => {
+    if (!params) {
+      return;
+    }
+    // 鼠标移出某维度
+    this._callback.call(null, {
+      ...params,
+      action: 'leave',
+      dimensionInfo: this._cacheDimensionInfo ? [...this._cacheDimensionInfo] : []
+    });
+    this._cacheDimensionInfo = null;
+  };
 }
