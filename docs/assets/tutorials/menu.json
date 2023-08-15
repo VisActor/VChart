@@ -1,0 +1,28 @@
+{
+  "menu": "tutorials",
+  "children": [
+    {
+      "path": "getting-started",
+      "title": {
+        "zh": "快速上手",
+        "en": "Quick Start"
+      }
+    },
+    {
+      "path": "basic",
+      "title": {
+        "zh": "基础教程",
+        "en": "Basic"
+      },
+      "children": [
+        {
+          "path": "how-to-get-vchart",
+          "title": {
+            "zh": "如何获取 VChart",
+            "en": "How to Get VChart"
+          }
+        }
+      ]
+    }
+  ]
+}
