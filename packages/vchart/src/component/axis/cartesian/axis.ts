@@ -308,6 +308,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,
+            tickMode: tick.tickMode,
+            noDecimals: tick.noDecimals,
 
             axisOrientType: this._orient,
             coordinateType: 'cartesian',
@@ -724,7 +726,10 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         return (
           (isX ? !isXAxis(item.orient) : isXAxis(item.orient)) &&
           isContinuous(item.getScale().type) &&
-          (item.getScale() as ILinearScale).ticks().includes(0)
+          item
+            .getTickData()
+            .getLatestData()
+            ?.find((d: any) => d.value === 0)
         );
       };
       const relativeAxes = axesComponents.filter(item => isValidAxis(item));
