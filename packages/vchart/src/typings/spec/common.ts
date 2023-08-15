@@ -248,6 +248,21 @@ export interface IFieldsMeta {
   sortReverse?: boolean;
 }
 
+export interface SheetParseOptions {
+  type: 'csv' | 'dsv' | 'tsv';
+  options?: IDsvParserOptions;
+}
+
+export interface CommonParseOptions {
+  /**
+   * 是否需要对数据进行 clone，默认为 true。
+   * 如果考虑性能，你可以将其关闭，但是这会带了一些副作用，即我们会对传入的数据进行修改（不会对原有字段及值修改，只会在原有数据基础上添加一些字段）。
+   * @default true
+   * @since 1.3.0
+   */
+  clone?: boolean;
+}
+
 export interface IDataValues {
   /**
    * 数据唯一标识
@@ -278,10 +293,7 @@ export interface IDataValues {
     IFieldsMeta
   >;
 
-  parser?: {
-    type: 'csv' | 'dsv' | 'tsv';
-    options?: IDsvParserOptions;
-  };
+  parser?: SheetParseOptions | CommonParseOptions;
 }
 
 export type IHierarchyNodeData = {
