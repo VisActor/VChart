@@ -22,14 +22,18 @@ export interface ILabelSpec {
   smartInvert?: BaseLabelAttrs['smartInvert'];
   /** 动画配置 */
   animation?: BaseLabelAttrs['animation'];
-  /** 自定义标签数据筛选和排序 */
+  /** 自定义标签数据筛选和排序
+   * @since 1.3.0
+   */
   dataFilter?: BaseLabelAttrs['dataFilter'];
   /** 自定义标签布局函数。
-   *  @description 当配置了 customLayoutFunc 后，默认布局和防重叠逻辑将不再生效。（overlap/position/offset不生效）
+   * @description 当配置了 customLayoutFunc 后，默认布局和防重叠逻辑将不再生效。（overlap/position/offset不生效）
+   * @since 1.3.0
    */
   customLayoutFunc?: BaseLabelAttrs['customLayoutFunc'];
   /** 自定义标签躲避函数
    * @description 当配置了 customOverlapFunc 后，会根据 position 和 offset 进行初始布局。配置的防重叠逻辑(overlap)不生效。
+   * @since 1.3.0
    */
   customOverlapFunc?: BaseLabelAttrs['customOverlapFunc'];
 }
