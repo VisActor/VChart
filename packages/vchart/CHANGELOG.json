@@ -2,6 +2,42 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.2.1",
+      "tag": "@visactor/vchart_v1.2.1",
+      "date": "Tue, 15 Aug 2023 07:25:04 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "build: add es5 build product"
+          },
+          {
+            "comment": "feat: the api updateViewBox adds the relayout parameter, which supports not redrawing the chart immediately after updateViewbox, details in #497\n\n"
+          },
+          {
+            "comment": "fix(axis-layout): fix the problem that the axis-component cannot take effect after configuring minWidth and maxWidth, details are in #379\n\n"
+          },
+          {
+            "comment": "fix(axis-layout): fix the issue of axis move slighty when manual legend filtering, details are in #426\n\n"
+          },
+          {
+            "comment": "fix: fix the issue about when axis.label is autoLimit, the chart layout can not work as expect after resize, details in #429\n\n"
+          },
+          {
+            "comment": "fix: fix appear animation state fixed #327"
+          },
+          {
+            "comment": "fix: cloneDeep user data, because we should not modify user data"
+          },
+          {
+            "comment": "fix: fix the resize problem in progress chart, fixed #502"
+          },
+          {
+            "comment": "fix: if the size of region is invalid, ignore the wordcloud layout, fixed #506, #410"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.2.0",
       "tag": "@visactor/vchart_v1.2.0",
       "date": "Thu, 10 Aug 2023 05:23:25 GMT",
