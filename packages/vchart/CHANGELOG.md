@@ -1,6 +1,29 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 10 Aug 2023 05:23:25 GMT and should not be manually modified.
+This log was last generated on Tue, 15 Aug 2023 07:25:04 GMT and should not be manually modified.
+
+## 1.2.1
+Tue, 15 Aug 2023 07:25:04 GMT
+
+### Patches
+
+- build: add es5 build product
+- feat: the api updateViewBox adds the relayout parameter, which supports not redrawing the chart immediately after updateViewbox, details in #497
+
+
+- fix(axis-layout): fix the problem that the axis-component cannot take effect after configuring minWidth and maxWidth, details are in #379
+
+
+- fix(axis-layout): fix the issue of axis move slighty when manual legend filtering, details are in #426
+
+
+- fix: fix the issue about when axis.label is autoLimit, the chart layout can not work as expect after resize, details in #429
+
+
+- fix: fix appear animation state fixed #327
+- fix: cloneDeep user data, because we should not modify user data
+- fix: fix the resize problem in progress chart, fixed #502
+- fix: if the size of region is invalid, ignore the wordcloud layout, fixed #506, #410
 
 ## 1.2.0
 Thu, 10 Aug 2023 05:23:25 GMT
@@ -20,7 +43,7 @@ Thu, 10 Aug 2023 05:23:25 GMT
 - feat: dimension tooltip supports linear axis
 
 
-- feat: filling full data to map mark data in #420
+- feat: filling full data to map mark data in #420 
 - feat(background): support background of chart & series
 - feat(onError): support configuration of onerror in chart instance initoption
 - feat: supplement sync methods in vchart instance
@@ -177,11 +200,11 @@ Wed, 26 Jul 2023 03:18:52 GMT
 - fix(label): pickable shoule be false if label component is configured `interactive: false`
 - fix the layoutOffsetX|Y not work in normal items
 - fix: line mark has a different easing in update animation causes strange animation effect
-- fix: `channel` config not work in animation
+- fix: `channel` config not work in animation 
 - No longer requires to hold down the Ctrl key for zoom interaction & fix zoomLimit bug
 - fix: default tooltip handler needs to adapt to the scale property
 - fix(vchart): export IRegionSpec from VChart
-- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series
+- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series 
 - fix: compact window variable for non-browser env
 - fix: compact window variable for non-browser env
 
