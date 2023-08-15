@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix(axis-layout): fix the issue of axis move slighty when manual legend filtering, details are in #426\n\n",
+      "type": "patch",
+      "packageName": "@visactor/taro-vchart"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart",
+  "email": "lixuef1313@163.com"
+}

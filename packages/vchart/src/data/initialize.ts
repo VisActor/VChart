@@ -1,6 +1,6 @@
 import type { utilFunctionCtx } from './../typings/params';
 import { warn } from './../util/debug';
-import { isString } from '@visactor/vutils';
+import { cloneDeep, isString } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { IDataViewOptions, IFields, ITransformOptions } from '@visactor/vdataset';
@@ -95,8 +95,8 @@ export function dataToDataView(
         type: 'copyDataView'
       });
     } else if (Array.isArray(values)) {
-      // 处理values
-      dataView.parse(values);
+      // 处理values，进行拷贝，不要修改用户 spec 的数据，否则一些 react 组件的更新场景会有问题
+      dataView.parse(cloneDeep(values));
     } else if (
       isString(values) &&
       (!parser || parser.type === 'csv' || parser.type === 'dsv' || parser.type === 'tsv')
