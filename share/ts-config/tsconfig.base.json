@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2016",
     "experimentalDecorators": true,
     "strict": true,
     "noImplicitAny": true,
