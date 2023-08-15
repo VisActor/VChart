@@ -361,7 +361,6 @@ export class Layout implements IBaseLayout {
     };
     const rightCurrent = this._chartViewBox.x2 - this._chartViewBox.x1 - this._rightCurrent;
     const bottomCurrent = this._chartViewBox.y2 - this._chartViewBox.y1 - this._bottomCurrent;
-    items.filter;
     items.forEach(i => {
       if (!i.getVisible() || !i.getAutoIndent()) {
         return;
