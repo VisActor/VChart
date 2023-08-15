@@ -354,6 +354,15 @@ export interface IVChart {
       dataLinkInfo: DataLinkSeries,
       isRelativeToCanvas?: boolean
     ) => IPoint | null);
+
+  /** 停止正在进行的所有动画 */
+  stopAnimation: () => void;
+
+  /** 暂停正在进行的所有动画 */
+  pauseAnimation: () => void;
+
+  /** 恢复暂停时正在进行的所有动画 */
+  resumeAnimation: () => void;
 }
 
 export interface IGlobalConfig {
