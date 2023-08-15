@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: support pausing, resuming and stopping all animation via vchart instance, related #534",
+      "comment": "feat: new method `pauseAnimation()`, `resumeAnimation()` and `stopAnimation()` which support pausing, resuming and stopping all animation via vchart instance, related #534",
       "type": "patch"
     }
   ],
