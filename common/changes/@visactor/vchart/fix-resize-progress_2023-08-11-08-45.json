@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the resize problem in progress chart, fixed #502",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

@@ -7,8 +7,9 @@
   "browser": "esm/index.js",
   "types": "esm/index.d.ts",
   "scripts": {
+    "build:es5": "rm -rf lib && rollup -c --bundleConfigAsCjs",
     "build:schema": "schema src/typings/spec/chart.ts ISpec --useTypeOfKeyword --ignoreErrors --required > ../vchart-schema/vchart.json",
-    "build": "bundle --clean && npm run build:schema",
+    "build": "bundle --clean && npm run build:schema && npm run build:es5",
     "build:ci": "bundle --clean -f umd --minify=false --name ChartSpace",
     "dev": "bundle --clean -f es -w",
     "compile": "tsc --noEmit",
@@ -89,6 +90,7 @@
     "@esbuild-plugins/node-globals-polyfill": "0.1.1",
     "@esbuild-plugins/node-modules-polyfill": "0.1.4",
     "rollup-plugin-node-polyfills": "0.2.1",
+    "rollup": "3.20.5",
     "node-fetch": "2.6.7",
     "form-data": "~4.0.0",
     "canvas": "2.11.2"

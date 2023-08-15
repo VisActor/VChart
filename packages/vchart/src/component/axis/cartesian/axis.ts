@@ -92,6 +92,12 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   private _latestBounds: IBounds;
   private _verticalLimitSize: number;
 
+  protected _layoutCache: {
+    width: number;
+    height: number;
+    _lastComputeOutBounds: IBoundsLike;
+  } = { width: 0, height: 0, _lastComputeOutBounds: { x1: 0, x2: 0, y1: 0, y2: 0 } };
+
   constructor(spec: ICartesianAxisCommonSpec, options: IComponentOption) {
     super(spec, {
       ...options
@@ -302,6 +308,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,
+            tickMode: tick.tickMode,
+            noDecimals: tick.noDecimals,
 
             axisOrientType: this._orient,
             coordinateType: 'cartesian',
@@ -518,7 +526,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     }
     result.width = Math.ceil(result.width);
     result.height = Math.ceil(result.height);
-    return result;
+    // because of changed width\height, reset result in spec configuration.
+    return this._setRectInSpec(this._layoutCacheProcessing(result));
   }
   /**
    * bounds 预计算
@@ -705,6 +714,10 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     if (this.visible) {
       // 布局结束之后处理 0 基线问题
       this.event.on(ChartEvent.layoutEnd, this._fixAxisOnZero);
+      // 图表resize后，需要正常布局，清除布局缓存
+      this.event.on(ChartEvent.layoutRectUpdate, () => {
+        this._clearLayoutCache();
+      });
     }
   }
 
@@ -721,7 +734,10 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         return (
           (isX ? !isXAxis(item.orient) : isXAxis(item.orient)) &&
           isContinuous(item.getScale().type) &&
-          (item.getScale() as ILinearScale).ticks().includes(0)
+          item
+            .getTickData()
+            .getLatestData()
+            ?.find((d: any) => d.value === 0)
         );
       };
       const relativeAxes = axesComponents.filter(item => isValidAxis(item));
@@ -762,4 +778,36 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       }
     }
   };
+
+  protected _layoutCacheProcessing(rect: ILayoutRect) {
+    ['width', 'height'].forEach(key => {
+      if (rect[key] < this._layoutCache[key]) {
+        rect[key] = this._layoutCache[key];
+      } else {
+        this._layoutCache[key] = rect[key];
+      }
+    });
+
+    // outBounds
+    ['x1', 'x2', 'y1', 'y2'].forEach(key => {
+      if (this._lastComputeOutBounds[key] < this._layoutCache._lastComputeOutBounds[key]) {
+        this._lastComputeOutBounds[key] = this._layoutCache._lastComputeOutBounds[key];
+      } else {
+        this._layoutCache._lastComputeOutBounds[key] = this._lastComputeOutBounds[key];
+      }
+    });
+
+    return rect;
+  }
+
+  _clearLayoutCache() {
+    this._layoutCache.width = 0;
+    this._layoutCache.height = 0;
+    this._layoutCache._lastComputeOutBounds = { x1: 0, x2: 0, y1: 0, y2: 0 };
+  }
+
+  onDataUpdate(): void {
+    // clear layout cache
+    this._clearLayoutCache();
+  }
 }

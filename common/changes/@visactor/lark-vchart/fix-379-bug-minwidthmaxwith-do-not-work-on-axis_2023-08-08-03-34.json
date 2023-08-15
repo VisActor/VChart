@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix(axis-layout): fix the problem that the axis-component cannot take effect after configuring minWidth and maxWidth, details are in #379\n\n",
+      "type": "patch",
+      "packageName": "@visactor/lark-vchart"
+    }
+  ],
+  "packageName": "@visactor/lark-vchart",
+  "email": "lixuef1313@163.com"
+}

@@ -82,6 +82,10 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
   layoutZIndex: ILayoutItem['layoutZIndex'] = 0;
   chartLayoutRect!: ILayoutRect;
 
+  getVisible() {
+    return (this._spec as unknown as any)?.visible !== false;
+  }
+
   private _setLayoutAttributeFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect) {
     if ((this._spec as unknown as any).visible !== false) {
       // 处理 user spec value to px;
@@ -266,7 +270,7 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
     return bounds;
   }
 
-  private _setRectInSpec(rect: ILayoutRect) {
+  protected _setRectInSpec(rect: ILayoutRect) {
     const result = { ...rect };
     if (this._layoutRectLevelMap.width < USER_LAYOUT_RECT_LEVEL) {
       if (!isNil(this._minWidth)) {
