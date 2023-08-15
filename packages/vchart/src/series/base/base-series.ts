@@ -1,3 +1,4 @@
+import { RectMark, type IRectMark } from './../../mark/rect';
 import { ChartEvent } from '../../constant/event';
 import {
   AttributeLevel,
@@ -302,6 +303,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   /** data */
   protected initData(): void {
     this._rawData = this._spec.data as DataView;
+    this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
     this._addDataIndexAndKey();
     // 初始化viewData
     if (this._rawData) {
@@ -364,7 +366,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       this._option.globalScale.getStatisticalFields
     );
     this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
-    this._rawDataStatistics.reRunAllTransform();
   }
 
   protected _statisticViewData() {
@@ -435,6 +436,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     );
   }
 
+  // make sure this function fast
+  protected _noAnimationDataKey(datum: Datum, index: number, context: AddVChartPropertyContext): unknown | undefined {
+    return index;
+  }
+
   protected generateDefaultDataKey(
     dataKey: DataKeyType,
     datum: Datum,
@@ -442,6 +448,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     context: AddVChartPropertyContext
   ) {
     if (isNil(dataKey)) {
+      // check if need animation data key
+      if (this._spec.animation === false) {
+        const v = this._noAnimationDataKey(datum, index, context);
+        if (v !== undefined) {
+          return v;
+        }
+      }
       const { keyMap } = context;
       const seriesDataKey = this._getSeriesDataKey(datum);
       if (keyMap.get(seriesDataKey) === undefined) {
@@ -464,7 +477,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       return dataKey(datum, index);
     }
 
-    throw new Error(`invalid dataKey: ${dataKey}`);
+    this._option.onError(`invalid dataKey: ${dataKey}`);
   }
 
   protected _addDataIndexAndKey() {
@@ -490,8 +503,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     this._rawData.updateRawData(d);
   }
   rawDataUpdate(d: DataView): void {
-    this.event.emit(ChartEvent.rawDataUpdate, { model: this });
     this._rawDataStatistics?.reRunAllTransform();
+    this.event.emit(ChartEvent.rawDataUpdate, { model: this });
   }
   rawDataStatisticsUpdate(d: DataView): void {
     this.event.emit(ChartEvent.rawDataStatisticsUpdate, { model: this });
@@ -689,16 +702,29 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   afterInitMark(): void {
     this.event.emit(ChartEvent.afterInitMark, { model: this });
-    // 此时mark相关的统计数据收集完成
-    this._rawDataStatistics?.reRunAllTransform();
     this.setSeriesField(this._spec.seriesField);
+
+    let animationThreshold = this._spec.animationThreshold ?? Number.MAX_SAFE_INTEGER;
     // set mark stroke color follow series color
     // only set normal state in the level lower than level Series
     this.getMarks().forEach(m => {
       if (m.stateStyle?.normal?.lineWidth) {
         m.setAttribute('stroke', this.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
       }
+      const config = m.getProgressiveConfig();
+      if (config) {
+        if (config.large && config.largeThreshold) {
+          animationThreshold = Math.min(animationThreshold, config.largeThreshold);
+        }
+        if (config.progressiveThreshold) {
+          animationThreshold = Math.min(animationThreshold, config.progressiveThreshold);
+        }
+      }
     });
+    // auto close animation
+    if (this._rawData?.latestData?.length >= animationThreshold) {
+      this._spec.animation = false;
+    }
   }
 
   getMarksWithoutRoot(): IMark[] {
@@ -718,7 +744,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   /** event */
   protected initEvent() {
     this._trigger.init();
-    this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
     this._data?.getDataView()?.target.addListener('change', this.viewDataUpdate.bind(this));
     this._viewDataStatistics?.target.addListener('change', this.viewDataStatisticsUpdate.bind(this));
     this._rawDataStatistics?.target.addListener('change', this.rawDataStatisticsUpdate.bind(this));
@@ -825,8 +850,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   }
 
   getSeriesInfoInField(field: string) {
-    const keys = this._rawDataStatistics.latestData[field]?.values;
-    return this._getSeriesInfo(field, keys);
+    return this._getSeriesInfo(field, this._rawDataStatistics.latestData[field]?.values ?? []);
   }
 
   getSeriesInfoList() {

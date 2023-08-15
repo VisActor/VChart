@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: the non-stack radar area should start from the minimum of radius axis, not o, fix #370",
+      "comment": "fix: fix the resize problem in progress chart, fixed #502",
       "type": "patch"
     }
   ],

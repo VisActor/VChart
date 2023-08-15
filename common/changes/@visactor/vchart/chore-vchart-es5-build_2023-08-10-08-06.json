@@ -2,8 +2,8 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(wordCloud): fix wordCloud size error probelm. fix #400, fix #260",
-      "type": "none"
+      "comment": "build: add es5 build product",
+      "type": "patch"
     }
   ],
   "packageName": "@visactor/vchart"

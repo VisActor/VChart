@@ -21,15 +21,24 @@ export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITick
   if (!isContinuous(scale.type)) {
     return convertDomainToTickData(scale.domain(), op);
   }
-  const { tickCount, forceTickCount, tickStep } = op;
+  // if range is so small
+  const range = scale.range();
+  const rangeSize = Math.abs(range[range.length - 1] - range[0]);
+  if (rangeSize < 2) {
+    return convertDomainToTickData([scale.domain()[0]], op);
+  }
+
+  const { tickCount, forceTickCount, tickStep, noDecimals = false } = op;
 
   let scaleTicks: number[];
   if (isValid(tickStep)) {
     scaleTicks = (scale as LinearScale).stepTicks(tickStep);
   } else if (isValid(forceTickCount)) {
     scaleTicks = (scale as LinearScale).forceTicks(forceTickCount);
+  } else if (op.tickMode === 'd3') {
+    scaleTicks = (scale as LinearScale).d3Ticks(tickCount ?? DEFAULT_CONTINUOUS_TICK_COUNT, { noDecimals });
   } else {
-    scaleTicks = (scale as LinearScale).ticks(tickCount ?? DEFAULT_CONTINUOUS_TICK_COUNT);
+    scaleTicks = (scale as LinearScale).ticks(tickCount ?? DEFAULT_CONTINUOUS_TICK_COUNT, { noDecimals });
   }
 
   if (op.sampling) {

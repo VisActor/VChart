@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix the issue about when axis.label is autoLimit, the chart layout can not work as expect after resize, details in #429\n\n",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}

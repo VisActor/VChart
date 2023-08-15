@@ -10,5 +10,10 @@ export const radar: IRadarSeriesTheme = {
       stroke: 'white',
       fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
     }
+  },
+  point: {
+    style: {
+      symbolType: 'circle'
+    }
   }
 };

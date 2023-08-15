@@ -13,9 +13,6 @@ export class Projection {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     this.projection = projection(projectionSpec.type)();
-    if (this.projection === null) {
-      throw Error('unsupported projection type!');
-    }
   }
 
   fit(start: number[], size: number[], features: GeoJsonFeatureSpec[]) {

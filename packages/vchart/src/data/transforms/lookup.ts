@@ -1,5 +1,6 @@
 import type { DataView } from '@visactor/vdataset';
-import { isNil, isValid } from '../../util';
+import { isFunction, isNil, isValid } from '../../util';
+import type { Datum } from '../../typings';
 
 export interface ILookUpOpt {
   from: () => object[];
@@ -9,6 +10,7 @@ export interface ILookUpOpt {
   values?: string[];
   as?: string[];
   default?: any;
+  set?: (A: Datum, B: Datum) => void;
 }
 
 export const lookup = (data: Array<DataView>, opt: ILookUpOpt) => {
@@ -29,7 +31,12 @@ export const lookup = (data: Array<DataView>, opt: ILookUpOpt) => {
   }, new Map<string, object>());
 
   let set: (d: any) => void;
-  if (values) {
+  if (isFunction(opt.set)) {
+    set = function (d: any) {
+      const v = (index as Map<string, object>).get(d[key]);
+      opt.set(d, v);
+    };
+  } else if (values) {
     const m = values.length;
     set = function (d: any) {
       const v = (index as Map<string, object>).get(d[key]);

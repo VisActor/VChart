@@ -1,18 +1,24 @@
-import type { IRectMark } from '../../mark/rect';
-import type { ISymbolMark } from '../../mark/symbol';
-import type { Datum, IPadding, IPolarOrientType, IRuleMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
+import type {
+  Datum,
+  IPadding,
+  IPolarOrientType,
+  IRectMarkSpec,
+  IRuleMarkSpec,
+  ISymbolMarkSpec,
+  ITextMarkSpec,
+  StringOrNumber
+} from '../../typings';
 import type { ICartesianAxisSpec } from './cartesian/interface';
 import type { IComponent } from '../interface';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IModelSpec } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
-import type { ICompilableData } from '../../compile/data';
 
-export type StatisticsDomain = {
+export interface StatisticsDomain {
   domain: any[];
   index: { [key in StringOrNumber]: number };
-};
+}
 
 export interface IAxis extends IComponent {
   valueToPosition: (value: any) => number;
@@ -34,7 +40,7 @@ export interface IAxisItemTheme<T> {
 }
 export type AxisAnimationPreset = 'groupFadeIn' | 'fadeIn' | 'grow';
 
-export type ICommonAxisSpec = {
+export interface ICommonAxisSpec extends Omit<IModelSpec, 'orient'>, IAnimationSpec<string, string> {
   /**
    * 轴类型
    */
@@ -98,12 +104,12 @@ export type ICommonAxisSpec = {
    * 轴采样开启之后，会对轴数据进行采样显示，防止轴数据的重叠。
    * 通过配置 `label.minGap` 可以控制轴标签之间的间距。
    * @default true
+   * @since 1.1.0
    */
   sampling?: boolean;
-} & Omit<IModelSpec, 'orient'> &
-  IAnimationSpec<string, string>;
+}
 
-export type ILinearAxisSpec = {
+export interface ILinearAxisSpec {
   // 线性轴数值范围配置
   /** 最小值，**优先级高于 zero，nice** */
   min?: number;
@@ -146,23 +152,34 @@ export type ILinearAxisSpec = {
     min?: number;
     max?: number;
   };
-};
+}
 
-export type IBandAxisSpec = {
+export interface IBandAxisSpec {
   /**
-   * 轴分组之间间隔，数值在(0,1)之间
-   * @default 0.2
+   * 同时设置轴的 paddingInner 和 paddingOuter
+   * **因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 bandPadding 配置**
    */
   bandPadding?: number | number[];
+  /**
+   * band 轴的内边距
+   * ** 因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 paddingInner 配置**
+   * @default 0.1
+   */
   paddingInner?: number | number[];
+  /**
+   * band 轴的外边距
+   * ** 因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 paddingOuter 配置**
+   * @default 0.3
+   */
   paddingOuter?: number | number[];
   /**
    * 配置离散轴的数值范围
+   * @since 1.1.0
    */
   domain?: StringOrNumber[];
-};
+}
 // Grid 配置项
-export type IGrid = IAxisItem<IRuleMarkSpec> & {
+export interface IGrid extends IAxisItem<IRuleMarkSpec> {
   /**
    * 两个栅格线间的填充色
    */
@@ -176,10 +193,10 @@ export type IGrid = IAxisItem<IRuleMarkSpec> & {
    * 网格线样式，支持回调
    */
   style?: IRuleMarkSpec | StyleCallback<IRuleMarkSpec | undefined>;
-};
+}
 
 // 刻度线配置
-export type ITick = IAxisItem<IRuleMarkSpec> & {
+export interface ITick extends IAxisItem<IRuleMarkSpec> {
   /**
    * Length of tick lines
    * 坐标轴刻度线的长度
@@ -213,6 +230,21 @@ export type ITick = IAxisItem<IRuleMarkSpec> & {
    */
   forceTickCount?: number;
   /**
+   * 连续轴 tick 生成算法：
+   * 'average': 尽可能均分；
+   * 'd3'：与 d3 默认逻辑一致，以 [1, 2, 5] 为基数生成；
+   * @default 'average'
+   * @since 1.3.0
+   */
+  tickMode?: 'average' | 'd3';
+  /**
+   * 连续轴，是否避免小数 tick。
+   * @default false
+   * @description 当配置了 tickStep 或 forceTickCount 时不生效。
+   * @since 1.3.0
+   */
+  noDecimals?: boolean;
+  /**
    * 刻度线样式设置，支持回调
    */
   style?: IRuleMarkSpec | StyleCallback<IRuleMarkSpec | undefined>;
@@ -226,14 +258,13 @@ export type ITick = IAxisItem<IRuleMarkSpec> & {
   state?: AxisItemStateStyle<IRuleMarkSpec>;
   /**
    * 用于 tick 的数据过滤
-   * @param data
-   * @returns
+   * @since 1.1.0
    */
   dataFilter?: (data: AxisItem[]) => AxisItem[];
-};
+}
 
 // 子刻度线配置
-export type ISubTick = IAxisItem<IRuleMarkSpec> & {
+export interface ISubTick extends IAxisItem<IRuleMarkSpec> {
   /**
    * TODO: 考虑下 log 轴，自刻度线之间的间距是不均匀的问题
    * 子刻度个数
@@ -254,10 +285,10 @@ export type ISubTick = IAxisItem<IRuleMarkSpec> & {
    * 4. selected_reverse
    */
   state?: AxisItemStateStyle<IRuleMarkSpec>;
-};
+}
 
 // 轴标签配置
-export type ILabel = IAxisItem<ITextMarkSpec> & {
+export interface ILabel extends IAxisItem<ITextMarkSpec> {
   /**
    * 轴标签内容格式化函数
    * @param text 原始标签文本值
@@ -291,15 +322,13 @@ export type ILabel = IAxisItem<ITextMarkSpec> & {
   state?: AxisItemStateStyle<ITextMarkSpec>;
   /**
    * 用于 label 的数据过滤
-   * @param data
-   * @param layer
-   * @returns
+   * @since 1.1.0
    */
   dataFilter?: (data: AxisItem[], layer: number) => AxisItem[];
-};
+}
 
 // 轴线配置
-export type IDomainLine = IAxisItem<IRuleMarkSpec> & {
+export interface IDomainLine extends IAxisItem<IRuleMarkSpec> {
   /**
    * domainLine 在不同交互状态下的样式配置，支持：
    * 1. hover
@@ -308,10 +337,10 @@ export type IDomainLine = IAxisItem<IRuleMarkSpec> & {
    * 4. selected_reverse
    */
   state?: AxisItemStateStyle<IRuleMarkSpec>;
-};
+}
 
 // 轴标题配置
-export type ITitle = IAxisItem<ITextMarkSpec> & {
+export interface ITitle extends IAxisItem<ITextMarkSpec> {
   /**
    * 标题的显示位置，直角坐标系默认 'middle'；
    * 极坐标系的圆弧轴如果配置了内半径，则默认 'middle'，否则 'end'
@@ -328,17 +357,17 @@ export type ITitle = IAxisItem<ITextMarkSpec> & {
   /**
    * 标题背景色设置
    */
-  background?: IAxisItem<IRectMark> & {
+  background?: IAxisItem<IRectMarkSpec> & {
     /**
      * 背景的交互状态样式配置
      */
-    state?: AxisItemStateStyle<Partial<IRectMark>>;
+    state?: AxisItemStateStyle<Partial<IRectMarkSpec>>;
   };
   /**
    * TODO: 接入富文本
    * 标题 shape 配置
    */
-  shape?: IAxisItem<ISymbolMark> & {
+  shape?: IAxisItem<ISymbolMarkSpec> & {
     /**
      * shape 同标题文本之间的间距
      */
@@ -346,7 +375,7 @@ export type ITitle = IAxisItem<ITextMarkSpec> & {
     /**
      * shape 标记的交互状态样式配置
      */
-    state?: AxisItemStateStyle<Partial<ISymbolMark>>;
+    state?: AxisItemStateStyle<Partial<ISymbolMarkSpec>>;
   };
   text?: string | string[];
   /**
@@ -357,7 +386,7 @@ export type ITitle = IAxisItem<ITextMarkSpec> & {
    * text 文本的交互状态样式配置
    */
   state?: AxisItemStateStyle<Partial<ITextMarkSpec>>;
-};
+}
 
 export type StyleCallback<T> = (value: any, index: number, datum: Datum, data: Datum[]) => T;
 export type AxisType = 'linear' | 'ordinal' | 'band' | 'point' | 'time' | 'log';

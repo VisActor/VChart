@@ -66,9 +66,10 @@ export class RadarSeries extends RoseLikeSeries<IRadarSeriesSpec> {
     };
 
     const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
-    this.initAreaMark(progressive, isAreaVisible);
-    this.initLineMark(progressive, !isAreaVisible);
-    this.initSymbolMark(progressive);
+    const seriesMark = this._spec.seriesMark ?? 'area';
+    this.initAreaMark(progressive, isAreaVisible && seriesMark === 'area');
+    this.initLineMark(progressive, seriesMark === 'line' || (seriesMark === 'area' && !isAreaVisible));
+    this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
   initMarkStyle(): void {

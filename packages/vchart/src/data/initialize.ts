@@ -1,8 +1,10 @@
-import { isString } from '@visactor/vutils';
+import type { utilFunctionCtx } from './../typings/params';
+import { warn } from './../util/debug';
+import { cloneDeep, isString } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { IDataViewOptions, IFields, ITransformOptions } from '@visactor/vdataset';
-import type { IDataValues } from '../typings/spec/common';
+import type { CommonParseOptions, IDataValues, SheetParseOptions } from '../typings/spec/common';
 import { error } from '../util';
 import { registerDataSetInstanceTransform } from './register';
 import { copyDataView } from './transforms/copy-data-view';
@@ -42,7 +44,12 @@ export function dataViewFromDataView(rawData: DataView, dataSet?: DataSet, op?: 
  * @param dataSet 数据集
  * @returns
  */
-export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, sourceDataViews: DataView[] = []) {
+export function dataToDataView(
+  data: DataView | IDataValues,
+  dataSet: DataSet,
+  sourceDataViews: DataView[] = [],
+  ctx: utilFunctionCtx = {}
+) {
   if (data instanceof DataView) {
     return data;
   }
@@ -63,7 +70,8 @@ export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, s
       // 使用id查找上游dataview
       const fromDataView = sourceDataViews.find(dv => dv.name === fromDataId);
       if (!fromDataView) {
-        throw new Error(`no data matches fromDataId ${fromDataId}`);
+        (ctx.onError ?? error)(`no data matches fromDataId ${fromDataId}`);
+        return null;
       }
 
       dataView.parse([fromDataView], {
@@ -76,7 +84,8 @@ export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, s
       // 使用index查找上游dataview
       const fromDataView = sourceDataViews[fromDataIndex];
       if (!fromDataView) {
-        throw new Error(`no data matches fromDataIndex ${fromDataIndex}`);
+        (ctx.onError ?? error)(`no data matches fromDataIndex ${fromDataIndex}`);
+        return null;
       }
 
       dataView.parse([fromDataView], {
@@ -86,18 +95,15 @@ export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, s
         type: 'copyDataView'
       });
     } else if (Array.isArray(values)) {
-      // 处理values
-      dataView.parse(values);
-    } else if (
-      isString(values) &&
-      (!parser || parser.type === 'csv' || parser.type === 'dsv' || parser.type === 'tsv')
-    ) {
+      // 处理values，进行拷贝，不要修改用户 spec 的数据，否则一些 react 组件的更新场景会有问题
+      dataView.parse((parser as CommonParseOptions)?.clone === false ? values : cloneDeep(values));
+    } else if (isString(values) && (!parser || ['csv', 'dsv', 'tsv'].includes((parser as SheetParseOptions).type))) {
       // 内置 csv parser
-      dataView.parse(values, parser ?? { type: 'csv' });
+      dataView.parse(values, (parser as SheetParseOptions) ?? { type: 'csv' });
     } else {
       // 如果 values 不符合要求，则默认设置为 []，同时打印错误信息
       dataView.parse([]);
-      error('values should be array');
+      warn('values should be array');
     }
     // 处理transform
     if (transforms && transforms.length) {

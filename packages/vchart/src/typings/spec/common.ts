@@ -1,4 +1,4 @@
-import type { IImageMarkSpec } from './../visual';
+import type { IFillMarkSpec, IImageMarkSpec } from './../visual';
 import type { ILayoutPaddingSpec } from '../../model/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar';
@@ -94,6 +94,12 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * @default true
    */
   poptip?: boolean;
+
+  /**
+   * 报错的回调函数
+   * @since 1.2.0
+   */
+  onError?: (...args: any[]) => void;
 }
 
 export enum RenderModeEnum {
@@ -142,6 +148,12 @@ export interface IChartSpec {
    */
   seriesStyle?: ISeriesStyle;
 
+  /**
+   * 自动关闭动画的阀值，对应的是单系列data的长度
+   * @since 1.2.0
+   */
+  animationThreshold?: number;
+
   /** hover 交互 */
   hover?: boolean | IHoverSpec;
   /** select 交互 */
@@ -179,13 +191,19 @@ export interface IChartSpec {
   /**
    * 图表背景色配置，优先级高于构造函数中的 background 配置
    */
-  background?: string;
+  background?: IBackgroundSpec;
 
   // TODO：后续开放，现在仍有问题
   // poptip?: PopTipAttributes;
-
   // TODO: 补充动画配置
 }
+
+export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {
+  image?: IRectMarkSpec['background'];
+  cornerRadius?: IRectMarkSpec['cornerRadius'];
+};
+
+export type IBackgroundSpec = string | IBackgroundStyleSpec;
 
 /** data */
 export type IDataType = IDataValues | DataView;
@@ -230,6 +248,21 @@ export interface IFieldsMeta {
   sortReverse?: boolean;
 }
 
+export interface SheetParseOptions {
+  type: 'csv' | 'dsv' | 'tsv';
+  options?: IDsvParserOptions;
+}
+
+export interface CommonParseOptions {
+  /**
+   * 是否需要对数据进行 clone，默认为 true。
+   * 如果考虑性能，你可以将其关闭，但是这会带了一些副作用，即我们会对传入的数据进行修改（不会对原有字段及值修改，只会在原有数据基础上添加一些字段）。
+   * @default true
+   * @since 1.3.0
+   */
+  clone?: boolean;
+}
+
 export interface IDataValues {
   /**
    * 数据唯一标识
@@ -260,10 +293,7 @@ export interface IDataValues {
     IFieldsMeta
   >;
 
-  parser?: {
-    type: 'csv' | 'dsv' | 'tsv';
-    options?: IDsvParserOptions;
-  };
+  parser?: SheetParseOptions | CommonParseOptions;
 }
 
 export type IHierarchyNodeData = {
@@ -350,6 +380,11 @@ export interface ISeriesSpec extends ITriggerSpec {
    * 是否开启系列动画
    */
   animation?: boolean;
+  /**
+   * 自动关闭动画的阀值，对应的是单系列data的长度
+   * @since 1.2.0
+   */
+  animationThreshold?: number;
 
   /**
    * 是否支持3d视角
@@ -364,6 +399,13 @@ export interface ISeriesSpec extends ITriggerSpec {
    * 扩展mark
    */
   extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | IExtensionGroupMarkSpec)[];
+
+  /**
+   * series background
+   * 作用是支持系列的图形对系列背景进行 mask，或者切分等效果。不是作为背景图
+   * 暂时不开放api，避免出现break change
+   */
+  // background?: IBackgroundSpec;
 }
 
 export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph'>;

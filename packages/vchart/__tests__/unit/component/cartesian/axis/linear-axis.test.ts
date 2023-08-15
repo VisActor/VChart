@@ -94,7 +94,8 @@ const ctx: IComponentOption = {
   getComponentByUserId: function (user_id: string | number): IComponent | undefined {
     throw new Error('Function not implemented.');
   },
-  animation: false
+  animation: false,
+  onError: () => {}
 };
 
 const getAxisSpec = (spec: any) => {
@@ -120,6 +121,23 @@ test('config linearAxis.nice default [true] ', () => {
   const linearAxis = CartesianAxis.createAxis(
     getAxisSpec({
       orient: 'left'
+    }),
+    ctx
+  );
+
+  linearAxis.created();
+  linearAxis.init({});
+  // @ts-ignore
+  linearAxis.updateScaleDomain();
+  const scale = linearAxis.getScale();
+  expect(scale.domain()).toEqual([0, 1000]);
+});
+
+test('config linearAxis.nice default [true] ', () => {
+  const linearAxis = CartesianAxis.createAxis(
+    getAxisSpec({
+      orient: 'left',
+      tick: { tickMode: 'd3' }
     }),
     ctx
   );
@@ -201,6 +219,19 @@ test('zero === true && range is specific  ', () => {
   {
     // range优先级要高于nice，一旦设置了max/min，nice不应该改变相应的值
     const linearAxis = CartesianAxis.createAxis({ ...config, zero: false, range: { max: 599 } }, ctx);
+    linearAxis.created();
+    linearAxis.init({});
+    // @ts-ignore
+    linearAxis.updateScaleDomain();
+    const scale = linearAxis.getScale();
+    expect(scale.domain()).toEqual([565, 599]);
+  }
+  {
+    // range优先级要高于nice，一旦设置了max/min，nice不应该改变相应的值(d3 tick)
+    const linearAxis = CartesianAxis.createAxis(
+      { ...config, zero: false, range: { max: 599 }, tick: { tickMode: 'd3' } },
+      ctx
+    );
     linearAxis.created();
     linearAxis.init({});
     // @ts-ignore
