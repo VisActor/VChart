@@ -80,7 +80,7 @@ describe('line chart test', () => {
     });
 
     // mark
-    expect(series.getMarks().length).toEqual(4);
+    expect(series.getMarks().length).toEqual(3);
 
     // const mark = series.getMarks()[0];
     // scale.range在layout之后设置，所以这里的range为默认的[0,1]

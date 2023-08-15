@@ -108,7 +108,7 @@ describe('[Domain-Series-Line] Line Series', () => {
     line.init({});
 
     let marks = line.getMarks();
-    expect(marks.length).toEqual(4);
+    expect(marks.length).toEqual(3);
 
     const lineMark = marks[1];
     expect(get(lineMark.stateStyle.normal, 'stroke.style.gradient')).toBe('linear');
@@ -125,14 +125,14 @@ describe('[Domain-Series-Line] Line Series', () => {
     line.getMarkSet().addMark(addMark);
 
     marks = line.getMarks();
-    expect(marks.length).toEqual(5);
-    symbolMark = marks[4];
+    expect(marks.length).toEqual(4);
+    symbolMark = marks[3];
     expect(symbolMark.name).toEqual('testSymbol');
     expect(symbolMark.type).toEqual('symbol');
 
     line.getMarkSet().removeMark(addMark.name);
     marks = line.getMarks();
-    expect(marks.length).toEqual(4);
+    expect(marks.length).toEqual(3);
     symbolMark = marks[2];
     expect(symbolMark.id).toEqual(markId);
   });
