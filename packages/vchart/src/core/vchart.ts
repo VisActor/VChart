@@ -1179,6 +1179,21 @@ export class VChart implements IVChart {
     return this._chart?.setDimensionIndex(value, opt);
   }
 
+  /** 停止正在进行的所有动画 */
+  stopAnimation() {
+    this._compiler?.getVGrammarView()?.animate?.stop();
+  }
+
+  /** 暂停正在进行的所有动画 */
+  pauseAnimation() {
+    this._compiler?.getVGrammarView()?.animate?.pause();
+  }
+
+  /** 恢复暂停时正在进行的所有动画 */
+  resumeAnimation() {
+    this._compiler?.getVGrammarView()?.animate?.resume();
+  }
+
   // TODO: 后续需要考虑滚动场景
   /**
    * Convert the data corresponding to the graph into coordinates
