@@ -488,7 +488,7 @@ describe('global-scale test', () => {
 
     expect(globalScale.getScale('size')?.type).toEqual('linear');
     expect(globalScale.getScale('size')?.range()).toEqual([10, 25]);
-    expect(globalScale.getScale('size')?.domain()).toEqual([24903, 219815]);
+    expect(globalScale.getScale('size')?.domain()).toEqual([24903, 215585]);
 
     expect(globalScale.getScale('shape')?.type).toEqual('ordinal');
     expect(globalScale.getScale('shape')?.range()).toEqual(['star', 'triangleLeft', 'diamond']);
