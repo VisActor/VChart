@@ -641,6 +641,33 @@ export class VChart implements IVChart {
   }
 
   /**
+   * **同步方法** 批量更新数据。
+   * @param list 待更新的数据列表
+   * @returns VChart 实例
+   */
+  updateDataInBatchesSync(list: { id: string; data: DataView | Datum[]; options?: IParserOptions }[]): IVChart {
+    if (this._chart) {
+      list.forEach(({ id, data, options }) => {
+        this._chart.updateData(id, data, false, options);
+      });
+      this._chart.updateGlobalScaleDomain();
+      this._compiler.renderSync();
+      return this as unknown as IVChart;
+    }
+    list.forEach(({ id, data, options }) => {
+      const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
+      if (preDV) {
+        preDV.parse(data, options);
+      } else {
+        const dataView = new DataView(this._dataSet, { name: id });
+        dataView.parse(data, options);
+        this._spec.data.push(dataView);
+      }
+    });
+    return this as unknown as IVChart;
+  }
+
+  /**
    * **异步方法** spec 更新
    * @param spec
    * @param forceMerge
