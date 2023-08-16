@@ -537,17 +537,17 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       this._pieMark.setAnimationConfig(pieAnimationConfig);
     }
 
-    if (this._labelMark) {
-      this._labelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec))
-      );
+    // if (this._labelMark) {
+    //   this._labelMark.setAnimationConfig(
+    //     animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec))
+    //   );
 
-      if (this._labelLineMark) {
-        this._labelLineMark.setAnimationConfig(
-          animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.labelLine, this._spec))
-        );
-      }
-    }
+    //   if (this._labelLineMark) {
+    //     this._labelLineMark.setAnimationConfig(
+    //       animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.labelLine, this._spec))
+    //     );
+    //   }
+    // }
   }
 
   getDefaultShapeType(): string {
