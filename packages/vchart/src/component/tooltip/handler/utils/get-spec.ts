@@ -68,16 +68,12 @@ export const getTooltipSpecForShow = (
   // 来自系列的 pattern
   const seriesPattern = getSeriesTooltipPattern(activeType, series, dimensionInfo);
   // 来自用户配置的 pattern
-  const userPattern = merge({}, cloneDeep(globalSpec[activeType]), seriesPattern);
+  const userPattern: ITooltipPattern = merge({}, cloneDeep(globalSpec[activeType]), seriesPattern);
 
   // 对pattern进行组装
   // 组装 title
   const defaultPatternTitle = defaultPattern.title as IToolTipLinePattern | undefined;
-  const titleShape: ITooltipShapePattern = {
-    hasShape: userPattern.hasShape ?? defaultPatternTitle?.hasShape,
-    shapeType: userPattern.shapeType ?? defaultPatternTitle?.shapeType,
-    shapeColor: userPattern.shapeColor ?? defaultPatternTitle?.shapeColor
-  };
+  const titleShape: ITooltipShapePattern = getShapePattern(undefined, userPattern, undefined, defaultPatternTitle);
   if (isValid(userPattern.title)) {
     // 排除是回调的情况
     if (!isFunction(userPattern.title)) {
@@ -104,20 +100,15 @@ export const getTooltipSpecForShow = (
   }
 
   // 组装 content
-  const getContentShape = (defaultContentLine?: ITooltipShapePattern): ITooltipShapePattern => ({
-    hasShape: userPattern.hasShape ?? defaultContentLine?.hasShape,
-    shapeType: userPattern.shapeType ?? defaultContentLine?.shapeType,
-    shapeColor: userPattern.shapeColor ?? defaultContentLine?.shapeColor
-  });
   const defaultPatternContent = array(defaultPattern.content) as IToolTipLinePattern[];
   if (isValid(userPattern.content)) {
-    const shapePatternMap = getShapePatternOfEachSeries(defaultPatternContent);
+    const shapePatternMap = getShapePatternMapOfEachSeries(defaultPatternContent);
     // 排除是回调的情况
     if (!isFunction(userPattern.content)) {
       const newPatternContent: IToolTipLinePattern[] = [];
       array(userPattern.content).forEach(userLine => {
         newPatternContent.push({
-          ...getContentShape(shapePatternMap[userLine.seriesId]), // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+          ...getShapePattern(userLine as IToolTipLinePattern, userPattern, shapePatternMap), // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
           ...userLine
         });
       });
@@ -128,7 +119,7 @@ export const getTooltipSpecForShow = (
         const newPatternContent: IToolTipLinePattern[] = [];
         array(userPatternContent(data, params) ?? []).forEach(userLine => {
           newPatternContent.push({
-            ...getContentShape(shapePatternMap[userLine.seriesId]), // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+            ...getShapePattern(userLine as IToolTipLinePattern, userPattern, shapePatternMap), // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
             ...userLine
           });
         });
@@ -138,7 +129,7 @@ export const getTooltipSpecForShow = (
   } else {
     userPattern.content = defaultPatternContent.map(line => ({
       ...line,
-      ...getContentShape(line)
+      ...getShapePattern(undefined, userPattern, undefined, line)
     }));
   }
 
@@ -250,12 +241,33 @@ const getSeriesListFromDimensionInfo = (dimensionInfo: IDimensionInfo[]): ISerie
 };
 
 /** 获取每个系列对应的 shape pattern */
-const getShapePatternOfEachSeries = (content: IToolTipLinePattern[]): Record<number, ITooltipShapePattern> => {
+const getShapePatternMapOfEachSeries = (content: IToolTipLinePattern[]): Record<number, ITooltipShapePattern> => {
   const shapePatternMap: Record<number, ITooltipShapePattern> = {};
   content.forEach(line => {
-    if (!shapePatternMap[line.seriesId]) {
-      shapePatternMap[line.seriesId] = line;
+    const key = line.seriesId ?? 0;
+    if (!shapePatternMap[key]) {
+      shapePatternMap[key] = line;
     }
   });
   return shapePatternMap;
+};
+
+/** 根据优先级获取形状配置 */
+const getShapePattern = (
+  userLinePattern?: IToolTipLinePattern,
+  userPattern?: ITooltipPattern,
+  shapePatternMap?: Record<number, ITooltipShapePattern>,
+  defaultShapePattern?: ITooltipShapePattern
+): ITooltipShapePattern => {
+  const shapePatternFromMap = shapePatternMap?.[userLinePattern?.seriesId ?? 0] ?? shapePatternMap?.[0];
+  const shapeKeys: (keyof ITooltipShapePattern)[] = ['hasShape', 'shapeType', 'shapeColor'];
+  const shapePattern: ITooltipShapePattern = {};
+  shapeKeys.forEach(key => {
+    const value =
+      userLinePattern?.[key] ?? userPattern?.[key] ?? shapePatternFromMap?.[key] ?? defaultShapePattern?.[key];
+    if (value !== undefined) {
+      shapePattern[key as any] = value;
+    }
+  });
+  return shapePattern;
 };
