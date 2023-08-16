@@ -25,7 +25,7 @@ import {
   getTooltipPatternValue,
   getScale
 } from './utils';
-import type { Tooltip, TooltipContent } from '../tooltip';
+import type { Tooltip, TooltipActualTitleContent } from '../tooltip';
 import type { ISeries } from '../../../series/interface';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -341,7 +341,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const patternVisible = getTooltipPatternValue(pattern.visible, data, params);
 
     // 数据
-    let tooltipContent: TooltipContent | null = null;
+    let tooltipContent: TooltipActualTitleContent | null = null;
     tooltipContent = getShowContent(pattern, data, params);
 
     const actualTooltip: IToolTipActual = {

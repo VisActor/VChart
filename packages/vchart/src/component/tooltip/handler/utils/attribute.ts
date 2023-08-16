@@ -51,6 +51,7 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
   const {
     visible: titleVisible = true,
     value: titleValue = '',
+    valueStyle: titleValueStyle,
     hasShape: titleHasShape,
     shapeType: titleShapeType = '',
     shapeHollow: titleShapeHollow,
@@ -58,7 +59,7 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
   } = title;
   attribute.title.visible = titleVisible;
   if (titleVisible) {
-    const lineTitleStyle = merge({}, titleStyle, getTextAttributes(title.valueStyle, undefined, {}));
+    const lineTitleStyle = merge({}, titleStyle, getTextAttributes(titleValueStyle, undefined, {}));
     const { text, width, height } = measureTooltipText(titleValue, lineTitleStyle);
     attribute.title.value = {
       width,

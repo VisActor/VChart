@@ -40,7 +40,7 @@ import { hasParentElement, isString } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 
-export type TooltipContent = {
+export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
   content?: IToolTipLineActual[];
 };
