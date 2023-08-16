@@ -275,7 +275,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
           seriesValue = this.getSeriesKeys()[0];
         }
         return this._option.globalScale.getScale('color')?.scale(seriesValue);
-      }
+      },
+      getRegion: () => this._region
     };
   }
 
