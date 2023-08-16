@@ -2,7 +2,7 @@ import { BaseComponent } from '../base';
 import { ComponentTypeEnum } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponentOption } from '../interface';
-import { isArray, merge, isValidNumber, isValidOrient } from '../../util';
+import { isArray, isValidNumber, isValidOrient } from '../../util';
 import type { ITitle, ITitleSpec, ITitleTheme } from './interface';
 import type { IRegion } from '../../region/interface';
 import type { ILayoutRect } from '../../model/interface';
@@ -144,7 +144,8 @@ export class Title extends BaseComponent implements ITitle {
   }
 
   private _getTitleAttrs() {
-    const realWidth = this._spec.width ?? this.getLayoutRect().width;
+    // 当 width 小于 0 时，设置为 0，负数场景容易引起不可预知的问题
+    const realWidth = Math.max(0, this._spec.width ?? this.getLayoutRect().width);
     return {
       text: this._spec.text ?? '',
       subtext: this._spec.subtext ?? '',
