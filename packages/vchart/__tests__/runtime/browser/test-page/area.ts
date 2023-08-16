@@ -58,6 +58,18 @@ const run = () => {
     crosshair: {
       xField: { visible: true }
     },
+    axes: [
+      {
+        orient: 'bottom',
+        type: 'band',
+        bandSize: 200
+      },
+      { orient: 'left', type: 'linear' }
+    ],
+    scrollBar: [
+      { orient: 'bottom', start: 0, filterMode: 'axis', axisIndex: 0, auto: true }
+      // { orient: 'bottom', start: 0, end: 0.5, roam: true, filterMode: 'axis' }
+    ],
     tooltip: {
       dimension: {
         title: {

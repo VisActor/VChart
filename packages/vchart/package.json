@@ -98,7 +98,7 @@
   "dependencies": {
     "@visactor/vutils": "~0.15.7",
     "@visactor/vdataset": "~0.15.7",
-    "@visactor/vscale": "~0.15.7",
+    "@visactor/vscale": "0.15.8-alpha.0",
     "@visactor/vgrammar": "~0.6.1",
     "@visactor/vgrammar-projection": "~0.6.1",
     "@visactor/vgrammar-wordcloud": "~0.6.1",
