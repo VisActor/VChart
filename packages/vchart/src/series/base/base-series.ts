@@ -323,8 +323,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
 
     // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
-    if (this._invalidType === 'zero') {
-      registerDataSetInstanceTransform(this._option.dataSet, 'invalidTravel', invalidTravel);
+    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
+      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
       // make sure each series only transform once
       this._rawData?.transform(
         {
