@@ -93,3 +93,21 @@
   width: 100%;
   height: 400px;
 }
+
+.markdown-container table {
+  border: solid 1px #dddddd;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.markdown-container th {
+  border: solid 1px #dddddd;
+  padding: 6px 13px;
+}
+.markdown-container td {
+  border: solid 1px #dddddd;
+  padding: 6px 13px;
+}
+
+.markdown-container table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
