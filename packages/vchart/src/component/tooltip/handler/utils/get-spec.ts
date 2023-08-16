@@ -13,7 +13,6 @@ import { cloneDeep, isValid, merge, array, isFunction, isNil } from '../../../..
 import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../../event/events/dimension/interface';
 import { getTooltipActualActiveType } from '../../utils';
-import { memoize } from '@visactor/vutils';
 
 export const getTooltipSpecForShow = (
   activeType: TooltipActiveType,
@@ -243,15 +242,15 @@ const getSeriesTooltipPattern = (
   return seriesPattern;
 };
 
-const getSeriesListFromDimensionInfo = memoize((dimensionInfo: IDimensionInfo[]): ISeries[] => {
+const getSeriesListFromDimensionInfo = (dimensionInfo: IDimensionInfo[]): ISeries[] => {
   return dimensionInfo.reduce(
     (list, cur) => list.concat(cur.data.map(data => data.series).filter(isValid)),
     [] as ISeries[]
   );
-});
+};
 
 /** 获取每个系列对应的 shape pattern */
-const getShapePatternOfEachSeries = memoize((content: IToolTipLinePattern[]): Record<number, ITooltipShapePattern> => {
+const getShapePatternOfEachSeries = (content: IToolTipLinePattern[]): Record<number, ITooltipShapePattern> => {
   const shapePatternMap: Record<number, ITooltipShapePattern> = {};
   content.forEach(line => {
     if (!shapePatternMap[line.seriesId]) {
@@ -259,4 +258,4 @@ const getShapePatternOfEachSeries = memoize((content: IToolTipLinePattern[]): Re
     }
   });
   return shapePatternMap;
-});
+};
