@@ -54,10 +54,6 @@ export type IMarkStyle<T extends ICommonSpec> = {
   [key in keyof T]: MarkInputStyle<T[key]>;
 };
 
-export type IStyleSetOption = {
-  ignoreSegmentsCheck?: boolean;
-};
-
 /**********   mark  ***************/
 export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   readonly stateStyle: IMarkStateStyle<T>;
@@ -71,8 +67,7 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
     style: Partial<IMarkStyle<T>>,
     state?: StateValueType,
     level?: number,
-    stateStyle?: IMarkStateStyle<T>,
-    opt?: IStyleSetOption
+    stateStyle?: IMarkStateStyle<T>
   ) => void;
 
   setReferer: (mark: IMarkRaw<T>, styleKey?: string, state?: StateValueType, stateStyle?: IMarkStateStyle<T>) => void;
