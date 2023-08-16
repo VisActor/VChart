@@ -8,13 +8,14 @@ import type { LayoutItem } from '../../model/layout-item';
 import { ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
 import type { ITextMark } from '../../mark/text';
-import { eachSeries, merge } from '../../util';
+import { eachSeries, merge, pick } from '../../util';
 import type { ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar';
 import { markLabelConfigFunc, textAttribute } from './util';
 import type { IComponentMark } from '../../mark/component';
 import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import { pickWithout } from '@visactor/vutils';
 
 export interface ILabelInfo {
   baseMark: IMark;
@@ -189,22 +190,18 @@ export class Label extends BaseComponent {
           if (baseMark) {
             const configFunc = markLabelConfigFunc[baseMark.type] ?? markLabelConfigFunc.symbol;
             const labelSpec = baseMark.getLabelSpec() ?? {};
-            const { smartInvert, offset, overlap, animation } = labelSpec;
             const interactive = this._interactiveConfig(labelSpec);
+            const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
+            /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
             const centerOffset = this._spec?.centerOffset ?? 0;
-
             return merge(
               {
                 textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style }
               },
               configFunc(labelInfo[baseMarks.findIndex(mark => mark === baseMark)]),
               {
-                smartInvert,
-                offset,
-                animation,
-                overlap,
+                ...passiveLabelSpec,
                 ...interactive,
-                ...labelSpec,
                 centerOffset
               }
             );

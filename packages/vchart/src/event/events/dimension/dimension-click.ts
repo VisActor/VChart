@@ -1,21 +1,8 @@
 import { Event_Source_Type } from '../../../constant';
-import type { RenderMode } from '../../../typings/spec/common';
-import type {
-  BaseEventParams,
-  EventHandler,
-  EventParamsDefinition,
-  EventType,
-  IEventDispatcher
-} from '../../interface';
+import type { BaseEventParams, EventHandler, EventParamsDefinition, EventType } from '../../interface';
 import { DimensionEvent } from './base';
 
 export class DimensionClickEvent extends DimensionEvent {
-  constructor(eventDispatcher: IEventDispatcher, mode: RenderMode) {
-    super(eventDispatcher, mode);
-
-    this.onClick = this.onClick.bind(this);
-  }
-
   register<Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) {
     this._callback = handler.callback;
 
@@ -32,7 +19,7 @@ export class DimensionClickEvent extends DimensionEvent {
     });
   }
 
-  private onClick(params: BaseEventParams) {
+  private onClick = (params: BaseEventParams) => {
     if (!params) {
       return;
     }
@@ -47,5 +34,5 @@ export class DimensionClickEvent extends DimensionEvent {
       action: 'click',
       dimensionInfo: [...targetDimensionInfo]
     });
-  }
+  };
 }

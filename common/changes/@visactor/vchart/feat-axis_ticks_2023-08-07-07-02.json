@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "build: add es5 build product",
+      "comment": "feat: linear axis support `noDecimals` in tick configuration, see #396",
       "type": "patch"
     }
   ],

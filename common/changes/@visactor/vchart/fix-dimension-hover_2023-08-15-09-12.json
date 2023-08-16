@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix appear animation state fixed #327",
+      "comment": "fix: dimension_hover resets the state when the mouse leaves the chart, related #513",
       "type": "patch"
     }
   ],

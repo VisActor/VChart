@@ -1,3 +1,6 @@
+import { PREFIX } from './../../constant/base';
+import type { ISeriesOption } from './../interface/common';
+import { DataView } from '@visactor/vdataset';
 import type { ITrigger } from '../../interaction/interface';
 import type { ISeries } from '../interface/series';
 import { AttributeLevel } from '../../constant';
@@ -23,21 +26,26 @@ import { Direction } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { DEFAULT_CLOSE_STROKE_JOIN, DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
-import { couldBeValidNumber, isValid, merge } from '../../util';
+import { couldBeValidNumber, isNil, isValid, merge } from '../../util';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper, SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum } from '../interface';
 import type { ILabelSpec } from '../../component/label';
 import { shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import type { DimensionEventParams } from '../../event/events/dimension';
+import type { EventCallback, EventParams } from '../../event/interface';
+import { DimensionEventEnum } from '../../event/events/dimension';
+import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 
 export interface ILineLikeSeriesTheme {
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
-  point?: Partial<IMarkTheme<ISymbolMarkSpec>>;
+  point?: Partial<IMarkTheme<ISymbolMarkSpec>> & { visibleInActive?: boolean };
   label?: Partial<ILabelSpec>;
 }
 
 export interface LineLikeSeriesMixin extends ISeries {
   _spec: any;
+  _option: ISeriesOption;
   _seriesField: string;
   _theme: Maybe<ILineLikeSeriesTheme>;
   _trigger: ITrigger;
@@ -46,6 +54,7 @@ export interface LineLikeSeriesMixin extends ISeries {
 
   _lineMark: ILineMark;
   _symbolMark: ISymbolMark;
+  _symbolActiveMark: ISymbolMark;
   _labelMark: ITextMark;
 
   _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption) => IMark;
@@ -142,6 +151,39 @@ export class LineLikeSeriesMixin {
     return lineMark;
   }
 
+  protected _getEventElement(params: DimensionEventParams, reverse: boolean = false): Datum[] {
+    // items 修改遍历方法从 mark
+    let data: Datum[] = [];
+    params.dimensionInfo.some(df => {
+      df.data.some(dd => {
+        if (dd.series === this) {
+          data = dd.datum;
+          return true;
+        }
+        return false;
+      });
+      return !data.length;
+    });
+    return data;
+  }
+
+  protected _dimensionTrigger(params: DimensionEventParams) {
+    const elements = this._getEventElement(params);
+    switch (params.action) {
+      case 'enter':
+        this._symbolActiveMark.getDataView().parse(elements);
+        this._symbolActiveMark.getData().updateData(false);
+        break;
+      case 'leave':
+        this._symbolActiveMark.getDataView().parse([]);
+        this._symbolActiveMark.getData().updateData(false);
+      case 'click':
+      case 'move':
+      default:
+        break;
+    }
+  }
+
   initSymbolMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
     this._symbolMark = this._createMark(lineLikeSeriesMarkMap.point, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
@@ -151,51 +193,93 @@ export class LineLikeSeriesMixin {
       progressive,
       isSeriesMark: !!isSeriesMark
     }) as ISymbolMark;
+
+    if (this._spec.activePoint === true) {
+      const activeData = new DataView(this._option.dataSet, { name: `${PREFIX}_series_${this.id}_active_point` });
+      activeData.parse([]);
+      this._symbolActiveMark = this._createMark(
+        { name: `active_point`, type: MarkTypeEnum.symbol },
+        {
+          morph: false,
+          groupKey: this._seriesField,
+          label: null,
+          isSeriesMark: false,
+          dataView: activeData
+        }
+      ) as ISymbolMark;
+      this._symbolActiveMark.setVisible(false);
+    }
+
     return this._symbolMark;
   }
 
   initSymbolMarkStyle() {
     const symbolMark = this._symbolMark;
-    if (symbolMark) {
-      this.setMarkStyle(
-        symbolMark,
-        {
-          fill: this.getColorAttribute()
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-
-      if (this._invalidType) {
-        this.setMarkStyle(
-          symbolMark,
-          {
-            visible: (datum: Datum) => {
-              if (this._invalidType === 'break') {
-                return couldBeValidNumber(datum[this.getStackValueField()]);
-              } else if (this._invalidType === 'link') {
-                return couldBeValidNumber(datum[this.getStackValueField()]);
-              }
-              return true;
-            }
-          },
-          'normal',
-          AttributeLevel.Series
-        );
-      }
-      this.setMarkStyle(
-        symbolMark,
-        {
-          x: this.dataToPositionX.bind(this),
-          y: this.dataToPositionY.bind(this),
-          z: this.dataToPositionZ.bind(this)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-      this._trigger.registerMark(symbolMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
+    if (!symbolMark) {
+      return symbolMark;
     }
+    this.setMarkStyle(
+      symbolMark,
+      {
+        fill: this.getColorAttribute()
+      },
+      'normal',
+      AttributeLevel.Series
+    );
+
+    if (this._invalidType) {
+      this.setMarkStyle(
+        symbolMark,
+        {
+          visible: (datum: Datum) => {
+            if (this._invalidType === 'break') {
+              return couldBeValidNumber(datum[this.getStackValueField()]);
+            } else if (this._invalidType === 'link') {
+              return couldBeValidNumber(datum[this.getStackValueField()]);
+            }
+            return true;
+          }
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+    this.setMarkStyle(
+      symbolMark,
+      {
+        x: this.dataToPositionX.bind(this),
+        y: this.dataToPositionY.bind(this),
+        z: this.dataToPositionZ.bind(this)
+      },
+      'normal',
+      AttributeLevel.Series
+    );
+    this._trigger.registerMark(symbolMark);
+    this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
+
+    // setStyle to active point
+    if (this._symbolActiveMark && this._symbolMark.stateStyle.dimension_hover) {
+      // active point will show
+      this._symbolActiveMark.setVisible(true);
+      this.event.on(DimensionEventEnum.dimensionHover, this._dimensionTrigger.bind(this) as EventCallback<EventParams>);
+      // set style with referer
+      for (const state in this._symbolMark.stateStyle) {
+        this._symbolActiveMark.stateStyle[state] = {};
+        for (const key in this._symbolMark.stateStyle[state]) {
+          this._symbolActiveMark.stateStyle[state][key] = {
+            style: null,
+            level: AttributeLevel.Series,
+            referer: symbolMark
+          };
+        }
+      }
+      // make sure activeMark in state
+      this._symbolActiveMark.state.changeStateInfo({
+        stateValue: STATE_VALUE_ENUM.STATE_DIMENSION_HOVER,
+        filter: () => true
+      });
+    }
+
     return symbolMark;
   }
 

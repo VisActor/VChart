@@ -152,11 +152,11 @@ export class BaseChart extends CompilableBase implements IChart {
   getLayoutTag() {
     return this._layoutTag;
   }
-  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig): boolean {
+  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, reLayout: boolean = true): boolean {
     this._layoutTag = tag;
     if (this.getCompiler()?.getVGrammarView()) {
       this.getCompiler().getVGrammarView().updateLayoutTag();
-      tag && this.getCompiler().reRenderAsync(morphConfig);
+      tag && reLayout && this.getCompiler().reRenderAsync(morphConfig);
     }
     return this._layoutTag;
   }
@@ -250,9 +250,9 @@ export class BaseChart extends CompilableBase implements IChart {
     this.setLayoutTag(true);
   }
 
-  updateViewBox(viewBox: IBoundsLike) {
+  updateViewBox(viewBox: IBoundsLike, reLayout: boolean) {
     this._updateLayoutRect(viewBox);
-    this.setLayoutTag(true);
+    this.setLayoutTag(true, null, reLayout);
   }
 
   createBackground(bg: IChartSpec['background']) {
@@ -1020,6 +1020,8 @@ export class BaseChart extends CompilableBase implements IChart {
     this._layoutRect.height = viewRect.height - this.padding.top - this.padding.bottom;
     this._layoutRect.x = this.padding.left;
     this._layoutRect.y = this.padding.top;
+
+    this._event.emit(ChartEvent.layoutRectUpdate, {});
   }
 
   /** 获取当前全局主题 */

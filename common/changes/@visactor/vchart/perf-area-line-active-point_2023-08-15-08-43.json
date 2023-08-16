@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "fix(axis-layout): fix the problem that the axis-component cannot take effect after configuring minWidth and maxWidth, details are in #379\n\n",
+      "comment": "feat(active): add active point for line & area series to optimization the performance of user interactive\n\n",
       "type": "patch",
       "packageName": "@visactor/vchart"
     }
