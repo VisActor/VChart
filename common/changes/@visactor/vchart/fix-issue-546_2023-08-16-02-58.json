@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: when chart size is very small, the size assigned to title may be negative, which needs to be fault-tolerant, otherwise it will easily cause the page to freeze, closed #546",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
