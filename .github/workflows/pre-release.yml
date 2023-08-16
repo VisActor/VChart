@@ -40,6 +40,12 @@ jobs:
           semver_string: ${{ github.ref_name }}
           semver_pattern: '^pre-release/(.*)$' # ^v?(.*)$ by default
 
+      - name: update nextBump of version policies
+        uses: xile611/set-next-bump-of-rush@main
+        with:
+          is_prerelease: true
+          write_next_bump: true
+
       - name: Apply prereleaseName
         run: node common/scripts/install-run-rush.js publish --apply --prerelease-name ${{ steps.semver_parser.outputs.pre_release_name }} --partial-prerelease
 
