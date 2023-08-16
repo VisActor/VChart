@@ -662,7 +662,7 @@ export class BaseChart extends CompilableBase implements IChart {
     this.getAllModels().forEach(model => model.onDataUpdate());
   }
 
-  data(data: IDataValues | IDataValues[], updateGlobalScale: boolean = true) {
+  updateFullData(data: IDataValues | IDataValues[], updateGlobalScale: boolean = true) {
     const dvs: { d: IDataValues; dv: DataView }[] = [];
     array(data).forEach(d => {
       const dv = this._dataSet.getDataView(d.id as string);

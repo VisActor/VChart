@@ -638,9 +638,15 @@ export class VChart implements IVChart {
     return this as unknown as IVChart;
   }
 
+  /**
+   * **同步方法** 更新数据
+   * @param data 图表配置结构中的数据对象
+   * @returns VChart 实例
+   * @since 1.3.0
+   */
   updateFullDataSync(data: IDataValues | IDataValues[], reRender: boolean = true) {
     if (this._chart) {
-      this._chart.data(data);
+      this._chart.updateFullData(data);
       if (reRender) {
         this._compiler.renderSync();
       }
@@ -665,9 +671,15 @@ export class VChart implements IVChart {
     return this as unknown as IVChart;
   }
 
+  /**
+   * **异步方法** 更新数据
+   * @param data 图表配置结构中的数据对象
+   * @returns VChart 实例
+   * @since 1.3.0
+   */
   async updateFullData(data: IDataValues | IDataValues[], reRender: boolean = true) {
     if (this._chart) {
-      this._chart.data(data);
+      this._chart.updateFullData(data);
       if (reRender) {
         await this._compiler.renderAsync();
       }
