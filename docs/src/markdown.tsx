@@ -168,7 +168,7 @@ export function Markdown() {
         <Header />
       </Layout.Header>
       <Layout style={{ marginTop: 48 }}>
-        <Layout.Sider style={{ height: 'calc(100vh - 48px)' }}>
+        <Layout.Sider style={{ height: 'calc(100vh - 48px)', width: 280 }}>
           <Outline menuItems={outline} assetDirectory={assetDirectory} />
         </Layout.Sider>
         <Layout.Content style={{ height: 'calc(100vh - 48px)' }}>

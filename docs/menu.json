@@ -9,6 +9,11 @@
   },
   {
     "menu": "options",
-    "type": "markdown-template"
+    "type": "markdown-template",
+    "entry": "options"
+  },
+  {
+    "menu": "api",
+    "type": "markdown"
   }
 ]
