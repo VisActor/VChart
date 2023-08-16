@@ -99,8 +99,7 @@ export function dataToDataView(
         type: 'copyDataView'
       });
     } else if (Array.isArray(values)) {
-      // 处理values，进行拷贝，不要修改用户 spec 的数据，否则一些 react 组件的更新场景会有问题
-      dataView.parse(values, parser as IParserOptions);
+      dataView.parse(values, parser);
     } else if (isString(values) && (!parser || ['csv', 'dsv', 'tsv'].includes((parser as SheetParseOptions).type))) {
       // 内置 csv parser
       dataView.parse(values, (parser as SheetParseOptions) ?? { type: 'csv' });
