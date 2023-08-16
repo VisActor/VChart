@@ -3,11 +3,21 @@ import { RouteObject, RouterProvider, createBrowserRouter, Navigate } from 'reac
 import { LanguageContext, LanguageEnum, getStoredLanguage, storeLanguage } from './i18n';
 import menu from '../menu.json';
 import { Markdown } from './markdown';
+import { Option } from './option';
 
 const menuRoutes: RouteObject[] = menu.map(menuItem => {
-  // if (menuItem.type === 'markdown-template') {
-  //   return {};
-  // }
+  if (menuItem.type === 'markdown-template') {
+    return {
+      path: `/${menuItem.menu}`,
+      element: <Option />,
+      children: [
+        {
+          path: '*',
+          element: <Option />
+        }
+      ]
+    };
+  }
   return {
     path: `/${menuItem.menu}`,
     element: <Markdown />,
