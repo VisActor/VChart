@@ -117,3 +117,6 @@ packages/vchart/series.js
 
 packages/taro-vchart/lib/
 packages/lark-vchart/index.js
+
+# generated documents
+docs/public/documents

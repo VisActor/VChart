@@ -21,6 +21,11 @@ importers:
       '@visactor/vutils': ~0.13.3
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
+      chalk: ^3.0.0
+      chokidar: ^3.5.0
+      fs-extra: 10.1.0
+      globby: 11.1.0
+      htmlparser2: ^4.1.0
       markdown-it: 13.0.1
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -28,6 +33,7 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
       vite-plugin-markdown: ^2.1.0
+      yargs: ^17.1.1
     devDependencies:
       '@arco-design/web-react': 2.46.1_qflmzdebv2ewfrqz6op6ohcc2q
       '@internal/eslint-config': link:../share/eslint-config
@@ -36,10 +42,15 @@ importers:
       '@types/react-dom': 18.2.7
       '@visactor/vchart': link:../packages/vchart
       '@visactor/vgrammar': 0.5.7
-      '@visactor/vrender': 0.13.10
+      '@visactor/vrender': 0.13.11
       '@visactor/vutils': 0.13.3
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
       axios: 1.4.0
+      chalk: 3.0.0
+      chokidar: 3.5.3
+      fs-extra: 10.1.0
+      globby: 11.1.0
+      htmlparser2: 4.1.0
       markdown-it: 13.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -47,6 +58,7 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
       vite-plugin-markdown: 2.1.0_vite@3.2.6
+      yargs: 17.7.2
 
   ../../packages/lark-vchart:
     specifiers:
@@ -6824,7 +6836,6 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
-    dev: false
 
   /clone-buffer/1.0.0:
     resolution: {integrity: sha512-KLLTJWrvwIP+OPfMn0x2PheDEP20RPUcGXj/ERegTgdmPEZylALQldygiqrPPu8P45uNuPs7ckmReLY6v/iA5g==}
@@ -8215,6 +8226,13 @@ packages:
     resolution: {integrity: sha512-JiK04h0Ht5u/80fdLMCEmV4zkNh2BcoMFBmZ/91WtYZ8qVXSKjiw7fXMgFPnHcSZgOo3XdinHvmnDUeMf5R4wA==}
     dependencies:
       domelementtype: 1.3.1
+    dev: true
+
+  /domhandler/3.3.0:
+    resolution: {integrity: sha512-J1C5rIANUbuYK+FuFL98650rihynUOEzRLxW+90bKZRWB6A1X1Tf82GxR1qAWLyfNPRvjqfip3Q5tdYlmAa9lA==}
+    engines: {node: '>= 4'}
+    dependencies:
+      domelementtype: 2.3.0
     dev: true
 
   /domhandler/4.3.1:
@@ -10239,7 +10257,6 @@ packages:
       graceful-fs: 4.2.11
       jsonfile: 6.1.0
       universalify: 2.0.0
-    dev: false
 
   /fs-extra/5.0.0:
     resolution: {integrity: sha512-66Pm4RYbjzdyeuqudYqhFiNBbCIuI9kgRqLPSHIlXHidW8NIQtVdkM1yeZ4lXwuhbTETv3EUGMNHAAw6hiundQ==}
@@ -11276,6 +11293,15 @@ packages:
       entities: 1.1.2
       inherits: 2.0.4
       readable-stream: 3.6.2
+    dev: true
+
+  /htmlparser2/4.1.0:
+    resolution: {integrity: sha512-4zDq1a1zhE4gQso/c5LP1OtrhYTncXNSpvJYtWJBtXAETPlMfi3IFNjGuQbYLuVY4ZR0QMqRVvo4Pdy9KLyP8Q==}
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 3.3.0
+      domutils: 2.8.0
+      entities: 2.2.0
     dev: true
 
   /htmlparser2/6.1.0:
@@ -13628,7 +13654,6 @@ packages:
       universalify: 2.0.0
     optionalDependencies:
       graceful-fs: 4.2.11
-    dev: false
 
   /jsonp-retry/1.0.3:
     resolution: {integrity: sha512-/jmE9+shtKP+oIt2AWO9Wx+C27NTGpLCEw4QHOqpoV2X6ta374HE9C+EEdgu8r3iLKgFMx7u5j0mCwxWN8UdlA==}
@@ -20169,7 +20194,6 @@ packages:
   /universalify/2.0.0:
     resolution: {integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==}
     engines: {node: '>= 10.0.0'}
-    dev: false
 
   /unpipe/1.0.0:
     resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
@@ -21324,7 +21348,6 @@ packages:
   /yargs-parser/21.1.1:
     resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
     engines: {node: '>=12'}
-    dev: false
 
   /yargs-parser/5.0.1:
     resolution: {integrity: sha512-wpav5XYiddjXxirPoCTUPbqM0PXvJ9hiBMvuJgInvo4/lAOTZzUprArw17q2O1P2+GHhbBr18/iQwjL5Z9BqfA==}
@@ -21399,7 +21422,6 @@ packages:
       string-width: 4.2.3
       y18n: 5.0.8
       yargs-parser: 21.1.1
-    dev: false
 
   /yargs/7.1.2:
     resolution: {integrity: sha512-ZEjj/dQYQy0Zx0lgLMLR8QuaqTihnxirir7EwUHp1Axq4e3+k8jXU5K0VLbNvedv1f4EWtBonDIZm0NUr+jCcA==}

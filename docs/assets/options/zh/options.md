@@ -1,4 +1,4 @@
-{{ target: option }}
+{{ target: options }}
 
 {{import: chart-bar}}
 
