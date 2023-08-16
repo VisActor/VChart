@@ -357,7 +357,9 @@ export interface ISeriesSpec extends ITriggerSpec {
   /** 是否对数据进行堆叠处理 */
   stack?: boolean;
 
-  /** 堆叠汇总标签 */
+  /** 堆叠汇总标签
+   * @since 1.3.0
+   */
   totalLabel?: ITotalLabelSpec;
 
   /** 是否对数据进行百分比处理 */

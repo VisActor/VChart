@@ -55,7 +55,7 @@ export class Label extends BaseLabelComponent {
         .flat();
       const labelVisible = marks.some(mark => mark.getLabelSpec()?.visible === true);
       if (labelVisible) {
-        labelComponents.push(new Label(spec, { ...options, specIndex: i }));
+        labelComponents.push(new Label(spec, { ...options, specIndex: i, specKey: 'label' }));
         continue;
       }
     }

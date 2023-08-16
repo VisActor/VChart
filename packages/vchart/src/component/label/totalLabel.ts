@@ -36,7 +36,7 @@ export class TotalLabel extends BaseLabelComponent {
       const series = getSeries(regions);
       series.forEach(s => {
         if (s.getSpec()?.totalLabel?.visible) {
-          const cmp = new TotalLabel(s.getSpec().totalLabel, { ...options, specIndex: i });
+          const cmp = new TotalLabel(s.getSpec().totalLabel, { ...options, specIndex: i, specKey: 'totalLabel' });
           cmp.series = s;
           labelComponents.push(cmp);
         }
