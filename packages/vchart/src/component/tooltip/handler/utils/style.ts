@@ -18,7 +18,7 @@ export function getTextAttributes(
 ): ITooltipTextStyle {
   const attrs: ITooltipTextStyle = {
     ...(defaultAttributes ?? defaultTextAttributes),
-    fill: style.fontColor,
+    fill: style.fill ?? style.fontColor,
     textAlign: style.textAlign,
     textBaseline: style.textBaseline,
     fontFamily: style.fontFamily ?? globalTheme?.fontFamily,

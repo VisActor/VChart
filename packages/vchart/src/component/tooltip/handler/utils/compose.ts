@@ -1,5 +1,5 @@
 import { isValid, isNil, array } from '../../../../util';
-import type { TooltipContent } from '../../tooltip';
+import type { TooltipActualTitleContent } from '../../tooltip';
 import type {
   IToolTipLinePattern,
   ITooltipPattern,
@@ -23,7 +23,7 @@ export const getShowContent = (
   pattern: ITooltipPattern,
   data: TooltipData,
   params: TooltipHandlerParams
-): TooltipContent | null => {
+): TooltipActualTitleContent | null => {
   if (
     !data ||
     // data.key === undefined ||
@@ -35,7 +35,7 @@ export const getShowContent = (
   const patternTitle = getTooltipPatternValue(pattern.title, data, params);
   const patternContent = array(getTooltipPatternValue(pattern.content, data, params));
 
-  const tooltipContent: Required<TooltipContent> = {
+  const tooltipContent: Required<TooltipActualTitleContent> = {
     title: {
       value: patternTitle?.value?.toString(),
       hasShape: false,
@@ -55,16 +55,14 @@ export const getShowContent = (
       visible: false
     };
   } else {
-    tooltipContent.title.hasShape = patternTitle.hasShape;
-    if (isValid(patternTitle.value)) {
-      tooltipContent.title = {
-        hasShape: patternTitle.hasShape,
-        shapeHollow: patternTitle.shapeHollow
-      };
-      // 找到第一个可用的datum
-      const datum = getFirstDatumFromTooltipData(data);
-      tooltipContent.title.value = getTooltipContentValue(patternTitle?.value, datum, params);
-    }
+    // 找到第一个可用的datum
+    const datum = getFirstDatumFromTooltipData(data);
+    tooltipContent.title = {
+      value: getTooltipContentValue(patternTitle?.value, datum, params),
+      valueStyle: getTooltipContentValue(patternTitle?.valueStyle, datum, params),
+      hasShape: patternTitle.hasShape,
+      shapeHollow: patternTitle.shapeHollow
+    };
   }
 
   /** content */
