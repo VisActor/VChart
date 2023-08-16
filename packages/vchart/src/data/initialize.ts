@@ -1,10 +1,10 @@
 import type { utilFunctionCtx } from './../typings/params';
 import { warn } from './../util/debug';
-import { isString } from '@visactor/vutils';
+import { cloneDeep, isString } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { IDataViewOptions, IFields, ITransformOptions } from '@visactor/vdataset';
-import type { IDataValues } from '../typings/spec/common';
+import type { CommonParseOptions, IDataValues, SheetParseOptions } from '../typings/spec/common';
 import { error } from '../util';
 import { registerDataSetInstanceTransform } from './register';
 import { copyDataView } from './transforms/copy-data-view';
@@ -95,14 +95,11 @@ export function dataToDataView(
         type: 'copyDataView'
       });
     } else if (Array.isArray(values)) {
-      // 处理values
-      dataView.parse(values);
-    } else if (
-      isString(values) &&
-      (!parser || parser.type === 'csv' || parser.type === 'dsv' || parser.type === 'tsv')
-    ) {
+      // 处理values，进行拷贝，不要修改用户 spec 的数据，否则一些 react 组件的更新场景会有问题
+      dataView.parse((parser as CommonParseOptions)?.clone === false ? values : cloneDeep(values));
+    } else if (isString(values) && (!parser || ['csv', 'dsv', 'tsv'].includes((parser as SheetParseOptions).type))) {
       // 内置 csv parser
-      dataView.parse(values, parser ?? { type: 'csv' });
+      dataView.parse(values, (parser as SheetParseOptions) ?? { type: 'csv' });
     } else {
       // 如果 values 不符合要求，则默认设置为 []，同时打印错误信息
       dataView.parse([]);

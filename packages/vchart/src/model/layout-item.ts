@@ -32,10 +32,10 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
 
   private _layoutRect: ILayoutRect = { width: 0, height: 0 };
 
-  private _minWidth: number | null = null;
-  private _maxWidth: number | null = null;
-  private _minHeight: number | null = null;
-  private _maxHeight: number | null = null;
+  protected _minWidth: number | null = null;
+  protected _maxWidth: number | null = null;
+  protected _minHeight: number | null = null;
+  protected _maxHeight: number | null = null;
 
   // 处理用户和逻辑的优先级覆盖，让用户也可以设置 rect
   protected _layoutRectLevelMap: ILayoutRectLevel = {
@@ -81,6 +81,10 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
   // layoutAbsoluteBottom: ILayoutItem['layoutAbsoluteBottom'] = Number.NaN;
   layoutZIndex: ILayoutItem['layoutZIndex'] = 0;
   chartLayoutRect!: ILayoutRect;
+
+  getVisible() {
+    return (this._spec as unknown as any)?.visible !== false;
+  }
 
   private _setLayoutAttributeFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect) {
     if ((this._spec as unknown as any).visible !== false) {
@@ -266,7 +270,7 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
     return bounds;
   }
 
-  private _setRectInSpec(rect: ILayoutRect) {
+  protected _setRectInSpec(rect: ILayoutRect) {
     const result = { ...rect };
     if (this._layoutRectLevelMap.width < USER_LAYOUT_RECT_LEVEL) {
       if (!isNil(this._minWidth)) {

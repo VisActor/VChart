@@ -1,3 +1,4 @@
+import type { IElement } from '@visactor/vgrammar';
 import { StateManager } from '../compile/signal';
 import type { StateValueMap } from '../compile/signal/interface';
 import { PREFIX } from '../constant';
@@ -20,35 +21,36 @@ export class AnimateManager extends StateManager implements IAnimate {
   }
 
   updateAnimateState(state: AnimationStateEnum, noRender?: boolean) {
-    // FIXME: 由于布局两次 dataflow 导致动画多次执行，需要额外处理 appear 动画执行状态。
-    // VGrammar 布局流程改造接入后可以去除这一 hack 逻辑。
+    // when animation state is 'update', do animations by element diffState(enter & update & exit)
     if (state === AnimationStateEnum.update) {
       this.updateState(
         {
           animationState: {
-            callback: (datum: any, element: any) => element.diffState
+            callback: (datum: any, element: IElement) => element.diffState
           }
         },
         noRender
       );
-    } else if (state === AnimationStateEnum.appear) {
+    }
+    // when animation state is 'appear', all valid elements would do appear animation except from exit elements
+    else if (state === AnimationStateEnum.appear) {
       this.updateState(
         {
           animationState: {
-            callback: (datum: any, element: any) => {
-              return element.diffState === AnimationStateEnum.enter
-                ? AnimationStateEnum.appear
-                : AnimationStateEnum.none;
+            callback: (datum: any, element: IElement) => {
+              return element.diffState === 'exit' ? AnimationStateEnum.none : AnimationStateEnum.appear;
             }
           }
         },
         noRender
       );
-    } else {
+    }
+    // when animation state is other types, all elements would do animation by state
+    else {
       this.updateState(
         {
           animationState: {
-            callback: (datum: any, element: any) => state
+            callback: (datum: any, element: IElement) => state
           }
         },
         noRender
@@ -59,8 +61,8 @@ export class AnimateManager extends StateManager implements IAnimate {
   protected _getDefaultStateMap(): IAnimateState & StateValueMap {
     return {
       animationState: {
-        callback: (datum: any, element: any) => {
-          return element.diffState === AnimationStateEnum.enter ? AnimationStateEnum.appear : AnimationStateEnum.none;
+        callback: (datum: any, element: IElement) => {
+          return element.diffState === 'exit' ? AnimationStateEnum.none : AnimationStateEnum.appear;
         }
       }
     };

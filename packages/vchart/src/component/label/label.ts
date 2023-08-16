@@ -13,6 +13,7 @@ import type { IGroupMark, IView } from '@visactor/vgrammar';
 import { markLabelConfigFunc, textAttribute } from './util';
 import type { IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
+import { pickWithout } from '@visactor/vutils';
 
 export interface ILabelInfo {
   baseMark: IMark;
@@ -167,9 +168,8 @@ export class Label extends BaseLabelComponent {
           if (baseMark) {
             const configFunc = markLabelConfigFunc[baseMark.type] ?? markLabelConfigFunc.symbol;
             const labelSpec = baseMark.getLabelSpec() ?? {};
-            const { smartInvert, offset, overlap, animation } = labelSpec;
             const interactive = this._interactiveConfig(labelSpec);
-
+            const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
             return merge(
               {
                 textStyle: { pickable: labelSpec.interactive === true },
@@ -182,10 +182,7 @@ export class Label extends BaseLabelComponent {
               },
               configFunc(labelInfo[baseMarks.findIndex(mark => mark === baseMark)]),
               {
-                smartInvert,
-                offset,
-                animation,
-                overlap,
+                ...passiveLabelSpec,
                 ...interactive
               }
             );

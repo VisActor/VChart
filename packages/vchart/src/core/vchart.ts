@@ -227,7 +227,6 @@ export class VChart implements IVChart {
     this._currentThemeName = ThemeManager.getCurrentThemeName();
     this._setSpec(spec);
     this._updateCurrentTheme();
-    const specBackground = typeof spec.background === 'string' ? spec.background : null;
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -238,7 +237,7 @@ export class VChart implements IVChart {
         stage,
         pluginList: poptip !== false ? ['poptipForText'] : [],
         ...restOptions,
-        background: specBackground || this._currentTheme.background || this._option.background, // spec > spec.theme > initOptions.theme
+        background: this._getBackground(),
         onError: this._onError
       }
     );
@@ -438,16 +437,14 @@ export class VChart implements IVChart {
       // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
       // VGrammar view 对象不需要释放，提供了reuse和morph能力之后，srView有上下文缓存
     } else {
-      if (updateResult.reCompile) {
-        // FIXME: 暂时这么处理，还需要整体设计下组件的生命周期
-        this.getComponents().forEach(c => c.clear());
-        // TODO: 释放事件？
-        // 重新绑定事件
-        // TODO: 释放XX？
-        // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
-        // 先compile
-        this._compiler?.compile({ chart: this._chart, vChart: this }, {});
-      }
+      // FIXME: 暂时这么处理，还需要整体设计下组件的生命周期
+      this.getComponents().forEach(c => c.clear());
+      // TODO: 释放事件？
+      // 重新绑定事件
+      // TODO: 释放XX？
+      // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
+      // 先compile
+      this._compiler?.compile({ chart: this._chart, vChart: this }, {});
     }
   }
 
@@ -733,20 +730,23 @@ export class VChart implements IVChart {
    * 更新绘制区域
    * @param viewBox 绘制区域
    * @param reRender 是否重新渲染，默认为 true
+   * @param reLayout 是否重新布局，默认为 true
    * @returns
    */
-  updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {
+  updateViewBox(viewBox: IBoundsLike, reRender: boolean = true, reLayout: boolean = true) {
     if (!this._chart || !this._compiler) {
       return this as unknown as IVChart;
     }
     this._viewBox = viewBox;
     // 更新 layout 参数
-    this._chart.updateViewBox(viewBox);
-    // 重新布局
-    this._compiler.renderSync();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    this._chart?.onEvaluateEnd();
+    this._chart.updateViewBox(viewBox, reLayout);
+    if (reLayout) {
+      // 重新布局
+      this._compiler.renderSync();
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this._chart?.onEvaluateEnd();
+    }
     // 获取 compiler
     this._compiler.updateViewBox(viewBox, reRender);
     return this as unknown as IVChart;
@@ -823,6 +823,14 @@ export class VChart implements IVChart {
     }
     // 设置 poptip 的主题
     setPoptipTheme(merge({}, this._currentTheme.component?.poptip));
+    // 设置背景色
+    this._compiler?.setBackground(this._getBackground());
+  }
+
+  private _getBackground() {
+    const specBackground = typeof this._spec.background === 'string' ? this._spec.background : null;
+    // spec > spec.theme > initOptions.theme
+    return specBackground || (this._currentTheme.background as string) || this._option.background;
   }
 
   /**
@@ -1177,6 +1185,21 @@ export class VChart implements IVChart {
    */
   setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption = {}) {
     return this._chart?.setDimensionIndex(value, opt);
+  }
+
+  /** 停止正在进行的所有动画 */
+  stopAnimation() {
+    this._compiler?.getVGrammarView()?.animate?.stop();
+  }
+
+  /** 暂停正在进行的所有动画 */
+  pauseAnimation() {
+    this._compiler?.getVGrammarView()?.animate?.pause();
+  }
+
+  /** 恢复暂停时正在进行的所有动画 */
+  resumeAnimation() {
+    this._compiler?.getVGrammarView()?.animate?.resume();
   }
 
   // TODO: 后续需要考虑滚动场景

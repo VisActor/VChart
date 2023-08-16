@@ -82,6 +82,7 @@ export enum ChartEvent {
   drill = 'drill',
   layoutStart = 'layoutStart',
   layoutEnd = 'layoutEnd',
+  layoutRectUpdate = 'layoutRectUpdate',
 
   // player
   playerPlay = 'playerPlay',

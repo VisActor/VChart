@@ -89,6 +89,9 @@ export interface ILayoutItem {
   layoutZIndex: number;
   chartLayoutRect: ILayoutRect;
 
+  /** 是否可见 */
+  getVisible: () => boolean;
+
   /** 是否自动缩进 */
   getAutoIndent: () => boolean;
   getLayoutStartPoint: () => ILayoutPoint;

@@ -71,6 +71,17 @@ export type ICartesianLabel = ILabel & {
    * @default null
    */
   lastVisible?: boolean | null;
+  /**
+   * label 相对于容器整体的对齐方式
+   * - `top`：整体向上对齐（垂直方向）
+   * - `middle`：整体居中对齐（垂直方向）
+   * - `bottom`：整体向下对齐（垂直方向）
+   * - `left`：整体向左对齐（水平方向）
+   * - `center`：整体居中对齐（水平方向）
+   * - `right`：整体向右对齐（水平方向）
+   * @since 1.3.0
+   */
+  containerAlign?: 'left' | 'right' | 'center' | 'top' | 'bottom' | 'middle';
 } & AxisLabelOverlap;
 
 export interface ILinearAxis extends IAxis {

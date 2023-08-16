@@ -360,7 +360,8 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         autoHideSeparation: spec.label.autoHideSeparation,
         limitEllipsis: spec.label.limitEllipsis,
         layoutFunc: spec.label.layoutFunc,
-        dataFilter: spec.label.dataFilter
+        dataFilter: spec.label.dataFilter,
+        containerAlign: spec.label.containerAlign
       },
       tick: {
         visible: spec.tick.visible,
