@@ -55,7 +55,10 @@ export function dataToDataView(
     return data;
   }
 
-  const { id, values = [], fromDataIndex, fromDataId, transforms = [], fields, parser } = data;
+  const { id, values = [], fromDataIndex, fromDataId, transforms = [], fields } = data;
+  const parser = (data.parser ?? { clone: true }) as IParserOptions;
+  // set parser.clone default value to true
+  parser.clone = !(parser.clone === false);
   let dataView: DataView;
   const existDataView = sourceDataViews.find(dv => dv.name === id);
   if (existDataView) {
