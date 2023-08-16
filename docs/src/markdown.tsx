@@ -102,7 +102,6 @@ function Content(props: IContentProps) {
   useEffect(() => {
     runnings.forEach(running => {
       try {
-        console.log(running.code);
         Function(running.code)(window);
       } catch (err) {
         // eslint-disable-next-line no-console
