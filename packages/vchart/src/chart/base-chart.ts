@@ -40,7 +40,7 @@ import { ComponentTypeEnum } from '../component/interface';
 import type { IComponent } from '../component/interface';
 import { MarkTypeEnum, type IMark } from '../mark/interface';
 import type { IEvent } from '../event/interface';
-import type { DataView } from '@visactor/vdataset';
+import type { DataView, IFields } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset/es/data-set';
 import { Factory } from '../core/factory';
 import { Event } from '../event/event';
@@ -672,8 +672,8 @@ export class BaseChart extends CompilableBase implements IChart {
       }
     });
     dvs.forEach(({ d, dv }) => {
-      dv.setFields(d.fields);
-      dv.parseNewData(d, d.parser);
+      dv.setFields(d.fields as IFields);
+      dv.parseNewData(d.values, d.parser as IParserOptions);
     });
     if (updateGlobalScale) {
       this.updateGlobalScaleDomain();

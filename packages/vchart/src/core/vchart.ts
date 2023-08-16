@@ -11,7 +11,7 @@ import type { IComponentConstructor } from '../component/interface';
 import { ComponentTypeEnum } from '../component/interface';
 import type { EventCallback, EventParams, EventQuery, EventType, IEvent, IEventDispatcher } from '../event/interface';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
-import type { Transform } from '@visactor/vdataset';
+import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender';
@@ -638,10 +638,12 @@ export class VChart implements IVChart {
     return this as unknown as IVChart;
   }
 
-  dataSync(data: IDataValues | IDataValues[]) {
+  updateFullDataSync(data: IDataValues | IDataValues[], reRender: boolean = true) {
     if (this._chart) {
       this._chart.data(data);
-      this._compiler.renderSync();
+      if (reRender) {
+        this._compiler.renderSync();
+      }
       return this as unknown as IVChart;
     }
     const list: IDataValues[] = array(data);
@@ -650,8 +652,8 @@ export class VChart implements IVChart {
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
       if (preDV) {
-        preDV.setFields(fields);
-        preDV.parse(values, parser);
+        preDV.setFields(fields as IFields);
+        preDV.parse(values, parser as IParserOptions);
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
@@ -663,10 +665,12 @@ export class VChart implements IVChart {
     return this as unknown as IVChart;
   }
 
-  async data(data: IDataValues | IDataValues[]) {
+  async updateFullData(data: IDataValues | IDataValues[], reRender: boolean = true) {
     if (this._chart) {
       this._chart.data(data);
-      await this._compiler.renderAsync();
+      if (reRender) {
+        await this._compiler.renderAsync();
+      }
       return this as unknown as IVChart;
     }
     const list: IDataValues[] = array(data);
@@ -675,8 +679,8 @@ export class VChart implements IVChart {
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
       if (preDV) {
-        preDV.setFields(fields);
-        preDV.parse(values, parser);
+        preDV.setFields(fields as IFields);
+        preDV.parse(values, parser as IParserOptions);
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
