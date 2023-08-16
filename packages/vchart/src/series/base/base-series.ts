@@ -216,7 +216,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     return this._tooltipHelper;
   }
 
-  protected _invalidType: IInvalidType = 'break';
+  protected _invalidType: IInvalidType = 'zero';
   getInvalidType() {
     return this._invalidType;
   }
