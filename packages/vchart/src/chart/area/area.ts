@@ -20,7 +20,8 @@ export class AreaChart extends CartesianChart {
       point: spec.point,
       line: spec.line,
       area: spec.area,
-      seriesMark: spec.seriesMark ?? 'area'
+      seriesMark: spec.seriesMark ?? 'area',
+      activePoint: spec.activePoint
     };
   }
 
