@@ -30,6 +30,20 @@ interface IContentProps {
   content: string;
 }
 
+function htmlRestore(str: string) {
+  var s = '';
+  if (str.length === 0) {
+    return '';
+  }
+  s = str.replace(/&amp;/g, '&');
+  s = s.replace(/&lt;/g, '<');
+  s = s.replace(/&gt;/g, '>');
+  s = s.replace(/&nbsp;/g, ' ');
+  s = s.replace(/&#39;/g, "'");
+  s = s.replace(/&quot;/g, '"');
+  return s;
+}
+
 function OutlineNode(props: IOutlineNodeProps) {
   const { language, setLanguage } = useContext(LanguageContext);
 
@@ -83,7 +97,7 @@ function Outline(props: IOutlineProps) {
 }
 
 function Content(props: IContentProps) {
-  const demos = [...props.content.matchAll(/<pre><code class="language-javascript">((.|\n)*)<\/code><\/pre>/g)];
+  const demos = [...props.content.matchAll(/<pre><code class="language-javascript">((.|\n)*?)<\/code><\/pre>/g)];
 
   let content = props.content;
 
@@ -94,15 +108,17 @@ function Content(props: IContentProps) {
     content = content.replace(pre, `<div id="${containerId}" class="markdown-demo"></div>`);
     const evaluateCode = code.replace('CONTAINER_ID', `"${containerId}"`).concat(`window['${containerId}'] = vchart;`);
     return {
-      code: evaluateCode,
+      code: htmlRestore(evaluateCode),
       id: containerId
     };
   });
 
   useEffect(() => {
-    runnings.forEach(running => {
+    runnings.forEach(async running => {
       try {
-        Function(running.code)(window);
+        console.log(running.code);
+        // Function(running.code)(window);
+        await Object.getPrototypeOf(async function () {}).constructor(running.code)();
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err);
@@ -110,7 +126,7 @@ function Content(props: IContentProps) {
     });
     return () => {
       runnings.forEach(running => {
-        (window as any)[running.id]?.release();
+        (window as any)[running.id]?.release?.();
       });
     };
   }, [runnings]);
