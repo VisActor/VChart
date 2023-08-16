@@ -52247,11 +52247,25 @@
     "ITooltipTextTheme": {
       "properties": {
         "fill": {
-          "description": "字体颜色",
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IColorKey"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "字体颜色"
         },
         "fontColor": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IColorKey"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "fontFamily": {
           "description": "字体",
@@ -63129,255 +63143,6 @@
           "enum": ["center", "flex-end", "flex-start"],
           "type": "string"
         },
-        "alpha": {
-          "type": "number"
-        },
-        "anchor": {
-          "items": [
-            {
-              "type": ["string", "number"]
-            },
-            {
-              "type": ["string", "number"]
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "anchor3d": {
-          "anyOf": [
-            {
-              "items": [
-                {
-                  "type": ["string", "number"]
-                },
-                {
-                  "type": ["string", "number"]
-                }
-              ],
-              "maxItems": 2,
-              "minItems": 2,
-              "type": "array"
-            },
-            {
-              "items": [
-                {
-                  "type": ["string", "number"]
-                },
-                {
-                  "type": ["string", "number"]
-                },
-                {
-                  "type": "number"
-                }
-              ],
-              "maxItems": 3,
-              "minItems": 3,
-              "type": "array"
-            }
-          ]
-        },
-        "angle": {
-          "type": "number"
-        },
-        "background": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/HTMLCanvasElement"
-            },
-            {
-              "$ref": "#/definitions/HTMLImageElement"
-            },
-            {
-              "type": "string"
-            }
-          ]
-        },
-        "backgroundMode": {
-          "type": "number"
-        },
-        "beta": {
-          "type": "number"
-        },
-        "blur": {
-          "type": "number"
-        },
-        "boundsMode": {
-          "enum": ["accurate", "imprecise"],
-          "type": "string"
-        },
-        "boundsPadding": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ]
-        },
-        "childrenPickable": {
-          "type": "boolean"
-        },
-        "cursor": {
-          "$ref": "#/definitions/Cursor"
-        },
-        "customPickShape": {
-          "typeof": "function"
-        },
-        "dx": {
-          "type": "number"
-        },
-        "dy": {
-          "type": "number"
-        },
-        "dz": {
-          "type": "number"
-        },
-        "fill": {
-          "$ref": "#/definitions/IFillType"
-        },
-        "fillOpacity": {
-          "type": "number"
-        },
-        "innerBorder": {
-          "$ref": "#/definitions/Partial<IBorderStyle>"
-        },
-        "keepDirIn3d": {
-          "type": "boolean"
-        },
-        "layout": {},
-        "lineCap": {
-          "$ref": "#/definitions/CanvasLineCap"
-        },
-        "lineDash": {
-          "items": {
-            "type": "number"
-          },
-          "type": "array"
-        },
-        "lineDashOffset": {
-          "type": "number"
-        },
-        "lineJoin": {
-          "$ref": "#/definitions/CanvasLineJoin"
-        },
-        "lineWidth": {
-          "type": "number"
-        },
-        "miterLimit": {
-          "type": "number"
-        },
-        "opacity": {
-          "type": "number"
-        },
-        "outerBorder": {
-          "$ref": "#/definitions/Partial<IBorderStyle>"
-        },
-        "pickMode": {
-          "enum": ["accurate", "custom", "imprecise"],
-          "type": "string"
-        },
-        "pickable": {
-          "type": "boolean"
-        },
-        "postMatrix": {
-          "$ref": "#/definitions/IMatrix"
-        },
-        "scaleX": {
-          "type": "number"
-        },
-        "scaleY": {
-          "type": "number"
-        },
-        "scaleZ": {
-          "type": "number"
-        },
-        "scrollX": {
-          "type": "number"
-        },
-        "scrollY": {
-          "type": "number"
-        },
-        "shadowBlur": {
-          "type": "number"
-        },
-        "shadowColor": {
-          "type": "string"
-        },
-        "shadowOffsetX": {
-          "type": "number"
-        },
-        "shadowOffsetY": {
-          "type": "number"
-        },
-        "stroke": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/ILinearGradient"
-            },
-            {
-              "$ref": "#/definitions/IRadialGradient"
-            },
-            {
-              "$ref": "#/definitions/IConicalGradient"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/IStrokeType"
-              },
-              "type": "array"
-            },
-            {
-              "type": ["string", "boolean"]
-            }
-          ]
-        },
-        "strokeBoundsBuffer": {
-          "type": "number"
-        },
-        "strokeOpacity": {
-          "type": "number"
-        },
-        "strokeSeg": {
-          "typeof": "function"
-        },
-        "texture": {
-          "type": "string"
-        },
-        "textureColor": {
-          "type": "string"
-        },
-        "texturePadding": {
-          "type": "number"
-        },
-        "textureSize": {
-          "type": "number"
-        },
-        "visible": {
-          "type": "boolean"
-        },
-        "x": {
-          "type": "number"
-        },
-        "y": {
-          "type": "number"
-        },
-        "z": {
-          "type": "number"
-        },
-        "zIndex": {
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
-    "Partial<IGroupGraphicAttribute>": {
-      "properties": {
         "alpha": {
           "type": "number"
         },
