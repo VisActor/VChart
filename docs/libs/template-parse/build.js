@@ -17,6 +17,7 @@ const path = require('path');
 const assert = require('assert');
 const chokidar = require('chokidar');
 const { debounce } = require('lodash');
+const menu = require('../../menu.json');
 
 function initEnv() {
   let envType = argv.env;
@@ -33,23 +34,9 @@ function initEnv() {
     throw new Error('--env MUST be specified');
   }
 
-  // let config = require('./config/env.' + envType);
   let config = {
-    galleryViewPath: 'http://localhost/echarts-website/examples/${lang}/view.html?c=',
-    galleryEditorPath: 'http://localhost/echarts-website/examples/${lang}/editor.html?c=',
-    handbookPath: 'http://localhost/echarts-website/handbook/${lang}/',
-    websitePath: 'http://localhost/echarts-website',
-
-    imagePath: 'asset/img/',
-    gl: {
-      imagePath: 'asset/gl/img/'
-    },
-
-    releaseDestDir: path.resolve(__dirname, '../../public/documents'),
-    ecWWWGeneratedDir: path.resolve(__dirname, '../../echarts-www/_generated')
+    releaseDestDir: path.resolve(__dirname, '../../public/documents')
   };
-
-  assert(path.isAbsolute(config.releaseDestDir) && path.isAbsolute(config.ecWWWGeneratedDir));
 
   config.envType = envType;
 
@@ -58,7 +45,8 @@ function initEnv() {
 
 const config = initEnv();
 
-const languages = ['zh'];
+// const languages = ['zh', 'en'];
+const languages = ['en'];
 
 config.gl = config.gl || {};
 for (let key in config) {
@@ -71,11 +59,7 @@ async function md2jsonAsync(opt) {
   var newOpt = Object.assign(
     {
       path: path.resolve(__dirname, opt.assetPath, opt.language, '**/*.md'),
-      tplEnv: Object.assign({}, config, {
-        galleryViewPath: config.galleryViewPath.replace('${lang}', opt.language),
-        galleryEditorPath: config.galleryEditorPath.replace('${lang}', opt.language),
-        handbookPath: config.handbookPath.replace('${lang}', opt.language)
-      }),
+      tplEnv: Object.assign({}, config),
       imageRoot: config.imagePath
     },
     opt
@@ -84,7 +68,6 @@ async function md2jsonAsync(opt) {
   function run(cb) {
     md2json(newOpt)
       .then(schema => {
-        // writeSingleSchema(schema, opt.language, opt.assetPath, false);
         writeSingleSchemaPartioned(schema, opt.language, opt.entry, false);
         console.log(chalk.green('generated: ' + opt.language + '/' + opt.entry));
         cb && cb();
@@ -115,24 +98,18 @@ async function md2jsonAsync(opt) {
 }
 
 async function run() {
-  for (let language of languages) {
-    await md2jsonAsync({
-      sectionsAnyOf: ['.legends', '.axes', '.series', '.total', '.customMark'],
-      entry: 'options',
-      assetPath: '../../assets/options/',
-      language
-    });
-
-    // await md2jsonAsync({
-    //   sectionsAnyOf: ['.legends', '.axes', '.series', '.total', '.customMark'],
-    //   entry: 'option',
-    //   language
-    // });
-
-    // await md2jsonAsync({
-    //   entry: 'api',
-    //   language
-    // });
+  for (const menuItem of menu) {
+    if (menuItem.type !== 'markdown-template') {
+      continue;
+    }
+    for (const language of languages) {
+      await md2jsonAsync({
+        sectionsAnyOf: menuItem.sections,
+        entry: menuItem.entry,
+        assetPath: `../../assets/${menuItem.menu}/`,
+        language
+      });
+    }
   }
 
   console.log('Build doc done.');

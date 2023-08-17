@@ -4,22 +4,22 @@
     {
       "path": "area-chart",
       "title": {
-        "zh": "面积图",
-        "en": "Area Chart"
+        "zh": "area-chart",
+        "en": "area-chart"
       },
       "children": [
         {
           "path": "basic-area",
           "title": {
             "zh": "基础面积图",
-            "en": "Basic area chart"
+            "en": "Basic Area Chart"
           }
         },
         {
           "path": "horizontal-area",
           "title": {
             "zh": "垂直面积图",
-            "en": "Horizontal area chart"
+            "en": "Vertical Area Chart"
           }
         }
       ]

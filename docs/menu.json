@@ -10,7 +10,8 @@
   {
     "menu": "options",
     "type": "markdown-template",
-    "entry": "options"
+    "entry": "options",
+    "sections": [".legends", ".axes", ".series", ".total", ".customMark"]
   },
   {
     "menu": "api",
