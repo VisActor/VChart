@@ -4,10 +4,9 @@
   "description": "site for all VChart",
   "private": true,
   "scripts": {
-    "start": "vite",
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "serve": "vite --host",
+    "watch": "node ./libs/template-parse/build.js --env dev --watch",
+    "start": "npx concurrently --kill-others \"npm:watch\" \"npm:serve\""
   },
   "devDependencies": {
     "@internal/eslint-config": "workspace:*",

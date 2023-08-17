@@ -39,12 +39,6 @@ async function convert(opts) {
   });
 
   let mdStr;
-  // ETPL do not support global variables, without which we have to pass
-  // parameters like `galleryViewPath` each time `{{use: ...}}` used, which
-  // is easy to forget. So we mount global variables on Object prototype when
-  // ETPL rendering.
-  // I know this approach is ugly, but I am sorry that I have no time to make
-  // a pull request to ETPL yet.
   Object.keys(tplEnv).forEach(function (key) {
     if (Object.prototype.hasOwnProperty(key)) {
       throw new Error(key + ' can not be used in tpl config');

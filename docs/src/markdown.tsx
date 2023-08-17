@@ -31,17 +31,14 @@ interface IContentProps {
 }
 
 function htmlRestore(str: string) {
-  var s = '';
-  if (str.length === 0) {
-    return '';
-  }
-  s = str.replace(/&amp;/g, '&');
-  s = s.replace(/&lt;/g, '<');
-  s = s.replace(/&gt;/g, '>');
-  s = s.replace(/&nbsp;/g, ' ');
-  s = s.replace(/&#39;/g, "'");
-  s = s.replace(/&quot;/g, '"');
-  return s;
+  let result = '';
+  result = str.replace(/&amp;/g, '&');
+  result = result.replace(/&lt;/g, '<');
+  result = result.replace(/&gt;/g, '>');
+  result = result.replace(/&nbsp;/g, ' ');
+  result = result.replace(/&#39;/g, "'");
+  result = result.replace(/&quot;/g, '"');
+  return result;
 }
 
 function OutlineNode(props: IOutlineNodeProps) {
@@ -77,7 +74,7 @@ function OutlineNode(props: IOutlineNodeProps) {
 function Outline(props: IOutlineProps) {
   const location = useLocation();
   const { pathname: pathName } = location;
-  const fullPath = pathName.split(`/`)[0];
+  const fullPath = '/' + pathName.split(`/`).slice(2).join('/');
 
   return (
     <div
@@ -116,7 +113,7 @@ function Content(props: IContentProps) {
   useEffect(() => {
     runnings.forEach(async running => {
       try {
-        console.log(running.code);
+        // console.log(running.code);
         // Function(running.code)(window);
         await Object.getPrototypeOf(async function () {}).constructor(running.code)();
       } catch (err) {
