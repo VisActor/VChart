@@ -281,7 +281,7 @@ export class VChart implements IVChart {
     for (let i = 0; i < specData.length; i++) {
       const curSpecData = specData[i];
       dataViewArr.push(
-        dataToDataView(curSpecData, <DataSet>this._dataSet, dataViewArr, {
+        dataToDataView(curSpecData, <DataSet>this._dataSet, dataViewArr, `${i}`, {
           onError: this._option.onError
         })
       );
@@ -653,7 +653,7 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     const list: IDataValues[] = array(data);
-    list.forEach(d => {
+    list.forEach((d, i) => {
       // only support update this attrs
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
@@ -662,7 +662,7 @@ export class VChart implements IVChart {
         preDV.parse(values, parser as IParserOptions);
       } else {
         // new data
-        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
+        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, `${i}`, {
           onError: this._option.onError
         });
         this._spec.data.push(dataView);
@@ -686,7 +686,7 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     const list: IDataValues[] = array(data);
-    list.forEach(d => {
+    list.forEach((d, i) => {
       // only support update this attrs
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
@@ -695,7 +695,7 @@ export class VChart implements IVChart {
         preDV.parse(values, parser as IParserOptions);
       } else {
         // new data
-        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
+        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, `${i}`, {
           onError: this._option.onError
         });
         this._spec.data.push(dataView);
