@@ -61,7 +61,7 @@ import { BaseModel } from '../model/base-model';
 import { BaseMark } from '../mark/base/base-mark';
 import type { ITheme } from '../theme/interface';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../constant/base';
-import { dataToDataView } from '../data/initialize';
+import { dataToDataView, defaultDataId } from '../data/initialize';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -310,7 +310,7 @@ export class BaseChart extends CompilableBase implements IChart {
         spec.data = this.getSeriesData(spec.dataId, spec.dataIndex);
       } else {
         // 保证数据最终是 DataView 实例
-        spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], {
+        spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], `series_${index}`, {
           onError: this._option.onError
         });
       }
@@ -900,8 +900,8 @@ export class BaseChart extends CompilableBase implements IChart {
     if (!this._spec.data) {
       return;
     }
-    array(this._spec.data).forEach(d => {
-      const dataView = this._dataSet.getDataView(d.id);
+    array(this._spec.data).forEach((d, i) => {
+      const dataView = this._dataSet.getDataView(d.id || defaultDataId('' + i));
       if (dataView) {
         if (d.values) {
           dataView.updateRawData(d.values);

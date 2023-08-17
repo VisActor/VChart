@@ -49,6 +49,7 @@ export function dataToDataView(
   data: DataView | IDataValues,
   dataSet: DataSet,
   sourceDataViews: DataView[] = [],
+  defaultId: string,
   ctx: utilFunctionCtx = {}
 ) {
   if (data instanceof DataView) {
@@ -64,7 +65,8 @@ export function dataToDataView(
   if (existDataView) {
     dataView = existDataView;
   } else {
-    const initOption: IDataViewOptions = { name: id as string };
+    const name = id || defaultDataId(defaultId);
+    const initOption: IDataViewOptions = { name };
     // fields 支持在dataView初始化参数中传入
     if (fields) {
       initOption.fields = fields as IFields;
@@ -119,4 +121,8 @@ export function dataToDataView(
   }
 
   return dataView;
+}
+
+export function defaultDataId(id: string) {
+  return `spec-dataview-${id}`;
 }
