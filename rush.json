@@ -41,12 +41,6 @@
       "versionPolicyName": "vchartMain"
     },
     {
-      "packageName": "@visactor/tt-vchart",
-      "projectFolder": "packages/tt-vchart",
-      "shouldPublish": false,
-      "versionPolicyName": "vchartMain"
-    },
-    {
       "packageName": "@visactor/lark-vchart",
       "projectFolder": "packages/lark-vchart",
       "shouldPublish": true,
@@ -57,6 +51,11 @@
       "projectFolder": "packages/vchart-schema",
       "shouldPublish": true,
       "versionPolicyName": "vchartMain"
+    },
+    {
+      "packageName": "@visactor/tt-vchart",
+      "projectFolder": "packages/tt-vchart",
+      "shouldPublish": false
     },
     {
       "packageName": "@internal/bundler",
