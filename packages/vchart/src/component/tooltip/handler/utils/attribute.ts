@@ -214,7 +214,7 @@ export const measureTooltipText = (text: string, style: ITooltipTextStyle): IToo
   if (style.maxWidth && style.maxWidth <= width) {
     // 允许自动换行的情况，改用 richText 测量
     const bound = getRichTextBounds({
-      wordBreak: style.wordBreak,
+      wordBreak: style.wordBreak ?? 'break-word',
       maxWidth: style.maxWidth,
       width: 0,
       height: 0,
