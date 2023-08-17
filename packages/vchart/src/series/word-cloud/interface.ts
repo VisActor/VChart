@@ -269,7 +269,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
    */
   [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
-    formatMethod?: (text: string | string[], datum?: any) => string | string[];
+    formatMethod?: (datum?: any) => string;
   };
   /**
    * 形状词云填充词文字图元配置
@@ -288,11 +288,11 @@ export interface IWordCloudSeriesSpec extends IWordCloudSeriesBaseSpec {
 export interface IWordCloudSeriesTheme {
   [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
-    formatMethod?: (text: string | string[], datum?: any) => string | string[];
+    formatMethod?: (datum?: any) => string;
   };
   [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
-    formatMethod?: (text: string | string[], datum?: any) => string | string[];
+    formatMethod?: (datum?: any) => string;
   };
 }
 
