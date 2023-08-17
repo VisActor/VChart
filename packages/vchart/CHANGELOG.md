@@ -1,6 +1,18 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 15 Aug 2023 07:25:04 GMT and should not be manually modified.
+This log was last generated on Thu, 17 Aug 2023 02:45:43 GMT and should not be manually modified.
+
+## 1.2.2
+Thu, 17 Aug 2023 02:45:43 GMT
+
+### Patches
+
+- fix: background will not update when spec or theme updating, related #545
+- fix: tooltip shape style incorrect when configure custom key/value, related #336
+- fix: when chart size is very small, the size assigned to title may be negative, which needs to be fault-tolerant, otherwise it will easily cause the page to freeze, closed #546
+- feat(active): add active point for line & area series to optimization the performance of user interactive
+
+
 
 ## 1.2.1
 Tue, 15 Aug 2023 07:25:04 GMT
@@ -43,7 +55,7 @@ Thu, 10 Aug 2023 05:23:25 GMT
 - feat: dimension tooltip supports linear axis
 
 
-- feat: filling full data to map mark data in #420
+- feat: filling full data to map mark data in #420 
 - feat(background): support background of chart & series
 - feat(onError): support configuration of onerror in chart instance initoption
 - feat: supplement sync methods in vchart instance
@@ -71,6 +83,17 @@ Thu, 10 Aug 2023 05:23:25 GMT
 
 - perf(stack): use 0 to replace Number.epsilon in stack operation closed #350
 
+### Updates
+
+- feat(logAxis): support axis of type = 'log'. close #392
+- feat(logAxis): support axis of type = 'log'. close #392
+- feat(logAxis): support axis of type = 'log'. close #392
+- feat(logAxis): support axis of type = 'log'. close #392
+- feat(marker): marker support formatMethod. fix #288, fix #298
+- fix(brush): fix mark can not resume to unselected state when click blank space. fix #307
+- fix(brush): fix brush interactive range cannot update when chart is resize. fix #194
+- fix(wordCloud): fix wordCloud size error probelm. fix #400, fix #260
+
 ## 1.1.3
 Thu, 03 Aug 2023 10:32:10 GMT
 
@@ -84,6 +107,12 @@ Thu, 03 Aug 2023 10:32:10 GMT
 - fix: fix bar style could not work in waterfall chart
 
 
+
+### Updates
+
+- fix(dataZoom): fix backgroundChart data mapping problem. fix #306 fix #309
+- fix(dataZoom): start and end cannot be setted correctly because of judging of data value. fix #334
+- fix(wordCloud): word-cloud updateSpec not work as expected. fixed #302
 
 ## 1.1.2
 Tue, 01 Aug 2023 09:47:58 GMT
@@ -200,13 +229,25 @@ Wed, 26 Jul 2023 03:18:52 GMT
 - fix(label): pickable shoule be false if label component is configured `interactive: false`
 - fix the layoutOffsetX|Y not work in normal items
 - fix: line mark has a different easing in update animation causes strange animation effect
-- fix: `channel` config not work in animation
+- fix: `channel` config not work in animation 
 - No longer requires to hold down the Ctrl key for zoom interaction & fix zoomLimit bug
 - fix: default tooltip handler needs to adapt to the scale property
 - fix(vchart): export IRegionSpec from VChart
-- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series
+- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series 
 - fix: compact window variable for non-browser env
 - fix: compact window variable for non-browser env
+
+### Updates
+
+- feat(marker): markline support autoRange and marker performance enhance
+- feat(brush): add operate type about 'brushStart' | 'brushEnd' and export element data of inBrush and outOfBrush
+- feat(marker): support interactive
+- fix(component): upgrade some spec
+- fix(dataZoom): fix bug of datazoom not clear when updateSpec and mark disappear when xField is array
+- fix(dataZoom): preview compute and theme config
+- fix(wordCloud): angle config not effect
+- fix(wordCloud): text clip when layoutmode is fast
+- fix(wordCloud): get padding from chartInstance padding
 
 ## 1.0.0
 Tue, 20 Jun 2023 11:35:37 GMT
@@ -225,4 +266,10 @@ Tue, 20 Jun 2023 11:35:37 GMT
 - wordCloud text should not set default fontSize
 - if legend'shape has same value of stroke and fill, then skip stroke
 - Change `renderAsync()` to `renderSync()` in `compiler.reRenderAsync()`
+
+### Updates
+
+- reconfig dataZoom color theme
+- refactor(marker): optimize performance
+- release 0.0.1-alpha.0
 
