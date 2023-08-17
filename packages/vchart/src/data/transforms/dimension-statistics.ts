@@ -207,7 +207,8 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
           } else {
             if (willMin && result[f.key].min > value) {
               result[f.key].min = value;
-            } else if (willMax && result[f.key].max < value) {
+            }
+            if (willMax && result[f.key].max < value) {
               result[f.key].max = value;
             }
           }
