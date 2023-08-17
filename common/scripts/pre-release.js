@@ -19,7 +19,7 @@ function run() {
   let preReleaseName = process.argv.slice(2)[0];
   let preReleaseType = '';
   const cwd = process.cwd();
-  const rushJson = getPackageJson(`${cwd}/rush.json`)
+  const rushJson = getPackageJson(path.join(__dirname, '../../rush.json'));
   const package = rushJson.projects.find((project) => project.packageName === '@visactor/vchart');
   let regRes = null;
 
@@ -53,10 +53,11 @@ function run() {
   }
 
   if (preReleaseName && preReleaseType) {
-
+    // 0. update `nextBump`
+    checkAndUpdateNextBump(true);
 
     // 1. apply version and update version of package.json
-    spawnSync('sh', ['-c', `rush publish --apply --prerelease-name ${preReleaseName} --partial-prerelease`], {
+    spawnSync('sh', ['-c', `rush publish --apply --prerelease-name ${preReleaseName}`], {
       stdio: 'inherit',
       shell: false,
     });

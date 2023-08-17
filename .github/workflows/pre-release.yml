@@ -47,7 +47,7 @@ jobs:
           write_next_bump: true
 
       - name: Apply prereleaseName
-        run: node common/scripts/install-run-rush.js publish --apply --prerelease-name ${{ steps.semver_parser.outputs.pre_release_name }} --partial-prerelease
+        run: node common/scripts/install-run-rush.js publish --apply --prerelease-name ${{ steps.semver_parser.outputs.pre_release_name }}
 
       - name: Build packages
         run: node common/scripts/install-run-rush.js build --only tag:package
