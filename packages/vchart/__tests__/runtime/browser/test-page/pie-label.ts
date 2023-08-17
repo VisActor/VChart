@@ -226,7 +226,6 @@ const run = () => {
     pie: {
       state: {
         hover: {
-          innerRadius: 0.5,
           outerRadius: 0.85,
           stroke: '#000',
           lineWidth: 1
