@@ -281,7 +281,7 @@ export class VChart implements IVChart {
     for (let i = 0; i < specData.length; i++) {
       const curSpecData = specData[i];
       dataViewArr.push(
-        dataToDataView(curSpecData, <DataSet>this._dataSet, dataViewArr, `${i}`, {
+        dataToDataView(curSpecData, <DataSet>this._dataSet, dataViewArr, {
           onError: this._option.onError
         })
       );
@@ -662,7 +662,7 @@ export class VChart implements IVChart {
         preDV.parse(values, parser as IParserOptions);
       } else {
         // new data
-        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, `${i}`, {
+        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
           onError: this._option.onError
         });
         this._spec.data.push(dataView);
@@ -695,7 +695,7 @@ export class VChart implements IVChart {
         preDV.parse(values, parser as IParserOptions);
       } else {
         // new data
-        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, `${i}`, {
+        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
           onError: this._option.onError
         });
         this._spec.data.push(dataView);

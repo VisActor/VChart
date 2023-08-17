@@ -61,7 +61,7 @@ import { BaseModel } from '../model/base-model';
 import { BaseMark } from '../mark/base/base-mark';
 import type { ITheme } from '../theme/interface';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../constant/base';
-import { dataToDataView, defaultDataId } from '../data/initialize';
+import { dataToDataView } from '../data/initialize';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -310,7 +310,7 @@ export class BaseChart extends CompilableBase implements IChart {
         spec.data = this.getSeriesData(spec.dataId, spec.dataIndex);
       } else {
         // 保证数据最终是 DataView 实例
-        spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], `series_${index}`, {
+        spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], {
           onError: this._option.onError
         });
       }
@@ -901,13 +901,16 @@ export class BaseChart extends CompilableBase implements IChart {
       return;
     }
     array(this._spec.data).forEach((d, i) => {
-      const dataView = this._dataSet.getDataView(d.id || defaultDataId('' + i));
+      // const dataView = this._dataSet.getDataView(d.id || defaultDataId('' + i));
+      const dataView = this._dataSet.getDataView(d.id);
       if (dataView) {
         if (d.values) {
           dataView.updateRawData(d.values);
         } else if (!d.latestData) {
           dataView.updateRawData([]);
         }
+      } else {
+        result.reMakeData = true;
       }
     });
   }
@@ -967,7 +970,17 @@ export class BaseChart extends CompilableBase implements IChart {
       return;
     }
     this._series.forEach(s => {
-      this._mergeUpdateResult(result, s.updateSpec(this._spec.series[s.getSpecIndex()]));
+      const spec = this._spec.series[s.getSpecIndex()];
+      if (result.reMakeData) {
+        let values;
+        if (!spec.data) {
+          values = this.getSeriesData(spec.dataId, spec.dataIndex)?.latestData;
+        } else {
+          values = spec.data.values;
+        }
+        s.updateRawData(values);
+      }
+      this._mergeUpdateResult(result, s.updateSpec(spec));
       s.reInit();
     });
   }

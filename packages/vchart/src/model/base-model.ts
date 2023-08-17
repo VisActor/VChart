@@ -193,6 +193,7 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     const result = {
       change: false,
       reMake: false,
+      reMakeData: false,
       reRender: false,
       reSize: false,
       reCompile: false
