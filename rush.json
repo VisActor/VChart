@@ -23,34 +23,39 @@
       "packageName": "@visactor/vchart",
       "projectFolder": "packages/vchart",
       "tags": ["package"],
-      "shouldPublish": true
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
     },
     {
       "packageName": "@visactor/react-vchart",
       "projectFolder": "packages/react-vchart",
       "tags": ["package"],
-      "shouldPublish": true
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
     },
     {
       "packageName": "@visactor/taro-vchart",
       "projectFolder": "packages/taro-vchart",
       "tags": ["package"],
-      "shouldPublish": true
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
+    },
+    {
+      "packageName": "@visactor/lark-vchart",
+      "projectFolder": "packages/lark-vchart",
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
+    },
+    {
+      "packageName": "@visactor/vchart-schema",
+      "projectFolder": "packages/vchart-schema",
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
     },
     {
       "packageName": "@visactor/tt-vchart",
       "projectFolder": "packages/tt-vchart",
       "shouldPublish": false
-    },
-    {
-      "packageName": "@visactor/lark-vchart",
-      "projectFolder": "packages/lark-vchart",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@visactor/vchart-schema",
-      "projectFolder": "packages/vchart-schema",
-      "shouldPublish": true
     },
     {
       "packageName": "@internal/bundler",

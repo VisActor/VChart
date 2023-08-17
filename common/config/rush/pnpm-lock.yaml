@@ -75,7 +75,7 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vgrammar': 0.6.1
-      '@visactor/vrender': 0.14.2
+      '@visactor/vrender': 0.14.3
       '@visactor/vutils': 0.15.7
       react-is: 18.2.0
     devDependencies:
@@ -252,8 +252,8 @@ importers:
       '@visactor/vgrammar-util': 0.6.1
       '@visactor/vgrammar-wordcloud': 0.6.1
       '@visactor/vgrammar-wordcloud-shape': 0.6.1
-      '@visactor/vrender': 0.14.2
-      '@visactor/vrender-components': 0.14.2
+      '@visactor/vrender': 0.14.3
+      '@visactor/vrender-components': 0.14.3
       '@visactor/vscale': 0.15.7
       '@visactor/vutils': 0.15.7
     devDependencies:
@@ -4021,7 +4021,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.6.1
       '@visactor/vgrammar-util': 0.6.1
-      '@visactor/vrender': 0.14.2
+      '@visactor/vrender': 0.14.3
       '@visactor/vutils': 0.15.7
     dev: false
 
@@ -4039,7 +4039,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.6.1
       '@visactor/vgrammar-util': 0.6.1
-      '@visactor/vrender': 0.14.2
+      '@visactor/vrender': 0.14.3
       '@visactor/vutils': 0.15.7
     dev: false
 
@@ -4054,7 +4054,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.6.1
       '@visactor/vgrammar-util': 0.6.1
-      '@visactor/vrender': 0.14.2
+      '@visactor/vrender': 0.14.3
       '@visactor/vscale': 0.15.7
       '@visactor/vutils': 0.15.7
     dev: false
@@ -4064,7 +4064,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.6.1
       '@visactor/vgrammar-util': 0.6.1
-      '@visactor/vrender': 0.14.2
+      '@visactor/vrender': 0.14.3
       '@visactor/vutils': 0.15.7
     dev: false
 
@@ -4073,23 +4073,23 @@ packages:
     dependencies:
       '@visactor/vgrammar-coordinate': 0.6.1
       '@visactor/vgrammar-util': 0.6.1
-      '@visactor/vrender': 0.14.2
-      '@visactor/vrender-components': 0.14.2
+      '@visactor/vrender': 0.14.3
+      '@visactor/vrender-components': 0.14.3
       '@visactor/vscale': 0.15.7
       '@visactor/vutils': 0.15.7
     dev: false
 
-  /@visactor/vrender-components/0.14.2:
-    resolution: {integrity: sha512-w2WjzONqDSe9Cy8Ax7x71avvBD2GKuqLxnFaBOgodt/JMkIFBuC3uKlk4Ct/SSkAw5X6KmQ6IOZlkzjCxzcJnA==}
+  /@visactor/vrender-components/0.14.3:
+    resolution: {integrity: sha512-tLDNhb20kS2SFua3croEPWmYbFJyF0+t550Qet9KR2jnZdoJ9PyvOx6d8cfsSh35jRpjV0jcYg4Gr6BjwR29UA==}
     dependencies:
-      '@visactor/vrender': 0.14.2
+      '@visactor/vrender': 0.14.3
       '@visactor/vscale': 0.15.7
       '@visactor/vutils': 0.15.7
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vrender/0.14.2:
-    resolution: {integrity: sha512-rYIIZqNazG+cBEa8SmqCPMl5F6oZtjOolMenB/Xw9zIdMgMxSpXnvlnvZ4bZ7T3Lclv4Zw1znEUXgBs+s0h50Q==}
+  /@visactor/vrender/0.14.3:
+    resolution: {integrity: sha512-aAwoURhRWdPjPVMlnRKf+nd030BRfZMTGtek3AgM/QVxDZqVjuTR43jQjJZLuup2b6cJwlTIOi1QvMxHZMS75g==}
     dependencies:
       '@visactor/vutils': 0.15.7
       color-convert: 2.0.1
@@ -6071,7 +6071,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001521
-      electron-to-chromium: 1.4.492
+      electron-to-chromium: 1.4.494
     dev: true
 
   /browserslist/4.21.10:
@@ -6080,7 +6080,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001521
-      electron-to-chromium: 1.4.492
+      electron-to-chromium: 1.4.494
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11_browserslist@4.21.10
 
@@ -8208,8 +8208,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.492:
-    resolution: {integrity: sha512-36K9b/6skMVwAIEsC7GiQ8I8N3soCALVSHqWHzNDtGemAcI9Xu8hP02cywWM0A794rTHm0b0zHPeLJHtgFVamQ==}
+  /electron-to-chromium/1.4.494:
+    resolution: {integrity: sha512-KF7wtsFFDu4ws1ZsSOt4pdmO1yWVNWCFtijVYZPUeW4SV7/hy/AESjLn/+qIWgq7mHscNOKAwN5AIM1+YAy+Ww==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
