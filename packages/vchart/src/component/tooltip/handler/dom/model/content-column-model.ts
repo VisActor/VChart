@@ -83,7 +83,8 @@ export class ContentColumnModel extends BaseTooltipModel {
         const { key, isKeyAdaptive } = line;
         childStyle = merge({}, isKeyAdaptive ? defaultAdaptiveKeyStyle : defaultKeyStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
-          ...tooltipStyle.keyColumn.item
+          ...tooltipStyle.keyColumn.common,
+          ...tooltipStyle.keyColumn.items?.[i]
         });
         const hasContent = (isString(key) && key?.trim?.() !== '') || isNumber(key);
         if (!hasContent && !childStyle.visibility) {
@@ -95,15 +96,17 @@ export class ContentColumnModel extends BaseTooltipModel {
       } else if (this.className === 'value-box') {
         childStyle = merge({}, defaultValueStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
-          ...tooltipStyle.valueColumn.item
+          ...tooltipStyle.valueColumn.common,
+          ...tooltipStyle.valueColumn.items?.[i]
         });
         (this.children[i] as TextModel).setStyle(childStyle);
       } else if (this.className === 'shape-box') {
         childStyle = merge({}, defaultShapeStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
-          ...tooltipStyle.shapeColumn.item
+          ...tooltipStyle.shapeColumn.common,
+          ...tooltipStyle.shapeColumn.items?.[i]
         });
-        (this.children[i] as ShapeModel)?.setStyle(childStyle, this._getShapeSvgOption(line));
+        (this.children[i] as ShapeModel)?.setStyle(childStyle, this._getShapeSvgOption(line, i));
       }
     });
   }
@@ -120,7 +123,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         } else {
           childContent = TOOLTIP_EMPTY_STRING;
         }
-        (this.children[i] as TextModel)?.setContent(childContent, contentAttributes[i].value?.multiLine);
+        (this.children[i] as TextModel)?.setContent(childContent, contentAttributes[i].key?.multiLine);
       } else if (this.className === 'value-box') {
         const valueContent = line.value;
         if ((isString(valueContent) && valueContent?.trim?.() !== '') || isNumber(valueContent)) {
@@ -130,7 +133,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         }
         (this.children[i] as TextModel)?.setContent(childContent, contentAttributes[i].value?.multiLine);
       } else if (this.className === 'shape-box') {
-        childContent = this._getShapeSvgOption(line);
+        childContent = this._getShapeSvgOption(line, i);
         this.children[i]?.setContent(childContent);
       }
     });
@@ -155,17 +158,23 @@ export class ContentColumnModel extends BaseTooltipModel {
     }
   }
 
-  protected _getShapeSvgOption(line: IToolTipLineActual): IShapeSvgOption {
+  protected _getShapeSvgOption(line: IToolTipLineActual, index: number): IShapeSvgOption {
     const tooltipStyle = this._option.getTooltipStyle();
+    const shapeColumn = {
+      ...tooltipStyle.shapeColumn,
+      ...tooltipStyle.shapeColumn.items?.[index]
+    };
+    const keyColumn = {
+      ...tooltipStyle.keyColumn,
+      ...tooltipStyle.keyColumn.items?.[index]
+    };
     return {
       hasShape: line.hasShape,
       shapeType: line.shapeType,
-      size: tooltipStyle.shapeColumn.item?.width,
+      size: shapeColumn.width,
       color: line.shapeColor,
       hollow: line.shapeHollow,
-      marginTop: `calc((${
-        tooltipStyle.keyColumn.item?.lineHeight ?? tooltipStyle.keyColumn.item?.fontSize ?? '18px'
-      } - ${tooltipStyle.shapeColumn.item?.width ?? '8px'}) / 2)`
+      marginTop: `calc((${keyColumn.lineHeight ?? keyColumn.fontSize ?? '18px'} - ${shapeColumn.width ?? '8px'}) / 2)`
     } as IShapeSvgOption;
   }
 }

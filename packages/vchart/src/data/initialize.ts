@@ -1,13 +1,14 @@
 import type { utilFunctionCtx } from './../typings/params';
 import { warn } from './../util/debug';
-import { cloneDeep, isString } from '@visactor/vutils';
+import { isString } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { IDataViewOptions, IFields, ITransformOptions } from '@visactor/vdataset';
-import type { CommonParseOptions, IDataValues, SheetParseOptions } from '../typings/spec/common';
+import type { IDataValues, SheetParseOptions } from '../typings/spec/common';
 import { error } from '../util';
 import { registerDataSetInstanceTransform } from './register';
 import { copyDataView } from './transforms/copy-data-view';
+import type { IParserOptions } from '@visactor/vdataset/es/parser';
 
 export function initializeData() {
   // todo
@@ -54,7 +55,10 @@ export function dataToDataView(
     return data;
   }
 
-  const { id, values = [], fromDataIndex, fromDataId, transforms = [], fields, parser } = data;
+  const { id, values = [], fromDataIndex, fromDataId, transforms = [], fields } = data;
+  const parser = (data.parser ?? { clone: true }) as IParserOptions;
+  // set parser.clone default value to true
+  parser.clone = !(parser.clone === false);
   let dataView: DataView;
   const existDataView = sourceDataViews.find(dv => dv.name === id);
   if (existDataView) {
@@ -95,8 +99,7 @@ export function dataToDataView(
         type: 'copyDataView'
       });
     } else if (Array.isArray(values)) {
-      // 处理values，进行拷贝，不要修改用户 spec 的数据，否则一些 react 组件的更新场景会有问题
-      dataView.parse((parser as CommonParseOptions)?.clone === false ? values : cloneDeep(values));
+      dataView.parse(values, parser);
     } else if (isString(values) && (!parser || ['csv', 'dsv', 'tsv'].includes((parser as SheetParseOptions).type))) {
       // 内置 csv parser
       dataView.parse(values, (parser as SheetParseOptions) ?? { type: 'csv' });

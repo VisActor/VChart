@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/taro-vchart",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart"
+}

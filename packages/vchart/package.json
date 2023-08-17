@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "1.2.1",
+  "version": "1.3.0-beta.6",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -96,9 +96,9 @@
     "canvas": "2.11.2"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.15.6",
-    "@visactor/vdataset": "~0.15.6",
-    "@visactor/vscale": "~0.15.6",
+    "@visactor/vutils": "~0.15.7",
+    "@visactor/vdataset": "~0.15.7",
+    "@visactor/vscale": "~0.15.7",
     "@visactor/vgrammar": "~0.6.1",
     "@visactor/vgrammar-projection": "~0.6.1",
     "@visactor/vgrammar-wordcloud": "~0.6.1",

@@ -2,9 +2,10 @@
  * release
  */
 
-const { spawnSync } = require('child_process')
-const fs = require('fs')
-const path = require('path')
+const { spawnSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+const checkAndUpdateNextBump = require('./version-policies');
 
 function getPackageJson(pkgJsonPath) {
   const pkgJson = fs.readFileSync(pkgJsonPath, { encoding: 'utf-8' })
@@ -12,9 +13,11 @@ function getPackageJson(pkgJsonPath) {
 }
 
 function run() {
+  let releaseVersion = process.argv.slice(2)[0];
   const cwd = process.cwd();
 
-
+  // 0. update `nextBump`
+  checkAndUpdateNextBump(false, releaseVersion);
 
   // 1. update version of package.json, this operation will remove the common/changes
   spawnSync('sh', ['-c', `rush version --bump`], {
@@ -44,7 +47,7 @@ function run() {
     shell: false,
   });
 
-  const rushJson = getPackageJson(`${cwd}/rush.json`);
+  const rushJson = getPackageJson(path.join(__dirname, '../../rush.json'));
   const package = rushJson.projects.find((project) => project.name === '@visactor/vchart');
 
   if (package) {

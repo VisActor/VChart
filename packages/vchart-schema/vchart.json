@@ -708,6 +708,17 @@
         }
       ]
     },
+    "CommonParseOptions": {
+      "properties": {
+        "clone": {
+          "default": true,
+          "description": "是否需要对数据进行 clone，默认为 true。\n如果考虑性能，你可以将其关闭，但是这会带了一些副作用，即我们会对传入的数据进行修改（不会对原有字段及值修改，只会在原有数据基础上添加一些字段）。",
+          "since": "1.3.0",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "ControllerTypeEnum": {
       "enum": [
         "backward",
@@ -17767,6 +17778,12 @@
     },
     "IAreaChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -18443,6 +18460,23 @@
             }
           ]
         },
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
+          "type": "number"
+        },
         "fill": {
           "$ref": "#/definitions/IFillType"
         },
@@ -18475,6 +18509,12 @@
     },
     "IAreaSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -18784,7 +18824,14 @@
           "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
         },
         "point": {
-          "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         }
       },
       "type": "object"
@@ -25264,6 +25311,12 @@
         "getPointAt": {
           "typeof": "function"
         },
+        "originP1": {
+          "$ref": "#/definitions/IPointLike"
+        },
+        "originP2": {
+          "$ref": "#/definitions/IPointLike"
+        },
         "p0": {
           "$ref": "#/definitions/IPoint"
         },
@@ -25635,7 +25688,14 @@
           "description": "数据唯一标识"
         },
         "parser": {
-          "typeof": "function"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SheetParseOptions"
+            },
+            {
+              "$ref": "#/definitions/CommonParseOptions"
+            }
+          ]
         },
         "transforms": {
           "description": "数据 transform 配置",
@@ -26064,6 +26124,23 @@
     },
     "IDiscreteLegendTheme": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "allowAllCanceled": {
           "type": "boolean"
         },
@@ -26238,6 +26315,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -26260,6 +26344,22 @@
         "filter": {
           "description": "是否进行数据筛选，默认为 true",
           "type": "boolean"
+        },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
         },
         "height": {
           "anyOf": [
@@ -26291,6 +26391,16 @@
         "item": {
           "$ref": "#/definitions/IItem",
           "description": "图例项配置"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -27061,6 +27171,14 @@
         "renderItem",
         "styleRenderMap"
       ],
+      "type": "object"
+    },
+    "IDsvParserOptions": {
+      "properties": {
+        "delimiter": {
+          "type": "string"
+        }
+      },
       "type": "object"
     },
     "IExtensionGroupMarkSpec": {
@@ -32696,7 +32814,14 @@
           "description": "数据唯一标识"
         },
         "parser": {
-          "typeof": "function"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SheetParseOptions"
+            },
+            {
+              "$ref": "#/definitions/CommonParseOptions"
+            }
+          ]
         },
         "transforms": {
           "description": "数据 transform 配置",
@@ -34145,6 +34270,15 @@
           ],
           "description": "动画配置"
         },
+        "customLayoutFunc": {
+          "typeof": "function"
+        },
+        "customOverlapFunc": {
+          "typeof": "function"
+        },
+        "dataFilter": {
+          "typeof": "function"
+        },
         "formatMethod": {
           "typeof": "function"
         },
@@ -34975,6 +35109,12 @@
     },
     "ILineChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -35642,6 +35782,12 @@
     },
     "ILineSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -35953,7 +36099,14 @@
           "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
         },
         "point": {
-          "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         }
       },
       "type": "object"
@@ -41774,6 +41927,12 @@
     },
     "IRadarChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "angleField": {
           "anyOf": [
             {
@@ -42242,6 +42401,12 @@
     },
     "IRadarSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "angleField": {
           "anyOf": [
             {
@@ -42593,7 +42758,14 @@
           "type": "number"
         },
         "point": {
-          "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         },
         "radius": {
           "type": "number"
@@ -42643,6 +42815,12 @@
     },
     "IRangeAreaChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -43098,6 +43276,12 @@
     },
     "IRangeAreaSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -48605,6 +48789,23 @@
     },
     "ISegment": {
       "properties": {
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
+          "type": "number"
+        },
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
         },
@@ -51738,6 +51939,12 @@
           "description": "刻度线朝向，默认朝外(坐标线包围盒外部)",
           "type": "boolean"
         },
+        "noDecimals": {
+          "default": false,
+          "description": "当配置了 tickStep 或 forceTickCount 时不生效。",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "state": {
           "typeof": "function"
         },
@@ -51756,6 +51963,16 @@
           "default": 10,
           "description": "建议的tick数量，并不保证结果一定是配置值",
           "type": "number"
+        },
+        "tickMode": {
+          "default": "'average'",
+          "description": "连续轴 tick 生成算法：\n'average': 尽可能均分；\n'd3'：与 d3 默认逻辑一致，以 [1, 2, 5] 为基数生成；",
+          "enum": [
+            "average",
+            "d3"
+          ],
+          "since": "1.3.0",
+          "type": "string"
         },
         "tickSize": {
           "default": 4,
@@ -52242,6 +52459,10 @@
           "$ref": "#/definitions/TooltipContentProperty<string>",
           "description": "tooltip key 值内容"
         },
+        "keyStyle": {
+          "$ref": "#/definitions/TooltipContentProperty<ITooltipTextTheme>",
+          "description": "key 样式（只在 content 上需要配置）"
+        },
         "seriesId": {
           "description": "该 pattern 属于哪个系列id（用户不需要设置）",
           "type": "number"
@@ -52252,12 +52473,19 @@
         "shapeHollow": {
           "type": "boolean"
         },
+        "shapeSize": {
+          "$ref": "#/definitions/TooltipContentProperty<number>"
+        },
         "shapeType": {
           "$ref": "#/definitions/TooltipContentProperty<string>"
         },
         "value": {
           "$ref": "#/definitions/TooltipContentProperty<string>",
           "description": "tooltip value 值内容"
+        },
+        "valueStyle": {
+          "$ref": "#/definitions/TooltipContentProperty<ITooltipTextTheme>",
+          "description": "value 样式"
         },
         "visible": {
           "$ref": "#/definitions/TooltipContentProperty<boolean>",
@@ -52285,11 +52513,18 @@
         "position": {
           "$ref": "#/definitions/TooltipPatternProperty<TooltipPosition>"
         },
+        "seriesId": {
+          "description": "该 pattern 属于哪个系列id（用户不需要设置）",
+          "type": "number"
+        },
         "shapeColor": {
           "$ref": "#/definitions/TooltipContentProperty<string>"
         },
         "shapeHollow": {
           "type": "boolean"
+        },
+        "shapeSize": {
+          "$ref": "#/definitions/TooltipContentProperty<number>"
         },
         "shapeType": {
           "$ref": "#/definitions/TooltipContentProperty<string>"
@@ -52463,8 +52698,11 @@
     },
     "ITooltipTextTheme": {
       "properties": {
-        "fontColor": {
+        "fill": {
           "description": "字体颜色",
+          "type": "string"
+        },
+        "fontColor": {
           "type": "string"
         },
         "fontFamily": {
@@ -57754,7 +57992,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@11030": {
+        "__@toStringTag@11349": {
           "type": "string"
         },
         "size": {
@@ -57762,14 +58000,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11030",
+        "__@toStringTag@11349",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@11030": {
+        "__@toStringTag@11349": {
           "type": "string"
         },
         "size": {
@@ -57777,14 +58015,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11030",
+        "__@toStringTag@11349",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@11030": {
+        "__@toStringTag@11349": {
           "type": "string"
         },
         "size": {
@@ -57792,14 +58030,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11030",
+        "__@toStringTag@11349",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@11030": {
+        "__@toStringTag@11349": {
           "type": "string"
         },
         "size": {
@@ -57807,14 +58045,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11030",
+        "__@toStringTag@11349",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@11030": {
+        "__@toStringTag@11349": {
           "type": "string"
         },
         "size": {
@@ -57822,14 +58060,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11030",
+        "__@toStringTag@11349",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@11030": {
+        "__@toStringTag@11349": {
           "type": "string"
         },
         "size": {
@@ -57837,14 +58075,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11030",
+        "__@toStringTag@11349",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@11030": {
+        "__@toStringTag@11349": {
           "type": "string"
         },
         "size": {
@@ -57852,14 +58090,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11030",
+        "__@toStringTag@11349",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@11030": {
+        "__@toStringTag@11349": {
           "type": "string"
         },
         "size": {
@@ -57867,7 +58105,7 @@
         }
       },
       "required": [
-        "__@toStringTag@11030",
+        "__@toStringTag@11349",
         "size"
       ],
       "type": "object"
@@ -58195,6 +58433,23 @@
     },
     "Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"pager\"|\"item\">": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "allowAllCanceled": {
           "type": "boolean"
         },
@@ -58347,6 +58602,13 @@
           },
           "type": "array"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -58362,6 +58624,22 @@
         "fillOpacity": {
           "type": "number"
         },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
+        },
         "height": {
           "type": "number"
         },
@@ -58373,6 +58651,16 @@
         },
         "interactive": {
           "type": "boolean"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -60096,6 +60384,23 @@
     },
     "Omit<IGroupGraphicAttribute,\"background\">": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -60220,6 +60525,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -60235,11 +60547,37 @@
         "fillOpacity": {
           "type": "number"
         },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
+        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -61306,6 +61644,23 @@
     },
     "Omit<Omit<PagerAttributes,\"total\">&{space?:number;animation?:boolean;animationDuration?:number;animationEasing?:EasingType;},\"textStyle\"|\"handler\">": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -61455,6 +61810,13 @@
         "defaultCurrent": {
           "type": "number"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -61470,11 +61832,37 @@
         "fillOpacity": {
           "type": "number"
         },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
+        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -61655,6 +62043,22 @@
       "properties": {
         "avoidBaseMark": {
           "type": "boolean"
+        },
+        "avoidMarks": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+              },
+              "type": "array"
+            }
+          ]
         },
         "clampForce": {
           "type": "boolean"
@@ -62319,6 +62723,23 @@
           "type": "boolean"
         },
         "clipRange": {
+          "type": "number"
+        },
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
           "type": "number"
         },
         "cursor": {
@@ -63433,6 +63854,23 @@
     },
     "Partial<IGroupGraphicAttribute>": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -63570,6 +64008,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -63585,11 +64030,37 @@
         "fillOpacity": {
           "type": "number"
         },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
+        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -64055,6 +64526,15 @@
           ],
           "description": "动画配置"
         },
+        "customLayoutFunc": {
+          "typeof": "function"
+        },
+        "customOverlapFunc": {
+          "typeof": "function"
+        },
+        "dataFilter": {
+          "typeof": "function"
+        },
         "formatMethod": {
           "typeof": "function"
         },
@@ -64132,6 +64612,15 @@
             }
           ],
           "description": "动画配置"
+        },
+        "customLayoutFunc": {
+          "typeof": "function"
+        },
+        "customOverlapFunc": {
+          "typeof": "function"
+        },
+        "dataFilter": {
+          "typeof": "function"
         },
         "formatMethod": {
           "typeof": "function"
@@ -64308,6 +64797,23 @@
         },
         "clipRangeByDimension": {
           "$ref": "#/definitions/IClipRangeByDimensionType"
+        },
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
+          "type": "number"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -67047,6 +67553,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "direction": {
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -67252,6 +67765,13 @@
         },
         "visible": {
           "type": "boolean"
+        },
+        "wordBreak": {
+          "enum": [
+            "break-all",
+            "break-word"
+          ],
+          "type": "string"
         },
         "x": {
           "type": "number"
@@ -69314,34 +69834,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@11030": {
+        "__@toStringTag@11349": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11030"
+        "__@toStringTag@11349"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@11030": {
+        "__@toStringTag@11349": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11030"
+        "__@toStringTag@11349"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@11030": {
+        "__@toStringTag@11349": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11030"
+        "__@toStringTag@11349"
       ],
       "type": "object"
     },
@@ -69932,6 +70452,23 @@
         "clipRange": {
           "type": "number"
         },
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
+          "type": "number"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -70118,6 +70655,10 @@
         "boundsPadding",
         "childrenPickable",
         "clipRange",
+        "connectedStyle",
+        "connectedType",
+        "connectedX",
+        "connectedY",
         "cursor",
         "curveType",
         "customPickShape",
@@ -70884,6 +71425,23 @@
     },
     "Required<IGroupGraphicAttribute>": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -71021,6 +71579,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -71036,11 +71601,37 @@
         "fillOpacity": {
           "type": "number"
         },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
+        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -71189,6 +71780,8 @@
         }
       },
       "required": [
+        "alignContent",
+        "alignItems",
         "alpha",
         "anchor",
         "anchor3d",
@@ -71204,13 +71797,17 @@
         "cornerRadius",
         "cursor",
         "customPickShape",
+        "display",
         "dx",
         "dy",
         "dz",
         "fill",
         "fillOpacity",
+        "flexDirection",
+        "flexWrap",
         "height",
         "innerBorder",
+        "justifyContent",
         "keepDirIn3d",
         "layout",
         "lineCap",
@@ -71738,6 +72335,23 @@
         "clipRangeByDimension": {
           "$ref": "#/definitions/IClipRangeByDimensionType"
         },
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
+          "type": "number"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -71925,6 +72539,10 @@
         "childrenPickable",
         "clipRange",
         "clipRangeByDimension",
+        "connectedStyle",
+        "connectedType",
+        "connectedX",
+        "connectedY",
         "cursor",
         "curveType",
         "customPickShape",
@@ -74720,6 +75338,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "direction": {
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -74926,6 +75551,13 @@
         "visible": {
           "type": "boolean"
         },
+        "wordBreak": {
+          "enum": [
+            "break-all",
+            "break-word"
+          ],
+          "type": "string"
+        },
         "x": {
           "type": "number"
         },
@@ -74953,6 +75585,7 @@
         "childrenPickable",
         "cursor",
         "customPickShape",
+        "direction",
         "dx",
         "dy",
         "dz",
@@ -75004,6 +75637,7 @@
         "textureSize",
         "underline",
         "visible",
+        "wordBreak",
         "x",
         "y",
         "z",
@@ -78348,6 +78982,25 @@
       ],
       "type": "string"
     },
+    "SheetParseOptions": {
+      "properties": {
+        "options": {
+          "$ref": "#/definitions/IDsvParserOptions"
+        },
+        "type": {
+          "enum": [
+            "csv",
+            "dsv",
+            "tsv"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
     "SlotAssignmentMode": {
       "enum": [
         "manual",
@@ -78509,6 +79162,16 @@
       ],
       "type": "string"
     },
+    "TooltipContentProperty<ITooltipTextTheme>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ITooltipTextTheme"
+        },
+        {
+          "typeof": "function"
+        }
+      ]
+    },
     "TooltipContentProperty<boolean>": {
       "anyOf": [
         {
@@ -78516,6 +79179,16 @@
         },
         {
           "type": "boolean"
+        }
+      ]
+    },
+    "TooltipContentProperty<number>": {
+      "anyOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "type": "number"
         }
       ]
     },
@@ -79696,3 +80369,4 @@
     }
   }
 }
+

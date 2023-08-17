@@ -11,7 +11,8 @@ import type {
   IPadding,
   IRect,
   StringOrNumber,
-  IChartSpec
+  IChartSpec,
+  IDataValues
 } from '../typings';
 import type { LayoutCallBack } from '../layout/interface';
 import { GlobalScale } from '../scale/global-scale';
@@ -39,7 +40,7 @@ import { ComponentTypeEnum } from '../component/interface';
 import type { IComponent } from '../component/interface';
 import { MarkTypeEnum, type IMark } from '../mark/interface';
 import type { IEvent } from '../event/interface';
-import type { DataView } from '@visactor/vdataset';
+import type { DataView, IFields } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset/es/data-set';
 import { Factory } from '../core/factory';
 import { Event } from '../event/event';
@@ -655,6 +656,25 @@ export class BaseChart extends CompilableBase implements IChart {
     if (dv) {
       dv.parseNewData(data, options);
     }
+    if (updateGlobalScale) {
+      this.updateGlobalScaleDomain();
+    }
+    this.getAllModels().forEach(model => model.onDataUpdate());
+  }
+
+  updateFullData(data: IDataValues | IDataValues[], updateGlobalScale: boolean = true) {
+    const dvs: { d: IDataValues; dv: DataView }[] = [];
+    array(data).forEach(d => {
+      const dv = this._dataSet.getDataView(d.id as string);
+      if (dv) {
+        dvs.push({ d, dv });
+        dv.markRunning();
+      }
+    });
+    dvs.forEach(({ d, dv }) => {
+      dv.setFields(d.fields as IFields);
+      dv.parseNewData(d.values, d.parser as IParserOptions);
+    });
     if (updateGlobalScale) {
       this.updateGlobalScaleDomain();
     }

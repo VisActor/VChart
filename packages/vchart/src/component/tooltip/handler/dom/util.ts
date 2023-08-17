@@ -46,6 +46,10 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
 
   const backgroundColor = fillColor as string;
 
+  const shapeStyle = getShapeStyle(shape);
+  const keyStyle = getLabelStyle(key);
+  const valueStyle = getLabelStyle(value);
+
   const styles = {
     panel: {
       width: getPixelPropertyStr((attributeCache?.panel?.width ?? 0) + lineWidth * 2),
@@ -66,20 +70,31 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
       transitionProperty: transitionDuration ? 'transform' : 'initial',
       transitionTimingFunction: transitionDuration ? 'ease-out' : 'initial'
     },
-    title: getLabelStyle(title),
+    title: getLabelStyle(merge({}, title, attributeCache?.title?.value)),
     content: {},
     shapeColumn: {
-      item: getShapeStyle(shape),
+      common: shapeStyle,
+      items: [],
       width: getPixelPropertyStr(shape.size),
       marginRight: getPixelPropertyStr(shape.spacing ?? DEFAULT_SHAPE_SPACING)
     },
     keyColumn: {
-      item: getLabelStyle(key),
+      common: keyStyle,
+      items: attributeCache?.content?.map(({ key }) => ({
+        ...keyStyle,
+        ...getLabelStyle(key as ITooltipTextStyle),
+        ...(key?.multiLine ? { width: getPixelPropertyStr(Math.ceil(key.width)) } : undefined) // 对多行文本使用定宽
+      })),
       width: getPixelPropertyStr(attributeCache?.keyWidth),
       marginRight: getPixelPropertyStr(key.spacing ?? DEFAULT_KEY_SPACING)
     },
     valueColumn: {
-      item: getLabelStyle(value),
+      common: valueStyle,
+      items: attributeCache?.content?.map(({ value }) => ({
+        ...valueStyle,
+        ...getLabelStyle(value as ITooltipTextStyle),
+        ...(value?.multiLine ? { width: getPixelPropertyStr(Math.ceil(value.width)) } : undefined) // 对多行文本使用定宽
+      })),
       width: getPixelPropertyStr(attributeCache?.valueWidth),
       marginRight: getPixelPropertyStr(value.spacing ?? DEFAULT_VALUE_SPACING)
     },
@@ -88,19 +103,19 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
 
   if (isValid(spaceRow)) {
     const gapUnit = spaceRow / 2;
-    ([styles.shapeColumn.item, styles.keyColumn.item, styles.valueColumn.item] as IMargin[]).forEach(obj => {
+    ([styles.shapeColumn.common, styles.keyColumn.common, styles.valueColumn.common] as IMargin[]).forEach(obj => {
       obj.marginTop = getPixelPropertyStr(gapUnit);
       obj.marginBottom = obj.marginTop;
     });
     styles.content.marginTop = getPixelPropertyStr(-gapUnit);
     styles.content.marginBottom = styles.content.marginTop;
   } else {
-    ([styles.content, styles.shapeColumn.item, styles.keyColumn.item, styles.valueColumn.item] as IMargin[]).forEach(
-      obj => {
-        obj.marginTop = 'initial';
-        obj.marginBottom = 'initial';
-      }
-    );
+    (
+      [styles.content, styles.shapeColumn.common, styles.keyColumn.common, styles.valueColumn.common] as IMargin[]
+    ).forEach(obj => {
+      obj.marginTop = 'initial';
+      obj.marginBottom = 'initial';
+    });
   }
   return styles;
 }
