@@ -54,7 +54,7 @@ importers:
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.2.1
       '@visactor/vgrammar': ~0.5.7
-      '@visactor/vrender': ~0.13.10
+      '@visactor/vrender': ~0.13.11
       '@visactor/vutils': ~0.13.3
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
@@ -75,7 +75,7 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vgrammar': 0.5.7
-      '@visactor/vrender': 0.13.10
+      '@visactor/vrender': 0.13.11
       '@visactor/vutils': 0.13.3
       react-is: 18.2.0
     devDependencies:
@@ -214,8 +214,8 @@ importers:
       '@visactor/vgrammar-util': ~0.5.7
       '@visactor/vgrammar-wordcloud': ~0.5.7
       '@visactor/vgrammar-wordcloud-shape': ~0.5.7
-      '@visactor/vrender': ~0.13.10
-      '@visactor/vrender-components': ~0.13.11
+      '@visactor/vrender': ~0.13.11
+      '@visactor/vrender-components': ~0.13.12
       '@visactor/vscale': ~0.13.4
       '@visactor/vutils': ~0.13.3
       canvas: 2.11.2
@@ -252,8 +252,8 @@ importers:
       '@visactor/vgrammar-util': 0.5.7
       '@visactor/vgrammar-wordcloud': 0.5.7
       '@visactor/vgrammar-wordcloud-shape': 0.5.7
-      '@visactor/vrender': 0.13.10
-      '@visactor/vrender-components': 0.13.11
+      '@visactor/vrender': 0.13.11
+      '@visactor/vrender-components': 0.13.12
       '@visactor/vscale': 0.13.4
       '@visactor/vutils': 0.13.3
     devDependencies:
@@ -4021,7 +4021,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.7
       '@visactor/vgrammar-util': 0.5.7
-      '@visactor/vrender': 0.13.10
+      '@visactor/vrender': 0.13.11
       '@visactor/vutils': 0.13.3
     dev: false
 
@@ -4039,7 +4039,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.7
       '@visactor/vgrammar-util': 0.5.7
-      '@visactor/vrender': 0.13.10
+      '@visactor/vrender': 0.13.11
       '@visactor/vutils': 0.13.3
     dev: false
 
@@ -4054,7 +4054,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.7
       '@visactor/vgrammar-util': 0.5.7
-      '@visactor/vrender': 0.13.10
+      '@visactor/vrender': 0.13.11
       '@visactor/vscale': 0.13.4
       '@visactor/vutils': 0.13.3
     dev: false
@@ -4064,7 +4064,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.5.7
       '@visactor/vgrammar-util': 0.5.7
-      '@visactor/vrender': 0.13.10
+      '@visactor/vrender': 0.13.11
       '@visactor/vutils': 0.13.3
     dev: false
 
@@ -4073,23 +4073,23 @@ packages:
     dependencies:
       '@visactor/vgrammar-coordinate': 0.5.7
       '@visactor/vgrammar-util': 0.5.7
-      '@visactor/vrender': 0.13.10
-      '@visactor/vrender-components': 0.13.11
+      '@visactor/vrender': 0.13.11
+      '@visactor/vrender-components': 0.13.12
       '@visactor/vscale': 0.13.4
       '@visactor/vutils': 0.13.3
     dev: false
 
-  /@visactor/vrender-components/0.13.11:
-    resolution: {integrity: sha512-haf/ptddjX3i6O/oZ2B+1I8MF72cjOQZV6kC4hH5cuPbkz4Jth77zef4Xj4dyngzgGbLCjFY6PKx78oS3rpT8w==}
+  /@visactor/vrender-components/0.13.12:
+    resolution: {integrity: sha512-GXjYBomdmDf8lUoOb3JsJaERzekNzHSNq38FSVyuvk1t/BBBeBosb2NzBUrQKeZQ7Vz28+o3paREjPV9vaCxIg==}
     dependencies:
-      '@visactor/vrender': 0.13.10
+      '@visactor/vrender': 0.13.11
       '@visactor/vscale': 0.13.4
       '@visactor/vutils': 0.13.3
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vrender/0.13.10:
-    resolution: {integrity: sha512-jCUI9V5iSfDfNrsXVPnTjy30rPqELtSPwnyKnYw6OvKGDJN+P7fgM+4O5ghZlf+W4+hr/bwSsKMgnd56bOiFEA==}
+  /@visactor/vrender/0.13.11:
+    resolution: {integrity: sha512-r8X/OQ/uxiumbxxScZkFEfHgh/TKVo5URIgs1WjW98ApjlOvv6pN6gffEp75l3XVAiB2JS4FpYidN2BhOZWbHA==}
     dependencies:
       '@visactor/vutils': 0.13.3
       color-convert: 2.0.1
@@ -5127,7 +5127,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.10
-      caniuse-lite: 1.0.30001520
+      caniuse-lite: 1.0.30001521
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -5140,7 +5140,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 3.2.8
-      caniuse-lite: 1.0.30001520
+      caniuse-lite: 1.0.30001521
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       postcss: 6.0.23
@@ -5153,7 +5153,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.10
-      caniuse-lite: 1.0.30001520
+      caniuse-lite: 1.0.30001521
       chalk: 2.4.2
       normalize-range: 0.1.2
       num2fraction: 1.2.2
@@ -5166,7 +5166,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.10
-      caniuse-lite: 1.0.30001520
+      caniuse-lite: 1.0.30001521
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       picocolors: 0.2.1
@@ -6070,8 +6070,8 @@ packages:
     resolution: {integrity: sha512-WHVocJYavUwVgVViC0ORikPHQquXwVh939TaelZ4WDqpWgTX/FsGhl/+P4qBUAGcRvtOgDgC+xftNWWp2RUTAQ==}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001520
-      electron-to-chromium: 1.4.491
+      caniuse-lite: 1.0.30001521
+      electron-to-chromium: 1.4.494
     dev: true
 
   /browserslist/4.21.10:
@@ -6079,8 +6079,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001520
-      electron-to-chromium: 1.4.491
+      caniuse-lite: 1.0.30001521
+      electron-to-chromium: 1.4.494
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11_browserslist@4.21.10
 
@@ -6367,8 +6367,8 @@ packages:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
     dev: true
 
-  /caniuse-lite/1.0.30001520:
-    resolution: {integrity: sha512-tahF5O9EiiTzwTUqAeFjIZbn4Dnqxzz7ktrgGlMYNLH43Ul26IgTMH/zvL3DG0lZxBYnlT04axvInszUsZULdA==}
+  /caniuse-lite/1.0.30001521:
+    resolution: {integrity: sha512-fnx1grfpEOvDGH+V17eccmNjucGUnCbP6KL+l5KqBIerp26WK/+RQ7CIDE37KGJjaPyqWXXlFUyKiWmvdNNKmQ==}
 
   /canvas/2.11.2:
     resolution: {integrity: sha512-ItanGBMrmRV7Py2Z+Xhs7cT+FNt5K0vPL4p9EZ/UX/Mu7hFbkxSjKF2KVtPwX7UYWp7dRKnrTvReflgrItJbdw==}
@@ -8208,8 +8208,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.491:
-    resolution: {integrity: sha512-ZzPqGKghdVzlQJ+qpfE+r6EB321zed7e5JsvHIlMM4zPFF8okXUkF5Of7h7F3l3cltPL0rG7YVmlp5Qro7RQLA==}
+  /electron-to-chromium/1.4.494:
+    resolution: {integrity: sha512-KF7wtsFFDu4ws1ZsSOt4pdmO1yWVNWCFtijVYZPUeW4SV7/hy/AESjLn/+qIWgq7mHscNOKAwN5AIM1+YAy+Ww==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
