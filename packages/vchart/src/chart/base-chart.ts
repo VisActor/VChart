@@ -220,7 +220,6 @@ export class BaseChart extends CompilableBase implements IChart {
     if (!has(spec, 'tooltip')) {
       spec.tooltip = {};
     }
-    spec.data = array(spec.data);
   }
 
   init(options: any = {}) {
@@ -868,6 +867,7 @@ export class BaseChart extends CompilableBase implements IChart {
     // spec set & transformSpec
     // diff meta length;
     // make sure keys has sort
+    spec.data = spec.data ?? [];
     const currentKeys = Object.keys(this._spec).sort();
     const nextKeys = Object.keys(spec).sort();
     if (JSON.stringify(currentKeys) !== JSON.stringify(nextKeys)) {
