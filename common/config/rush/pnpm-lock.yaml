@@ -10,7 +10,6 @@ importers:
       '@arco-design/web-react': 2.46.1
       '@internal/eslint-config': workspace:*
       '@internal/ts-config': workspace:*
-      '@types/animejs': ^3.1.7
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@visactor/story-player': workspace:*
@@ -19,7 +18,6 @@ importers:
       '@visactor/vrender': ~0.13.10
       '@visactor/vutils': ~0.13.3
       '@vitejs/plugin-react': 3.1.0
-      animejs: ^3.2.1
       axios: ^1.4.0
       chalk: ^3.0.0
       chokidar: ^3.5.0
@@ -38,7 +36,6 @@ importers:
       '@arco-design/web-react': 2.46.1_qflmzdebv2ewfrqz6op6ohcc2q
       '@internal/eslint-config': link:../share/eslint-config
       '@internal/ts-config': link:../share/ts-config
-      '@types/animejs': 3.1.7
       '@types/react': 18.2.20
       '@types/react-dom': 18.2.7
       '@visactor/story-player': link:../tools/story-player
@@ -47,7 +44,6 @@ importers:
       '@visactor/vrender': 0.13.11
       '@visactor/vutils': 0.13.3
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
-      animejs: 3.2.1
       axios: 1.4.0
       chalk: 3.0.0
       chokidar: 3.5.3
@@ -3593,10 +3589,6 @@ packages:
       '@turf/meta': 6.5.0
     dev: false
 
-  /@types/animejs/3.1.7:
-    resolution: {integrity: sha512-kFSyjM+fLo3oE9noWEtUvF82ttN8fTrKohiEMIrSzEzEjnsCmtO0rBCUQBlSPEb2w8vfN+v4/Zo0tK21Bgmq4g==}
-    dev: true
-
   /@types/archy/0.0.31:
     resolution: {integrity: sha512-v+dxizsFVyXgD3EpFuqT9YjdEjbJmPxNf1QIX9ohZOhxh1ZF2yhqv3vYaeum9lg3VghhxS5S0a6yldN9J9lPEQ==}
     dev: true
@@ -4801,10 +4793,6 @@ packages:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
       uri-js: 4.4.1
-    dev: true
-
-  /animejs/3.2.1:
-    resolution: {integrity: sha512-sWno3ugFryK5nhiDm/2BKeFCpZv7vzerWUcUPyAZLDhMek3+S/p418ldZJbJXo5ZUOpfm2kP2XRO4NJcULMy9A==}
     dev: true
 
   /ansi-align/2.0.0:

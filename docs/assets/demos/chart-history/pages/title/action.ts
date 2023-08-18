@@ -1,4 +1,4 @@
-import anime from 'animejs/lib/anime.es.js';
+import anime from '../../anime.es.js';
 import type { IText } from '@visactor/vrender';
 import { InputText } from '@visactor/vrender';
 import type {
