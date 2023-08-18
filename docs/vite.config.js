@@ -2,8 +2,6 @@ import pkg from '../packages/vchart/package.json';
 import * as path from 'path';
 import react from '@vitejs/plugin-react';
 
-const { plugin: mdPlugin, Mode } = require('vite-plugin-markdown');
-
 export default {
   optimizeDeps: {},
   server: {
@@ -20,5 +18,5 @@ export default {
       '@visactor/vchart': path.resolve('../packages/vchart/src/index.ts')
     }
   },
-  plugins: [react(), mdPlugin({ mode: [Mode.HTML, Mode.MARKDOWN, Mode.TOC] })]
+  plugins: [react()]
 };
