@@ -289,11 +289,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
     if (isBoolean(this._spec.percent)) {
       this._percent = this._spec.percent;
-      this._stack = this._spec.stack || this._spec.percent || this._stack; // this._stack is `true` in bar/area series
+      this._stack = this._spec.percent || this._stack; // this._stack is `true` in bar/area series
     }
     if (isBoolean(this._spec.stackOffsetSilhouette)) {
       this._stackOffsetSilhouette = this._spec.stackOffsetSilhouette;
-      this._stack = this._spec.stack || this._spec.stackOffsetSilhouette || this._stack; // this._stack is `true` in bar/area series
+      this._stack = this._spec.stackOffsetSilhouette || this._stack; // this._stack is `true` in bar/area series
     }
     if (isValid(this._spec.invalidType)) {
       this._invalidType = this._spec.invalidType;
