@@ -10,11 +10,9 @@ import { isNil, merge } from '../../util';
 import { ChartEvent, PREFIX } from '../../constant/index';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
-import type { ISymbolMark } from '../../mark/symbol';
 import type { IGeoCoordinate, IGeoCoordinateHelper, IGeoCoordinateSpec, IProjectionSpec } from './interface';
-import type { IPathMark } from '../../mark/path';
 import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam } from '../../event/interface';
-import type { Datum, IChartSpec, StringOrNumber } from '../../typings';
+import type { IChartSpec, StringOrNumber } from '../../typings';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import { isValid, mixin } from '@visactor/vutils';
@@ -358,6 +356,12 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
         }
       });
     });
+  }
+
+  release(): void {
+    super.release();
+    this._centerCache && this._centerCache.clear();
+    this._centerCache = null;
   }
 }
 
