@@ -15,10 +15,5 @@ export default {
     __DEV__: true,
     __VERSION__: JSON.stringify(pkg.version)
   },
-  resolve: {
-    alias: {
-      '@visactor/vchart': path.resolve('../packages/vchart/src/index.ts')
-    }
-  },
   plugins: [react(), mdPlugin({ mode: [Mode.HTML, Mode.MARKDOWN, Mode.TOC] })]
 };
