@@ -70,6 +70,12 @@
       "shouldPublish": false
     },
     {
+      "packageName": "@visactor/story-player",
+      "projectFolder": "tools/story-player",
+      "tags": ["tool"],
+      "shouldPublish": false
+    },
+    {
       "packageName": "@internal/eslint-config",
       "projectFolder": "share/eslint-config",
       "tags": ["share"],
