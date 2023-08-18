@@ -1,4 +1,3 @@
-import { RectMark, type IRectMark } from './../../mark/rect';
 import { ChartEvent } from '../../constant/event';
 import {
   AttributeLevel,
@@ -42,7 +41,7 @@ import type {
   SeriesMarkMap,
   ISeriesMarkInfo
 } from '../interface';
-import { dataToDataView, dataViewFromDataView } from '../../data/initialize';
+import { dataViewFromDataView } from '../../data/initialize';
 import {
   isNil,
   isValid,
@@ -768,10 +767,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     if (spec.type !== this.type) {
       result.reMake = true;
     }
-    // if (result.reMakeData) {
-    //   const dataView = dataToDataView(spec.data, this._dataSet, this._option.getChart()?.getSpec()?.data);
-    //   this._rawData.parse(dataView);
-    // }
 
     const { invalidType } = this._originalSpec;
     if (spec.invalidType !== invalidType) {

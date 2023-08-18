@@ -653,7 +653,7 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     const list: IDataValues[] = array(data);
-    list.forEach((d, i) => {
+    list.forEach(d => {
       // only support update this attrs
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
@@ -686,7 +686,7 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     const list: IDataValues[] = array(data);
-    list.forEach((d, i) => {
+    list.forEach(d => {
       // only support update this attrs
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);

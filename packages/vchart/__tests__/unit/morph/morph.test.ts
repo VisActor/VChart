@@ -1,10 +1,13 @@
-import type { IBarChartSpec } from '../../../src';
 import { BarChart, CommonChart, ThemeManager } from '../../../src';
 import { DataSet, dataViewParser, DataView, csvParser } from '@visactor/vdataset';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
+
+const dataSet = new DataSet();
+dataSet.registerParser('dataview', dataViewParser);
+dataSet.registerParser('csv', csvParser);
 
 const data = [
   {
@@ -84,8 +87,12 @@ const multiScatterSeriesSpec = {
   ]
 };
 
-let barSpec: IBarChartSpec;
-let dataSet: DataSet;
+const barSpec = {
+  type: 'bar',
+  data: new DataView(dataSet).parse(barData),
+  xField: 'name',
+  yField: 'value'
+};
 
 describe('Bar chart test', () => {
   let canvasDom: HTMLCanvasElement;
@@ -96,15 +103,6 @@ describe('Bar chart test', () => {
     canvasDom.style.height = '500px';
     canvasDom.width = 500;
     canvasDom.height = 500;
-    dataSet = new DataSet();
-    dataSet.registerParser('dataview', dataViewParser);
-    dataSet.registerParser('csv', csvParser);
-    barSpec = {
-      type: 'bar',
-      data: new DataView(dataSet).parse(barData),
-      xField: 'name',
-      yField: 'value'
-    };
   });
 
   afterEach(() => {
