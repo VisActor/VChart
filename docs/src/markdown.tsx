@@ -2,7 +2,7 @@ import { Layout, Menu } from '@arco-design/web-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Header } from './header';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { LanguageContext } from './i18n';
+import { LanguageContext, LanguageEnum } from './i18n';
 
 const SubMenu = Menu.SubMenu;
 const MenuItem = Menu.Item;
@@ -41,18 +41,11 @@ function htmlRestore(str: string) {
   return result;
 }
 
-function OutlineNode(props: IOutlineNodeProps) {
-  const { language, setLanguage } = useContext(LanguageContext);
-
-  const node = props.menuItem;
-  const navigate = useNavigate();
-
+function generateMenuItem(node: IMenuItem, assetDirectory: string, language: LanguageEnum, navigate: any) {
   return node.children ? (
     <SubMenu key={node.fullPath} title={<>{node.title[language]}</>}>
       <div style={{ marginLeft: 10 }}>
-        {node.children.map((subNode: any) => (
-          <OutlineNode key={subNode.fullPath} menuItem={subNode} assetDirectory={props.assetDirectory} />
-        ))}
+        {node.children.map((subNode: any) => generateMenuItem(subNode, assetDirectory, language, navigate))}
       </div>
     </SubMenu>
   ) : (
@@ -63,7 +56,7 @@ function OutlineNode(props: IOutlineNodeProps) {
           top: 0
           // behavior: 'smooth',
         });
-        navigate(`/${props.assetDirectory}${node.fullPath}`, { replace: true });
+        navigate(`/${assetDirectory}${node.fullPath}`, { replace: true });
       }}
     >
       {node.title[language]}
@@ -72,6 +65,9 @@ function OutlineNode(props: IOutlineNodeProps) {
 }
 
 function Outline(props: IOutlineProps) {
+  const { language, setLanguage } = useContext(LanguageContext);
+
+  const navigate = useNavigate();
   const location = useLocation();
   const { pathname: pathName } = location;
   const fullPath = '/' + pathName.split(`/`).slice(2).join('/');
@@ -85,9 +81,7 @@ function Outline(props: IOutlineProps) {
       }}
     >
       <Menu selectedKeys={[fullPath]}>
-        {(props.menuItems ?? []).map((node: any) => (
-          <OutlineNode key={node.path} menuItem={node} assetDirectory={props.assetDirectory} />
-        ))}
+        {(props.menuItems ?? []).map((node: any) => generateMenuItem(node, props.assetDirectory, language, navigate))}
       </Menu>
     </div>
   );
