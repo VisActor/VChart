@@ -14,10 +14,11 @@ import type { ISymbolMark } from '../../mark/symbol';
 import type { IGeoCoordinate, IGeoCoordinateHelper, IGeoCoordinateSpec, IProjectionSpec } from './interface';
 import type { IPathMark } from '../../mark/path';
 import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam } from '../../event/interface';
-import type { Datum, IChartSpec } from '../../typings';
+import type { Datum, IChartSpec, StringOrNumber } from '../../typings';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
-import { mixin } from '@visactor/vutils';
+import { isValid, mixin } from '@visactor/vutils';
+import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 
 export function projectionName(key: string, id: number) {
   return `${PREFIX}_${id}_${key}`;
@@ -56,6 +57,8 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
   }
 
   protected _projection!: Projection;
+
+  protected _centerCache: Map<StringOrNumber, { x: number; y: number }>;
 
   private _actualScale = 1;
   private _evaluated = false;
@@ -110,6 +113,7 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
     this.initProjection();
     this.coordinateHelper();
     this.initEvent();
+    this._initCenterCache();
     // FIXME: 这里是在开启缩放时，处理关联的symbol等mark，在地图缩放时应该同步缩放
     // this.rescaleMark();
   }
@@ -200,29 +204,39 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
     this._regions.forEach(r => {
       r.getSeries().forEach(s => {
         if (s.type === SeriesTypeEnum.map) {
-          (s as unknown as IGeoSeries).setCoordinateHelper(helper);
+          (s as IGeoSeries).setCoordinateHelper(helper);
         } else {
           // 散点地图
-          (s as unknown as ICartesianSeries).setXAxisHelper({
+          (s as ICartesianSeries).setXAxisHelper({
             ...helper,
-            dataToPosition: (values: any[]) => {
-              return this.dataToLongitude(values[0]);
+            dataToPosition: (values: any[], option) => {
+              let value = values[0];
+              if (isNil(value) && option?.datum) {
+                const nameFieldValue = option.datum[(s as ICartesianSeries).getDimensionField()[0]];
+                value = this._centerCache.get(nameFieldValue).x;
+              }
+              return this.dataToLongitude(value);
             },
+            getFields: () => [this._longitudeField],
             getAxisType: () => this.type,
             getAxisId: () => this.id,
             isInverse: () => false
           });
           (s as unknown as ICartesianSeries).setYAxisHelper({
             ...helper,
-            dataToPosition: (values: any[]) => {
-              return this.dataToLatitude(values[0]);
+            dataToPosition: (values: any[], option) => {
+              let value = values[0];
+              if (isNil(value) && option?.datum) {
+                const nameFieldValue = option.datum[(s as ICartesianSeries).getDimensionField()[0]];
+                value = this._centerCache.get(nameFieldValue).y;
+              }
+              return this.dataToLatitude(value);
             },
+            getFields: () => [this._latitudeField],
             getAxisType: () => this.type,
             getAxisId: () => this.id,
             isInverse: () => false
           });
-          this._longitudeField && (s as unknown as ICartesianSeries).setFieldX(this._longitudeField);
-          this._latitudeField && (s as unknown as ICartesianSeries).setFieldY(this._latitudeField);
         }
       });
     });
@@ -326,23 +340,23 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
     return { translate, scale, center };
   }
 
-  private rescaleMark() {
+  protected _initCenterCache() {
+    if (!this._centerCache) {
+      this._centerCache = new Map();
+    }
     this._regions.forEach(r => {
-      const mapMark = r.getSeriesInType(SeriesTypeEnum.map)[0]?.getMarkInName('area') as IPathMark;
-      if (mapMark) {
-        r.getSeries().forEach(s => {
-          if (s.type !== SeriesTypeEnum.map) {
-            s.getMarksInType('symbol').forEach((s: ISymbolMark) => {
-              s.setAttribute('scaleX', (datum: Datum) => {
-                return (s.getAttribute('size', datum) as number) * (mapMark.getAttribute('scaleX', datum) as number);
-              });
-              s.setAttribute('scaleY', (datum: Datum) => {
-                return (s.getAttribute('size', datum) as number) * (mapMark.getAttribute('scaleY', datum) as number);
-              });
-            });
-          }
-        });
-      }
+      r.getSeries().forEach(s => {
+        if (s.type === 'map') {
+          const mapData = (s as IGeoSeries).getMapViewData()?.latestData ?? [];
+          mapData.forEach((feature: any = {}) => {
+            const key = feature[s.getDimensionField()[0]] || feature[DEFAULT_MAP_LOOK_UP_KEY];
+            const { centroidX, centroidY } = feature;
+            if (key && isValid(centroidX * centroidY)) {
+              this._centerCache.set(key, { x: centroidX, y: centroidY });
+            }
+          });
+        }
+      });
     });
   }
 }

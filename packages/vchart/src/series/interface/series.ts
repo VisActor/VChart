@@ -256,6 +256,7 @@ export interface IGeoSeries extends ISeries {
   valueField?: string;
 
   getMapViewData: () => DataView;
+  getNameProperty: () => string;
 
   dataToPosition: (datum: any) => IPoint | null;
   dataToLatitude: (latValue: any) => number | null;

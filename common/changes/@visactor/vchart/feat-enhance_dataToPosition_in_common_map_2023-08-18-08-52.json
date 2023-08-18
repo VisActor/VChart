@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: enhance dataToPosition in common geo series for #567",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
