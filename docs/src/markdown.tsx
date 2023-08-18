@@ -1,8 +1,11 @@
 import { Layout, Menu } from '@arco-design/web-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Header } from './header';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { LanguageContext, LanguageEnum } from './i18n';
+import MarkdownIt from 'markdown-it';
+
+const markdownParser = MarkdownIt();
 
 const SubMenu = Menu.SubMenu;
 const MenuItem = Menu.Item;
@@ -88,7 +91,7 @@ function Outline(props: IOutlineProps) {
 }
 
 function Content(props: IContentProps) {
-  const demos = [...props.content.matchAll(/<pre><code class="language-javascript">((.|\n)*?)<\/code><\/pre>/g)];
+  const demos = [...props.content.matchAll(/<pre><code class="language-livedemo">((.|\n)*?)<\/code><\/pre>/g)];
 
   let content = props.content;
 
@@ -142,19 +145,21 @@ export function Markdown() {
   const [content, setContent] = useState<string>('');
 
   useEffect(() => {
-    const menuPath = `../assets/${assetDirectory}/menu.json`;
-    import(menuPath).then(menu => {
-      const menuItems = menu.children as IMenuItem[];
-      // parse menu full path
-      function traverse(menuItem: IMenuItem, path: string) {
-        menuItem.fullPath = `${path}/${menuItem.path}`;
-        (menuItem.children ?? []).forEach(subItem => {
-          traverse(subItem, menuItem.fullPath);
-        });
-      }
-      menuItems.forEach(menuItem => traverse(menuItem, ''));
-      setOutline(menu.children);
-    });
+    const menuPath = `/assets/${assetDirectory}/menu.json`;
+    fetch(menuPath)
+      .then(response => response.json())
+      .then(menu => {
+        const menuItems = menu.children as IMenuItem[];
+        // parse menu full path
+        function traverse(menuItem: IMenuItem, path: string) {
+          menuItem.fullPath = `${path}/${menuItem.path}`;
+          (menuItem.children ?? []).forEach(subItem => {
+            traverse(subItem, menuItem.fullPath);
+          });
+        }
+        menuItems.forEach(menuItem => traverse(menuItem, ''));
+        setOutline(menu.children);
+      });
   }, [language, assetDirectory]);
 
   useEffect(() => {
@@ -162,10 +167,14 @@ export function Markdown() {
     if (!docFullPath) {
       setContent('');
     } else {
-      const docPath = `../assets/${assetDirectory}/${language}/${docFullPath}.md`;
-      import(docPath).then(doc => {
-        setContent(doc?.html);
-      });
+      const docPath = `/assets/${assetDirectory}/${language}/${docFullPath}.md`;
+      fetch(docPath)
+        .then(response => response.text())
+        .then(text => {
+          // Hack: process all livedemo code to livedemo language and replace these after
+          const processedText = text.replaceAll(/\`\`\`(.*) livedemo/g, '```livedemo');
+          setContent(markdownParser.render(processedText));
+        });
     }
   }, [language, pathName, assetDirectory]);
 
