@@ -4,8 +4,20 @@ import { Header } from './header';
 import { useContext, useEffect, useState } from 'react';
 import { LanguageContext, LanguageEnum } from './i18n';
 import MarkdownIt from 'markdown-it';
+import hljs from 'highlight.js';
 
-const markdownParser = MarkdownIt();
+import 'highlight.js/styles/atom-one-light.css';
+
+const markdownParser = MarkdownIt({
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(str, { language: lang }).value;
+      } catch (__) {}
+    }
+    return ''; // use external default escaping
+  }
+});
 
 const SubMenu = Menu.SubMenu;
 const MenuItem = Menu.Item;
