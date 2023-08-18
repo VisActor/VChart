@@ -1042,7 +1042,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
    * data
    */
   addViewDataFilter(option: ITransformOptions) {
-    this._viewDataFilter.transform(option, false);
+    this._viewDataFilter?.transform(option, false);
   }
 
   reFilterViewData() {

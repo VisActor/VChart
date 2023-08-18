@@ -50,11 +50,6 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
     return this._nameMap;
   }
 
-  protected _nameProperty: string = 'name';
-  getNameProperty() {
-    return this._nameProperty;
-  }
-
   protected declare _theme: Maybe<IMapSeriesTheme>;
 
   private _areaCache: Map<string, { shape: string }> = new Map();
