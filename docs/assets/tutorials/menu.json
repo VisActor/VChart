@@ -120,7 +120,7 @@
         {
           "path": "area",
           "title": {
-            "zh": "",
+            "zh": "面积图",
             "en": "Area Chart"
           }
         },
@@ -141,8 +141,8 @@
         {
           "path": "chart-types",
           "title": {
-            "zh": "**图表类型**",
-            "en": "**Chart Types**"
+            "zh": "图表类型",
+            "en": "Chart Types"
           }
         },
         {
