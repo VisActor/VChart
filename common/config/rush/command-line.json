@@ -105,6 +105,13 @@
       "description": "Run rush change width lint",
       "safeForSimultaneousRushProcesses": true,
       "shellCommand": "ts-node common/autoinstallers/lint/change-all.ts"
+    },
+    {
+      "commandKind": "global",
+      "name": "docs",
+      "summary": "Start the document development server",
+      "description": "Run this command to start document development server",
+      "shellCommand": "rush run -p @internal/docs -s serve"
     }
   ],
   "parameters": [
