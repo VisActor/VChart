@@ -67,7 +67,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { has, isFunction, isEmpty, getContainerSize } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
-import type { IGroupMark, IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
+import type { IGroupMark, IRunningConfig as IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
 import { CompilableBase } from '../compile/compilable-base';
 import type { IStateInfo } from '../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -239,6 +239,8 @@ export class BaseChart extends CompilableBase implements IChart {
     this._series.forEach(s => s.fillData());
     // 此时 globalScale 已经生效组件可以获取到正确的映射
     this.updateGlobalScaleDomain();
+
+    this._components.forEach(c => c.afterInit());
   }
 
   onResize(width: number, height: number): void {

@@ -44,3 +44,13 @@ type LabelStateStyle<T> = {
   selected?: T;
   selected_reverse?: T;
 };
+
+export type ITotalLabelSpec = Pick<
+  ILabelSpec,
+  'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state'
+>;
+
+export interface ITotalLabelTheme
+  extends Pick<ILabelSpec, 'visible' | 'interactive' | 'offset' | 'overlap' | 'smartInvert' | 'animation'> {
+  style?: ITextMarkSpec;
+}
