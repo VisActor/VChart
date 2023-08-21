@@ -9,7 +9,7 @@ import type { ILayoutRect } from '../../model/interface';
 import { Title as TitleComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { TitleAttrs } from '@visactor/vrender-components';
-import type { INode } from '@visactor/vrender';
+import type { IGroup, INode } from '@visactor/vrender';
 import type { IPoint, IOrientType } from '../../typings';
 import { isEqual } from '@visactor/vutils';
 import type { LayoutItem } from '../../model/layout-item';
@@ -190,8 +190,11 @@ export class Title extends BaseComponent implements ITitle {
   }
 
   clear(): void {
-    super.clear();
-    this._titleComponent = null;
+    if (this._titleComponent) {
+      this._container.removeChild(this._titleComponent as unknown as IGroup);
+      this._titleComponent = null;
+    }
     this._cacheAttrs = null;
+    super.clear();
   }
 }
