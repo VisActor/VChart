@@ -69,8 +69,8 @@ export const getBarSpec = (): ICommonChartSpec => ({
     }
   ],
   padding: {
-    left: 10,
-    right: 10
+    left: 20,
+    right: 20
   },
   layout: {
     type: 'grid',
@@ -81,16 +81,16 @@ export const getBarSpec = (): ICommonChartSpec => ({
 
       { modelId: 'legend', col: 0, row: 3, colSpan: 4 },
 
-      { modelId: 'leftAxesCountry', col: 3, row: 1 },
-      { modelId: 'leftRegion', col: 2, row: 1 },
-      { modelId: 'leftAxesValue', col: 2, row: 2 },
+      { modelId: 'femaleRegion', col: 1, row: 1 },
+      { modelId: 'femaleYAxes', col: 0, row: 1 },
+      { modelId: 'femaleXAxes', col: 1, row: 2 },
 
-      { modelId: 'rightRegion', col: 1, row: 1 },
-      { modelId: 'rightAxesCountry', col: 0, row: 1 },
-      { modelId: 'rightAxesValue', col: 1, row: 2 }
+      { modelId: 'maleYAxes', col: 3, row: 1 },
+      { modelId: 'maleRegion', col: 2, row: 1 },
+      { modelId: 'maleXAxes', col: 2, row: 2 }
     ]
   },
-  region: [{ id: 'leftRegion' }, { id: 'rightRegion' }],
+  region: [{ id: 'maleRegion' }, { id: 'femaleRegion' }],
   legends: [
     {
       visible: true,
@@ -103,7 +103,7 @@ export const getBarSpec = (): ICommonChartSpec => ({
   series: [
     {
       id: 'male',
-      regionId: 'leftRegion',
+      regionId: 'maleRegion',
       type: 'bar',
       dataId: 'maleData',
       direction: 'horizontal',
@@ -118,14 +118,15 @@ export const getBarSpec = (): ICommonChartSpec => ({
         visible: true,
         position: 'left',
         style: {
-          fill: '#6F6F6F'
+          fill: '#6F6F6F',
+          fontSize: 30
         },
         formatMethod: (val: any) => `${(val * 100).toFixed(0)}%`
       }
     },
     {
       id: 'female',
-      regionId: 'rightRegion',
+      regionId: 'femaleRegion',
       type: 'bar',
       dataId: 'femaleData',
       direction: 'horizontal',
@@ -139,7 +140,8 @@ export const getBarSpec = (): ICommonChartSpec => ({
       label: {
         visible: true,
         style: {
-          fill: '#6F6F6F'
+          fill: '#6F6F6F',
+          fontSize: 30
         },
         formatMethod: (val: any) => `${(val * 100).toFixed(0)}%`
       }
@@ -165,9 +167,9 @@ export const getBarSpec = (): ICommonChartSpec => ({
   ],
   axes: [
     {
-      id: 'leftAxesCountry',
+      id: 'maleYAxes',
       visible: false,
-      regionId: 'leftRegion',
+      regionId: 'maleRegion',
       seriesId: ['male'],
       orient: 'left',
       type: 'band',
@@ -175,16 +177,16 @@ export const getBarSpec = (): ICommonChartSpec => ({
     },
     {
       visible: false,
-      id: 'rightAxesCountry',
-      regionId: 'rightRegion',
+      id: 'femaleYAxes',
+      regionId: 'femaleRegion',
       seriesId: ['female'],
       orient: 'right',
       type: 'band',
       grid: { visible: false }
     },
     {
-      id: 'leftAxesValue',
-      regionId: 'leftRegion',
+      id: 'maleXAxes',
+      regionId: 'maleRegion',
       seriesId: ['male'],
       orient: 'bottom',
       type: 'linear',
@@ -194,12 +196,15 @@ export const getBarSpec = (): ICommonChartSpec => ({
       label: {
         formatMethod: (val: any) => {
           return `${(val * 100).toFixed(0)}%`;
+        },
+        style: {
+          fontSize: 24
         }
       }
     },
     {
-      id: 'rightAxesValue',
-      regionId: 'rightRegion',
+      id: 'femaleXAxes',
+      regionId: 'femaleRegion',
       seriesId: ['female'],
       orient: 'bottom',
       type: 'linear',
@@ -208,6 +213,9 @@ export const getBarSpec = (): ICommonChartSpec => ({
       label: {
         formatMethod: (val: any) => {
           return `${(val * 100).toFixed(0)}%`;
+        },
+        style: {
+          fontSize: 24
         }
       }
     }
