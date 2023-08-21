@@ -8,3 +8,7 @@ export interface IDomActorConfig extends IActorConfig {
 export interface IDomImgActorConfig extends IDomActorConfig {
   src?: string;
 }
+
+export interface IDomVideoActorConfig extends IDomActorConfig {
+  src?: string;
+}
