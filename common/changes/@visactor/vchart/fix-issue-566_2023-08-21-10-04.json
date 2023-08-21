@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of the chart's size is not correctly when updateSpec in lark block env, closed #566",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
