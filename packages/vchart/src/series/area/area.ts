@@ -56,10 +56,11 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
+    const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
+    const isLineVisible = this._spec.line?.visible !== false && this._spec.line?.style?.visible !== false;
     // merge line to area
     const areaSpec = this._spec.area ?? {};
     const lineSpec = this._spec.line ?? {};
-    areaSpec.visible = areaSpec.visible || lineSpec.visible;
     areaSpec.interactive = areaSpec.interactive || lineSpec.interactive;
     areaSpec.support3d = areaSpec.support3d || lineSpec.support3d;
     areaSpec.zIndex =
@@ -68,8 +69,6 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
         : undefined;
 
     // check which one is main
-    const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
-    const isLineVisible = this._spec.line?.visible !== false && this._spec.line?.style?.visible !== false;
     let mainSpec = areaSpec;
     let subSpec = lineSpec;
     const seriesMark = this._spec.seriesMark ?? 'area';
@@ -85,7 +84,6 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
     if (!isLineVisible) {
       areaSpec.style.stroke = false;
     }
-
     areaSpec.visible = !(!isAreaVisible && !isLineVisible);
   }
 
