@@ -50,7 +50,7 @@ export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITick
           ({
             AABBBounds: bounds,
             value: scaleTicks[i]
-          } as ILabelItem<number>)
+          }) as ILabelItem<number>
       );
       while (items.length >= 3 && hasOverlap(items, labelGap)) {
         items = methods.parity(items);

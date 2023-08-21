@@ -59,7 +59,7 @@ const ctx: IComponentOption = {
       getSpec() {
         return {};
       }
-    } as any),
+    }) as any,
   getRegionsInIds: () => {
     return [];
   },

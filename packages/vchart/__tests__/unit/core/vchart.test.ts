@@ -275,8 +275,8 @@ describe('VChart', () => {
 
       const rootGroup = vchart.getStage().defaultLayer.find(node => node.name === 'root', false) as unknown as Group;
 
-      const leftAxisLabelGroup = rootGroup.children.find(child =>
-        child.name?.includes('axis-left')
+      const leftAxisLabelGroup = rootGroup.children.find(
+        child => child.name?.includes('axis-left')
       ) as unknown as Group;
       const labels = leftAxisLabelGroup.find(
         node => node.name === 'axis-label-container-layer-0',

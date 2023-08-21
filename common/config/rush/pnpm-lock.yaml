@@ -52,11 +52,11 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
-      '@visactor/vchart': workspace:1.3.0-beta.6
-      '@visactor/vgrammar': ~0.6.2
+      '@visactor/vchart': workspace:1.2.2
+      '@visactor/vgrammar': ~0.6.1
       '@visactor/vrender': ~0.14.4
-      '@visactor/vutils': ~0.15.7
-      '@vitejs/plugin-react': 3.1.0
+      '@visactor/vutils': ~0.13.3
+      '@vitejs/plugin-reactxw': 3.1.0
       eslint: ~8.18.0
       eslint-config-prettier: 8.5.0
       eslint-plugin-import: ^2.27.5
@@ -76,7 +76,7 @@ importers:
       '@visactor/vchart': link:../vchart
       '@visactor/vgrammar': 0.6.2
       '@visactor/vrender': 0.14.4
-      '@visactor/vutils': 0.15.7
+      '@visactor/vutils': 0.13.3
       react-is: 18.2.0
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
@@ -206,18 +206,18 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vdataset': ~0.15.7
-      '@visactor/vgrammar': ~0.6.2
-      '@visactor/vgrammar-hierarchy': ~0.6.2
-      '@visactor/vgrammar-projection': ~0.6.2
-      '@visactor/vgrammar-sankey': ~0.6.2
-      '@visactor/vgrammar-util': ~0.6.2
-      '@visactor/vgrammar-wordcloud': ~0.6.2
-      '@visactor/vgrammar-wordcloud-shape': ~0.6.2
+      '@visactor/vdataset': ~0.13.4
+      '@visactor/vgrammar': ~0.6.1
+      '@visactor/vgrammar-hierarchy': ~0.6.1
+      '@visactor/vgrammar-projection': ~0.6.1
+      '@visactor/vgrammar-sankey': ~0.6.1
+      '@visactor/vgrammar-util': ~0.6.1
+      '@visactor/vgrammar-wordcloud': ~0.6.1
+      '@visactor/vgrammar-wordcloud-shape': ~0.6.1
       '@visactor/vrender': ~0.14.4
       '@visactor/vrender-components': ~0.14.4
-      '@visactor/vscale': ~0.15.7
-      '@visactor/vutils': ~0.15.7
+      '@visactor/vscale': ~0.13.4
+      '@visactor/vutils': ~0.13.3
       canvas: 2.11.2
       d3-array: 3.2.3
       d3-dsv: ^3.0.1
@@ -244,7 +244,7 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vdataset': 0.15.7
+      '@visactor/vdataset': 0.13.4
       '@visactor/vgrammar': 0.6.2
       '@visactor/vgrammar-hierarchy': 0.6.2
       '@visactor/vgrammar-projection': 0.6.2
@@ -254,8 +254,8 @@ importers:
       '@visactor/vgrammar-wordcloud-shape': 0.6.2
       '@visactor/vrender': 0.14.4
       '@visactor/vrender-components': 0.14.4
-      '@visactor/vscale': 0.15.7
-      '@visactor/vutils': 0.15.7
+      '@visactor/vscale': 0.13.4
+      '@visactor/vutils': 0.13.3
     devDependencies:
       '@esbuild-plugins/node-globals-polyfill': 0.1.1
       '@esbuild-plugins/node-modules-polyfill': 0.1.4
@@ -4101,6 +4101,20 @@ packages:
     resolution: {integrity: sha512-Jj3J4B6FT4sbWgUR+eoF1Qu+PPukwiVcSEix1rbNcCkLPXQzKkRXVXojDwscNSALdmSpnrHjw8VNIQpnHP/uyw==}
     dependencies:
       '@visactor/vutils': 0.15.7
+    dev: false
+
+  /@visactor/vscale/0.15.7:
+    resolution: {integrity: sha512-Jj3J4B6FT4sbWgUR+eoF1Qu+PPukwiVcSEix1rbNcCkLPXQzKkRXVXojDwscNSALdmSpnrHjw8VNIQpnHP/uyw==}
+    dependencies:
+      '@visactor/vutils': 0.15.7
+    dev: false
+
+  /@visactor/vutils/0.13.3:
+    resolution: {integrity: sha512-lCFiuUHwqz/0RCvIYa79ycduCLAILWaXddPOjxEd3VRX9CCoWMUmRtM3gF5JxtK2pK6Mu7hW7LaMSuWFw+0Kkw==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+      eventemitter3: 4.0.7
     dev: false
 
   /@visactor/vutils/0.15.7:
