@@ -18262,19 +18262,6 @@
             }
           ]
         },
-        "connectedStyle": {
-          "typeof": "function"
-        },
-        "connectedType": {
-          "enum": ["connect", "none", "zero"],
-          "type": "string"
-        },
-        "connectedX": {
-          "type": "number"
-        },
-        "connectedY": {
-          "type": "number"
-        },
         "fill": {
           "$ref": "#/definitions/IFillType"
         },
@@ -25028,12 +25015,6 @@
         "getPointAt": {
           "typeof": "function"
         },
-        "originP1": {
-          "$ref": "#/definitions/IPointLike"
-        },
-        "originP2": {
-          "$ref": "#/definitions/IPointLike"
-        },
         "p0": {
           "$ref": "#/definitions/IPoint"
         },
@@ -25779,14 +25760,6 @@
     },
     "IDiscreteLegendTheme": {
       "properties": {
-        "alignContent": {
-          "enum": ["center", "flex-start", "space-around", "space-between"],
-          "type": "string"
-        },
-        "alignItems": {
-          "enum": ["center", "flex-end", "flex-start"],
-          "type": "string"
-        },
         "allowAllCanceled": {
           "type": "boolean"
         },
@@ -25940,10 +25913,6 @@
         "customPickShape": {
           "typeof": "function"
         },
-        "display": {
-          "enum": ["flex", "relative"],
-          "type": "string"
-        },
         "dx": {
           "type": "number"
         },
@@ -25966,14 +25935,6 @@
         "filter": {
           "description": "是否进行数据筛选，默认为 true",
           "type": "boolean"
-        },
-        "flexDirection": {
-          "enum": ["column", "column-reverse", "row", "row-reverse"],
-          "type": "string"
-        },
-        "flexWrap": {
-          "enum": ["nowrap", "wrap"],
-          "type": "string"
         },
         "height": {
           "anyOf": [
@@ -26005,10 +25966,6 @@
         "item": {
           "$ref": "#/definitions/IItem",
           "description": "图例项配置"
-        },
-        "justifyContent": {
-          "enum": ["center", "flex-end", "flex-start", "space-around", "space-between"],
-          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -48029,19 +47986,6 @@
     },
     "ISegment": {
       "properties": {
-        "connectedStyle": {
-          "typeof": "function"
-        },
-        "connectedType": {
-          "enum": ["connect", "none", "zero"],
-          "type": "string"
-        },
-        "connectedX": {
-          "type": "number"
-        },
-        "connectedY": {
-          "type": "number"
-        },
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
         },
@@ -57350,14 +57294,6 @@
     },
     "Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"pager\"|\"item\">": {
       "properties": {
-        "alignContent": {
-          "enum": ["center", "flex-start", "space-around", "space-between"],
-          "type": "string"
-        },
-        "alignItems": {
-          "enum": ["center", "flex-end", "flex-start"],
-          "type": "string"
-        },
         "allowAllCanceled": {
           "type": "boolean"
         },
@@ -57486,10 +57422,6 @@
           },
           "type": "array"
         },
-        "display": {
-          "enum": ["flex", "relative"],
-          "type": "string"
-        },
         "dx": {
           "type": "number"
         },
@@ -57505,14 +57437,6 @@
         "fillOpacity": {
           "type": "number"
         },
-        "flexDirection": {
-          "enum": ["column", "column-reverse", "row", "row-reverse"],
-          "type": "string"
-        },
-        "flexWrap": {
-          "enum": ["nowrap", "wrap"],
-          "type": "string"
-        },
         "height": {
           "type": "number"
         },
@@ -57524,10 +57448,6 @@
         },
         "interactive": {
           "type": "boolean"
-        },
-        "justifyContent": {
-          "enum": ["center", "flex-end", "flex-start", "space-around", "space-between"],
-          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -59224,14 +59144,6 @@
     },
     "Omit<IGroupGraphicAttribute,\"background\">": {
       "properties": {
-        "alignContent": {
-          "enum": ["center", "flex-start", "space-around", "space-between"],
-          "type": "string"
-        },
-        "alignItems": {
-          "enum": ["center", "flex-end", "flex-start"],
-          "type": "string"
-        },
         "alpha": {
           "type": "number"
         },
@@ -59335,10 +59247,6 @@
         "customPickShape": {
           "typeof": "function"
         },
-        "display": {
-          "enum": ["flex", "relative"],
-          "type": "string"
-        },
         "dx": {
           "type": "number"
         },
@@ -59354,23 +59262,11 @@
         "fillOpacity": {
           "type": "number"
         },
-        "flexDirection": {
-          "enum": ["column", "column-reverse", "row", "row-reverse"],
-          "type": "string"
-        },
-        "flexWrap": {
-          "enum": ["nowrap", "wrap"],
-          "type": "string"
-        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
-        },
-        "justifyContent": {
-          "enum": ["center", "flex-end", "flex-start", "space-around", "space-between"],
-          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -60421,14 +60317,6 @@
     },
     "Omit<Omit<PagerAttributes,\"total\">&{space?:number;animation?:boolean;animationDuration?:number;animationEasing?:EasingType;},\"textStyle\"|\"handler\">": {
       "properties": {
-        "alignContent": {
-          "enum": ["center", "flex-start", "space-around", "space-between"],
-          "type": "string"
-        },
-        "alignItems": {
-          "enum": ["center", "flex-end", "flex-start"],
-          "type": "string"
-        },
         "alpha": {
           "type": "number"
         },
@@ -60557,10 +60445,6 @@
         "defaultCurrent": {
           "type": "number"
         },
-        "display": {
-          "enum": ["flex", "relative"],
-          "type": "string"
-        },
         "dx": {
           "type": "number"
         },
@@ -60576,23 +60460,11 @@
         "fillOpacity": {
           "type": "number"
         },
-        "flexDirection": {
-          "enum": ["column", "column-reverse", "row", "row-reverse"],
-          "type": "string"
-        },
-        "flexWrap": {
-          "enum": ["nowrap", "wrap"],
-          "type": "string"
-        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
-        },
-        "justifyContent": {
-          "enum": ["center", "flex-end", "flex-start", "space-around", "space-between"],
-          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -60756,22 +60628,6 @@
       "properties": {
         "avoidBaseMark": {
           "type": "boolean"
-        },
-        "avoidMarks": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
-              },
-              "type": "array"
-            }
-          ]
         },
         "clampForce": {
           "type": "boolean"
@@ -61381,19 +61237,6 @@
           "type": "boolean"
         },
         "clipRange": {
-          "type": "number"
-        },
-        "connectedStyle": {
-          "typeof": "function"
-        },
-        "connectedType": {
-          "enum": ["connect", "none", "zero"],
-          "type": "string"
-        },
-        "connectedX": {
-          "type": "number"
-        },
-        "connectedY": {
           "type": "number"
         },
         "cursor": {
@@ -62411,14 +62254,6 @@
     },
     "Partial<IGroupGraphicAttribute>": {
       "properties": {
-        "alignContent": {
-          "enum": ["center", "flex-start", "space-around", "space-between"],
-          "type": "string"
-        },
-        "alignItems": {
-          "enum": ["center", "flex-end", "flex-start"],
-          "type": "string"
-        },
         "alpha": {
           "type": "number"
         },
@@ -62535,10 +62370,6 @@
         "customPickShape": {
           "typeof": "function"
         },
-        "display": {
-          "enum": ["flex", "relative"],
-          "type": "string"
-        },
         "dx": {
           "type": "number"
         },
@@ -62554,23 +62385,11 @@
         "fillOpacity": {
           "type": "number"
         },
-        "flexDirection": {
-          "enum": ["column", "column-reverse", "row", "row-reverse"],
-          "type": "string"
-        },
-        "flexWrap": {
-          "enum": ["nowrap", "wrap"],
-          "type": "string"
-        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
-        },
-        "justifyContent": {
-          "enum": ["center", "flex-end", "flex-start", "space-around", "space-between"],
-          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -63241,19 +63060,6 @@
         },
         "clipRangeByDimension": {
           "$ref": "#/definitions/IClipRangeByDimensionType"
-        },
-        "connectedStyle": {
-          "typeof": "function"
-        },
-        "connectedType": {
-          "enum": ["connect", "none", "zero"],
-          "type": "string"
-        },
-        "connectedX": {
-          "type": "number"
-        },
-        "connectedY": {
-          "type": "number"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -65808,10 +65614,6 @@
         "customPickShape": {
           "typeof": "function"
         },
-        "direction": {
-          "enum": ["horizontal", "vertical"],
-          "type": "string"
-        },
         "dx": {
           "type": "number"
         },
@@ -66001,10 +65803,6 @@
         },
         "visible": {
           "type": "boolean"
-        },
-        "wordBreak": {
-          "enum": ["break-all", "break-word"],
-          "type": "string"
         },
         "x": {
           "type": "number"
@@ -68570,19 +68368,6 @@
         "clipRange": {
           "type": "number"
         },
-        "connectedStyle": {
-          "typeof": "function"
-        },
-        "connectedType": {
-          "enum": ["connect", "none", "zero"],
-          "type": "string"
-        },
-        "connectedX": {
-          "type": "number"
-        },
-        "connectedY": {
-          "type": "number"
-        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -68762,10 +68547,6 @@
         "boundsPadding",
         "childrenPickable",
         "clipRange",
-        "connectedStyle",
-        "connectedType",
-        "connectedX",
-        "connectedY",
         "cursor",
         "curveType",
         "customPickShape",
@@ -69476,14 +69257,6 @@
     },
     "Required<IGroupGraphicAttribute>": {
       "properties": {
-        "alignContent": {
-          "enum": ["center", "flex-start", "space-around", "space-between"],
-          "type": "string"
-        },
-        "alignItems": {
-          "enum": ["center", "flex-end", "flex-start"],
-          "type": "string"
-        },
         "alpha": {
           "type": "number"
         },
@@ -69600,10 +69373,6 @@
         "customPickShape": {
           "typeof": "function"
         },
-        "display": {
-          "enum": ["flex", "relative"],
-          "type": "string"
-        },
         "dx": {
           "type": "number"
         },
@@ -69619,23 +69388,11 @@
         "fillOpacity": {
           "type": "number"
         },
-        "flexDirection": {
-          "enum": ["column", "column-reverse", "row", "row-reverse"],
-          "type": "string"
-        },
-        "flexWrap": {
-          "enum": ["nowrap", "wrap"],
-          "type": "string"
-        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
-        },
-        "justifyContent": {
-          "enum": ["center", "flex-end", "flex-start", "space-around", "space-between"],
-          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -69777,8 +69534,6 @@
         }
       },
       "required": [
-        "alignContent",
-        "alignItems",
         "alpha",
         "anchor",
         "anchor3d",
@@ -69794,17 +69549,13 @@
         "cornerRadius",
         "cursor",
         "customPickShape",
-        "display",
         "dx",
         "dy",
         "dz",
         "fill",
         "fillOpacity",
-        "flexDirection",
-        "flexWrap",
         "height",
         "innerBorder",
-        "justifyContent",
         "keepDirIn3d",
         "layout",
         "lineCap",
@@ -70283,19 +70034,6 @@
         "clipRangeByDimension": {
           "$ref": "#/definitions/IClipRangeByDimensionType"
         },
-        "connectedStyle": {
-          "typeof": "function"
-        },
-        "connectedType": {
-          "enum": ["connect", "none", "zero"],
-          "type": "string"
-        },
-        "connectedX": {
-          "type": "number"
-        },
-        "connectedY": {
-          "type": "number"
-        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -70476,10 +70214,6 @@
         "childrenPickable",
         "clipRange",
         "clipRangeByDimension",
-        "connectedStyle",
-        "connectedType",
-        "connectedX",
-        "connectedY",
         "cursor",
         "curveType",
         "customPickShape",
@@ -73045,10 +72779,6 @@
         "customPickShape": {
           "typeof": "function"
         },
-        "direction": {
-          "enum": ["horizontal", "vertical"],
-          "type": "string"
-        },
         "dx": {
           "type": "number"
         },
@@ -73239,10 +72969,6 @@
         "visible": {
           "type": "boolean"
         },
-        "wordBreak": {
-          "enum": ["break-all", "break-word"],
-          "type": "string"
-        },
         "x": {
           "type": "number"
         },
@@ -73270,7 +72996,6 @@
         "childrenPickable",
         "cursor",
         "customPickShape",
-        "direction",
         "dx",
         "dy",
         "dz",
@@ -73322,7 +73047,6 @@
         "textureSize",
         "underline",
         "visible",
-        "wordBreak",
         "x",
         "y",
         "z",
@@ -76624,22 +76348,8 @@
             }
           ]
         },
-        "brightColor": {
-          "type": "string"
-        },
         "contrastRatiosThreshold": {
           "type": "number"
-        },
-        "darkColor": {
-          "type": "string"
-        },
-        "fillStrategy": {
-          "enum": ["invertSeries", "null", "series", "similarSeries"],
-          "type": "string"
-        },
-        "strokeStrategy": {
-          "enum": ["invertSeries", "null", "series", "similarSeries"],
-          "type": "string"
         },
         "textType": {
           "type": "string"
