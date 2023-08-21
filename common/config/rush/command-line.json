@@ -111,7 +111,7 @@
       "name": "docs",
       "summary": "Start the document development server",
       "description": "Run this command to start document development server",
-      "shellCommand": "rush run -p @internal/docs -s serve"
+      "shellCommand": "rush run -p @internal/docs -s start"
     }
   ],
   "parameters": [

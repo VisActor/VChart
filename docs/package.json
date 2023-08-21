@@ -23,6 +23,7 @@
     "typescript": "4.9.5",
     "vite": "3.2.6",
     "vite-plugin-markdown": "^2.1.0",
+    "marked": "^0.3.19",
     "markdown-it": "13.0.1",
     "axios": "^1.4.0",
     "react": "^18.0.0",
