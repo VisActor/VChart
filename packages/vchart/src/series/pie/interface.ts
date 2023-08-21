@@ -1,6 +1,6 @@
 import type { IAnimationSpec } from '../../animation/spec';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
-import type { IArcMarkSpec, ITextMarkSpec, TextAlign, IPathMarkSpec, IArc3dMarkSpec } from '../../typings/visual';
+import type { IArcMarkSpec, ITextMarkSpec, IPathMarkSpec, IArc3dMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { PieAppearPreset } from './animation/animation';
