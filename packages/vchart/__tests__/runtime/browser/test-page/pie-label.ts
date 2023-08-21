@@ -33,9 +33,10 @@ const run = () => {
     label: {
       visible: true,
       // position: 'inside',
+      formatMethod: () => '123123123',
       style: {
-        fontSize: 16,
-        text: args => '123123123'
+        fontSize: 16
+        // text: args => '123123123'
       },
       state: {
         hover: {
@@ -325,7 +326,7 @@ const run = () => {
         line1MinLength: 30
       },
       layout: {
-        align: 'edge'
+        // align: 'edge'
       }
       // formatMethod: () => {
       //   return 'test';

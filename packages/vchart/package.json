@@ -21,7 +21,7 @@
     "eslint:check": "eslint .",
     "eslint:err": "eslint . --quiet",
     "postpublish": "npm run clear",
-    "test": "",
+    "test": "jest",
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit/",
     "test-watch": "DEBUG_MODE=1 jest --watch",
@@ -106,8 +106,8 @@
     "@visactor/vgrammar-hierarchy": "~0.6.1",
     "@visactor/vgrammar-sankey": "~0.6.1",
     "@visactor/vgrammar-util": "~0.6.1",
-    "@visactor/vrender": "~0.14.2",
-    "@visactor/vrender-components": "~0.14.2"
+    "@visactor/vrender": "0.14.4",
+    "@visactor/vrender-components": "0.14.4"
   },
   "publishConfig": {
     "access": "public",

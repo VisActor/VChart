@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: access arc label component in pie chart",
+      "comment": "refactor: access arc label component in pie chart",
       "type": "patch"
     }
   ],
