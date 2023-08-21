@@ -53,7 +53,8 @@ import {
   array,
   isTrueBrowser,
   isString,
-  convertBackgroundSpec
+  convertBackgroundSpec,
+  isMiniAppLikeMode
 } from '../util';
 import { Stack } from './stack';
 import { BaseModel } from '../model/base-model';
@@ -724,6 +725,10 @@ export class BaseChart extends CompilableBase implements IChart {
         );
         width = containerWidth;
         height = containerHeight;
+      } else if (isMiniAppLikeMode(this._option.mode) && (this._option.modeParams as any)?.domref) {
+        const domRef = (this._option.modeParams as any).domref;
+        width = domRef.width;
+        height = domRef.height;
       }
 
       width = userWidth ?? width;
