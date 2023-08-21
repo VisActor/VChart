@@ -204,25 +204,14 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
       this._tooltipHelper.activeTriggerSet.dimension.add(areaMark);
 
       // change stroke to area stoke = [lineStroke,false,false,false]
-      // set value to special state
       Object.keys(areaMark.stateStyle).forEach(state => {
         if (areaMark.stateStyle[state].stroke) {
-          // copy this to temp
-          areaMark.stateStyle[`_temp_${state}`] = areaMark.stateStyle[`_temp_${state}`] || {};
-          areaMark.stateStyle[`_temp_${state}`].stroke = merge(
-            {},
-            { stroke: areaMark.stateStyle[state].stroke }
-          ).stroke;
-          this.setMarkStyle(
-            areaMark,
-            {
-              stroke: datum => {
-                const stroke = areaMark.getAttribute('stroke', datum, `_temp_${state}`);
-                return [stroke, false, false, false] as unknown as any;
-              }
+          areaMark.setPostProcess(
+            'stroke',
+            result => {
+              return [result, false, false, false];
             },
-            state,
-            areaMark.stateStyle[state].stroke.level
+            state
           );
         }
       });
