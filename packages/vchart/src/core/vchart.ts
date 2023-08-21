@@ -60,7 +60,7 @@ import { ThemeManager } from '../theme/theme-manager';
 import type { ITheme } from '../theme';
 import type { IUpdateSpecResult } from '../model/interface';
 import { Compiler } from '../compile/compiler';
-import type { IMorphConfig } from '../animation/spec';
+import type { IRunningConfig } from '../animation/spec';
 import type { ILegend } from '../component/legend/interface';
 import { getCanvasDataURL, URLToImage } from '../util/image';
 import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH, VGRAMMAR_HOOK_EVENT } from '../constant';
@@ -400,7 +400,7 @@ export class VChart implements IVChart {
   }
 
   /** **异步方法** 执行自定义的回调修改图表配置，并重新渲染 */
-  async updateCustomConfigAndRerender(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
+  async updateCustomConfigAndRerender(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IRunningConfig) {
     const result = modifyConfig(); // 执行回调
     if (!isValid(result)) {
       return this as unknown as IVChart;
@@ -412,7 +412,7 @@ export class VChart implements IVChart {
   }
 
   /** **同步方法** 执行自定义的回调修改图表配置，并重新渲染 */
-  updateCustomConfigAndRerenderSync(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
+  updateCustomConfigAndRerenderSync(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IRunningConfig) {
     const result = modifyConfig(); // 执行回调
     if (!isValid(result)) {
       return this as unknown as IVChart;
@@ -453,7 +453,7 @@ export class VChart implements IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  renderSync(morphConfig?: IMorphConfig) {
+  renderSync(morphConfig?: IRunningConfig) {
     if (!this._chart) {
       this._option.performanceHook?.beforeInitializeChart?.();
       this._initChart(this._spec);
@@ -487,7 +487,7 @@ export class VChart implements IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  async renderAsync(morphConfig?: IMorphConfig) {
+  async renderAsync(morphConfig?: IRunningConfig) {
     if (!this._chart) {
       this._option.performanceHook?.beforeInitializeChart?.();
       this._initChart(this._spec);
@@ -643,7 +643,7 @@ export class VChart implements IVChart {
    * @param forceMerge
    * @returns
    */
-  async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
+  async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IRunningConfig) {
     if (!spec) {
       return this as unknown as IVChart;
     }
@@ -676,7 +676,7 @@ export class VChart implements IVChart {
    * @param forceMerge
    * @returns
    */
-  updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
+  updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IRunningConfig) {
     if (!spec) {
       return this as unknown as IVChart;
     }

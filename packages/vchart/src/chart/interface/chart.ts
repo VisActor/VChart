@@ -1,6 +1,6 @@
 import type { IEvent } from './../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IMorphConfig, IView } from '@visactor/vgrammar';
+import type { IRunningConfig, IView } from '@visactor/vgrammar';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IComponent } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
@@ -105,7 +105,7 @@ export interface IChart extends ICompilable {
   getAllMarks: () => IMark[];
 
   // spec
-  updateSpec: (spec: any, morphConfig?: IMorphConfig) => IUpdateSpecResult;
+  updateSpec: (spec: any, morphConfig?: IRunningConfig) => IUpdateSpecResult;
 
   // state
   /**

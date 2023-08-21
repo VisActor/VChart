@@ -66,7 +66,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { has, isFunction, isEmpty, getContainerSize } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
-import type { IGroupMark, IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
+import type { IGroupMark, IRunningConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
 import { CompilableBase } from '../compile/compilable-base';
 import type { IStateInfo } from '../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -152,7 +152,7 @@ export class BaseChart extends CompilableBase implements IChart {
   getLayoutTag() {
     return this._layoutTag;
   }
-  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, reLayout: boolean = true): boolean {
+  setLayoutTag(tag: boolean, morphConfig?: IRunningConfig, reLayout: boolean = true): boolean {
     this._layoutTag = tag;
     if (this.getCompiler()?.getVGrammarView()) {
       this.getCompiler().getVGrammarView().updateLayoutTag();
@@ -826,7 +826,7 @@ export class BaseChart extends CompilableBase implements IChart {
     }
   }
 
-  updateSpec(spec: any, morphConfig?: IMorphConfig) {
+  updateSpec(spec: any, morphConfig?: IRunningConfig) {
     const result = {
       change: false,
       reMake: false,
