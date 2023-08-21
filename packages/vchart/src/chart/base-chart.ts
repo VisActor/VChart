@@ -53,7 +53,6 @@ import {
   array,
   isTrueBrowser,
   isString,
-  config,
   convertBackgroundSpec
 } from '../util';
 import { Stack } from './stack';
