@@ -11,7 +11,7 @@
     "menu": "options",
     "type": "markdown-template",
     "entry": "options",
-    "sections": [".legends", ".axes", ".series", ".total", ".customMark"]
+    "sections": [".legends", ".axes", ".series", ".total", ".extensionMark", ".customMark"]
   },
   {
     "menu": "api",
