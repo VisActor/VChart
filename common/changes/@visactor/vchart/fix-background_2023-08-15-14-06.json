@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix the resize problem in progress chart, fixed #502",
+      "comment": "fix: background will not update when spec or theme updating, related #545",
       "type": "patch"
     }
   ],

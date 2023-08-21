@@ -227,7 +227,6 @@ export class VChart implements IVChart {
     this._currentThemeName = ThemeManager.getCurrentThemeName();
     this._setSpec(spec);
     this._updateCurrentTheme();
-    const specBackground = typeof spec.background === 'string' ? spec.background : null;
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -238,7 +237,7 @@ export class VChart implements IVChart {
         stage,
         pluginList: poptip !== false ? ['poptipForText'] : [],
         ...restOptions,
-        background: specBackground || this._currentTheme.background || this._option.background, // spec > spec.theme > initOptions.theme
+        background: this._getBackground(),
         onError: this._onError
       }
     );
@@ -438,16 +437,14 @@ export class VChart implements IVChart {
       // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
       // VGrammar view 对象不需要释放，提供了reuse和morph能力之后，srView有上下文缓存
     } else {
-      if (updateResult.reCompile) {
-        // FIXME: 暂时这么处理，还需要整体设计下组件的生命周期
-        this.getComponents().forEach(c => c.clear());
-        // TODO: 释放事件？
-        // 重新绑定事件
-        // TODO: 释放XX？
-        // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
-        // 先compile
-        this._compiler?.compile({ chart: this._chart, vChart: this }, {});
-      }
+      // FIXME: 暂时这么处理，还需要整体设计下组件的生命周期
+      this.getComponents().forEach(c => c.clear());
+      // TODO: 释放事件？
+      // 重新绑定事件
+      // TODO: 释放XX？
+      // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
+      // 先compile
+      this._compiler?.compile({ chart: this._chart, vChart: this }, {});
     }
   }
 
@@ -826,6 +823,14 @@ export class VChart implements IVChart {
     }
     // 设置 poptip 的主题
     setPoptipTheme(merge({}, this._currentTheme.component?.poptip));
+    // 设置背景色
+    this._compiler?.setBackground(this._getBackground());
+  }
+
+  private _getBackground() {
+    const specBackground = typeof this._spec.background === 'string' ? this._spec.background : null;
+    // spec > spec.theme > initOptions.theme
+    return specBackground || (this._currentTheme.background as string) || this._option.background;
   }
 
   /**
