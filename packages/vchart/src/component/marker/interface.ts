@@ -130,6 +130,7 @@ export interface IMarkerSpec extends IModelSpec {
   /**
    * marker组件超出图表区域是否被裁剪
    * @default false
+   * @since 1.3.0
    */
   clip?: boolean;
 }
