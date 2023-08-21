@@ -68,6 +68,9 @@ export function calcLayoutNumber(
   if (isFunction(v)) {
     return v(callOp);
   }
+  if (isObject(v)) {
+    return size * (v.percent ?? 0) + (v.offset ?? 0);
+  }
   return 0;
 }
 

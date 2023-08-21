@@ -24,7 +24,11 @@ import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart } from '../chart/interface';
 
-export type ILayoutNumber = number | IPercent | ((layoutRect: ILayoutRect) => number);
+export type ILayoutNumber =
+  | number
+  | IPercent
+  | ((layoutRect: ILayoutRect) => number)
+  | { percent: number; offset: number };
 
 export interface ILayoutPoint {
   x: number;
