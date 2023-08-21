@@ -143,7 +143,7 @@ export interface IChart extends ICompilable {
   ) => void;
 
   // 更新 viewBox
-  updateViewBox: (viewBox: IBoundsLike) => void;
+  updateViewBox: (viewBox: IBoundsLike, reLayout: boolean) => void;
 
   // 获取实际渲染的 canvas
   getCanvas: () => HTMLCanvasElement | undefined;

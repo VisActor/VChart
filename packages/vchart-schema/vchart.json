@@ -17767,6 +17767,12 @@
     },
     "IAreaChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -18475,6 +18481,12 @@
     },
     "IAreaSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -18784,7 +18796,14 @@
           "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
         },
         "point": {
-          "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         }
       },
       "type": "object"
@@ -21709,7 +21728,7 @@
           "description": "模块的布局大小：高度"
         },
         "label": {
-          "$ref": "#/definitions/ILabel",
+          "$ref": "#/definitions/ICartesianLabel",
           "description": "轴标签配置"
         },
         "maxHeight": {
@@ -34975,6 +34994,12 @@
     },
     "ILineChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -35642,6 +35667,12 @@
     },
     "ILineSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -35953,7 +35984,14 @@
           "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
         },
         "point": {
-          "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         }
       },
       "type": "object"
@@ -41774,6 +41812,12 @@
     },
     "IRadarChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "angleField": {
           "anyOf": [
             {
@@ -42159,7 +42203,7 @@
           "type": "string"
         },
         "seriesMark": {
-          "default": "'line'",
+          "default": "'area'",
           "description": "系列主 mark 类型配置，该配置会影响图例的展示",
           "enum": [
             "area",
@@ -42242,6 +42286,12 @@
     },
     "IRadarSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "angleField": {
           "anyOf": [
             {
@@ -42509,7 +42559,7 @@
           "type": "string"
         },
         "seriesMark": {
-          "default": "'line'",
+          "default": "'area'",
           "description": "系列主 mark 类型配置，该配置会影响图例的展示",
           "enum": [
             "area",
@@ -42593,7 +42643,14 @@
           "type": "number"
         },
         "point": {
-          "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         },
         "radius": {
           "type": "number"
@@ -42643,6 +42700,12 @@
     },
     "IRangeAreaChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -43098,6 +43161,12 @@
     },
     "IRangeAreaSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -52285,6 +52354,10 @@
         "position": {
           "$ref": "#/definitions/TooltipPatternProperty<TooltipPosition>"
         },
+        "seriesId": {
+          "description": "该 pattern 属于哪个系列id（用户不需要设置）",
+          "type": "number"
+        },
         "shapeColor": {
           "$ref": "#/definitions/TooltipContentProperty<string>"
         },
@@ -57754,7 +57827,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11033": {
           "type": "string"
         },
         "size": {
@@ -57762,14 +57835,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11033",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11033": {
           "type": "string"
         },
         "size": {
@@ -57777,14 +57850,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11033",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11033": {
           "type": "string"
         },
         "size": {
@@ -57792,14 +57865,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11033",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11033": {
           "type": "string"
         },
         "size": {
@@ -57807,14 +57880,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11033",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11033": {
           "type": "string"
         },
         "size": {
@@ -57822,14 +57895,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11033",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11033": {
           "type": "string"
         },
         "size": {
@@ -57837,14 +57910,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11033",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11033": {
           "type": "string"
         },
         "size": {
@@ -57852,14 +57925,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11033",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11033": {
           "type": "string"
         },
         "size": {
@@ -57867,7 +57940,7 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11033",
         "size"
       ],
       "type": "object"
@@ -69314,34 +69387,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11033": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11023"
+        "__@toStringTag@11033"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11033": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11023"
+        "__@toStringTag@11033"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11033": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11023"
+        "__@toStringTag@11033"
       ],
       "type": "object"
     },

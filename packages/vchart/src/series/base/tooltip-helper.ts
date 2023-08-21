@@ -146,6 +146,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
         },
         content: [
           {
+            seriesId: this.series.id,
             key: this.contentKeyCallback,
             value: this.contentValueCallback,
             hasShape: true,
