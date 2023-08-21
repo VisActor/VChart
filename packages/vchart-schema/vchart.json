@@ -434,7 +434,7 @@
         "cssRules": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/CSSRule"
             }
           },
@@ -449,7 +449,7 @@
         "media": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -474,7 +474,7 @@
         "rules": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/CSSRule"
             }
           },
@@ -4669,148 +4669,6 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
-          "description": "style格式转换"
-        }
-      ],
-      "description": "style格式转换"
-    },
-    "ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_2",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
-          "description": "style格式转换"
-        }
-      ],
-      "description": "style格式转换"
-    },
     "ConvertToMarkStyleSpec<IRuleMarkSpec>": {
       "description": "style格式转换",
       "properties": {
@@ -5082,6 +4940,148 @@
         }
       },
       "type": "object"
+    },
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+          "description": "style格式转换"
+        }
+      ],
+      "description": "style格式转换"
+    },
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_2",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
+          "description": "style格式转换"
+        }
+      ],
+      "description": "style格式转换"
     },
     "ConvertToMarkStyleSpec<ISymbolMarkSpec>": {
       "description": "style格式转换",
@@ -6247,7 +6247,7 @@
         "dataViewMap": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/DataView"
             }
           },
@@ -6467,7 +6467,7 @@
         "all": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -6482,7 +6482,7 @@
         "applets": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -6515,7 +6515,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -6583,7 +6583,7 @@
           "items": {
             "additionalProperties": false,
             "patternProperties": {
-              "^[0-9]+$": {
+              "^[a-zA-Z0-9]+$": {
                 "$ref": "#/definitions/Element"
               }
             },
@@ -7009,7 +7009,7 @@
         "styleSheets": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/CSSStyleSheet"
             }
           },
@@ -7618,7 +7618,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -7639,7 +7639,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -7648,7 +7648,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -7732,7 +7732,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -8262,7 +8262,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -8292,7 +8292,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -8301,7 +8301,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -8748,7 +8748,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -8787,7 +8787,7 @@
         "relList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -8829,7 +8829,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -9298,7 +9298,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -9325,7 +9325,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -9334,7 +9334,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -9778,7 +9778,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -9817,7 +9817,7 @@
         "relList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -9856,7 +9856,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -10312,7 +10312,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -10339,7 +10339,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -10348,7 +10348,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -10771,7 +10771,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -10813,7 +10813,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -11247,7 +11247,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -11274,7 +11274,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -11283,7 +11283,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -11703,7 +11703,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -11745,7 +11745,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -12177,7 +12177,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -12204,7 +12204,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -12213,7 +12213,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -12639,7 +12639,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -12684,7 +12684,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -13125,7 +13125,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -13152,7 +13152,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -13161,7 +13161,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -13581,7 +13581,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -13623,7 +13623,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -14058,7 +14058,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -14088,7 +14088,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -14097,7 +14097,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -14565,7 +14565,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -14619,7 +14619,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -15101,7 +15101,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -15131,7 +15131,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -15140,7 +15140,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -15578,7 +15578,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -15626,7 +15626,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -16073,7 +16073,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -16100,7 +16100,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -16109,7 +16109,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -16532,7 +16532,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -16574,7 +16574,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -17518,7 +17518,7 @@
           "additionalProperties": false,
           "description": "标签文字样式",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -18163,6 +18163,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "area",
           "description": "图表类型",
@@ -18749,6 +18754,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "area",
           "description": "系列类型",
@@ -18874,7 +18884,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -18889,7 +18899,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -18915,7 +18925,7 @@
           "additionalProperties": false,
           "description": "style格式转换",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -19379,6 +19389,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "bar3d",
@@ -19873,6 +19888,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "bar",
           "description": "图表类型",
@@ -20193,6 +20213,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "bar",
@@ -20828,6 +20853,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "boxPlot",
           "description": "图表类型",
@@ -21317,6 +21347,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "boxPlot",
@@ -22146,6 +22181,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "description": "系列类型",
           "type": "string"
@@ -22587,6 +22627,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "circlePacking",
           "description": "图表类型",
@@ -22837,6 +22882,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "circlePacking",
@@ -23327,6 +23377,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "track": {
           "$ref": "#/definitions/IMarkSpec<IProgressArcMarkSpec>",
           "description": "背景样式"
@@ -23646,6 +23701,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "track": {
           "$ref": "#/definitions/IMarkSpec<IProgressArcMarkSpec>",
@@ -24459,6 +24519,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipTheme",
           "description": "tooltip 组件配置"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelTheme",
+          "description": "堆叠总计标签配置",
+          "since": "1.3.0"
         }
       },
       "type": "object"
@@ -25446,11 +25511,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -26861,7 +26926,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -27041,6 +27106,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "dot",
@@ -27288,11 +27358,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -27840,6 +27910,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "transform": {
           "$ref": "#/definitions/IMarkSpec<IPathMarkSpec>",
           "description": "转化层样式"
@@ -28316,6 +28391,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "transform": {
           "$ref": "#/definitions/IMarkSpec<IPathMarkSpec>",
           "description": "转化层样式"
@@ -28776,6 +28856,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "transform": {
           "$ref": "#/definitions/IMarkSpec<IPathMarkSpec>",
@@ -29307,6 +29392,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "gauge",
           "description": "图表类型",
@@ -29659,6 +29749,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "gaugePointer",
           "description": "系列类型",
@@ -29710,7 +29805,7 @@
           "description": "图钉背景样式"
         },
         "pointer": {
-          "$ref": "#/definitions/Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>",
+          "$ref": "#/definitions/Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>",
           "description": "指针样式"
         },
         "radius": {
@@ -30038,6 +30133,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "track": {
           "$ref": "#/definitions/IMarkSpec<IArcMarkSpec>",
@@ -32401,6 +32501,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "heatmap",
           "description": "图表类型",
@@ -32703,6 +32808,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "heatmap",
@@ -33248,6 +33358,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "histogram3d",
           "description": "图表类型",
@@ -33714,6 +33829,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "histogram",
           "description": "图表类型",
@@ -33810,7 +33930,7 @@
           "additionalProperties": false,
           "description": "文字样式",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -33851,7 +33971,7 @@
           "additionalProperties": false,
           "description": "文字样式",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -35499,6 +35619,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "line",
           "description": "图表类型",
@@ -36027,6 +36152,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "line",
           "description": "系列类型",
@@ -36537,6 +36667,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "track": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "背景条样式"
@@ -36807,6 +36942,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "track": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "背景条样式"
@@ -37024,6 +37164,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "link",
@@ -37465,6 +37610,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "map",
           "description": "图表类型",
@@ -37751,6 +37901,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "map",
@@ -38470,7 +38625,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -39731,6 +39886,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "pie3d",
           "description": "图表类型",
@@ -40197,6 +40357,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "pie",
           "description": "图表类型",
@@ -40492,6 +40657,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "pie",
@@ -42370,6 +42540,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "radar",
           "description": "图表类型",
@@ -42710,6 +42885,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "radar",
@@ -43207,6 +43387,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "rangeArea",
           "description": "图表类型配置",
@@ -43522,6 +43707,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "rangeArea",
@@ -43992,6 +44182,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "rangeColumn3d",
           "description": "图表类型配置",
@@ -44321,6 +44516,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "rangeColumn3d",
@@ -44792,6 +44992,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "rangeColumn",
           "description": "图表类型配置",
@@ -45121,6 +45326,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "rangeColumn",
@@ -46278,6 +46488,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "rose",
           "description": "图表类型",
@@ -46579,6 +46794,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "rose",
@@ -47293,6 +47513,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "sankey",
           "description": "图表类型",
@@ -47623,6 +47848,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "sankey",
@@ -48070,6 +48300,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "scatter",
           "description": "图表类型",
@@ -48410,6 +48645,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "scatter",
           "description": "系列类型",
@@ -48636,7 +48876,7 @@
           "additionalProperties": false,
           "description": "滚动条轨道样式。",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -48711,7 +48951,7 @@
           "additionalProperties": false,
           "description": "滚动条滑块样式。",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -48762,7 +49002,7 @@
           "additionalProperties": false,
           "description": "滚动条轨道样式。",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -48770,7 +49010,7 @@
           "additionalProperties": false,
           "description": "滚动条滑块样式。",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         }
@@ -49090,7 +49330,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -49108,7 +49348,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -49237,6 +49477,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "description": "系列类型",
@@ -50471,7 +50716,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -50925,6 +51170,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "sunburst",
           "description": "图表类型",
@@ -51248,6 +51498,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "sunburst",
@@ -52095,7 +52350,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -52778,6 +53033,89 @@
       },
       "type": "object"
     },
+    "ITotalLabelSpec": {
+      "properties": {
+        "formatMethod": {
+          "typeof": "function"
+        },
+        "interactive": {
+          "description": "是否支持交互。@default false",
+          "type": "boolean"
+        },
+        "offset": {
+          "description": "标签与其对应数据图元的间距",
+          "type": "number"
+        },
+        "state": {
+          "typeof": "function"
+        },
+        "style": {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
+          "description": "标签样式配置"
+        },
+        "visible": {
+          "description": "默认不显示标签",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "ITotalLabelTheme": {
+      "properties": {
+        "animation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelAnimation"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "动画配置"
+        },
+        "interactive": {
+          "description": "是否支持交互。@default false",
+          "type": "boolean"
+        },
+        "offset": {
+          "description": "标签与其对应数据图元的间距",
+          "type": "number"
+        },
+        "overlap": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OverlapAttrs"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "标签防重叠配置"
+        },
+        "smartInvert": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SmartInvertAttrs"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "标签智能反色配置"
+        },
+        "style": {
+          "$ref": "#/definitions/ITextMarkSpec"
+        },
+        "visible": {
+          "description": "默认不显示标签",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "ITransformOptions": {
       "properties": {
         "level": {
@@ -53259,6 +53597,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "treemap",
           "description": "图表类型",
@@ -53614,6 +53957,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "treemap",
@@ -55523,6 +55871,11 @@
           ],
           "description": "总计配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "waterfall",
           "description": "图表类型",
@@ -55873,6 +56226,11 @@
           ],
           "description": "总计配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "waterfall",
           "description": "系列类型",
@@ -56147,7 +56505,7 @@
             {
               "additionalProperties": false,
               "patternProperties": {
-                "^[0-9]+$": {
+                "^[a-zA-Z0-9]+$": {
                   "type": "string"
                 }
               },
@@ -56625,6 +56983,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "wordCloud3d",
           "description": "图表类型",
@@ -56965,6 +57328,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "type": {
           "const": "wordCloud3d",
@@ -57456,6 +57824,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "tooltip配置"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "wordCloud",
           "description": "图表类型",
@@ -57790,6 +58163,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "type": {
           "const": "wordCloud",
           "description": "系列类型",
@@ -57865,7 +58243,7 @@
         "data": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "number"
             }
           },
@@ -57939,7 +58317,7 @@
         "ancestorOrigins": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -57992,7 +58370,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@11349": {
+        "__@toStringTag@11362": {
           "type": "string"
         },
         "size": {
@@ -58000,14 +58378,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11349",
+        "__@toStringTag@11362",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@11349": {
+        "__@toStringTag@11362": {
           "type": "string"
         },
         "size": {
@@ -58015,14 +58393,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11349",
+        "__@toStringTag@11362",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@11349": {
+        "__@toStringTag@11362": {
           "type": "string"
         },
         "size": {
@@ -58030,14 +58408,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11349",
+        "__@toStringTag@11362",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@11349": {
+        "__@toStringTag@11362": {
           "type": "string"
         },
         "size": {
@@ -58045,14 +58423,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11349",
+        "__@toStringTag@11362",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@11349": {
+        "__@toStringTag@11362": {
           "type": "string"
         },
         "size": {
@@ -58060,14 +58438,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11349",
+        "__@toStringTag@11362",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@11349": {
+        "__@toStringTag@11362": {
           "type": "string"
         },
         "size": {
@@ -58075,14 +58453,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11349",
+        "__@toStringTag@11362",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@11349": {
+        "__@toStringTag@11362": {
           "type": "string"
         },
         "size": {
@@ -58090,14 +58468,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11349",
+        "__@toStringTag@11362",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@11349": {
+        "__@toStringTag@11362": {
           "type": "string"
         },
         "size": {
@@ -58105,7 +58483,7 @@
         }
       },
       "required": [
-        "__@toStringTag@11349",
+        "__@toStringTag@11362",
         "size"
       ],
       "type": "object"
@@ -58262,7 +58640,7 @@
         "enabledPlugin": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/MimeType"
             }
           },
@@ -58339,7 +58717,7 @@
         "mimeTypes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/MimeType"
             }
           },
@@ -58360,10 +58738,10 @@
         "plugins": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "additionalProperties": false,
               "patternProperties": {
-                "^[0-9]+$": {
+                "^[a-zA-Z0-9]+$": {
                   "$ref": "#/definitions/MimeType"
                 }
               },
@@ -59091,6 +59469,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "x2Field": {
           "description": "用于区间数据，声明区间末尾的数据字段。",
           "type": "string"
@@ -59732,6 +60115,11 @@
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
         },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
         "track": {
           "$ref": "#/definitions/IMarkSpec<IProgressArcMarkSpec>",
           "description": "背景样式"
@@ -60041,6 +60429,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "transform": {
           "$ref": "#/definitions/IMarkSpec<IPathMarkSpec>",
@@ -60352,6 +60745,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "track": {
           "$ref": "#/definitions/IMarkSpec<IArcMarkSpec>",
@@ -61081,6 +61479,11 @@
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
         },
         "valueField": {
           "description": "数值字段",
@@ -62165,7 +62568,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -65145,6 +65548,71 @@
       },
       "type": "object"
     },
+    "Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>": {
+      "properties": {
+        "center": {
+          "description": "中心点坐标（0~1）",
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "height": {
+          "description": "指针长度比例（0~1）（为空则挂载 radius）",
+          "type": "number"
+        },
+        "innerPadding": {
+          "description": "指针靠近圆心的一端离圆心的距离",
+          "type": "number"
+        },
+        "interactive": {
+          "description": "可交互的开关",
+          "type": "boolean"
+        },
+        "outerPadding": {
+          "description": "指针靠近边缘的一端离边缘的距离",
+          "type": "number"
+        },
+        "state": {
+          "$ref": "#/definitions/Record<string,IPathMarkSpec|IRectMarkSpec>",
+          "description": "不同状态下的样式配置"
+        },
+        "style": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IPathMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IRectMarkSpec"
+            }
+          ],
+          "description": "默认样式设置"
+        },
+        "type": {
+          "enum": [
+            "path",
+            "rect"
+          ],
+          "type": "string"
+        },
+        "visible": {
+          "description": "mark 层 是否显示配置",
+          "type": "boolean"
+        },
+        "width": {
+          "description": "指针宽度比例（0~1）",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
     "Partial<IMarkTheme<IPolygonMarkSpec>>": {
       "properties": {
         "interactive": {
@@ -65246,71 +65714,6 @@
         "visible": {
           "description": "mark 层 是否显示配置",
           "type": "boolean"
-        }
-      },
-      "type": "object"
-    },
-    "Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>": {
-      "properties": {
-        "center": {
-          "description": "中心点坐标（0~1）",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "height": {
-          "description": "指针长度比例（0~1）（为空则挂载 radius）",
-          "type": "number"
-        },
-        "innerPadding": {
-          "description": "指针靠近圆心的一端离圆心的距离",
-          "type": "number"
-        },
-        "interactive": {
-          "description": "可交互的开关",
-          "type": "boolean"
-        },
-        "outerPadding": {
-          "description": "指针靠近边缘的一端离边缘的距离",
-          "type": "number"
-        },
-        "state": {
-          "$ref": "#/definitions/Record<string,IRectMarkSpec|IPathMarkSpec>",
-          "description": "不同状态下的样式配置"
-        },
-        "style": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IRectMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IPathMarkSpec"
-            }
-          ],
-          "description": "默认样式设置"
-        },
-        "type": {
-          "enum": [
-            "path",
-            "rect"
-          ],
-          "type": "string"
-        },
-        "visible": {
-          "description": "mark 层 是否显示配置",
-          "type": "boolean"
-        },
-        "width": {
-          "description": "指针宽度比例（0~1）",
-          "type": "number"
         }
       },
       "type": "object"
@@ -65480,7 +65883,7 @@
           "additionalProperties": false,
           "description": "默认样式设置",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -69834,34 +70237,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@11349": {
+        "__@toStringTag@11362": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11349"
+        "__@toStringTag@11362"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@11349": {
+        "__@toStringTag@11362": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11349"
+        "__@toStringTag@11362"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@11349": {
+        "__@toStringTag@11362": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11349"
+        "__@toStringTag@11362"
       ],
       "type": "object"
     },
@@ -69871,10 +70274,10 @@
     "Record<string,ConvertToMarkStyleSpec<IPathMarkSpec>|IMarkStateSpec<IPathMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRectMarkSpec|IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRectMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>": {
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>": {
@@ -69901,6 +70304,9 @@
     "Record<string,IPathMarkSpec>": {
       "type": "object"
     },
+    "Record<string,IPathMarkSpec|IRectMarkSpec>": {
+      "type": "object"
+    },
     "Record<string,IPolygonMarkSpec>": {
       "type": "object"
     },
@@ -69914,9 +70320,6 @@
       "type": "object"
     },
     "Record<string,IRectMarkSpec>": {
-      "type": "object"
-    },
-    "Record<string,IRectMarkSpec|IPathMarkSpec>": {
       "type": "object"
     },
     "Record<string,IRuleMarkSpec>": {
@@ -75748,7 +76151,7 @@
         "animVal": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/SVGTransform"
             }
           },
@@ -75757,7 +76160,7 @@
         "baseVal": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/SVGTransform"
             }
           },
@@ -75949,7 +76352,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -75973,7 +76376,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -75982,7 +76385,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -76355,7 +76758,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -76394,7 +76797,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -76932,7 +77335,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -76956,7 +77359,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -76965,7 +77368,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -77401,7 +77804,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -77422,7 +77825,7 @@
         "requiredExtensions": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -77452,7 +77855,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -77461,7 +77864,7 @@
         "systemLanguage": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -77905,7 +78308,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -77929,7 +78332,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -77938,7 +78341,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -78314,7 +78717,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -78353,7 +78756,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -78838,7 +79241,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -78913,7 +79316,7 @@
         "styleSheets": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/CSSStyleSheet"
             }
           },
@@ -79023,8 +79426,32 @@
             }
           ]
         },
+        "brightColor": {
+          "type": "string"
+        },
         "contrastRatiosThreshold": {
           "type": "number"
+        },
+        "darkColor": {
+          "type": "string"
+        },
+        "fillStrategy": {
+          "enum": [
+            "invertSeries",
+            "null",
+            "series",
+            "similarSeries"
+          ],
+          "type": "string"
+        },
+        "strokeStrategy": {
+          "enum": [
+            "invertSeries",
+            "null",
+            "series",
+            "similarSeries"
+          ],
+          "type": "string"
         },
         "textType": {
           "type": "string"
@@ -80265,7 +80692,7 @@
         {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "number"
             }
           },
@@ -80343,7 +80770,7 @@
         {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "number"
             }
           },
