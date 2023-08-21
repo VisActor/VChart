@@ -15,6 +15,10 @@ export const getWordCloudData = (data: Page03OriginalData) => {
 export const getWordCloudSpec = (data: Page03OriginalData): IWordCloudChartSpec => ({
   type: 'wordCloud',
   background: 'transparent',
+  padding: {
+    top: 40,
+    bottom: -40
+  },
   maskShape: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/heart.jpeg',
   nameField: 'name',
   valueField: 'value',
@@ -27,6 +31,6 @@ export const getWordCloudSpec = (data: Page03OriginalData): IWordCloudChartSpec 
     }
   ],
   animationAppear: {
-    duration: 8000
+    duration: 5000
   }
 });

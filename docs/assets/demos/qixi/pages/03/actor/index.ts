@@ -61,7 +61,7 @@ export const page03Actor = (player: Player, actorMap: Record<string, BaseActor>,
       top: '560px',
       width: '980px',
       height: '980px',
-      background: 'radial-gradient(980px 980px at 50% 50%, white 0px, white 200px, rgba(255, 255, 255, 0) 500px)'
+      background: 'radial-gradient(980px 980px at 50% 50%, white 0px, white 250px, rgba(255, 255, 255, 0) 500px)'
     },
     defaultSpec: getWordCloudSpec(page03)
   });
