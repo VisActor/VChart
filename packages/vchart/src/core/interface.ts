@@ -13,7 +13,7 @@ import type {
   MaybeArray,
   StringOrNumber
 } from '../typings';
-import type { IRunningConfig } from '../animation/spec';
+import type { IMorphConfig } from '../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
 import type { IMark } from '../mark/interface';
@@ -59,7 +59,7 @@ export interface IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  renderSync: (morphConfig?: IRunningConfig) => IVChart;
+  renderSync: (morphConfig?: IMorphConfig) => IVChart;
 
   /**
    * **异步**渲染图表。
@@ -67,7 +67,7 @@ export interface IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  renderAsync: (morphConfig?: IRunningConfig) => Promise<IVChart>;
+  renderAsync: (morphConfig?: IMorphConfig) => Promise<IVChart>;
 
   /**
    * **异步**更新数据。
@@ -100,7 +100,7 @@ export interface IVChart {
    * @param forceMerge
    * @returns
    */
-  updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IRunningConfig) => Promise<IVChart>;
+  updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => Promise<IVChart>;
 
   /**
    * 更新绘制区域。
