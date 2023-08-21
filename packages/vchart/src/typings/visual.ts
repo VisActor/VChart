@@ -95,6 +95,19 @@ export type ConvertToMarkStyleSpec<T extends Record<string, any>> = {
   [key in keyof T]: VisualType<T[key]>;
 };
 
+/**
+ * border
+ */
+
+export interface IBorder {
+  distance: number | string;
+  stroke?: string | IGradient;
+  strokeOpacity?: number;
+  lineWidth?: number;
+  lineDash?: number[];
+  lineDashOffset?: number;
+}
+
 export interface ICommonSpec {
   visible?: boolean;
   x?: number;
@@ -109,10 +122,6 @@ export interface ICommonSpec {
 
   cursor?: Cursor;
   zIndex?: number;
-  borderSize?: number;
-  borderColor?: string;
-  borderSpacing?: number;
-  borderOpacity?: number;
   angle?: number;
   anchor?: [number, number];
 
@@ -148,31 +157,11 @@ export interface ICommonSpec {
   /**
    * 外边框
    */
-  outerBorder?: {
-    /**
-     * 间距
-     */
-    distance: number | string;
-    stroke?: string | IGradient;
-    strokeOpacity?: number;
-    lineWidth?: number;
-    lineDash?: number[];
-    lineDashOffset?: number;
-  };
+  outerBorder?: IBorder;
   /**
    * 内边框
    */
-  innerBorder?: {
-    /**
-     * 间距
-     */
-    distance: number | string;
-    stroke?: string | IGradient;
-    strokeOpacity?: number;
-    lineWidth?: number;
-    lineDash?: number[];
-    lineDashOffset?: number;
-  };
+  innerBorder?: IBorder;
 
   [key: string]: any;
 }
