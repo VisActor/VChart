@@ -108,7 +108,7 @@ export interface IChart extends ICompilable {
   getAllMarks: () => IMark[];
 
   // spec
-  updateSpec: (spec: any, morphConfig?: IRunningConfig) => IUpdateSpecResult;
+  updateSpec: (spec: any, morphConfig?: IMorphConfig) => IUpdateSpecResult;
 
   // state
   /**

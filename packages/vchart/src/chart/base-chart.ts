@@ -153,7 +153,7 @@ export class BaseChart extends CompilableBase implements IChart {
   getLayoutTag() {
     return this._layoutTag;
   }
-  setLayoutTag(tag: boolean, morphConfig?: IRunningConfig, reLayout: boolean = true): boolean {
+  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, reLayout: boolean = true): boolean {
     this._layoutTag = tag;
     if (this.getCompiler()?.getVGrammarView()) {
       this.getCompiler().getVGrammarView().updateLayoutTag();
@@ -848,7 +848,7 @@ export class BaseChart extends CompilableBase implements IChart {
     }
   }
 
-  updateSpec(spec: any, morphConfig?: IRunningConfig) {
+  updateSpec(spec: any, morphConfig?: IMorphConfig) {
     const result = {
       change: false,
       reMake: false,
