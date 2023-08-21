@@ -50,7 +50,7 @@ const REGEX_GROUP_JSDOC = /^[.]?([\w]+)\s+(\S|\S[\s\S]*\S)\s*$/g;
  * for more details, see tests/require.test.ts
  */
 const REGEX_REQUIRE = /^(\s+)?require\((\'@?[a-zA-Z0-9.\/_-]+\'|\"@?[a-zA-Z0-9.\/_-]+\")\)(\.([a-zA-Z0-9_$]+))?(\s+|$)/;
-const NUMERIC_INDEX_PATTERN = '^[0-9]+$';
+const STRING_NUMERIC_INDEX_PATTERN = '^[a-zA-Z0-9]+$';
 
 export function getDefaultArgs(): Args {
   return {
@@ -734,7 +734,7 @@ export class JsonSchemaGenerator {
             definition.type = 'object';
             definition.additionalProperties = false;
             definition.patternProperties = {
-              [NUMERIC_INDEX_PATTERN]: this.getTypeDefinition(arrayType)
+              [STRING_NUMERIC_INDEX_PATTERN]: this.getTypeDefinition(arrayType)
             };
           } else {
             definition.type = 'array';
