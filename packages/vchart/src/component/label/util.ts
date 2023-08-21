@@ -8,9 +8,12 @@ export const markLabelConfigFunc = {
   symbol: symbolLabel
 };
 
-export function textAttribute(labelInfo: ILabelInfo, datum: Datum) {
-  const { labelMark, series, baseMark } = labelInfo;
-  const formatMethod = baseMark.getLabelSpec()?.formatMethod;
+export function textAttribute(
+  labelInfo: ILabelInfo,
+  datum: Datum,
+  formatMethod: (text: string | string[], datum?: any) => string | string[]
+) {
+  const { labelMark, series } = labelInfo;
   const field = series.getMeasureField()[0];
   const textAttribute = { text: datum[field], data: datum } as any;
 

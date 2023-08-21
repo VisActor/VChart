@@ -28,6 +28,8 @@ export enum ComponentTypeEnum {
   player = 'player',
   scrollBar = 'scrollBar',
   label = 'label',
+  totalLabel = 'totalLabel',
+
   brush = 'brush',
 
   poptip = 'poptip',

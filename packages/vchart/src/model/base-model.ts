@@ -143,6 +143,11 @@ export abstract class BaseModel extends LayoutItem implements IModel {
   init(option: IModelInitOption) {
     // do nothing
   }
+
+  afterInit() {
+    // do nothing
+  }
+
   onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
     super.onLayoutStart(layoutRect, viewRect, ctx);
     this._isLayout = true;

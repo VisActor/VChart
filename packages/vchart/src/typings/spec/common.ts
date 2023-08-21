@@ -52,6 +52,7 @@ import type { ICrosshairSpec } from '../../component/crosshair/interface';
 import type { ITheme } from '../../theme';
 import type { ITitleSpec } from '../../component/title/interface';
 import type { IBrushSpec } from '../../component/brush';
+import type { ITotalLabelSpec } from '../../component/label';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -355,6 +356,11 @@ export interface ISeriesSpec extends ITriggerSpec {
 
   /** 是否对数据进行堆叠处理 */
   stack?: boolean;
+
+  /** 堆叠汇总标签
+   * @since 1.3.0
+   */
+  totalLabel?: ITotalLabelSpec;
 
   /** 是否对数据进行百分比处理 */
   percent?: boolean;

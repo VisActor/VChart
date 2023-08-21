@@ -57,7 +57,8 @@ import {
   MarkPoint,
   Brush,
   CustomMark,
-  MapLabelComponent
+  MapLabelComponent,
+  TotalLabel
 } from './component';
 import { GridLayout, Layout3d } from './layout';
 import { loadPoptip } from '@visactor/vrender-components';
@@ -121,6 +122,7 @@ VChart.useComponent([
   Title,
   MarkArea,
   Player,
+  TotalLabel,
   Label,
   MarkPoint,
   Brush,
