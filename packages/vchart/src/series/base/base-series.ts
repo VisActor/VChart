@@ -1,4 +1,3 @@
-import { RectMark, type IRectMark } from './../../mark/rect';
 import { ChartEvent } from '../../constant/event';
 import {
   AttributeLevel,
@@ -289,11 +288,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
     if (isBoolean(this._spec.percent)) {
       this._percent = this._spec.percent;
-      this._stack = this._spec.stack || this._spec.percent;
+      this._stack = this._spec.percent || this._stack; // this._stack is `true` in bar/area series
     }
     if (isBoolean(this._spec.stackOffsetSilhouette)) {
       this._stackOffsetSilhouette = this._spec.stackOffsetSilhouette;
-      this._stack = this._spec.stack || this._spec.stackOffsetSilhouette;
+      this._stack = this._spec.stackOffsetSilhouette || this._stack; // this._stack is `true` in bar/area series
     }
     if (isValid(this._spec.invalidType)) {
       this._invalidType = this._spec.invalidType;
@@ -1043,7 +1042,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
    * data
    */
   addViewDataFilter(option: ITransformOptions) {
-    this._viewDataFilter.transform(option, false);
+    this._viewDataFilter?.transform(option, false);
   }
 
   reFilterViewData() {

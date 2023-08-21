@@ -67,7 +67,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { has, isFunction, isEmpty, getContainerSize } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
-import type { IGroupMark, IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
+import type { IGroupMark, IRunningConfig as IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
 import { CompilableBase } from '../compile/compilable-base';
 import type { IStateInfo } from '../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -239,6 +239,8 @@ export class BaseChart extends CompilableBase implements IChart {
     this._series.forEach(s => s.fillData());
     // 此时 globalScale 已经生效组件可以获取到正确的映射
     this.updateGlobalScaleDomain();
+
+    this._components.forEach(c => c.afterInit());
   }
 
   onResize(width: number, height: number): void {
@@ -900,7 +902,7 @@ export class BaseChart extends CompilableBase implements IChart {
     if (!this._spec.data) {
       return;
     }
-    array(this._spec.data).forEach(d => {
+    array(this._spec.data).forEach((d, i) => {
       const dataView = this._dataSet.getDataView(d.id);
       if (dataView) {
         if (d.values) {
@@ -908,6 +910,8 @@ export class BaseChart extends CompilableBase implements IChart {
         } else if (!d.latestData) {
           dataView.updateRawData([]);
         }
+      } else {
+        result.reMakeData = true;
       }
     });
   }
@@ -967,7 +971,17 @@ export class BaseChart extends CompilableBase implements IChart {
       return;
     }
     this._series.forEach(s => {
-      this._mergeUpdateResult(result, s.updateSpec(this._spec.series[s.getSpecIndex()]));
+      const spec = this._spec.series[s.getSpecIndex()];
+      if (result.reMakeData) {
+        let values;
+        if (!spec.data) {
+          values = this.getSeriesData(spec.dataId, spec.dataIndex)?.latestData;
+        } else {
+          values = spec.data.values;
+        }
+        s.updateRawData(values);
+      }
+      this._mergeUpdateResult(result, s.updateSpec(spec));
       s.reInit();
     });
   }

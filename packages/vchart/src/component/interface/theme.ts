@@ -13,6 +13,7 @@ import type { IPlayerTheme } from '../player';
 import type { ITitleTheme } from '../title';
 import type { ITooltipTheme } from '../tooltip/interface';
 import type { ComponentTypeEnum } from './type';
+import type { ITotalLabelTheme } from '../label';
 
 export interface IComponentTheme {
   /**
@@ -107,4 +108,9 @@ export interface IComponentTheme {
    * 省略文本配置
    */
   [ComponentTypeEnum.poptip]?: PopTipAttributes;
+  /**
+   * 堆叠总计标签配置
+   * @since 1.3.0
+   */
+  [ComponentTypeEnum.totalLabel]?: ITotalLabelTheme;
 }
