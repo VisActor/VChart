@@ -26,6 +26,7 @@ import type { Maybe, IPoint, Datum, StateValueType } from '../../typings';
 import { field, isNil, isSpecValueWithScale, normalizeStartEndAngle, polarToCartesian, radians } from '../../util';
 import type { IModelLayoutOption } from '../../model/interface';
 import { PolarSeries } from '../polar/polar';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IArcMark } from '../../mark/arc';
 import type { ITextMark } from '../../mark/text';
@@ -206,6 +207,19 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
       this._trigger.registerMark(pieMark);
       this._tooltipHelper?.activeTriggerSet.mark.add(pieMark);
+    }
+  }
+
+  initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void {
+    super.initMarkStyleWithSpec(mark, spec, key);
+    if (mark.name === this._pieMarkName) {
+      // radius 配置需要额外处理比例值
+      const pieSpec = this.getSpec()[mark.name];
+      if (pieSpec) {
+        for (const state in pieSpec.state || {}) {
+          this.setMarkStyle(mark, this.generateRadiusStyle(pieSpec.state[state]), state, AttributeLevel.User_Mark);
+        }
+      }
     }
   }
 

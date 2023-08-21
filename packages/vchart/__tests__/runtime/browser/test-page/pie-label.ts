@@ -349,7 +349,7 @@ const run = () => {
     }
   };
 
-  const cs = new VChart(spec, {
+  const cs = new VChart(spec_huazhu, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
@@ -359,5 +359,8 @@ const run = () => {
   });
   window['vchart'] = cs;
   console.log(cs);
+  // cs.on('click', event => {
+  //   console.log(event);
+  // });
 };
 run();
