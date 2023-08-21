@@ -70,7 +70,7 @@ Declare a time axis.
 
 ## axes.log(Object)
 
-Log axis configuration.
+Supported since `1.2.0` version, Log axis configuration.
 
 ### type(string) = 'log'
 

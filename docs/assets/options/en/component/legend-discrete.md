@@ -42,7 +42,7 @@ Whether to reverse the ordering of the legend items, the default is not.
 
 The overall maximum width of the legend, which determines whether horizontally laid out legends (with an orientation attribute of `'left'` | `'right'`) are automatically line-breaking.
 
-### maxRow(number)
+### maxCol(number)
 
 Effective only when `orient` is `'left'` | `'right'`, indicates the maximum number of rows for the legend item, the legend item beyond the maximum number of rows will be hidden.
 
@@ -50,7 +50,7 @@ Effective only when `orient` is `'left'` | `'right'`, indicates the maximum numb
 
 The maximum height of the legend as a whole, which determines whether vertically laid out legends (with an orientation attribute of `'top'` | `'bottom'`) are automatically line-breaking.
 
-### maxCol(number)
+### maxRow(number)
 
 Effective only when `orient` is `'top'` | `'bottom'`, indicates the maximum number of columns for the legend item, the legend item beyond the maximum number of columns will be hidden.
 
@@ -140,7 +140,7 @@ example:
 ```ts
 background: {
   state: {
-    selected: () => {}
+    selected: () => {};
   }
 }
 ```
@@ -163,7 +163,7 @@ example:
 ```ts
 background: {
   state: {
-    unSelected: () => {}
+    unSelected: () => {};
   }
 }
 ```
@@ -186,7 +186,7 @@ example:
 ```ts
 background: {
   state: {
-    selectedHover: () => {}
+    selectedHover: () => {};
   }
 }
 ```
@@ -209,7 +209,7 @@ example:
 ```ts
 background: {
   state: {
-    unSelectedHover: () => {}
+    unSelectedHover: () => {};
   }
 }
 ```
@@ -384,7 +384,10 @@ export type LegendItemDatum = {
   /** Display text */
   label: string;
   /** Display of data */
-  value?: string | number; value: string | number; value: string | number; value: string | number
+  value?: string | number;
+  value: string | number;
+  value: string | number;
+  value: string | number;
   /** Definition of shape before legend item */
   shape: {
     symbolType?: string;
@@ -553,7 +556,10 @@ export type LegendItemDatum = {
   /** Display text */
   label: string;
   /** Display of data */
-  value?: string | number; value: string | number; value: string | number; value: string | number
+  value?: string | number;
+  value: string | number;
+  value: string | number;
+  value: string | number;
   /** Definition of shape before legend item */
   shape: {
     symbolType?: string;

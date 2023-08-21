@@ -42,7 +42,7 @@
 
 图例整体的最大宽度，决定水平布局的图例（orient 属性为 `'left'` | `'right'`）是否自动换行。
 
-### maxRow(number)
+### maxCol(number)
 
 仅当 `orient` 为 `'left'` | `'right'` 时生效，表示图例项的最大行数，超出最大行数的图例项会被隐藏。
 
@@ -50,7 +50,7 @@
 
 图例整体的最大高度，决定垂直布局的图例（orient 属性为 `'top'` | `'bottom'`）是否自动换行。
 
-### maxCol(number)
+### maxRow(number)
 
 仅当 `orient` 为 `'top'` | `'bottom'` 时生效，表示图例项的最大列数，超出最大列数的图例项会被隐藏。
 

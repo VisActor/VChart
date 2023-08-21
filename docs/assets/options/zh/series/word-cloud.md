@@ -279,9 +279,15 @@
 
 文字格式化回调函数。
 
-{{ use:text-format-callback(
-  description = '文字'
-) }}
+回调函数的定义如下:
+
+```ts
+/**
+ * @params 当前元素对应的数据
+ * @return 返回处理后的文本
+ */
+(datum: any) => string;
+```
 
 ##${prefix} style(Object)
 
