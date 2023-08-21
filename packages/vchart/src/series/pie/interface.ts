@@ -135,6 +135,11 @@ export interface IArcLabelSpec extends ILabelSpec {
    */
   position?: 'outside' | 'inside';
   /**
+   * 标签内容显示规则
+   * @default 'all'
+   */
+  showRule?: 'all' | 'max' | 'min' | 'minAndMax' | 'headAndTail';
+  /**
    * 是否允许标签重叠
    * @default false
    */
