@@ -42,7 +42,7 @@ export interface ISeries extends IModel, ILayoutItem {
   getDataSet?: () => DataSet;
   getFieldAlias: (field: string) => string;
   // 更新原始数据
-  updateRawData: (d: any, opt: ISeriesUpdateDataOption) => void;
+  updateRawData: (d: any) => void;
   setData?: (dv: DataView) => void;
   rawDataUpdate: (d: DataView) => void;
   viewDataUpdate: (d: DataView) => void;
@@ -256,6 +256,7 @@ export interface IGeoSeries extends ISeries {
   valueField?: string;
 
   getMapViewData: () => DataView;
+  getNameProperty: () => string;
 
   dataToPosition: (datum: any) => IPoint | null;
   dataToLatitude: (latValue: any) => number | null;

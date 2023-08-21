@@ -36,6 +36,11 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     this._valueField = f;
   }
 
+  protected _nameProperty: string = 'name';
+  getNameProperty() {
+    return this._nameProperty;
+  }
+
   _coordinateHelper!: IGeoCoordinateHelper;
   getCoordinateHelper() {
     return this._coordinateHelper;

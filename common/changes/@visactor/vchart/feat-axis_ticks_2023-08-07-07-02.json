@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: linear axis support `noDecimals` in tick configuration, see #396",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

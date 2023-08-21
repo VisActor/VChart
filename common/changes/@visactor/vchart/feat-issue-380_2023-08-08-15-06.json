@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: cartesian axis label support `containerAlign`, relate #380",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

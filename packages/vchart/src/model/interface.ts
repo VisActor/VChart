@@ -201,6 +201,7 @@ export type IMarkTree = IMarkTreeGroup | IMark | (IMarkTreeGroup | IMark)[];
 export interface IUpdateSpecResult {
   change: boolean;
   reMake: boolean;
+  reMakeData?: boolean;
   reRender?: boolean;
   reSize?: boolean;
   // TODO: compile 的判断应不应该出现在这里?

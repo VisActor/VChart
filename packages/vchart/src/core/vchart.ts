@@ -11,7 +11,7 @@ import type { IComponentConstructor } from '../component/interface';
 import { ComponentTypeEnum } from '../component/interface';
 import type { EventCallback, EventParams, EventQuery, EventType, IEvent, IEventDispatcher } from '../event/interface';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
-import type { Transform } from '@visactor/vdataset';
+import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender';
@@ -46,6 +46,7 @@ import type { ITooltipHandler } from '../typings/tooltip';
 import type { Tooltip } from '../component/tooltip';
 import type {
   Datum,
+  IData,
   IPoint,
   IRegionQuerier,
   IShowTooltipOption,
@@ -638,6 +639,72 @@ export class VChart implements IVChart {
   }
 
   /**
+   * **同步方法** 更新数据
+   * @param data 图表配置结构中的数据对象
+   * @returns VChart 实例
+   * @since 1.3.0
+   */
+  updateFullDataSync(data: IDataValues | IDataValues[], reRender: boolean = true) {
+    if (this._chart) {
+      this._chart.updateFullData(data);
+      if (reRender) {
+        this._compiler.renderSync();
+      }
+      return this as unknown as IVChart;
+    }
+    const list: IDataValues[] = array(data);
+    list.forEach(d => {
+      // only support update this attrs
+      const { id, values, parser, fields } = d;
+      const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
+      if (preDV) {
+        preDV.setFields(fields as IFields);
+        preDV.parse(values, parser as IParserOptions);
+      } else {
+        // new data
+        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
+          onError: this._option.onError
+        });
+        this._spec.data.push(dataView);
+      }
+    });
+    return this as unknown as IVChart;
+  }
+
+  /**
+   * **异步方法** 更新数据
+   * @param data 图表配置结构中的数据对象
+   * @returns VChart 实例
+   * @since 1.3.0
+   */
+  async updateFullData(data: IDataValues | IDataValues[], reRender: boolean = true) {
+    if (this._chart) {
+      this._chart.updateFullData(data);
+      if (reRender) {
+        await this._compiler.renderAsync();
+      }
+      return this as unknown as IVChart;
+    }
+    const list: IDataValues[] = array(data);
+    list.forEach(d => {
+      // only support update this attrs
+      const { id, values, parser, fields } = d;
+      const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
+      if (preDV) {
+        preDV.setFields(fields as IFields);
+        preDV.parse(values, parser as IParserOptions);
+      } else {
+        // new data
+        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
+          onError: this._option.onError
+        });
+        this._spec.data.push(dataView);
+      }
+    });
+    return this as unknown as IVChart;
+  }
+
+  /**
    * **异步方法** spec 更新
    * @param spec
    * @param forceMerge
@@ -1185,6 +1252,21 @@ export class VChart implements IVChart {
    */
   setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption = {}) {
     return this._chart?.setDimensionIndex(value, opt);
+  }
+
+  /** 停止正在进行的所有动画 */
+  stopAnimation() {
+    this._compiler?.getVGrammarView()?.animate?.stop();
+  }
+
+  /** 暂停正在进行的所有动画 */
+  pauseAnimation() {
+    this._compiler?.getVGrammarView()?.animate?.pause();
+  }
+
+  /** 恢复暂停时正在进行的所有动画 */
+  resumeAnimation() {
+    this._compiler?.getVGrammarView()?.animate?.resume();
   }
 
   // TODO: 后续需要考虑滚动场景
