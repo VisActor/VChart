@@ -14,7 +14,7 @@ import type {
   IModelMarkInfo
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, IStyleSetOption, MarkTypeEnum } from '../mark/interface';
+import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect } from '../typings';
 import type { ITooltipHelper } from './tooltip-helper';
 import type { CompilableData } from '../compile/data/compilable-data';
@@ -300,8 +300,7 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     mark: IMarkRaw<T>,
     style?: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>,
     state?: StateValueType,
-    level?: number,
-    opt?: IStyleSetOption
+    level?: number
   ) {
     if (!isValid(mark) || !isValid(style)) {
       return;
