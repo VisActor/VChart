@@ -267,7 +267,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
     // fontWeight处理
     if (valueField) {
-      const [minValue, maxValue] = extent(this.getViewData()?.latestData.map((datum: any) => datum[valueField]));
+      const [minValue, maxValue] = extent(this.getViewData()?.latestData.map((datum: any) => +datum[valueField]));
       valueScale.domain([minValue, maxValue], true).range(fontWeightRange);
       wordCloudTransforms.push({
         type: 'map',

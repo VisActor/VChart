@@ -2,10 +2,10 @@
 
 ## Description
 
-Provide the VChart JSON schema
+Provide the VChart JSON schema.
 
 ## Usage
 
 ```typescript
-// todo
+import Schema from '@visactor/vchart-schema';
 ```

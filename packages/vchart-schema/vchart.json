@@ -434,7 +434,7 @@
         "cssRules": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/CSSRule"
             }
           },
@@ -449,7 +449,7 @@
         "media": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -474,7 +474,7 @@
         "rules": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/CSSRule"
             }
           },
@@ -6236,7 +6236,7 @@
         "dataViewMap": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/DataView"
             }
           },
@@ -6456,7 +6456,7 @@
         "all": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -6471,7 +6471,7 @@
         "applets": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -6504,7 +6504,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -6572,7 +6572,7 @@
           "items": {
             "additionalProperties": false,
             "patternProperties": {
-              "^[0-9]+$": {
+              "^[a-zA-Z0-9]+$": {
                 "$ref": "#/definitions/Element"
               }
             },
@@ -6998,7 +6998,7 @@
         "styleSheets": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/CSSStyleSheet"
             }
           },
@@ -7607,7 +7607,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -7628,7 +7628,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -7637,7 +7637,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -7721,7 +7721,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -8251,7 +8251,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -8281,7 +8281,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -8290,7 +8290,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -8737,7 +8737,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -8776,7 +8776,7 @@
         "relList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -8818,7 +8818,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -9287,7 +9287,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -9314,7 +9314,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -9323,7 +9323,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -9767,7 +9767,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -9806,7 +9806,7 @@
         "relList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -9845,7 +9845,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -10301,7 +10301,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -10328,7 +10328,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -10337,7 +10337,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -10760,7 +10760,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -10802,7 +10802,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -11236,7 +11236,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -11263,7 +11263,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -11272,7 +11272,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -11692,7 +11692,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -11734,7 +11734,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -12166,7 +12166,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -12193,7 +12193,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -12202,7 +12202,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -12628,7 +12628,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -12673,7 +12673,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -13114,7 +13114,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -13141,7 +13141,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -13150,7 +13150,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -13570,7 +13570,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -13612,7 +13612,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -14047,7 +14047,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -14077,7 +14077,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -14086,7 +14086,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -14554,7 +14554,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -14608,7 +14608,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -15090,7 +15090,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -15120,7 +15120,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -15129,7 +15129,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -15567,7 +15567,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -15615,7 +15615,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -16062,7 +16062,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -16089,7 +16089,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -16098,7 +16098,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -16521,7 +16521,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -16563,7 +16563,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -17507,7 +17507,7 @@
           "additionalProperties": false,
           "description": "标签文字样式",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -18449,6 +18449,23 @@
             }
           ]
         },
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
+          "type": "number"
+        },
         "fill": {
           "$ref": "#/definitions/IFillType"
         },
@@ -18846,7 +18863,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -18861,7 +18878,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -18887,7 +18904,7 @@
           "additionalProperties": false,
           "description": "style格式转换",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -25283,6 +25300,12 @@
         "getPointAt": {
           "typeof": "function"
         },
+        "originP1": {
+          "$ref": "#/definitions/IPointLike"
+        },
+        "originP2": {
+          "$ref": "#/definitions/IPointLike"
+        },
         "p0": {
           "$ref": "#/definitions/IPoint"
         },
@@ -26083,6 +26106,23 @@
     },
     "IDiscreteLegendTheme": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "allowAllCanceled": {
           "type": "boolean"
         },
@@ -26257,6 +26297,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -26279,6 +26326,22 @@
         "filter": {
           "description": "是否进行数据筛选，默认为 true",
           "type": "boolean"
+        },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
         },
         "height": {
           "anyOf": [
@@ -26310,6 +26373,16 @@
         "item": {
           "$ref": "#/definitions/IItem",
           "description": "图例项配置"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -26770,7 +26843,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -33704,7 +33777,7 @@
           "additionalProperties": false,
           "description": "文字样式",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -33745,7 +33818,7 @@
           "additionalProperties": false,
           "description": "文字样式",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -38355,7 +38428,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -48521,7 +48594,7 @@
           "additionalProperties": false,
           "description": "滚动条轨道样式。",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -48596,7 +48669,7 @@
           "additionalProperties": false,
           "description": "滚动条滑块样式。",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -48647,7 +48720,7 @@
           "additionalProperties": false,
           "description": "滚动条轨道样式。",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -48655,7 +48728,7 @@
           "additionalProperties": false,
           "description": "滚动条滑块样式。",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         }
@@ -48674,6 +48747,23 @@
     },
     "ISegment": {
       "properties": {
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
+          "type": "number"
+        },
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
         },
@@ -48958,7 +49048,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -48976,7 +49066,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -50339,7 +50429,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -51947,7 +52037,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -55982,7 +56072,7 @@
             {
               "additionalProperties": false,
               "patternProperties": {
-                "^[0-9]+$": {
+                "^[a-zA-Z0-9]+$": {
                   "type": "string"
                 }
               },
@@ -57700,7 +57790,7 @@
         "data": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "number"
             }
           },
@@ -57774,7 +57864,7 @@
         "ancestorOrigins": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -57827,7 +57917,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@11033": {
+        "__@toStringTag@11334": {
           "type": "string"
         },
         "size": {
@@ -57835,14 +57925,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11033",
+        "__@toStringTag@11334",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@11033": {
+        "__@toStringTag@11334": {
           "type": "string"
         },
         "size": {
@@ -57850,14 +57940,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11033",
+        "__@toStringTag@11334",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@11033": {
+        "__@toStringTag@11334": {
           "type": "string"
         },
         "size": {
@@ -57865,14 +57955,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11033",
+        "__@toStringTag@11334",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@11033": {
+        "__@toStringTag@11334": {
           "type": "string"
         },
         "size": {
@@ -57880,14 +57970,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11033",
+        "__@toStringTag@11334",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@11033": {
+        "__@toStringTag@11334": {
           "type": "string"
         },
         "size": {
@@ -57895,14 +57985,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11033",
+        "__@toStringTag@11334",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@11033": {
+        "__@toStringTag@11334": {
           "type": "string"
         },
         "size": {
@@ -57910,14 +58000,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11033",
+        "__@toStringTag@11334",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@11033": {
+        "__@toStringTag@11334": {
           "type": "string"
         },
         "size": {
@@ -57925,14 +58015,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11033",
+        "__@toStringTag@11334",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@11033": {
+        "__@toStringTag@11334": {
           "type": "string"
         },
         "size": {
@@ -57940,7 +58030,7 @@
         }
       },
       "required": [
-        "__@toStringTag@11033",
+        "__@toStringTag@11334",
         "size"
       ],
       "type": "object"
@@ -58097,7 +58187,7 @@
         "enabledPlugin": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/MimeType"
             }
           },
@@ -58174,7 +58264,7 @@
         "mimeTypes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/MimeType"
             }
           },
@@ -58195,10 +58285,10 @@
         "plugins": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "additionalProperties": false,
               "patternProperties": {
-                "^[0-9]+$": {
+                "^[a-zA-Z0-9]+$": {
                   "$ref": "#/definitions/MimeType"
                 }
               },
@@ -58268,6 +58358,23 @@
     },
     "Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"pager\"|\"item\">": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "allowAllCanceled": {
           "type": "boolean"
         },
@@ -58420,6 +58527,13 @@
           },
           "type": "array"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -58435,6 +58549,22 @@
         "fillOpacity": {
           "type": "number"
         },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
+        },
         "height": {
           "type": "number"
         },
@@ -58446,6 +58576,16 @@
         },
         "interactive": {
           "type": "boolean"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -60169,6 +60309,23 @@
     },
     "Omit<IGroupGraphicAttribute,\"background\">": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -60293,6 +60450,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -60308,11 +60472,37 @@
         "fillOpacity": {
           "type": "number"
         },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
+        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -61379,6 +61569,23 @@
     },
     "Omit<Omit<PagerAttributes,\"total\">&{space?:number;animation?:boolean;animationDuration?:number;animationEasing?:EasingType;},\"textStyle\"|\"handler\">": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -61528,6 +61735,13 @@
         "defaultCurrent": {
           "type": "number"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -61543,11 +61757,37 @@
         "fillOpacity": {
           "type": "number"
         },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
+        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -61729,6 +61969,22 @@
         "avoidBaseMark": {
           "type": "boolean"
         },
+        "avoidMarks": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+              },
+              "type": "array"
+            }
+          ]
+        },
         "clampForce": {
           "type": "boolean"
         },
@@ -61834,7 +62090,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -62392,6 +62648,23 @@
           "type": "boolean"
         },
         "clipRange": {
+          "type": "number"
+        },
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
           "type": "number"
         },
         "cursor": {
@@ -63506,6 +63779,23 @@
     },
     "Partial<IGroupGraphicAttribute>": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -63643,6 +63933,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -63658,11 +63955,37 @@
         "fillOpacity": {
           "type": "number"
         },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
+        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -64382,6 +64705,23 @@
         "clipRangeByDimension": {
           "$ref": "#/definitions/IClipRangeByDimensionType"
         },
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
+          "type": "number"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -65047,7 +65387,7 @@
           "additionalProperties": false,
           "description": "默认样式设置",
           "patternProperties": {
-            "^[0-9]+$": {}
+            "^[a-zA-Z0-9]+$": {}
           },
           "type": "object"
         },
@@ -67120,6 +67460,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "direction": {
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -67325,6 +67672,13 @@
         },
         "visible": {
           "type": "boolean"
+        },
+        "wordBreak": {
+          "enum": [
+            "break-all",
+            "break-word"
+          ],
+          "type": "string"
         },
         "x": {
           "type": "number"
@@ -69387,34 +69741,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@11033": {
+        "__@toStringTag@11334": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11033"
+        "__@toStringTag@11334"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@11033": {
+        "__@toStringTag@11334": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11033"
+        "__@toStringTag@11334"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@11033": {
+        "__@toStringTag@11334": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11033"
+        "__@toStringTag@11334"
       ],
       "type": "object"
     },
@@ -70005,6 +70359,23 @@
         "clipRange": {
           "type": "number"
         },
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
+          "type": "number"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -70191,6 +70562,10 @@
         "boundsPadding",
         "childrenPickable",
         "clipRange",
+        "connectedStyle",
+        "connectedType",
+        "connectedX",
+        "connectedY",
         "cursor",
         "curveType",
         "customPickShape",
@@ -70957,6 +71332,23 @@
     },
     "Required<IGroupGraphicAttribute>": {
       "properties": {
+        "alignContent": {
+          "enum": [
+            "center",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
+        },
+        "alignItems": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -71094,6 +71486,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "display": {
+          "enum": [
+            "flex",
+            "relative"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -71109,11 +71508,37 @@
         "fillOpacity": {
           "type": "number"
         },
+        "flexDirection": {
+          "enum": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
+          "type": "string"
+        },
+        "flexWrap": {
+          "enum": [
+            "nowrap",
+            "wrap"
+          ],
+          "type": "string"
+        },
         "height": {
           "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "justifyContent": {
+          "enum": [
+            "center",
+            "flex-end",
+            "flex-start",
+            "space-around",
+            "space-between"
+          ],
+          "type": "string"
         },
         "keepDirIn3d": {
           "type": "boolean"
@@ -71262,6 +71687,8 @@
         }
       },
       "required": [
+        "alignContent",
+        "alignItems",
         "alpha",
         "anchor",
         "anchor3d",
@@ -71277,13 +71704,17 @@
         "cornerRadius",
         "cursor",
         "customPickShape",
+        "display",
         "dx",
         "dy",
         "dz",
         "fill",
         "fillOpacity",
+        "flexDirection",
+        "flexWrap",
         "height",
         "innerBorder",
+        "justifyContent",
         "keepDirIn3d",
         "layout",
         "lineCap",
@@ -71811,6 +72242,23 @@
         "clipRangeByDimension": {
           "$ref": "#/definitions/IClipRangeByDimensionType"
         },
+        "connectedStyle": {
+          "typeof": "function"
+        },
+        "connectedType": {
+          "enum": [
+            "connect",
+            "none",
+            "zero"
+          ],
+          "type": "string"
+        },
+        "connectedX": {
+          "type": "number"
+        },
+        "connectedY": {
+          "type": "number"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -71998,6 +72446,10 @@
         "childrenPickable",
         "clipRange",
         "clipRangeByDimension",
+        "connectedStyle",
+        "connectedType",
+        "connectedX",
+        "connectedY",
         "cursor",
         "curveType",
         "customPickShape",
@@ -74793,6 +75245,13 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "direction": {
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "type": "string"
+        },
         "dx": {
           "type": "number"
         },
@@ -74999,6 +75458,13 @@
         "visible": {
           "type": "boolean"
         },
+        "wordBreak": {
+          "enum": [
+            "break-all",
+            "break-word"
+          ],
+          "type": "string"
+        },
         "x": {
           "type": "number"
         },
@@ -75026,6 +75492,7 @@
         "childrenPickable",
         "cursor",
         "customPickShape",
+        "direction",
         "dx",
         "dy",
         "dz",
@@ -75077,6 +75544,7 @@
         "textureSize",
         "underline",
         "visible",
+        "wordBreak",
         "x",
         "y",
         "z",
@@ -75187,7 +75655,7 @@
         "animVal": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/SVGTransform"
             }
           },
@@ -75196,7 +75664,7 @@
         "baseVal": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/SVGTransform"
             }
           },
@@ -75388,7 +75856,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -75412,7 +75880,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -75421,7 +75889,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -75794,7 +76262,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -75833,7 +76301,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -76371,7 +76839,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -76395,7 +76863,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -76404,7 +76872,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -76840,7 +77308,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -76861,7 +77329,7 @@
         "requiredExtensions": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -76891,7 +77359,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -76900,7 +77368,7 @@
         "systemLanguage": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -77344,7 +77812,7 @@
         "attributes": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Attr"
             }
           },
@@ -77368,7 +77836,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -77377,7 +77845,7 @@
         "classList": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -77753,7 +78221,7 @@
         "part": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -77792,7 +78260,7 @@
         "style": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "string"
             }
           },
@@ -78277,7 +78745,7 @@
         "children": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/Element"
             }
           },
@@ -78352,7 +78820,7 @@
         "styleSheets": {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/CSSStyleSheet"
             }
           },
@@ -78443,8 +78911,32 @@
             }
           ]
         },
+        "brightColor": {
+          "type": "string"
+        },
         "contrastRatiosThreshold": {
           "type": "number"
+        },
+        "darkColor": {
+          "type": "string"
+        },
+        "fillStrategy": {
+          "enum": [
+            "invertSeries",
+            "null",
+            "series",
+            "similarSeries"
+          ],
+          "type": "string"
+        },
+        "strokeStrategy": {
+          "enum": [
+            "invertSeries",
+            "null",
+            "series",
+            "similarSeries"
+          ],
+          "type": "string"
         },
         "textType": {
           "type": "string"
@@ -79665,7 +80157,7 @@
         {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "number"
             }
           },
@@ -79743,7 +80235,7 @@
         {
           "additionalProperties": false,
           "patternProperties": {
-            "^[0-9]+$": {
+            "^[a-zA-Z0-9]+$": {
               "type": "number"
             }
           },
