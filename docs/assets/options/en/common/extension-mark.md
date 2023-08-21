@@ -2,7 +2,7 @@
 
 <!-- IExtensionMarkSpec -->
 
-#${prefix} extensionMark(Array)
+## extensionMark(Array)
 
 extension marks are a user-customizable interface for drawing arbitrary content on series. Currently supported graphical types are as follows:
 
@@ -16,27 +16,27 @@ extension marks are a user-customizable interface for drawing arbitrary content 
 - `image` Image
 - `group` Group, allows other marks to be placed within the group
 
-#${prefix} extensionMark.symbol(Object)
+## extensionMark.symbol(Object)
 
 Graphical type `symbol`
 
-##${prefix} type(string) = "symbol"
+### type(string) = "symbol"
 
 {{ use: common-extension-mark-base(
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-symbol(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.rule(Object)
+## extensionMark.rule(Object)
 
 Graphical type `rule`
 
-##${prefix} type(string) = "rule"
+### type(string) = "rule"
 
 Required configuration to specify the graphical type
 
@@ -44,17 +44,17 @@ Required configuration to specify the graphical type
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-rule(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.text(Object)
+## extensionMark.text(Object)
 
 Graphical type `text`
 
-##${prefix} type(string) = "text"
+### type(string) = "text"
 
 Required configuration to specify the graphical type
 
@@ -62,17 +62,17 @@ Required configuration to specify the graphical type
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-text(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.rect(Object)
+## extensionMark.rect(Object)
 
 Graphical type `rect`
 
-##${prefix} type(string) = "rect"
+### type(string) = "rect"
 
 Required configuration to specify the graphical type
 
@@ -80,17 +80,17 @@ Required configuration to specify the graphical type
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-rect(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.path(Object)
+## extensionMark.path(Object)
 
 Graphical type `path`
 
-##${prefix} type(string) = "path"
+### type(string) = "path"
 
 Required configuration to specify the graphical type
 
@@ -98,17 +98,17 @@ Required configuration to specify the graphical type
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-path(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.arc(Object)
+## extensionMark.arc(Object)
 
 Graphical type `arc`
 
-##${prefix} type(string) = "arc"
+### type(string) = "arc"
 
 Required configuration to specify the graphical type
 
@@ -116,17 +116,17 @@ Required configuration to specify the graphical type
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-arc(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.polygon(Object)
+## extensionMark.polygon(Object)
 
 Graphical type `polygon`
 
-##${prefix} type(string) = "polygon"
+### type(string) = "polygon"
 
 Required configuration to specify the graphical type
 
@@ -134,17 +134,17 @@ Required configuration to specify the graphical type
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-polygon(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.image(Object)
+## extensionMark.image(Object)
 
 Graphical type `image`
 
-##${prefix} type(string) = "image"
+### type(string) = "image"
 
 Required configuration to specify the graphical type
 
@@ -152,17 +152,17 @@ Required configuration to specify the graphical type
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-image(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.group(Object)
+## extensionMark.group(Object)
 
 Graphical type `group`
 
-##${prefix} type(string) = "group"
+### type(string) = "group"
 
 Required configuration to specify the graphical type
 
@@ -170,6 +170,6 @@ Required configuration to specify the graphical type
   prefix = '##'
 ) }}
 
-##${prefix} children(Array)
+### children(Array)
 
 Group acts as a special mark. It allows for new marks to be configured within the group's children section

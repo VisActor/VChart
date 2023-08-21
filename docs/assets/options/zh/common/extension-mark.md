@@ -2,7 +2,7 @@
 
 <!-- IExtensionMarkSpec -->
 
-#${prefix} extensionMark(Array)
+## extensionMark(Array)
 
 extensionMark 是图表支持用户在图表系列上补充绘制任意内容的自定义接口。目前支持的图形类型如下
 
@@ -16,27 +16,27 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
 - `image` 图片
 - `group` 组，可以将其他 mark 放到组下
 
-#${prefix} extensionMark.symbol(Object)
+## extensionMark.symbol(Object)
 
 图形类型 `symbol`
 
-##${prefix} type(string) = "symbol"
+### type(string) = "symbol"
 
 {{ use: common-extension-mark-base(
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-symbol(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.rule(Object)
+## extensionMark.rule(Object)
 
 图形类型 `rule`
 
-##${prefix} type(string) = "rule"
+### type(string) = "rule"
 
 必选配置，指定图形类型
 
@@ -44,17 +44,17 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-rule(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.text(Object)
+## extensionMark.text(Object)
 
 图形类型 `text`
 
-##${prefix} type(string) = "text"
+### type(string) = "text"
 
 必选配置，指定图形类型
 
@@ -62,17 +62,17 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-text(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.rect(Object)
+## extensionMark.rect(Object)
 
 图形类型 `rect`
 
-##${prefix} type(string) = "rect"
+### type(string) = "rect"
 
 必选配置，指定图形类型
 
@@ -80,17 +80,17 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-rect(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.path(Object)
+## extensionMark.path(Object)
 
 图形类型 `path`
 
-##${prefix} type(string) = "path"
+### type(string) = "path"
 
 必选配置，指定图形类型
 
@@ -98,17 +98,17 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-path(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.arc(Object)
+## extensionMark.arc(Object)
 
 图形类型 `arc`
 
-##${prefix} type(string) = "arc"
+### type(string) = "arc"
 
 必选配置，指定图形类型
 
@@ -116,17 +116,17 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-arc(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.polygon(Object)
+## extensionMark.polygon(Object)
 
 图形类型 `polygon`
 
-##${prefix} type(string) = "polygon"
+### type(string) = "polygon"
 
 必选配置，指定图形类型
 
@@ -134,17 +134,17 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-polygon(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.image(Object)
+## extensionMark.image(Object)
 
 图形类型 `image`
 
-##${prefix} type(string) = "image"
+### type(string) = "image"
 
 必选配置，指定图形类型
 
@@ -152,17 +152,17 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
   prefix = '##'
 ) }}
 
-##${prefix} style(Object)
+### style(Object)
 
 {{ use: graphic-image(
   prefix = '###'
 ) }}
 
-#${prefix} extensionMark.group(Object)
+## extensionMark.group(Object)
 
 图形类型 `group`
 
-##${prefix} type(string) = "group"
+### type(string) = "group"
 
 必选配置，指定图形类型
 
@@ -170,6 +170,6 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
   prefix = '##'
 ) }}
 
-##${prefix} children(Array)
+### children(Array)
 
 group 作为特殊的 mark。允许在 group 的 children 下配置新的 mark
