@@ -21709,7 +21709,7 @@
           "description": "模块的布局大小：高度"
         },
         "label": {
-          "$ref": "#/definitions/ILabel",
+          "$ref": "#/definitions/ICartesianLabel",
           "description": "轴标签配置"
         },
         "maxHeight": {
@@ -42159,7 +42159,7 @@
           "type": "string"
         },
         "seriesMark": {
-          "default": "'line'",
+          "default": "'area'",
           "description": "系列主 mark 类型配置，该配置会影响图例的展示",
           "enum": [
             "area",
@@ -42509,7 +42509,7 @@
           "type": "string"
         },
         "seriesMark": {
-          "default": "'line'",
+          "default": "'area'",
           "description": "系列主 mark 类型配置，该配置会影响图例的展示",
           "enum": [
             "area",
@@ -57754,7 +57754,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11031": {
           "type": "string"
         },
         "size": {
@@ -57762,14 +57762,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11031",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11031": {
           "type": "string"
         },
         "size": {
@@ -57777,14 +57777,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11031",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11031": {
           "type": "string"
         },
         "size": {
@@ -57792,14 +57792,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11031",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11031": {
           "type": "string"
         },
         "size": {
@@ -57807,14 +57807,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11031",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11031": {
           "type": "string"
         },
         "size": {
@@ -57822,14 +57822,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11031",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11031": {
           "type": "string"
         },
         "size": {
@@ -57837,14 +57837,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11031",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11031": {
           "type": "string"
         },
         "size": {
@@ -57852,14 +57852,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11031",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11031": {
           "type": "string"
         },
         "size": {
@@ -57867,7 +57867,7 @@
         }
       },
       "required": [
-        "__@toStringTag@11023",
+        "__@toStringTag@11031",
         "size"
       ],
       "type": "object"
@@ -69314,34 +69314,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11031": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11023"
+        "__@toStringTag@11031"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11031": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11023"
+        "__@toStringTag@11031"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@11023": {
+        "__@toStringTag@11031": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11023"
+        "__@toStringTag@11031"
       ],
       "type": "object"
     },

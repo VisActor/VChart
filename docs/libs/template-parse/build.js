@@ -45,8 +45,7 @@ function initEnv() {
 
 const config = initEnv();
 
-// const languages = ['zh', 'en'];
-const languages = ['en'];
+const languages = ['zh', 'en'];
 
 config.gl = config.gl || {};
 for (let key in config) {
