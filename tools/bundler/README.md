@@ -27,6 +27,7 @@ bundle -f es -w dev --env __DEV__=true --env __ID__="'my_id'"
 --minify 是否输出压缩后的 UMD 产物文件
 -w, --watch 监听文件变化重新构建
 -s, --sourcemap 是否生成 sourcemap
+--ignorePostTasks, 不执行 postTasks
 ```
 
 # 配置文件
