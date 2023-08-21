@@ -112,8 +112,8 @@ function DescriptionNode(props: IDescriptionNodeProps) {
   const location = useLocation();
   const { pathname: pathName, hash } = location;
   // TODO: default path
-  const basePath = pathName.split(`${props.baseUrl}/`)[1] ?? 'barChart';
-  const optionPath = hash ? `${basePath}.${hash.substring(1)}` : basePath;
+  const basePath = decodeURI(pathName.split(`${props.baseUrl}/`)[1] ?? 'barChart');
+  const optionPath = decodeURI(hash ? `${basePath}.${hash.substring(1)}` : basePath);
   const selectedPath = optionPath.split('.');
   const selected = outline.fullPath
     .replaceAll('"', '')

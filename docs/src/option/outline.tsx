@@ -197,7 +197,7 @@ export function Outline(props: IOutlineProps) {
     >
       <Menu
         selectedKeys={[optionPath]}
-        defaultOpenKeys={optionKeys}
+        openKeys={openKeys}
         onClickSubMenu={key => {
           const nextOpenKeys = openKeys.includes(key) ? openKeys.filter(k => k !== key) : [key, ...openKeys];
           setOpenKeys(nextOpenKeys);
