@@ -28,9 +28,11 @@
 
 图表宽高是否自适应容器，浏览器环境下默认为 true。该配置的优先级高于构造函数中的 autoFit 配置。如果用户配置了 width，则以用户配置的 width 为准，height 同理。
 
-#${prefix} background(string)
+#${prefix} background(string|Object)
 
 图表背景色配置，优先级高于构造函数中的 background 配置。
+
+{{ use : background }}
 
 #${prefix} padding(Object|number) = 12
 

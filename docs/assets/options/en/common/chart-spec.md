@@ -28,9 +28,11 @@ Chart height.
 
 Whether the width and height of the chart adapt to the container. The default is true in a browser environment. This configuration has a higher priority than the autoFit configuration in the constructor. If the user configures the width, the configured width will take precedence, and the same applies to the height.
 
-#${prefix} background(string)
+#${prefix} background(string|Object)
 
-Chart background color configuration, with higher priority than the background configuration in the constructor.
+The chart background color configuration has a higher priority than the background configuration in the constructor.
+
+{{ use : background }}
 
 #${prefix} padding(Object|number) = 12
 

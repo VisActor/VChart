@@ -69,7 +69,7 @@ TODO: 补充图示。
 
 ## axes.log(Object)
 
-log轴配置。
+自`1.2.0`版本开始支持，log轴配置。
 
 ### type(string) = 'log'
 

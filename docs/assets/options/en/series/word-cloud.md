@@ -277,9 +277,15 @@ Text spacing.
 
 Text formatting callback function.
 
-{{ use:text-format-callback(
-  description = 'Text'
-) }}
+The callback function is defined as follows:
+
+```ts
+/**
+ * @params The data corresponding to the current element
+ * @return the processed text
+ */
+(datum: any) => string;
+```
 
 ##${prefix} style(Object)
 
