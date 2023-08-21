@@ -1,5 +1,8 @@
 lockfileVersion: 5.4
 
+overrides:
+  '@visactor/vrender-components': 0.14.5-alpha.1
+
 importers:
 
   .:
@@ -215,7 +218,7 @@ importers:
       '@visactor/vgrammar-wordcloud': ~0.6.2
       '@visactor/vgrammar-wordcloud-shape': ~0.6.2
       '@visactor/vrender': ~0.14.4
-      '@visactor/vrender-components': ~0.14.4
+      '@visactor/vrender-components': 0.14.5-alpha.1
       '@visactor/vscale': ~0.15.7
       '@visactor/vutils': ~0.15.7
       canvas: 2.11.2
@@ -253,7 +256,7 @@ importers:
       '@visactor/vgrammar-wordcloud': 0.6.2
       '@visactor/vgrammar-wordcloud-shape': 0.6.2
       '@visactor/vrender': 0.14.4
-      '@visactor/vrender-components': 0.14.4
+      '@visactor/vrender-components': 0.14.5-alpha.1
       '@visactor/vscale': 0.15.7
       '@visactor/vutils': 0.15.7
     devDependencies:
@@ -4074,13 +4077,13 @@ packages:
       '@visactor/vgrammar-coordinate': 0.6.2
       '@visactor/vgrammar-util': 0.6.2
       '@visactor/vrender': 0.14.4
-      '@visactor/vrender-components': 0.14.4
+      '@visactor/vrender-components': 0.14.5-alpha.1
       '@visactor/vscale': 0.15.7
       '@visactor/vutils': 0.15.7
     dev: false
 
-  /@visactor/vrender-components/0.14.4:
-    resolution: {integrity: sha512-gJAmiu0lRqKeU/vugDMUabQcVliT/bWtmHDWN3ZdJyqUedJGf7Xvm6r5i/yrhXKuhhINXJlnh9Mw2GPk0qG23g==}
+  /@visactor/vrender-components/0.14.5-alpha.1:
+    resolution: {integrity: sha512-0up1z+KmYFdwEy8eoCjjvNVx6Y5AN90lEu+hssOkJHak8296uzf5TrqDO1AOrlELcRhbXqFllV/UrJzxZGZQEg==}
     dependencies:
       '@visactor/vrender': 0.14.4
       '@visactor/vscale': 0.15.7
@@ -18307,8 +18310,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /std-env/3.4.0:
-    resolution: {integrity: sha512-YqHeQIIQ8r1VtUZOTOyjsAXAsjr369SplZ5rlQaiJTBsvodvPSCME7vuz8pnQltbQ0Cw0lyFo5Q8uyNwYQ58Xw==}
+  /std-env/3.4.1:
+    resolution: {integrity: sha512-8ff1ZsX3NZMNEmDZmINWcFb7CIhPGKZO+TSVytJxJmFzZjAHtAHOR2GuIur7QXlgwY9Md7wNlu4Q7TtSvbu/SA==}
     dev: true
 
   /stealthy-require/1.1.1:
@@ -20353,7 +20356,7 @@ packages:
       pathe: 1.1.1
       picocolors: 1.0.0
       source-map: 0.6.1
-      std-env: 3.4.0
+      std-env: 3.4.1
       strip-literal: 1.3.0
       tinybench: 2.5.0
       tinypool: 0.4.0

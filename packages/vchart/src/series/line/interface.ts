@@ -18,15 +18,6 @@ export interface ILineSeriesSpec
   /** 系列类型 */
   type: 'line';
   /**
-   * 非合规数据点连接方式
-   * @description null，undefined等非法数据点连接方式。
-   * 'break'指在该数据点处断开
-   * 'link' 指忽略该点保持连续
-   * 'zero' 指该点默认数值为0
-   * 'ignore' 指不处理
-   */
-  invalidType?: IInvalidType;
-  /**
    * 点图元配置
    */
   [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;

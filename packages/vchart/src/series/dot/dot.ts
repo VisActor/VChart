@@ -485,4 +485,8 @@ export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
     // dot 系列没有动画，可以使用默认的 dataKey
     return undefined as any;
   }
+
+  getStackValueField(): string {
+    return null;
+  }
 }
