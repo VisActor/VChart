@@ -15,11 +15,11 @@ import { toRenderMode } from './util';
 import { isMobileLikeMode, isString, isTrueBrowser } from '../util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNil, isValid } from '@visactor/vutils';
+import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import type { VChart } from '../core/vchart';
-import type { Stage } from '@visactor/vrender';
+import type { IColor, Stage } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
 import { global } from '@visactor/vrender';
 import type { IMorphConfig } from '../animation/spec';
@@ -98,7 +98,12 @@ export class Compiler {
     if (this._view) {
       return;
     }
-
+    const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);
+    if (this._option.onError) {
+      logger.addErrorHandler((...args) => {
+        this._option.onError(...args);
+      });
+    }
     this._view = new View({
       width: this._width,
       height: this._height,
@@ -118,7 +123,9 @@ export class Compiler {
       },
       doLayout: () => {
         this._compileChart?.onLayout(this._view);
-      }
+      },
+      logger: logger,
+      logLevel: logger.level()
     });
     this._setCanvasStyle();
 
@@ -189,6 +196,10 @@ export class Compiler {
     }
     this._view.resize(width, height);
     return this.reRenderAsync({ morph: false });
+  }
+
+  setBackground(color: IColor) {
+    this._view?.background(color);
   }
 
   reRenderAsync(morphConfig?: IMorphConfig) {

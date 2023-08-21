@@ -89,9 +89,13 @@ Component({
               modeParams: {
                 domref,
                 force: true,
-                canvasIdLists: [`${this.data.canvasId}_draw_canvas`, `${this.data.canvasId}_tooltip_canvas`],
+                canvasIdLists: [
+                  `${this.data.canvasId}_draw_canvas`,
+                  `${this.data.canvasId}_tooltip_canvas`,
+                  `${this.data.canvasId}_hit_canvas`
+                ],
                 tooltipCanvasId: `${this.data.canvasId}_tooltip_canvas`,
-                freeCanvasIdx: 1
+                freeCanvasIdx: 2
               },
               // Get the dpr live as it will change at runtime due to dragging to different monitors
               dpr: tt.getSystemInfoSync().pixelRatio,

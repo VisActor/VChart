@@ -1,3 +1,4 @@
+import type { IFillMarkSpec, IImageMarkSpec } from './../visual';
 import type { ILayoutPaddingSpec } from '../../model/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar';
@@ -55,7 +56,7 @@ import type { IBrushSpec } from '../../component/brush';
 export type IChartPadding = ILayoutOrientPadding | number;
 
 /** chart option */
-export interface IInitOption extends IRenderOption {
+export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
   /**
    * **仅生效于浏览器环境。**
    * 图表挂载的父容器，可以直接指定容器 id，也可以传入 dom 对象
@@ -87,6 +88,18 @@ export interface IInitOption extends IRenderOption {
    * 自定义布局函数
    */
   layout?: LayoutCallBack;
+
+  /**
+   * 当文本省略时，鼠标 hover 到文本上时是否显示 poptip
+   * @default true
+   */
+  poptip?: boolean;
+
+  /**
+   * 报错的回调函数
+   * @since 1.2.0
+   */
+  onError?: (...args: any[]) => void;
 }
 
 export enum RenderModeEnum {
@@ -135,6 +148,12 @@ export interface IChartSpec {
    */
   seriesStyle?: ISeriesStyle;
 
+  /**
+   * 自动关闭动画的阀值，对应的是单系列data的长度
+   * @since 1.2.0
+   */
+  animationThreshold?: number;
+
   /** hover 交互 */
   hover?: boolean | IHoverSpec;
   /** select 交互 */
@@ -172,10 +191,19 @@ export interface IChartSpec {
   /**
    * 图表背景色配置，优先级高于构造函数中的 background 配置
    */
-  background?: string;
+  background?: IBackgroundSpec;
 
+  // TODO：后续开放，现在仍有问题
+  // poptip?: PopTipAttributes;
   // TODO: 补充动画配置
 }
+
+export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {
+  image?: IRectMarkSpec['background'];
+  cornerRadius?: IRectMarkSpec['cornerRadius'];
+};
+
+export type IBackgroundSpec = string | IBackgroundStyleSpec;
 
 /** data */
 export type IDataType = IDataValues | DataView;
@@ -340,6 +368,11 @@ export interface ISeriesSpec extends ITriggerSpec {
    * 是否开启系列动画
    */
   animation?: boolean;
+  /**
+   * 自动关闭动画的阀值，对应的是单系列data的长度
+   * @since 1.2.0
+   */
+  animationThreshold?: number;
 
   /**
    * 是否支持3d视角
@@ -354,6 +387,13 @@ export interface ISeriesSpec extends ITriggerSpec {
    * 扩展mark
    */
   extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | IExtensionGroupMarkSpec)[];
+
+  /**
+   * series background
+   * 作用是支持系列的图形对系列背景进行 mask，或者切分等效果。不是作为背景图
+   * 暂时不开放api，避免出现break change
+   */
+  // background?: IBackgroundSpec;
 }
 
 export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph'>;
@@ -514,6 +554,7 @@ export type IBuildinMarkSpec = {
   [MarkTypeEnum.text]: ITextMarkSpec;
   [MarkTypeEnum.rect]: IRectMarkSpec;
   [MarkTypeEnum.rect3d]: IRect3dMarkSpec;
+  [MarkTypeEnum.image]: IImageMarkSpec;
   [MarkTypeEnum.path]: IPathMarkSpec;
   [MarkTypeEnum.area]: IAreaMarkSpec;
   [MarkTypeEnum.arc]: IArcMarkSpec;

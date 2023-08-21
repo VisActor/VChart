@@ -28,6 +28,7 @@ export interface IAttrConfig<A, R extends ICommonSpec> {
   level: number;
   style: StyleConvert<A>;
   referer?: IMarkRaw<R>;
+  postProcess?: (result: A, ...args: Parameters<FunctionType<A>>) => A;
 }
 /** mark-style 中某状态下的一组样式信息 */
 export type IAttrs<T extends ICommonSpec> = {
@@ -69,6 +70,12 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   initStyleWithSpec: (spec: any, key?: string) => void;
 
   created: () => void;
+
+  setPostProcess: <U extends keyof T, A>(
+    key: U,
+    postProcessFunc: IAttrConfig<A, T>['postProcess'],
+    state?: StateValueType
+  ) => void;
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;

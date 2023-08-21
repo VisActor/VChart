@@ -1,3 +1,4 @@
+import type { PopTipAttributes } from '@visactor/vrender-components';
 import type { IAxisCommonTheme, ICartesianAxisCommonTheme, IPolarAxisCommonTheme } from '../axis';
 import type { IBrushTheme } from '../brush';
 import type { ICrosshairTheme } from '../crosshair/interface';
@@ -102,4 +103,8 @@ export interface IComponentTheme {
    * 地图标签配置
    */
   [ComponentTypeEnum.mapLabel]?: IMapLabelTheme;
+  /**
+   * 省略文本配置
+   */
+  [ComponentTypeEnum.poptip]?: PopTipAttributes;
 }

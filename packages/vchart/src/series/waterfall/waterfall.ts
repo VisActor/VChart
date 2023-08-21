@@ -90,7 +90,7 @@ export class WaterfallSeries extends BarSeries<any> {
           type: 'waterfallFillTotal',
           options: {
             indexField: this.getGroupFields()[0],
-            valueField: this.getStackValueField()[0],
+            valueField: this.getStackValueField(),
             seriesField: this.getSeriesField(),
             seriesFieldName: this._theme.seriesFieldName,
             total: this._spec.total
@@ -110,7 +110,7 @@ export class WaterfallSeries extends BarSeries<any> {
         type: 'waterfall',
         options: {
           indexField: this.getGroupFields()[0],
-          valueField: this.getStackValueField()[0],
+          valueField: this.getStackValueField(),
           seriesField: this.getSeriesField(),
           seriesFieldName: this._theme.seriesFieldName,
           startAs: STACK_FIELD_START,
@@ -202,13 +202,14 @@ export class WaterfallSeries extends BarSeries<any> {
   }
 
   protected _totalPositionX(datum: Datum, field: string, pos: number = 0.5) {
-    const { dataToPosition } = this._xAxisHelper;
+    const { dataToPosition, getBandwidth } = this._xAxisHelper;
     if (this._direction === Direction.vertical) {
       return (
         dataToPosition([datum[field]], {
           bandPosition: this._bandPosition
         }) +
-        (this._rectMark.getAttribute('width', datum) as number) * pos
+        getBandwidth(0) * 0.5 -
+        (this._rectMark.getAttribute('width', datum) as number) * (0.5 - pos)
       );
     }
     return valueInScaleRange(
@@ -219,7 +220,7 @@ export class WaterfallSeries extends BarSeries<any> {
   }
 
   protected _totalPositionY(datum: Datum, field: string, pos: number = 0.5) {
-    const { dataToPosition } = this._yAxisHelper;
+    const { dataToPosition, getBandwidth } = this._yAxisHelper;
     if (this._direction === Direction.vertical) {
       return valueInScaleRange(
         dataToPosition([datum[field]], {
@@ -231,7 +232,8 @@ export class WaterfallSeries extends BarSeries<any> {
       dataToPosition([datum[field]], {
         bandPosition: this._bandPosition
       }) +
-      (this._rectMark.getAttribute('height', datum) as number) * pos
+      getBandwidth(0) * 0.5 -
+      (this._rectMark.getAttribute('height', datum) as number) * (0.5 - pos)
     );
   }
 

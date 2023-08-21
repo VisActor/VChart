@@ -51,6 +51,10 @@ export interface ITheme {
    */
   /** 系列样式属性 */
   series?: ISeriesTheme;
+  /**
+   * 自动关闭动画的阀值，对应的是单系列data的长度
+   */
+  animationThreshold?: number;
 
   /**
    * 第 6 种配置：组件属性配置

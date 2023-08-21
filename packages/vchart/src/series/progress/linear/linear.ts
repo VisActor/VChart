@@ -163,7 +163,10 @@ export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesS
   }
 
   private initProgressGroupMark() {
-    this._progressGroupMark = this._createMark(LinearProgressSeries.mark.group) as IGroupMark;
+    // FIXME: disable group mark layout to prevent reevaluate after layout end
+    this._progressGroupMark = this._createMark(LinearProgressSeries.mark.group, {
+      skipBeforeLayouted: false
+    }) as IGroupMark;
     return this._progressGroupMark;
   }
 

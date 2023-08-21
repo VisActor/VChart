@@ -81,7 +81,8 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     if (C) {
       return new C(spec, options) as IPolarAxis;
     }
-    throw `Component ${componentName} not found`;
+    options.onError(`Component ${componentName} not found`);
+    return null;
   }
 
   static createComponent(spec: any, options: IComponentOption) {
@@ -161,10 +162,11 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     this._tick = this._spec.tick;
     this._orient = this._spec.orient === 'angle' ? 'angle' : 'radius';
     this._center = this._spec.center;
-    this._startAngle = radians(this._spec.startAngle ?? POLAR_START_ANGLE);
-    this._endAngle = radians(
-      this._spec.endAngle ?? (isValid(this._spec.startAngle) ? this._spec.startAngle + 360 : POLAR_END_ANGLE)
-    );
+    const chartSpec = this.getChart().getSpec() as any;
+    const startAngle = this._spec.startAngle ?? chartSpec.startAngle;
+    const endAngle = this._spec.endAngle ?? chartSpec.endAngle;
+    this._startAngle = radians(startAngle ?? POLAR_START_ANGLE);
+    this._endAngle = radians(endAngle ?? (isValid(startAngle) ? startAngle + 360 : POLAR_END_ANGLE));
   }
 
   setLayoutStartPosition(pos: Partial<IPoint>): void {
@@ -204,6 +206,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
         {
           type: 'ticks',
           options: {
+            sampling: this._spec.sampling !== false, // default do sampling
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,

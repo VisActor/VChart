@@ -38,7 +38,8 @@ export class LinearAxisMixin {
   transformScaleDomain() {
     this.setScaleNice();
   }
-  setScaleNice() {
+
+  setLinearScaleNice() {
     let tickCount = this._spec.tick?.forceTickCount ?? this._spec.tick?.tickCount ?? 10;
     // 如果配置了精度优先，那么最低是10
     // 否则就直接使用tickCount即可
@@ -54,6 +55,25 @@ export class LinearAxisMixin {
       this._nice && this._scale.niceMin(tickCount);
     }
   }
+
+  setLogScaleNice() {
+    if (isNil(this._domain?.min) && isNil(this._domain?.max)) {
+      this._nice && this._scale.nice();
+    } else if (isValid(this._domain?.min) && isNil(this._domain?.max)) {
+      this._nice && this._scale.niceMax();
+    } else if (isNil(this._domain?.min) && isValid(this._domain?.max)) {
+      this._nice && this._scale.niceMin();
+    }
+  }
+
+  setScaleNice() {
+    if (this._spec.type === 'log') {
+      this.setLogScaleNice();
+    } else {
+      this.setLinearScaleNice();
+    }
+  }
+
   dataToPosition(values: any[], cfg?: IAxisLocationCfg): number {
     return this.valueToPosition(values[0]);
   }
@@ -79,8 +99,20 @@ export class LinearAxisMixin {
     if (!this._expand) {
       return;
     }
-    const domainMin = domain[0];
-    const domainMax = domain[domain.length - 1];
+
+    let domainMin = domain[0];
+    let domainMax = domain[domain.length - 1];
+
+    if (domainMin === domainMax) {
+      if (domainMax === 0) {
+        domainMax = 1;
+      } else if (domainMax > 0) {
+        domainMin = 0;
+      } else if (domainMax < 0) {
+        domainMax = 0;
+      }
+    }
+
     if (isValid(this._expand.min)) {
       domain[0] = domainMin - (domainMax - domainMin) * this._expand.min;
     }
@@ -90,6 +122,11 @@ export class LinearAxisMixin {
   }
 
   protected niceDomain(domain: number[]) {
+    const { min: userMin, max: userMax } = getLinearAxisSpecDomain(this._spec);
+    if (isValid(userMin) || isValid(userMax)) {
+      // 如果用户设置了 min 或者 max 则按照用户设置的为准
+      return domain;
+    }
     if (Math.abs(minInArr(domain) - maxInArr(domain)) <= 1e-12) {
       let num = domain[0];
       const flag = num >= 0 ? 1 : -1;

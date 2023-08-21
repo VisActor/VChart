@@ -5,6 +5,7 @@ export enum ComponentTypeEnum {
   cartesianBandAxis = 'cartesianAxis-band',
   cartesianLinearAxis = 'cartesianAxis-linear',
   cartesianTimeAxis = 'cartesianAxis-time',
+  cartesianLogAxis = 'cartesianAxis-log',
   polarAxis = 'polarAxis',
   polarBandAxis = 'polarAxis-band',
   polarLinearAxis = 'polarAxis-linear',
@@ -28,6 +29,8 @@ export enum ComponentTypeEnum {
   scrollBar = 'scrollBar',
   label = 'label',
   brush = 'brush',
+
+  poptip = 'poptip',
 
   customMark = 'customMark'
 }

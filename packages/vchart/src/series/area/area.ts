@@ -63,16 +63,17 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
     };
 
     const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
+    const seriesMark = this._spec.seriesMark ?? 'area';
     // area
     this._areaMark = this._createMark(AreaSeries.mark.area, {
       groupKey: this._seriesField,
       defaultMorphElementKey: this.getDimensionField()[0],
       progressive,
-      isSeriesMark: isAreaVisible
+      isSeriesMark: isAreaVisible && seriesMark === 'area'
     }) as IAreaMark;
 
-    this.initLineMark(progressive, !isAreaVisible);
-    this.initSymbolMark(progressive);
+    this.initLineMark(progressive, seriesMark === 'line' || (seriesMark === 'area' && !isAreaVisible));
+    this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
   initMarkStyle(): void {

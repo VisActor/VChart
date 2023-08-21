@@ -18,7 +18,9 @@ export class LineChart extends CartesianChart {
       ...super._getDefaultSeriesSpec(spec),
       invalidType: spec.invalidType || 'break',
       point: spec.point,
-      line: spec.line
+      line: spec.line,
+      seriesMark: spec.seriesMark ?? 'line',
+      activePoint: spec.activePoint
     };
   }
   transformSpec(spec: any): void {

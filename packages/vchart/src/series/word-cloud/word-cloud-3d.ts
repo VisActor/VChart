@@ -34,7 +34,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
 
     // fontWeight处理
     if (valueField) {
-      const [minValue, maxValue] = extent(this.getViewData()?.latestData.map((datum: any) => datum[valueField]));
+      const [minValue, maxValue] = extent(this.getViewData()?.latestData.map((datum: any) => +datum[valueField]));
       valueScale.domain([minValue, maxValue], true).range(fontWeightRange);
       wordCloudTransforms.push({
         type: 'map',
@@ -75,16 +75,12 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
 
     const textField = this._spec.word?.formatMethod ? WORD_CLOUD_TEXT : this._nameField;
 
-    const srView = this.getCompiler().getVGrammarView();
     // 词云 transform
     if (!this._isWordCloudShape) {
       wordCloudTransforms.push({
         type: 'wordcloud',
         layoutType: this._wordCloudConfig.layoutMode,
-        size: [
-          srView.width() - this._padding?.left || 0 - this._padding?.right || 0,
-          srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0
-        ],
+        size: [this._region.getLayoutRect().width, this._region.getLayoutRect().height],
         shape: this._maskShape,
         postProjection: this._spec.postProjection ?? 'StereographicProjection',
         dataIndexKey: DEFAULT_DATA_KEY,
@@ -113,7 +109,7 @@ export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpe
     else {
       wordCloudTransforms.push({
         type: 'wordcloudShape',
-        size: [srView.width(), srView.height()],
+        size: [this._region.getLayoutRect().width, this._region.getLayoutRect().height],
         shape: this._maskShape,
         postProjection: this._spec.postProjection ?? 'StereographicProjection',
         dataIndexKey: DEFAULT_DATA_KEY,

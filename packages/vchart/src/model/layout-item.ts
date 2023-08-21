@@ -73,15 +73,6 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
   layoutOffsetX: ILayoutItem['layoutOffsetX'] = 0;
   layoutOffsetY: ILayoutItem['layoutOffsetY'] = 0;
 
-  protected _attributeTag: boolean = true;
-  getAttributeTag(): boolean {
-    return this._attributeTag;
-  }
-  setAttributeTag(tag: boolean): boolean {
-    this._attributeTag = tag;
-    return this._attributeTag;
-  }
-
   layoutLevel: ILayoutItem['layoutLevel'] = LayoutLevel.Region;
 
   // layoutAbsoluteLeft: ILayoutItem['layoutAbsoluteLeft'] = Number.NaN;
@@ -90,6 +81,10 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
   // layoutAbsoluteBottom: ILayoutItem['layoutAbsoluteBottom'] = Number.NaN;
   layoutZIndex: ILayoutItem['layoutZIndex'] = 0;
   chartLayoutRect!: ILayoutRect;
+
+  getVisible() {
+    return (this._spec as unknown as any)?.visible !== false;
+  }
 
   private _setLayoutAttributeFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect) {
     if ((this._spec as unknown as any).visible !== false) {
@@ -275,7 +270,7 @@ export class LayoutItem extends CompilableBase implements ILayoutItem {
     return bounds;
   }
 
-  private _setRectInSpec(rect: ILayoutRect) {
+  protected _setRectInSpec(rect: ILayoutRect) {
     const result = { ...rect };
     if (this._layoutRectLevelMap.width < USER_LAYOUT_RECT_LEVEL) {
       if (!isNil(this._minWidth)) {

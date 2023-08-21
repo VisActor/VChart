@@ -1,0 +1,3 @@
+{{ target: trigger-spec }}
+
+<!-- ITriggerSpec -->

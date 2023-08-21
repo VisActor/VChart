@@ -42,10 +42,10 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
   if (!isEmpty(item.focusIconStyle)) {
     transformToGraphic(item.focusIconStyle);
   }
-  transformComponentStyle(item.shape);
-  transformComponentStyle(item.label);
-  transformComponentStyle(item.value);
-  transformComponentStyle(item.background);
+  item.shape = transformComponentStyle(item.shape);
+  item.label = transformComponentStyle(item.label);
+  item.value = transformComponentStyle(item.value);
+  item.background = transformComponentStyle(item.background);
 
   if (isPercent(item.maxWidth)) {
     item.maxWidth = (Number(item.maxWidth.substring(0, item.maxWidth.length - 1)) * rect.width) / 100;

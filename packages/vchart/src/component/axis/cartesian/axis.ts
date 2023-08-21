@@ -90,6 +90,13 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
 
   private _axisStyle: Partial<LineAxisAttributes>;
   private _latestBounds: IBounds;
+  private _verticalLimitSize: number;
+
+  protected _layoutCache: {
+    width: number;
+    height: number;
+    _lastComputeOutBounds: IBoundsLike;
+  } = { width: 0, height: 0, _lastComputeOutBounds: { x1: 0, x2: 0, y1: 0, y2: 0 } };
 
   constructor(spec: ICartesianAxisCommonSpec, options: IComponentOption) {
     super(spec, {
@@ -116,7 +123,6 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       if (isHorizontal && !isXAxis(spec.orient)) {
         inverse = isValid(spec.inverse) ? !spec.inverse : true;
       }
-
       return new C(
         {
           ...spec,
@@ -125,7 +131,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         options
       ) as IAxis;
     }
-    throw `Component ${componentName} not found`;
+    options.onError(`Component ${componentName} not found`);
+    return null;
   }
 
   static createComponent(spec: any, options: IComponentOption) {
@@ -251,6 +258,15 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
+    const isX = isXAxis(this.orient);
+    if (isX) {
+      if (isNil(this._spec.maxHeight)) {
+        this._spec.maxHeight = '30%';
+      }
+    } else if (isNil(this._spec.maxWidth)) {
+      this._spec.maxWidth = '30%';
+    }
+
     const axisStyle: any = this._getAxisAttributes();
     axisStyle.label.formatMethod = this.getLabelFormatMethod();
     axisStyle.verticalFactor = this.orient === 'top' || this.orient === 'right' ? -1 : 1;
@@ -288,6 +304,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         {
           type: 'ticks',
           options: {
+            sampling: this._spec.sampling !== false, // default do sampling
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,
@@ -320,7 +337,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       // TODO 轴可以设置domain
       getStatisticsDomain: () => this.getStatisticsDomain(),
       getAxisType: () => this.type,
-      getAxisId: () => this.id
+      getAxisId: () => this.id,
+      isInverse: () => this._spec.inverse === true
     };
   }
 
@@ -410,7 +428,9 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
           field = s.getGroups()?.fields?.[depth];
         } else {
           if (isXAxis(this.orient)) {
-            field = (s as ICartesianSeries).fieldX;
+            field = (s as ICartesianSeries).fieldX2
+              ? [...(s as ICartesianSeries).fieldX, (s as ICartesianSeries).fieldX2]
+              : (s as ICartesianSeries).fieldX;
           } else if (isZAxis(this.orient)) {
             field = (s as ICartesianSeries).fieldZ;
           } else {
@@ -504,7 +524,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     }
     result.width = Math.ceil(result.width);
     result.height = Math.ceil(result.height);
-    return result;
+    // because of changed width\height, reset result in spec configuration.
+    return this._setRectInSpec(this._layoutCacheProcessing(result));
   }
   /**
    * bounds 预计算
@@ -516,6 +537,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     if (!this._visible) {
       return result;
     }
+    this._verticalLimitSize = isXAxis(this.orient) ? rect.height : rect.width;
 
     this.setLayoutRect(rect);
     this.updateScaleRange();
@@ -566,7 +588,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
 
   private _getTitleLimit(isX: boolean) {
     if (this._spec.title.visible && isNil(this._spec.title.style?.maxLineWidth)) {
-      const angle = this._spec.title.style?.angle || 0;
+      const angle = this._axisStyle.title?.angle ?? this._spec.title.style?.angle ?? 0;
       if (isX) {
         const width = this.getLayoutRect().width;
         const cosValue = Math.abs(Math.cos(angle));
@@ -669,7 +691,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         text: this._spec.title.text || this._dataFieldText,
         maxWidth: this._getTitleLimit(isX)
       },
-      items: this.getLabelItems(axisLength)
+      items: this.getLabelItems(axisLength),
+      verticalLimitSize: this._verticalLimitSize
     };
 
     return attrs;
@@ -681,6 +704,10 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     if (this.visible) {
       // 布局结束之后处理 0 基线问题
       this.event.on(ChartEvent.layoutEnd, this._fixAxisOnZero);
+      // 图表resize后，需要正常布局，清除布局缓存
+      this.event.on(ChartEvent.layoutRectUpdate, () => {
+        this._clearLayoutCache();
+      });
     }
   }
 
@@ -738,4 +765,36 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       }
     }
   };
+
+  protected _layoutCacheProcessing(rect: ILayoutRect) {
+    ['width', 'height'].forEach(key => {
+      if (rect[key] < this._layoutCache[key]) {
+        rect[key] = this._layoutCache[key];
+      } else {
+        this._layoutCache[key] = rect[key];
+      }
+    });
+
+    // outBounds
+    ['x1', 'x2', 'y1', 'y2'].forEach(key => {
+      if (this._lastComputeOutBounds[key] < this._layoutCache._lastComputeOutBounds[key]) {
+        this._lastComputeOutBounds[key] = this._layoutCache._lastComputeOutBounds[key];
+      } else {
+        this._layoutCache._lastComputeOutBounds[key] = this._lastComputeOutBounds[key];
+      }
+    });
+
+    return rect;
+  }
+
+  _clearLayoutCache() {
+    this._layoutCache.width = 0;
+    this._layoutCache.height = 0;
+    this._layoutCache._lastComputeOutBounds = { x1: 0, x2: 0, y1: 0, y2: 0 };
+  }
+
+  onDataUpdate(): void {
+    // clear layout cache
+    this._clearLayoutCache();
+  }
 }

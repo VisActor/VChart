@@ -50,7 +50,7 @@ export type ILayoutPercent = IPercent | number;
  * 绝对布局会只根据 chart 进行相对处理
  */
 
-type ILayoutType = 'region-relative' | 'region' | 'normal' | 'absolute';
+type ILayoutType = 'region-relative' | 'region' | 'normal' | 'absolute' | 'normal-inline';
 
 export type ILayoutOrientPadding = {
   left?: ILayoutNumber;
@@ -89,14 +89,14 @@ export interface ILayoutItem {
   layoutZIndex: number;
   chartLayoutRect: ILayoutRect;
 
+  /** 是否可见 */
+  getVisible: () => boolean;
+
   /** 是否自动缩进 */
   getAutoIndent: () => boolean;
   getLayoutStartPoint: () => ILayoutPoint;
   getLayoutRect: () => ILayoutRect;
   getLastComputeOutBounds: () => IBoundsLike;
-
-  getAttributeTag: () => boolean;
-  setAttributeTag: (tag: boolean) => boolean;
 
   /**
    * 更新元素布局的 layoutRect 大小，用来更新指定布局空间
@@ -236,10 +236,6 @@ export interface IModel extends ICompilable, ILayoutItem {
 
   coordinate?: CoordinateType;
 
-  // 是否要 layout 的 tag
-  getAttributeTag: () => boolean;
-  setAttributeTag: (tag: boolean) => boolean;
-
   // 初始化参数
   getOption: () => IModelOption;
 
@@ -309,6 +305,10 @@ export interface IModelOption extends ICompilableInitOption {
 
   globalScale: IGlobalScale;
   animation: boolean;
+  /**
+   * 错误消息回调函数
+   */
+  onError: (...args: any[]) => void;
 }
 
 export interface IModelConstructor {

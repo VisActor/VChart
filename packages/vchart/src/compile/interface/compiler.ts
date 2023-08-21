@@ -75,6 +75,10 @@ export interface IRenderOption {
    */
   logLevel?: number;
   /**
+   * 错误消息回调函数
+   */
+  onError?: (...args: any[]) => void;
+  /**
    * 是否关闭dirtyBounds
    * @default false
    */
@@ -83,6 +87,10 @@ export interface IRenderOption {
    * 是否开启view3d的变换模式
    */
   enableView3dTransform?: boolean;
+  /**
+   * vrender 的插件列表
+   */
+  pluginList?: string[];
 }
 
 export type CompilerListenerParameters = {

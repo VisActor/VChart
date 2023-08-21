@@ -75,6 +75,12 @@ export interface IBrushTheme {
    * @default 10
    */
   delayTime?: number;
+  /**
+   * brush选框的大小阈值
+   * @default 5
+   * @since 1.2.0
+   */
+  sizeThreshold?: number;
 }
 
 export interface IBrushSpec extends IBrushTheme, IBrushDataBindSpec {
@@ -109,11 +115,13 @@ export type selectedItemStyle = {
   colorAlpha?: number;
 } & Partial<IPolygonMarkSpec>;
 
-export enum IOperateType {
-  brushStart = 'brushStart',
-  brushEnd = 'brushEnd',
-  brushMaskUp = 'brushMaskUp',
-  brushing = 'brushing',
-  brushMaskDown = 'brushMaskDown',
-  brushMaskMove = 'brushMaskMove'
-}
+export type BrushInteractiveRangeAttr = {
+  interactiveRange: {
+    minY: number;
+    maxY: number;
+    minX: number;
+    maxX: number;
+  };
+  xRange: [number, number];
+  yRange: [number, number];
+};

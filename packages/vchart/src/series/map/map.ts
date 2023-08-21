@@ -2,6 +2,7 @@
 import { MarkTypeEnum } from '../../mark/interface';
 import { registerGrammar } from '@visactor/vgrammar';
 import type { IElement } from '@visactor/vgrammar';
+import type { FeatureData } from '@visactor/vgrammar-projection';
 import { Projection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
 import type { IPathMark } from '../../mark/path';
@@ -10,12 +11,12 @@ import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import { isValid, isValidNumber } from '../../util';
 import { GeoSeries } from '../geo/geo';
-import { map } from '../../data/transforms/map';
+import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
 import type { ITextMark } from '../../mark/text';
-import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY } from '../../constant/index';
+import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY, DEFAULT_DATA_INDEX } from '../../constant/index';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
@@ -69,11 +70,11 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
     this._valueField = this._spec.valueField;
     this._spec.nameProperty && (this._nameProperty = this._spec.nameProperty);
     if (!this.map) {
-      throw new Error(`map type '${this.map}' is not specified !`);
+      this._option.onError(`map type '${this.map}' is not specified !`);
     }
 
     if (!geoSourceMap.get(this.map)) {
-      throw new Error(`'${this.map}' data is not registered !`);
+      this._option.onError(`'${this.map}' data is not registered !`);
     }
   }
 
@@ -88,7 +89,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
     // 初始化地图数据
     const features = geoSourceMap.get(this.map);
     if (!features) {
-      throw Error('no valid map data found!');
+      this._option.onError('no valid map data found!');
     }
     const mapData = new DataView(this._dataSet);
 
@@ -108,10 +109,17 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
         type: 'lookup',
         options: {
           from: () => this._data?.getLatestData(),
-          key: 'name',
+          key: DEFAULT_MAP_LOOK_UP_KEY,
           fields: this._nameField,
-          values: [this.nameField, this.valueField, this._seriesField ?? DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY],
-          as: [this.nameField, this.valueField, this._seriesField ?? DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY]
+          set: (feature: FeatureData, datum: Datum) => {
+            if (datum) {
+              Object.keys(datum).forEach(key => {
+                if (!(key in feature)) {
+                  feature[key] = datum[key];
+                }
+              });
+            }
+          }
         }
       });
     this._data?.getDataView().target.addListener('change', mapData.reRunAllTransform);
@@ -132,6 +140,9 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
 
     if (this._spec.label?.visible) {
       this._labelMark = this._createMark(MapSeries.mark.label, {
+        // map zoom/scale need to be transformed in path.group
+        // so label mark cannot be in the same groupMark
+        parent: this.getRegion().getGroupMark(),
         skipBeforeLayouted: true,
         dataView: this._mapViewData.getDataView(),
         dataProductId: this._mapViewData.getProductId()
@@ -151,13 +162,21 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
                 datum[this._seriesField ?? DEFAULT_DATA_SERIES_FIELD]
               );
             }
-            return this._theme?.defaultFillColor;
+            return this._spec?.defaultFillColor;
           },
           path: this.getPath.bind(this)
         },
         'normal',
         AttributeLevel.Series
       );
+
+      pathMark.setPostProcess('fill', result => {
+        if (!isValid(result)) {
+          return this._spec.defaultFillColor;
+        }
+        return result;
+      });
+
       this.setMarkStyle(
         pathMark,
         {
@@ -176,9 +195,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
         text: (datum: Datum) => {
           return this._getDatumName(datum);
         },
-        x: (datum: Datum) => {
-          return this.dataToPosition(datum)?.x;
-        },
+        x: (datum: Datum) => this.dataToPosition(datum)?.x,
         y: (datum: Datum) => this.dataToPosition(datum)?.y
       });
     }
@@ -201,12 +218,12 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
   }
 
   protected getPath(datum: any) {
-    const area = this._areaCache.get(datum?.properties?.[this._nameProperty]);
+    const area = this._areaCache.get(datum[DEFAULT_DATA_INDEX]);
     if (area) {
       return area.shape;
     }
     const shape = this._coordinateHelper?.shape(datum);
-    this._areaCache.set(datum?.properties?.[this._nameProperty], {
+    this._areaCache.set(datum[DEFAULT_DATA_INDEX], {
       shape
     });
     return shape;
@@ -242,7 +259,9 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       spec?.valueField !== valueField ||
       spec?.nameProperty !== nameProperty
     ) {
+      result.change = true;
       result.reRender = true;
+      result.reMake = true;
     }
     return result;
   }
@@ -262,10 +281,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       const elements = vGrammarMark.elements;
 
       if (mark.type === MarkTypeEnum.path) {
-        elements.forEach((el: IElement) => {
-          const graphicItem = el.getGraphicItem();
-          graphicItem.scale(scale, scale, scaleCenter);
-        });
+        vGrammarMark.group.getGroupGraphicItem().scale(scale, scale, scaleCenter);
       } else {
         // label Mark 的定位，需要通过 dataToPosition 来计算
         elements.forEach((el: IElement) => {
@@ -295,10 +311,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       const elements = vGrammarMark.elements;
 
       if (mark.type === MarkTypeEnum.path) {
-        elements.forEach((el: IElement) => {
-          const graphicItem = el.getGraphicItem();
-          graphicItem.translate(delta[0], delta[1]);
-        });
+        vGrammarMark.group.getGroupGraphicItem().translate(delta[0], delta[1]);
       } else {
         // label Mark 的定位，需要通过 dataToPosition 来计算
         elements.forEach((el: IElement, i: number) => {
@@ -330,14 +343,25 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
   }
 
   protected _getDatumName(datum: any): string {
-    return datum[this.nameField] ?? datum.properties?.[this.nameField] ?? '';
+    if (datum[this.nameField]) {
+      return datum[this.nameField];
+    }
+    if (datum.properties?.[this._nameProperty]) {
+      if (this._spec.nameMap) {
+        return this._spec.nameMap[datum.properties[this._nameProperty]] ?? '';
+      }
+      return datum.properties[this._nameProperty] ?? '';
+    }
+    return '';
   }
 
   dataToPositionX(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
   dataToPositionY(data: any): number {
-    throw new Error('Method not implemented.');
+    this._option.onError('Method not implemented.');
+    return 0;
   }
 
   viewDataUpdate(d: DataView): void {
@@ -347,6 +371,6 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
   }
 
   protected _getDataIdKey() {
-    return (datum: Datum) => datum?.properties?.[this._nameProperty] as string;
+    return DEFAULT_DATA_INDEX;
   }
 }

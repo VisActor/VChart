@@ -1,3 +1,4 @@
+import type { PopTipAttributes } from '@visactor/vrender-components';
 import type { DataView } from '@visactor/vdataset';
 import type { Cursor } from './cursor';
 import type { InterpolateType } from './interpolate';
@@ -8,12 +9,27 @@ import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark'
 import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
+import type { IRepeatType } from '@visactor/vrender';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {
+  /**
+   * type of scale
+   */
   type: ScaleType;
+  /**
+   * will set to scale.domain, it means input of scale
+   */
   domain: D[];
+  /**
+   * will set to scale.range, it means output of scale
+   */
   range: T[];
+  /**
+   * will set to scale.specified if scale support, as a key-value pair matching capability
+   * @since 1.1.0
+   */
+  specified?: { [key: string]: unknown };
 }
 // 用来给用户进行mark.style上的映射配置。所以要配置数据维度
 export interface IVisualSpecStyle<D, T> extends IVisualSpecBase<D, T> {
@@ -164,6 +180,10 @@ export interface ICommonSpec {
 export interface IFillMarkSpec extends ICommonSpec {
   fill?: VisualType<string> | IGradient | false | IColorKey;
   fillOpacity?: number;
+  // TODO：waite VRender support this api
+  // backgroundMode: number; // 填充模式（与具体图元有关）
+  // can coexist with fill
+  background?: string | HTMLImageElement | HTMLCanvasElement | null;
 }
 
 // export interface IFillImageMarkSpec {
@@ -273,6 +293,10 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    * 行高
    */
   lineHeight?: number;
+  /**
+   * poptip 相关配置
+   */
+  poptip?: PopTipAttributes;
 }
 
 export type IPositionedTextMarkSpec = Omit<ITextMarkSpec, 'align' | 'textAlign' | 'baseline' | 'textBaseline'>;
@@ -402,7 +426,7 @@ export interface ICellMarkSpec extends ISymbolMarkSpec {
   padding?: number | number[] | IPadding;
 }
 
-export interface IGroupMarkSpec extends ICommonSpec, IFillMarkSpec {
+export interface IGroupMarkSpec extends IFillMarkSpec {
   clip?: boolean;
   width?: number;
   height?: number;
@@ -494,6 +518,20 @@ export interface IThresholdStyle extends IVisualSpecStyle<number, string> {
 // FIXME: For some tool methods that need to use common configuration types
 export interface IUnknownMarkSpec extends ICommonSpec {
   [key: string]: unknown;
+}
+
+export interface IImageMarkSpec extends IFillMarkSpec {
+  /**
+   * 圆角配置。
+   * 1. 如果传入数值，则统一为四个角设置圆角
+   * 2. 如果传入数组，则分别为 [上左, 上右, 下右, 下左]
+   */
+  cornerRadius?: number | number[];
+  width?: number;
+  height?: number;
+  repeatX?: IRepeatType;
+  repeatY?: IRepeatType;
+  image: string | HTMLImageElement | HTMLCanvasElement;
 }
 
 /**

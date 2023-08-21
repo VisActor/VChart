@@ -1,9 +1,11 @@
+import type { utilFunctionCtx } from './../typings/params';
 import type { IChart } from '../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ILayoutItem } from '../model/interface';
 import type { IBaseLayout } from './interface';
 import type { IPadding, IRect } from '../typings/space';
 import type { IRegion } from '../region/interface';
+import { error } from '../util/debug';
 
 export class Layout implements IBaseLayout {
   protected _leftCurrent: number = 0;
@@ -13,6 +15,12 @@ export class Layout implements IBaseLayout {
 
   _chartLayoutRect!: IRect;
   _chartViewBox!: IBoundsLike;
+
+  protected _onError: (msg: string) => void;
+
+  constructor(_spec?: unknown, ctx?: utilFunctionCtx) {
+    this._onError = ctx?.onError;
+  }
 
   layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void {
     this._chartLayoutRect = chartLayoutRect;
@@ -25,6 +33,7 @@ export class Layout implements IBaseLayout {
     // 越大越先处理，进行排序调整，利用原地排序特性，排序会受 level 和传进来的数组顺序共同影响
     items.sort((a, b) => b.layoutLevel - a.layoutLevel);
 
+    this.layoutNormalInlineItems(items.filter(x => x.layoutType === 'normal-inline'));
     this.layoutNormalItems(items.filter(x => x.layoutType === 'normal'));
 
     const layoutTemp = {
@@ -89,6 +98,130 @@ export class Layout implements IBaseLayout {
         this._bottomCurrent -= rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
       }
     });
+  }
+
+  protected layoutNormalInlineItems(normalItems: ILayoutItem[]): void {
+    const leftItems = normalItems.filter(item => item.layoutOrient === 'left');
+    const rightItems = normalItems.filter(item => item.layoutOrient === 'right');
+    const topItems = normalItems.filter(item => item.layoutOrient === 'top');
+    const bottomItems = normalItems.filter(item => item.layoutOrient === 'bottom');
+    const limitWidth = this._chartLayoutRect.width + this._chartLayoutRect.x;
+    const limitHeight = this._chartLayoutRect.height + this._chartLayoutRect.y;
+
+    // 同 normal，按照 left、top、right、bottom 的顺序进行布局
+    let maxWidth = 0;
+    let preLeft = this._leftCurrent;
+    let preTop = this._topCurrent;
+    leftItems.forEach((item, index) => {
+      const layoutRect = this.getItemComputeLayoutRect(item);
+      const rect = item.computeBoundsInRect(layoutRect);
+      item.setLayoutRect(rect);
+      const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
+      const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+      item.setLayoutStartPosition({
+        x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
+        y: preTop + item.layoutOffsetY + item.layoutPaddingTop
+      });
+
+      maxWidth = Math.max(maxWidth, itemTotalWidth);
+      preTop += itemTotalHeight;
+      if (preTop > limitHeight) {
+        preLeft += maxWidth;
+        maxWidth = itemTotalWidth;
+        preTop = this._topCurrent + itemTotalHeight;
+
+        item.setLayoutStartPosition({
+          x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
+          y: this._topCurrent + item.layoutOffsetY + item.layoutPaddingTop
+        });
+      }
+    });
+    this._leftCurrent = preLeft + maxWidth;
+
+    let maxHeight = 0;
+    preLeft = this._leftCurrent;
+    preTop = this._topCurrent;
+    topItems.forEach((item, index) => {
+      const layoutRect = this.getItemComputeLayoutRect(item);
+      const rect = item.computeBoundsInRect(layoutRect);
+      item.setLayoutRect(rect);
+      const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
+      const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+      item.setLayoutStartPosition({
+        x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
+        y: preTop + item.layoutOffsetY + item.layoutPaddingTop
+      });
+
+      maxHeight = Math.max(maxHeight, itemTotalHeight);
+      preLeft += itemTotalWidth;
+      if (preLeft > limitWidth) {
+        preLeft = this._leftCurrent + itemTotalWidth;
+        preTop += maxHeight;
+        maxHeight = itemTotalHeight;
+        item.setLayoutStartPosition({
+          x: this._leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft,
+          y: preTop + item.layoutOffsetY + item.layoutPaddingTop
+        });
+      }
+    });
+    this._topCurrent = preTop + maxHeight;
+
+    maxWidth = 0;
+    let preRight = this._rightCurrent;
+    preTop = this._topCurrent;
+    rightItems.forEach((item, index) => {
+      const layoutRect = this.getItemComputeLayoutRect(item);
+      const rect = item.computeBoundsInRect(layoutRect);
+      item.setLayoutRect(rect);
+      const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
+      const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+      item.setLayoutStartPosition({
+        x: preRight + item.layoutOffsetX - rect.width - item.layoutPaddingRight,
+        y: preTop + item.layoutOffsetY + item.layoutPaddingTop
+      });
+
+      maxWidth = Math.max(maxWidth, itemTotalWidth);
+      preTop += itemTotalHeight;
+      if (preTop > limitHeight) {
+        preRight -= maxWidth;
+        maxWidth = itemTotalWidth;
+        preTop = this._topCurrent + itemTotalHeight;
+
+        item.setLayoutStartPosition({
+          x: preRight + item.layoutOffsetX - rect.width - item.layoutPaddingRight,
+          y: this._topCurrent + item.layoutOffsetY + item.layoutPaddingTop
+        });
+      }
+    });
+    this._rightCurrent = preRight - maxWidth;
+
+    maxHeight = 0;
+    preLeft = this._leftCurrent;
+    let preBottom = this._bottomCurrent;
+    bottomItems.forEach((item, index) => {
+      const layoutRect = this.getItemComputeLayoutRect(item);
+      const rect = item.computeBoundsInRect(layoutRect);
+      item.setLayoutRect(rect);
+      const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
+      const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+      item.setLayoutStartPosition({
+        x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
+        y: preBottom + item.layoutOffsetY - rect.height - item.layoutPaddingBottom
+      });
+
+      maxHeight = Math.max(maxHeight, itemTotalHeight);
+      preLeft += itemTotalWidth;
+      if (preLeft > limitWidth) {
+        preLeft = this._leftCurrent + itemTotalWidth;
+        preBottom -= maxHeight;
+        maxHeight = itemTotalHeight;
+        item.setLayoutStartPosition({
+          x: this._leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft,
+          y: preBottom + item.layoutOffsetY - rect.height - item.layoutPaddingBottom
+        });
+      }
+    });
+    this._bottomCurrent = preBottom - maxHeight;
   }
 
   /**
@@ -202,7 +335,7 @@ export class Layout implements IBaseLayout {
   filterRegionsWithID(regions: IRegion[], id: number): ILayoutItem {
     const target = regions.find(x => x.id === id);
     if (!target) {
-      throw Error('can not find target region item, invalid id');
+      (this._onError ?? error)('can not find target region item, invalid id');
     }
     return target;
   }
@@ -228,9 +361,8 @@ export class Layout implements IBaseLayout {
     };
     const rightCurrent = this._chartViewBox.x2 - this._chartViewBox.x1 - this._rightCurrent;
     const bottomCurrent = this._chartViewBox.y2 - this._chartViewBox.y1 - this._bottomCurrent;
-    items.filter;
     items.forEach(i => {
-      if (!i.getAutoIndent()) {
+      if (!i.getVisible() || !i.getAutoIndent()) {
         return;
       }
       const vOrH = i.layoutOrient === 'left' || i.layoutOrient === 'right';

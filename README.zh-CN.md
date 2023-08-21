@@ -1,6 +1,9 @@
 <div align="center">
-  <a href="" target="_blank">
-    <img alt="VisActor Logo" width="200" src="https://github.com/VisActor/.github/blob/main/profile/500_200.svg"/>
+  <a href="https://github.com/VisActor#gh-light-mode-only" target="_blank">
+    <img alt="VisActor Logo" width="200" src="https://github.com/VisActor/.github/blob/main/profile/logo_500_200_light.svg"/>
+  </a>
+  <a href="https://github.com/VisActor#gh-dark-mode-only" target="_blank">
+    <img alt="VisActor Logo" width="200" src="https://github.com/VisActor/.github/blob/main/profile/logo_500_200_dark.svg"/>
   </a>
 </div>
 
@@ -142,9 +145,9 @@ $ rush react
 
 ## 💫 生态
 
-| 项目                 | 介绍                       |
-| -------------------- | -------------------------- |
-| [智能生成组件](todo) | 基于 AI 的智能图表生成组件 |
+| 项目                                                                                  | 介绍                       |
+| ------------------------------------------------------------------------------------- | -------------------------- |
+| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React for @VisActor/VChart |
 
 ## 🤝 参与贡献 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
 

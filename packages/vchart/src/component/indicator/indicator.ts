@@ -22,6 +22,7 @@ import { transformToGraphic } from '../../util/style';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 
 export class Indicator extends BaseComponent implements IIndicator {
+  static speckey = 'indicator';
   static type = ComponentTypeEnum.indicator;
   type = ComponentTypeEnum.indicator;
   name: string = ComponentTypeEnum.indicator;
@@ -50,7 +51,7 @@ export class Indicator extends BaseComponent implements IIndicator {
     const indicatorSpec = spec.indicator || options.defaultSpec;
     const indicators: IIndicator[] = array(indicatorSpec)
       .filter(s => s && s.visible !== false)
-      .map(s => new Indicator(s, options));
+      .map((s, index) => new Indicator(s, { ...options, specIndex: index, specKey: Indicator.speckey }));
     return indicators;
   }
 
@@ -113,7 +114,6 @@ export class Indicator extends BaseComponent implements IIndicator {
 
   private updateDatum(datum: any) {
     this._activeDatum = datum;
-    this.setAttributeTag(true);
     this._displayData.updateData();
     const attrs = this._getIndicatorAttrs();
     this._createOrUpdateIndicatorComponent(attrs);
@@ -237,8 +237,11 @@ export class Indicator extends BaseComponent implements IIndicator {
   }
 
   clear(): void {
-    super.clear();
-    this._indicatorComponent = null;
+    if (this._indicatorComponent) {
+      this._container.removeChild(this._indicatorComponent as unknown as INode);
+      this._indicatorComponent = null;
+    }
     this._cacheAttrs = null;
+    super.clear();
   }
 }

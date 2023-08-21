@@ -24,7 +24,8 @@ import {
   POLAR_START_RADIAN,
   POLAR_END_RADIAN,
   DEFAULT_DATA_INDEX,
-  ChartEvent
+  ChartEvent,
+  DEFAULT_DATA_KEY
 } from '../../constant';
 import type { Maybe, IPoint, Datum, StateValueType } from '../../typings';
 import {
@@ -38,6 +39,7 @@ import {
 } from '../../util';
 import type { IModelLayoutOption } from '../../model/interface';
 import { PolarSeries } from '../polar/polar';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IArcMark } from '../../mark/arc';
 import type { ITextMark } from '../../mark/text';
@@ -181,7 +183,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       {
         morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
         defaultMorphElementKey: this._seriesField,
-        key: this._seriesField,
+        key: DEFAULT_DATA_KEY,
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true
@@ -241,15 +243,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         AttributeLevel.Series
       );
 
-      // radius 配置需要额外处理比例值
-      const pieSpec = this.getSpec()[pieMark.name];
-      if (pieSpec) {
-        // pieMark.setStyle(pieSpec.style, 'normal', AttributeLevel.User_Mark);
-        for (const state in pieSpec.state || {}) {
-          this.setMarkStyle(pieMark, this.generateRadiusStyle(pieSpec.state[state]), state, AttributeLevel.User_Mark);
-        }
-      }
-
       this._trigger.registerMark(pieMark);
       this._tooltipHelper?.activeTriggerSet.mark.add(pieMark);
     }
@@ -292,6 +285,19 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       this.setMarkStyle(labelLineMark, this.generateLinePath('selected'), 'selected');
 
       this._trigger.registerMark(labelLineMark);
+    }
+  }
+
+  initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void {
+    super.initMarkStyleWithSpec(mark, spec, key);
+    if (mark.name === this._pieMarkName) {
+      // radius 配置需要额外处理比例值
+      const pieSpec = this.getSpec()[mark.name];
+      if (pieSpec) {
+        for (const state in pieSpec.state || {}) {
+          this.setMarkStyle(mark, this.generateRadiusStyle(pieSpec.state[state]), state, AttributeLevel.User_Mark);
+        }
+      }
     }
   }
 
@@ -564,6 +570,11 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   setValueFieldToPercent(): void {
     //do nothing
+  }
+
+  // make sure this function fast
+  protected _noAnimationDataKey(datum: Datum, index: number) {
+    return index;
   }
 }
 

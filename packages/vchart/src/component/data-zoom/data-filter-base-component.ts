@@ -286,14 +286,8 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
 
           const xFields = array(seriesSpec.xField);
           const yFields = array(seriesSpec.yField);
-          const xField =
-            s.coordinate === 'cartesian'
-              ? xFields[xFields.length - 1]
-              : seriesSpec.angleField ?? seriesSpec.categoryField;
-          const yField =
-            s.coordinate === 'cartesian'
-              ? yFields[yFields.length - 1]
-              : seriesSpec.radiusField ?? seriesSpec.valueField;
+          const xField = s.coordinate === 'cartesian' ? xFields[0] : seriesSpec.angleField ?? seriesSpec.categoryField;
+          const yField = s.coordinate === 'cartesian' ? yFields[0] : seriesSpec.radiusField ?? seriesSpec.valueField;
 
           originalStateFields[s.id] =
             s.type === 'link' ? 'from_xField' : stateAxisHelper === xAxisHelper ? xField : yField;
@@ -344,7 +338,7 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
           },
           output: {
             stateField: this._stateField,
-            valueField: hasValidateValueField ? this._valueField : null
+            valueField: this._valueField
           }
         }
       },
@@ -542,9 +536,6 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
   }
 
   protected _handleStateChange = (startValue: number, endValue: number) => {
-    if (startValue === this._startValue && endValue === this._endValue) {
-      return false;
-    }
     this._startValue = startValue;
     this._endValue = endValue;
 

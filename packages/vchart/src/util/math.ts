@@ -14,6 +14,7 @@ import type { IPoint, IPolarPoint, Quadrant, TextAlign, TextBaseLine } from '../
 import { isValidNumber } from './type';
 import { regressionLinear } from '@visactor/vgrammar-util';
 import type { Datum } from '@visactor/vgrammar';
+import { warn } from './debug';
 
 export const isClose = isNumberClose;
 export { isGreater, isLess };
@@ -253,7 +254,8 @@ export function min(data: any[], field?: string): number {
   const initialData = field ? +data[0][field] : +data[0];
 
   if (!isValidNumber(initialData)) {
-    throw new Error('invalid data');
+    warn('invalid data');
+    return 0;
   }
   const min = data.reduce((pre, _cur) => {
     const cur = field ? +_cur[field] : +_cur;
@@ -268,7 +270,8 @@ export function min(data: any[], field?: string): number {
 export function max(data: any[], field?: string): number {
   const initialData = field ? +data[0][field] : +data[0];
   if (!isValidNumber(initialData)) {
-    throw new Error('invalid data');
+    warn('invalid data');
+    return 0;
   }
   const max = data.reduce((pre, _cur) => {
     const cur = field ? +_cur[field] : +_cur;

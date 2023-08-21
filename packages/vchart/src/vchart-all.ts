@@ -38,6 +38,7 @@ import {
   CartesianBandAxis,
   CartesianTimeAxis,
   PolarBandAxis,
+  CartesianLogAxis,
   PolarLinearAxis,
   DiscreteLegend,
   ContinuousLegend,
@@ -59,6 +60,10 @@ import {
   MapLabelComponent
 } from './component';
 import { GridLayout, Layout3d } from './layout';
+import { loadPoptip } from '@visactor/vrender-components';
+
+// 装载 poptip
+loadPoptip({});
 
 // charts
 VChart.useChart([
@@ -100,6 +105,7 @@ VChart.useComponent([
   CartesianLinearAxis,
   CartesianBandAxis,
   CartesianTimeAxis,
+  CartesianLogAxis,
   PolarBandAxis,
   PolarLinearAxis,
   DiscreteLegend,

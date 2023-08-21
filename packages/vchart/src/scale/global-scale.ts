@@ -1,7 +1,7 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from './interface';
 import { isArray, isEqual, isNil } from '@visactor/vutils';
-import type { IBaseScale } from '@visactor/vscale';
+import type { IBaseScale, OrdinalScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import type { IChart } from '../chart/interface';
 import type { IChartSpec } from '../typings/spec';
@@ -45,6 +45,9 @@ export class GlobalScale implements IGlobalScale {
       if (!isDataDomainSpec(s.domain)) {
         scale.domain(s.domain);
       }
+    }
+    if (s.specified && (<OrdinalScale>scale).specified) {
+      (<OrdinalScale>scale).specified(s.specified);
     }
     return scale;
   }

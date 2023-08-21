@@ -1,3 +1,4 @@
+import type { IBackgroundSpec, IBackgroundStyleSpec } from './../typings/spec/common';
 import { isArray, isBoolean, isDate, isNumber, isString, isValid } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 
@@ -94,4 +95,24 @@ export function isDataView(obj: any): obj is DataView {
   const dataViewKeys: (keyof DataView)[] = ['dataSet', 'latestData', 'rawData', 'parserData', 'isDataView', 'history'];
   const keys = Object.keys(obj);
   return obj instanceof DataView || dataViewKeys.every(key => keys.includes(key));
+}
+
+export function convertBackgroundSpec(
+  bg: IBackgroundSpec
+): Omit<IBackgroundStyleSpec, 'image'> & { background?: IBackgroundStyleSpec['image'] } {
+  if (!bg) {
+    return null;
+  }
+  if (typeof bg === 'string') {
+    return {
+      fill: bg,
+      fillOpacity: 1
+    };
+  }
+  if (typeof bg !== 'object') {
+    return null;
+  }
+  const { x, y, width, height, x1, y1, image, ...rest } = bg;
+  rest.background = image;
+  return rest;
 }

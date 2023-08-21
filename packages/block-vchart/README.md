@@ -37,7 +37,9 @@
 - `id`：用于在下方的 `index.js` 中通过 query 取到 dom
 - `canvas-id`：一个特殊标志符，是为了让编译服务进行元素区分
 
-另外因为 VChart 默认使用 html 渲染 tooltip，而小组件环境不支持 html，所以我们需要使用 canvas 版本的 tooltip，同时为了更好的交互性能，我们需要使用另一层 canvas 元素来作为 tooltip 绘制的载体。**需要注意 canvas 声明的顺序（在 draw canvas 下层），同时关闭 tooltip canvas 事件**。
+另外因为 VChart 默认使用 html 渲染 tooltip，而小组件环境不支持 html，所以我们需要使用 canvas 版本的 tooltip，同时为了更好的交互性能，我们需要使用另一层 canvas 元素来作为 tooltip 绘制的载体。同时因为内部会动态创建 canvas 上下文实例，所以还需要声明一层 canvas 元素用于内部使用。
+
+**需要注意 canvas 声明的顺序（在 draw canvas 下层），同时关闭 tooltip canvas 事件**。
 
 ```html
 <view class="vchart">
@@ -52,6 +54,14 @@
   >
   </canvas>
   <!-- 注意 canvas 顺序 -->
+  <!-- hit canvas 用于引擎内部使用 -->
+  <canvas
+    id="line_hit_canvas"
+    canvas-id="line_hit_canvas"
+    class="cs-tooltip-canvas"
+    user-interaction-enabled="{{false}}"
+  >
+  </canvas>
   <!-- tooltip canvas -->
   <canvas
     id="line_tooltip_canvas"
@@ -121,9 +131,9 @@ onReady(){
             modeParams: {
               domref: domRef,
               force: true,
-              canvasIdLists: ['line_draw_canvas', 'line_tooltip_canvas'],
+              canvasIdLists: ['line_draw_canvas', 'line_tooltip_canvas', 'line_hit_canvas'],
               tooltipCanvasId: 'line_tooltip_canvas',
-              freeCanvasIdx: 1
+              freeCanvasIdx: 2
             },
             dpr: this.dpr,
             renderCanvas: 'line_draw_canvas'

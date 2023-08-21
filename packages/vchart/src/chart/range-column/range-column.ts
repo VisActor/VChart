@@ -5,6 +5,7 @@ import { Direction } from '../../typings';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { VChart } from '../../core/vchart';
 import { RangeColumnSeries } from '../../series';
+import type { IRangeColumnChartSpec } from './interface';
 VChart.useSeries([RangeColumnSeries]);
 
 export class RangeColumnChart extends CartesianChart {
@@ -15,7 +16,8 @@ export class RangeColumnChart extends CartesianChart {
 
   protected _getDefaultSeriesSpec(spec: any): any {
     const series: any = {
-      ...super._getDefaultSeriesSpec(spec)
+      ...super._getDefaultSeriesSpec(spec),
+      barGapInGroup: (spec as IRangeColumnChartSpec).barGapInGroup
     };
     series.bar = spec.bar;
     if (spec.direction === Direction.horizontal) {

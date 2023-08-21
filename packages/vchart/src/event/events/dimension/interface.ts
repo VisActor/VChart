@@ -9,9 +9,9 @@ export enum DimensionEventEnum {
 }
 
 export interface IDimensionInfo {
-  /** 维度项索引 */
+  /** 维度项索引，在连续轴上不存在 */
   index?: number;
-  /** 维度项标题 */
+  /** 维度项原始值，在离散轴上为维度标签，在连续轴上为数字 */
   value: string;
   /** 维度项所在轴 */
   axis?: AxisComponent;

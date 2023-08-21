@@ -3,9 +3,9 @@ import type { IDataZoomTheme } from '../../../../component/data-zoom';
 export const dataZoom: IDataZoomTheme = {
   showDetail: 'auto',
   middleHandler: {
-    visible: false,
+    visible: true,
     background: {
-      size: 5,
+      size: 6,
       style: {
         // fill: 'white',
         stroke: '#D1D5DA',
@@ -14,7 +14,7 @@ export const dataZoom: IDataZoomTheme = {
     },
     icon: {
       style: {
-        size: 8,
+        size: 4,
         fill: 'white',
         stroke: '#D1D5DA',
         symbolType:
@@ -81,7 +81,7 @@ export const dataZoom: IDataZoomTheme = {
   backgroundChart: {
     area: {
       style: {
-        lineWidth: 1,
+        stroke: false,
         fill: '#CACFD7'
       }
     },
@@ -95,7 +95,7 @@ export const dataZoom: IDataZoomTheme = {
   selectedBackgroundChart: {
     area: {
       style: {
-        lineWidth: 1,
+        stroke: false,
         fill: '#CACFD7'
       }
     },
