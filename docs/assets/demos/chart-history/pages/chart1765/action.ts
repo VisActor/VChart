@@ -1,4 +1,4 @@
-import anime from '../../anime.es.js';
+import anime from '../../lib/anime.es.js';
 import { pageKey } from './constant';
 import type {
   IActConfig,
