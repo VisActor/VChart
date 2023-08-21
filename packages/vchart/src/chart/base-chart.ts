@@ -11,7 +11,8 @@ import type {
   IPadding,
   IRect,
   StringOrNumber,
-  IChartSpec
+  IChartSpec,
+  IDataValues
 } from '../typings';
 import type { LayoutCallBack } from '../layout/interface';
 import { GlobalScale } from '../scale/global-scale';
@@ -39,7 +40,7 @@ import { ComponentTypeEnum } from '../component/interface';
 import type { IComponent } from '../component/interface';
 import { MarkTypeEnum, type IMark } from '../mark/interface';
 import type { IEvent } from '../event/interface';
-import type { DataView } from '@visactor/vdataset';
+import type { DataView, IFields } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset/es/data-set';
 import { Factory } from '../core/factory';
 import { Event } from '../event/event';
@@ -52,7 +53,6 @@ import {
   array,
   isTrueBrowser,
   isString,
-  config,
   convertBackgroundSpec,
   isMiniAppLikeMode
 } from '../util';
@@ -67,7 +67,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { has, isFunction, isEmpty, getContainerSize } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
-import type { IGroupMark, IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
+import type { IGroupMark, IRunningConfig as IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
 import { CompilableBase } from '../compile/compilable-base';
 import type { IStateInfo } from '../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -239,6 +239,8 @@ export class BaseChart extends CompilableBase implements IChart {
     this._series.forEach(s => s.fillData());
     // 此时 globalScale 已经生效组件可以获取到正确的映射
     this.updateGlobalScaleDomain();
+
+    this._components.forEach(c => c.afterInit());
   }
 
   onResize(width: number, height: number): void {
@@ -662,6 +664,25 @@ export class BaseChart extends CompilableBase implements IChart {
     this.getAllModels().forEach(model => model.onDataUpdate());
   }
 
+  updateFullData(data: IDataValues | IDataValues[], updateGlobalScale: boolean = true) {
+    const dvs: { d: IDataValues; dv: DataView }[] = [];
+    array(data).forEach(d => {
+      const dv = this._dataSet.getDataView(d.id as string);
+      if (dv) {
+        dvs.push({ d, dv });
+        dv.markRunning();
+      }
+    });
+    dvs.forEach(({ d, dv }) => {
+      dv.setFields(d.fields as IFields);
+      dv.parseNewData(d.values, d.parser as IParserOptions);
+    });
+    if (updateGlobalScale) {
+      this.updateGlobalScaleDomain();
+    }
+    this.getAllModels().forEach(model => model.onDataUpdate());
+  }
+
   onRender(option: IChartRenderOption) {
     // do nothing
   }
@@ -885,7 +906,7 @@ export class BaseChart extends CompilableBase implements IChart {
     if (!this._spec.data) {
       return;
     }
-    array(this._spec.data).forEach(d => {
+    array(this._spec.data).forEach((d, i) => {
       const dataView = this._dataSet.getDataView(d.id);
       if (dataView) {
         if (d.values) {
@@ -893,6 +914,8 @@ export class BaseChart extends CompilableBase implements IChart {
         } else if (!d.latestData) {
           dataView.updateRawData([]);
         }
+      } else {
+        result.reMakeData = true;
       }
     });
   }
@@ -952,7 +975,17 @@ export class BaseChart extends CompilableBase implements IChart {
       return;
     }
     this._series.forEach(s => {
-      this._mergeUpdateResult(result, s.updateSpec(this._spec.series[s.getSpecIndex()]));
+      const spec = this._spec.series[s.getSpecIndex()];
+      if (result.reMakeData) {
+        let values;
+        if (!spec.data) {
+          values = this.getSeriesData(spec.dataId, spec.dataIndex)?.latestData;
+        } else {
+          values = spec.data.values;
+        }
+        s.updateRawData(values);
+      }
+      this._mergeUpdateResult(result, s.updateSpec(spec));
       s.reInit();
     });
   }
@@ -992,7 +1025,9 @@ export class BaseChart extends CompilableBase implements IChart {
       largeThreshold: spec.largeThreshold,
       progressiveStep: spec.progressiveStep,
       progressiveThreshold: spec.progressiveThreshold,
-      background: spec.seriesBackground
+      background: spec.seriesBackground,
+
+      invalidType: spec.invalidType
     };
     return series;
   }

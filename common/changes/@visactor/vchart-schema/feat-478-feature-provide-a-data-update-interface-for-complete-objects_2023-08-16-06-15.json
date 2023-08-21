@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: added updateFullData api to allow users to update fields at the same time when updating data, details in #478\n\n",
+      "type": "minor",
+      "packageName": "@visactor/vchart-schema"
+    }
+  ],
+  "packageName": "@visactor/vchart-schema",
+  "email": "lixuef1313@163.com"
+}

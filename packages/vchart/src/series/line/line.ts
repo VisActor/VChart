@@ -5,7 +5,7 @@ import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
 import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
-import type { Datum, IInvalidType, Maybe } from '../../typings';
+import type { Datum, Maybe } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
@@ -35,7 +35,6 @@ export interface LineSeries
 export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.line;
   type = SeriesTypeEnum.line;
-  protected _invalidType: IInvalidType = 'break';
 
   static readonly mark: SeriesMarkMap = {
     ...BaseSeries.mark,

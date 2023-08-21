@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: tooltip support configure single content line style, related #338",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

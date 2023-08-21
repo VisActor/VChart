@@ -7,7 +7,7 @@ import type { IEffect, IModelInitOption, ILayoutRect } from '../../../model/inte
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { IAxisLocationCfg, ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
-import { isArray, isValid, isValidNumber, merge, eachSeries, getFieldAlias, isNil } from '../../../util';
+import { isArray, isValid, isValidNumber, merge, eachSeries, isNil, isUndefined } from '../../../util';
 import type { IOrientType } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
@@ -17,7 +17,7 @@ import { isContinuous } from '@visactor/vscale';
 import type { LayoutItem } from '../../../model/layout-item';
 import { Factory } from '../../../core/factory';
 import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis } from './util';
-import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex } from '../../../constant';
+import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
 import type { IPoint, StringOrNumber } from '../../../typings';
@@ -260,10 +260,10 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
 
     const isX = isXAxis(this.orient);
     if (isX) {
-      if (isNil(this._spec.maxHeight)) {
+      if (isUndefined(this._spec.maxHeight)) {
         this._spec.maxHeight = '30%';
       }
-    } else if (isNil(this._spec.maxWidth)) {
+    } else if (isUndefined(this._spec.maxWidth)) {
       this._spec.maxWidth = '30%';
     }
 
@@ -308,6 +308,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,
+            tickMode: tick.tickMode,
+            noDecimals: tick.noDecimals,
 
             axisOrientType: this._orient,
             coordinateType: 'cartesian',
@@ -678,6 +680,13 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         items: this.getLabelItems(width)
       } as LineAxisAttributes;
     }
+    let verticalMinSize = isX ? this._minHeight : this._minWidth;
+    if (
+      (isX && this._layoutRectLevelMap.height === USER_LAYOUT_RECT_LEVEL) ||
+      (isY && this._layoutRectLevelMap.width === USER_LAYOUT_RECT_LEVEL)
+    ) {
+      verticalMinSize = this._verticalLimitSize;
+    }
     const attrs: LineAxisAttributes = {
       start: { x: 0, y: 0 },
       end,
@@ -692,7 +701,8 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         maxWidth: this._getTitleLimit(isX)
       },
       items: this.getLabelItems(axisLength),
-      verticalLimitSize: this._verticalLimitSize
+      verticalLimitSize: this._verticalLimitSize,
+      verticalMinSize
     };
 
     return attrs;
@@ -724,7 +734,10 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         return (
           (isX ? !isXAxis(item.orient) : isXAxis(item.orient)) &&
           isContinuous(item.getScale().type) &&
-          (item.getScale() as ILinearScale).ticks().includes(0)
+          item
+            .getTickData()
+            .getLatestData()
+            ?.find((d: any) => d.value === 0)
         );
       };
       const relativeAxes = axesComponents.filter(item => isValidAxis(item));

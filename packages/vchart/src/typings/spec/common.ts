@@ -52,6 +52,7 @@ import type { ICrosshairSpec } from '../../component/crosshair/interface';
 import type { ITheme } from '../../theme';
 import type { ITitleSpec } from '../../component/title/interface';
 import type { IBrushSpec } from '../../component/brush';
+import type { ITotalLabelSpec } from '../../component/label';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -248,6 +249,21 @@ export interface IFieldsMeta {
   sortReverse?: boolean;
 }
 
+export interface SheetParseOptions {
+  type: 'csv' | 'dsv' | 'tsv';
+  options?: IDsvParserOptions;
+}
+
+export interface CommonParseOptions {
+  /**
+   * 是否需要对数据进行 clone，默认为 true。
+   * 如果考虑性能，你可以将其关闭，但是这会带了一些副作用，即我们会对传入的数据进行修改（不会对原有字段及值修改，只会在原有数据基础上添加一些字段）。
+   * @default true
+   * @since 1.3.0
+   */
+  clone?: boolean;
+}
+
 export interface IDataValues {
   /**
    * 数据唯一标识
@@ -278,10 +294,7 @@ export interface IDataValues {
     IFieldsMeta
   >;
 
-  parser?: {
-    type: 'csv' | 'dsv' | 'tsv';
-    options?: IDsvParserOptions;
-  };
+  parser?: SheetParseOptions | CommonParseOptions;
 }
 
 export type IHierarchyNodeData = {
@@ -344,6 +357,11 @@ export interface ISeriesSpec extends ITriggerSpec {
   /** 是否对数据进行堆叠处理 */
   stack?: boolean;
 
+  /** 堆叠汇总标签
+   * @since 1.3.0
+   */
+  totalLabel?: ITotalLabelSpec;
+
   /** 是否对数据进行百分比处理 */
   percent?: boolean;
 
@@ -353,7 +371,7 @@ export interface ISeriesSpec extends ITriggerSpec {
   /**
    * 非合规数据点连接方式
    * @description null，undefined等非法数据点连接方式。
-   * @default 'zero'
+   * @default 'break'
    * 'break'指在该数据点处断开
    * 'link' 指忽略该点保持连续
    * 'zero' 指该点默认数值为0

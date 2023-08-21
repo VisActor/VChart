@@ -302,14 +302,21 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     if (!this._xAxisHelper) {
       return Number.NaN;
     }
-    return this.valueToPositionX(this.getDatumPositionValues(datum, this._fieldX));
+
+    const { dataToPosition, getFields } = this._xAxisHelper;
+    const fields = getFields ? getFields() : this._fieldX;
+    const value = this.getDatumPositionValues(datum, fields);
+    return dataToPosition(array(value), { bandPosition: this._bandPosition, datum });
   }
 
   dataToPositionY(datum: Datum): number {
     if (!this._yAxisHelper) {
       return Number.NaN;
     }
-    return this.valueToPositionY(this.getDatumPositionValues(datum, this._fieldY));
+    const { dataToPosition, getFields } = this._yAxisHelper;
+    const fields = getFields ? getFields() : this._fieldY;
+    const value = this.getDatumPositionValues(datum, fields);
+    return dataToPosition(array(value), { bandPosition: this._bandPosition, datum });
   }
 
   dataToPositionZ(datum: Datum): number {

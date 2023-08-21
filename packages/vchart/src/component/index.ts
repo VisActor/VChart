@@ -51,6 +51,7 @@ import type { ITooltipSpec } from './tooltip';
 import { Tooltip } from './tooltip';
 import type { ILabelSpec } from './label';
 import { Label } from './label';
+import { TotalLabel } from './label/totalLabel';
 
 export {
   ScrollBar,
@@ -78,7 +79,8 @@ export {
   MarkLine,
   MarkPoint,
   Tooltip,
-  Label
+  Label,
+  TotalLabel
 };
 
 export type {

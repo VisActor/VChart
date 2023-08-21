@@ -40,7 +40,7 @@ import { hasParentElement, isString } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 
-export type TooltipContent = {
+export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
   content?: IToolTipLineActual[];
 };
@@ -172,7 +172,7 @@ export class Tooltip extends BaseComponent implements ITooltip {
         this._mountEvent('pointerdown', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
         this._mountEvent('pointerup', { source: 'window' }, this._handleMouseOut);
       }
-      // this._mountEvent('pointerout', { level: Event_Bubble_Level.chart, source: 'chart' }, this._handleMouseOut);
+      this._mountEvent('pointerout', { level: Event_Bubble_Level.chart, source: 'chart' }, this._handleMouseOut);
       this._mountEvent('pointermove', { source: 'window' }, this._handleMouseOut);
     } else if (trigger === 'click') {
       this._mountEvent('pointertap', { level: Event_Bubble_Level.chart }, this._handleMouseMove);

@@ -14,15 +14,13 @@ export const invalidTravel = (data: Array<any>, op: ITravelOpt) => {
     return data;
   }
   const { invalidType, checkField } = config();
-  if (invalidType === 'link') {
-    data = data.filter((datum: Datum) => couldBeValidNumber(datum[checkField]));
-  } else if (invalidType === 'zero') {
-    data.forEach((datum: Datum) => {
-      if (!couldBeValidNumber(datum[checkField])) {
-        datum[checkField] = 0;
-      }
-    });
+  if (invalidType !== 'zero') {
     return data;
   }
+  data.forEach((datum: Datum) => {
+    if (!couldBeValidNumber(datum[checkField])) {
+      datum[checkField] = 0;
+    }
+  });
   return data;
 };

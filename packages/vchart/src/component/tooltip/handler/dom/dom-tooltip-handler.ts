@@ -17,7 +17,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
   protected _tooltipContainer: HTMLElement = domDocument?.body;
   protected _domStyle: IDomTooltipStyle;
-  protected _tooltipActual: IToolTipActual;
+  protected _tooltipActual?: IToolTipActual;
   protected declare _container: Maybe<HTMLDivElement>;
 
   protected model: TooltipModel;

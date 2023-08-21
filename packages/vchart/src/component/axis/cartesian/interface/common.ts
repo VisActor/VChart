@@ -1,7 +1,7 @@
 import type { SegmentAttributes, AxisLabelOverlap } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IAxis, IDomainLine, ILabel, ITitle } from '../../interface';
-import type { StringOrNumber } from '../../../../typings';
+import type { Datum, StringOrNumber } from '../../../../typings';
 
 export type ICartesianDomainLineSpec = {
   startSymbol?: SegmentAttributes['startSymbol'];
@@ -71,6 +71,17 @@ export type ICartesianLabel = ILabel & {
    * @default null
    */
   lastVisible?: boolean | null;
+  /**
+   * label 相对于容器整体的对齐方式
+   * - `top`：整体向上对齐（垂直方向）
+   * - `middle`：整体居中对齐（垂直方向）
+   * - `bottom`：整体向下对齐（垂直方向）
+   * - `left`：整体向左对齐（水平方向）
+   * - `center`：整体居中对齐（水平方向）
+   * - `right`：整体向右对齐（水平方向）
+   * @since 1.3.0
+   */
+  containerAlign?: 'left' | 'right' | 'center' | 'top' | 'bottom' | 'middle';
 } & AxisLabelOverlap;
 
 export interface ILinearAxis extends IAxis {
@@ -101,10 +112,14 @@ export interface IAxisHelper {
   getAxisId: () => number;
 
   isInverse: () => boolean;
+
+  // 在地理坐标系系列中，传递经纬度配置字段
+  getFields?: () => string[];
 }
 
 export interface IAxisLocationCfg {
   bandPosition?: number;
+  datum?: Datum;
 }
 
 export interface ITimeLayerType {

@@ -41,6 +41,8 @@ export interface IComponent extends IModel, ILayoutItem {
 
   // 清空，用于更新等场景
   clear: () => void;
+
+  afterInit: () => void;
 }
 
 export interface IComponentConstructor {

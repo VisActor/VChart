@@ -1,3 +1,4 @@
+import type { IPercentOffset } from './../model/interface';
 import type { ILayoutPaddingSpec } from '../model/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import { isArray } from '@visactor/vutils';
@@ -54,6 +55,16 @@ export function isPercent(v: any): v is IPercent {
   return couldBeValidNumber(v.substring(0, v.length - 1));
 }
 
+export function isPercentOffset(v: any): v is IPercentOffset {
+  if (!isObject(v)) {
+    return false;
+  }
+  if ('percent' in v || 'offset' in v) {
+    return true;
+  }
+  return false;
+}
+
 export function calcLayoutNumber(
   v: ILayoutNumber | undefined,
   size: number,
@@ -67,6 +78,9 @@ export function calcLayoutNumber(
   }
   if (isFunction(v)) {
     return v(callOp);
+  }
+  if (isObject(v)) {
+    return size * (v.percent ?? 0) + (v.offset ?? 0);
   }
   return 0;
 }
@@ -150,12 +164,13 @@ export function normalizeLayoutPaddingSpec(spec: ILayoutPaddingSpec): ILayoutOri
     }
     return result;
   }
-  if (isNumber(spec) || isPercent(spec) || isFunction(spec)) {
+  if (isNumber(spec) || isPercent(spec) || isFunction(spec) || isPercentOffset(spec)) {
     result.top = result.left = result.bottom = result.right = spec;
     return result;
   }
   if (isObject(spec)) {
     result = { ...spec };
+    return result;
   }
   return result;
 }
