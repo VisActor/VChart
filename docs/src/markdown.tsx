@@ -156,6 +156,12 @@ export function Markdown() {
   const [outline, setOutline] = useState<any>([]);
   const [content, setContent] = useState<string>('');
 
+  const [siderWidth, setSiderWidth] = useState<number>(280);
+
+  const handleMoving = (event: any, { width }: any) => {
+    setSiderWidth(Math.max(width, 120));
+  };
+
   useEffect(() => {
     const menuPath = `/assets/${assetDirectory}/menu.json`;
     fetch(menuPath)
@@ -183,8 +189,13 @@ export function Markdown() {
       fetch(docPath)
         .then(response => response.text())
         .then(text => {
+          let processedText = text;
+          // remove meta info for examples
+          if (assetDirectory === 'examples') {
+            processedText = processedText.replace(/---(.|\n)*---/, '').trim();
+          }
           // Hack: process all livedemo code to livedemo language and replace these after
-          const processedText = text.replaceAll(/\`\`\`(.*) livedemo/g, '```livedemo');
+          processedText = processedText.replaceAll(/\`\`\`(.*) livedemo/g, '```livedemo');
           setContent(markdownParser.render(processedText));
         });
     }
@@ -196,7 +207,13 @@ export function Markdown() {
         <Header />
       </Layout.Header>
       <Layout style={{ marginTop: 48 }}>
-        <Layout.Sider style={{ height: 'calc(100vh - 48px)', width: 280 }}>
+        <Layout.Sider
+          style={{ height: 'calc(100vh - 48px)', width: siderWidth }}
+          resizeBoxProps={{
+            directions: ['right'],
+            onMoving: handleMoving
+          }}
+        >
           <Outline menuItems={outline} assetDirectory={assetDirectory} />
         </Layout.Sider>
         <Layout.Content style={{ height: 'calc(100vh - 48px)' }}>

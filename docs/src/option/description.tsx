@@ -235,6 +235,7 @@ interface IDescriptionProps {
   baseUrl: string;
   descriptions: IOptionDescriptionNode[];
   recordedOutline: Record<string, IOptionOutlineNode>;
+  outlineWidth?: number;
   style?: React.CSSProperties;
   // className?: string;
   [foo: string]: any;
@@ -254,7 +255,7 @@ export function Description(props: IDescriptionProps) {
     <div
       style={{
         padding: '20px 20px 60px 40px',
-        width: 'calc(100vw - 340px)',
+        width: `calc(100vw - ${60 + (props.outlineWidth ?? 280)}px)`,
         ...(props.style ?? {})
       }}
     >

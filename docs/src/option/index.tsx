@@ -25,6 +25,12 @@ export function OptionDocument(props: IProps) {
   const [outline, setOutline] = useState<IOptionOutlineNode | null>(null);
   const [description, setDescription] = useState<IOptionDescriptionNode[]>([]);
 
+  const [siderWidth, setSiderWidth] = useState<number>(280);
+
+  const handleMoving = (event: any, { width }: any) => {
+    setSiderWidth(Math.max(width, 120));
+  };
+
   useEffect(() => {
     props.getOutline().then(outline => {
       setOutline(outline);
@@ -48,10 +54,14 @@ export function OptionDocument(props: IProps) {
     >
       <Layout.Sider
         style={{
-          width: 280,
+          width: siderWidth,
           // borderRight: '1px solid rgb(229, 230, 235)',
           // boxShadow: '0 2px 5px 0 rgba(0, 0, 0, 0.08)',
           ...(props.outlineStyle ?? {})
+        }}
+        resizeBoxProps={{
+          directions: ['right'],
+          onMoving: handleMoving
         }}
       >
         {outline ? <Outline baseUrl={props.baseUrl} outline={outline} /> : null}
@@ -66,6 +76,7 @@ export function OptionDocument(props: IProps) {
             baseUrl={props.baseUrl}
             descriptions={description}
             recordedOutline={recordOutline(outline)}
+            outlineWidth={siderWidth}
             style={{ minHeight: '100%' }}
           />
         ) : null}
