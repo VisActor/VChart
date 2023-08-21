@@ -132,7 +132,8 @@ async function bootstrap() {
     _task(Tasks.COPY_FILES, () => copyFiles(PROJECT_ROOT, config));
     taskList.push(Tasks.COPY_FILES);
   }
-  if (config.postTasks) {
+
+  if (!args.ignorePostTasks && config.postTasks) {
     const tasksKey = Object.keys(config.postTasks);
     if (tasksKey.length) {
       tasksKey.forEach(name => {
