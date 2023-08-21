@@ -22,7 +22,7 @@ import type { VChart } from '../core/vchart';
 import type { IColor, Stage } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
 import { vglobal } from '@visactor/vrender';
-import type { IMorphConfig } from '../animation/spec';
+import type { IRunningConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
 
 type EventListener = {
@@ -165,7 +165,7 @@ export class Compiler {
     this.updateDepend();
   }
 
-  async renderAsync(morphConfig?: IMorphConfig): Promise<any> {
+  async renderAsync(morphConfig?: IRunningConfig): Promise<any> {
     this.initView();
     if (!this._view) {
       return Promise.reject('srView init fail');
@@ -174,7 +174,7 @@ export class Compiler {
     return this;
   }
 
-  renderSync(morphConfig?: IMorphConfig): void {
+  renderSync(morphConfig?: IRunningConfig): void {
     this.initView();
     if (!this._view) {
       return;
@@ -202,7 +202,7 @@ export class Compiler {
     this._view?.background(color);
   }
 
-  reRenderAsync(morphConfig?: IMorphConfig) {
+  reRenderAsync(morphConfig?: IRunningConfig) {
     if (this.isInited) {
       // 合并多次 renderSync 调用，另外如果使用 renderAsync 异步渲染的话，在小程序环境会有问题
       if (this._rafId) {
