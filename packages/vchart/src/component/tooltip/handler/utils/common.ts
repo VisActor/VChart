@@ -106,6 +106,9 @@ export function convertToColorString(color: any, defaultColor: string = '#000') 
 
 /** 获取元素的绝对缩放因数（支持外部传入 boundingClientRect 提升性能） */
 export const getScale = (element: HTMLElement, boundingClientRect?: DOMRect) => {
+  if (!element) {
+    return 1;
+  }
   if (!boundingClientRect) {
     boundingClientRect = element.getBoundingClientRect();
   }
