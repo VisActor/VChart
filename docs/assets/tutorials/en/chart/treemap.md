@@ -1,4 +1,5 @@
 # Treemap
+
 [\[Configuration Manual\]](../../../option/treemapChart)
 
 ## Introduction
@@ -8,16 +9,19 @@ A treemap is a statistical chart displaying tree-structured data using nested re
 Treemaps require tree-structured data (at least one parent node) and weighted child nodes. For tree-structured data without weights, use tree-structure diagrams or radial tree diagrams for representation.
 
 ## Chart Composition
+
 The treemap is mainly composed of rectangle elements representing hierarchical structures, tooltip information, and other components.  
-![](https://tosv.byted.org/obj/bit-cloud/364e85f0a2e6efbc39057a000.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/364e85f0a2e6efbc39057a000.png)
 
 Rectangle elements are the basic elements of the treemap, and relevant drawing configurations are essential:
+
 - `treemapChart.type`: Chart type, the type of bar/column/strip chart is `'treemap'`
 - `treemapChart.data`: Data source for chart drawing
 - `treemapChart.categoryField`: Value field, mapping different chart elements
 - `treemapChart.valueField`: Node weight field, mapping the size of the chart elements
 
 Tooltip information and other components that assist in chart presentation are optional configurations with default effects and functions:
+
 - `treemapChart.tooltip`: Tooltip, displayed by default during interactions, detailed configuration see [VChart Tooltip Component Configuration](../../../option/treemapChart#tooltip)
 - More component configurations can be found at [VChart treemapChart Configuration](../../../option/treemapChart)
 
@@ -431,29 +435,31 @@ window['vchart'] = vchart;
 ## Treemap Features
 
 ### Data
+
 In treemaps, data is usually hierarchical in structure, in the form of:
+
 ```ts
 data: [
-    {
-      name: "area",
-      values: [
-        {
-            name: 'A',
-            children: [
-                {name: 'A-a', value: 1}, 
-                {name: 'A-b', value: 2}
-            ]
-        },
-        {
-            name: 'B',
-            children: [
-                {name: 'B-a', value: 3}, 
-                {name: 'B-b', value: 4}
-            ]
-        }
-      ]
+  {
+    name: 'area',
+    values: [
+      {
+        name: 'A',
+        children: [
+          { name: 'A-a', value: 1 },
+          { name: 'A-b', value: 2 }
+        ]
+      },
+      {
+        name: 'B',
+        children: [
+          { name: 'B-a', value: 3 },
+          { name: 'B-b', value: 4 }
+        ]
+      }
+    ]
   }
-]
+];
 ```
 
 ### Chart Layout
@@ -461,7 +467,7 @@ data: [
 #### Rectangle Split
 
 1. Split method
-The essence of the treemap algorithm is to divide the rectangular area and then divide the subdivided areas again until the smallest areas are obtained. In VChart, the division method can be specified by `treeMapChart.splitType: 'binary' | 'dice' | 'slice' | 'sliceDice' | 'squarify'`, with a default value of `'binary'`.
+   The essence of the treemap algorithm is to divide the rectangular area and then divide the subdivided areas again until the smallest areas are obtained. In VChart, the division method can be specified by `treeMapChart.splitType: 'binary' | 'dice' | 'slice' | 'sliceDice' | 'squarify'`, with a default value of `'binary'`.
 
 - `'binary'`: Recursively splits the specified node into a nearly balanced binary tree, with horizontal split for wide rectangles and vertical split for high rectangles.
 - `'dice'`: Horizontally divide the rectangular area specified by x0, y0, x1, y1 according to the value of each child node of the specified node. Child nodes are positioned in order, starting from the left edge (x0) of the given rectangle. If the sum of the child node values is less than the value of the specified node (i.e., if the specified node has a nonzero internal value), the remaining space will be positioned at the right edge (x1) of the given rectangle.
@@ -470,7 +476,7 @@ The essence of the treemap algorithm is to divide the rectangular area and then 
 - `'squarify'`: As far as possible, divide the rectangle according to a specific aspect ratio.
 
 2. Split ratio
-`treemapChart.aspectRatio`: It can be configured for each split ratio. The default value is `(1 + Math.sqrt(5)) / 2`, which is about 1.618
+   `treemapChart.aspectRatio`: It can be configured for each split ratio. The default value is `(1 + Math.sqrt(5)) / 2`, which is about 1.618
 
 ```javascript livedemo
 const spec = {
@@ -878,6 +884,7 @@ window['vchart'] = vchart;
 ```
 
 #### Hierarchical Display
+
 1. Gap width between two same-level nodes: `treemapChart.gapWidth`
 2. Hierarchy margin: `nodePadding`
 3. Maximum display level: `maxDepth`
@@ -1289,8 +1296,9 @@ window['vchart'] = vchart;
 ```
 
 ### Chart Interaction
- 
+
 #### Drag and Zoom
+
 Since treemaps usually display large amounts of data and complex hierarchical structures, VChart provides drag and zoom interactions specifically for treemaps. To enable drag and zoom, configure `treemapChart.roam: true`.
 
 ```javascript livedemo

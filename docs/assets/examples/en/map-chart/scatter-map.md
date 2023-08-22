@@ -4,7 +4,7 @@ group: map chart
 title: Scatter Map
 keywords: map,space,polygon,scatter,distribution,comparison
 order: 11-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/map-chart/scatter-map.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/map-chart/scatter-map.png
 option: mapChart
 ---
 
@@ -45,7 +45,7 @@ const spec = {
       yField: 'value',
       // Numerical field configuration associated with the size of the scatter point
       sizeField: 'value',
-     // The size of the scatter point is a continuous numerical map, the minimum value of size is 10, and the maximum value is 40
+      // The size of the scatter point is a continuous numerical map, the minimum value of size is 10, and the maximum value is 40
       size: {
         type: 'linear',
         range: [10, 40]
@@ -224,7 +224,7 @@ const spec = {
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 if (VChart.getMap('china')) {
-    vchart.renderAsync();
+  vchart.renderAsync();
 }
 ```
 

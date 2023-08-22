@@ -4,7 +4,7 @@ group: word chart
 title: Word Cloud Auto-fit to Canvas
 keywords: wordCloud,text,distribution
 order: 14-2
-cover: https://tosv.byted.org/obj/bit-cloud/c0de7ff0a101bd4cb25c81703.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81703.png
 option: wordCloudChart
 ---
 
@@ -16,7 +16,7 @@ Enlarge the font size to fit the canvas width and height when there are fewer wo
 
 - The `nameField` property is set as the text field
 - The `valueField` property is set as the font size field
-- The `wordCloudConfig.zoomToFit` property is set for the adaptive scaling configuration of the word cloud; `enlarge`: when enabled, the font size will be enlarged to fit the canvas width and height when there are fewer words, and you can set the maximum font size with `fontSizeLimitMax`, which will be defaulted to fill the canvas 
+- The `wordCloudConfig.zoomToFit` property is set for the adaptive scaling configuration of the word cloud; `enlarge`: when enabled, the font size will be enlarged to fit the canvas width and height when there are fewer words, and you can set the maximum font size with `fontSizeLimitMax`, which will be defaulted to fill the canvas
 
 ## Code demo
 

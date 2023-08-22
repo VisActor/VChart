@@ -66,5 +66,5 @@ fs.writeFileSync(`./chart.png`, buffer);
 Upon executing the above script, you will obtain the following image:
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a24.png" alt="Radar Chart">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a24.png" alt="Radar Chart">
 </div>

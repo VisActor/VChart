@@ -4,7 +4,7 @@ group: histogram chart
 title: Basic Histogram
 keywords: histogram,distribution,rectangle
 order: 3-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/histogram-chart/histogram-basis.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/histogram-chart/histogram-basis.png
 option: histogramChart
 ---
 

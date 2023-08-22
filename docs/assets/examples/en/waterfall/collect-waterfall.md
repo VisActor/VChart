@@ -4,7 +4,7 @@ group: waterfall
 title: Decomposition Waterfall Chart
 keywords: waterfall,comparison,distribution,rectangle
 order: 18-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/waterfall/collect-waterfall.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/collect-waterfall.png
 option: waterfallChart
 ---
 
@@ -25,7 +25,7 @@ const spec = {
     {
       id: 'id0',
       values: [
-       { x: 'First quarter-primary industry', y: 10954, type: 'primary industry' },
+        { x: 'First quarter-primary industry', y: 10954, type: 'primary industry' },
         { x: 'First Quarter-Secondary Industry', y: 106187, type: 'Secondary Industry' },
         { x: 'First quarter-tertiary industry', y: 153037, type: 'tertiary industry' },
         { x: 'First quarter', total: true, collect: 3 },

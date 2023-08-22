@@ -4,7 +4,7 @@ group: gradient
 title: Gradient Area Chart
 keywords: areaChart, comparison, trend, area, gradient
 order: 38-2
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/gradient/area.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/area.png
 option: areaChart
 ---
 

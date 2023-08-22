@@ -3,7 +3,7 @@ category: examples
 group: pie
 title: Radius mappable pie chart
 order: 6-4
-cover: https://tosv.byted.org/obj/bit-cloud/c0de7ff0a101bd4cb25c8170a.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c8170a.png
 option: pieChart
 ---
 
@@ -13,8 +13,8 @@ Pie charts can map data with internal and external radii by configuring custom s
 
 ## critical configuration
 
-*   `categoryField`,`valueField` Properties are used to specify the pie category and fan angle fields, respectively
-*   `innerRadius`,`outerRadius` Property is used to specify the inner and outer radii of the sector
+- `categoryField`,`valueField` Properties are used to specify the pie category and fan angle fields, respectively
+- `innerRadius`,`outerRadius` Property is used to specify the inner and outer radii of the sector
 
 ## Code demo
 

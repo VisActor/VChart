@@ -6,15 +6,13 @@
 
 组合图的优势在于可以同时呈现来自多个数据集的信息，从而更全面地展示整体趋势和方向。通过将不同的数据类型、单位和度量组合在一起，可以为复杂的数据提供更深入和全面的洞察力。组合图广泛用于商业、科学、医疗等各种领域，以有效地分析和比较各种复杂数据。
 
-![image](https://tosv.boe.byted.org/obj/bit-cloud/45df54929d214e7453e228f1d.png)
-
-
+![image](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f1d.png)
 
 ## 图表构成
 
-如字面含义，组合图由不同图表系列、坐标轴、提示信息等不同组件组合而成。理论上而言，VChart支持所有图表系列的排列组合，但在此之前需要通过部分配置确定不同系列的数据、布局等关系，从而让不同系列在合理摆放的同时都能够通过数据映射得到正确的图元属性。
+如字面含义，组合图由不同图表系列、坐标轴、提示信息等不同组件组合而成。理论上而言，VChart 支持所有图表系列的排列组合，但在此之前需要通过部分配置确定不同系列的数据、布局等关系，从而让不同系列在合理摆放的同时都能够通过数据映射得到正确的图元属性。
 
-- `commonChart.type: 'common'`:  图表类型，组合图的类型为`'common'`
+- `commonChart.type: 'common'`: 图表类型，组合图的类型为`'common'`
 - `commonChart.layout`: 确定组合图布局
 
   - `commonChart.layout.type`: 布局类型, `grid`为行列布局
@@ -29,7 +27,6 @@
 - `commonChart.series`: 声明不同的图表系列, 在系列配置中`regionIndex`用于绑定图表系列所在的数据区域. `id`用于绑定轴所在的布局单元, 与`layout.elements`中的`modelId`一一对应。（由于数据区域与`layout.elements`中的`modelId`存在对应关系, 所以此处不需要声明`id`）
 
 - `commonChart.axes`: 声明不同的坐标轴组件, `regionIndex`和`id`属性同上
-
 
 ## 组合图特性
 
@@ -114,13 +111,11 @@ window['vchart'] = vchart;
 
 #### 关键配置
 
-
 - `type: 'common'` 声明为组合图类型
 - `axes` 的 `seriesIndex` 属性配置为轴需要关联的 `series` 序号
 - `axes` 的 `seriesId` 属性配置为轴需要关联的 `series` 的 `id` 的数组
 
 ### 线饼组合图（饼图 + 线图）
-
 
 ```javascript livedemo
 const spec = {
@@ -240,13 +235,13 @@ vchart.on('dimensionHover', {}, params => {
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### 关键配置
 
 - `type: 'common'` 声明为组合图类型
 - `layout` 属性中配置多个 `region` 的布局
 
 ### 极坐标系下的组合图（雷达图 + 玫瑰图）
-
 
 ```javascript livedemo
 const spec = {
@@ -350,6 +345,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### 关键配置
 
 - `type: 'common'` 声明为组合图
@@ -357,7 +353,6 @@ window['vchart'] = vchart;
 - `axes` 声明角度轴和半径轴，注意，坐标轴信息必须声明，否则无法绘制
 
 ### 缓动函数可视化
-
 
 ```javascript livedemo
 const easingFuncs = {
@@ -639,6 +634,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### 关键配置
 
 - `type: 'common'` 声明为组合图类型
@@ -646,7 +642,7 @@ window['vchart'] = vchart;
 - `animationAppear` 出场动画配置
   - `animationAppear.easing` 出场动画缓动函数配置
 
-### 多region饼图（饼图 + 饼图）
+### 多 region 饼图（饼图 + 饼图）
 
 ```javascript livedemo
 const spec = {
@@ -852,8 +848,3 @@ window['vchart'] = vchart;
 
 - `type: 'common'` 声明为组合图类型
 - `layout` 属性中配置多个 `region` 的布局
-
-
-
-
-

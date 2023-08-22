@@ -59,7 +59,7 @@ Before using the VChart Lark Mini Program component library, please make sure yo
 
 Enable Editor > Details > Local Settings > Use npm, and read [Enable npm Capability](https://open.feishu.cn/document/tools-and-resources/development-tools/npm-support#26ae361b) for detailed operations.
 
-![](https://tosv.byted.org/obj/bit-cloud/a2c7623458257d15626270918.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a2c7623458257d15626270918.png)
 
 **Important Note: The package.json file of the npm package needs to be placed within the miniprogramRoot defined in project.config.json.**
 

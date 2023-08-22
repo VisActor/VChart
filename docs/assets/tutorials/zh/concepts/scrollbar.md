@@ -7,7 +7,7 @@ Scrollbar 滚动条是 VChart 图表提供的一个交互组件，它和普通�
 Scrollbar 组件主要由两部分组成：滚动块 (`slider`)、轨道 (`rail`) 这两部分组成，我们可以通过指定滚动条的配置来调整滚动条的外观和行为。
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a18.png" alt="Scrollbar 组成图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a18.png" alt="Scrollbar 组成图示">
 </div>
 
 ## 示例

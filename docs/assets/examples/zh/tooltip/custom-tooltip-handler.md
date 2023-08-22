@@ -4,7 +4,7 @@ group: tooltip
 title: 自定义 tooltip handler
 keywords: tooltip
 order: 26-2
-cover: https://tosv.byted.org/obj/bit-cloud/7b82fb013e7c6319c065b3d03.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/7b82fb013e7c6319c065b3d03.png
 option: roseChart#tooltip
 ---
 

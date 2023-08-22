@@ -10,9 +10,8 @@ Indicator Card (Indicator) is mainly composed of the following parts:
 2. Content: Used to display the detailed data of the indicator card.
 3. Interaction Trigger: Used to configure the triggering method of indicator card updates.
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a16.png" alt="Indicator Schematic">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a16.png" alt="Indicator Schematic">
 </div>
 
 ## Interaction
@@ -37,14 +36,14 @@ In this example, we used the `indicator` configuration to implement the indicato
 2. `trigger: 'hover'`: Specifies to display the indicator card when the mouse hovers over the chart.
 3. `limitRatio 0.4`: Specifies the maximum width of the indicator card as a ratio of the entire pie chart width.
 4. `title` object: The title of the indicator card. In this:
-    * `visible: true`: Specifies that the title is visible.
-    * `autoFit true`: Specifies that the title automatically adapts to the width of the indicator card.
-    * `style` object: Configure the title style, including font, color, etc.
-    * `text` anonymous function: Dynamically generate the title text.
+   - `visible: true`: Specifies that the title is visible.
+   - `autoFit true`: Specifies that the title automatically adapts to the width of the indicator card.
+   - `style` object: Configure the title style, including font, color, etc.
+   - `text` anonymous function: Dynamically generate the title text.
 5. `content` array: Configure the content of the indicator card. In this:
-    * `visible: true`: Specifies that the content is visible.
-    * `style` object: Configure the content style, including text content, font, color, etc.
-    * `text` anonymous function: Dynamically generate the content text based on data.
+   - `visible: true`: Specifies that the content is visible.
+   - `style` object: Configure the content style, including text content, font, color, etc.
+   - `text` anonymous function: Dynamically generate the content text based on data.
 
 With the above configuration, we successfully created a pie chart with an indicator card. Below is an example image of the actual effect of the pie chart:
 

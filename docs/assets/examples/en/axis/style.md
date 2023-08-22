@@ -1,11 +1,10 @@
 ---
-
 category: demo
 group: axis
 title: General Style Configuration
 keywords: lineChart,comparison,trend,line,axis
 order: 25-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/axis/style.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/style.png
 option: lineChart#axes
 ---
 

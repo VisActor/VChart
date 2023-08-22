@@ -34,7 +34,7 @@ Pie chart center point y coordinate.
 
 Configuration for the offset of the sectors in the pie chart, used for scenarios where emphasizing or highlighting one or a few sectors is desired. As shown below:
 
-![image](https://tosv.byted.org/obj/bit-cloud/2894f40f27a9380faa39de500.png)
+![image](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/2894f40f27a9380faa39de500.png)
 
 To configure the pie chart sector offset in hover/selected interaction, you can configure in pie.state, as follows:
 

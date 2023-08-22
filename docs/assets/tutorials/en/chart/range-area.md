@@ -1,4 +1,5 @@
 # Range Area Chart
+
 [\[Configuration Manual\]](../../../option/rangeAreaChart)
 
 ## Introduction
@@ -9,20 +10,23 @@ The Range Area Chart (Range Area Chart) is a visual encoding graphic used to dis
 
 Similar to the area chart, the range area chart is composed of area chart elements, coordinate axes, and other components.
 
-![](https://tosv.byted.org/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a06.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a06.png)
 
 The rectangular chart element is the basic element of the range area chart, and related drawing configurations are essential:
+
 - `rangeAreaChart.type`: Chart type, the type of bar / bar chart is `'rangeArea'`
 - `rangeAreaChart.data`: Data source for chart drawing
 - `rangeAreaChart.xField`: Category field, mapping the x-coordinate of the chart element
 - `rangeAreaChart.yField`: Value field array, mapping the lower and upper boundaries of the chart element, i.e., representing the minimum and maximum values of the data
 
 Coordinate axes, tooltips, and other components serve as auxiliary chart display components and are optional configurations with default effects and functions:
+
 - `rangeAreaChart.axes`: Coordinate axis component, displayed by default and automatically infers the coordinate system and data mapping logic based on the chart type, detailed configuration see [VChart Coordinate Axis Component Configuration](../../../option/rangeAreaChart#axes)
 - `rangeAreaChart.tooltip`: Tooltip, displayed by default when interacting, detailed configuration see [VChart Tooltip Component Configuration](../../../option/rangeAreaChart#tooltip)
 - For more component configurations, see [VChart rangeAreaChart Configuration](../../../option/rangeAreaChart)
 
 ## Getting Started Quickly
+
 ```javascript livedemo
 const spec = {
   type: 'rangeArea',
@@ -39,7 +43,7 @@ const spec = {
         { type: 'Category Seven', min: 18, max: 56 },
         { type: 'Category Eight', min: 18, max: 34 }
       ]
-    },
+    }
   ],
   type: 'rangeArea',
   dataIndex: 0,
@@ -71,44 +75,48 @@ vchart.renderAsync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
-
 ```
 
 ### Key Configurations
+
 - The `yField` property is configured as an array consisting of the minimum value numeric attribute and the maximum value numeric attribute.
 
 ## Range Area Chart Features
 
 ### Data
+
 - A `discrete` field, e.g., `x`
 - Two `numeric` fields, e.g., `min` and `max`
 
 Data is defined as follows:
+
 ```ts
 data: [
-    {
-        name: "rangeColumn",
-        values: [
-            {
-                x: 'A',
-                min: 5,
-                max: 8
-            },
-            {
-                x: 'B',
-                min: 5,
-                max: 8
-            },
-            {
-                x: 'C',
-                min: 5,
-                max: 8
-            }
-        ]
-    }
-]
+  {
+    name: 'rangeColumn',
+    values: [
+      {
+        x: 'A',
+        min: 5,
+        max: 8
+      },
+      {
+        x: 'B',
+        min: 5,
+        max: 8
+      },
+      {
+        x: 'C',
+        min: 5,
+        max: 8
+      }
+    ]
+  }
+];
 ```
+
 ### Combined Range Area Chart and Line Chart
+
 Since the range area chart can only display the maximum and minimum values of each dimension, in order to display the overall trend of the data, the range area chart is usually combined with the line chart.
 
 ```javascript livedemo
@@ -131,7 +139,7 @@ const spec = {
     {
       id: 'lineData',
       values: [
-         { type: 'Category One', average: 88 },
+        { type: 'Category One', average: 88 },
         { type: 'Category Two', average: 82 },
         { type: 'Category Three', average: 83.5 },
         { type: 'Category Four', average: 106.5 },

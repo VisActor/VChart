@@ -3,7 +3,7 @@ category: examples
 group: layout
 title: Row and Column Layout
 order: 37-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/layout/grid-layout.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/layout/grid-layout.png
 option: commonChart#layout
 ---
 
@@ -13,11 +13,11 @@ In the diagram, in addition to the built-in layout logic, the user can also pass
 
 ## critical configuration
 
-*   modelId The id of the layout module.
-*   What column is the col element in? Count from left to right, starting at 0.
-*   The row element is on the row. From top to bottom, counting from 0.
-*   colSpan column direction, the current element occupies several columns, the default value is 1.
-*   rowSpan row direction, the current element occupies several rows, the default value is 1.
+- modelId The id of the layout module.
+- What column is the col element in? Count from left to right, starting at 0.
+- The row element is on the row. From top to bottom, counting from 0.
+- colSpan column direction, the current element occupies several columns, the default value is 1.
+- rowSpan row direction, the current element occupies several rows, the default value is 1.
 
 ## Code demo
 

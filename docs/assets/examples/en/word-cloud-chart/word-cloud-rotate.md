@@ -4,7 +4,7 @@ group: word chart
 title: Word Cloud with Random Angle
 keywords: wordCloud,text,distribution
 order: 14-5
-cover: https://tosv.byted.org/obj/bit-cloud/c0de7ff0a101bd4cb25c81700.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81700.png
 option: wordCloudChart
 ---
 

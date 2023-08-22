@@ -4,7 +4,7 @@ group: progress
 title: Segmented Bar Progress Chart
 keywords: linearProgress,comparison,rectangle
 order: 16-1
-cover: http://tosv.byted.org/obj/bit-cloud/progress-segment-linear-progress.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/progress-segment-linear-progress.png
 option: linearProgressChart
 ---
 
@@ -17,6 +17,7 @@ Segmented bar graphs can be realized with `extensionMark`.
 - `extensionMark.rule` implements segmented bars
 
 ## Code demo
+
 ```javascript livedemo
 const spec = {
   type: 'linearProgress',

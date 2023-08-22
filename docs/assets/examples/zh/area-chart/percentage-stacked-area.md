@@ -4,7 +4,7 @@ group: area chart
 title: 百分比堆叠面积图
 keywords: areaChart,comparison,trend,area,proportion,composition
 order: 1-4
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/area-chart/percentage-stacked-area.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/percentage-stacked-area.png
 option: areaChart
 ---
 

@@ -35,7 +35,7 @@
 
 用于配置饼图中扇区中心的偏移，用于想强调或突出某一个或几个扇形的场景。如下所示：
 
-![image](https://tosv.byted.org/obj/bit-cloud/2894f40f27a9380faa39de500.png)
+![image](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/2894f40f27a9380faa39de500.png)
 
 如果想要配置饼图扇区在 hover/selected 交互状态下进行偏移的话，可以在 pie.state 中配置，如下：
 

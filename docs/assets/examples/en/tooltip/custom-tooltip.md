@@ -4,7 +4,7 @@ group: tooltip
 title: Custom tooltip style
 keywords: tooltip
 order: 26-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/tooltip/custom-tooltip.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/tooltip/custom-tooltip.png
 option: barChart#tooltip
 ---
 

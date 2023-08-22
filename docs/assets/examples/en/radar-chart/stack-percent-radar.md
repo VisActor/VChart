@@ -4,7 +4,7 @@ group: radar chart
 title: Percentage Stacked Radar Chart
 keywords: radarChart,comparison,line,circle,axis
 order: 10-3
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/radar-chart/stack-percent-radar.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-percent-radar.png
 option: radarChart
 ---
 

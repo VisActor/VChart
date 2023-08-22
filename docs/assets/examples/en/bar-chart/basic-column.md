@@ -4,7 +4,7 @@ group: bar chart
 title: Basic Column Chart
 keywords: barChart, comparison, distribution, rank, rectangle
 order: 2-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/bar-chart/basic-column.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/basic-column.png
 option: barChart
 ---
 

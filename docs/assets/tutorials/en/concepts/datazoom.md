@@ -1,27 +1,27 @@
 # DataZoom Data Filtering Slider
 
-DataZoom is a filtering slider component in the VChart chart library, which allows users to zoom and roam chart data more conveniently, improves data visibility, and enhances the interactivity of the chart. This tutorial mainly explains the related concepts and composition of DataZoom. For more detailed configuration and examples of DataZoom, please refer to the [Configuration Documentation](../../../option) and [Examples](../../../example) pages. 
+DataZoom is a filtering slider component in the VChart chart library, which allows users to zoom and roam chart data more conveniently, improves data visibility, and enhances the interactivity of the chart. This tutorial mainly explains the related concepts and composition of DataZoom. For more detailed configuration and examples of DataZoom, please refer to the [Configuration Documentation](../../../option) and [Examples](../../../example) pages.
 
 ## Composition
 
 The DataZoom component mainly consists of the following parts:
 
-*   `background` Background
-*   `selectedBackground` Selected background
-*   `startHandler` Start handle
-*   `endHandler` End handle
-*   `middleHandler` Middle handle
-    *   `icon` Middle handle icon
-    *   `background` Middle handle background
-*   `startText` Start text
-*   `endText` End text
-*   `background` The background rectangle of the thumbnail axis
-*   `backgroundChart` Preview chart of the thumbnail axis, currently supports line charts and area charts
-*   `selectedBackgroundChart` Preview chart of the selected part of the thumbnail axis.
-*   `dragMask` Dragging track element of the thumbnail axis.
+- `background` Background
+- `selectedBackground` Selected background
+- `startHandler` Start handle
+- `endHandler` End handle
+- `middleHandler` Middle handle
+  - `icon` Middle handle icon
+  - `background` Middle handle background
+- `startText` Start text
+- `endText` End text
+- `background` The background rectangle of the thumbnail axis
+- `backgroundChart` Preview chart of the thumbnail axis, currently supports line charts and area charts
+- `selectedBackgroundChart` Preview chart of the selected part of the thumbnail axis.
+- `dragMask` Dragging track element of the thumbnail axis.
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a2c7623458257d15626270914.png" alt="DataZoom Component Illustration">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a2c7623458257d15626270914.png" alt="DataZoom Component Illustration">
 </div>
 
 ## Example
@@ -30,9 +30,9 @@ In the following example, you can see a data filtering slider at the bottom of t
 
 In this example, we configure the data filtering slider through the `dataZoom` property. Here we mainly configure the thumbnail chart for the slider background layer and the chart style in the selected area:
 
-*   Background area chart: Configure with the `backgroundChart` object, including area chart (`area`) and line chart (`line`) styles. The fill color of the area chart is `#D1DBEE`, and the line width is 1; The stroke color of the line chart is `#D1DBEE`, and the width is 1.
+- Background area chart: Configure with the `backgroundChart` object, including area chart (`area`) and line chart (`line`) styles. The fill color of the area chart is `#D1DBEE`, and the line width is 1; The stroke color of the line chart is `#D1DBEE`, and the width is 1.
 
-*   Selected area chart: Configure with the `selectedBackgroundChart` object, including area (`area`) and line chart (`line`) styles. The fill color of the area chart is `#fbb934`, and the line width is 1; The stroke color of the line chart is `#fbb934`, and the line width is 1.
+- Selected area chart: Configure with the `selectedBackgroundChart` object, including area (`area`) and line chart (`line`) styles. The fill color of the area chart is `#fbb934`, and the line width is 1; The stroke color of the line chart is `#fbb934`, and the line width is 1.
 
 ```javascript livedemo
 const spec = {

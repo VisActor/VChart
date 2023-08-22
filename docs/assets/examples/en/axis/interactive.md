@@ -4,7 +4,7 @@ group: axis
 title: Axis Interaction
 keywords: areaChart,comparison,composition,trend,area,axis
 order: 25-6
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/axis/interactive.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/interactive.png
 option: areaChart#axes
 ---
 

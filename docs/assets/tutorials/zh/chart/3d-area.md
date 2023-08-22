@@ -4,12 +4,12 @@
 
 3d 面积图大部分配置项继承于 2d 面积图，其是对 2d 折线图增加 zField 映射以及 z 轴而得到
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e622523219.png)
+![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523219.png)
 
 ## 图表构成
 
 面积图由点图元、线图元、坐标轴及其他组件构成。  
-![](https://tosv.byted.org/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a04.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a04.png)
 
 点图元、线图元为面积图的基本要素，相关的绘制配置必不可少:
 

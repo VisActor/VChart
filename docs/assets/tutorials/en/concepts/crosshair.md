@@ -9,21 +9,20 @@ Crosshair marks data points by displaying a line connecting the data points and 
 In the Cartesian coordinate system, crosshair is composed of a set of vertical and horizontal lines or rectangular frames, as shown in the figure below:
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a15.png" alt="Cartesian Crosshair Example">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a15.png" alt="Cartesian Crosshair Example">
 </div>
-
 
 In the polar coordinate system, crosshair is composed of a set of arcs, rays, or sectors to mark the data points at the mouse's position. Crosshairs on the radial axis consist of a set of arcs, while crosshairs on the angular axis consist of a set of rays or sectors, as shown in the figure below:
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a218.png" alt="Polar Coordinate Crosshair Example">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a218.png" alt="Polar Coordinate Crosshair Example">
 </div>
 
 ## Configuration
 
 In VChart, the configuration item of crosshair is associated with the axis field and varies depending on the coordinate system. Next, we will discuss the configuration and usage of crosshair in different coordinate systems.
 
-* In the Cartesian coordinate system, the crosshair configuration item is as follows:
+- In the Cartesian coordinate system, the crosshair configuration item is as follows:
 
 ```javascript
  {
@@ -41,7 +40,7 @@ In VChart, the configuration item of crosshair is associated with the axis field
   }
 ```
 
-* In the polar coordinate system, the crosshair configuration item is as follows, we need to associate the category field and the value field:
+- In the polar coordinate system, the crosshair configuration item is as follows, we need to associate the category field and the value field:
 
 ```javascript
 {

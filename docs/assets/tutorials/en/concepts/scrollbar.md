@@ -7,7 +7,7 @@ Scrollbar is an interactive component provided by VChart, which is similar to th
 The Scrollbar component mainly consists of two parts: the slider (`slider`) and the track (`rail`). We can adjust the appearance and behavior of the scrollbar by specifying the scrollbar configuration.
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a18.png" alt="Scrollbar Composition Diagram">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a18.png" alt="Scrollbar Composition Diagram">
 </div>
 
 ## Examples

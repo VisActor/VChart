@@ -4,7 +4,7 @@ group: area chart
 title: Range Area Chart
 keywords: areaChart,comparison,trend,area,rangeAreaChart
 order: 1-5
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/area-chart/range-area.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/range-area.png
 option: areaChart
 ---
 

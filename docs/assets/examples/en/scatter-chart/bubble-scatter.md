@@ -3,7 +3,7 @@ category: examples
 group: scatter chart
 title: Bubble Scatter Chart
 order: 9-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/scatter-chart/bubble-scatter.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/bubble-scatter.png
 option: scatterChart
 ---
 
@@ -101,7 +101,7 @@ const data = [
 ];
 
 function logScale(value, domain, range) {
- // Calculate the logarithm of the domain and range
+  // Calculate the logarithm of the domain and range
   const logDomain = domain.map(x => (x !== 0 ? Math.log10(x) : 0));
   const logRange = range.map(x => Math.log10(x));
 
@@ -109,7 +109,7 @@ function logScale(value, domain, range) {
   const t = (Math.log10(value) - logDomain[0]) / (logDomain[1] - logDomain[0]);
   const newValue = (logRange[1] - logRange[0]) * t + logRange[0];
 
-// Return the mapped value and restore the logarithmic scaling
+  // Return the mapped value and restore the logarithmic scaling
   return Math.pow(10, newValue);
 }
 

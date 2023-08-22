@@ -4,7 +4,7 @@ group: bar chart
 title: 分组柱状图间隔
 keywords: barChart,comparison,distribution,rank,rectangle
 order: 2-12
-cover: https://tosv.byted.org/obj/bit-cloud/55297520732ada18bb7183f00.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/55297520732ada18bb7183f00.png
 option: barChart
 ---
 

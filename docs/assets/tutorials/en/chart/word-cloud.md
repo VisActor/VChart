@@ -1,4 +1,5 @@
 # Word Cloud
+
 [\[Options Manual\]](../../../option/wordCloudChart)
 
 ## Introduction
@@ -6,28 +7,33 @@
 A word cloud, also known as a tag cloud or text cloud, is a visualization method that displays text data in the form of an image. In a word cloud, the larger the font of a word, the higher its frequency; conversely, the smaller the font, the lower the frequency. Through the word cloud, users can intuitively see the content with higher frequency in the text data, thus quickly obtaining key information.
 
 ### Word Cloud and Shape Word Cloud:
+
 In VChart, "Word Cloud" and "Shape Word Cloud" have different layout algorithm logic, so the corresponding configurations are slightly different, with differences between `wordCloudChart.wordCloudConfig` and `wordCloudChart.wordCloudShapeConfig` configurations.  
 So how do you know if you've configured a "Word Cloud" or a "Shape Word Cloud"?  
 When `wordCloudChart.maskShape` is configured or set to a built-in shape, it is considered as "Word Cloud", otherwise it is "Shape Word Cloud".
 
 ## Chart Components
+
 The word cloud consists of text elements, tooltips, and other components.
-  
-![](https://tosv.boe.byted.org/obj/bit-cloud/dfd203ff5e337abea49411b07.png)
+
+![](https://temp.domain/obj/bit-cloud/dfd203ff5e337abea49411b07.png)
 
 Text elements are the basic elements of a word cloud, and the following settings are essential:
+
 - `wordCloudChart.type`: Chart type, the type of word cloud is `'wordCloud'`
 - `wordCloudChart.data`: Data source for chart drawing
 - `wordCloudChart.nameField`: Text field, mapping the text of text elements
 - `wordCloudChart.valueField`: Value field, mapping the size of text elements
 
 Tooltips and other components are optional, with default effects and functionalities:
+
 - `wordCloudChart.tooltip`: Tooltip, displayed by default when interacting, for detailed configuration see [VChart Tooltip Component Configuration](../../option/wordCloudChart#tooltip)
 - For more component configurations, see [VChart wordCloudChart Configuration](../../option/wordCloudChart)
 
 ## Quick Start
+
 ```javascript livedemo
-const dataWordCloud = await fetch('http://tosv.byted.org/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
 const spec = {
   type: 'wordCloud',
   nameField: 'challenge_name',
@@ -46,45 +52,49 @@ window['vchart'] = vchart;
 ```
 
 ### Key Configurations
+
 - `nameField` property declaration as text field
 - `valueField` property declaration as size field
 
 ## Word Cloud Features
 
 ### Data
+
 #### Data Structure
+
 - A `discrete` field, such as: `name`, maps text content
-- A `value` field, such as: `value`, maps text size 
+- A `value` field, such as: `value`, maps text size
 
 A set of product category and sales data is defined as follows:
 
 ```ts
 data: [
-    {
-        name: "wordCloud",
-        values: [
-            {
-                name: "Digital Products",
-                value: 20
-            },
-            {
-                name: "Daily Necessities",
-                value: 50
-            },
-            {
-                name: "Food",
-                value: 80
-            }
-        ]
-    }
-]
+  {
+    name: 'wordCloud',
+    values: [
+      {
+        name: 'Digital Products',
+        value: 20
+      },
+      {
+        name: 'Daily Necessities',
+        value: 50
+      },
+      {
+        name: 'Food',
+        value: 80
+      }
+    ]
+  }
+];
 ```
 
 #### Special Data Scenario 1: Long Text
+
 When there is ultra-long text in the data, the part of the text exceeding the canvas will be clipped, and the entire text will not be displayed. It can be handled by the` wordCloudConfig.drawOutOfBound` property declaration for ultra-long text processing out of the canvas; `clip`: Draw ultra-long text, clip the part out of the canvas; `hidden`: Do not draw ultra-long text
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://tosv.byted.org/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
 const spec = {
   type: 'wordCloud',
   width: 500,
@@ -92,13 +102,13 @@ const spec = {
   valueField: 'sum_count',
   seriesField: 'challenge_name',
   wordCloudConfig: {
-    drawOutOfBound: 'clip',
+    drawOutOfBound: 'clip'
     // drawOutOfBound: 'hidden'
   },
   data: {
     name: 'baseData',
     values: [
-      ...dataWordCloud, 
+      ...dataWordCloud,
       {
         challenge_name: '这个单词特别特别特别特别特别特别特别长',
         sum_count: 150
@@ -114,7 +124,9 @@ window['vchart'] = vchart;
 ```
 
 #### Special Data Scenario 2: Too Few Words
+
 When there are fewer words, the text will be magnified to adapt to the canvas width and height
+
 - `wordCloudConfig.zoomToFit` property declaration for adaptive zoom configuration of the word cloud; `enlarge`: When enabled, the text will be magnified to adapt to the canvas width and height when there are fewer words, and the maximum font size can be set by `fontSizeLimitMax`, default is to fill the entire canvas
 
 ```javascript livedemo
@@ -170,10 +182,11 @@ window['vchart'] = vchart;
 ```
 
 #### Special Data Scenario 3: Too Many Words
+
 `wordCloudConfig.zoomToFit` property declaration for adaptive zoom configuration of the word cloud; `shrink`: When enabled, the entire canvas will be scaled down to fit as many words as possible when there is not enough space for words. The minimum font size can be set by `fontSizeLimitMin`, default is 0, i.e., fitting all words
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://tosv.byted.org/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
 const spec = {
   type: 'wordCloud',
   nameField: 'challenge_name',
@@ -198,11 +211,12 @@ window['vchart'] = vchart;
 ```
 
 ### Text Formatting
+
 Custom functions can be used to modify the text display content.
 `word.formatMethod` property declaration for custom text formatting function, this configuration can modify the display content of word cloud text, without modifying the original data, and without affecting tooltips and other built-in interactions and events
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://tosv.byted.org/obj/bit-cloud/data-wordcloud.json');;
+const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
 const spec = {
   type: 'wordCloud',
   nameField: 'challenge_name',
@@ -226,10 +240,11 @@ window['vchart'] = vchart;
 ```
 
 ### Random Text Angle
+
 If you want the text to have a random angle during layout, you can configure `wordCloudChart.rotateAngles`, this array can include optional random angles.
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://tosv.byted.org/obj/bit-cloud/data-wordcloud.json');;
+const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
 
 const spec = {
   type: 'wordCloud',
@@ -250,6 +265,7 @@ window['vchart'] = vchart;
 ```
 
 ### Layout Modes
+
 There are three layout modes available in VChart, configurable with `wordCloudChart.wordCloudConfig.layoutMode`.
 
 - `'fast'`: Fast layout, fast layout speed without guaranteed effect, for Mini Program & App Environment
@@ -257,7 +273,7 @@ There are three layout modes available in VChart, configurable with `wordCloudCh
 - `'default'`: Pixel-based layout
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://tosv.byted.org/obj/bit-cloud/data-wordcloud.json');;
+const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
 
 const spec = {
   type: 'wordCloud',
@@ -287,19 +303,22 @@ window['vchart'] = vchart;
 ## Shape Word Cloud Features
 
 ### Data
+
 #### Data Structure
+
 Same as [Word Cloud](../WordCloud#Word_Cloud_Features)
 
 ### Shape Configuration for URL Image
+
 The shape of the word cloud can be configured through `wordCloudChart.maskShape`, which supports image URL format.
 
 ```javascript livedemo
-const dataWordCloudShape = await fetch('http://tosv.byted.org/obj/bit-cloud/data-wordcloud-shape.json');
+const dataWordCloudShape = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud-shape.json');
 
 const spec = {
   type: 'wordCloud',
   // 待申请新外网可访问的存储空间后更换
-  maskShape: `http://tosv.boe.byted.org/obj/bytecharts/shape_bears.png`,
+  maskShape: `http://temp.domain/obj/bytecharts/shape_bears.png`,
   nameField: 'challenge_name',
   valueField: 'sum_count',
   seriesField: 'challenge_name',
@@ -318,6 +337,7 @@ window['vchart'] = vchart;
 ```
 
 ### Custom Color Mapping
+
 Configure color list to customize color mapping for core words and filling words.
 The random color arrays of core words and filling words can be specified in `wordCloudChart.colorList` and `wordCloudChart.wordCloudShapeConfig.fillingColorList` respectively
 
@@ -325,7 +345,7 @@ The random color arrays of core words and filling words can be specified in `wor
 const spec = {
   type: 'wordCloud',
   // 待申请新外网可访问的存储空间后更换
-  maskShape: `http://tosv.boe.byted.org/obj/bytecharts/shape_logo.png`,
+  maskShape: `http://temp.domain/obj/bytecharts/shape_logo.png`,
   colorList: ['#325AB4'],
   wordCloudShapeConfig: {
     fillingColorList: ['#5BB5BF', '#92C8C6']

@@ -4,7 +4,7 @@ group: map chart
 title: Basic Map
 keywords: map,space,polygon
 order: 11-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/map-chart/basic-map.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/map-chart/basic-map.png
 option: mapChart
 ---
 
@@ -236,7 +236,7 @@ const spec = {
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 if (VChart.getMap('china')) {
-    vchart.renderAsync();
+  vchart.renderAsync();
 }
 ```
 

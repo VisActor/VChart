@@ -1,4 +1,5 @@
 # Sankey Diagram
+
 [\[Configuration manual\]](../../../option/sankeyChart)
 
 ## Introduction
@@ -10,10 +11,12 @@ In a Sankey diagram, the size and color of the nodes are usually proportional to
 Sankey diagrams are used in many fields, such as traffic analysis, energy management, material tracing, etc. They help people understand the complexity of systems, gather data, discover trends, etc.
 
 ## Chart Components
+
 Sankey diagrams mainly consist of node and edge components, tooltips, and other components.
-![](https://tosv.byted.org/obj/bit-cloud/a222eb3ecfe32db85220dda06.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a222eb3ecfe32db85220dda06.png)
 
 Node and link components are essential elements of the Sankey diagram, and the relevant drawing configurations are indispensable:
+
 - `sankeyChart.type`: Chart type. The Sankey diagram type is `'sankey'`.
 - `sankeyChart.data`: Data source for chart drawing.
 - `sankeyChart.categoryField`: Classification field, mapping different node components.
@@ -24,10 +27,12 @@ Node and link components are essential elements of the Sankey diagram, and the r
 - `sankeyChart.minNodeHeight`: The minimum size of the node when the data is non-zero or not empty. This configuration can be used to avoid nodes that are too small to be seen when the data is too small, and it's recommended to be less than 5px.
 
 Tooltip and other components that assist in chart display are optional configurations with default effects and functions:
+
 - `sankeyChart.tooltip`: Tooltip information. Default interaction is displayed. For detailed configuration, see the [VChart Tooltip Component Configuration](../../../option/sankeyChart#tooltip).
 - For more component configurations, see [VChart sankeyChart Configuration](../../../option/sankeyChart).
 
 ## Quick Start
+
 ```javascript livedemo
 const spec = {
   type: 'sankey',
@@ -168,6 +173,7 @@ window['vchart'] = vchart;
 ```
 
 ### Key Configurations
+
 - The `categoryField` property declares the category field, representing node names.
 - The `valueField` property declares the value field, representing the weight of the relationship between nodes.
 - `sourceField` and `targetField` properties do not need to be specified and are generated based on the hierarchical structure.
@@ -180,43 +186,42 @@ window['vchart'] = vchart;
 Since **Sankey diagrams use data structures to represent the relationships between nodes and edges**, we defined two ways to declare the data structure of Sankey diagrams in VChart:
 
 1. Flat data structure for nodes and edges:
+
 ```ts
 [
-    {
-        nodes: [
-            { nodeName: 'A' }, 
-            { nodeName: 'B' },
-            { nodeName: 'C' }
-        ],
-        links: [
-            { source: 0, target: 1, value: 1 }, 
-            { source: 0, target: 2, value: 1 },
-        ]
-    }
-]
+  {
+    nodes: [{ nodeName: 'A' }, { nodeName: 'B' }, { nodeName: 'C' }],
+    links: [
+      { source: 0, target: 1, value: 1 },
+      { source: 0, target: 2, value: 1 }
+    ]
+  }
+];
 ```
 
 2. Nested data structure for nodes and edges:
+
 ```ts
 [
-    {
-        name: 'A',
-        children: [
-            { name: 'A-a', value: 1 }, 
-            { name: 'A-b', value: 2 }
-        ]
-    },
-    {
-        name: 'B',
-        children: [
-            { name: 'B-a', value: 3 }, 
-            { name: 'B-b', value: 4 }
-        ]
-    }
-]
+  {
+    name: 'A',
+    children: [
+      { name: 'A-a', value: 1 },
+      { name: 'A-b', value: 2 }
+    ]
+  },
+  {
+    name: 'B',
+    children: [
+      { name: 'B-a', value: 3 },
+      { name: 'B-b', value: 4 }
+    ]
+  }
+];
 ```
 
 #### Flat Data
+
 ```javascript livedemo
 const spec = {
   type: 'sankey',
@@ -225,22 +230,22 @@ const spec = {
       values: [
         {
           nodes: [
-            {nodeName: 'A'},
-            {nodeName: 'B'},
-            {nodeName: 'C'},
-            {nodeName: 'D'},
-            {nodeName: 'E'},
-            {nodeName: 'F'},
-            {nodeName: 'G'},
+            { nodeName: 'A' },
+            { nodeName: 'B' },
+            { nodeName: 'C' },
+            { nodeName: 'D' },
+            { nodeName: 'E' },
+            { nodeName: 'F' },
+            { nodeName: 'G' }
           ],
           linkes: [
-            {source: 'A', target: 'D', value: 400},
-            {source: 'B', target: 'D', value: 400},
-            {source: 'C', target: 'D', value: 500},
-            {source: 'D', target: 'F', value: 800},
-            {source: 'C', target: 'E', value: 100},
-            {source: 'E', target: 'G', value: 100},
-            {source: 'D', target: 'G', value: 500}
+            { source: 'A', target: 'D', value: 400 },
+            { source: 'B', target: 'D', value: 400 },
+            { source: 'C', target: 'D', value: 500 },
+            { source: 'D', target: 'F', value: 800 },
+            { source: 'C', target: 'E', value: 100 },
+            { source: 'E', target: 'G', value: 100 },
+            { source: 'D', target: 'G', value: 500 }
           ]
         }
       ]
@@ -262,10 +267,11 @@ const spec = {
       fontSize: 10
     }
   }
-}
+};
 ```
 
 #### Nested Data
+
 ```javascript livedemo
 const spec = {
   type: 'sankey',
@@ -403,15 +409,16 @@ vchart.renderAsync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
-
 ```
 
 ### Chart Layout
+
 The layout of the Sankey diagram is mainly reflected in the positional relationship between nodes. The following configurations can help you freely adjust the layout of the Sankey diagram:
 
 - `nodeAlign`: Declare the alignment type for nodes. This property can be configured as `'left' | 'right' | 'center' | 'justify' | 'start' | 'end'`.
 - `nodeGap`: Declare the gap size between two nodes at the same level.
 - `nodeWidth`: Declare the width of each node. Supports three types of values:
+
 1. Percentage string, e.g., `{ nodeWidth: '12%' }`
 2. Simple number in pixels, e.g., `{ nodeWidth: 20 }`
 3. Function, specify nodeWidth through custom calculation.
@@ -616,6 +623,7 @@ window['vchart'] = vchart;
 ```
 
 ### Sankey Diagram Labels
+
 In Sankey diagrams, the position of the labels can be configured with `sankeyChart.label.position: 'outside' | 'inside-start' | 'inside-middle' | 'inside-end' | 'left' | 'right'`.
 
 ```javascript livedemo
@@ -796,7 +804,8 @@ In VChart, we can configure interactions with `sankeyChart.emphasis`.
 
 - `sankeyChart.emphasis.trigger`: Declare the interaction trigger type. It can be configured as `'click' | 'hover'`, click or hover to trigger.
 - `sankeyChart.emphasis.effect`: Declare the interaction linkage effect.
-Sankey diagrams offer three different interaction linkage effects on nodes:
+  Sankey diagrams offer three different interaction linkage effects on nodes:
+
 1. self: Only highlight the current node;
 2. adjacency: Highlight the upstream and downstream nodes and associated edges of the current node and fade other graphic elements;
 3. related: Highlight the nodes and edges on the entire path related to the current node and fade other graphic elements.

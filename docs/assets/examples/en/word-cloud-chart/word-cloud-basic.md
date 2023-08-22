@@ -4,7 +4,7 @@ group: word chart
 title: Basic Word Cloud Chart
 keywords: wordCloud,text,distribution
 order: 14-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-basis.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-basis.png
 option: wordCloudChart
 ---
 
@@ -14,8 +14,8 @@ Word cloud is an effective text data lake visualization method, which is often u
 
 ## critical configuration
 
-*   `nameField` Property declared as text text field
-*   `valueField` Property declared as text size field
+- `nameField` Property declared as text text field
+- `valueField` Property declared as text size field
 
 ## Code demo
 

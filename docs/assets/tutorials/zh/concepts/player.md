@@ -5,19 +5,19 @@ Player 播放器主要作用是增强动态叙事能力，支持播放、暂停�
 ## 组成
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/eb08aeafba39ab34c8a08c618.png" alt="Player 图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/eb08aeafba39ab34c8a08c618.png" alt="Player 图示">
 </div>
 
 Player 组件由 2 个模块组成：
 
-*   控制器
-    *   播放按钮/暂停按钮
-    *   前进按钮
-    *   后退按钮
-*   滑动条
-    *   轨道
-    *   滑动轨迹
-    *   手柄
+- 控制器
+  - 播放按钮/暂停按钮
+  - 前进按钮
+  - 后退按钮
+- 滑动条
+  - 轨道
+  - 滑动轨迹
+  - 手柄
 
 ## 分类
 
@@ -28,7 +28,7 @@ Player 组件由 2 个模块组成：
 
 ## 示例
 
-*   [基础播放器(离散型)](../../../demo/player/basic-player)
-*   [基础播放器(连续型)](../../../demo/player/continuous-player)
-*   [ranking-bar](../../../demo/player/ranking-bar)
-*   [timeline-scatter](../../../demo/player/timeline-scatter)
+- [基础播放器(离散型)](../../../demo/player/basic-player)
+- [基础播放器(连续型)](../../../demo/player/continuous-player)
+- [ranking-bar](../../../demo/player/ranking-bar)
+- [timeline-scatter](../../../demo/player/timeline-scatter)

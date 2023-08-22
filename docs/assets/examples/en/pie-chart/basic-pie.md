@@ -4,7 +4,7 @@ group: pie
 title: Basic Pie Chart
 keywords: pieChart,comparison,composition,proportion,circle
 order: 6-0
-cover: https://tosv.byted.org/obj/bit-cloud/c0de7ff0a101bd4cb25c81707.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81707.png
 option: pieChart
 ---
 

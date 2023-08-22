@@ -6,15 +6,17 @@
 
 环图是在饼图的基础上，增设`innerRadius`、`outerRadius` 属性来调整指定扇区的内外半径，从而形成环图。
 
-下图通过饼图和环图嵌套的方式展示了2021年美国人口按年龄分布图
-![](https://tosv.boe.byted.org/obj/bit-cloud/45df54929d214e7453e228f2b.png)
+下图通过饼图和环图嵌套的方式展示了 2021 年美国人口按年龄分布图
+![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f2b.png)
 
 ## 图表构成
-饼图由扇区图元、标签及图例等其他组件构成。  
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e622523220.png)
+饼图由扇区图元、标签及图例等其他组件构成。
+
+![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523220.png)
 
 扇区图元为饼/环图的基本要素，相关的绘制配置必不可少:
+
 - `pieChart.type`: 图表类型，饼/环图的类型为`'pie'`
 - `pieChart.data`: 图表绘制的数据源
 - `pieChart.categoryField`: 分类字段，映射图元的扇区类别
@@ -22,12 +24,12 @@
 - `pieChart.seriesField`: 分类字段，映射图元的扇区颜色
 
 指标卡、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
+
 - `pieChart.indicator`: 指标卡组件，位于饼图的环心，用于展示总数据或在交互时展示某个扇区的数据，详情配置见[VChart 指标卡组件配置](../../../option/pieChart#indicator)
 - `pieChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/pieChart#tooltip)
-- 更多组件配置见[VChart pieChart配置](../../../option/pieChart)
+- 更多组件配置见[VChart pieChart 配置](../../../option/pieChart)
 
 ## 快速上手
-
 
 ```javascript livedemo
 const spec = {
@@ -79,6 +81,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 ### 关键配置
 
 - `categoryField`属性用于指定饼图类别字段
@@ -88,34 +91,36 @@ window['vchart'] = vchart;
 
 ### 数据
 
-- 一个`离散` 字段，如: `product`   
-- 一个`数值`字段，如: `sales`  
+- 一个`离散` 字段，如: `product`
+- 一个`数值`字段，如: `sales`
 
 一组产品类别和销售额的数据定义如下：
+
 ```ts
 data: [
-    {
-        name: "bar",
-        values: [
-            {
-                product: "数码产品",
-                sales: 20
-            },
-            {
-                product: "日用品",
-                sales: 50
-            },
-            {
-                product: "食品",
-                sales: 80
-            }
-        ]
-    }
-]
+  {
+    name: 'bar',
+    values: [
+      {
+        product: '数码产品',
+        sales: 20
+      },
+      {
+        product: '日用品',
+        sales: 50
+      },
+      {
+        product: '食品',
+        sales: 80
+      }
+    ]
+  }
+];
 ```
+
 ### 饼图标签
 
-由于没有显性坐标轴，饼图往往需要借助标签组件来展示不同扇区所代表的数据类别。饼图标签通常由引导线和标签内容构成，为了避免标签之间的遮挡，VChart提供了良好的自适应布局方案。
+由于没有显性坐标轴，饼图往往需要借助标签组件来展示不同扇区所代表的数据类别。饼图标签通常由引导线和标签内容构成，为了避免标签之间的遮挡，VChart 提供了良好的自适应布局方案。
 
 ```javascript livedemo
 const spec = {
@@ -1235,7 +1240,9 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 ### 环图指标卡
+
 在环图中，通常会使用指标卡组件展示总数据或在交互时展示某个扇区的数据
 
 ```javascript livedemo
@@ -1359,29 +1366,24 @@ vchart.renderAsync();
 ### 图元及样式
 
 #### 纹理填充
+
 通过` pieChart.pie.style.texture` 属性可以配置图元填充纹理，该配置适用于所有图元，详情请见[图元纹理配置](todo)
 
+| 关键字         | 类型                  | 描述                         | 默认值 |
+| -------------- | --------------------- | ---------------------------- | ------ |
+| texture        | TextureType ｜ string | arc 图元的纹理               |        |
+| textureColor   | string                | arc 图元的纹理颜色           |        |
+| textureSize    | number                | arc 图元的纹理大小           |        |
+| texturePadding | number                | arc 图元的纹理之间空隙的大小 |        |
 
-| 关键字  | 类型   | 描述                                                               | 默认值 | 
-| ------- | ------ | ------------------------------------------------------------------ | ------ | 
-| texture    | TextureType｜string          | arc图元的纹理                           | |
-| textureColor    | string          | arc图元的纹理颜色                         | |
-| textureSize    | number          | arc图元的纹理大小                        | |
-| texturePadding    | number          | arc图元的纹理之间空隙的大小                        | |
+TextureType 定义如下:
 
-TextureType定义如下:
 ```ts
-type TextureType =
-  | 'circle'
-  | 'dimond'
-  | 'rect'
-  | 'vertical-line'
-  | 'horizontal-line'
-  | 'bias-lr'
-  | 'bias-rl'
-  | 'grid';
+type TextureType = 'circle' | 'dimond' | 'rect' | 'vertical-line' | 'horizontal-line' | 'bias-lr' | 'bias-rl' | 'grid';
 ```
+
 下例展示了在饼图中应用纹理填充的效果
+
 ```javascript livedemo
 const data = [
   { type: 'oxygen', value: '46.60', formula: 'O', texture: 'circle' },
@@ -1458,6 +1460,3 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-
-
-

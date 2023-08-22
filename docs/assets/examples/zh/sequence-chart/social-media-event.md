@@ -4,7 +4,7 @@ group: sequence chart
 title: 社交媒体时序图
 keywords: sequence,comparison,relationShip,line,scatter,rectangle,dataZoom
 order: 13-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/sequence-chart/social-media-event.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sequence-chart/social-media-event.png
 option: sequenceChart
 ---
 

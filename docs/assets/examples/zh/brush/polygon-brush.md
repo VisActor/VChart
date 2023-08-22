@@ -4,7 +4,7 @@ group: brush
 title: 不规则框选
 keywords: scatterChart,brush
 order: 32-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/brush/polygon-brush.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/polygon-brush.png
 option: scatterChart#brush
 ---
 

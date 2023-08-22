@@ -6,15 +6,14 @@ Legend is an auxiliary mark in charts, which distinguishes different data groups
 
 Discrete legends are used to represent data categories distinguished by different colors or shapes in a chart.
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a215.png" alt="Discrete Legend Illustration">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a215.png" alt="Discrete Legend Illustration">
 </div>
 
 ### Composition
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a2c7623458257d15626270911.png" alt="Discrete Legend Composition">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a2c7623458257d15626270911.png" alt="Discrete Legend Composition">
 </div>
 
 Discrete legends consist of the following parts:
@@ -22,10 +21,10 @@ Discrete legends consist of the following parts:
 1. Legend title `title`: Represents the name of the legend
 2. Legend item `item` represents each data category, each legend item consists of the following components
 
-*   shape: The shape of the legend item, usually corresponding to the specific chart type
-*   label: Legend item text, representing the name of the category
-*   value: Legend item value, which can display the corresponding value of the category if there are
-*   background: Legend item background, setting the background color or transparency style of the legend item
+- shape: The shape of the legend item, usually corresponding to the specific chart type
+- label: Legend item text, representing the name of the category
+- value: Legend item value, which can display the corresponding value of the category if there are
+- background: Legend item background, setting the background color or transparency style of the legend item
 
 3. Paginator: Automatically paginate when there are too many legend items for easy browsing and operation
 
@@ -33,19 +32,18 @@ Discrete legends consist of the following parts:
 
 Currently, discrete legends are divided into horizontal and vertical layouts. In different layout methods, the layout and occupancy of the title, legend items, and paginator in the legend are as follows:
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/eb08aeafba39ab34c8a08c615.png" alt="Layout Illustration">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/eb08aeafba39ab34c8a08c615.png" alt="Layout Illustration">
 </div>
 
 The current default layout strategy is a flow layout, that is
 
-*   Horizontal layout: The legend items in the horizontal layout are arranged from left to right. If a maximum width (`maxWidth`) is set, the following will happen:
-    *   If `autoPage` is configured (i.e., automatic pagination, default is true), the paginator will automatically appear according to the `maxRow` (the restricted number of rows, default is 2)
-    *   If `autoPage` is false, automatic line breaks will be performed
-*   Vertical layout: The legend items in the vertical layout are arranged from top to bottom. If a maximum height (`maxHeight`) is set, the following will happen:
-    *   If `autoPage` is configured (i.e., automatic pagination, default is true), the paginator will automatically appear according to the `maxCol` (the restricted number of columns, default is 1)
-    *   If `autoPage` is false, automatic column breaks will be performed
+- Horizontal layout: The legend items in the horizontal layout are arranged from left to right. If a maximum width (`maxWidth`) is set, the following will happen:
+  - If `autoPage` is configured (i.e., automatic pagination, default is true), the paginator will automatically appear according to the `maxRow` (the restricted number of rows, default is 2)
+  - If `autoPage` is false, automatic line breaks will be performed
+- Vertical layout: The legend items in the vertical layout are arranged from top to bottom. If a maximum height (`maxHeight`) is set, the following will happen:
+  - If `autoPage` is configured (i.e., automatic pagination, default is true), the paginator will automatically appear according to the `maxCol` (the restricted number of columns, default is 1)
+  - If `autoPage` is false, automatic column breaks will be performed
 
 ### Interaction
 
@@ -54,17 +52,16 @@ Legends allow interaction, and different styles respond to different interaction
 1. Interaction when the mouse hovers over the legend item
 2. Interaction when the mouse clicks the legend
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a216.png" alt="Legend Interaction State Example">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a216.png" alt="Legend Interaction State Example">
 </div>
 
 At present, the legend item styles available are:
 
-*   `'selected'`: Selected state, indicating that the current legend item is selected
-*   `'unSelected'`: Unselected state, indicating that the current legend item is not selected
-*   `'selectedHover'`: Selected and hover state, indicating that the mouse is hovering over the selected legend item
-*   `'unSelectedHover'`: Unselected and hover state, indicating that the mouse is hovering over the selected legend item
+- `'selected'`: Selected state, indicating that the current legend item is selected
+- `'unSelected'`: Unselected state, indicating that the current legend item is not selected
+- `'selectedHover'`: Selected and hover state, indicating that the mouse is hovering over the selected legend item
+- `'unSelectedHover'`: Unselected and hover state, indicating that the mouse is hovering over the selected legend item
 
 Additionally, the paginator also provides its own interaction state style configuration, including:
 
@@ -77,9 +74,8 @@ This can be configured on `pager.handler.state`, see the [pager configuration do
 
 The continuous legend is divided into color legends and size legends. Color legends are used to represent the continuous changing characteristics of data with the change of color, while size legends are used to represent the continuous changing characteristics of data with the change of size and can also be used for data filtering.
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a13.png" alt="Continuous Legend Schematic">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a13.png" alt="Continuous Legend Schematic">
 </div>
 
 ### Composition
@@ -91,9 +87,8 @@ The continuous legend is divided into color legends and size legends, both of wh
 3. Slider track `track`: Represents the currently selected value range
 4. Start and end text `handlerText`: Represents the minimum and maximum values of the continuous range
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a222eb3ecfe32db85220dda00.png" alt="Continuous Legend Composition Schematic">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a222eb3ecfe32db85220dda00.png" alt="Continuous Legend Composition Schematic">
 </div>
 
 ## Customizing Legends

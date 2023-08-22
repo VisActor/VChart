@@ -2,27 +2,30 @@
 
 ## 简介
 
-折线图通过将一系列数据点进行连接，构造出趋势。折线图用于分析事物随时间或有序类别而变化的趋势。如果有多组数据，则用于分析多组数据随时间变化或有序类别的相互作用和影响。折线的方向表示正/负变化。折线的斜率表示变化的程度。  
+折线图通过将一系列数据点进行连接，构造出趋势。折线图用于分析事物随时间或有序类别而变化的趋势。如果有多组数据，则用于分析多组数据随时间变化或有序类别的相互作用和影响。折线的方向表示正/负变化。折线的斜率表示变化的程度。
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e622523215.png)
+![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523215.png)
 
-## 图表构成 
+## 图表构成
+
 折线图由点图元、线图元、坐标轴及其他组件构成。
-![](https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf03.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf03.png)
 
 点图元、线图元为折线图的基本要素，相关的绘制配置必不可少:
+
 - `lineChart.type`: 图表类型，折线图的类型为`'line'`
 - `lineChart.data`: 图表绘制的数据源
-- `lineChart.xField`: 连续时间间隔或有序类别字段，映射图元的x坐标
-- `lineChart.yField`: 数值字段，映射图元的y坐标
+- `lineChart.xField`: 连续时间间隔或有序类别字段，映射图元的 x 坐标
+- `lineChart.yField`: 数值字段，映射图元的 y 坐标
 
 坐标轴、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
+
 - `lineChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../../option/line/axes/lineChart#axes)
 - `lineChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/line/axes/lineChart#tooltip)
-- 更多组件配置见[VChart lineChart配置](../../../option/lineChart)
-
+- 更多组件配置见[VChart lineChart 配置](../../../option/lineChart)
 
 ## 快速上手
+
 ```javascript livedemo
 const spec = {
   type: 'line',
@@ -78,10 +81,10 @@ window['vchart'] = vchart;
 ```
 
 ### 关键配置
+
 - `type`: 图表类型，折线图的类型为`'line'`
 - `xField` 属性声明为连续时间间隔或有序类别字段
 - `yField` 属性声明数值字段
-
 
 ## 图表特性
 
@@ -89,49 +92,50 @@ window['vchart'] = vchart;
 
 #### 数据结构
 
-- 一个`离散` 或 `时序` 字段，如: `month`   
-(`时序`字段中的数据仅支持时间戳格式，且在坐标轴中需要配置`axes.type: 'time'`）
-- 一个`数值`字段，如: `temperature`  
+- 一个`离散` 或 `时序` 字段，如: `month`  
+  (`时序`字段中的数据仅支持时间戳格式，且在坐标轴中需要配置`axes.type: 'time'`）
+- 一个`数值`字段，如: `temperature`
 
 一组月份和温度的数据定义如下：
+
 ```ts
 data: [
-    {
-        name: "line",
-        values: [
-            {
-                month: "January",
-                temperature: 8
-            },
-            {
-                month: "February",
-                temperature: 9
-            },
-            {
-                month: "March",
-                temperature: 11
-            },
-            {
-                month: "April",
-                temperature: 14
-            }
-        ]
-    }
-]
+  {
+    name: 'line',
+    values: [
+      {
+        month: 'January',
+        temperature: 8
+      },
+      {
+        month: 'February',
+        temperature: 9
+      },
+      {
+        month: 'March',
+        temperature: 11
+      },
+      {
+        month: 'April',
+        temperature: 14
+      }
+    ]
+  }
+];
 ```
+
 #### 数据不连续场景
 
 数据中存在空值的折线图。用户可以通过配置`lineChart.invalidType`来指定`null`，`undefined` 等非合规数据点连接方式
 
-| lineChart.invalidType  | 描述                                                               | 
-| ------- | ------------------------------------------------------------------ | 
-| 'break'    | 在该数据点处断开  |
-| 'link'    | 忽略该点保持连续  |
-| 'zero'    | 该点默认数值为 0  |
-| 'ignore'    | 不处理  |
+| lineChart.invalidType | 描述             |
+| --------------------- | ---------------- |
+| 'break'               | 在该数据点处断开 |
+| 'link'                | 忽略该点保持连续 |
+| 'zero'                | 该点默认数值为 0 |
+| 'ignore'              | 不处理           |
 
 在这里例子中，展示了奥运会金牌、银牌、铜牌数随时间的变化情况，其中在 1980 年是空数据。
-
 
 ```javascript livedemo
 const spec = {
@@ -393,12 +397,12 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-
-
 ### 图元及样式
-折线图中使用到的主要图元有两个，分别是： point、 line 。对应图表中的标记点、线图元。可以单独针对每个mark配置对应样式，详细查看配置: [lineChart.line](../../../option/lineChart#line) 和 [lineChart.point](../../../option/lineChart#point)
+
+折线图中使用到的主要图元有两个，分别是： point、 line 。对应图表中的标记点、线图元。可以单独针对每个 mark 配置对应样式，详细查看配置: [lineChart.line](../../../option/lineChart#line) 和 [lineChart.point](../../../option/lineChart#point)
 
 #### 末尾虚线
+
 在制作图表时，时常有一些个性化需求。以基金涨跌的预估走向为例，我们希望预估的涨跌幅度以虚线连接，并使用不一样的颜色作为区分。
 
 ```javascript livedemo
@@ -461,8 +465,11 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### 标记点样式
+
 标记点支持自定义形状和大小，我们通过配置设置标记点为稍大一些三角形，具体配置见[配置文档](../../../option/lineChart#point)
+
 ```ts
 point: {
     style: {
@@ -471,6 +478,7 @@ point: {
     }
   }
 ```
+
 ```javascript livedemo
 const spec = {
   type: 'line',
@@ -516,10 +524,10 @@ const spec = {
   },
   xField: 'time',
   yField: 'value',
- point: {
+  point: {
     style: {
       shape: 'triangle',
-       size: 10
+      size: 10
     }
   }
 };
@@ -532,8 +540,8 @@ window['vchart'] = vchart;
 ```
 
 #### 线性渐变
-通过`lineChart.point: {visible: false}` 隐藏标记点，和 `lineChart.line.style.stroke: { gradient: 'linear' }` 配置渐变颜色，可以得到渐变折线的效果。
 
+通过`lineChart.point: {visible: false}` 隐藏标记点，和 `lineChart.line.style.stroke: { gradient: 'linear' }` 配置渐变颜色，可以得到渐变折线的效果。
 
 ```javascript livedemo
 const spec = {
@@ -680,10 +688,10 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### 渐变色-颜色划分
 
 通过控制渐变色的`offset`值实现，可以用于表示上下分层的警戒线颜色
-
 
 ```javascript livedemo
 const spec = {
@@ -786,7 +794,9 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### 平滑折线
+
 在 `lineChart.line.style` 属性中配置 `curveType: 'monotone'` 属性
 
 ```javascript livedemo
@@ -855,8 +865,10 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### 阶梯折线
- 在 `line.style` 属性中配置 `curveType: 'step'|'stepAfter'|'stepBefore'` 属性
+
+在 `line.style` 属性中配置 `curveType: 'step'|'stepAfter'|'stepBefore'` 属性
 
 ```javascript livedemo
 const spec = {
@@ -927,4 +939,3 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-

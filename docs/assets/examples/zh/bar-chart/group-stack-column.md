@@ -4,7 +4,7 @@ group: bar chart
 title: 分组堆叠柱状图
 keywords: barChart,comparison,distribution,rectangle,composition,rank
 order: 2-2
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/bar-chart/group-stack-column.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-stack-column.png
 option: barChart
 ---
 

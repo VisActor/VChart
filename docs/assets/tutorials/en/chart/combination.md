@@ -1,5 +1,7 @@
 # Combination Chart
+
 [\[Options Manual\]](../../../option/commonChart)
+
 ## Introduction
 
 A combination chart is a type of data visualization chart that displays interdependent data sets combined in a single chart for better data analysis and comparison. Combination charts typically use multiple data series and visual elements such as line series, bar series, area series, scatter series, pie series, etc., to represent various types of data. In combination charts, each data series usually has its own legend and coordinate axis, and each axis can use different scale ranges and labels to more clearly represent different data.
@@ -7,11 +9,13 @@ A combination chart is a type of data visualization chart that displays interdep
 The advantage of combination charts is that they can simultaneously present information from multiple data sets, providing a more comprehensive view of the overall trend and direction. By combining different data types, units, and measurements, combination charts can provide deeper and more comprehensive insights into complex data. Combination charts are widely used in various fields such as business, science, and medical to effectively analyze and compare various complex data.
 
 In VChart, you can combine various series through the [combination chart configuration](../../../option/commonChart):
-![](https://tosv.byted.org/obj/bit-cloud/57a706137957fce7388f3ab01.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab01.png)
 
 In the [combination chart example](../../../demo/combination/bar-combine) shown above, you need to use the following key configurations:
+
 - `type: 'common'` declares a combination chart type
 - `layout` attribute declares a custom combination chart layout
+
   - `layout.type` attribute declares the layout type, `grid` for row and column layout
   - `layout.col` attribute declares the number of columns (note: all independent elements in the chart need to occupy one column separately, e.g., data axis or other components, and chart series should each occupy one column)
   - `layout.row` attribute declares the number of rows (note: the same as above)
@@ -29,7 +33,7 @@ In the [combination chart example](../../../demo/combination/bar-combine) shown 
 
 As the name suggests, a combination chart consists of different chart series, coordinate axes, tooltips, and other components combined. Theoretically, VChart supports all chart series combinations, but before that, some configurations are needed to determine the data, layouts, and other relationships of different series, so that different series can be placed reasonably and their correct graphic attributes can be obtained through data mapping.
 
-- `commonChart.type: 'common'`:  Chart type, combination chart type is `'common'`
+- `commonChart.type: 'common'`: Chart type, combination chart type is `'common'`
 - `commonChart.layout`: Determine combination chart layout
 
   - `commonChart.layout.type`: Layout type, `grid` for row and column layout
@@ -252,6 +256,7 @@ vchart.on('dimensionHover', {}, params => {
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### Key configurations
 
 - `type: 'common'` declares a combination chart type
@@ -361,6 +366,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### Key configurations
 
 - `type: 'common'` declares a combination chart
@@ -649,6 +655,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### Key configurations
 
 - `type: 'common'` declares a combination chart type

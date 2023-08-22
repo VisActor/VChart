@@ -1,4 +1,5 @@
 # Line Chart
+
 [\[Configuration Manual\]](../../../option/lineChart)
 
 ## Introduction
@@ -6,28 +7,33 @@
 A line chart is constructed by connecting a series of data points to reveal trends. Line charts are used to analyze the trends of things changing over time or sequential categories. If there is more than one group of data, a line chart can be used to analyze the interaction and impact of multiple data groups changing over time or categorical sequences. The direction of the line chart indicates positive/negative changes, and the slope of the line chart indicates the degree of change.
 
 In VChart, you can display the data trends of different categories through [Line Chart Configuration](../../../option/lineChart). As shown in the example below, it displays the changing trend of cigarette consumption in developed countries:
-![](https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e622523215.png)
+![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523215.png)
 
 In the [Line Chart Example](../../../demo/line-chart/multi-line) shown above, you need to use the following key configurations:
+
 - `seriesField` property is used to declare the field involved in color mapping
 - `legends` property is used for configuring the legend
 
 ## Chart Composition
+
 Line charts are composed of point elements, line elements, axis components, and other components.
-![](https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf03.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf03.png)
 
 Point elements and line elements are the basic elements of a line chart, and the related drawing configurations are essential:
+
 - `lineChart.type`: Chart type, the type of line chart is `'line'`
 - `lineChart.data`: Data source for chart drawing
 - `lineChart.xField`: Continuous time interval or ordered category field, mapping the x coordinate of the element
 - `lineChart.yField`: Numeric field, mapping the y coordinate of the element
 
 Axis components, tooltip information, and other components that serve as auxiliary chart display components are optional configurations with default effects and functionality:
+
 - `lineChart.axes`: Axis component, displayed by default and automatically infers the coordinate system and data mapping logic based on the chart type, detailed configuration can be found in [VChart Axis Component Configuration](../../../option/line/axes/lineChart#axes)
 - `lineChart.tooltip`:tooltip information, displayed by default during interaction, detailed configuration can be found in [VChart Tooltip Information Component Configuration](../../../option/line/axes/lineChart#tooltip)
 - For more component configurations, see [VChart lineChart Configuration](../../../option/lineChart)
 
 ## Quick Start
+
 ```javascript livedemo
 const spec = {
   type: 'line',
@@ -83,6 +89,7 @@ window['vchart'] = vchart;
 ```
 
 ### Key Configurations
+
 - `type`: Chart type, the type of line chart is `'line'`
 - `xField` property declares a continuous time interval or ordered category field
 - `yField` property declares a numeric field
@@ -94,45 +101,47 @@ window['vchart'] = vchart;
 #### Data Structure
 
 - A `discrete` or `time` field, such as: `month`  
-(`time` fields only support *timestamp* format and need to be configured with `axes.type: 'time'` in the coordinate axis)
+  (`time` fields only support _timestamp_ format and need to be configured with `axes.type: 'time'` in the coordinate axis)
 - A `numeric` field, such as: `temperature`
 
 An example of a group of data for months and temperatures is defined below:
+
 ```ts
 data: [
-    {
-        name: "line",
-        values: [
-            {
-                month: "January",
-                temperature: 8
-            },
-            {
-                month: "February",
-                temperature: 9
-            },
-            {
-                month: "March",
-                temperature: 11
-            },
-            {
-                month: "April",
-                temperature: 14
-            }
-        ]
-    }
-]
+  {
+    name: 'line',
+    values: [
+      {
+        month: 'January',
+        temperature: 8
+      },
+      {
+        month: 'February',
+        temperature: 9
+      },
+      {
+        month: 'March',
+        temperature: 11
+      },
+      {
+        month: 'April',
+        temperature: 14
+      }
+    ]
+  }
+];
 ```
+
 #### Discontinuous Data Scenarios
 
 Line charts with empty values in the data. Users can configure `lineChart.invalidType` to specify the connection method for non-compliant data points such as `null`, `undefined`, etc.
 
-| lineChart.invalidType  | Description                                                               | 
-| ------- | ------------------------------------------------------------------ | 
-| 'break'    | Break at this data point  |
-| 'link'    | Ignore this point and maintain continuity  |
-| 'zero'    | The default value for this point is 0  |
-| 'ignore'    | Do not handle  |
+| lineChart.invalidType | Description                               |
+| --------------------- | ----------------------------------------- |
+| 'break'               | Break at this data point                  |
+| 'link'                | Ignore this point and maintain continuity |
+| 'zero'                | The default value for this point is 0     |
+| 'ignore'              | Do not handle                             |
 
 In this example, we show the change in the number of gold, silver, and bronze medals at the Olympic Games over time, with empty data in 1980.
 
@@ -397,9 +406,11 @@ window['vchart'] = vchart;
 ```
 
 ### Elements and Styles
+
 The main elements used in line charts are two: point and line. They correspond to chart elements like markers and lines. Each mark can be individually configured for its style, see the detailed configuration: [lineChart.line](../../../option/lineChart#line) and [lineChart.point](../../../option/lineChart#point)
 
 #### Dashed Lines at the End
+
 In chart making, there are often some personalized requirements. Taking the estimated trend of fund price fluctuations as an example, we hope that the estimated increase and decrease range will be connected by dashed lines and distinguished by different colors.
 
 ```javascript livedemo
@@ -462,8 +473,11 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### Marker Point Style
+
 Marker points support custom shapes and sizes. We set the marker points to slightly larger triangles through configurations. For specific configurations, see [Configuration Documentation](../../../option/lineChart#point)
+
 ```ts
 point: {
     style: {
@@ -472,6 +486,7 @@ point: {
     }
   }
 ```
+
 ```javascript livedemo
 const spec = {
   type: 'line',
@@ -517,10 +532,10 @@ const spec = {
   },
   xField: 'time',
   yField: 'value',
- point: {
+  point: {
     style: {
       shape: 'triangle',
-       size: 10
+      size: 10
     }
   }
 };
@@ -533,6 +548,7 @@ window['vchart'] = vchart;
 ```
 
 #### Linear Gradient
+
 By setting `lineChart.point: {visible: false}` to hide marker points, and configuring `lineChart.line.style.stroke: { gradient: 'linear' }` for gradient colors, we can achieve the effect of a gradient line.
 
 ```javascript livedemo
@@ -680,6 +696,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### Gradient Color - Color Segmentation
 
 By controlling the `offset` value of the gradient color, we can achieve a chart that displays color segmentation for different layers, such as warning colors for upper and lower boundaries.
@@ -785,7 +802,9 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### Smooth Line
+
 Configure `curveType: 'monotone'` property in `lineChart.line.style`
 
 ```javascript livedemo
@@ -854,8 +873,10 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### Step Line
- Configure `curveType: 'step'|'stepAfter'|'stepBefore'` property in `line.style`
+
+Configure `curveType: 'step'|'stepAfter'|'stepBefore'` property in `line.style`
 
 ```javascript livedemo
 const spec = {

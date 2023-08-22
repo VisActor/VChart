@@ -4,7 +4,7 @@ group: word chart
 title: Word Cloud Text Formatting
 keywords: wordCloud,text,distribution
 order: 14-3
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-format.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-format.png
 option: wordCloudChart
 ---
 
@@ -21,7 +21,7 @@ You can modify the text display content with a custom function.
 ## Code Demo
 
 ```javascript livedemo
-const response = await fetch('https://tosv.byted.org/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
 const dataWordCloud = await response.json();
 const spec = {
   type: 'wordCloud',

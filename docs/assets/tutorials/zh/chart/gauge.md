@@ -5,13 +5,14 @@
 仪表图是一种拟物化的图表，就像汽车的速度表一样，刻度表示度量，指针角度表示当前数值。
 
 ## 图表构成
+
 仪表图由扇区图元和具有进度指向性的仪表图指针等基本元素构成。
-![](https://tosv.byted.org/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a03.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a03.png)
 
 从数据系列角度而言，仪表图由`gauge`和`gaugePointer`系列封装而成，他们绘制仪表盘扇形区域和指针。利用这一特性，您可以以[组合图](./combination)的方式声明仪表图，以更灵活的方式调整仪表图绘制效果。
 
-
 扇区图元和仪表图指针为仪表图的基本要素，相关的绘制配置必不可少:
+
 - `gaugeChart.type`: 图表类型，仪表图的类型为`'gauge'`
 - `gaugeChart.data`: 图表绘制的数据源
 - `gaugeChart.categoryField`: 分类字段，映射不同的扇区
@@ -63,27 +64,29 @@ window['vchart'] = vchart;
 ### 数据
 
 - 一个`离散` 字段，如: `type` ，表示数据类别，也可以理解为仪表盘所展示的是何种项目的进度
-- 一个`数值`字段，如: `value`  ，表示指针角度，也可以理解为要展示的进度值
+- 一个`数值`字段，如: `value` ，表示指针角度，也可以理解为要展示的进度值
 
 由于一个仪表盘通常只展示一个项目的进度，所以数据通常只有一条。
 
 ```ts
 data: [
-    {
-      id: 'gauge',
-      values: [
-        {
-          type: 'targetA',
-          value: 0.6
-        }
-      ]
-    }
-  ]
+  {
+    id: 'gauge',
+    values: [
+      {
+        type: 'targetA',
+        value: 0.6
+      }
+    ]
+  }
+];
 ```
+
 ### 以组合图的形式声明更灵活的仪表图
+
 为了让仪表图有更拟物化的效果，可以以组合图的形式同时声明`gauge`和`gaugePointer`系列，并配置动画从而达到动态展示进度的效果。
 
-下面这个例子应用当前获取的时间作为源数据，巧妙的拟合出动态表盘效果，充分证明VChart的灵活性、实用性。
+下面这个例子应用当前获取的时间作为源数据，巧妙的拟合出动态表盘效果，充分证明 VChart 的灵活性、实用性。
 
 ```javascript livedemo
 const getClockData = () => {
@@ -441,7 +444,7 @@ window['vchart'] = vchart;
 
 #### 扇区渐变
 
-在VChart中，您可以使用`fill.gradient: 'conical'`为图元添加环形渐变效果，这将提高图表表现力。同理，仪表图的扇区图元为`progress`, 所以只需`gaugeChart.progress.style.fill`中进行配置即可, 具体配置请见[VChart 图元渐变详细配置](todo)
+在 VChart 中，您可以使用`fill.gradient: 'conical'`为图元添加环形渐变效果，这将提高图表表现力。同理，仪表图的扇区图元为`progress`, 所以只需`gaugeChart.progress.style.fill`中进行配置即可, 具体配置请见[VChart 图元渐变详细配置](todo)
 
 ```javascript livedemo
 const pointerPath =
@@ -524,5 +527,3 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-
-

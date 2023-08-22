@@ -4,7 +4,7 @@ group: sankey chart
 title: 基础桑基图
 keywords: sankey,composition,distribution,relationship,comparison,flow
 order: 12-0
-cover: https://tosv.byted.org/obj/bit-cloud/57a706137957fce7388f3ab02.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab02.png
 option: sankeyChart
 ---
 

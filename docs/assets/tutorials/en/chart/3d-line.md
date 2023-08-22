@@ -3,12 +3,12 @@
 ## 简介
 
 3d 折线图大部分配置项继承于 2d 折线图，其是对 2d 折线图增加 zField 映射以及 z 轴而得到
-![](https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e622523215.png)
+![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523215.png)
 
 ## 图表构成
 
 折线图由点图元、线图元、坐标轴及其他组件构成。
-![](https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf03.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf03.png)
 
 点图元、线图元为 3d 折线图的基本要素，相关的绘制配置必不可少，其中 zField 是 3d 折线图特有:
 

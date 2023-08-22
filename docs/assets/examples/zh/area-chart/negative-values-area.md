@@ -4,7 +4,7 @@ group: area chart
 title: 带负值面积图
 keywords: areaChart,comparison,trend,area
 order: 1-2
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/area-chart/negative-values-area.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/negative-values-area.png
 option: areaChart
 ---
 

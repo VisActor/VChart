@@ -11,7 +11,7 @@
 3.  交互触发器（Trigger）：用于配置指标卡更新的触发方式。
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a16.png" alt="Indicator 图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a16.png" alt="Indicator 图示">
 </div>
 
 ## 交互
@@ -36,14 +36,14 @@
 2.  `trigger: 'hover'`：指定当鼠标悬停在图表上时展示指标卡。
 3.  `limitRatio 0.4`：指定指标卡宽度占整个饼图宽度的最大比例。
 4.  `title` 对象：指标卡的标题。其中：
-    *   `visible: true`：指定标题可见。
-    *   `autoFit true`：指定标题自动适应指标卡宽度。
-    *   `style` 对象：配置标题的样。包括字体、颜色等。
-    *   `text` 匿函数：通过动态生成标题文本。
+    - `visible: true`：指定标题可见。
+    - `autoFit true`：指定标题自动适应指标卡宽度。
+    - `style` 对象：配置标题的样。包括字体、颜色等。
+    - `text` 匿函数：通过动态生成标题文本。
 5.  `content` 数组：配置指标卡的内容。其中：
-    *   `visible: true`：指定内容可见。
-    *   `style` 对象：配置内容的样式包括文本内容、字体、颜色等。
-    *   `text` 匿名函数：通过数据动态生成内容文本。
+    - `visible: true`：指定内容可见。
+    - `style` 对象：配置内容的样式包括文本内容、字体、颜色等。
+    - `text` 匿名函数：通过数据动态生成内容文本。
 
 通过以上配置，成功实现了一个带指标卡的饼图。以下是饼图实际效果的示例图片：
 

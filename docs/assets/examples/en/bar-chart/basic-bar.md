@@ -4,7 +4,7 @@ group: bar chart
 title: Base Bar Chart
 keywords: barChart,comparison,distribution,rank,rectangle
 order: 2-7
-cover: https://tosv.byted.org/obj/bit-cloud/23e5d313c2c3a66d4ca806005.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/23e5d313c2c3a66d4ca806005.png
 option: barChart
 ---
 
@@ -14,9 +14,9 @@ The bar chart is based on the histogram, and the x-axis and y-axis are transpose
 
 ## critical configuration
 
-*   `direction` Property configured as'horizont'
-*   `xField` Property declared as numeric field
-*   `yField` Property declaration as category field
+- `direction` Property configured as'horizont'
+- `xField` Property declared as numeric field
+- `yField` Property declaration as category field
 
 ## Code demo
 

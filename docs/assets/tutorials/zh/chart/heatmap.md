@@ -6,17 +6,18 @@
 
 一种常见的示例是使用热力图来表现统计变量之间的相关系数，根据热力图中不同方块颜色对应的相关系数的大小，可以判断出变量之间相关性的大小。
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/45df54929d214e7453e228f30.png)
-
+![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f30.png)
 
 ## 图表构成
-热力图由矩形图元、坐标轴、图例等其他组件构成。  
+
+热力图由矩形图元、坐标轴、图例等其他组件构成。
 
 矩形图元为热力图的基本要素，相关的绘制配置必不可少:
+
 - `heatmapChart.type`: 图表类型，热力图的类型为`'heatmap'`
 - `heatmapChart.data`: 图表绘制的数据源
-- `heatmapChart.xField`: x 轴分类字段，映射图元的x坐标
-- `heatmapChart.yField`: y 轴分类字段，映射图元的y坐标
+- `heatmapChart.xField`: x 轴分类字段，映射图元的 x 坐标
+- `heatmapChart.yField`: y 轴分类字段，映射图元的 y 坐标
 - `heatmapChart.valueField`: 数值字段，表示权重，需配合视觉通道的配置即可将其映射到图元的具体属性上，下面的代码示例展示了如何将权重映射为矩形图元的颜色：
 
 ```ts
@@ -35,12 +36,12 @@
 ```
 
 坐标轴、图例等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
+
 - `heatmapChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../../option/heatmapChart#axes)
 - `heatmapChart.legends`: 图例组件，在热力图中通常使用线性图例显示映射关系，详情配置见[VChart 图例组件配置](../../../option/heatmapChart#legends)
-- 更多组件配置见[VChart heatmapChart配置](../../../option/heatmapChart)
+- 更多组件配置见[VChart heatmapChart 配置](../../../option/heatmapChart)
 
 ## 快速上手
-
 
 ```javascript livedemo
 const items = [
@@ -175,35 +176,37 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 ## 热力图特性
 
 ### 数据
 
-- 两个`离散` 字段，如: `var1`   `var2`  
-- 一个`数值`字段，如: `value`  
+- 两个`离散` 字段，如: `var1` `var2`
+- 一个`数值`字段，如: `value`
 
 数据定义如下：
+
 ```ts
 data: [
-    {
-        name: "heatmap",
-        values: [
-            {
-                var1: "Asset Liability Ratio",
-                var2: "Asset Liability Ratio",
-                value: 1
-            },
-            {
-                var1: "Asset Liability Ratio",
-                var2: "Asset Liability Ratio (Deducting Advance Payments)",
-                value: 0.5
-            },
-             {
-                var1: "Asset Liability Ratio (Deducting Advance Payments)",
-                var2: "Asset Liability Ratio (Deducting Advance Payments)",
-                value: 1
-            }
-        ]
-    }
-]
+  {
+    name: 'heatmap',
+    values: [
+      {
+        var1: 'Asset Liability Ratio',
+        var2: 'Asset Liability Ratio',
+        value: 1
+      },
+      {
+        var1: 'Asset Liability Ratio',
+        var2: 'Asset Liability Ratio (Deducting Advance Payments)',
+        value: 0.5
+      },
+      {
+        var1: 'Asset Liability Ratio (Deducting Advance Payments)',
+        var2: 'Asset Liability Ratio (Deducting Advance Payments)',
+        value: 1
+      }
+    ]
+  }
+];
 ```

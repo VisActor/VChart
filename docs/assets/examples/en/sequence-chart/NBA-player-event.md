@@ -4,7 +4,7 @@ group: sequence chart
 title: NBA Sequence Chart
 keywords: sequence,comparison,relationShip,line,scatter,title,axis
 order: 13-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/sequence-chart/NBA-player-event.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sequence-chart/NBA-player-event.png
 option: sequenceChart
 ---
 
@@ -19,30 +19,30 @@ The entire sequence diagram is divided from top to bottom: timeline components, 
 
 Global configuration:
 
-*   `appendPadding`The property is used to configure the margins of the chart, it is recommended to configure, otherwise the titles of the dot and link series will overlap with the gridline.
+- `appendPadding`The property is used to configure the margins of the chart, it is recommended to configure, otherwise the titles of the dot and link series will overlap with the gridline.
 
 Timeline configuration:
 
-*   `type`Property used to configure the type of axis, recommended here`time`To map time series data, it should be noted that the timeline only supports timestamp data
-*   `layers` The property is used to configure the configuration of the child and mother axes of the time axis, which can only take effect when the axis is the time axis. Item 0 represents the mother axis, that is, the axis below; item 1 represents the child axis, that is, the axis above. Pass`timeFormat`Configure the time format of the label. Configure the time interval in seconds via tickStep.
+- `type`Property used to configure the type of axis, recommended here`time`To map time series data, it should be noted that the timeline only supports timestamp data
+- `layers` The property is used to configure the configuration of the child and mother axes of the time axis, which can only take effect when the axis is the time axis. Item 0 represents the mother axis, that is, the axis below; item 1 represents the child axis, that is, the axis above. Pass`timeFormat`Configure the time format of the label. Configure the time interval in seconds via tickStep.
 
 Dot series configuration:
 
-*   `xField` Properties are declared as abscissa fields of the dot series
-*   `yField` Properties are declared as ordinate fields of the dot series
-*   `title` The property is declared as the title field of the dot series, the title is to the left of the timeline
-*   `subTitle` The property is declared as a subtitle field of the dot series with the title below the title
-*   `dotTypeField` The property is declared as an event point grouping field of the dot series, and the event points have the same color in the same grouping.
-*   `highLightSeriesGroup` The property is declared as the highlighted grouping configuration of the dot series, when configuring`seriesGroupField`You can specify a grouping to highlight a particular property
-*   `clipHeight` The property is declared as the viewable height of the dot series
+- `xField` Properties are declared as abscissa fields of the dot series
+- `yField` Properties are declared as ordinate fields of the dot series
+- `title` The property is declared as the title field of the dot series, the title is to the left of the timeline
+- `subTitle` The property is declared as a subtitle field of the dot series with the title below the title
+- `dotTypeField` The property is declared as an event point grouping field of the dot series, and the event points have the same color in the same grouping.
+- `highLightSeriesGroup` The property is declared as the highlighted grouping configuration of the dot series, when configuring`seriesGroupField`You can specify a grouping to highlight a particular property
+- `clipHeight` The property is declared as the viewable height of the dot series
 
 Link series configuration:
 The data of the link series depends on the event series
 
-*   `dotSeriesIndex` Property declared as the index of the associated dot series
-*   `fromField` Property declared as starting point location field
-*   `toField` Property declared as destination location field
-*   `dotTypeField` Property declared as relational type field
+- `dotSeriesIndex` Property declared as the index of the associated dot series
+- `fromField` Property declared as starting point location field
+- `toField` Property declared as destination location field
+- `dotTypeField` Property declared as relational type field
 
 ## Code demo
 

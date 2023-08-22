@@ -4,7 +4,7 @@ group: word chart
 title: Word Cloud Text Clipping
 keywords: wordCloud,text,distribution
 order: 14-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-clip.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-clip.png
 option: wordCloudChart
 ---
 

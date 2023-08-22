@@ -4,9 +4,8 @@ group: brush
 title: Horizontal Selection Box
 keywords: brush
 order: 32-2
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/brush/x-linked-brush.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/x-linked-brush.png
 option: commonChart#brush
-
 ---
 
 # Horizontal Selection Box

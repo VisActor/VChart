@@ -4,7 +4,7 @@ group: funnel chart
 title: 矩形转化漏斗图
 keywords: funnelChart,composition,trend,strip
 order: 8-2
-cover: https://tosv.byted.org/obj/bit-cloud/ffc3a9b5518762d274121ff04.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/ffc3a9b5518762d274121ff04.png
 option: funnelChart
 ---
 

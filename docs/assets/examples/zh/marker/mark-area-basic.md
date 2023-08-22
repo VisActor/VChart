@@ -4,7 +4,7 @@ group: marker
 title: markArea
 keywords: marker,lineChart
 order: 33-5
-cover: https://tosv.byted.org/obj/bit-cloud/7b82fb013e7c6319c065b3d00.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/7b82fb013e7c6319c065b3d00.png
 option: lineChart#markArea
 ---
 
