@@ -4,7 +4,7 @@ import type { IActorActionContext } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ActorType } from '../interface';
 import { DomActor } from './base';
-import type { IDomVideoActorConfig } from './inderface';
+import type { IDomVideoActorConfig } from './interface';
 
 export class DomVideoActor extends DomActor<HTMLDivElement> {
   type = ActorType.domVideo;

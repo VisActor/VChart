@@ -70,7 +70,7 @@
       "shouldPublish": false
     },
     {
-      "packageName": "@visactor/story-player",
+      "packageName": "@internal/story-player",
       "projectFolder": "tools/story-player",
       "tags": ["tool"],
       "shouldPublish": false

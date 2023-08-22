@@ -1,6 +1,6 @@
 import VChart from '@visactor/vchart';
-import type { IActorActionContext, VChartActor, IVChartActorAvatar, Player, BaseActor } from '@visactor/story-player';
-import { ActorType, createElement, PLAYER_PREFIX } from '@visactor/story-player';
+import type { IActorActionContext, VChartActor, IVChartActorAvatar, Player, BaseActor } from '@internal/story-player';
+import { ActorType, createElement, PLAYER_PREFIX } from '@internal/story-player';
 
 const chartContainerStyle: Partial<CSSStyleDeclaration> = {
   position: 'absolute',

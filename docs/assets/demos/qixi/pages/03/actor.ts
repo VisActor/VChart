@@ -5,8 +5,8 @@ import type {
   IActorActionContext,
   DomDivActor,
   DomVideoActor
-} from '@visactor/story-player';
-import { ActorType, PLAYER_PREFIX, createElement } from '@visactor/story-player';
+} from '@internal/story-player';
+import { ActorType, PLAYER_PREFIX, createElement } from '@internal/story-player';
 import { OriginalData } from '../../data/interface';
 import { getWordCloudSpec } from '../../spec/03/word-cloud';
 

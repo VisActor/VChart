@@ -1,4 +1,4 @@
-import type { Page, Player } from '@visactor/story-player';
+import type { Page, Player } from '@internal/story-player';
 import { getPage01YearMap } from '../data/01/util';
 import { page01YearDuration, page02EventDuration, page02TitleDuration } from './constant';
 

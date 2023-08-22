@@ -1,5 +1,5 @@
-import type { VChartActor, Player, BaseActor, IActorActionContext, DomDivActor } from '@visactor/story-player';
-import { ActorType, PLAYER_PREFIX, createElement } from '@visactor/story-player';
+import type { VChartActor, Player, BaseActor, IActorActionContext, DomDivActor } from '@internal/story-player';
+import { ActorType, PLAYER_PREFIX, createElement } from '@internal/story-player';
 import { OriginalData } from '../../data/interface';
 
 import { getBarSpec } from '../../spec/02/bar';

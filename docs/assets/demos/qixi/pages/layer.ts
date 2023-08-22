@@ -1,6 +1,6 @@
-import type { BaseLayer, DomLayer, Player, VRenderLayer } from '@visactor/story-player';
+import type { BaseLayer, DomLayer, Player, VRenderLayer } from '@internal/story-player';
 // eslint-disable-next-line no-duplicate-imports
-import { LayerType } from '@visactor/story-player';
+import { LayerType } from '@internal/story-player';
 
 export const createLayers = (player: Player, layerMap: Record<string, BaseLayer>) => {
   layerMap.layerBg2 = player.createLayer<DomLayer>(LayerType.dom, {

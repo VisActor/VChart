@@ -1,5 +1,5 @@
-import type { Player, BaseActor, DomImgActor } from '@visactor/story-player';
-import { ActorType } from '@visactor/story-player';
+import type { Player, BaseActor, DomImgActor } from '@internal/story-player';
+import { ActorType } from '@internal/story-player';
 import { OriginalData } from '../../data/interface';
 
 import bg from './assets/logo.png';

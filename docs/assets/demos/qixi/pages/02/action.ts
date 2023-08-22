@@ -1,4 +1,4 @@
-import { type BaseActor, type BaseLayer, type Page, type Player } from '@visactor/story-player';
+import { type BaseActor, type BaseLayer, type Page, type Player } from '@internal/story-player';
 import { OriginalData } from '../../data/interface';
 import anime from '../../lib/anime.es';
 import { page02EventDuration, page02TitleDuration } from '../constant';

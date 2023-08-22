@@ -1,4 +1,4 @@
-import type { BaseActor, Player } from '@visactor/story-player';
+import type { BaseActor, Player } from '@internal/story-player';
 import { actorCommon } from '../common/actor/asset';
 import { pageChart1486Actor } from './chart1486/actor/asset';
 import { pageChart1486ActorChart } from './chart1486/actor/chart';

@@ -9,7 +9,7 @@ import type {
   PageTransitionActList,
   Player,
   VChartActor
-} from '@visactor/story-player';
+} from '@internal/story-player';
 import { chartMap } from './actor/chart';
 
 export const pageTitleAction = (

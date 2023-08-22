@@ -1,5 +1,5 @@
 {
-  "name": "@visactor/story-player",
+  "name": "@internal/story-player",
   "version": "0.0.3",
   "main": "cjs/index.js",
   "module": "esm/index.js",

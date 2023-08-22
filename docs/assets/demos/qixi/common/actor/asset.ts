@@ -1,6 +1,6 @@
-import type { DomImgActor, Player, BaseActor } from '@visactor/story-player';
+import type { DomImgActor, Player, BaseActor } from '@internal/story-player';
 // eslint-disable-next-line no-duplicate-imports
-import { ActorType } from '@visactor/story-player';
+import { ActorType } from '@internal/story-player';
 import bg from '../assets/bg-noise.png';
 
 export const actorCommon = (player: Player, actorMap: Record<string, BaseActor>) => {

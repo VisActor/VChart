@@ -1,4 +1,4 @@
-import { wait, type BaseActor, type BaseLayer, type Page, type Player } from '@visactor/story-player';
+import { wait, type BaseActor, type BaseLayer, type Page, type Player } from '@internal/story-player';
 import { OriginalData } from '../../data/interface';
 import anime from '../../lib/anime.es';
 import { getPage01YearMap } from '../../data/01/util';
