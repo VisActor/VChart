@@ -455,8 +455,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
         const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
         const chartElementRect = chartElement?.getBoundingClientRect();
         relativePosOffset = {
-          x: chartElementRect.x - (tooltipParentElementRect?.x ?? Infinity),
-          y: chartElementRect.y - (tooltipParentElementRect?.y ?? Infinity)
+          x: chartElementRect.x - tooltipParentElementRect.x,
+          y: chartElementRect.y - tooltipParentElementRect.y
         };
         chartElementScale = getScale(chartElement, chartElementRect);
         tooltipParentElementScale = getScale(tooltipParentElement, tooltipParentElementRect as DOMRect);
