@@ -1,6 +1,6 @@
-import type { DomImgActor, Player, BaseActor } from '@visactor/story-player';
+import type { DomImgActor, Player, BaseActor } from '@internal/story-player';
 // eslint-disable-next-line no-duplicate-imports
-import { ActorType } from '@visactor/story-player';
+import { ActorType } from '@internal/story-player';
 import title from '../assets/title.png';
 import chartFigure from '../assets/chart.png';
 import person from '../assets/person.png';

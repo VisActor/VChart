@@ -16,6 +16,7 @@ export enum ActorType {
   vchart = 'vchart',
   domDiv = 'dom-div',
   domImg = 'dom-img',
+  domVideo = 'dom-video',
 }
 
 export interface IActorConfig extends IStageModelConfig {

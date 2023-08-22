@@ -1,5 +1,5 @@
-import type { VRenderTextActor, DomImgActor, Player, BaseActor, DomDivActor } from '@visactor/story-player';
-import { ActorType } from '@visactor/story-player';
+import type { VRenderTextActor, DomImgActor, Player, BaseActor, DomDivActor } from '@internal/story-player';
+import { ActorType } from '@internal/story-player';
 import subTitle from '../assets/powered-by-vchart.png';
 
 export const pageTitleActor = (player: Player, actorMap: Record<string, BaseActor>) => {

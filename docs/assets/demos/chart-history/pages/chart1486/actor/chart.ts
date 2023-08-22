@@ -1,6 +1,6 @@
-import type { BaseActor, Player, VChartActor } from '@visactor/story-player';
+import type { BaseActor, Player, VChartActor } from '@internal/story-player';
 // eslint-disable-next-line no-duplicate-imports
-import { ActorType } from '@visactor/story-player';
+import { ActorType } from '@internal/story-player';
 
 export const pageChart1486ActorChart = (player: Player, actorMap: Record<string, BaseActor>) => {
   actorMap.pageChart1486ActorChart = player.createActor<VChartActor>(ActorType.vchart, {

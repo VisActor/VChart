@@ -1,5 +1,5 @@
 {
-  "name": "@visactor/story-player",
+  "name": "@internal/story-player",
   "version": "0.0.3",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -19,7 +19,8 @@
     "lint": "eslint --debug --fix src/",
     "eslint": "eslint --debug --fix src/",
     "eslint:check": "eslint src/",
-    "eslint:err": "eslint src/ --quiet"
+    "eslint:err": "eslint src/ --quiet",
+    "build:es": "bundle --clean -f es --ignorePostTasks"
   },
   "jest": {
     "transform": {

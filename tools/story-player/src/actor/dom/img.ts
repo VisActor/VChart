@@ -1,9 +1,10 @@
 import { PLAYER_PREFIX } from '../../constant';
 import { createElement } from '../../utils';
 import type { IActorActionContext } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
 import { ActorType } from '../interface';
 import { DomActor } from './base';
-import type { IDomImgActorConfig } from './inderface';
+import type { IDomImgActorConfig } from './interface';
 import { loadImage } from './util';
 
 export class DomImgActor extends DomActor<HTMLDivElement> {

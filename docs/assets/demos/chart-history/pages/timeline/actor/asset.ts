@@ -7,9 +7,9 @@ import type {
   VRenderLineActor,
   VRenderPathActor,
   VRenderTextActor
-} from '@visactor/story-player';
+} from '@internal/story-player';
 // eslint-disable-next-line no-duplicate-imports
-import { ActorType } from '@visactor/story-player';
+import { ActorType } from '@internal/story-player';
 import { chartPageKeys, highlightColor, lightBlack } from '../../../constant';
 
 export const tickSvgMap: Record<

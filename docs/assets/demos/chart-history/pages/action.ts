@@ -1,4 +1,4 @@
-import type { BaseActor, BaseLayer, Page, Player } from '@visactor/story-player';
+import type { BaseActor, BaseLayer, Page, Player } from '@internal/story-player';
 import { pageChart1486Action } from './chart1486';
 import { pageChart1644Action } from './chart1644';
 import { pageChart1765Action } from './chart1765';

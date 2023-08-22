@@ -1,4 +1,4 @@
-import anime from '../../anime.es.js';
+import anime from '../../lib/anime.es.js';
 import { pageKey } from './constant';
 import type {
   IActConfig,
@@ -8,9 +8,9 @@ import type {
   BaseLayer,
   BaseActor,
   Page
-} from '@visactor/story-player';
+} from '@internal/story-player';
 // eslint-disable-next-line no-duplicate-imports
-import { getPixelNumber, getTransformPointFunc, wait } from '@visactor/story-player';
+import { getPixelNumber, getTransformPointFunc, wait } from '@internal/story-player';
 
 export const pageChart1765Action = (
   player: Player,
