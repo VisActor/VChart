@@ -11,7 +11,6 @@
     "build"
   ],
   "scripts": {
-    "postinstall": "npm run build",
     "dev": "vite",
     "build": "bundle --clean",
     "preview": "vite preview",
