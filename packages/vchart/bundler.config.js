@@ -3,6 +3,11 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { visualizer } = require('rollup-plugin-visualizer');
+const gzipPlugin = require('rollup-plugin-gzip').default;
+const buble = require('rollup-plugin-buble');
+const sizes = require('rollup-plugin-sizes');
+const bundleSize = require('rollup-plugin-bundle-size');
 
 function copyFile(source, target) {
   fs.copyFile(source, target, error => {
@@ -19,6 +24,36 @@ function copyStart(source, destinations) {
   });
 }
 
+const bundle_analyze_mode = process.env.BUNDLE_ANALYZE;
+let umdInput = 'index.ts';
+let umdOutput = 'index';
+if (bundle_analyze_mode && bundle_analyze_mode !== 'full') {
+  umdInput = `vchart-${bundle_analyze_mode}.ts`;
+  umdOutput = `index-${bundle_analyze_mode}`;
+}
+
+const plugins = bundle_analyze_mode
+  ? [
+      visualizer({
+        open: true,
+        gzipSize: true,
+        emitFile: true,
+        filename: `stats-${bundle_analyze_mode}`,
+        template: 'treemap'
+      }),
+      gzipPlugin({
+        filter: /\.(js)$/
+      }),
+      bundleSize(),
+      sizes()
+      // buble(),
+      // sizes()
+    ]
+  : [];
+
+/**
+ * @type {import('@internal/bundler').Config}
+ */
 module.exports = {
   name: 'VChart',
   formats: ['es', 'cjs', 'umd'],
@@ -27,10 +62,16 @@ module.exports = {
     cjs: 'cjs',
     umd: 'build'
   },
-  umdOutputFilename: 'index',
+  input: {
+    umd: umdInput
+  },
+  umdOutputFilename: umdOutput,
   noEmitOnError: false,
   envs: {
     __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production')
+  },
+  rollupOptions: {
+    plugins
   },
   globals: {
     // '@visactor/vrender': 'VRender'
