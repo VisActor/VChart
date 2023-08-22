@@ -1,5 +1,5 @@
 import { ICommonChartSpec } from '@visactor/vchart';
-import { Page01YearData } from '../../../data/01/interface';
+import { Page01YearData } from '../../data/01/interface';
 
 export const getBarData = (data: Page01YearData): any => {
   const { year, boy, girl } = data;
@@ -111,14 +111,14 @@ export const getBarSpec = (): ICommonChartSpec => ({
       yField: 'age',
       bar: {
         style: {
-          fill: 'steelblue'
+          fill: 'steelblue',
+          opacity: 0.7
         }
       },
       label: {
         visible: true,
-        position: 'left',
+        position: 'inside',
         style: {
-          fill: '#6F6F6F',
           fontSize: 30
         },
         formatMethod: (val: any) => `${(val * 100).toFixed(0)}%`
@@ -134,13 +134,14 @@ export const getBarSpec = (): ICommonChartSpec => ({
       yField: 'age',
       bar: {
         style: {
-          fill: '#EE7989'
+          fill: '#EE7989',
+          opacity: 0.7
         }
       },
       label: {
         visible: true,
+        position: 'inside',
         style: {
-          fill: '#6F6F6F',
           fontSize: 30
         },
         formatMethod: (val: any) => `${(val * 100).toFixed(0)}%`

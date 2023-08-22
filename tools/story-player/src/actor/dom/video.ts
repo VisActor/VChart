@@ -16,6 +16,7 @@ export class DomVideoActor extends DomActor<HTMLDivElement> {
     return {
       ...super.getDefaultStyle(),
       border: 'none',
+      objectFit: 'cover',
     };
   }
 
@@ -32,10 +33,11 @@ export class DomVideoActor extends DomActor<HTMLDivElement> {
       },
       id,
     ) as HTMLVideoElement;
-    element.autoplay = true;
-    element.controls = false;
-    element.muted = true;
-    element.src = this.config.src;
+    const { autoplay, controls, muted, src } = this.config;
+    element.autoplay = autoplay ?? true;
+    element.controls = controls ?? false;
+    element.muted = muted ?? true;
+    element.src = src;
     return element;
   }
 }

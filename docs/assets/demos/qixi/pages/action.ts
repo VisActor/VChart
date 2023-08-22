@@ -1,6 +1,6 @@
 import type { BaseActor, BaseLayer, Page, Player } from '@visactor/story-player';
-import { page01Action } from './01/action';
 import { OriginalData } from '../data/interface';
+import { page01Action } from './01/action';
 import { page02Action } from './02/action';
 import { page03Action } from './03/action';
 import { page04Action } from './04/action';

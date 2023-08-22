@@ -11,4 +11,7 @@ export interface IDomImgActorConfig extends IDomActorConfig {
 
 export interface IDomVideoActorConfig extends IDomActorConfig {
   src?: string;
+  autoplay?: boolean;
+  controls?: boolean;
+  muted?: boolean;
 }

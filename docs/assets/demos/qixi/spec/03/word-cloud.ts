@@ -1,5 +1,5 @@
 import { IWordCloudChartSpec } from '@visactor/vchart';
-import { Page03OriginalData } from '../../../data/03/interface';
+import { Page03OriginalData } from '../../data/03/interface';
 
 export const getWordCloudData = (data: Page03OriginalData) => {
   const dataList: any[] = [];
