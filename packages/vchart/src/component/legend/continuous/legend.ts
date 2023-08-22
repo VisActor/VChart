@@ -1,7 +1,7 @@
 /**
  * @description color legend component
  */
-import { clampRange, debounce, isEmpty, isNil } from '@visactor/vutils';
+import { debounce, isEmpty, isNil } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../../series/interface';
