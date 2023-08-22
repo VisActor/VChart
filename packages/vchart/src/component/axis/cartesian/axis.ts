@@ -126,6 +126,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       return new C(
         {
           ...spec,
+          type: axisType,
           inverse
         },
         options
