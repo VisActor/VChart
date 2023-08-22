@@ -13,7 +13,10 @@ import type { IGroupMark, IView } from '@visactor/vgrammar';
 import { markLabelConfigFunc, textAttribute } from './util';
 import type { IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
+import type { LooseFunction } from '@visactor/vutils';
 import { pickWithout } from '@visactor/vutils';
+import type { IGroup, IText } from '@visactor/vrender';
+import type { LabelItem } from '@visactor/vrender-components';
 
 export interface ILabelInfo {
   baseMark: IMark;
@@ -88,6 +91,28 @@ export class Label extends BaseLabelComponent {
       });
       this.event.off(VGRAMMAR_HOOK_EVENT.AFTER_MARK_RENDER_END, enableAnimation);
     };
+
+    this.event.on('afterElementEncode', eventParams => {
+      const mark = eventParams.item;
+
+      if (this._option.getChart().getLayoutTag() === false && mark.context?.model === this) {
+        this._delegateLabelEvent(mark.getGroupGraphicItem());
+      }
+    });
+  }
+
+  protected _delegateLabelEvent(component: IGroup) {
+    const textNodes = component
+      ?.findAll(node => node.type === 'text', true)
+      // label 组件的底层实现是有 text 图元复用的，这里为了避免重复的事件监听
+      .filter(text => !(text as any).__vchart_event) as IText[];
+    if (textNodes && textNodes.length > 0) {
+      textNodes.forEach(text => {
+        text.__vchart_event = true;
+        text.addEventListener('*', ((event: any, type: string) =>
+          this._delegateEvent(component, event, type, text, (text.attribute as LabelItem).data)) as LooseFunction);
+      });
+    }
   }
 
   protected _initTextMark() {
