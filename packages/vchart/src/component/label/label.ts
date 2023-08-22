@@ -102,9 +102,13 @@ export class Label extends BaseLabelComponent {
   }
 
   protected _delegateLabelEvent(component: IGroup) {
-    const textNodes = component?.findAll(node => node.type === 'text', true) as IText[];
+    const textNodes = component
+      ?.findAll(node => node.type === 'text', true)
+      // label 组件的底层实现是有 text 图元复用的，这里为了避免重复的事件监听
+      .filter(text => !(text as any).__vchart_event) as IText[];
     if (textNodes && textNodes.length > 0) {
       textNodes.forEach(text => {
+        text.__vchart_event = true;
         text.addEventListener('*', ((event: any, type: string) =>
           this._delegateEvent(component, event, type, text, (text.attribute as LabelItem).data)) as LooseFunction);
       });
