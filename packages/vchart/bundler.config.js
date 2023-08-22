@@ -1,6 +1,3 @@
-/**
- * @type {import('@internal/bundler').Config}
- */
 const fs = require('fs');
 const path = require('path');
 
@@ -19,6 +16,9 @@ function copyStart(source, destinations) {
   });
 }
 
+/**
+ * @type {import('@internal/bundler').Config}
+ */
 module.exports = {
   name: 'VChart',
   formats: ['es', 'cjs', 'umd'],

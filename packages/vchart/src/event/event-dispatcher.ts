@@ -29,7 +29,8 @@ const componentTypeMap = {
   discreteLegend: 'legend',
   continuousLegend: 'legend',
   colorLegend: 'legend',
-  sizeLegend: 'legend'
+  sizeLegend: 'legend',
+  label: 'label'
 };
 
 export class EventDispatcher implements IEventDispatcher {

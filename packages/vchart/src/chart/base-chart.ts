@@ -239,8 +239,6 @@ export class BaseChart extends CompilableBase implements IChart {
     this._series.forEach(s => s.fillData());
     // 此时 globalScale 已经生效组件可以获取到正确的映射
     this.updateGlobalScaleDomain();
-
-    this._components.forEach(c => c.afterInit());
   }
 
   onResize(width: number, height: number): void {

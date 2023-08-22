@@ -47,7 +47,7 @@ export function parserCLIArgs(argv: string | string[]): Partial<CLIArgs> {
     },
     array: ['formats', 'envs', 'copy'],
     string: ['config'],
-    boolean: ['watch', 'less', 'clean', 'minify', 'sourcemap'],
+    boolean: ['watch', 'less', 'clean', 'minify', 'sourcemap', 'ignorePostTasks'],
     coerce: getCoerce(stringKeys)
   });
 }

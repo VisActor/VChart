@@ -11,6 +11,7 @@ import type { IGroupMark } from '@visactor/vgrammar';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
+import type { Datum } from '../../typings';
 
 export abstract class BaseComponent extends BaseModel implements IComponent {
   name: string = 'component';
@@ -130,15 +131,15 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
   }
 
   // 代理组件事件
-  protected _delegateEvent = (component: INode, event: any, type: string) => {
+  protected _delegateEvent = (component: INode, event: any, type: string, item: any = null, datum: Datum = null) => {
     this.event.emit(
       type,
       {
         model: this,
         node: component,
         event,
-        item: null,
-        datum: null,
+        item: item,
+        datum: datum,
         source: Event_Source_Type.chart,
         chart: this._option?.globalInstance?.getChart()
       },
