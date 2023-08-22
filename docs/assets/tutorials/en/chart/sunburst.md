@@ -1,4 +1,5 @@
 # Sunburst Chart
+
 [\[Configuration Manual\]](../../../option/sunburstChart)
 
 ## Introduction
@@ -7,37 +8,40 @@ A Sunburst Chart is a visualization chart based on a pie chart that displays a n
 
 In the Sunburst Chart, each sector of the circle represents a primary category. Smaller sectors within the larger sectors represent subcategories under this category, and so on. This nesting typically continues recursively until the leaf nodes of the category tree are reached. Data can be encoded by the size and color of sectors, allowing users to quickly understand the organization structure, relative proportions, and relationships between components of complex data from an overall perspective.
 
-
 ## Chart Composition
 
 Sunburst Chart mainly consists of fan-like graphics with a hierarchical structure, and other elements or components such as labels and tooltip information.
-![](https://tosv.byted.org/obj/bit-cloud/a222eb3ecfe32db85220dda09.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a222eb3ecfe32db85220dda09.png)
 
 The hierarchical fan-like graphics are essential to the Sunburst Chart, and related drawing configurations are indispensable:
+
 - `sunburstChart.type`: Chart type, the type of Sunburst Chart is `'circlePacking'`
 - `sunburstChart.data`: Data source for chart drawing, usually in a hierarchical structure in a Sunburst Chart, in the following format:
+
 ```ts
 [
-    {
-        name: 'A',
-        children: [
-            {name: 'A-a', value: 1}, 
-            {name: 'A-b', value: 2}
-        ]
-    },
-    {
-        name: 'B',
-        children: [
-            {name: 'B-a', value: 3}, 
-            {name: 'B-b', value: 4}
-        ]
-    }
-]
+  {
+    name: 'A',
+    children: [
+      { name: 'A-a', value: 1 },
+      { name: 'A-b', value: 2 }
+    ]
+  },
+  {
+    name: 'B',
+    children: [
+      { name: 'B-a', value: 3 },
+      { name: 'B-b', value: 4 }
+    ]
+  }
+];
 ```
+
 - `sunburstChart.categoryField`: Category field, mapping to different graphic elements
 - `sunburstChart.valueField`: Value field, mapping to the angle range of the graphics
 
 Tooltip information and other components that help with displaying the chart are optional configurations with default effects and features:
+
 - `sunburstChart.tooltip`: Tooltip information, displayed by default during interaction. For detailed configuration, see [VChart Tooltip Component Configuration ](../../../option/sunburstChart#tooltip)
 - For more component configuration, see [VChart sunburstChart configuration](../../../option/sunburstChart)
 
@@ -240,8 +244,8 @@ vchart.renderAsync();
 
 // Just for the convenience of console debugging, do not copy
 window.vchart = vchart;
-
 ```
+
 - Declare `categoryField` as the category field
 - Declare the `valueField` as the value field
 - `sunburst` sunburst graphics configuration. By default, all graphics have the same style. To show the hierarchical relationship, different levels of graphics usually need to be distinguished by the callback method.
@@ -250,29 +254,34 @@ window.vchart = vchart;
 ## Sunburst Chart Features
 
 ### Data
+
 As mentioned earlier, the Sunburst Chart represents the nested relationship of data through nested circular layers. Hence the source data must be in a nested structure, like:
+
 ```ts
 [
-    {
-        name: 'A',
-        children: [
-            {name: 'A-a', value: 1}, 
-            {name: 'A-b', value: 2}
-        ]
-    },
-    {
-        name: 'B',
-        children: [
-            {name: 'B-a', value: 3}, 
-            {name: 'B-b', value: 4}
-        ]
-    }
-]
+  {
+    name: 'A',
+    children: [
+      { name: 'A-a', value: 1 },
+      { name: 'A-b', value: 2 }
+    ]
+  },
+  {
+    name: 'B',
+    children: [
+      { name: 'B-a', value: 3 },
+      { name: 'B-b', value: 4 }
+    ]
+  }
+];
 ```
+
 ### Chart Layout
 
 #### Position
+
 Using `sunburstChart.centerX`, `sunburstChart.centerY`, `sunburstChart.offsetX`, and `sunburstChart.offsetY`, the Sunburst Chart's center point x, y coordinates, and corresponding offsets can be configured.
+
 ```javascript livedemo
 const data = [
   {
@@ -474,12 +483,12 @@ vchart.renderAsync();
 
 // Just for the convenience of console debugging, do not copy
 window.vchart = vchart;
-
 ```
 
 #### Angle Range
 
 The angle range of the Sunburst Chart can be configured using `sunburstChart.startAngle` and `sunburstChart.endAngle`.
+
 ```javascript livedemo
 const data = [
   {
@@ -617,11 +626,12 @@ vchart.renderAsync();
 
 // Just for the convenience of console debugging, do not copy
 window.vchart = vchart;
-
 ```
 
 #### Inner and Outer Radius
+
 The inner and outer radii of the Sunburst Chart can be configured using `sunburstChart.innerRadius` and `sunburstChart.outerRadius`, which support passing in an array for layer-by-layer configuration.
+
 ```javascript livedemo
 const data = [
   {
@@ -842,11 +852,13 @@ window.vchart = vchart;
 The hierarchy gap can be configured using `sunburstChart.gap`, which supports passing in an array for layer-by-layer configuration of the hierarchy gap.
 
 #### Label Layout
+
 todo: a table
 
 ### Chart Interaction
 
 #### Drill Down
+
 Drill down is the ability to click a parent category to explore its subcategory information when showing different hierarchy levels in treemaps, Circle Packing, and Sunburst Charts. Through the drill-down feature, users can view details level by level, explore data hierarchy in depth, and better understand the relationships and differences between data, resulting in higher quality analytical conclusions.
 
 By configuring `sunburstChart.drill: true` and `sunburstChart.drillField`, the drill-down feature can be enabled, and the field to be used for drilling down can be configured (the drill-down field will use an autogenerated unique key by default, but the `drillField` must be configured when using the API to drill down).

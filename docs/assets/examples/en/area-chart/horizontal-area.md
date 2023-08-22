@@ -4,7 +4,7 @@ group: area chart
 title: Vertical Area Chart
 keywords: areaChart,comparison,trend,area
 order: 1-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/area-chart/horizontal-area.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/horizontal-area.png
 option: areaChart
 ---
 

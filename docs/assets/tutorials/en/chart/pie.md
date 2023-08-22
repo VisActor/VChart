@@ -1,4 +1,5 @@
 # Pie / Ring Chart
+
 [\[Configuration Manual\]](../../../option/pieChart)
 
 ## Introduction
@@ -8,17 +9,20 @@ Pie chart, also known as a pie chart, is a circular statistical chart divided in
 A donut chart is formed by adding the `innerRadius` and `outerRadius` attributes to the base of the pie chart to adjust the inner and outer radii of the specified sectors.
 
 In VChart, you can display the relative relationships of multiple data through the [Pie/Donut Chart Configuration](../../../option/pieChart). The following chart shows the distribution of the U.S. population by age in 2021 using a combination of a pie chart and donut chart:
-![](https://tosv.boe.byted.org/obj/bit-cloud/45df54929d214e7453e228f2b.png)
+![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f2b.png)
 In the [Nested Pie Chart Example](../../../demo/pie-chart/nested-pie) shown above, you need the following key configurations:
+
 - The `categoryField` and `valueField` attributes are used to specify the pie chart category and sector angle fields, respectively
 - The `innerRadius` and `outerRadius` attributes are used to specify the inner and outer radii of the sector.
 
 ## Chart composition
+
 Pie charts are made up of sector primitives, labels, and legends, among other components.
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e622523220.png)
+![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523220.png)
 
 Sector primitives are the basic elements of pie/donut charts, and related drawing configurations are essential:
+
 - `pieChart.type`: chart type, pie/donut chart type is `'pie'`
 - `pieChart.data`: data source for chart drawing
 - `pieChart.categoryField`: category field, mapping the sector category of the graphic element
@@ -26,12 +30,12 @@ Sector primitives are the basic elements of pie/donut charts, and related drawin
 - `pieChart.seriesField`: category field, mapping the sector color of the graphic element
 
 Indicator cards, tooltips, and other components that assist the chart in displaying are optional configurations with default effects and functionality:
+
 - `pieChart.indicator`: Indicator card component, located at the heart of the pie chart, used to display total data or the data of a specific sector during interaction. See the detailed configuration of [VChart Indicator Card Component Configuration](../../../option/pieChart#indicator)
 - `pieChart.tooltip`: Tooltip information, displayed by default during interaction. See the detailed configuration of [VChart Tooltip Component Configuration](../../../option/pieChart#tooltip)
 - For more component configurations, see [VChart pieChart Configuration](../../../option/pieChart)
 
 ## Quick Start
-
 
 ```javascript livedemo
 const spec = {
@@ -83,6 +87,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 ### Key Configuration
 
 - The `categoryField` attribute is used to specify the pie chart category field
@@ -92,31 +97,33 @@ window['vchart'] = vchart;
 
 ### Data
 
-- One `discrete` field, such as: `product`  
-- One `numerical` field, such as: `sales`  
+- One `discrete` field, such as: `product`
+- One `numerical` field, such as: `sales`
 
 A dataset of product categories and sales is defined as follows:
+
 ```ts
 data: [
-    {
-        name: "bar",
-        values: [
-            {
-                product: "Digital Products",
-                sales: 20
-            },
-            {
-                product: "Daily Necessities",
-                sales: 50
-            },
-            {
-                product: "Food",
-                sales: 80
-            }
-        ]
-    }
-]
+  {
+    name: 'bar',
+    values: [
+      {
+        product: 'Digital Products',
+        sales: 20
+      },
+      {
+        product: 'Daily Necessities',
+        sales: 50
+      },
+      {
+        product: 'Food',
+        sales: 80
+      }
+    ]
+  }
+];
 ```
+
 ### Pie Chart Labels
 
 Since there is no explicit axis, pie charts often rely on label components to display the different data categories represented by different sectors. Pie chart labels are usually made up of guide lines and label content. To avoid label overlap, VChart provides an excellent adaptive layout solution.
@@ -1239,7 +1246,9 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 ### Donut Chart Indicator Card
+
 In donut charts, indicator cards are often used to display total data or data from a specific sector during interaction.
 
 ```javascript livedemo
@@ -1363,29 +1372,24 @@ vchart.renderAsync();
 ### Graphic Elements and Styles
 
 #### Texture Filling
+
 By configuring the ` pieChart.pie.style.texture` attribute, you can configure the texture fill for graphic elements. This configuration applies to all graphic elements. For details, see [Graphic Element Texture Configuration](todo)
 
-
-| Keyword  | Type   | Description                                                               | Default Value | 
-| ------- | ------ | ------------------------------------------------------------------ | ------ | 
-| texture    | TextureType｜string          | Texture of arc graphic element                           | |
-| textureColor    | string          | Color of the texture for the arc graphic element                         | |
-| textureSize    | number          | Size of the texture for arc graphic element                        | |
-| texturePadding    | number          | Size of the gap between textures for arc graphic element                        | |
+| Keyword        | Type                  | Description                                              | Default Value |
+| -------------- | --------------------- | -------------------------------------------------------- | ------------- |
+| texture        | TextureType ｜ string | Texture of arc graphic element                           |               |
+| textureColor   | string                | Color of the texture for the arc graphic element         |               |
+| textureSize    | number                | Size of the texture for arc graphic element              |               |
+| texturePadding | number                | Size of the gap between textures for arc graphic element |               |
 
 TextureType is defined as follows:
+
 ```ts
-type TextureType =
-  | 'circle'
-  | 'dimond'
-  | 'rect'
-  | 'vertical-line'
-  | 'horizontal-line'
-  | 'bias-lr'
-  | 'bias-rl'
-  | 'grid';
+type TextureType = 'circle' | 'dimond' | 'rect' | 'vertical-line' | 'horizontal-line' | 'bias-lr' | 'bias-rl' | 'grid';
 ```
+
 The following example shows the effect of applying texture filling in a pie chart
+
 ```javascript livedemo
 const data = [
   { type: 'oxygen', value: '46.60', formula: 'O', texture: 'circle' },

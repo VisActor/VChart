@@ -1,11 +1,10 @@
 ---
-
 category: demo
 group: crosshair
 title: Combined chart crosshair
 keywords: barChart, comparison, rectangle, crosshair, rank, distribution
 order: 28-4
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/crosshair/multiple-region.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/multiple-region.png
 option: commonChart#crosshair
 ---
 

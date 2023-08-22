@@ -19,7 +19,7 @@ First, let's look at a simple example. Here, we will create a folded column comb
 ```javascript livedemo
 const spec = {
   type: 'common',
-  seriesField:'color',
+  seriesField: 'color',
   data: [
     {
       id: 'id0',
@@ -104,7 +104,6 @@ vchart.renderAsync();
 
 In the above example, we are using the `duration`/`delay`/`easing`/`oneByOne` configuration introduced in our previous chapter ([Animation Types](./Animation_Types)) to achieve simple animation effects.
 
-
 The animation configuration for graphic elements supports multiple properties for detailed control of the animation behavior. Here are the supported attributes for the graphic animation configuration:
 
 - `type`: Animation type, using built-in animation types like "fadeIn", "fadeOut", etc.
@@ -134,6 +133,7 @@ In VChart, there are some built-in common animation types. These animation types
 - `update`: Update animation, commonly used for graphic update animations (`animationUpdate`).
 
 #### Fade-in and Fade-out Animations
+
 Fade-in animation is a common appearance animation: the opacity of the graphic element changes gradually from 0 to 1; the fade-out animation is just the opposite and is often used for the exit animation of the chart.
 Based on the previous example, we add a new animation type configuration `type: 'fadeIn'` for all graphic elements and slightly adjust the animation delay (`delay`). From the following effect, we can see that the chart's entrance animation has changed to the fade-in animation we configured.
 
@@ -200,7 +200,7 @@ const spec = {
       animationAppear: {
         // 点图元动画配置
         point: {
-          type: 'fadeIn',// 渐入动画
+          type: 'fadeIn', // 渐入动画
           duration: 500,
           delay: 3500
         },
@@ -226,8 +226,10 @@ vchart.renderAsync();
 ```
 
 #### Scaling Animations
+
 Scaling animation is a common appearance animation: the `scaleX`/`scaleY` of the graphic element gradually changes from 0 to 1; the `scaleOut` animation is just the opposite and is often used for the exit animation of the chart.
 VChart provides additional configuration parameters `options` for the built-in animation types `scaleIn`/`scaleOut`:
+
 ```ts
 export interface IScaleAnimationOptions {
   direction?: 'x' | 'y' | 'xy';
@@ -235,6 +237,7 @@ export interface IScaleAnimationOptions {
 ```
 
 Here, the direction attribute is used to specify the scaling direction, with optional values:
+
 - 'x': Scale in the x direction.
 - 'y': Scale in the y direction.
 - 'xy': Scale in both x and y directions (default).
@@ -326,8 +329,10 @@ vchart.renderAsync();
 ```
 
 #### Move-in and Move-out Animations
+
 Move-in and move-out animations are basic graphic element animations that involve the element moving in a certain direction. VChart provides the IMoveAnimationOptions interface to configure move-in and move-out animations.
 VChart provides additional configuration parameters `options` for the built-in animation types `moveIn`/`moveOut`:
+
 ```ts
 export interface IMoveAnimationOptions {
   direction?: 'x' | 'y' | 'xy';
@@ -338,6 +343,7 @@ export interface IMoveAnimationOptions {
 ```
 
 Here:
+
 - `direction`: Moving direction, with optional values similar to scaling animation.
 - `orient`: Moving direction, with optional values:
   - 'positive': Positive direction (default)
@@ -433,15 +439,19 @@ vchart.renderAsync();
 ```
 
 #### Rotation Animations
+
 Rotation animation is a type of graphic animation provided for elements that are configured with the `angle` attribute. It is often used for graphic elements in polar coordinate systems, such as the pointer change animation in a gauge chart.
 VChart provides additional configuration parameters `options` for the built-in animation types `rotateIn`/`rotateOut`:
+
 ```ts
 export interface IRotateAnimationOptions {
   orient?: 'clockwise' | 'anticlockwise';
   angle?: number;
 }
 ```
+
 Here:
+
 - `orient`: Rotation direction, with optional values:
   - 'clockwise': Clockwise direction (default)
   - 'anticlockwise': Counterclockwise direction
@@ -581,6 +591,7 @@ If you need to specify the specific change effect of graphic elements before and
 VChart provides animation arrangement configuration based on JSON spec to meet as many animation requirements as possible.
 
 ### Timeline
+
 A timeline represents the animation performance of a graphic element over a specific period of time. A timeline contains a set of serialized animation fragments (TimeSlice). The timeline describes the animation performance of a graphic element over a period of time. Animations in different timelines can be executed in parallel. The timeline can also be set with `loop: true` to loop the configured animation effects.
 
-![Timeline schematic diagram](https://tosv.byted.org/obj/bit-cloud/23e5d313c2c3a66d4ca
+![Timeline schematic diagram](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/23e5d313c2c3a66d4ca

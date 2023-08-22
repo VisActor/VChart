@@ -4,7 +4,7 @@ group: pie
 title: 嵌套饼图
 keywords: pieChart,comparison,composition,proportion,circle
 order: 6-1
-cover: https://tosv.byted.org/obj/bit-cloud/c0de7ff0a101bd4cb25c81708.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81708.png
 option: pieChart
 ---
 

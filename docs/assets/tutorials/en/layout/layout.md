@@ -14,7 +14,7 @@ Since the container region of the series is already involved in the layout, the 
 As shown below:
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf00.png" alt="Chart element composition diagram">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf00.png" alt="Chart element composition diagram">
 </div>
 
 ## Placeholder-based layout
@@ -29,7 +29,7 @@ In the placeholder layout, the chart layout elements are divided into several di
 The entire layout process is shown below:
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a222eb3ecfe32db85220dda0c.gif" alt="Layout process diagram">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a222eb3ecfe32db85220dda0c.gif" alt="Layout process diagram">
 </div>
 
 ## Grid-based layout
@@ -47,7 +47,7 @@ In order to meet the layout scenarios of common single column, single row, and s
 The layout effect is shown in the following figure:
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf08.png" alt="Grid layout diagram">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf08.png" alt="Grid layout diagram">
 </div>
 
 In the above figure, a total of 2 columns and 4 rows. The position information of each element is as follows:

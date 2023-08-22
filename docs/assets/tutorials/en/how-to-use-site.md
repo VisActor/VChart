@@ -16,16 +16,16 @@ After completing the [Quick Start](./Getting_Started), you can learn more about 
 
 VChart's documentation provides detailed information about features and configurations. Depending on your needs, you can check out the following sections:
 
-* [Tutorial](./VChart_Website_Guide): Introduces the basic concepts and various usage methods of VChart charts.
-* [Configuration Items](../../option): Provides detailed explanations of all configuration items for VChart charts.
-* [API](../../api): Provides detailed explanations of all available interfaces for VChart.
+- [Tutorial](./VChart_Website_Guide): Introduces the basic concepts and various usage methods of VChart charts.
+- [Configuration Items](../../option): Provides detailed explanations of all configuration items for VChart charts.
+- [API](../../api): Provides detailed explanations of all available interfaces for VChart.
 
 ## Chart Examples
 
 The Chart Examples page provides many practical application examples of VChart charts, from simple bar charts and line charts to complex pie charts and radar charts. Each example provides a detailed description, key configuration information, and source code. You can also modify the example through the online editor and view the results. Additionally, to help you better understand and find charts, the example page also provides chart classification and search functions, allowing you to search by chart type, purpose, component, etc.
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/39b8dd02abe79e47954774000.png" alt="Chart Examples">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/39b8dd02abe79e47954774000.png" alt="Chart Examples">
 </div>
 
 ## How to use the search function
@@ -33,7 +33,7 @@ The Chart Examples page provides many practical application examples of VChart c
 This site provides a powerful search feature that allows you to quickly find relevant usage information. Click on the search box at the top of the site, enter keywords, and you will see matching results in the drop-down list. Choose the appropriate result to view related content.
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/55297520732ada18bb7183f01.png" alt="How to use the search function">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/55297520732ada18bb7183f01.png" alt="How to use the search function">
 </div>
 
 ## How to ask questions & suggestions

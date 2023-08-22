@@ -8,23 +8,24 @@
 
 瀑布图由柱状图元、引导线图元、坐标轴及其他组件构成。
 
-![](https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf06.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf06.png)
 
 矩形图元为瀑布图的基本要素，相关的绘制配置必不可少:
 
 - `waterfallChart.type`: 图表类型，瀑布图的类型为`'waterfall'`
 - `waterfallChart.data`: 图表绘制的数据源
-- `waterfallChart.xField`: 分类字段，映射矩形图元的x坐标或宽度
-- `waterfallChart.yField`: 数值字段，映射矩形图元的高度或y坐标
+- `waterfallChart.xField`: 分类字段，映射矩形图元的 x 坐标或宽度
+- `waterfallChart.yField`: 数值字段，映射矩形图元的高度或 y 坐标
 - `waterfallChart.total`: 用于配置图表计算的**总计数据对应的矩形图元**，详细配置见[waterfallChart.total](../../../option/waterfallChart#total)
 
 坐标轴、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能：
 
 - `waterfallChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详细配置见[VChart 坐标轴组件配置](../../../option/waterfallChart#axes)
 - `waterfallChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/waterfallChart#tooltip)
-- 更多组件配置见[VChart waterfallChart配置](../../../option/waterfallChart)
+- 更多组件配置见[VChart waterfallChart 配置](../../../option/waterfallChart)
 
 ## 快速上手
+
 ```javascript livedemo
 const spec = {
   type: 'waterfall',
@@ -74,47 +75,52 @@ vchart.renderAsync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
-
 ```
 
 ## 瀑布图特性
 
 ### 数据
-- 一个`离散` 字段，如: `product`   
-- 一个`数值`字段，如: `sales`  
+
+- 一个`离散` 字段，如: `product`
+- 一个`数值`字段，如: `sales`
 
 一组产品类别和销售额的数据定义如下：
+
 ```ts
 data: [
-    {
-        name: "bar",
-        values: [
-            {
-                product: "数码产品",
-                sales: 20
-            },
-            {
-                product: "日用品",
-                sales: 50
-            },
-            {
-                product: "食品",
-                sales: 80
-            }
-        ]
-    }
-]
+  {
+    name: 'bar',
+    values: [
+      {
+        product: '数码产品',
+        sales: 20
+      },
+      {
+        product: '日用品',
+        sales: 50
+      },
+      {
+        product: '食品',
+        sales: 80
+      }
+    ]
+  }
+];
 ```
 
 ### 数据与布局
-瀑布图是一种显示数值流动或累积变化的图表，在VChart中提供三种累积值的绘制方式:
+
+瀑布图是一种显示数值流动或累积变化的图表，在 VChart 中提供三种累积值的绘制方式:
+
 - 在末尾增加总计信息，并绘制总计图元
 - 指定某个字段为总计信息，并将其视作总计图元
 - 自定义总计
 
 #### 在末尾增加总计信息，并绘制总计图元
+
 通过`waterfallChart.total.type: 'end'`可以在末尾追加统计信息。
 具体配置如下:
+
 - `waterfallChart.total.type: 'end'` 声明统计方式
 - `waterfallChart.total.text`声明统计文本
 
@@ -180,8 +186,10 @@ window['vchart'] = vchart;
 ```
 
 #### 指定某个字段为总计信息，并将其视作总计图元
+
 通过`waterfallChart.total.type: 'field'`可以指定某个字段为总计信息，并将其视作总计图元。
 具体配置如下:
+
 - `waterfallChart.total.type: 'field'` 声明统计方式
 - `waterfallChart.total.tagField`声明总计值的标志位，对应`field`的值为`true`时，认为**这条数据是总计数据**
 - `waterfallChart.total.valueField`可以指定总计值
@@ -195,7 +203,7 @@ const spec = {
     {
       id: 'id0',
       values: [
-       { x: 'First quarter-primary industry', y: 10954, type: 'primary industry' },
+        { x: 'First quarter-primary industry', y: 10954, type: 'primary industry' },
         { x: 'First Quarter-Secondary Industry', y: 106187, type: 'Secondary Industry' },
         { x: 'First quarter-tertiary industry', y: 153037, type: 'tertiary industry' },
         { x: 'First quarter', total: true, collect: 3 },
@@ -228,7 +236,7 @@ const spec = {
   stackLabel: {
     valueType: 'change',
     formatMethod: text => {
-      return parseInt(text/10000, 10) + 'w';
+      return parseInt(text / 10000, 10) + 'w';
     }
   },
   title: {
@@ -237,7 +245,7 @@ const spec = {
   },
   legends: { visible: true, orient: 'bottom' },
   axes: [
-    { orient: 'left', title: { visible: true, text: 'unit: 100 million yuan'  } },
+    { orient: 'left', title: { visible: true, text: 'unit: 100 million yuan' } },
     {
       orient: 'bottom',
       label: {
@@ -260,17 +268,20 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-
-
 #### 自定义总计计算方式
+
 通过`waterfallChart.total.type: 'custom'`可以指定自定义计算方式，并将其视作总计图元。
 具体配置如下:
+
 - `waterfallChart.total.type: 'custom'` 声明统计方式
 - `waterfallChart.total.tagField`声明总计值的标志位，对应`field`的值为`true`时，认为**这条数据是总计数据**
 - `waterfallChart.total.product`: 总计数据在运算时会调用这个函数，参数为**当前总计数据，当前累计信息**，需要返回**总计的起点值与终点值**。回调函数定义如下：
 
 ```ts
-(datum: Datum, current: { start: number; end: number }) => { start: number; end: number };
+(datum: Datum, current: { start: number; end: number }) => {
+  start: number;
+  end: number;
+};
 ```
 
 ```javascript livedemo
@@ -280,7 +291,7 @@ const spec = {
     id: 'id0',
     values: [
       { x: '小计', total: true },
-      
+
       { x: '0', y: 20, type: 'A' },
       { x: '1', y: 20, type: 'A' },
       { x: '2', y: 20, type: 'A' },
@@ -319,9 +330,9 @@ const spec = {
     }
   },
   axes: [
-      { orient: 'left', range: { min: 0 } },
-      { orient: 'bottom', label: { visible: true }, type: 'band', paddingInner: 0.4 }
-    ]
+    { orient: 'left', range: { min: 0 } },
+    { orient: 'bottom', label: { visible: true }, type: 'band', paddingInner: 0.4 }
+  ]
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
@@ -330,10 +341,3 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-
-
-
-
-
-
-

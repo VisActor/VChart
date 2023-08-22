@@ -4,7 +4,7 @@ group: data-zoom
 title: Axis Zoom Mode
 keywords: scatterChart, dataZoom, scatter
 order: 29-3
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/data-zoom/filter-mode-axis.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/filter-mode-axis.png
 option: commonChart#dataZoom
 ---
 

@@ -4,7 +4,7 @@ group: area chart
 title: 阶梯面积图
 keywords: areaChart,comparison,trend,area
 order: 1-9
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/area-chart/step-area.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/step-area.png
 option: areaChart
 ---
 

@@ -3,7 +3,7 @@ category: examples
 group: customMark
 title: 自定义 mark
 order: 40-0
-cover: https://tosv.byted.org/obj/bit-cloud/57a706137957fce7388f3ab00.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab00.png
 option: barChart#customMark
 ---
 

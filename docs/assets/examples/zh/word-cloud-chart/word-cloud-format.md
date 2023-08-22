@@ -4,7 +4,7 @@ group: word chart
 title: 词云图文字格式化
 keywords: wordCloud,text,distribution
 order: 14-3
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-format.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-format.png
 option: wordCloudChart
 ---
 

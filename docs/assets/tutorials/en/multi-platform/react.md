@@ -91,9 +91,8 @@ export default App;
 
 In this example, we created a simple bar chart with some basic components and configurations.
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e622523213.png" alt="Bar chart example">
+  <img src="https://temp.domain/obj/bit-cloud/350c0511133d336e622523213.png" alt="Bar chart example">
 </div>
 
 ## Component Selection

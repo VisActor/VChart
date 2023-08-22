@@ -1,20 +1,20 @@
----  
-category: examples  
-group: marker  
-title: markLine  
-keywords: marker,lineChart  
-order: 33-0  
-cover: https://tosv.byted.org/obj/bit-cloud/4f62a673241122408f7245400.png  
+---
+category: examples
+group: marker
+title: markLine
+keywords: marker,lineChart
+order: 33-0
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/4f62a673241122408f7245400.png
 option: scatterChart#markLine
---- 
+---
 
-# markLine - Mark special data for dimensions 
+# markLine - Mark special data for dimensions
 
-Use the `markLine` data annotation component to mark the special data on each dimension. 
+Use the `markLine` data annotation component to mark the special data on each dimension.
 
-## Key configuration 
+## Key configuration
 
-## Code demonstration 
+## Code demonstration
 
 ```javascript livedemo
 const spec = {
@@ -130,8 +130,8 @@ vchart.renderAsync();
 
 // Just for the convenience of console debugging, do not copy
 window['vchart'] = vchart;
-``` 
+```
 
-## Related tutorials 
+## Related tutorials
 
 [scrollBar](link)

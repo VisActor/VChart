@@ -4,7 +4,7 @@ group: funnel chart
 title: Custom Funnel Chart
 keywords: funnelChart,composition,trend,custom
 order: 8-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/funnel-chart/custom-funnel.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/custom-funnel.png
 option: funnelChart
 ---
 
@@ -110,14 +110,13 @@ const spec = {
         modelId: 'right-top',
         col: 2,
         row: 1,
-        colSpan:2
+        colSpan: 2
       },
       {
         modelId: 'right-bottom',
         col: 2,
         row: 2,
-        colSpan:2
-
+        colSpan: 2
       }
     ]
   },
@@ -133,7 +132,6 @@ const spec = {
     },
     {
       id: 'right-top'
-
     },
     {
       id: 'right-bottom',
@@ -229,7 +227,7 @@ const spec = {
     }
   ],
   legends: {
-    id: "legend",
+    id: 'legend',
     visible: true,
     orient: 'top'
   }

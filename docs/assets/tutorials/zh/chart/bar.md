@@ -4,30 +4,31 @@
 
 柱状图是一种以长方形的长度为变量的统计图表。柱状图用来比较两个或以上的价值（不同时间或者不同条件），只有一个变量，通常利用于较小的数据集分析。
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/45df54929d214e7453e228f27.png)
+![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f27.png)
 
 条形图是在柱状图的基础上，做了 x 轴和 y 轴的转置，在配置上和柱状图基本一致，只是 x 轴和 y 轴的配置需要对调，同时需要加上 `direction` 属性配置为 `'horizontal'`。
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e62252321d.png)
+![](https://temp.domain/obj/bit-cloud/350c0511133d336e62252321d.png)
 
 ## 图表构成
-柱状图由矩形图元、坐标轴及其他组件构成。 
- 
-![](https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf04.png)
+
+柱状图由矩形图元、坐标轴及其他组件构成。
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf04.png)
 矩形图元为柱状图/条形图的基本要素，相关的绘制配置必不可少:
+
 - `barChart.type`: 图表类型，柱状体 / 条形图的类型为`'bar'`
 - `barChart.data`: 图表绘制的数据源
-- `barChart.xField`: 分类字段，映射图元的x坐标 / 宽度
-- `barChart.yField`: 数值字段，映射图元的高度 / y坐标
+- `barChart.xField`: 分类字段，映射图元的 x 坐标 / 宽度
+- `barChart.yField`: 数值字段，映射图元的高度 / y 坐标
 
 坐标轴、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
+
 - `barChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../../option/barChart#axes)
 - `barChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/barChart#tooltip)
-- 更多组件配置见[VChart barChart配置](../../../option/barChart)
+- 更多组件配置见[VChart barChart 配置](../../../option/barChart)
 
 ## 快速上手
-
-
 
 ```javascript livedemo
 const spec = {
@@ -54,6 +55,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 ### 关键配置
 
 - `direction` 属性配置为 `'horizontal'`
@@ -62,38 +64,40 @@ window['vchart'] = vchart;
 
 ## 柱状图/条形图特性
 
-
 ### 数据
 
 #### 数据结构
-- 一个`离散` 字段，如: `product`   
-- 一个`数值`字段，如: `sales`  
+
+- 一个`离散` 字段，如: `product`
+- 一个`数值`字段，如: `sales`
 
 一组产品类别和销售额的数据定义如下：
+
 ```ts
 data: [
-    {
-        name: "bar",
-        values: [
-            {
-                product: "数码产品",
-                sales: 20
-            },
-            {
-                product: "日用品",
-                sales: 50
-            },
-            {
-                product: "食品",
-                sales: 80
-            }
-        ]
-    }
-]
+  {
+    name: 'bar',
+    values: [
+      {
+        product: '数码产品',
+        sales: 20
+      },
+      {
+        product: '日用品',
+        sales: 50
+      },
+      {
+        product: '食品',
+        sales: 80
+      }
+    ]
+  }
+];
 ```
 
-####  数据正负值场景
-在真实场景中，数据中通常会同时出现正数、负数，比如销量、营业额同上周的差异值。在这种场景下，我们需要通过坐标轴的零点进行正负数的区分。在VChart中，您无需针对这种数据场景做任何处理，坐标轴会根据数据范围做自适应处理，以最佳方式呈现。
+#### 数据正负值场景
+
+在真实场景中，数据中通常会同时出现正数、负数，比如销量、营业额同上周的差异值。在这种场景下，我们需要通过坐标轴的零点进行正负数的区分。在 VChart 中，您无需针对这种数据场景做任何处理，坐标轴会根据数据范围做自适应处理，以最佳方式呈现。
 
 ```javascript livedemo
 const spec = {
@@ -643,11 +647,12 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-
 ### 图表布局
 
 #### 条形图
+
 `direction` 属性配置为 `'horizontal'`即可得到一张条形图。
+
 ```javascript livedemo
 const spec = {
   type: 'bar',
@@ -758,9 +763,11 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### 分组柱状图
+
 分组柱状图可以看做不同的基础柱系列以间隔排列的方式组合在一起，每组柱系列代表一个类别。例如，您可以将一组产品拆分为不同的子类别，如颜色、大小、风格等。每个子类别都用不同的颜色表示，使用户能够更直观地比较数值的大小和差异。
-在VChart中，需要在`xField`中追加字段（此时`xField`以数组形式存在），该字段用于区分数据类别，即对同一维度的柱子进行拆分，拆分成若干组以间隔排列的方式展开。并且为了区分同一维度下间隔排列的柱子，需要指定`barChart.seriedField`字段，该字段默认映射柱子颜色。
+在 VChart 中，需要在`xField`中追加字段（此时`xField`以数组形式存在），该字段用于区分数据类别，即对同一维度的柱子进行拆分，拆分成若干组以间隔排列的方式展开。并且为了区分同一维度下间隔排列的柱子，需要指定`barChart.seriedField`字段，该字段默认映射柱子颜色。
 
 ```javascript livedemo
 const spec = {
@@ -811,9 +818,11 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### 堆叠柱状图
+
 堆叠柱状图可以看做不同的基础柱系列以堆叠的方式组合在一起，每组柱系列代表一个类别。不同于分组柱状图，堆叠柱状图的优点是：不仅能展现同一维度下不同类别的数据差异，还能展现同一维度下不同类别的总和差异；缺点则是当类别过多且数值较小时，柱形的高度差异难以从视觉层面辨认。  
-在VChart中，如果需要展示堆叠柱状图，需要配置`barChart.stack: true`, 并且为了区分同一维度下堆叠在一起的柱子，需要指定`barChart.seriedField`字段，该字段默认映射柱子颜色。
+在 VChart 中，如果需要展示堆叠柱状图，需要配置`barChart.stack: true`, 并且为了区分同一维度下堆叠在一起的柱子，需要指定`barChart.seriedField`字段，该字段默认映射柱子颜色。
 
 ```javascript livedemo
 const spec = {
@@ -924,11 +933,12 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### 百分比堆叠柱状图
+
 在上节中我们提到堆叠柱状图的缺点是当类别过多且数值过小时，同一维度下的柱形高度差异难以辨认。针对这种场景，我们可以声明百分比堆叠柱状图，它可以帮助我们得到同一维度下归一化后的
 数值所映射的高度，帮助我们更好的辨别差异。  
-在VChart中，如果需要展示堆叠柱状图，需要配置`barChart.stack: true` 和 `barChart.percent: true` ，并且为了区分同一维度下堆叠在一起的柱子，需要指定`barChart.seriedField`字段，该字段默认映射柱子颜色。
-
+在 VChart 中，如果需要展示堆叠柱状图，需要配置`barChart.stack: true` 和 `barChart.percent: true` ，并且为了区分同一维度下堆叠在一起的柱子，需要指定`barChart.seriedField`字段，该字段默认映射柱子颜色。
 
 ```javascript livedemo
 const spec = {
@@ -1044,7 +1054,6 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-
 
 ### 图元及样式
 
@@ -1194,6 +1203,3 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-
-
-

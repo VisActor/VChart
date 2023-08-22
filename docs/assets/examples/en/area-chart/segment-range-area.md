@@ -4,7 +4,7 @@ group: area chart
 title: Segment Range Area Chart
 keywords: areaChart,comparison,trend,area,rangeAreaChart
 order: 1-6
-cover: http://tosv.byted.org/obj/bit-cloud/area-chart-segment-range-area.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/area-chart-segment-range-area.png
 option: areaChart
 ---
 
@@ -14,7 +14,7 @@ An interval area chart is a variant of an area chart that plots a range of data,
 
 ## critical configuration
 
-*   `yField` The property is configured as an array composed of the minimum value numerical property and the maximum value numerical property
+- `yField` The property is configured as an array composed of the minimum value numerical property and the maximum value numerical property
 
 ## Code demo
 

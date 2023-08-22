@@ -1,4 +1,5 @@
 # Waterfall Chart
+
 [Configuration Manual](../../../option/waterfallChart)
 
 ## Introduction
@@ -9,7 +10,7 @@ Waterfall charts visually represent the cumulative process of numerical values i
 
 Waterfall charts are composed of bar chart elements, guidewire chart elements, coordinate axes, and other components.
 
-![](https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf06.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf06.png)
 
 Rectangular chart elements are the basic elements of waterfall charts, and related drawing configurations are essential:
 
@@ -26,6 +27,7 @@ Coordinate axes, tooltip information, and other components that serve as auxilia
 - For more component configurations, see [VChart waterfallChart configuration](../../../option/waterfallChart)
 
 ## Quick Start
+
 ```javascript livedemo
 const spec = {
   type: 'waterfall',
@@ -75,46 +77,51 @@ vchart.renderAsync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
-
 ```
 
 ## Waterfall Chart features
 
 ### Data
+
 - A `discrete` field, such as `product`
 - A `numeric` field, such as `sales`
 
 A data definition for a series of product categories and sales figures is as follows:
+
 ```ts
 data: [
-    {
-        name: "bar",
-        values: [
-            {
-                product: "Digital Products",
-                sales: 20
-            },
-            {
-                product: "Daily Necessities",
-                sales: 50
-            },
-            {
-                product: "Food",
-                sales: 80
-            }
-        ]
-    }
-]
+  {
+    name: 'bar',
+    values: [
+      {
+        product: 'Digital Products',
+        sales: 20
+      },
+      {
+        product: 'Daily Necessities',
+        sales: 50
+      },
+      {
+        product: 'Food',
+        sales: 80
+      }
+    ]
+  }
+];
 ```
 
 ### Data and Layout
+
 Waterfall charts are a type of chart that displays the flow or cumulative changes of numerical values. In VChart, there are three ways to draw cumulative values:
+
 - Add total information at the end and draw the total element
 - Specify a certain field as total information and treat it as a total chart element
 - Custom total
 
 #### Add total information at the end and draw the total element
+
 By using `waterfallChart.total.type: 'end'`, you can append the total information at the end. The specific configuration is as follows:
+
 - `waterfallChart.total.type: 'end'` declares the calculation method
 - `waterfallChart.total.text` declares the total text
 
@@ -180,7 +187,9 @@ window['vchart'] = vchart;
 ```
 
 #### Specify a certain field as total information and treat it as a total chart element
+
 By using `waterfallChart.total.type: 'field'`, you can specify a certain field as total information and treat it as a total chart element. The specific configuration is as follows:
+
 - `waterfallChart.total.type: 'field'` declares the calculation method
 - `waterfallChart.total.tagField` declares the flag for the total value, when the value of the `field` is `true`, it is considered **this data is total data**
 - `waterfallChart.total.valueField` can specify the total value
@@ -227,7 +236,7 @@ const spec = {
   stackLabel: {
     valueType: 'change',
     formatMethod: text => {
-      return parseInt(text/10000, 10) + 'w';
+      return parseInt(text / 10000, 10) + 'w';
     }
   },
   title: {
@@ -260,13 +269,18 @@ window['vchart'] = vchart;
 ```
 
 #### Custom total calculation method
+
 By using `waterfallChart.total.type: 'custom'`, you can specify a custom calculation method and treat it as a total chart element. The specific configuration is as follows:
+
 - `waterfallChart.total.type: 'custom'` declares the calculation method
 - `waterfallChart.total.tagField` declares the flag for the total value, when the value of the `field` is `true`, it is considered **this data is total data**
 - `waterfallChart.total.product`: The total data will call this function during calculation, with parameters being **the current total data and the current cumulative information**, and needs to return **the starting and ending values of the total**. The callback function is defined as follows:
 
 ```ts
-(datum: Datum, current: { start: number; end: number }) => { start: number; end: number };
+(datum: Datum, current: { start: number; end: number }) => {
+  start: number;
+  end: number;
+};
 ```
 
 ```javascript livedemo
@@ -276,7 +290,7 @@ const spec = {
     id: 'id0',
     values: [
       { x: '小计', total: true },
-      
+
       { x: '0', y: 20, type: 'A' },
       { x: '1', y: 20, type: 'A' },
       { x: '2', y: 20, type: 'A' },
@@ -315,9 +329,9 @@ const spec = {
     }
   },
   axes: [
-      { orient: 'left', range: { min: 0 } },
-      { orient: 'bottom', label: { visible: true }, type: 'band', paddingInner: 0.4 }
-    ]
+    { orient: 'left', range: { min: 0 } },
+    { orient: 'bottom', label: { visible: true }, type: 'band', paddingInner: 0.4 }
+  ]
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });

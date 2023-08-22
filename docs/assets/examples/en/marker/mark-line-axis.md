@@ -4,7 +4,7 @@ group: marker
 title: markLine Axis Space Positioning
 keywords: lineChart,marker
 order: 33-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/marker/mark-line-axis.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-axis.png
 option: lineChart#markLine
 ---
 

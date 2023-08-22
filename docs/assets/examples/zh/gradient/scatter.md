@@ -4,7 +4,7 @@ group: gradient
 title: 渐变气泡图
 keywords: scatterChart,comparison,distribution,scatter,gradient
 order: 38-3
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/gradient/scatter.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/scatter.png
 option: scatterChart
 ---
 

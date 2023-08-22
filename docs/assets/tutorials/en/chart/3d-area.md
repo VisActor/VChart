@@ -4,12 +4,12 @@
 
 The 3d area chart inherits most of its configuration items from the 2d area chart. It is obtained by adding zField mapping and the z-axis to the 2d line chart.
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e622523219.png)
+![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523219.png)
 
 ## Chart Composition
 
 The area chart consists of point elements, line elements, axes, and other components.
-![](https://tosv.byted.org/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a04.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a04.png)
 
 Point elements and line elements are the basic components of an area chart, and the related drawing configurations are essential:
 

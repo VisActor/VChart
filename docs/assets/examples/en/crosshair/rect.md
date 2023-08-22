@@ -4,7 +4,7 @@ group: crosshair
 title: Rectangular Crosshair
 keywords: lineChart, comparison, trend, line, crosshair
 order: 28-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/crosshair/rect.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/rect.png
 option: lineChart#crosshair
 ---
 
@@ -199,4 +199,7 @@ window['vchart'] = vchart;
 ## Related Tutorials
 
 Attach links to tutorials or api documentation related to the demo configuration.
+
+```
+
 ```

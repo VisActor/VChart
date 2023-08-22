@@ -4,7 +4,7 @@ group: radar chart
 title: 基础雷达图
 keywords: radarChart,comparison,line,circle
 order: 10-0
-cover: https://tosv.byted.org/obj/bit-cloud/c0de7ff0a101bd4cb25c8170c.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c8170c.png
 option: radarChart
 ---
 

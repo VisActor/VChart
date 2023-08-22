@@ -4,7 +4,7 @@ When using VChart for chart visualization, it is not only necessary to display v
 
 VChart supports multiple types of charts, including bar charts, line charts, pie charts, area charts, and scatter plots, etc. Each type of chart can implement data label display and style settings through configuring labels (`label`). In this tutorial, we will introduce in detail how to use data labels in various charts of VChart.
 
-![](https://tosv.byted.org/obj/bit-cloud/eb08aeafba39ab34c8a08c613.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/eb08aeafba39ab34c8a08c613.png)
 
 ## Label Styles
 
@@ -19,7 +19,7 @@ In VChart, the style of data labels can be configured through `label.style`. Her
     "style":{
       "fill": "#333",
       "fontSize": "14",
-      "fontWeight": "bold"  
+      "fontWeight": "bold"
     },
    ...
   }
@@ -28,13 +28,13 @@ In VChart, the style of data labels can be configured through `label.style`. Her
 
 In this example, we set some basic styles for the data labels of the line chart:
 
-*   `visible`: Set to `true` to display data labels, default is not to display labels.
-*   `position`: Set the position of the data label, here set to `top`, which means the label is above the chart.
-*   `offset`: Set the distance between the label and the chart.
-*   `style`: Set the style of the label text.
-    *   `fill`: Set the fill color of the label text.
-    *   `fontSize`: Set the font size of the label text.
-    *   `fontWeight`: Set the font weight of the label text.
+- `visible`: Set to `true` to display data labels, default is not to display labels.
+- `position`: Set the position of the data label, here set to `top`, which means the label is above the chart.
+- `offset`: Set the distance between the label and the chart.
+- `style`: Set the style of the label text.
+  - `fill`: Set the fill color of the label text.
+  - `fontSize`: Set the font size of the label text.
+  - `fontWeight`: Set the font weight of the label text.
 
 For supported configuration properties of text graphics, please refer to the [configuration documentation](../../../../option/lineChart#label.style).
 
@@ -91,11 +91,11 @@ const spec = {
   label: {
     visible: true,
     position: 'top',
-    offset:2,
+    offset: 2,
     overlap: false,
     style: {
-      "fill": "#333",
-      "fontWeight": "bold"  
+      fill: '#333',
+      fontWeight: 'bold'
     }
   }
 };
@@ -134,26 +134,24 @@ In some cases, data labels can experience overlapping issues, especially in data
 
 ```json
 {
-    "label": {
-      "visible": true,
-      "overlap": {
-        // Whether to hide when labels overlap
-        "hideOnHit": false, 
-        "strategy":[
-          { "type":"position", "position": ["inside-top", "top"]}
-        ]
-      }, 
-      // Do not process label avoidance
-      "overlap": false
-    }
+  "label": {
+    "visible": true,
+    "overlap": {
+      // Whether to hide when labels overlap
+      "hideOnHit": false,
+      "strategy": [{ "type": "position", "position": ["inside-top", "top"] }]
+    },
+    // Do not process label avoidance
+    "overlap": false
+  }
 }
 ```
 
 In this example, we set the following options for the data labels of the scatter plot:
 
-*   `overlap`: If set to `false`, it indicates turning off the label avoidance function.
-    *   `overlap.hideOnHit`: Set not to hide when labels overlap.
-    *   `overlap.strategy`: Set the processing strategy when labels overlap. For detailed strategy configuration, please refer to the [configuration documentation](../../../../option/scatterChart#label.overlap)
+- `overlap`: If set to `false`, it indicates turning off the label avoidance function.
+  - `overlap.hideOnHit`: Set not to hide when labels overlap.
+  - `overlap.strategy`: Set the processing strategy when labels overlap. For detailed strategy configuration, please refer to the [configuration documentation](../../../../option/scatterChart#label.overlap)
 
 Here's an example of a custom label anti-overlap strategy for a bar chart:
 

@@ -7,17 +7,17 @@ Brush is an interactive component provided by VChart, which can help users selec
 The Brush component mainly consists of a selection area, providing rich selection types, styles, and interactions, and also provides corresponding event support (`brushChange`, see [Event API](../../../api/API/event) for details).
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a21b.png" alt="Brush Schematic">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a21b.png" alt="Brush Schematic">
 </div>
 
 ### Selection Types
 
 Brush provides 4 common types of selection, and users can choose the appropriate type according to the actual needs:
 
-*   'x': Horizontal selection, only select data in the X-axis direction
-*   'y': Vertical selection, only select data in the Y-axis direction
-*   'rect': Rectangular selection box, users can draw a rectangular box in the chart to select the data inside
-*   'polygon': Arbitrary shape selection box, users can freely draw a polygonal box in the chart to select the data inside
+- 'x': Horizontal selection, only select data in the X-axis direction
+- 'y': Vertical selection, only select data in the Y-axis direction
+- 'rect': Rectangular selection box, users can draw a rectangular box in the chart to select the data inside
+- 'polygon': Arbitrary shape selection box, users can freely draw a polygonal box in the chart to select the data inside
 
 ### Styles and Interactions
 

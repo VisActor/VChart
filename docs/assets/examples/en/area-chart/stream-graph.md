@@ -4,7 +4,7 @@ group: area chart
 title: Streamgraph
 keywords: areaChart,comparison,trend,area,streamgraph,composition
 order: 1-9
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/area-chart/stream-graph.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/stream-graph.png
 ---
 
 # Streamgraph
@@ -24,7 +24,6 @@ The following example shows the evolution of baby name frequencies in the United
 ```javascript livedemo
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/stream-graph-data.json');
 const data = await response.json();
-
 
 const spec = {
   type: 'area',

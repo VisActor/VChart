@@ -1,11 +1,10 @@
 ---
-
 category: examples
 group: funnel chart
 title: Rectangular Conversion Funnel Chart
 keywords: funnelChart, composition, trend, strip
 order: 8-2
-cover: https://tosv.byted.org/obj/bit-cloud/ffc3a9b5518762d274121ff04.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/ffc3a9b5518762d274121ff04.png
 option: funnelChart
 ---
 
@@ -128,6 +127,7 @@ vchart.renderAsync();
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
+
 ## Related Tutorials
 
 [Funnel Chart](link)

@@ -4,7 +4,7 @@ group: marker
 title: markLine Specifying Data Points and Calculating Linear Regression
 keywords: marker, commonChart
 order: 33-3
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/marker/mark-line-part-regression.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-part-regression.png
 option: barChart#markLine
 ---
 

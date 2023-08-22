@@ -4,7 +4,7 @@ group: bar chart
 title: 人口金字塔
 keywords: barChart,comparison,distribution,rank,rectangle
 order: 2-10
-cover: https://tosv.byted.org/obj/bit-cloud/ffc3a9b5518762d274121ff03.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/ffc3a9b5518762d274121ff03.png
 option: barChart
 ---
 

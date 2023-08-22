@@ -1,13 +1,14 @@
 # Area Chart
+
 [\[Configuration Manual\]](../../../option/areaChart)
 
 ## Introduction
 
-Area charts visually display quantitative data. It is based on line charts. Areas between the axis and the line are often emphasized with colors, textures, and shading lines. Typically, an area chart compares two or more quantities. Area charts are suitable for illustrating the trend changes of one or more groups of data under continuous independent variables, as well as comparing them with each other, while also being able to observe the changing trend of the total data. 
+Area charts visually display quantitative data. It is based on line charts. Areas between the axis and the line are often emphasized with colors, textures, and shading lines. Typically, an area chart compares two or more quantities. Area charts are suitable for illustrating the trend changes of one or more groups of data under continuous independent variables, as well as comparing them with each other, while also being able to observe the changing trend of the total data.
 
 In VChart, you can use the [area chart configuration](../../../option/areaChart) to display the changing trends of both data components and total data simultaneously. As shown below, this example shows the trend of sales of different cosmetics:
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e622523219.png)
+![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523219.png)
 
 In the [area chart example](../../../demo/area-chart/stacked-area) shown above, you need to use the following key configurations:
 
@@ -17,15 +18,17 @@ In the [area chart example](../../../demo/area-chart/stacked-area) shown above, 
 ## Chart Composition
 
 The area chart is composed of point elements, line elements, axes, and other components.
-![](https://tosv.byted.org/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a04.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a04.png)
 
 Point elements and line elements are essential for area charts, and relevant drawing configurations are indispensable:
+
 - `areaChart.type`: Chart type, the type of area chart is `'area'`
 - `areaChart.data`: Data source for chart rendering
 - `areaChart.xField`: Continuous time interval or ordered category field, mapping element's x-coordinate
 - `areaChart.yField`: Numerical field, mapping element's y-coordinate
 
 Axes, tooltips, and other auxiliary chart display components are optional configurations with default effects and functionalities:
+
 - `areaChart.axes`: Axis components, automatically displayed and inferred according to chart type with coordinate system and data mapping logic, for detailed configuration see [VChart Axis Component Configuration](../../../option/areaChart#axes)
 - `areaChart.tooltip`: Tooltip information, displayed interactively by default, for detailed configuration see [VChart Tooltip Configuration](../../../option/areaChart#tooltip)
 - For more component configurations see [VChart areaChart configuration](../../../option/areaChart)
@@ -101,30 +104,31 @@ window['vchart'] = vchart;
 - A `numerical` field, such as: `temperature`
 
 A set of month and temperature data is defined as follows:
+
 ```ts
 data: [
-    {
-        name: "area",
-        values: [
-            {
-                month: "January",
-                temperature: 8
-            },
-            {
-                month: "February",
-                temperature: 9
-            },
-            {
-                month: "March",
-                temperature: 11
-            },
-            {
-                month: "April",
-                temperature: 14
-            }
-        ]
-    }
-]
+  {
+    name: 'area',
+    values: [
+      {
+        month: 'January',
+        temperature: 8
+      },
+      {
+        month: 'February',
+        temperature: 9
+      },
+      {
+        month: 'March',
+        temperature: 11
+      },
+      {
+        month: 'April',
+        temperature: 14
+      }
+    ]
+  }
+];
 ```
 
 ### Chart Layout
@@ -270,7 +274,6 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-
 
 ### Elements and Styles
 

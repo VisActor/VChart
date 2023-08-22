@@ -4,7 +4,7 @@ group: legend
 title: 多图例/混合图例
 keywords: scatterChart,comparison,distribution,scatter,legend
 order: 27-3
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/legend/multiple-legends.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/multiple-legends.png
 option: scatterChart#legends
 ---
 

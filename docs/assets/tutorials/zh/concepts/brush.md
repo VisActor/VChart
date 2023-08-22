@@ -7,17 +7,17 @@ Brush 是 VChart 提供的一款交互组件，该组件可以帮助用户在图
 Brush 组件主要有一个框选区域组成，提供了丰富的框选类型、样式以及交互支持，同时也提供了对应的事件（`brushChange`，详见[事件 API](../../../api/API/event)）。
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a21b.png" alt="Brush 图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a21b.png" alt="Brush 图示">
 </div>
 
 ### 框选类型
 
 Brush 提供了 4 种常见的框选类型，用户可以根据实际需求选择合适的类型：
 
-*   'x': 横向选择，仅在 X 轴方向上进行数据选取
-*   'y': 纵向选择，仅在 Y 轴方向上进行数据选取
-*   'rect': 矩形选框，用户可以在图表中画出矩形框，选取其中的数据
-*   'polygon': 任意形状选框，用户可以在图表中自由画出多边形框，选取其中的数据
+- 'x': 横向选择，仅在 X 轴方向上进行数据选取
+- 'y': 纵向选择，仅在 Y 轴方向上进行数据选取
+- 'rect': 矩形选框，用户可以在图表中画出矩形框，选取其中的数据
+- 'polygon': 任意形状选框，用户可以在图表中自由画出多边形框，选取其中的数据
 
 ### 样式与交互
 

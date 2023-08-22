@@ -4,7 +4,7 @@ group: box plot
 title: Basic Box Plot
 keywords: boxPlot, distribution, strip
 order: 5-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/box-plot/basic-box-plot.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/box-plot/basic-box-plot.png
 option: boxPlotChart
 ---
 

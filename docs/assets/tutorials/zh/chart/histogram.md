@@ -4,31 +4,30 @@
 
 直方图，又称质量分布图，用于表示数据的分布情况，是一种常见的统计图表。 一般用横轴表示数据区间，纵轴表示分布情况，柱子越高，则落在该区间的数量越大。
 
-
-
 ## 图表构成
-直方图由矩形图元、坐标轴及其他组件构成。  
 
-![](https://tosv.byted.org/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a05.png)
+直方图由矩形图元、坐标轴及其他组件构成。
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a05.png)
 
 矩形图元为直方图的基本要素，相关的绘制配置必不可少:
+
 - `histogramChart.type`: 图表类型，直方图的类型为`'histogram'`
 - `histogramChart.data`: 图表绘制的数据源
-- `histogramChart.xField`: 数值字段，映射图元的x坐标 / 宽度
-- `histogramChart.x1Field`: 数值字段，映射图元的x1坐标
-- `histogramChart.yField`: 数值字段，映射图元的y坐标 / 高度
-- `histogramChart.y1Field`: 数值字段，映射图元的y1坐标
+- `histogramChart.xField`: 数值字段，映射图元的 x 坐标 / 宽度
+- `histogramChart.x1Field`: 数值字段，映射图元的 x1 坐标
+- `histogramChart.yField`: 数值字段，映射图元的 y 坐标 / 高度
+- `histogramChart.y1Field`: 数值字段，映射图元的 y1 坐标
 
-    与其他图表类似，直方图支持配置`direction` 属性，当`direction: 'horizontal'`时，`xField`映    射为矩形图元的宽度，`yField`和`y1Field`分别映射矩形图元的上下边界坐标，即y和y1坐标；当    `direction: 'vertical'`时，`yField`映射为矩形图元的高度，`xField`和`x1Field`分别映射矩形图元的    左右边界坐标，即x和x1坐标。
-
+  与其他图表类似，直方图支持配置`direction` 属性，当`direction: 'horizontal'`时，`xField`映 射为矩形图元的宽度，`yField`和`y1Field`分别映射矩形图元的上下边界坐标，即 y 和 y1 坐标；当 `direction: 'vertical'`时，`yField`映射为矩形图元的高度，`xField`和`x1Field`分别映射矩形图元的 左右边界坐标，即 x 和 x1 坐标。
 
 坐标轴、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
+
 - `histogramChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，注意直方图不支持离散轴，因为直方图用于统计数据区间内的频率分布，主轴必须以数值区间的形式传入，离散轴不支持该功能。详情配置见[VChart 坐标轴组件配置](../../../option/histogramChart#axes)
 - `histogramChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/histogramChart#tooltip)
-- 更多组件配置见[VChart histogramChart配置](../../../option/histogramChart)
+- 更多组件配置见[VChart histogramChart 配置](../../../option/histogramChart)
 
 ## 快速上手
-
 
 ```javascript livedemo
 const spec = {
@@ -377,6 +376,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 ### 关键配置
 
 - `xField` 属性声明为频率统计左区间字段
@@ -389,34 +389,36 @@ window['vchart'] = vchart;
 
 ### 数据
 
-- 两个`数值` 字段，如: `x`   `x1`  
-- 一个`数值`字段，如: `value`  
+- 两个`数值` 字段，如: `x` `x1`
+- 一个`数值`字段，如: `value`
 
 数据定义如下：
+
 ```ts
 data: [
-    {
-        name: "histogram",
-        values: [
-            {
-                x: 0,
-                x1: 10,
-                value: 1
-            },
-            {
-                x: 10,
-                x1: 20,
-                value: 5
-            },
-             {
-                x: 20,
-                x1: 30,
-                value: 2
-            }
-        ]
-    }
-]
+  {
+    name: 'histogram',
+    values: [
+      {
+        x: 0,
+        x1: 10,
+        value: 1
+      },
+      {
+        x: 10,
+        x1: 20,
+        value: 5
+      },
+      {
+        x: 20,
+        x1: 30,
+        value: 2
+      }
+    ]
+  }
+];
 ```
+
 ### 直方折线组合图
 
 直方图和折线图通常一起使用，以便在可视化数据分布特征时提供更清晰、准确的显示效果。相比于单个直方图，搭配折线图的直方图除了能在图中直观展示数据的分布情况外，还可以更好地强调数据趋势性和偏差量的变化。
@@ -710,7 +712,7 @@ const spec = {
           frequency: 0
         }
       ]
-    },
+    }
   ],
   series: [
     {
@@ -735,9 +737,8 @@ const spec = {
       },
       line: {
         style: {
-          strokeWidth: 2 
+          strokeWidth: 2
         }
-
       }
     }
   ],
@@ -760,8 +761,10 @@ window['vchart'] = vchart;
 ```
 
 ### 不同频率分布直方图
+
 由于决定柱子左右边界位置的是不同的数据字段，也就意味着数据的数值间隔决定了柱子的宽度（`direction: 'horizontal'`时决定柱子的高度）。
 而数据间隔不同，就可以绘制出不同频率分布的直方图。
+
 ```javascript livedemo
 const spec = {
   type: 'histogram',
@@ -862,8 +865,10 @@ window['vchart'] = vchart;
 ```
 
 ## 图表布局
+
 ### 堆叠直方图
-在VChart中，如果需要展示堆叠直方图，需要配置`histogramChart.stack: true`，并且为了区分同一维度下堆叠在一起的柱子，需要指定`histogramChart.seriedField`字段，该字段默认映射区域颜色。
+
+在 VChart 中，如果需要展示堆叠直方图，需要配置`histogramChart.stack: true`，并且为了区分同一维度下堆叠在一起的柱子，需要指定`histogramChart.seriedField`字段，该字段默认映射区域颜色。
 
 ```javascript livedemo
 const spec = {

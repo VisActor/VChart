@@ -4,7 +4,7 @@ group: brush
 title: 矩形关联框选
 keywords: scatterChart,brush
 order: 32-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/brush/rect-linked-brush.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/rect-linked-brush.png
 option: commonChart#brush
 ---
 

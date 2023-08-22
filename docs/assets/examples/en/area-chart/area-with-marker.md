@@ -4,7 +4,7 @@ group: area chart
 title: Multi-series area chart
 keywords: areaChart,comparison,trend,area
 order: 1-10
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/area-chart/area-with-marker.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/area-with-marker.png
 option: areaChart
 ---
 
@@ -14,11 +14,11 @@ Area plots display quantitative data graphically. It is based on line plots. Reg
 
 ## critical configuration
 
-*   `type: area` Property declared as area map
-*   `xField` Property declared as category field or timing field
-*   `yField` Property declared as numeric field
-*   `stack`Property declared as whether to stack
-*   `markLine` Properties are declared as guides for data tags, `markLine.coordinates` Used to specify data coordinates
+- `type: area` Property declared as area map
+- `xField` Property declared as category field or timing field
+- `yField` Property declared as numeric field
+- `stack`Property declared as whether to stack
+- `markLine` Properties are declared as guides for data tags, `markLine.coordinates` Used to specify data coordinates
 
 ## Code demo
 

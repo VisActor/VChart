@@ -6,7 +6,7 @@ The configuration of 3D word cloud inherits most of the configuration of the reg
 
 Word clouds are composed of text elements, tooltip, and other components.
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/dfd203ff5e337abea49411b07.png)
+![](https://temp.domain/obj/bit-cloud/dfd203ff5e337abea49411b07.png)
 
 Text elements are the basic elements of word clouds, and related drawing configurations are essential:
 
@@ -30,7 +30,7 @@ Code Demo
 const spec = {
   type: 'wordCloud3d',
   // 待申请新外网可访问的存储空间后更换
-  maskShape: `http://tosv.boe.byted.org/obj/bytecharts/shape_bears.png`,
+  maskShape: `http://temp.domain/obj/bytecharts/shape_bears.png`,
   nameField: 'challenge_name',
   valueField: 'sum_count',
   seriesField: 'challenge_name',

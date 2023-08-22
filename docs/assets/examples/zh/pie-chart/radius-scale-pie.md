@@ -3,7 +3,7 @@ category: examples
 group: pie
 title: 半径可映射饼图
 order: 6-4
-cover: https://tosv.byted.org/obj/bit-cloud/c0de7ff0a101bd4cb25c8170a.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c8170a.png
 option: pieChart
 ---
 

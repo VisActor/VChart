@@ -8,7 +8,7 @@
 
 漏斗图由具有层级关系的多边形图元（该多边形默认是梯形，也可以是矩形，视用户配置而定）、转化层、标签等基本元素及其他组件构成。
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/4d877ccaf041cff1618de3405.png)
+![](https://temp.domain/obj/bit-cloud/4d877ccaf041cff1618de3405.png)
 
 多边形图元为漏斗图的基本要素，相关的绘制配置必不可少:
 
@@ -23,11 +23,11 @@
 - `funnelChart.isTransform`: 是否展示转化层，该配置为'`true'`时展示。
 
 提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
+
 - `funnelChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/funnelChart#tooltip)
-- 更多组件配置见[VChart funnelChart配置](../../../option/funnelChart)
+- 更多组件配置见[VChart funnelChart 配置](../../../option/funnelChart)
 
 ## 快速上手
-
 
 ```javascript livedemo
 const spec = {
@@ -81,6 +81,7 @@ window['vchart'] = vchart;
 ```
 
 ### 关键配置
+
 - `type: funnel` 指定图表类型为漏斗图
 - `categoryField` 指定分类字段
 - `valueField` 指定值字段
@@ -90,36 +91,37 @@ window['vchart'] = vchart;
 ### 数据
 
 - 一个`离散` 字段，如: `name` ，表示不同漏斗层
-- 一个`数值`字段，如: `value`  ，表示不同漏斗层代表的数值
+- 一个`数值`字段，如: `value` ，表示不同漏斗层代表的数值
 
 需要注意的是，由于漏斗图表示不同流程的转化关系，所以理论上来说数据是有序的，彼此之间有逻辑上的顺序关系，阶段最好大于 3 个。
 
 ```ts
 data: [
-    {
-        name: "funnel",
-        values: [
-            {
-                name: "Step1",
-                value: 100
-            },
-            {
-                name: "Step2",
-                value: 80
-            },
-            {
-                name: "Step3",
-                value: 60
-            }
-        ]
-    }
-]
+  {
+    name: 'funnel',
+    values: [
+      {
+        name: 'Step1',
+        value: 100
+      },
+      {
+        name: 'Step2',
+        value: 80
+      },
+      {
+        name: 'Step3',
+        value: 60
+      }
+    ]
+  }
+];
 ```
 
 ### 漏斗图布局
-#### 转化漏斗图
-当配置`funnelChart.isTransform: true`时，漏斗图将在层与层之间新增转化层并自动计算转化率，转化率 = 下层数据 / 上层数据，它表示下一步骤相比上一步骤数值上的变化。
 
+#### 转化漏斗图
+
+当配置`funnelChart.isTransform: true`时，漏斗图将在层与层之间新增转化层并自动计算转化率，转化率 = 下层数据 / 上层数据，它表示下一步骤相比上一步骤数值上的变化。
 
 ```javascript livedemo
 const spec = {
@@ -189,7 +191,6 @@ window['vchart'] = vchart;
 
 可以通过`funnelChart.funnelAlign: 'left' | 'right' | 'center'`指定漏斗图朝向，默认值为`'center'`。
 
-
 ```javascript livedemo
 const spec = {
   type: 'funnel',
@@ -247,7 +248,6 @@ window['vchart'] = vchart;
 
 可以通过`funnelChart.funnelOrient: 'left' | 'right' | 'top' | 'bottom'`指定漏斗图朝向，默认值为`'top'`。
 
-
 ```javascript livedemo
 const spec = {
   type: 'funnel',
@@ -300,14 +300,12 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-
 ### 图元及样式
 
 #### 漏斗图元形状
 
 漏斗图图元形状默认为梯形，即`funnelChart.shape`默认值为`'trapezoid'`。
-在VChart中，漏斗图形状还可指定为矩形，即`funnelChart.shape: 'rect'`。
-
+在 VChart 中，漏斗图形状还可指定为矩形，即`funnelChart.shape: 'rect'`。
 
 ```javascript livedemo
 const spec = {
@@ -421,13 +419,12 @@ window['vchart'] = vchart;
 
 可以通过`funnelChart.gap`指定漏斗层之间的像素间隔，默认值为`0`。
 
-
 ```javascript livedemo
 const spec = {
   type: 'funnel',
   categoryField: 'name',
   valueField: 'value',
- gap: 10,
+  gap: 10,
   data: [
     {
       id: 'funnel',
@@ -476,7 +473,7 @@ window['vchart'] = vchart;
 
 #### 漏斗最大最小宽度
 
-可以通过`funnelChart.maxSize` 和 `funnelChart.minSize`指定漏斗层之间的像素间隔，支持配置像素值和百分比，默认值分别为`'80%'` 和  `0`。
+可以通过`funnelChart.maxSize` 和 `funnelChart.minSize`指定漏斗层之间的像素间隔，支持配置像素值和百分比，默认值分别为`'80%'` 和 `0`。
 
 ```javascript livedemo
 const spec = {

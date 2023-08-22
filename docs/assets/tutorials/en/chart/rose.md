@@ -1,4 +1,5 @@
 # Rose Chart
+
 [\[Configuration Manual\]](../../../option/roseChart)
 
 ## Introduction
@@ -8,11 +9,13 @@ A rose chart is a statistical chart drawn under the polar coordinate system, in 
 In VChart, the difference between a rose chart and a pie chart is that **a pie chart uses the angle range of the sector to represent the difference in values while the radius of the sector remains consistent**, while **a rose chart uses the radius of the sector to represent the difference in values while the angle range of the sector remains consistent**. It's the sectors with different radii that make up the beautifully staggered "rose petals".
 
 ## Chart Composition
+
 The rose chart consists of sector elements and other components.
 
-![](https://tosv.byted.org/obj/bit-cloud/a222eb3ecfe32db85220dda08.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a222eb3ecfe32db85220dda08.png)
 
 Sector elements are the basic elements of a rose chart, and related drawing configurations are essential:
+
 - `roseChart.type`: Chart type, pie/doughnut chart type is `'rose'`
 - `roseChart.data`: Data source for chart drawing
 - `roseChart.categoryField`: Category field, mapping different sector elements
@@ -20,6 +23,7 @@ Sector elements are the basic elements of a rose chart, and related drawing conf
 - `roseChart.seriesField`: Category field, mapping the color of the element's sector
 
 Axes, tooltips, and other components that assist in chart display are optional configurations with default effects and functionality:
+
 - `roseChart.axes`: Axes component, displayed by default and automatically infers the coordinate system and data mapping logic according to the chart type, for detailed configuration see [VChart Axes Component Configuration](../../../option/roseChart#axes)
 - `roseChart.tooltip`: Tooltip, displayed by default when interactive, for detailed configurations see [VChart Tooltip Component Configuration](../../../option/roseChart#tooltip)
 - For more component configurations, see [VChart roseChart configuration](../../../option/roseChart)
@@ -28,33 +32,35 @@ Axes, tooltips, and other components that assist in chart display are optional c
 
 ### Data
 
-- A `discrete` field, such as: `product`, used to map different sectors  
+- A `discrete` field, such as: `product`, used to map different sectors
 - A `value` field, such as: `sales`, used to map the sector's radius
 
 A set of product category and sales data definition is as follows:
+
 ```ts
 data: [
-    {
-        name: "rose",
-        values: [
-            {
-                product: "Digital Products",
-                sales: 20
-            },
-            {
-                product: "Daily Necessities",
-                sales: 50
-            },
-            {
-                product: "Food",
-                sales: 80
-            }
-        ]
-    }
-]
+  {
+    name: 'rose',
+    values: [
+      {
+        product: 'Digital Products',
+        sales: 20
+      },
+      {
+        product: 'Daily Necessities',
+        sales: 50
+      },
+      {
+        product: 'Food',
+        sales: 80
+      }
+    ]
+  }
+];
 ```
 
 ### Grouped Rose Chart
+
 A grouped rose chart can be seen as a **'bent grouped bar chart'**, which arranges different categories of rose series in a spaced manner along the polar coordinate system, with each group of rose series representing a category.
 
 In VChart, you need to append fields to `categoryField` (at this point, `categoryField` exists as an array), which are used to distinguish data categories, i.e., to split a single rose series dimensionally and expand it in a spaced manner. And to distinguish the spaced columns in the same dimension, you need to specify the `roseChart.seriedField` field, which by default maps the sector color.
@@ -170,6 +176,7 @@ A stacked rose chart can be seen as a **'bent stacked bar chart'**, which combin
 In VChart, if you want to display a stacked rose chart, you need to configure `roseChart.stack: true`, and to distinguish the stacked sectors within the same dimension, you need to specify the `roseChart.seriedField` field, which by default maps the sector color.
 
 Auxiliary components for chart display, such as tooltips, are optional configurations with default effects and functionality:
+
 - `roseChart.tooltip`: Tooltip, displayed by default when interactive, for detailed configurations see [VChart Tooltip Component Configuration](../../option/roseChart#tooltip)
 - For more component configurations, see [VChart Component Configuration](../../option/roseChart)
 

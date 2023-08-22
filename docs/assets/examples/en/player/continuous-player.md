@@ -4,7 +4,7 @@ group: player
 title: Continuous Player
 keywords: player
 order: 31-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/player/continuous-player.gif
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/player/continuous-player.gif
 option: pieChart#player
 ---
 

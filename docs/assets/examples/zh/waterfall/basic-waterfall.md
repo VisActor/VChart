@@ -4,7 +4,7 @@ group: waterfall
 title: 基础瀑布图
 keywords: waterfall,comparison,distribution,rectangle
 order: 18-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/waterfall/basic-waterfall.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/basic-waterfall.png
 option: waterfallChart
 ---
 

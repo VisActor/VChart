@@ -4,7 +4,7 @@ group: gauge
 title: 时钟示例
 keywords: gauge,comparison,circle,indicator
 order: 15-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/gauge-chart/clock.gif
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gauge-chart/clock.gif
 option: gaugeChart
 ---
 

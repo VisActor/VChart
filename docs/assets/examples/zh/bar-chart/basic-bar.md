@@ -4,7 +4,7 @@ group: bar chart
 title: 基础条形图
 keywords: barChart,comparison,distribution,rank,rectangle
 order: 2-7
-cover: https://tosv.byted.org/obj/bit-cloud/23e5d313c2c3a66d4ca806005.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/23e5d313c2c3a66d4ca806005.png
 option: barChart
 ---
 

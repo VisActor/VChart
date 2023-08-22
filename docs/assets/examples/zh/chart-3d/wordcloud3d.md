@@ -4,7 +4,7 @@ group: chart-3d
 title: 3D 形状词云图
 keywords: space
 order: 23-6
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/chart-3d/wordcloud3d.gif
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/wordcloud3d.gif
 option: wordCloud3dChart
 ---
 
@@ -27,7 +27,7 @@ option: wordCloud3dChart
 const spec = {
   type: 'wordCloud3d',
   // 待申请新外网可访问的存储空间后更换
-  maskShape: `http://tosv.boe.byted.org/obj/bytecharts/shape_bears.png`,
+  maskShape: `http://temp.domain/obj/bytecharts/shape_bears.png`,
   nameField: 'challenge_name',
   valueField: 'sum_count',
   seriesField: 'challenge_name',

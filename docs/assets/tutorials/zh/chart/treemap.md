@@ -6,21 +6,22 @@
 
 矩形树图需要树形结构 ( 至少有一个父级节点 )数据，且子节点需要有权重，对于不带权重的树形结构数据，应用树形结构图或径向树图来表示。
 
-
-
 ## 图表构成
+
 矩形树图主要由表现层级结构的矩形图元、提示信息及其他组件构成。  
-![](https://tosv.byted.org/obj/bit-cloud/364e85f0a2e6efbc39057a000.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/364e85f0a2e6efbc39057a000.png)
 
 矩形图元为矩形树图的基本要素，相关的绘制配置必不可少:
+
 - `treemapChart.type`: 图表类型，柱状体 / 条形图的类型为`'treemap'`
 - `treemapChart.data`: 图表绘制的数据源
 - `treemapChart.categoryField`: 数值字段，映射不同图元
 - `treemapChart.valueField`: 节点权重字段，映射图元的大小
 
 提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
+
 - `treemapChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/treemapChart#tooltip)
-- 更多组件配置见[VChart treemapChart配置](../../../option/treemapChart)
+- 更多组件配置见[VChart treemapChart 配置](../../../option/treemapChart)
 
 ## 快速上手
 
@@ -432,29 +433,31 @@ window['vchart'] = vchart;
 ## 矩形树图特性
 
 ### 数据
+
 在矩形树图中，数据通常通常为具有层级结构，形式如下:
+
 ```ts
 data: [
-    {
-      name: "area",
-      values: [
-        {
-            name: 'A',
-            children: [
-                {name: 'A-a', value: 1}, 
-                {name: 'A-b', value: 2}
-            ]
-        },
-        {
-            name: 'B',
-            children: [
-                {name: 'B-a', value: 3}, 
-                {name: 'B-b', value: 4}
-            ]
-        }
-      ]
+  {
+    name: 'area',
+    values: [
+      {
+        name: 'A',
+        children: [
+          { name: 'A-a', value: 1 },
+          { name: 'A-b', value: 2 }
+        ]
+      },
+      {
+        name: 'B',
+        children: [
+          { name: 'B-a', value: 3 },
+          { name: 'B-b', value: 4 }
+        ]
+      }
+    ]
   }
-]
+];
 ```
 
 ### 图表布局
@@ -462,8 +465,8 @@ data: [
 #### 矩形分割
 
 1. 分割方式
-树图的算法本质是对矩形区域进行分割，并在分割后的细分区域进行再一次分割，直到得到最小区域。
-在VChart中，可以通过`treeMapChart.splitType: 'binary' | 'dice' | 'slice' | 'sliceDice' | 'squarify'`进行分割方式的指定，默认值为`'binary'`。
+   树图的算法本质是对矩形区域进行分割，并在分割后的细分区域进行再一次分割，直到得到最小区域。
+   在 VChart 中，可以通过`treeMapChart.splitType: 'binary' | 'dice' | 'slice' | 'sliceDice' | 'squarify'`进行分割方式的指定，默认值为`'binary'`。
 
 - `'binary'`: 递归地将指定的节点分割成一个近似平衡的二叉树，对宽的矩形选择水平分割，对高的矩形选择垂直分割。
 - `'dice'`: 根据指定节点的每个子节点的值水平划分由 x0, y0, x1, y1 指定的矩形区域。子节点按顺序定位，从给定矩形的左边缘（x0）开始。如果子节点的值之和小于指定节点的值（即，如果指定节点有一个非零的内部值），剩余的空位将被定位在给定矩形的右边缘（x1）。
@@ -472,7 +475,7 @@ data: [
 - `'squarify'`: 尽可能按照一个特定长宽比的分割矩形。
 
 2. 分割比例
-使用`treemapChart.aspectRatio`可以配置每次分割的比例，默认值`(1 + Math.sqrt(5)) / 2`，约为1.618
+   使用`treemapChart.aspectRatio`可以配置每次分割的比例，默认值`(1 + Math.sqrt(5)) / 2`，约为 1.618
 
 ```javascript livedemo
 const spec = {
@@ -880,6 +883,7 @@ window['vchart'] = vchart;
 ```
 
 #### 层级展示
+
 1. 两个同层级节点之间的间距: `treemapChart.gapWidth`
 2. 层级边距: `nodePadding`
 3. 展示的最大层级: `maxDepth`
@@ -1290,11 +1294,11 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-
 ### 图表交互
- 
+
 #### 拖拽和缩放
-由于矩形树图展示的数据量往往比较大且层级结构复杂，所以VChart提供了针对矩形树图的拖拽和缩放交互，配置`treemapChart.roam: true`即可开启拖拽和缩放。
+
+由于矩形树图展示的数据量往往比较大且层级结构复杂，所以 VChart 提供了针对矩形树图的拖拽和缩放交互，配置`treemapChart.roam: true`即可开启拖拽和缩放。
 
 ```javascript livedemo
 const spec = {
@@ -2177,13 +2181,3 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-
-
-
-
-
-
-
-
-
-

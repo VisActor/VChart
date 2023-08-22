@@ -1,4 +1,5 @@
 # Radar Chart
+
 [\[Configuration Manual\]](../../../option/radarChart)
 
 ## Introduction
@@ -9,20 +10,23 @@ Radar Chart is a type of chart used to display multidimensional data. By mapping
 
 A radar chart consists of closed area chart elements, point chart elements, polar coordinate axes, and other components, all in polar coordinates.
 
-![](https://tosv.byted.org/obj/bit-cloud/364e85f0a2e6efbc39057a001.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/364e85f0a2e6efbc39057a001.png)
 
 Area chart elements and point chart elements are the basic components of a radar chart, and related drawing configurations are essential:
+
 - `radarChart.type`: Chart type, the type of radar chart is `'radar'`
 - `radarChart.data`: Data source for chart drawing
 - `radarChart.categoryField`: Category field, mapping the vertices of area chart elements or the angles where point chart elements are located
 - `radarChart.valueField`: Value field, mapping the vertices of area chart elements or the radii where point chart elements are located
 
 Coordinate axes, tooltips, and other components are optional for auxiliary chart display, with default effects and features:
+
 - `radarChart.axes`: Axis component, displayed by default and automatically inferred based on chart type coordinate system and data mapping logic, detailed configuration see [VChart Axis Component Configuration](../../../option/radarChart#axes)
 - `radarChart.tooltip`: Tooltip information, displayed interactively by default, detailed configuration see [VChart Tooltip Information Component Configuration](../../../option/radarChart#tooltip)
 - More component configurations see [VChart radarChart configuration](../../../option/radarChart)
 
 ### Quick Start
+
 ```javascript livedemo
 const spec = {
   type: 'radar',
@@ -60,8 +64,8 @@ const spec = {
   categoryField: 'key',
   valueField: 'value',
   area: {
-    visible: true, // 展示面积
-  },
+    visible: true // 展示面积
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
@@ -79,31 +83,33 @@ window['vchart'] = vchart;
 - A `numeric` field, such as: `sales`, used to map sector radius
 
 A data definition for a set of product categories and sales amounts is as follows:
+
 ```ts
 data: [
-    {
-        name: "radar",
-        values: [
-            {
-                product: "Digital Products",
-                sales: 20
-            },
-            {
-                product: "Daily Necessities",
-                sales: 50
-            },
-            {
-                product: "Food",
-                sales: 80
-            }
-        ]
-    }
-]
+  {
+    name: 'radar',
+    values: [
+      {
+        product: 'Digital Products',
+        sales: 20
+      },
+      {
+        product: 'Daily Necessities',
+        sales: 50
+      },
+      {
+        product: 'Food',
+        sales: 80
+      }
+    ]
+  }
+];
 ```
 
 ### Chart Layout
 
 #### Grouped Radar Chart
+
 Grouped radar chart can display multiple radar series at the same time, making it easy to compare different data in the same dimension.
 
 Since the drawing of a radar chart is essentially determined by connected point chart elements, it does not need to be spaced apart like grouped bar charts, grouped rose charts, and other charts, but simply overlaps or intersects. Reflected in the configuration is: Grouped radar chart does not require additional declaration, as long as the number of categories in `radarChart.categoryField` data is greater than 1, the grouped effect can be displayed automatically. To differentiate different radar chart elements, you need to specify the `radarChart.seriesField` field, which by default maps the element color.
@@ -171,7 +177,8 @@ window['vchart'] = vchart;
 ```
 
 #### Stacked Radar Chart
-By configuring the grouping field in `radarChart.seriesField` and enabling the  `radarChart.stack` attribute, you can stack the data of the radar chart.
+
+By configuring the grouping field in `radarChart.seriesField` and enabling the `radarChart.stack` attribute, you can stack the data of the radar chart.
 
 ```javascript livedemo
 const spec = {

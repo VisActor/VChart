@@ -4,7 +4,7 @@ group: word chart
 title: Shape Word Cloud Custom Color
 keywords: wordCloud,text,distribution
 order: 14-8
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-shape-custom-color.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-shape-custom-color.png
 option: wordCloudChart
 ---
 
@@ -25,7 +25,7 @@ Customize the color mapping of core words and filler words through the configura
 ```javascript livedemo
 const spec = {
   type: 'wordCloud',
-   maskShape: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/shape_logo.png`,
+  maskShape: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/shape_logo.png`,
   colorList: ['#325AB4'],
   wordCloudShapeConfig: {
     fillingColorList: ['#5BB5BF', '#92C8C6']

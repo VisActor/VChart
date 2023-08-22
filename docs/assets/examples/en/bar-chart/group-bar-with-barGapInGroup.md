@@ -4,7 +4,7 @@ group: bar chart
 title: Spacing adjustment within grouped bars
 keywords: barChart,comparison,distribution,rank,rectangle
 order: 2-13
-cover: https://tosv.byted.org/obj/bit-cloud/group-bar-with-barGapInGroup.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/group-bar-with-barGapInGroup.png
 option: barChart
 ---
 

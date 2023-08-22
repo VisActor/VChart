@@ -4,7 +4,7 @@ group: bar chart
 title: Group histogram interval
 keywords: barChart,comparison,distribution,rank,rectangle
 order: 2-12
-cover: https://tosv.byted.org/obj/bit-cloud/55297520732ada18bb7183f00.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/55297520732ada18bb7183f00.png
 option: barChart
 ---
 
@@ -12,23 +12,17 @@ option: barChart
 
 ## critical configuration
 
-*   `type: bar` Property declared as a column chart
-*   `xField` Property declared as category field or timing field
-*   `yField` Property declared as numeric field
-*   `axes.paddingInner`Property declared as column spacing
+- `type: bar` Property declared as a column chart
+- `xField` Property declared as category field or timing field
+- `yField` Property declared as numeric field
+- `axes.paddingInner`Property declared as column spacing
 
 ## Code demo
 
 ```javascript livedemo
 const spec = {
   type: 'bar',
-  color: [
-    '#becef3',
-    '#6a8edc',
-    '#77caeb',
-    '#52c93b',
-    '#d3f5e8'
-  ],
+  color: ['#becef3', '#6a8edc', '#77caeb', '#52c93b', '#d3f5e8'],
   data: [
     {
       id: 'barData',
@@ -54,10 +48,12 @@ const spec = {
   xField: ['year', 'type'],
   yField: 'value',
   seriesField: 'type',
-  axes: [{
-    orient: 'bottom',
-    paddingInner: 0.3
-  }],
+  axes: [
+    {
+      orient: 'bottom',
+      paddingInner: 0.3
+    }
+  ],
   bar: {
     style: {
       fillOpacity: 0.9

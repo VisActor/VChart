@@ -4,7 +4,7 @@ group: funnel chart
 title: Basic Funnel Chart
 keywords: funnelChart,composition,trend,triangle
 order: 8-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/funnel-chart/basic-funnel.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/basic-funnel.png
 option: funnelChart
 ---
 

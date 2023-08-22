@@ -3,7 +3,7 @@
 Tooltip 提示信息是我们在使用 VChart 图表时，用以显示在图表不同元素上的附加信息，通过鼠标悬停操作展示出来。本教程主要讲解提示信心组件的相关概念以及组成，关于组件更加详细的配置及示例，详见[配置项文档](../../../option)及[示例](../../../example)页面。
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a212.png" alt="tooltip">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a212.png" alt="tooltip">
 </div>
 
 ## Tooltip 提示信息的组成
@@ -15,7 +15,7 @@ Tooltip 提示信息是我们在使用 VChart 图表时，用以显示在图表�
 
 在 VChart 上我们根据 tooltip 的显示数据提供了两种类型的 tooltip，分别为图元 tooltip（`'mark'`）和维度项 tooltip（`'dimension'`）。其中图元（`'mark'`）指的是单独某一个数据对应的图形（如下图中堆积柱图中的一个小方块）。`'dimension'` 指的是当前鼠标所在区域的维度值（如 x 值）对应的一组数据（如下图中堆积柱图中堆叠在一起的一组数据）:
 
-![tooltip 内容类型图示](https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a11.png)
+![tooltip 内容类型图示](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a11.png)
 
 ## 样式配置
 
@@ -45,7 +45,7 @@ tooltip: {
   }
 ```
 
-![Tooltip 样式配置结果图](https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a213.png)
+![Tooltip 样式配置结果图](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a213.png)
 
 ## 格式化
 

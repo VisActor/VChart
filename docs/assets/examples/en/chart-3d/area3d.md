@@ -4,7 +4,7 @@ group: chart-3d
 title: 3D面积图
 keywords: space
 order: 23-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/chart-3d/area3d.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png
 option: AreaChart
 ---
 
@@ -14,7 +14,7 @@ Configure the zField on the basis of the 2D area map, it can be recognized as a 
 
 ## critical configuration
 
-*   `stack` The property declared false is used to configure the data not to use stacking. This property defaults to true in the area map, so it needs to be manually set to false
+- `stack` The property declared false is used to configure the data not to use stacking. This property defaults to true in the area map, so it needs to be manually set to false
 
 ## Code demo
 

@@ -4,7 +4,7 @@ group: line chart
 title: Horizontal Line Chart
 keywords: lineChart,comparison,trend,line
 order: 0-2
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/line-chart/horizontal-line.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/horizontal-line.png
 option: lineChart
 ---
 
@@ -14,10 +14,10 @@ A line chart with a vertical orientation.
 
 ## critical configuration
 
-*   `direction` The property is declared as `horizontal`
-*   `xField` Property declaration numeric field
-*   `yField` Property declared as a continuous interval or ordered category field
-*   `axes` Property set to left axis to `band` Type, the lower side axis is `linear` type
+- `direction` The property is declared as `horizontal`
+- `xField` Property declaration numeric field
+- `yField` Property declared as a continuous interval or ordered category field
+- `axes` Property set to left axis to `band` Type, the lower side axis is `linear` type
 
 ## Code demo
 

@@ -4,7 +4,7 @@ group: crosshair
 title: 雷达图的 crosshair
 keywords: radarChart,comparison,crosshair,circle
 order: 28-2
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/crosshair/polar-line.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/polar-line.png
 option: radarChart#crosshair
 ---
 

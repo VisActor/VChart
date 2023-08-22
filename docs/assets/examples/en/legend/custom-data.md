@@ -4,7 +4,7 @@ group: legend
 title: Custom Legend Item
 keywords: pieChart,legend,circle,comparison,proportion,composition
 order: 27-5
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/legend/custom-data.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/custom-data.png
 option: pieChart#legends
 ---
 

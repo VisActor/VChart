@@ -4,7 +4,7 @@ group: area chart
 title: 面积图样式
 keywords: areaChart,comparison,trend,area
 order: 1-11
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/area-chart/area-style.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/area-style.png
 option: areaChart
 ---
 

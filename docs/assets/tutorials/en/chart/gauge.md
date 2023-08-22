@@ -1,4 +1,5 @@
 # Gauge Chart
+
 [\[Configuration Manual\]](../../../option/gaugeChart)
 
 ## Introduction
@@ -6,12 +7,14 @@
 A gauge chart is a mimetic chart, just like the speedometer of a car, the scale represents the measurement, and the pointer angle represents the current value.
 
 ## Chart Composition
+
 A gauge chart is composed of basic elements such as sector graphics and gauge pointers with progress directionality.
-![](https://tosv.byted.org/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a03.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a03.png)
 
 From a data series perspective, the gauge chart is encapsulated by the `gauge` and `gaugePointer` series, which draw the gauge dial sector area and pointer. By taking advantage of this feature, you can declare a gauge chart in a [Combined Chart](./combination) way to more flexibly adjust the gauge chart rendering effect.
 
 Sector graphics and gauge pointers are basic elements of gauge charts, and related rendering configurations are essential:
+
 - `gaugeChart.type`: Chart type, the type of gauge chart is `'gauge'`
 - `gaugeChart.data`: Data source for chart rendering
 - `gaugeChart.categoryField`: Classification field, mapping different sectors
@@ -69,18 +72,20 @@ Since a gauge dial usually only displays one project's progress, the data typica
 
 ```ts
 data: [
-    {
-      id: 'gauge',
-      values: [
-        {
-          type: 'Target A',
-          value: 0.6
-        }
-      ]
-    }
-  ]
+  {
+    id: 'gauge',
+    values: [
+      {
+        type: 'Target A',
+        value: 0.6
+      }
+    ]
+  }
+];
 ```
+
 ### Declaring more flexible gauge charts in the form of combined charts
+
 In order to make the gauge chart more mimetic, you can declare the `gauge` and `gaugePointer` series in the form of a combined chart and configure animations to dynamically display the progress effect.
 
 The following example cleverly applies the current time as the source data, exquisitely fitting the dynamic dial effect, fully demonstrating the flexibility and practicality of VChart.

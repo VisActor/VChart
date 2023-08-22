@@ -4,7 +4,7 @@ group: morphing
 title: Global animation for switching between bar charts and scatter plots
 keywords: animation,morphing,bar,scatter,barChart,scatterChart
 order: 42-1
-cover: http://tosv.byted.org/obj/bit-cloud/morph-bar-to-scatter.gif
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-scatter.gif
 option: commonChart#series-bar.animationUpdate
 ---
 
@@ -99,20 +99,18 @@ const scatterSpec = {
   ]
 };
 
-
 const specs = [barSpec, scatterSpec];
 
 const vchart = new VChart(specs[0], { dom: CONTAINER_ID });
 
 vchart.renderAsync().then(() => {
-    let count = 1;
-    setInterval(() => {
-      vchart.updateSpec(specs[count % 2]);
-      count++;
-    }, 3000);
+  let count = 1;
+  setInterval(() => {
+    vchart.updateSpec(specs[count % 2]);
+    count++;
+  }, 3000);
 });
 ```
-
 
 ## Related Tutorials
 

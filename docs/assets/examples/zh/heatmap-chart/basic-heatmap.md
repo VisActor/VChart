@@ -4,7 +4,7 @@ group: heatmap chart
 title: 基础热力图
 keywords: heatmap,relationship,rectangle,comparison,distribution,trend
 order: 19-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/heatmap-chart/basic-heatmap.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/heatmap-chart/basic-heatmap.png
 option: heatmapChart
 ---
 

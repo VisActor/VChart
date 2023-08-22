@@ -6,7 +6,7 @@
 
 词云由文字图元、提示信息及其他组件构成。
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/dfd203ff5e337abea49411b07.png)
+![](https://temp.domain/obj/bit-cloud/dfd203ff5e337abea49411b07.png)
 
 文字图元为词云的基本要素，相关的绘制配置必不可少:
 
@@ -29,7 +29,7 @@
 const spec = {
   type: 'wordCloud3d',
   // 待申请新外网可访问的存储空间后更换
-  maskShape: `http://tosv.boe.byted.org/obj/bytecharts/shape_bears.png`,
+  maskShape: `http://temp.domain/obj/bytecharts/shape_bears.png`,
   nameField: 'challenge_name',
   valueField: 'sum_count',
   seriesField: 'challenge_name',

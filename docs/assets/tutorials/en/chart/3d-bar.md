@@ -4,17 +4,17 @@
 
 The majority of configuration options for 3D bar charts are inherited from 2D area charts. They are enabled by changing the series or chart type from `bar` to `bar3d`.
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/45df54929d214e7453e228f27.png)
+![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f27.png)
 
 Column charts are based on bar charts with the x-axis and y-axis transposed. The configuration is almost the same as bar charts, except that the x-axis and y-axis configurations need to be swapped, and the `direction` attribute should be configured as `'horizontal'`.
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e62252321d.png)
+![](https://temp.domain/obj/bit-cloud/350c0511133d336e62252321d.png)
 
 ## Chart Composition
 
 Bar charts consist of rectangular chart elements, axes, and other components.
 
-![](https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf04.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf04.png)
 The rectangular chart element is an essential building block for bar/column charts, and the related drawing configurations cannot be omitted:
 
 - `barChart.type`: Chart type, the type for bar/column charts is `'bar3d'`

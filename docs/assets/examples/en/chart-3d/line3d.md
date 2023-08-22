@@ -4,7 +4,7 @@ group: chart-3d
 title: 3D 折线图
 keywords: space
 order: 23-3
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/chart-3d/line3d.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/line3d.png
 option: lineChart
 ---
 
@@ -16,8 +16,8 @@ Configure zField on the basis of 2D line graph to be recognized as 3D line graph
 
 ## critical configuration
 
-*   `seriesField` Properties are used to declare fields participating in color mapping
-*   `legends` Properties are used to configure legends
+- `seriesField` Properties are used to declare fields participating in color mapping
+- `legends` Properties are used to configure legends
 
 ## Code demo
 

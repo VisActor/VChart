@@ -11,9 +11,8 @@ Marker 是为增强数据感知、辅助数据叙事而设计的图表辅助标�
 ### MarkPoint 数据标注点
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a1b.png" alt="MarkPoint 图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a1b.png" alt="MarkPoint 图示">
 </div>
-
 
 MarkPoint 是数据标注点，可以表示某个具体数据在图表中的位置。通过使用 MarkPoint，用户可以对特定数据进行突出展示，使得读者更加直观地了解该数据点的详细数据。
 
@@ -41,7 +40,7 @@ MarkPoint 可通过 `markPoint` 属性进行配置:
 ### MarkLine 数据标注线
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/eb08aeafba39ab34c8a08c619.png" alt="MarkLine 图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/eb08aeafba39ab34c8a08c619.png" alt="MarkLine 图示">
 </div>
 
 MarkLine 是数据标注线，可以表示某个特定数值在图表中的水平或垂直位置。通过使用 MarkLine，在图表中以线形式突出显示该数值附近的数据变化，有助于用户更快速地发现数据中的规律。
@@ -70,7 +69,7 @@ MarkLine 可通过 `markLine` 属性进行配置:
 
 ### MarkArea 数据标注区域
 
-![MarkArea 图示](https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a21c.png)
+![MarkArea 图示](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a21c.png)
 
 MarkArea 是数据标注区域，可以对一段数据区间进行标注，以突出该区间的数据变化。通过使用 MarkArea，用户可以更加直观地了解数据的分布情况，以及数据的变化趋势。
 

@@ -4,7 +4,7 @@ group: title
 title: 富文本标题
 keywords: title
 order: 24-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/title/richText-title.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/title/richText-title.png
 option: lineChart#title
 ---
 

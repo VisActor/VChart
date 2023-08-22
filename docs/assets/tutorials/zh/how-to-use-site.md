@@ -16,16 +16,16 @@
 
 VChart 的文档提供了有关功能和配置的详细信息。根据你的需求，你可以查看以下几个部分：
 
-*   [教程](./VChart_Website_Guide)：介绍了 VChart 图表的基本概念和各种使用方法。
-*   [配置项](../../option)：提供了 VChart 图表的所有配置项及其详细说明。
-*   [API](../../api)：提供了 VChart 所有可用接口的详细说明。
+- [教程](./VChart_Website_Guide)：介绍了 VChart 图表的基本概念和各种使用方法。
+- [配置项](../../option)：提供了 VChart 图表的所有配置项及其详细说明。
+- [API](../../api)：提供了 VChart 所有可用接口的详细说明。
 
 ## 图表示例
 
 图表示例页面提供了许多关于 VChart 图表的实际应用案例从简单的柱状图和折线图到复杂的饼图和雷达图。每个示例都提供了详细的描述、关键配置信息以及源代码，你也可以通过在线编辑器修改示例并查看效果。另外为了帮助你更好得了解图表、查找图表，实例页面还提供了图表分类和搜索功能，可以按照图表的类型、目的、组件等角度进行查找。
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/39b8dd02abe79e47954774000.png" alt="图表示例">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/39b8dd02abe79e47954774000.png" alt="图表示例">
 </div>
 
 ## 如何使用搜索功能
@@ -33,7 +33,7 @@ VChart 的文档提供了有关功能和配置的详细信息。根据你的需�
 本站点提供了一个强大的搜索功能，让你可以快速找到相关的使用信息。点击站点顶部的搜索框，输入关键词后，你将在下拉列表中看到匹配的结果。选择合适的结果即可查看相关内容。
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/55297520732ada18bb7183f01.png" alt="如何使用搜索功能">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/55297520732ada18bb7183f01.png" alt="如何使用搜索功能">
 </div>
 
 ## 如何提问&建议

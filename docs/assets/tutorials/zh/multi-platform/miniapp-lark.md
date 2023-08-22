@@ -59,7 +59,7 @@ interface IEvent {
 
 开启编辑器 > 详情 > 本地设置 > 使用 npm，具体操作可阅读[开启 npm 能力](https://open.feishu.cn/document/tools-and-resources/development-tools/npm-support#26ae361b)。
 
-![](https://tosv.byted.org/obj/bit-cloud/a2c7623458257d15626270918.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a2c7623458257d15626270918.png)
 
 **务必注意：npm 包的 package.json 文件需要在 project.config.json 所定义的 miniprogramRoot 内。**
 

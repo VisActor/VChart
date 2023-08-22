@@ -4,7 +4,7 @@ group: area chart
 title: 末尾虚线堆叠面积图
 keywords: areaChart,comparison,trend,composition,pattern,label,area
 order: 41-2
-cover: https://tosv.byted.org/obj/bit-cloud/ffc3a9b5518762d274121ff00.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/ffc3a9b5518762d274121ff00.png
 option: areaChart
 ---
 

@@ -7,7 +7,7 @@
 标题组件的组成如下：
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a2c7623458257d1562627090e.png" alt="title 组件的组成图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a2c7623458257d1562627090e.png" alt="title 组件的组成图示">
 </div>
 
 在 VChart 中，我们可以通过 `title` 属性进行配置标题，下面的代码示例展示了如何配置的图表的标题与副标题：

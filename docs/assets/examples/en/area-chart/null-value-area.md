@@ -4,7 +4,7 @@ group: area chart
 title: Area chart with null values
 keywords: areaChart,comparison,trend,area
 order: 1-3
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/area-chart/null-value-area.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/null-value-area.png
 option: areaChart
 ---
 

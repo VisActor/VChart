@@ -4,7 +4,7 @@ group: line chart
 title: Stacked Line Chart
 keywords: lineChart,comparison,trend,line,composition
 order: 0-7
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/line-chart/stacked-line.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/stacked-line.png
 option: lineChart
 ---
 

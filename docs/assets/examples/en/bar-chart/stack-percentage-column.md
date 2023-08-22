@@ -4,7 +4,7 @@ group: bar chart
 title: Percentage Stacked Bar Chart
 keywords: barChart,comparison,distribution,rectangle,composition,proportion
 order: 2-5
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/bar-chart/stack-percentage-column.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/stack-percentage-column.png
 option: barChart
 ---
 
@@ -139,4 +139,7 @@ window['vchart'] = vchart;
 ## Related Tutorials
 
 [Bar Chart](link)
+
+```
+
 ```

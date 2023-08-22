@@ -4,7 +4,7 @@ group: funnel chart
 title: 自定义漏斗图
 keywords: funnelChart,composition,trend,custom
 order: 8-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/funnel-chart/custom-funnel.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/custom-funnel.png
 option: funnelChart
 ---
 

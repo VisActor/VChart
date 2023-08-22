@@ -3,7 +3,7 @@ category: examples
 group: layout
 title: 自定义布局
 order: 37-0
-cover: https://tosv.byted.org/obj/bit-cloud/7b82fb013e7c6319c065b3d01.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/7b82fb013e7c6319c065b3d01.png
 option: commonChart#layout
 ---
 

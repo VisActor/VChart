@@ -4,7 +4,7 @@ group: data
 title: 按照domain进行数据筛选
 keywords: data,filter
 order: 34-3
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/data/data-fields-domain.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/data-fields-domain.png
 option: scatterChart#data
 ---
 

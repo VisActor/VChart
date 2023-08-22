@@ -5,7 +5,7 @@ crosshair/line.md
 title: Crosshair Auxiliary Line
 keywords: lineChart, comparison, trend, line, crosshair
 order: 28-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/crosshair/line.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/line.png
 option: lineChart#crosshair
 ---
 

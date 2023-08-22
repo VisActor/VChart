@@ -3,7 +3,7 @@ category: examples
 group: theme
 title: 主题注册、切换
 order: 39-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/theme/theme-switch.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/theme/theme-switch.png
 option: commonChart#theme
 ---
 

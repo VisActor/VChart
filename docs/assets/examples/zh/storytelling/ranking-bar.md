@@ -4,7 +4,7 @@ group: storytelling
 title: 动态条形图
 keywords: barChart,animation,player,rank,rectangle
 order: 36-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/storytelling/ranking-bar.gif
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/ranking-bar.gif
 option: barChart
 ---
 
