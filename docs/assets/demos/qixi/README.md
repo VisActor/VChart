@@ -6,8 +6,7 @@
 
 ```bash
 rush update
-cd docs
-pnpm serve
+rush docs
 ```
 
 2. Access this URL in a browser: http://localhost:3020/assets/demos/qixi/index.html
