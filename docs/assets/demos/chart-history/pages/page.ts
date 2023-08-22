@@ -1,5 +1,5 @@
 import { array } from '@visactor/vutils';
-import type { Page, Player } from '@visactor/story-player';
+import type { Page, Player } from '@internal/story-player';
 import { chartPageKeys } from '../constant';
 
 export const createPages = (player: Player, pageMap: Record<string, Page>) => {

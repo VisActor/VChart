@@ -1,6 +1,6 @@
-import type { BaseActor, BaseLayer, Page } from '@visactor/story-player';
+import type { BaseActor, BaseLayer, Page } from '@internal/story-player';
 // eslint-disable-next-line no-duplicate-imports
-import { Player } from '@visactor/story-player';
+import { Player } from '@internal/story-player';
 import { createActions } from './pages';
 import { createPages } from './pages/page';
 import { createLayers } from './layer';

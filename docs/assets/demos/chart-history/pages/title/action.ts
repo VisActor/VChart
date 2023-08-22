@@ -1,4 +1,4 @@
-import anime from '../../anime.es.js';
+import anime from '../../lib/anime.es.js';
 import type { IText } from '@visactor/vrender';
 import { InputText } from '@visactor/vrender';
 import type {
@@ -9,7 +9,7 @@ import type {
   PageTransitionActList,
   Player,
   VChartActor
-} from '@visactor/story-player';
+} from '@internal/story-player';
 import { chartMap } from './actor/chart';
 
 export const pageTitleAction = (

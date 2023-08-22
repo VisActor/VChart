@@ -11,7 +11,7 @@ import type {
   BaseActor,
   Page,
   VRenderPathActor
-} from '@visactor/story-player';
+} from '@internal/story-player';
 import { array } from '@visactor/vutils';
 
 const darkPageKeys = ['1833', '1877'];

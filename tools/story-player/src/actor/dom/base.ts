@@ -3,7 +3,7 @@ import { LayerType } from '../../layer/interface';
 import { createElement } from '../../utils';
 import type { IActorActionContext } from '../interface';
 import { PLAYER_PREFIX } from '../../constant';
-import type { IDomActorConfig } from './inderface';
+import type { IDomActorConfig } from './interface';
 import type { DomLayer } from '../../layer/dom-layer';
 
 export abstract class DomActor<Avatar> extends BaseActor<Avatar> {

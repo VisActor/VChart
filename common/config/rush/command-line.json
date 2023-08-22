@@ -111,7 +111,7 @@
       "name": "docs",
       "summary": "Start the document development server",
       "description": "Run this command to start document development server",
-      "shellCommand": "rush run -p @visactor/vchart -s build:es && rush run -p @visactor/story-player -s build && rush run -p @internal/docs -s start"
+      "shellCommand": "rush run -p @visactor/vchart -s build:es && rush run -p @internal/story-player -s build:es && rush run -p @internal/docs -s start"
     }
   ],
   "parameters": [
