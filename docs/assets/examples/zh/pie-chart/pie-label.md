@@ -4,7 +4,7 @@ group: pie
 title: 饼图标签布局
 keywords: pieChart,comparison,composition,proportion,circle,label
 order: 6-3
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/pie-chart/pie-label.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pie-chart/pie-label.png
 option: pieChart
 ---
 

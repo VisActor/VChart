@@ -9,20 +9,20 @@ Crosshair 通过展示一条连接数据点和坐标轴的线来标注数据点�
 在直角坐标系下，crosshair 由一组垂直水平线或矩形框组成，如下图所示：
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a15.png" alt="直角坐系十字准星示例">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a15.png" alt="直角坐系十字准星示例">
 </div>
 
 在极坐标系下，crosshair 以一组圆弧线、射线或者扇形组成，用于标注鼠标所在位置的数据点。半径轴上的十字准星由一组圆弧线组成，角度轴上的十字准星由一组射线或者扇形，如下图所示：
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a218.png" alt="极坐标系十字准星示例">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a218.png" alt="极坐标系十字准星示例">
 </div>
 
 ## 配置
 
 在 VChart 中，crosshair 的配置项是关联轴字段的，根据坐标系的不同而有所差异，下面我们将分介绍不同坐标系下的十字准星配置和使用。
 
-*   直角坐标系下，crosshair 的配置项如下:
+- 直角坐标系下，crosshair 的配置项如下:
 
 ```javascript
  {
@@ -40,7 +40,7 @@ Crosshair 通过展示一条连接数据点和坐标轴的线来标注数据点�
   }
 ```
 
-*   极坐标系下，crosshair 的配置项如下，我们需要关联 category 字段和 value 字段：
+- 极坐标系下，crosshair 的配置项如下，我们需要关联 category 字段和 value 字段：
 
 ```javascript
 {

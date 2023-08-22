@@ -4,7 +4,7 @@ group: combination
 title: 组合图自定义多行多列布局
 keywords: commonChart
 order: 22-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/combination/bar-combine.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/bar-combine.png
 option: commonChart
 ---
 

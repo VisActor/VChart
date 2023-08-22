@@ -4,7 +4,7 @@ group: progress
 title: Bar Progress Chart
 keywords: linearProgress, comparison, rectangle
 order: 16-0
-cover: https://tosv.byted.org/obj/bit-cloud/c0de7ff0a101bd4cb25c81702.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81702.png
 option: linearProgressChart
 ---
 

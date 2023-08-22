@@ -29,7 +29,7 @@ We break down the logical layer elements of the chart into the following four pa
 A simple chart is composed of a region, a determined type of series, component, and a chart that manages the chart logic. Taking a common line chart as an example, its composition is as follows.
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf00.png" alt="Logical layer element composition diagram of a line chart">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf00.png" alt="Logical layer element composition diagram of a line chart">
 </div>
 
 ```javascript livedemo

@@ -3,7 +3,7 @@ category: examples
 group: customMark
 title: Custom Symbol Mark
 order: 40-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/custom/series-extension.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/custom/series-extension.png
 keywords: customMark
 option: barChart#customMark
 ---
@@ -12,10 +12,10 @@ option: barChart#customMark
 
 ## critical configuration
 
-*   `extensionMark` Properties Configure Custom Text Graphics
-    *   `extensionMark.type` Property Configure the type of primitive
-    *   `extensionMark.dataId` Data source for attribute configuration metadata
-    *   `extensionMark.style` Property configures the style of the primitive
+- `extensionMark` Properties Configure Custom Text Graphics
+  - `extensionMark.type` Property Configure the type of primitive
+  - `extensionMark.dataId` Data source for attribute configuration metadata
+  - `extensionMark.style` Property configures the style of the primitive
 
 ## Code demo
 

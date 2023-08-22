@@ -4,7 +4,7 @@ group: morphing
 title: Global animation for switching between bar and pie charts
 keywords: animation,morphing,bar,pie,barChart,pieChart,comparison
 order: 42-0
-cover: http://tosv.byted.org/obj/bit-cloud/morph-bar-to-pie.gif
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-pie.gif
 option: pieChart#animationUpdate
 ---
 
@@ -13,7 +13,6 @@ option: pieChart#animationUpdate
 We often use different chart types for different visualization purposes. The same data, when switching between different chart types, can also have global transition animations to make the visualization more vivid.
 
 ## Key configuration
-
 
 ## Code demo
 
@@ -41,21 +40,20 @@ const barSpec = Object.assign({}, pieSpec, {
   xField: 'type',
   yField: 'value',
   seriesField: 'type'
-})
+});
 
 const specs = [pieSpec, barSpec];
 
 const vchart = new VChart(specs[0], { dom: CONTAINER_ID });
 
 vchart.renderAsync().then(() => {
-    let count = 1;
-    setInterval(() => {
-      vchart.updateSpec(specs[count % 2]);
-      count++;
-    }, 2000);
+  let count = 1;
+  setInterval(() => {
+    vchart.updateSpec(specs[count % 2]);
+    count++;
+  }, 2000);
 });
 ```
-
 
 ## Related Tutorials
 

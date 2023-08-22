@@ -4,7 +4,7 @@ group: scrollBar
 title: Basic Usage of scrollBar
 keywords: scrollBar
 order: 30-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/scrollbar/basic-scrollbar-bar-chart.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scrollbar/basic-scrollbar-bar-chart.png
 option: barChart#scrollbar
 ---
 

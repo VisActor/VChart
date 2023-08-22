@@ -1,10 +1,10 @@
---- 
-category: examples 
-group: bar chart 
-title: Grouped Bar Chart 
-keywords: barChart, comparison, distribution, rank, rectangle 
-order: 2-9 
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/bar-chart/group-bar.png 
+---
+category: examples
+group: bar chart
+title: Grouped Bar Chart
+keywords: barChart, comparison, distribution, rank, rectangle
+order: 2-9
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-bar.png
 option: barChart
 ---
 
@@ -18,7 +18,7 @@ Grouped bar charts are used to display data for multiple categories, comparing d
 - Declare the `xField` property as a numerical field
 - Declare the `yField` property as a categorical field, set it as an array type, and set the second value in the array as the grouping field
 - Declare the `seriesField` property as the color mapping field
-- Adjust the group spacing by setting the `paddingInner` property for the coordinate axis with `orient: left` 
+- Adjust the group spacing by setting the `paddingInner` property for the coordinate axis with `orient: left`
 
 ## Code Demonstration
 

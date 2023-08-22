@@ -4,7 +4,7 @@ group: axis
 title: log轴
 keywords: lineChart,comparison,composition,trend,axis
 order: 25-6
-cover: https://tosv.byted.org/obj/bit-cloud/ffc3a9b5518762d274121ff06.jpeg
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/ffc3a9b5518762d274121ff06.jpeg
 option: lineChart#axes
 ---
 
@@ -18,7 +18,7 @@ The characteristic of the log axis is that the interval between scales is calcul
 
 exist `axes` Configure the axis type on the property:
 
-*   `type` Properties are set to`'log'`, used to configure the axis type
+- `type` Properties are set to`'log'`, used to configure the axis type
 
 ## Code demo
 
@@ -62,7 +62,7 @@ const spec = {
       {
         modelId: 'axis-bottom-A',
         col: 1,
-        row: 2,
+        row: 2
       },
       {
         modelId: 'line-region-B',
@@ -216,11 +216,11 @@ const spec = {
       type: 'linear',
       title: 'log-axis'
     },
-        {
+    {
       id: 'axis-left-B',
       regionId: 'line-region-B',
       orient: 'left',
-      type: 'linear',
+      type: 'linear'
     },
 
     {
@@ -230,7 +230,7 @@ const spec = {
       type: 'log',
       title: 'log-axis'
     }
-  ],
+  ]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();

@@ -3,7 +3,7 @@ category: examples
 group: scatter chart
 title: 基础散点图
 order: 9-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/scatter-chart/basic-scatter.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/basic-scatter.png
 optio: scatterChart
 ---
 

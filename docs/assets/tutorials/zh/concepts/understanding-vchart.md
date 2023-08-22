@@ -29,7 +29,7 @@
 简单图表是由一个 region、一个确定类型的 series、component 和一个管理图表逻辑的 chart 构成。以一个常见的折线图为例，其组成如下
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf00.png" alt="折线图的逻辑层元素组成图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf00.png" alt="折线图的逻辑层元素组成图示">
 </div>
 
 ```javascript livedemo

@@ -6,22 +6,22 @@ DataZoom 是 VChart 图表库中的一种筛选滑块组件，它可以让用户
 
 DataZoom 组件主要由以下部分组成：
 
-*   `background` 背景
-*   `selectedBackground` 选中背景
-*   `startHandler` 起点手柄
-*   `endHandler` 终点手柄
-*   `middleHandler` 中间手柄
-    *   `icon` 中间手柄图标
-    *   `background` 中间手柄背景
-*   `startText` 起点文字
-*   `endText` 终点文字
-*   `background` 缩略轴的背景矩形
-*   `backgroundChart` 缩略轴的预览图表， 目前支持折线图及面积图
-*   `selectedBackgroundChart` 缩略轴的选中部分预览图表。
-*   `dragMask` 缩略轴的拖拽轨迹图元。
+- `background` 背景
+- `selectedBackground` 选中背景
+- `startHandler` 起点手柄
+- `endHandler` 终点手柄
+- `middleHandler` 中间手柄
+  - `icon` 中间手柄图标
+  - `background` 中间手柄背景
+- `startText` 起点文字
+- `endText` 终点文字
+- `background` 缩略轴的背景矩形
+- `backgroundChart` 缩略轴的预览图表， 目前支持折线图及面积图
+- `selectedBackgroundChart` 缩略轴的选中部分预览图表。
+- `dragMask` 缩略轴的拖拽轨迹图元。
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a2c7623458257d15626270914.png" alt="DataZoom 组成图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a2c7623458257d15626270914.png" alt="DataZoom 组成图示">
 </div>
 
 ## 示例
@@ -30,9 +30,9 @@ DataZoom 组件主要由以下部分组成：
 
 在这个示例中，我们通过 `dataZoom` 属性进行数据筛选滑块的配置，这里我们主要配置了滑块背景层的缩略图表以及图表在选中区域的样式
 
-*   背景区域图：用 `backgroundChart` 对象进行配置，包括面积图 (`area`) 和折线图 (`line`) 的样式。面积图的填充颜色为`#D1DBEE`，线宽为 1；线形的描边颜色为 `#D1DBEE`，宽为 1。
+- 背景区域图：用 `backgroundChart` 对象进行配置，包括面积图 (`area`) 和折线图 (`line`) 的样式。面积图的填充颜色为`#D1DBEE`，线宽为 1；线形的描边颜色为 `#D1DBEE`，宽为 1。
 
-*   选中区域图：用 `selectedBackgroundChart` 对象进行配置，包括面积 (`area`) 和折线图 (`line`) 的样式。面积图的填充颜色为 `#fbb934`，线宽为 1；线形图的描边颜色为 `#fbb934`，线宽为 1。
+- 选中区域图：用 `selectedBackgroundChart` 对象进行配置，包括面积 (`area`) 和折线图 (`line`) 的样式。面积图的填充颜色为 `#fbb934`，线宽为 1；线形图的描边颜色为 `#fbb934`，线宽为 1。
 
 ```javascript livedemo
 const spec = {

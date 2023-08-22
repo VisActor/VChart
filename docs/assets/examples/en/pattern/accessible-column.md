@@ -4,7 +4,7 @@ group: pattern
 title: Grouped Bar Chart with Textures
 keywords: barChart,comparison,distribution,rank,pattern,label,rectangle
 order: 41-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/pattern/accessible-column.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pattern/accessible-column.png
 option: barChart
 ---
 

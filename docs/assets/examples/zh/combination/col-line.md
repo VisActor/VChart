@@ -4,7 +4,7 @@ group: combination
 title: 单列组合图
 keywords: commonChart
 order: 22-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/combination/col-line.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/col-line.png
 option: commonChart
 ---
 
@@ -228,7 +228,7 @@ const spec = {
   ]
 };
 
-fetch('https://tosv.byted.org/obj/bytecharts/col-line-data.json').then(res => {
+fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bytecharts/col-line-data.json').then(res => {
   res.json().then(dataJson => {
     spec.series.forEach(s => {
       s.data.values = dataJson[s.data.id];

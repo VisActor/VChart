@@ -14,7 +14,7 @@ VChart 的内置布局策略分为 2 种，一种是基于占位的布局，一�
 如下图所示：
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf00.png" alt="图表的元素组成图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf00.png" alt="图表的元素组成图示">
 </div>
 
 ## 基于占位的布局
@@ -29,7 +29,7 @@ VChart 的内置布局策略分为 2 种，一种是基于占位的布局，一�
 整个布局流程如下图所示：
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a222eb3ecfe32db85220dda0c.gif" alt="布局过程示意图">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a222eb3ecfe32db85220dda0c.gif" alt="布局过程示意图">
 </div>
 
 ## 基于 grid 的布局
@@ -47,7 +47,7 @@ VChart 的内置布局策略分为 2 种，一种是基于占位的布局，一�
 布局效果如下图示意：
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/03421afda76ced0240204bf08.png" alt="Grid 布局示意">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf08.png" alt="Grid 布局示意">
 </div>
 
 在上图中，总计 2 列，4 行。各元素的位置信息如下

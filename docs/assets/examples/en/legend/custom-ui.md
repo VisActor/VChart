@@ -1,10 +1,10 @@
---- 
+---
 category: demo
 group: legend
 title: Custom Legend UI
 keywords: barChart, comparison, rectangle, legend, distribution, rank, composition
 order: 27-8
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/legend/custom-ui.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/custom-ui.png
 option: barChart#legends
 ---
 

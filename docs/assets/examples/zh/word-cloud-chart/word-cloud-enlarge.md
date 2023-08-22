@@ -4,7 +4,7 @@ group: word chart
 title: 词云图全局自适应画布
 keywords: wordCloud,text,distribution
 order: 14-2
-cover: https://tosv.byted.org/obj/bit-cloud/c0de7ff0a101bd4cb25c81703.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81703.png
 option: wordCloudChart
 ---
 

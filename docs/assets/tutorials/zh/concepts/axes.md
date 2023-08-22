@@ -8,17 +8,15 @@
 
 1.  笛卡尔坐标系下的 x 轴和 y 轴
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a0f.png" alt="笛卡尔坐标系下的坐标轴">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a0f.png" alt="笛卡尔坐标系下的坐标轴">
 </div>
 
 2.  极坐标系下的半径轴和圆弧轴
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a2c7623458257d1562627090f.png" alt="极坐标系下的坐标轴">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a2c7623458257d1562627090f.png" alt="极坐标系下的坐标轴">
 </div>
-
 
 虽然在不同的坐标系下坐标轴有不同的表现形式，但是坐标轴组件的组成是一致的，均由以下部件组成：
 
@@ -29,11 +27,11 @@
 5.  网格线（包含子网格线） `grid` & `subGrid`
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/eb08aeafba39ab34c8a08c610.png" alt="直角坐标系下坐标轴的组成图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/eb08aeafba39ab34c8a08c610.png" alt="直角坐标系下坐标轴的组成图示">
 </div>
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a211.png" alt="极坐系下坐标轴的组成图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a211.png" alt="极坐系下坐标轴的组成图示">
 </div>
 
 ## 坐标轴的类型
@@ -44,7 +42,7 @@ VChart 中目前支持三种类型的坐标轴：
 2.  离散轴（type: 'band'），适用于离散数据；
 3.  时间轴（type: 'time'），适用于表示时间序列数据，具体的使用可以查看 [SequenceChart 时序图 demo](../../../demo/sequence-chart/social-media-event)；
     需要注意的是，直方图不支持离散轴，因为直方图用于统计数据间内的频率分布，主轴必须以值区间的形式传入，离散轴不支持该功能。
-4.  log轴（type: 'log'），log轴的特点是刻度之间的间隔是根据对数函数（通常是以10为底）计算的。这意味着数据的每个对数单位（大小单位）具有相同的物理长度，例如从1到10、10到100、100到1000等。对于数据的指数增长或指数下降情况，log轴能够更好地显示数据的相对变化。，具体的使用可以查看 [log轴 demo](../../../demo/axis/log-axis)
+4.  log 轴（type: 'log'），log 轴的特点是刻度之间的间隔是根据对数函数（通常是以 10 为底）计算的。这意味着数据的每个对数单位（大小单位）具有相同的物理长度，例如从 1 到 10、10 到 100、100 到 1000 等。对于数据的指数增长或指数下降情况，log 轴能够更好地显示数据的相对变化。，具体的使用可以查看 [log 轴 demo](../../../demo/axis/log-axis)
 
 ### 直角坐标系下的坐标轴配置
 

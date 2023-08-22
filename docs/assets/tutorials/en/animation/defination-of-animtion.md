@@ -4,9 +4,9 @@ In this tutorial, we will go into detail on how to use animation features in VCh
 
 Animation is a non-critical feature in VChart, which can make the charts more vivid and easy to understand. In the following sections, we will learn about the types of animations and related configurations in VChart:
 
-* Entrance animation
-* Update animation
-* Exit animation
+- Entrance animation
+- Update animation
+- Exit animation
 
 ## Entrance Animation Configuration
 
@@ -19,10 +19,9 @@ The type of `animationAppear` can be either a boolean value or an object. When s
   "animationAppear": {
     "duration": 1000, // Animation duration, in milliseconds (ms)
     "easing": "ease" // Animation easing effect
-    }
+  }
 }
 ```
-
 
 ## Data Update Animation Configuration
 
@@ -32,45 +31,45 @@ Usually, you don't need to consider how to control these three types of update a
 Here's an example of a pie chart data update, where you can randomly update the pie chart's data length and value:
 
 ```javascript livedemo
- const minDataLength = 1;
- const maxDataLength = 4;
+const minDataLength = 1;
+const maxDataLength = 4;
 
- const randomDataValues = () => {
-    const dataLength = Math.round(Math.random() * (maxDataLength - minDataLength)) + minDataLength;
-    const values = [];
-    for (let i = 0; i < dataLength; i++) {
-      values.push({
-        type: `${i}`,
-        value: Math.random()
-      });
+const randomDataValues = () => {
+  const dataLength = Math.round(Math.random() * (maxDataLength - minDataLength)) + minDataLength;
+  const values = [];
+  for (let i = 0; i < dataLength; i++) {
+    values.push({
+      type: `${i}`,
+      value: Math.random()
+    });
+  }
+  return values;
+};
+
+const spec = {
+  type: 'pie',
+  data: [
+    {
+      id: 'id0',
+      values: [
+        { type: '1', value: Math.random() },
+        { type: '2', value: Math.random() },
+        { type: '3', value: Math.random() }
+      ]
     }
-    return values;
-  };
-
-  const spec = {
-    type: 'pie',
-    data: [
-      {
-        id: 'id0',
-        values: [
-          { type: '1', value: Math.random() },
-          { type: '2', value: Math.random() },
-          { type: '3', value: Math.random() }
-        ]
-      }
-    ],
-    outerRadius: 0.8,
-    valueField: 'value',
-    categoryField: 'type',
-    tooltip: false
-  };
+  ],
+  outerRadius: 0.8,
+  valueField: 'value',
+  categoryField: 'type',
+  tooltip: false
+};
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync().then(() => {
-    setInterval(() => {
-      vchart.updateData('id0', randomDataValues());
-    }, 2000);
-  });
+  setInterval(() => {
+    vchart.updateData('id0', randomDataValues());
+  }, 2000);
+});
 ```
 
 ### New Element Animation
@@ -88,8 +87,6 @@ The new element animation refers to the animation effect of the new element adde
 }
 ```
 
-
-
 ### Element Update Animation
 
 The element update animation refers to the update animation effect of the existing element when the chart data is updated. We can use the `animationUpdate` configuration to set the element update animation.
@@ -99,11 +96,10 @@ The element update animation refers to the update animation effect of the existi
 ```json
 {
   "animationUpdate": {
-    "duration": 500,
+    "duration": 500
   }
 }
 ```
-
 
 ### Exit Element Animation
 
@@ -114,11 +110,10 @@ The exit element animation refers to the animation effect of the element corresp
 ```json
 {
   "animationExit": {
-    "duration": 500,
+    "duration": 500
   }
 }
 ```
-
 
 ## Chart Exit Animation
 
@@ -129,14 +124,14 @@ In some scenarios, we may need to remove the chart. At that time, we can set the
 ```json
 {
   "animationDisappear": {
-    "duration": 1000,
+    "duration": 1000
   }
 }
 ```
 
 ## Normal Animation
-When chart elements are not in the aforementioned animation states, they enter the normal state (`animationNormal`). In this state, you can perform some carousel animations or create unique non-looping entrance/new element effects.
 
+When chart elements are not in the aforementioned animation states, they enter the normal state (`animationNormal`). In this state, you can perform some carousel animations or create unique non-looping entrance/new element effects.
 
 ## Global Morphing Animation
 
@@ -171,20 +166,21 @@ const barSpec = Object.assign({}, pieSpec, {
   xField: 'type',
   yField: 'value',
   seriesField: 'type'
-})
+});
 
 const specs = [pieSpec, barSpec];
 
 const vchart = new VChart(specs[0], { dom: CONTAINER_ID });
 
 vchart.renderAsync().then(() => {
-    let count = 1;
-    setInterval(() => {
-      vchart.updateSpec(specs[count % 2]);
-      count++;
-    }, 2000);
+  let count = 1;
+  setInterval(() => {
+    vchart.updateSpec(specs[count % 2]);
+    count++;
+  }, 2000);
 });
 ```
+
 ### One-to-Many Animation
 
 A one-to-many animation is the transition animation from one graphical element to multiple graphical elements. For example, in the following example, the global animation when switching between the bar chart and the scatter plot is shown. The animation where a large bar is split into multiple scatter points is a one-to-many animation.
@@ -269,17 +265,16 @@ const scatterSpec = {
   ]
 };
 
-
 const specs = [barSpec, barSpec];
 
 const vchart = new VChart(specs[0], { dom: CONTAINER_ID });
 
 vchart.renderAsync().then(() => {
-    let count = 1;
-    setInterval(() => {
-      vchart.updateSpec(specs[count % 2]);
-      count++;
-    }, 3000);
+  let count = 1;
+  setInterval(() => {
+    vchart.updateSpec(specs[count % 2]);
+    count++;
+  }, 3000);
 });
 ```
 
@@ -288,13 +283,14 @@ vchart.renderAsync().then(() => {
 A many-to-one animation is the transition from multiple graphical elements to one element. For example, in the above example, we can merge multiple points of the scatter plot series into a large bar.
 
 Similar global morphing animations can be achieved in various series switches:
-![Global Morphing Animation](https://tosv.byted.org/obj/bit-cloud/23e5d313c2c3a66d4ca806001.gif)
+![Global Morphing Animation](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/23e5d313c2c3a66d4ca806001.gif)
 
 ## Turn Off Animation
+
 If you want to turn off the animation, you can directly configure `spec.animation: false`, or set it when creating a chart instance:
+
 ```js
 const vchart = new VChart(specs[0], { dom: CONTAINER_ID, animation: false });
 ```
-
 
 That's all for the animation types in VChart. By configuring entrance, update, and exit animations, you can make your charts more vivid and easier to understand. We hope this tutorial has been helpful! Have fun using VChart!

@@ -6,27 +6,25 @@
 
 离散图例是用于表示图表中由不同颜色或形状区分的数据类别。
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a215.png" alt="离散图例图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a215.png" alt="离散图例图示">
 </div>
 
 ### 组成
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a2c7623458257d15626270911.png" alt="离散图例组成图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a2c7623458257d15626270911.png" alt="离散图例组成图示">
 </div>
-
 
 离散图例由以下部分组成：
 
 1.  图例标题 `title`：表示图例的名称
 2.  图例项 `item` 表示各个数据类别，其中每个图例项由以下部件组成
 
-*   shape：图例项的 shape，通常同具体的图表类型相对应
-*   label：图例项文本，表示该类别的名称
-*   value：图例项数值，如果有可以显示该类别对应的数值
-*   background：图例项背景，设置图例项的背景颜色或透明度等样式
+- shape：图例项的 shape，通常同具体的图表类型相对应
+- label：图例项文本，表示该类别的名称
+- value：图例项数值，如果有可以显示该类别对应的数值
+- background：图例项背景，设置图例项的背景颜色或透明度等样式
 
 3.  分页器：当图例项过多时会自动分页，方便用户浏览和操作
 
@@ -34,19 +32,18 @@
 
 目前离散图例分为水平布局和垂直布局两种布局方式，在不同的布局方式下，图例内部的标题、图例项和分页器的布局占位如下：
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/eb08aeafba39ab34c8a08c615.png" alt="布局图示">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/eb08aeafba39ab34c8a08c615.png" alt="布局图示">
 </div>
 
 目前默认布局策略为流式布局，即
 
-*   水平布局：水平布局下的图例项会做从左到右的布局。如果设置了限制宽度（`maxWidth`），超出之后：
-    *   如果配置了 `autoPage` （即自动分页，默认为 true） 则会根据配置项 `maxRow` (限制的行数，默认为 2) 自动出现分页器
-    *   如果 `autoPage` 为 false，则进行自动换行
-*   垂直布局：垂直布局下的图例项会做自上到下的布局。如果设置了限制高度（`maxHeight`），超出之后：
-    *   如果配置了 `autoPage` （即自动分页，默认为 true） 则会根据配置项 `maxCol` (限制的列数 ，默认为 1) 自动出现分页器
-    *   如果 `autoPage` 为 false，则进行自动换列
+- 水平布局：水平布局下的图例项会做从左到右的布局。如果设置了限制宽度（`maxWidth`），超出之后：
+  - 如果配置了 `autoPage` （即自动分页，默认为 true） 则会根据配置项 `maxRow` (限制的行数，默认为 2) 自动出现分页器
+  - 如果 `autoPage` 为 false，则进行自动换行
+- 垂直布局：垂直布局下的图例项会做自上到下的布局。如果设置了限制高度（`maxHeight`），超出之后：
+  - 如果配置了 `autoPage` （即自动分页，默认为 true） 则会根据配置项 `maxCol` (限制的列数 ，默认为 1) 自动出现分页器
+  - 如果 `autoPage` 为 false，则进行自动换列
 
 ### 交互
 
@@ -56,16 +53,15 @@
 2.  鼠标点击图例时的交互
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a216.png" alt="图例交互状态图例">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a216.png" alt="图例交互状态图例">
 </div>
-
 
 目前提供了图例项在如下交互状态的样式配置：
 
-*   `'selected'`：选中态，表示当前图例项被选中
-*   `'unSelected'`：非选中状态，表示当前图例项未被选中
-*   `'selectedHover'`：选中并 hover 状态，表示鼠标悬浮在选中的图例项上
-*   `'unSelectedHover'`：非选中并 hover 状态，表示鼠标悬浮在选中的图例项上
+- `'selected'`：选中态，表示当前图例项被选中
+- `'unSelected'`：非选中状态，表示当前图例项未被选中
+- `'selectedHover'`：选中并 hover 状态，表示鼠标悬浮在选中的图例项上
+- `'unSelectedHover'`：非选中并 hover 状态，表示鼠标悬浮在选中的图例项上
 
 另外分页器也提供了自己的交互状态样式配置，包含：
 
@@ -79,9 +75,8 @@
 连续图例分为颜色图例和尺寸图例，其中颜色图例用于表示数据随着颜色的变化而呈现出的连续变化特征，尺寸图例用于表示数据随着尺寸的变化而呈现出的连续变化特征，也可进行数据筛选。
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a13.png" alt="连续图例示意图">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a13.png" alt="连续图例示意图">
 </div>
-
 
 ### 组成
 
@@ -92,9 +87,8 @@
 3.  滑块条 `track`：表示当前选择的数值范围
 4.  起始、结束文本 `handlerText`：表示连续区间的最小值和最大值
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a222eb3ecfe32db85220dda00.png" alt="连续图例组成示意图">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a222eb3ecfe32db85220dda00.png" alt="连续图例组成示意图">
 </div>
 
 ## 自定义图例

@@ -4,7 +4,7 @@ group: marker
 title: markLine
 keywords: marker,lineChart
 order: 33-0
-cover: https://tosv.byted.org/obj/bit-cloud/4f62a673241122408f7245400.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/4f62a673241122408f7245400.png
 option: scatterChart#markLine
 ---
 

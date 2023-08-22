@@ -4,31 +4,28 @@
 
 在社交媒体、行为监测等场景中，往往需要在线性时间的演进中, 以节点和边的形式展示不同用户不同时间的不同行为, 并且为了更好地从中发现用户的行为偏好, 还需要以柱状图的形式展示行为统计信息。基于线性时间映射的时序图可以展示这种场景下的数据。
 
-
 ## 图表构成
 
 时序图本质上为特定系列和组件组成的组合图。
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/dfd203ff5e337abea49411b06.png)
-
+![](https://temp.domain/obj/bit-cloud/dfd203ff5e337abea49411b06.png)
 
 时序图是一种用于展示时间序列数据的图表类型，它可以表现出数据在时间上的变化趋势。  
-在时序图中，我们推荐至少配置一对事件 link 系列，柱系列可根据需要配置 0 个或若干个: 
+在时序图中，我们推荐至少配置一对事件 link 系列，柱系列可根据需要配置 0 个或若干个:
+
 - [柱系列](../../option/sequenceChart#series-bar): 以柱状图的形式表示特定时间间隔内的时序数据总数。
 - [dot 系列](../../option/sequenceChart#series-dot): 以点的形式表示特定时间点发生的事件。
-- [link 系列](../../option/sequenceChart#series-link): 以边的形式表示事件与事件之间的关联关系。  
+- [link 系列](../../option/sequenceChart#series-link): 以边的形式表示事件与事件之间的关联关系。
 
 注意：[link 系列](../../option/sequenceChart#series-link)必须通过`'dotSeriesIndex'`属性与 [dot 系列](../../option/sequenceChart#series-dot)绑定，因为其绘制数据及部分配置依赖于 [dot 系列](../../option/sequenceChart#series-dot)。
 
-时序图通常还包含以下组件: 
-- [时间轴](../../option/sequenceChart#axes-time): 所有系列共用的x轴，也是时序数据与图元属性映射的介质。
+时序图通常还包含以下组件:
+
+- [时间轴](../../option/sequenceChart#axes-time): 所有系列共用的 x 轴，也是时序数据与图元属性映射的介质。
 - [缩略轴](../../option/sequenceChart#dataZoom): 在时序数据展示过于密集时，会将缩略轴组件与时间轴绑定以"控制时间的缩放"。
-- [滚动条](../../option/sequenceChart#scrollbar): 当并行的事件序列过多，即y方向分类过多时，可以通过配置滚动条以“控制 [dot 系列](../../option/sequenceChart#series-dot)和[link 系列](../../option/sequenceChart#series-link)的上下滚动”。
-
-
+- [滚动条](../../option/sequenceChart#scrollbar): 当并行的事件序列过多，即 y 方向分类过多时，可以通过配置滚动条以“控制 [dot 系列](../../option/sequenceChart#series-dot)和[link 系列](../../option/sequenceChart#series-link)的上下滚动”。
 
 ## 快速上手
-
 
 ```javascript livedemo
 const spec = {
@@ -1090,6 +1087,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 ### 关键配置
 
 全局配置:
@@ -1119,160 +1117,165 @@ link 系列（link series）的数据依赖于事件（event series）系列
 - `toField` 属性声明为终点位置字段
 - `dotTypeField` 属性声明为关系类型字段
 
-
 ## 时序图特性
 
 ### 数据
 
-上文提到时序图包含柱系列、dot系列和link系列，它们在时序图中展示的数据及其结构各不相同。
+上文提到时序图包含柱系列、dot 系列和 link 系列，它们在时序图中展示的数据及其结构各不相同。
 
 #### 柱系列数据
+
 对于柱系列而言需要展示特定时间间隔内的时序数据总数，属于频率统计的一种，所以结构类似于直方图。
 
-- 两个`数值` 字段，如: `start_time`   `end_time`  
-- 一个`数值`字段，如: `value`  
+- 两个`数值` 字段，如: `start_time` `end_time`
+- 一个`数值`字段，如: `value`
 
 数据定义如下：
+
 ```ts
 data: [
-    {
-        name: "bar",
-        values: [
-            {
-                start_time: 0,
-                end_time: 10,
-                value: 1
-            },
-            {
-                start_time: 10,
-                end_time: 20,
-                value: 5
-            },
-             {
-                start_time: 20,
-                end_time: 30,
-                value: 2
-            }
-        ]
-    }
-]
+  {
+    name: 'bar',
+    values: [
+      {
+        start_time: 0,
+        end_time: 10,
+        value: 1
+      },
+      {
+        start_time: 10,
+        end_time: 20,
+        value: 5
+      },
+      {
+        start_time: 20,
+        end_time: 30,
+        value: 2
+      }
+    ]
+  }
+];
 ```
 
 #### dot 系列数据
 
-对于dot 系列而言，既要通过`title` `subTitle` `grid`等图元展示一连串事件构成的序列，又要通过`dot`图元展示具体的事件，所以是一种嵌套类型的数据。
+对于 dot 系列而言，既要通过`title` `subTitle` `grid`等图元展示一连串事件构成的序列，又要通过`dot`图元展示具体的事件，所以是一种嵌套类型的数据。
 
 ```ts
 data: [
-    {
-        name: "bar",
-        values: [
-            {
-              type: 'user_did', // 事件序列类型，映射title图元文本
-              id: '713019502467512xxxx', // uid / ip / did...，映射subTitle图元文本
-              dots: [ // 事件序列数组
-                {
-                  event_time: 1662061124, // 事件发生的时间，映射
-                  node_name: '713019502467512xxxx_1662061124_login_device', // 节点名称（字段名称不可变且保证数据唯一性，如果需要绑定link 系列，则该节点名称要与link系列一一对应
-                  action_type: 'login_device', // 事件类型，映射dot图元颜色
-                  children: [ // 事件的附带info，用于展示在tooltip中
-                    {
-                      action_type: 'login_device'
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              id: '683827422612367xxxx',
-              type: 'user_did',
-              dots: [
-                {
-                  event_time: 1662321122,
-                  node_name: '683827422612367xxxx_1662321122_login_device',
-                  action_type: 'login_device',
-                  children: [
-                    {
-                      action_type: 'login_device'
-                    }
-                  ]
-                },
-                {
-                  event_time: 1662301120,
-                  node_name: '683827422612367xxxx_1662301120_registry_device',
-                  action_type: 'registry_device',
-                  children: [
-                    {
-                      action_type: 'registry_device'
-                    }
-                  ]
-                },
-                {
-                  event_time: 1662503541,
-                  node_name: '683827422612367xxxx_1662503541_registry_device',
-                  action_type: 'registry_device',
-                  children: [
-                    {
-                      action_type: 'registry_device'
-                    }
-                  ]
-                },
-                {
-                  event_time: 1662311121,
-                  node_name: '683827422612367xxxx_1662311121_login_device',
-                  action_type: 'login_device',
-                  children: [
-                    {
-                      action_type: 'login_device'
-                    }
-                  ]
-                },
-                {
-                  event_time: 1662161125,
-                  node_name: '683827422612367xxxx_1662161125_login_device',
-                  action_type: 'login_device',
-                  children: [
-                    {
-                      action_type: 'login_device'
-                    }
-                  ]
-                }
-              ]
-            }
+  {
+    name: 'bar',
+    values: [
+      {
+        type: 'user_did', // 事件序列类型，映射title图元文本
+        id: '713019502467512xxxx', // uid / ip / did...，映射subTitle图元文本
+        dots: [
+          // 事件序列数组
+          {
+            event_time: 1662061124, // 事件发生的时间，映射
+            node_name: '713019502467512xxxx_1662061124_login_device', // 节点名称（字段名称不可变且保证数据唯一性，如果需要绑定link 系列，则该节点名称要与link系列一一对应
+            action_type: 'login_device', // 事件类型，映射dot图元颜色
+            children: [
+              // 事件的附带info，用于展示在tooltip中
+              {
+                action_type: 'login_device'
+              }
+            ]
+          }
         ]
-    }
-]
+      },
+      {
+        id: '683827422612367xxxx',
+        type: 'user_did',
+        dots: [
+          {
+            event_time: 1662321122,
+            node_name: '683827422612367xxxx_1662321122_login_device',
+            action_type: 'login_device',
+            children: [
+              {
+                action_type: 'login_device'
+              }
+            ]
+          },
+          {
+            event_time: 1662301120,
+            node_name: '683827422612367xxxx_1662301120_registry_device',
+            action_type: 'registry_device',
+            children: [
+              {
+                action_type: 'registry_device'
+              }
+            ]
+          },
+          {
+            event_time: 1662503541,
+            node_name: '683827422612367xxxx_1662503541_registry_device',
+            action_type: 'registry_device',
+            children: [
+              {
+                action_type: 'registry_device'
+              }
+            ]
+          },
+          {
+            event_time: 1662311121,
+            node_name: '683827422612367xxxx_1662311121_login_device',
+            action_type: 'login_device',
+            children: [
+              {
+                action_type: 'login_device'
+              }
+            ]
+          },
+          {
+            event_time: 1662161125,
+            node_name: '683827422612367xxxx_1662161125_login_device',
+            action_type: 'login_device',
+            children: [
+              {
+                action_type: 'login_device'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+];
 ```
 
 #### link 系列数据
-对于link 系列而言，需要通过两个字段分别指定link的起点和终点。
-注意：起点字段和终点字段的数据必须与dot系列数据中的`node_name`数据一一对应，这样link图元在绘制时才能找到对应的起点和终点位置。
+
+对于 link 系列而言，需要通过两个字段分别指定 link 的起点和终点。
+注意：起点字段和终点字段的数据必须与 dot 系列数据中的`node_name`数据一一对应，这样 link 图元在绘制时才能找到对应的起点和终点位置。
 
 ```ts
 data: [
-    {
-      name: "link",
-      values: [
+  {
+    name: 'link',
+    values: [
+      {
+        from: '683827468797481xxxx_1662346668_im', // 起点字段
+        to: '683827420033672xxxx_1662346668_im', // 终点字段
+        action_type: 'im', // 事件关系类型，映射link颜色
+        children: [
+          // 事件关系的附带info，用于展示在tooltip中
           {
-          from: '683827468797481xxxx_1662346668_im', // 起点字段
-          to: '683827420033672xxxx_1662346668_im', // 终点字段
-          action_type: 'im', // 事件关系类型，映射link颜色
-          children: [ // 事件关系的附带info，用于展示在tooltip中
-            {
-              action_type: 'im',
-              msg_id: 800000
-            }
-          ]
-        }
-      ]
-    }
-]
+            action_type: 'im',
+            msg_id: 800000
+          }
+        ]
+      }
+    ]
+  }
+];
 ```
 
-### 提示info配置
+### 提示 info 配置
 
-上文提到在事件或事件关系会附带一些额外info，该info通常以`Object`的形式出现，为了将层级结构正确展示在tooltip中，dot和link系列内置解析`Object`的方法，用户只需要在`sequenceChart.tooltip.content`中进行如下配置即可。
-注意：内置的方法仅解析`children`字段，所以无论是数据，还是此处的tooltip配置，都应该保持`children` 字段不变。
+上文提到在事件或事件关系会附带一些额外 info，该 info 通常以`Object`的形式出现，为了将层级结构正确展示在 tooltip 中，dot 和 link 系列内置解析`Object`的方法，用户只需要在`sequenceChart.tooltip.content`中进行如下配置即可。
+注意：内置的方法仅解析`children`字段，所以无论是数据，还是此处的 tooltip 配置，都应该保持`children` 字段不变。
 
 ```ts
 {
@@ -1283,7 +1286,7 @@ data: [
 }
 ```
 
-下面的例子展示了包含tooltip配置的社交媒体时序图:
+下面的例子展示了包含 tooltip 配置的社交媒体时序图:
 
 ```javascript livedemo
 const spec = {
@@ -4294,5 +4297,3 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-
-

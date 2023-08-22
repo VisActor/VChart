@@ -8,13 +8,13 @@
 
 桑基图在许多领域中都有应用，如流量分析、能源管理、材料追溯等等。它可以帮助人们理解系统的复杂性、收集数据、发现趋势等。
 
-
-
 ## 图表构成
-桑基图主要由节点图元和边图元、提示信息及其他组件构成。  
-![](https://tosv.byted.org/obj/bit-cloud/a222eb3ecfe32db85220dda06.png)
 
-node图元、link图元为桑基图的基本要素，相关的绘制配置必不可少:
+桑基图主要由节点图元和边图元、提示信息及其他组件构成。  
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a222eb3ecfe32db85220dda06.png)
+
+node 图元、link 图元为桑基图的基本要素，相关的绘制配置必不可少:
+
 - `sankeyChart.type`: 图表类型，桑基图的类型为`'sankey'`
 - `sankeyChart.data`: 图表绘制的数据源
 - `sankeyChart.categoryField`: 分类字段，映射不同节点图元
@@ -25,10 +25,12 @@ node图元、link图元为桑基图的基本要素，相关的绘制配置必不
 - `sankeyChart.minNodeHeight`: 数据不为零或空时节点的最小大小，这个配置可以用来避免数据太小时看不到太细的节点，建议小于 5px
 
 提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
+
 - `sankeyChart.tooltip`: 提示信息，默认交互时显示，详细配置见详细配置见[VChart 提示信息组件配置](../../../option/sankeyChart#tooltip)
-- 更多组件配置见[VChart sankeyChart配置](../../../option/sankeyChart)
+- 更多组件配置见[VChart sankeyChart 配置](../../../option/sankeyChart)
 
 ## 快速上手
+
 ```javascript livedemo
 const spec = {
   type: 'sankey',
@@ -169,56 +171,55 @@ window['vchart'] = vchart;
 ```
 
 ### 关键配置
+
 - `categoryField` 属性声明为类别字段，表示节点名称
 - `valueField` 属性声明数值字段，表示节点之间关系的权重
 - `sourceField` 和 `targetField` 属性不需要指定，根据层级结构生成
 - `nodeKey` 属性声明解析节点的 `key` 值
 
-
 ## 桑基图特性
 
 ### 数据
 
-由于**桑基图用数据结构表示节点与边的关系**，所以在VChart中，我们定义了两种方式桑基图数据结构声明方式：  
+由于**桑基图用数据结构表示节点与边的关系**，所以在 VChart 中，我们定义了两种方式桑基图数据结构声明方式：
 
-1.节点与边的平坦化数据结构： 
+1.节点与边的平坦化数据结构：
+
 ```ts
 [
-    {
-        nodes: [
-            { nodeName: 'A' }, 
-            { nodeName: 'B' },
-            { nodeName: 'C' }
-        ],
-        links: [
-            { source: 0, target: 1, value: 1 }, 
-            { source: 0, target: 2, value: 1 },
-        ]
-    }
-]
+  {
+    nodes: [{ nodeName: 'A' }, { nodeName: 'B' }, { nodeName: 'C' }],
+    links: [
+      { source: 0, target: 1, value: 1 },
+      { source: 0, target: 2, value: 1 }
+    ]
+  }
+];
 ```
 
 2.节点与边的嵌套数据结构：
+
 ```ts
 [
-    {
-        name: 'A',
-        children: [
-            { name: 'A-a', value: 1 }, 
-            { name: 'A-b', value: 2 }
-        ]
-    },
-    {
-        name: 'B',
-        children: [
-            { name: 'B-a', value: 3 }, 
-            { name: 'B-b', value: 4 }
-        ]
-    }
-]
+  {
+    name: 'A',
+    children: [
+      { name: 'A-a', value: 1 },
+      { name: 'A-b', value: 2 }
+    ]
+  },
+  {
+    name: 'B',
+    children: [
+      { name: 'B-a', value: 3 },
+      { name: 'B-b', value: 4 }
+    ]
+  }
+];
 ```
 
 #### 平坦化数据
+
 ```javascript livedemo
 const spec = {
   type: 'sankey',
@@ -227,22 +228,22 @@ const spec = {
       values: [
         {
           nodes: [
-            {nodeName: 'A'},
-            {nodeName: 'B'},
-            {nodeName: 'C'},
-            {nodeName: 'D'},
-            {nodeName: 'E'},
-            {nodeName: 'F'},
-            {nodeName: 'G'},
+            { nodeName: 'A' },
+            { nodeName: 'B' },
+            { nodeName: 'C' },
+            { nodeName: 'D' },
+            { nodeName: 'E' },
+            { nodeName: 'F' },
+            { nodeName: 'G' }
           ],
           linkes: [
-            {source: 'A', target: 'D', value: 400},
-            {source: 'B', target: 'D', value: 400},
-            {source: 'C', target: 'D', value: 500},
-            {source: 'D', target: 'F', value: 800},
-            {source: 'C', target: 'E', value: 100},
-            {source: 'E', target: 'G', value: 100},
-            {source: 'D', target: 'G', value: 500}
+            { source: 'A', target: 'D', value: 400 },
+            { source: 'B', target: 'D', value: 400 },
+            { source: 'C', target: 'D', value: 500 },
+            { source: 'D', target: 'F', value: 800 },
+            { source: 'C', target: 'E', value: 100 },
+            { source: 'E', target: 'G', value: 100 },
+            { source: 'D', target: 'G', value: 500 }
           ]
         }
       ]
@@ -264,11 +265,11 @@ const spec = {
       fontSize: 10
     }
   }
-}
+};
 ```
 
-
 #### 嵌套数据
+
 ```javascript livedemo
 const spec = {
   type: 'sankey',
@@ -406,16 +407,16 @@ vchart.renderAsync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
-
 ```
 
-
 ### 图表布局
+
 桑基图的布局主要体现在节点之间的位置关系上，下列配置可以帮助您自由调整桑基图布局：
 
 - `nodeAlign`: 声明节点的对齐类型，该属性可以配置为`'left' | 'right' | 'center' | 'justify' | 'start' | 'end'`
 - `nodeGap`: 声明同一层中两个节点之间的间隙大小
-- `nodeWidth`: 声明每个节点的宽度，支持三种取值: 
+- `nodeWidth`: 声明每个节点的宽度，支持三种取值:
+
 1. 百分比字符串，例如 `{ nodeWidth: '12%' }`
 2. 以'px'为单位的简单数字，例如 `{ nodeWidth: 20 }`
 3. function，通过自定义计算指定 nodeWidth
@@ -619,8 +620,8 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-
 ### 桑基图标签
+
 在桑基图中，标签的位置可以通过`sankeyChart.label.position: 'outside' | 'inside-start' | 'inside-middle' | 'inside-end' | 'left' | 'right'`进行配置。
 
 ```javascript livedemo
@@ -795,13 +796,14 @@ window['vchart'] = vchart;
 
 ### 桑基图交互
 
-通常情况下，桑基图的父子关系和层次结构是通过link的连接来表示的。但是，当数据集较为复杂且层次极深时，这种方式可能不够明确。因此，在这种情况下，需要通过点击来显示父级与子级的关系，以便用户更好地**了解整体数据流程与路径信息**。
+通常情况下，桑基图的父子关系和层次结构是通过 link 的连接来表示的。但是，当数据集较为复杂且层次极深时，这种方式可能不够明确。因此，在这种情况下，需要通过点击来显示父级与子级的关系，以便用户更好地**了解整体数据流程与路径信息**。
 
-在VChart中，我们可以通过`sankeyChart.emphasis`进行交互配置。
+在 VChart 中，我们可以通过`sankeyChart.emphasis`进行交互配置。
 
 - `sankeyChart.emphasis.trigger`: 声明交互触发类型。可以配置为 `trigger?: 'click' | 'hover'` , 点击触发或悬浮触发
 - `sankeyChart.emphasis.effect`: 声明交互联动效果。
-桑基图提供 3 种在节点上的交互联动效果：
+  桑基图提供 3 种在节点上的交互联动效果：
+
 1. self: 仅高亮当前节点；
 2. adjacency: 高亮当前节点上下游节点和关联的边，淡化其它图形元素；
 3. related： 高亮与当前节点相关的整条路径上的节点和边，淡化其它图形元素
@@ -1073,6 +1075,3 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-
-
-

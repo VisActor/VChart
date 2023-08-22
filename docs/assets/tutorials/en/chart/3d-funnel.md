@@ -8,7 +8,7 @@ The configuration of a 3D funnel chart mostly inherits from the general word clo
 
 A funnel chart is composed of hierarchical polygon elements (these polygons are trapezoids by default, and can also be rectangles depending on the user's configuration), transformation layers, labels, and other components.
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/4d877ccaf041cff1618de3405.png)
+![](https://temp.domain/obj/bit-cloud/4d877ccaf041cff1618de3405.png)
 
 Polygon elements are the basic components of a funnel chart, and their related drawing configurations are essential:
 

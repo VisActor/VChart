@@ -7,7 +7,7 @@ The chart title is mainly used to display the theme information of the chart. Th
 The components of the title are as follows:
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a2c7623458257d1562627090e.png" alt="Title component composition diagram">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a2c7623458257d1562627090e.png" alt="Title component composition diagram">
 </div>
 
 In VChart, we can configure the title through the `title` attribute. The following code example shows how to configure the chart's title and subtitle:

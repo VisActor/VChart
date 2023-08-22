@@ -8,16 +8,14 @@ According to different coordinate systems (currently, VChart supports Cartesian 
 
 1. X-axis and Y-axis in the Cartesian coordinate system
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a0f.png" alt="Axes in Cartesian coordinate system">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a0f.png" alt="Axes in Cartesian coordinate system">
 </div>
 
 2. Radius axis and circular axis in the polar coordinate system
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/a2c7623458257d1562627090f.png" alt="Axes in polar coordinate system">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a2c7623458257d1562627090f.png" alt="Axes in polar coordinate system">
 </div>
 
 Although the axes have different forms in different coordinate systems, the components of the axes are consistent, consisting of the following parts:
@@ -28,13 +26,12 @@ Although the axes have different forms in different coordinate systems, the comp
 4. Axis label `label`
 5. Grid lines (including sub-grid lines) `grid` & `subGrid`
 
-
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/eb08aeafba39ab34c8a08c610.png" alt="Diagram of the components of the axes in the Cartesian coordinate system">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/eb08aeafba39ab34c8a08c610.png" alt="Diagram of the components of the axes in the Cartesian coordinate system">
 </div>
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a211.png" alt="Diagram of the components of the axes in the polar coordinate system">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a211.png" alt="Diagram of the components of the axes in the polar coordinate system">
 </div>
 
 ## Types of Axes

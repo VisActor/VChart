@@ -4,7 +4,7 @@ group: marker
 title: markArea 模拟象限图
 keywords: marker,scatterChart,scatter
 order: 33-7
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/marker/mark-area-quadrant.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-area-quadrant.png
 option: scatterChart#markArea
 ---
 

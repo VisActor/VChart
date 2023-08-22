@@ -8,7 +8,7 @@
 
 漏斗图由具有层级关系的多边形图元（该多边形默认是梯形，也可以是矩形，视用户配置而定）、转化层、标签等基本元素及其他组件构成。
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/4d877ccaf041cff1618de3405.png)
+![](https://temp.domain/obj/bit-cloud/4d877ccaf041cff1618de3405.png)
 
 多边形图元为漏斗图的基本要素，相关的绘制配置必不可少:
 

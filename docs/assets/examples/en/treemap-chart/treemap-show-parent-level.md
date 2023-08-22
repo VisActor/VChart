@@ -4,7 +4,7 @@ group: treemap chart
 title: Treemap Displaying Parent Level
 keywords: treemap,rectangle,comparison,composition,relationship
 order: 17-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/treemap-chart/treemap-show-parent-level.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/treemap-chart/treemap-show-parent-level.png
 option: treemapChart
 ---
 
@@ -414,13 +414,13 @@ const spec = {
     position: 'top',
     // The padding for non-leaf node, we can use this space to display a label
     // This padding will only works when the node has enough space
-   // The space reserved for non-leaf nodes is usually used to match the text size configuration. In this example, 30px height is reserved for multi-line text
+    // The space reserved for non-leaf nodes is usually used to match the text size configuration. In this example, 30px height is reserved for multi-line text
     padding: 30,
     style: {
       x: data => {
         // Label will be placed at the center of node rect.
         // Here we adjust the x attribute to position label to the left
-     // The default label is displayed in the center of the rectangle, which is configured as left-aligned, with a 4px spacing reserved
+        // The default label is displayed in the center of the rectangle, which is configured as left-aligned, with a 4px spacing reserved
         return data.labelRect?.x0 + 4;
       },
       textAlign: 'left',

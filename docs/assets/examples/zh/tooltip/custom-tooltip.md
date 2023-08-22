@@ -4,7 +4,7 @@ group: tooltip
 title: 自定义 tooltip
 keywords: tooltip
 order: 26-1
-cover: https://tosv.byted.org/obj/bit-cloud/57a706137957fce7388f3ab03.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab03.png
 option: barChart#tooltip
 ---
 

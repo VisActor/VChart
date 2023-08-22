@@ -3,7 +3,7 @@
 Tooltip is the additional information displayed on different elements of the VChart chart, which is displayed through mouse hover operation. This tutorial mainly explains the related concepts and components of the tooltip. For more detailed configuration and examples of the components, please see the [Configuration Documentation](../../../option) and [Example](../../../example) pages.
 
 <div style="text-align: center;">
-  <img src="https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a212.png" alt="tooltip">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a212.png" alt="tooltip">
 </div>
 
 ## Composition of Tooltip
@@ -15,7 +15,7 @@ In VChart charts, Tooltip mainly consists of two parts:
 
 In VChart, we provide two types of tooltips according to the displayed data, which are mark tooltip (`'mark'`) and dimension tooltip (`'dimension'`). The mark ('mark') refers to the individual data corresponding to the graphic (such as a small square in the stacked column chart below). The 'dimension' refers to the set of data corresponding to the dimension value (such as x value) in the area where the mouse is currently located (such as the set of data stacked together in the stacked column chart below):
 
-![Tooltip Content Types](https://tosv.byted.org/obj/bit-cloud/0a2e223bdcd7410c08f6a6a11.png)
+![Tooltip Content Types](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a11.png)
 
 ## Style Configuration
 
@@ -45,7 +45,7 @@ tooltip: {
   }
 ```
 
-![Tooltip Style Configuration Result Graph](https://tosv.byted.org/obj/bit-cloud/48c337ece11d289fc4644a213.png)
+![Tooltip Style Configuration Result Graph](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a213.png)
 
 ## Formatting
 
@@ -78,9 +78,9 @@ Title formatting example:
 
 In addition to the title, we can also format the content of the tooltip. Similar to title formatting, we can configure the `content` property for the corresponding tooltip type. Each content of the tooltip consists of the following parts:
 
-*   `shape`: The shape of the data item.
-*   `key`: The name of the data item.
-*   `value`: The value of the data item.
+- `shape`: The shape of the data item.
+- `key`: The name of the data item.
+- `value`: The value of the data item.
 
 When we need to format the content, we can configure the `key`, `value` properties. If they are configured as strings, they will be displayed as corresponding constant texts. It can also be configured as a function callback: `(datum: Datum) => string;` where datum is the default data item corresponding to the current tooltip line.
 

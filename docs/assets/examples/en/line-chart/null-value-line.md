@@ -4,7 +4,7 @@ group: line chart
 title: Line Chart with Null Values
 keywords: lineChart,comparison,trend,line
 order: 0-4
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/line-chart/null-value-line.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/null-value-line.png
 option: lineChart
 ---
 

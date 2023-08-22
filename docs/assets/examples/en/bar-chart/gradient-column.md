@@ -4,22 +4,22 @@ group: bar chart
 title: Gradient Rounded Bar Chart
 keywords: barChart,comparison,distribution,rank,rectangle,gradient
 order: 2-9
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/bar-chart/gradient-column.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/gradient-column.png
 option: barChart
---- 
+---
 
-# Gradient Rounded Bar Chart 
+# Gradient Rounded Bar Chart
 
-By configuring the style of the bar chart element, you can create a gradient color and rounded bar chart. 
+By configuring the style of the bar chart element, you can create a gradient color and rounded bar chart.
 
-## Key Configurations 
+## Key Configurations
 
-Configure the following in the `bar.style` property: 
+Configure the following in the `bar.style` property:
 
-- `cornerRadius` attribute to set the rounded corner size. When the attribute is a number, it represents the size of the four rounded corners; when it is an array, it represents the upper left, upper right, lower right, and lower left corner sizes. 
+- `cornerRadius` attribute to set the rounded corner size. When the attribute is a number, it represents the size of the four rounded corners; when it is an array, it represents the upper left, upper right, lower right, and lower left corner sizes.
 - Configure the gradient color in the `fill` attribute according to the gradient color settings.
 
-## Code Demo 
+## Code Demo
 
 ```javascript livedemo
 const spec = {
@@ -164,6 +164,6 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## Related Tutorials 
+## Related Tutorials
 
 [Bar Chart](link)

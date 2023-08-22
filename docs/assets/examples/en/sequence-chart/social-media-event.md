@@ -4,7 +4,7 @@ group: sequence chart
 title: Social Media Seuqnce Chart
 keywords: sequence,comparison,relationShip,line,scatter,rectangle,dataZoom
 order: 13-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/sequence-chart/social-media-event.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sequence-chart/social-media-event.png
 ---
 
 # Social Media Timing Chart
@@ -18,55 +18,55 @@ The whole sequence diagram is divided from top to bottom: thumbnail axis compone
 
 Global configuration:
 
-*   `appendPadding`The property is used to configure the margins of the chart, it is recommended to configure, otherwise the titles of the dot and link series will overlap with the gridline.
+- `appendPadding`The property is used to configure the margins of the chart, it is recommended to configure, otherwise the titles of the dot and link series will overlap with the gridline.
 
 Thumbnail shaft configuration:
 
-*   `xAxisIndex`Property is used to bind the axis index that needs to be controlled
-*   `regionIndex`The property is used to bind the Region index that needs to be controlled, the index will determine which Region's data the thumbnail axis affects, the index is the same as the one configured in the series`regionIndex`One-to-one correspondence. Due to the built-in logic of the sequence diagram, it can be seen here as`regionIndex = seriesIndex + 1`, the effect is equivalent to the control data series.
+- `xAxisIndex`Property is used to bind the axis index that needs to be controlled
+- `regionIndex`The property is used to bind the Region index that needs to be controlled, the index will determine which Region's data the thumbnail axis affects, the index is the same as the one configured in the series`regionIndex`One-to-one correspondence. Due to the built-in logic of the sequence diagram, it can be seen here as`regionIndex = seriesIndex + 1`, the effect is equivalent to the control data series.
 
 Timeline configuration:
 
-*   `type`Property used to configure the type of axis, recommended here`time`To map time series data, it should be noted that the timeline only supports timestamp data
-*   `layers` The property is used to configure the configuration of the child and mother axes of the time axis, which can only take effect when the axis is the time axis. Item 0 represents the mother axis, that is, the axis below; item 1 represents the child axis, that is, the axis above. Pass`timeFormat`Configure the time format of the label. Configure the time interval in seconds via tickStep.
+- `type`Property used to configure the type of axis, recommended here`time`To map time series data, it should be noted that the timeline only supports timestamp data
+- `layers` The property is used to configure the configuration of the child and mother axes of the time axis, which can only take effect when the axis is the time axis. Item 0 represents the mother axis, that is, the axis below; item 1 represents the child axis, that is, the axis above. Pass`timeFormat`Configure the time format of the label. Configure the time interval in seconds via tickStep.
 
 Column series configuration:
 Users can configure 0 or more column series, the main configuration of each series is as follows:
 
-*   `barTitle`The property is declared as the title of the column series, located on the left. (This property only applies to column series in timing diagrams)
-*   `xField`Properties are declared as the left boundary field of each column
-*   `x2Field`Properties are declared as the right boundary field of each column
-*   `yField`Properties are declared as the height field of each column
-*   `height`The property is declared as the height of the column series (this property only applies to column series in the sequence diagram)
-*   `padding`Property declared as the bottom margin of the column series (this property only applies to column series in timing diagrams)
+- `barTitle`The property is declared as the title of the column series, located on the left. (This property only applies to column series in timing diagrams)
+- `xField`Properties are declared as the left boundary field of each column
+- `x2Field`Properties are declared as the right boundary field of each column
+- `yField`Properties are declared as the height field of each column
+- `height`The property is declared as the height of the column series (this property only applies to column series in the sequence diagram)
+- `padding`Property declared as the bottom margin of the column series (this property only applies to column series in timing diagrams)
 
 Dot series configuration:
 
-*   `xField` Properties are declared as abscissa fields of the dot series
-*   `yField` Properties are declared as ordinate fields of the dot series
-*   `seriesGroupField` The property is declared as a grouping field of the dot series, and the timeline (grid) of the dot series is the same color in the same grouping.
-*   `title` The property is declared as the title field of the dot series, the title is to the left of the timeline
-*   `subTitle` The property is declared as a subtitle field of the dot series with the title below the title
-*   `dotTypeField` The property is declared as an event point grouping field of the dot series, and the event points have the same color in the same grouping.
-*   `highLightSeriesGroup` The property is declared as the highlighted grouping configuration of the dot series, when configuring`seriesGroupField`You can specify a grouping to highlight a particular property
-*   `clipHeight` The property is declared as the viewable height of the dot series
+- `xField` Properties are declared as abscissa fields of the dot series
+- `yField` Properties are declared as ordinate fields of the dot series
+- `seriesGroupField` The property is declared as a grouping field of the dot series, and the timeline (grid) of the dot series is the same color in the same grouping.
+- `title` The property is declared as the title field of the dot series, the title is to the left of the timeline
+- `subTitle` The property is declared as a subtitle field of the dot series with the title below the title
+- `dotTypeField` The property is declared as an event point grouping field of the dot series, and the event points have the same color in the same grouping.
+- `highLightSeriesGroup` The property is declared as the highlighted grouping configuration of the dot series, when configuring`seriesGroupField`You can specify a grouping to highlight a particular property
+- `clipHeight` The property is declared as the viewable height of the dot series
 
 Link series configuration:
 The data of the link series depends on the event series
 
-*   `dotSeriesIndex` Property declared as the index of the associated dot series
-*   `fromField` Property declared as starting point location field
-*   `toField` Property declared as destination location field
-*   `dotTypeField` Property declared as relational type field
+- `dotSeriesIndex` Property declared as the index of the associated dot series
+- `fromField` Property declared as starting point location field
+- `toField` Property declared as destination location field
+- `dotTypeField` Property declared as relational type field
 
 Scroll bar component configuration:
 
-*   `start` The property is declared as the proportion of the Region where the current viewport starts in the series
-*   `end` The property is declared as the proportion of the Region where the current viewport endpoint is located in the series
-*   `roam` The property is declared as whether to turn on the mouse to swipe freely in the canvas
-*   `filterMode` Properties are declared as scrolling filter mode, `filter`To filter the data to achieve the effect of scaling the axis, `axis`For direct scaling of axes, no data filtering
-*   `regionIndex` The property is declared as the data Region of the rolling control. Due to the special logic of the sequence diagram, it can be`regionIndex`Considered the dot series`seriesindex + 1`
-*   `axisIndex` The property is declared as the data axis of the scroll control. Due to the special logic of the sequence diagram, it can be`axisIndex`Considered the dot series`seriesindex + 1`
+- `start` The property is declared as the proportion of the Region where the current viewport starts in the series
+- `end` The property is declared as the proportion of the Region where the current viewport endpoint is located in the series
+- `roam` The property is declared as whether to turn on the mouse to swipe freely in the canvas
+- `filterMode` Properties are declared as scrolling filter mode, `filter`To filter the data to achieve the effect of scaling the axis, `axis`For direct scaling of axes, no data filtering
+- `regionIndex` The property is declared as the data Region of the rolling control. Due to the special logic of the sequence diagram, it can be`regionIndex`Considered the dot series`seriesindex + 1`
+- `axisIndex` The property is declared as the data axis of the scroll control. Due to the special logic of the sequence diagram, it can be`axisIndex`Considered the dot series`seriesindex + 1`
 
 ## Code demo
 

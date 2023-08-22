@@ -4,7 +4,7 @@ group: gauge
 title: 使用circularProgress声明仪表图
 keywords: gauge,comparison,circle
 order: 15-3
-cover: https://tosv.byted.org/obj/bit-cloud/57a706137957fce7388f3ab0b.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab0b.png
 option: gaugeChart
 ---
 

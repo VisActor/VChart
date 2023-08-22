@@ -4,7 +4,7 @@ group: chart-3d
 title: 3D Basic Funnel Chart
 keywords: space
 order: 23-2
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/chart-3d/funnel3d.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/funnel3d.png
 option: funnel3dChart
 ---
 
@@ -23,7 +23,7 @@ The configuration of the 3D funnel chart inherits most of the ordinary word clou
 - `categoryField` specifies the category field
 - `valueField` specifies the value field
 - `support3d` label configuration support means support for 3d mode
-- `face` currently 3d funnel chart is still immature and requires users to configure the appropriate effect according to the angle 
+- `face` currently 3d funnel chart is still immature and requires users to configure the appropriate effect according to the angle
 
 ## Live Demo
 

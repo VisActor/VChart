@@ -4,7 +4,7 @@ group: gradient
 title: 渐变色-高度渐变
 keywords: barChart,comparison,rectangle,gradient,distribution,rank
 order: 38-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/gradient/bar.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/bar.png
 option: barChart
 ---
 

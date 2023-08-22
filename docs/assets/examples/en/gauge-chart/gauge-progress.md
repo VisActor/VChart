@@ -4,7 +4,7 @@ group: gauge
 title: 使用circularProgress声明仪表图
 keywords: gauge,comparison,circle
 order: 15-3
-cover: https://tosv.byted.org/obj/bit-cloud/57a706137957fce7388f3ab0b.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab0b.png
 option: gaugeChart
 ---
 
@@ -12,10 +12,10 @@ option: gaugeChart
 
 ## critical configuration
 
-*   `categoryField`,`valueField` Properties are used to specify data categories and pointer angle fields, respectively
-*   `innerRadius`,`outerRadius` Property is used to specify the inner and outer radii of the dashboard
-*   `startAngle`,`endAngle` Properties are used to specify the start and end angles of the dashboard
-*   `gauge`Properties can be configured[Background panel series for instrument diagram](../../option/gaugeChart#gauge)
+- `categoryField`,`valueField` Properties are used to specify data categories and pointer angle fields, respectively
+- `innerRadius`,`outerRadius` Property is used to specify the inner and outer radii of the dashboard
+- `startAngle`,`endAngle` Properties are used to specify the start and end angles of the dashboard
+- `gauge`Properties can be configured[Background panel series for instrument diagram](../../option/gaugeChart#gauge)
 
 ## Code demo
 

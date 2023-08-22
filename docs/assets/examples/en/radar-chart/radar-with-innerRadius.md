@@ -4,7 +4,7 @@ group: radar chart
 title: Hollow Radar Chart
 keywords: radarChart,comparison,line,circle,axis,label,indicator
 order: 10-2
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/radar-chart/radar-with-innerRadius.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/radar-with-innerRadius.png
 option: radarChart
 ---
 
@@ -104,4 +104,7 @@ window['vchart'] = vchart;
 ## Related Tutorials
 
 [Interval Bar Chart](link)
+
+```
+
 ```

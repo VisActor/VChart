@@ -1,5 +1,7 @@
 # Heatmap
+
 [\[Configuration Manual\]](../../../option/heatmapChart)
+
 ## Introduction
 
 Heatmap in Cartesian coordinate system requires the x-axis and y-axis to be discrete axes. It has an additional `valueField` in the configuration compared to bar charts, which is used to specify the weight at a certain discrete coordinate.
@@ -8,17 +10,20 @@ One common example is to use a heatmap to represent the correlation between diff
 
 In VChart, you can use the [Heatmap Configuration](../../../option/heatmapChart) to display the correlation between different variables. As shown in the following figure, this example shows the data of listed companies in 2016 by exploring the correlation between various indicators of listed companies through heatmap:
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/45df54929d214e7453e228f30.png)
+![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f30.png)
 
 In the [Heatmap Example](../../../demo/heatmap-chart/basic-heatmap) shown above, you need the following key configurations:
+
 - Set `xField` attribute as the x-axis classification field
 - Set `yField` attribute as the y-axis classification field
 - `valueField` numeric field
 
 ## Chart Components
+
 Heatmap consists of rectangle elements, axes, legends, and other components.
 
 Rectangle elements are the basic elements of the heatmap, and related drawing configurations are essential:
+
 - `heatmapChart.type`: Chart type, the type of heatmap is `'heatmap'`
 - `heatmapChart.data`: Data source for chart drawing
 - `heatmapChart.xField`: x-axis classification field, mapping element x coordinate
@@ -41,12 +46,12 @@ Rectangle elements are the basic elements of the heatmap, and related drawing co
 ```
 
 Axis, legend, and other components are optional configurations that support default effects and functions:
+
 - `heatmapChart.axes`: Axes components, default display and automatically inferred coordinate system and data mapping logic according to chart type, detailed configuration can be found in [VChart Axes Component Configuration](../../../option/heatmapChart#axes)
 - `heatmapChart.legends`: Legend components, linear legends are commonly used in heatmaps to display mapping relationships, detailed configuration can be found in [VChart Legend Component Configuration](../../../option/heatmapChart#legends)
 - More component configurations can be found in [VChart heatmapChart Configuration](../../../option/heatmapChart)
 
 ## Getting Started
-
 
 ```javascript livedemo
 const items = [
@@ -181,35 +186,37 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 ## Heatmap Features
 
 ### Data
 
-- Two `discrete` fields, such as: `var1`   `var2`
+- Two `discrete` fields, such as: `var1` `var2`
 - One `numeric` field, such as: `value`
 
 The data is defined as follows:
+
 ```ts
 data: [
-    {
-        name: "heatmap",
-        values: [
-            {
-                var1: "Asset Liability Ratio",
-                var2: "Asset Liability Ratio",
-                value: 1
-            },
-            {
-                var1: "Asset Liability Ratio",
-                var2: "Asset Liability Ratio (Deducting Advance Payments)",
-                value: 0.5
-            },
-             {
-                var1: "Asset Liability Ratio (Deducting Advance Payments)",
-                var2: "Asset Liability Ratio (Deducting Advance Payments)",
-                value: 1
-            }
-        ]
-    }
-]
+  {
+    name: 'heatmap',
+    values: [
+      {
+        var1: 'Asset Liability Ratio',
+        var2: 'Asset Liability Ratio',
+        value: 1
+      },
+      {
+        var1: 'Asset Liability Ratio',
+        var2: 'Asset Liability Ratio (Deducting Advance Payments)',
+        value: 0.5
+      },
+      {
+        var1: 'Asset Liability Ratio (Deducting Advance Payments)',
+        var2: 'Asset Liability Ratio (Deducting Advance Payments)',
+        value: 1
+      }
+    ]
+  }
+];
 ```

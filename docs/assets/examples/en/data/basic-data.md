@@ -4,10 +4,10 @@ group: data
 title: Basic Data Usage
 keywords: data
 order: 34-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/data/basic-data.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/basic-data.png
 option: lineChart#data
 ---
- 
+
 # Basic Data Usage
 
 The vast majority of charts need to configure data. The `data` can be configured with a set of data, and the chart's `series` will use the 0th data by default. After configuring the `id` for the data, you can bind the data by configuring `dataId` in the series and other modules where data can be specified. The content of the data is configured in the `values` of the data.

@@ -1,4 +1,5 @@
 # Sequence Chart
+
 [\[Configuration Guide\]](../../../option/sequenceChart)
 
 ## Introduction
@@ -9,10 +10,11 @@ In social media, behavior monitoring, and other scenarios, it is often necessary
 
 The sequence chart is essentially a combination of specific series and components.
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/dfd203ff5e337abea49411b06.png)
+![](https://temp.domain/obj/bit-cloud/dfd203ff5e337abea49411b06.png)
 
-The sequence chart is a chart type used to display time series data, which can show the changes in data over time. 
-In a sequence chart, we recommend configuring at least one pair of event link series, while the bar series can be configured with 0 or several as needed: 
+The sequence chart is a chart type used to display time series data, which can show the changes in data over time.
+In a sequence chart, we recommend configuring at least one pair of event link series, while the bar series can be configured with 0 or several as needed:
+
 - [Bar Series](../../option/sequenceChart#series-bar): Represents the total count of time series data within a specific time interval in the form of a bar chart.
 - [dot series](../../option/sequenceChart#series-dot): Represents events occurring at a specific time point in the form of dots.
 - [link series](../../option/sequenceChart#series-link): Represents the relationships between events in the form of edges.
@@ -20,14 +22,12 @@ In a sequence chart, we recommend configuring at least one pair of event link se
 Note: [link series](../../option/sequenceChart#series-link) must be bound to the [dot series](../../option/sequenceChart#series-dot) through the `'dotSeriesIndex'` attribute because its drawing data and some configurations depend on the [dot series](../../option/sequenceChart#series-dot).
 
 Sequence charts typically also include the following components:
+
 - [Time Axis](../../option/sequenceChart#axes-time): The x-axis shared by all series, and the medium for mapping time-series data to graphic attributes.
 - [Zoom Axis](../../option/sequenceChart#dataZoom): When the sequence data is too dense, the zoom axis component will be bound to the time axis to "control the zoom of time."
 - [Scrollbar](../../option/sequenceChart#scrollbar): When there are too many parallel event series, i.e., too many categories in the y-direction, the scrollbar can be configured to "control the scrolling of the [dot series](../../option/sequenceChart#series-dot) and [link series](../../option/sequenceChart#series-link)."
 
-
-
 ## Quick Start
-
 
 ```javascript livedemo
 const spec = {
@@ -1089,6 +1089,7 @@ vchart.renderAsync();
 // Just for the convenience of console debugging, do not copy
 window['vchart'] = vchart;
 ```
+
 ### Key Configurations
 
 Global configurations:
@@ -1118,7 +1119,6 @@ The link series data depends on the event series data.
 - The `toField` attribute declares the ending position field.
 - The `dotTypeField` attribute declares the relationship type field.
 
-
 ## Sequence Chart Features
 
 ### Data
@@ -1126,35 +1126,37 @@ The link series data depends on the event series data.
 The sequence chart is mentioned above, including the bar series, dot series, and link series, which display different data and structures in the sequence chart.
 
 #### Bar Series Data
+
 For the bar series, it is necessary to display the total count of time series data within a specific time interval, which belongs to a type of frequency statistics, so its structure is similar to histograms.
 
 - Two `numeric` fields, such as: `start_time` `end_time`
 - One `numeric` field, such as: `value`
 
 The data is defined as follows:
+
 ```ts
 data: [
-    {
-        name: "bar",
-        values: [
-            {
-                start_time: 0,
-                end_time: 10,
-                value: 1
-            },
-            {
-                start_time: 10,
-                end_time: 20,
-                value: 5
-            },
-             {
-                start_time: 20,
-                end_time: 30,
-                value: 2
-            }
-        ]
-    }
-]
+  {
+    name: 'bar',
+    values: [
+      {
+        start_time: 0,
+        end_time: 10,
+        value: 1
+      },
+      {
+        start_time: 10,
+        end_time: 20,
+        value: 5
+      },
+      {
+        start_time: 20,
+        end_time: 30,
+        value: 2
+      }
+    ]
+  }
+];
 ```
 
 #### dot series data
@@ -1163,109 +1165,113 @@ For the dot series, it needs to display a sequence of events made up of `title` 
 
 ```ts
 data: [
-    {
-        name: "bar",
-        values: [
-            {
-              type: 'user_did', // Event sequence type, mapping title graphic text
-              id: '713019502467512xxxx', // uid / ip / did..., mapping subTitle graphic text
-              dots: [ // Event sequence array
-                {
-                  event_time: 1662061124, // The time the event occurred, mapping
-                  node_name: '713019502467512xxxx_1662061124_login_device', // Node name (field name cannot be changed and must be unique, if the link series needs to be bound, the node name must correspond to the link series one by one.
-                  action_type: 'login_device', // Event type, mapping to dot graphic color
-                  children: [ // Additional information about the event, used to display in tooltip
-                    {
-                      action_type: 'login_device'
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              id: '683827422612367xxxx',
-              type: 'user_did',
-              dots: [
-                {
-                  event_time: 1662321122,
-                  node_name: '683827422612367xxxx_1662321122_login_device',
-                  action_type: 'login_device',
-                  children: [
-                    {
-                      action_type: 'login_device'
-                    }
-                  ]
-                },
-                {
-                  event_time: 1662301120,
-                  node_name: '683827422612367xxxx_1662301120_registry_device',
-                  action_type: 'registry_device',
-                  children: [
-                    {
-                      action_type: 'registry_device'
-                    }
-                  ]
-                },
-                {
-                  event_time: 1662503541,
-                  node_name: '683827422612367xxxx_1662503541_registry_device',
-                  action_type: 'registry_device',
-                  children: [
-                    {
-                      action_type: 'registry_device'
-                    }
-                  ]
-                },
-                {
-                  event_time: 1662311121,
-                  node_name: '683827422612367xxxx_1662311121_login_device',
-                  action_type: 'login_device',
-                  children: [
-                    {
-                      action_type: 'login_device'
-                    }
-                  ]
-                },
-                {
-                  event_time: 1662161125,
-                  node_name: '683827422612367xxxx_1662161125_login_device',
-                  action_type: 'login_device',
-                  children: [
-                    {
-                      action_type: 'login_device'
-                    }
-                  ]
-                }
-              ]
-            }
+  {
+    name: 'bar',
+    values: [
+      {
+        type: 'user_did', // Event sequence type, mapping title graphic text
+        id: '713019502467512xxxx', // uid / ip / did..., mapping subTitle graphic text
+        dots: [
+          // Event sequence array
+          {
+            event_time: 1662061124, // The time the event occurred, mapping
+            node_name: '713019502467512xxxx_1662061124_login_device', // Node name (field name cannot be changed and must be unique, if the link series needs to be bound, the node name must correspond to the link series one by one.
+            action_type: 'login_device', // Event type, mapping to dot graphic color
+            children: [
+              // Additional information about the event, used to display in tooltip
+              {
+                action_type: 'login_device'
+              }
+            ]
+          }
         ]
-    }
-]
+      },
+      {
+        id: '683827422612367xxxx',
+        type: 'user_did',
+        dots: [
+          {
+            event_time: 1662321122,
+            node_name: '683827422612367xxxx_1662321122_login_device',
+            action_type: 'login_device',
+            children: [
+              {
+                action_type: 'login_device'
+              }
+            ]
+          },
+          {
+            event_time: 1662301120,
+            node_name: '683827422612367xxxx_1662301120_registry_device',
+            action_type: 'registry_device',
+            children: [
+              {
+                action_type: 'registry_device'
+              }
+            ]
+          },
+          {
+            event_time: 1662503541,
+            node_name: '683827422612367xxxx_1662503541_registry_device',
+            action_type: 'registry_device',
+            children: [
+              {
+                action_type: 'registry_device'
+              }
+            ]
+          },
+          {
+            event_time: 1662311121,
+            node_name: '683827422612367xxxx_1662311121_login_device',
+            action_type: 'login_device',
+            children: [
+              {
+                action_type: 'login_device'
+              }
+            ]
+          },
+          {
+            event_time: 1662161125,
+            node_name: '683827422612367xxxx_1662161125_login_device',
+            action_type: 'login_device',
+            children: [
+              {
+                action_type: 'login_device'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+];
 ```
 
 #### link series data
+
 For the link series, two fields need to be specified to specify the beginning and end of the link.
 Note: The start field and end field data must correspond one-to-one with the `node_name` data in the dot series data so that the link graphic can find the corresponding start and end positions when drawing.
 
 ```ts
 data: [
-    {
-      name: "link",
-      values: [
+  {
+    name: 'link',
+    values: [
+      {
+        from: '683827468797481xxxx_1662346668_im', // Start field
+        to: '683827420033672xxxx_1662346668_im', // End field
+        action_type: 'im', // Event relationship type, mapping link color
+        children: [
+          // Additional information about the event relationship, used to display in tooltip
           {
-          from: '683827468797481xxxx_1662346668_im', // Start field
-          to: '683827420033672xxxx_1662346668_im', // End field
-          action_type: 'im', // Event relationship type, mapping link color
-          children: [ // Additional information about the event relationship, used to display in tooltip
-            {
-              action_type: 'im',
-              msg_id: 800000
-            }
-          ]
-        }
-      ]
-    }
-]
+            action_type: 'im',
+            msg_id: 800000
+          }
+        ]
+      }
+    ]
+  }
+];
 ```
 
 ### Tooltip Configuration

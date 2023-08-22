@@ -4,7 +4,7 @@ group: axis
 title: Axis Inversion
 keywords: areaChart,comparison,trend,area,axis
 order: 25-5
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/axis/inverse.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/inverse.png
 option: lineChart#axes
 ---
 

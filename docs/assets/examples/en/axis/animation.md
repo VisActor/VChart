@@ -4,7 +4,7 @@ group: axis
 title: Axis Animation
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-7
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/axis/animation.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/animation.png
 option: barChart#axes
 ---
 
@@ -1236,4 +1236,7 @@ window['vchart'] = vchart;
 ## Related Tutorials
 
 Attach links to tutorials or API documentation associated with this demo configuration.
+
+```
+
 ```

@@ -4,15 +4,15 @@ group: axis
 title: log轴
 keywords: lineChart,comparison,composition,trend,axis
 order: 25-6
-cover: https://tosv.byted.org/obj/bit-cloud/ffc3a9b5518762d274121ff06.jpeg
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/ffc3a9b5518762d274121ff06.jpeg
 option: lineChart#axes
 ---
 
-# log轴
+# log 轴
 
-在图表绘制中，log轴是一种用于显示数据的坐标轴。与常规的线性（linear）轴不同，log轴使用对数刻度而不是线性刻度。这种方式可以在显示一定范围内的大数据范围时更好地展示数据。
+在图表绘制中，log 轴是一种用于显示数据的坐标轴。与常规的线性（linear）轴不同，log 轴使用对数刻度而不是线性刻度。这种方式可以在显示一定范围内的大数据范围时更好地展示数据。
 
-log轴的特点是刻度之间的间隔是根据对数函数（通常是以10为底）计算的。这意味着数据的每个对数单位（大小单位）具有相同的物理长度，例如从1到10、10到100、100到1000等。对于数据的指数增长或指数下降情况，log轴能够更好地显示数据的相对变化。
+log 轴的特点是刻度之间的间隔是根据对数函数（通常是以 10 为底）计算的。这意味着数据的每个对数单位（大小单位）具有相同的物理长度，例如从 1 到 10、10 到 100、100 到 1000 等。对于数据的指数增长或指数下降情况，log 轴能够更好地显示数据的相对变化。
 
 ## 关键配置
 
@@ -58,7 +58,7 @@ const spec = {
       {
         modelId: 'axis-bottom-A',
         col: 1,
-        row: 2,
+        row: 2
       },
       {
         modelId: 'line-region-B',
@@ -212,11 +212,11 @@ const spec = {
       type: 'linear',
       title: 'log-axis'
     },
-        {
+    {
       id: 'axis-left-B',
       regionId: 'line-region-B',
       orient: 'left',
-      type: 'linear',
+      type: 'linear'
     },
 
     {
@@ -226,7 +226,7 @@ const spec = {
       type: 'log',
       title: 'log-axis'
     }
-  ],
+  ]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();

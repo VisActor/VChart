@@ -1,4 +1,5 @@
 # Histogram
+
 [\[Configuration Manual\]](../../../option/histogramChart)
 
 ## Introduction
@@ -6,11 +7,13 @@
 Histogram, also known as a quality distribution chart, is used to represent the distribution of data, and is a common statistical chart. The horizontal axis generally represents the data range, the vertical axis represents the distribution, and the higher the column, the larger the number of elements in that range.
 
 ## Chart Structure
+
 The histogram is composed of rectangular elements, coordinate axes, and other components.
 
-![](https://tosv.byted.org/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a05.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a05.png)
 
 The rectangle element is the basic element of the histogram, and the relevant drawing configuration is indispensable:
+
 - `histogramChart.type`: Chart type, the type of histogram is `'histogram'`
 - `histogramChart.data`: Data source for chart drawing
 - `histogramChart.xField`: Numeric field, mapping the x-coordinate / width of the element
@@ -18,10 +21,10 @@ The rectangle element is the basic element of the histogram, and the relevant dr
 - `histogramChart.yField`: Numeric field, mapping the y-coordinate / height of the element
 - `histogramChart.y1Field`: Numeric field, mapping the y1-coordinate of the element
 
-    Like other charts, the histogram supports the configuration of the `direction` attribute. When `direction: 'horizontal'`, `xField` maps the width of the rectangle element, `yField` and `y1Field` map the upper and lower boundaries of the rectangle element. Coordinates, i.e., y and y1 coordinates; when `direction: 'vertical'`, `yField` maps the height of the rectangle element, `xField` and `x1Field` map the left and right boundaries of the rectangle element. Coordinates, namely x and x1 coordinates.
-
+  Like other charts, the histogram supports the configuration of the `direction` attribute. When `direction: 'horizontal'`, `xField` maps the width of the rectangle element, `yField` and `y1Field` map the upper and lower boundaries of the rectangle element. Coordinates, i.e., y and y1 coordinates; when `direction: 'vertical'`, `yField` maps the height of the rectangle element, `xField` and `x1Field` map the left and right boundaries of the rectangle element. Coordinates, namely x and x1 coordinates.
 
 Coordinate axes, tooltips, and other components that assist chart display are optional configuration, with default effects and functionality:
+
 - `histogramChart.axes`: Coordinate axis component, displayed by default, and automatically infers coordinate system and data mapping logic according to chart type. Note that histograms do not support discrete axes because they are used to statistically analyze the frequency distribution within each data range, and the main axis(values) must be entered as a value range, which isn't supported by the discrete axis. Detailed configuration can be found at [VChart coordinate axis component configuration](../../../option/histogramChart#axes)
 - `histogramChart.tooltip`: Tooltip, displayed by default during interaction, detailed configuration can be found at [VChart tooltip component configuration](../../../option/histogramChart#tooltip)
 - For more component configuration see [VChart histogramChart configuration](../../../option/histogramChart)
@@ -375,6 +378,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 ### Key Configuration
 
 - Declare the `xField` property as the frequency statistics left range field
@@ -387,34 +391,36 @@ Unlike bar charts, histograms display data within a specific segment, so the dim
 
 ### Data
 
-- Two `numeric` fields, such as: `x`   `x1`
+- Two `numeric` fields, such as: `x` `x1`
 - One `numeric` field, such as: `value`
 
 Data definition is as follows:
+
 ```ts
 data: [
-    {
-        name: "histogram",
-        values: [
-            {
-                x: 0,
-                x1: 10,
-                value: 1
-            },
-            {
-                x: 10,
-                x1: 20,
-                value: 5
-            },
-             {
-                x: 20,
-                x1: 30,
-                value: 2
-            }
-        ]
-    }
-]
+  {
+    name: 'histogram',
+    values: [
+      {
+        x: 0,
+        x1: 10,
+        value: 1
+      },
+      {
+        x: 10,
+        x1: 20,
+        value: 5
+      },
+      {
+        x: 20,
+        x1: 30,
+        value: 2
+      }
+    ]
+  }
+];
 ```
+
 ### Histogram Line Combination Chart
 
 Histograms and line charts are often used together to provide clearer and more accurate visualizations of data distribution characteristics. Compared to a single histogram, a histogram paired with a line chart not only intuitively displays data distribution in the chart, but also better emphasizes data trends and deviation changes.
@@ -708,7 +714,7 @@ const spec = {
           frequency: 0
         }
       ]
-    },
+    }
   ],
   series: [
     {
@@ -733,9 +739,8 @@ const spec = {
       },
       line: {
         style: {
-          strokeWidth: 2 
+          strokeWidth: 2
         }
-
       }
     }
   ],
@@ -758,7 +763,9 @@ window['vchart'] = vchart;
 ```
 
 ### Different Frequency Distribution Histogram
+
 Since the left and right boundary positions of the columns are determined by different data fields, this means that the size of the data intervals determines the column width (or column height when `direction: 'horizontal'`). Different data intervals can be drawn to form histograms with different frequency distributions.
+
 ```javascript livedemo
 const spec = {
   type: 'histogram',
@@ -859,7 +866,9 @@ window['vchart'] = vchart;
 ```
 
 ## Chart Layout
+
 ### Stacked Histogram
+
 In VChart, to display a stacked histogram, set `histogramChart.stack: true`, and to distinguish columns stacked under the same dimension, specify `histogramChart.seriedField`. This field defaults to mapping the area color.
 
 ```javascript livedemo

@@ -4,7 +4,7 @@ group: tooltip
 title: Custom Tooltip Content Row
 keywords: tooltip
 order: 26-0
-cover: https://tosv.byted.org/obj/bit-cloud/vchart/preview/tooltip/custom-mark-tooltip.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/tooltip/custom-mark-tooltip.png
 option: funnelChart#tooltip
 ---
 

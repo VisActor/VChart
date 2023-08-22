@@ -4,7 +4,7 @@ group: title
 title: Basic Title
 keywords: title
 order: 24-0
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/title/basic-title.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/title/basic-title.png
 option: lineChart#title
 ---
 

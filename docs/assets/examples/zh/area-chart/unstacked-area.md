@@ -4,7 +4,7 @@ group: area chart
 title: 非堆叠面积图
 keywords: areaChart,comparison,trend,area
 order: 1-11
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/area-chart/unstacked-area.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/unstacked-area.png
 option: areaChart
 ---
 

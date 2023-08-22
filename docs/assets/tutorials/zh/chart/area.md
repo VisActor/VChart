@@ -1,29 +1,31 @@
-
 # 面积图
 
 ## 简介
 
-面积图以图形方式显示定量数据。 它基于折线图。 通常用颜色，纹理和阴影线强调轴和线之间的区域。 通常，一个面积图会比较两个或多个数量。面积图适用于想要体现在连续自变量下，一组或多组数据的趋势变化以及相互之间的对比，同时也能够观察到数据总量的变化趋势。  
+面积图以图形方式显示定量数据。 它基于折线图。 通常用颜色，纹理和阴影线强调轴和线之间的区域。 通常，一个面积图会比较两个或多个数量。面积图适用于想要体现在连续自变量下，一组或多组数据的趋势变化以及相互之间的对比，同时也能够观察到数据总量的变化趋势。
 
-![](https://tosv.boe.byted.org/obj/bit-cloud/350c0511133d336e622523219.png)
+![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523219.png)
 
-## 图表构成 
+## 图表构成
+
 面积图由点图元、线图元、坐标轴及其他组件构成。  
-![](https://tosv.byted.org/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a04.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a04.png)
 
 点图元、线图元为面积图的基本要素，相关的绘制配置必不可少:
+
 - `areaChart.type`: 图表类型，面积图的类型为`'area'`
 - `areaChart.data`: 图表绘制的数据源
-- `areaChart.xField`: 连续时间间隔或有序类别字段，映射图元的x坐标
-- `areaChart.yField`: 数值字段，映射图元的y坐标
+- `areaChart.xField`: 连续时间间隔或有序类别字段，映射图元的 x 坐标
+- `areaChart.yField`: 数值字段，映射图元的 y 坐标
 
 坐标轴、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
+
 - `areaChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../../option/areaChart#axes)
 - `areaChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/areaChart#tooltip)
-- 更多组件配置见[VChart areaChart配置](../../../option/areaChart)
-
+- 更多组件配置见[VChart areaChart 配置](../../../option/areaChart)
 
 ## 快速上手
+
 ```javascript livedemo
 const spec = {
   type: 'area',
@@ -78,54 +80,54 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-
 ### 关键配置
+
 - `type`: 图表类型，面积图的类型为`'area'`
 - `xField` 属性声明为连续时间间隔或有序类别字段
 - `yField` 属性声明数值字段
-
 
 ## 面积图特性
 
 ### 数据
 
-- 一个`离散` 或 `时序` 字段，如: `month`   
-（`时序`字段中的数据仅支持时间戳格式，且在坐标轴中需要配置`axes.type: 'time'`）
-- 一个`数值`字段，如: `temperature`  
+- 一个`离散` 或 `时序` 字段，如: `month`  
+  （`时序`字段中的数据仅支持时间戳格式，且在坐标轴中需要配置`axes.type: 'time'`）
+- 一个`数值`字段，如: `temperature`
 
 一组月份和温度的数据定义如下：
+
 ```ts
 data: [
-    {
-        name: "area",
-        values: [
-            {
-                month: "January",
-                temperature: 8
-            },
-            {
-                month: "February",
-                temperature: 9
-            },
-            {
-                month: "March",
-                temperature: 11
-            },
-            {
-                month: "April",
-                temperature: 14
-            }
-        ]
-    }
-]
+  {
+    name: 'area',
+    values: [
+      {
+        month: 'January',
+        temperature: 8
+      },
+      {
+        month: 'February',
+        temperature: 9
+      },
+      {
+        month: 'March',
+        temperature: 11
+      },
+      {
+        month: 'April',
+        temperature: 14
+      }
+    ]
+  }
+];
 ```
 
 ### 图表布局
 
 #### 堆叠面积图
-与堆叠柱状图类似，堆叠面积图不仅能展现同一维度下不同类别的数据差异，还能展现同一维度下不同类别的总和差异。
-在VChart中，如果需要展示堆叠面积图，需要配置`areaChart.stack: true`，并且为了区分同一维度下堆叠在一起的区域，需要指定`areaChart.seriedField`字段，该字段默认映射区域颜色
 
+与堆叠柱状图类似，堆叠面积图不仅能展现同一维度下不同类别的数据差异，还能展现同一维度下不同类别的总和差异。
+在 VChart 中，如果需要展示堆叠面积图，需要配置`areaChart.stack: true`，并且为了区分同一维度下堆叠在一起的区域，需要指定`areaChart.seriedField`字段，该字段默认映射区域颜色
 
 ```javascript livedemo
 const spec = {
@@ -188,11 +190,10 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-
 #### 百分比堆叠面积图
-在百分比堆叠面积图中，每个堆叠部分的高度仅表示其占总高度的比例，而不是具体的数值。这使得用户更容易比较每个子类别或类别在总体数据中的相对权重和变化趋势。
-在VChart中，如果需要展示百分比堆叠面积图，需要配置`areaChart.stack: true`和`areaChart.percent: true`，并且为了区分同一维度下堆叠在一起的区域，需要指定`areaChart.seriedField`字段，该字段默认映射区域颜色。
 
+在百分比堆叠面积图中，每个堆叠部分的高度仅表示其占总高度的比例，而不是具体的数值。这使得用户更容易比较每个子类别或类别在总体数据中的相对权重和变化趋势。
+在 VChart 中，如果需要展示百分比堆叠面积图，需要配置`areaChart.stack: true`和`areaChart.percent: true`，并且为了区分同一维度下堆叠在一起的区域，需要指定`areaChart.seriedField`字段，该字段默认映射区域颜色。
 
 ```javascript livedemo
 const spec = {
@@ -264,8 +265,6 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-
-
 
 ### 图元及样式
 
@@ -339,6 +338,7 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
+
 #### 阶梯面积图
 
 在 `line.style` 属性中配置 `curveType: 'step' | 'stepAfter' | 'stepBefore'` 属性
@@ -412,5 +412,3 @@ vchart.renderAsync();
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-
-

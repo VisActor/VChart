@@ -4,7 +4,7 @@ group: pattern
 title: 带纹理的饼图
 keywords: pieChart,comparison,proportion,composition,pattern,label,circle
 order: 41-1
-cover: http://tosv.byted.org/obj/bit-cloud/vchart/preview/pattern/accessible-pie.png
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pattern/accessible-pie.png
 option: pieChart
 ---
 
