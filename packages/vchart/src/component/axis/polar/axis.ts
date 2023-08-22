@@ -79,7 +79,13 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     const componentName = `${PolarAxis.type}-${axisType}`;
     const C = Factory.getComponentInKey(componentName);
     if (C) {
-      return new C(spec, options) as IPolarAxis;
+      return new C(
+        {
+          ...spec,
+          type: axisType
+        },
+        options
+      ) as IPolarAxis;
     }
     options.onError(`Component ${componentName} not found`);
     return null;
