@@ -32,6 +32,7 @@ const run = () => {
 
     label: {
       visible: true,
+      // pickable: false,
       // position: 'inside',
       formatMethod: () => '123123123',
       style: {
@@ -250,6 +251,11 @@ const run = () => {
     },
     tooltip: {
       transitionDuration: 0
+    },
+    label: {
+      visible: true,
+      pickable: false
+      // position: 'inside'
     }
   };
 
@@ -327,10 +333,10 @@ const run = () => {
       },
       layout: {
         // align: 'edge'
+      },
+      formatMethod: () => {
+        return 'test';
       }
-      // formatMethod: () => {
-      //   return 'test';
-      // },
       // style: {
       //   // text: datum => {
       //   //   return '12345678';
@@ -349,7 +355,63 @@ const run = () => {
     }
   };
 
-  const cs = new VChart(spec_huazhu, {
+  const authTypeData = [
+    {
+      category: 'a',
+      value: 4
+    },
+    {
+      category: 'b',
+      value: 0
+    },
+    {
+      category: 'c',
+      value: 70
+    },
+    {
+      category: 'd',
+      value: 2
+    }
+  ];
+
+  const spec_disappear = {
+    type: 'common',
+    data: {
+      id: 'loop',
+      values: authTypeData
+    },
+    title: {
+      visible: true,
+      text: '长视频版权授权情况',
+      textStyle: {
+        fontSize: 14
+      }
+    },
+    legends: {
+      visible: true,
+      autoPage: false
+    },
+    series: [
+      {
+        type: 'pie',
+        categoryField: 'category',
+        valueField: 'value',
+        outerRadius: 1,
+        pie: {
+          style: {
+            stroke: '#ffffff',
+            lineWidth: 2
+          }
+        },
+        label: {
+          visible: true
+          // coverEnable: true,
+        }
+      }
+    ]
+  };
+
+  const cs = new VChart(spec_flower, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
@@ -359,8 +421,8 @@ const run = () => {
   });
   window['vchart'] = cs;
   console.log(cs);
-  // cs.on('click', event => {
-  //   console.log(event);
-  // });
+  cs.on('click', event => {
+    console.log(event);
+  });
 };
 run();
