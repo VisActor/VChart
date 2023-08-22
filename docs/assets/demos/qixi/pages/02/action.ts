@@ -1,7 +1,7 @@
 import { type BaseActor, type BaseLayer, type Page, type Player } from '@visactor/story-player';
 import { OriginalData } from '../../data/interface';
 import anime from '../../lib/anime.es';
-import { page02EventDuration } from '../../constant';
+import { page02EventDuration, page02TitleDuration } from '../constant';
 
 export const page02Action = (
   player: Player,
@@ -12,6 +12,46 @@ export const page02Action = (
 ) => {
   const { page02 } = data;
 
+  player.createAction(actorMap.page02ActorTitle, {
+    name: 'page02ActorTitle',
+    pageList: [pageMap.page02.id],
+    layer: layerMap.layerText.id,
+    transitionActs: [
+      {
+        transitionType: 'from',
+        duration: 1000,
+        callback: ({ avatar }) => {
+          anime({
+            targets: avatar,
+            opacity: 1,
+            duration: 1000,
+            easing: 'easeInOutQuad'
+          });
+        }
+      }
+    ],
+    acts: [
+      {
+        duration: page02TitleDuration,
+        callback: ({ avatar }) => {
+          anime
+            .timeline({
+              duration: page02TitleDuration
+            })
+            .add(
+              {
+                targets: avatar,
+                opacity: 0,
+                easing: 'easeInOutQuad',
+                duration: 1000
+              },
+              page02TitleDuration - 1000
+            );
+        }
+      }
+    ]
+  });
+
   const dates = Object.keys(page02);
 
   dates.forEach((date, i) => {
@@ -20,7 +60,7 @@ export const page02Action = (
       name,
       pageList: [pageMap.page02.id],
       layer: layerMap.layerChart.id,
-      timeOffset: i * page02EventDuration,
+      timeOffset: page02TitleDuration + i * page02EventDuration,
       acts: [
         {
           duration: page02EventDuration,
@@ -72,19 +112,28 @@ export const page02Action = (
     name: 'page02ActorBar',
     pageList: [pageMap.page02.id],
     layer: layerMap.layerChart.id,
-    transitionActs: [
+    timeOffset: page02TitleDuration,
+    acts: [
       {
-        transitionType: 'from',
         duration: 1000,
         callback: ({ avatar }) => {
-          anime({
-            targets: avatar.dom,
-            opacity: 1,
-            duration: 1000,
-            easing: 'easeInOutQuad'
-          });
+          anime
+            .timeline({
+              duration: 1000
+            })
+            .add(
+              {
+                targets: avatar.dom,
+                opacity: 1,
+                easing: 'easeInOutQuad',
+                duration: 1000
+              },
+              0
+            );
         }
-      },
+      }
+    ],
+    transitionActs: [
       {
         transitionType: 'to',
         duration: 1000,

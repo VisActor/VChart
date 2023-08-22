@@ -1,8 +1,8 @@
 import type { VChartActor, Player, BaseActor, IActorActionContext, DomDivActor } from '@visactor/story-player';
 import { ActorType, PLAYER_PREFIX, createElement } from '@visactor/story-player';
-import { OriginalData } from '../../../data/interface';
+import { OriginalData } from '../../data/interface';
 
-import { getBarSpec } from './bar';
+import { getBarSpec } from '../../spec/02/bar';
 
 const photoContainerStyle: Partial<CSSStyleDeclaration> = {
   position: 'absolute',
@@ -63,5 +63,27 @@ export const page02Actor = (player: Player, actorMap: Record<string, BaseActor>,
       height: '1000px'
     },
     defaultSpec: getBarSpec(page02)
+  });
+
+  // title
+  const titleActorName = `page02ActorTitle`;
+  actorMap[titleActorName] = player.createActor<DomDivActor>(ActorType.domDiv, {
+    name: titleActorName,
+    createAvatar(context: IActorActionContext) {
+      const container = createElement('div', [`${PLAYER_PREFIX}-element-${context.action.id}`], {
+        position: 'absolute',
+        top: '900px',
+        left: '50px',
+        width: '980px',
+        opacity: '0',
+        fontSize: '60px',
+        fontWeight: 'bold',
+        color: 'hotpink',
+        filter: 'drop-shadow(2px 4px 6px cadetblue)',
+        textAlign: 'center'
+      });
+      container.innerText = '我们在那个时候相遇。';
+      return container;
+    }
   });
 };

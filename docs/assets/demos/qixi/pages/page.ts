@@ -1,6 +1,6 @@
 import type { Page, Player } from '@visactor/story-player';
 import { getPage01YearMap } from '../data/01/util';
-import { page01YearDuration, page02EventDuration } from '../constant';
+import { page01YearDuration, page02EventDuration, page02TitleDuration } from './constant';
 
 export const createPages = (player: Player, pageMap: Record<string, Page>, data: any) => {
   const { page01, page02 } = data;
@@ -15,7 +15,7 @@ export const createPages = (player: Player, pageMap: Record<string, Page>, data:
   });
   pageMap.page02 = player.createPage({
     name: 'page02',
-    duration: Object.keys(page02).length * page02EventDuration,
+    duration: page02TitleDuration + Object.keys(page02).length * page02EventDuration,
     transitionDuration: [
       { transitionType: 'from', duration: 1000 },
       { transitionType: 'to', duration: 1000 }

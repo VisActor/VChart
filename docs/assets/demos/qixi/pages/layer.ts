@@ -31,6 +31,16 @@ export const createLayers = (player: Player, layerMap: Record<string, BaseLayer>
     name: 'chart'
   });
 
+  layerMap.layerVideo = player.createLayer<DomLayer>(LayerType.dom, {
+    zIndex: 4,
+    name: 'video'
+  });
+
+  layerMap.layerText = player.createLayer<DomLayer>(LayerType.dom, {
+    zIndex: 5,
+    name: 'text'
+  });
+
   layerMap.layerBgMask = player.createLayer<DomLayer>(LayerType.dom, {
     zIndex: 90,
     name: 'bgMask'

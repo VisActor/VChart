@@ -1,10 +1,10 @@
 import VChart from '@visactor/vchart';
 import type { IActorActionContext, VChartActor, IVChartActorAvatar, Player, BaseActor } from '@visactor/story-player';
 import { ActorType, createElement, PLAYER_PREFIX } from '@visactor/story-player';
-import { OriginalData } from '../../../data/interface';
-import { Page01OriginalData } from '../../../data/01/interface';
-import { getIndicatorSpec } from './indicator';
-import { getBarSpec } from './bar';
+import { OriginalData } from '../../data/interface';
+import { Page01OriginalData } from '../../data/01/interface';
+import { getIndicatorSpec } from '../../spec/01/indicator';
+import { getBarSpec } from '../../spec/01/bar';
 
 const photoContainerStyle: Partial<CSSStyleDeclaration> = {
   position: 'absolute',

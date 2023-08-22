@@ -12,7 +12,7 @@ export const page03Action = (
   player.createAction(actorMap.page03ActorBg, {
     name: 'page03ActorBg',
     pageList: [pageMap.page03.id],
-    layer: layerMap.layerBg1.id,
+    layer: layerMap.layerVideo.id,
     transitionActs: [
       {
         transitionType: 'from',
@@ -44,7 +44,7 @@ export const page03Action = (
   player.createAction(actorMap.page03ActorTitle, {
     name: 'page03ActorTitle',
     pageList: [pageMap.page03.id],
-    layer: layerMap.layerDom.id,
+    layer: layerMap.layerText.id,
     transitionActs: [
       {
         transitionType: 'from',
@@ -76,7 +76,7 @@ export const page03Action = (
   player.createAction(actorMap.page03ActorWordCloud, {
     name: 'page03ActorWordCloud',
     pageList: [pageMap.page03.id],
-    layer: layerMap.layerDom.id,
+    layer: layerMap.layerText.id,
     transitionActs: [
       {
         transitionType: 'from',

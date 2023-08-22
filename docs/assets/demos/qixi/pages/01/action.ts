@@ -4,8 +4,8 @@ import anime from '../../lib/anime.es';
 import { getPage01YearMap } from '../../data/01/util';
 import { isValid } from '@visactor/vutils';
 import { Page01OriginalData } from '../../data/01/interface';
-import { getBarData, getBarSpec } from './actor/bar';
-import { page01YearDuration } from '../../constant';
+import { getBarData } from '../../spec/01/bar';
+import { page01YearDuration } from '../constant';
 
 export const page01Action = (
   player: Player,
@@ -114,10 +114,7 @@ export const page01Action = (
           const { vchart } = avatar;
           for (const year of years) {
             const data = getBarData(map[year as any]);
-            vchart.updateSpec({
-              ...getBarSpec(),
-              data
-            });
+            vchart.updateFullData(data);
             await wait(page01YearDuration);
           }
         }

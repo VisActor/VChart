@@ -1,6 +1,6 @@
 import { IBarChartSpec } from '@visactor/vchart';
-import { Page02OriginalData } from '../../../data/02/interface';
-import { page02EventDuration } from '../../../constant';
+import { Page02OriginalData } from '../../data/02/interface';
+import { page02EventDuration } from '../../pages/constant';
 
 export const getBarDataSpecs = (data: Page02OriginalData): any => {
   return Object.keys(data).map(date => {
@@ -45,7 +45,7 @@ export const getBarSpec = (data: Page02OriginalData): IBarChartSpec => {
         },
         label: {
           style: {
-            fontSize: 24
+            fontSize: 30
           }
         }
       },
@@ -73,13 +73,12 @@ export const getBarSpec = (data: Page02OriginalData): IBarChartSpec => {
         {
           channel: ['x', 'y'],
           options: { excludeChannels: ['width'] },
-          duration: 500
+          duration: page02EventDuration
         }
       ],
       //@ts-ignore
       axis: {
-        duration: 500,
-        easing: 'linear'
+        duration: page02EventDuration / 2
       }
     },
     customMark: [
@@ -104,7 +103,7 @@ export const getBarSpec = (data: Page02OriginalData): IBarChartSpec => {
       type: 'continuous',
       orient: 'bottom',
       auto: true,
-      loop: true,
+      loop: false,
       dx: 80,
       position: 'middle',
       interval: page02EventDuration,

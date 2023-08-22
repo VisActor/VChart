@@ -7,8 +7,8 @@ import type {
   DomVideoActor
 } from '@visactor/story-player';
 import { ActorType, PLAYER_PREFIX, createElement } from '@visactor/story-player';
-import { OriginalData } from '../../../data/interface';
-import { getWordCloudSpec } from './word-cloud';
+import { OriginalData } from '../../data/interface';
+import { getWordCloudSpec } from '../../spec/03/word-cloud';
 
 import bg from './assets/bg.mp4';
 

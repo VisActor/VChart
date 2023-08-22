@@ -1,4 +1,5 @@
-import { CONTAINER_HEIGHT, CONTAINER_WIDTH, initPlayer } from '.';
+import { initPlayer } from './pages';
+import { CONTAINER_HEIGHT, CONTAINER_WIDTH } from './pages/constant';
 import { data } from './data';
 
 const container = document.getElementById('container')!;
