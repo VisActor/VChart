@@ -1,5 +1,5 @@
 import { ICommonChartSpec, IIndicatorSpec } from '@visactor/vchart';
-import { Page01YearDatum } from '../../../data/01/interface';
+import { Page01YearDatum } from '../../data/01/interface';
 
 export const getIndicatorSpec = (data: Page01YearDatum): ICommonChartSpec => ({
   type: 'common',
@@ -38,6 +38,7 @@ export const getIndicatorSpec = (data: Page01YearDatum): ICommonChartSpec => ({
           style: {
             text: value,
             fontSize: 60,
+            lineHeight: 70,
             fontWeight: 600,
             fill: '#666',
             textAlign: 'left',
