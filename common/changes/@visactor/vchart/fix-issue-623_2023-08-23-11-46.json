@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: if only `level` is configured in the event filter parameter but `type` is not configured, then as long as the `level` is matched, it will be triggered, relate #623",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
