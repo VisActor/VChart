@@ -308,9 +308,6 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     if (!stateStyle) {
       stateStyle = this.stateStyle.normal[key];
     }
-    //  else {
-    //   stateStyle = this.stateStyle[state][key];
-    // }
     let baseValue = this._computeStateAttribute(stateStyle, key, datum, state, opt);
 
     if (isFunction(stateStyle?.postProcess)) {

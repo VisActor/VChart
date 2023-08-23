@@ -23,13 +23,6 @@ export const StatisticsValueTransform = {
   'array-max': (v: any) => (v === StatisticsDefault.max() ? 0 : v)
 };
 
-function StatisticsMin(last: any, value: any) {
-  return Math.min(last, value);
-}
-function StatisticsMax(last: any, value: any) {
-  return Math.max(last, value);
-}
-
 function StatisticsArrayMin(last: any, valueArr: any) {
   const filteredValueArr = (valueArr ?? []).filter((v: any) => couldBeValidNumber(v));
   if (filteredValueArr.length === 0) {

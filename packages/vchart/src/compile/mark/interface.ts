@@ -244,7 +244,6 @@ export interface IAttributeOpt {
   element: IElement;
   mark: IElement['mark'];
   parent: IElement['mark']['group'];
-  // states: string[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

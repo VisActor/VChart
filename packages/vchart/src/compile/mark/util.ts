@@ -54,8 +54,6 @@ function symbolAttrTransform(attr: string, value: any) {
   switch (attr) {
     case 'shape':
       return chartShapes[value] ?? value;
-    // case 'size':
-    //   return value;
     default:
       return value;
   }
