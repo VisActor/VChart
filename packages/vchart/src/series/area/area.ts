@@ -24,6 +24,7 @@ import { LineMark } from '../../mark/line';
 import { AreaMark } from '../../mark/area';
 import { TextMark } from '../../mark/text';
 import { SymbolMark } from '../../mark/symbol';
+import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 VChart.useMark([LineMark, AreaMark, TextMark, SymbolMark]);
 
 export interface AreaSeries
@@ -242,6 +243,10 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
         animationConfig(DEFAULT_MARK_ANIMATION.symbol(), userAnimationConfig(SeriesMarkNameEnum.point, this._spec))
       );
     }
+  }
+
+  protected initTooltip() {
+    this._tooltipHelper = new AreaSeriesTooltipHelper(this);
   }
 }
 
