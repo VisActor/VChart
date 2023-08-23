@@ -418,6 +418,14 @@ export class Tooltip extends BaseComponent implements ITooltip {
   }
 
   showTooltip(datum: Datum, options: IShowTooltipOption) {
+    if (!this.tooltipHandler) {
+      this._initHandler();
+    }
+
+    if (!this._processor) {
+      this._initProcessor();
+    }
+
     if (!this.tooltipHandler?.showTooltip) {
       return false;
     }
