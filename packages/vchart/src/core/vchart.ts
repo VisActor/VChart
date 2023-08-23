@@ -72,6 +72,7 @@ import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './int
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
+import { calculateChartSize } from '../chart/util';
 export class VChart implements IVChart {
   readonly id = createID();
 
@@ -229,7 +230,12 @@ export class VChart implements IVChart {
     this._currentThemeName = ThemeManager.getCurrentThemeName();
     this._setSpec(spec);
     this._updateCurrentTheme();
-    this._initCurSize();
+    this._curSize = calculateChartSize(this._spec, {
+      container: this._container,
+      canvas: this._canvas,
+      mode: this._option.mode || RenderModeEnum['desktop-browser'],
+      modeParams: this._option.modeParams
+    });
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -365,56 +371,6 @@ export class VChart implements IVChart {
       }
     }
   }
-
-  private _initCurSize = () => {
-    const { width: userWidth, height: userHeight } = this._spec;
-    if (isValid(userWidth) && isValid(userHeight)) {
-      this._curSize = {
-        width: userWidth,
-        height: userHeight
-      };
-    } else {
-      let width = DEFAULT_CHART_WIDTH;
-      let height = DEFAULT_CHART_HEIGHT;
-      const container = this._container;
-      const canvas = this._canvas;
-      if (container) {
-        const { width: containerWidth, height: containerHeight } = getContainerSize(
-          this._container,
-          DEFAULT_CHART_WIDTH,
-          DEFAULT_CHART_HEIGHT
-        );
-        width = containerWidth;
-        height = containerHeight;
-      } else if (canvas && isTrueBrowser(this._option.mode)) {
-        let canvasNode;
-        if (isString(canvas)) {
-          canvasNode = document?.getElementById(canvas);
-        } else {
-          canvasNode = canvas;
-        }
-        const { width: containerWidth, height: containerHeight } = getContainerSize(
-          canvasNode as HTMLCanvasElement,
-          DEFAULT_CHART_WIDTH,
-          DEFAULT_CHART_HEIGHT
-        );
-        width = containerWidth;
-        height = containerHeight;
-      } else if (isMiniAppLikeMode(this._option.mode) && (this._option.modeParams as any)?.domref) {
-        const domRef = (this._option.modeParams as any).domref;
-        width = domRef.width;
-        height = domRef.height;
-      }
-
-      width = userWidth ?? width;
-      height = userHeight ?? height;
-
-      this._curSize = {
-        width,
-        height
-      };
-    }
-  };
 
   private _onResize = debounce((...args: any[]) => {
     const { width: containerWidth, height: containerHeight } = getContainerSize(

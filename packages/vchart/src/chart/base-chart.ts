@@ -51,10 +51,7 @@ import {
   calcPadding,
   normalizeLayoutPaddingSpec,
   array,
-  isTrueBrowser,
-  isString,
-  convertBackgroundSpec,
-  isMiniAppLikeMode
+  convertBackgroundSpec
 } from '../util';
 import { Stack } from './stack';
 import { BaseModel } from '../model/base-model';
@@ -65,7 +62,7 @@ import { dataToDataView } from '../data/initialize';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { has, isFunction, isEmpty, getContainerSize } from '@visactor/vutils';
+import { has, isFunction, isEmpty } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
 import type { IGroupMark, IRunningConfig as IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
 import { CompilableBase } from '../compile/compilable-base';
@@ -77,6 +74,7 @@ import type { IGlobalScale } from '../scale/interface';
 import { DimensionEventEnum } from '../event/events/dimension';
 import type { ITooltip } from '../component/tooltip/interface';
 import type { IRectMark } from '../mark/rect';
+import { calculateChartSize } from './util';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -690,6 +688,12 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   getCanvasRect(): Omit<IRect, 'x' | 'y'> {
+    if (this._canvasRect) {
+      return this._canvasRect;
+    }
+
+    this._canvasRect = calculateChartSize(this._spec, this._option);
+
     return this._canvasRect;
   }
 
