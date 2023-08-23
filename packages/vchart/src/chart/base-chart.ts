@@ -1060,6 +1060,7 @@ export class BaseChart extends CompilableBase implements IChart {
 
   compile() {
     this.compileBackground();
+    this.compileLayout();
     this.compileRegions();
     this.compileSeries();
     this.compileComponents();
@@ -1075,6 +1076,11 @@ export class BaseChart extends CompilableBase implements IChart {
     this.getAllComponents().forEach(c => {
       c.afterCompile?.();
     });
+  }
+
+  compileLayout() {
+    const { width, height } = this.getCanvasRect();
+    this.getCompiler().setSize(width, height);
   }
 
   compileBackground() {
