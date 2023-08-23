@@ -28,7 +28,8 @@ import {
   error,
   specTransform,
   convertPoint,
-  config
+  config,
+  isMiniAppLikeMode
 } from '../util';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -193,7 +194,7 @@ export class VChart implements IVChart {
     }
   };
 
-  private _curSize = { width: 0, height: 0 };
+  private _curSize: { width: number; height: number };
   private _observer: ResizeObserver = null;
 
   private _currentThemeName: string;
@@ -228,6 +229,7 @@ export class VChart implements IVChart {
     this._currentThemeName = ThemeManager.getCurrentThemeName();
     this._setSpec(spec);
     this._updateCurrentTheme();
+    this._initCurSize();
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -242,6 +244,7 @@ export class VChart implements IVChart {
         onError: this._onError
       }
     );
+    this._compiler.setSize(this._curSize.width, this._curSize.height);
     this._eventDispatcher = new EventDispatcher(this, this._compiler);
     this._event = new Event(this._eventDispatcher, mode);
     this._compiler.initView();
@@ -251,10 +254,6 @@ export class VChart implements IVChart {
     });
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowser(mode) ? spec.autoFit ?? this._option.autoFit ?? true : false;
-    this._curSize = {
-      width: spec.width || 0,
-      height: spec.height || 0
-    };
     this._bindResizeEvent();
     this._bindVGrammarViewEvent();
     this._event.emit(ChartEvent.initialized, {});
@@ -322,6 +321,7 @@ export class VChart implements IVChart {
       return;
     }
     this._chart = chart;
+    this._chart.setCanvasRect(this._curSize.width, this._curSize.height);
     this._chart.created();
     this._chart.init({});
   }
@@ -365,6 +365,56 @@ export class VChart implements IVChart {
       }
     }
   }
+
+  private _initCurSize = () => {
+    const { width: userWidth, height: userHeight } = this._spec;
+    if (isValid(userWidth) && isValid(userHeight)) {
+      this._curSize = {
+        width: userWidth,
+        height: userHeight
+      };
+    } else {
+      let width = DEFAULT_CHART_WIDTH;
+      let height = DEFAULT_CHART_HEIGHT;
+      const container = this._container;
+      const canvas = this._canvas;
+      if (container) {
+        const { width: containerWidth, height: containerHeight } = getContainerSize(
+          this._container,
+          DEFAULT_CHART_WIDTH,
+          DEFAULT_CHART_HEIGHT
+        );
+        width = containerWidth;
+        height = containerHeight;
+      } else if (canvas && isTrueBrowser(this._option.mode)) {
+        let canvasNode;
+        if (isString(canvas)) {
+          canvasNode = document?.getElementById(canvas);
+        } else {
+          canvasNode = canvas;
+        }
+        const { width: containerWidth, height: containerHeight } = getContainerSize(
+          canvasNode as HTMLCanvasElement,
+          DEFAULT_CHART_WIDTH,
+          DEFAULT_CHART_HEIGHT
+        );
+        width = containerWidth;
+        height = containerHeight;
+      } else if (isMiniAppLikeMode(this._option.mode) && (this._option.modeParams as any)?.domref) {
+        const domRef = (this._option.modeParams as any).domref;
+        width = domRef.width;
+        height = domRef.height;
+      }
+
+      width = userWidth ?? width;
+      height = userHeight ?? height;
+
+      this._curSize = {
+        width,
+        height
+      };
+    }
+  };
 
   private _onResize = debounce((...args: any[]) => {
     const { width: containerWidth, height: containerHeight } = getContainerSize(
