@@ -863,6 +863,7 @@ export class SankeySeries extends CartesianSeries<any> {
               }, 0);
             ratio = val / linkDatum.value;
           }
+          linkEl.useStates(['selected']);
           linkEl.addState('selected', { ratio });
         } else {
           linkEl.useStates(['blur']);
