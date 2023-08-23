@@ -123,8 +123,9 @@ export class LinearAxisMixin {
 
   protected niceDomain(domain: number[]) {
     const { min: userMin, max: userMax } = getLinearAxisSpecDomain(this._spec);
-    if (isValid(userMin) || isValid(userMax)) {
+    if (isValid(userMin) || isValid(userMax) || this._spec.type !== 'linear') {
       // 如果用户设置了 min 或者 max 则按照用户设置的为准
+      // 如果是非 linear 类型也不处理
       return domain;
     }
     if (Math.abs(minInArr(domain) - maxInArr(domain)) <= 1e-12) {
