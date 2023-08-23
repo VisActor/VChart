@@ -114,10 +114,6 @@ export class Tooltip extends BaseComponent implements ITooltip {
   created() {
     super.created();
     this._regions = this._option.getAllRegions();
-    // handler
-    this._initHandler();
-    // processor
-    this._initProcessor();
     // event
     this._initEvent();
   }
@@ -223,6 +219,14 @@ export class Tooltip extends BaseComponent implements ITooltip {
   };
 
   protected _handleMouseMove = (params: BaseEventParams) => {
+    if (!this.tooltipHandler) {
+      this._initHandler();
+    }
+
+    if (!this._processor) {
+      this._initProcessor();
+    }
+
     if (this._alwaysShow) {
       return;
     }
@@ -353,7 +357,12 @@ export class Tooltip extends BaseComponent implements ITooltip {
 
   reInit(theme?: any) {
     super.reInit(theme);
-    this.tooltipHandler?.reInit?.();
+
+    if (this.tooltipHandler) {
+      this.tooltipHandler.reInit();
+    } else {
+      this._initHandler();
+    }
   }
 
   setAttrFromSpec() {

@@ -194,6 +194,9 @@ export class Compiler {
     if (!this._view) {
       return Promise.reject();
     }
+    this._width = width;
+    this._height = height;
+
     this._view.resize(width, height);
     return this.reRenderAsync({ morph: false });
   }

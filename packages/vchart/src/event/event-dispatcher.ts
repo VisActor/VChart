@@ -29,7 +29,8 @@ const componentTypeMap = {
   discreteLegend: 'legend',
   continuousLegend: 'legend',
   colorLegend: 'legend',
-  sizeLegend: 'legend'
+  sizeLegend: 'legend',
+  label: 'label'
 };
 
 export class EventDispatcher implements IEventDispatcher {
@@ -192,6 +193,16 @@ export class EventDispatcher implements IEventDispatcher {
       modelType = componentTypeMap[modelType];
     }
     if (filter.type && modelType !== filter.type) {
+      return false;
+    }
+
+    // 如果配置了 level 为 'mark' 并且没有配置 type，则只在事件参数中包含了 mark 时才触发
+    if (filter.level === 'mark' && !filter.type && !(params as BaseEventParams)?.mark) {
+      return false;
+    }
+
+    // 如果配置了 level 为 'model' 并且没有配置 type，则只在事件参数中包含了 model 时才触发
+    if (filter.level === 'model' && !filter.type && !(params as BaseEventParams)?.model) {
       return false;
     }
 

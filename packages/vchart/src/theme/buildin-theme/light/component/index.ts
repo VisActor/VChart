@@ -19,6 +19,7 @@ import { player } from './player';
 import { title } from './title';
 import { tooltip } from './tooltip';
 import { poptip } from './poptip';
+import { totalLabel } from './total-label';
 
 export const component: IComponentTheme = {
   discreteLegend,
@@ -42,5 +43,6 @@ export const component: IComponentTheme = {
   indicator,
   title,
   mapLabel,
-  poptip
+  poptip,
+  totalLabel
 };

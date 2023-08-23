@@ -1,4 +1,3 @@
-import { RectMark, type IRectMark } from './../../mark/rect';
 import { ChartEvent } from '../../constant/event';
 import {
   AttributeLevel,
@@ -52,7 +51,8 @@ import {
   isFunction,
   isArray,
   mergeFields,
-  getFieldAlias
+  getFieldAlias,
+  couldBeValidNumber
 } from '../../util';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import { Group } from './group';
@@ -216,7 +216,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     return this._tooltipHelper;
   }
 
-  protected _invalidType: IInvalidType;
+  protected _invalidType: IInvalidType = 'break';
   getInvalidType() {
     return this._invalidType;
   }
@@ -289,11 +289,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
     if (isBoolean(this._spec.percent)) {
       this._percent = this._spec.percent;
-      this._stack = this._spec.stack || this._spec.percent;
+      this._stack = this._spec.percent || this._stack; // this._stack is `true` in bar/area series
     }
     if (isBoolean(this._spec.stackOffsetSilhouette)) {
       this._stackOffsetSilhouette = this._spec.stackOffsetSilhouette;
-      this._stack = this._spec.stack || this._spec.stackOffsetSilhouette;
+      this._stack = this._spec.stackOffsetSilhouette || this._stack; // this._stack is `true` in bar/area series
     }
     if (isValid(this._spec.invalidType)) {
       this._invalidType = this._spec.invalidType;
@@ -323,9 +323,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
 
     // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
-    if (this._invalidType === 'link' || this._invalidType === 'zero') {
-      registerDataSetInstanceTransform(this._option.dataSet, 'invalidTravel', invalidTravel);
-      this.getViewData()?.transform(
+    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
+      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
+      // make sure each series only transform once
+      this._rawData?.transform(
         {
           type: 'invalidTravel',
           options: {
@@ -773,6 +774,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     if (spec.invalidType !== invalidType) {
       result.change = true;
       result.reRender = true;
+      result.reMake = true;
     }
     return result;
   }
@@ -1043,7 +1045,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
    * data
    */
   addViewDataFilter(option: ITransformOptions) {
-    this._viewDataFilter.transform(option, false);
+    this._viewDataFilter?.transform(option, false);
   }
 
   reFilterViewData() {
@@ -1087,4 +1089,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
     return list;
   }
+
+  protected _getInvalidConnectType() {
+    return this._invalidType === 'zero' ? 'zero' : this._invalidType === 'link' ? 'connect' : 'none';
+  }
+
+  protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
 }

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support label component event in #614",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

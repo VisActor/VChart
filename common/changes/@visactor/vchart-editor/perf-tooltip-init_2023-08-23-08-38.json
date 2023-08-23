@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "perf: dont create processor and tooltipHandler when create tooltip, create them when use them\n\n",
+      "type": "patch",
+      "packageName": "@visactor/vchart-editor"
+    }
+  ],
+  "packageName": "@visactor/vchart-editor",
+  "email": "dingling112@gmail.com"
+}

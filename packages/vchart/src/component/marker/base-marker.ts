@@ -11,7 +11,7 @@ import type { StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base';
 import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback } from './interface';
 import type { IRegressType } from './mark-area/interface';
-import type { INode } from '@visactor/vrender';
+import type { IGraphic, INode } from '@visactor/vrender';
 
 export abstract class BaseMarker extends BaseComponent {
   layoutType: LayoutItem['layoutType'] = 'absolute';
@@ -116,7 +116,7 @@ export abstract class BaseMarker extends BaseComponent {
         this._createMarkerComponent();
         // 代理 marker 组件上的事件
         this._markerComponent.on('*', (event: any, type: string) =>
-          this._delegateEvent(this._markerComponent as unknown as INode, event, type)
+          this._delegateEvent(this._markerComponent as unknown as IGraphic, event, type)
         );
       }
       this._markerLayout();
@@ -139,6 +139,28 @@ export abstract class BaseMarker extends BaseComponent {
     this._relativeSeries = this._getSeriesByIdOrIndex(spec.relativeSeriesId, spec.relativeSeriesIndex);
     this._startRelativeSeries = this._getSeriesByIdOrIndex(spec.startRelativeSeriesId, spec.startRelativeSeriesIndex);
     this._endRelativeSeries = this._getSeriesByIdOrIndex(spec.endRelativeSeriesId, spec.endRelativeSeriesIndex);
+  }
+
+  protected _computeClipRange(regions: IRegion[]) {
+    let minX = Infinity;
+    let maxX = -Infinity;
+    let minY = Infinity;
+    let maxY = -Infinity;
+    regions.forEach((region: IRegion) => {
+      if (region.getLayoutStartPoint().x < minX) {
+        minX = region.getLayoutStartPoint().x;
+      }
+      if (region.getLayoutStartPoint().x + region.getLayoutRect().width > maxX) {
+        maxX = region.getLayoutStartPoint().x + region.getLayoutRect().width;
+      }
+      if (region.getLayoutStartPoint().y < minY) {
+        minY = region.getLayoutStartPoint().y;
+      }
+      if (region.getLayoutStartPoint().y + region.getLayoutRect().height > maxY) {
+        maxY = region.getLayoutStartPoint().y + region.getLayoutRect().height;
+      }
+    });
+    return { minX, maxX, minY, maxY };
   }
 
   protected abstract _initDataView(): void;

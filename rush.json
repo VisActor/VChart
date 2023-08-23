@@ -5,7 +5,7 @@
   "nodeSupportedVersionRange": ">=14.15.0 <15.0.0 || >=16.13.0 <17.0.0 || >=18.15.0 <19.0.0",
   "suppressNodeLtsWarning": true,
   "ensureConsistentVersions": true,
-  "projectFolderMinDepth": 2,
+  "projectFolderMinDepth": 1,
   "projectFolderMaxDepth": 2,
   "allowMostlyStandardPackageNames": false,
   "gitPolicy": {
@@ -17,8 +17,14 @@
     "defaultBranch": "main",
     "defaultRemote": "origin"
   },
-  "allowedProjectTags": ["tool", "share", "package"],
+  "allowedProjectTags": ["tool", "share", "package", "doc"],
   "projects": [
+    {
+      "packageName": "@visactor/vchart-editor",
+      "projectFolder": "packages/vchart-editor",
+      "tags": ["package"],
+      "shouldPublish": true
+    },
     {
       "packageName": "@visactor/vchart",
       "projectFolder": "packages/vchart",
@@ -70,6 +76,12 @@
       "shouldPublish": false
     },
     {
+      "packageName": "@internal/story-player",
+      "projectFolder": "tools/story-player",
+      "tags": ["tool"],
+      "shouldPublish": false
+    },
+    {
       "packageName": "@internal/eslint-config",
       "projectFolder": "share/eslint-config",
       "tags": ["share"],
@@ -79,6 +91,12 @@
       "packageName": "@internal/ts-config",
       "projectFolder": "share/ts-config",
       "tags": ["share"],
+      "shouldPublish": false
+    },
+    {
+      "packageName": "@internal/docs",
+      "projectFolder": "docs",
+      "tags": ["doc"],
       "shouldPublish": false
     }
   ]

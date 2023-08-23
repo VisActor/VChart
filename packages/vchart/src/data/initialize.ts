@@ -64,7 +64,7 @@ export function dataToDataView(
   if (existDataView) {
     dataView = existDataView;
   } else {
-    const initOption: IDataViewOptions = { name: id as string };
+    const initOption: IDataViewOptions = { name: id };
     // fields 支持在dataView初始化参数中传入
     if (fields) {
       initOption.fields = fields as IFields;

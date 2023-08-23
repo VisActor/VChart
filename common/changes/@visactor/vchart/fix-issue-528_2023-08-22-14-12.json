@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: niceDomain should only works for linear scale, fixed #528",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

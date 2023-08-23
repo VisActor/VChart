@@ -10,7 +10,7 @@
     "build:es5": "rm -rf lib && rollup -c --bundleConfigAsCjs",
     "build:schema": "schema src/typings/spec/chart.ts ISpec --useTypeOfKeyword --ignoreErrors --required > ../vchart-schema/vchart.json",
     "build": "bundle --clean && npm run build:schema && npm run build:es5",
-    "build:ci": "bundle --clean -f umd --minify=false --name ChartSpace",
+    "build:ci": "bundle --clean -f umd --minify=false --ignorePostTasks --name ChartSpace",
     "dev": "bundle --clean -f es -w",
     "compile": "tsc --noEmit",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser",
@@ -25,7 +25,8 @@
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit/",
     "test-watch": "DEBUG_MODE=1 jest --watch",
-    "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts"
+    "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts",
+    "build:es": "bundle --clean -f es --ignorePostTasks"
   },
   "files": [
     "esm",
@@ -99,15 +100,15 @@
     "@visactor/vutils": "~0.15.7",
     "@visactor/vdataset": "~0.15.7",
     "@visactor/vscale": "~0.15.7",
-    "@visactor/vgrammar": "~0.6.1",
-    "@visactor/vgrammar-projection": "~0.6.1",
-    "@visactor/vgrammar-wordcloud": "~0.6.1",
-    "@visactor/vgrammar-wordcloud-shape": "~0.6.1",
-    "@visactor/vgrammar-hierarchy": "~0.6.1",
-    "@visactor/vgrammar-sankey": "~0.6.1",
-    "@visactor/vgrammar-util": "~0.6.1",
-    "@visactor/vrender": "~0.14.2",
-    "@visactor/vrender-components": "~0.14.2"
+    "@visactor/vgrammar": "~0.6.2",
+    "@visactor/vgrammar-projection": "~0.6.2",
+    "@visactor/vgrammar-wordcloud": "~0.6.2",
+    "@visactor/vgrammar-wordcloud-shape": "~0.6.2",
+    "@visactor/vgrammar-hierarchy": "~0.6.2",
+    "@visactor/vgrammar-sankey": "~0.6.2",
+    "@visactor/vgrammar-util": "~0.6.2",
+    "@visactor/vrender": "~0.14.5",
+    "@visactor/vrender-components": "~0.14.5"
   },
   "publishConfig": {
     "access": "public",

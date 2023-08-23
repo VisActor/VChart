@@ -24,7 +24,7 @@ import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart } from '../chart/interface';
 
-export type ILayoutNumber = number | IPercent | ((layoutRect: ILayoutRect) => number);
+export type ILayoutNumber = number | IPercent | ((layoutRect: ILayoutRect) => number) | IPercentOffset;
 
 export interface ILayoutPoint {
   x: number;
@@ -41,6 +41,8 @@ export interface ILayoutRect {
 }
 
 export type IPercent = `${number}%`;
+
+export type IPercentOffset = { percent?: number; offset?: number };
 
 export type ILayoutPercent = IPercent | number;
 
@@ -201,6 +203,7 @@ export type IMarkTree = IMarkTreeGroup | IMark | (IMarkTreeGroup | IMark)[];
 export interface IUpdateSpecResult {
   change: boolean;
   reMake: boolean;
+  reMakeData?: boolean;
   reRender?: boolean;
   reSize?: boolean;
   // TODO: compile 的判断应不应该出现在这里?
