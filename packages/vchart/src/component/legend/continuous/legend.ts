@@ -176,14 +176,22 @@ export class ContinuousLegend extends BaseLegend {
     if (isEmpty(visualMappingRange)) {
       visualMappingRange = this._legendType === 'color' ? SINGLE_SEQUENCE : SIZE;
     }
+    let min = this._legendData.getLatestData()[0] ?? 0;
+    let max = this._legendData.getLatestData()[1] ?? 1;
+
+    const isSame = this._legendData.getLatestData()[0] === this._legendData.getLatestData()[1];
+    if (isSame) {
+      min = Math.min(0, this._legendData.getLatestData()[0]);
+      max = this._legendData.getLatestData()[0] === 0 ? 1 : Math.max(0, this._legendData.getLatestData()[0]);
+    }
 
     const attrs: any = {
       ...getContinuousLegendAttributes(this._spec),
       layout,
       align,
       zIndex: this.layoutZIndex,
-      min: this._legendData.getLatestData()[0] ?? 0,
-      max: this._legendData.getLatestData()[1] ?? 1,
+      min,
+      max,
       value: this._spec.defaultSelected,
       [this._legendType === 'color' ? 'colors' : 'sizeRange']: visualMappingRange
     };
