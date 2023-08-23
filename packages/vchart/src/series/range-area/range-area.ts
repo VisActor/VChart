@@ -85,6 +85,8 @@ export class RangeAreaSeries extends AreaSeries {
         areaMark,
         {
           fill: this.getColorAttribute(),
+          // @ts-ignore default is false
+          stroke: false,
           defined: (datum: Datum) => {
             if (this._invalidType === 'break') {
               return couldBeValidNumber(datum[this.getStackValueField()]);
