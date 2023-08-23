@@ -620,7 +620,7 @@ export class CartesianCrossHair extends BaseCrossHair {
         });
       }
       // 添加至场景树
-      container.add(crosshair as unknown as INode);
+      container?.add(crosshair as unknown as INode);
       if (dim === 'x') {
         this._xCrosshair = crosshair as unknown as IGroup;
       } else {
