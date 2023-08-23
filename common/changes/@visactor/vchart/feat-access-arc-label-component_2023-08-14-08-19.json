@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: access arc label component in pie chart",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

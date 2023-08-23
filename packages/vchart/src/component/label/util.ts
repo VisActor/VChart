@@ -2,10 +2,12 @@ import type { Datum } from '../../typings';
 import type { ILabelInfo } from './label';
 import { barLabel } from './bar';
 import { symbolLabel } from './symbol';
+import { pieLabel } from './pie';
 
 export const markLabelConfigFunc = {
   rect: barLabel,
-  symbol: symbolLabel
+  symbol: symbolLabel,
+  arc: pieLabel
 };
 
 export function textAttribute(
