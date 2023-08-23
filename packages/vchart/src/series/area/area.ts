@@ -6,7 +6,7 @@ import { Direction } from '../../typings/space';
 import { MarkTypeEnum } from '../../mark/interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
-import type { Maybe, Datum, IInvalidType } from '../../typings';
+import type { Maybe, Datum, IInvalidType, IAreaMarkSpec, ConvertToMarkStyleSpec } from '../../typings';
 import { valueInScaleRange, couldBeValidNumber } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
@@ -77,6 +77,19 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
     if (seriesMark === 'line' || (isLineVisible && !isAreaVisible)) {
       mainSpec = lineSpec;
       subSpec = areaSpec;
+    }
+    // remove area stroke
+    if (areaSpec.style) {
+      delete areaSpec.style.stroke;
+    }
+    if (areaSpec.state) {
+      Object.keys(areaSpec.state).forEach(state => {
+        if ('style' in areaSpec.state[state]) {
+          delete areaSpec.state[state].style.stroke;
+        } else {
+          delete (<ConvertToMarkStyleSpec<IAreaMarkSpec>>areaSpec.state[state]).stroke;
+        }
+      });
     }
     areaSpec.style = merge({}, subSpec.style, mainSpec.style);
     areaSpec.state = merge({}, subSpec.state, mainSpec.state);
