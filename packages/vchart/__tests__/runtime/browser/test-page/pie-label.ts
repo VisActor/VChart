@@ -324,8 +324,16 @@ const run = () => {
     },
     label: {
       visible: true,
+      position: 'inside',
+      // smartInvert: false,
+      smartInvert: {
+        strokeStrategy: 'similarBase',
+        brightColor: '#fff000',
+        darkColor: '#dd0000'
+      },
       style: {
-        fontSize: 16
+        fontSize: 16,
+        lineWidth: 2
       },
       line: {
         style: {},
@@ -411,7 +419,7 @@ const run = () => {
     ]
   };
 
-  const cs = new VChart(spec_flower, {
+  const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
