@@ -84,7 +84,8 @@ export class RangeAreaSeries extends AreaSeries {
       this.setMarkStyle(
         areaMark,
         {
-          fill: this.getColorAttribute()
+          fill: this.getColorAttribute(),
+          stroke: false
         },
         'normal',
         AttributeLevel.Series
