@@ -9,7 +9,7 @@ import type { ILayoutRect } from '../../model/interface';
 import { Title as TitleComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { TitleAttrs } from '@visactor/vrender-components';
-import type { IGroup, INode } from '@visactor/vrender';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender';
 import type { IPoint, IOrientType } from '../../typings';
 import { isEqual } from '@visactor/vutils';
 import type { LayoutItem } from '../../model/layout-item';
@@ -183,7 +183,7 @@ export class Title extends BaseComponent implements ITitle {
       container.add(title as unknown as INode);
       this._titleComponent = title;
       // 代理 title 组件上的事件
-      title.on('*', (event: any, type: string) => this._delegateEvent(title as unknown as INode, event, type));
+      title.on('*', (event: any, type: string) => this._delegateEvent(title as unknown as IGraphic, event, type));
     }
     this._cacheAttrs = attrs;
     return this._titleComponent;
