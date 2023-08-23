@@ -13,9 +13,11 @@ export function pieLabel(labelInfo: ILabelInfo) {
   const position = labelPosition as BaseLabelAttrs['position'];
 
   // encode smartInvert
-  let smartInvert = false;
+  let smartInvert;
   if (isString(labelPosition) && labelPosition.includes('inside')) {
     smartInvert = labelSpec?.smartInvert ?? true;
+  } else {
+    smartInvert = false;
   }
 
   return { position, smartInvert };
