@@ -203,12 +203,15 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._groupKey = groupKey;
   }
 
-  protected _label?: ILabelSpec;
+  protected _label?: ILabelSpec[];
   getLabelSpec() {
     return this._label;
   }
-  setLabelSpec(label: ILabelSpec) {
-    this._label = label;
+  addLabelSpec(label: ILabelSpec) {
+    if (!this._label) {
+      this._label = [];
+    }
+    this._label.push(label);
   }
 
   protected _progressiveConfig: IMarkProgressiveConfig;

@@ -6,7 +6,6 @@ import type { IModelInitOption } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
 import { ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
-import type { ITextMark } from '../../mark/text';
 import { eachSeries, merge } from '../../util';
 import type { ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar';
@@ -14,20 +13,26 @@ import { markLabelConfigFunc, textAttribute } from './util';
 import type { IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction } from '@visactor/vutils';
-import { pickWithout } from '@visactor/vutils';
+import { isArray, pickWithout } from '@visactor/vutils';
 import type { IGroup, IText } from '@visactor/vrender';
 import type { LabelItem } from '@visactor/vrender-components';
+import type { ILabelSpec } from './interface';
+import { VChart } from '../../core';
+import { LabelMark, type ILabelMark } from '../../mark/label';
 
 export interface ILabelInfo {
   baseMark: IMark;
-  labelMark: ITextMark;
+  labelMark: ILabelMark;
   series: ISeries;
+  labelSpec: ILabelSpec;
 }
 
 export interface ILabelComponentContext {
   region: IRegion;
   labelInfo: ILabelInfo[];
 }
+
+VChart.useMark([LabelMark]);
 
 export class Label extends BaseLabelComponent {
   static type = ComponentTypeEnum.label;
@@ -37,9 +42,9 @@ export class Label extends BaseLabelComponent {
   layoutType: LayoutItem['layoutType'] = 'absolute';
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Label;
 
-  protected _labelInfo: Map<IRegion, ILabelInfo[]>;
+  protected _labelInfoMap: Map<IRegion, ILabelInfo[]>;
 
-  protected _labelComponentMap: Map<IComponentMark, ILabelComponentContext>;
+  protected _labelComponentMap: Map<IComponentMark, ILabelInfo | ILabelInfo[]>;
 
   protected _layoutRule: 'series' | 'region';
 
@@ -56,7 +61,9 @@ export class Label extends BaseLabelComponent {
         .getSeries()
         .map(s => s.getMarksWithoutRoot())
         .flat();
-      const labelVisible = marks.some(mark => mark.getLabelSpec()?.visible === true);
+      const labelVisible = marks.some(mark => {
+        return mark.getLabelSpec()?.some(labelSpec => labelSpec.visible);
+      });
       if (labelVisible) {
         labelComponents.push(new Label(spec, { ...options, specIndex: i, specKey: 'label' }));
         continue;
@@ -116,8 +123,8 @@ export class Label extends BaseLabelComponent {
   }
 
   protected _initTextMark() {
-    if (!this._labelInfo) {
-      this._labelInfo = new Map();
+    if (!this._labelInfoMap) {
+      this._labelInfoMap = new Map();
     }
 
     if (!this._labelComponentMap) {
@@ -127,25 +134,32 @@ export class Label extends BaseLabelComponent {
       const marks = s.getMarks();
       const region = s.getRegion();
 
-      if (!this._labelInfo.get(region)) {
-        this._labelInfo.set(region, []);
+      if (!this._labelInfoMap.get(region)) {
+        this._labelInfoMap.set(region, []);
       }
       for (let i = 0; i < marks.length; i++) {
         const mark = marks[i];
-        if (mark.getLabelSpec()?.visible) {
-          const info = this._labelInfo.get(region);
-          const labelMark = this._createMark({ type: MarkTypeEnum.text, name: `${mark.name}-label` });
-          this.initMarkStyleWithSpec(labelMark, mark.getLabelSpec());
-          s.initLabelMarkStyle?.(labelMark);
-          const labelInfo = { labelMark, baseMark: mark, series: s };
-          info.push(labelInfo);
+        if (mark.getLabelSpec()?.length > 0) {
+          mark.getLabelSpec().forEach((labelSpec, index) => {
+            if (labelSpec.visible) {
+              const info = this._labelInfoMap.get(region);
+              const labelMark = this._createMark({
+                type: MarkTypeEnum.label,
+                name: `${mark.name}-label-${index}`
+              }) as ILabelMark;
+              labelMark.setTarget(mark);
+              this.initMarkStyleWithSpec(labelMark, labelSpec);
+              s.initLabelMarkStyle?.(labelMark);
+              info.push({ labelMark, baseMark: mark, series: s, labelSpec });
+            }
+          });
         }
       }
     });
   }
 
   protected _initLabelComponent() {
-    this._labelInfo.forEach((regionLabelInfo, region) => {
+    this._labelInfoMap.forEach((regionLabelInfo, region) => {
       if (this._layoutRule === 'region') {
         const component = this._createMark(
           { type: MarkTypeEnum.component, name: `${region.getGroupMark().name}-label-component` },
@@ -156,7 +170,7 @@ export class Label extends BaseLabelComponent {
         );
         if (component) {
           this._marks.addMark(component);
-          this._labelComponentMap.set(component, { region, labelInfo: regionLabelInfo });
+          this._labelComponentMap.set(component, regionLabelInfo);
         }
       } else {
         regionLabelInfo.forEach(labelInfo => {
@@ -169,7 +183,7 @@ export class Label extends BaseLabelComponent {
           );
           if (component) {
             this._marks.addMark(component);
-            this._labelComponentMap.set(component, { region, labelInfo: [labelInfo] });
+            this._labelComponentMap.set(component, labelInfo);
           }
         });
       }
@@ -178,57 +192,95 @@ export class Label extends BaseLabelComponent {
 
   updateLayoutAttribute(): void {
     super.updateLayoutAttribute();
-    this._labelComponentMap.forEach(({ region, labelInfo }, labelComponent) => {
-      const baseMarks = labelInfo.map(info => info.baseMark);
-      const component = labelComponent.getProduct() as ReturnType<IView['label']>;
-      const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
-
-      component
-        .target(baseMarks.map(mark => mark.getProduct()))
-        .configure({ interactive: false })
-        .depend(dependCmp.map(cmp => cmp.getMarks()[0].getProduct()))
-        .labelStyle(mark => {
-          const markId = mark.context.markId;
-          const baseMark = this._option.getChart().getMarkById(markId);
-          if (baseMark) {
-            const configFunc = markLabelConfigFunc[baseMark.type] ?? markLabelConfigFunc.symbol;
-            const labelSpec = baseMark.getLabelSpec() ?? {};
-            const interactive = this._interactiveConfig(labelSpec);
-            const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
-            return merge(
-              {
-                textStyle: { pickable: labelSpec.interactive === true },
-                overlap: {
-                  avoidMarks: this._option
-                    .getAllComponents()
-                    .filter(cmp => cmp.type === 'totalLabel')
-                    .map(cmp => cmp.getMarks()[0].getProductId())
-                }
-              },
-              configFunc(labelInfo[baseMarks.findIndex(mark => mark === baseMark)]),
-              {
-                ...passiveLabelSpec,
-                ...interactive
-              }
-            );
-          }
-        })
-        .encode((datum, element) => {
-          const markId = element.mark.context.markId;
-          const baseMark = this._option.getChart().getMarkById(markId);
-          return textAttribute(
-            labelInfo[baseMarks.findIndex(mark => mark === baseMark)],
-            datum,
-            baseMark.getLabelSpec()?.formatMethod
-          );
-        })
-        .size(() => region.getLayoutRect());
+    this._labelComponentMap.forEach((labelInfo, labelComponent) => {
+      if (isArray(labelInfo)) {
+        this._updateMultiLabelAttribute(labelInfo, labelComponent);
+      } else {
+        this._updateSingleLabelAttribute(labelInfo, labelComponent);
+      }
     });
+  }
+
+  protected _updateMultiLabelAttribute(labelInfo: ILabelInfo[], labelComponent: IComponentMark) {
+    const component = labelComponent.getProduct() as ReturnType<IView['label']>;
+    const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
+    component
+      .target(labelInfo.map(({ baseMark }) => baseMark.getProduct()))
+      .configure({ interactive: false })
+      .depend(dependCmp.map(cmp => cmp.getMarks()[0].getProduct()))
+      .labelStyle(mark => {
+        // 暂时这么写，后面单个 mark 多个
+        const labelSpec = labelInfo[0].labelSpec;
+        const configFunc = markLabelConfigFunc[mark.type] ?? markLabelConfigFunc.point;
+        const interactive = this._interactiveConfig(labelSpec);
+        const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
+        return merge(
+          {
+            textStyle: { pickable: labelSpec.interactive === true },
+            overlap: {
+              avoidMarks: this._option
+                .getAllComponents()
+                .filter(cmp => cmp.type === 'totalLabel')
+                .map(cmp => cmp.getMarks()[0].getProductId())
+            }
+          },
+          configFunc(labelInfo[0]),
+          {
+            ...passiveLabelSpec,
+            ...interactive
+          }
+        );
+      })
+      .encode(datum => {
+        return textAttribute(labelInfo[0], datum, labelInfo[0].labelSpec.formatMethod);
+      })
+      .size(() => labelInfo[0].series.getRegion().getLayoutRect());
+  }
+
+  protected _updateSingleLabelAttribute(labelInfo: ILabelInfo, labelComponent: IComponentMark) {
+    const { baseMark, labelSpec, series } = labelInfo;
+    const component = labelComponent.getProduct() as ReturnType<IView['label']>;
+    const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
+    component
+      .target(baseMark.getProduct())
+      .configure({ interactive: false })
+      .depend(dependCmp.map(cmp => cmp.getMarks()[0].getProduct()))
+      .labelStyle(() => {
+        const configFunc = markLabelConfigFunc[baseMark.type] ?? markLabelConfigFunc.point;
+        const interactive = this._interactiveConfig(labelSpec);
+        const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
+        return merge(
+          {
+            textStyle: { pickable: labelSpec.interactive === true },
+            overlap: {
+              avoidMarks: this._option
+                .getAllComponents()
+                .filter(cmp => cmp.type === 'totalLabel')
+                .map(cmp => cmp.getMarks()[0].getProductId())
+            }
+          },
+          configFunc(labelInfo),
+          {
+            ...passiveLabelSpec,
+            ...interactive
+          }
+        );
+      })
+      .encode(datum => {
+        return textAttribute(labelInfo, datum, labelSpec.formatMethod);
+      })
+      .size(() => series.getRegion().getLayoutRect());
   }
 
   compileMarks() {
     this.getMarks().forEach(m => {
-      const group = this._labelComponentMap.get(m).region.getGroupMark().getProduct() as IGroupMark;
+      const labelInfo = this._labelComponentMap.get(m);
+      let group;
+      if (isArray(labelInfo)) {
+        group = labelInfo[0].series.getRegion().getGroupMark().getProduct() as IGroupMark;
+      } else {
+        group = labelInfo.series.getRootMark().getProduct() as IGroupMark;
+      }
       m.compile({ group });
       m.getProduct()?.configure({
         context: {
