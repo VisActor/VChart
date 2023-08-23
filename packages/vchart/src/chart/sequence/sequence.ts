@@ -1,3 +1,5 @@
+import { LinkSeries } from './../../series/link/link';
+import { DotSeries } from './../../series/dot/dot';
 import type { IGridLayoutSpec } from './../../layout/interface';
 import { BaseChart } from '../base-chart';
 import type { ISequenceChartSpec, ISequenceSeriesSpec } from './interface';
@@ -10,7 +12,6 @@ import type { Datum } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../series/interface';
 import { VChart } from '../../core/vchart';
-import { DotSeries, LinkSeries } from '../../series';
 VChart.useSeries([DotSeries, LinkSeries]);
 
 export class SequenceChart extends BaseChart {

@@ -5,7 +5,7 @@ import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import type { ITreemapChartSpec } from './interface';
 import { VChart } from '../../core/vchart';
-import { TreeMapSeries } from '../../series';
+import { TreeMapSeries } from '../../series/treemap/treemap';
 VChart.useSeries([TreeMapSeries]);
 
 export class TreeMapChart extends BaseChart {

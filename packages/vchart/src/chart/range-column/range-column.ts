@@ -4,8 +4,8 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { VChart } from '../../core/vchart';
-import { RangeColumnSeries } from '../../series';
 import type { IRangeColumnChartSpec } from './interface';
+import { RangeColumnSeries } from '../../series/range-column/range-column';
 VChart.useSeries([RangeColumnSeries]);
 
 export class RangeColumnChart extends CartesianChart {

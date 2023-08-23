@@ -1,10 +1,10 @@
+import { AreaSeries } from './../../series/area/area';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import type { IAreaChartSpec } from './interface';
-import { setDefaultCrosshairForCartesianChart } from '../util';
 import { VChart } from '../../core/vchart';
-import { AreaSeries } from '../../series';
+import { setDefaultCrosshairForCartesianChart } from '../util';
 VChart.useSeries([AreaSeries]);
 
 export class AreaChart extends CartesianChart {

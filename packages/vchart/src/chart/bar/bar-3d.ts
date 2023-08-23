@@ -1,8 +1,8 @@
+import { Bar3dSeries } from './../../series/bar/bar-3d';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { VChart } from '../../core/vchart';
-import { Bar3dSeries } from '../../series';
 import type { IBar3dChartSpec } from './interface';
 VChart.useSeries([Bar3dSeries]);
 

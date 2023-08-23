@@ -2,7 +2,7 @@ import { SeriesTypeEnum } from '../../../series/interface/type';
 import { ChartTypeEnum } from '../../interface';
 import { ProgressLikeChart } from '../../polar/progress-like';
 import { VChart } from '../../../core/vchart';
-import { CircularProgressSeries } from '../../../series';
+import { CircularProgressSeries } from '../../../series/progress/circular';
 VChart.useSeries([CircularProgressSeries]);
 
 export class CircularProgressChart extends ProgressLikeChart {
