@@ -13,7 +13,7 @@ import type { ISeriesStackDataMeta } from '../series/interface';
 import type { IRegion } from '../region/interface';
 import type { IChart } from './interface';
 import { STACK_FIELD_START } from '../constant';
-import { max, maxInArr, sum, toValidNumber } from '../util';
+import { max, sum, toValidNumber } from '../util';
 import type { EventCallback } from '../event/interface';
 
 // stack

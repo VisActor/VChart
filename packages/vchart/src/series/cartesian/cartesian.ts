@@ -348,9 +348,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       return Number.NaN;
     }
     return this._fieldX2 && this._fieldX2 in datum
-      ? this.valueToPositionX(
-          this.getDatumPositionValues(datum, this._xAxisHelper.isContinuous ? this._fieldX2[0] : this._fieldX2)
-        )
+      ? this.valueToPositionX(this.getDatumPositionValues(datum, this._fieldX2))
       : this._xAxisHelper.getScale?.(0).range()[0];
   }
 
@@ -359,9 +357,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       return Number.NaN;
     }
     return this._fieldY2 && this._fieldY2 in datum
-      ? this.valueToPositionY(
-          this.getDatumPositionValues(datum, this._yAxisHelper.isContinuous ? this._fieldY2[0] : this._fieldY2)
-        )
+      ? this.valueToPositionY(this.getDatumPositionValues(datum, this._fieldY2))
       : this._yAxisHelper.getScale?.(0).range()[0];
   }
 
