@@ -1,6 +1,9 @@
+import { getContainerSize, isString } from '@visactor/vutils';
+import { DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant/base';
 import { Direction } from '../typings';
-import { array, merge } from '../util';
+import { array, isMiniAppLikeMode, isTrueBrowser, isValid, merge } from '../util';
 import type { ICartesianChartSpec } from './cartesian/interface';
+import type { IChartOption } from './interface/common';
 
 export function setDefaultCrosshairForCartesianChart(spec: ICartesianChartSpec) {
   spec.crosshair = array(spec.crosshair || {}).map(crosshairCfg => {
@@ -17,4 +20,56 @@ export function setDefaultCrosshairForCartesianChart(spec: ICartesianChartSpec) 
       crosshairCfg
     );
   });
+}
+
+export function calculateChartSize(
+  spec: { width: number; height: number },
+  option: Pick<IChartOption, 'canvas' | 'container' | 'mode' | 'modeParams'>
+) {
+  const { width: userWidth, height: userHeight } = spec;
+  if (isValid(userWidth) && isValid(userHeight)) {
+    return {
+      width: userWidth,
+      height: userHeight
+    };
+  }
+  let width = DEFAULT_CHART_WIDTH;
+  let height = DEFAULT_CHART_HEIGHT;
+  const container = option.container;
+  const canvas = option.canvas;
+  if (container) {
+    const { width: containerWidth, height: containerHeight } = getContainerSize(
+      container,
+      DEFAULT_CHART_WIDTH,
+      DEFAULT_CHART_HEIGHT
+    );
+    width = containerWidth;
+    height = containerHeight;
+  } else if (canvas && isTrueBrowser(option.mode)) {
+    let canvasNode;
+    if (isString(canvas)) {
+      canvasNode = document?.getElementById(canvas);
+    } else {
+      canvasNode = canvas;
+    }
+    const { width: containerWidth, height: containerHeight } = getContainerSize(
+      canvasNode as HTMLCanvasElement,
+      DEFAULT_CHART_WIDTH,
+      DEFAULT_CHART_HEIGHT
+    );
+    width = containerWidth;
+    height = containerHeight;
+  } else if (isMiniAppLikeMode(option.mode) && (option.modeParams as any)?.domref) {
+    const domRef = (option.modeParams as any).domref;
+    width = domRef.width;
+    height = domRef.height;
+  }
+
+  width = userWidth ?? width;
+  height = userHeight ?? height;
+
+  return {
+    width,
+    height
+  };
 }

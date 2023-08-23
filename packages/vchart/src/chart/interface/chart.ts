@@ -44,6 +44,7 @@ export interface IChart extends ICompilable {
   getSpec: () => any;
   setSpec: (s: any) => void;
 
+  setCanvasRect: (width: number, height: number) => void;
   getCanvasRect: () => ILayoutRect;
 
   getOption: () => IChartOption;

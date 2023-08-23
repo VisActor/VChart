@@ -51,10 +51,7 @@ import {
   calcPadding,
   normalizeLayoutPaddingSpec,
   array,
-  isTrueBrowser,
-  isString,
-  convertBackgroundSpec,
-  isMiniAppLikeMode
+  convertBackgroundSpec
 } from '../util';
 import { Stack } from './stack';
 import { BaseModel } from '../model/base-model';
@@ -65,7 +62,7 @@ import { dataToDataView } from '../data/initialize';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { has, isFunction, isEmpty, getContainerSize } from '@visactor/vutils';
+import { has, isFunction, isEmpty } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
 import type { IGroupMark, IRunningConfig as IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
 import { CompilableBase } from '../compile/compilable-base';
@@ -77,6 +74,7 @@ import type { IGlobalScale } from '../scale/interface';
 import { DimensionEventEnum } from '../event/events/dimension';
 import type { ITooltip } from '../component/tooltip/interface';
 import type { IRectMark } from '../mark/rect';
+import { calculateChartSize } from './util';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -685,58 +683,16 @@ export class BaseChart extends CompilableBase implements IChart {
     // do nothing
   }
 
+  setCanvasRect(width: number, height: number) {
+    this._canvasRect = { width, height };
+  }
+
   getCanvasRect(): Omit<IRect, 'x' | 'y'> {
     if (this._canvasRect) {
       return this._canvasRect;
     }
 
-    const { width: userWidth, height: userHeight } = this._spec;
-    if (isValid(userWidth) && isValid(userHeight)) {
-      this._canvasRect = {
-        width: userWidth,
-        height: userHeight
-      };
-    } else {
-      let width = DEFAULT_CHART_WIDTH;
-      let height = DEFAULT_CHART_HEIGHT;
-      const container = this._option.container;
-      const canvas = this._option.canvas;
-      if (container) {
-        const { width: containerWidth, height: containerHeight } = getContainerSize(
-          this._option.container,
-          DEFAULT_CHART_WIDTH,
-          DEFAULT_CHART_HEIGHT
-        );
-        width = containerWidth;
-        height = containerHeight;
-      } else if (canvas && isTrueBrowser(this._option.mode)) {
-        let canvasNode;
-        if (isString(canvas)) {
-          canvasNode = document?.getElementById(canvas);
-        } else {
-          canvasNode = canvas;
-        }
-        const { width: containerWidth, height: containerHeight } = getContainerSize(
-          canvasNode as HTMLCanvasElement,
-          DEFAULT_CHART_WIDTH,
-          DEFAULT_CHART_HEIGHT
-        );
-        width = containerWidth;
-        height = containerHeight;
-      } else if (isMiniAppLikeMode(this._option.mode) && (this._option.modeParams as any)?.domref) {
-        const domRef = (this._option.modeParams as any).domref;
-        width = domRef.width;
-        height = domRef.height;
-      }
-
-      width = userWidth ?? width;
-      height = userHeight ?? height;
-
-      this._canvasRect = {
-        width,
-        height
-      };
-    }
+    this._canvasRect = calculateChartSize(this._spec, this._option);
 
     return this._canvasRect;
   }
