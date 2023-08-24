@@ -56,8 +56,8 @@ export interface ICompilableMark extends IGrammarItem {
   setFacet: (facet: string) => void;
 
   // 标签
-  getLabelSpec: () => ILabelSpec;
-  setLabelSpec: (label: ILabelSpec) => void;
+  getLabelSpec: () => ILabelSpec[];
+  addLabelSpec: (label: ILabelSpec) => void;
 
   // 状态
   state: MarkStateManager;
