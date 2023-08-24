@@ -219,9 +219,9 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
             valueToPosition: (value: any, option) => {
               if (isNil(value) && option?.datum) {
                 const nameFieldValue = option.datum[(s as ICartesianSeries).getDimensionField()[0]];
-                value = this._centerCache.get(nameFieldValue).y;
+                value = this._centerCache.get(nameFieldValue).x;
               }
-              return this.dataToLatitude(value);
+              return this.dataToLongitude(value);
             },
             getFields: () => [this._longitudeField],
             getAxisType: () => this.type,
