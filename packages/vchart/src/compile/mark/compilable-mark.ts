@@ -338,9 +338,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         enterStyles[key] = this.compileCommonAttributeCallback(key, 'normal');
       }
     });
-
     this._product.encode(updateStyles);
-    this._product.encodeState('group', enterStyles);
+    this._product.encodeState(this._facet ? 'group' : 'enter', enterStyles);
 
     Object.keys(temp).forEach(state => {
       const styles: Record<string, MarkFunctionType<any>> = {};
