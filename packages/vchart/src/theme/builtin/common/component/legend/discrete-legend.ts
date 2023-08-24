@@ -33,7 +33,7 @@ export const discreteLegend: IDiscreteLegendTheme = {
       }
     },
     shape: {
-      space: 4,
+      space: 6,
       state: {
         unSelected: {
           fillOpacity: 0.5
@@ -41,7 +41,7 @@ export const discreteLegend: IDiscreteLegendTheme = {
       }
     },
     label: {
-      space: 4,
+      space: 6,
       style: {
         fill: { type: 'palette', key: 'labelFontColor' },
         fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE

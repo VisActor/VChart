@@ -7,16 +7,21 @@ const run = () => {
     type: 'bar',
     xField: 'x',
     yField: 'y',
+    seriesField: 'type',
     title: {
       text: 'xxx'
     },
     data: {
       id: 'data2',
       values: [
-        { x: 'A', y: 80 },
-        { x: 'B', y: 40 },
-        { x: 'C', y: 10 },
-        { x: 'D', y: 20 }
+        { type: '1111', x: 'A', y: 80 },
+        { type: '1111', x: 'B', y: 40 },
+        { type: '1111', x: 'C', y: 10 },
+        { type: '1111', x: 'D', y: 20 },
+        { type: '2222', x: 'A', y: 80 },
+        { type: '2222', x: 'B', y: 40 },
+        { type: '2222', x: 'C', y: 10 },
+        { type: '2222', x: 'D', y: 20 }
       ]
     },
     legends: {},

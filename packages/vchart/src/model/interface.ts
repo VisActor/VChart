@@ -136,7 +136,7 @@ export interface ILayoutItemSpec {
   orient?: IOrientType;
   /** 模块的布局间距 */
   padding?: ILayoutPaddingSpec;
-  /** 是否按照 orient 自动修改 padding，隐藏位于外侧的 padding */
+  /** 是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效 */
   noOuterPadding?: boolean;
   /** 模块的布局大小：宽度 */
   width?: ILayoutNumber;
