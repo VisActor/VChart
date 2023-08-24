@@ -377,4 +377,8 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       });
     });
   }
+
+  getDefaultShapeType() {
+    return 'circle';
+  }
 }

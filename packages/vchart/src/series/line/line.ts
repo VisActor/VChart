@@ -3,7 +3,7 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
-import { LineLikeSeriesMixin, lineLikeSeriesMark } from '../mixin/line-mixin';
+import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
 import type { Datum, Maybe } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -11,7 +11,6 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
@@ -84,6 +83,10 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
       }
       return this._seriesMark?.getAttribute(attribute as any, datum) ?? null;
     };
+  }
+
+  getDefaultShapeType() {
+    return 'circle';
   }
 }
 

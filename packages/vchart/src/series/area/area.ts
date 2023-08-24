@@ -251,6 +251,10 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     super.viewDataStatisticsUpdate(d);
     this.encodeDefined(this._areaMark, 'defined');
   }
+
+  getDefaultShapeType() {
+    return 'square';
+  }
 }
 
 mixin(AreaSeries, LineLikeSeriesMixin);

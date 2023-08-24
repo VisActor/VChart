@@ -160,6 +160,10 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
       }
     });
   }
+
+  getDefaultShapeType() {
+    return 'square';
+  }
 }
 
 mixin(RadarSeries, LineLikeSeriesMixin);
