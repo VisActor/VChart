@@ -314,10 +314,11 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     if (!this._xAxisHelper) {
       return Number.NaN;
     }
+    const fields = this._xAxisHelper.getFields ? this._xAxisHelper.getFields() : this._fieldX;
     return this.valueToPositionX(
       this._xAxisHelper.isContinuous
-        ? this.getDatumPositionValue(datum, this._fieldX[0])
-        : this.getDatumPositionValues(datum, this._fieldX)
+        ? this.getDatumPositionValue(datum, fields[0])
+        : this.getDatumPositionValues(datum, fields)
     );
   }
 
@@ -325,10 +326,11 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     if (!this._yAxisHelper) {
       return Number.NaN;
     }
+    const fields = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._fieldY;
     return this.valueToPositionY(
       this._yAxisHelper.isContinuous
-        ? this.getDatumPositionValue(datum, this._fieldY[0])
-        : this.getDatumPositionValues(datum, this._fieldY)
+        ? this.getDatumPositionValue(datum, fields[0])
+        : this.getDatumPositionValues(datum, fields)
     );
   }
 

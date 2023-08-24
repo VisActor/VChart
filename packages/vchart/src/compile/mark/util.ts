@@ -53,6 +53,7 @@ function isGradientAttribute(key: string, style: any) {
 function symbolAttrTransform(attr: string, value: any) {
   switch (attr) {
     case 'shape':
+    case 'symbolType':
       return chartShapes[value] ?? value;
     default:
       return value;
@@ -73,7 +74,8 @@ const transforms = {
 };
 const transformsCheck = {
   symbol: {
-    shape: true
+    shape: true,
+    symbolType: true
   }
 };
 
