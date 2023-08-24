@@ -12,7 +12,7 @@ test('symbol initial style', () => {
   const y = symbolMark.getAttribute('y', {});
   const dx = symbolMark.getAttribute('dx', {});
   const dy = symbolMark.getAttribute('dy', {});
-  const shape = symbolMark.getAttribute('shape', {});
+  const symbolType = symbolMark.getAttribute('symbolType', {});
   const stroke = symbolMark.getAttribute('stroke', {});
   const strokeWidth = symbolMark.getAttribute('lineWidth', {});
   const strokeDash = symbolMark.getAttribute('lineDash', {});
@@ -34,7 +34,7 @@ test('symbol initial style', () => {
   expect(y).toEqual(0);
   expect(dx).toEqual(undefined);
   expect(dy).toEqual(undefined);
-  expect(shape).toEqual('circle');
+  expect(symbolType).toEqual('circle');
   expect(size).toEqual(1);
   expect(stroke).toEqual(undefined);
   expect(strokeOpacity).toEqual(undefined);
