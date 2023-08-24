@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: dataZoom error when switching theme",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
