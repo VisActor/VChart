@@ -8,7 +8,7 @@ import type { LayoutItem } from '../../model/layout-item';
 import type { IComponent, IComponentOption } from '../interface';
 import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
-import type { IOrientType, StringOrNumber } from '../../typings';
+import type { AdaptiveSpec, IOrientType, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -28,8 +28,8 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 // eslint-disable-next-line no-duplicate-imports
 import { Zoomable } from '../../interaction/zoom/zoomable';
 
-export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec>
-  extends BaseComponent<T>
+export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
+  extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
   implements IDataFilterComponent
 {
   layoutType: LayoutItem['layoutType'] = 'region-relative';
@@ -132,7 +132,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
+    super(spec as any, {
       ...options
     });
     this._orient = getOrient(spec as any);
