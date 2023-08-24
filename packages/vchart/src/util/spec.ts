@@ -19,7 +19,7 @@ import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 import type { ISeriesMarkInfo, ISeriesTheme, SeriesTypeEnum } from '../series/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { seriesMarkInfoMap } from '../series/interface';
-import type { IGlobalMarkThemeByName, IGlobalMarkThemeByType, ITheme } from '../theme';
+import type { ITheme } from '../theme';
 
 // todo 以目前的场景来看，并没有递归的需要。
 // 考虑到不确定性，还是递归处理spec对象，时间消耗很少
@@ -165,11 +165,15 @@ export function preprocessSpecOrTheme(obj: any, colorScheme?: IThemeColorScheme,
 
   const newObj = { ...obj };
   Object.keys(newObj).forEach(key => {
-    // 绕过 DataView 对象
+    // 绕过数据
     if (key.includes('data')) {
       return;
     }
     const value = obj[key];
+    // 绕过不可深拷贝的对象
+    if (isObject(value) && (isDataView(value) || isHTMLElement(value))) {
+      return;
+    }
     if (isObject(value) && !isFunction(value)) {
       // 查询、替换语义化颜色
       if (isColorKey(value)) {

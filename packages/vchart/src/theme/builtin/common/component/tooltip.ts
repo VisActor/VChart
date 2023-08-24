@@ -15,9 +15,9 @@ export const tooltip: ITooltipTheme = {
       right: 10,
       bottom: 10
     },
-    backgroundColor: { type: 'palette', key: 'backgroundColor' },
+    backgroundColor: { type: 'palette', key: 'tooltipBackgroundColor' },
     border: {
-      color: { type: 'palette', key: 'backgroundColor' },
+      color: { type: 'palette', key: 'tooltipBackgroundColor' },
       width: 0,
       radius: 3
     },
@@ -26,7 +26,7 @@ export const tooltip: ITooltipTheme = {
       y: 4,
       blur: 12,
       spread: 0,
-      color: { type: 'palette', key: 'primaryFontColor', a: 0.1 }
+      color: { type: 'palette', key: 'tooltipShadowColor', a: 0.1 }
     }
   },
   spaceRow: 6,

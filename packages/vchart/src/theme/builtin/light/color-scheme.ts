@@ -32,12 +32,17 @@ export const colorScheme: IThemeColorScheme = {
       dataZoomHandlerStrokeColor: '#AEB5BE',
       /** 缩略轴滑块填充颜色 */
       dataZoomHandlerFillColor: '#ffffff',
-      /** 缩略轴选择区域颜色 */
+      /** 缩略轴背景区域颜色 */
       dataZoomBackgroundColor: '#f1f3f4',
-      /** 缩略轴选择区域颜色 */
+      /** 缩略轴图表区域颜色 */
       dataZoomChartColor: '#c9ced8',
       /** 缩略轴选择区域颜色 */
-      dataZoomSelectedColor: '#0040ff'
+      dataZoomSelectedColor: '#0040ff',
+
+      /** 提示信息背景区域颜色 */
+      tooltipBackgroundColor: '#ffffff',
+      /** 提示信息阴影颜色 */
+      tooltipShadowColor: '#21252c'
     }
   }
 };

@@ -12,8 +12,10 @@ import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
 import type { Datum } from '../../typings';
+import type { IModelSpec } from '../../model/interface';
+import { normalizeLayoutPaddingSpec } from '../../util';
 
-export abstract class BaseComponent<T> extends BaseModel<T> implements IComponent {
+export abstract class BaseComponent<T extends IModelSpec = IModelSpec> extends BaseModel<T> implements IComponent {
   name: string = 'component';
   readonly modelType: string = 'component';
   pluginService?: IComponentPluginService;
@@ -89,12 +91,20 @@ export abstract class BaseComponent<T> extends BaseModel<T> implements IComponen
     // 将 theme merge 到 spec 中
     if (this._shouldMergeThemeToSpec) {
       if (isArray(this._originalSpec)) {
-        this._spec = this._originalSpec.map(spec => merge({}, this._theme, spec)) as T;
+        this._spec = this._originalSpec.map(spec => merge({}, this._theme, spec)) as unknown as T;
       } else {
         this._mergeThemeToSpec();
       }
     }
     this._preprocessSpec();
+
+    // 默认忽略外侧 padding
+    const { padding, noOuterPadding = true, orient } = this._spec;
+    if (noOuterPadding && padding && orient) {
+      const newPadding = normalizeLayoutPaddingSpec(padding);
+      newPadding[orient] = 0;
+      this._spec.padding = newPadding;
+    }
   }
 
   /** 是否在初始化时将 theme 自动 merge 到 spec */
