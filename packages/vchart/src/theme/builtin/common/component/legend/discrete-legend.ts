@@ -4,13 +4,13 @@ import { THEME_CONSTANTS } from '../../constants';
 export const discreteLegend: IDiscreteLegendTheme = {
   orient: 'bottom',
   position: 'middle',
-  padding: 30,
+  padding: [16, 24],
   title: {
     visible: false,
     padding: 0,
     textStyle: {
       fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
-      fill: { type: 'palette', key: 'titleFontColor' },
+      fill: { type: 'palette', key: 'primaryFontColor' },
       fontWeight: 'normal'
     },
     space: 12
@@ -48,7 +48,7 @@ export const discreteLegend: IDiscreteLegendTheme = {
       },
       state: {
         unSelected: {
-          fillOpacity: 0.5
+          fill: { type: 'palette', key: 'disableFontColor' }
         }
       }
     }

@@ -7,7 +7,7 @@
   "colorScheme": {
     "default": {
       "palette": {
-        "titleFontColor": "#e2e3e6",
+        "primaryFontColor": "#e2e3e6",
         "labelFontColor": "#888c93",
         "labelReverseFontColor": "#202020",
         "axisGridColor": "#404349",

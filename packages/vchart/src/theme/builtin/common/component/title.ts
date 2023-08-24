@@ -7,11 +7,11 @@ export const title: ITitleTheme = {
   },
   textStyle: {
     fontSize: THEME_CONSTANTS.TITLE_FONT_SIZE,
-    fill: { type: 'palette', key: 'titleFontColor' }
+    fill: { type: 'palette', key: 'primaryFontColor' }
   },
   subtextStyle: {
     fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
     lineHeight: THEME_CONSTANTS.TITLE_FONT_SIZE,
-    fill: { type: 'palette', key: 'labelFontColor' }
+    fill: { type: 'palette', key: 'secondaryFontColor' }
   }
 };

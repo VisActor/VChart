@@ -1,22 +1,23 @@
 import type { IDataZoomTheme } from '../../../../component/data-zoom';
 
 export const dataZoom: IDataZoomTheme = {
+  padding: [12, 0],
   showDetail: 'auto',
+  brushSelect: false,
   middleHandler: {
-    visible: true,
+    visible: false,
     background: {
       size: 6,
       style: {
-        // fill: 'white',
-        stroke: '#D1D5DA',
+        stroke: { type: 'palette', key: 'dataZoomHandlerStrokeColor' },
         cornerRadius: 2
       }
     },
     icon: {
       style: {
         size: 4,
-        fill: 'white',
-        stroke: '#D1D5DA',
+        fill: { type: 'palette', key: 'dataZoomHandlerFillColor' },
+        stroke: { type: 'palette', key: 'dataZoomHandlerStrokeColor' },
         symbolType:
           // eslint-disable-next-line max-len
           'M 0.3 -0.5 C 0.41 -0.5 0.5 -0.41 0.5 -0.3 C 0.5 -0.3 0.5 0.3 0.5 0.3 C 0.5 0.41 0.41 0.5 0.3 0.5 C 0.3 0.5 -0.3 0.5 -0.3 0.5 C -0.41 0.5 -0.5 0.41 -0.5 0.3 C -0.5 0.3 -0.5 -0.3 -0.5 -0.3 C -0.5 -0.41 -0.41 -0.5 -0.3 -0.5 C -0.3 -0.5 0.3 -0.5 0.3 -0.5 Z',
@@ -27,28 +28,38 @@ export const dataZoom: IDataZoomTheme = {
   background: {
     size: 20,
     style: {
-      fill: '#F6F8FA',
-      stroke: '#F6F8FA',
-      lineWidth: 1
+      fill: { type: 'palette', key: 'dataZoomBackgroundColor' },
+      lineWidth: 0
+    }
+  },
+  selectedBackground: {
+    style: {
+      lineWidth: 0
     }
   },
   startHandler: {
     style: {
-      symbolType:
-        // eslint-disable-next-line max-len
-        'M-651.40493822 1451.33576377m0-418.93088554l0-2094.65442779q0-418.93088556 418.93088555-418.93088733l418.93088556 0q418.93088556 0 418.93088553 418.93088733l0 2094.65442779q0 418.93088556-418.93088553 418.93088554l-418.93088556 0q-418.93088556 0-418.93088555-418.93088554Z M-546.67221684 1032.40487819a314.19816417 314.19816417 0 0 0 314.19816418 314.19816421l418.93088555 1e-8a314.19816417 314.19816417 0 0 0 314.19816418-314.19816418l-1e-8-2094.65442779a314.19816417 314.19816417 0 0 0-314.19816417-314.19816596l-418.93088556 0a314.19816417 314.19816417 0 0 0-314.19816417 314.19816596l0 2094.65442775m-104.73272138 4e-8l0-2094.65442779a418.93088556 418.93088556 0 0 1 418.93088555-418.93088733l418.93088556 0a418.93088556 418.93088556 0 0 1 418.93088553 418.93088733l0 2094.65442779a418.93088556 418.93088556 0 0 1-418.93088553 418.93088554l-418.93088556 0a418.93088556 418.93088556 0 0 1-418.93088555-418.93088554z M-232.47405266 404.00854987l-1e-8-837.86177109 104.73272138 0 0 837.86177109z M81.72411149 404.00854987l0-837.86177109 104.7327214 0 0 837.8617711z',
-      fill: { type: 'palette', key: 'backgroundColor' },
-      stroke: '#AEB8C6',
+      symbolType: `M-0.5-2.4h0.9c0.4,0,0.7,0.3,0.7,0.7v3.3c0,0.4-0.3,0.7-0.7,0.7h-0.9c-0.4,0-0.7-0.3-0.7-0.7v-3.3
+      C-1.2-2-0.9-2.4-0.5-2.4z M-0.4-1.4L-0.4-1.4c0,0,0,0.1,0,0.1v2.6c0,0.1,0,0.1,0,0.1l0,0c0,0,0-0.1,0-0.1v-2.6
+      C-0.4-1.4-0.4-1.4-0.4-1.4z M0.3-1.4L0.3-1.4c0,0,0,0.1,0,0.1v2.6c0,0.1,0,0.1,0,0.1l0,0c0,0,0-0.1,0-0.1v-2.6
+      C0.3-1.4,0.3-1.4,0.3-1.4z`,
+      fill: { type: 'palette', key: 'dataZoomHandlerFillColor' },
+      scaleX: 1.2,
+      scaleY: 1.2,
+      stroke: { type: 'palette', key: 'dataZoomHandlerStrokeColor' },
       lineWidth: 1
     }
   },
   endHandler: {
     style: {
-      symbolType:
-        // eslint-disable-next-line max-len
-        'M-651.40493822 1451.33576377m0-418.93088554l0-2094.65442779q0-418.93088556 418.93088555-418.93088733l418.93088556 0q418.93088556 0 418.93088553 418.93088733l0 2094.65442779q0 418.93088556-418.93088553 418.93088554l-418.93088556 0q-418.93088556 0-418.93088555-418.93088554Z M-546.67221684 1032.40487819a314.19816417 314.19816417 0 0 0 314.19816418 314.19816421l418.93088555 1e-8a314.19816417 314.19816417 0 0 0 314.19816418-314.19816418l-1e-8-2094.65442779a314.19816417 314.19816417 0 0 0-314.19816417-314.19816596l-418.93088556 0a314.19816417 314.19816417 0 0 0-314.19816417 314.19816596l0 2094.65442775m-104.73272138 4e-8l0-2094.65442779a418.93088556 418.93088556 0 0 1 418.93088555-418.93088733l418.93088556 0a418.93088556 418.93088556 0 0 1 418.93088553 418.93088733l0 2094.65442779a418.93088556 418.93088556 0 0 1-418.93088553 418.93088554l-418.93088556 0a418.93088556 418.93088556 0 0 1-418.93088555-418.93088554z M-232.47405266 404.00854987l-1e-8-837.86177109 104.73272138 0 0 837.86177109z M81.72411149 404.00854987l0-837.86177109 104.7327214 0 0 837.8617711z',
-      fill: { type: 'palette', key: 'backgroundColor' },
-      stroke: '#AEB8C6',
+      symbolType: `M-0.5-2.4h0.9c0.4,0,0.7,0.3,0.7,0.7v3.3c0,0.4-0.3,0.7-0.7,0.7h-0.9c-0.4,0-0.7-0.3-0.7-0.7v-3.3
+      C-1.2-2-0.9-2.4-0.5-2.4z M-0.4-1.4L-0.4-1.4c0,0,0,0.1,0,0.1v2.6c0,0.1,0,0.1,0,0.1l0,0c0,0,0-0.1,0-0.1v-2.6
+      C-0.4-1.4-0.4-1.4-0.4-1.4z M0.3-1.4L0.3-1.4c0,0,0,0.1,0,0.1v2.6c0,0.1,0,0.1,0,0.1l0,0c0,0,0-0.1,0-0.1v-2.6
+      C0.3-1.4,0.3-1.4,0.3-1.4z`,
+      fill: { type: 'palette', key: 'dataZoomHandlerFillColor' },
+      scaleX: 1.2,
+      scaleY: 1.2,
+      stroke: { type: 'palette', key: 'dataZoomHandlerStrokeColor' },
       lineWidth: 1
     }
   },
@@ -56,38 +67,33 @@ export const dataZoom: IDataZoomTheme = {
     padding: 8,
     style: {
       fontSize: 10,
-      fill: '#6F6F6F'
+      fill: { type: 'palette', key: 'labelFontColor' }
     }
   },
   endText: {
     padding: 8,
     style: {
       fontSize: 10,
-      fill: '#6F6F6F'
-    }
-  },
-  selectedBackground: {
-    style: {
-      fill: '#D8E4F7'
+      fill: { type: 'palette', key: 'labelFontColor' }
     }
   },
   dragMask: {
     style: {
-      fill: '#D9E5F8',
-      stroke: '#AEB8C6',
-      lineWidth: 1
+      fill: { type: 'palette', key: 'dataZoomSelectedColor', a: 0.1 },
+      stroke: { type: 'palette', key: 'dataZoomSelectedColor', a: 0.2 },
+      lineWidth: 3
     }
   },
   backgroundChart: {
     area: {
       style: {
         stroke: false,
-        fill: '#CACFD7'
+        fill: { type: 'palette', key: 'dataZoomChartColor' }
       }
     },
     line: {
       style: {
-        stroke: '#CACFD7',
+        stroke: { type: 'palette', key: 'dataZoomChartColor' },
         lineWidth: 1
       }
     }
@@ -96,12 +102,12 @@ export const dataZoom: IDataZoomTheme = {
     area: {
       style: {
         stroke: false,
-        fill: '#CACFD7'
+        fill: { type: 'palette', key: 'dataZoomChartColor' }
       }
     },
     line: {
       style: {
-        stroke: '#CACFD7',
+        stroke: { type: 'palette', key: 'dataZoomChartColor' },
         lineWidth: 1
       }
     }
