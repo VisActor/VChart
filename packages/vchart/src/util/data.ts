@@ -27,7 +27,7 @@ export function mergeFields(
   return targetFields;
 }
 
-export function findFields(
+function findFields(
   list: {
     key: string;
     operations: StatisticOperations;
@@ -50,19 +50,4 @@ export function getFieldAlias(dataView: DataView, field: string) {
     return field ?? null;
   }
   return fields[field].alias ?? field;
-}
-
-export function getFieldFormat(dataView: DataView, key: string) {
-  if (!dataView) {
-    return null;
-  }
-  const fields = dataView.getFields() as Record<string, IFieldsMeta>;
-  if (!fields) {
-    return null;
-  }
-  if (!fields[key]) {
-    return null;
-  }
-  // @ts-ignore
-  return fields[key].format;
 }

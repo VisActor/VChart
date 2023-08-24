@@ -1,12 +1,14 @@
-import type { IPercentOffset } from './../model/interface';
-import type { ILayoutPaddingSpec } from '../model/interface';
-import type { IBoundsLike } from '@visactor/vutils';
-import { isArray } from '@visactor/vutils';
+import { isArray, type IBoundsLike } from '@visactor/vutils';
 import { isNumber, isNil, isString, isFunction, couldBeValidNumber, isObject } from './type';
-import type { ILayoutNumber, IPercent, ILayoutOrientPadding, ILayoutRect } from '../model/interface';
+import type {
+  ILayoutPaddingSpec,
+  IPercentOffset,
+  ILayoutNumber,
+  IPercent,
+  ILayoutOrientPadding,
+  ILayoutRect
+} from '../model/interface';
 import type { IPadding, IRect } from '../typings/space';
-// eslint-disable-next-line no-duplicate-imports
-import { Direction } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
 
 export function isValidOrient(orient: string): boolean {
@@ -19,24 +21,6 @@ export function isValidOrient(orient: string): boolean {
     default:
       return false;
   }
-}
-
-export function getSpecPadding(padding: IPadding | number | undefined | null, defaultPadding: IPadding): IPadding {
-  if (isNil(padding)) {
-    return { ...defaultPadding };
-  }
-  if (typeof padding === 'number') {
-    return {
-      top: padding,
-      bottom: padding,
-      left: padding,
-      right: padding
-    };
-  }
-  return {
-    ...defaultPadding,
-    ...padding
-  };
 }
 
 export function isPointInRect(point: IPoint, rect: IRect) {
@@ -129,22 +113,6 @@ export function boundsInRect(bounds: IBoundsLike, rect: ILayoutRect): ILayoutRec
     width: Math.ceil(Math.min(bounds.x2 - bounds.x1, rect.width)),
     height: Math.ceil(Math.min(bounds.y2 - bounds.y1, rect.height))
   };
-}
-
-export function boundsOutViewBox(
-  bounds: IBoundsLike,
-  box: IBoundsLike,
-  direction: Direction
-): {
-  start: number;
-  end: number;
-} {
-  if (!bounds || !box) {
-    return { start: 0, end: 0 };
-  }
-  const start = -(direction === Direction.horizontal ? bounds.x1 : bounds.y1);
-  const end = direction === Direction.horizontal ? bounds.x2 - (box.x2 - box.x1) : bounds.y2 - (box.y2 - box.y1);
-  return { start: start > 0 ? start : 0, end: end > 0 ? end : 0 };
 }
 
 export function normalizeLayoutPaddingSpec(spec: ILayoutPaddingSpec): ILayoutOrientPadding {
