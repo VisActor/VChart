@@ -2,6 +2,50 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.2.3",
+      "tag": "@visactor/vchart_v1.2.3",
+      "date": "Thu, 24 Aug 2023 07:23:56 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix: background will not update when spec or theme updating, related #545"
+          },
+          {
+            "comment": "fix: tooltip shape style incorrect when configure custom key/value, related #336"
+          },
+          {
+            "comment": "fix: when chart size is very small, the size assigned to title may be negative, which needs to be fault-tolerant, otherwise it will easily cause the page to freeze, closed #546"
+          },
+          {
+            "comment": "feat(active): add active point for line & area series to optimization the performance of user interactive\n\n"
+          }
+        ],
+        "none": [
+          {
+            "comment": "fix: niceDomain should only works for linear scale, fixed #528"
+          },
+          {
+            "comment": "fix: fix the issue of the chart's size is not correctly when updateSpec in lark block env, closed #566"
+          },
+          {
+            "comment": "fix: handle the scenarios of with the same range in continuous legend, fixed #579"
+          },
+          {
+            "comment": "fix: error when configuring `tooltip.parentElement` with a HTMLElement object, related #641"
+          },
+          {
+            "comment": "fix: error when mouse hovering during updateSpec executing"
+          },
+          {
+            "comment": "fix(wordCloud): fix position error of wordCloud chart. fix #521, fix #533"
+          },
+          {
+            "comment": "fix: error when mouse hovering during `updateSpec()` executing."
+          }
+        ]
+      }
+    },
+    {
       "version": "1.2.2",
       "tag": "@visactor/vchart_v1.2.2",
       "date": "Thu, 17 Aug 2023 02:45:43 GMT",
