@@ -10,6 +10,5 @@ import { colorScheme } from './color-scheme';
 
 export const darkTheme: ITheme = {
   name: 'dark',
-  background: { type: 'palette', key: 'backgroundColor' },
   colorScheme
 };
