@@ -4,7 +4,6 @@ import { ChartTypeEnum } from '../interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { ILineChartSpec } from './interface';
 import { VChart } from '../../core/vchart';
-// import { LineSeries } from '../../series';
 import { LineSeries } from '../../series/line/line';
 
 VChart.useSeries([LineSeries]);
