@@ -284,7 +284,14 @@ export class SankeySeries extends CartesianSeries<any> {
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
             text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
+                return '';
+              }
+              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (this._spec.label?.formatMethod) {
+                text = this._spec.label.formatMethod(text, datum.datum);
+              }
+              return text;
             },
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'left',
@@ -301,7 +308,14 @@ export class SankeySeries extends CartesianSeries<any> {
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
             text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
+                return '';
+              }
+              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (this._spec.label?.formatMethod) {
+                text = this._spec.label.formatMethod(text, datum.datum);
+              }
+              return text;
             },
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'center',
@@ -318,7 +332,14 @@ export class SankeySeries extends CartesianSeries<any> {
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
             text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
+                return '';
+              }
+              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (this._spec.label?.formatMethod) {
+                text = this._spec.label.formatMethod(text, datum.datum);
+              }
+              return text;
             },
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'right',
@@ -342,7 +363,14 @@ export class SankeySeries extends CartesianSeries<any> {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
             text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
+                return '';
+              }
+              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (this._spec.label?.formatMethod) {
+                text = this._spec.label.formatMethod(text, datum.datum);
+              }
+              return text;
             },
             limit: this._labelLimit,
             textAlign: 'center',
@@ -366,7 +394,14 @@ export class SankeySeries extends CartesianSeries<any> {
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
             text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
+                return '';
+              }
+              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (this._spec.label?.formatMethod) {
+                text = this._spec.label.formatMethod(text, datum.datum);
+              }
+              return text;
             },
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'left',
@@ -383,7 +418,14 @@ export class SankeySeries extends CartesianSeries<any> {
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
             text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
+                return '';
+              }
+              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (this._spec.label?.formatMethod) {
+                text = this._spec.label.formatMethod(text, datum.datum);
+              }
+              return text;
             },
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'center',
@@ -400,7 +442,14 @@ export class SankeySeries extends CartesianSeries<any> {
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
             text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
+                return '';
+              }
+              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (this._spec.label?.formatMethod) {
+                text = this._spec.label.formatMethod(text, datum.datum);
+              }
+              return text;
             },
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'right',
@@ -419,7 +468,14 @@ export class SankeySeries extends CartesianSeries<any> {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
             text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
+                return '';
+              }
+              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (this._spec.label?.formatMethod) {
+                text = this._spec.label.formatMethod(text, datum.datum);
+              }
+              return text;
             },
             limit: this._labelLimit,
             textAlign: 'right',
@@ -438,7 +494,14 @@ export class SankeySeries extends CartesianSeries<any> {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
             text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
+                return '';
+              }
+              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (this._spec.label?.formatMethod) {
+                text = this._spec.label.formatMethod(text, datum.datum);
+              }
+              return text;
             },
             limit: this._labelLimit,
             textAlign: 'left',
@@ -462,7 +525,14 @@ export class SankeySeries extends CartesianSeries<any> {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
             text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
+                return '';
+              }
+              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+              if (this._spec.label?.formatMethod) {
+                text = this._spec.label.formatMethod(text, datum.datum);
+              }
+              return text;
             },
             limit: this._labelLimit,
             textAlign: (datum: Datum) => {
@@ -742,6 +812,7 @@ export class SankeySeries extends CartesianSeries<any> {
     const nodeDatum = element.getDatum();
     const highlightNodes: string[] = [nodeDatum.key];
     const highlightLinks: string[] = [];
+    // downstreamhighlightLinks
 
     const nodeVGrammarMark = this._nodeMark.getProduct();
 
@@ -761,7 +832,12 @@ export class SankeySeries extends CartesianSeries<any> {
       linkEl.clearStates();
       const linkDatum = linkEl.getDatum();
       const father = linkDatum?.parents ? 'parents' : 'source';
-      if (array(linkDatum[father]).includes(nodeDatum.key)) {
+      const originalDatum = linkDatum.datum;
+      const selectedDatum = originalDatum.filter((entry: any) =>
+        entry[father].some((par: any) => par.key === nodeDatum.key)
+      );
+      // if (array(linkDatum[father]).includes(nodeDatum.key)) {
+      if (selectedDatum && selectedDatum.length) {
         // 下游link
 
         if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
@@ -779,36 +855,40 @@ export class SankeySeries extends CartesianSeries<any> {
           });
 
           // 以下游link的目标节点为起点的links
-          let targetNodeSourceLinks: any[] = targetNode.data[0].sourceLinks as any[];
-          while (targetNodeSourceLinks?.length > 0) {
-            const newTargetNodeSourceLinks: any[] = [];
-            targetNodeSourceLinks.forEach((targetNodeSourceLinkDatum: any) => {
-              if (!highlightLinks.includes(targetNodeSourceLinkDatum.key ?? targetNodeSourceLinkDatum.index)) {
-                highlightLinks.push(targetNodeSourceLinkDatum.key ?? targetNodeSourceLinkDatum.index);
-                // 该links的目标节点
-                if (!highlightNodes.includes(targetNodeSourceLinkDatum.target)) {
-                  highlightNodes.push(targetNodeSourceLinkDatum.target);
-                  const sourceNodeTemp = allNodeElements.find(nodeElement => {
-                    return nodeElement.data[0].key === targetNodeSourceLinkDatum.target;
-                  });
-                  // 以该目标节点为起点的links
-                  newTargetNodeSourceLinks.push(sourceNodeTemp.data[0].targetLinks as any[]);
+          if (father === 'source') {
+            let targetNodeSourceLinks: any[] = targetNode.data[0].sourceLinks as any[];
+            while (targetNodeSourceLinks?.length > 0) {
+              const newTargetNodeSourceLinks: any[] = [];
+              targetNodeSourceLinks.forEach((targetNodeSourceLinkDatum: any) => {
+                if (!highlightLinks.includes(targetNodeSourceLinkDatum.key ?? targetNodeSourceLinkDatum.index)) {
+                  highlightLinks.push(targetNodeSourceLinkDatum.key ?? targetNodeSourceLinkDatum.index);
+                  // 该links的目标节点
+                  if (!highlightNodes.includes(targetNodeSourceLinkDatum.target)) {
+                    highlightNodes.push(targetNodeSourceLinkDatum.target);
+                    const sourceNodeTemp = allNodeElements.find(nodeElement => {
+                      return nodeElement.data[0].key === targetNodeSourceLinkDatum.target;
+                    });
+                    // 以该目标节点为起点的links
+                    newTargetNodeSourceLinks.push(sourceNodeTemp.data[0].targetLinks as any[]);
+                  } else {
+                    return;
+                  }
                 } else {
                   return;
                 }
-              } else {
-                return;
-              }
-            });
-            targetNodeSourceLinks = newTargetNodeSourceLinks;
-            return;
+              });
+              targetNodeSourceLinks = newTargetNodeSourceLinks;
+              return;
+            }
           }
         }
       } else if (linkDatum.target === nodeDatum.key) {
         // 上游link
         if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
           highlightLinks.push(linkDatum.key ?? linkDatum.index);
+          // console.log('highlightLinks', highlightLinks);
         }
+        // console.log('linkDatum', linkDatum);
         if (!highlightNodes.includes(linkDatum.source)) {
           highlightNodes.push(linkDatum.source);
           const sourceNode = allNodeElements.find(nodeElement => {
@@ -850,14 +930,18 @@ export class SankeySeries extends CartesianSeries<any> {
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
         linkEl.clearStates();
+        // console.log('highlightLinks', highlightLinks);
         if (highlightLinks.includes(linkEl.getDatum().key ?? linkEl.getDatum().index)) {
+          // console.log('linkEl.getDatum()', linkEl.getDatum());
           const linkDatum = linkEl.getDatum();
           const father = linkDatum?.parents ? 'parents' : 'source';
           let ratio;
           if (father === 'parents') {
             const originalDatum = linkDatum.datum;
             const val = originalDatum
-              .filter((entry: any) => entry.parents.some((par: any) => par.key === nodeDatum.key))
+              .filter((entry: any) => {
+                return entry.parents.some((par: any) => par.key === nodeDatum.key);
+              })
               .reduce((sum: number, d: any) => {
                 return (sum += d.value);
               }, 0);

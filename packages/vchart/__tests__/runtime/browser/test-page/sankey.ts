@@ -96,6 +96,11 @@ const run = () => {
 
     label: {
       visible: true,
+      formatMethod: (text, datum) => {
+        // console.log('text', text);
+        // console.log('datum', datum);
+        return datum.name + '-' + datum.value;
+      },
       state: {
         blur: {
           fill: '#e8e8e8',
