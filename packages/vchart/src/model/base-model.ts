@@ -1,4 +1,4 @@
-import { createID, isValid, cloneDeepSpec } from '../util';
+import { createID, isValid, cloneDeepSpec, isDataView, isHTMLElement } from '../util';
 import { Event } from '../event/event';
 import type { IEvent } from '../event/interface';
 import { LayoutItem } from './layout-item';
@@ -245,11 +245,11 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     }
     const newObj = { ...obj };
     Object.keys(newObj).forEach(key => {
-      // 绕过 DataView 对象
-      if (key.includes('data')) {
+      const value = obj[key];
+      // 绕过不可深拷贝的对象
+      if (isObject(value) && (isDataView(value) || isHTMLElement(value))) {
         return;
       }
-      const value = obj[key];
       if (isObject(value) && !isFunction(value)) {
         // 查询、替换语义化颜色
         if (isColorKey(value)) {
