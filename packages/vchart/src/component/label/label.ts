@@ -77,6 +77,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this.initEvent();
     this._initTextMark();
     this._initLabelComponent();
+    this._initTextMarkStyle();
   }
 
   initEvent() {
@@ -148,8 +149,6 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
                 name: `${mark.name}-label-${index}`
               }) as ILabelMark;
               labelMark.setTarget(mark);
-              this.initMarkStyleWithSpec(labelMark, labelSpec);
-              s.initLabelMarkStyle?.(labelMark);
               info.push({ labelMark, baseMark: mark, series: s, labelSpec });
             }
           });
@@ -184,9 +183,20 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           if (component) {
             this._marks.addMark(component);
             this._labelComponentMap.set(component, labelInfo);
+            labelInfo.labelMark.setComponent(component);
           }
         });
       }
+    });
+  }
+
+  protected _initTextMarkStyle() {
+    this._labelInfoMap.forEach(labelInfos => {
+      labelInfos.forEach(info => {
+        const { labelMark, labelSpec, series } = info;
+        this.initMarkStyleWithSpec(labelMark, labelSpec);
+        series.initLabelMarkStyle?.(labelMark);
+      });
     });
   }
 
@@ -284,7 +294,8 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
       m.compile({ group });
       m.getProduct()?.configure({
         context: {
-          model: this
+          model: this,
+          labelInfo
         }
       });
     });
