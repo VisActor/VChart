@@ -24,17 +24,21 @@ const run = () => {
         { type: '2222', x: 'D', y: 20 }
       ]
     },
-    legends: {},
+    legends: {}
+    /*
     dataZoom: [
       {
         orient: 'bottom'
       }
     ]
+    */
   });
 
   const cs = new VChart(getSpec(), {
     dom: document.getElementById('chart') as HTMLElement,
-    mode: isMobile ? 'mobile-browser' : 'desktop-browser'
+    mode: isMobile ? 'mobile-browser' : 'desktop-browser',
+    onError: null,
+    logLevel: 5
   });
   console.time('renderTime');
   cs.renderAsync().then(() => {
