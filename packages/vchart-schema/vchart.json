@@ -831,7 +831,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -973,7 +973,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1112,7 +1112,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1251,7 +1251,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1372,7 +1372,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1499,7 +1499,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1641,7 +1641,7 @@
           "description": "最大最小值宽度"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1777,7 +1777,7 @@
           "description": "最大最小值宽度"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1896,7 +1896,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2018,7 +2018,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2146,7 +2146,7 @@
           "$ref": "#/definitions/VisualType<IRepeatType>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2277,7 +2277,7 @@
           "$ref": "#/definitions/VisualType<IRepeatType>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2410,7 +2410,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeBoundsBuffer": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2540,7 +2540,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeBoundsBuffer": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2679,7 +2679,7 @@
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2830,7 +2830,7 @@
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2969,7 +2969,7 @@
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3093,7 +3093,7 @@
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3217,7 +3217,7 @@
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3339,7 +3339,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3461,7 +3461,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3608,7 +3608,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3755,7 +3755,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3877,7 +3877,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3999,7 +3999,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4118,7 +4118,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4246,7 +4246,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4371,7 +4371,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4496,7 +4496,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4621,7 +4621,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4757,7 +4757,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeBoundsBuffer": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4893,7 +4893,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeBoundsBuffer": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5172,7 +5172,7 @@
           "$ref": "#/definitions/VisualType<number|number[]>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5304,7 +5304,7 @@
           "$ref": "#/definitions/VisualType<number|number[]>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5464,7 +5464,7 @@
           "description": "poptip 相关配置"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5636,7 +5636,7 @@
           "description": "poptip 相关配置"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5808,7 +5808,7 @@
           "description": "poptip 相关配置"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -17312,6 +17312,10 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "const": false,
+              "type": "boolean"
+            },
+            {
               "type": "string"
             }
           ]
@@ -17437,26 +17441,38 @@
     },
     "IArcLabelSpec": {
       "properties": {
+        "animation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelAnimation"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "动画配置"
+        },
         "coverEnable": {
           "default": false,
           "description": "是否允许标签重叠",
           "type": "boolean"
         },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber",
-          "description": "用户id"
+        "customLayoutFunc": {
+          "typeof": "function"
+        },
+        "customOverlapFunc": {
+          "typeof": "function"
+        },
+        "dataFilter": {
+          "typeof": "function"
+        },
+        "formatMethod": {
+          "typeof": "function"
         },
         "interactive": {
-          "description": "是否响应交互",
+          "description": "是否支持交互。@default false",
           "type": "boolean"
-        },
-        "large": {
-          "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
-          "type": "boolean"
-        },
-        "largeThreshold": {
-          "description": "开启大数据渲染优化的阀值，对应的是data的长度;推荐 largeThreshold < progressiveThreshold",
-          "type": "number"
         },
         "layout": {
           "$ref": "#/definitions/IArcLabelLayoutSpec",
@@ -17471,6 +17487,22 @@
           "$ref": "#/definitions/IArcLabelLineSpec",
           "description": "标签引导线样式"
         },
+        "offset": {
+          "description": "标签与其对应数据图元的间距",
+          "type": "number"
+        },
+        "overlap": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OverlapAttrs"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "标签防重叠配置"
+        },
         "position": {
           "default": "'outside'",
           "description": "标签布局方式",
@@ -17479,14 +17511,6 @@
             "outside"
           ],
           "type": "string"
-        },
-        "progressiveStep": {
-          "description": "分片长度",
-          "type": "number"
-        },
-        "progressiveThreshold": {
-          "description": "开启分片渲染的阀值，对应的是单系列data的长度",
-          "type": "number"
         },
         "rotate": {
           "default": true,
@@ -17505,33 +17529,33 @@
           ],
           "type": "string"
         },
+        "smartInvert": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SmartInvertAttrs"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "标签智能反色配置"
+        },
         "spaceWidth": {
           "default": 5,
           "description": "文字与引导线间隔宽度",
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>",
-          "description": "不同状态下的样式配置"
+          "typeof": "function"
         },
         "style": {
-          "additionalProperties": false,
-          "description": "标签文字样式",
-          "patternProperties": {
-            "^[a-zA-Z0-9]+$": {}
-          },
-          "type": "object"
-        },
-        "support3d": {
-          "type": "boolean"
+          "$ref": "#/definitions/ITextMarkSpec",
+          "description": "标签文字样式"
         },
         "visible": {
-          "description": "mark 层 是否显示配置",
+          "description": "默认不显示标签",
           "type": "boolean"
-        },
-        "zIndex": {
-          "description": "与其他mark元素的层级",
-          "type": "number"
         }
       },
       "type": "object"
@@ -17733,6 +17757,10 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "const": false,
+              "type": "boolean"
             },
             {
               "type": "string"
@@ -18401,6 +18429,10 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "const": false,
+              "type": "boolean"
             },
             {
               "type": "string"
@@ -21061,6 +21093,10 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "const": false,
+              "type": "boolean"
             },
             {
               "type": "string"
@@ -25192,6 +25228,10 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "const": false,
+              "type": "boolean"
             },
             {
               "type": "string"
@@ -35941,6 +35981,10 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "const": false,
+              "type": "boolean"
+            },
+            {
               "type": "string"
             }
           ]
@@ -39476,6 +39520,10 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "const": false,
+              "type": "boolean"
+            },
+            {
               "type": "string"
             }
           ]
@@ -41640,6 +41688,10 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "const": false,
+              "type": "boolean"
+            },
+            {
               "type": "string"
             }
           ]
@@ -41886,6 +41938,10 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "const": false,
+              "type": "boolean"
             },
             {
               "type": "string"
@@ -42135,6 +42191,10 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "const": false,
+              "type": "boolean"
             },
             {
               "type": "string"
@@ -45670,6 +45730,10 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "const": false,
+              "type": "boolean"
+            },
+            {
               "type": "string"
             }
           ]
@@ -45887,6 +45951,10 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "const": false,
+              "type": "boolean"
             },
             {
               "type": "string"
@@ -46412,7 +46480,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "$ref": "#/definitions/Partial<ILabelSpec>",
+          "$ref": "#/definitions/IArcLabelSpec",
           "description": "标签配置"
         },
         "layout": {
@@ -46786,7 +46854,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "$ref": "#/definitions/Partial<ILabelSpec>",
+          "$ref": "#/definitions/IArcLabelSpec",
           "description": "标签配置"
         },
         "morph": {
@@ -46919,7 +46987,7 @@
           "type": "number"
         },
         "label": {
-          "$ref": "#/definitions/Partial<ILabelSpec>",
+          "$ref": "#/definitions/IArcLabelSpec",
           "description": "标签配置"
         },
         "outerRadius": {
@@ -47105,6 +47173,10 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "const": false,
+              "type": "boolean"
             },
             {
               "type": "string"
@@ -51859,6 +51931,10 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "const": false,
+              "type": "boolean"
+            },
+            {
               "type": "string"
             }
           ]
@@ -52101,6 +52177,10 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "const": false,
+              "type": "boolean"
             },
             {
               "type": "string"
@@ -55384,7 +55464,7 @@
       ],
       "type": "object"
     },
-    "IVisualSpecStyle<unknown,string|IColorKey|IGradient>": {
+    "IVisualSpecStyle<unknown,string|false|IColorKey|IGradient>": {
       "properties": {
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
@@ -55409,6 +55489,10 @@
               },
               {
                 "$ref": "#/definitions/IGradientConical"
+              },
+              {
+                "const": false,
+                "type": "boolean"
               },
               {
                 "type": "string"
@@ -58455,7 +58539,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@11881": {
+        "__@toStringTag@11378": {
           "type": "string"
         },
         "size": {
@@ -58463,14 +58547,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11881",
+        "__@toStringTag@11378",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@11881": {
+        "__@toStringTag@11378": {
           "type": "string"
         },
         "size": {
@@ -58478,14 +58562,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11881",
+        "__@toStringTag@11378",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@11881": {
+        "__@toStringTag@11378": {
           "type": "string"
         },
         "size": {
@@ -58493,14 +58577,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11881",
+        "__@toStringTag@11378",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@11881": {
+        "__@toStringTag@11378": {
           "type": "string"
         },
         "size": {
@@ -58508,14 +58592,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11881",
+        "__@toStringTag@11378",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@11881": {
+        "__@toStringTag@11378": {
           "type": "string"
         },
         "size": {
@@ -58523,14 +58607,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11881",
+        "__@toStringTag@11378",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@11881": {
+        "__@toStringTag@11378": {
           "type": "string"
         },
         "size": {
@@ -58538,14 +58622,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11881",
+        "__@toStringTag@11378",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@11881": {
+        "__@toStringTag@11378": {
           "type": "string"
         },
         "size": {
@@ -58553,14 +58637,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11881",
+        "__@toStringTag@11378",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@11881": {
+        "__@toStringTag@11378": {
           "type": "string"
         },
         "size": {
@@ -58568,7 +58652,7 @@
         }
       },
       "required": [
-        "__@toStringTag@11881",
+        "__@toStringTag@11378",
         "size"
       ],
       "type": "object"
@@ -63464,6 +63548,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "visible": {
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -66763,6 +66850,10 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "const": false,
+              "type": "boolean"
+            },
+            {
               "type": "string"
             }
           ]
@@ -67566,6 +67657,10 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "const": false,
+              "type": "boolean"
             },
             {
               "type": "string"
@@ -68473,6 +68568,10 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "const": false,
+              "type": "boolean"
             },
             {
               "type": "string"
@@ -70322,34 +70421,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@11881": {
+        "__@toStringTag@11378": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11881"
+        "__@toStringTag@11378"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@11881": {
+        "__@toStringTag@11378": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11881"
+        "__@toStringTag@11378"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@11881": {
+        "__@toStringTag@11378": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11881"
+        "__@toStringTag@11378"
       ],
       "type": "object"
     },
@@ -80486,7 +80585,7 @@
         }
       ]
     },
-    "VisualType<string|IColorKey|IGradient>": {
+    "VisualType<string|false|IColorKey|IGradient>": {
       "anyOf": [
         {
           "$ref": "#/definitions/IColorKey"
@@ -80507,7 +80606,11 @@
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,string|IColorKey|IGradient>"
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,string|false|IColorKey|IGradient>"
+        },
+        {
+          "const": false,
+          "type": "boolean"
         },
         {
           "type": "string"
