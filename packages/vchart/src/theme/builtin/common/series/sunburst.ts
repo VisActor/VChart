@@ -23,7 +23,7 @@ export const sunburst: ISunburstSeriesTheme = {
     visible: true,
     style: {
       cursor: 'pointer',
-      fill: { type: 'palette', key: 'titleFontColor' }
+      fill: { type: 'palette', key: 'primaryFontColor' }
     }
   }
 };

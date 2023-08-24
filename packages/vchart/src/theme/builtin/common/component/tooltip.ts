@@ -26,13 +26,13 @@ export const tooltip: ITooltipTheme = {
       y: 4,
       blur: 12,
       spread: 0,
-      color: { type: 'palette', key: 'titleFontColor', a: 0.1 }
+      color: { type: 'palette', key: 'primaryFontColor', a: 0.1 }
     }
   },
   spaceRow: 6,
   titleLabel: {
     fontSize: 14,
-    fontColor: { type: 'palette', key: 'titleFontColor' },
+    fontColor: { type: 'palette', key: 'primaryFontColor' },
     fontWeight: 'bold',
     textAlign: 'left',
     lineHeight: 18,
@@ -45,7 +45,7 @@ export const tooltip: ITooltipTheme = {
   },
   keyLabel: {
     fontSize,
-    fontColor: { type: 'palette', key: 'titleFontColor' },
+    fontColor: { type: 'palette', key: 'secondaryFontColor' },
     textAlign: 'left',
     lineHeight: 18,
     textBaseline: 'middle',
@@ -53,7 +53,7 @@ export const tooltip: ITooltipTheme = {
   },
   valueLabel: {
     fontSize,
-    fontColor: { type: 'palette', key: 'titleFontColor' },
+    fontColor: { type: 'palette', key: 'primaryFontColor' },
     lineHeight: 18,
     textBaseline: 'middle',
     spacing: 0

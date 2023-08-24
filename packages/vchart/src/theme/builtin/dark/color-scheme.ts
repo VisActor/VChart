@@ -5,12 +5,16 @@ export const colorScheme: IThemeColorScheme = {
   default: {
     dataScheme,
     palette: {
-      titleFontColor: '#e2e3e6',
-      labelFontColor: '#888c93',
-      labelReverseFontColor: '#202020',
+      primaryFontColor: '#fdfdfd',
+      secondaryFontColor: '#888c93',
+      disableFontColor: '#55595f',
+      labelFontColor: '#bbbdc3',
+      labelReverseFontColor: '#202226',
       axisGridColor: '#404349',
-      axisDomainColor: '#55595f',
-      backgroundColor: '#202020'
+      axisDomainColor: '#4b4f54',
+      axisLabelFontColor: '#bbbdc3',
+      backgroundColor: '#202226',
+      borderColor: '#404349'
     }
   }
 };

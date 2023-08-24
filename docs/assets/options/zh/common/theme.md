@@ -260,7 +260,7 @@ type ColorScheme = Array<string> | ProgressiveDataScheme<string> | IColorSchemeS
       // 语义色板
       palette: {
         labelFontColor: '#89909D',
-        titleFontColor: '#000000',
+        primaryFontColor: '#000000',
         axisGridColor: '#EBEDF2',
         axisDomainColor: '#D9DDE4'
       }
@@ -276,7 +276,7 @@ type ColorScheme = Array<string> | ProgressiveDataScheme<string> | IColorSchemeS
     // 语义色板
     palette: {
       labelFontColor: '#89909D',
-      titleFontColor: '#000000',
+      primaryFontColor: '#000000',
       axisGridColor: '#EBEDF2',
       axisDomainColor: '#D9DDE4'
     }

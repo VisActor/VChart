@@ -1,7 +1,7 @@
 {
   "name": "light",
   "palette": {
-    "titleFontColor": "#21252c",
+    "primaryFontColor": "#21252c",
     "labelFontColor": "#89909D",
     "labelReverseFontColor": "#ffffff",
     "axisGridColor": "#f1f2f5",
