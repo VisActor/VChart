@@ -139,7 +139,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
         eventsBinded.current = props;
         // eslint-disable-next-line promise/catch-or-return
         const updatePromise = chartContext.current.chart
-          .updateSpec(parseSpec(props), undefined, { morph: false }) // morph临时关掉
+          .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
           .then(handleChartRender);
 
         if (props.onError) {
@@ -155,7 +155,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       prevSpec.current = newSpec;
       // eslint-disable-next-line promise/catch-or-return
       const updatePromise = chartContext.current.chart
-        .updateSpec(parseSpec(props), undefined, { morph: false }) // morph临时关掉
+        .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
         .then(handleChartRender);
 
       if (props.onError) {

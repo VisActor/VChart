@@ -94,6 +94,12 @@ export class Trigger implements ITrigger {
           event.on(trigger, { level: Event_Bubble_Level.mark }, this.onUnSelect as EventCallback<EventParams>);
         });
       }
+      // default triggerOff: active without mark , unselected
+      if (!selectTriggerOff) {
+        array(selectTriggerOff ?? selectTrigger).forEach(trigger => {
+          event.on(trigger, { level: Event_Bubble_Level.vchart }, this.onUnSelect as EventCallback<EventParams>);
+        });
+      }
     }
   }
 

@@ -17,7 +17,7 @@ import { CompilableData } from '../../compile/data';
 import { Indicator as IndicatorComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IndicatorAttributes } from '@visactor/vrender-components';
-import type { INode } from '@visactor/vrender';
+import type { IGraphic, INode } from '@visactor/vrender';
 import { transformToGraphic } from '../../util/style';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 
@@ -204,7 +204,7 @@ export class Indicator extends BaseComponent implements IIndicator {
       container.add(indicator as unknown as INode);
       this._indicatorComponent = indicator;
       this._indicatorComponent.on('*', (event: any, type: string) =>
-        this._delegateEvent(this._indicatorComponent as unknown as INode, event, type)
+        this._delegateEvent(this._indicatorComponent as unknown as IGraphic, event, type)
       );
     }
     this._cacheAttrs = attrs;

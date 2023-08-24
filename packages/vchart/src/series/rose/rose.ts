@@ -2,7 +2,7 @@
 import type { IArcMark } from '../../mark/arc';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { Maybe, Datum } from '../../typings';
-import { valueInScaleRange, degrees } from '../../util';
+import { valueInScaleRange, degrees, merge } from '../../util';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
@@ -39,37 +39,20 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
 
   initMark(): void {
     this.initRoseMark();
-    this.initLabelMark();
   }
 
   initMarkStyle(): void {
     this.initRoseMarkStyle();
-    this.initLabelMarkStyle();
   }
-
-  // getStackValueField() {
-  //   return array(this._spec.valueField)[0] || array(this._spec.radiusField)[0];
-  // }
 
   private initRoseMark() {
     this._roseMark = this._createMark(RoseSeries.mark.rose, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('rose', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      isSeriesMark: true
+      isSeriesMark: true,
+      label: merge({ animation: this._spec.animation }, this._spec.label)
     }) as IArcMark;
-  }
-
-  private initLabelMark() {
-    if (this._spec?.label?.visible) {
-      this._labelMark = this._createMark(RoseSeries.mark.label, {
-        themeSpec: this._theme?.label,
-        markSpec: {
-          visible: true,
-          ...this.getSpec()?.label
-        }
-      }) as ITextMark;
-    }
   }
 
   private getRoseAngle() {
@@ -115,45 +98,20 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
     }
   }
 
-  initLabelMarkStyle() {
-    const labelMark = this._labelMark;
-    if (labelMark) {
-      let angle: number = 0;
-      let radius: number = 0;
-      this.setMarkStyle(
-        labelMark,
-        {
-          visible: true,
-          x: (datum: Datum) => {
-            const baseAngle = this.angleAxisHelper.dataToPosition(
-              this.getDatumPositionValues(datum, this.getGroupFields())
-            );
-            const bandAngle = this.angleAxisHelper.getBandwidth(0) * 0.5;
-            const startAngle = baseAngle - bandAngle;
-            const endAngle = baseAngle + this.getRoseAngle() - bandAngle;
-            angle = (startAngle + endAngle) / 2;
-            radius =
-              valueInScaleRange(
-                this.radiusAxisHelper.dataToPosition([datum[this._radiusField[0]]]),
-                this.radiusAxisHelper.getScale(0)
-              ) -
-              (this._spec.label?.style?.size || 10) / 2;
-            return this.angleAxisHelper.center().x + radius * Math.cos(angle);
-          },
-          y: () => this.angleAxisHelper.center().y + radius * Math.sin(angle),
-          text: (datum: Datum) => {
-            return datum[this._radiusField[0]];
-          },
-          stroke: this._spec.label?.style?.stroke || this.getColorAttribute(),
-          angle: () => (this._spec.label?.style?.angle || (degrees(angle) ?? 0) + 90) as number
-        },
-        undefined,
-        // 标签属性基于用户配置生成，样式优先级应当为用户级
-        AttributeLevel.User_Mark
-      );
-
-      this._trigger.registerMark(labelMark);
+  initLabelMarkStyle(textMark: ITextMark) {
+    if (!textMark) {
+      return;
     }
+    this.setMarkStyle(textMark, {
+      visible: this._spec?.label?.visible,
+      text: (datum: Datum) => {
+        return datum[this.getDimensionField()[0]];
+      },
+      fill: this._spec.label?.style?.fill || this.getColorAttribute(),
+      angle: this._spec.label?.style?.angle,
+      limit: this._spec.label?.style?.limit,
+      z: 0
+    });
   }
 
   initAnimation() {

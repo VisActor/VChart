@@ -1,4 +1,4 @@
-import type { IGroup, INode } from '@visactor/vrender';
+import type { IGraphic, IGroup } from '@visactor/vrender';
 import { BaseModel } from '../../model/base-model';
 import type { IRegion } from '../../region/interface';
 import type { ComponentTypeEnum, IComponent, IComponentOption } from '../interface';
@@ -131,7 +131,7 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
   }
 
   // 代理组件事件
-  protected _delegateEvent = (component: INode, event: any, type: string, item: any = null, datum: Datum = null) => {
+  protected _delegateEvent = (component: IGraphic, event: any, type: string, item: any = null, datum: Datum = null) => {
     this.event.emit(
       type,
       {

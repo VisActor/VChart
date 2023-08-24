@@ -28,7 +28,8 @@ import {
   error,
   specTransform,
   convertPoint,
-  config
+  config,
+  isMiniAppLikeMode
 } from '../util';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -71,6 +72,7 @@ import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './int
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
+import { calculateChartSize } from '../chart/util';
 export class VChart implements IVChart {
   readonly id = createID();
 
@@ -193,7 +195,7 @@ export class VChart implements IVChart {
     }
   };
 
-  private _curSize = { width: 0, height: 0 };
+  private _curSize: { width: number; height: number };
   private _observer: ResizeObserver = null;
 
   private _currentThemeName: string;
@@ -228,6 +230,12 @@ export class VChart implements IVChart {
     this._currentThemeName = ThemeManager.getCurrentThemeName();
     this._setSpec(spec);
     this._updateCurrentTheme();
+    this._curSize = calculateChartSize(this._spec, {
+      container: this._container,
+      canvas: this._canvas,
+      mode: this._option.mode || RenderModeEnum['desktop-browser'],
+      modeParams: this._option.modeParams
+    });
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -242,6 +250,7 @@ export class VChart implements IVChart {
         onError: this._onError
       }
     );
+    this._compiler.setSize(this._curSize.width, this._curSize.height);
     this._eventDispatcher = new EventDispatcher(this, this._compiler);
     this._event = new Event(this._eventDispatcher, mode);
     this._compiler.initView();
@@ -251,10 +260,6 @@ export class VChart implements IVChart {
     });
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowser(mode) ? spec.autoFit ?? this._option.autoFit ?? true : false;
-    this._curSize = {
-      width: spec.width || 0,
-      height: spec.height || 0
-    };
     this._bindResizeEvent();
     this._bindVGrammarViewEvent();
     this._event.emit(ChartEvent.initialized, {});
@@ -322,6 +327,7 @@ export class VChart implements IVChart {
       return;
     }
     this._chart = chart;
+    this._chart.setCanvasRect(this._curSize.width, this._curSize.height);
     this._chart.created();
     this._chart.init({});
   }

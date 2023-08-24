@@ -41,7 +41,6 @@ import {
 import type { ITextMarkSpec, TextAlign } from '../../typings/visual';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import type { IBoundsLike, TextMeasure } from '@visactor/vutils';
-import type { ILabelTextMarkSpec } from '../../series/pie/interface';
 import type { Quadrant } from '../../typings/common';
 
 export interface IArcLabelOpt {
@@ -936,10 +935,10 @@ export class ArcLabelLayout {
     return isInvalidLabel ? null : value[seriesField];
   }
 
-  private _getMeasureSpec(): Partial<ILabelTextMarkSpec> {
+  private _getMeasureSpec(): Partial<ITextMarkSpec> {
     // 去除 align 配置避免文字测量错误
     return {
-      ...(this._series.getLabelConfig().style as ILabelTextMarkSpec),
+      ...(this._series.getLabelConfig().style as ITextMarkSpec),
       textAlign: 'center'
     };
   }

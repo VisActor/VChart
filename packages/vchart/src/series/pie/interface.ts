@@ -1,9 +1,10 @@
 import type { IAnimationSpec } from '../../animation/spec';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
-import type { IArcMarkSpec, ITextMarkSpec, TextAlign, IPathMarkSpec, IArc3dMarkSpec } from '../../typings/visual';
+import type { IArcMarkSpec, ITextMarkSpec, IPathMarkSpec, IArc3dMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { PieAppearPreset } from './animation/animation';
+import type { ILabelSpec } from '../../component/label';
 
 export type PieMarks = 'pie' | 'label' | 'labelLine';
 
@@ -120,14 +121,14 @@ export interface IArcLabelLayoutSpec {
   tangentConstraint?: boolean;
 }
 
-export interface ILabelTextMarkSpec extends Omit<ITextMarkSpec, 'align' | 'textAlign'> {
-  /** text 配置 align 为 auto 时将根据布局逻辑自动处理 align  */
-  textAlign?: TextAlign | 'auto';
-  /** @deprecate 建议统一使用textAlign，后续将废除 */
-  align?: TextAlign | 'auto';
-}
+// export interface ILabelTextMarkSpec extends Omit<ITextMarkSpec, 'align' | 'textAlign'> {
+//   /** text 配置 align 为 auto 时将根据布局逻辑自动处理 align  */
+//   textAlign?: TextAlign | 'auto';
+//   /** @deprecate 建议统一使用textAlign，后续将废除 */
+//   align?: TextAlign | 'auto';
+// }
 
-export interface IArcLabelSpec extends Omit<IMarkSpec<ITextMarkSpec>, 'style'> {
+export interface IArcLabelSpec extends ILabelSpec {
   /**
    * 标签布局方式
    * @default 'outside'
@@ -161,7 +162,7 @@ export interface IArcLabelSpec extends Omit<IMarkSpec<ITextMarkSpec>, 'style'> {
   layoutArcGap?: number;
 
   /** 标签文字样式 */
-  style?: ILabelTextMarkSpec;
+  style?: ITextMarkSpec;
   /** 标签引导线样式 */
   line?: IArcLabelLineSpec;
   /** 标签布局配置 */

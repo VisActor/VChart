@@ -7,7 +7,8 @@ import { isString } from '@visactor/vutils';
 export const markLabelConfigFunc = {
   rect: barLabel,
   symbol: symbolLabel,
-  point: pointLabel
+  point: pointLabel,
+  arc: pieLabel
 };
 
 export function textAttribute(
@@ -144,6 +145,26 @@ function barLabelOverlapStrategy(series: ICartesianSeries) {
   ];
 
   return strategy;
+}
+/**
+ * pie 图元配置规则
+ */
+export function pieLabel(labelInfo: ILabelInfo) {
+  const { labelSpec = {} } = labelInfo;
+
+  // encode position config
+  const labelPosition = labelSpec.position ?? 'outside';
+  const position = labelPosition as BaseLabelAttrs['position'];
+
+  // encode smartInvert
+  let smartInvert;
+  if (labelSpec.smartInvert) {
+    smartInvert = labelSpec.smartInvert;
+  } else {
+    smartInvert = isString(labelPosition) && labelPosition.includes('inside');
+  }
+
+  return { position, smartInvert };
 }
 
 /**

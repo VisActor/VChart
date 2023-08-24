@@ -1,4 +1,3 @@
-import { STATE_HOVER_REVERSE } from './../../../../cjs/compile/mark/interface.d';
 import { isMobile } from 'react-device-detect';
 import { default as VChart } from '../../../../src/index';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
@@ -33,484 +32,70 @@ const run = () => {
     type: 'csv'
   });
   const spec = {
-    type: 'common',
-    series: [
+    type: 'scatter',
+    data: [
       {
-        id: 'mainSeries',
-        type: 'bar',
-        direction: 'horizontal',
-        yField: '230802143541013',
-        xField: '10011',
-        regionId: 'mainRegion',
-        seriesField: '20001',
-        data: {
-          id: 'mainSeriesData',
-          values: [
-            {
-              '10001': '数量',
-              '10003': '230802162749051',
-              '10011': '19173',
-              '20001': '数量',
-              '230802143541013': '消费者',
-              '230802162749051': '19173'
-            },
-            {
-              '10001': '数量',
-              '10003': '230802162749051',
-              '10011': '11581',
-              '20001': '数量',
-              '230802143541013': '公司',
-              '230802162749051': '11581'
-            },
-            {
-              '10001': '数量',
-              '10003': '230802162749051',
-              '10011': '6780',
-              '20001': '数量',
-              '230802143541013': '小型企业',
-              '230802162749051': '6780'
-            }
-          ],
-          fields: {
-            '10001': {
-              alias: '指标名称 '
-            },
-            '10011': {
-              alias: '指标值(主轴) '
-            },
-            '10012': {
-              alias: '指标值(次轴) '
-            },
-            '20001': {
-              alias: '图例项 ',
-              domain: ['数量', '利润']
-            },
-            '230802143541013': {
-              alias: '细分',
-              domain: ['公司', '消费者', '小型企业']
-            },
-            '230802162749051': {
-              alias: '数量'
-            },
-            '230802162749075': {
-              alias: '利润'
-            }
-          }
-        },
-        label: {
-          visible: true,
-          overlap: {
-            hideOnHit: true,
-            clampForce: true
-          },
-          style: {
-            fontSize: 22,
-            fontWeight: 'normal',
-            fill: '#7953CB',
-            strokeOpacity: 1
-          },
-          position: 'outside',
-          smartInvert: false
-        }
-      },
-      {
-        id: 'subSeries',
-        type: 'bar',
-        direction: 'horizontal',
-        yField: '230802143541013',
-        xField: '10012',
-        regionId: 'subRegion',
-        seriesField: '20001',
-        data: {
-          id: 'subSeriesData',
-          values: [
-            {
-              '10001': '利润',
-              '10003': '230802162749075',
-              '10012': '1053092.6314019188',
-              '20001': '利润',
-              '230802143541013': '消费者',
-              '230802162749075': '1053092.6314019188'
-            },
-            {
-              '10001': '利润',
-              '10003': '230802162749075',
-              '10012': '681967.6347733513',
-              '20001': '利润',
-              '230802143541013': '公司',
-              '230802162749075': '681967.6347733513'
-            },
-            {
-              '10001': '利润',
-              '10003': '230802162749075',
-              '10012': '412478.6609529555',
-              '20001': '利润',
-              '230802143541013': '小型企业',
-              '230802162749075': '412478.6609529555'
-            }
-          ],
-          fields: {
-            '10001': {
-              alias: '指标名称 '
-            },
-            '10011': {
-              alias: '指标值(主轴) '
-            },
-            '10012': {
-              alias: '指标值(次轴) '
-            },
-            '20001': {
-              alias: '图例项 ',
-              domain: ['数量', '利润']
-            },
-            '230802143541013': {
-              alias: '细分',
-              domain: ['公司', '消费者', '小型企业']
-            },
-            '230802162749051': {
-              alias: '数量'
-            },
-            '230802162749075': {
-              alias: '利润'
-            }
-          }
-        },
-        label: {
-          visible: true,
-          overlap: {
-            hideOnHit: false,
-            clampForce: true
-          },
-          style: {
-            fontSize: 22,
-            fontWeight: 'normal',
-            fill: '#7953CB',
-            strokeOpacity: 1
-          },
-          position: 'inside',
-          smartInvert: false
-        }
+        values: [
+          { x: 936196, size: 83431, y: 1371, type: '技术', area: '东北' },
+          { x: 1270911, size: 219815, y: 5590, type: '办公用品', area: '中南' },
+          { x: 453898, size: 19061, y: 727, type: '技术', area: '西南' },
+          { x: 919743, size: 148800, y: 1199, type: '家具', area: '华北' },
+          { x: 1676224, size: 163453, y: 2517, type: '家具', area: '华东' },
+          { x: 1466575, size: 251487, y: 2087, type: '技术', area: '中南' },
+          { x: 824673, size: 86067, y: 3622, type: '办公用品', area: '东北' },
+          { x: 230956, size: 24016, y: 347, type: '技术', area: '西北' },
+          { x: 1599653, size: 228179, y: 2183, type: '技术', area: '华东' },
+          { x: 745813, size: 137265, y: 3020, type: '办公用品', area: '华北' },
+          { x: 267870, size: 49633, y: 970, type: '办公用品', area: '西北' },
+          { x: 1408628, size: 215585, y: 6341, type: '办公用品', area: '华东' },
+          { x: 781743, size: 144986, y: 927, type: '技术', area: '华北' },
+          { x: 501533, size: 29303, y: 814, type: '家具', area: '西南' },
+          { x: 920698, size: 72692, y: 1470, type: '家具', area: '东北' },
+          { x: 316212, size: 24903, y: 468, type: '家具', area: '西北' },
+          { x: 1399928, size: 199582, y: 2023, type: '家具', area: '中南' },
+          { x: 347692, size: 49272, y: 1858, type: '办公用品', area: '西南' }
+        ]
       }
     ],
-    region: [
-      {
-        id: 'mainRegion'
-      },
-      {
-        id: 'subRegion'
-      }
-    ],
-    layout: {
-      type: 'grid',
-      row: 2,
-      col: 4,
-      elements: [
-        {
-          modelId: 'legend',
-          col: 0,
-          row: 0,
-          rowSpan: 2
-        },
-        {
-          modelId: 'mainRegion',
-          col: 1,
-          row: 0
-        },
-        {
-          modelId: 'dimensionAxis',
-          col: 2,
-          row: 0
-        },
-        {
-          modelId: 'subRegion',
-          col: 3,
-          row: 0
-        },
-        {
-          modelId: 'measureAxisLeft',
-          col: 1,
-          row: 1
-        },
-        {
-          modelId: 'measureAxisRight',
-          col: 3,
-          row: 1
-        }
-      ]
-    },
+    xField: 'x',
+    yField: 'y',
+    seriesField: 'type',
+    sizeField: 'size',
+    size: [10, 25],
+    shapeField: 'type',
+    shape: ['circle', 'triangle'],
     axes: [
-      {
-        id: 'dimensionAxis',
-        type: 'band',
-        tick: {
-          visible: false
-        },
-        grid: {
-          visible: false,
-          style: {
-            stroke: '#DADCDD',
-            lineWidth: 1,
-            lineDash: [4, 2]
-          }
-        },
-        orient: 'left',
-        visible: true,
-        domainLine: {
-          visible: true,
-          style: {
-            lineWidth: 1,
-            stroke: '#989999'
-          }
-        },
-        title: {
-          visible: false,
-          text: '细分',
-          style: {
-            fontSize: 12,
-            fill: '#363839',
-            fontWeight: 'normal'
-          }
-        },
-        label: {
-          visible: true,
-          style: {
-            fontSize: 12,
-            fill: '#6F6F6F',
-            angle: 0,
-            fontWeight: 'normal',
-            textAlign: 'center'
-          },
-          minGap: 4,
-          flush: true,
-          containerAlign: 'center'
-        },
-        hover: true,
-        background: {
-          visible: true,
-          state: {
-            hover: {
-              fillOpacity: 0.08,
-              fill: '#141414'
-            },
-            hover_reverse: {
-              fillOpacity: 0.08,
-              fill: '#141414'
-            }
-          }
-        },
-        minWidth: 150,
-        maxWidth: 500,
-        // width: 300,
-        regionId: ['mainRegion', 'subRegion'],
-        seriesId: ['mainSeries', 'subSeries'],
-        paddingInner: 0.15,
-        paddingOuter: 0.075
-      },
-      {
-        id: 'measureAxisLeft',
-        type: 'linear',
-        tick: {
-          visible: false,
-          style: {
-            stroke: 'rgba(255, 255, 255, 0)'
-          }
-        },
-        niceType: 'accurateFirst',
-        grid: {
-          visible: true,
-          style: {
-            stroke: '#DADCDD',
-            lineWidth: 1,
-            lineDash: [4, 2]
-          }
-        },
-        orient: 'bottom',
-        maxHeight: 200,
-        minHeight: 150,
-        visible: true,
-        domainLine: {
-          visible: true,
-          style: {
-            lineWidth: 1,
-            stroke: 'rgba(255, 255, 255, 0)'
-          }
-        },
-        title: {
-          visible: false,
-          text: '数量',
-          style: {
-            fontSize: 12,
-            fill: '#363839',
-            fontWeight: 'normal'
-          }
-        },
-        label: {
-          visible: true,
-          style: {
-            fontSize: 12,
-            fill: '#6F6F6F',
-            angle: 0,
-            fontWeight: 'normal'
-          }
-        },
-        hover: true,
-        background: {
-          visible: true,
-          state: {
-            hover: {
-              fillOpacity: 0.08,
-              fill: '#141414'
-            },
-            hover_reverse: {
-              fillOpacity: 0.08,
-              fill: '#141414'
-            }
-          }
-        },
-        zero: true,
-        nice: true,
-        regionId: 'mainRegion',
-        seriesId: 'mainSeries',
-        inverse: true
-      },
-      {
-        id: 'measureAxisRight',
-        type: 'linear',
-        tick: {
-          visible: false,
-          style: {
-            stroke: 'rgba(255, 255, 255, 0)'
-          }
-        },
-        niceType: 'accurateFirst',
-        grid: {
-          visible: true,
-          style: {
-            stroke: '#DADCDD',
-            lineWidth: 1,
-            lineDash: [4, 2]
-          }
-        },
-        orient: 'bottom',
-        visible: true,
-        domainLine: {
-          visible: true,
-          style: {
-            lineWidth: 1,
-            stroke: 'rgba(255, 255, 255, 0)'
-          }
-        },
-        title: {
-          visible: false,
-          text: '利润',
-          style: {
-            fontSize: 12,
-            fill: '#363839',
-            fontWeight: 'normal'
-          }
-        },
-        label: {
-          visible: true,
-          style: {
-            fontSize: 12,
-            fill: '#6F6F6F',
-            angle: 0,
-            fontWeight: 'normal'
-          }
-        },
-        hover: true,
-        background: {
-          visible: true,
-          state: {
-            hover: {
-              fillOpacity: 0.08,
-              fill: '#141414'
-            },
-            hover_reverse: {
-              fillOpacity: 0.08,
-              fill: '#141414'
-            }
-          }
-        },
-        zero: true,
-        nice: true,
-        regionId: 'subRegion',
-        seriesId: 'subSeries'
-      }
+      { orient: 'left', range: { min: 0 }, type: 'linear' },
+      { orient: 'bottom', label: { visible: true }, type: 'linear' }
     ],
-    seriesField: '20001',
-    color: {
-      field: '20001',
-      type: 'ordinal',
-      range: ['#2E62F1', '#4DC36A'],
-      specified: {}
-    },
     legends: [
       {
-        type: 'discrete',
-        id: 'legend',
-        orient: 'left',
-        position: 'middle',
-        layoutType: 'normal',
         visible: true,
-        hover: false,
-        maxCol: 1,
+        orient: 'left',
+        position: 'start',
         title: {
-          textStyle: {
-            fontSize: 12,
-            fill: '#6F6F6F'
+          visible: true,
+          style: {
+            text: '标题'
           }
         },
         item: {
-          spaceRow: 0,
-          spaceCol: 0,
-          padding: {
-            top: 4,
-            bottom: 4,
-            left: 4,
-            right: 22
-          },
-          background: {
-            style: {
-              fillOpacity: 0.001
-            }
-          },
-          label: {
-            style: {
-              fontSize: 12,
-              fill: '#6F6F6F'
-            }
-          },
-          shape: {
-            style: {
-              symbolType: 'square'
-            }
-          }
-        },
-        pager: {
-          textStyle: {},
-          handler: {
-            style: {},
-            state: {
-              disable: {}
-            }
-          }
-        },
-        padding: {
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 16
+          visible: true
         }
       }
     ],
-    background: 'rgba(255, 255, 255, 0)',
-    bar: {
-      clipByLayout: true
-    },
-    animation: false,
-    hash: '2cb6effecb08e3232ed3c5fab8ded989'
+    direction: 'horizontal',
+    brush: {
+      brushType: 'polygon',
+      inBrush: {
+        colorAlpha: 1
+      },
+      outOfBrush: {
+        colorAlpha: 0.2
+      }
+    }
   };
+
   const cs = new VChart(spec, {
     dataSet,
     dom: document.getElementById('chart') as HTMLElement,

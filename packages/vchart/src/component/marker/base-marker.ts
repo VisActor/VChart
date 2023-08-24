@@ -11,7 +11,7 @@ import type { StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base';
 import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback } from './interface';
 import type { IRegressType } from './mark-area/interface';
-import type { INode } from '@visactor/vrender';
+import type { IGraphic, INode } from '@visactor/vrender';
 
 export abstract class BaseMarker extends BaseComponent {
   layoutType: LayoutItem['layoutType'] = 'absolute';
@@ -116,7 +116,7 @@ export abstract class BaseMarker extends BaseComponent {
         this._createMarkerComponent();
         // 代理 marker 组件上的事件
         this._markerComponent.on('*', (event: any, type: string) =>
-          this._delegateEvent(this._markerComponent as unknown as INode, event, type)
+          this._delegateEvent(this._markerComponent as unknown as IGraphic, event, type)
         );
       }
       this._markerLayout();
