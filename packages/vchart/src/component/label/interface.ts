@@ -38,6 +38,8 @@ export interface ILabelSpec {
   customOverlapFunc?: BaseLabelAttrs['customOverlapFunc'];
   /** 标签布局 */
   labelLayout?: 'series' | 'region';
+  /** 中心点偏移距离 */
+  centerOffset?: number;
   /** 是否支持3D */
   support3d?: boolean;
 }
