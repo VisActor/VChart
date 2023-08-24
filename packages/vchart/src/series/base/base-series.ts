@@ -1066,7 +1066,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       }
 
       if (isValid(label)) {
-        m.setLabelSpec(label);
+        m.addLabelSpec(label);
       }
 
       const spec = this.getSpec() || {};
