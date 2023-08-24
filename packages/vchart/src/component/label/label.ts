@@ -289,7 +289,7 @@ export class Label extends BaseLabelComponent {
       if (isArray(labelInfo)) {
         group = labelInfo[0].series.getRegion().getGroupMark().getProduct() as IGroupMark;
       } else {
-        group = labelInfo.series.getRootMark().getProduct() as IGroupMark;
+        group = labelInfo.series.getRegion().getGroupMark().getProduct() as IGroupMark;
       }
       m.compile({ group });
       m.getProduct()?.configure({
