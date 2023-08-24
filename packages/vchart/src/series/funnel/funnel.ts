@@ -318,7 +318,7 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
           text: (datum: Datum) => `${datum[this.getCategoryField()]} ${datum[this.getValueField()]}`,
           x: (datum: Datum) => this._computeLabelPosition(datum).x,
           y: (datum: Datum) => this._computeLabelPosition(datum).y,
-          limit: (datum: Datum) => this._computeLabelLimit(datum, this._spec.label),
+          maxLineWidth: (datum: Datum) => this._computeLabelLimit(datum, this._spec.label),
           stroke: this.getColorAttribute()
         },
         'normal',
@@ -342,7 +342,7 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
           },
           x: (datum: Datum) => this._computeLabelPosition(datum).x,
           y: (datum: Datum) => this._computeLabelPosition(datum).y,
-          limit: (datum: Datum) => this._computeLabelLimit(datum, this._spec.transformLabel)
+          maxLineWidth: (datum: Datum) => this._computeLabelLimit(datum, this._spec.transformLabel)
         },
         'normal',
         AttributeLevel.Series
