@@ -316,6 +316,9 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       return Number.NaN;
     }
     const fields = this._xAxisHelper.getFields ? this._xAxisHelper.getFields() : this._fieldX;
+    if (!fields || fields.length === 0) {
+      return null;
+    }
     return this.valueToPositionX(
       this._xAxisHelper.isContinuous
         ? this.getDatumPositionValue(datum, fields[0])
@@ -329,6 +332,9 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       return Number.NaN;
     }
     const fields = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._fieldY;
+    if (!fields || fields.length === 0) {
+      return null;
+    }
     return this.valueToPositionY(
       this._yAxisHelper.isContinuous
         ? this.getDatumPositionValue(datum, fields[0])
