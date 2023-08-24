@@ -21,5 +21,6 @@ export enum MarkTypeEnum {
   progressArc = 'progressArc',
   cell = 'cell',
 
-  component = 'component'
+  component = 'component',
+  label = 'label'
 }

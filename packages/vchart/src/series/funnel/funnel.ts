@@ -32,7 +32,7 @@ import { field, calcLayoutNumber, isNumber } from '../../util';
 import type { FunnelAppearPreset, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
 import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
-import { isEqual, isValid } from '@visactor/vutils';
+import { isEqual, isValid, merge } from '@visactor/vutils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
@@ -41,6 +41,7 @@ import { VChart } from '../../core/vchart';
 import { PolygonMark } from '../../mark/polygon/polygon';
 import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
+import type { ILabelMark } from '../../mark/label';
 
 VChart.useMark([PolygonMark, TextMark, RuleMark]);
 
@@ -181,7 +182,8 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
         defaultMorphElementKey: this._seriesField,
         key: this._seriesField,
         groupKey: this._seriesField,
-        isSeriesMark: true
+        isSeriesMark: true,
+        label: merge({ animation: this._spec.animation }, this._spec.label)
       }
     ) as IPolygonMark;
 
@@ -197,16 +199,17 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
           key: this._seriesField,
           skipBeforeLayouted: false,
           dataView: this._viewDataTransform.getDataView(),
-          dataProductId: this._viewDataTransform.getProductId()
+          dataProductId: this._viewDataTransform.getProductId(),
+          label: merge({ animation: this._spec.animation }, this._spec.transformLabel)
         }
       );
     }
-    if (this._spec?.label?.visible) {
-      this._labelMark = this._createMark(FunnelSeries.mark.label, {
-        themeSpec: this._theme?.label,
-        key: this._seriesField
-      });
-    }
+    // if (this._spec?.label?.visible) {
+    //   this._labelMark = this._createMark(FunnelSeries.mark.label, {
+    //     themeSpec: this._theme?.label,
+    //     key: this._seriesField
+    //   });
+    // }
     if (this._spec?.transformLabel?.visible) {
       this._transformLabelMark = this._createMark(FunnelSeries.mark.transformLabel, {
         themeSpec: this._theme?.transformLabel,
@@ -280,43 +283,32 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
       this._tooltipHelper?.activeTriggerSet.mark.add(funnelTransformMark);
     }
 
-    const labelMark = this._labelMark;
-    if (labelMark) {
-      this.setMarkStyle(
-        labelMark,
-        {
-          text: (datum: Datum) => `${datum[this.getCategoryField()]} ${datum[this.getValueField()]}`,
-          x: (datum: Datum) => this._computeLabelPosition(datum).x,
-          y: (datum: Datum) => this._computeLabelPosition(datum).y,
-          limit: (datum: Datum) => this._computeLabelLimit(datum, this._spec.label),
-          stroke: this.getColorAttribute()
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-      this._trigger.registerMark(labelMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(labelMark);
-    }
+    // const labelMark = this._labelMark;
+    // if (labelMark) {
 
-    const transformLabelMark = this._transformLabelMark;
-    if (transformLabelMark) {
-      this.setMarkStyle(
-        transformLabelMark,
-        {
-          text: (datum: Datum) => {
-            const ratio = field(FUNNEL_REACH_RATIO).bind(this)(datum) as number;
-            return `${(ratio * 100).toFixed(1)}%`;
-          },
-          x: (datum: Datum) => this._computeLabelPosition(datum).x,
-          y: (datum: Datum) => this._computeLabelPosition(datum).y,
-          limit: (datum: Datum) => this._computeLabelLimit(datum, this._spec.transformLabel)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-      this._trigger.registerMark(transformLabelMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(transformLabelMark);
-    }
+    //   this._trigger.registerMark(labelMark);
+    //   this._tooltipHelper?.activeTriggerSet.mark.add(labelMark);
+    // }
+
+    // const transformLabelMark = this._transformLabelMark;
+    // if (transformLabelMark) {
+    //   this.setMarkStyle(
+    //     transformLabelMark,
+    //     {
+    //       text: (datum: Datum) => {
+    //         const ratio = field(FUNNEL_REACH_RATIO).bind(this)(datum) as number;
+    //         return `${(ratio * 100).toFixed(1)}%`;
+    //       },
+    //       x: (datum: Datum) => this._computeLabelPosition(datum).x,
+    //       y: (datum: Datum) => this._computeLabelPosition(datum).y,
+    //       limit: (datum: Datum) => this._computeLabelLimit(datum, this._spec.transformLabel)
+    //     },
+    //     'normal',
+    //     AttributeLevel.Series
+    //   );
+    //   this._trigger.registerMark(transformLabelMark);
+    //   this._tooltipHelper?.activeTriggerSet.mark.add(transformLabelMark);
+    // }
 
     const outerLabelMark = this._funnelOuterLabelMark.label;
     if (outerLabelMark) {
@@ -343,6 +335,43 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
           y: (datum: Datum) => this._computeOuterLabelLinePosition(datum).y1,
           x1: (datum: Datum) => this._computeOuterLabelLinePosition(datum).x2,
           y1: (datum: Datum) => this._computeOuterLabelLinePosition(datum).y2
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+  }
+
+  initLabelMarkStyle(labelMark?: ILabelMark) {
+    if (!labelMark) {
+      return;
+    }
+
+    const target = labelMark.getTarget();
+    if (target === this._funnelMark) {
+      this.setMarkStyle(
+        labelMark,
+        {
+          text: (datum: Datum) => `${datum[this.getCategoryField()]} ${datum[this.getValueField()]}`,
+          x: (datum: Datum) => this._computeLabelPosition(datum).x,
+          y: (datum: Datum) => this._computeLabelPosition(datum).y,
+          limit: (datum: Datum) => this._computeLabelLimit(datum, this._spec.label),
+          stroke: this.getColorAttribute()
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    } else if (this._funnelTransformMark && target === this._funnelTransformMark) {
+      this.setMarkStyle(
+        labelMark,
+        {
+          text: (datum: Datum) => {
+            const ratio = field(FUNNEL_REACH_RATIO).bind(this)(datum) as number;
+            return `${(ratio * 100).toFixed(1)}%`;
+          },
+          x: (datum: Datum) => this._computeLabelPosition(datum).x,
+          y: (datum: Datum) => this._computeLabelPosition(datum).y,
+          limit: (datum: Datum) => this._computeLabelLimit(datum, this._spec.transformLabel)
         },
         'normal',
         AttributeLevel.Series
