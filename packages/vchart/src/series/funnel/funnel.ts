@@ -305,6 +305,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     }
 
     const target = labelMark.getTarget();
+    const component = labelMark.getComponent();
+
     if (target === this._funnelMark) {
       this._labelMark = labelMark;
       this.setMarkStyle(
@@ -320,14 +322,11 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         AttributeLevel.Series
       );
       if (this._funnelOuterLabelMark?.label) {
-        this._funnelOuterLabelMark.label.setDepend(this._labelMark.getComponent());
+        this._funnelOuterLabelMark.label.setDepend(component);
       }
 
       if (this._funnelOuterLabelMark?.line) {
-        this._funnelOuterLabelMark.line.setDepend(
-          ...this._funnelOuterLabelMark.line.getDepend(),
-          this._labelMark.getComponent()
-        );
+        this._funnelOuterLabelMark.line.setDepend(...this._funnelOuterLabelMark.line.getDepend());
       }
     } else if (this._funnelTransformMark && target === this._funnelTransformMark) {
       this._transformLabelMark = labelMark;
