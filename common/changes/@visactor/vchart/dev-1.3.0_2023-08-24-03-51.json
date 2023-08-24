@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue that if `roam: false` then map will not update position after resize",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
