@@ -215,7 +215,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
           height: this.getLayoutRect().height
         },
         showDetail: this._spec?.showDetail,
-        brushSelect: this._spec?.brushSelect ?? true,
+        brushSelect: this._spec?.brushSelect ?? false,
         previewData: this._data.getLatestData(),
         previewCallbackX: this._dataToPositionX,
         previewCallbackY: this._dataToPositionY,

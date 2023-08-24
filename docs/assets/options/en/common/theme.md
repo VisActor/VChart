@@ -8,7 +8,7 @@ The topic definition on the chart supports directly declaring the registered top
 
 Theme configurations are described by the `ITheme` interface and can be broadly categorized into 6 configurations:
 
-```ts
+````ts
 interface ITheme {
   /**
    * :: Configuration 1: Thematic information
@@ -260,7 +260,7 @@ It means that there are 3 types that can be matched to the color palette.
       // Semantic color palette
       palette: {
         labelFontColor: '#89909D',
-        titleFontColor: '#000000',
+        primaryFontColor: '#000000',
         axisGridColor: '#EBEDF2',
         axisDomainColor: '#D9DDE4'
       }
@@ -276,7 +276,7 @@ It means that there are 3 types that can be matched to the color palette.
     // Semantic color palette
     palette: {
       labelFontColor: '#89909D',
-      titleFontColor: '#000000',
+      primaryFontColor: '#000000',
       axisGridColor: '#EBEDF2',
       axisDomainColor: '#D9DDE4'
     }
@@ -889,3 +889,4 @@ One of the shafts has some public configurations:
   }
   ``
   Specific configuration items can be found in the Axis Components spec.
+````

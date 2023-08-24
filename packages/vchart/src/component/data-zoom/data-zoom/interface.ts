@@ -1,3 +1,4 @@
+import type { IModelSpec } from '../../../model/interface';
 import type { IMarkSpec } from '../../../typings/spec';
 import type {
   IAreaMarkSpec,
@@ -70,16 +71,22 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
   };
   /**
    * 是否开启框选, 如果不开启则支持selectedBackground拖拽（框选和拖拽两者互斥）
-   * @default true
+   * @default false
    */
   brushSelect?: boolean;
 }
 
-export type IDataZoomTheme = IDataZoomStyle & {
-  /** 显示的位置 */
-  orient?: IDataZoomSpec['orient'];
-  /** 组件宽度 */
-  width?: IDataZoomSpec['width'];
-  /** 组件高度 */
-  height?: IDataZoomSpec['height'];
-};
+export type IDataZoomTheme = IModelSpec &
+  IDataZoomStyle & {
+    /** 显示的位置 */
+    orient?: IDataZoomSpec['orient'];
+    /** 组件宽度 */
+    width?: IDataZoomSpec['width'];
+    /** 组件高度 */
+    height?: IDataZoomSpec['height'];
+    /**
+     * 是否开启框选, 如果不开启则支持selectedBackground拖拽（框选和拖拽两者互斥）
+     * @default false
+     */
+    brushSelect?: boolean;
+  };
