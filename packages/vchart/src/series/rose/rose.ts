@@ -125,4 +125,8 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       );
     }
   }
+
+  getDefaultShapeType() {
+    return 'circle';
+  }
 }

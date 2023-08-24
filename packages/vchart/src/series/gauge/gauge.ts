@@ -149,4 +149,8 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
       )
     );
   }
+
+  getDefaultShapeType() {
+    return 'circle';
+  }
 }

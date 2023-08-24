@@ -17,9 +17,6 @@ export interface ITooltipHelper {
   /** 不响应tooltip且不会影响已有tooltip的对象 */
   ignoreTriggerSet: ITooltipActiveTypeAsKeys<Set<TooltipTrigger>, Set<TooltipTrigger>>;
 
-  /** 默认tooltip shape type */
-  getDefaultShapeType: () => string;
-
   /** 更新spec */
   updateTooltipSpec: () => void;
 }
@@ -36,10 +33,6 @@ export abstract class BaseTooltipHelper implements ITooltipHelper {
     mark: new Set<TooltipTrigger>(),
     dimension: new Set<TooltipTrigger>()
   };
-
-  getDefaultShapeType(): string {
-    return 'circle';
-  }
 
   abstract updateTooltipSpec(): void;
 }

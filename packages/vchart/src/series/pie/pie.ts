@@ -467,8 +467,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     }
   }
 
-  getDefaultShapeType(): string {
-    return 'square';
+  getDefaultShapeType() {
+    return 'circle';
   }
 
   getGroupFields(): string[] {
