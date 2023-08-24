@@ -163,21 +163,24 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
     if (this._spec.roam) {
       (this as unknown as IZoomable).initZoomEventOfRegions(this._regions, null, this._handleChartZoom);
       (this as unknown as IZoomable).initDragEventOfRegions(this._regions, () => true, this.pan);
+    }
 
-      this._regions.forEach(r => {
-        r.getSeries().forEach(s => {
+    this._regions.forEach(r => {
+      r.getSeries().forEach(s => {
+        if (this._spec.roam) {
           s.event.on('zoom', e => {
             s.handleZoom(e as ZoomEventParam);
             return true;
           });
-
-          s.event.on('panmove', e => {
-            s.handlePan(e as PanEventParam);
-            return true;
-          });
+        }
+        // panmove is also used for resize in map path
+        // as it's x/y attribute is always set to be 0, cannot be re-encoded when resizing
+        s.event.on('panmove', e => {
+          s.handlePan(e as PanEventParam);
+          return true;
         });
       });
-    }
+    });
   }
 
   initProjection() {
