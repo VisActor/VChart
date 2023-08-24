@@ -49,8 +49,8 @@ export function cloneDeepSpec(spec: any) {
     return value;
   }
 
-  // 判断是不是 DataView 对象
-  if (isDataView(value)) {
+  // 判断是不是不能深拷贝的对象
+  if (isDataView(value) || isHTMLElement(value)) {
     return value;
   }
 
@@ -95,6 +95,10 @@ export function isDataView(obj: any): obj is DataView {
   const dataViewKeys: (keyof DataView)[] = ['dataSet', 'latestData', 'rawData', 'parserData', 'isDataView', 'history'];
   const keys = Object.keys(obj);
   return obj instanceof DataView || dataViewKeys.every(key => keys.includes(key));
+}
+
+export function isHTMLElement(obj: any): obj is Element {
+  return obj instanceof Element;
 }
 
 export function convertBackgroundSpec(
