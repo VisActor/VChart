@@ -1,6 +1,28 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 17 Aug 2023 02:45:43 GMT and should not be manually modified.
+This log was last generated on Thu, 24 Aug 2023 07:23:56 GMT and should not be manually modified.
+
+## 1.2.3
+Thu, 24 Aug 2023 07:23:56 GMT
+
+### Patches
+
+- fix: background will not update when spec or theme updating, related #545
+- fix: tooltip shape style incorrect when configure custom key/value, related #336
+- fix: when chart size is very small, the size assigned to title may be negative, which needs to be fault-tolerant, otherwise it will easily cause the page to freeze, closed #546
+- feat(active): add active point for line & area series to optimization the performance of user interactive
+
+
+
+### Updates
+
+- fix: niceDomain should only works for linear scale, fixed #528
+- fix: fix the issue of the chart's size is not correctly when updateSpec in lark block env, closed #566
+- fix: handle the scenarios of with the same range in continuous legend, fixed #579
+- fix: error when configuring `tooltip.parentElement` with a HTMLElement object, related #641
+- fix: error when mouse hovering during updateSpec executing
+- fix(wordCloud): fix position error of wordCloud chart. fix #521, fix #533
+- fix: error when mouse hovering during `updateSpec()` executing.
 
 ## 1.2.2
 Thu, 17 Aug 2023 02:45:43 GMT
