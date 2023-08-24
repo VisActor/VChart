@@ -24,14 +24,12 @@ const run = () => {
         { type: '2222', x: 'D', y: 20 }
       ]
     },
-    legends: {}
-    /*
+    legends: {},
     dataZoom: [
       {
         orient: 'bottom'
       }
     ]
-    */
   });
 
   const cs = new VChart(getSpec(), {
