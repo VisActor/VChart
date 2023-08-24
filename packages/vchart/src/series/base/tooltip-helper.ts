@@ -122,7 +122,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
   };
 
   contentShapeTypeCallback = (datum: Datum, params?: TooltipHandlerParams): ShapeType | undefined => {
-    return this._getSeriesStyle(datum, 'shape', this.getDefaultShapeType());
+    return this._getSeriesStyle(datum, 'shape', this.series.getDefaultShapeType());
   };
 
   contentShapeColorCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
@@ -185,12 +185,5 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
     }
 
     return null;
-  }
-
-  /**
-   * @override
-   */
-  getDefaultShapeType() {
-    return this.series.getDefaultShapeType();
   }
 }

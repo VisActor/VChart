@@ -244,6 +244,10 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   protected initTooltip() {
     this._tooltipHelper = new AreaSeriesTooltipHelper(this);
   }
+
+  getDefaultShapeType() {
+    return 'square';
+  }
 }
 
 mixin(AreaSeries, LineLikeSeriesMixin);

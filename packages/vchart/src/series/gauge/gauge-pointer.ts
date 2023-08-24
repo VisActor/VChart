@@ -187,4 +187,8 @@ export class GaugePointerSeries<
       )
     );
   }
+
+  getDefaultShapeType() {
+    return 'circle';
+  }
 }
