@@ -263,7 +263,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
         z: this._fieldZ ? this.dataToPositionZ.bind(this) : null,
         fill: this.getColorAttribute(),
         size: isNumber(this._size) || isFunction(this._size) ? this._size : SCATTER_DEFAULT_SIZE,
-        shape: isString(this._shape) || isFunction(this._shape) ? this._shape : SCATTER_DEFAULT_SHAPE
+        symbolType: isString(this._shape) || isFunction(this._shape) ? this._shape : SCATTER_DEFAULT_SHAPE
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
@@ -284,7 +284,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
       this.setMarkStyle(
         symbolMark,
         {
-          shape: this.getShapeAttribute(this._shapeField, this._shape) as VisualType<string>
+          symbolType: this.getShapeAttribute(this._shapeField, this._shape) as VisualType<string>
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
         AttributeLevel.User_Mark

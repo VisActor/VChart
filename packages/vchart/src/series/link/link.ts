@@ -219,7 +219,7 @@ export class LinkSeries extends CartesianSeries<ILinkSeriesSpec> {
           fill: this.getColorAttribute(),
           fillOpacity: this.dataToOpacity.bind(this),
           size: arrowSize,
-          shape: (datum: Datum) => {
+          symbolType: (datum: Datum) => {
             return this.isPositionYFromHigher(datum) ? ShapeTypeEnum.triangleDown : ShapeTypeEnum.triangleUp;
           }
         },
