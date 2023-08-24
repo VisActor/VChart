@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: new component spec item `noOuterPadding` to hide the outer side of padding, related #663",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
