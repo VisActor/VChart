@@ -50,12 +50,14 @@ type EventHandlerList = {
   handler: any;
 }[];
 
-export class Tooltip extends BaseComponent<ITooltipSpec> implements ITooltip {
+export class Tooltip extends BaseComponent<any> implements ITooltip {
   static type = ComponentTypeEnum.tooltip;
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
 
   layoutType: ILayoutItem['layoutType'] = 'absolute';
+
+  protected declare _spec: ITooltipSpec;
 
   static createComponent(spec: any, options: IComponentOption) {
     const tooltipSpec = spec.tooltip;
