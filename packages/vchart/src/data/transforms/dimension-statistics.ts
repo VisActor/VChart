@@ -192,12 +192,13 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
             return;
           }
 
-          const value = d[f.key];
+          let value = d[f.key];
           if (!couldBeValidNumber(value)) {
             if (result[f.key].allValid) {
               result[f.key].allValid = false;
             }
           } else {
+            value = +value;
             if (willMin && result[f.key].min > value) {
               result[f.key].min = value;
             }

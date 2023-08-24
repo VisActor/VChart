@@ -296,17 +296,18 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     };
   }
 
-  protected _axisPosition(helper: IAxisHelper, value: StringOrNumber | StringOrNumber[]) {
+  protected _axisPosition(helper: IAxisHelper, value: StringOrNumber | StringOrNumber[], datum?: any) {
+    this._scaleConfig.datum = datum;
     if (helper.isContinuous) {
       return helper.valueToPosition(value, this._scaleConfig);
     }
     return helper.dataToPosition(array(value), this._scaleConfig);
   }
 
-  valueToPositionX(value: StringOrNumber | StringOrNumber[]) {
-    return this._axisPosition(this._xAxisHelper, value);
+  valueToPositionX(value: StringOrNumber | StringOrNumber[], datum?: any) {
+    return this._axisPosition(this._xAxisHelper, value, datum);
   }
-  valueToPositionY(value: StringOrNumber | StringOrNumber[]) {
+  valueToPositionY(value: StringOrNumber | StringOrNumber[], datum?: any) {
     return this._axisPosition(this._yAxisHelper, value);
   }
 
@@ -318,7 +319,8 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this.valueToPositionX(
       this._xAxisHelper.isContinuous
         ? this.getDatumPositionValue(datum, fields[0])
-        : this.getDatumPositionValues(datum, fields)
+        : this.getDatumPositionValues(datum, fields),
+      datum
     );
   }
 
@@ -330,7 +332,8 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this.valueToPositionY(
       this._yAxisHelper.isContinuous
         ? this.getDatumPositionValue(datum, fields[0])
-        : this.getDatumPositionValues(datum, fields)
+        : this.getDatumPositionValues(datum, fields),
+      datum
     );
   }
 
