@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: error when configuring `tooltip.parentElement` with a HTMLElement object, related #641",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
