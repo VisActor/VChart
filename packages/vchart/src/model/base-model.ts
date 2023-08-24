@@ -245,6 +245,10 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     }
     const newObj = { ...obj };
     Object.keys(newObj).forEach(key => {
+      // 绕过数据
+      if (key.includes('data')) {
+        return;
+      }
       const value = obj[key];
       // 绕过不可深拷贝的对象
       if (isObject(value) && (isDataView(value) || isHTMLElement(value))) {
