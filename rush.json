@@ -23,7 +23,7 @@
       "packageName": "@visactor/vchart-editor",
       "projectFolder": "packages/vchart-editor",
       "tags": ["package"],
-      "shouldPublish": true
+      "shouldPublish": false
     },
     {
       "packageName": "@visactor/vchart",
