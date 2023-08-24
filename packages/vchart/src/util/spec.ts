@@ -92,13 +92,25 @@ export function cloneDeepSpec(spec: any) {
 }
 
 export function isDataView(obj: any): obj is DataView {
-  const dataViewKeys: (keyof DataView)[] = ['dataSet', 'latestData', 'rawData', 'parserData', 'isDataView', 'history'];
-  const keys = Object.keys(obj);
-  return obj instanceof DataView || dataViewKeys.every(key => keys.includes(key));
+  return obj instanceof DataView;
 }
 
 export function isHTMLElement(obj: any): obj is Element {
-  return obj instanceof Element;
+  try {
+    return obj instanceof Element;
+  } catch {
+    // 跨端 plan B
+    const htmlElementKeys: (keyof Element)[] = [
+      'children',
+      'innerHTML',
+      'classList',
+      'setAttribute',
+      'tagName',
+      'getBoundingClientRect'
+    ];
+    const keys = Object.keys(obj);
+    return htmlElementKeys.every(key => keys.includes(key));
+  }
 }
 
 export function convertBackgroundSpec(
