@@ -627,26 +627,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     return result;
   }
-
-  clear() {
-    super.clear();
-    this._stateScale = null;
-    this._relatedAxisComponent = null;
-
-    this._seriesIndex = null;
-    this._seriesUserId = null;
-    this._regionUserId = null;
-    this._regionIndex = null;
-    this._newDomain = null;
-
-    this._startValue = null;
-    this._endValue = null;
-
-    this._stateField = null;
-
-    this._width = null;
-    this._height = null;
-  }
 }
 
 mixin(DataFilterBaseComponent, Zoomable);
