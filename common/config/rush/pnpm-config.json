@@ -89,7 +89,7 @@
    * PNPM documentation: https://pnpm.io/package_json#pnpmoverrides
    */
   "globalOverrides": {
-    "@visactor/vrender": "0.14.5-alpha.3",
+    "@visactor/vrender": "0.14.5",
     "@visactor/vrender-components": "0.14.5-alpha.4"
   },
 
