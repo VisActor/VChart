@@ -190,7 +190,7 @@ export class VChart implements IVChart {
     mode: RenderModeEnum['desktop-browser'],
     animation: true,
     onError: (msg: string) => {
-      throw new Error(msg);
+      // throw new Error(msg);
     }
   };
 

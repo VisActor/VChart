@@ -118,7 +118,7 @@ describe('[Domain-Series-Funnel] Funnel Series', () => {
     funnel.fillData();
 
     const marks = funnel.getMarks();
-    expect(marks.length).toEqual(7);
+    expect(marks.length).toEqual(6);
 
     const funnelPolygon = marks[1];
     expect(funnelPolygon.type).toEqual('polygon');

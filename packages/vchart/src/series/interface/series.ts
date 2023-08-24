@@ -17,6 +17,7 @@ import type { IGroupMark } from '../../mark/group';
 import type { ITextMark } from '../../mark/text';
 import type { IArcLabelSpec } from '../pie/interface';
 import type { IGeoCoordinateHelper } from '../../component/geo/interface';
+import type { ILabelMark } from '../../mark/label';
 
 // 使用类型约束系列支持的样式，但是感觉这样不合理 不使用这样的方式去做
 // export interface ISeries<A extends string> extends IModel
@@ -176,7 +177,7 @@ export interface ISeries extends IModel, ILayoutItem {
    */
   getDefaultShapeType: () => string;
   /** 获取系列标签配置 */
-  initLabelMarkStyle?: (textMark: ITextMark) => void;
+  initLabelMarkStyle?: (labelMark: ILabelMark) => void;
 }
 
 export interface ICartesianSeries extends ISeries {
