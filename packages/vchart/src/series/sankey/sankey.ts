@@ -1183,8 +1183,10 @@ export class SankeySeries extends CartesianSeries<any> {
           return;
         }
 
-        const selectedDatum = originalDatum.filter((entry: any) =>
-          entry.parents.some((par: any) => par.key === curLinkDatum.target)
+        const selectedDatum = originalDatum.filter((entry: any, index: number) =>
+          entry.parents.some(
+            (par: any) => par.key === curLinkDatum.target && entry.parents[index - 1]?.key === curLinkDatum.source
+          )
         );
 
         if (selectedDatum && selectedDatum.length) {
