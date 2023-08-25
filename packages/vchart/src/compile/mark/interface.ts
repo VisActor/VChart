@@ -112,6 +112,9 @@ export interface ICompilableMark extends IGrammarItem {
   getUserId: () => StringOrNumber | undefined;
   setUserId: (id: StringOrNumber) => void;
 
+  // 是否支持 3d
+  getSupport3d: () => boolean | undefined;
+
   compile: (option?: IMarkCompileOption) => void;
 
   getProduct: () => Maybe<IMark>;
