@@ -460,12 +460,10 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   }
 
   private _computeBorderAttr(borderStyle: any, data: Datum, opt: IAttributeOpt) {
-    const { scale, field, ...rest } = borderStyle;
+    const { scale, field, ...mergedStyle } = borderStyle;
 
     const computeStyle: any = {};
-    const mergedStyle = {
-      ...rest
-    };
+
     Object.keys(mergedStyle).forEach(key => {
       const value = mergedStyle[key];
       if (isFunction(value)) {
