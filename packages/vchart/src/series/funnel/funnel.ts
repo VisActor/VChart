@@ -681,7 +681,9 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       return Math.abs(points[3].x - points[0].x);
     }
 
-    return this._computeMaxSize();
+    // return this._computeMaxSize();
+    // FIXME: 待 vrender 修复 maxLineWidth 在 bound 计算的 bug 后可以恢复注释
+    return undefined;
   }
 
   private _computeOuterLabelPosition(datum: Datum) {
