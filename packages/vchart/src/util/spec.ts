@@ -163,7 +163,7 @@ export function preprocessSpecOrTheme(obj: any, colorScheme?: IThemeColorScheme,
     });
   }
 
-  const newObj = { ...obj };
+  const newObj = {};
   Object.keys(obj).forEach(key => {
     const value = obj[key];
     // 绕过数据
