@@ -9,7 +9,7 @@ import type { IPathMark } from '../../mark/path';
 import { geoSourceMap } from './geo-source';
 import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { isValid, isValidNumber, merge } from '../../util';
+import { isValid, isValidNumber } from '../../util';
 import { GeoSeries } from '../geo/geo';
 import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';
@@ -130,20 +130,19 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       isSeriesMark: true,
       skipBeforeLayouted: true,
       dataView: this._mapViewData.getDataView(),
-      dataProductId: this._mapViewData.getProductId(),
-      label: merge({ animation: this._spec.animation }, this._spec.label)
+      dataProductId: this._mapViewData.getProductId()
     }) as IPathMark;
 
-    // if (this._spec.label?.visible) {
-    //   this._labelMark = this._createMark(MapSeries.mark.label, {
-    //     // map zoom/scale need to be transformed in path.group
-    //     // so label mark cannot be in the same groupMark
-    //     parent: this.getRegion().getGroupMark(),
-    //     skipBeforeLayouted: true,
-    //     dataView: this._mapViewData.getDataView(),
-    //     dataProductId: this._mapViewData.getProductId()
-    //   }) as ITextMark;
-    // }
+    if (this._spec.label?.visible) {
+      this._labelMark = this._createMark(MapSeries.mark.label, {
+        // map zoom/scale need to be transformed in path.group
+        // so label mark cannot be in the same groupMark
+        parent: this.getRegion().getGroupMark(),
+        skipBeforeLayouted: true,
+        dataView: this._mapViewData.getDataView(),
+        dataProductId: this._mapViewData.getProductId()
+      }) as ITextMark;
+    }
   }
 
   initMarkStyle() {
@@ -184,19 +183,17 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       this._trigger.registerMark(pathMark);
       this._tooltipHelper?.activeTriggerSet.mark.add(pathMark);
     }
-  }
 
-  initLabelMarkStyle(labelMark?: ITextMark) {
-    if (!labelMark) {
-      return;
+    const labelMark = this._labelMark;
+    if (labelMark) {
+      this.setMarkStyle(labelMark, {
+        text: (datum: Datum) => {
+          return this._getDatumName(datum);
+        },
+        x: (datum: Datum) => this.dataToPosition(datum)?.x,
+        y: (datum: Datum) => this.dataToPosition(datum)?.y
+      });
     }
-    this.setMarkStyle(labelMark, {
-      text: (datum: Datum) => {
-        return this._getDatumName(datum);
-      },
-      x: (datum: Datum) => this.dataToPosition(datum)?.x,
-      y: (datum: Datum) => this.dataToPosition(datum)?.y
-    });
   }
 
   initAnimation() {
