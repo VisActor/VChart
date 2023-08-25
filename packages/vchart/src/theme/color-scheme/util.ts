@@ -1,4 +1,4 @@
-import { isArray, isFunction, isObject, isString, isValid } from '@visactor/vutils';
+import { array, isArray, isFunction, isObject, isString, isValid } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { ColorUtil } from '@visactor/vutils';
 import type { SeriesTypeEnum } from '../../series/interface';
@@ -104,7 +104,17 @@ export function queryColorFromColorScheme(
   if (!scheme) {
     return undefined;
   }
-  const color = (scheme as IColorSchemeStruct).palette?.[colorKey.key];
+  let color;
+  const { palette } = scheme as IColorSchemeStruct;
+  if (isObject(palette)) {
+    // 依照从前到后的优先级取色
+    for (const key of array(colorKey.key)) {
+      color = palette[key];
+      if (isValid(color)) {
+        break;
+      }
+    }
+  }
   if (!color) {
     return undefined;
   }

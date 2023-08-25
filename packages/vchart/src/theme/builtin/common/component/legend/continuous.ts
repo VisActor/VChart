@@ -11,7 +11,7 @@ export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
     textStyle: {
       fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
       fontWeight: 'normal',
-      fill: { type: 'palette', key: 'primaryFontColor' }
+      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
     },
     space: 12
   },

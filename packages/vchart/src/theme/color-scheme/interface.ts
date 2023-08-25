@@ -36,8 +36,8 @@ export interface IColorKey {
   /** 颜色type声明 */
   type: 'palette';
 
-  /** 颜色索引 */
-  key: string;
+  /** 颜色索引，如果为数组，则按顺序从前到后取色，直到取到第一个不为空的色值 */
+  key: string | string[];
 
   /** 明度系数（可选，0~1） */
   l?: number;

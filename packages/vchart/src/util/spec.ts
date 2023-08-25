@@ -164,23 +164,27 @@ export function preprocessSpecOrTheme(obj: any, colorScheme?: IThemeColorScheme,
   }
 
   const newObj = { ...obj };
-  Object.keys(newObj).forEach(key => {
+  Object.keys(obj).forEach(key => {
+    const value = obj[key];
     // 绕过数据
     if (key.includes('data')) {
+      newObj[key] = value;
       return;
     }
-    const value = obj[key];
-    // 绕过不可深拷贝的对象
-    if (isObject(value) && (isDataView(value) || isHTMLElement(value))) {
-      return;
-    }
-    if (isObject(value) && !isFunction(value)) {
+    if (isObject(value)) {
+      // 绕过不可深拷贝的对象
+      if (isFunction(value) || isDataView(value) || isHTMLElement(value)) {
+        newObj[key] = value;
+        return;
+      }
       // 查询、替换语义化颜色
       if (isColorKey(value)) {
         newObj[key] = getActualColor(value, colorScheme, seriesType);
       } else {
         newObj[key] = preprocessSpecOrTheme(value, colorScheme, seriesType);
       }
+    } else {
+      newObj[key] = value;
     }
   });
 

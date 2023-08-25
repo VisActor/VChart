@@ -42,7 +42,11 @@ export const colorScheme: IThemeColorScheme = {
       /** 提示信息背景区域颜色 */
       tooltipBackgroundColor: '#404349',
       /** 提示信息阴影颜色 */
-      tooltipShadowColor: '#000000'
+      tooltipShadowColor: '#000000',
+
+      // 已弃用的语义色值
+      /** @deprecated 图表标题颜色 */
+      titleFontColor: '#fdfdfd'
     }
   }
 };
