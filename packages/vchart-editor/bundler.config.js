@@ -10,5 +10,10 @@ module.exports = {
     umd: 'build'
   },
   umdOutputFilename: 'index',
-  noEmitOnError: false
+  noEmitOnError: false,
+  globals: {
+    '@visactor/vchart': 'VChart',
+    '@visactor/vutils': 'VUtils'
+  },
+  external: ['@visactor/vchart', '@visactor/vutils']
 };
