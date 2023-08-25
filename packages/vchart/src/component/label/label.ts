@@ -5,7 +5,7 @@ import type { IRegion } from '../../region/interface';
 import type { IModelInitOption } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
 import { ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
-import { MarkTypeEnum, type IMark } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface';
 import { eachSeries, merge } from '../../util';
 import type { ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar';
@@ -19,9 +19,10 @@ import type { LabelItem } from '@visactor/vrender-components';
 import type { ILabelSpec } from './interface';
 import { VChart } from '../../core';
 import { LabelMark, type ILabelMark } from '../../mark/label';
+import type { ICompilableMark } from '../../compile/mark';
 
 export interface ILabelInfo {
-  baseMark: IMark;
+  baseMark: ICompilableMark;
   labelMark: ILabelMark;
   series: ISeries;
   labelSpec: ILabelSpec;
@@ -177,7 +178,7 @@ export class Label extends BaseLabelComponent {
             { type: MarkTypeEnum.component, name: `${labelInfo.labelMark.name}-component` },
             {
               componentType: 'label',
-              support3d: this._spec.support3d
+              support3d: labelInfo.baseMark.getSupport3d()
             }
           );
           if (component) {
