@@ -618,6 +618,8 @@ export class SankeySeries extends CartesianSeries<any> {
       this._handleNodeAdjacencyClick(element);
     } else if (element && element.mark.id().includes('link')) {
       this._handleLinkAdjacencyClick(element);
+    } else {
+      this._handleClearEmpty();
     }
   };
 
@@ -627,7 +629,32 @@ export class SankeySeries extends CartesianSeries<any> {
       this._handleNodeRelatedClick(element);
     } else if (element && element.mark.id().includes('link')) {
       this._handleLinkRelatedClick(element);
+    } else {
+      this._handleClearEmpty();
     }
+  };
+
+  protected _handleClearEmpty = () => {
+    const nodeVGrammarMark = this._nodeMark.getProduct();
+
+    if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
+      return;
+    }
+    const allNodeElements = nodeVGrammarMark.elements;
+
+    const linkVGrammarMark = this._linkMark.getProduct();
+
+    if (!linkVGrammarMark || !linkVGrammarMark.elements || !linkVGrammarMark.elements.length) {
+      return;
+    }
+    const allLinkElements = linkVGrammarMark.elements;
+
+    allNodeElements.forEach(el => {
+      el.clearStates();
+    });
+    allLinkElements.forEach(el => {
+      el.clearStates();
+    });
   };
 
   protected _handleNodeAdjacencyClick = (element: IElement) => {
