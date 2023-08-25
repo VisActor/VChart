@@ -810,10 +810,6 @@ export class SankeySeries extends CartesianSeries<any> {
 
   protected _handleNodeRelatedClick = (element: IElement) => {
     const nodeDatum = element.getDatum();
-    const highlightNodes: string[] = [nodeDatum.key];
-    const highlightLinks: string[] = [];
-    // downstreamhighlightLinks
-
     const nodeVGrammarMark = this._nodeMark.getProduct();
 
     if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
@@ -828,34 +824,35 @@ export class SankeySeries extends CartesianSeries<any> {
     }
     const allLinkElements = linkVGrammarMark.elements;
 
-    allLinkElements.forEach((linkEl: IElement, i: number) => {
-      linkEl.clearStates();
-      const linkDatum = linkEl.getDatum();
-      const father = linkDatum?.parents ? 'parents' : 'source';
-      const originalDatum = linkDatum.datum;
-      const selectedDatum = originalDatum.filter((entry: any) =>
-        entry[father].some((par: any) => par.key === nodeDatum.key)
-      );
-      // if (array(linkDatum[father]).includes(nodeDatum.key)) {
-      if (selectedDatum && selectedDatum.length) {
-        // 下游link
+    const father = allLinkElements[0].getDatum()?.parents ? 'parents' : 'source';
 
-        if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
-          highlightLinks.push(linkDatum.key ?? linkDatum.index);
-        }
-        if (!highlightNodes.includes(linkDatum.source)) {
-          highlightNodes.push(linkDatum.source);
-        }
+    if (father === 'source') {
+      // node-link 型数据
+      const highlightNodes: string[] = [nodeDatum.key];
+      const highlightLinks: string[] = [];
 
-        if (!highlightNodes.includes(linkDatum.target)) {
-          highlightNodes.push(linkDatum.target);
-          // 下游link的目标节点
-          const targetNode = allNodeElements.find(nodeElement => {
-            return nodeElement.data[0].key === linkDatum.target;
-          });
+      allLinkElements.forEach((linkEl: IElement, i: number) => {
+        linkEl.clearStates();
+        const linkDatum = linkEl.getDatum();
+        const father = linkDatum?.parents ? 'parents' : 'source';
 
-          // 以下游link的目标节点为起点的links
-          if (father === 'source') {
+        if (array(linkDatum[father]).includes(nodeDatum.key)) {
+          // 下游link
+          if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
+            highlightLinks.push(linkDatum.key ?? linkDatum.index);
+          }
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
+          }
+
+          if (!highlightNodes.includes(linkDatum.target)) {
+            highlightNodes.push(linkDatum.target);
+            // 下游link的目标节点
+            const targetNode = allNodeElements.find(nodeElement => {
+              return nodeElement.data[0].key === linkDatum.target;
+            });
+
+            // 以下游link的目标节点为起点的links
             let targetNodeSourceLinks: any[] = targetNode.data[0].sourceLinks as any[];
             while (targetNodeSourceLinks?.length > 0) {
               const newTargetNodeSourceLinks: any[] = [];
@@ -881,148 +878,391 @@ export class SankeySeries extends CartesianSeries<any> {
               return;
             }
           }
-        }
-      } else if (linkDatum.target === nodeDatum.key) {
-        // 上游link
-        if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
-          highlightLinks.push(linkDatum.key ?? linkDatum.index);
-          // console.log('highlightLinks', highlightLinks);
-        }
-        // console.log('linkDatum', linkDatum);
-        if (!highlightNodes.includes(linkDatum.source)) {
-          highlightNodes.push(linkDatum.source);
-          const sourceNode = allNodeElements.find(nodeElement => {
-            return nodeElement.data[0].key === linkDatum.source;
-          });
-          let sourceNodeTargetLinks: any[] = sourceNode.data[0].targetLinks as any;
-          while (sourceNodeTargetLinks?.length > 0) {
-            const newSourceNodeTargetLinks: any[] = [];
-            sourceNodeTargetLinks.forEach((sourceNodeTargetLinkDatum: any) => {
-              if (!highlightLinks.includes(sourceNodeTargetLinkDatum.key ?? sourceNodeTargetLinkDatum.index)) {
-                highlightLinks.push(sourceNodeTargetLinkDatum.key ?? sourceNodeTargetLinkDatum.index);
-                if (!highlightNodes.includes(sourceNodeTargetLinkDatum.source)) {
-                  highlightNodes.push(sourceNodeTargetLinkDatum.source);
-                  const sourceNodeTemp = allNodeElements.find(nodeElement => {
-                    return nodeElement.data[0].key === sourceNodeTargetLinkDatum.source;
-                  });
-                  newSourceNodeTargetLinks.push(sourceNodeTemp.data[0].targetLinks as any[]);
+        } else if (linkDatum.target === nodeDatum.key) {
+          // 上游link
+          if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
+            highlightLinks.push(linkDatum.key ?? linkDatum.index);
+          }
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
+            const sourceNode = allNodeElements.find(nodeElement => {
+              return nodeElement.data[0].key === linkDatum.source;
+            });
+            let sourceNodeTargetLinks: any[] = sourceNode.data[0].targetLinks as any;
+            while (sourceNodeTargetLinks?.length > 0) {
+              const newSourceNodeTargetLinks: any[] = [];
+              sourceNodeTargetLinks.forEach((sourceNodeTargetLinkDatum: any) => {
+                if (!highlightLinks.includes(sourceNodeTargetLinkDatum.key ?? sourceNodeTargetLinkDatum.index)) {
+                  highlightLinks.push(sourceNodeTargetLinkDatum.key ?? sourceNodeTargetLinkDatum.index);
+                  if (!highlightNodes.includes(sourceNodeTargetLinkDatum.source)) {
+                    highlightNodes.push(sourceNodeTargetLinkDatum.source);
+                    const sourceNodeTemp = allNodeElements.find(nodeElement => {
+                      return nodeElement.data[0].key === sourceNodeTargetLinkDatum.source;
+                    });
+                    newSourceNodeTargetLinks.push(sourceNodeTemp.data[0].targetLinks as any[]);
+                  } else {
+                    return;
+                  }
                 } else {
                   return;
                 }
-              } else {
-                return;
-              }
-            });
-            sourceNodeTargetLinks = newSourceNodeTargetLinks;
-            return;
+              });
+              sourceNodeTargetLinks = newSourceNodeTargetLinks;
+              return;
+            }
           }
         }
-      }
-    });
+      });
 
-    [this._linkMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+      [this._linkMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
 
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLinkElements = vGrammarMark.elements;
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLinkElements = vGrammarMark.elements;
+
+        allLinkElements.forEach((linkEl: IElement, i: number) => {
+          linkEl.clearStates();
+          if (highlightLinks.includes(linkEl.getDatum().key ?? linkEl.getDatum().index)) {
+            linkEl.useStates(['selected']);
+          } else {
+            linkEl.useStates(['blur']);
+          }
+        });
+      });
+
+      [this._nodeMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allNodeElements = vGrammarMark.elements;
+
+        allNodeElements.forEach(el => {
+          el.clearStates();
+          if (highlightNodes.includes(el.getDatum().key)) {
+            //
+          } else {
+            el.useStates(['blur']);
+          }
+        });
+      });
+
+      [this._labelMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLabelElements = vGrammarMark.elements;
+
+        allLabelElements.forEach(el => {
+          el.clearStates();
+          if (highlightNodes.includes(el.getDatum().key)) {
+            //
+          } else {
+            el.useStates(['blur']);
+          }
+        });
+      });
+    } else {
+      // 层级型数据
+      const highlightNodes: string[] = [nodeDatum.key];
+
+      const upstreamLinks = nodeDatum.targetLinks.reduce((res: any[], link: any) => {
+        const dividedLinks = array((link as any).datum);
+
+        dividedLinks.forEach(dividedLink => {
+          const parents = dividedLink.parents;
+          const len = parents.length;
+
+          for (let i = 0; i < len; i++) {
+            const source = parents[i].key;
+            const target = parents[i + 1] ? parents[i + 1].key : nodeDatum.key;
+            const value = dividedLink.value;
+
+            // 检查 res 数组中是否已存在相同的 source 和 target
+            const existingItem = res.find(item => item.source === source && item.target === target);
+
+            if (existingItem) {
+              // 如果存在相同的项，则对其 value 进行累加
+              existingItem.value += value;
+            } else {
+              // 如果不存在相同的项，则添加新的项到 res 数组中
+              res.push({ source, target, value });
+            }
+          }
+        });
+        return res;
+      }, []);
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
         linkEl.clearStates();
-        // console.log('highlightLinks', highlightLinks);
-        if (highlightLinks.includes(linkEl.getDatum().key ?? linkEl.getDatum().index)) {
-          // console.log('linkEl.getDatum()', linkEl.getDatum());
-          const linkDatum = linkEl.getDatum();
-          const father = linkDatum?.parents ? 'parents' : 'source';
-          let ratio;
-          if (father === 'parents') {
-            const originalDatum = linkDatum.datum;
-            const val = originalDatum
-              .filter((entry: any) => {
-                return entry.parents.some((par: any) => par.key === nodeDatum.key);
-              })
-              .reduce((sum: number, d: any) => {
-                return (sum += d.value);
-              }, 0);
-            ratio = val / linkDatum.value;
+        const linkDatum = linkEl.getDatum();
+        const father = linkDatum?.parents ? 'parents' : 'source';
+        const originalDatum = linkDatum.datum;
+        const selectedDatum = originalDatum.filter((entry: any) =>
+          entry[father].some((par: any) => par.key === nodeDatum.key)
+        );
+
+        const upSelectedLink = upstreamLinks.find(
+          (upLink: any) => upLink.source === linkDatum.source && upLink.target === linkDatum.target
+        );
+
+        if (selectedDatum && selectedDatum.length) {
+          // 下游link
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
           }
+
+          if (!highlightNodes.includes(linkDatum.target)) {
+            highlightNodes.push(linkDatum.target);
+          }
+
+          const val = selectedDatum.reduce((sum: number, d: any) => {
+            return (sum += d.value);
+          }, 0);
+          const ratio = val / linkDatum.value;
+
           linkEl.useStates(['selected']);
           linkEl.addState('selected', { ratio });
-        } else {
-          linkEl.useStates(['blur']);
+
+          return;
         }
-      });
-    });
 
-    [this._nodeMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+        if (upSelectedLink) {
+          // 上游link
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
+          }
 
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          if (!highlightNodes.includes(linkDatum.target)) {
+            highlightNodes.push(linkDatum.target);
+          }
+
+          linkEl.useStates(['selected']);
+          linkEl.addState('selected', { ratio: upSelectedLink.value / linkDatum.value });
+
+          return;
+        }
+
+        linkEl.useStates(['blur']);
+
         return;
-      }
-      const allNodeElements = vGrammarMark.elements;
-
-      allNodeElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
       });
-    });
 
-    [this._labelMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+      [this._nodeMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
 
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLabelElements = vGrammarMark.elements;
-
-      allLabelElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
         }
+        const allNodeElements = vGrammarMark.elements;
+
+        allNodeElements.forEach(el => {
+          el.clearStates();
+          if (highlightNodes.includes(el.getDatum().key)) {
+            //
+          } else {
+            el.useStates(['blur']);
+          }
+        });
       });
-    });
+
+      [this._labelMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLabelElements = vGrammarMark.elements;
+
+        allLabelElements.forEach(el => {
+          el.clearStates();
+          if (highlightNodes.includes(el.getDatum().key)) {
+            //
+          } else {
+            el.useStates(['blur']);
+          }
+        });
+      });
+    }
   };
 
   protected _handleLinkRelatedClick = (element: IGlyphElement) => {
-    [this._linkMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLinkElements = vGrammarMark.elements;
+    const nodeVGrammarMark = this._nodeMark.getProduct();
+
+    if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
+      return;
+    }
+    const allNodeElements = nodeVGrammarMark.elements;
+
+    const linkVGrammarMark = this._linkMark.getProduct();
+
+    if (!linkVGrammarMark || !linkVGrammarMark.elements || !linkVGrammarMark.elements.length) {
+      return;
+    }
+    const allLinkElements = linkVGrammarMark.elements;
+
+    const father = element.getDatum()?.parents ? 'parents' : 'source';
+    if (father === 'source') {
+      [this._linkMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLinkElements = vGrammarMark.elements;
+        allLinkElements.forEach(linkEl => {
+          linkEl.clearStates();
+        });
+      });
+      [this._nodeMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allNodeElements = vGrammarMark.elements;
+        allNodeElements.forEach(el => {
+          el.clearStates();
+        });
+      });
+      [this._labelMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLabelElements = vGrammarMark.elements;
+        allLabelElements.forEach(el => {
+          el.clearStates();
+        });
+      });
+    } else {
+      const curLinkDatum = element.getDatum();
+      const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
+      const upstreamLinks: Array<{ source: string; target: string; value: number }> = [];
+
+      const dividedLinks = array((curLinkDatum as any).datum);
+
+      dividedLinks.forEach(dividedLink => {
+        const parents = (dividedLink as any).parents;
+        const len = parents.length;
+        for (let i = 0; i < len - 1; i++) {
+          const source = parents[i].key;
+          const target = parents[i + 1].key;
+          const value = dividedLink.value;
+
+          // 检查 upstreamLinks 数组中是否已存在相同的 source 和 target
+          const existingItem = upstreamLinks.find(item => item.source === source && item.target === target);
+          upstreamLinks.push({
+            source: parents[i].key,
+            target: parents[i + 1].key,
+            value: dividedLink.value
+          });
+
+          if (existingItem) {
+            // 如果存在相同的项，则对其 value 进行累加
+            existingItem.value += value;
+          } else {
+            // 如果不存在相同的项，则添加新的项到 upstreamLinks 数组中
+            upstreamLinks.push({ source, target, value });
+          }
+        }
+      });
+
       allLinkElements.forEach(linkEl => {
         linkEl.clearStates();
-      });
-    });
-    [this._nodeMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+        const linkDatum = linkEl.getDatum();
+        const originalDatum = linkDatum.datum;
+
+        if (linkDatum.source === curLinkDatum.source && linkDatum.target === curLinkDatum.target) {
+          // 自身
+          linkEl.useStates(['selected']);
+          linkEl.addState('selected', { ratio: 1 });
+          return;
+        }
+
+        const selectedDatum = originalDatum.filter((entry: any) =>
+          entry.parents.some((par: any) => par.key === curLinkDatum.target)
+        );
+
+        if (selectedDatum && selectedDatum.length) {
+          // 下游link
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
+          }
+
+          if (!highlightNodes.includes(linkDatum.target)) {
+            highlightNodes.push(linkDatum.target);
+          }
+
+          const val = selectedDatum
+            .filter((entry: any) => {
+              return entry.parents.some((par: any, index: number) => {
+                return par.key === curLinkDatum.source && entry.parents[index + 1]?.key === curLinkDatum.target;
+              });
+            })
+            .reduce((sum: number, d: any) => {
+              return (sum += d.value);
+            }, 0);
+          const ratio = val / linkDatum.value;
+
+          linkEl.useStates(['selected']);
+          linkEl.addState('selected', { ratio });
+
+          return;
+        }
+
+        const upSelectedLink = upstreamLinks.find(
+          (upLink: any) => upLink.source === linkDatum.source && upLink.target === linkDatum.target
+        );
+
+        if (upSelectedLink) {
+          // 点击节点的上游一层的节点
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
+          }
+          if (!highlightNodes.includes(linkDatum.target)) {
+            highlightNodes.push(linkDatum.target);
+          }
+          linkEl.useStates(['selected']);
+          linkEl.addState('selected', { ratio: upSelectedLink.value / linkDatum.value });
+
+          return;
+        }
+        linkEl.useStates(['blur']);
+
         return;
-      }
-      const allNodeElements = vGrammarMark.elements;
+      });
+
       allNodeElements.forEach(el => {
         el.clearStates();
+        if (highlightNodes.includes(el.getDatum().key)) {
+          //
+        } else {
+          el.useStates(['blur']);
+        }
       });
-    });
-    [this._labelMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLabelElements = vGrammarMark.elements;
-      allLabelElements.forEach(el => {
-        el.clearStates();
+
+      [this._labelMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLabelElements = vGrammarMark.elements;
+
+        allLabelElements.forEach(el => {
+          el.clearStates();
+          if (highlightNodes.includes(el.getDatum().key)) {
+            //
+          } else {
+            el.useStates(['blur']);
+          }
+        });
       });
-    });
+    }
   };
 
   protected initTooltip() {

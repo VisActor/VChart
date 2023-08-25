@@ -13,12 +13,12 @@ const run = () => {
           {
             nodes: [
               {
-                value: 100,
+                // value: 100,
                 name: 'A',
                 children: [
                   {
                     name: 'top',
-                    value: 40,
+                    // value: 40,
                     children: [
                       { name: '00', value: 15 },
                       { name: '01', value: 10 },
@@ -27,7 +27,7 @@ const run = () => {
                   },
                   {
                     name: 'middle',
-                    value: 30,
+                    // value: 30,
                     children: [
                       { name: '00', value: 10 },
                       { name: '01', value: 10 },
@@ -41,12 +41,12 @@ const run = () => {
                 ]
               },
               {
-                value: 80,
+                // value: 80,
                 name: 'B',
                 children: [
                   {
                     name: 'top',
-                    value: 40,
+                    // value: 40,
                     children: [
                       { name: '00', value: 100 },
                       { name: '01', value: 40 }
@@ -96,11 +96,11 @@ const run = () => {
 
     label: {
       visible: true,
-      formatMethod: (text, datum) => {
-        // console.log('text', text);
-        // console.log('datum', datum);
-        return datum.name + '-' + datum.value;
-      },
+      //   formatMethod: (text, datum) => {
+      //     // console.log('text', text);
+      //     // console.log('datum', datum);
+      //     return datum.name + '-' + datum.value;
+      //   },
       state: {
         blur: {
           fill: '#e8e8e8',
