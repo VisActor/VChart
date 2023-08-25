@@ -1,113 +1,27 @@
 /**
  * !important: 本地调试应该修改 local 文件内容
  */
-import { VChart } from '@visactor/vchart';
-
-const vchart = new VChart(
-  {
-    type: 'bar',
-    data: [
-      {
-        id: 'barData',
-        values: [
-          {
-            State: 'WY',
-            Age: 'Under 5 Years',
-            Population: 25635
-          },
-          {
-            State: 'WY',
-            Age: '5 to 13 Years',
-            Population: 1890
-          },
-          {
-            State: 'WY',
-            Age: '14 to 17 Years',
-            Population: 9314
-          },
-          {
-            State: 'DC',
-            Age: 'Under 5 Years',
-            Population: 30352
-          },
-          {
-            State: 'DC',
-            Age: '5 to 13 Years',
-            Population: 20439
-          },
-          {
-            State: 'DC',
-            Age: '14 to 17 Years',
-            Population: 10225
-          },
-          {
-            State: 'VT',
-            Age: 'Under 5 Years',
-            Population: 38253
-          },
-          {
-            State: 'VT',
-            Age: '5 to 13 Years',
-            Population: 42538
-          },
-          {
-            State: 'VT',
-            Age: '14 to 17 Years',
-            Population: 15757
-          },
-          {
-            State: 'ND',
-            Age: 'Under 5 Years',
-            Population: 51896
-          },
-          {
-            State: 'ND',
-            Age: '5 to 13 Years',
-            Population: 67358
-          },
-          {
-            State: 'ND',
-            Age: '14 to 17 Years',
-            Population: 18794
-          },
-          {
-            State: 'AK',
-            Age: 'Under 5 Years',
-            Population: 72083
-          },
-          {
-            State: 'AK',
-            Age: '5 to 13 Years',
-            Population: 85640
-          },
-          {
-            State: 'AK',
-            Age: '14 to 17 Years',
-            Population: 22153
-          }
-        ]
-      }
-    ],
-    xField: 'State',
-    yField: 'Population',
-    seriesField: 'Age',
-    stack: true,
-    legends: {
-      visible: true
-    },
-    bar: {
-      // The state style of bar
-      state: {
-        hover: {
-          stroke: '#000',
-          lineWidth: 1
-        }
-      }
-    }
-  },
-  {
-    dom: 'chart'
-  }
-);
-
-vchart.renderAsync();
+// import './index.local';
+import { VChartEditor } from './../../src/core/vchart-editor';
+const editor = new VChartEditor({
+  dom: 'chart'
+});
+window.editor = editor;
+const clipBoardData = `State,Age,Population
+WY,Under 5 Years,25635
+WY,5 to 13 Years,1890
+WY,14 to 17 Years,9314
+DC,Under 5 Years,30352
+DC,5 to 13 Years,20439
+DC,14 to 17 Years,10225
+VT,Under 5 Years,38253
+VT,5 to 13 Years,42538
+VT,14 to 17 Years,15757
+ND,Under 5 Years,51896
+ND,5 to 13 Years,67358
+ND,14 to 17 Years,18794
+AK,Under 5 Years,72083
+AK,5 to 13 Years,85640
+AK,14 to 17 Years,22153`;
+editor.setDataSource('clipBoard', clipBoardData);
+editor.setTemp('bar');
