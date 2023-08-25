@@ -30,7 +30,7 @@ import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement } from '@visactor/vgrammar';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { array } from '../../util';
+import { array, isNil } from '../../util';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { BarSeries } from '../bar/bar';
 import { VChart } from '../../core/vchart';
@@ -283,16 +283,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => datum.x0,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
-                return '';
-              }
-              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
-              if (this._spec.label?.formatMethod) {
-                text = this._spec.label.formatMethod(text, datum.datum);
-              }
-              return text;
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'left',
             textBaseline: 'middle'
@@ -307,16 +298,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
-                return '';
-              }
-              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
-              if (this._spec.label?.formatMethod) {
-                text = this._spec.label.formatMethod(text, datum.datum);
-              }
-              return text;
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'center',
             textBaseline: 'middle'
@@ -331,16 +313,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => datum.x1,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
-                return '';
-              }
-              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
-              if (this._spec.label?.formatMethod) {
-                text = this._spec.label.formatMethod(text, datum.datum);
-              }
-              return text;
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'right',
             textBaseline: 'middle'
@@ -362,16 +335,7 @@ export class SankeySeries extends CartesianSeries<any> {
             fill: (datum: Datum) => {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
-            text: (datum: Datum) => {
-              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
-                return '';
-              }
-              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
-              if (this._spec.label?.formatMethod) {
-                text = this._spec.label.formatMethod(text, datum.datum);
-              }
-              return text;
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: 'center',
             textBaseline: (datum: Datum) => {
@@ -393,16 +357,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => datum.x0,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
-                return '';
-              }
-              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
-              if (this._spec.label?.formatMethod) {
-                text = this._spec.label.formatMethod(text, datum.datum);
-              }
-              return text;
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'left',
             textBaseline: 'middle'
@@ -417,16 +372,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
-                return '';
-              }
-              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
-              if (this._spec.label?.formatMethod) {
-                text = this._spec.label.formatMethod(text, datum.datum);
-              }
-              return text;
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'center',
             textBaseline: 'middle'
@@ -441,16 +387,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => datum.x1,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
-                return '';
-              }
-              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
-              if (this._spec.label?.formatMethod) {
-                text = this._spec.label.formatMethod(text, datum.datum);
-              }
-              return text;
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'right',
             textBaseline: 'middle'
@@ -467,16 +404,7 @@ export class SankeySeries extends CartesianSeries<any> {
             fill: (datum: Datum) => {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
-            text: (datum: Datum) => {
-              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
-                return '';
-              }
-              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
-              if (this._spec.label?.formatMethod) {
-                text = this._spec.label.formatMethod(text, datum.datum);
-              }
-              return text;
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: 'right',
             textBaseline: 'middle'
@@ -493,16 +421,7 @@ export class SankeySeries extends CartesianSeries<any> {
             fill: (datum: Datum) => {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
-            text: (datum: Datum) => {
-              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
-                return '';
-              }
-              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
-              if (this._spec.label?.formatMethod) {
-                text = this._spec.label.formatMethod(text, datum.datum);
-              }
-              return text;
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: 'left',
             textBaseline: 'middle'
@@ -524,16 +443,7 @@ export class SankeySeries extends CartesianSeries<any> {
             fill: (datum: Datum) => {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
-            text: (datum: Datum) => {
-              if (typeof datum === 'undefined' || typeof datum.datum === 'undefined') {
-                return '';
-              }
-              let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
-              if (this._spec.label?.formatMethod) {
-                text = this._spec.label.formatMethod(text, datum.datum);
-              }
-              return text;
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: (datum: Datum) => {
               if (datum.x1 >= this._viewBox.x2) {
@@ -552,6 +462,17 @@ export class SankeySeries extends CartesianSeries<any> {
     this._labelMark.setZIndex(this._labelLayoutZIndex);
     this._trigger.registerMark(this._labelMark);
     this._tooltipHelper?.activeTriggerSet.mark.add(this._labelMark);
+  }
+
+  private _createText(datum: Datum) {
+    if (isNil(datum) || isNil(datum.datum)) {
+      return '';
+    }
+    let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+    if (this._spec.label?.formatMethod) {
+      text = this._spec.label.formatMethod(text, datum.datum);
+    }
+    return text;
   }
 
   initAnimation() {
