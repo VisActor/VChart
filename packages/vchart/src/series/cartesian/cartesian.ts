@@ -308,7 +308,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this._axisPosition(this._xAxisHelper, value, datum);
   }
   valueToPositionY(value: StringOrNumber | StringOrNumber[], datum?: any) {
-    return this._axisPosition(this._yAxisHelper, value);
+    return this._axisPosition(this._yAxisHelper, value, datum);
   }
 
   dataToPositionX(datum: Datum): number {
