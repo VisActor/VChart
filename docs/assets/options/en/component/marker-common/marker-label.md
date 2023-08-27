@@ -8,6 +8,10 @@ Label visibility.
 
 Label as a whole - whether to auto-rotate.
 
+{{ use: component-marker-ref(
+  prefix = ${prefix}
+) }}
+
 #${prefix} minWidth(number) = 30
 
 Label as a whole - minimum width in pixels.
