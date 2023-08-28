@@ -40,7 +40,7 @@ import { DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
 
-const CartesianAxisPlugin = [pluginMap.AxisLabelOverlapPlugin, pluginMap.AxisSyncPlugin];
+const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
 
 export abstract class CartesianAxis extends AxisComponent implements IAxis {
   static type = ComponentTypeEnum.cartesianAxis;
