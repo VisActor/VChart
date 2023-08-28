@@ -157,14 +157,6 @@ export class WaterfallSeries extends BarSeries<any> {
         { dataIndex }
       )
     );
-
-    // if (this._labelMark) {
-    //   this._labelMark.setAnimationConfig(
-    //     animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec), {
-    //       dataIndex
-    //     })
-    //   );
-    // }
   }
 
   viewDataUpdate(d: DataView): void {
@@ -214,16 +206,14 @@ export class WaterfallSeries extends BarSeries<any> {
     }
 
     this._stackLabelMark = labelMark;
+    // 瀑布图标签 encode 在自定义布局中计算
+    labelMark.skipEncode = true;
     labelMark.setRule(LabelRule.stackLabel);
     labelMark.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
 
     this.setMarkStyle(labelMark, {
       text: (datum: Datum) => {
-        const text = this._spec.stackLabel?.valueType === 'absolute' ? datum.end : datum.end - datum.start;
-        if (this._spec.stackLabel?.formatMethod) {
-          return this._spec.stackLabel.formatMethod(text, datum);
-        }
-        return text;
+        return this._spec.stackLabel?.valueType === 'absolute' ? datum.end : datum.end - datum.start;
       }
     });
   }
