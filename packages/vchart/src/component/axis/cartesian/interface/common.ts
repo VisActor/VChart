@@ -93,8 +93,10 @@ export interface ILinearAxis extends IAxis {
 }
 
 export interface IAxisHelper {
-  dataToPosition: (values: any[], cfg?: IAxisLocationCfg) => number;
+  isContinuous: boolean;
 
+  dataToPosition: (values: any[], cfg?: IAxisLocationCfg) => number;
+  valueToPosition?: (value: any, cfg?: IAxisLocationCfg) => number;
   getScale?: (depth: number) => IBaseScale;
   getBandwidth?: (depth: number) => number; // band轴特有
 

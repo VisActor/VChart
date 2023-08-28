@@ -19,7 +19,7 @@ import { LayoutZIndex, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import type { ISeries } from '../../series/interface';
-import { attrTransform, isStateAttrChangeable } from './util';
+import { attrTransform, isStateAttrChangeable, needAttrTransform } from './util';
 import { MarkStateManager } from './mark-state-manager';
 import type {
   ICompilableMark,
@@ -329,7 +329,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       if (this._unCompileChannel[key]) {
         return;
       }
-      if (isStateAttrChangeable(key, normalStyle)) {
+      if (isStateAttrChangeable(key, normalStyle, this.getFacet())) {
         updateStyles[key] = {
           callback: this.compileCommonAttributeCallback(key, 'normal'),
           dependency: [this.stateKeyToSignalName('markUpdateRank')]
@@ -338,9 +338,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         enterStyles[key] = this.compileCommonAttributeCallback(key, 'normal');
       }
     });
-
     this._product.encode(updateStyles);
-    this._product.encodeState('enter', enterStyles);
+    this._product.encodeState(this._facet ? 'group' : 'enter', enterStyles);
 
     Object.keys(temp).forEach(state => {
       const styles: Record<string, MarkFunctionType<any>> = {};
@@ -431,9 +430,17 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   // TODO: 1. opt内容待定，确实需要再来补充（之前是scale.bindScales/bindSignals，从context.params中可以获取到）
   // TODO: 2. stateSourceItem，是否根据attr区分，存在默认写死的情况，例如"hover"/"normal"；
   protected compileCommonAttributeCallback(key: string, state: string): MarkFunctionCallback<any> {
+    // check need transform attribute
+    const noAttrTransform = !needAttrTransform(this.type, key);
+    // remove state in opt
+    const opt: IAttributeOpt = { mark: null, parent: null, element: null };
     return (datum: Datum, element: IElement) => {
-      const mark = element.mark;
-      const opt: IAttributeOpt = { mark: mark, parent: mark.group, states: element.getStates(), element };
+      opt.mark = element.mark;
+      opt.parent = element.mark.group;
+      opt.element = element;
+      if (noAttrTransform) {
+        return this.getAttribute(key as any, datum, state, opt);
+      }
       return attrTransform(this.type, key, this.getAttribute(key as any, datum, state, opt));
     };
   }

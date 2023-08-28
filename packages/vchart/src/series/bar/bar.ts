@@ -97,7 +97,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       text: (datum: Datum) => {
         return datum[this.getStackValueField()];
       },
-      z: this.dataToPositionZ.bind(this)
+      z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });
   }
 

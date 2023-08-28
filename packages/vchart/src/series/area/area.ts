@@ -1,3 +1,4 @@
+import type { DataView } from '@visactor/vdataset';
 import { isValid, merge } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
@@ -35,6 +36,7 @@ export interface AreaSeries
       | 'initLabelMarkStyle'
       | 'initLineMarkStyle'
       | 'initSymbolMarkStyle'
+      | 'encodeDefined'
       | '_lineMark'
       | '_symbolMark'
     >,
@@ -145,7 +147,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
               return valueInScaleRange(this.dataToPositionY1(datum), this._yAxisHelper?.getScale?.(0));
             },
             y: this.dataToPositionY.bind(this),
-            z: this.dataToPositionZ.bind(this)
+            z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
           },
           'normal',
           AttributeLevel.Series
@@ -159,7 +161,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
               return valueInScaleRange(this.dataToPositionX1(datum), this._xAxisHelper?.getScale?.(0));
             },
             y: this.dataToPositionY.bind(this),
-            z: this.dataToPositionZ.bind(this),
+            z: this._fieldZ ? this.dataToPositionZ.bind(this) : null,
             orient: this._direction
           },
           'normal',
@@ -247,6 +249,11 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
 
   protected initTooltip() {
     this._tooltipHelper = new AreaSeriesTooltipHelper(this);
+  }
+
+  viewDataStatisticsUpdate(d: DataView) {
+    super.viewDataStatisticsUpdate(d);
+    this.encodeDefined(this._areaMark, 'defined');
   }
 }
 

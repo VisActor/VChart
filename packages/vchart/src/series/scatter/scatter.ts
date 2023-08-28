@@ -61,16 +61,6 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     this._shapeField = this._spec.shapeField;
   }
 
-  /**
-   * 统计数据更新
-   */
-  viewDataStatisticsUpdate(d: DataView): void {
-    super.viewDataStatisticsUpdate(d);
-
-    // 数据更新后, 更新markScale
-    // this.updateMarkScale();
-  }
-
   private _getSeriesAttribute<T>(
     field: string,
     spec: VisualType<T>,
@@ -270,10 +260,10 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
       {
         x: this.dataToPositionX.bind(this),
         y: this.dataToPositionY.bind(this),
-        z: this.dataToPositionZ.bind(this),
+        z: this._fieldZ ? this.dataToPositionZ.bind(this) : null,
         fill: this.getColorAttribute(),
         size: isNumber(this._size) || isFunction(this._size) ? this._size : SCATTER_DEFAULT_SIZE,
-        shape: isString(this._shape) || isFunction(this._shape) ? this._shape : SCATTER_DEFAULT_SHAPE
+        symbolType: isString(this._shape) || isFunction(this._shape) ? this._shape : SCATTER_DEFAULT_SHAPE
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
@@ -294,7 +284,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
       this.setMarkStyle(
         symbolMark,
         {
-          shape: this.getShapeAttribute(this._shapeField, this._shape) as VisualType<string>
+          symbolType: this.getShapeAttribute(this._shapeField, this._shape) as VisualType<string>
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
         AttributeLevel.User_Mark
@@ -304,6 +294,18 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     this._trigger.registerMark(symbolMark);
 
     this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
+  }
+
+  viewDataStatisticsUpdate(d: DataView) {
+    super.viewDataStatisticsUpdate(d);
+    if (
+      this._invalidType === 'zero' ||
+      this.getViewDataStatistics()?.latestData?.[this.getStackValueField()]?.allValid
+    ) {
+      this.setMarkStyle(this._symbolMark, { visible: true }, 'normal', AttributeLevel.Series);
+    } else {
+      this.setMarkStyle(this._symbolMark, { visible: this._getInvalidDefined }, 'normal', AttributeLevel.Series);
+    }
   }
 
   /**
@@ -320,7 +322,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
         text: (datum: Datum) => {
           return datum[this.getStackValueField()];
         },
-        z: this.dataToPositionZ.bind(this)
+        z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
