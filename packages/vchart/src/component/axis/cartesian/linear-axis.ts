@@ -36,7 +36,6 @@ export class CartesianLinearAxis extends CartesianAxis {
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
     this.setExtraAttrFromSpec();
-    this._domain = getLinearAxisSpecDomain(this._spec);
   }
 
   /**
