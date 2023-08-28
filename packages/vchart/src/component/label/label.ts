@@ -258,7 +258,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         );
       })
       .encode(datum => {
-        return textAttribute(labelInfo, datum, labelSpec.formatMethod);
+        return labelMark.skipEncode ? { data: datum } : textAttribute(labelInfo, datum, labelSpec.formatMethod);
       })
       .size(() => series.getRegion().getLayoutRect());
   }
