@@ -31,6 +31,8 @@ import { VChart } from '../../core/vchart';
 import { RuleMark } from '../../mark/rule';
 import { waterfallSeriesMark } from './constant';
 import { Group } from '../base/group';
+import type { ILabelMark } from '../../mark/label';
+import { LabelRule } from '../../component/label/util';
 
 VChart.useMark([RuleMark]);
 
@@ -47,6 +49,9 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
   protected _stack: boolean = true;
 
   protected _totalData?: SeriesData;
+  getTotalData() {
+    return this._totalData?.getLatestData();
+  }
 
   protected declare _spec: T;
 
@@ -158,13 +163,13 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       )
     );
 
-    if (this._labelMark) {
-      this._labelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec), {
-          dataIndex
-        })
-      );
-    }
+    // if (this._labelMark) {
+    //   this._labelMark.setAnimationConfig(
+    //     animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec), {
+    //       dataIndex
+    //     })
+    //   );
+    // }
   }
 
   viewDataUpdate(d: DataView): void {
@@ -197,16 +202,39 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       this._leaderLineMark = leaderLine;
       leaderLine.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
     }
-    const stackLabel = this._createMark(WaterfallSeries.mark.stackLabel, {
-      key: 'index'
-    }) as ITextMark;
-    if (stackLabel) {
-      this._stackLabelMark = stackLabel;
-      stackLabel.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
+    if (this._spec.stackLabel?.visible) {
+      this._rectMark.addLabelSpec(this._spec.stackLabel);
     }
   }
 
-  protected _totalPositionX(datum: Datum, field: string, pos: number = 0.5) {
+  initLabelMarkStyle(labelMark: ILabelMark): void {
+    if (!labelMark) {
+      return;
+    }
+
+    if (!this._labelMark && this._spec.label?.visible) {
+      super.initLabelMarkStyle(labelMark);
+      this._labelMark = labelMark;
+      return;
+    }
+
+    this._stackLabelMark = labelMark;
+    labelMark.setRule(LabelRule.stackLabel);
+    labelMark.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
+
+    this.setMarkStyle(labelMark, {
+      text: (datum: Datum) => {
+        const text =
+          this._spec.stackLabel?.valueType === 'absolute' ? datum.end : precisionSub(datum.end - datum.start);
+        if (this._spec.stackLabel?.formatMethod) {
+          return this._spec.stackLabel.formatMethod(text, datum);
+        }
+        return text;
+      }
+    });
+  }
+
+  totalPositionX(datum: Datum, field: string, pos: number = 0.5) {
     const { dataToPosition, getBandwidth } = this._xAxisHelper;
     if (this._direction === Direction.vertical) {
       return (
@@ -224,7 +252,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     );
   }
 
-  protected _totalPositionY(datum: Datum, field: string, pos: number = 0.5) {
+  totalPositionY(datum: Datum, field: string, pos: number = 0.5) {
     const { dataToPosition, getBandwidth } = this._yAxisHelper;
     if (this._direction === Direction.vertical) {
       return valueInScaleRange(
@@ -254,11 +282,11 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
               if (!datum.lastIndex) {
                 return 0;
               }
-              return this._totalPositionX(datum, 'lastIndex', 1);
+              return this.totalPositionX(datum, 'lastIndex', 1);
             },
-            x1: (datum: Datum) => this._totalPositionX(datum, 'index', 0),
-            y: (datum: Datum) => this._totalPositionY(datum, 'lastEnd', 0),
-            y1: (datum: Datum) => this._totalPositionY(datum, datum.isTotal ? 'end' : 'start', 0)
+            x1: (datum: Datum) => this.totalPositionX(datum, 'index', 0),
+            y: (datum: Datum) => this.totalPositionY(datum, 'lastEnd', 0),
+            y1: (datum: Datum) => this.totalPositionY(datum, datum.isTotal ? 'end' : 'start', 0)
           },
           'normal',
           AttributeLevel.Series
@@ -268,79 +296,19 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
           this._leaderLineMark,
           {
             visible: (datum: Datum) => !isNil(datum.lastIndex),
-            x: (datum: Datum) => this._totalPositionX(datum, 'lastEnd', 0),
-            x1: (datum: Datum) => this._totalPositionX(datum, datum.isTotal ? 'end' : 'start', 0),
+            x: (datum: Datum) => this.totalPositionX(datum, 'lastEnd', 0),
+            x1: (datum: Datum) => this.totalPositionX(datum, datum.isTotal ? 'end' : 'start', 0),
             y: (datum: Datum) => {
               if (!datum.lastIndex) {
                 return 0;
               }
-              return this._totalPositionY(datum, 'lastIndex', 1);
+              return this.totalPositionY(datum, 'lastIndex', 1);
             },
-            y1: (datum: Datum) => this._totalPositionY(datum, 'index', 0)
+            y1: (datum: Datum) => this.totalPositionY(datum, 'index', 0)
           },
           'normal',
           AttributeLevel.Series
         );
-      }
-    }
-
-    if (this._stackLabelMark) {
-      this.setMarkStyle(this._stackLabelMark, {
-        text: (datum: Datum) => {
-          const text =
-            this._spec.stackLabel?.valueType === 'absolute' ? datum.end : precisionSub(datum.end, datum.start);
-          if (this._spec.stackLabel?.formatMethod) {
-            return this._spec.stackLabel.formatMethod(text, datum);
-          }
-          return text;
-        }
-      });
-      const pos = this._spec.stackLabel?.position || 'withChange';
-      const offset = this._spec.stackLabel?.offset || 0;
-      if (this._direction === Direction.vertical) {
-        this.setMarkStyle(this._stackLabelMark, {
-          x: (datum: Datum) => this._totalPositionX(datum, 'index', 0.5),
-          y: (datum: Datum) => {
-            if (pos === 'middle') {
-              return (this._totalPositionY(datum, 'end') + this._totalPositionY(datum, 'start')) * 0.5;
-            } else if (pos === 'max') {
-              return this._totalPositionY(datum, datum.end >= datum.start ? 'end' : 'start') - offset;
-            } else if (pos === 'min') {
-              return this._totalPositionY(datum, datum.end >= datum.start ? 'start' : 'end') + offset;
-            }
-            return this._totalPositionY(datum, 'end') + (datum.end >= datum.start ? -offset : offset);
-          },
-          textBaseline: (datum: Datum) => {
-            if (pos === 'middle') {
-              return 'middle';
-            } else if ((pos === 'withChange' && datum.end - datum.start >= 0) || pos === 'max') {
-              return 'bottom';
-            }
-            return 'top';
-          }
-        });
-      } else {
-        this.setMarkStyle(this._stackLabelMark, {
-          x: (datum: Datum) => {
-            if (pos === 'middle') {
-              return (this._totalPositionX(datum, 'end') + this._totalPositionY(datum, 'start')) * 0.5;
-            } else if (pos === 'max') {
-              return this._totalPositionX(datum, datum.end >= datum.start ? 'end' : 'start') + offset;
-            } else if (pos === 'min') {
-              return this._totalPositionX(datum, datum.end >= datum.start ? 'start' : 'end') - offset;
-            }
-            return this._totalPositionX(datum, 'end') + (datum.end >= datum.start ? offset : -offset);
-          },
-          y: (datum: Datum) => this._totalPositionY(datum, 'index', 0.5),
-          textAlign: (datum: Datum) => {
-            if (pos === 'middle') {
-              return 'center';
-            } else if ((pos === 'withChange' && datum.end - datum.start >= 0) || pos === 'max') {
-              return 'left';
-            }
-            return 'right';
-          }
-        });
       }
     }
   }
