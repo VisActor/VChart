@@ -66,7 +66,8 @@ export function isValidPolarAxis(spec: any) {
 
 export const getCartesianAxisTheme = (orient: IOrientType, type: AxisType, theme: ITheme) => {
   const { axisBand, axisLinear, axisX, axisY, axis } = theme.component ?? {};
-  const axisTypeTheme = (type === 'band' ? axisBand : type === 'linear' ? axisLinear : {}) ?? {};
+  const axisTypeTheme =
+    (type === 'band' ? axisBand : (['linear', 'log', 'symlog'] as AxisType[]).includes(type) ? axisLinear : {}) ?? {};
   const axisTheme = isXAxis(orient) ? axisX : axisY;
   return mergeSpec({}, axis, axisTypeTheme, axisTheme);
 };
