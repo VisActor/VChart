@@ -2,24 +2,13 @@
 import { PREFIX } from '../../constant/base';
 import type { IElement } from '@visactor/vgrammar';
 import type { DataView } from '@visactor/vdataset';
-import type { Maybe, Datum, ScaleType, VisualType, IInvalidType } from '../../typings';
+import type { Maybe, Datum, ScaleType, VisualType } from '../../typings';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { MarkTypeEnum } from '../../mark/interface';
-import {
-  isNil,
-  isValid,
-  isObject,
-  isFunction,
-  isString,
-  isArray,
-  isNumber,
-  isNumeric,
-  couldBeValidNumber,
-  merge
-} from '../../util';
+import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, merge } from '../../util';
 import { AttributeLevel } from '../../constant';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
@@ -54,8 +43,6 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
 
   protected declare _theme: Maybe<IScatterSeriesTheme>;
 
-  _invalidType: IInvalidType = 'break';
-
   private _symbolMark: ISymbolMark;
 
   private _size: IScatterSeriesSpec['size'];
@@ -72,16 +59,6 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     // shape
     this._shape = this._spec.shape;
     this._shapeField = this._spec.shapeField;
-  }
-
-  /**
-   * 统计数据更新
-   */
-  viewDataStatisticsUpdate(d: DataView): void {
-    super.viewDataStatisticsUpdate(d);
-
-    // 数据更新后, 更新markScale
-    // this.updateMarkScale();
   }
 
   private _getSeriesAttribute<T>(
@@ -103,11 +80,13 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
 
     if (isArray(spec)) {
       if (isNil(field)) {
-        throw new Error(`${key}Field is required.`);
+        this._option.onError(`${key}Field is required.`);
+        return spec;
       }
 
       if (spec.length > 2) {
-        throw new Error(`${key} length is invalid, specify up to 2 ${key}s.`);
+        this._option.onError(`${key} length is invalid, specify up to 2 ${key}s.`);
+        return spec;
       }
       const scaleName = `${PREFIX}_series_scatter_${this.id}_scale_${key}`;
       this._option.globalScale.registerModelScale({
@@ -130,7 +109,8 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     // 若sizeSpec是对象
     if (isObject(spec)) {
       if (isNil(field)) {
-        throw new Error(`${key}Field is required.`);
+        this._option.onError(`${key}Field is required.`);
+        return spec;
       }
       const scaleName = `${PREFIX}_series_scatter_${this.id}_scale_${key}`;
       const visualSpec = {
@@ -154,7 +134,8 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     }
 
     // 其余情况报错
-    throw new Error(`${key} attribute is invalid.`);
+    this._option.onError(`${key} attribute is invalid.`);
+    return spec;
   }
 
   /**
@@ -268,24 +249,21 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
       return;
     }
 
-    this.setMarkStyle(symbolMark, {
-      visible: (datum: Datum) => {
-        if (this._invalidType === 'break') {
-          return couldBeValidNumber(datum[this.getStackValueField()]);
-        }
-        return true;
-      }
-    });
+    if (this._invalidType !== 'zero') {
+      this.setMarkStyle(symbolMark, {
+        visible: this._getInvalidDefined
+      });
+    }
 
     this.setMarkStyle(
       symbolMark,
       {
         x: this.dataToPositionX.bind(this),
         y: this.dataToPositionY.bind(this),
-        z: this.dataToPositionZ.bind(this),
+        z: this._fieldZ ? this.dataToPositionZ.bind(this) : null,
         fill: this.getColorAttribute(),
         size: isNumber(this._size) || isFunction(this._size) ? this._size : SCATTER_DEFAULT_SIZE,
-        shape: isString(this._shape) || isFunction(this._shape) ? this._shape : SCATTER_DEFAULT_SHAPE
+        symbolType: isString(this._shape) || isFunction(this._shape) ? this._shape : SCATTER_DEFAULT_SHAPE
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
@@ -306,7 +284,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
       this.setMarkStyle(
         symbolMark,
         {
-          shape: this.getShapeAttribute(this._shapeField, this._shape) as VisualType<string>
+          symbolType: this.getShapeAttribute(this._shapeField, this._shape) as VisualType<string>
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
         AttributeLevel.User_Mark
@@ -316,6 +294,18 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     this._trigger.registerMark(symbolMark);
 
     this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
+  }
+
+  viewDataStatisticsUpdate(d: DataView) {
+    super.viewDataStatisticsUpdate(d);
+    if (
+      this._invalidType === 'zero' ||
+      this.getViewDataStatistics()?.latestData?.[this.getStackValueField()]?.allValid
+    ) {
+      this.setMarkStyle(this._symbolMark, { visible: true }, 'normal', AttributeLevel.Series);
+    } else {
+      this.setMarkStyle(this._symbolMark, { visible: this._getInvalidDefined }, 'normal', AttributeLevel.Series);
+    }
   }
 
   /**
@@ -332,17 +322,21 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
         text: (datum: Datum) => {
           return datum[this.getStackValueField()];
         },
-        visible: (datum: Datum) => {
-          if (this._invalidType === 'break') {
-            return couldBeValidNumber(datum[this.getStackValueField()]);
-          }
-          return true;
-        },
-        z: this.dataToPositionZ.bind(this)
+        z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
+    if (this._invalidType !== 'zero') {
+      this.setMarkStyle(
+        labelMark,
+        {
+          visible: this._getInvalidDefined
+        },
+        STATE_VALUE_ENUM.STATE_NORMAL,
+        AttributeLevel.Series
+      );
+    }
   }
 
   /**

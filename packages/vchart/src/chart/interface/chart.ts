@@ -1,6 +1,6 @@
 import type { IEvent } from './../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IMorphConfig, IView } from '@visactor/vgrammar';
+import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IComponent } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
@@ -24,7 +24,8 @@ import type {
   Datum,
   IMarkStateSpec,
   StringOrNumber,
-  IShowTooltipOption
+  IShowTooltipOption,
+  IDataValues
 } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
 
@@ -43,7 +44,10 @@ export interface IChart extends ICompilable {
   getSpec: () => any;
   setSpec: (s: any) => void;
 
+  setCanvasRect: (width: number, height: number) => void;
   getCanvasRect: () => ILayoutRect;
+
+  getOption: () => IChartOption;
 
   /** event */
   getEvent: () => IEvent;
@@ -58,6 +62,8 @@ export interface IChart extends ICompilable {
   updateParseData: (id: string, data: Datum[], options?: IParserOptions) => void;
   // 使用parse前的原始数据结构更新数据
   updateData: (id: StringOrNumber, data: unknown, updateGlobalScale?: boolean, options?: IParserOptions) => void;
+  // 使用 IData 更新数据
+  updateFullData: (data: IDataValues | IDataValues[]) => void;
   // update scale domain which in GlobalScale
   updateGlobalScaleDomain: () => void;
   //生命周期
@@ -141,7 +147,7 @@ export interface IChart extends ICompilable {
   ) => void;
 
   // 更新 viewBox
-  updateViewBox: (viewBox: IBoundsLike) => void;
+  updateViewBox: (viewBox: IBoundsLike, reLayout: boolean) => void;
 
   // 获取实际渲染的 canvas
   getCanvas: () => HTMLCanvasElement | undefined;

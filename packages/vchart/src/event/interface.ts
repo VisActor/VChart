@@ -1,4 +1,4 @@
-import type { INode } from '@visactor/vrender';
+import type { IGraphic } from '@visactor/vrender';
 import type { IElement } from '@visactor/vgrammar';
 import type { IChart } from '../chart/interface';
 import type { IModel } from '../model/interface';
@@ -8,6 +8,7 @@ import type { DimensionEventParams } from './events/dimension/interface';
 import type { Datum, IPoint, StringOrNumber } from '../typings';
 import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant';
 import type { SeriesType } from '../series/interface';
+import type { TooltipEventParams } from '../component/tooltip/interface/event';
 
 export type EventType =
   | 'pointerdown'
@@ -70,7 +71,8 @@ export type ComponentType =
   | 'mapLabel'
   | 'markLine'
   | 'tooltip'
-  | 'title';
+  | 'title'
+  | 'label';
 export type EventTargetType = MarkType | ComponentType | SeriesType;
 
 export type EventSourceType = keyof typeof Event_Source_Type;
@@ -115,7 +117,9 @@ export type EventQuery = {
 
   throttle?: number;
   debounce?: number;
-
+  /**
+   * 是否阻止冒泡
+   */
   consume?: boolean;
 };
 
@@ -147,7 +151,7 @@ export type EventParams = {
   /**
    * 拾取到的图形节点
    */
-  node?: INode;
+  node?: IGraphic;
 };
 
 type SuperEvent = Event & {
@@ -262,6 +266,9 @@ export type EventParamsDefinition = {
 
   // VChart 内置的扩展组合事件
   dimension: DimensionEventParams;
+  tooltipShow: TooltipEventParams;
+  tooltipHide: TooltipEventParams;
+  tooltipRelease: TooltipEventParams;
 
   // 扩展事件参数
   [key: string]: ExtendEventParam;

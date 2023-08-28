@@ -1,9 +1,8 @@
 import type { TooltipContentProperty } from './common';
+import type { ITooltipLabelActual, ITooltipLabelPattern } from './label';
 import type { ITooltipShapeActual, ITooltipShapePattern } from './shape';
 
-export interface IToolTipLinePattern extends ITooltipShapePattern {
-  /** 该 pattern 属于哪个系列id（用户不需要设置） */
-  seriesId?: number;
+export interface IToolTipLinePattern extends ITooltipShapePattern, ITooltipLabelPattern {
   /** tooltip key 值内容 */
   key?: TooltipContentProperty<string>;
   /** tooltip value 值内容 */
@@ -14,7 +13,7 @@ export interface IToolTipLinePattern extends ITooltipShapePattern {
   isKeyAdaptive?: TooltipContentProperty<boolean>;
 }
 
-export interface IToolTipLineActual extends ITooltipShapeActual {
+export interface IToolTipLineActual extends ITooltipShapeActual, ITooltipLabelActual {
   /** tooltip key 值内容 */
   key?: string;
   /** tooltip value 值内容 */

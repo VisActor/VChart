@@ -51,7 +51,8 @@ import {
   isFunction,
   isArray,
   mergeFields,
-  getFieldAlias
+  getFieldAlias,
+  couldBeValidNumber
 } from '../../util';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import { Group } from './group';
@@ -183,9 +184,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   setSeriesField(field: string) {
     if (isValid(field)) {
       this._seriesField = field;
-      this.getMarksInType([MarkTypeEnum.line, MarkTypeEnum.area]).forEach(m => {
-        m.setFacet(this._seriesField);
-      });
+      this.getMarks()
+        .filter(m => {
+          return m.getDataView() === this.getViewData();
+        })
+        .forEach(m => {
+          m.setFacet(this._seriesField);
+        });
     }
   }
 
@@ -215,7 +220,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     return this._tooltipHelper;
   }
 
-  protected _invalidType: IInvalidType;
+  protected _invalidType: IInvalidType = 'break';
   getInvalidType() {
     return this._invalidType;
   }
@@ -274,7 +279,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
           seriesValue = this.getSeriesKeys()[0];
         }
         return this._option.globalScale.getScale('color')?.scale(seriesValue);
-      }
+      },
+      getRegion: () => this._region
     };
   }
 
@@ -287,11 +293,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
     if (isBoolean(this._spec.percent)) {
       this._percent = this._spec.percent;
-      this._stack = this._spec.stack || this._spec.percent;
+      this._stack = this._spec.percent || this._stack; // this._stack is `true` in bar/area series
     }
     if (isBoolean(this._spec.stackOffsetSilhouette)) {
       this._stackOffsetSilhouette = this._spec.stackOffsetSilhouette;
-      this._stack = this._spec.stack || this._spec.stackOffsetSilhouette;
+      this._stack = this._spec.stackOffsetSilhouette || this._stack; // this._stack is `true` in bar/area series
     }
     if (isValid(this._spec.invalidType)) {
       this._invalidType = this._spec.invalidType;
@@ -302,6 +308,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   /** data */
   protected initData(): void {
     this._rawData = this._spec.data as DataView;
+    this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
     this._addDataIndexAndKey();
     // 初始化viewData
     if (this._rawData) {
@@ -320,9 +327,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
 
     // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
-    if (this._invalidType === 'link' || this._invalidType === 'zero') {
-      registerDataSetInstanceTransform(this._option.dataSet, 'invalidTravel', invalidTravel);
-      this.getViewData()?.transform(
+    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
+      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
+      // make sure each series only transform once
+      this._rawData?.transform(
         {
           type: 'invalidTravel',
           options: {
@@ -357,19 +365,81 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   }
 
   protected _statisticRawData() {
-    const rawDataName = `${PREFIX}_series_${this.id}_rawDataStatic`;
-    this._rawDataStatistics = this.createStatisticalData(
-      rawDataName,
-      this._rawData,
-      this._option.globalScale.getStatisticalFields
+    registerDataSetInstanceTransform(this._dataSet, 'dimensionStatistics', dimensionStatistics);
+    const rawDataStatisticsName = `${PREFIX}_series_${this.id}_rawDataStatic`;
+    this._rawDataStatistics = new DataView(this._dataSet, { name: rawDataStatisticsName });
+    this._rawDataStatistics.parse([this._rawData], {
+      type: 'dataview'
+    });
+    // data.name = dataName;
+    this._rawDataStatistics.transform(
+      {
+        type: 'dimensionStatistics',
+        options: {
+          operations: ['max', 'min', 'values'],
+          fields: () => {
+            const fields = mergeFields(
+              this.getStatisticFields(),
+              this._option.globalScale.getStatisticalFields(this._rawData.name as string) ?? []
+            );
+            if (this._seriesField) {
+              mergeFields(fields, [
+                {
+                  key: this._seriesField,
+                  operations: ['values']
+                }
+              ]);
+            }
+            return fields.filter(
+              f =>
+                f.key !== STACK_FIELD_START_PERCENT &&
+                f.key !== STACK_FIELD_END_PERCENT &&
+                f.key !== STACK_FIELD_END &&
+                f.key !== STACK_FIELD_START
+            );
+          },
+          target: 'latest'
+        }
+      },
+      false
     );
+
     this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
-    this._rawDataStatistics.reRunAllTransform();
   }
 
   protected _statisticViewData() {
-    const viewDataName = `${PREFIX}_series_${this.id}_viewDataStatic`;
-    this._viewDataStatistics = this.createStatisticalData(viewDataName, this._data.getDataView());
+    registerDataSetInstanceTransform(this._dataSet, 'dimensionStatistics', dimensionStatistics);
+    const viewDataStatisticsName = `${PREFIX}_series_${this.id}_viewDataStatic`;
+    this._viewDataStatistics = new DataView(this._dataSet, { name: viewDataStatisticsName });
+    this._viewDataStatistics.parse([this._data.getDataView()], {
+      type: 'dataview'
+    });
+    this._viewDataStatistics.transform(
+      {
+        type: 'dimensionStatistics',
+        options: {
+          fieldFollowSource: (key: string) => {
+            return this._viewDataFilter.transformsArr.length <= 1;
+          },
+          sourceStatistics: () => this._rawDataStatistics.latestData,
+          fields: () => {
+            const fields = this.getStatisticFields();
+            if (this._seriesField) {
+              mergeFields(fields, [
+                {
+                  key: this._seriesField,
+                  operations: ['values']
+                }
+              ]);
+            }
+            return fields;
+          },
+          target: 'latest'
+        }
+      },
+      false
+    );
+
     this._data.getDataView().target.removeListener('change', this._viewDataStatistics.reRunAllTransform);
     if (this._stack || this._stackValue) {
       this.createdStackData();
@@ -435,6 +505,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     );
   }
 
+  // make sure this function fast
+  protected _noAnimationDataKey(datum: Datum, index: number, context: AddVChartPropertyContext): unknown | undefined {
+    return index;
+  }
+
   protected generateDefaultDataKey(
     dataKey: DataKeyType,
     datum: Datum,
@@ -442,6 +517,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     context: AddVChartPropertyContext
   ) {
     if (isNil(dataKey)) {
+      // check if need animation data key
+      if (this._spec.animation === false) {
+        const v = this._noAnimationDataKey(datum, index, context);
+        if (v !== undefined) {
+          return v;
+        }
+      }
       const { keyMap } = context;
       const seriesDataKey = this._getSeriesDataKey(datum);
       if (keyMap.get(seriesDataKey) === undefined) {
@@ -464,7 +546,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       return dataKey(datum, index);
     }
 
-    throw new Error(`invalid dataKey: ${dataKey}`);
+    this._option.onError(`invalid dataKey: ${dataKey}`);
   }
 
   protected _addDataIndexAndKey() {
@@ -490,8 +572,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     this._rawData.updateRawData(d);
   }
   rawDataUpdate(d: DataView): void {
-    this.event.emit(ChartEvent.rawDataUpdate, { model: this });
     this._rawDataStatistics?.reRunAllTransform();
+    this.event.emit(ChartEvent.rawDataUpdate, { model: this });
   }
   rawDataStatisticsUpdate(d: DataView): void {
     this.event.emit(ChartEvent.rawDataStatisticsUpdate, { model: this });
@@ -511,6 +593,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   }
 
   // 数据到位置值
+  getDatumPositionValue(datum: Datum, field: string) {
+    if (!datum || isNil(field)) {
+      return null;
+    }
+    return datum[field];
+  }
   getDatumPositionValues(datum: Datum, fields: string | string[]) {
     if (!datum || isNil(fields)) {
       return [];
@@ -689,16 +777,29 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   afterInitMark(): void {
     this.event.emit(ChartEvent.afterInitMark, { model: this });
-    // 此时mark相关的统计数据收集完成
-    this._rawDataStatistics?.reRunAllTransform();
     this.setSeriesField(this._spec.seriesField);
+
+    let animationThreshold = this._spec.animationThreshold ?? Number.MAX_SAFE_INTEGER;
     // set mark stroke color follow series color
     // only set normal state in the level lower than level Series
     this.getMarks().forEach(m => {
       if (m.stateStyle?.normal?.lineWidth) {
         m.setAttribute('stroke', this.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
       }
+      const config = m.getProgressiveConfig();
+      if (config) {
+        if (config.large && config.largeThreshold) {
+          animationThreshold = Math.min(animationThreshold, config.largeThreshold);
+        }
+        if (config.progressiveThreshold) {
+          animationThreshold = Math.min(animationThreshold, config.progressiveThreshold);
+        }
+      }
     });
+    // auto close animation
+    if (this._rawData?.latestData?.length >= animationThreshold) {
+      this._spec.animation = false;
+    }
   }
 
   getMarksWithoutRoot(): IMark[] {
@@ -718,7 +819,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   /** event */
   protected initEvent() {
     this._trigger.init();
-    this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
     this._data?.getDataView()?.target.addListener('change', this.viewDataUpdate.bind(this));
     this._viewDataStatistics?.target.addListener('change', this.viewDataStatisticsUpdate.bind(this));
     this._rawDataStatistics?.target.addListener('change', this.rawDataStatisticsUpdate.bind(this));
@@ -747,6 +847,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     if (spec.invalidType !== invalidType) {
       result.change = true;
       result.reRender = true;
+      result.reMake = true;
     }
     return result;
   }
@@ -825,8 +926,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   }
 
   getSeriesInfoInField(field: string) {
-    const keys = this._rawDataStatistics.latestData[field]?.values;
-    return this._getSeriesInfo(field, keys);
+    return this._getSeriesInfo(field, this._rawDataStatistics.latestData[field]?.values ?? []);
   }
 
   getSeriesInfoList() {
@@ -1018,7 +1118,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
    * data
    */
   addViewDataFilter(option: ITransformOptions) {
-    this._viewDataFilter.transform(option, false);
+    this._viewDataFilter?.transform(option, false);
   }
 
   reFilterViewData() {
@@ -1062,4 +1162,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
     return list;
   }
+
+  protected _getInvalidConnectType() {
+    return this._invalidType === 'zero' ? 'zero' : this._invalidType === 'link' ? 'connect' : 'none';
+  }
+
+  protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
 }

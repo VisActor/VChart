@@ -24,7 +24,7 @@ import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart } from '../chart/interface';
 
-export type ILayoutNumber = number | IPercent | ((layoutRect: ILayoutRect) => number);
+export type ILayoutNumber = number | IPercent | ((layoutRect: ILayoutRect) => number) | IPercentOffset;
 
 export interface ILayoutPoint {
   x: number;
@@ -41,6 +41,8 @@ export interface ILayoutRect {
 }
 
 export type IPercent = `${number}%`;
+
+export type IPercentOffset = { percent?: number; offset?: number };
 
 export type ILayoutPercent = IPercent | number;
 
@@ -89,14 +91,14 @@ export interface ILayoutItem {
   layoutZIndex: number;
   chartLayoutRect: ILayoutRect;
 
+  /** 是否可见 */
+  getVisible: () => boolean;
+
   /** 是否自动缩进 */
   getAutoIndent: () => boolean;
   getLayoutStartPoint: () => ILayoutPoint;
   getLayoutRect: () => ILayoutRect;
   getLastComputeOutBounds: () => IBoundsLike;
-
-  getAttributeTag: () => boolean;
-  setAttributeTag: (tag: boolean) => boolean;
 
   /**
    * 更新元素布局的 layoutRect 大小，用来更新指定布局空间
@@ -201,6 +203,7 @@ export type IMarkTree = IMarkTreeGroup | IMark | (IMarkTreeGroup | IMark)[];
 export interface IUpdateSpecResult {
   change: boolean;
   reMake: boolean;
+  reMakeData?: boolean;
   reRender?: boolean;
   reSize?: boolean;
   // TODO: compile 的判断应不应该出现在这里?
@@ -235,10 +238,6 @@ export interface IModel extends ICompilable, ILayoutItem {
   getState: () => ModelStateManager['_stateMap'];
 
   coordinate?: CoordinateType;
-
-  // 是否要 layout 的 tag
-  getAttributeTag: () => boolean;
-  setAttributeTag: (tag: boolean) => boolean;
 
   // 初始化参数
   getOption: () => IModelOption;
@@ -309,6 +308,10 @@ export interface IModelOption extends ICompilableInitOption {
 
   globalScale: IGlobalScale;
   animation: boolean;
+  /**
+   * 错误消息回调函数
+   */
+  onError: (...args: any[]) => void;
 }
 
 export interface IModelConstructor {

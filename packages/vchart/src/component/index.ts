@@ -15,9 +15,18 @@ import type {
   ICartesianLinearAxisSpec,
   ICartesianBandAxisSpec,
   ICartesianTimeAxisSpec,
-  ICartesianAxisSpec
+  ICartesianAxisSpec,
+  ICartesianLogAxisSpec,
+  ICartesianSymlogAxisSpec
 } from './axis/cartesian/index';
-import { CartesianAxis, CartesianLinearAxis, CartesianBandAxis, CartesianTimeAxis } from './axis/cartesian/index';
+import {
+  CartesianAxis,
+  CartesianLinearAxis,
+  CartesianBandAxis,
+  CartesianTimeAxis,
+  CartesianLogAxis,
+  CartesianSymlogAxis
+} from './axis/cartesian/index';
 import type { IPolarAxisSpec, IPolarBandAxisSpec, IPolarLinearAxisSpec } from './axis/polar';
 import { PolarAxis, PolarBandAxis, PolarLinearAxis } from './axis/polar';
 import type { IDiscreteLegendSpec } from './legend/discrete';
@@ -44,6 +53,7 @@ import type { ITooltipSpec } from './tooltip';
 import { Tooltip } from './tooltip';
 import type { ILabelSpec } from './label';
 import { Label } from './label';
+import { TotalLabel } from './label/totalLabel';
 
 export {
   ScrollBar,
@@ -55,6 +65,8 @@ export {
   CartesianBandAxis,
   CartesianLinearAxis,
   CartesianTimeAxis,
+  CartesianLogAxis,
+  CartesianSymlogAxis,
   PolarAxis,
   PolarBandAxis,
   PolarLinearAxis,
@@ -70,7 +82,8 @@ export {
   MarkLine,
   MarkPoint,
   Tooltip,
-  Label
+  Label,
+  TotalLabel
 };
 
 export type {
@@ -81,6 +94,7 @@ export type {
   ICartesianCrosshairSpec,
   ICartesianLinearAxisSpec,
   ICartesianTimeAxisSpec,
+  ICartesianLogAxisSpec,
   IContinuousLegendSpec,
   IDataZoomSpec,
   IDiscreteLegendSpec,

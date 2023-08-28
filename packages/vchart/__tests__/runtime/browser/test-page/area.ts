@@ -57,6 +57,47 @@ const run = () => {
     legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
     crosshair: {
       xField: { visible: true }
+    },
+    tooltip: {
+      dimension: {
+        title: {
+          valueStyle: {
+            fill: 'green'
+          }
+        },
+        content: [
+          {
+            key: datum => datum['country'],
+            value: datum => datum['value'],
+            valueStyle: {
+              fill: 'red',
+              fontWeight: 'bold'
+            }
+          },
+          {
+            key: '第二行',
+            value: datum => datum['value'],
+            keyStyle: {
+              fill: 'blue',
+              fontWeight: 'bold'
+            },
+            valueStyle: {
+              fontSize: 12
+            }
+          }
+        ],
+        updateContent: prev => {
+          prev[2].keyStyle = {
+            fill: 'orange',
+            fontWeight: 'bold'
+          };
+          prev[2].valueStyle = {
+            fill: 'orange',
+            fontWeight: 'bold'
+          };
+          return prev;
+        }
+      }
     }
   };
 

@@ -91,6 +91,7 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
     const isCoordinateLayout = 'coordinate' in spec;
     const isPositionLayout = 'position' in spec;
     const autoRange = spec?.autoRange ?? false;
+    const isNeedClip = spec?.clip ?? false;
 
     let point: IPointLike;
     if (isCoordinateLayout) {
@@ -98,8 +99,30 @@ export class MarkPoint extends BaseMarker implements IMarkPoint {
     } else if (isPositionLayout) {
       point = spec.position;
     }
+
+    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+    let clipRange;
+    if (isNeedClip) {
+      const { minX, maxX, minY, maxY } = this._computeClipRange([relativeSeries.getRegion()]);
+      clipRange = {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
+      };
+    }
     this._markerComponent?.setAttributes({
-      position: point
+      position: point,
+      itemContent: {
+        ...this._markerComponent.attribute?.itemContent,
+        textStyle: {
+          ...this._markerComponent.attribute?.itemContent?.textStyle,
+          text: this._spec.itemContent.text?.formatMethod
+            ? this._spec.itemContent.text.formatMethod(dataPoints)
+            : this._markerComponent.attribute?.itemContent?.textStyle?.text
+        }
+      },
+      clipRange
     });
   }
 

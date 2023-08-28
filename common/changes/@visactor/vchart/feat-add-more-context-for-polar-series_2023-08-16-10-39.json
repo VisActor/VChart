@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add `getRegion()` and `getCenter()` method in _markAttributeContext for `extensionMark`",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

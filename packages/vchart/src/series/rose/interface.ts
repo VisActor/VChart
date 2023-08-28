@@ -4,6 +4,7 @@ import type { IArcMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface';
 import type { IRoseLikeSeriesSpec, IRoseLikeSeriesTheme } from '../polar/rose-like';
 import type { RoseAppearPreset } from './animation';
+import type { IArcLabelSpec } from '../pie/interface';
 
 export type RoseMarks = 'rose';
 
@@ -19,8 +20,12 @@ export interface IRoseSeriesSpec extends IRoseLikeSeriesSpec, IAnimationSpec<Ros
   valueField: string | string[];
   /** 扇区样式 */
   [SeriesMarkNameEnum.rose]?: IMarkSpec<IArcMarkSpec>;
+  /** 标签配置 */
+  [SeriesMarkNameEnum.label]?: IArcLabelSpec;
 }
 
 export interface IRoseSeriesTheme extends IRoseLikeSeriesTheme {
   [SeriesMarkNameEnum.rose]?: Partial<IMarkTheme<IArcMarkSpec>>;
+  /** 标签配置 */
+  [SeriesMarkNameEnum.label]?: IArcLabelSpec;
 }

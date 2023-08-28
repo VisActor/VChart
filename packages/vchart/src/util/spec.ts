@@ -1,3 +1,4 @@
+import type { IBackgroundSpec, IBackgroundStyleSpec } from './../typings/spec/common';
 import { isArray, isBoolean, isDate, isNumber, isString, isValid } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 
@@ -48,8 +49,8 @@ export function cloneDeepSpec(spec: any) {
     return value;
   }
 
-  // 判断是不是 DataView 对象
-  if (isDataView(value)) {
+  // 判断是不是不能深拷贝的对象
+  if (isDataView(value) || isHTMLElement(value)) {
     return value;
   }
 
@@ -91,7 +92,43 @@ export function cloneDeepSpec(spec: any) {
 }
 
 export function isDataView(obj: any): obj is DataView {
-  const dataViewKeys: (keyof DataView)[] = ['dataSet', 'latestData', 'rawData', 'parserData', 'isDataView', 'history'];
-  const keys = Object.keys(obj);
-  return obj instanceof DataView || dataViewKeys.every(key => keys.includes(key));
+  return obj instanceof DataView;
+}
+
+export function isHTMLElement(obj: any): obj is Element {
+  try {
+    return obj instanceof Element;
+  } catch {
+    // 跨端 plan B
+    const htmlElementKeys: (keyof Element)[] = [
+      'children',
+      'innerHTML',
+      'classList',
+      'setAttribute',
+      'tagName',
+      'getBoundingClientRect'
+    ];
+    const keys = Object.keys(obj);
+    return htmlElementKeys.every(key => keys.includes(key));
+  }
+}
+
+export function convertBackgroundSpec(
+  bg: IBackgroundSpec
+): Omit<IBackgroundStyleSpec, 'image'> & { background?: IBackgroundStyleSpec['image'] } {
+  if (!bg) {
+    return null;
+  }
+  if (typeof bg === 'string') {
+    return {
+      fill: bg,
+      fillOpacity: 1
+    };
+  }
+  if (typeof bg !== 'object') {
+    return null;
+  }
+  const { x, y, width, height, x1, y1, image, ...rest } = bg;
+  rest.background = image;
+  return rest;
 }

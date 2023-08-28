@@ -7,6 +7,7 @@ import type { LineAppearPreset } from './animation';
 import type { ILineLikeSeriesTheme } from '../mixin/line-mixin';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { SeriesMarkNameEnum } from '../interface';
 
 type LineMarks = 'point' | 'line';
 
@@ -17,22 +18,13 @@ export interface ILineSeriesSpec
   /** 系列类型 */
   type: 'line';
   /**
-   * 非合规数据点连接方式
-   * @description null，undefined等非法数据点连接方式。
-   * 'break'指在该数据点处断开
-   * 'link' 指忽略该点保持连续
-   * 'zero' 指该点默认数值为0
-   * 'ignore' 指不处理
-   */
-  invalidType?: IInvalidType;
-  /**
    * 点图元配置
    */
-  point?: IMarkSpec<ISymbolMarkSpec>;
+  [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;
   /**
    * 线图元配置
    */
-  line?: IMarkSpec<ILineMarkSpec>;
+  [SeriesMarkNameEnum.line]?: IMarkSpec<ILineMarkSpec>;
   /** 标签配置 */
   label?: ILabelSpec & {
     /** 标签位置 */
@@ -47,6 +39,19 @@ export interface ILineSeriesSpec
       | 'bottom-left'
       | 'center';
   };
+  /**
+   * 系列主 mark 类型配置，该配置会影响图例的展示
+   * @default 'line'
+   * @since 1.2.0
+   */
+  seriesMark?: 'line' | 'point';
+
+  /**
+   * 是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点
+   * @default false
+   * @since 1.3.0
+   */
+  activePoint?: boolean;
 }
 
 export interface ILineSeriesTheme extends Omit<ICartesianSeriesTheme, 'label'>, ILineLikeSeriesTheme {

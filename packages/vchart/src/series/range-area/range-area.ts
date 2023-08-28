@@ -1,3 +1,4 @@
+import type { DataView } from '@visactor/vdataset';
 import { AreaSeries } from '../area/area';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -85,16 +86,22 @@ export class RangeAreaSeries extends AreaSeries {
         areaMark,
         {
           fill: this.getColorAttribute(),
-          defined: (datum: Datum) => {
-            if (this._invalidType === 'break') {
-              return couldBeValidNumber(datum[this.getStackValueField()]);
-            }
-            return true;
-          }
+          stroke: false
         },
         'normal',
         AttributeLevel.Series
       );
+      if (this._invalidType !== 'zero') {
+        this.setMarkStyle(
+          areaMark,
+          {
+            defined: this._getInvalidDefined,
+            connectedType: this._getInvalidConnectType()
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
       this.setMarkStyle(
         areaMark,
         {
@@ -110,5 +117,10 @@ export class RangeAreaSeries extends AreaSeries {
 
   protected initTooltip() {
     this._tooltipHelper = new RangeAreaSeriesTooltipHelper(this);
+  }
+
+  viewDataStatisticsUpdate(d: DataView) {
+    super.viewDataStatisticsUpdate(d);
+    this.encodeDefined(this._areaMark, 'defined');
   }
 }

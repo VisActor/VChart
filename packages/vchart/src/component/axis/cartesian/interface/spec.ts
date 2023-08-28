@@ -4,7 +4,12 @@ import type { ICartesianDomainLine, ICartesianLabel, ITimeLayerType, ICartesianT
 import type { AxisItemStateStyle } from '@visactor/vrender-components';
 
 /** spec */
-export type ICartesianAxisSpec = ICartesianLinearAxisSpec | ICartesianBandAxisSpec | ICartesianTimeAxisSpec;
+export type ICartesianAxisSpec =
+  | ICartesianLinearAxisSpec
+  | ICartesianBandAxisSpec
+  | ICartesianTimeAxisSpec
+  | ICartesianLogAxisSpec
+  | ICartesianSymlogAxisSpec;
 
 export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
   /** 轴位置 */
@@ -82,4 +87,20 @@ export type ICartesianTimeAxisSpec = Omit<ICartesianAxisCommonSpec, 'inverse'> &
    * @description 目前仅支持单层 / 双层，即layers.length <= 2
    */
   layers?: ITimeLayerType[];
+};
+
+export type ICartesianLogAxisSpec = ICartesianLinearAxisSpec & {
+  /**
+   * 底数
+   * @default 10
+   */
+  base?: number;
+};
+
+export type ICartesianSymlogAxisSpec = ICartesianLinearAxisSpec & {
+  /**
+   * 底数
+   * @default 10
+   */
+  constant?: number;
 };

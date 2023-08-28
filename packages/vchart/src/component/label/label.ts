@@ -1,9 +1,8 @@
-import { BaseComponent } from '../base';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
 import type { IRegion } from '../../region/interface';
-import type { IModelInitOption, IModelRenderOption } from '../../model/interface';
+import type { IModelInitOption } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
 import { ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
@@ -13,8 +12,11 @@ import type { ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar';
 import { markLabelConfigFunc, textAttribute } from './util';
 import type { IComponentMark } from '../../mark/component';
-import type { ILabelSpec } from './interface';
-import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import { BaseLabelComponent } from './base-label';
+import type { LooseFunction } from '@visactor/vutils';
+import { pickWithout } from '@visactor/vutils';
+import type { IGroup, IText } from '@visactor/vrender';
+import type { LabelItem } from '@visactor/vrender-components';
 
 export interface ILabelInfo {
   baseMark: IMark;
@@ -27,7 +29,7 @@ export interface ILabelComponentContext {
   labelInfo: ILabelInfo[];
 }
 
-export class Label extends BaseComponent {
+export class Label extends BaseLabelComponent {
   static type = ComponentTypeEnum.label;
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
@@ -43,8 +45,6 @@ export class Label extends BaseComponent {
 
   constructor(spec: any, options: IComponentOption) {
     super(spec, options);
-    this._regions = options.getRegionsInIndex([options.specIndex]);
-    this.layoutBindRegionID = this._regions.map(x => x.id);
     this._layoutRule = spec.labelLayout || 'series';
   }
 
@@ -58,7 +58,7 @@ export class Label extends BaseComponent {
         .flat();
       const labelVisible = marks.some(mark => mark.getLabelSpec()?.visible === true);
       if (labelVisible) {
-        labelComponents.push(new Label(spec, { ...options, specIndex: i }));
+        labelComponents.push(new Label(spec, { ...options, specIndex: i, specKey: 'label' }));
         continue;
       }
     }
@@ -68,7 +68,6 @@ export class Label extends BaseComponent {
   init(option: IModelInitOption): void {
     super.init(option);
     this.initEvent();
-
     this._initTextMark();
     this._initLabelComponent();
   }
@@ -92,6 +91,28 @@ export class Label extends BaseComponent {
       });
       this.event.off(VGRAMMAR_HOOK_EVENT.AFTER_MARK_RENDER_END, enableAnimation);
     };
+
+    this.event.on('afterElementEncode', eventParams => {
+      const mark = eventParams.item;
+
+      if (this._option.getChart().getLayoutTag() === false && mark.context?.model === this) {
+        this._delegateLabelEvent(mark.getGroupGraphicItem());
+      }
+    });
+  }
+
+  protected _delegateLabelEvent(component: IGroup) {
+    const textNodes = component
+      ?.findAll(node => node.type === 'text', true)
+      // label 组件的底层实现是有 text 图元复用的，这里为了避免重复的事件监听
+      .filter(text => !(text as any).__vchart_event) as IText[];
+    if (textNodes && textNodes.length > 0) {
+      textNodes.forEach(text => {
+        text.__vchart_event = true;
+        text.addEventListener('*', ((event: any, type: string) =>
+          this._delegateEvent(component, event, type, text, (text.attribute as LabelItem).data)) as LooseFunction);
+      });
+    }
   }
 
   protected _initTextMark() {
@@ -154,54 +175,45 @@ export class Label extends BaseComponent {
       }
     });
   }
-  protected _interactiveConfig(labelSpec: ILabelSpec) {
-    const { interactive } = labelSpec;
-    if (interactive !== true) {
-      return { hover: false, select: false };
-    }
-    const result = { hover: false, select: false, state: labelSpec.state };
-
-    const { hover, select } = this._option.getChart().getSpec();
-    if (hover !== false || (hover as unknown as IHoverSpec).enable !== false) {
-      result.hover = true;
-    }
-    if (select !== false || (select as unknown as ISelectSpec).enable !== false) {
-      result.select = true;
-    }
-    return result;
-  }
-
-  setLayoutStartPosition() {
-    // do nothing
-  }
 
   updateLayoutAttribute(): void {
     super.updateLayoutAttribute();
     this._labelComponentMap.forEach(({ region, labelInfo }, labelComponent) => {
       const baseMarks = labelInfo.map(info => info.baseMark);
       const component = labelComponent.getProduct() as ReturnType<IView['label']>;
+      const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
+
       component
         .target(baseMarks.map(mark => mark.getProduct()))
         .configure({ interactive: false })
+        .depend(dependCmp.map(cmp => cmp.getMarks()[0].getProduct()))
         .labelStyle(mark => {
           const markId = mark.context.markId;
           const baseMark = this._option.getChart().getMarkById(markId);
           if (baseMark) {
             const configFunc = markLabelConfigFunc[baseMark.type] ?? markLabelConfigFunc.symbol;
             const labelSpec = baseMark.getLabelSpec() ?? {};
-            const { smartInvert, offset, overlap, animation } = labelSpec;
             const interactive = this._interactiveConfig(labelSpec);
+            const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
+            /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
+            const centerOffset = this._spec?.centerOffset ?? 0;
+
             return merge(
               {
-                textStyle: { pickable: labelSpec.interactive === true }
+                textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
+                overlap: {
+                  avoidMarks: this._option
+                    .getAllComponents()
+                    .filter(cmp => cmp.type === 'totalLabel')
+                    .map(cmp => cmp.getMarks()[0].getProductId())
+                }
               },
               configFunc(labelInfo[baseMarks.findIndex(mark => mark === baseMark)]),
               {
-                smartInvert,
-                offset,
-                animation,
-                overlap,
-                ...interactive
+                ...passiveLabelSpec,
+                ...interactive,
+                centerOffset,
+                pickable: false
               }
             );
           }
@@ -209,7 +221,11 @@ export class Label extends BaseComponent {
         .encode((datum, element) => {
           const markId = element.mark.context.markId;
           const baseMark = this._option.getChart().getMarkById(markId);
-          return textAttribute(labelInfo[baseMarks.findIndex(mark => mark === baseMark)], datum);
+          return textAttribute(
+            labelInfo[baseMarks.findIndex(mark => mark === baseMark)],
+            datum,
+            baseMark.getLabelSpec()?.formatMethod
+          );
         })
         .size(() => region.getLayoutRect());
     });
@@ -225,21 +241,6 @@ export class Label extends BaseComponent {
         }
       });
     });
-  }
-
-  /** Update API **/
-  updateSpec(spec: any) {
-    const result = super.updateSpec(spec);
-    result.reRender = true;
-    result.reMake = true;
-    return result;
-  }
-
-  onRender(ctx: IModelRenderOption): void {
-    // do nothing
-  }
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
   }
 
   clear(): void {

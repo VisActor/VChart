@@ -1,0 +1,20 @@
+[
+  {
+    "menu": "examples",
+    "type": "markdown"
+  },
+  {
+    "menu": "tutorials",
+    "type": "markdown"
+  },
+  {
+    "menu": "options",
+    "type": "markdown-template",
+    "entry": "options",
+    "sections": [".legends", ".axes", ".series", ".total", ".extensionMark", ".customMark"]
+  },
+  {
+    "menu": "api",
+    "type": "markdown"
+  }
+]

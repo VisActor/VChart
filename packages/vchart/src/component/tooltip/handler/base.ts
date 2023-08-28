@@ -25,7 +25,7 @@ import {
   getTooltipPatternValue,
   getScale
 } from './utils';
-import type { Tooltip, TooltipContent } from '../tooltip';
+import type { Tooltip, TooltipActualTitleContent } from '../tooltip';
 import type { ISeries } from '../../../series/interface';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -146,16 +146,15 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     activeType?: TooltipActiveType,
     data?: TooltipData
   ) => {
-    /** 关闭tooltip */
+    /** 关闭 tooltip */
     if (!visible) {
       this._cacheViewSpec = undefined;
       this._cacheActualTooltip = undefined;
 
-      const spec = this._component.getSpec();
+      const spec = this._component.getSpec() as ITooltipSpec;
       /** 用户自定义逻辑 */
-      if (spec.handler?.hideTooltip) {
-        spec.handler?.hideTooltip(params);
-        return TooltipResult.success;
+      if (spec.handler) {
+        return spec.handler.hideTooltip?.(params) ?? TooltipResult.success;
       }
       /** 默认逻辑 */
       this._updateTooltip(false, params);
@@ -166,7 +165,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       return TooltipResult.failed;
     }
 
-    /** spec预处理 */
+    /** spec 预处理 */
     let spec: ITooltipSpec | undefined;
     if (changePositionOnly && this._cacheViewSpec) {
       spec = this._cacheViewSpec;
@@ -185,8 +184,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     /** 用户自定义逻辑 */
-    if (spec.handler?.showTooltip) {
-      return spec.handler?.showTooltip(activeType!, data!, params) ?? TooltipResult.success;
+    if (spec.handler) {
+      return spec.handler.showTooltip?.(activeType!, data!, params) ?? TooltipResult.success;
     }
 
     /** 默认逻辑 */
@@ -195,7 +194,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       return TooltipResult.failed;
     }
 
-    // 合成tooltip内容
+    // 合成 tooltip 内容
     let actualTooltip: IToolTipActual | undefined;
     if (changePositionOnly && this._cacheActualTooltip) {
       actualTooltip = this._cacheActualTooltip;
@@ -209,7 +208,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       }
     }
 
-    // 判断tooltip是否为空
+    // 判断 tooltip 是否为空
     if (isNil(actualTooltip.title?.key) && isNil(actualTooltip.title?.value) && !actualTooltip.content?.length) {
       return TooltipResult.failed;
     }
@@ -233,8 +232,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const event = params.event as MouseEvent;
 
     /** 用户自定义逻辑 */
-    if (spec.handler?.showTooltip) {
-      return spec.handler.showTooltip(activeType, data, params) ?? TooltipResult.success;
+    if (spec.handler) {
+      return spec.handler.showTooltip?.(activeType, data, params) ?? TooltipResult.success;
     }
 
     /** 默认逻辑 */
@@ -243,7 +242,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       return TooltipResult.failed;
     }
 
-    // 计算tooltip位置
+    // 计算 tooltip 位置
     const position = this._getActualTooltipPosition(
       actualTooltip,
       getTooltipPatternValue(pattern.position, data, params),
@@ -256,7 +255,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       actualTooltip.position = pattern.updatePosition(actualTooltip.position, data, params);
     }
 
-    // 判断tooltip可见性
+    // 判断 tooltip 可见性
     let tooltipVisible = pattern?.visible !== false;
     if (
       !data ||
@@ -278,18 +277,18 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     return TooltipResult.success;
   };
 
-  hideTooltip(params: TooltipHandlerParams): void {
-    this.changeTooltip(false, params);
+  hideTooltip(params: TooltipHandlerParams): TooltipResult {
+    return this.changeTooltip(false, params);
   }
 
   release(): void {
     this._cacheViewSpec = undefined;
     this._cacheActualTooltip = undefined;
 
-    const spec = this._component.getSpec();
+    const spec = this._component.getSpec() as ITooltipSpec;
     /** 用户自定义逻辑 */
-    if (spec.handler?.release) {
-      spec.handler?.release();
+    if (spec.handler) {
+      spec.handler.release?.();
       return;
     }
     /** 默认逻辑 */
@@ -328,7 +327,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   }
 
   /**
-   * 计算实际的tooltip内容
+   * 计算实际的 tooltip 内容
    * @param pattern
    * @param data
    * @param event
@@ -342,7 +341,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const patternVisible = getTooltipPatternValue(pattern.visible, data, params);
 
     // 数据
-    let tooltipContent: TooltipContent | null = null;
+    let tooltipContent: TooltipActualTitleContent | null = null;
     tooltipContent = getShowContent(pattern, data, params);
 
     const actualTooltip: IToolTipActual = {
@@ -355,7 +354,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   };
 
   /**
-   * 计算实际的tooltip位置
+   * 计算实际的 tooltip 位置
    * @param actualTooltip
    * @param position
    * @param event
@@ -381,7 +380,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const canvasHeight = canvasRect?.height ?? DEFAULT_CHART_HEIGHT;
     let isFixedPosition = false;
 
-    /* 一、计算left、top、right、bottom */
+    /* 一、计算 left、top、right、bottom */
     let left: number | undefined;
     let top: number | undefined;
     let right: number | undefined;
@@ -429,7 +428,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       }
     }
 
-    /* 二、换算成x和y */
+    /* 二、换算成 x 和 y */
     let x: number;
     let y: number;
 
@@ -449,9 +448,12 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       containerSize.height = window.innerHeight;
 
       if (!isCanvas) {
-        tooltipParentElementRect = tooltipParentElement.getBoundingClientRect();
+        tooltipParentElementRect = tooltipParentElement?.getBoundingClientRect() ?? {
+          x: Infinity,
+          y: Infinity
+        };
         const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
-        const chartElementRect = chartElement.getBoundingClientRect();
+        const chartElementRect = chartElement?.getBoundingClientRect();
         relativePosOffset = {
           x: chartElementRect.x - tooltipParentElementRect.x,
           y: chartElementRect.y - tooltipParentElementRect.y

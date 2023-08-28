@@ -17,7 +17,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
   protected _tooltipContainer: HTMLElement = domDocument?.body;
   protected _domStyle: IDomTooltipStyle;
-  protected _tooltipActual: IToolTipActual;
+  protected _tooltipActual?: IToolTipActual;
   protected declare _container: Maybe<HTMLDivElement>;
 
   protected model: TooltipModel;
@@ -104,6 +104,10 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
   protected _getParentElement(spec: ITooltipSpec): HTMLElement {
     return this._container ?? super._getParentElement(spec);
+  }
+
+  isTooltipShown() {
+    return this.getVisibility();
   }
 
   reInit() {

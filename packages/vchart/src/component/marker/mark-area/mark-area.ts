@@ -96,6 +96,7 @@ export class MarkArea extends BaseMarker implements IMarkArea {
     const isCoordinateLayout = isValid(spec.coordinates);
     const isPositionLayout = isValid(spec.positions);
     const autoRange = spec?.autoRange ?? false;
+    const isNeedClip = spec?.clip ?? false;
 
     let points: IPointLike[] = [];
     let lines: [IPointLike, IPointLike][] = [];
@@ -110,8 +111,31 @@ export class MarkArea extends BaseMarker implements IMarkArea {
     } else if (isPositionLayout) {
       points = spec.positions;
     }
+
+    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+    let clipRange;
+    if (isNeedClip) {
+      const { minX, maxX, minY, maxY } = this._computeClipRange([
+        startRelativeSeries.getRegion(),
+        endRelativeSeries.getRegion(),
+        relativeSeries.getRegion()
+      ]);
+      clipRange = {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
+      };
+    }
     this._markerComponent?.setAttributes({
-      points: points
+      points: points,
+      label: {
+        ...this._markerComponent.attribute?.label,
+        text: this._spec.label.formatMethod
+          ? this._spec.label.formatMethod(dataPoints)
+          : this._markerComponent.attribute?.label?.text
+      },
+      clipRange
     });
   }
 

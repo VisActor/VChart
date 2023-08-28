@@ -4,13 +4,16 @@ import {
   STACK_FIELD_END_PERCENT,
   ChartEvent,
   STACK_FIELD_END_OffsetSilhouette,
-  STACK_FIELD_START_OffsetSilhouette
+  STACK_FIELD_START_OffsetSilhouette,
+  STACK_FIELD_TOTAL,
+  STACK_FIELD_TOTAL_PERCENT,
+  STACK_FIELD_TOTAL_TOP
 } from '../constant/index';
 import type { ISeriesStackDataMeta } from '../series/interface';
 import type { IRegion } from '../region/interface';
 import type { IChart } from './interface';
 import { STACK_FIELD_START } from '../constant';
-import { toValidNumber } from '../util';
+import { max, sum, toValidNumber } from '../util';
 import type { EventCallback } from '../event/interface';
 
 // stack
@@ -64,7 +67,34 @@ export class Stack {
     for (const key in stackCache.nodes) {
       this.stackOffsetSilhouette(stackCache.nodes[key]);
     }
+    model.getSeries().forEach(s => {
+      const stackData = s.getStackData();
+      const stackValueField = s.getStackValueField(); // yField
+      if (stackData && stackValueField) {
+        this.stackTotal(stackCache as IStackCacheNode, stackValueField);
+      }
+    });
   };
+
+  private stackTotal(stackData: IStackCacheNode, valueField: string) {
+    if ('values' in stackData && stackData.values.length) {
+      const total = sum(stackData.values, valueField);
+      const percent = max(stackData.values, STACK_FIELD_END_PERCENT);
+      stackData.values.forEach(v => {
+        v[STACK_FIELD_TOTAL] = total;
+        v[STACK_FIELD_TOTAL_PERCENT] = percent;
+        delete v[STACK_FIELD_TOTAL_TOP];
+      });
+      const maxNode = stackData.values.reduce((max, current) => {
+        return current[STACK_FIELD_END] > max[STACK_FIELD_END] ? current : max;
+      });
+      maxNode[STACK_FIELD_TOTAL_TOP] = true;
+      return;
+    }
+    for (const key in stackData.nodes) {
+      this.stackTotal(stackData.nodes[key], valueField);
+    }
+  }
 
   private stackOffsetSilhouette(stackCache: IStackCacheNode) {
     if (!stackCache.values.length) {
@@ -80,7 +110,7 @@ export class Stack {
   private stack(stackCache: IStackCacheNode) {
     if (stackCache.values.length > 0) {
       // 设置一个小数以保证 log 计算不会报错
-      let positiveStart = Number.EPSILON;
+      let positiveStart = 0;
       let negativeStart = 0;
       // temp
       let sign = 1;
@@ -104,8 +134,8 @@ export class Stack {
         value = v[STACK_FIELD_END];
         const denominator = value >= 0 ? positiveStart : negativeStart;
         sign = value >= 0 ? 1 : -1;
-        v[STACK_FIELD_START_PERCENT] = Math.min(1, v[STACK_FIELD_START] / denominator) * sign;
-        v[STACK_FIELD_END_PERCENT] = Math.min(1, v[STACK_FIELD_END] / denominator) * sign;
+        v[STACK_FIELD_START_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_START] / denominator) * sign;
+        v[STACK_FIELD_END_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_END] / denominator) * sign;
       });
     }
 

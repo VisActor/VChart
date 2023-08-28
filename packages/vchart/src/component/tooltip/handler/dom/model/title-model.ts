@@ -63,12 +63,12 @@ export class TitleModel extends BaseTooltipModel {
 
     this.shape?.setStyle(
       {
-        paddingRight: tooltipStyle.shapeColumn.item?.marginRight
+        paddingRight: tooltipStyle.shapeColumn.common?.marginRight
       },
       {
         hasShape: title?.hasShape,
         shapeType: title?.shapeType,
-        size: tooltipStyle.shapeColumn.item?.width,
+        size: tooltipStyle.shapeColumn.common?.width,
         color: title?.shapeColor,
         hollow: title?.shapeHollow
       }
@@ -85,7 +85,7 @@ export class TitleModel extends BaseTooltipModel {
     this.shape?.setStyle(undefined, {
       hasShape: title?.hasShape,
       shapeType: title?.shapeType,
-      size: tooltipStyle.shapeColumn.item?.width,
+      size: tooltipStyle.shapeColumn.common?.width,
       color: title?.shapeColor,
       hollow: title?.shapeHollow
     });

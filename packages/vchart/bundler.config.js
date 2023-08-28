@@ -1,6 +1,3 @@
-/**
- * @type {import('@internal/bundler').Config}
- */
 const fs = require('fs');
 const path = require('path');
 
@@ -19,6 +16,9 @@ function copyStart(source, destinations) {
   });
 }
 
+/**
+ * @type {import('@internal/bundler').Config}
+ */
 module.exports = {
   name: 'VChart',
   formats: ['es', 'cjs', 'umd'],
@@ -39,15 +39,15 @@ module.exports = {
     // '@visactor/vrender'
   ],
   postTasks: {
-    generateEntries: (config, projectRoot, rawPackageJson) => {
-      ['core', 'chart', 'series', 'mark', 'component', 'layout'].forEach(entryName => {
-        const jsCode = fs.readFileSync(path.join(__dirname, `../../common/template/${entryName}.js`), 'utf-8');
-        fs.writeFileSync(path.join(__dirname, `./${entryName}.js`), jsCode, 'utf-8');
+    // generateEntries: (config, projectRoot, rawPackageJson) => {
+    //   ['core', 'chart', 'series', 'mark', 'component', 'layout'].forEach(entryName => {
+    //     const jsCode = fs.readFileSync(path.join(__dirname, `../../common/template/${entryName}.js`), 'utf-8');
+    //     fs.writeFileSync(path.join(__dirname, `./${entryName}.js`), jsCode, 'utf-8');
 
-        const dtsCode = fs.readFileSync(path.join(__dirname, `../../common/template/${entryName}.d.ts`), 'utf-8');
-        fs.writeFileSync(path.join(__dirname, `./${entryName}.d.ts`), dtsCode, 'utf-8');
-      });
-    },
+    //     const dtsCode = fs.readFileSync(path.join(__dirname, `../../common/template/${entryName}.d.ts`), 'utf-8');
+    //     fs.writeFileSync(path.join(__dirname, `./${entryName}.d.ts`), dtsCode, 'utf-8');
+    //   });
+    // },
     copy: (config, projectRoot, rawPackageJson) => {
       const vchartSource = path.join(__dirname, config.outputDir.umd, 'index.min.js');
       const packagesDestinations = [

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue where updateSpec not work when data.id is missing in spec, see #535",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

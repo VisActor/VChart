@@ -282,14 +282,14 @@ describe('VChart', () => {
         node => node.name === 'axis-label-container-layer-0',
         true
       ) as unknown as Group;
-      expect(labels.childrenCount).toBe(4);
+      expect(labels.childrenCount).toBe(5);
 
       expect((labels.children[1] as Text).attribute.fillOpacity).toBe(1);
-      expect((labels.children[1] as Text).attribute.text).toBe(500);
+      expect((labels.children[1] as Text).attribute.text).toBe(400);
       expect((labels.children[2] as Text).attribute.fillOpacity).toBe(1);
-      expect((labels.children[2] as Text).attribute.text).toBe(1000);
+      expect((labels.children[2] as Text).attribute.text).toBe(800);
       expect((labels.children[3] as Text).attribute.fillOpacity).toBe(1);
-      expect((labels.children[3] as Text).attribute.text).toBe(1500);
+      expect((labels.children[3] as Text).attribute.text).toBe(1200);
     });
   });
   describe('vchart event test', () => {

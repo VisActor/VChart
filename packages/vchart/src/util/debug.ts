@@ -19,11 +19,13 @@ export const warn = (msg: string, detail?: any) => {
 
 export const error = (msg: string, detail?: any, err?: Error) => {
   if (config.silent) {
-    return null;
+    return;
   }
-  const errIns = new Error(msg);
-  // use Logger.getInstance().addErrorHandler() instead of config.errorHandler
-  return Logger.getInstance().error(`[VChart error]: ${errIns}`, detail);
+  if (isFunction(config.errorHandler)) {
+    config.errorHandler.call(null, msg, detail);
+    return;
+  }
+  throw new Error(msg);
 };
 
 export const config = {
@@ -40,7 +42,7 @@ export interface IConfig {
   /**
    * 错误处理
    */
-  errorHandler?: (err: Error, detail?: any) => void;
+  errorHandler?: (msg: string, detail?: any) => void;
   /**
    * 警告处理
    */

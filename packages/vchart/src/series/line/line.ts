@@ -5,7 +5,7 @@ import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
 import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
-import type { Datum, IInvalidType, Maybe } from '../../typings';
+import type { Datum, Maybe } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
@@ -35,7 +35,6 @@ export interface LineSeries
 export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
   static readonly type: string = SeriesTypeEnum.line;
   type = SeriesTypeEnum.line;
-  protected _invalidType: IInvalidType = 'break';
 
   static readonly mark: SeriesMarkMap = {
     ...BaseSeries.mark,
@@ -51,8 +50,9 @@ export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
       large: this._spec.large,
       largeThreshold: this._spec.largeThreshold
     };
-    this.initLineMark(progressive);
-    this.initSymbolMark(progressive);
+    const seriesMark = this._spec.seriesMark ?? 'line';
+    this.initLineMark(progressive, seriesMark === 'line');
+    this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
   initMarkStyle(): void {
@@ -78,8 +78,12 @@ export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
   }
 
   getSeriesStyle(datum: Datum) {
+    const isLineAsSeriesMark = this._spec?.seriesMark !== 'point'; // 加判空防止某些特殊时刻（如 updateSpec 时）鼠标滑过图表导致报错
     return (attribute: string) => {
-      attribute === 'fill' && (attribute = 'stroke');
+      if (isLineAsSeriesMark) {
+        // 增加一个标识位，用于是否替换，因为图例获取颜色的时候是不需要替换的
+        attribute === 'fill' && (attribute = 'stroke');
+      }
       return this._seriesMark?.getAttribute(attribute as any, datum) ?? null;
     };
   }

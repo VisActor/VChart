@@ -1,3 +1,4 @@
+import type { ITick } from '../../../component/axis';
 import type { IPolarAxisSpec } from '../../../component/axis/polar/interface';
 import type { CoordinateType, IOrientType, IPolarOrientType, ITextMarkSpec } from '../../../typings';
 
@@ -9,6 +10,8 @@ export interface ITickDataOpt {
   tickCount?: number;
   forceTickCount?: number;
   tickStep?: number;
+  tickMode?: ITick['tickMode'];
+  noDecimals?: ITick['noDecimals'];
 
   coordinateType: CoordinateType;
   axisOrientType: IOrientType | IPolarOrientType;

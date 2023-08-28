@@ -26,10 +26,31 @@ export const sankey = (data: SankeyData, op: ISankeyOpt) => {
     return data;
   }
 
-  if (data[0]?.latestData) {
-    data = data[0].latestData[0];
+  if (data.length > 1) {
+    /**
+     * data structure for Fengshen:
+     * [{id:’nodes’, values:[xxx]},{id:’links’, values:[xxx]}]
+     */
+    const updateData: SankeyData = {
+      links: [],
+      nodes: []
+    };
+    data.forEach((datum: any) => {
+      if (datum.id === 'links' || datum.id === 'nodes') {
+        updateData[datum.id] = datum.values;
+      }
+    });
+    data = updateData;
   } else {
-    data = data[0];
+    /**
+     * data structure:
+     * [{nodes: [xxx], links: [xxx]}]
+     */
+    if (data[0]?.latestData) {
+      data = data[0].latestData[0];
+    } else {
+      data = data[0];
+    }
   }
 
   if (op.sourceField !== 'source' || op.targetField !== 'target') {

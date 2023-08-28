@@ -19,26 +19,28 @@ import {
   isMiniAppLikeMode,
   domDocument
 } from '../../util';
-import type {
-  ITooltip,
-  ITooltipActiveTypeAsKeys,
-  ITooltipSpec,
-  ITooltipTheme,
-  TooltipHandlerParams,
-  TotalMouseEventData
+import {
+  TooltipResult,
+  type ITooltip,
+  type ITooltipActiveTypeAsKeys,
+  type ITooltipSpec,
+  type ITooltipTheme,
+  type TooltipHandlerParams,
+  type TotalMouseEventData
 } from './interface';
 import { TOOLTIP_EL_CLASS_NAME } from './handler/constants';
 // eslint-disable-next-line no-duplicate-imports
 import { getTooltipActualActiveType, showTooltip, isEmptyPos } from './utils';
 import { isSameDimensionInfo } from '../../event/events/dimension/util';
-import { Event_Bubble_Level, Event_Source_Type } from '../../constant';
+import { ChartEvent, Event_Bubble_Level, Event_Source_Type } from '../../constant';
 import type { DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
 // eslint-disable-next-line no-duplicate-imports
 import { isDimensionInfo, isMarkInfo, MarkTooltipProcessor, DimensionTooltipProcessor } from './processor';
 import { hasParentElement, isString } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
+import type { TooltipEventParams } from './interface/event';
 
-export type TooltipContent = {
+export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
   content?: IToolTipLineActual[];
 };
@@ -84,6 +86,12 @@ export class Tooltip extends BaseComponent implements ITooltip {
 
   protected _processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor>;
 
+  protected _isTooltipShown: boolean = false;
+  /** 当前是否正在显示 tooltip */
+  isTooltipShown() {
+    return this._isTooltipShown;
+  }
+
   changeRegions(regions: IRegion[]) {
     /* do nothing */
   }
@@ -106,15 +114,15 @@ export class Tooltip extends BaseComponent implements ITooltip {
   created() {
     super.created();
     this._regions = this._option.getAllRegions();
-    // handler
-    this._initHandler();
-    // processor
-    this._initProcessor();
     // event
     this._initEvent();
   }
 
   release() {
+    this.event.emit(ChartEvent.tooltipRelease, {
+      tooltip: this
+    } as unknown as TooltipEventParams);
+
     super.release();
 
     this._eventList.forEach(({ eventType, handler }) => {
@@ -122,6 +130,7 @@ export class Tooltip extends BaseComponent implements ITooltip {
     });
     this._eventList = [];
     this.tooltipHandler?.release?.();
+    this._isTooltipShown = false;
   }
 
   protected _initHandler() {
@@ -159,6 +168,7 @@ export class Tooltip extends BaseComponent implements ITooltip {
         this._mountEvent('pointerdown', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
         this._mountEvent('pointerup', { source: 'window' }, this._handleMouseOut);
       }
+      this._mountEvent('pointerout', { level: Event_Bubble_Level.chart, source: 'chart' }, this._handleMouseOut);
       this._mountEvent('pointermove', { source: 'window' }, this._handleMouseOut);
     } else if (trigger === 'click') {
       this._mountEvent('pointertap', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
@@ -176,6 +186,10 @@ export class Tooltip extends BaseComponent implements ITooltip {
 
   protected _handleMouseOut = (params: BaseEventParams) => {
     if (this._alwaysShow) {
+      return;
+    }
+
+    if (!this._isTooltipShown && !this.tooltipHandler?.isTooltipShown?.()) {
       return;
     }
 
@@ -205,6 +219,14 @@ export class Tooltip extends BaseComponent implements ITooltip {
   };
 
   protected _handleMouseMove = (params: BaseEventParams) => {
+    if (!this.tooltipHandler) {
+      this._initHandler();
+    }
+
+    if (!this._processor) {
+      this._initProcessor();
+    }
+
     if (this._alwaysShow) {
       return;
     }
@@ -285,6 +307,9 @@ export class Tooltip extends BaseComponent implements ITooltip {
         this._cacheInfo = tooltipInfo;
       }
     }
+    if (success) {
+      this._isTooltipShown = true;
+    }
     // 全局唯一 tooltip
     const vchart = this._option.globalInstance;
     if (success && VChart.globalConfig.uniqueTooltip) {
@@ -306,10 +331,23 @@ export class Tooltip extends BaseComponent implements ITooltip {
     return result;
   };
 
-  protected _hideTooltipByHandler = (params: TooltipHandlerParams) => {
-    if (this.tooltipHandler?.hideTooltip) {
-      this.tooltipHandler.hideTooltip(params);
+  protected _hideTooltipByHandler = (params: TooltipHandlerParams): TooltipResult => {
+    if (!this._isTooltipShown && !this.tooltipHandler?.isTooltipShown?.()) {
+      // 如果当前 tooltip 未显示，则提前退出
+      return TooltipResult.success;
     }
+    this.event.emit(ChartEvent.tooltipHide, {
+      ...params,
+      tooltip: this
+    });
+    if (this.tooltipHandler?.hideTooltip) {
+      const result = this.tooltipHandler.hideTooltip(params);
+      if (!result) {
+        this._isTooltipShown = false;
+      }
+      return result;
+    }
+    return TooltipResult.failed;
   };
 
   protected _initTheme(theme?: any) {
@@ -319,7 +357,12 @@ export class Tooltip extends BaseComponent implements ITooltip {
 
   reInit(theme?: any) {
     super.reInit(theme);
-    this.tooltipHandler?.reInit?.();
+
+    if (this.tooltipHandler) {
+      this.tooltipHandler.reInit();
+    } else {
+      this._initHandler();
+    }
   }
 
   setAttrFromSpec() {
@@ -375,6 +418,14 @@ export class Tooltip extends BaseComponent implements ITooltip {
   }
 
   showTooltip(datum: Datum, options: IShowTooltipOption) {
+    if (!this.tooltipHandler) {
+      this._initHandler();
+    }
+
+    if (!this._processor) {
+      this._initProcessor();
+    }
+
     if (!this.tooltipHandler?.showTooltip) {
       return false;
     }
@@ -385,18 +436,17 @@ export class Tooltip extends BaseComponent implements ITooltip {
     return result;
   }
 
-  hideTooltip() {
-    if (!this.tooltipHandler?.hideTooltip) {
-      return false;
-    }
-    this._alwaysShow = false;
-    this.tooltipHandler.hideTooltip({
+  /** 手动隐藏 tooltip，返回是否成功 */
+  hideTooltip(): boolean {
+    const params: TooltipHandlerParams = {
       changePositionOnly: false,
       item: undefined,
       datum: undefined,
       source: Event_Source_Type.chart
-    } as any);
-    return true;
+    } as any;
+
+    this._alwaysShow = false;
+    return !this._hideTooltipByHandler(params);
   }
 
   private _isSameAsCacheInfo(nextInfo?: TooltipInfo): boolean {

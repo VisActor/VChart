@@ -13,13 +13,22 @@ import type { IRepeatType } from '@visactor/vrender';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {
-  // type of scale
+  /**
+   * type of scale
+   */
   type: ScaleType;
-  // will set to scale.domain, it means input of scale
+  /**
+   * will set to scale.domain, it means input of scale
+   */
   domain: D[];
-  // will set to scale.range, it means output of scale
+  /**
+   * will set to scale.range, it means output of scale
+   */
   range: T[];
-  // will set to scale.specified if scale support, as a key-value pair matching capability
+  /**
+   * will set to scale.specified if scale support, as a key-value pair matching capability
+   * @since 1.1.0
+   */
   specified?: { [key: string]: unknown };
 }
 // 用来给用户进行mark.style上的映射配置。所以要配置数据维度
@@ -86,12 +95,25 @@ export type ConvertToMarkStyleSpec<T extends Record<string, any>> = {
   [key in keyof T]: VisualType<T[key]>;
 };
 
+/**
+ * border
+ */
+
+export interface IBorder {
+  distance: number | string;
+  stroke?: string | IGradient;
+  strokeOpacity?: number;
+  lineWidth?: number;
+  lineDash?: number[];
+  lineDashOffset?: number;
+}
+
 export interface ICommonSpec {
   visible?: boolean;
   x?: number;
   y?: number;
   z?: number;
-  stroke?: string | IGradient | IColorKey;
+  stroke?: string | IGradient | IColorKey | false;
   strokeOpacity?: number;
   opacity?: number;
   lineWidth?: number;
@@ -100,10 +122,6 @@ export interface ICommonSpec {
 
   cursor?: Cursor;
   zIndex?: number;
-  borderSize?: number;
-  borderColor?: string;
-  borderSpacing?: number;
-  borderOpacity?: number;
   angle?: number;
   anchor?: [number, number];
 
@@ -139,31 +157,11 @@ export interface ICommonSpec {
   /**
    * 外边框
    */
-  outerBorder?: {
-    /**
-     * 间距
-     */
-    distance: number | string;
-    stroke?: string | IGradient;
-    strokeOpacity?: number;
-    lineWidth?: number;
-    lineDash?: number[];
-    lineDashOffset?: number;
-  };
+  outerBorder?: IBorder;
   /**
    * 内边框
    */
-  innerBorder?: {
-    /**
-     * 间距
-     */
-    distance: number | string;
-    stroke?: string | IGradient;
-    strokeOpacity?: number;
-    lineWidth?: number;
-    lineDash?: number[];
-    lineDashOffset?: number;
-  };
+  innerBorder?: IBorder;
 
   [key: string]: any;
 }
@@ -417,7 +415,7 @@ export interface ICellMarkSpec extends ISymbolMarkSpec {
   padding?: number | number[] | IPadding;
 }
 
-export interface IGroupMarkSpec extends ICommonSpec, IFillMarkSpec {
+export interface IGroupMarkSpec extends IFillMarkSpec {
   clip?: boolean;
   width?: number;
   height?: number;

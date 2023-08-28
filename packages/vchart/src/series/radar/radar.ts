@@ -66,9 +66,10 @@ export class RadarSeries extends RoseLikeSeries<IRadarSeriesSpec> {
     };
 
     const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
-    this.initAreaMark(progressive, isAreaVisible);
-    this.initLineMark(progressive, !isAreaVisible);
-    this.initSymbolMark(progressive);
+    const seriesMark = this._spec.seriesMark ?? 'area';
+    this.initAreaMark(progressive, isAreaVisible && seriesMark === 'area');
+    this.initLineMark(progressive, seriesMark === 'line' || (seriesMark === 'area' && !isAreaVisible));
+    this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
   initMarkStyle(): void {
@@ -96,19 +97,19 @@ export class RadarSeries extends RoseLikeSeries<IRadarSeriesSpec> {
             if (!datum || !this.angleAxisHelper || !this.radiusAxisHelper) {
               return Number.NaN;
             }
-
             return this.valueToPosition(
               this.getDatumPositionValues(datum, this._angleField),
-              this._stack ? this.getDatumPositionValues(datum, this._innerRadiusField) : 0
+              this._stack ? this.getDatumPositionValues(datum, this._innerRadiusField) : this.radiusScale.domain()[0]
             ).x;
           },
           y1: (datum: Datum) => {
             if (!datum || !this.angleAxisHelper || !this.radiusAxisHelper) {
               return Number.NaN;
             }
+
             const value = this.valueToPosition(
               this.getDatumPositionValues(datum, this._angleField),
-              this._stack ? this.getDatumPositionValues(datum, this._innerRadiusField) : 0
+              this._stack ? this.getDatumPositionValues(datum, this._innerRadiusField) : this.radiusScale.domain()[0]
             ).y;
             return value;
           },

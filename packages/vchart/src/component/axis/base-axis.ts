@@ -1,7 +1,7 @@
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import type { INode, IGroup } from '@visactor/vrender';
+import type { INode, IGroup, IGraphic } from '@visactor/vrender';
 import { AXIS_ELEMENT_NAME } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
@@ -315,7 +315,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
     if (axisMainContainer) {
       // 代理组件上的事件，目前坐标轴组件比较特殊，包含了网格线，但是事件这块只提供不包含网格线部分的响应
       axisMainContainer.addEventListener('*', ((event: any, type: string) =>
-        this._delegateEvent(component as unknown as INode, event, type)) as LooseFunction);
+        this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
     }
   }
 
@@ -359,7 +359,9 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         autoHideMethod: spec.label.autoHideMethod,
         autoHideSeparation: spec.label.autoHideSeparation,
         limitEllipsis: spec.label.limitEllipsis,
-        layoutFunc: spec.label.layoutFunc
+        layoutFunc: spec.label.layoutFunc,
+        dataFilter: spec.label.dataFilter,
+        containerAlign: spec.label.containerAlign
       },
       tick: {
         visible: spec.tick.visible,
@@ -372,7 +374,8 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
               return transformToGraphic(this._preprocessSpec(merge({}, this._theme.tick?.style, style)));
             }
           : transformToGraphic(spec.tick.style),
-        state: transformStateStyle(spec.tick.state)
+        state: transformStateStyle(spec.tick.state),
+        dataFilter: spec.tick.dataFilter
       },
       subTick: {
         visible: spec.subTick.visible,

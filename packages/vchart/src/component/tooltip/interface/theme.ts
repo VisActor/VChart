@@ -7,6 +7,8 @@ export interface ITooltipTextTheme {
   /** 字体大小 */
   fontSize?: number;
   /** 字体颜色 */
+  fill?: string;
+  /** @deprecated 字体颜色（兼容旧版本） */
   fontColor?: string;
   /** 字重 */
   fontWeight?: StringOrNumber;

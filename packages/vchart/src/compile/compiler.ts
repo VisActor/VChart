@@ -19,9 +19,9 @@ import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import type { VChart } from '../core/vchart';
-import type { Stage } from '@visactor/vrender';
+import type { IColor, Stage } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
-import { global } from '@visactor/vrender';
+import { vglobal } from '@visactor/vrender';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
 
@@ -98,7 +98,12 @@ export class Compiler {
     if (this._view) {
       return;
     }
-
+    const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);
+    if (this._option.onError) {
+      logger.addErrorHandler((...args) => {
+        this._option.onError(...args);
+      });
+    }
     this._view = new View({
       width: this._width,
       height: this._height,
@@ -119,7 +124,8 @@ export class Compiler {
       doLayout: () => {
         this._compileChart?.onLayout(this._view);
       },
-      logLevel: Logger.getInstance().level() as number
+      logger: logger,
+      logLevel: logger.level()
     });
     this._setCanvasStyle();
 
@@ -188,18 +194,25 @@ export class Compiler {
     if (!this._view) {
       return Promise.reject();
     }
+    this._width = width;
+    this._height = height;
+
     this._view.resize(width, height);
     return this.reRenderAsync({ morph: false });
+  }
+
+  setBackground(color: IColor) {
+    this._view?.background(color);
   }
 
   reRenderAsync(morphConfig?: IMorphConfig) {
     if (this.isInited) {
       // 合并多次 renderSync 调用，另外如果使用 renderAsync 异步渲染的话，在小程序环境会有问题
       if (this._rafId) {
-        global.getCancelAnimationFrame()(this._rafId);
+        vglobal.getCancelAnimationFrame()(this._rafId);
       }
 
-      this._rafId = global.getRequestAnimationFrame()(() => {
+      this._rafId = vglobal.getRequestAnimationFrame()(() => {
         this.renderSync(morphConfig);
       });
     }

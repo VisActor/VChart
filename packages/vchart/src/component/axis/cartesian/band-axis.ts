@@ -47,12 +47,14 @@ export class CartesianBandAxis extends CartesianAxis {
     };
 
     return {
+      isContinuous: false,
       dataToPosition: this.dataToPosition.bind(this),
       getScale,
       getBandwidth,
       getStatisticsDomain: () => this.getStatisticsDomain(),
       getAxisType: () => this.type,
-      getAxisId: () => this.id
+      getAxisId: () => this.id,
+      isInverse: () => this._spec.inverse
     };
   }
 

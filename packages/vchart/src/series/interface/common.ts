@@ -44,6 +44,7 @@ export interface ISeriesStackDataNode {
 }
 export interface ISeriesStackDataLeaf {
   values: any[];
+  total?: number;
 }
 
 export type ISeriesStackDataMeta = ISeriesStackDataNode | ISeriesStackDataLeaf;

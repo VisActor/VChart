@@ -5,6 +5,7 @@ export interface IDomTooltipStyle {
     IBorder & {
       width?: string;
       height?: string;
+      minHeight?: string;
       backgroundColor?: string;
       boxShadow?: string;
       pointerEvents?: 'auto' | 'none';
@@ -14,20 +15,19 @@ export interface IDomTooltipStyle {
     };
   title: ILabelStyle;
   content: IMargin;
-  shapeColumn: IMargin & {
-    width?: string;
-    item?: IShapeStyle;
-  };
-  keyColumn: IMargin & {
-    width?: string;
-    item?: ILabelStyle;
-  };
-  valueColumn: IMargin & {
-    width?: string;
-    item?: ILabelStyle;
-  };
+  shapeColumn: TooltipColumnStyle<IShapeStyle>;
+  keyColumn: TooltipColumnStyle<ILabelStyle>;
+  valueColumn: TooltipColumnStyle<ILabelStyle>;
   spaceRow: string;
 }
+
+export type TooltipColumnStyle<T> = IMargin & {
+  width?: string;
+  /** 各行通用配置 */
+  common?: T;
+  /** 各行具体配置 */
+  items?: T[];
+};
 
 export interface ILabelStyle extends IMargin {
   fontFamily?: string;
@@ -39,6 +39,7 @@ export interface ILabelStyle extends IMargin {
   whiteSpace?: string;
   wordBreak?: string;
   maxWidth?: string;
+  width?: string;
 }
 
 export interface IShapeStyle extends IMargin {

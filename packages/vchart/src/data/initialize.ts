@@ -1,11 +1,14 @@
+import type { utilFunctionCtx } from './../typings/params';
+import { warn } from './../util/debug';
 import { isString } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { IDataViewOptions, IFields, ITransformOptions } from '@visactor/vdataset';
-import type { IDataValues } from '../typings/spec/common';
+import type { IDataValues, SheetParseOptions } from '../typings/spec/common';
 import { error } from '../util';
 import { registerDataSetInstanceTransform } from './register';
 import { copyDataView } from './transforms/copy-data-view';
+import type { IParserOptions } from '@visactor/vdataset/es/parser';
 
 export function initializeData() {
   // todo
@@ -42,18 +45,26 @@ export function dataViewFromDataView(rawData: DataView, dataSet?: DataSet, op?: 
  * @param dataSet 数据集
  * @returns
  */
-export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, sourceDataViews: DataView[] = []) {
+export function dataToDataView(
+  data: DataView | IDataValues,
+  dataSet: DataSet,
+  sourceDataViews: DataView[] = [],
+  ctx: utilFunctionCtx = {}
+) {
   if (data instanceof DataView) {
     return data;
   }
 
-  const { id, values = [], fromDataIndex, fromDataId, transforms = [], fields, parser } = data;
+  const { id, values = [], fromDataIndex, fromDataId, transforms = [], fields } = data;
+  const parser = (data.parser ?? { clone: true }) as IParserOptions;
+  // set parser.clone default value to true
+  parser.clone = !(parser.clone === false);
   let dataView: DataView;
   const existDataView = sourceDataViews.find(dv => dv.name === id);
   if (existDataView) {
     dataView = existDataView;
   } else {
-    const initOption: IDataViewOptions = { name: id as string };
+    const initOption: IDataViewOptions = { name: id };
     // fields 支持在dataView初始化参数中传入
     if (fields) {
       initOption.fields = fields as IFields;
@@ -63,7 +74,8 @@ export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, s
       // 使用id查找上游dataview
       const fromDataView = sourceDataViews.find(dv => dv.name === fromDataId);
       if (!fromDataView) {
-        throw new Error(`no data matches fromDataId ${fromDataId}`);
+        (ctx.onError ?? error)(`no data matches fromDataId ${fromDataId}`);
+        return null;
       }
 
       dataView.parse([fromDataView], {
@@ -76,7 +88,8 @@ export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, s
       // 使用index查找上游dataview
       const fromDataView = sourceDataViews[fromDataIndex];
       if (!fromDataView) {
-        throw new Error(`no data matches fromDataIndex ${fromDataIndex}`);
+        (ctx.onError ?? error)(`no data matches fromDataIndex ${fromDataIndex}`);
+        return null;
       }
 
       dataView.parse([fromDataView], {
@@ -86,18 +99,14 @@ export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, s
         type: 'copyDataView'
       });
     } else if (Array.isArray(values)) {
-      // 处理values
-      dataView.parse(values);
-    } else if (
-      isString(values) &&
-      (!parser || parser.type === 'csv' || parser.type === 'dsv' || parser.type === 'tsv')
-    ) {
+      dataView.parse(values, parser);
+    } else if (isString(values) && (!parser || ['csv', 'dsv', 'tsv'].includes((parser as SheetParseOptions).type))) {
       // 内置 csv parser
-      dataView.parse(values, parser ?? { type: 'csv' });
+      dataView.parse(values, (parser as SheetParseOptions) ?? { type: 'csv' });
     } else {
       // 如果 values 不符合要求，则默认设置为 []，同时打印错误信息
       dataView.parse([]);
-      error('values should be array');
+      warn('values should be array');
     }
     // 处理transform
     if (transforms && transforms.length) {

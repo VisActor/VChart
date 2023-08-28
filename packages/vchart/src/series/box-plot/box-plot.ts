@@ -191,7 +191,7 @@ export class BoxPlotSeries extends CartesianSeries<any> {
         {
           fill: this._outliersStyle?.fill ?? this.getColorAttribute(),
           size: isNumber(this._outliersStyle?.size) ? this._outliersStyle.size : DEFAULT_OUTLIER_SIZE,
-          shape: 'circle'
+          symbolType: 'circle'
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
         AttributeLevel.Series

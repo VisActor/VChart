@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart-editor",
+      "comment": "feat: init @visactor/vchart-editor",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart-editor"
+}

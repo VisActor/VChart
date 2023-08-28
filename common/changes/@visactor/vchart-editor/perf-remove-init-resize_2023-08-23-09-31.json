@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "perf: dont trigger resize of vgrammar view when initialize chart\n\n",
+      "type": "patch",
+      "packageName": "@visactor/vchart-editor"
+    }
+  ],
+  "packageName": "@visactor/vchart-editor",
+  "email": "dingling112@gmail.com"
+}

@@ -1,4 +1,4 @@
-import { createID, isValid, cloneDeepSpec } from '../util';
+import { createID, isValid, cloneDeepSpec, isDataView, isHTMLElement } from '../util';
 import { Event } from '../event/event';
 import type { IEvent } from '../event/interface';
 import { LayoutItem } from './layout-item';
@@ -143,6 +143,11 @@ export abstract class BaseModel extends LayoutItem implements IModel {
   init(option: IModelInitOption) {
     // do nothing
   }
+
+  afterInit() {
+    // do nothing
+  }
+
   onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
     super.onLayoutStart(layoutRect, viewRect, ctx);
     this._isLayout = true;
@@ -193,6 +198,7 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     const result = {
       change: false,
       reMake: false,
+      reMakeData: false,
       reRender: false,
       reSize: false,
       reCompile: false
@@ -245,11 +251,15 @@ export abstract class BaseModel extends LayoutItem implements IModel {
     }
     const newObj = { ...obj };
     Object.keys(newObj).forEach(key => {
-      // 绕过 DataView 对象
+      // 绕过数据
       if (key.includes('data')) {
         return;
       }
       const value = obj[key];
+      // 绕过不可深拷贝的对象
+      if (isObject(value) && (isDataView(value) || isHTMLElement(value))) {
+        return;
+      }
       if (isObject(value) && !isFunction(value)) {
         // 查询、替换语义化颜色
         if (isColorKey(value)) {

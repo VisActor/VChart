@@ -1,6 +1,6 @@
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
-import type { ISymbolMarkSpec, IInvalidType, IVisualSpecBase, ShapeType, FunctionType } from '../../typings';
+import type { ISymbolMarkSpec, IVisualSpecBase, ShapeType, FunctionType } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { ScatterAppearPreset, ScatterMarks } from './animation';
 import type { ILabelSpec } from '../../component/label';
@@ -29,13 +29,7 @@ export interface IScatterSeriesSpec
    */
   shapeField?: string;
   shape?: ShapeType | ShapeType[] | FunctionType<ShapeType> | IVisualSpecBase<unknown, ShapeType>;
-  /**
-   * 非合规数据点连接方式
-   * @description null，undefined等非法数据点连接方式。
-   * 'zero' 指该点默认数值为0
-   * 'ignore' 指不处理
-   */
-  invalidType?: IInvalidType;
+
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: ILabelSpec & {
     /** 标签位置 */

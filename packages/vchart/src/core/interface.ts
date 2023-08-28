@@ -219,14 +219,14 @@ export interface IVChart {
    * @param id 组件 id
    * @returns
    */
-  getLegendDataById: (id: string) => StringOrNumber[];
+  getLegendDataById: (id: string) => Datum[];
 
   /**
    * 根据图例组件索引获取图例数据
    * @param index 图例索引，默认为 0
    * @returns
    */
-  getLegendDataByIndex: (index?: number) => StringOrNumber[];
+  getLegendDataByIndex: (index?: number) => Datum[];
 
   /**
    * 根据图例组件 id 获取当前图例的选中项
@@ -354,6 +354,15 @@ export interface IVChart {
       dataLinkInfo: DataLinkSeries,
       isRelativeToCanvas?: boolean
     ) => IPoint | null);
+
+  /** 停止正在进行的所有动画 */
+  stopAnimation: () => void;
+
+  /** 暂停正在进行的所有动画 */
+  pauseAnimation: () => void;
+
+  /** 恢复暂停时正在进行的所有动画 */
+  resumeAnimation: () => void;
 }
 
 export interface IGlobalConfig {

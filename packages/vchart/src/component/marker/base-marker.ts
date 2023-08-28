@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { array, merge } from '@visactor/vutils';
+import { array, isFunction, merge } from '@visactor/vutils';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IOptionAggr } from '../../data/transforms/aggregation';
 import type { IOptionRegr } from '../../data/transforms/regression';
@@ -9,9 +9,9 @@ import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
 import type { StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base';
-import type { IAggrType, IDataPointSpec, IDataPos } from './interface';
+import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback } from './interface';
 import type { IRegressType } from './mark-area/interface';
-import type { INode } from '@visactor/vrender';
+import type { IGraphic, INode } from '@visactor/vrender';
 
 export abstract class BaseMarker extends BaseComponent {
   layoutType: LayoutItem['layoutType'] = 'absolute';
@@ -37,9 +37,16 @@ export abstract class BaseMarker extends BaseComponent {
     return spec === 'regression' || AGGR_TYPE.includes(spec as any);
   }
 
-  protected _processSpecX(specX: IDataPos) {
+  protected _processSpecX(specX: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
     let processType: IAggrType | IRegressType;
+    if (isFunction(specX)) {
+      specX = specX(
+        this._relativeSeries.getData().getLatestData(),
+        this._startRelativeSeries.getData().getLatestData(),
+        this._endRelativeSeries.getData().getLatestData()
+      );
+    }
     if (this._isSpecAggrOrRege(specX)) {
       processType = specX as unknown as IAggrType;
       return {
@@ -52,9 +59,16 @@ export abstract class BaseMarker extends BaseComponent {
     return { x: specX };
   }
 
-  protected _processSpecY(specY: IDataPos) {
+  protected _processSpecY(specY: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
     let processType: IAggrType | IRegressType;
+    if (isFunction(specY)) {
+      specY = specY(
+        this._relativeSeries.getData().getLatestData(),
+        this._startRelativeSeries.getData().getLatestData(),
+        this._endRelativeSeries.getData().getLatestData()
+      );
+    }
     if (this._isSpecAggrOrRege(specY)) {
       processType = specY as unknown as IAggrType;
       return {
@@ -102,7 +116,7 @@ export abstract class BaseMarker extends BaseComponent {
         this._createMarkerComponent();
         // 代理 marker 组件上的事件
         this._markerComponent.on('*', (event: any, type: string) =>
-          this._delegateEvent(this._markerComponent as unknown as INode, event, type)
+          this._delegateEvent(this._markerComponent as unknown as IGraphic, event, type)
         );
       }
       this._markerLayout();
@@ -125,6 +139,28 @@ export abstract class BaseMarker extends BaseComponent {
     this._relativeSeries = this._getSeriesByIdOrIndex(spec.relativeSeriesId, spec.relativeSeriesIndex);
     this._startRelativeSeries = this._getSeriesByIdOrIndex(spec.startRelativeSeriesId, spec.startRelativeSeriesIndex);
     this._endRelativeSeries = this._getSeriesByIdOrIndex(spec.endRelativeSeriesId, spec.endRelativeSeriesIndex);
+  }
+
+  protected _computeClipRange(regions: IRegion[]) {
+    let minX = Infinity;
+    let maxX = -Infinity;
+    let minY = Infinity;
+    let maxY = -Infinity;
+    regions.forEach((region: IRegion) => {
+      if (region.getLayoutStartPoint().x < minX) {
+        minX = region.getLayoutStartPoint().x;
+      }
+      if (region.getLayoutStartPoint().x + region.getLayoutRect().width > maxX) {
+        maxX = region.getLayoutStartPoint().x + region.getLayoutRect().width;
+      }
+      if (region.getLayoutStartPoint().y < minY) {
+        minY = region.getLayoutStartPoint().y;
+      }
+      if (region.getLayoutStartPoint().y + region.getLayoutRect().height > maxY) {
+        maxY = region.getLayoutStartPoint().y + region.getLayoutRect().height;
+      }
+    });
+    return { minX, maxX, minY, maxY };
   }
 
   protected abstract _initDataView(): void;
@@ -152,7 +188,8 @@ export abstract class BaseMarker extends BaseComponent {
         }
       }
     }
-    throw new Error('need at least one series');
+    this._option.onError('need at least one series');
+    return null;
   }
 
   clear(): void {

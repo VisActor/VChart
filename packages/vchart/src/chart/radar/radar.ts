@@ -16,7 +16,6 @@ export class RadarChart extends RoseLikeChart {
     return {
       ...super._getDefaultSeriesSpec(spec),
       seriesField: spec.seriesField,
-      invalidType: spec.invalidType || 'break',
       line: spec.line,
       point: spec.point,
       stack: spec.stack,
@@ -26,7 +25,9 @@ export class RadarChart extends RoseLikeChart {
           visible: false
         },
         spec.area
-      )
+      ),
+      seriesMark: spec.seriesMark ?? 'area',
+      activePoint: spec.activePoint
     };
   }
 

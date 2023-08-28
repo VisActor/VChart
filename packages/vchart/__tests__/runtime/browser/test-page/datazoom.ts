@@ -1,25 +1,8 @@
 import { isMobile } from 'react-device-detect';
 import { default as VChart } from '../../../../src/index';
-import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 
 const run = () => {
-  const dataSet = new DataSet();
-  dataSet.registerParser('csv', csvParser);
-  const dataView = new DataView(dataSet);
-  const type1 = ['A', 'B'];
-  const type2 = ['A', 'B'];
-  const color = {
-    A: {
-      A: 'A',
-      B: 'B'
-    },
-    B: {
-      A: 'C',
-      B: 'D'
-    }
-  };
-
-  const spec = {
+  const getSpec = () => ({
     width: 800,
     type: 'bar',
     xField: 'x',
@@ -42,10 +25,9 @@ const run = () => {
         orient: 'bottom'
       }
     ]
-  };
+  });
 
-  const cs = new VChart(spec, {
-    dataSet,
+  const cs = new VChart(getSpec(), {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
@@ -54,6 +36,7 @@ const run = () => {
     console.timeEnd('renderTime');
   });
   window['vchart'] = cs;
+  window['getSpec'] = getSpec;
   console.log(cs);
 };
 run();

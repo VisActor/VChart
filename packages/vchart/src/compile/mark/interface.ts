@@ -18,6 +18,7 @@ import type {
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { MarkData } from './mark-data';
 import type { ILabelSpec } from '../../component/label';
+import type { IRegion } from '../../region/interface';
 
 export interface ICompilableMarkOption extends GrammarItemInitOption {
   key?: string | ((datum: Datum) => string);
@@ -243,7 +244,6 @@ export interface IAttributeOpt {
   element: IElement;
   mark: IElement['mark'];
   parent: IElement['mark']['group'];
-  states: string[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -258,4 +258,9 @@ export interface ISeriesMarkAttributeContext extends IModelMarkAttributeContext 
   // 传入seriesField值，获取对应的颜色。
   // 如果传入 null ，返回的是当前系列对应的第一个颜色值。
   seriesColor: (seriesValue?: string | number) => string;
+  /**
+   * 获取当前的 region
+   * @returns
+   */
+  getRegion: () => IRegion;
 }

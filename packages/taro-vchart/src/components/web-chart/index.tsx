@@ -1,6 +1,6 @@
 import React from 'react';
 // @ts-ignore
-import VChart from '@visactor/vchart/build';
+import VChart from '@visactor/vchart/build/es5';
 import { IChartProps, IVChart } from '../../typings';
 
 export class WebChart extends React.Component<IChartProps> {

@@ -2,14 +2,14 @@ import { BaseComponent } from '../base';
 import { ComponentTypeEnum } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponentOption } from '../interface';
-import { isArray, merge, isValidNumber, isValidOrient } from '../../util';
+import { isArray, isValidNumber, isValidOrient } from '../../util';
 import type { ITitle, ITitleSpec, ITitleTheme } from './interface';
 import type { IRegion } from '../../region/interface';
 import type { ILayoutRect } from '../../model/interface';
 import { Title as TitleComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { TitleAttrs } from '@visactor/vrender-components';
-import type { INode } from '@visactor/vrender';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender';
 import type { IPoint, IOrientType } from '../../typings';
 import { isEqual } from '@visactor/vutils';
 import type { LayoutItem } from '../../model/layout-item';
@@ -144,7 +144,8 @@ export class Title extends BaseComponent implements ITitle {
   }
 
   private _getTitleAttrs() {
-    const realWidth = this._spec.width ?? this.getLayoutRect().width;
+    // 当 width 小于 0 时，设置为 0，负数场景容易引起不可预知的问题
+    const realWidth = Math.max(0, this._spec.width ?? this.getLayoutRect().width);
     return {
       text: this._spec.text ?? '',
       subtext: this._spec.subtext ?? '',
@@ -182,15 +183,18 @@ export class Title extends BaseComponent implements ITitle {
       container.add(title as unknown as INode);
       this._titleComponent = title;
       // 代理 title 组件上的事件
-      title.on('*', (event: any, type: string) => this._delegateEvent(title as unknown as INode, event, type));
+      title.on('*', (event: any, type: string) => this._delegateEvent(title as unknown as IGraphic, event, type));
     }
     this._cacheAttrs = attrs;
     return this._titleComponent;
   }
 
   clear(): void {
-    super.clear();
-    this._titleComponent = null;
+    if (this._titleComponent) {
+      this._container.removeChild(this._titleComponent as unknown as IGroup);
+      this._titleComponent = null;
+    }
     this._cacheAttrs = null;
+    super.clear();
   }
 }
