@@ -11,7 +11,7 @@ import { isArray, isValid, isValidNumber, merge, eachSeries, isNil, isUndefined 
 import type { IOrientType } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
-import type { IBaseScale, ILinearScale } from '@visactor/vscale';
+import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import type { LayoutItem } from '../../../model/layout-item';

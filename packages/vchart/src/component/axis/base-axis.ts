@@ -18,7 +18,7 @@ import { ChartEvent } from '../../constant';
 import type { Group } from '../../series/base/group';
 import { animationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import { degreeToRadian, type LooseFunction } from '@visactor/vutils';
+import { degreeToRadian, pickWithout, type LooseFunction } from '@visactor/vutils';
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './utils';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
@@ -331,15 +331,14 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
       }
     }
 
+    const labelSpec = pickWithout(spec.label, ['style', 'formatMethod', 'state']);
+
     return {
       orient: this.orient,
       select: spec.select,
       hover: spec.hover,
       line: transformAxisLineStyle(spec.domainLine),
       label: {
-        visible: spec.label.visible,
-        space: spec.label.space,
-        inside: spec.label.inside,
         style: isFunction(spec.label.style)
           ? (datum: Datum, index: number, data: Datum[], layer?: number) => {
               const style = this._preprocessSpec(spec.label.style(datum.rawValue, index, datum, data, layer));
@@ -352,16 +351,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
             }
           : null,
         state: transformAxisLabelStateStyle(spec.label.state),
-        autoRotate: !!spec.label.autoRotate,
-        autoHide: !!spec.label.autoHide,
-        autoLimit: !!spec.label.autoLimit,
-        autoRotateAngle: spec.label.autoRotateAngle,
-        autoHideMethod: spec.label.autoHideMethod,
-        autoHideSeparation: spec.label.autoHideSeparation,
-        limitEllipsis: spec.label.limitEllipsis,
-        layoutFunc: spec.label.layoutFunc,
-        dataFilter: spec.label.dataFilter,
-        containerAlign: spec.label.containerAlign
+        ...labelSpec
       },
       tick: {
         visible: spec.tick.visible,
