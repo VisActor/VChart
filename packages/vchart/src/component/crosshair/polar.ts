@@ -152,9 +152,11 @@ export class PolarCrossHair extends BaseCrossHair {
     // 获取所有的value
     axisMap.forEach((item, id) => {
       const axis = item.axis;
+      const { x: axisStartX, y: axisStartY } = item.axis.getLayoutStartPoint();
+      const { x, y } = this.getLayoutStartPoint();
       let value = axis.positionToData({
-        x: point.x - (item.axis.getLayoutStartPoint().x - this.getLayoutStartPoint().x),
-        y: point.y - (item.axis.getLayoutStartPoint().y - this.getLayoutStartPoint().y)
+        x: point.x - (axisStartX - x),
+        y: point.y - (axisStartY - y)
       });
       if (isContinuous(axis.getScale().type) && isValidNumber(+value)) {
         value = (+value as number).toFixed(2);

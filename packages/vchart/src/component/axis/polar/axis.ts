@@ -367,7 +367,6 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
         const transformedAngle = ((angle + Math.abs(range[0])) % rangeValue) - Math.abs(range[0]);
         return this._scale.invert(transformedAngle);
       }
-
       return this._scale.invert((coord.angle + (this._scale as BandScale).bandwidth() / 2) % rangeValue);
     }
 
@@ -406,11 +405,16 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     dy /= radius;
 
     let radian = Math.atan2(dy, dx);
-    const dir = radian < startAngle ? 1 : -1;
-    while (radian < startAngle || radian > endAngle) {
-      radian += dir * Math.PI * 2;
+    if (radian < startAngle) {
+      while (radian <= startAngle) {
+        radian += Math.PI * 2;
+      }
     }
-
+    if (radian > endAngle) {
+      while (radian >= endAngle) {
+        radian -= Math.PI * 2;
+      }
+    }
     return {
       radius,
       angle: radian
