@@ -253,7 +253,12 @@ export class SankeySeries extends CartesianSeries<any> {
         y: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
         fill: (datum: Datum) => {
-          return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
+          const nodeName = datum.key
+            ? datum.key
+            : datum[this._spec.categoryField]
+            ? datum[this._spec.categoryField]
+            : '';
+          return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(nodeName);
         }
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
@@ -963,7 +968,7 @@ export class SankeySeries extends CartesianSeries<any> {
 
   getNodeOrdinalColorScale(item: string) {
     const colorDomain = this._nodesSeriesData.getDataView().latestData.map((datum: Datum) => {
-      return datum.key;
+      return datum.key ?? datum[this._spec.categoryField];
     });
     const colorRange =
       this._option.globalScale.color?.range() ?? getDataScheme(this._option.getTheme().colorScheme, this.type as any);
