@@ -1,10 +1,30 @@
 import type { IThemeConstants } from '../../interface';
-import { DEFAULT_TEXT_FONT_FAMILY, DEFAULT_TEXT_FONT_SIZE } from '../constant';
 
 export const THEME_CONSTANTS: IThemeConstants = {
-  FONT_FAMILY: DEFAULT_TEXT_FONT_FAMILY,
-  LABEL_FONT_SIZE: DEFAULT_TEXT_FONT_SIZE,
-  MAP_LABEL_FONT_SIZE: 10,
-  TITLE_FONT_SIZE: 18,
-  AXIS_TICK_SIZE: 4
+  defaultFontFamily:
+    // eslint-disable-next-line max-len
+    'PingFang SC,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif, apple color emoji,segoe ui emoji,segoe ui symbol',
+  defaultFontSize: 14,
+
+  l1FontSize: 32,
+  l1LineHeight: 48,
+
+  l2FontSize: 20,
+  l2LineHeight: 28,
+
+  l3FontSize: 16,
+  l3LineHeight: 24,
+
+  l4FontSize: 14,
+  l4LineHeight: 22,
+
+  l5FontSize: 12,
+  l5LineHeight: 16,
+
+  l6FontSize: 10,
+  l6LineHeight: 12,
+
+  axisTickSize: 4,
+
+  areaOpacity: 0.2
 };

@@ -1,4 +1,5 @@
 import type { IDataZoomTheme } from '../../../../component/data-zoom';
+import { THEME_CONSTANTS } from '../constants';
 
 export const dataZoom: IDataZoomTheme = {
   padding: [12, 0],
@@ -66,15 +67,19 @@ export const dataZoom: IDataZoomTheme = {
   startText: {
     padding: 8,
     style: {
-      fontSize: 10,
-      fill: { type: 'palette', key: 'labelFontColor' }
+      fontSize: THEME_CONSTANTS.l5FontSize,
+      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+      fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
     }
   },
   endText: {
     padding: 8,
     style: {
-      fontSize: 10,
-      fill: { type: 'palette', key: 'labelFontColor' }
+      fontSize: THEME_CONSTANTS.l5FontSize,
+      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+      fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
     }
   },
   dragMask: {

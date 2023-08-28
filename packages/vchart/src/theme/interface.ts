@@ -89,9 +89,44 @@ export interface IGlobalMarkThemeByName {
 }
 
 export interface IThemeConstants {
-  FONT_FAMILY: string;
-  LABEL_FONT_SIZE: number;
-  MAP_LABEL_FONT_SIZE: number;
-  TITLE_FONT_SIZE: number;
-  AXIS_TICK_SIZE: number;
+  /** 默认字体 */
+  defaultFontFamily: string;
+  /** 默认字号 */
+  defaultFontSize: number;
+
+  /** 1级字阶字号，用于：环形图中间数值 / 展示型数值 */
+  l1FontSize: number;
+  /** 1级字阶行高 */
+  l1LineHeight: number;
+
+  /** 2级字阶字号，用于：展示型文字 / 指标卡数值 */
+  l2FontSize: number;
+  /** 2级字阶行高 */
+  l2LineHeight: number;
+
+  /** 3级字阶字号，用于：图表标题 */
+  l3FontSize: number;
+  /** 3级字阶行高 */
+  l3LineHeight: number;
+
+  /** 4级字阶字号，用于：数据标签、tooltip */
+  l4FontSize: number;
+  /** 4级字阶行高 */
+  l4LineHeight: number;
+
+  /** 5级字阶字号，用于：坐标轴标题、轴标签、图例文字 */
+  l5FontSize: number;
+  /** 5级字阶行高 */
+  l5LineHeight: number;
+
+  /** 6级字阶字号，用于：地图标签 */
+  l6FontSize: number;
+  /** 6级字阶行高 */
+  l6LineHeight: number;
+
+  /** 轴 tick 长度 */
+  axisTickSize: number;
+
+  /** 面积图元透明度 */
+  areaOpacity: number;
 }

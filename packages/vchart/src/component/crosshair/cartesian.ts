@@ -610,7 +610,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
         crosshair = new LineCrosshair({
           ...attributes,
           lineStyle: style,
-          zIndex: this.gridZIndex
+          zIndex: this.gridZIndex + 1 // 样式优化：线盖在面上
         });
       } else if (type === 'rect') {
         crosshair = new RectCrosshair({

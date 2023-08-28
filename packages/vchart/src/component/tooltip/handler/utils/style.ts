@@ -1,11 +1,10 @@
 import type { ITheme } from '../../../../theme';
-// eslint-disable-next-line no-duplicate-imports
-import { DEFAULT_TEXT_FONT_FAMILY } from '../../../../theme';
+import { THEME_CONSTANTS } from '../../../../theme/builtin/common/constants';
 import type { ITooltipTextTheme } from '../../interface';
 import type { ITooltipTextStyle } from '../interface';
 
 const defaultTextAttributes: Partial<ITooltipTextStyle> = {
-  fontFamily: DEFAULT_TEXT_FONT_FAMILY,
+  fontFamily: THEME_CONSTANTS.defaultFontFamily,
   spacing: 10,
   multiLine: false,
   wordBreak: 'break-word'

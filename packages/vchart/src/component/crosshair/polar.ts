@@ -432,7 +432,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
           crosshair = new PolygonCrosshair({
             ...positionAttrs,
             lineStyle: this.yHair.style,
-            zIndex: this.gridZIndex
+            zIndex: this.gridZIndex + 1 // 样式优化：线盖在面上
           });
         } else {
           crosshair = new CircleCrosshair({

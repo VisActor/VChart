@@ -9,7 +9,9 @@ export const discreteLegend: IDiscreteLegendTheme = {
     visible: false,
     padding: 0,
     textStyle: {
-      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
+      fontSize: THEME_CONSTANTS.l4FontSize,
+      lineHeight: THEME_CONSTANTS.l4LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily,
       fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
       fontWeight: 'normal'
     },
@@ -23,12 +25,10 @@ export const discreteLegend: IDiscreteLegendTheme = {
     background: {
       state: {
         selectedHover: {
-          fill: 'gray',
-          fillOpacity: 0.7
+          fill: { type: 'palette', key: 'axisGridColor' }
         },
         unSelectedHover: {
-          fill: 'gray',
-          fillOpacity: 0.2
+          fill: { type: 'palette', key: 'axisGridColor' }
         }
       }
     },
@@ -43,8 +43,10 @@ export const discreteLegend: IDiscreteLegendTheme = {
     label: {
       space: 6,
       style: {
-        fill: { type: 'palette', key: 'labelFontColor' },
-        fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
+        fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' },
+        fontSize: THEME_CONSTANTS.l5FontSize,
+        lineHeight: THEME_CONSTANTS.l5LineHeight,
+        fontFamily: THEME_CONSTANTS.defaultFontFamily
       },
       state: {
         unSelected: {

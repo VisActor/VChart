@@ -1,5 +1,6 @@
 import type { IThemeColorScheme } from '../../color-scheme/interface';
 import { dataScheme } from '../../color-scheme/builtin/default';
+import type { BuiltinColorPalette } from '../../color-scheme/builtin/interface';
 
 export const colorScheme: IThemeColorScheme = {
   default: {
@@ -14,10 +15,10 @@ export const colorScheme: IThemeColorScheme = {
       primaryFontColor: '#fdfdfd',
       /** 次要字色 */
       secondaryFontColor: '#888c93',
+      /** 轴字色 */
+      axisFontColor: '#bbbdc3',
       /** 禁用字色 */
       disableFontColor: '#55595f',
-      /** 标签字色 */
-      labelFontColor: '#bbbdc3',
       /** 标签反转字色 */
       labelReverseFontColor: '#202226',
 
@@ -29,7 +30,7 @@ export const colorScheme: IThemeColorScheme = {
       axisLabelFontColor: '#bbbdc3',
 
       /** 缩略轴滑块描边颜色 */
-      dataZoomHandlerStrokeColor: '#4B4F54',
+      dataZoomHandlerStrokeColor: '#888c93',
       /** 缩略轴滑块填充颜色 */
       dataZoomHandlerFillColor: '#202226',
       /** 缩略轴背景区域颜色 */
@@ -46,7 +47,9 @@ export const colorScheme: IThemeColorScheme = {
 
       // 已弃用的语义色值
       /** @deprecated 图表标题颜色 */
-      titleFontColor: '#fdfdfd'
-    }
+      titleFontColor: '#fdfdfd',
+      /** @deprecated 标签字色 */
+      labelFontColor: '#bbbdc3'
+    } as BuiltinColorPalette
   }
 };

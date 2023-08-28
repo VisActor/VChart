@@ -1,5 +1,4 @@
 import { minMaxPositionEnum, type IRangeColumnSeriesTheme } from '../../../../series/range-column/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const rangeColumn: IRangeColumnSeriesTheme = {
   label: {
@@ -7,8 +6,7 @@ export const rangeColumn: IRangeColumnSeriesTheme = {
     offset: 5,
     position: 'inside',
     style: {
-      fill: { type: 'palette', key: 'labelReverseFontColor' },
-      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
+      fill: { type: 'palette', key: 'labelReverseFontColor' }
     },
     minLabel: {
       position: minMaxPositionEnum.end

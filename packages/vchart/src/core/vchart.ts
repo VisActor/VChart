@@ -886,16 +886,17 @@ export class VChart implements IVChart {
   // 主题相关方法
   /** 当 spec 或者 currentThemeName 有变化时需要调用此方法对 currentTheme 进行更新 */
   private _updateCurrentTheme() {
-    if (isString(this._spec?.theme)) {
-      const theme = mergeTheme({}, ThemeManager.getTheme(this._spec.theme));
+    const userTheme = this._spec?.theme ?? this._option.theme;
+    if (isString(userTheme)) {
+      const theme = mergeTheme({}, ThemeManager.getTheme(userTheme));
       this._currentTheme = preprocessSpecOrTheme(theme, theme.colorScheme);
-      this._currentThemeName = this._spec.theme;
+      this._currentThemeName = userTheme;
     } else {
-      const theme = mergeTheme({}, ThemeManager.getTheme(this._currentThemeName), this._spec?.theme ?? {});
+      const theme = mergeTheme({}, ThemeManager.getTheme(this._currentThemeName), userTheme ?? {});
       this._currentTheme = preprocessSpecOrTheme(theme, theme.colorScheme);
     }
     // 设置 poptip 的主题
-    setPoptipTheme(mergeSpec({}, this._currentTheme.component?.poptip));
+    setPoptipTheme(preprocessSpecOrTheme(mergeSpec({}, this._currentTheme.component?.poptip)));
     // 设置背景色
     this._compiler?.setBackground(this._getBackground());
   }

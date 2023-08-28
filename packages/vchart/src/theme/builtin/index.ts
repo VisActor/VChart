@@ -1,4 +1,3 @@
-export * from './constant';
 export * from './light';
 
 import type { ITheme } from '../interface';

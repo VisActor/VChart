@@ -1,5 +1,4 @@
 import type { IScatterSeriesTheme } from '../../../../series/scatter/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const scatter: IScatterSeriesTheme = {
   point: {
@@ -16,8 +15,7 @@ export const scatter: IScatterSeriesTheme = {
     position: 'top',
     style: {
       lineWidth: 2,
-      stroke: 'white',
-      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
+      stroke: 'white'
     }
   }
 };

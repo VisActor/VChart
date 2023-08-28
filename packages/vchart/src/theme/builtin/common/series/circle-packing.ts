@@ -13,7 +13,7 @@ export const circlePacking: ICirclePackingSeriesTheme = {
     visible: true,
     style: {
       cursor: 'pointer',
-      fill: { type: 'palette', key: 'labelFontColor' }
+      fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
     }
   }
 };

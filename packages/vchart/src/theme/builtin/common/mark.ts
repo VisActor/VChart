@@ -4,7 +4,9 @@ import { THEME_CONSTANTS } from './constants';
 export const markByType: IGlobalMarkThemeByType = {
   text: {
     style: {
-      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
+      fontSize: THEME_CONSTANTS.l4FontSize,
+      lineHeight: THEME_CONSTANTS.l4LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily,
       fontWeight: 'normal',
       fillOpacity: 1
     }
@@ -14,14 +16,16 @@ export const markByType: IGlobalMarkThemeByType = {
 export const markByName: IGlobalMarkThemeByName = {
   label: {
     style: {
-      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
+      fontSize: THEME_CONSTANTS.l4FontSize,
+      lineHeight: THEME_CONSTANTS.l4LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily,
       fontWeight: 'normal',
       fillOpacity: 1
     }
   },
   area: {
     style: {
-      fillOpacity: 0.2
+      fillOpacity: THEME_CONSTANTS.areaOpacity
     }
   },
   line: {

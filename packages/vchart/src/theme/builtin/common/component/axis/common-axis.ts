@@ -30,7 +30,7 @@ export const commonAxis: IAxisCommonTheme = {
   },
   tick: {
     visible: true,
-    tickSize: THEME_CONSTANTS.AXIS_TICK_SIZE,
+    tickSize: THEME_CONSTANTS.axisTickSize,
     style: {
       lineWidth: 1,
       stroke: { type: 'palette', key: 'axisDomainColor' },
@@ -39,7 +39,7 @@ export const commonAxis: IAxisCommonTheme = {
   },
   subTick: {
     visible: false,
-    tickSize: THEME_CONSTANTS.AXIS_TICK_SIZE / 2,
+    tickSize: THEME_CONSTANTS.axisTickSize / 2,
     style: {
       lineWidth: 1,
       stroke: { type: 'palette', key: 'axisDomainColor' },
@@ -50,8 +50,10 @@ export const commonAxis: IAxisCommonTheme = {
     visible: true,
     space: 10,
     style: {
-      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
-      fill: { type: 'palette', key: 'labelFontColor' },
+      fontSize: THEME_CONSTANTS.l5FontSize,
+      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+      fill: { type: 'palette', key: 'axisFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1
     }
@@ -59,7 +61,9 @@ export const commonAxis: IAxisCommonTheme = {
   title: {
     space: 10,
     style: {
-      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE,
+      fontSize: THEME_CONSTANTS.l5FontSize,
+      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily,
       fill: '#333333',
       fontWeight: 'normal',
       fillOpacity: 1

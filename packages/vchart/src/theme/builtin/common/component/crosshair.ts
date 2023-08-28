@@ -1,136 +1,86 @@
-import type { ICrosshairRectSpec, ICrosshairTheme } from '../../../../component/crosshair/interface';
+import type {
+  ICrosshairLineSpec,
+  ICrosshairRectSpec,
+  ICrosshairTheme,
+  ICrosshairValueFieldSpec,
+  ICrosshairXFieldSpec
+} from '../../../../component/crosshair/interface';
 import { THEME_CONSTANTS } from '../constants';
 
-const fontSize = THEME_CONSTANTS.LABEL_FONT_SIZE;
-
-export const crosshair: ICrosshairTheme = {
-  trigger: 'hover',
-  xField: {
-    visible: false,
-    line: {
-      type: 'rect',
-      visible: true,
-      style: {
-        fill: '#b2bacf',
-        opacity: 0.2,
-        lineDash: []
-      }
-    } as ICrosshairRectSpec,
-    label: {
-      visible: false,
-      style: {
-        fontWeight: 'normal',
-        fill: { type: 'palette', key: 'labelReverseFontColor' },
-        fontSize
-      },
-      labelBackground: {
-        padding: {
-          bottom: 2,
-          top: 2,
-          left: 4,
-          right: 4
-        },
-        style: {
-          fill: 'rgba(47, 59, 82, 0.9)',
-          cornerRadius: 4
-        }
-      }
+const getCategoryField = (): ICrosshairXFieldSpec => ({
+  visible: false,
+  line: {
+    type: 'rect',
+    visible: true,
+    style: {
+      fill: { type: 'palette', key: 'axisGridColor' },
+      opacity: 0.7,
+      lineDash: []
     }
-  },
-  yField: {
+  } as ICrosshairRectSpec,
+  label: {
     visible: false,
-    line: {
-      type: 'line',
-      visible: true,
-      style: {
-        stroke: '#b2bacf',
-        opacity: 0.2,
-        lineDash: []
-      }
+    style: {
+      fontWeight: 'normal',
+      fill: { type: 'palette', key: 'labelReverseFontColor' },
+      fontSize: THEME_CONSTANTS.l5FontSize,
+      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily
     },
-    label: {
-      visible: false,
-      style: {
-        fontWeight: 'normal',
-        fill: { type: 'palette', key: 'labelReverseFontColor' },
-        fontSize
+    labelBackground: {
+      padding: {
+        bottom: 4,
+        top: 0,
+        left: 5,
+        right: 5
       },
-      labelBackground: {
-        padding: {
-          bottom: 2,
-          top: 2,
-          left: 4,
-          right: 4
-        },
-        style: {
-          fill: 'rgba(47, 59, 82, 0.9)',
-          cornerRadius: 4
-        }
-      }
-    }
-  },
-  categoryField: {
-    visible: false,
-    line: {
-      type: 'line',
-      visible: true,
       style: {
-        stroke: '#b2bacf',
-        opacity: 0.2,
-        lineDash: []
-      }
-    },
-    label: {
-      visible: false,
-      style: {
-        fontWeight: 'normal',
-        fill: { type: 'palette', key: 'labelReverseFontColor' },
-        fontSize
-      },
-      labelBackground: {
-        padding: {
-          bottom: 2,
-          top: 2,
-          left: 4,
-          right: 4
-        },
-        style: {
-          fill: 'rgba(47, 59, 82, 0.9)',
-          cornerRadius: 4
-        }
-      }
-    }
-  },
-  valueField: {
-    visible: false,
-    line: {
-      type: 'line',
-      visible: true,
-      style: {
-        stroke: '#b2bacf',
-        opacity: 0.2,
-        lineDash: []
-      }
-    },
-    label: {
-      visible: false,
-      style: {
-        fontWeight: 'normal',
-        fill: { type: 'palette', key: 'labelReverseFontColor' },
-        fontSize
-      },
-      labelBackground: {
-        padding: {
-          bottom: 2,
-          top: 2,
-          left: 4,
-          right: 4
-        },
-        style: {
-          fill: 'rgba(47, 59, 82, 0.9)',
-          cornerRadius: 4
-        }
+        fill: { type: 'palette', key: 'primaryFontColor' },
+        cornerRadius: 3
       }
     }
   }
+});
+
+const getValueField = (): ICrosshairValueFieldSpec => ({
+  visible: false,
+  line: {
+    type: 'line',
+    visible: true,
+    style: {
+      stroke: { type: 'palette', key: 'secondaryFontColor' },
+      opacity: 0.7,
+      lineDash: [2, 3]
+    }
+  } as ICrosshairLineSpec,
+  label: {
+    visible: false,
+    style: {
+      fontWeight: 'normal',
+      fill: { type: 'palette', key: 'labelReverseFontColor' },
+      fontSize: THEME_CONSTANTS.l5FontSize,
+      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily
+    },
+    labelBackground: {
+      padding: {
+        bottom: 4,
+        top: 0,
+        left: 5,
+        right: 5
+      },
+      style: {
+        fill: { type: 'palette', key: 'primaryFontColor' },
+        cornerRadius: 3
+      }
+    }
+  }
+});
+
+export const crosshair: ICrosshairTheme = {
+  trigger: 'hover',
+  xField: getCategoryField(),
+  yField: getValueField(),
+  categoryField: getCategoryField(),
+  valueField: getValueField()
 };

@@ -14,9 +14,10 @@ export const map: IMapSeriesTheme = {
   label: {
     interactive: false,
     style: {
-      fontSize: THEME_CONSTANTS.MAP_LABEL_FONT_SIZE,
+      fontSize: THEME_CONSTANTS.l6FontSize,
+      lineHeight: THEME_CONSTANTS.l6LineHeight,
       textBaseline: 'middle',
-      fill: { type: 'palette', key: 'labelFontColor' },
+      fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' },
       stroke: 'white'
     }
   }

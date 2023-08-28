@@ -1,9 +1,6 @@
 import type { IMapLabelTheme } from '../../../../component/map-label';
 import { THEME_CONSTANTS } from '../constants';
 
-const fontSize = THEME_CONSTANTS.LABEL_FONT_SIZE;
-const fontFamily = THEME_CONSTANTS.FONT_FAMILY;
-
 export const mapLabel: IMapLabelTheme = {
   visible: true,
   offset: 12,
@@ -15,8 +12,9 @@ export const mapLabel: IMapLabelTheme = {
       textBaseline: 'middle',
       textAlign: 'left',
       fill: 'black',
-      fontSize,
-      fontFamily
+      fontSize: THEME_CONSTANTS.l6FontSize,
+      lineHeight: THEME_CONSTANTS.l6LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily
     }
   },
   valueLabel: {
@@ -25,8 +23,9 @@ export const mapLabel: IMapLabelTheme = {
       textBaseline: 'middle',
       textAlign: 'left',
       fill: 'black',
-      fontSize,
-      fontFamily
+      fontSize: THEME_CONSTANTS.l6FontSize,
+      lineHeight: THEME_CONSTANTS.l6LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily
     }
   },
   background: {

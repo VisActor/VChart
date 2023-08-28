@@ -11,7 +11,7 @@ export type IColorSchemeStruct = {
     /** 主色调（可选） */
     bandColor?: ColorSchemeItem;
     /** 背景颜色（可选） */
-    background?: ColorSchemeItem;
+    backgroundColor?: ColorSchemeItem;
     /** 其他的语义化色值 */
     [key: string]: ColorSchemeItem;
   };
@@ -44,6 +44,12 @@ export interface IColorKey {
 
   /** 透明度系数（可选，0~1） */
   a?: number;
+
+  /**
+   * 默认色值，在没有取到 key 对应的色值时返回
+   * @since 1.3.0
+   */
+  default?: ColorSchemeItem;
 }
 
 export type DataSchemeItem = string | IColorKey;

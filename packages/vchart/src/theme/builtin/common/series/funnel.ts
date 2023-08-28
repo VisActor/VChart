@@ -1,8 +1,6 @@
 import type { IFunnelSeriesTheme } from '../../../../series/funnel/interface';
 import { THEME_CONSTANTS } from '../constants';
 
-const fontSize = THEME_CONSTANTS.LABEL_FONT_SIZE;
-
 export const funnel: IFunnelSeriesTheme = {
   transform: {
     style: {
@@ -11,7 +9,6 @@ export const funnel: IFunnelSeriesTheme = {
   },
   label: {
     style: {
-      fontSize,
       fill: 'white',
       textBaseline: 'middle',
       lineWidth: 2
@@ -19,7 +16,9 @@ export const funnel: IFunnelSeriesTheme = {
   },
   outerLabel: {
     style: {
-      fontSize,
+      fontSize: THEME_CONSTANTS.l4FontSize,
+      lineHeight: THEME_CONSTANTS.l4LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily,
       fill: '#707070'
     },
     line: {
@@ -30,7 +29,9 @@ export const funnel: IFunnelSeriesTheme = {
   },
   transformLabel: {
     style: {
-      fontSize,
+      fontSize: THEME_CONSTANTS.l4FontSize,
+      lineHeight: THEME_CONSTANTS.l4LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily,
       fill: '#707070',
       textBaseline: 'middle'
     }

@@ -1,5 +1,6 @@
 import type { IThemeColorScheme } from '../../color-scheme/interface';
 import { dataScheme } from '../../color-scheme/builtin/default';
+import type { BuiltinColorPalette } from '../../color-scheme/builtin/interface';
 
 export const colorScheme: IThemeColorScheme = {
   default: {
@@ -14,10 +15,10 @@ export const colorScheme: IThemeColorScheme = {
       primaryFontColor: '#21252c',
       /** 次要字色 */
       secondaryFontColor: '#606773',
+      /** 轴字色 */
+      axisFontColor: '#89909d',
       /** 禁用字色 */
       disableFontColor: '#bcc1cb',
-      /** 标签字色 */
-      labelFontColor: '#89909d',
       /** 标签反转字色 */
       labelReverseFontColor: '#ffffff',
 
@@ -46,7 +47,9 @@ export const colorScheme: IThemeColorScheme = {
 
       // 已弃用的语义色值
       /** @deprecated 图表标题颜色 */
-      titleFontColor: '#21252c'
-    }
+      titleFontColor: '#21252c',
+      /** @deprecated 标签字色 */
+      labelFontColor: '#89909d'
+    } as BuiltinColorPalette
   }
 };

@@ -1,5 +1,4 @@
 import type { ILineSeriesTheme } from '../../../../series/line/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const line: ILineSeriesTheme = {
   label: {
@@ -8,8 +7,7 @@ export const line: ILineSeriesTheme = {
     offset: 5,
     style: {
       lineWidth: 2,
-      stroke: 'white',
-      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
+      stroke: 'white'
     }
   },
   point: {

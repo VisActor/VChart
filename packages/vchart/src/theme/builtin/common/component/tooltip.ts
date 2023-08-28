@@ -1,8 +1,6 @@
 import type { ITooltipTheme } from '../../../../component/tooltip/interface';
 import { THEME_CONSTANTS } from '../constants';
 
-const fontSize = THEME_CONSTANTS.LABEL_FONT_SIZE;
-
 export const tooltip: ITooltipTheme = {
   offset: {
     x: 10,
@@ -31,11 +29,12 @@ export const tooltip: ITooltipTheme = {
   },
   spaceRow: 6,
   titleLabel: {
-    fontSize: 14,
+    fontSize: THEME_CONSTANTS.l4FontSize,
+    lineHeight: THEME_CONSTANTS.l4LineHeight,
+    fontFamily: THEME_CONSTANTS.defaultFontFamily,
     fontColor: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
     fontWeight: 'bold',
     textAlign: 'left',
-    lineHeight: 18,
     textBaseline: 'middle',
     spacing: 0
   },
@@ -44,17 +43,19 @@ export const tooltip: ITooltipTheme = {
     spacing: 6
   },
   keyLabel: {
-    fontSize,
+    fontSize: THEME_CONSTANTS.l4FontSize,
+    lineHeight: THEME_CONSTANTS.l4LineHeight,
+    fontFamily: THEME_CONSTANTS.defaultFontFamily,
     fontColor: { type: 'palette', key: 'secondaryFontColor' },
     textAlign: 'left',
-    lineHeight: 18,
     textBaseline: 'middle',
     spacing: 26
   },
   valueLabel: {
-    fontSize,
+    fontSize: THEME_CONSTANTS.l4FontSize,
+    lineHeight: THEME_CONSTANTS.l4LineHeight,
+    fontFamily: THEME_CONSTANTS.defaultFontFamily,
     fontColor: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
-    lineHeight: 18,
     textBaseline: 'middle',
     spacing: 0
   }

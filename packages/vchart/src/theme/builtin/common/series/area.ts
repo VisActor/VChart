@@ -1,5 +1,4 @@
 import type { IAreaSeriesTheme } from '../../../../series/area/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const area: IAreaSeriesTheme = {
   label: {
@@ -8,8 +7,7 @@ export const area: IAreaSeriesTheme = {
     position: 'top',
     style: {
       stroke: 'white',
-      lineWidth: 2,
-      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
+      lineWidth: 2
     }
   },
   point: {

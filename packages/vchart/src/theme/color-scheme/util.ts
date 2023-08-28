@@ -114,6 +114,9 @@ export function queryColorFromColorScheme(
         break;
       }
     }
+    if (!color) {
+      color = colorKey.default;
+    }
   }
   if (!color) {
     return undefined;

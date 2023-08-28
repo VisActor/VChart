@@ -16,7 +16,7 @@ export const lightTheme: ITheme = {
   name: 'light',
   background: { type: 'palette', key: 'backgroundColor' },
   padding: 12,
-  fontFamily: THEME_CONSTANTS.FONT_FAMILY,
+  fontFamily: THEME_CONSTANTS.defaultFontFamily,
   colorScheme,
   mark: markByType,
   markByName,

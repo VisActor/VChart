@@ -10,8 +10,7 @@ export const rose: IRoseSeriesTheme = {
     style: {
       // fill: 'white',
       textAlign: 'center',
-      textBaseline: 'middle',
-      fontSize: 12
+      textBaseline: 'middle'
     }
   }
 };

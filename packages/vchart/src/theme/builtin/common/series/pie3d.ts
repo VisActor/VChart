@@ -1,5 +1,4 @@
 import type { IPie3dSeriesTheme } from '../../../../series/pie/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const pie3d: IPie3dSeriesTheme = {
   outerRadius: 0.6,
@@ -11,9 +10,6 @@ export const pie3d: IPie3dSeriesTheme = {
   },
   label: {
     visible: false,
-    position: 'outside',
-    style: {
-      fontSize: THEME_CONSTANTS.LABEL_FONT_SIZE
-    }
+    position: 'outside'
   }
 };

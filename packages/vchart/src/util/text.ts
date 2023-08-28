@@ -3,7 +3,7 @@ import type { ITextMeasureOption } from '@visactor/vutils';
 import { TextMeasure, TestTextMeasure } from '@visactor/vutils';
 import { getTextBounds } from '@visactor/vrender';
 import type { ITextMarkSpec } from '../typings';
-import { DEFAULT_TEXT_FONT_FAMILY, DEFAULT_TEXT_FONT_SIZE } from '../theme/builtin/constant';
+import { THEME_CONSTANTS } from '../theme/builtin/common/constants';
 
 export const initTextMeasure = (
   textSpec?: Partial<ITextMarkSpec>,
@@ -13,8 +13,8 @@ export const initTextMeasure = (
   return new TextMeasure<ITextMarkSpec>(
     {
       defaultFontParams: {
-        fontFamily: DEFAULT_TEXT_FONT_FAMILY,
-        fontSize: DEFAULT_TEXT_FONT_SIZE
+        fontFamily: THEME_CONSTANTS.defaultFontFamily,
+        fontSize: THEME_CONSTANTS.defaultFontSize
       },
       getTextBounds: useNaiveCanvas ? undefined : getTextBounds,
       specialCharSet: '-/: .,@%\'"~' + TextMeasure.ALPHABET_CHAR_SET + TextMeasure.ALPHABET_CHAR_SET.toUpperCase(),
@@ -29,8 +29,8 @@ export const testTextMeasure = (textSpec?: Partial<ITextMarkSpec>, useVRender?: 
   return new TestTextMeasure(
     {
       defaultFontParams: {
-        fontFamily: DEFAULT_TEXT_FONT_FAMILY,
-        fontSize: DEFAULT_TEXT_FONT_SIZE
+        fontFamily: THEME_CONSTANTS.defaultFontFamily,
+        fontSize: THEME_CONSTANTS.defaultFontSize
       },
       getTextBounds: useVRender ? getTextBounds : undefined
     },

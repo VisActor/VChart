@@ -1,28 +1,32 @@
-import type { PopTipAttributes } from '@visactor/vrender-components';
+import type { IPoptipTheme } from '../../../../component/poptip/interface';
+import { THEME_CONSTANTS } from '../constants';
 
-export const poptip: PopTipAttributes = {
+export const poptip: IPoptipTheme = {
   visible: true,
   position: 'auto',
   padding: 8,
   titleStyle: {
-    fontSize: 12,
+    fontSize: THEME_CONSTANTS.l5FontSize,
+    lineHeight: THEME_CONSTANTS.l5LineHeight,
+    fontFamily: THEME_CONSTANTS.defaultFontFamily,
     fontWeight: 'bold',
-    fill: { type: 'palette', key: 'labelFontColor' } as any
+    fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
   },
   contentStyle: {
-    fontSize: 12,
-    fill: { type: 'palette', key: 'labelFontColor' } as any
+    fontSize: THEME_CONSTANTS.l5FontSize,
+    lineHeight: THEME_CONSTANTS.l5LineHeight,
+    fontFamily: THEME_CONSTANTS.defaultFontFamily,
+    fill: { type: 'palette', key: 'secondaryFontColor' }
   },
   panel: {
     visible: true,
-    fill: { type: 'palette', key: 'backgroundColor' } as any,
-    stroke: { type: 'palette', key: 'backgroundColor' } as any,
-    lineWidth: 0,
+    fill: { type: 'palette', key: 'tooltipBackgroundColor' },
     cornerRadius: 3,
+    lineWidth: 0,
     shadowBlur: 12,
     shadowOffsetX: 0,
     shadowOffsetY: 4,
-    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowColor: { type: 'palette', key: 'tooltipShadowColor', a: 0.1 },
     size: 0,
     space: 12
   }
