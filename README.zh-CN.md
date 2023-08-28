@@ -131,6 +131,15 @@ $ rush start
 $ rush react
 ```
 
+## 📖 Documents
+
+安装并且更新依赖后，可以执行 docs 命令，开启 vchart 的本地文档预览
+
+```bash
+# start vchart document server
+$ rush docs
+```
+
 ## 🔗 相关链接
 
 - [主页](https://www.visactor.io/vchart)
