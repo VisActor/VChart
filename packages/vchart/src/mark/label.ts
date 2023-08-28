@@ -6,6 +6,14 @@ export class LabelMark extends TextMark implements ILabelMark {
   static readonly type = MarkTypeEnum.text;
   static readonly constructorType = MarkTypeEnum.label;
 
+  private _rule: string;
+  getRule() {
+    return this._rule;
+  }
+  setRule(rule: string) {
+    this._rule = rule;
+  }
+
   private _target: IMark;
   getTarget() {
     return this._target;
@@ -24,6 +32,9 @@ export class LabelMark extends TextMark implements ILabelMark {
 }
 
 export interface ILabelMark extends IMark {
+  getRule: () => string;
+  setRule: (rule: string) => void;
+
   getTarget: () => IMark;
   setTarget: (target: IMark) => void;
 
