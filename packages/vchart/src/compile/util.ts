@@ -15,6 +15,8 @@ export function toRenderMode(mode: RenderMode): any {
       return 'feishu';
     case RenderModeEnum.lynx:
       return 'lynx';
+    case RenderModeEnum.wx:
+      return 'wx';
   }
   return 'browser';
 }

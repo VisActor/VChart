@@ -26497,6 +26497,9 @@
         "hover": {
           "type": "boolean"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -27311,6 +27314,9 @@
     },
     "IDrawContribution": {
       "properties": {
+        "afterDraw": {
+          "typeof": "function"
+        },
         "backupDirtyBounds": {
           "$ref": "#/definitions/IBounds"
         },
@@ -30578,6 +30584,9 @@
         "backgroundImg": {
           "type": "boolean"
         },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
+        },
         "childrenCount": {
           "type": "number"
         },
@@ -31117,6 +31126,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -31734,6 +31746,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -34642,6 +34657,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "blendMode": {
           "type": "string"
@@ -49821,6 +49839,9 @@
         "backgroundImg": {
           "type": "boolean"
         },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
+        },
         "childrenCount": {
           "type": "number"
         },
@@ -50499,6 +50520,9 @@
         "getLayer": {
           "typeof": "function"
         },
+        "getTimeline": {
+          "typeof": "function"
+        },
         "height": {
           "type": "number"
         },
@@ -50582,6 +50606,9 @@
         },
         "option3d": {
           "$ref": "#/definitions/IOption3D"
+        },
+        "params": {
+          "$ref": "#/definitions/Partial<IStageParams>"
         },
         "parent": {
           "$ref": "#/definitions/IStage"
@@ -50781,6 +50808,7 @@
         "getElementsByName",
         "getElementsByType",
         "getLayer",
+        "getTimeline",
         "height",
         "hooks",
         "increaseAutoRender",
@@ -50797,6 +50825,7 @@
         "off",
         "on",
         "once",
+        "params",
         "parent",
         "pick",
         "pickerService",
@@ -52411,6 +52440,9 @@
     },
     "ITicker": {
       "properties": {
+        "addTimeline": {
+          "typeof": "function"
+        },
         "getFPS": {
           "typeof": "function"
         },
@@ -52443,6 +52475,7 @@
         }
       },
       "required": [
+        "addTimeline",
         "pause",
         "resume",
         "start",
@@ -56632,6 +56665,9 @@
         "hooks": {
           "typeof": "function"
         },
+        "isVisible": {
+          "typeof": "function"
+        },
         "maxHeight": {
           "type": "number"
         },
@@ -56643,6 +56679,9 @@
         },
         "minWidth": {
           "type": "number"
+        },
+        "onVisibleChange": {
+          "typeof": "function"
         },
         "release": {
           "typeof": "function"
@@ -56706,10 +56745,12 @@
         "getNativeHandler",
         "height",
         "hooks",
+        "isVisible",
         "maxHeight",
         "maxWidth",
         "minHeight",
         "minWidth",
+        "onVisibleChange",
         "release",
         "removeEventListener",
         "resizable",
@@ -58539,7 +58580,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@11378": {
+        "__@toStringTag@12779": {
           "type": "string"
         },
         "size": {
@@ -58547,14 +58588,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11378",
+        "__@toStringTag@12779",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@11378": {
+        "__@toStringTag@12779": {
           "type": "string"
         },
         "size": {
@@ -58562,14 +58603,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11378",
+        "__@toStringTag@12779",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@11378": {
+        "__@toStringTag@12779": {
           "type": "string"
         },
         "size": {
@@ -58577,14 +58618,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11378",
+        "__@toStringTag@12779",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@11378": {
+        "__@toStringTag@12779": {
           "type": "string"
         },
         "size": {
@@ -58592,14 +58633,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11378",
+        "__@toStringTag@12779",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@11378": {
+        "__@toStringTag@12779": {
           "type": "string"
         },
         "size": {
@@ -58607,14 +58648,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11378",
+        "__@toStringTag@12779",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@11378": {
+        "__@toStringTag@12779": {
           "type": "string"
         },
         "size": {
@@ -58622,14 +58663,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11378",
+        "__@toStringTag@12779",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@11378": {
+        "__@toStringTag@12779": {
           "type": "string"
         },
         "size": {
@@ -58637,14 +58678,29 @@
         }
       },
       "required": [
-        "__@toStringTag@11378",
+        "__@toStringTag@12779",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
+      "properties": {
+        "__@toStringTag@12779": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12779",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@11378": {
+        "__@toStringTag@12779": {
           "type": "string"
         },
         "size": {
@@ -58652,7 +58708,7 @@
         }
       },
       "required": [
-        "__@toStringTag@11378",
+        "__@toStringTag@12779",
         "size"
       ],
       "type": "object"
@@ -59192,6 +59248,9 @@
         },
         "hover": {
           "type": "boolean"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -61133,6 +61192,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -62423,6 +62485,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -63023,6 +63088,9 @@
         "forceShowCap": {
           "type": "boolean"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -63338,6 +63406,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -63548,9 +63619,6 @@
         },
         "strokeOpacity": {
           "type": "number"
-        },
-        "visible": {
-          "type": "boolean"
         }
       },
       "type": "object"
@@ -63695,6 +63763,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -63998,6 +64069,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -64287,6 +64361,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -64624,6 +64701,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -64925,6 +65005,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "image": {
           "anyOf": [
@@ -65413,6 +65496,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -66227,6 +66313,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -66526,6 +66615,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -67049,6 +67141,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -67347,6 +67442,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -67713,6 +67811,101 @@
       },
       "type": "object"
     },
+    "Partial<IStageParams>": {
+      "properties": {
+        "afterRender": {
+          "typeof": "function"
+        },
+        "autoRender": {
+          "type": "boolean"
+        },
+        "background": {
+          "$ref": "#/definitions/IColor"
+        },
+        "beforeRender": {
+          "typeof": "function"
+        },
+        "canvas": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "canvasControled": {
+          "type": "boolean"
+        },
+        "container": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "disableDirtyBounds": {
+          "type": "boolean"
+        },
+        "dpr": {
+          "type": "number"
+        },
+        "enableHtmlAttribute": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLElement"
+            },
+            {
+              "type": [
+                "string",
+                "boolean"
+              ]
+            }
+          ]
+        },
+        "enableLayout": {
+          "type": "boolean"
+        },
+        "height": {
+          "type": "number"
+        },
+        "interactiveLayer": {
+          "type": "boolean"
+        },
+        "optimize": {
+          "typeof": "function"
+        },
+        "pluginList": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "poptip": {
+          "type": "boolean"
+        },
+        "renderStyle": {
+          "type": "string"
+        },
+        "ticker": {
+          "$ref": "#/definitions/ITicker"
+        },
+        "title": {
+          "type": "string"
+        },
+        "viewBox": {
+          "$ref": "#/definitions/IBoundsLike"
+        },
+        "width": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
     "Partial<ISymbolGraphicAttribute>": {
       "properties": {
         "alpha": {
@@ -67850,6 +68043,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -68181,6 +68377,9 @@
             "string",
             "number"
           ]
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -68980,6 +69179,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -70421,34 +70623,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@11378": {
+        "__@toStringTag@12779": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11378"
+        "__@toStringTag@12779"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@11378": {
+        "__@toStringTag@12779": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11378"
+        "__@toStringTag@12779"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@11378": {
+        "__@toStringTag@12779": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11378"
+        "__@toStringTag@12779"
       ],
       "type": "object"
     },
@@ -70700,6 +70902,9 @@
         "forceShowCap": {
           "type": "boolean"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -70875,6 +71080,7 @@
         "fill",
         "fillOpacity",
         "forceShowCap",
+        "html",
         "innerBorder",
         "innerRadius",
         "keepDirIn3d",
@@ -71080,6 +71286,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -71254,6 +71463,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -71436,6 +71646,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -71599,6 +71812,7 @@
         "endAngle",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -71797,6 +72011,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -71969,6 +72186,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -72207,6 +72425,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -72393,6 +72614,7 @@
         "flexDirection",
         "flexWrap",
         "height",
+        "html",
         "innerBorder",
         "justifyContent",
         "keepDirIn3d",
@@ -72577,6 +72799,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "image": {
           "anyOf": [
             {
@@ -72756,6 +72981,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "image",
         "innerBorder",
         "keepDirIn3d",
@@ -72963,6 +73189,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -73138,6 +73367,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -73320,6 +73550,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -73487,6 +73720,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -73678,6 +73912,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -73841,6 +74078,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -74035,6 +74273,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -74199,6 +74440,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -74394,6 +74636,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -74555,6 +74800,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -74741,6 +74987,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -74933,6 +75182,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -75187,6 +75437,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "id": {
           "type": "string"
         },
@@ -75397,6 +75650,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "id",
         "image",
         "innerBorder",
@@ -75582,6 +75836,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -75761,6 +76018,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -75970,6 +76228,9 @@
             "string",
             "number"
           ]
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -76184,6 +76445,7 @@
         "fontStyle",
         "fontVariant",
         "fontWeight",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
