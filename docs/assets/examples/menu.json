@@ -9,80 +9,19 @@
       },
       "children": [
         {
-          "path": "basic-area",
+          "path": "area-style",
           "title": {
-            "zh": "基础面积图",
-            "en": "Basic Area Chart"
-          }
-        },
-        {
-          "path": "horizontal-area",
-          "title": {
-            "zh": "垂直面积图",
-            "en": "Vertical Area Chart"
-          }
-        },
-        {
-          "path": "negative-values-area",
-          "title": {
-            "zh": "带负值面积图",
-            "en": "Area Chart with Negative Values"
-          }
-        },
-        {
-          "path": "null-value-area",
-          "title": {
-            "zh": "存在空值的面积图",
-            "en": "Area chart with null values"
-          }
-        },
-        {
-          "path": "percentage-stacked-area",
-          "title": {
-            "zh": "百分比堆叠面积图",
-            "en": "Percentage Stacked Area Chart"
-          }
-        },
-        {
-          "path": "range-area",
-          "title": {
-            "zh": "区间面积图",
-            "en": "Range Area Chart"
-          }
-        },
-        {
-          "path": "smoothed-area",
-          "title": {
-            "zh": "平滑面积图",
-            "en": "Smoothed Area Chart"
-          }
-        },
-        {
-          "path": "stacked-area",
-          "title": {
-            "zh": "堆叠面积图",
-            "en": "Stacked Area Chart"
-          }
-        },
-        {
-          "path": "step-area",
-          "title": {
-            "zh": "阶梯面积图",
-            "en": "Step Area Chart"
-          }
-        },
-        {
-          "path": "stream-graph",
-          "title": {
-            "zh": "河流图",
-            "en": "Streamgraph"
-          }
-        },
-        {
-          "path": "unstacked-area",
-          "title": {
-            "zh": "非堆叠面积图",
-            "en": "非堆叠面积图"
+            "zh": "面积图样式",
+            "en": "面积图样式"
+          },
+          "meta": {
+            "title": "面积图样式",
+            "keywords": "areaChart,comparison,trend,area",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/area-style.png",
+            "link": "",
+            "option": "areaChart"
           }
         },
         {
@@ -90,13 +29,111 @@
           "title": {
             "zh": "多系列面积图",
             "en": "Multi-series area chart"
+          },
+          "meta": {
+            "title": "Multi-series area chart",
+            "keywords": "areaChart,comparison,trend,area",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/area-with-marker.png",
+            "link": "",
+            "option": "areaChart"
           }
         },
         {
-          "path": "area-style",
+          "path": "basic-area",
           "title": {
-            "zh": "面积图样式",
-            "en": "面积图样式"
+            "zh": "基础面积图",
+            "en": "Basic Area Chart"
+          },
+          "meta": {
+            "title": "Basic Area Chart",
+            "keywords": "areaChart,comparison,trend,area",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/basic-area.png",
+            "link": "",
+            "option": "areaChart"
+          }
+        },
+        {
+          "path": "horizontal-area",
+          "title": {
+            "zh": "垂直面积图",
+            "en": "Vertical Area Chart"
+          },
+          "meta": {
+            "title": "Vertical Area Chart",
+            "keywords": "areaChart,comparison,trend,area",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/horizontal-area.png",
+            "link": "",
+            "option": "areaChart"
+          }
+        },
+        {
+          "path": "negative-values-area",
+          "title": {
+            "zh": "带负值面积图",
+            "en": "Area Chart with Negative Values"
+          },
+          "meta": {
+            "title": "Area Chart with Negative Values",
+            "keywords": "areaChart,comparison,trend,area",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/negative-values-area.png",
+            "link": "",
+            "option": "areaChart"
+          }
+        },
+        {
+          "path": "null-value-area",
+          "title": {
+            "zh": "存在空值的面积图",
+            "en": "Area chart with null values"
+          },
+          "meta": {
+            "title": "Area chart with null values",
+            "keywords": "areaChart,comparison,trend,area",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/null-value-area.png",
+            "link": "",
+            "option": "areaChart"
+          }
+        },
+        {
+          "path": "percentage-stacked-area",
+          "title": {
+            "zh": "百分比堆叠面积图",
+            "en": "Percentage Stacked Area Chart"
+          },
+          "meta": {
+            "title": "Percentage Stacked Area Chart",
+            "keywords": "areaChart,comparison,trend,area,proportion,composition",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/percentage-stacked-area.png",
+            "link": "",
+            "option": "areaChart"
+          }
+        },
+        {
+          "path": "range-area",
+          "title": {
+            "zh": "区间面积图",
+            "en": "Range Area Chart"
+          },
+          "meta": {
+            "title": "Range Area Chart",
+            "keywords": "areaChart,comparison,trend,area,rangeAreaChart",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/range-area.png",
+            "link": "",
+            "option": "areaChart"
           }
         },
         {
@@ -104,6 +141,95 @@
           "title": {
             "zh": "分段区间面积图",
             "en": "Segment Range Area Chart"
+          },
+          "meta": {
+            "title": "Segment Range Area Chart",
+            "keywords": "areaChart,comparison,trend,area,rangeAreaChart",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/area-chart-segment-range-area.png",
+            "link": "",
+            "option": "areaChart"
+          }
+        },
+        {
+          "path": "smoothed-area",
+          "title": {
+            "zh": "平滑面积图",
+            "en": "Smoothed Area Chart"
+          },
+          "meta": {
+            "title": "Smoothed Area Chart",
+            "keywords": "areaChart,comparison,trend,area",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/smoothed-area.png",
+            "link": "",
+            "option": "areaChart"
+          }
+        },
+        {
+          "path": "stacked-area",
+          "title": {
+            "zh": "堆叠面积图",
+            "en": "Stacked Area Chart"
+          },
+          "meta": {
+            "title": "Stacked Area Chart",
+            "keywords": "areaChart,comparison,trend,area,composition",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/stacked-area.png",
+            "link": "",
+            "option": "areaChart"
+          }
+        },
+        {
+          "path": "step-area",
+          "title": {
+            "zh": "阶梯面积图",
+            "en": "Step Area Chart"
+          },
+          "meta": {
+            "title": "Step Area Chart",
+            "keywords": "areaChart,comparison,trend,area",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/step-area.png",
+            "link": "",
+            "option": "areaChart"
+          }
+        },
+        {
+          "path": "stream-graph",
+          "title": {
+            "zh": "河流图",
+            "en": "Streamgraph"
+          },
+          "meta": {
+            "title": "Streamgraph",
+            "keywords": "areaChart,comparison,trend,area,streamgraph,composition",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/stream-graph.png",
+            "link": "",
+            "option": ""
+          }
+        },
+        {
+          "path": "unstacked-area",
+          "title": {
+            "zh": "非堆叠面积图",
+            "en": "非堆叠面积图"
+          },
+          "meta": {
+            "title": "非堆叠面积图",
+            "keywords": "areaChart,comparison,trend,area",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/unstacked-area.png",
+            "link": "",
+            "option": "areaChart"
           }
         }
       ]
@@ -120,6 +246,15 @@
           "title": {
             "zh": "坐标轴动画",
             "en": "Axis Animation"
+          },
+          "meta": {
+            "title": "Axis Animation",
+            "keywords": "barChart,animation,axis,trend,comparison,rectangle",
+            "category": "demo",
+            "group": "axis",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/animation.png",
+            "link": "",
+            "option": "barChart#axes"
           }
         },
         {
@@ -127,6 +262,15 @@
           "title": {
             "zh": "网格线填充",
             "en": "Grid Line Fill"
+          },
+          "meta": {
+            "title": "Grid Line Fill",
+            "keywords": "barChart,comparison,distribution,rank,composition,rectangle,axis",
+            "category": "demo",
+            "group": "axis",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/grid-style.png",
+            "link": "",
+            "option": "lineChart#axes"
           }
         },
         {
@@ -134,6 +278,15 @@
           "title": {
             "zh": "坐标轴交互",
             "en": "Axis Interaction"
+          },
+          "meta": {
+            "title": "Axis Interaction",
+            "keywords": "areaChart,comparison,composition,trend,area,axis",
+            "category": "demo",
+            "group": "axis",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/interactive.png",
+            "link": "",
+            "option": "areaChart#axes"
           }
         },
         {
@@ -141,34 +294,15 @@
           "title": {
             "zh": "坐标轴反转",
             "en": "Axis Inversion"
-          }
-        },
-        {
-          "path": "on-zero",
-          "title": {
-            "zh": "0 刻度轴线",
-            "en": "0 刻度轴线"
-          }
-        },
-        {
-          "path": "polar",
-          "title": {
-            "zh": "极坐标轴配置",
-            "en": "Polar Axis Configuration"
-          }
-        },
-        {
-          "path": "style",
-          "title": {
-            "zh": "通用样式配置",
-            "en": "General Style Configuration"
-          }
-        },
-        {
-          "path": "subtick-and-subgrid",
-          "title": {
-            "zh": "子刻度线和子网格线",
-            "en": "Sub-ticks and Sub-grid lines"
+          },
+          "meta": {
+            "title": "Axis Inversion",
+            "keywords": "areaChart,comparison,trend,area,axis",
+            "category": "demo",
+            "group": "axis",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/inverse.png",
+            "link": "",
+            "option": "lineChart#axes"
           }
         },
         {
@@ -176,6 +310,79 @@
           "title": {
             "zh": "log轴",
             "en": "log轴"
+          },
+          "meta": {
+            "title": "log轴",
+            "keywords": "lineChart,comparison,composition,trend,axis",
+            "category": "demo",
+            "group": "axis",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/ffc3a9b5518762d274121ff06.jpeg",
+            "link": "",
+            "option": "lineChart#axes"
+          }
+        },
+        {
+          "path": "on-zero",
+          "title": {
+            "zh": "0 刻度轴线",
+            "en": "0 刻度轴线"
+          },
+          "meta": {
+            "title": "0 刻度轴线",
+            "keywords": "scatterChart,comparison,distribution,scatter,axis",
+            "category": "demo",
+            "group": "axis",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/on-zero.png",
+            "link": "",
+            "option": "scatterChart#axes"
+          }
+        },
+        {
+          "path": "polar",
+          "title": {
+            "zh": "极坐标轴配置",
+            "en": "Polar Axis Configuration"
+          },
+          "meta": {
+            "title": "Polar Axis Configuration",
+            "keywords": "roseChart,comparison,composition,circle,axis",
+            "category": "demo",
+            "group": "axis",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/polar.png",
+            "link": "",
+            "option": "roseChart#axes"
+          }
+        },
+        {
+          "path": "style",
+          "title": {
+            "zh": "通用样式配置",
+            "en": "General Style Configuration"
+          },
+          "meta": {
+            "title": "General Style Configuration",
+            "keywords": "lineChart,comparison,trend,line,axis",
+            "category": "demo",
+            "group": "axis",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/style.png",
+            "link": "",
+            "option": "lineChart#axes"
+          }
+        },
+        {
+          "path": "subtick-and-subgrid",
+          "title": {
+            "zh": "子刻度线和子网格线",
+            "en": "Sub-ticks and Sub-grid lines"
+          },
+          "meta": {
+            "title": "Sub-ticks and Sub-grid lines",
+            "keywords": "lineChart,comparison,trend,line,axis",
+            "category": "demo",
+            "group": "axis",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/subtick-and-subgrid.png",
+            "link": "",
+            "option": "lineChart#axes"
           }
         }
       ]
@@ -192,6 +399,15 @@
           "title": {
             "zh": "基础条形图",
             "en": "Base Bar Chart"
+          },
+          "meta": {
+            "title": "Base Bar Chart",
+            "keywords": "barChart,comparison,distribution,rank,rectangle",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/23e5d313c2c3a66d4ca806005.png",
+            "link": "",
+            "option": "barChart"
           }
         },
         {
@@ -199,6 +415,15 @@
           "title": {
             "zh": "基础柱状图",
             "en": "Basic Column Chart"
+          },
+          "meta": {
+            "title": "Basic Column Chart",
+            "keywords": "barChart, comparison, distribution, rank, rectangle",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/basic-column.png",
+            "link": "",
+            "option": "barChart"
           }
         },
         {
@@ -206,6 +431,15 @@
           "title": {
             "zh": "双向条形图",
             "en": "Bi-directional Bar Chart"
+          },
+          "meta": {
+            "title": "Bi-directional Bar Chart",
+            "keywords": "barChart,comparison,distribution,rank,rectangle",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/bi-direction-bar.png",
+            "link": "",
+            "option": "barChart"
           }
         },
         {
@@ -213,6 +447,15 @@
           "title": {
             "zh": "双向堆积分组柱状图",
             "en": "Bi-direction Stack Grouped Bar Chart"
+          },
+          "meta": {
+            "title": "Bi-direction Stack Grouped Bar Chart",
+            "keywords": "barChart,comparison,distribution,rectangle,composition,rank",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81706.png",
+            "link": "",
+            "option": "barChart"
           }
         },
         {
@@ -220,69 +463,15 @@
           "title": {
             "zh": "渐变圆角柱图",
             "en": "Gradient Rounded Bar Chart"
-          }
-        },
-        {
-          "path": "group-bar",
-          "title": {
-            "zh": "分组条形图",
-            "en": "Grouped Bar Chart"
-          }
-        },
-        {
-          "path": "group-column",
-          "title": {
-            "zh": "分组柱状图",
-            "en": "Grouped Bar Chart"
-          }
-        },
-        {
-          "path": "group-stack-column",
-          "title": {
-            "zh": "分组堆叠柱状图",
-            "en": "Grouped Stacked Column Chart"
-          }
-        },
-        {
-          "path": "group-stack-percentage-column",
-          "title": {
-            "zh": "分组百分比堆叠柱状图",
-            "en": "Grouped Percentage Stacked Bar Chart"
-          }
-        },
-        {
-          "path": "population-pyramid",
-          "title": {
-            "zh": "人口金字塔",
-            "en": "Population Pyramid"
-          }
-        },
-        {
-          "path": "stack-column",
-          "title": {
-            "zh": "堆叠柱状图",
-            "en": "Stacked Bar Chart"
-          }
-        },
-        {
-          "path": "stack-percentage-bar",
-          "title": {
-            "zh": "百分比堆叠条形图",
-            "en": "Percentage Stacked Bar Chart"
-          }
-        },
-        {
-          "path": "stack-percentage-column",
-          "title": {
-            "zh": "百分比堆叠柱状图",
-            "en": "Percentage Stacked Bar Chart"
-          }
-        },
-        {
-          "path": "group-bar-with-padding",
-          "title": {
-            "zh": "分组柱状图间隔",
-            "en": "Group histogram interval"
+          },
+          "meta": {
+            "title": "Gradient Rounded Bar Chart",
+            "keywords": "barChart,comparison,distribution,rank,rectangle,gradient",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/gradient-column.png",
+            "link": "",
+            "option": "barChart"
           }
         },
         {
@@ -290,9 +479,170 @@
           "title": {
             "zh": "分组柱图组内间距调整",
             "en": "Spacing adjustment within grouped bars"
+          },
+          "meta": {
+            "title": "Spacing adjustment within grouped bars",
+            "keywords": "barChart,comparison,distribution,rank,rectangle",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/group-bar-with-barGapInGroup.png",
+            "link": "",
+            "option": "barChart"
+          }
+        },
+        {
+          "path": "group-bar-with-padding",
+          "title": {
+            "zh": "分组柱状图间隔",
+            "en": "Group histogram interval"
+          },
+          "meta": {
+            "title": "Group histogram interval",
+            "keywords": "barChart,comparison,distribution,rank,rectangle",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/55297520732ada18bb7183f00.png",
+            "link": "",
+            "option": "barChart"
+          }
+        },
+        {
+          "path": "group-bar",
+          "title": {
+            "zh": "分组条形图",
+            "en": "Grouped Bar Chart"
+          },
+          "meta": {
+            "title": "Grouped Bar Chart",
+            "keywords": "barChart, comparison, distribution, rank, rectangle",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-bar.png",
+            "link": "",
+            "option": "barChart"
+          }
+        },
+        {
+          "path": "group-column",
+          "title": {
+            "zh": "分组柱状图",
+            "en": "Grouped Bar Chart"
+          },
+          "meta": {
+            "title": "Grouped Bar Chart",
+            "keywords": "barChart,comparison,distribution,rank,rectangle",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-column.png",
+            "link": "",
+            "option": "barChart"
+          }
+        },
+        {
+          "path": "group-stack-column",
+          "title": {
+            "zh": "分组堆叠柱状图",
+            "en": "Grouped Stacked Column Chart"
+          },
+          "meta": {
+            "title": "Grouped Stacked Column Chart",
+            "keywords": "barChart,comparison,distribution,rectangle,composition,rank",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-stack-column.png",
+            "link": "",
+            "option": "barChart"
+          }
+        },
+        {
+          "path": "group-stack-percentage-column",
+          "title": {
+            "zh": "分组百分比堆叠柱状图",
+            "en": "Grouped Percentage Stacked Bar Chart"
+          },
+          "meta": {
+            "title": "Grouped Percentage Stacked Bar Chart",
+            "keywords": "barChart,comparison,distribution,rectangle,composition,proportion,rank",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-stack-percentage-column.png",
+            "link": "",
+            "option": "barChart"
+          }
+        },
+        {
+          "path": "population-pyramid",
+          "title": {
+            "zh": "人口金字塔",
+            "en": "Population Pyramid"
+          },
+          "meta": {
+            "title": "Population Pyramid",
+            "keywords": "barChart,comparison,distribution,rank,rectangle",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/ffc3a9b5518762d274121ff03.png",
+            "link": "",
+            "option": "barChart"
+          }
+        },
+        {
+          "path": "stack-column",
+          "title": {
+            "zh": "堆叠柱状图",
+            "en": "Stacked Bar Chart"
+          },
+          "meta": {
+            "title": "Stacked Bar Chart",
+            "keywords": "barChart,comparison,distribution,rank,rectangle,composition",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/stack-column.png",
+            "link": "",
+            "option": "barChart"
+          }
+        },
+        {
+          "path": "stack-percentage-bar",
+          "title": {
+            "zh": "百分比堆叠条形图",
+            "en": "Percentage Stacked Bar Chart"
+          },
+          "meta": {
+            "title": "Percentage Stacked Bar Chart",
+            "keywords": "barChart,comparison,distribution,rectangle,composition,proportion",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/stack-percentage-bar.png",
+            "link": "",
+            "option": "barChart"
+          }
+        },
+        {
+          "path": "stack-percentage-column",
+          "title": {
+            "zh": "百分比堆叠柱状图",
+            "en": "Percentage Stacked Bar Chart"
+          },
+          "meta": {
+            "title": "Percentage Stacked Bar Chart",
+            "keywords": "barChart,comparison,distribution,rectangle,composition,proportion",
+            "category": "examples",
+            "group": "bar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/stack-percentage-column.png",
+            "link": "",
+            "option": "barChart"
           }
         }
       ]
+    },
+    {
+      "path": "bi-direction-stack-column_files",
+      "title": {
+        "zh": "bi-direction-stack-column_files",
+        "en": "bi-direction-stack-column_files"
+      },
+      "children": []
     },
     {
       "path": "box-plot",
@@ -306,6 +656,15 @@
           "title": {
             "zh": "基础箱型图",
             "en": "Basic Box Plot"
+          },
+          "meta": {
+            "title": "Basic Box Plot",
+            "keywords": "boxPlot, distribution, strip",
+            "category": "examples",
+            "group": "box plot",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/box-plot/basic-box-plot.png",
+            "link": "",
+            "option": "boxPlotChart"
           }
         },
         {
@@ -313,6 +672,15 @@
           "title": {
             "zh": "箱型图样式",
             "en": "Box Plot Style"
+          },
+          "meta": {
+            "title": "Box Plot Style",
+            "keywords": "boxPlot, distribution, comparison, strip",
+            "category": "examples",
+            "group": "box plot",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/box-plot/box-plot-style.png",
+            "link": "",
+            "option": "boxPlotChart"
           }
         },
         {
@@ -320,1121 +688,15 @@
           "title": {
             "zh": "分组箱型图",
             "en": "Grouped Box Plot"
-          }
-        }
-      ]
-    },
-    {
-      "path": "circle-packing-chart",
-      "title": {
-        "zh": "circle-packing-chart",
-        "en": "circle-packing-chart"
-      },
-      "children": [
-        {
-          "path": "basic-circle-packing",
-          "title": {
-            "zh": "基础 CirclePacking 图",
-            "en": "Basic CirclePacking Chart"
-          }
-        },
-        {
-          "path": "circle-packing-multiple-roots",
-          "title": {
-            "zh": "多根节点 CirclePacking 图",
-            "en": "Multi-root CirclePacking Chart"
-          }
-        },
-        {
-          "path": "circle-packing-padding",
-          "title": {
-            "zh": "带内边距的 CirclePacking 图",
-            "en": "CirclePacking Chart with Padding"
-          }
-        }
-      ]
-    },
-    {
-      "path": "combination",
-      "title": {
-        "zh": "combination",
-        "en": "combination"
-      },
-      "children": [
-        {
-          "path": "bar-combine",
-          "title": {
-            "zh": "组合图自定义多行多列布局",
-            "en": "Custom Multi-Row Multi-Column Layout in Combination Charts"
-          }
-        },
-        {
-          "path": "col-line",
-          "title": {
-            "zh": "单列组合图",
-            "en": "Combination Chart with Single Column"
-          }
-        },
-        {
-          "path": "col-pie",
-          "title": {
-            "zh": "多 region 饼图",
-            "en": "Multi-region Pie Chart"
-          }
-        },
-        {
-          "path": "dual-axis",
-          "title": {
-            "zh": "双轴图",
-            "en": "Dual Axis Chart"
-          }
-        },
-        {
-          "path": "easing-visualization",
-          "title": {
-            "zh": "缓动函数可视化",
-            "en": "Easing Functions Visualization"
-          }
-        },
-        {
-          "path": "line-pie",
-          "title": {
-            "zh": "线饼组合图",
-            "en": "Line-Pie Combination Chart"
-          }
-        },
-        {
-          "path": "polar-combine",
-          "title": {
-            "zh": "极坐标系下的组合图",
-            "en": "Combination Chart in Polar Coordinate System"
-          }
-        },
-        {
-          "path": "scatter-combine",
-          "title": {
-            "zh": "组合图自定义单行多列布局",
-            "en": "Custom Single Row Multi-Column Layout for Combination Charts"
-          }
-        },
-        {
-          "path": "single-region",
-          "title": {
-            "zh": "基础组合图",
-            "en": "Basic Combination Chart"
-          }
-        },
-        {
-          "path": "bar-line",
-          "title": {
-            "zh": "特殊轴效果的线柱组合图",
-            "en": "Bar-Line Combination Chart With UnNormal Axis"
-          }
-        }
-      ]
-    },
-    {
-      "path": "crosshair",
-      "title": {
-        "zh": "crosshair",
-        "en": "crosshair"
-      },
-      "children": [
-        {
-          "path": "line",
-          "title": {
-            "zh": "十字辅助线"
-          }
-        },
-        {
-          "path": "multiple-region",
-          "title": {
-            "zh": "组合图 crosshair",
-            "en": "Combined chart crosshair"
-          }
-        },
-        {
-          "path": "polar-line",
-          "title": {
-            "zh": "雷达图的 crosshair",
-            "en": "Crosshair of Radar Chart"
-          }
-        },
-        {
-          "path": "polar-rect",
-          "title": {
-            "zh": "玫瑰图的 crosshair",
-            "en": "Rose Chart Crosshair"
-          }
-        },
-        {
-          "path": "rect",
-          "title": {
-            "zh": "矩形十字辅助线",
-            "en": "Rectangular Crosshair"
-          }
-        }
-      ]
-    },
-    {
-      "path": "data",
-      "title": {
-        "zh": "data",
-        "en": "data"
-      },
-      "children": [
-        {
-          "path": "basic-data",
-          "title": {
-            "zh": "基础数据使用",
-            "en": "Basic Data Usage"
-          }
-        },
-        {
-          "path": "data-fields-alias",
-          "title": {
-            "zh": "数据别名",
-            "en": "Data Alias"
-          }
-        },
-        {
-          "path": "data-fields-domain",
-          "title": {
-            "zh": "按照domain进行数据筛选",
-            "en": "Data Filtering By Domain"
-          }
-        },
-        {
-          "path": "data-fields-sort",
-          "title": {
-            "zh": "数据排序",
-            "en": "Data Sorting"
-          }
-        },
-        {
-          "path": "data-filter",
-          "title": {
-            "zh": "数据筛选",
-            "en": "Data Filtering"
-          }
-        }
-      ]
-    },
-    {
-      "path": "data-zoom",
-      "title": {
-        "zh": "data-zoom",
-        "en": "data-zoom"
-      },
-      "children": [
-        {
-          "path": "data-zoom-polar",
-          "title": {
-            "zh": "缩略轴控制极坐标系图表",
-            "en": "Thumbnail Axis Controls Polar Chart"
-          }
-        },
-        {
-          "path": "filter-mode-axis",
-          "title": {
-            "zh": "轴缩放模式",
-            "en": "Axis Zoom Mode"
-          }
-        },
-        {
-          "path": "preview-data",
-          "title": {
-            "zh": "缩略轴预览图表样式配置",
-            "en": "Thumbnail Axis Preview Chart Style Configuration"
-          }
-        },
-        {
-          "path": "state-with-data",
-          "title": {
-            "zh": "缩略轴以数据的方式定义初始范围",
-            "en": "Define initial range in data form with thumbnail axis"
-          }
-        }
-      ]
-    },
-    {
-      "path": "funnel-chart",
-      "title": {
-        "zh": "funnel-chart",
-        "en": "funnel-chart"
-      },
-      "children": [
-        {
-          "path": "basic-funnel",
-          "title": {
-            "zh": "基础漏斗图",
-            "en": "Basic Funnel Chart"
-          }
-        },
-        {
-          "path": "custom-funnel",
-          "title": {
-            "zh": "自定义漏斗图",
-            "en": "Custom Funnel Chart"
-          }
-        },
-        {
-          "path": "transform-funnel",
-          "title": {
-            "zh": "转化漏斗图",
-            "en": "Conversion Funnel Chart"
-          }
-        },
-        {
-          "path": "rect-funnel",
-          "title": {
-            "zh": "矩形转化漏斗图",
-            "en": "Rectangular Conversion Funnel Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "gradient",
-      "title": {
-        "zh": "gradient",
-        "en": "gradient"
-      },
-      "children": [
-        {
-          "path": "area",
-          "title": {
-            "zh": "渐变面积图",
-            "en": "Gradient Area Chart"
-          }
-        },
-        {
-          "path": "bar",
-          "title": {
-            "zh": "渐变色-高度渐变",
-            "en": "Gradient Color - Height Gradient"
-          }
-        },
-        {
-          "path": "enhancement-gradient-line",
-          "title": {
-            "zh": "渐变色-颜色划分移动端",
-            "en": "Gradient Color - Color Segmentation on Mobile"
-          }
-        },
-        {
-          "path": "line",
-          "title": {
-            "zh": "渐变折线图",
-            "en": "Gradient Line Chart"
-          }
-        },
-        {
-          "path": "scatter",
-          "title": {
-            "zh": "渐变气泡图",
-            "en": "Gradient Bubble Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "histogram-chart",
-      "title": {
-        "zh": "histogram-chart",
-        "en": "histogram-chart"
-      },
-      "children": [
-        {
-          "path": "histogram-basis",
-          "title": {
-            "zh": "基础直方图",
-            "en": "Basic Histogram"
-          }
-        },
-        {
-          "path": "histogram-different-bin",
-          "title": {
-            "zh": "不同区间分布直方图",
-            "en": "Histogram with Different Bin Ranges"
-          }
-        },
-        {
-          "path": "histogram-stack",
-          "title": {
-            "zh": "堆叠直方图",
-            "en": "Stacked Histogram"
-          }
-        },
-        {
-          "path": "histogram-stack-h",
-          "title": {
-            "zh": "水平堆叠直方图",
-            "en": "Horizontal Stacked Histogram"
-          }
-        }
-      ]
-    },
-    {
-      "path": "legend",
-      "title": {
-        "zh": "legend",
-        "en": "legend"
-      },
-      "children": [
-        {
-          "path": "continuous",
-          "title": {
-            "zh": "连续图例",
-            "en": "Continuous Legend"
-          }
-        },
-        {
-          "path": "custom-data",
-          "title": {
-            "zh": "自定义图例项",
-            "en": "Custom Legend Item"
-          }
-        },
-        {
-          "path": "custom-interaction",
-          "title": {
-            "zh": "自定义图例交互",
-            "en": "Custom Legend Interaction"
-          }
-        },
-        {
-          "path": "custom-line-legend",
-          "title": {
-            "zh": "图例项平铺",
-            "en": "Tiled Legend Items"
-          }
-        },
-        {
-          "path": "custom-ui",
-          "title": {
-            "zh": "自定义图例 UI",
-            "en": "Custom Legend UI"
-          }
-        },
-        {
-          "path": "float",
-          "title": {
-            "zh": "图例展示在图表内部",
-            "en": "Legend Displayed Inside the Chart"
-          }
-        },
-        {
-          "path": "focus",
-          "title": {
-            "zh": "聚焦模式",
-            "en": "Focus Mode"
-          }
-        },
-        {
-          "path": "multiple-legends",
-          "title": {
-            "zh": "多图例/混合图例",
-            "en": "Multiple Legends/Mixed Legends"
-          }
-        },
-        {
-          "path": "single-select",
-          "title": {
-            "zh": "单选模式",
-            "en": "Single Selection Mode"
-          }
-        }
-      ]
-    },
-    {
-      "path": "line-chart",
-      "title": {
-        "zh": "line-chart",
-        "en": "line-chart"
-      },
-      "children": [
-        {
-          "path": "basic-line",
-          "title": {
-            "zh": "基础折线图",
-            "en": "Basic line chart"
-          }
-        },
-        {
-          "path": "dash-line",
-          "title": {
-            "zh": "末尾虚线",
-            "en": "Dashed Line at the End"
-          }
-        },
-        {
-          "path": "horizontal-line",
-          "title": {
-            "zh": "垂直折线图",
-            "en": "Horizontal Line Chart"
-          }
-        },
-        {
-          "path": "multi-line",
-          "title": {
-            "zh": "多系列折线图",
-            "en": "Multi-series Line Chart"
-          }
-        },
-        {
-          "path": "null-value-line",
-          "title": {
-            "zh": "存在空值折线图",
-            "en": "Line Chart with Null Values"
-          }
-        },
-        {
-          "path": "percentage-stacked-line",
-          "title": {
-            "zh": "百分比堆叠折线图",
-            "en": "Percentage Stacked Line Chart"
-          }
-        },
-        {
-          "path": "smoothed-line",
-          "title": {
-            "zh": "平滑折线图",
-            "en": "Smooth Line Chart"
-          }
-        },
-        {
-          "path": "stacked-line",
-          "title": {
-            "zh": "堆叠折线图",
-            "en": "Stacked Line Chart"
-          }
-        },
-        {
-          "path": "step-line",
-          "title": {
-            "zh": "阶梯折线图",
-            "en": "Step Line Chart"
-          }
-        },
-        {
-          "path": "unstacked-line",
-          "title": {
-            "zh": "非堆叠折线图",
-            "en": "Unstacked Line Chart"
-          }
-        },
-        {
-          "path": "line-axes-padding",
-          "title": {
-            "zh": "折线图轴 padding 调整",
-            "en": "Offline Chart Axis padding adjustment"
-          }
-        }
-      ]
-    },
-    {
-      "path": "map-chart",
-      "title": {
-        "zh": "map-chart",
-        "en": "map-chart"
-      },
-      "children": [
-        {
-          "path": "basic-map",
-          "title": {
-            "zh": "基础地图",
-            "en": "Basic Map"
-          }
-        },
-        {
-          "path": "scatter-map",
-          "title": {
-            "zh": "散点地图",
-            "en": "Scatter Map"
-          }
-        }
-      ]
-    },
-    {
-      "path": "marker",
-      "title": {
-        "zh": "marker",
-        "en": "marker"
-      },
-      "children": [
-        {
-          "path": "mark-area-multi",
-          "title": {
-            "zh": "markArea 轴空间 和 数据点定位",
-            "en": "markArea Axis Space and Data Point Positioning"
-          }
-        },
-        {
-          "path": "mark-area-quadrant",
-          "title": {
-            "zh": "markArea 模拟象限图",
-            "en": "markArea Quadrant Chart Simulation"
-          }
-        },
-        {
-          "path": "mark-line-axis",
-          "title": {
-            "zh": "markLine 轴空间定位",
-            "en": "markLine Axis Space Positioning"
-          }
-        },
-        {
-          "path": "mark-line-coordinates",
-          "title": {
-            "zh": "markLine 数据高亮",
-            "en": "markLine Data Highlighting"
-          }
-        },
-        {
-          "path": "mark-line-part-regression",
-          "title": {
-            "zh": "markLine 指定数据点并计算线性回归",
-            "en": "markLine Specifying Data Points and Calculating Linear Regression"
-          }
-        },
-        {
-          "path": "mark-line-ref-series",
-          "title": {
-            "zh": "markLine 指定关联系列数据点",
-            "en": "markLine Specifying Related Series Data Points"
-          }
-        },
-        {
-          "path": "mark-point-basic",
-          "title": {
-            "zh": "markPoint 数据点定位",
-            "en": "markPoint Data Point Positioning"
-          }
-        },
-        {
-          "path": "mark-area-basic",
-          "title": {
-            "zh": "markArea",
-            "en": "markArea"
-          }
-        },
-        {
-          "path": "mark-line-basic",
-          "title": {
-            "zh": "markLine",
-            "en": "markLine"
-          }
-        }
-      ]
-    },
-    {
-      "path": "pattern",
-      "title": {
-        "zh": "pattern",
-        "en": "pattern"
-      },
-      "children": [
-        {
-          "path": "accessible-column",
-          "title": {
-            "zh": "带纹理的分组柱状图",
-            "en": "Grouped Bar Chart with Textures"
-          }
-        },
-        {
-          "path": "accessible-pie",
-          "title": {
-            "zh": "带纹理的饼图",
-            "en": "Pie Chart with Texture"
-          }
-        },
-        {
-          "path": "stacked-dash-area",
-          "title": {
-            "zh": "末尾虚线堆叠面积图",
-            "en": "Dashed Stacked Area Chart with Distinguished End"
-          }
-        }
-      ]
-    },
-    {
-      "path": "player",
-      "title": {
-        "zh": "player",
-        "en": "player"
-      },
-      "children": [
-        {
-          "path": "basic-player",
-          "title": {
-            "zh": "基础播放器",
-            "en": "Basic Player"
-          }
-        },
-        {
-          "path": "continuous-player",
-          "title": {
-            "zh": "连续播放器",
-            "en": "Continuous Player"
-          }
-        }
-      ]
-    },
-    {
-      "path": "radar-chart",
-      "title": {
-        "zh": "radar-chart",
-        "en": "radar-chart"
-      },
-      "children": [
-        {
-          "path": "basic-radar",
-          "title": {
-            "zh": "基础雷达图",
-            "en": "Basic Radar Chart"
-          }
-        },
-        {
-          "path": "multiple-radar",
-          "title": {
-            "zh": "分组雷达图",
-            "en": "Grouped Radar Chart"
-          }
-        },
-        {
-          "path": "radar-with-innerRadius",
-          "title": {
-            "zh": "空心雷达图",
-            "en": "Hollow Radar Chart"
-          }
-        },
-        {
-          "path": "stack-percent-radar",
-          "title": {
-            "zh": "百分比堆叠雷达图",
-            "en": "Percentage Stacked Radar Chart"
-          }
-        },
-        {
-          "path": "stack-radar",
-          "title": {
-            "zh": "堆叠雷达图",
-            "en": "Stacked Radar Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "range-column-chart",
-      "title": {
-        "zh": "range-column-chart",
-        "en": "range-column-chart"
-      },
-      "children": [
-        {
-          "path": "range-bar",
-          "title": {
-            "zh": "区间条形图",
-            "en": "Range Bar Chart"
-          }
-        },
-        {
-          "path": "range-column",
-          "title": {
-            "zh": "区间柱状图",
-            "en": "Range Column Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "rose-chart",
-      "title": {
-        "zh": "rose-chart",
-        "en": "rose-chart"
-      },
-      "children": [
-        {
-          "path": "basic-rose",
-          "title": {
-            "zh": "基础玫瑰图",
-            "en": "Basic Rose Chart"
-          }
-        },
-        {
-          "path": "rose-grouped",
-          "title": {
-            "zh": "分组玫瑰图",
-            "en": "Grouped Rose Chart"
-          }
-        },
-        {
-          "path": "rose-stacked",
-          "title": {
-            "zh": "堆叠玫瑰图",
-            "en": "Stacked Rose Chart"
-          }
-        },
-        {
-          "path": "rose-stacked-group",
-          "title": {
-            "zh": "分组堆叠玫瑰图",
-            "en": "Grouped Stacked Rose Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "sankey-chart",
-      "title": {
-        "zh": "sankey-chart",
-        "en": "sankey-chart"
-      },
-      "children": [
-        {
-          "path": "align-nodes-left-sankey",
-          "title": {
-            "zh": "节点左对齐桑基图",
-            "en": "Node Left Aligned Sankey Chart"
-          }
-        },
-        {
-          "path": "basic-sankey",
-          "title": {
-            "zh": "基础桑基图",
-            "en": "Basic Sankey Chart"
-          }
-        },
-        {
-          "path": "direction-sankey",
-          "title": {
-            "zh": "垂直桑基图",
-            "en": "Vertical Sankey Chart"
-          }
-        },
-        {
-          "path": "hierarchical-sankey",
-          "title": {
-            "zh": "层级桑基图",
-            "en": "Hierarchical Sankey Chart"
-          }
-        },
-        {
-          "path": "interection-sankey",
-          "title": {
-            "zh": "交互桑基图",
-            "en": "Interactive Sankey Diagram"
-          }
-        },
-        {
-          "path": "another-data-structure-sankey",
-          "title": {
-            "zh": "桑基图的另一种数据格式",
-            "en": "Another Data Format for Sankey Charts"
-          }
-        },
-        {
-          "path": "nameKey-sankey",
-          "title": {
-            "zh": "桑基图多种边配置",
-            "en": "Sankey Diagram Multiple Edge Configurations"
-          }
-        }
-      ]
-    },
-    {
-      "path": "scatter-chart",
-      "title": {
-        "zh": "scatter-chart",
-        "en": "scatter-chart"
-      },
-      "children": [
-        {
-          "path": "basic-scatter",
-          "title": {
-            "zh": "基础散点图",
-            "en": "Basic Scatter Chart"
-          }
-        },
-        {
-          "path": "bubble-scatter",
-          "title": {
-            "zh": "气泡散点图",
-            "en": "Bubble Scatter Chart"
-          }
-        },
-        {
-          "path": "jitter-scatter",
-          "title": {
-            "zh": "扰动散点图",
-            "en": "Jitter Scatter Plot"
-          }
-        },
-        {
-          "path": "one-dimension-scatter",
-          "title": {
-            "zh": "一维散点图",
-            "en": "One-Dimensional Scatter Chart"
-          }
-        },
-        {
-          "path": "stack-scatter",
-          "title": {
-            "zh": "堆叠散点图",
-            "en": "Stacked Scatter Plot"
-          }
-        }
-      ]
-    },
-    {
-      "path": "scrollbar",
-      "title": {
-        "zh": "scrollbar",
-        "en": "scrollbar"
-      },
-      "children": [
-        {
-          "path": "basic-scrollbar-bar-chart",
-          "title": {
-            "zh": "scrollBar 基础用法",
-            "en": "Basic Usage of scrollBar"
-          }
-        },
-        {
-          "path": "scrollbar-line-chart",
-          "title": {
-            "zh": "scrollBar 控制轴范围",
-            "en": "scrollBar Controls Axis Range"
-          }
-        },
-        {
-          "path": "scrollbar-specified-value",
-          "title": {
-            "zh": "纵向 scrollBar",
-            "en": "Vertical scrollBar"
-          }
-        }
-      ]
-    },
-    {
-      "path": "sequence-chart",
-      "title": {
-        "zh": "sequence-chart",
-        "en": "sequence-chart"
-      },
-      "children": [
-        {
-          "path": "NBA-player-event",
-          "title": {
-            "zh": "NBA运动员时序图",
-            "en": "NBA Sequence Chart"
-          }
-        },
-        {
-          "path": "social-media-event",
-          "title": {
-            "zh": "社交媒体时序图",
-            "en": "Social Media Seuqnce Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "sunburst-chart",
-      "title": {
-        "zh": "sunburst-chart",
-        "en": "sunburst-chart"
-      },
-      "children": [
-        {
-          "path": "basic-sunburst",
-          "title": {
-            "zh": "基础旭日图",
-            "en": "Basic Sunburst Chart"
-          }
-        },
-        {
-          "path": "sunburst-auto-label",
-          "title": {
-            "zh": "旭日图隐藏密集标签",
-            "en": "Sunburst - Hiding Dense Labels"
-          }
-        },
-        {
-          "path": "sunburst-layout",
-          "title": {
-            "zh": "旭日图布局",
-            "en": "Sunburst Layout"
-          }
-        }
-      ]
-    },
-    {
-      "path": "title",
-      "title": {
-        "zh": "title",
-        "en": "title"
-      },
-      "children": [
-        {
-          "path": "basic-title",
-          "title": {
-            "zh": "基础标题",
-            "en": "Basic Title"
-          }
-        },
-        {
-          "path": "richText-title",
-          "title": {
-            "zh": "富文本标题",
-            "en": "Rich Text Title"
-          }
-        },
-        {
-          "path": "style-title",
-          "title": {
-            "zh": "自定义样式标题",
-            "en": "Customize Style Title"
-          }
-        }
-      ]
-    },
-    {
-      "path": "treemap-chart",
-      "title": {
-        "zh": "treemap-chart",
-        "en": "treemap-chart"
-      },
-      "children": [
-        {
-          "path": "basic-treemap",
-          "title": {
-            "zh": "基础矩形树图",
-            "en": "Basic Rectangle Treemap"
-          }
-        },
-        {
-          "path": "treemap-show-parent-level",
-          "title": {
-            "zh": "矩形树图显示父层级",
-            "en": "Treemap Displaying Parent Level"
-          }
-        }
-      ]
-    },
-    {
-      "path": "waterfall",
-      "title": {
-        "zh": "waterfall",
-        "en": "waterfall"
-      },
-      "children": [
-        {
-          "path": "basic-waterfall",
-          "title": {
-            "zh": "基础瀑布图",
-            "en": "Basic Waterfall Chart"
-          }
-        },
-        {
-          "path": "collect-waterfall",
-          "title": {
-            "zh": "分解瀑布图",
-            "en": "Decomposition Waterfall Chart"
-          }
-        },
-        {
-          "path": "direction-waterfall",
-          "title": {
-            "zh": "水平瀑布图",
-            "en": "Horizontal Waterfall Chart"
-          }
-        },
-        {
-          "path": "stack-waterfall",
-          "title": {
-            "zh": "堆积瀑布图",
-            "en": "Stacked Waterfall Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "word-cloud-chart",
-      "title": {
-        "zh": "word-cloud-chart",
-        "en": "word-cloud-chart"
-      },
-      "children": [
-        {
-          "path": "word-cloud-clip",
-          "title": {
-            "zh": "词云图文本裁剪",
-            "en": "Word Cloud Text Clipping"
-          }
-        },
-        {
-          "path": "word-cloud-enlarge",
-          "title": {
-            "zh": "词云图全局自适应画布",
-            "en": "Word Cloud Auto-fit to Canvas"
-          }
-        },
-        {
-          "path": "word-cloud-format",
-          "title": {
-            "zh": "词云图文字格式化",
-            "en": "Word Cloud Text Formatting"
-          }
-        },
-        {
-          "path": "word-cloud-no-valueField",
-          "title": {
-            "zh": "词云图不配置大小字段",
-            "en": "Word Cloud without Size Field Configuration"
-          }
-        },
-        {
-          "path": "word-cloud-rotate",
-          "title": {
-            "zh": "词云图随机角度",
-            "en": "Word Cloud with Random Angle"
-          }
-        },
-        {
-          "path": "word-cloud-shape-basis",
-          "title": {
-            "zh": "形状词云图",
-            "en": "Shape Word Cloud"
-          }
-        },
-        {
-          "path": "word-cloud-shape-custom-color",
-          "title": {
-            "zh": "形状词云图自定义颜色",
-            "en": "Shape Word Cloud Custom Color"
-          }
-        },
-        {
-          "path": "word-cloud-shape-rotate",
-          "title": {
-            "zh": "形状词云图随机旋转角",
-            "en": "Shape Word Cloud with Random Rotation Angles"
-          }
-        },
-        {
-          "path": "word-cloud-shrink",
-          "title": {
-            "zh": "词云图文字缩放",
-            "en": "Word Cloud Text Scaling"
-          }
-        },
-        {
-          "path": "word-cloud-basic",
-          "title": {
-            "zh": "基础词云图",
-            "en": "Basic Word Cloud Chart"
+          },
+          "meta": {
+            "title": "Grouped Box Plot",
+            "keywords": "boxPlot, distribution, comparison, strip",
+            "category": "examples",
+            "group": "box plot",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/box-plot/grouped-box-plot.png",
+            "link": "",
+            "option": "boxPlotChart"
           }
         }
       ]
@@ -1447,17 +709,19 @@
       },
       "children": [
         {
-          "path": "x-linked-brush",
-          "title": {
-            "zh": "横向选择框选",
-            "en": "Horizontal Selection Box"
-          }
-        },
-        {
           "path": "polygon-brush",
           "title": {
             "zh": "不规则框选",
             "en": "Irregular Rectangle Selection"
+          },
+          "meta": {
+            "title": "Irregular Rectangle Selection",
+            "keywords": "scatterChart,brush",
+            "category": "demo",
+            "group": "brush",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/polygon-brush.png",
+            "link": "",
+            "option": "scatterChart#brush"
           }
         },
         {
@@ -1465,147 +729,31 @@
           "title": {
             "zh": "矩形关联框选",
             "en": "Rect Linked Brush"
-          }
-        }
-      ]
-    },
-    {
-      "path": "gauge-chart",
-      "title": {
-        "zh": "gauge-chart",
-        "en": "gauge-chart"
-      },
-      "children": [
-        {
-          "path": "basic-gauge",
-          "title": {
-            "zh": "基础仪表图",
-            "en": "Basic Gauge Chart"
+          },
+          "meta": {
+            "title": "Rect Linked Brush",
+            "keywords": "scatterChart,brush",
+            "category": "demo",
+            "group": "brush",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/rect-linked-brush.png",
+            "link": "",
+            "option": "commonChart#brush"
           }
         },
         {
-          "path": "clock",
+          "path": "x-linked-brush",
           "title": {
-            "zh": "时钟示例",
-            "en": "Clock Example"
-          }
-        },
-        {
-          "path": "gauge-gradient",
-          "title": {
-            "zh": "渐变仪表图",
-            "en": "Gradient Gauge Chart"
-          }
-        },
-        {
-          "path": "gauge-progress",
-          "title": {
-            "zh": "使用circularProgress声明仪表图",
-            "en": "使用circularProgress声明仪表图"
-          }
-        }
-      ]
-    },
-    {
-      "path": "pie-chart",
-      "title": {
-        "zh": "pie-chart",
-        "en": "pie-chart"
-      },
-      "children": [
-        {
-          "path": "basic-pie",
-          "title": {
-            "zh": "基础饼图",
-            "en": "Basic Pie Chart"
-          }
-        },
-        {
-          "path": "nested-pie",
-          "title": {
-            "zh": "嵌套饼图",
-            "en": "Nested Pie Chart"
-          }
-        },
-        {
-          "path": "pie-indicator",
-          "title": {
-            "zh": "带指标卡饼图",
-            "en": "Pie Chart with Indicator Card"
-          }
-        },
-        {
-          "path": "pie-label",
-          "title": {
-            "zh": "饼图标签布局",
-            "en": "Pie Chart Label Layout"
-          }
-        },
-        {
-          "path": "radius-scale-pie",
-          "title": {
-            "zh": "半径可映射饼图",
-            "en": "Radius mappable pie chart"
-          }
-        },
-        {
-          "path": "ring",
-          "title": {
-            "zh": "环图",
-            "en": "Ring Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "progress",
-      "title": {
-        "zh": "progress",
-        "en": "progress"
-      },
-      "children": [
-        {
-          "path": "circular-progress",
-          "title": {
-            "zh": "环形进度图",
-            "en": "Circular Progress Chart"
-          }
-        },
-        {
-          "path": "linear-progress",
-          "title": {
-            "zh": "条形进度图",
-            "en": "Bar Progress Chart"
-          }
-        },
-        {
-          "path": "linear-progress-with-text",
-          "title": {
-            "zh": "带文本标注的条形进度图",
-            "en": "Bar chart with text labeling"
-          }
-        },
-        {
-          "path": "segment-linear-progress",
-          "title": {
-            "zh": "分段条形进度图",
-            "en": "Segmented Bar Progress Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "theme",
-      "title": {
-        "zh": "theme",
-        "en": "theme"
-      },
-      "children": [
-        {
-          "path": "theme-switch",
-          "title": {
-            "zh": "主题注册、切换",
-            "en": "Theme Registration and Switching"
+            "zh": "横向选择框选",
+            "en": "Horizontal Selection Box"
+          },
+          "meta": {
+            "title": "Horizontal Selection Box",
+            "keywords": "brush",
+            "category": "demo",
+            "group": "brush",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/x-linked-brush.png",
+            "link": "",
+            "option": "commonChart#brush"
           }
         }
       ]
@@ -1622,6 +770,15 @@
           "title": {
             "zh": "3D面积图",
             "en": "3D面积图"
+          },
+          "meta": {
+            "title": "3D面积图",
+            "keywords": "space",
+            "category": "examples",
+            "group": "chart-3d",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png",
+            "link": "",
+            "option": "AreaChart"
           }
         },
         {
@@ -1629,6 +786,15 @@
           "title": {
             "zh": "3D 基础柱状图",
             "en": "3D Base Bar Chart"
+          },
+          "meta": {
+            "title": "3D Base Bar Chart",
+            "keywords": "space",
+            "category": "examples",
+            "group": "chart-3d",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/bar3d.png",
+            "link": "",
+            "option": "bar3dChart"
           }
         },
         {
@@ -1636,6 +802,15 @@
           "title": {
             "zh": "3D 基础漏斗图",
             "en": "3D Basic Funnel Chart"
+          },
+          "meta": {
+            "title": "3D Basic Funnel Chart",
+            "keywords": "space",
+            "category": "examples",
+            "group": "chart-3d",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/funnel3d.png",
+            "link": "",
+            "option": "funnel3dChart"
           }
         },
         {
@@ -1643,6 +818,15 @@
           "title": {
             "zh": "3D 折线图",
             "en": "3D 折线图"
+          },
+          "meta": {
+            "title": "3D 折线图",
+            "keywords": "space",
+            "category": "examples",
+            "group": "chart-3d",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/line3d.png",
+            "link": "",
+            "option": "lineChart"
           }
         },
         {
@@ -1650,6 +834,15 @@
           "title": {
             "zh": "3D 基础饼图",
             "en": "3D Basic Pie Chart"
+          },
+          "meta": {
+            "title": "3D Basic Pie Chart",
+            "keywords": "space",
+            "category": "examples",
+            "group": "chart-3d",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/pie3d.png",
+            "link": "",
+            "option": "pieChart"
           }
         },
         {
@@ -1657,6 +850,15 @@
           "title": {
             "zh": "3D 散点图",
             "en": "3D Scatter Chart"
+          },
+          "meta": {
+            "title": "3D Scatter Chart",
+            "keywords": "space",
+            "category": "examples",
+            "group": "chart-3d",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/scatter3d.png",
+            "link": "",
+            "option": "scatterChart"
           }
         },
         {
@@ -1664,43 +866,768 @@
           "title": {
             "zh": "3D 形状词云图",
             "en": "3D Shape Word Cloud"
+          },
+          "meta": {
+            "title": "3D Shape Word Cloud",
+            "keywords": "space",
+            "category": "examples",
+            "group": "chart-3d",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/wordcloud3d.gif",
+            "link": "",
+            "option": "wordCloud3dChart"
           }
         }
       ]
     },
     {
-      "path": "tooltip",
+      "path": "circle-packing-chart",
       "title": {
-        "zh": "tooltip",
-        "en": "tooltip"
+        "zh": "circle-packing-chart",
+        "en": "circle-packing-chart"
       },
       "children": [
         {
-          "path": "custom-tooltip",
+          "path": "basic-circle-packing",
           "title": {
-            "zh": "自定义 tooltip",
-            "en": "Custom tooltip style"
+            "zh": "基础 CirclePacking 图",
+            "en": "Basic CirclePacking Chart"
+          },
+          "meta": {
+            "title": "Basic CirclePacking Chart",
+            "keywords": "circlePacking,composition,circle,relationShip",
+            "category": "examples",
+            "group": "CirclePacking",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/circle-packing-chart/basic-circle-packing.png",
+            "link": "",
+            "option": "circlePackingChart"
           }
         },
         {
-          "path": "custom-mark-tooltip",
+          "path": "circle-packing-multiple-roots",
           "title": {
-            "zh": "自定义 tooltip 内容行",
-            "en": "Custom Tooltip Content Row"
+            "zh": "多根节点 CirclePacking 图",
+            "en": "Multi-root CirclePacking Chart"
+          },
+          "meta": {
+            "title": "Multi-root CirclePacking Chart",
+            "keywords": "circlePacking,composition,circle,relationShip",
+            "category": "examples",
+            "group": "CirclePacking",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/circle-packing-chart/circle-packing-multiple-roots.png",
+            "link": "",
+            "option": "circlePackingChart"
           }
         },
         {
-          "path": "custom-tooltip-handler",
+          "path": "circle-packing-padding",
           "title": {
-            "zh": "自定义 tooltip handler",
-            "en": "Custom tooltip handler"
+            "zh": "带内边距的 CirclePacking 图",
+            "en": "CirclePacking Chart with Padding"
+          },
+          "meta": {
+            "title": "CirclePacking Chart with Padding",
+            "keywords": "circlePacking,composition,circle,relationShip",
+            "category": "examples",
+            "group": "CirclePacking",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/circle-packing-chart/circle-packing-padding.png",
+            "link": "",
+            "option": "circlePackingChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "combination",
+      "title": {
+        "zh": "combination",
+        "en": "combination"
+      },
+      "children": [
+        {
+          "path": "bar-combine",
+          "title": {
+            "zh": "组合图自定义多行多列布局",
+            "en": "Custom Multi-Row Multi-Column Layout in Combination Charts"
+          },
+          "meta": {
+            "title": "Custom Multi-Row Multi-Column Layout in Combination Charts",
+            "keywords": "commonChart",
+            "category": "examples",
+            "group": "combination",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/bar-combine.png",
+            "link": "",
+            "option": "commonChart"
           }
         },
         {
-          "path": "format-method",
+          "path": "bar-line",
           "title": {
-            "zh": "tooltip 格式化内容",
-            "en": "Tooltip Custom Formatting"
+            "zh": "特殊轴效果的线柱组合图",
+            "en": "Bar-Line Combination Chart With UnNormal Axis"
+          },
+          "meta": {
+            "title": "Bar-Line Combination Chart With UnNormal Axis",
+            "keywords": "commonChart",
+            "category": "demo",
+            "group": "combination",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/single-region.png",
+            "link": "",
+            "option": "commonChart"
+          }
+        },
+        {
+          "path": "col-line",
+          "title": {
+            "zh": "单列组合图",
+            "en": "Combination Chart with Single Column"
+          },
+          "meta": {
+            "title": "Combination Chart with Single Column",
+            "keywords": "commonChart",
+            "category": "demo",
+            "group": "combination",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/col-line.png",
+            "link": "",
+            "option": "commonChart"
+          }
+        },
+        {
+          "path": "col-pie",
+          "title": {
+            "zh": "多 region 饼图",
+            "en": "Multi-region Pie Chart"
+          },
+          "meta": {
+            "title": "Multi-region Pie Chart",
+            "keywords": "commonChart",
+            "category": "demo",
+            "group": "combination",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/col-pie.png",
+            "link": "",
+            "option": "commonChart"
+          }
+        },
+        {
+          "path": "dual-axis",
+          "title": {
+            "zh": "双轴图",
+            "en": "Dual Axis Chart"
+          },
+          "meta": {
+            "title": "Dual Axis Chart",
+            "keywords": "commonChart",
+            "category": "demo",
+            "group": "combination",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/dual-axis.png",
+            "link": "",
+            "option": "commonChart"
+          }
+        },
+        {
+          "path": "easing-visualization",
+          "title": {
+            "zh": "缓动函数可视化",
+            "en": "Easing Functions Visualization"
+          },
+          "meta": {
+            "title": "Easing Functions Visualization",
+            "keywords": "commonChart",
+            "category": "demo",
+            "group": "combination",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/easing-visualization.png",
+            "link": "",
+            "option": "commonChart"
+          }
+        },
+        {
+          "path": "line-pie",
+          "title": {
+            "zh": "线饼组合图",
+            "en": "Line-Pie Combination Chart"
+          },
+          "meta": {
+            "title": "Line-Pie Combination Chart",
+            "keywords": "commonChart",
+            "category": "demo",
+            "group": "combination",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/line-pie.png",
+            "link": "",
+            "option": "commonChart"
+          }
+        },
+        {
+          "path": "polar-combine",
+          "title": {
+            "zh": "极坐标系下的组合图",
+            "en": "Combination Chart in Polar Coordinate System"
+          },
+          "meta": {
+            "title": "Combination Chart in Polar Coordinate System",
+            "keywords": "commonChart",
+            "category": "examples",
+            "group": "combination",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/polar-combine.png",
+            "link": "",
+            "option": "commonChart"
+          }
+        },
+        {
+          "path": "scatter-combine",
+          "title": {
+            "zh": "组合图自定义单行多列布局",
+            "en": "Custom Single Row Multi-Column Layout for Combination Charts"
+          },
+          "meta": {
+            "title": "Custom Single Row Multi-Column Layout for Combination Charts",
+            "keywords": "commonChart",
+            "category": "examples",
+            "group": "combination",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/scatter-combine.png",
+            "link": "",
+            "option": "commonChart"
+          }
+        },
+        {
+          "path": "single-region",
+          "title": {
+            "zh": "基础组合图",
+            "en": "Basic Combination Chart"
+          },
+          "meta": {
+            "title": "Basic Combination Chart",
+            "keywords": "commonChart",
+            "category": "demo",
+            "group": "combination",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/single-region.png",
+            "link": "",
+            "option": "commonChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "crosshair",
+      "title": {
+        "zh": "crosshair",
+        "en": "crosshair"
+      },
+      "children": [
+        {
+          "path": "line",
+          "title": {
+            "zh": "十字辅助线",
+            "en": "Crosshair Auxiliary Line"
+          },
+          "meta": {
+            "title": "Crosshair Auxiliary Line",
+            "keywords": "lineChart, comparison, trend, line, crosshair",
+            "category": "demo",
+            "group": "crosshair",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/line.png",
+            "link": "",
+            "option": "lineChart#crosshair"
+          }
+        },
+        {
+          "path": "multiple-region",
+          "title": {
+            "zh": "组合图 crosshair",
+            "en": "Combined chart crosshair"
+          },
+          "meta": {
+            "title": "Combined chart crosshair",
+            "keywords": "barChart, comparison, rectangle, crosshair, rank, distribution",
+            "category": "demo",
+            "group": "crosshair",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/multiple-region.png",
+            "link": "",
+            "option": "commonChart#crosshair"
+          }
+        },
+        {
+          "path": "polar-line",
+          "title": {
+            "zh": "雷达图的 crosshair",
+            "en": "Crosshair of Radar Chart"
+          },
+          "meta": {
+            "title": "Crosshair of Radar Chart",
+            "keywords": "radarChart,comparison,crosshair,circle",
+            "category": "demo",
+            "group": "crosshair",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/polar-line.png",
+            "link": "",
+            "option": "radarChart#crosshair"
+          }
+        },
+        {
+          "path": "polar-rect",
+          "title": {
+            "zh": "玫瑰图的 crosshair",
+            "en": "Rose Chart Crosshair"
+          },
+          "meta": {
+            "title": "Rose Chart Crosshair",
+            "keywords": "roseChart,comparison,circle,crosshair",
+            "category": "demo",
+            "group": "crosshair",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/polar-rect.png",
+            "link": "",
+            "option": "roseChart#crosshair"
+          }
+        },
+        {
+          "path": "rect",
+          "title": {
+            "zh": "矩形十字辅助线",
+            "en": "Rectangular Crosshair"
+          },
+          "meta": {
+            "title": "Rectangular Crosshair",
+            "keywords": "lineChart, comparison, trend, line, crosshair",
+            "category": "demo",
+            "group": "crosshair",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/rect.png",
+            "link": "",
+            "option": "lineChart#crosshair"
+          }
+        }
+      ]
+    },
+    {
+      "path": "custom",
+      "title": {
+        "zh": "custom",
+        "en": "custom"
+      },
+      "children": [
+        {
+          "path": "mark",
+          "title": {
+            "zh": "自定义 mark",
+            "en": "Custom Mark"
+          },
+          "meta": {
+            "title": "Custom Mark",
+            "keywords": "customMark",
+            "category": "examples",
+            "group": "customMark",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab00.png",
+            "link": "",
+            "option": "barChart#customMark"
+          }
+        },
+        {
+          "path": "series-extension",
+          "title": {
+            "zh": "自定义 symbol mark",
+            "en": "Custom Symbol Mark"
+          },
+          "meta": {
+            "title": "Custom Symbol Mark",
+            "keywords": "customMark",
+            "category": "examples",
+            "group": "customMark",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/custom/series-extension.png",
+            "link": "",
+            "option": "barChart#customMark"
+          }
+        }
+      ]
+    },
+    {
+      "path": "data",
+      "title": {
+        "zh": "data",
+        "en": "data"
+      },
+      "children": [
+        {
+          "path": "basic-data",
+          "title": {
+            "zh": "基础数据使用",
+            "en": "Basic Data Usage"
+          },
+          "meta": {
+            "title": "Basic Data Usage",
+            "keywords": "data",
+            "category": "demo",
+            "group": "data",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/basic-data.png",
+            "link": "",
+            "option": "lineChart#data"
+          }
+        },
+        {
+          "path": "data-fields-alias",
+          "title": {
+            "zh": "数据别名",
+            "en": "Data Alias"
+          },
+          "meta": {
+            "title": "Data Alias",
+            "keywords": "data,alias",
+            "category": "demo",
+            "group": "data",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/data-fields-alias.png",
+            "link": "",
+            "option": "lineChart#data"
+          }
+        },
+        {
+          "path": "data-fields-domain",
+          "title": {
+            "zh": "按照domain进行数据筛选",
+            "en": "Data Filtering By Domain"
+          },
+          "meta": {
+            "title": "Data Filtering By Domain",
+            "keywords": "data,filter",
+            "category": "demo",
+            "group": "data",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/data-fields-domain.png",
+            "link": "",
+            "option": "scatterChart#data"
+          }
+        },
+        {
+          "path": "data-fields-sort",
+          "title": {
+            "zh": "数据排序",
+            "en": "Data Sorting"
+          },
+          "meta": {
+            "title": "Data Sorting",
+            "keywords": "data,sort",
+            "category": "demo",
+            "group": "data",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/data-fields-sort.png",
+            "link": "",
+            "option": "barChart#data"
+          }
+        },
+        {
+          "path": "data-filter",
+          "title": {
+            "zh": "数据筛选",
+            "en": "Data Filtering"
+          },
+          "meta": {
+            "title": "Data Filtering",
+            "keywords": "data,filter",
+            "category": "demo",
+            "group": "data",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/data-filter.png",
+            "link": "",
+            "option": "scatterChart#data"
+          }
+        }
+      ]
+    },
+    {
+      "path": "data-zoom",
+      "title": {
+        "zh": "data-zoom",
+        "en": "data-zoom"
+      },
+      "children": [
+        {
+          "path": "data-zoom-polar",
+          "title": {
+            "zh": "缩略轴控制极坐标系图表",
+            "en": "Thumbnail Axis Controls Polar Chart"
+          },
+          "meta": {
+            "title": "Thumbnail Axis Controls Polar Chart",
+            "keywords": "polarChart,dataZoom",
+            "category": "demo",
+            "group": "data-zoom",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/data-zoom-polar.png",
+            "link": "",
+            "option": "radarChart#dataZoom"
+          }
+        },
+        {
+          "path": "filter-mode-axis",
+          "title": {
+            "zh": "轴缩放模式",
+            "en": "Axis Zoom Mode"
+          },
+          "meta": {
+            "title": "Axis Zoom Mode",
+            "keywords": "scatterChart, dataZoom, scatter",
+            "category": "demo",
+            "group": "data-zoom",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/filter-mode-axis.png",
+            "link": "",
+            "option": "commonChart#dataZoom"
+          }
+        },
+        {
+          "path": "preview-data",
+          "title": {
+            "zh": "缩略轴预览图表样式配置",
+            "en": "Thumbnail Axis Preview Chart Style Configuration"
+          },
+          "meta": {
+            "title": "Thumbnail Axis Preview Chart Style Configuration",
+            "keywords": "barChart,dataZoom",
+            "category": "demo",
+            "group": "axis",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/preview-data.png",
+            "link": "",
+            "option": "barChart#dataZoom"
+          }
+        },
+        {
+          "path": "state-with-data",
+          "title": {
+            "zh": "缩略轴以数据的方式定义初始范围",
+            "en": "Define initial range in data form with thumbnail axis"
+          },
+          "meta": {
+            "title": "Define initial range in data form with thumbnail axis",
+            "keywords": "rangeColumnChart, dataZoom",
+            "category": "demo",
+            "group": "data-zoom",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/state-with-data.png",
+            "link": "",
+            "option": "rangeColumnChart#dataZoom"
+          }
+        }
+      ]
+    },
+    {
+      "path": "funnel-chart",
+      "title": {
+        "zh": "funnel-chart",
+        "en": "funnel-chart"
+      },
+      "children": [
+        {
+          "path": "basic-funnel",
+          "title": {
+            "zh": "基础漏斗图",
+            "en": "Basic Funnel Chart"
+          },
+          "meta": {
+            "title": "Basic Funnel Chart",
+            "keywords": "funnelChart,composition,trend,triangle",
+            "category": "examples",
+            "group": "funnel chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/basic-funnel.png",
+            "link": "",
+            "option": "funnelChart"
+          }
+        },
+        {
+          "path": "custom-funnel",
+          "title": {
+            "zh": "自定义漏斗图",
+            "en": "Custom Funnel Chart"
+          },
+          "meta": {
+            "title": "Custom Funnel Chart",
+            "keywords": "funnelChart,composition,trend,custom",
+            "category": "examples",
+            "group": "funnel chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/custom-funnel.png",
+            "link": "",
+            "option": "funnelChart"
+          }
+        },
+        {
+          "path": "rect-funnel",
+          "title": {
+            "zh": "矩形转化漏斗图",
+            "en": "Rectangular Conversion Funnel Chart"
+          },
+          "meta": {
+            "title": "Rectangular Conversion Funnel Chart",
+            "keywords": "funnelChart, composition, trend, strip",
+            "category": "examples",
+            "group": "funnel chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/ffc3a9b5518762d274121ff04.png",
+            "link": "",
+            "option": "funnelChart"
+          }
+        },
+        {
+          "path": "transform-funnel",
+          "title": {
+            "zh": "转化漏斗图",
+            "en": "Conversion Funnel Chart"
+          },
+          "meta": {
+            "title": "Conversion Funnel Chart",
+            "keywords": "funnelChart,composition,trend,triangle",
+            "category": "examples",
+            "group": "funnel chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/transform-funnel.png",
+            "link": "",
+            "option": "funnelChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "gauge-chart",
+      "title": {
+        "zh": "gauge-chart",
+        "en": "gauge-chart"
+      },
+      "children": [
+        {
+          "path": "basic-gauge",
+          "title": {
+            "zh": "基础仪表图",
+            "en": "Basic Gauge Chart"
+          },
+          "meta": {
+            "title": "Basic Gauge Chart",
+            "keywords": "gauge,comparison,circle",
+            "category": "examples",
+            "group": "gauge",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gauge-chart/basic-gauge.png",
+            "link": "",
+            "option": "gaugeChart"
+          }
+        },
+        {
+          "path": "clock",
+          "title": {
+            "zh": "时钟示例",
+            "en": "Clock Example"
+          },
+          "meta": {
+            "title": "Clock Example",
+            "keywords": "gauge,comparison,circle,indicator",
+            "category": "examples",
+            "group": "gauge",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gauge-chart/clock.gif",
+            "link": "",
+            "option": "gaugeChart"
+          }
+        },
+        {
+          "path": "gauge-gradient",
+          "title": {
+            "zh": "渐变仪表图",
+            "en": "Gradient Gauge Chart"
+          },
+          "meta": {
+            "title": "Gradient Gauge Chart",
+            "keywords": "gauge,comparison,circle",
+            "category": "examples",
+            "group": "gauge",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gauge-chart/gauge-gradient.png",
+            "link": "",
+            "option": "gaugeChart"
+          }
+        },
+        {
+          "path": "gauge-progress",
+          "title": {
+            "zh": "使用circularProgress声明仪表图",
+            "en": "使用circularProgress声明仪表图"
+          },
+          "meta": {
+            "title": "使用circularProgress声明仪表图",
+            "keywords": "gauge,comparison,circle",
+            "category": "examples",
+            "group": "gauge",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab0b.png",
+            "link": "",
+            "option": "gaugeChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "gradient",
+      "title": {
+        "zh": "gradient",
+        "en": "gradient"
+      },
+      "children": [
+        {
+          "path": "area",
+          "title": {
+            "zh": "渐变面积图",
+            "en": "Gradient Area Chart"
+          },
+          "meta": {
+            "title": "Gradient Area Chart",
+            "keywords": "areaChart, comparison, trend, area, gradient",
+            "category": "demo",
+            "group": "gradient",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/area.png",
+            "link": "",
+            "option": "areaChart"
+          }
+        },
+        {
+          "path": "bar",
+          "title": {
+            "zh": "渐变色-高度渐变",
+            "en": "Gradient Color - Height Gradient"
+          },
+          "meta": {
+            "title": "Gradient Color - Height Gradient",
+            "keywords": "barChart,comparison,rectangle,gradient,distribution,rank",
+            "category": "demo",
+            "group": "gradient",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/bar.png",
+            "link": "",
+            "option": "barChart"
+          }
+        },
+        {
+          "path": "enhancement-gradient-line",
+          "title": {
+            "zh": "渐变色-颜色划分移动端",
+            "en": "Gradient Color - Color Segmentation on Mobile"
+          },
+          "meta": {
+            "title": "Gradient Color - Color Segmentation on Mobile",
+            "keywords": "lineChart,comparison,trend,line,gradient",
+            "category": "demo",
+            "group": "gradient",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/enhancement-gradient-line.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "line",
+          "title": {
+            "zh": "渐变折线图",
+            "en": "Gradient Line Chart"
+          },
+          "meta": {
+            "title": "Gradient Line Chart",
+            "keywords": "lineChart, comparison, trend, line, gradient",
+            "category": "demo",
+            "group": "gradient",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/line.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "scatter",
+          "title": {
+            "zh": "渐变气泡图",
+            "en": "Gradient Bubble Chart"
+          },
+          "meta": {
+            "title": "Gradient Bubble Chart",
+            "keywords": "scatterChart,comparison,distribution,scatter,gradient",
+            "category": "demo",
+            "group": "gradient",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/scatter.png",
+            "link": "",
+            "option": "scatterChart"
           }
         }
       ]
@@ -1717,6 +1644,88 @@
           "title": {
             "zh": "基础热力图",
             "en": "Basic Heatmap"
+          },
+          "meta": {
+            "title": "Basic Heatmap",
+            "keywords": "heatmap,relationship,rectangle,comparison,distribution,trend",
+            "category": "examples",
+            "group": "heatmap chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/heatmap-chart/basic-heatmap.png",
+            "link": "",
+            "option": "heatmapChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "histogram-chart",
+      "title": {
+        "zh": "histogram-chart",
+        "en": "histogram-chart"
+      },
+      "children": [
+        {
+          "path": "histogram-basis",
+          "title": {
+            "zh": "基础直方图",
+            "en": "Basic Histogram"
+          },
+          "meta": {
+            "title": "Basic Histogram",
+            "keywords": "histogram,distribution,rectangle",
+            "category": "examples",
+            "group": "histogram chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/histogram-chart/histogram-basis.png",
+            "link": "",
+            "option": "histogramChart"
+          }
+        },
+        {
+          "path": "histogram-different-bin",
+          "title": {
+            "zh": "不同区间分布直方图",
+            "en": "Histogram with Different Bin Ranges"
+          },
+          "meta": {
+            "title": "Histogram with Different Bin Ranges",
+            "keywords": "histogram,distribution,rectangle",
+            "category": "examples",
+            "group": "histogram chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/histogram-chart/histogram-different-bin.png",
+            "link": "",
+            "option": "histogramChart"
+          }
+        },
+        {
+          "path": "histogram-stack-h",
+          "title": {
+            "zh": "水平堆叠直方图",
+            "en": "Horizontal Stacked Histogram"
+          },
+          "meta": {
+            "title": "Horizontal Stacked Histogram",
+            "keywords": "histogram,distribution,rectangle,composition",
+            "category": "examples",
+            "group": "histogram chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/histogram-chart/histogram-stack-h.png",
+            "link": "",
+            "option": "histogramChart"
+          }
+        },
+        {
+          "path": "histogram-stack",
+          "title": {
+            "zh": "堆叠直方图",
+            "en": "Stacked Histogram"
+          },
+          "meta": {
+            "title": "Stacked Histogram",
+            "keywords": "histogram, distribution, rectangle, composition",
+            "category": "examples",
+            "group": "histogram chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/histogram-chart/histogram-stack.png",
+            "link": "",
+            "option": "histogramChart"
           }
         }
       ]
@@ -1733,6 +1742,15 @@
           "title": {
             "zh": "柱状图标签",
             "en": "Bar Chart Labels"
+          },
+          "meta": {
+            "title": "Bar Chart Labels",
+            "keywords": "label",
+            "category": "examples",
+            "group": "label",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/label/bar-label.png",
+            "link": "",
+            "option": "barChart#label"
           }
         },
         {
@@ -1740,6 +1758,15 @@
           "title": {
             "zh": "组合图标签",
             "en": "Combination Chart Labels"
+          },
+          "meta": {
+            "title": "Combination Chart Labels",
+            "keywords": "label",
+            "category": "examples",
+            "group": "label",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/label/combination-chart-label.png",
+            "link": "",
+            "option": "commonChart#series-line.label"
           }
         },
         {
@@ -1747,6 +1774,15 @@
           "title": {
             "zh": "折线图标签",
             "en": "Line Chart Labels"
+          },
+          "meta": {
+            "title": "Line Chart Labels",
+            "keywords": "label",
+            "category": "examples",
+            "group": "label",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/label/line-label.png",
+            "link": "",
+            "option": "lineChart#label"
           }
         }
       ]
@@ -1763,6 +1799,15 @@
           "title": {
             "zh": "自定义布局",
             "en": "Custom Layout"
+          },
+          "meta": {
+            "title": "Custom Layout",
+            "keywords": "",
+            "category": "examples",
+            "group": "layout",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/7b82fb013e7c6319c065b3d01.png",
+            "link": "",
+            "option": "commonChart#layout"
           }
         },
         {
@@ -1770,46 +1815,353 @@
           "title": {
             "zh": "行列布局",
             "en": "Row and Column Layout"
+          },
+          "meta": {
+            "title": "Row and Column Layout",
+            "keywords": "",
+            "category": "examples",
+            "group": "layout",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/layout/grid-layout.png",
+            "link": "",
+            "option": "commonChart#layout"
           }
         }
       ]
     },
     {
-      "path": "preview-image",
+      "path": "legend",
       "title": {
-        "zh": "preview-image",
-        "en": "preview-image"
+        "zh": "legend",
+        "en": "legend"
       },
       "children": [
         {
-          "path": "bi-direction-stack-column_files",
+          "path": "continuous",
           "title": {
-            "zh": "bi-direction-stack-column_files",
-            "en": "bi-direction-stack-column_files"
+            "zh": "连续图例",
+            "en": "Continuous Legend"
           },
-          "children": []
-        }
-      ]
-    },
-    {
-      "path": "custom",
-      "title": {
-        "zh": "custom",
-        "en": "custom"
-      },
-      "children": [
-        {
-          "path": "mark",
-          "title": {
-            "zh": "自定义 mark",
-            "en": "Custom Mark"
+          "meta": {
+            "title": "Continuous Legend",
+            "keywords": "scatterChart,comparison,distribution,scatter,legend",
+            "category": "demo",
+            "group": "legend",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/continuous.png",
+            "link": "",
+            "option": "scatterChart#legends"
           }
         },
         {
-          "path": "series-extension",
+          "path": "custom-data",
           "title": {
-            "zh": "自定义 symbol mark",
-            "en": "Custom Symbol Mark"
+            "zh": "自定义图例项",
+            "en": "Custom Legend Item"
+          },
+          "meta": {
+            "title": "Custom Legend Item",
+            "keywords": "pieChart,legend,circle,comparison,proportion,composition",
+            "category": "demo",
+            "group": "legend",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/custom-data.png",
+            "link": "",
+            "option": "pieChart#legends"
+          }
+        },
+        {
+          "path": "custom-interaction",
+          "title": {
+            "zh": "自定义图例交互",
+            "en": "Custom Legend Interaction"
+          },
+          "meta": {
+            "title": "Custom Legend Interaction",
+            "keywords": "barChart,comparison,rectangle,legend,distribution,rank",
+            "category": "demo",
+            "group": "legend",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/custom-interaction.png",
+            "link": "",
+            "option": "barChart#legends"
+          }
+        },
+        {
+          "path": "custom-line-legend",
+          "title": {
+            "zh": "图例项平铺",
+            "en": "Tiled Legend Items"
+          },
+          "meta": {
+            "title": "Tiled Legend Items",
+            "keywords": "lineChart,comparison,trend,line,legend",
+            "category": "demo",
+            "group": "legend",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/custom-line-legend.png",
+            "link": "",
+            "option": "lineChart#legends"
+          }
+        },
+        {
+          "path": "custom-ui",
+          "title": {
+            "zh": "自定义图例 UI",
+            "en": "Custom Legend UI"
+          },
+          "meta": {
+            "title": "Custom Legend UI",
+            "keywords": "barChart, comparison, rectangle, legend, distribution, rank, composition",
+            "category": "demo",
+            "group": "legend",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/custom-ui.png",
+            "link": "",
+            "option": "barChart#legends"
+          }
+        },
+        {
+          "path": "float",
+          "title": {
+            "zh": "图例展示在图表内部",
+            "en": "Legend Displayed Inside the Chart"
+          },
+          "meta": {
+            "title": "Legend Displayed Inside the Chart",
+            "keywords": "barChart,comparison,rectangle,legend",
+            "category": "demo",
+            "group": "legend",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/float.png",
+            "link": "",
+            "option": "barChart#legends"
+          }
+        },
+        {
+          "path": "focus",
+          "title": {
+            "zh": "聚焦模式",
+            "en": "Focus Mode"
+          },
+          "meta": {
+            "title": "Focus Mode",
+            "keywords": "barChart,comparison,rectangle,legend,distribution,rank",
+            "category": "demo",
+            "group": "legend",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/focus.png",
+            "link": "",
+            "option": "barChart#legends"
+          }
+        },
+        {
+          "path": "multiple-legends",
+          "title": {
+            "zh": "多图例/混合图例",
+            "en": "Multiple Legends/Mixed Legends"
+          },
+          "meta": {
+            "title": "Multiple Legends/Mixed Legends",
+            "keywords": "scatterChart,comparison,distribution,scatter,legend",
+            "category": "demo",
+            "group": "legend",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/multiple-legends.png",
+            "link": "",
+            "option": "scatterChart#legends"
+          }
+        },
+        {
+          "path": "single-select",
+          "title": {
+            "zh": "单选模式",
+            "en": "Single Selection Mode"
+          },
+          "meta": {
+            "title": "Single Selection Mode",
+            "keywords": "lineChart,comparison,trend,line,legend",
+            "category": "demo",
+            "group": "legend",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/single-select.png",
+            "link": "",
+            "option": "lineChart#legends"
+          }
+        }
+      ]
+    },
+    {
+      "path": "line-chart",
+      "title": {
+        "zh": "line-chart",
+        "en": "line-chart"
+      },
+      "children": [
+        {
+          "path": "basic-line",
+          "title": {
+            "zh": "基础折线图",
+            "en": "Basic line chart"
+          },
+          "meta": {
+            "title": "Basic line chart",
+            "keywords": "lineChart,comparison,trend,line",
+            "category": "examples",
+            "group": "line chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/basic-line.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "dash-line",
+          "title": {
+            "zh": "末尾虚线",
+            "en": "Dashed Line at the End"
+          },
+          "meta": {
+            "title": "Dashed Line at the End",
+            "keywords": "lineChart, comparison, trend, line",
+            "category": "examples",
+            "group": "line chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/dash-line.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "horizontal-line",
+          "title": {
+            "zh": "垂直折线图",
+            "en": "Horizontal Line Chart"
+          },
+          "meta": {
+            "title": "Horizontal Line Chart",
+            "keywords": "lineChart,comparison,trend,line",
+            "category": "examples",
+            "group": "line chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/horizontal-line.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "line-axes-padding",
+          "title": {
+            "zh": "折线图轴 padding 调整",
+            "en": "Offline Chart Axis padding adjustment"
+          },
+          "meta": {
+            "title": "Offline Chart Axis padding adjustment",
+            "keywords": "lineChart,comparison,trend,line",
+            "category": "examples",
+            "group": "line chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/line-axes-padding.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "multi-line",
+          "title": {
+            "zh": "多系列折线图",
+            "en": "Multi-series Line Chart"
+          },
+          "meta": {
+            "title": "Multi-series Line Chart",
+            "keywords": "lineChart,comparison,trend,line",
+            "category": "examples",
+            "group": "line chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/multi-line.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "null-value-line",
+          "title": {
+            "zh": "存在空值折线图",
+            "en": "Line Chart with Null Values"
+          },
+          "meta": {
+            "title": "Line Chart with Null Values",
+            "keywords": "lineChart,comparison,trend,line",
+            "category": "examples",
+            "group": "line chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/null-value-line.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "percentage-stacked-line",
+          "title": {
+            "zh": "百分比堆叠折线图",
+            "en": "Percentage Stacked Line Chart"
+          },
+          "meta": {
+            "title": "Percentage Stacked Line Chart",
+            "keywords": "lineChart,comparison,trend,line,composition,proportion",
+            "category": "examples",
+            "group": "line chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/percentage-stacked-line.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "smoothed-line",
+          "title": {
+            "zh": "平滑折线图",
+            "en": "Smooth Line Chart"
+          },
+          "meta": {
+            "title": "Smooth Line Chart",
+            "keywords": "lineChart,comparison,trend,line",
+            "category": "examples",
+            "group": "line chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/smoothed-line.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "stacked-line",
+          "title": {
+            "zh": "堆叠折线图",
+            "en": "Stacked Line Chart"
+          },
+          "meta": {
+            "title": "Stacked Line Chart",
+            "keywords": "lineChart,comparison,trend,line,composition",
+            "category": "examples",
+            "group": "line chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/stacked-line.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "step-line",
+          "title": {
+            "zh": "阶梯折线图",
+            "en": "Step Line Chart"
+          },
+          "meta": {
+            "title": "Step Line Chart",
+            "keywords": "lineChart,comparison,trend,line",
+            "category": "examples",
+            "group": "line chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/step-line.png",
+            "link": "",
+            "option": "lineChart"
+          }
+        },
+        {
+          "path": "unstacked-line",
+          "title": {
+            "zh": "非堆叠折线图",
+            "en": "Unstacked Line Chart"
+          },
+          "meta": {
+            "title": "Unstacked Line Chart",
+            "keywords": "lineChart,comparison,trend,line",
+            "category": "examples",
+            "group": "line chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/unstacked-line.png",
+            "link": "",
+            "option": "lineChart"
           }
         }
       ]
@@ -1823,9 +2175,203 @@
       "children": []
     },
     {
+      "path": "map-chart",
+      "title": {
+        "zh": "map-chart",
+        "en": "map-chart"
+      },
+      "children": [
+        {
+          "path": "basic-map",
+          "title": {
+            "zh": "基础地图",
+            "en": "Basic Map"
+          },
+          "meta": {
+            "title": "Basic Map",
+            "keywords": "map,space,polygon",
+            "category": "examples",
+            "group": "map chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/map-chart/basic-map.png",
+            "link": "",
+            "option": "mapChart"
+          }
+        },
+        {
+          "path": "scatter-map",
+          "title": {
+            "zh": "散点地图",
+            "en": "Scatter Map"
+          },
+          "meta": {
+            "title": "Scatter Map",
+            "keywords": "map,space,polygon,scatter,distribution,comparison",
+            "category": "examples",
+            "group": "map chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/map-chart/scatter-map.png",
+            "link": "",
+            "option": "mapChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "marker",
+      "title": {
+        "zh": "marker",
+        "en": "marker"
+      },
+      "children": [
+        {
+          "path": "mark-area-basic",
+          "title": {
+            "zh": "markArea",
+            "en": "markArea"
+          },
+          "meta": {
+            "title": "markArea",
+            "keywords": "marker, lineChart",
+            "category": "examples",
+            "group": "marker",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/7b82fb013e7c6319c065b3d00.png",
+            "link": "",
+            "option": "lineChart#markArea"
+          }
+        },
+        {
+          "path": "mark-area-multi",
+          "title": {
+            "zh": "markArea 轴空间 和 数据点定位",
+            "en": "markArea Axis Space and Data Point Positioning"
+          },
+          "meta": {
+            "title": "markArea Axis Space and Data Point Positioning",
+            "keywords": "marker, areaChart",
+            "category": "examples",
+            "group": "marker",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-area-multi.png",
+            "link": "",
+            "option": "lineChart#markArea"
+          }
+        },
+        {
+          "path": "mark-area-quadrant",
+          "title": {
+            "zh": "markArea 模拟象限图",
+            "en": "markArea Quadrant Chart Simulation"
+          },
+          "meta": {
+            "title": "markArea Quadrant Chart Simulation",
+            "keywords": "marker,scatterChart,scatter",
+            "category": "examples",
+            "group": "marker",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-area-quadrant.png",
+            "link": "",
+            "option": "scatterChart#markArea"
+          }
+        },
+        {
+          "path": "mark-line-axis",
+          "title": {
+            "zh": "markLine 轴空间定位",
+            "en": "markLine Axis Space Positioning"
+          },
+          "meta": {
+            "title": "markLine Axis Space Positioning",
+            "keywords": "lineChart,marker",
+            "category": "examples",
+            "group": "marker",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-axis.png",
+            "link": "",
+            "option": "lineChart#markLine"
+          }
+        },
+        {
+          "path": "mark-line-basic",
+          "title": {
+            "zh": "markLine",
+            "en": "markLine"
+          },
+          "meta": {
+            "title": "markLine",
+            "keywords": "marker,lineChart",
+            "category": "examples",
+            "group": "marker",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/4f62a673241122408f7245400.png",
+            "link": "",
+            "option": "scatterChart#markLine"
+          }
+        },
+        {
+          "path": "mark-line-coordinates",
+          "title": {
+            "zh": "markLine 数据高亮",
+            "en": "markLine Data Highlighting"
+          },
+          "meta": {
+            "title": "markLine Data Highlighting",
+            "keywords": "lineChart,marker",
+            "category": "examples",
+            "group": "marker",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-coordinates.png",
+            "link": "",
+            "option": "lineChart#markLine"
+          }
+        },
+        {
+          "path": "mark-line-part-regression",
+          "title": {
+            "zh": "markLine 指定数据点并计算线性回归",
+            "en": "markLine Specifying Data Points and Calculating Linear Regression"
+          },
+          "meta": {
+            "title": "markLine Specifying Data Points and Calculating Linear Regression",
+            "keywords": "marker, commonChart",
+            "category": "examples",
+            "group": "marker",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-part-regression.png",
+            "link": "",
+            "option": "barChart#markLine"
+          }
+        },
+        {
+          "path": "mark-line-ref-series",
+          "title": {
+            "zh": "markLine 指定关联系列数据点",
+            "en": "markLine Specifying Related Series Data Points"
+          },
+          "meta": {
+            "title": "markLine Specifying Related Series Data Points",
+            "keywords": "marker,commonChart",
+            "category": "examples",
+            "group": "marker",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-ref-series.png",
+            "link": "",
+            "option": "commonChart#markLine"
+          }
+        },
+        {
+          "path": "mark-point-basic",
+          "title": {
+            "zh": "markPoint 数据点定位",
+            "en": "markPoint Data Point Positioning"
+          },
+          "meta": {
+            "title": "markPoint Data Point Positioning",
+            "keywords": "marker, lineChart",
+            "category": "examples",
+            "group": "marker",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-point-basic.png",
+            "link": "",
+            "option": "lineChart#markPoint"
+          }
+        }
+      ]
+    },
+    {
       "path": "morphing",
       "title": {
-        "zh": "全局动画",
+        "zh": "morphing",
         "en": "morphing"
       },
       "children": [
@@ -1834,6 +2380,15 @@
           "title": {
             "zh": "柱状图、饼图间切换的全局动画",
             "en": "Global animation for switching between bar and pie charts"
+          },
+          "meta": {
+            "title": "Global animation for switching between bar and pie charts",
+            "keywords": "animation,morphing,bar,pie,barChart,pieChart,comparison",
+            "category": "examples",
+            "group": "morphing",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-pie.gif",
+            "link": "",
+            "option": "pieChart#animationUpdate"
           }
         },
         {
@@ -1841,6 +2396,818 @@
           "title": {
             "zh": "柱状图、散点图间切换的全局动画",
             "en": "Global animation for switching between bar charts and scatter plots"
+          },
+          "meta": {
+            "title": "Global animation for switching between bar charts and scatter plots",
+            "keywords": "animation,morphing,bar,scatter,barChart,scatterChart",
+            "category": "examples",
+            "group": "morphing",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-scatter.gif",
+            "link": "",
+            "option": "commonChart#series-bar.animationUpdate"
+          }
+        }
+      ]
+    },
+    {
+      "path": "pattern",
+      "title": {
+        "zh": "pattern",
+        "en": "pattern"
+      },
+      "children": [
+        {
+          "path": "accessible-column",
+          "title": {
+            "zh": "带纹理的分组柱状图",
+            "en": "Grouped Bar Chart with Textures"
+          },
+          "meta": {
+            "title": "Grouped Bar Chart with Textures",
+            "keywords": "barChart,comparison,distribution,rank,pattern,label,rectangle",
+            "category": "examples",
+            "group": "pattern",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pattern/accessible-column.png",
+            "link": "",
+            "option": "barChart"
+          }
+        },
+        {
+          "path": "accessible-pie",
+          "title": {
+            "zh": "带纹理的饼图",
+            "en": "Pie Chart with Texture"
+          },
+          "meta": {
+            "title": "Pie Chart with Texture",
+            "keywords": "pieChart,comparison,proportion,composition,pattern,label,circle",
+            "category": "examples",
+            "group": "pattern",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pattern/accessible-pie.png",
+            "link": "",
+            "option": "pieChart"
+          }
+        },
+        {
+          "path": "stacked-dash-area",
+          "title": {
+            "zh": "末尾虚线堆叠面积图",
+            "en": "Dashed Stacked Area Chart with Distinguished End"
+          },
+          "meta": {
+            "title": "Dashed Stacked Area Chart with Distinguished End",
+            "keywords": "areaChart,comparison,trend,composition,pattern,label,area",
+            "category": "examples",
+            "group": "area chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/ffc3a9b5518762d274121ff00.png",
+            "link": "",
+            "option": "areaChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "pie-chart",
+      "title": {
+        "zh": "pie-chart",
+        "en": "pie-chart"
+      },
+      "children": [
+        {
+          "path": "basic-pie",
+          "title": {
+            "zh": "基础饼图",
+            "en": "Basic Pie Chart"
+          },
+          "meta": {
+            "title": "Basic Pie Chart",
+            "keywords": "pieChart,comparison,composition,proportion,circle",
+            "category": "examples",
+            "group": "pie",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81707.png",
+            "link": "",
+            "option": "pieChart"
+          }
+        },
+        {
+          "path": "nested-pie",
+          "title": {
+            "zh": "嵌套饼图",
+            "en": "Nested Pie Chart"
+          },
+          "meta": {
+            "title": "Nested Pie Chart",
+            "keywords": "pieChart, comparison, composition, proportion, circle",
+            "category": "examples",
+            "group": "pie",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81708.png",
+            "link": "",
+            "option": "pieChart"
+          }
+        },
+        {
+          "path": "pie-indicator",
+          "title": {
+            "zh": "带指标卡饼图",
+            "en": "Pie Chart with Indicator Card"
+          },
+          "meta": {
+            "title": "Pie Chart with Indicator Card",
+            "keywords": "pieChart, comparison, composition, proportion, circle, indicator",
+            "category": "examples",
+            "group": "pie",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81709.png",
+            "link": "",
+            "option": "pieChart"
+          }
+        },
+        {
+          "path": "pie-label",
+          "title": {
+            "zh": "饼图标签布局",
+            "en": "Pie Chart Label Layout"
+          },
+          "meta": {
+            "title": "Pie Chart Label Layout",
+            "keywords": "pieChart,comparison,composition,proportion,circle,label",
+            "category": "examples",
+            "group": "pie",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pie-chart/pie-label.png",
+            "link": "",
+            "option": "pieChart"
+          }
+        },
+        {
+          "path": "radius-scale-pie",
+          "title": {
+            "zh": "半径可映射饼图",
+            "en": "Radius mappable pie chart"
+          },
+          "meta": {
+            "title": "Radius mappable pie chart",
+            "keywords": "",
+            "category": "examples",
+            "group": "pie",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c8170a.png",
+            "link": "",
+            "option": "pieChart"
+          }
+        },
+        {
+          "path": "ring",
+          "title": {
+            "zh": "环图",
+            "en": "Ring Chart"
+          },
+          "meta": {
+            "title": "Ring Chart",
+            "keywords": "pieChart,comparison,composition,proportion,circle",
+            "category": "examples",
+            "group": "pie",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c8170b.png",
+            "link": "",
+            "option": "pieChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "player",
+      "title": {
+        "zh": "player",
+        "en": "player"
+      },
+      "children": [
+        {
+          "path": "basic-player",
+          "title": {
+            "zh": "基础播放器",
+            "en": "Basic Player"
+          },
+          "meta": {
+            "title": "Basic Player",
+            "keywords": "player",
+            "category": "examples",
+            "group": "player",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/player/basic-player.gif",
+            "link": "",
+            "option": "pieChart#player"
+          }
+        },
+        {
+          "path": "continuous-player",
+          "title": {
+            "zh": "连续播放器",
+            "en": "Continuous Player"
+          },
+          "meta": {
+            "title": "Continuous Player",
+            "keywords": "player",
+            "category": "examples",
+            "group": "player",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/player/continuous-player.gif",
+            "link": "",
+            "option": "pieChart#player"
+          }
+        }
+      ]
+    },
+    {
+      "path": "preview-image",
+      "title": {
+        "zh": "preview-image",
+        "en": "preview-image"
+      },
+      "children": []
+    },
+    {
+      "path": "preview-image-temp",
+      "title": {
+        "zh": "preview-image-temp",
+        "en": "preview-image-temp"
+      },
+      "children": []
+    },
+    {
+      "path": "progress",
+      "title": {
+        "zh": "progress",
+        "en": "progress"
+      },
+      "children": [
+        {
+          "path": "circular-progress",
+          "title": {
+            "zh": "环形进度图",
+            "en": "Circular Progress Chart"
+          },
+          "meta": {
+            "title": "Circular Progress Chart",
+            "keywords": "circularProgress,comparison,circle,indicator",
+            "category": "examples",
+            "group": "progress",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/progress/circular-progress.png",
+            "link": "",
+            "option": "circularProgressChart"
+          }
+        },
+        {
+          "path": "linear-progress-with-text",
+          "title": {
+            "zh": "带文本标注的条形进度图",
+            "en": "Bar chart with text labeling"
+          },
+          "meta": {
+            "title": "Bar chart with text labeling",
+            "keywords": "linearProgress,comparison,rectangle",
+            "category": "examples",
+            "group": "progress",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/progress-linear-progress-with-text.png",
+            "link": "",
+            "option": "linearProgressChart"
+          }
+        },
+        {
+          "path": "linear-progress",
+          "title": {
+            "zh": "条形进度图",
+            "en": "Bar Progress Chart"
+          },
+          "meta": {
+            "title": "Bar Progress Chart",
+            "keywords": "linearProgress, comparison, rectangle",
+            "category": "examples",
+            "group": "progress",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81702.png",
+            "link": "",
+            "option": "linearProgressChart"
+          }
+        },
+        {
+          "path": "segment-linear-progress",
+          "title": {
+            "zh": "分段条形进度图",
+            "en": "Segmented Bar Progress Chart"
+          },
+          "meta": {
+            "title": "Segmented Bar Progress Chart",
+            "keywords": "linearProgress,comparison,rectangle",
+            "category": "examples",
+            "group": "progress",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/progress-segment-linear-progress.png",
+            "link": "",
+            "option": "linearProgressChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "radar-chart",
+      "title": {
+        "zh": "radar-chart",
+        "en": "radar-chart"
+      },
+      "children": [
+        {
+          "path": "basic-radar",
+          "title": {
+            "zh": "基础雷达图",
+            "en": "Basic Radar Chart"
+          },
+          "meta": {
+            "title": "Basic Radar Chart",
+            "keywords": "radarChart,comparison,line,circle",
+            "category": "examples",
+            "group": "radar chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c8170c.png",
+            "link": "",
+            "option": "radarChart"
+          }
+        },
+        {
+          "path": "multiple-radar",
+          "title": {
+            "zh": "分组雷达图",
+            "en": "Grouped Radar Chart"
+          },
+          "meta": {
+            "title": "Grouped Radar Chart",
+            "keywords": "radarChart,comparison,line,circle,axis",
+            "category": "examples",
+            "group": "radar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/multiple-radar.png",
+            "link": "",
+            "option": "radarChart"
+          }
+        },
+        {
+          "path": "radar-with-innerRadius",
+          "title": {
+            "zh": "空心雷达图",
+            "en": "Hollow Radar Chart"
+          },
+          "meta": {
+            "title": "Hollow Radar Chart",
+            "keywords": "radarChart,comparison,line,circle,axis,label,indicator",
+            "category": "examples",
+            "group": "radar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/radar-with-innerRadius.png",
+            "link": "",
+            "option": "radarChart"
+          }
+        },
+        {
+          "path": "stack-percent-radar",
+          "title": {
+            "zh": "百分比堆叠雷达图",
+            "en": "Percentage Stacked Radar Chart"
+          },
+          "meta": {
+            "title": "Percentage Stacked Radar Chart",
+            "keywords": "radarChart,comparison,line,circle,axis",
+            "category": "examples",
+            "group": "radar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-percent-radar.png",
+            "link": "",
+            "option": "radarChart"
+          }
+        },
+        {
+          "path": "stack-radar",
+          "title": {
+            "zh": "堆叠雷达图",
+            "en": "Stacked Radar Chart"
+          },
+          "meta": {
+            "title": "Stacked Radar Chart",
+            "keywords": "radarChart,comparison,line,circle,axis",
+            "category": "examples",
+            "group": "radar chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-radar.png",
+            "link": "",
+            "option": "radarChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "range-column-chart",
+      "title": {
+        "zh": "range-column-chart",
+        "en": "range-column-chart"
+      },
+      "children": [
+        {
+          "path": "range-bar",
+          "title": {
+            "zh": "区间条形图",
+            "en": "Range Bar Chart"
+          },
+          "meta": {
+            "title": "Range Bar Chart",
+            "keywords": "rangeColumnChart,comparison,rectangle,trend",
+            "category": "examples",
+            "group": "range column chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/range-column-chart/range-bar.png",
+            "link": "",
+            "option": "rangeColumnChart"
+          }
+        },
+        {
+          "path": "range-column",
+          "title": {
+            "zh": "区间柱状图",
+            "en": "Range Column Chart"
+          },
+          "meta": {
+            "title": "Range Column Chart",
+            "keywords": "rangeColumnChart,comparison,rectangle,trend",
+            "category": "examples",
+            "group": "range column chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/range-column-chart/range-column.png",
+            "link": "",
+            "option": ""
+          }
+        }
+      ]
+    },
+    {
+      "path": "rose-chart",
+      "title": {
+        "zh": "rose-chart",
+        "en": "rose-chart"
+      },
+      "children": [
+        {
+          "path": "basic-rose",
+          "title": {
+            "zh": "基础玫瑰图",
+            "en": "Basic Rose Chart"
+          },
+          "meta": {
+            "title": "Basic Rose Chart",
+            "keywords": "roseChart,comparison,composition,circle",
+            "category": "examples",
+            "group": "rose",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/rose-chart/basic-rose.png",
+            "link": "",
+            "option": "roseChart"
+          }
+        },
+        {
+          "path": "rose-grouped",
+          "title": {
+            "zh": "分组玫瑰图",
+            "en": "Grouped Rose Chart"
+          },
+          "meta": {
+            "title": "Grouped Rose Chart",
+            "keywords": "roseChart,comparison,composition,circle",
+            "category": "examples",
+            "group": "rose",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/rose-chart/rose-grouped.png",
+            "link": "",
+            "option": "roseChart"
+          }
+        },
+        {
+          "path": "rose-stacked-group",
+          "title": {
+            "zh": "分组堆叠玫瑰图",
+            "en": "Grouped Stacked Rose Chart"
+          },
+          "meta": {
+            "title": "Grouped Stacked Rose Chart",
+            "keywords": "roseChart,comparison,composition,circle",
+            "category": "examples",
+            "group": "rose",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/rose-chart/rose-stacked-group.png",
+            "link": "",
+            "option": "roseChart"
+          }
+        },
+        {
+          "path": "rose-stacked",
+          "title": {
+            "zh": "堆叠玫瑰图",
+            "en": "Stacked Rose Chart"
+          },
+          "meta": {
+            "title": "Stacked Rose Chart",
+            "keywords": "roseChart,comparison,composition,circle",
+            "category": "examples",
+            "group": "rose",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/rose-chart/rose-stacked.png",
+            "link": "",
+            "option": "roseChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "sankey-chart",
+      "title": {
+        "zh": "sankey-chart",
+        "en": "sankey-chart"
+      },
+      "children": [
+        {
+          "path": "align-nodes-left-sankey",
+          "title": {
+            "zh": "节点左对齐桑基图",
+            "en": "Node Left Aligned Sankey Chart"
+          },
+          "meta": {
+            "title": "Node Left Aligned Sankey Chart",
+            "keywords": "sankey,composition,distribution,relationship,comparison,flow",
+            "category": "examples",
+            "group": "sankey chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sankey-chart/align-nodes-left-sankey.png",
+            "link": "",
+            "option": "sankeyChart"
+          }
+        },
+        {
+          "path": "another-data-structure-sankey",
+          "title": {
+            "zh": "桑基图的另一种数据格式",
+            "en": "Another Data Format for Sankey Charts"
+          },
+          "meta": {
+            "title": "Another Data Format for Sankey Charts",
+            "keywords": "sankey,composition,distribution,relationship,comparison,flow",
+            "category": "examples",
+            "group": "sankey chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab02.png",
+            "link": "",
+            "option": "sankeyChart"
+          }
+        },
+        {
+          "path": "basic-sankey",
+          "title": {
+            "zh": "基础桑基图",
+            "en": "Basic Sankey Chart"
+          },
+          "meta": {
+            "title": "Basic Sankey Chart",
+            "keywords": "sankey,composition,distribution,relationship,comparison,flow",
+            "category": "examples",
+            "group": "sankey chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/23e5d313c2c3a66d4ca806000.png",
+            "link": "",
+            "option": "sankeyChart"
+          }
+        },
+        {
+          "path": "direction-sankey",
+          "title": {
+            "zh": "垂直桑基图",
+            "en": "Vertical Sankey Chart"
+          },
+          "meta": {
+            "title": "Vertical Sankey Chart",
+            "keywords": "sankey,composition,distribution,relationship,comparison,flow",
+            "category": "examples",
+            "group": "sankey chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sankey-chart/direction-sankey.png",
+            "link": "",
+            "option": "sankeyChart"
+          }
+        },
+        {
+          "path": "hierarchical-sankey",
+          "title": {
+            "zh": "层级桑基图",
+            "en": "Hierarchical Sankey Chart"
+          },
+          "meta": {
+            "title": "Hierarchical Sankey Chart",
+            "keywords": "sankey,composition,distribution,relationship,comparison,flow",
+            "category": "examples",
+            "group": "sankey chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sankey-chart/hierarchical-sankey.png",
+            "link": "",
+            "option": "sankeyChart"
+          }
+        },
+        {
+          "path": "interection-sankey",
+          "title": {
+            "zh": "交互桑基图",
+            "en": "Interactive Sankey Diagram"
+          },
+          "meta": {
+            "title": "Interactive Sankey Diagram",
+            "keywords": "sankey,composition,distribution,relationship,comparison,flow",
+            "category": "examples",
+            "group": "sankey chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sankey-chart/interection-sankey.png",
+            "link": "",
+            "option": "sankeyChart"
+          }
+        },
+        {
+          "path": "nameKey-sankey",
+          "title": {
+            "zh": "桑基图多种边配置",
+            "en": "Sankey Diagram Multiple Edge Configurations"
+          },
+          "meta": {
+            "title": "Sankey Diagram Multiple Edge Configurations",
+            "keywords": "sankey,composition,distribution,relationship,comparison,flow",
+            "category": "examples",
+            "group": "sankey chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/sankey-chart-d3.jpeg",
+            "link": "",
+            "option": "sankeyChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "scatter-chart",
+      "title": {
+        "zh": "scatter-chart",
+        "en": "scatter-chart"
+      },
+      "children": [
+        {
+          "path": "basic-scatter",
+          "title": {
+            "zh": "基础散点图",
+            "en": "Basic Scatter Chart"
+          },
+          "meta": {
+            "title": "Basic Scatter Chart",
+            "keywords": "",
+            "category": "examples",
+            "group": "scatter chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/basic-scatter.png",
+            "link": "",
+            "option": "scatterChart"
+          }
+        },
+        {
+          "path": "bubble-scatter",
+          "title": {
+            "zh": "气泡散点图",
+            "en": "Bubble Scatter Chart"
+          },
+          "meta": {
+            "title": "Bubble Scatter Chart",
+            "keywords": "",
+            "category": "examples",
+            "group": "scatter chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/bubble-scatter.png",
+            "link": "",
+            "option": "scatterChart"
+          }
+        },
+        {
+          "path": "jitter-scatter",
+          "title": {
+            "zh": "扰动散点图",
+            "en": "Jitter Scatter Plot"
+          },
+          "meta": {
+            "title": "Jitter Scatter Plot",
+            "keywords": "",
+            "category": "examples",
+            "group": "scatter chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/jitter-scatter.png",
+            "link": "",
+            "option": "scatterChart"
+          }
+        },
+        {
+          "path": "one-dimension-scatter",
+          "title": {
+            "zh": "一维散点图",
+            "en": "One-Dimensional Scatter Chart"
+          },
+          "meta": {
+            "title": "One-Dimensional Scatter Chart",
+            "keywords": "",
+            "category": "examples",
+            "group": "scatter chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/one-dimension-scatter.png",
+            "link": "",
+            "option": "scatterChart"
+          }
+        },
+        {
+          "path": "stack-scatter",
+          "title": {
+            "zh": "堆叠散点图",
+            "en": "Stacked Scatter Plot"
+          },
+          "meta": {
+            "title": "Stacked Scatter Plot",
+            "keywords": "",
+            "category": "examples",
+            "group": "scatter chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/stack-scatter.png",
+            "link": "",
+            "option": "scatterChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "scrollbar",
+      "title": {
+        "zh": "scrollbar",
+        "en": "scrollbar"
+      },
+      "children": [
+        {
+          "path": "basic-scrollbar-bar-chart",
+          "title": {
+            "zh": "scrollBar 基础用法",
+            "en": "Basic Usage of scrollBar"
+          },
+          "meta": {
+            "title": "Basic Usage of scrollBar",
+            "keywords": "scrollBar",
+            "category": "examples",
+            "group": "scrollBar",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scrollbar/basic-scrollbar-bar-chart.png",
+            "link": "",
+            "option": "barChart#scrollbar"
+          }
+        },
+        {
+          "path": "scrollbar-line-chart",
+          "title": {
+            "zh": "scrollBar 控制轴范围",
+            "en": "scrollBar Controls Axis Range"
+          },
+          "meta": {
+            "title": "scrollBar Controls Axis Range",
+            "keywords": "scrollBar",
+            "category": "examples",
+            "group": "scrollBar",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scrollbar/scrollbar-line-chart.png",
+            "link": "",
+            "option": "lineChart#scrollbar"
+          }
+        },
+        {
+          "path": "scrollbar-specified-value",
+          "title": {
+            "zh": "纵向 scrollBar",
+            "en": "Vertical scrollBar"
+          },
+          "meta": {
+            "title": "Vertical scrollBar",
+            "keywords": "scrollBar",
+            "category": "examples",
+            "group": "scrollBar",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scrollbar/scrollbar-specified-value.png",
+            "link": "",
+            "option": "barChart#scrollbar"
+          }
+        }
+      ]
+    },
+    {
+      "path": "sequence-chart",
+      "title": {
+        "zh": "sequence-chart",
+        "en": "sequence-chart"
+      },
+      "children": [
+        {
+          "path": "NBA-player-event",
+          "title": {
+            "zh": "NBA运动员时序图",
+            "en": "NBA Sequence Chart"
+          },
+          "meta": {
+            "title": "NBA Sequence Chart",
+            "keywords": "sequence,comparison,relationShip,line,scatter,title,axis",
+            "category": "examples",
+            "group": "sequence chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sequence-chart/NBA-player-event.png",
+            "link": "",
+            "option": "sequenceChart"
+          }
+        },
+        {
+          "path": "social-media-event",
+          "title": {
+            "zh": "社交媒体时序图",
+            "en": "Social Media Seuqnce Chart"
+          },
+          "meta": {
+            "title": "Social Media Seuqnce Chart",
+            "keywords": "sequence,comparison,relationShip,line,scatter,rectangle,dataZoom",
+            "category": "examples",
+            "group": "sequence chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sequence-chart/social-media-event.png",
+            "link": "",
+            "option": ""
           }
         }
       ]
@@ -1857,6 +3224,15 @@
           "title": {
             "zh": "动态对比柱状图",
             "en": "Dynamic Comparative Bar Chart"
+          },
+          "meta": {
+            "title": "Dynamic Comparative Bar Chart",
+            "keywords": "barChart,comparison,animation,player",
+            "category": "examples",
+            "group": "storytelling",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/dynamic-comparative-bar-chart.gif",
+            "link": "",
+            "option": "commonChart"
           }
         },
         {
@@ -1864,6 +3240,15 @@
           "title": {
             "zh": "动态线图",
             "en": "Dynamic Line Chart"
+          },
+          "meta": {
+            "title": "Dynamic Line Chart",
+            "keywords": "lineChart,comparison,trend,line,animation",
+            "category": "examples",
+            "group": "storytelling",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/dynamic-line-chart.gif",
+            "link": "",
+            "option": "lineChart"
           }
         },
         {
@@ -1871,6 +3256,15 @@
           "title": {
             "zh": "动态玫瑰图",
             "en": "Dynamic Rose Chart"
+          },
+          "meta": {
+            "title": "Dynamic Rose Chart",
+            "keywords": "roseChart,comparison,composition,animation",
+            "category": "examples",
+            "group": "storytelling",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/dynamic-rose-chart.gif",
+            "link": "",
+            "option": "roseChart"
           }
         },
         {
@@ -1878,6 +3272,15 @@
           "title": {
             "zh": "动态条形图",
             "en": "Dynamic Bar Chart"
+          },
+          "meta": {
+            "title": "Dynamic Bar Chart",
+            "keywords": "barChart, animation, player, rank, rectangle",
+            "category": "examples",
+            "group": "storytelling",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/ranking-bar.gif",
+            "link": "",
+            "option": "barChart"
           }
         },
         {
@@ -1885,6 +3288,15 @@
           "title": {
             "zh": "动态散点图",
             "en": "Dynamic Scatterplot"
+          },
+          "meta": {
+            "title": "Dynamic Scatterplot",
+            "keywords": "scatterChart,scatter,animation,player",
+            "category": "examples",
+            "group": "storytelling",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/timeline-scatter.gif",
+            "link": "",
+            "option": "scatterChart"
           }
         },
         {
@@ -1892,17 +3304,513 @@
           "title": {
             "zh": "环形图",
             "en": "Circular Chart"
+          },
+          "meta": {
+            "title": "Circular Chart",
+            "keywords": "circularProgress,circle,animation",
+            "category": "examples",
+            "group": "storytelling",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/weekly-activity.gif",
+            "link": "",
+            "option": "circularProgress"
           }
         }
       ]
     },
     {
-      "path": "preview-image-temp",
+      "path": "sunburst-chart",
       "title": {
-        "zh": "preview-image-temp",
-        "en": "preview-image-temp"
+        "zh": "sunburst-chart",
+        "en": "sunburst-chart"
       },
-      "children": []
+      "children": [
+        {
+          "path": "basic-sunburst",
+          "title": {
+            "zh": "基础旭日图",
+            "en": "Basic Sunburst Chart"
+          },
+          "meta": {
+            "title": "Basic Sunburst Chart",
+            "keywords": "sunburst,composition,relationShip,circle",
+            "category": "examples",
+            "group": "sunburst chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sunburst-chart/basic-sunburst.png",
+            "link": "",
+            "option": "sunburstChart"
+          }
+        },
+        {
+          "path": "sunburst-auto-label",
+          "title": {
+            "zh": "旭日图隐藏密集标签",
+            "en": "Sunburst - Hiding Dense Labels"
+          },
+          "meta": {
+            "title": "Sunburst - Hiding Dense Labels",
+            "keywords": "sunburst,composition,relationShip,circle",
+            "category": "examples",
+            "group": "sunburst chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sunburst-chart/sunburst-auto-label.png",
+            "link": "",
+            "option": "sunburstChart"
+          }
+        },
+        {
+          "path": "sunburst-layout",
+          "title": {
+            "zh": "旭日图布局",
+            "en": "Sunburst Layout"
+          },
+          "meta": {
+            "title": "Sunburst Layout",
+            "keywords": "sunburst,composition,relationShip,circle",
+            "category": "examples",
+            "group": "sunburst chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sunburst-chart/sunburst-layout.png",
+            "link": "",
+            "option": "sunburstChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "theme",
+      "title": {
+        "zh": "theme",
+        "en": "theme"
+      },
+      "children": [
+        {
+          "path": "theme-switch",
+          "title": {
+            "zh": "主题注册、切换",
+            "en": "Theme Registration and Switching"
+          },
+          "meta": {
+            "title": "Theme Registration and Switching",
+            "keywords": "",
+            "category": "examples",
+            "group": "theme",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/theme/theme-switch.png",
+            "link": "",
+            "option": ""
+          }
+        }
+      ]
+    },
+    {
+      "path": "title",
+      "title": {
+        "zh": "title",
+        "en": "title"
+      },
+      "children": [
+        {
+          "path": "basic-title",
+          "title": {
+            "zh": "基础标题",
+            "en": "Basic Title"
+          },
+          "meta": {
+            "title": "Basic Title",
+            "keywords": "title",
+            "category": "demo",
+            "group": "title",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/title/basic-title.png",
+            "link": "",
+            "option": "lineChart#title"
+          }
+        },
+        {
+          "path": "richText-title",
+          "title": {
+            "zh": "富文本标题",
+            "en": "Rich Text Title"
+          },
+          "meta": {
+            "title": "Rich Text Title",
+            "keywords": "title",
+            "category": "demo",
+            "group": "title",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/title/richText-title.png",
+            "link": "",
+            "option": "lineChart#title"
+          }
+        },
+        {
+          "path": "style-title",
+          "title": {
+            "zh": "自定义样式标题",
+            "en": "Customize Style Title"
+          },
+          "meta": {
+            "title": "Customize Style Title",
+            "keywords": "title",
+            "category": "demo",
+            "group": "title",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/title/style-title.png",
+            "link": "",
+            "option": "lineChart#title"
+          }
+        }
+      ]
+    },
+    {
+      "path": "tooltip",
+      "title": {
+        "zh": "tooltip",
+        "en": "tooltip"
+      },
+      "children": [
+        {
+          "path": "custom-mark-tooltip",
+          "title": {
+            "zh": "自定义 tooltip 内容行",
+            "en": "Custom Tooltip Content Row"
+          },
+          "meta": {
+            "title": "Custom Tooltip Content Row",
+            "keywords": "tooltip",
+            "category": "demo",
+            "group": "tooltip",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/tooltip/custom-mark-tooltip.png",
+            "link": "",
+            "option": "funnelChart#tooltip"
+          }
+        },
+        {
+          "path": "custom-tooltip-handler",
+          "title": {
+            "zh": "自定义 tooltip handler",
+            "en": "Custom tooltip handler"
+          },
+          "meta": {
+            "title": "Custom tooltip handler",
+            "keywords": "tooltip",
+            "category": "demo",
+            "group": "tooltip",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/7b82fb013e7c6319c065b3d03.png",
+            "link": "",
+            "option": "roseChart#tooltip"
+          }
+        },
+        {
+          "path": "custom-tooltip",
+          "title": {
+            "zh": "自定义 tooltip",
+            "en": "Custom tooltip style"
+          },
+          "meta": {
+            "title": "Custom tooltip style",
+            "keywords": "tooltip",
+            "category": "demo",
+            "group": "tooltip",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/tooltip/custom-tooltip.png",
+            "link": "",
+            "option": "barChart#tooltip"
+          }
+        },
+        {
+          "path": "format-method",
+          "title": {
+            "zh": "tooltip 格式化内容",
+            "en": "Tooltip Custom Formatting"
+          },
+          "meta": {
+            "title": "Tooltip Custom Formatting",
+            "keywords": "tooltip",
+            "category": "demo",
+            "group": "tooltip",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab05.png",
+            "link": "",
+            "option": "barChart#tooltip"
+          }
+        }
+      ]
+    },
+    {
+      "path": "treemap-chart",
+      "title": {
+        "zh": "treemap-chart",
+        "en": "treemap-chart"
+      },
+      "children": [
+        {
+          "path": "basic-treemap",
+          "title": {
+            "zh": "基础矩形树图",
+            "en": "Basic Rectangle Treemap"
+          },
+          "meta": {
+            "title": "Basic Rectangle Treemap",
+            "keywords": "treemap,rectangle,comparison,composition,relationship",
+            "category": "examples",
+            "group": "treemap chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/treemap-chart/basic-treemap.png",
+            "link": "",
+            "option": "treemapChart"
+          }
+        },
+        {
+          "path": "treemap-show-parent-level",
+          "title": {
+            "zh": "矩形树图显示父层级",
+            "en": "Treemap Displaying Parent Level"
+          },
+          "meta": {
+            "title": "Treemap Displaying Parent Level",
+            "keywords": "treemap,rectangle,comparison,composition,relationship",
+            "category": "examples",
+            "group": "treemap chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/treemap-chart/treemap-show-parent-level.png",
+            "link": "",
+            "option": "treemapChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "waterfall",
+      "title": {
+        "zh": "waterfall",
+        "en": "waterfall"
+      },
+      "children": [
+        {
+          "path": "basic-waterfall",
+          "title": {
+            "zh": "基础瀑布图",
+            "en": "Basic Waterfall Chart"
+          },
+          "meta": {
+            "title": "Basic Waterfall Chart",
+            "keywords": "waterfall, comparison, distribution, rectangle",
+            "category": "demo",
+            "group": "waterfall",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/basic-waterfall.png",
+            "link": "",
+            "option": "waterfallChart"
+          }
+        },
+        {
+          "path": "collect-waterfall",
+          "title": {
+            "zh": "分解瀑布图",
+            "en": "Decomposition Waterfall Chart"
+          },
+          "meta": {
+            "title": "Decomposition Waterfall Chart",
+            "keywords": "waterfall,comparison,distribution,rectangle",
+            "category": "demo",
+            "group": "waterfall",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/collect-waterfall.png",
+            "link": "",
+            "option": "waterfallChart"
+          }
+        },
+        {
+          "path": "direction-waterfall",
+          "title": {
+            "zh": "水平瀑布图",
+            "en": "Horizontal Waterfall Chart"
+          },
+          "meta": {
+            "title": "Horizontal Waterfall Chart",
+            "keywords": "waterfall,comparison,distribution,rectangle",
+            "category": "demo",
+            "group": "waterfall",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/direction-waterfall.png",
+            "link": "",
+            "option": "waterfallChart"
+          }
+        },
+        {
+          "path": "stack-waterfall",
+          "title": {
+            "zh": "堆积瀑布图",
+            "en": "Stacked Waterfall Chart"
+          },
+          "meta": {
+            "title": "Stacked Waterfall Chart",
+            "keywords": "waterfall, comparison, distribution, rectangle",
+            "category": "demo",
+            "group": "waterfall",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/stack-waterfall.png",
+            "link": "",
+            "option": "waterfallChart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "word-cloud-chart",
+      "title": {
+        "zh": "word-cloud-chart",
+        "en": "word-cloud-chart"
+      },
+      "children": [
+        {
+          "path": "word-cloud-basic",
+          "title": {
+            "zh": "基础词云图",
+            "en": "Basic Word Cloud Chart"
+          },
+          "meta": {
+            "title": "Basic Word Cloud Chart",
+            "keywords": "wordCloud,text,distribution",
+            "category": "examples",
+            "group": "word chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-basis.png",
+            "link": "",
+            "option": "wordCloudChart"
+          }
+        },
+        {
+          "path": "word-cloud-clip",
+          "title": {
+            "zh": "词云图文本裁剪",
+            "en": "Word Cloud Text Clipping"
+          },
+          "meta": {
+            "title": "Word Cloud Text Clipping",
+            "keywords": "wordCloud,text,distribution",
+            "category": "examples",
+            "group": "word chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-clip.png",
+            "link": "",
+            "option": "wordCloudChart"
+          }
+        },
+        {
+          "path": "word-cloud-enlarge",
+          "title": {
+            "zh": "词云图全局自适应画布",
+            "en": "Word Cloud Auto-fit to Canvas"
+          },
+          "meta": {
+            "title": "Word Cloud Auto-fit to Canvas",
+            "keywords": "wordCloud,text,distribution",
+            "category": "examples",
+            "group": "word chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81703.png",
+            "link": "",
+            "option": "wordCloudChart"
+          }
+        },
+        {
+          "path": "word-cloud-format",
+          "title": {
+            "zh": "词云图文字格式化",
+            "en": "Word Cloud Text Formatting"
+          },
+          "meta": {
+            "title": "Word Cloud Text Formatting",
+            "keywords": "wordCloud,text,distribution",
+            "category": "examples",
+            "group": "word chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-format.png",
+            "link": "",
+            "option": "wordCloudChart"
+          }
+        },
+        {
+          "path": "word-cloud-no-valueField",
+          "title": {
+            "zh": "词云图不配置大小字段",
+            "en": "Word Cloud without Size Field Configuration"
+          },
+          "meta": {
+            "title": "Word Cloud without Size Field Configuration",
+            "keywords": "wordCloud, text, distribution",
+            "category": "examples",
+            "group": "word chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-no-valueField.png",
+            "link": "",
+            "option": ""
+          }
+        },
+        {
+          "path": "word-cloud-rotate",
+          "title": {
+            "zh": "词云图随机角度",
+            "en": "Word Cloud with Random Angle"
+          },
+          "meta": {
+            "title": "Word Cloud with Random Angle",
+            "keywords": "wordCloud,text,distribution",
+            "category": "examples",
+            "group": "word chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81700.png",
+            "link": "",
+            "option": "wordCloudChart"
+          }
+        },
+        {
+          "path": "word-cloud-shape-basis",
+          "title": {
+            "zh": "形状词云图",
+            "en": "Shape Word Cloud"
+          },
+          "meta": {
+            "title": "Shape Word Cloud",
+            "keywords": "wordCloud,text,distribution",
+            "category": "examples",
+            "group": "word chart",
+            "cover": "https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81701.png",
+            "link": "",
+            "option": "wordCloudChart"
+          }
+        },
+        {
+          "path": "word-cloud-shape-custom-color",
+          "title": {
+            "zh": "形状词云图自定义颜色",
+            "en": "Shape Word Cloud Custom Color"
+          },
+          "meta": {
+            "title": "Shape Word Cloud Custom Color",
+            "keywords": "wordCloud,text,distribution",
+            "category": "examples",
+            "group": "word chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-shape-custom-color.png",
+            "link": "",
+            "option": "wordCloudChart"
+          }
+        },
+        {
+          "path": "word-cloud-shape-rotate",
+          "title": {
+            "zh": "形状词云图随机旋转角",
+            "en": "Shape Word Cloud with Random Rotation Angles"
+          },
+          "meta": {
+            "title": "Shape Word Cloud with Random Rotation Angles",
+            "keywords": "wordCloud,text,distribution",
+            "category": "examples",
+            "group": "word chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-shape-rotate.png",
+            "link": "",
+            "option": "wordCloudChart"
+          }
+        },
+        {
+          "path": "word-cloud-shrink",
+          "title": {
+            "zh": "词云图文字缩放",
+            "en": "Word Cloud Text Scaling"
+          },
+          "meta": {
+            "title": "Word Cloud Text Scaling",
+            "keywords": "wordCloud,text,distribution",
+            "category": "examples",
+            "group": "word chart",
+            "cover": "http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-shrink.png",
+            "link": "",
+            "option": "wordCloudChart"
+          }
+        }
+      ]
     }
   ]
 }
