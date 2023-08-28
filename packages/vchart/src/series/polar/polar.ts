@@ -9,6 +9,7 @@ import { POLAR_DEFAULT_RADIUS } from '../../constant/polar';
 import { BaseSeries } from '../base/base-series';
 import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
+import { sortDataInAxisHelper } from '../util/utils';
 
 export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   extends BaseSeries<T>
@@ -87,6 +88,11 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   public set radiusAxisHelper(h: IPolarAxisHelper) {
     this._radiusAxisHelper = h;
     this.onRadiusAxisHelperUpdate();
+  }
+
+  protected _sortDataByAxis: boolean = false;
+  get sortDataByAxis() {
+    return this._sortDataByAxis;
   }
 
   protected _buildMarkAttributeContext() {
@@ -186,6 +192,10 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     if (isValid(this._spec.innerRadius)) {
       this._innerRadius = this._spec.innerRadius;
     }
+
+    if (isValid(this._spec.sortDataByAxis)) {
+      this._sortDataByAxis = this._spec.sortDataByAxis === true;
+    }
   }
 
   updateSpec(spec: any) {
@@ -219,5 +229,17 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
 
   setValueFieldToStackOffsetSilhouette(): void {
     // do nothing
+  }
+  fillData(): void {
+    super.fillData();
+    if (this.sortDataByAxis) {
+      this._sortDataInAxisDomain();
+    }
+  }
+
+  _sortDataInAxisDomain() {
+    if (this.getViewData()?.latestData?.length) {
+      sortDataInAxisHelper(this.angleAxisHelper, this._angleField[0], this.getViewData().latestData);
+    }
   }
 }
