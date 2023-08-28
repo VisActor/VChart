@@ -115,7 +115,7 @@
     "@visactor/vgrammar-sankey": "~0.6.3",
     "@visactor/vgrammar-util": "~0.6.3",
     "@visactor/vrender": "~0.14.5",
-    "@visactor/vrender-components": "~0.14.5"
+    "@visactor/vrender-components": "0.14.6-alpha.2"
   },
   "publishConfig": {
     "access": "public",
