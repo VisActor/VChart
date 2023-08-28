@@ -8,8 +8,8 @@ import { ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
 import { eachSeries, merge } from '../../util';
 import type { ISeries } from '../../series/interface';
-import type { IGroupMark, IView } from '@visactor/vgrammar';
-import { markLabelConfigFunc, textAttribute } from './util';
+import type { IGroupMark, ILabel, IMark } from '@visactor/vgrammar';
+import { labelRuleMap, textAttribute } from './util';
 import type { IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction } from '@visactor/vutils';
@@ -213,56 +213,35 @@ export class Label extends BaseLabelComponent {
   }
 
   protected _updateMultiLabelAttribute(labelInfo: ILabelInfo[], labelComponent: IComponentMark) {
-    const component = labelComponent.getProduct() as ReturnType<IView['label']>;
-    const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
-    component
-      .target(labelInfo.map(({ baseMark }) => baseMark.getProduct()))
-      .configure({ interactive: false })
-      .depend(dependCmp.map(cmp => cmp.getMarks()[0].getProduct()))
-      .labelStyle(mark => {
-        // 暂时这么写，后面单个 mark 多个
-        const labelSpec = labelInfo[0].labelSpec;
-        const configFunc = markLabelConfigFunc[mark.type] ?? markLabelConfigFunc.point;
-        const interactive = this._interactiveConfig(labelSpec);
-        const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
-        return merge(
-          {
-            textStyle: { pickable: labelSpec.interactive === true },
-            overlap: {
-              avoidMarks: this._option
-                .getAllComponents()
-                .filter(cmp => cmp.type === 'totalLabel')
-                .map(cmp => cmp.getMarks()[0].getProductId())
-            }
-          },
-          configFunc(labelInfo[0]),
-          {
-            ...passiveLabelSpec,
-            ...interactive
-          }
-        );
-      })
-      .encode(datum => {
-        return textAttribute(labelInfo[0], datum, labelInfo[0].labelSpec.formatMethod);
-      })
-      .size(() => labelInfo[0].series.getRegion().getLayoutRect());
+    this._updateLabelComponentAttribute(
+      labelComponent.getProduct() as ILabel,
+      labelInfo.map(({ baseMark }) => baseMark.getProduct()),
+      labelInfo[0]
+    );
   }
 
   protected _updateSingleLabelAttribute(labelInfo: ILabelInfo, labelComponent: IComponentMark) {
-    const { baseMark, labelSpec, series } = labelInfo;
-    const component = labelComponent.getProduct() as ReturnType<IView['label']>;
+    const { baseMark } = labelInfo;
+    this._updateLabelComponentAttribute(labelComponent.getProduct() as ILabel, baseMark.getProduct(), labelInfo);
+  }
+
+  protected _updateLabelComponentAttribute(component: ILabel, target: IMark | IMark[], labelInfo: ILabelInfo) {
+    const { baseMark, labelSpec, series, labelMark } = labelInfo;
     const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
     component
-      .target(baseMark.getProduct())
+      .target(target)
       .configure({ interactive: false })
       .depend(dependCmp.map(cmp => cmp.getMarks()[0].getProduct()))
       .labelStyle(() => {
-        const configFunc = markLabelConfigFunc[baseMark.type] ?? markLabelConfigFunc.point;
+        const rule = labelMark.getRule() || baseMark.type;
+        const configFunc = labelRuleMap[rule] ?? labelRuleMap.point;
         const interactive = this._interactiveConfig(labelSpec);
         const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
+        /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
+        const centerOffset = this._spec?.centerOffset ?? 0;
         return merge(
           {
-            textStyle: { pickable: labelSpec.interactive === true },
+            textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
             overlap: {
               avoidMarks: this._option
                 .getAllComponents()
@@ -273,7 +252,8 @@ export class Label extends BaseLabelComponent {
           configFunc(labelInfo),
           {
             ...passiveLabelSpec,
-            ...interactive
+            ...interactive,
+            centerOffset
           }
         );
       })
