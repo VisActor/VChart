@@ -389,7 +389,7 @@ export interface ITitle extends IAxisItem<ITextMarkSpec> {
 }
 
 export type StyleCallback<T> = (value: any, index: number, datum: Datum, data: Datum[]) => T;
-export type AxisType = 'linear' | 'ordinal' | 'band' | 'point' | 'time' | 'log';
+export type AxisType = 'linear' | 'ordinal' | 'band' | 'point' | 'time' | 'log' | 'symlog';
 
 export interface IAxisCommonTheme {
   /** 网格线配置 */
