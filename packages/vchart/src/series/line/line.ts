@@ -43,6 +43,8 @@ export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
 
   protected declare _theme: Maybe<ILineSeriesTheme>;
 
+  protected _sortDataByAxis: boolean = true;
+
   initMark(): void {
     const progressive = {
       progressiveStep: this._spec.progressiveStep,
