@@ -608,10 +608,12 @@ export class SankeySeries extends CartesianSeries<any> {
           if (father === 'parents') {
             const originalDatum = linkDatum.datum;
             const val = originalDatum
-              .filter((entry: any) => entry.parents.some((par: any) => par.key === nodeDatum.key))
-              .reduce((sum: number, d: any) => {
-                return (sum += d.value);
-              }, 0);
+              ? originalDatum
+                  .filter((entry: any) => entry.parents.some((par: any) => par.key === nodeDatum.key))
+                  .reduce((sum: number, d: any) => {
+                    return (sum += d.value);
+                  }, 0)
+              : 0;
             ratio = val / linkDatum.value;
           }
 
@@ -698,15 +700,17 @@ export class SankeySeries extends CartesianSeries<any> {
           if (father === 'parents') {
             const originalDatum = linkDatum.datum;
             const val = originalDatum
-              .filter((entry: any) =>
-                entry.parents.some(
-                  (par: any, index: number) =>
-                    par.key === curLinkDatum.source && entry.parents[index + 1]?.key === curLinkDatum.target
-                )
-              )
-              .reduce((sum: number, d: any) => {
-                return (sum += d.value);
-              }, 0);
+              ? originalDatum
+                  .filter((entry: any) =>
+                    entry.parents.some(
+                      (par: any, index: number) =>
+                        par.key === curLinkDatum.source && entry.parents[index + 1]?.key === curLinkDatum.target
+                    )
+                  )
+                  .reduce((sum: number, d: any) => {
+                    return (sum += d.value);
+                  }, 0)
+              : 0;
             ratio = val / linkDatum.value;
           }
 
@@ -951,9 +955,9 @@ export class SankeySeries extends CartesianSeries<any> {
         const linkDatum = linkEl.getDatum();
         const father = linkDatum?.parents ? 'parents' : 'source';
         const originalDatum = linkDatum.datum;
-        const selectedDatum = originalDatum.filter((entry: any) =>
-          entry[father].some((par: any) => par.key === nodeDatum.key)
-        );
+        const selectedDatum = originalDatum
+          ? originalDatum.filter((entry: any) => entry[father].some((par: any) => par.key === nodeDatum.key))
+          : null;
 
         const upSelectedLink = upstreamLinks.find(
           (upLink: any) => upLink.source === linkDatum.source && upLink.target === linkDatum.target
@@ -1131,11 +1135,13 @@ export class SankeySeries extends CartesianSeries<any> {
           return;
         }
 
-        const selectedDatum = originalDatum.filter((entry: any, index: number) =>
-          entry.parents.some(
-            (par: any) => par.key === curLinkDatum.target && entry.parents[index - 1]?.key === curLinkDatum.source
-          )
-        );
+        const selectedDatum = originalDatum
+          ? originalDatum.filter((entry: any, index: number) =>
+              entry.parents.some(
+                (par: any) => par.key === curLinkDatum.target && entry.parents[index - 1]?.key === curLinkDatum.source
+              )
+            )
+          : null;
 
         if (selectedDatum && selectedDatum.length) {
           // 下游link
