@@ -32,7 +32,7 @@ import { field, calcLayoutNumber, isNumber } from '../../util';
 import type { FunnelAppearPreset, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
 import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
-import { isEqual, isValid, merge } from '@visactor/vutils';
+import { isEqual, isFunction, isValid, merge } from '@visactor/vutils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
@@ -272,7 +272,13 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       this.setMarkStyle(
         outerLabelMark,
         {
-          text: (datum: Datum) => `${datum[this.getCategoryField()]}`,
+          text: (datum: Datum) => {
+            const text = `${datum[this.getCategoryField()]}`;
+            if (isFunction(this._spec.outerLabel.formatMethod)) {
+              return this._spec.outerLabel.formatMethod(text, datum);
+            }
+            return text;
+          },
           x: (datum: Datum) => this._computeOuterLabelPosition(datum).x,
           y: (datum: Datum) => this._computeOuterLabelPosition(datum).y,
           textAlign: (datum: Datum) => this._computeOuterLabelPosition(datum).align,
