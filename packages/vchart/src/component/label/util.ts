@@ -1,15 +1,28 @@
-import type { Datum } from '../../typings';
+import type { WaterfallSeries } from './../../series/waterfall/waterfall';
+import { Direction, type Datum } from '../../typings';
 import type { ILabelInfo } from './label';
-import type { BaseLabelAttrs, Strategy } from '@visactor/vrender-components';
+import type { BaseLabelAttrs, LabelItem, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
 import { isString } from '@visactor/vutils';
+import { createText } from '@visactor/vrender';
+import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 
-export const markLabelConfigFunc = {
+export const labelRuleMap = {
   rect: barLabel,
   symbol: symbolLabel,
   arc: pieLabel,
-  point: pointLabel
+  point: pointLabel,
+
+  stackLabel: stackLabel
 };
+
+export enum LabelRule {
+  rect = 'rect',
+  symbol = 'symbol',
+  arc = 'arc',
+  point = 'point',
+  stackLabel = 'stackLabel'
+}
 
 export function textAttribute(
   labelInfo: ILabelInfo,
@@ -185,4 +198,85 @@ export function pieLabel(labelInfo: ILabelInfo) {
   }
 
   return { position, smartInvert };
+}
+
+/**
+ * 瀑布图堆积标签配置规则
+ */
+
+export function stackLabel(labelInfo: ILabelInfo) {
+  const series = labelInfo.series as WaterfallSeries;
+  const labelSpec = labelInfo.labelSpec as IWaterfallSeriesSpec['stackLabel'];
+  const totalData = series.getTotalData();
+  return {
+    customLayoutFunc: (labels: LabelItem[]) => {
+      return labels.map(label => {
+        const pos = labelSpec.position || 'withChange';
+        const offset = labelSpec.offset || 0;
+
+        const datum = label.data;
+        const attribute = textAttribute(labelInfo, datum, labelSpec.formatMethod);
+        const x = (datum: any) => {
+          if (series.direction === Direction.vertical) {
+            return series.totalPositionX(datum, 'index', 0.5);
+          }
+          if (pos === 'middle') {
+            return (series.totalPositionX(datum, 'end') + series.totalPositionY(datum, 'start')) * 0.5;
+          } else if (pos === 'max') {
+            return series.totalPositionX(datum, datum.end >= datum.start ? 'end' : 'start') + offset;
+          } else if (pos === 'min') {
+            return series.totalPositionX(datum, datum.end >= datum.start ? 'start' : 'end') - offset;
+          }
+          return series.totalPositionX(datum, 'end') + (datum.end >= datum.start ? offset : -offset);
+        };
+        const y = (datum: any) => {
+          if (series.direction === Direction.vertical) {
+            if (pos === 'middle') {
+              return (series.totalPositionY(datum, 'end') + series.totalPositionY(datum, 'start')) * 0.5;
+            } else if (pos === 'max') {
+              return series.totalPositionY(datum, datum.end >= datum.start ? 'end' : 'start') - offset;
+            } else if (pos === 'min') {
+              return series.totalPositionY(datum, datum.end >= datum.start ? 'start' : 'end') + offset;
+            }
+            return series.totalPositionY(datum, 'end') + (datum.end >= datum.start ? -offset : offset);
+          }
+          return series.totalPositionY(datum, 'index', 0.5);
+        };
+        attribute.x = x(datum);
+        attribute.y = y(datum);
+        if (series.direction === Direction.vertical) {
+          attribute.textBaseline =
+            pos === 'middle'
+              ? pos
+              : (pos === 'withChange' && datum.end - datum.start >= 0) || pos === 'max'
+              ? 'bottom'
+              : 'top';
+        } else {
+          attribute.textAlign =
+            pos === 'middle'
+              ? 'center'
+              : (pos === 'withChange' && datum.end - datum.start >= 0) || pos === 'max'
+              ? 'left'
+              : 'right';
+        }
+        return createText({ ...attribute, id: label.id });
+      });
+    },
+    dataFilter: (labels: LabelItem[]) => {
+      const result: LabelItem[] = [];
+      totalData.forEach((total: any) => {
+        const label = labels.find(labelItem => {
+          return total.index === labelItem.data?.[series.getDimensionField()[0]];
+        });
+        if (label) {
+          label.data = total;
+          result.push(label);
+        }
+      });
+      return result;
+    },
+    overlap: {
+      strategy: [] as any
+    }
+  };
 }
