@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { isValid, merge } from '@visactor/vutils';
+import { isValid } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
@@ -7,7 +7,7 @@ import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum, ConvertToMarkStyleSpec, IAreaMarkSpec, InterpolateType } from '../../typings';
-import { valueInScaleRange } from '../../util';
+import { valueInScaleRange, mergeSpec } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
@@ -87,8 +87,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       mainSpec = lineSpec;
       subSpec = areaSpec;
     }
-    areaSpec.style = merge({}, subSpec.style, mainSpec.style);
-    areaSpec.state = merge({}, subSpec.state, mainSpec.state);
+    areaSpec.style = mergeSpec({}, subSpec.style, mainSpec.style);
+    areaSpec.state = mergeSpec({}, subSpec.state, mainSpec.state);
     if (!isAreaVisible) {
       areaSpec.style.fill = false;
     }

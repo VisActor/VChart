@@ -6,7 +6,7 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface';
 import { BaseComponent } from '../base';
 import type { IGeoRegionSpec, IRegion, IRegionSpec } from '../../region/interface';
-import { isNil, merge } from '../../util';
+import { isNil, mergeSpec } from '../../util';
 import { ChartEvent, PREFIX } from '../../constant/index';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
@@ -92,7 +92,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
       (this as unknown as IZoomable).initZoomable(this.event, this._option.mode);
     }
 
-    this._projectionSpec = merge(this._projectionSpec, this._spec.projection);
+    this._projectionSpec = mergeSpec(this._projectionSpec, this._spec.projection);
     if (this._projectionSpec.zoom > this._spec.zoomLimit?.max) {
       this._projectionSpec.zoom = this._spec.zoomLimit.max;
     }

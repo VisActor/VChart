@@ -1,8 +1,10 @@
 import type { IPercentOffset } from './../model/interface';
 import type { ILayoutPaddingSpec } from '../model/interface';
 import type { IBoundsLike } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isArray } from '@visactor/vutils';
 import { isNumber, isNil, isString, isFunction, couldBeValidNumber, isObject } from './type';
+// eslint-disable-next-line no-duplicate-imports
 import type { ILayoutNumber, IPercent, ILayoutOrientPadding, ILayoutRect } from '../model/interface';
 import type { IPadding, IRect } from '../typings/space';
 // eslint-disable-next-line no-duplicate-imports

@@ -2,7 +2,7 @@
 import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD } from '../../constant/index';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Maybe, Datum } from '../../typings';
-import { isValid, merge } from '../../util';
+import { isValid, mergeSpec } from '../../util';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IRuleMark } from '../../mark/rule';
@@ -150,7 +150,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     this.setSubTitleField(this._spec.subTitleField);
     this.setDotTypeField(this._spec.dotTypeField);
     this.setHighLightSeriesGroup(this._spec.highLightSeriesGroup);
-    this.setGridBackground(merge(DEFAULT_GRID_BACKGROUND, this._spec?.grid?.background || {}));
+    this.setGridBackground(mergeSpec(DEFAULT_GRID_BACKGROUND, this._spec?.grid?.background || {}));
   }
 
   private _clipMark: IGroupMark;

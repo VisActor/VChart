@@ -1,5 +1,5 @@
 import type { IPolarSeries } from '../../series/interface/series';
-import { isArray, isValid, isValidNumber, merge, isNil, clamp } from '../../util';
+import { isArray, isValid, isValidNumber, mergeSpec, isNil, clamp } from '../../util';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
@@ -241,7 +241,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
       const bandWidth = series.angleAxisHelper.getBandwidth(0);
       this.currValueX.forEach(({ axis, v, coord, ...rest }) => {
         v = v ?? '';
-        merge(xCrossHairInfo, rest);
+        mergeSpec(xCrossHairInfo, rest);
         const angle = series.angleAxisHelper.dataToPosition([v]);
         xCrossHairInfo.angle = angle;
         if (this.xHair.label?.visible) {
@@ -266,7 +266,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
         }
         yCrossHairInfo.angle = coord.angle;
         yCrossHairInfo.axis = axis;
-        merge(yCrossHairInfo, rest);
+        mergeSpec(yCrossHairInfo, rest);
       });
     }
 

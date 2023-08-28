@@ -1,7 +1,7 @@
 import type { IEffect } from '../../../model/interface';
 import { DataView } from '@visactor/vdataset';
 import { isXAxis, TimeUtil } from './util';
-import { eachSeries, isArray, merge } from '../../../util';
+import { eachSeries, isArray, mergeSpec } from '../../../util';
 import type { ICartesianSeries } from '../../../series/interface';
 import { CartesianLinearAxis } from './linear-axis';
 import type { ICartesianTickDataOpt } from '../../../data/transforms/tick-data';
@@ -47,7 +47,7 @@ export class CartesianTimeAxis<
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
-    this._tick = merge({}, this._spec.tick, this._spec.layers?.[0]);
+    this._tick = mergeSpec({}, this._spec.tick, this._spec.layers?.[0]);
   }
 
   protected _initData() {

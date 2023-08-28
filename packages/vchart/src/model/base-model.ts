@@ -1,4 +1,4 @@
-import { createID, isValid, cloneDeepSpec, preprocessSpecOrTheme } from '../util';
+import { createID, isValid, cloneDeepSpec, preprocessSpecOrTheme, mergeSpec } from '../util';
 import { Event } from '../event/event';
 import type { IEvent } from '../event/interface';
 import { LayoutItem } from './layout-item';
@@ -21,7 +21,7 @@ import type { CompilableData } from '../compile/data/compilable-data';
 import { ModelStateManager } from './model-state-manager';
 import { PREFIX } from '../constant';
 import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar';
-import { array, isEqual, isNil, merge } from '@visactor/vutils';
+import { array, isEqual, isNil } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import type { SeriesTypeEnum } from '../series/interface';
 import { MarkSet } from '../mark/mark-set';
@@ -220,7 +220,7 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
 
     const { mark: markThemeByType, markByName: markThemeByName } = globalTheme;
     this.getMarkInfoList().forEach(({ type, name }) => {
-      this._theme[name] = merge(
+      this._theme[name] = mergeSpec(
         {},
         markThemeByType?.[array(type)[0]] ?? {},
         markThemeByName?.[name] ?? {},
@@ -232,7 +232,7 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   /** 将 theme merge 到 spec 中 */
   protected _mergeThemeToSpec() {
     const chartSpec = this.getChart().getSpec();
-    this._spec = merge({}, this._theme, this._getDefaultSpecFromChart(chartSpec), this._originalSpec);
+    this._spec = mergeSpec({}, this._theme, this._getDefaultSpecFromChart(chartSpec), this._originalSpec);
   }
 
   /** 从 chart spec 提取配置作为 model 的默认 spec 配置 */

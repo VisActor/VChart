@@ -1,4 +1,5 @@
-import { isArray, isNil, isNumber, merge } from '@visactor/vutils';
+import { isArray, isNil, isNumber } from '@visactor/vutils';
+import { mergeSpec } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
@@ -307,7 +308,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       ) as unknown as IRectGraphicAttribute,
       dragMaskStyle: transformToGraphic(this._spec.dragMask?.style) as unknown as IRectGraphicAttribute,
       backgroundChartStyle: {
-        line: merge(transformToGraphic(this._spec.backgroundChart?.line?.style), { fill: false }),
+        line: mergeSpec(transformToGraphic(this._spec.backgroundChart?.line?.style), { fill: false }),
         area: {
           curveType: 'basis',
           visible: true,
@@ -315,7 +316,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         }
       },
       selectedBackgroundChartStyle: {
-        line: merge(transformToGraphic(this._spec.selectedBackgroundChart?.line?.style), { fill: false }),
+        line: mergeSpec(transformToGraphic(this._spec.selectedBackgroundChart?.line?.style), { fill: false }),
         area: {
           curveType: 'basis',
           visible: true,

@@ -7,7 +7,7 @@ import type { LayoutItem } from '../../model/layout-item';
 // eslint-disable-next-line no-duplicate-imports
 import type { IOrientType, IPoint, StringOrNumber } from '../../typings';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
-import { isValid, merge, isValidOrient, array, eachSeries, isValidNumber } from '../../util';
+import { isValid, mergeSpec, isValidOrient, array, eachSeries, isValidNumber } from '../../util';
 import { CompilableData } from '../../compile/data';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILegend, ILegendCommonSpec } from './interface';
@@ -201,7 +201,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     if (this._legendComponent) {
       if (!isEqual(attrs, this._cacheAttrs)) {
         this._legendComponent.setAttributes(
-          merge({}, attrs, {
+          mergeSpec({}, attrs, {
             defaultSelected: this._selectedData // 图表 resize 之后应该保留上次筛选的结果
           })
         );
@@ -209,7 +209,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     } else {
       const legendConstructor = this._getLegendConstructor();
       const legend = new legendConstructor(
-        merge({}, attrs, {
+        mergeSpec({}, attrs, {
           defaultSelected: this._selectedData
         })
       );

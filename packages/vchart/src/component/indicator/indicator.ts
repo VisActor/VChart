@@ -8,7 +8,7 @@ import { BaseComponent } from '../base';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec, IIndicatorTheme } from './interface';
 import type { Maybe } from '../../typings';
-import { isValid, isFunction, array, merge, eachSeries } from '../../util';
+import { isValid, isFunction, array, mergeSpec, eachSeries } from '../../util';
 import { isEqual } from '@visactor/vutils';
 import { indicatorMapper } from './util';
 import type { IModel } from '../../model/interface';
@@ -151,7 +151,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
 
     const contentComponentSpec: IIndicatorItemSpec[] = [];
     array(this._spec.content).forEach((eachItem: IIndicatorItemSpec) => {
-      const contentSpec = merge({}, this._theme.content, eachItem);
+      const contentSpec = mergeSpec({}, this._theme.content, eachItem);
       contentComponentSpec.push({
         visible: contentSpec.visible !== false && (contentSpec.field ? this._activeDatum !== null : true),
         space: contentSpec.space || this._gap,

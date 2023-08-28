@@ -1,6 +1,6 @@
-import { get, pick, merge, cloneDeep, isArray } from '@visactor/vutils';
+import { get, pick, cloneDeep, isArray } from '@visactor/vutils';
 
-export { get, pick, merge, cloneDeep };
+export { get, pick, cloneDeep };
 
 export function removeEmpty<T extends object>(obj: T): Partial<T> {
   Object.keys(obj).forEach(key => {

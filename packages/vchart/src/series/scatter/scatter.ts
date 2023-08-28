@@ -7,7 +7,7 @@ import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
-import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, merge } from '../../util';
+import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, mergeSpec } from '../../util';
 import { AttributeLevel } from '../../constant';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
@@ -210,7 +210,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      label: merge({ animation: this._spec.animation }, this._spec.label),
+      label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
       progressive,
       isSeriesMark: true
     }) as ISymbolMark;

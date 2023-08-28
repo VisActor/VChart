@@ -12,8 +12,7 @@ import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
 import type { Datum } from '../../typings';
-import type { IModelSpec } from '../../model/interface';
-import { normalizeLayoutPaddingSpec } from '../../util';
+import type { ILayoutOrientPadding, IModelSpec } from '../../model/interface';
 
 export abstract class BaseComponent<T extends IModelSpec = IModelSpec> extends BaseModel<T> implements IComponent {
   name: string = 'component';
@@ -101,9 +100,10 @@ export abstract class BaseComponent<T extends IModelSpec = IModelSpec> extends B
     // 默认忽略外侧 padding
     const { padding, noOuterPadding = true, orient } = this._spec;
     if (noOuterPadding && padding && orient) {
-      const newPadding = normalizeLayoutPaddingSpec(padding);
-      newPadding[orient] = 0;
-      this._spec.padding = newPadding;
+      this._spec.padding = {
+        ...(padding as ILayoutOrientPadding),
+        [orient]: 0
+      };
     }
   }
 

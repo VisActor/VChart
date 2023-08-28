@@ -47,7 +47,7 @@ import {
   isValid,
   isBoolean,
   isString,
-  merge,
+  mergeSpec,
   isFunction,
   isArray,
   mergeFields,
@@ -1068,7 +1068,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         m.setGroupKey(groupKey);
       }
 
-      this.initMarkStyleWithSpec(m, merge({}, themeSpec, markSpec || spec[m.name]));
+      this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));
     }
     return m;
   }

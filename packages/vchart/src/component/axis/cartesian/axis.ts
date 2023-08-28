@@ -7,11 +7,11 @@ import type { IEffect, IModelInitOption, ILayoutRect } from '../../../model/inte
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { IAxisLocationCfg, ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
-import { isArray, isValid, isValidNumber, merge, eachSeries, isNil, isUndefined } from '../../../util';
+import { isArray, isValid, isValidNumber, mergeSpec, eachSeries, isNil, isUndefined } from '../../../util';
 import type { IOrientType } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
-import type { IBaseScale, ILinearScale } from '@visactor/vscale';
+import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import type { LayoutItem } from '../../../model/layout-item';
@@ -570,7 +570,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       const attrs = this._getUpdateAttribute(true);
       const axisComponent = product.getGroupGraphicItem();
       const updateBounds = axisComponent.getBoundsWithoutRender(
-        merge({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs)
+        mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs)
       );
       if (isFinite(updateBounds.width())) {
         result = updateBounds;
@@ -587,7 +587,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     // 正式的更新布局属性
     const attrs = this._getUpdateAttribute(false);
     const product = this.getMarks()[0].getProduct(); // 获取语法元素
-    const axisAttrs = merge({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs);
+    const axisAttrs = mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs);
     product.encode(axisAttrs);
 
     super.updateLayoutAttribute();

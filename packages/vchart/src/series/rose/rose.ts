@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import type { IArcMark } from '../../mark/arc';
 import type { Maybe, Datum } from '../../typings';
-import { valueInScaleRange, degrees, merge } from '../../util';
+import { valueInScaleRange, mergeSpec } from '../../util';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
@@ -11,7 +11,6 @@ import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
-import { AttributeLevel } from '../../constant';
 import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
 import { TextMark } from '../../mark/text';
@@ -47,7 +46,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
-      label: merge({ animation: this._spec.animation }, this._spec.label)
+      label: mergeSpec({ animation: this._spec.animation }, this._spec.label)
     }) as IArcMark;
   }
 

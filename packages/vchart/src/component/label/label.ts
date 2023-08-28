@@ -7,7 +7,7 @@ import type { LayoutItem } from '../../model/layout-item';
 import { ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
 import type { ITextMark } from '../../mark/text';
-import { eachSeries, merge } from '../../util';
+import { eachSeries, mergeSpec } from '../../util';
 import type { ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar';
 import { markLabelConfigFunc, textAttribute } from './util';
@@ -200,7 +200,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
             /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
             const centerOffset = this._spec?.centerOffset ?? 0;
 
-            return merge(
+            return mergeSpec(
               {
                 textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
                 overlap: {

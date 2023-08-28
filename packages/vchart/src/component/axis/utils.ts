@@ -1,5 +1,6 @@
 import type { ITheme } from './../../theme/interface';
-import { merge, get } from '@visactor/vutils';
+import { get } from '@visactor/vutils';
+import { mergeSpec } from '../../util';
 import type { IOrientType, IPolarOrientType } from '../../typings';
 import type { AxisType, ICommonAxisSpec, ILinearAxisSpec } from './interface';
 import { transformComponentStyle } from '../../util/style';
@@ -67,12 +68,12 @@ export const getCartesianAxisTheme = (orient: IOrientType, type: AxisType, theme
   const { axisBand, axisLinear, axisX, axisY, axis } = theme.component ?? {};
   const axisTypeTheme = (type === 'band' ? axisBand : type === 'linear' ? axisLinear : {}) ?? {};
   const axisTheme = isXAxis(orient) ? axisX : axisY;
-  return merge({}, axis, axisTypeTheme, axisTheme);
+  return mergeSpec({}, axis, axisTypeTheme, axisTheme);
 };
 
 export const getPolarAxisTheme = (orient: IPolarOrientType, type: AxisType, theme: ITheme) => {
   const { axisBand, axisLinear, axisAngle, axisRadius, axis } = theme.component ?? {};
   const axisTypeTheme = (type === 'band' ? axisBand : type === 'linear' ? axisLinear : {}) ?? {};
   const axisTheme = orient === 'angle' ? axisAngle : axisRadius;
-  return merge({}, axis, axisTypeTheme, axisTheme);
+  return mergeSpec({}, axis, axisTypeTheme, axisTheme);
 };

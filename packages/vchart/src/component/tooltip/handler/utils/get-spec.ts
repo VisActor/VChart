@@ -9,7 +9,7 @@ import type {
   TooltipPatternProperty
 } from '../../../../typings';
 import type { ISeries } from '../../../../series/interface';
-import { cloneDeep, isValid, merge, array, isFunction, isNil } from '../../../../util';
+import { cloneDeep, isValid, mergeSpec, array, isFunction, isNil } from '../../../../util';
 import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../../event/events/dimension/interface';
 import { getTooltipActualActiveType } from '../../utils';
@@ -69,7 +69,7 @@ export const getTooltipSpecForShow = (
   // 来自系列的 pattern
   const seriesPattern = getSeriesTooltipPattern(activeType, series, dimensionInfo);
   // 来自用户配置的 pattern
-  const userPattern: ITooltipPattern = merge({}, cloneDeep(globalSpec[activeType]), seriesPattern);
+  const userPattern: ITooltipPattern = mergeSpec({}, cloneDeep(globalSpec[activeType]), seriesPattern);
 
   // 对pattern进行组装
   // 组装 title

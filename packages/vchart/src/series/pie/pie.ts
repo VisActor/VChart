@@ -53,7 +53,7 @@ import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { TextMark } from '../../mark/text';
 import { ArcMark } from '../../mark/arc';
-import { merge } from '../../util';
+import { mergeSpec } from '../../util';
 import { pieSeriesMark } from './constant';
 
 VChart.useMark([PathMark, TextMark, ArcMark]);
@@ -171,7 +171,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true,
-        label: merge({ animation: this._spec.animation }, this._spec.label)
+        label: mergeSpec({ animation: this._spec.animation }, this._spec.label)
       }
     ) as IArcMark;
   }

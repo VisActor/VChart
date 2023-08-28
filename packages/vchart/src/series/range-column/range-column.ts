@@ -6,7 +6,7 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { Direction } from '../../typings/space';
 import type { IRectMark } from '../../mark/rect';
 import type { ITextMark } from '../../mark/text';
-import { merge, valueInScaleRange } from '../../util';
+import { mergeSpec, valueInScaleRange } from '../../util';
 import { setRectLabelPos } from '../util/label-mark';
 import { AttributeLevel } from '../../constant';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
@@ -42,7 +42,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('bar', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      label: labelPosition === PositionEnum.bothEnd ? undefined : merge({}, this._spec.label),
+      label: labelPosition === PositionEnum.bothEnd ? undefined : mergeSpec({}, this._spec.label),
       isSeriesMark: true
     }) as IRectMark;
 

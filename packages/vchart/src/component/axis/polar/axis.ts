@@ -10,7 +10,7 @@ import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
 import { Factory } from '../../../core/factory';
-import { isArray, isValidNumber, merge, polarToCartesian, radians, eachSeries } from '../../../util';
+import { isArray, isValidNumber, mergeSpec, polarToCartesian, radians, eachSeries } from '../../../util';
 import { scaleParser } from '../../../data/parser/scale';
 import type { IPolarTickDataOpt } from '../../../data/transforms/tick-data';
 // eslint-disable-next-line no-duplicate-imports
@@ -593,6 +593,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   private _update(attrs: Dict<unknown>) {
     const product = this.getMarks()[0].getProduct(); // 获取语法元素并更新
-    product.encode(merge({}, this._axisStyle, attrs));
+    product.encode(mergeSpec({}, this._axisStyle, attrs));
   }
 }

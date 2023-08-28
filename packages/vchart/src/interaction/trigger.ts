@@ -1,6 +1,6 @@
 import { Event } from '../event/event';
 import { defaultInteractionConfig } from './config';
-import { merge, isBoolean, isObject, array } from '../util';
+import { mergeSpec, isBoolean, isObject, array } from '../util';
 
 import type { IMark } from '../mark/interface';
 import type { BaseEventParams, EventCallback, EventParams, IEvent } from '../event/interface';
@@ -117,7 +117,7 @@ export class Trigger implements ITrigger {
       this._hover.enable = hoverSpec;
     } else if (isObject(hoverSpec)) {
       this._hover.enable = true;
-      this._hover = merge(this._hover, hoverSpec);
+      this._hover = mergeSpec(this._hover, hoverSpec);
     }
 
     const selectSpec = this._spec.select;
@@ -125,7 +125,7 @@ export class Trigger implements ITrigger {
       this._select.enable = selectSpec;
     } else if (isObject(selectSpec)) {
       this._select.enable = true;
-      this._select = merge(this._select, selectSpec);
+      this._select = mergeSpec(this._select, selectSpec);
     }
   }
 
