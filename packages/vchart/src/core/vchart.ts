@@ -1361,7 +1361,7 @@ export class VChart implements IVChart {
       const pointValue = (axis as IAxis)?.valueToPosition(value);
       if (isRelativeToCanvas) {
         const axisLayoutStartPoint = axis.getLayoutStartPoint();
-        const axisOrient = (axis as IAxis).orient;
+        const axisOrient = (axis as IAxis).getOrient();
         return (
           pointValue +
           (axisOrient === 'bottom' || axisOrient === 'top' ? axisLayoutStartPoint.x : axisLayoutStartPoint.y)

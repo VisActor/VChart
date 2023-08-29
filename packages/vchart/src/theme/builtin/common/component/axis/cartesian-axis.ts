@@ -12,11 +12,11 @@ export const axisX: ICartesianAxisCommonTheme = {
 
 export const axisY: ICartesianAxisCommonTheme = {
   label: {
-    space: 8,
+    space: 12,
     autoLimit: true
   },
   title: {
-    space: 8,
+    space: 12,
     autoRotate: true
   },
   maxWidth: '30%'

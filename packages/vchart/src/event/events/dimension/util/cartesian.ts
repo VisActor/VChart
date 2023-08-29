@@ -17,8 +17,8 @@ const getAxis = (chart: IChart, type: 'x' | 'y', pos: ILayoutPoint): CartesianAx
       c =>
         c.specKey === 'axes' &&
         (type === 'x'
-          ? (c as AxisComponent).orient === 'bottom' || (c as AxisComponent).orient === 'top'
-          : (c as AxisComponent).orient === 'left' || (c as AxisComponent).orient === 'right') &&
+          ? (c as AxisComponent).getOrient() === 'bottom' || (c as AxisComponent).getOrient() === 'top'
+          : (c as AxisComponent).getOrient() === 'left' || (c as AxisComponent).getOrient() === 'right') &&
         isInRegionBound(chart, c as AxisComponent, pos)
     ) as CartesianAxis[];
   if (!axesComponents.length) {
@@ -151,7 +151,7 @@ export const getDimensionInfoByValue = (
     value,
     axis,
     'cartesian',
-    getDimensionField ?? (isXAxis(axis.orient) ? discreteXAxisGetDimensionField : discreteYAxisGetDimensionField)
+    getDimensionField ?? (isXAxis(axis.getOrient()) ? discreteXAxisGetDimensionField : discreteYAxisGetDimensionField)
   );
   return { index, value, axis, data };
 };

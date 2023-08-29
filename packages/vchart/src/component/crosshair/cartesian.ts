@@ -11,7 +11,7 @@ import type { IHair } from './base';
 import { BaseCrossHair } from './base';
 import type { IGroup, INode } from '@visactor/vrender';
 import { getDatumByValue, limitTagInBounds } from './util';
-import { getAxisLabelOffset } from '../axis/utils';
+import { getAxisLabelOffset } from '../axis/util';
 import type { IAxis } from '../axis/interface';
 import type { IOrientType, StringOrNumber } from '../../typings';
 import { isXAxis } from '../axis/cartesian/util';
@@ -167,7 +167,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
    * set axis value of crosshair
    */
   setAxisValue(v: StringOrNumber, axis: IAxis) {
-    if (isXAxis(axis.orient as unknown as IOrientType)) {
+    if (isXAxis(axis.getOrient() as unknown as IOrientType)) {
       this.currValueX.set(axis.getSpecIndex(), {
         v,
         axis
@@ -340,12 +340,12 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
         }
         if (this.xHair.label?.visible) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());
-          if (axis.orient === 'bottom') {
+          if (axis.getOrient() === 'bottom') {
             xCrossHairInfo.bottom.visible = true;
             xCrossHairInfo.bottom.text = v;
             xCrossHairInfo.bottom.dx = 0;
             xCrossHairInfo.bottom.dy = labelOffset;
-          } else if (axis.orient === 'top') {
+          } else if (axis.getOrient() === 'top') {
             xCrossHairInfo.top.visible = true;
             xCrossHairInfo.top.text = v;
             xCrossHairInfo.top.dx = 0;
@@ -379,12 +379,12 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
         }
         if (this.yHair.label?.visible) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());
-          if (axis.orient === 'left') {
+          if (axis.getOrient() === 'left') {
             yCrossHairInfo.left.visible = true;
             yCrossHairInfo.left.text = v;
             yCrossHairInfo.left.dx = -labelOffset;
             yCrossHairInfo.left.dy = 0;
-          } else if (axis.orient === 'right') {
+          } else if (axis.getOrient() === 'right') {
             yCrossHairInfo.right.visible = true;
             yCrossHairInfo.right.text = v;
             yCrossHairInfo.right.dx = labelOffset;

@@ -17,7 +17,7 @@ import type {
   ICartesianCrosshairSpec,
   IPolarCrosshairSpec,
   ICrosshairTheme,
-  ICrosshairXFieldSpec
+  ICrosshairCategoryFieldSpec
 } from './interface';
 import { Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../constant';
 import { defaultCrosshairTriggerEvent } from './config';
@@ -204,7 +204,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     if (!bindingAxesIndex) {
       bindingAxesIndex = [];
       axesComponents.forEach((item, index) => {
-        if (ORIENT_MAP[field].includes(item.orient)) {
+        if (ORIENT_MAP[field].includes(item.getOrient())) {
           bindingAxesIndex.push(index);
         }
       });
@@ -303,7 +303,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     }
   }
 
-  protected _parseField(field: ICrosshairXFieldSpec, fieldName: string) {
+  protected _parseField(field: ICrosshairCategoryFieldSpec, fieldName: string) {
     const hair = {} as any;
     const { line, label, visible } = field;
     hair.visible = visible;

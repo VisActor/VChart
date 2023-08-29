@@ -3,11 +3,11 @@ import type {
   ICrosshairRectSpec,
   ICrosshairTheme,
   ICrosshairValueFieldSpec,
-  ICrosshairXFieldSpec
+  ICrosshairCategoryFieldSpec
 } from '../../../../component/crosshair/interface';
 import { THEME_CONSTANTS } from '../constants';
 
-const getCategoryField = (): ICrosshairXFieldSpec => ({
+const getBandField = (): ICrosshairCategoryFieldSpec => ({
   visible: false,
   line: {
     type: 'rect',
@@ -42,7 +42,7 @@ const getCategoryField = (): ICrosshairXFieldSpec => ({
   }
 });
 
-const getValueField = (): ICrosshairValueFieldSpec => ({
+const getLinearField = (): ICrosshairValueFieldSpec => ({
   visible: false,
   line: {
     type: 'line',
@@ -79,8 +79,6 @@ const getValueField = (): ICrosshairValueFieldSpec => ({
 
 export const crosshair: ICrosshairTheme = {
   trigger: 'hover',
-  xField: getCategoryField(),
-  yField: getValueField(),
-  categoryField: getCategoryField(),
-  valueField: getValueField()
+  bandField: getBandField(),
+  linearField: getLinearField()
 };

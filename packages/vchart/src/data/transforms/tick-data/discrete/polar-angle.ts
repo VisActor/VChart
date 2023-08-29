@@ -3,7 +3,7 @@ import { isValid } from '../../../../util';
 import type { IPolarTickDataOpt, ITickData } from '../interface';
 import { convertDomainToTickData, getPolarAngleLabelBounds, labelOverlap } from '../util';
 import type { AABBBounds } from '@visactor/vutils';
-import { getAxisLabelOffset } from '../../../../component/axis/utils';
+import { getAxisLabelOffset } from '../../../../component/axis/util';
 
 /**
  * 对于离散轴：

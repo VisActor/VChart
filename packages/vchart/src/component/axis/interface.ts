@@ -24,7 +24,7 @@ export interface IAxis extends IComponent {
   valueToPosition: (value: any) => number;
   getScale: () => IBaseScale;
   getScales: () => IBaseScale[];
-  orient: ICartesianAxisSpec['orient'] | IPolarOrientType;
+  getOrient: () => ICartesianAxisSpec['orient'] | IPolarOrientType;
   visible: boolean;
   getStatisticsDomain: () => StatisticsDomain;
 }

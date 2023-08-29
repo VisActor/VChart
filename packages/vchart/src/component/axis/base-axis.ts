@@ -30,7 +30,7 @@ import type { Group } from '../../series/base/group';
 import { animationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { degreeToRadian, type LooseFunction } from '@visactor/vutils';
-import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './utils';
+import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
 
@@ -41,7 +41,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   static specKey = 'axes';
 
   protected _orient: IPolarOrientType | IOrientType;
-  get orient() {
+  getOrient() {
     return this._orient;
   }
 
@@ -119,9 +119,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       // 创建语法元素
 
       const axisMark = this._createMark(
-        { type: 'component', name: `axis-${this.orient}` },
+        { type: 'component', name: `axis-${this.getOrient()}` },
         {
-          componentType: this.orient === 'angle' ? 'circleAxis' : 'axis',
+          componentType: this.getOrient() === 'angle' ? 'circleAxis' : 'axis',
           mode: this._spec.mode
         }
       );
@@ -346,7 +346,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     }
 
     return {
-      orient: this.orient,
+      orient: this.getOrient(),
       select: spec.select,
       hover: spec.hover,
       line: transformAxisLineStyle(spec.domainLine),

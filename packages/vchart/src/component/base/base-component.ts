@@ -83,7 +83,12 @@ export abstract class BaseComponent<T extends IModelSpec = IModelSpec> extends B
       super._initTheme(theme);
     } else {
       super._initTheme(
-        getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, globalTheme, this._originalSpec)
+        getComponentThemeFromGlobalTheme(
+          this.type as ComponentTypeEnum,
+          globalTheme,
+          this._originalSpec,
+          this._option.getChart()
+        )
       );
     }
 

@@ -1,4 +1,4 @@
-import type { ITheme } from './../../theme/interface';
+import type { ITheme } from '../../theme/interface';
 import { get } from '@visactor/vutils';
 import { mergeSpec } from '../../util';
 import type { IOrientType, IPolarOrientType } from '../../typings';

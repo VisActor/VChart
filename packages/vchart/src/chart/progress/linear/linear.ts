@@ -8,7 +8,7 @@ import type {
 } from '../../../component/axis/cartesian/interface';
 import { isNil } from '../../../util';
 import type { ILinearProgressChartSpec } from './interface';
-import { getLinearAxisSpecDomain } from '../../../component/axis/utils';
+import { getLinearAxisSpecDomain } from '../../../component/axis/util';
 import { VChart } from '../../../core/vchart';
 import { LinearProgressSeries } from '../../../series';
 VChart.useSeries([LinearProgressSeries]);

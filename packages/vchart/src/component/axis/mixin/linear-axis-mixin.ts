@@ -1,6 +1,6 @@
 import type { LinearScale } from '@visactor/vscale';
 import { isNil, isValid, maxInArr, minInArr } from '../../../util';
-import { getLinearAxisSpecDomain } from '../utils';
+import { getLinearAxisSpecDomain } from '../util';
 import type { IAxisLocationCfg } from '../cartesian/interface';
 import type { ITick } from '../interface';
 import { ChartEvent } from '../../../constant';

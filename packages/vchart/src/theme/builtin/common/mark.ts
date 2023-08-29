@@ -31,7 +31,8 @@ export const markByName: IGlobalMarkThemeByName = {
   line: {
     style: {
       lineWidth: 2,
-      lineCap: 'round'
+      lineCap: 'round',
+      lineJoin: 'round'
     }
   },
   point: {

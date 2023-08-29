@@ -20,7 +20,7 @@ export const discreteLegend: IDiscreteLegendTheme = {
   item: {
     visible: true,
     spaceCol: 10,
-    spaceRow: 10,
+    spaceRow: 6,
     padding: 2,
     background: {
       state: {
@@ -34,6 +34,10 @@ export const discreteLegend: IDiscreteLegendTheme = {
     },
     shape: {
       space: 6,
+      style: {
+        lineWidth: 0,
+        fillOpacity: 1
+      },
       state: {
         unSelected: {
           fillOpacity: 0.5

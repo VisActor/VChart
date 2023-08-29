@@ -27,7 +27,7 @@ import { ComponentTypeEnum } from '../../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar';
 import type { LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { isValidCartesianAxis } from '../utils';
+import { isValidCartesianAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { scaleParser } from '../../../data/parser/scale';
@@ -62,7 +62,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   layout3dBox?: { width: number; height: number; length: number };
 
   protected _orient: IOrientType = 'left';
-  get orient() {
+  getOrient() {
     return this._orient;
   }
 
@@ -201,11 +201,11 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       eachSeries(
         this._regions,
         s => {
-          if (isXAxis(this.orient)) {
+          if (isXAxis(this.getOrient())) {
             (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
-          } else if (isYAxis(this.orient)) {
+          } else if (isYAxis(this.getOrient())) {
             (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
-          } else if (isZAxis(this.orient)) {
+          } else if (isZAxis(this.getOrient())) {
             (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
           }
         },
@@ -226,11 +226,11 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     const { width, height } = this.getLayoutRect();
     const inverse = this._spec.inverse;
     let newRange: number[] = [];
-    if (isXAxis(this.orient)) {
+    if (isXAxis(this.getOrient())) {
       if (isValidNumber(width)) {
         newRange = inverse ? [width, 0] : [0, width];
       }
-    } else if (isZAxis(this.orient)) {
+    } else if (isZAxis(this.getOrient())) {
       if (isValidNumber(width)) {
         // TODO 这里需要设置布局
         newRange = inverse ? [width, 0] : [0, width];
@@ -262,7 +262,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    const isX = isXAxis(this.orient);
+    const isX = isXAxis(this.getOrient());
     if (isX) {
       if (isUndefined(this._spec.maxHeight)) {
         this._spec.maxHeight = '30%';
@@ -273,7 +273,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
     const axisStyle: any = this._getAxisAttributes();
     axisStyle.label.formatMethod = this.getLabelFormatMethod();
-    axisStyle.verticalFactor = this.orient === 'top' || this.orient === 'right' ? -1 : 1;
+    axisStyle.verticalFactor = this.getOrient() === 'top' || this.getOrient() === 'right' ? -1 : 1;
     this._axisStyle = axisStyle;
 
     this._tick = this._spec.tick;
@@ -281,9 +281,9 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   protected getSeriesStatisticsField(s: ICartesianSeries) {
     let f: string[];
-    if (isXAxis(this.orient)) {
+    if (isXAxis(this.getOrient())) {
       f = s.fieldX;
-    } else if (isZAxis(this.orient)) {
+    } else if (isZAxis(this.getOrient())) {
       f = s.fieldZ;
     } else {
       f = s.fieldY;
@@ -357,7 +357,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         if (this._isLayout === false) {
           // 布局结束之后再进行插件的调用
           // 插件在布局后
-          if (isXAxis(this.orient)) {
+          if (isXAxis(this.getOrient())) {
             this.callPlugin(plugin => {
               this.pluginService &&
                 plugin.onDidLayoutHorizontal &&
@@ -412,7 +412,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       this._regions,
       s => {
         scales.push(
-          this.orient === 'left' || this.orient === 'right'
+          this.getOrient() === 'left' || this.getOrient() === 'right'
             ? (s as ICartesianSeries).scaleY
             : (s as ICartesianSeries).scaleX
         );
@@ -434,11 +434,11 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         if (depth > 0) {
           field = s.getGroups()?.fields?.[depth];
         } else {
-          if (isXAxis(this.orient)) {
+          if (isXAxis(this.getOrient())) {
             field = (s as ICartesianSeries).fieldX2
               ? [...(s as ICartesianSeries).fieldX, (s as ICartesianSeries).fieldX2]
               : (s as ICartesianSeries).fieldX;
-          } else if (isZAxis(this.orient)) {
+          } else if (isZAxis(this.getOrient())) {
             field = (s as ICartesianSeries).fieldZ;
           } else {
             field = (s as ICartesianSeries).fieldY;
@@ -469,13 +469,13 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     eachSeries(
       this._regions,
       s => {
-        if (isXAxis(this.orient)) {
+        if (isXAxis(this.getOrient())) {
           (s as ICartesianSeries).setScaleX(this._scale);
           (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
-        } else if (isYAxis(this.orient)) {
+        } else if (isYAxis(this.getOrient())) {
           (s as ICartesianSeries).setScaleY(this._scale);
           (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
-        } else if (isZAxis(this.orient)) {
+        } else if (isZAxis(this.getOrient())) {
           (s as ICartesianSeries).setScaleZ(this._scale);
           (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
         }
@@ -544,12 +544,12 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (!this._visible) {
       return result;
     }
-    this._verticalLimitSize = isXAxis(this.orient) ? rect.height : rect.width;
+    this._verticalLimitSize = isXAxis(this.getOrient()) ? rect.height : rect.width;
 
     this.setLayoutRect(rect);
     this.updateScaleRange();
     this.computeData();
-    const isX = isXAxis(this.orient);
+    const isX = isXAxis(this.getOrient());
     const context = { skipLayout: false };
 
     if (isX) {
@@ -732,7 +732,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (this.visible && onZero && visible !== false) {
       const { onZeroAxisId, onZeroAxisIndex } = this._spec.domainLine;
       const axesComponents = this._option.getComponentsByKey('axes') as IAxis[];
-      const isX = isXAxis(this.orient);
+      const isX = isXAxis(this.getOrient());
 
       // 判断坐标轴是否可用
       const isValidAxis = (item: any) => {

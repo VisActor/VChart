@@ -4,7 +4,7 @@ import { CartesianAxis } from './axis';
 import { isValid } from '../../../util';
 import type { IAxisHelper, ICartesianLinearAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface';
-import { getLinearAxisSpecDomain } from '../utils';
+import { getLinearAxisSpecDomain } from '../util';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { mixin } from '@visactor/vutils';
 import type { ILinearAxisSpec } from '../interface';

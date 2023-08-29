@@ -20,7 +20,7 @@ import { polarToCartesian, getIntersectPoint, PointService, getAngleByPoint } fr
 import type { IGroup, INode } from '@visactor/vrender';
 import { angleLabelOrientAttribute, radiusLabelOrientAttribute } from '../../util/math';
 import { limitTagInBounds } from './util';
-import { getAxisLabelOffset } from '../axis/utils';
+import { getAxisLabelOffset } from '../axis/util';
 
 interface ICrosshairInfo {
   x: number;

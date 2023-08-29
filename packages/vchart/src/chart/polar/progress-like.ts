@@ -1,6 +1,6 @@
 import { isNil } from '@visactor/vutils';
 import type { IPolarAxisSpec, IPolarBandAxisSpec, IPolarLinearAxisSpec } from '../../component/axis/polar/interface';
-import { getLinearAxisSpecDomain } from '../../component/axis/utils';
+import { getLinearAxisSpecDomain } from '../../component/axis/util';
 import { PolarChart } from './polar';
 
 export class ProgressLikeChart extends PolarChart {

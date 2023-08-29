@@ -19,7 +19,7 @@ import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber } from '../../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { isPolarAxisSeries } from '../../../series/util/utils';
-import { isValidPolarAxis } from '../utils';
+import { isValidPolarAxis } from '../util';
 
 import type { Dict } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -59,7 +59,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   protected declare _theme: IPolarAxisCommonTheme;
 
   protected _orient: IPolarOrientType = 'radius';
-  get orient() {
+  getOrient() {
     return this._orient;
   }
 
@@ -148,7 +148,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       eachSeries(
         this._regions,
         s => {
-          if (this.orient === 'radius') {
+          if (this.getOrient() === 'radius') {
             (s as IPolarSeries).radiusAxisHelper = this.axisHelper();
           } else {
             (s as IPolarSeries).angleAxisHelper = this.axisHelper();
@@ -257,7 +257,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   protected updateScaleRange() {
     const inverse = this._spec.inverse;
-    if (this.orient === 'radius') {
+    if (this.getOrient() === 'radius') {
       this._scale.range(
         inverse
           ? [this.computeLayoutOuterRadius(), this.computeLayoutInnerRadius()]
@@ -277,7 +277,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         if (depth > 0) {
           field = s.getGroups()?.fields?.[depth];
         } else {
-          field = this.orient === 'radius' ? (s as IPolarSeries).getRadiusField() : (s as IPolarSeries).getAngleField();
+          field =
+            this.getOrient() === 'radius' ? (s as IPolarSeries).getRadiusField() : (s as IPolarSeries).getAngleField();
         }
         field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
         if (!depth) {
@@ -306,7 +307,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     eachSeries(
       this._regions,
       s => {
-        if (this.orient === 'radius') {
+        if (this.getOrient() === 'radius') {
           (s as IPolarSeries).setRadiusScale(this._scale);
           (s as IPolarSeries).radiusAxisHelper = this.axisHelper();
         } else {
@@ -322,7 +323,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   protected getSeriesStatisticsField(s: IPolarSeries) {
-    const f = this.orient === 'radius' ? s.getRadiusField() : s.getAngleField();
+    const f = this.getOrient() === 'radius' ? s.getRadiusField() : s.getAngleField();
     if (isContinuous(this._scale.type)) {
       return f;
     }
@@ -357,7 +358,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   positionToData(position: IPoint) {
     const coord = this.pointToCoord(position);
-    if (this.orient === 'radius') {
+    if (this.getOrient() === 'radius') {
       return this._scale.invert(coord.radius);
     }
 
@@ -453,7 +454,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   updateLayoutAttribute(): void {
     if (this._visible) {
-      if (this.orient === 'radius') {
+      if (this.getOrient() === 'radius') {
         this._layoutRadiusAxis();
       } else {
         this._layoutAngleAxis();

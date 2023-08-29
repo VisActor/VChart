@@ -15,7 +15,7 @@ import { component } from '../common/component';
 export const lightTheme: ITheme = {
   name: 'light',
   background: { type: 'palette', key: 'backgroundColor' },
-  padding: 12,
+  padding: 20,
   fontFamily: THEME_CONSTANTS.defaultFontFamily,
   colorScheme,
   mark: markByType,

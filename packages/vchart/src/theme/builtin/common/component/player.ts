@@ -10,16 +10,17 @@ export const player: IPlayerTheme = {
   slider: {
     space: 10,
     trackStyle: {
-      fill: '#3073F2'
+      fill: { type: 'palette', key: 'dataZoomSelectedColor' },
+      fillOpacity: 0.8
     },
     railStyle: {
-      fill: '#D1D5DA'
+      fill: { type: 'palette', key: 'dataZoomBackgroundColor' }
     },
     handlerStyle: {
       size: 15,
       stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 2,
-      fill: '#0564FE'
+      fill: { type: 'palette', key: 'dataZoomSelectedColor' }
     }
   },
   controller: {
@@ -28,7 +29,8 @@ export const player: IPlayerTheme = {
       space: 0,
       style: {
         size: 25,
-        fill: '#3073F2'
+        fill: { type: 'palette', key: 'dataZoomSelectedColor' },
+        fillOpacity: 0.8
       }
     },
     pause: {
@@ -36,7 +38,8 @@ export const player: IPlayerTheme = {
       space: 0,
       style: {
         size: 25,
-        fill: '#3073F2'
+        fill: { type: 'palette', key: 'dataZoomSelectedColor' },
+        fillOpacity: 0.8
       }
     },
     backward: {
@@ -45,7 +48,8 @@ export const player: IPlayerTheme = {
       position: 'start',
       style: {
         size: 12,
-        fill: '#3073F2'
+        fill: { type: 'palette', key: 'dataZoomSelectedColor' },
+        fillOpacity: 0.8
       }
     },
     forward: {
@@ -54,7 +58,8 @@ export const player: IPlayerTheme = {
       position: 'end',
       style: {
         size: 12,
-        fill: '#3073F2'
+        fill: { type: 'palette', key: 'dataZoomSelectedColor' },
+        fillOpacity: 0.8
       }
     }
   }

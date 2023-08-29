@@ -64,7 +64,7 @@ export const commonAxis: IAxisCommonTheme = {
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
       fontFamily: THEME_CONSTANTS.defaultFontFamily,
-      fill: '#333333',
+      fill: { type: 'palette', key: 'secondaryFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1
     }

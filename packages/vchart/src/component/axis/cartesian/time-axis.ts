@@ -31,7 +31,7 @@ export class CartesianTimeAxis<
       eachSeries(
         this._regions,
         s => {
-          if (isXAxis(this.orient)) {
+          if (isXAxis(this.getOrient())) {
             (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
           } else {
             (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
