@@ -1,4 +1,4 @@
-# DEMO Template
+# Builtin Theme DEMO
 
 ## How to Run
 
@@ -9,4 +9,4 @@ rush update
 rush docs
 ```
 
-2. Access this URL in a browser: http://localhost:3020/assets/demos/template/index.html
+2. Access this URL in a browser: http://localhost:3020/assets/demos/builtin-theme/index.html
