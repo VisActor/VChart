@@ -96,8 +96,7 @@ export default {
     crosshair: {
       xField: { visible: true },
       yField: { visible: true }
-    }
-    /*
+    },
     legends: {
       visible: true,
       type: 'size',
@@ -105,6 +104,5 @@ export default {
       field: 'value',
       width: 100
     } as any
-    */
   } as ICommonChartSpec
 } as IChartInfo;

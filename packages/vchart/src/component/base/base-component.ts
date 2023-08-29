@@ -13,6 +13,7 @@ import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
 import type { Datum } from '../../typings';
 import type { ILayoutOrientPadding, IModelSpec } from '../../model/interface';
+import { normalizeLayoutPaddingSpec } from '../../util';
 
 export abstract class BaseComponent<T extends IModelSpec = IModelSpec> extends BaseModel<T> implements IComponent {
   name: string = 'component';
@@ -106,7 +107,7 @@ export abstract class BaseComponent<T extends IModelSpec = IModelSpec> extends B
     const { padding, noOuterPadding = true, orient } = this._spec;
     if (noOuterPadding && padding && orient) {
       this._spec.padding = {
-        ...(padding as ILayoutOrientPadding),
+        ...normalizeLayoutPaddingSpec(padding),
         [orient]: 0
       };
     }

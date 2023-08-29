@@ -24,7 +24,7 @@ export const tooltip: ITooltipTheme = {
       y: 4,
       blur: 12,
       spread: 0,
-      color: { type: 'palette', key: 'tooltipShadowColor', a: 0.1 }
+      color: { type: 'palette', key: 'shadowColor', a: 0.1 }
     }
   },
   spaceRow: 6,

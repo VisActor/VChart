@@ -26,7 +26,7 @@ export const poptip: IPoptipTheme = {
     shadowBlur: 12,
     shadowOffsetX: 0,
     shadowOffsetY: 4,
-    shadowColor: { type: 'palette', key: 'tooltipShadowColor', a: 0.1 },
+    shadowColor: { type: 'palette', key: 'shadowColor', a: 0.1 },
     size: 0,
     space: 12
   }

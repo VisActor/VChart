@@ -5,6 +5,8 @@ export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
   backgroundColor: string;
   /** 图表边框色 */
   borderColor: string;
+  /** 默认阴影颜色 */
+  shadowColor: string;
 
   /** 主要字色（图表标题、大数字） */
   primaryFontColor: string;
@@ -37,8 +39,6 @@ export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
 
   /** 提示信息背景区域颜色 */
   tooltipBackgroundColor: string;
-  /** 提示信息阴影颜色 */
-  tooltipShadowColor: string;
 
   // 已弃用的语义色值
   /** @deprecated 图表标题颜色 */

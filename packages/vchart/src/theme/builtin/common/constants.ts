@@ -3,7 +3,7 @@ import type { IThemeConstants } from '../../interface';
 export const THEME_CONSTANTS: IThemeConstants = {
   defaultFontFamily:
     // eslint-disable-next-line max-len
-    'PingFang SC,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif, apple color emoji,segoe ui emoji,segoe ui symbol',
+    'PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol',
   defaultFontSize: 14,
 
   l1FontSize: 32,

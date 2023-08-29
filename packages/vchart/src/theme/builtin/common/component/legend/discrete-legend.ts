@@ -9,8 +9,8 @@ export const discreteLegend: IDiscreteLegendTheme = {
     visible: false,
     padding: 0,
     textStyle: {
-      fontSize: THEME_CONSTANTS.l4FontSize,
-      lineHeight: THEME_CONSTANTS.l4LineHeight,
+      fontSize: THEME_CONSTANTS.l5FontSize,
+      lineHeight: THEME_CONSTANTS.l5LineHeight,
       fontFamily: THEME_CONSTANTS.defaultFontFamily,
       fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
       fontWeight: 'normal'

@@ -1,5 +1,21 @@
-import type { IColorLegendTheme } from '../../../../../component/legend';
+import type { IColorLegendTheme, IContinuousLegendTheme } from '../../../../../component/legend';
 import { DEFAULT_CONTINUOUS_LEGEND_THEME } from './continuous';
+
+const handlerTheme: IContinuousLegendTheme['handler'] = {
+  style: {
+    symbolType: 'circle',
+    lineWidth: 0,
+    outerBorder: {
+      lineWidth: 2,
+      distance: 0.8,
+      stroke: '#ffffff'
+    },
+    shadowBlur: 12,
+    shadowOffsetX: 0,
+    shadowOffsetY: 4,
+    shadowColor: { type: 'palette', key: 'shadowColor', a: 0.3 }
+  }
+};
 
 export const colorLegend: IColorLegendTheme = {
   horizontal: {
@@ -8,9 +24,10 @@ export const colorLegend: IColorLegendTheme = {
       width: 200,
       height: 8,
       style: {
-        fill: 'rgba(0,0,0,0.04)'
+        fill: { type: 'palette', key: 'dataZoomBackgroundColor' }
       }
-    }
+    },
+    handler: handlerTheme
   },
   vertical: {
     ...DEFAULT_CONTINUOUS_LEGEND_THEME,
@@ -18,8 +35,9 @@ export const colorLegend: IColorLegendTheme = {
       width: 8,
       height: 200,
       style: {
-        fill: 'rgba(0,0,0,0.04)'
+        fill: { type: 'palette', key: 'dataZoomBackgroundColor' }
       }
-    }
+    },
+    handler: handlerTheme
   }
 };

@@ -10,6 +10,8 @@ export const colorScheme: IThemeColorScheme = {
       backgroundColor: '#ffffff',
       /** 图表边框色 */
       borderColor: '#e3e5e8',
+      /** 默认阴影颜色 */
+      shadowColor: '#21252c',
 
       /** 主要字色 */
       primaryFontColor: '#21252c',
@@ -42,8 +44,6 @@ export const colorScheme: IThemeColorScheme = {
 
       /** 提示信息背景区域颜色 */
       tooltipBackgroundColor: '#ffffff',
-      /** 提示信息阴影颜色 */
-      tooltipShadowColor: '#21252c',
 
       // 已弃用的语义色值
       /** @deprecated 图表标题颜色 */
