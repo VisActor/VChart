@@ -264,7 +264,7 @@ export interface IModel extends ICompilable, ILayoutItem {
   onRender: (ctx: IModelRenderOption) => void;
   onDataUpdate: () => void;
 
-  updateSpec: (spec: any) => IUpdateSpecResult;
+  updateSpec: (spec: any, totalSpec?: any) => IUpdateSpecResult;
   getSpec?: () => any;
   getSpecIndex: () => number;
 
