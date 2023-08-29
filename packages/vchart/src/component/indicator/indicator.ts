@@ -164,6 +164,19 @@ export class Indicator extends BaseComponent implements IIndicator {
         }
       });
     });
+
+    const offsetX = this._spec.offsetX
+      ? this._spec.offsetX > 1
+        ? this._spec.offsetX
+        : this._computeLayoutRadius() * this._spec.offsetX
+      : 0;
+
+    const offsetY = this._spec.offsetY
+      ? this._spec.offsetY > 1
+        ? this._spec.offsetY
+        : this._computeLayoutRadius() * this._spec.offsetY
+      : 0;
+
     return {
       visible: this._spec.visible !== false && (this._spec.fixed !== false || this._activeDatum !== null),
       size: {
@@ -173,8 +186,8 @@ export class Indicator extends BaseComponent implements IIndicator {
       zIndex: this.layoutZIndex,
       x: x,
       y: y,
-      dx: this._spec.offsetX ?? 0,
-      dy: this._spec.offsetY ?? 0,
+      dx: offsetX,
+      dy: offsetY,
       limitRatio: this._spec.limitRatio || Infinity,
       title: {
         visible: this._spec.title.visible !== false && (!isValid(this._spec.title.field) || this._activeDatum !== null),
@@ -230,6 +243,12 @@ export class Indicator extends BaseComponent implements IIndicator {
       return text(this._activeDatum, undefined) ?? '';
     }
     return text ?? '';
+  }
+
+  private _computeLayoutRadius() {
+    const region = this._regions[0];
+    const { width, height } = region.getLayoutRect();
+    return Math.min(width / 2, height / 2);
   }
 
   private isRelativeModel(model: IModel) {
