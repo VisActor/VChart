@@ -178,7 +178,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
 
   private _getLegendItems() {
     const originData = (this._legendData.getLatestData() || []).map((datum: any) => {
-      const fill = datum.style('fill');
+      const fill = datum.style('fill') || datum.style('stroke');
       const stroke = datum.style('stroke');
       const lineWidth = datum.style('lineWidth');
       const symbolType = datum.style('symbolType');
