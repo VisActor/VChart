@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add `bandField` and `linearField` as common settings to crosshair's theme, related #698",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
