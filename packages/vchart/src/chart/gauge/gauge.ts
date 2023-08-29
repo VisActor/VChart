@@ -1,13 +1,12 @@
 import { isNil } from '@visactor/vutils';
 import type { IPolarAxisSpec, IPolarLinearAxisSpec } from '../../component/axis/polar/interface';
-import type { IGaugeSeriesSpec } from '../../series/gauge';
+import { type IGaugeSeriesSpec, GaugePointerSeries, GaugeSeries } from '../../series/gauge';
 import type { ISeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ICircularProgressSeriesSpec } from '../../series/progress/circular/interface';
 import { ChartTypeEnum } from '../interface';
 import { ProgressLikeChart } from '../polar/progress-like';
 import { VChart } from '../../core/vchart';
-import { GaugePointerSeries, GaugeSeries } from '../../series';
 VChart.useSeries([GaugePointerSeries, GaugeSeries]);
 
 export class GaugeChart extends ProgressLikeChart {

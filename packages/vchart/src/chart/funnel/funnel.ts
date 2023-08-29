@@ -2,7 +2,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BaseFunnelChart } from './base';
 import { VChart } from '../../core/vchart';
-import { FunnelSeries } from '../../series';
+import { FunnelSeries } from '../../series/funnel/funnel';
 VChart.useSeries([FunnelSeries]);
 
 export class FunnelChart extends BaseFunnelChart {

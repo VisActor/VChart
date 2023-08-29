@@ -4,10 +4,7 @@
 import { isString, isValid } from '@visactor/vutils';
 import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../scale/interface';
-import { BandScale, LinearScale, OrdinalScale, PointScale, ThresholdScale } from '@visactor/vscale';
-// eslint-disable-next-line no-duplicate-imports
-import type { IBaseScale } from '@visactor/vscale';
-import type { ScaleType } from '../typings/scale';
+import { type IBaseScale, BandScale, LinearScale, OrdinalScale, PointScale, ThresholdScale } from '@visactor/vscale';
 import type { IVisual, IVisualSpecBase } from '../typings/visual';
 import { ColorOrdinalScale } from '../scale/color-ordinal-scale';
 
@@ -50,7 +47,7 @@ export function createScaleWithSpec(
 }
 
 // 需要一个通用的从spec初始化scale的方法，避免在scale属性更新后需要维护多组逻辑
-export function initScaleWithSpec(scale: IBaseScale, spec: IVisualSpecBase<any, any>) {
+function initScaleWithSpec(scale: IBaseScale, spec: IVisualSpecBase<any, any>) {
   if (!scale || !spec) {
     return;
   }
@@ -66,10 +63,6 @@ export function initScaleWithSpec(scale: IBaseScale, spec: IVisualSpecBase<any, 
   if (spec.specified && (<OrdinalScale>scale).specified) {
     (<OrdinalScale>scale).specified(spec.specified);
   }
-}
-
-export function isValidScaleType(type: ScaleType): boolean {
-  return Object.keys(defaultScaleMap).includes(type);
 }
 
 export function valueInScaleRange(v: number, s?: IBaseScale) {

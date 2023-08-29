@@ -1,9 +1,9 @@
+import { RadarSeries } from './../../series/radar/radar';
 import { SeriesTypeEnum } from '../../series/interface';
 import { array, merge } from '../../util';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
 import { VChart } from '../../core/vchart';
-import { RadarSeries } from '../../series';
 VChart.useSeries([RadarSeries]);
 
 export class RadarChart extends RoseLikeChart {

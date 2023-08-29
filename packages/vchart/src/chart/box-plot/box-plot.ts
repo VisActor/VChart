@@ -1,12 +1,11 @@
 import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
-import { isNil } from '../../util';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBoxPlotChartSpec } from './interface';
 import { VChart } from '../../core/vchart';
-import { BoxPlotSeries } from '../../series';
+import { BoxPlotSeries } from '../../series/box-plot/box-plot';
 VChart.useSeries([BoxPlotSeries]);
 
 export class BoxPlotChart extends CartesianChart {

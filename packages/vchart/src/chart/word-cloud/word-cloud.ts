@@ -4,7 +4,7 @@ import { ChartTypeEnum } from '../interface';
 import type { IWordCloudChartSpec } from './interface';
 import { BaseWordCloudChart } from './base';
 import { VChart } from '../../core/vchart';
-import { WordCloudSeries } from '../../series';
+import { WordCloudSeries } from '../../series/word-cloud/word-cloud';
 VChart.useSeries([WordCloudSeries]);
 
 export class WordCloudChart extends BaseWordCloudChart {
