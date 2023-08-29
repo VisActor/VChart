@@ -359,7 +359,7 @@ export class Tooltip extends BaseComponent implements ITooltip {
     super.reInit(theme);
 
     if (this.tooltipHandler) {
-      this.tooltipHandler.reInit();
+      this.tooltipHandler.reInit?.();
     } else {
       this._initHandler();
     }

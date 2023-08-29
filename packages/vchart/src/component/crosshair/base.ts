@@ -194,7 +194,8 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
   }
 
   protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value') {
-    const axesComponents = this._option?.getComponentsByKey?.('axes') as IAxis[]; // 加判空防止某些特殊时刻（如 updateSpec 时）鼠标滑过图表导致报错
+    // 加判空防止某些特殊时刻（如 updateSpec 时）鼠标滑过图表导致报错
+    const axesComponents = this._option?.getComponentsByKey?.('axes') as IAxis[];
     if (!axesComponents?.length) {
       return null;
     }

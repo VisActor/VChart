@@ -11,7 +11,7 @@ import type { IGroupMark } from '@visactor/vgrammar';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
-import type { Datum } from '../../typings';
+import type { Datum, IRegionQuerier, StringOrNumber } from '../../typings';
 
 export abstract class BaseComponent extends BaseModel implements IComponent {
   name: string = 'component';
@@ -101,6 +101,28 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
     }
 
     return this._container;
+  }
+
+  /**
+   * updateSpec
+   */
+  updateSpec(spec: any) {
+    const originalSpec = this._originalSpec as {
+      regionId?: StringOrNumber;
+      regionIndex?: number;
+      seriesId?: StringOrNumber;
+      seriesIndex?: number;
+    };
+    const result = super.updateSpec(spec);
+    if (
+      originalSpec.regionId !== this._spec.regionId ||
+      originalSpec.regionIndex !== this._spec.regionIndex ||
+      originalSpec.seriesId !== this._spec.seriesId ||
+      originalSpec.seriesIndex !== this._spec.seriesIndex
+    ) {
+      result.reMake = true;
+    }
+    return result;
   }
 
   release() {

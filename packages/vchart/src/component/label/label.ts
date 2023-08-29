@@ -242,14 +242,4 @@ export class Label extends BaseLabelComponent {
       });
     });
   }
-
-  clear(): void {
-    super.clear();
-
-    this._labelComponentMap.forEach((context, mark) => {
-      if (mark.getProduct()) {
-        mark.getProduct().release();
-      }
-    });
-  }
 }

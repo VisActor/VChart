@@ -128,8 +128,6 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
       result.reMake = true;
       return result;
     }
-    result.reMake = true;
-
     return result;
   }
 

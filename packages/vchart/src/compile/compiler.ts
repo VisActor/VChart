@@ -165,6 +165,12 @@ export class Compiler {
     this.updateDepend();
   }
 
+  clear(ctx: { chart: IChart; vChart: VChart }) {
+    const { chart } = ctx;
+    chart.clear();
+    this.releaseGrammar();
+  }
+
   async renderAsync(morphConfig?: IMorphConfig): Promise<any> {
     this.initView();
     if (!this._view) {
