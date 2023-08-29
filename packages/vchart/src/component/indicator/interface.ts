@@ -1,4 +1,4 @@
-import type { IModelSpec } from '../../model/interface';
+import type { IModelSpec, IPercent } from '../../model/interface';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IComponent } from '../interface';
 
@@ -69,13 +69,13 @@ export interface IIndicatorSpec extends IModelSpec {
    * 支持两种格式：像素值、百分比
    * @default 0
    */
-  offsetX?: number | string;
+  offsetX?: number | IPercent;
   /**
    * 指标卡 y 方向偏移
    * 支持两种格式：像素值、百分比
    * @default 0
    */
-  offsetY?: number | string;
+  offsetY?: number | IPercent;
   /**
    * 指标卡宽度占内容区域的最大比值（从0到1）
    */
