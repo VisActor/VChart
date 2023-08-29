@@ -1,5 +1,5 @@
-import { merge } from '../util';
 import type { IAnimationConfig } from '@visactor/vgrammar';
+// eslint-disable-next-line no-duplicate-imports
 import type { IElement, IAnimationTypeConfig, IStateAnimationConfig, IAnimationTimeline } from '@visactor/vgrammar';
 import type { MarkAnimationSpec, IAnimationState } from './interface';
 import type { IStateAnimateSpec, IAnimationSpec, IMorphSeriesSpec } from './spec';
@@ -8,6 +8,7 @@ import { DEFAULT_DATA_INDEX } from '../constant';
 import { DEFAULT_ANIMATION_CONFIG } from './config';
 import { isArray, isValid } from '@visactor/vutils';
 import type { SeriesMarkNameEnum } from '../series/interface';
+import { mergeSpec } from '../util/spec';
 
 export const AnimationStates = ['appear', 'enter', 'update', 'exit', 'disappear', 'normal'];
 
@@ -57,7 +58,7 @@ export function animationConfig<Preset extends string>(
     if (isArray(userConfig[state])) {
       stateConfig = userConfig[state];
     } else {
-      let singleConfig: IAnimationConfig = merge({}, defaultStateConfig[0], userConfig[state]) as IAnimationConfig;
+      let singleConfig: IAnimationConfig = mergeSpec({}, defaultStateConfig[0], userConfig[state]) as IAnimationConfig;
 
       if (isChannelAnimation(singleConfig)) {
         // `type` and `channel` is conflict, and `type` has a higher priority.

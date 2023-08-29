@@ -35,24 +35,24 @@ export interface ICartesianCrosshairSpec extends ICommonCrosshairSpec, IModelSpe
   /**
    * 笛卡尔坐标系下 x 轴上 crosshair 配置
    */
-  xField?: ICrosshairXFieldSpec;
+  xField?: ICrosshairCategoryFieldSpec;
   /**
    * 笛卡尔坐标系下 y 轴上 crosshair 配置
    */
-  yField?: ICrosshairXFieldSpec;
+  yField?: ICrosshairCategoryFieldSpec;
 }
 
 export interface IPolarCrosshairSpec extends ICommonCrosshairSpec, IModelSpec {
   /**
    * 极坐标系下 categoryField 字段对应轴上的 crosshair 配置
    */
-  categoryField?: ICrosshairXFieldSpec;
+  categoryField?: ICrosshairCategoryFieldSpec;
   /**
    * 极坐标系下 valueField 字段对应轴上的 crosshair 配置
    */
   valueField?: ICrosshairValueFieldSpec;
 }
-export interface ICrosshairXFieldSpec extends ICrosshairDataBindSpec {
+export interface ICrosshairCategoryFieldSpec extends ICrosshairDataBindSpec {
   /**
    * 是否可见
    */

@@ -12,7 +12,7 @@ import {
   cloneDeep,
   isArray,
   isValid,
-  merge,
+  mergeSpec,
   isMobileLikeMode,
   isTrueBrowser,
   isNil,
@@ -50,12 +50,14 @@ type EventHandlerList = {
   handler: any;
 }[];
 
-export class Tooltip extends BaseComponent implements ITooltip {
+export class Tooltip extends BaseComponent<any> implements ITooltip {
   static type = ComponentTypeEnum.tooltip;
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
 
   layoutType: ILayoutItem['layoutType'] = 'absolute';
+
+  protected declare _spec: ITooltipSpec;
 
   static createComponent(spec: any, options: IComponentOption) {
     const tooltipSpec = spec.tooltip;
@@ -79,8 +81,6 @@ export class Tooltip extends BaseComponent implements ITooltip {
   private _cacheInfo: TooltipInfo | undefined;
 
   private _eventList: EventHandlerList = [];
-
-  protected declare _spec: ITooltipSpec;
 
   protected declare _theme: ITooltipTheme;
 
@@ -352,14 +352,18 @@ export class Tooltip extends BaseComponent implements ITooltip {
 
   protected _initTheme(theme?: any) {
     super._initTheme(theme);
-    this._spec.style = merge({}, this._theme, this._originalSpec.style);
+    this._spec.style = this._preprocessSpec(mergeSpec({}, this._theme, this._originalSpec.style));
+  }
+
+  protected _shouldMergeThemeToSpec() {
+    return false;
   }
 
   reInit(theme?: any) {
     super.reInit(theme);
 
     if (this.tooltipHandler) {
-      this.tooltipHandler.reInit();
+      this.tooltipHandler.reInit?.();
     } else {
       this._initHandler();
     }

@@ -6,7 +6,7 @@ import { AttributeLevel, LayoutZIndex, STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP 
 import type { MarkType } from '../../mark/interface';
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
 import type { ITextMark } from '../../mark/text';
-import { getSeries, merge } from '../../util';
+import { getSeries, mergeSpec } from '../../util';
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar';
 import { textAttribute } from './util';
@@ -99,7 +99,7 @@ export class TotalLabel extends BaseLabelComponent {
           if (this._baseMark) {
             const { offset, animation, overlap } = this._spec;
             const interactive = this._interactiveConfig(this._spec);
-            return merge(
+            return mergeSpec(
               {
                 textStyle: { pickable: this._spec.interactive === true },
                 position: totalLabelPosition(this.series, this._baseMark.type)

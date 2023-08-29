@@ -5,15 +5,16 @@ import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING } from './config
 import { mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
+import type { IPolarBandAxisSpec } from './interface';
 
-export interface PolarBandAxis
+export interface PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec>
   extends Pick<
       BandAxisMixin,
       'valueToPosition' | 'updateGroupScaleRange' | 'getPosition' | 'calcScales' | 'computeBandDomain'
     >,
-    PolarAxis {}
+    PolarAxis<T> {}
 
-export class PolarBandAxis extends PolarAxis {
+export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> extends PolarAxis<T> {
   static type = ComponentTypeEnum.polarBandAxis;
   type = ComponentTypeEnum.polarBandAxis;
 

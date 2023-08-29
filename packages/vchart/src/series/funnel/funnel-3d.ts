@@ -5,19 +5,22 @@ import { MarkTypeEnum } from '../../mark/interface';
 import type { IPyramid3dMark } from '../../mark/polygon/pyramid-3d';
 import type { IRuleMark } from '../../mark/rule';
 import type { ITextMark } from '../../mark/text';
-import { BaseSeries } from '../base/base-series';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface';
 import { FunnelSeries } from './funnel';
-import type { IFunnel3dSeriesTheme } from './interface';
+import type { IFunnel3dSeriesSpec, IFunnel3dSeriesTheme } from './interface';
 import { VChart } from '../../core/vchart';
 import { Pyramid3dMark } from '../../mark/polygon/pyramid-3d';
 import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
+import type { AdaptiveSpec } from '../../typings';
+import { funnel3dSeriesMark } from './constant';
 
 VChart.useMark([Pyramid3dMark, TextMark, RuleMark]);
 
-export class Funnel3dSeries extends FunnelSeries {
+export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec> extends FunnelSeries<
+  AdaptiveSpec<T, 'type'>
+> {
   static readonly type: string = SeriesTypeEnum.funnel3d;
   type = SeriesTypeEnum.funnel3d;
   protected _funnelMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.funnel3d;
@@ -25,14 +28,7 @@ export class Funnel3dSeries extends FunnelSeries {
   protected _transformMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.transform3d;
   protected _transformMarkType: MarkTypeEnum = MarkTypeEnum.pyramid3d;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.funnel3d]: { name: SeriesMarkNameEnum.funnel3d, type: MarkTypeEnum.pyramid3d },
-    [SeriesMarkNameEnum.transform3d]: { name: SeriesMarkNameEnum.transform3d, type: MarkTypeEnum.pyramid3d },
-    [SeriesMarkNameEnum.transformLabel]: { name: SeriesMarkNameEnum.transformLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.outerLabel]: { name: SeriesMarkNameEnum.outerLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.outerLabelLine]: { name: SeriesMarkNameEnum.outerLabelLine, type: MarkTypeEnum.rule }
-  };
+  static readonly mark: SeriesMarkMap = funnel3dSeriesMark;
 
   protected declare _theme: Maybe<IFunnel3dSeriesTheme>;
 

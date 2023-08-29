@@ -1,7 +1,8 @@
 import { DataSet, DataView, geoJSONParser, simplify, topoJSONParser } from '@visactor/vdataset';
-import { merge, warn } from '../../util';
+import { warn } from '../../util';
 import type { GeoSourceType } from '../../typings/geo';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
+import { merge } from '@visactor/vutils';
 
 export interface IGeoJsonOption {
   type: 'geojson';

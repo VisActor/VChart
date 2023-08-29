@@ -20,12 +20,11 @@ import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/tran
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
 
-export class DiscreteLegend extends BaseLegend {
+export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
 
-  protected declare _spec: IDiscreteLegendSpec;
   protected declare _theme: IDiscreteLegendTheme;
 
   static createComponent(spec: any, options: IComponentOption) {

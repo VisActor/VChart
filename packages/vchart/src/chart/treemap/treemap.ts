@@ -5,10 +5,11 @@ import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import type { ITreemapChartSpec } from './interface';
 import { VChart } from '../../core/vchart';
-import { TreeMapSeries } from '../../series/treemap/treemap';
-VChart.useSeries([TreeMapSeries]);
+import { TreemapSeries } from '../../series/treemap/treemap';
 
-export class TreeMapChart extends BaseChart {
+VChart.useSeries([TreemapSeries]);
+
+export class TreemapChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.treemap;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.treemap;

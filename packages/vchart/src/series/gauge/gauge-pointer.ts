@@ -11,26 +11,22 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { ProgressLikeSeries } from '../polar/progress-like';
 import type { IRectMark } from '../../mark/rect';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { RectMark } from '../../mark/rect';
+import { gaugePointerSeriesMark } from './constant';
 
 VChart.useMark([PathMark, RectMark]);
 
-export class GaugePointerSeries extends ProgressLikeSeries<IGaugePointerSeriesSpec> {
+export class GaugePointerSeries<
+  T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec
+> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gaugePointer;
   type = SeriesTypeEnum.gaugePointer;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.pin]: { name: SeriesMarkNameEnum.pin, type: MarkTypeEnum.path },
-    [SeriesMarkNameEnum.pinBackground]: { name: SeriesMarkNameEnum.pinBackground, type: MarkTypeEnum.path },
-    [SeriesMarkNameEnum.pointer]: { name: SeriesMarkNameEnum.pointer, type: [MarkTypeEnum.path, MarkTypeEnum.rect] }
-  };
+  static readonly mark: SeriesMarkMap = gaugePointerSeriesMark;
 
   protected declare _theme: Maybe<IGaugePointerSeriesTheme>;
-  protected declare _spec: IGaugePointerSeriesSpec;
 
   private _pinMark: IPathMark | null = null;
   private _pointerMark: IPathMark | IRectMark | null = null;
@@ -190,5 +186,9 @@ export class GaugePointerSeries extends ProgressLikeSeries<IGaugePointerSeriesSp
         userAnimationConfig(SeriesMarkNameEnum.pointer, this._spec)
       )
     );
+  }
+
+  getDefaultShapeType() {
+    return 'circle';
   }
 }

@@ -3,6 +3,7 @@ import { PLAYER_PREFIX } from '../constant';
 import { createElement, createElementClassName } from '../utils';
 import { BaseLayer } from './base';
 import type { IDomLayerConfig } from './interface';
+// eslint-disable-next-line no-duplicate-imports
 import { LayerType } from './interface';
 
 export class DomLayer extends BaseLayer {

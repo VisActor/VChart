@@ -14,12 +14,12 @@ describe('[Domain-Series-LinearProgress] LinearProgress Series', () => {
   });
 
   test('linearProgress series init', () => {
-    const linearProgress = new LinearProgressSeries({}, ctx);
+    const linearProgress = new LinearProgressSeries<any>({}, ctx);
     linearProgress.init({});
   });
 
   test('linearProgress series mark', () => {
-    const linearProgress = new LinearProgressSeries({}, ctx);
+    const linearProgress = new LinearProgressSeries<any>({}, ctx);
     linearProgress.created();
     linearProgress.init({});
 

@@ -1,9 +1,10 @@
-import { isArray, isFunction, isObject, isString, isValid } from '@visactor/vutils';
+import { array, isArray, isFunction, isObject, isString, isValid } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { ColorUtil } from '@visactor/vutils';
 import type { SeriesTypeEnum } from '../../series/interface';
 import { Color } from '../../util/color';
 import type {
+  ColorScheme,
   ColorSchemeItem,
   IColorKey,
   IColorSchemeStruct,
@@ -103,7 +104,20 @@ export function queryColorFromColorScheme(
   if (!scheme) {
     return undefined;
   }
-  const color = (scheme as IColorSchemeStruct).palette?.[colorKey.key];
+  let color;
+  const { palette } = scheme as IColorSchemeStruct;
+  if (isObject(palette)) {
+    // 依照从前到后的优先级取色
+    for (const key of array(colorKey.key)) {
+      color = palette[key];
+      if (isValid(color)) {
+        break;
+      }
+    }
+    if (!color) {
+      color = colorKey.default;
+    }
+  }
   if (!color) {
     return undefined;
   }
@@ -149,4 +163,14 @@ export function isProgressiveDataColorScheme<T>(obj: any): obj is ProgressiveDat
   return obj.every(item => {
     return isValid((item as IProgressiveDataSchemeCase<T>).scheme);
   });
+}
+
+/** 将色板转化为标准形式 */
+export function transformColorSchemeToStandardStruct(colorScheme: ColorScheme): IColorSchemeStruct {
+  if (isArray(colorScheme)) {
+    return {
+      dataScheme: colorScheme
+    };
+  }
+  return colorScheme;
 }

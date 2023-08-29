@@ -1,4 +1,5 @@
-import { isArray, isNil, isNumber, merge } from '@visactor/vutils';
+import { isArray, isNil, isNumber } from '@visactor/vutils';
+import { mergeSpec } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
@@ -12,8 +13,9 @@ import type { ILinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
+import type { IDataZoomSpec } from './interface';
 
-export class DataZoom extends DataFilterBaseComponent {
+export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
   type = ComponentTypeEnum.dataZoom;
   name: string = ComponentTypeEnum.dataZoom;
@@ -46,7 +48,7 @@ export class DataZoom extends DataFilterBaseComponent {
     return zooms;
   }
 
-  constructor(spec: any, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });
@@ -214,7 +216,7 @@ export class DataZoom extends DataFilterBaseComponent {
           height: this.getLayoutRect().height
         },
         showDetail: this._spec?.showDetail,
-        brushSelect: this._spec?.brushSelect ?? true,
+        brushSelect: this._spec?.brushSelect ?? false,
         previewData: this._data.getLatestData(),
         previewCallbackX: this._dataToPositionX,
         previewCallbackY: this._dataToPositionY,
@@ -306,7 +308,7 @@ export class DataZoom extends DataFilterBaseComponent {
       ) as unknown as IRectGraphicAttribute,
       dragMaskStyle: transformToGraphic(this._spec.dragMask?.style) as unknown as IRectGraphicAttribute,
       backgroundChartStyle: {
-        line: merge(transformToGraphic(this._spec.backgroundChart?.line?.style), { fill: false }),
+        line: mergeSpec(transformToGraphic(this._spec.backgroundChart?.line?.style), { fill: false }),
         area: {
           curveType: 'basis',
           visible: true,
@@ -314,7 +316,7 @@ export class DataZoom extends DataFilterBaseComponent {
         }
       },
       selectedBackgroundChartStyle: {
-        line: merge(transformToGraphic(this._spec.selectedBackgroundChart?.line?.style), { fill: false }),
+        line: mergeSpec(transformToGraphic(this._spec.selectedBackgroundChart?.line?.style), { fill: false }),
         area: {
           curveType: 'basis',
           visible: true,

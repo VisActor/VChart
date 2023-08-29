@@ -3,7 +3,6 @@ import type { IPadding } from '@visactor/vutils';
 import { isEqual, isValidNumber } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
-import { MarkTypeEnum } from '../../mark/interface';
 import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
@@ -45,6 +44,7 @@ import { BaseSeries } from '../base/base-series';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { VChart } from '../../core/vchart';
 import { TextMark } from '../../mark/text';
+import { wordCloudSeriesMark } from './constant';
 
 VChart.useMark([TextMark]);
 
@@ -54,11 +54,7 @@ registerWordCloudShapeTransforms();
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
 export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordCloudSeriesSpec> extends BaseSeries<T> {
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.word]: { name: SeriesMarkNameEnum.word, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.fillingWord]: { name: SeriesMarkNameEnum.fillingWord, type: MarkTypeEnum.text }
-  };
+  static readonly mark: SeriesMarkMap = wordCloudSeriesMark;
 
   protected _nameField: string;
   protected _valueField?: string;

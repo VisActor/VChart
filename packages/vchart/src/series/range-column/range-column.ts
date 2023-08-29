@@ -6,7 +6,7 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import { Direction } from '../../typings/space';
 import type { IRectMark } from '../../mark/rect';
 import type { ITextMark } from '../../mark/text';
-import { merge, valueInScaleRange } from '../../util';
+import { mergeSpec, valueInScaleRange } from '../../util';
 import { setRectLabelPos } from '../util/label-mark';
 import { AttributeLevel } from '../../constant';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
@@ -18,24 +18,19 @@ import type { IRangeColumnSeriesSpec } from './interface';
 import { PositionEnum } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { RangeColumnAppearPreset } from './animation';
+import { rangeColumnSeriesMark } from './constant';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
-export class RangeColumnSeries extends BarSeries {
+export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSeriesSpec> extends BarSeries<any> {
   static readonly type: string = SeriesTypeEnum.rangeColumn;
   type = SeriesTypeEnum.rangeColumn;
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
   protected _barName: string = SeriesTypeEnum.bar;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BarSeries.mark,
-    [SeriesMarkNameEnum.minLabel]: { name: SeriesMarkNameEnum.minLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.maxLabel]: { name: SeriesMarkNameEnum.maxLabel, type: MarkTypeEnum.text }
-  };
+  protected declare _spec: T;
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  protected declare _spec: IRangeColumnSeriesSpec;
+  static readonly mark: SeriesMarkMap = rangeColumnSeriesMark;
 
   protected _stack: boolean = false;
   private _minLabelMark?: ITextMark;
@@ -47,7 +42,7 @@ export class RangeColumnSeries extends BarSeries {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('bar', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      label: labelPosition === PositionEnum.bothEnd ? undefined : merge({}, this._spec.label),
+      label: labelPosition === PositionEnum.bothEnd ? undefined : mergeSpec({}, this._spec.label),
       isSeriesMark: true
     }) as IRectMark;
 

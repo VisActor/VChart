@@ -5,7 +5,6 @@ import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
 import { LayoutZIndex } from '../../constant';
-import { merge } from '../../util/object';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import type { IPoint, Datum } from '../../typings';
@@ -17,13 +16,14 @@ import { normalizeLayoutPaddingSpec } from '../../util/space';
 import type { LayoutItem } from '../../model/layout-item';
 import { MarkPoint } from '@visactor/vrender-components';
 import type { IGroup, INode, IRect as IRectGraphic } from '@visactor/vrender';
+// eslint-disable-next-line no-duplicate-imports
 import { createGroup, createRect, createSymbol, createText } from '@visactor/vrender';
 import { transformToGraphic } from '../../util/style';
 import { isValid } from '@visactor/vutils';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { IModel } from '../../model/interface';
 
-export class MapLabelComponent extends BaseComponent {
+export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   static type = ComponentTypeEnum.mapLabel;
   type = ComponentTypeEnum.mapLabel;
   name: string = ComponentTypeEnum.mapLabel;
@@ -45,8 +45,6 @@ export class MapLabelComponent extends BaseComponent {
   protected _markerComponents: MarkPoint[];
 
   private _activeDatum: Datum[] = [];
-
-  declare _spec: IMapLabelSpec;
 
   static createComponent(spec: any, options: IComponentOption) {
     // TODO: 限制mapSeries使用

@@ -6,11 +6,11 @@ import type {
 } from '@visactor/vrender-components';
 import type { IToolTipActual, MaybeArray } from '../../../../typings';
 import type { ITooltipStyle, ITooltipTextStyle } from '../interface';
-import { isValid, merge } from '@visactor/vutils';
-import { getRichTextBounds, initTextMeasure } from '../../../../util';
+import { isValid } from '@visactor/vutils';
+import { initTextMeasure, mergeSpec } from '../../../../util';
 import type { IRichTextParagraphCharacter } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
-import { builtinSymbolsMap } from '@visactor/vrender';
+import { builtinSymbolsMap, getRichTextBounds } from '@visactor/vrender';
 import { getTextAttributes } from './style';
 
 export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITooltipStyle): TooltipAttributes => {
@@ -59,7 +59,7 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
   } = title;
   attribute.title.visible = titleVisible;
   if (titleVisible) {
-    const lineTitleStyle = merge({}, titleStyle, getTextAttributes(titleValueStyle, undefined, {}));
+    const lineTitleStyle = mergeSpec({}, titleStyle, getTextAttributes(titleValueStyle, undefined, {}));
     const { text, width, height } = measureTooltipText(titleValue, lineTitleStyle);
     attribute.title.value = {
       width,
@@ -111,7 +111,7 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
         let itemHeight = 0;
         const { hasShape, key, shapeColor, shapeHollow, shapeType = '', value, isKeyAdaptive } = item;
         if (isValid(key)) {
-          const lineKeyStyle = merge({}, keyStyle, getTextAttributes(item.keyStyle, undefined, {}));
+          const lineKeyStyle = mergeSpec({}, keyStyle, getTextAttributes(item.keyStyle, undefined, {}));
           const { width, height, text } = measureTooltipText(key, lineKeyStyle);
           itemAttrs.key = {
             width,
@@ -127,7 +127,7 @@ export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITool
           itemHeight = Math.max(itemHeight, height);
         }
         if (isValid(value)) {
-          const lineValueStyle = merge({}, valueStyle, getTextAttributes(item.valueStyle, undefined, {}));
+          const lineValueStyle = mergeSpec({}, valueStyle, getTextAttributes(item.valueStyle, undefined, {}));
           const { width, height, text } = measureTooltipText(value, lineValueStyle);
           itemAttrs.value = {
             width,

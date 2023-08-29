@@ -20,16 +20,15 @@ import {
   isValid,
   isNil,
   array,
-  merge,
+  mergeSpec,
   createID,
   debounce,
   isTrueBrowser,
   warn,
-  error,
   specTransform,
   convertPoint,
-  config,
-  isMiniAppLikeMode
+  preprocessSpecOrTheme,
+  mergeTheme
 } from '../util';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -47,7 +46,6 @@ import type { ITooltipHandler } from '../typings/tooltip';
 import type { Tooltip } from '../component/tooltip';
 import type {
   Datum,
-  IData,
   IPoint,
   IRegionQuerier,
   IShowTooltipOption,
@@ -67,7 +65,7 @@ import type { ILegend } from '../component/legend/interface';
 import { getCanvasDataURL, URLToImage } from '../util/image';
 import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH, VGRAMMAR_HOOK_EVENT } from '../constant';
 // eslint-disable-next-line no-duplicate-imports
-import { getContainerSize, isArray, isEmpty, Logger } from '@visactor/vutils';
+import { getContainerSize, isArray, isEmpty, Logger, merge as mergeOrigin } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
@@ -206,7 +204,7 @@ export class VChart implements IVChart {
   private _context: any = {}; // 存放用户在model初始化前通过实例方法传入的配置等
 
   constructor(spec: ISpec, options: IInitOption) {
-    this._option = merge(this._option, options);
+    this._option = mergeOrigin(this._option, options);
     this._onError = this._option.onError;
 
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
@@ -730,7 +728,7 @@ export class VChart implements IVChart {
     // }
 
     if (forceMerge) {
-      spec = merge({}, this._spec, spec);
+      spec = mergeSpec({}, this._spec, spec);
     }
 
     await this.updateCustomConfigAndRerender(() => {
@@ -763,7 +761,7 @@ export class VChart implements IVChart {
     // }
 
     if (forceMerge) {
-      spec = merge({}, this._spec, spec);
+      spec = mergeSpec({}, this._spec, spec);
     }
 
     this.updateCustomConfigAndRerenderSync(() => {
@@ -888,14 +886,17 @@ export class VChart implements IVChart {
   // 主题相关方法
   /** 当 spec 或者 currentThemeName 有变化时需要调用此方法对 currentTheme 进行更新 */
   private _updateCurrentTheme() {
-    if (isString(this._spec?.theme)) {
-      this._currentTheme = merge({}, ThemeManager.getTheme(this._spec.theme));
-      this._currentThemeName = this._spec.theme;
+    const userTheme = this._spec?.theme ?? this._option.theme;
+    if (isString(userTheme)) {
+      const theme = mergeTheme({}, ThemeManager.getTheme(userTheme));
+      this._currentTheme = preprocessSpecOrTheme(theme, theme.colorScheme);
+      this._currentThemeName = userTheme;
     } else {
-      this._currentTheme = merge({}, ThemeManager.getTheme(this._currentThemeName), this._spec?.theme ?? {});
+      const theme = mergeTheme({}, ThemeManager.getTheme(this._currentThemeName), userTheme ?? {});
+      this._currentTheme = preprocessSpecOrTheme(theme, theme.colorScheme);
     }
     // 设置 poptip 的主题
-    setPoptipTheme(merge({}, this._currentTheme.component?.poptip));
+    setPoptipTheme(preprocessSpecOrTheme(mergeSpec({}, this._currentTheme.component?.poptip)));
     // 设置背景色
     this._compiler?.setBackground(this._getBackground());
   }
@@ -1360,7 +1361,7 @@ export class VChart implements IVChart {
       const pointValue = (axis as IAxis)?.valueToPosition(value);
       if (isRelativeToCanvas) {
         const axisLayoutStartPoint = axis.getLayoutStartPoint();
-        const axisOrient = (axis as IAxis).orient;
+        const axisOrient = (axis as IAxis).getOrient();
         return (
           pointValue +
           (axisOrient === 'bottom' || axisOrient === 'top' ? axisLayoutStartPoint.x : axisLayoutStartPoint.y)

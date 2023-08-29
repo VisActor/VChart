@@ -1,6 +1,6 @@
 import { DEFAULT_DATA_INDEX, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import type { BaseSeries } from '../../series/base/base-series';
-import type { TreeMapSeries } from '../../series/treemap/treemap';
+import type { TreemapSeries } from '../../series/treemap/treemap';
 import type { AddVChartPropertyContext } from './add-property';
 import {
   DEFAULT_HIERARCHY_DEPTH,
@@ -26,7 +26,7 @@ export function addDataKey(this: BaseSeries<any>, d: any, i: number, context: Ad
 }
 
 export function addHierarchyDataKey(
-  this: TreeMapSeries | SunburstSeries | CirclePackingSeries,
+  this: TreemapSeries | SunburstSeries | CirclePackingSeries,
   d: any,
   i: number,
   context: AddVChartPropertyContext,

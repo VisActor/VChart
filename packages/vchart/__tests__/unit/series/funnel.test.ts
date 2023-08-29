@@ -41,12 +41,12 @@ describe('[Domain-Series-Funnel] Funnel Series', () => {
   });
 
   test('funnel series init', () => {
-    const funnel = new FunnelSeries({}, ctx);
+    const funnel = new FunnelSeries<any>({}, ctx);
     funnel.init({});
   });
 
   test('funnel series mark', () => {
-    const funnel = new FunnelSeries(
+    const funnel = new FunnelSeries<any>(
       {
         data: dataView,
         categoryField: 'name',
@@ -99,7 +99,7 @@ describe('[Domain-Series-Funnel] Funnel Series', () => {
   });
 
   test('funnel series', () => {
-    const funnel = new FunnelSeries(
+    const funnel = new FunnelSeries<any>(
       {
         data: dataView,
         maxSize: 400,

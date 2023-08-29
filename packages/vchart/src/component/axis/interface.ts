@@ -24,7 +24,7 @@ export interface IAxis extends IComponent {
   valueToPosition: (value: any) => number;
   getScale: () => IBaseScale;
   getScales: () => IBaseScale[];
-  orient: ICartesianAxisSpec['orient'] | IPolarOrientType;
+  getOrient: () => ICartesianAxisSpec['orient'] | IPolarOrientType;
   visible: boolean;
   getStatisticsDomain: () => StatisticsDomain;
 }
@@ -40,7 +40,7 @@ export interface IAxisItemTheme<T> {
 }
 export type AxisAnimationPreset = 'groupFadeIn' | 'fadeIn' | 'grow';
 
-export interface ICommonAxisSpec extends Omit<IModelSpec, 'orient'>, IAnimationSpec<string, string> {
+export interface ICommonAxisSpec extends Omit<IModelSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
   /**
    * 轴类型
    */
@@ -406,4 +406,10 @@ export interface IAxisCommonTheme {
   tick?: ITick;
   /** 轴刻度线配置 */
   subTick?: ISubTick;
+}
+
+export interface IBandAxisTheme extends IAxisCommonTheme {
+  bandPadding?: number | number[];
+  paddingInner?: number | number[];
+  paddingOuter?: number | number[];
 }

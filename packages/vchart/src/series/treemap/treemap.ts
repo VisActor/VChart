@@ -7,7 +7,7 @@ import type { ITextMark } from '../../mark/text';
 import type { Datum, IRectMarkSpec, ITextMarkSpec } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../interface';
 import type { ITreemapSeriesSpec } from './interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { ITreemapOpt } from '../../data/transforms/treemap';
@@ -30,23 +30,18 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
+import { treemapSeriesMark } from './constant';
 
 VChart.useMark([RectMark, TextMark]);
 
-export class TreeMapSeries extends CartesianSeries<any> {
+export class TreemapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;
   type = SeriesTypeEnum.treemap;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.nonLeaf]: { name: SeriesMarkNameEnum.nonLeaf, type: MarkTypeEnum.rect },
-    [SeriesMarkNameEnum.leaf]: { name: SeriesMarkNameEnum.leaf, type: MarkTypeEnum.rect },
-    [SeriesMarkNameEnum.nonLeafLabel]: { name: SeriesMarkNameEnum.nonLeafLabel, type: MarkTypeEnum.text }
-  };
+  static readonly mark: SeriesMarkMap = treemapSeriesMark;
 
   private _leafMark: IRectMark;
   private _nonLeafMark: IRectMark;
@@ -236,7 +231,7 @@ export class TreeMapSeries extends CartesianSeries<any> {
   }
 
   initMark() {
-    const nonLeafMark = this._createMark(TreeMapSeries.mark.nonLeaf, { isSeriesMark: true });
+    const nonLeafMark = this._createMark(TreemapSeries.mark.nonLeaf, { isSeriesMark: true });
     if (nonLeafMark) {
       nonLeafMark.setTransform([
         {
@@ -251,7 +246,7 @@ export class TreeMapSeries extends CartesianSeries<any> {
       this._tooltipHelper?.activeTriggerSet.mark.add(nonLeafMark);
     }
 
-    const leafMark = this._createMark(TreeMapSeries.mark.leaf, { isSeriesMark: true });
+    const leafMark = this._createMark(TreemapSeries.mark.leaf, { isSeriesMark: true });
     if (leafMark) {
       leafMark.setTransform([
         {
@@ -267,7 +262,7 @@ export class TreeMapSeries extends CartesianSeries<any> {
     }
 
     if (this._spec.label?.visible) {
-      const textMark = this._createMark(TreeMapSeries.mark.label, {
+      const textMark = this._createMark(TreemapSeries.mark.label, {
         skipBeforeLayouted: false
       });
       if (textMark) {
@@ -286,7 +281,7 @@ export class TreeMapSeries extends CartesianSeries<any> {
     }
 
     if (this._spec.nonLeafLabel?.visible) {
-      const textMark = this._createMark(TreeMapSeries.mark.nonLeafLabel);
+      const textMark = this._createMark(TreemapSeries.mark.nonLeafLabel);
       if (textMark) {
         textMark.setTransform([
           {
@@ -528,5 +523,5 @@ export class TreeMapSeries extends CartesianSeries<any> {
   }
 }
 
-mixin(TreeMapSeries, Zoomable);
-mixin(TreeMapSeries, Drillable);
+mixin(TreemapSeries, Zoomable);
+mixin(TreemapSeries, Drillable);

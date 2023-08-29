@@ -15,10 +15,11 @@ import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
 import type { IElement } from '@visactor/vgrammar';
-import type { BrushInteractiveRangeAttr, IBrush, selectedItemStyle } from './interface';
+import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
-export class Brush extends BaseComponent implements IBrush {
+
+export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   layoutType: LayoutItem['layoutType'] = 'absolute';
   static type = ComponentTypeEnum.brush;
   type = ComponentTypeEnum.brush;
@@ -396,7 +397,7 @@ export class Brush extends BaseComponent implements IBrush {
       const allMarks: IMark[] = [];
       r.getSeries().forEach((s: ISeries) => {
         if (
-          (seriesUserId && array(seriesUserId).includes(s.userId)) ||
+          (seriesUserId && array(seriesUserId).includes(s.userId.toString())) ||
           (seriesIndex && array(seriesIndex).includes(s.getSpecIndex())) ||
           (!seriesIndex && !seriesUserId)
         ) {
