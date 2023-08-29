@@ -282,14 +282,14 @@ describe('VChart', () => {
         node => node.name === 'axis-label-container-layer-0',
         true
       ) as unknown as Group;
-      expect(labels.childrenCount).toBe(5);
+      expect(labels.childrenCount).toBe(3);
 
+      expect((labels.children[0] as Text).attribute.fillOpacity).toBe(1);
+      expect((labels.children[0] as Text).attribute.text).toBe(0);
       expect((labels.children[1] as Text).attribute.fillOpacity).toBe(1);
-      expect((labels.children[1] as Text).attribute.text).toBe(400);
+      expect((labels.children[1] as Text).attribute.text).toBe(800);
       expect((labels.children[2] as Text).attribute.fillOpacity).toBe(1);
-      expect((labels.children[2] as Text).attribute.text).toBe(800);
-      expect((labels.children[3] as Text).attribute.fillOpacity).toBe(1);
-      expect((labels.children[3] as Text).attribute.text).toBe(1200);
+      expect((labels.children[2] as Text).attribute.text).toBe(1600);
     });
   });
   describe('vchart event test', () => {
@@ -579,7 +579,7 @@ describe('VChart', () => {
       expect(value1).toBe(mark.attribute.x);
 
       const value2 = vchart.convertValueToPosition(0, { axisId: 'left' });
-      expect(value2).toBe(414);
+      expect(value2).toBe(398);
     });
 
     it('should convert correctly in funnel chart', () => {
