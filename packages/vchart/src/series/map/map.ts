@@ -1,3 +1,4 @@
+import { isFunction } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { MarkTypeEnum } from '../../mark/interface';
 import { registerGrammar } from '@visactor/vgrammar';
@@ -188,7 +189,11 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
     if (labelMark) {
       this.setMarkStyle(labelMark, {
         text: (datum: Datum) => {
-          return this._getDatumName(datum);
+          const text = this._getDatumName(datum);
+          if (isFunction(this._spec.label?.formatMethod)) {
+            return this._spec.label.formatMethod(text, datum);
+          }
+          return text;
         },
         x: (datum: Datum) => this.dataToPosition(datum)?.x,
         y: (datum: Datum) => this.dataToPosition(datum)?.y
