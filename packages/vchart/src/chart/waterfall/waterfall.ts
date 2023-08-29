@@ -5,7 +5,7 @@ import { ChartTypeEnum } from '../interface';
 import type { IWaterfallChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { VChart } from '../../core/vchart';
-import { WaterfallSeries } from '../../series';
+import { WaterfallSeries } from '../../series/waterfall/waterfall';
 VChart.useSeries([WaterfallSeries]);
 
 export class WaterfallChart extends BarChart {

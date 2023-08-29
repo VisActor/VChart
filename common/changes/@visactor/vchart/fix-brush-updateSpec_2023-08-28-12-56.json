@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(wordCloud): fix position error of wordCloud chart. fix #521, fix #533",
+      "comment": "fix(brush): brush callback not update when updateSpec. fix #672",
       "type": "none"
     }
   ],

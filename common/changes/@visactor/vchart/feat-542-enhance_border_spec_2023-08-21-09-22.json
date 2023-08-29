@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: tooltip shape style incorrect when configure custom key/value, related #336",
+      "comment": "feat: `innerBorder`/`outerBorder` supports the same configuration way as other graphic attributes.",
       "type": "patch"
     }
   ],

@@ -1,7 +1,7 @@
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import type { INode, IGroup } from '@visactor/vrender';
+import type { INode, IGroup, IGraphic } from '@visactor/vrender';
 import { AXIS_ELEMENT_NAME } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
@@ -18,7 +18,7 @@ import { ChartEvent } from '../../constant';
 import type { Group } from '../../series/base/group';
 import { animationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import { degreeToRadian, type LooseFunction } from '@visactor/vutils';
+import { degreeToRadian, pickWithout, type LooseFunction } from '@visactor/vutils';
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './utils';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
@@ -315,7 +315,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
     if (axisMainContainer) {
       // 代理组件上的事件，目前坐标轴组件比较特殊，包含了网格线，但是事件这块只提供不包含网格线部分的响应
       axisMainContainer.addEventListener('*', ((event: any, type: string) =>
-        this._delegateEvent(component as unknown as INode, event, type)) as LooseFunction);
+        this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
     }
   }
 
@@ -331,15 +331,14 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
       }
     }
 
+    const labelSpec = pickWithout(spec.label, ['style', 'formatMethod', 'state']);
+
     return {
       orient: this.orient,
       select: spec.select,
       hover: spec.hover,
       line: transformAxisLineStyle(spec.domainLine),
       label: {
-        visible: spec.label.visible,
-        space: spec.label.space,
-        inside: spec.label.inside,
         style: isFunction(spec.label.style)
           ? (datum: Datum, index: number, data: Datum[], layer?: number) => {
               const style = this._preprocessSpec(spec.label.style(datum.rawValue, index, datum, data, layer));
@@ -352,16 +351,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
             }
           : null,
         state: transformAxisLabelStateStyle(spec.label.state),
-        autoRotate: !!spec.label.autoRotate,
-        autoHide: !!spec.label.autoHide,
-        autoLimit: !!spec.label.autoLimit,
-        autoRotateAngle: spec.label.autoRotateAngle,
-        autoHideMethod: spec.label.autoHideMethod,
-        autoHideSeparation: spec.label.autoHideSeparation,
-        limitEllipsis: spec.label.limitEllipsis,
-        layoutFunc: spec.label.layoutFunc,
-        dataFilter: spec.label.dataFilter,
-        containerAlign: spec.label.containerAlign
+        ...labelSpec
       },
       tick: {
         visible: spec.tick.visible,

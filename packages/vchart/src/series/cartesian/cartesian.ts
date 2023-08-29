@@ -10,7 +10,7 @@ import {
   STACK_FIELD_START_PERCENT,
   STACK_FIELD_START_OffsetSilhouette
 } from '../../constant';
-import type { IAxisHelper } from '../../component/axis/cartesian/interface';
+import type { IAxisHelper, IAxisLocationCfg } from '../../component/axis/cartesian/interface';
 import type { DirectionType } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
@@ -27,6 +27,14 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
 {
   readonly coordinate: 'cartesian' = 'cartesian';
   protected _bandPosition = 0.5;
+  protected _scaleConfig: IAxisLocationCfg = {
+    bandPosition: this._bandPosition
+  };
+  protected _buildScaleConfig() {
+    this._scaleConfig = {
+      bandPosition: this._bandPosition
+    };
+  }
 
   protected _fieldX!: string[];
   get fieldX() {
@@ -159,6 +167,12 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
         fields.push(result);
       });
     }
+    if (this.getStack()) {
+      fields.push({
+        key: this.getStackValueField(),
+        operations: ['allValid']
+      });
+    }
     return fields;
   }
 
@@ -282,41 +296,51 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     };
   }
 
-  valueToPositionX(value: StringOrNumber | StringOrNumber[]) {
-    if (!this._xAxisHelper) {
-      return Number.NaN;
+  protected _axisPosition(helper: IAxisHelper, value: StringOrNumber | StringOrNumber[], datum?: any) {
+    this._scaleConfig.datum = datum;
+    if (helper.isContinuous) {
+      return helper.valueToPosition(value, this._scaleConfig);
     }
-    const { dataToPosition } = this._xAxisHelper;
-    return dataToPosition(array(value), { bandPosition: this._bandPosition });
+    return helper.dataToPosition(array(value), this._scaleConfig);
   }
 
-  valueToPositionY(value: StringOrNumber | StringOrNumber[]) {
-    if (!this._yAxisHelper) {
-      return Number.NaN;
-    }
-    const { dataToPosition } = this._yAxisHelper;
-    return dataToPosition(array(value), { bandPosition: this._bandPosition });
+  valueToPositionX(value: StringOrNumber | StringOrNumber[], datum?: any) {
+    return this._axisPosition(this._xAxisHelper, value, datum);
+  }
+  valueToPositionY(value: StringOrNumber | StringOrNumber[], datum?: any) {
+    return this._axisPosition(this._yAxisHelper, value, datum);
   }
 
   dataToPositionX(datum: Datum): number {
     if (!this._xAxisHelper) {
       return Number.NaN;
     }
-
-    const { dataToPosition, getFields } = this._xAxisHelper;
-    const fields = getFields ? getFields() : this._fieldX;
-    const value = this.getDatumPositionValues(datum, fields);
-    return dataToPosition(array(value), { bandPosition: this._bandPosition, datum });
+    const fields = this._xAxisHelper.getFields ? this._xAxisHelper.getFields() : this._fieldX;
+    if (!fields || fields.length === 0) {
+      return null;
+    }
+    return this.valueToPositionX(
+      this._xAxisHelper.isContinuous
+        ? this.getDatumPositionValue(datum, fields[0])
+        : this.getDatumPositionValues(datum, fields),
+      datum
+    );
   }
 
   dataToPositionY(datum: Datum): number {
     if (!this._yAxisHelper) {
       return Number.NaN;
     }
-    const { dataToPosition, getFields } = this._yAxisHelper;
-    const fields = getFields ? getFields() : this._fieldY;
-    const value = this.getDatumPositionValues(datum, fields);
-    return dataToPosition(array(value), { bandPosition: this._bandPosition, datum });
+    const fields = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._fieldY;
+    if (!fields || fields.length === 0) {
+      return null;
+    }
+    return this.valueToPositionY(
+      this._yAxisHelper.isContinuous
+        ? this.getDatumPositionValue(datum, fields[0])
+        : this.getDatumPositionValues(datum, fields),
+      datum
+    );
   }
 
   dataToPositionZ(datum: Datum): number {
@@ -393,6 +417,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this.setFieldX(this._fieldX);
     this.setFieldY(this._fieldY);
     this._trigger.setStateKeys([...this._fieldX, ...this._fieldY]);
+    this._buildScaleConfig();
   }
 
   getDimensionField(): string[] {

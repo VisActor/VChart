@@ -12,7 +12,7 @@ export class BaseSymbolMark<T extends ISymbolMarkSpec> extends BaseMark<T> {
     const defaultStyle: IMarkStyle<ISymbolMarkSpec> = {
       ...super._getDefaultStyle(),
       size: 1,
-      shape: ShapeTypeEnum.circle,
+      symbolType: ShapeTypeEnum.circle,
       fill: undefined,
       lineWidth: 0
     };

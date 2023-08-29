@@ -26,20 +26,6 @@ export const initTextMeasure = (
   );
 };
 
-/** 测试方法 */
-export const testTextMeasure = (textSpec?: Partial<ITextMarkSpec>, useVRender?: boolean): TestTextMeasure<any> => {
-  return new TestTextMeasure(
-    {
-      defaultFontParams: {
-        fontFamily: DEFAULT_TEXT_FONT_FAMILY,
-        fontSize: DEFAULT_TEXT_FONT_SIZE
-      },
-      getTextBounds: useVRender ? getTextBounds : undefined
-    },
-    textSpec
-  );
-};
-
 /** 测量富文本 */
 // FIXME: 等 vrender 支持后删掉
 type IRichTextBoundsParams = Partial<IRichTextAttribute>;

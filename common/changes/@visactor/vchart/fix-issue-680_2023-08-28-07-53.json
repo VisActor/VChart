@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix the issue of the chart's size is not correctly when updateSpec in lark block env, closed #566",
+      "comment": "fix: fix the infinite loop problem caused by arc adjustment, fixed #680",
       "type": "none"
     }
   ],

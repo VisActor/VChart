@@ -1,4 +1,4 @@
-import type { INode } from '@visactor/vrender';
+import type { IGraphic } from '@visactor/vrender';
 import type { IElement } from '@visactor/vgrammar';
 import type { IChart } from '../chart/interface';
 import type { IModel } from '../model/interface';
@@ -117,7 +117,9 @@ export type EventQuery = {
 
   throttle?: number;
   debounce?: number;
-
+  /**
+   * 是否阻止冒泡
+   */
   consume?: boolean;
 };
 
@@ -149,7 +151,7 @@ export type EventParams = {
   /**
    * 拾取到的图形节点
    */
-  node?: INode;
+  node?: IGraphic;
 };
 
 type SuperEvent = Event & {

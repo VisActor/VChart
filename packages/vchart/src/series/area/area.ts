@@ -1,3 +1,5 @@
+import type { DataView } from '@visactor/vdataset';
+import { isValid, merge } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
@@ -5,7 +7,7 @@ import { Direction } from '../../typings/space';
 import { MarkTypeEnum } from '../../mark/interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
-import type { Maybe, Datum } from '../../typings';
+import type { Maybe, Datum, ConvertToMarkStyleSpec, IAreaMarkSpec } from '../../typings';
 import { valueInScaleRange, couldBeValidNumber } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
@@ -23,6 +25,7 @@ import { LineMark } from '../../mark/line';
 import { AreaMark } from '../../mark/area';
 import { TextMark } from '../../mark/text';
 import { SymbolMark } from '../../mark/symbol';
+import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 VChart.useMark([LineMark, AreaMark, TextMark, SymbolMark]);
 
 export interface AreaSeries
@@ -33,6 +36,7 @@ export interface AreaSeries
       | 'initLabelMarkStyle'
       | 'initLineMarkStyle'
       | 'initSymbolMarkStyle'
+      | 'encodeDefined'
       | '_lineMark'
       | '_symbolMark'
     >,
@@ -53,6 +57,52 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
   protected _areaMark!: IAreaMark;
   protected _stack: boolean = true;
 
+  setAttrFromSpec(): void {
+    super.setAttrFromSpec();
+    const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
+    const isLineVisible = this._spec.line?.visible !== false && this._spec.line?.style?.visible !== false;
+    // merge line to area
+    const areaSpec = this._spec.area ?? {};
+    const lineSpec = this._spec.line ?? {};
+    areaSpec.interactive = areaSpec.interactive || lineSpec.interactive;
+    areaSpec.support3d = areaSpec.support3d || lineSpec.support3d;
+    areaSpec.zIndex =
+      isValid(areaSpec.zIndex) || isValid(lineSpec.zIndex)
+        ? Math.max(areaSpec.zIndex ?? 0, lineSpec.zIndex ?? 0)
+        : undefined;
+
+    // remove area stroke
+    if (areaSpec.style) {
+      delete areaSpec.style.stroke;
+    }
+    if (areaSpec.state) {
+      Object.keys(areaSpec.state).forEach(state => {
+        if ('style' in areaSpec.state[state]) {
+          delete areaSpec.state[state].style.stroke;
+        } else {
+          delete (<ConvertToMarkStyleSpec<IAreaMarkSpec>>areaSpec.state[state]).stroke;
+        }
+      });
+    }
+    // check which one is main
+    let mainSpec = areaSpec;
+    let subSpec = lineSpec;
+    const seriesMark = this._spec.seriesMark ?? 'area';
+    if (seriesMark === 'line' || (isLineVisible && !isAreaVisible)) {
+      mainSpec = lineSpec;
+      subSpec = areaSpec;
+    }
+    areaSpec.style = merge({}, subSpec.style, mainSpec.style);
+    areaSpec.state = merge({}, subSpec.state, mainSpec.state);
+    if (!isAreaVisible) {
+      areaSpec.style.fill = false;
+    }
+    if (!isLineVisible) {
+      areaSpec.style.stroke = false;
+    }
+    areaSpec.visible = !(!isAreaVisible && !isLineVisible);
+  }
+
   initMark(): void {
     const progressive = {
       progressiveStep: this._spec.progressiveStep,
@@ -68,10 +118,9 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
       groupKey: this._seriesField,
       defaultMorphElementKey: this.getDimensionField()[0],
       progressive,
-      isSeriesMark: isAreaVisible && seriesMark === 'area'
+      isSeriesMark: isAreaVisible && seriesMark !== 'point'
     }) as IAreaMark;
 
-    this.initLineMark(progressive, seriesMark === 'line' || (seriesMark === 'area' && !isAreaVisible));
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
@@ -98,7 +147,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
               return valueInScaleRange(this.dataToPositionY1(datum), this._yAxisHelper?.getScale?.(0));
             },
             y: this.dataToPositionY.bind(this),
-            z: this.dataToPositionZ.bind(this)
+            z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
           },
           'normal',
           AttributeLevel.Series
@@ -112,7 +161,7 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
               return valueInScaleRange(this.dataToPositionX1(datum), this._xAxisHelper?.getScale?.(0));
             },
             y: this.dataToPositionY.bind(this),
-            z: this.dataToPositionZ.bind(this),
+            z: this._fieldZ ? this.dataToPositionZ.bind(this) : null,
             orient: this._direction
           },
           'normal',
@@ -122,7 +171,8 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
       this.setMarkStyle(
         areaMark,
         {
-          fill: this.getColorAttribute()
+          fill: this.getColorAttribute(),
+          stroke: this.getColorAttribute()
         },
         'normal',
         AttributeLevel.Series
@@ -148,6 +198,19 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
       );
       this._trigger.registerMark(areaMark);
       this._tooltipHelper.activeTriggerSet.dimension.add(areaMark);
+
+      // change stroke to area stoke = [lineStroke,false,false,false]
+      Object.keys(areaMark.stateStyle).forEach(state => {
+        if (areaMark.stateStyle[state].stroke) {
+          areaMark.setPostProcess(
+            'stroke',
+            result => {
+              return [result, false, false, false];
+            },
+            state
+          );
+        }
+      });
     }
 
     this.initLineMarkStyle(this._direction, userCurveType);
@@ -182,6 +245,15 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
         animationConfig(DEFAULT_MARK_ANIMATION.symbol(), userAnimationConfig(SeriesMarkNameEnum.point, this._spec))
       );
     }
+  }
+
+  protected initTooltip() {
+    this._tooltipHelper = new AreaSeriesTooltipHelper(this);
+  }
+
+  viewDataStatisticsUpdate(d: DataView) {
+    super.viewDataStatisticsUpdate(d);
+    this.encodeDefined(this._areaMark, 'defined');
   }
 }
 

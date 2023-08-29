@@ -2,8 +2,8 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: niceDomain should only works for linear scale, fixed #528",
-      "type": "none"
+      "comment": "refactor: access arc label component in pie chart",
+      "type": "patch"
     }
   ],
   "packageName": "@visactor/vchart"

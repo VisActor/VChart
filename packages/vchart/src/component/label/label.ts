@@ -195,9 +195,12 @@ export class Label extends BaseLabelComponent {
             const labelSpec = baseMark.getLabelSpec() ?? {};
             const interactive = this._interactiveConfig(labelSpec);
             const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
+            /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
+            const centerOffset = this._spec?.centerOffset ?? 0;
+
             return merge(
               {
-                textStyle: { pickable: labelSpec.interactive === true },
+                textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
                 overlap: {
                   avoidMarks: this._option
                     .getAllComponents()
@@ -208,7 +211,9 @@ export class Label extends BaseLabelComponent {
               configFunc(labelInfo[baseMarks.findIndex(mark => mark === baseMark)]),
               {
                 ...passiveLabelSpec,
-                ...interactive
+                ...interactive,
+                centerOffset,
+                pickable: false
               }
             );
           }

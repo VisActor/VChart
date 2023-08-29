@@ -3,8 +3,8 @@ import { ChartTypeEnum } from '../interface';
 import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
 import { VChart } from '../../core/vchart';
-import { RangeColumn3dSeries } from '../../series';
 import type { IRangeColumn3dChartSpec } from './interface';
+import { RangeColumn3dSeries } from '../../series/range-column/range-column-3d';
 VChart.useSeries([RangeColumn3dSeries]);
 
 export class RangeColumn3dChart extends CartesianChart {
