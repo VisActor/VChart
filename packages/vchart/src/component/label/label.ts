@@ -168,6 +168,7 @@ export class Label extends BaseLabelComponent {
           { type: MarkTypeEnum.component, name: `${region.getGroupMark().name}-label-component` },
           {
             componentType: 'label',
+            model: region,
             support3d: this._spec.support3d
           }
         );
@@ -181,6 +182,7 @@ export class Label extends BaseLabelComponent {
             { type: MarkTypeEnum.component, name: `${labelInfo.labelMark.name}-component` },
             {
               componentType: 'label',
+              model: region,
               support3d: labelInfo.baseMark.getSupport3d()
             }
           );
@@ -219,23 +221,39 @@ export class Label extends BaseLabelComponent {
     this._updateLabelComponentAttribute(
       labelComponent.getProduct() as ILabel,
       labelInfo.map(({ baseMark }) => baseMark.getProduct()),
-      labelInfo[0]
+      labelComponent.model,
+      (mark: IMark) => {
+        const markId = mark.context.markId;
+        const baseMark = this._option.getChart().getMarkById(markId);
+        return labelInfo.find(info => info.baseMark === baseMark);
+      }
     );
   }
 
   protected _updateSingleLabelAttribute(labelInfo: ILabelInfo, labelComponent: IComponentMark) {
     const { baseMark } = labelInfo;
-    this._updateLabelComponentAttribute(labelComponent.getProduct() as ILabel, baseMark.getProduct(), labelInfo);
+    this._updateLabelComponentAttribute(
+      labelComponent.getProduct() as ILabel,
+      baseMark.getProduct(),
+      labelComponent.model,
+      () => labelInfo
+    );
   }
 
-  protected _updateLabelComponentAttribute(component: ILabel, target: IMark | IMark[], labelInfo: ILabelInfo) {
-    const { baseMark, labelSpec, series, labelMark } = labelInfo;
+  protected _updateLabelComponentAttribute(
+    component: ILabel,
+    target: IMark | IMark[],
+    region: any,
+    getLabelInfo: (mark: IMark) => ILabelInfo
+  ) {
     const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
     component
       .target(target)
       .configure({ interactive: false })
       .depend(dependCmp.map(cmp => cmp.getMarks()[0].getProduct()))
-      .labelStyle(() => {
+      .labelStyle(mark => {
+        const labelInfo = getLabelInfo(mark);
+        const { baseMark, labelSpec, labelMark } = labelInfo;
         const rule = labelMark.getRule() || baseMark.type;
         const configFunc = labelRuleMap[rule] ?? labelRuleMap.point;
         const interactive = this._interactiveConfig(labelSpec);
@@ -260,10 +278,12 @@ export class Label extends BaseLabelComponent {
           }
         );
       })
-      .encode(datum => {
+      .encode((datum, element) => {
+        const labelInfo = getLabelInfo(element.mark);
+        const { labelSpec, labelMark } = labelInfo;
         return labelMark.skipEncode ? { data: datum } : textAttribute(labelInfo, datum, labelSpec.formatMethod);
       })
-      .size(() => series.getRegion().getLayoutRect());
+      .size(() => region.getLayoutRect());
   }
 
   compileMarks() {
