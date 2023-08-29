@@ -82,7 +82,10 @@ export class Label extends BaseLabelComponent {
   }
 
   initEvent() {
-    this.event.on(ChartEvent.dataZoomChange, () => {
+    this.event.on(ChartEvent.dataZoomChange, ({ value }) => {
+      if (!value.filterData) {
+        return;
+      }
       this._labelComponentMap.forEach((info, component) => {
         const graphicItem = component.getProduct().getGroupGraphicItem();
         if (graphicItem) {
