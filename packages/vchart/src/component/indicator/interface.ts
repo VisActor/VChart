@@ -69,13 +69,13 @@ export interface IIndicatorSpec extends IModelSpec {
    * 支持两种格式：像素值、百分比
    * @default 0
    */
-  offsetX?: number;
+  offsetX?: number | string;
   /**
    * 指标卡 y 方向偏移
    * 支持两种格式：像素值、百分比
    * @default 0
    */
-  offsetY?: number;
+  offsetY?: number | string;
   /**
    * 指标卡宽度占内容区域的最大比值（从0到1）
    */

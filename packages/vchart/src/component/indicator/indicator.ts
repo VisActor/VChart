@@ -20,6 +20,7 @@ import type { IndicatorAttributes } from '@visactor/vrender-components';
 import type { IGraphic, INode } from '@visactor/vrender';
 import { transformToGraphic } from '../../util/style';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
+import { getActualNumValue } from '../../series/util/utils';
 
 export class Indicator extends BaseComponent implements IIndicator {
   static speckey = 'indicator';
@@ -165,18 +166,6 @@ export class Indicator extends BaseComponent implements IIndicator {
       });
     });
 
-    const offsetX = this._spec.offsetX
-      ? this._spec.offsetX > 1
-        ? this._spec.offsetX
-        : this._computeLayoutRadius() * this._spec.offsetX
-      : 0;
-
-    const offsetY = this._spec.offsetY
-      ? this._spec.offsetY > 1
-        ? this._spec.offsetY
-        : this._computeLayoutRadius() * this._spec.offsetY
-      : 0;
-
     return {
       visible: this._spec.visible !== false && (this._spec.fixed !== false || this._activeDatum !== null),
       size: {
@@ -186,8 +175,8 @@ export class Indicator extends BaseComponent implements IIndicator {
       zIndex: this.layoutZIndex,
       x: x,
       y: y,
-      dx: offsetX,
-      dy: offsetY,
+      dx: this._spec.offsetX ? getActualNumValue(this._spec.offsetX, this._computeLayoutRadius()) : 0,
+      dy: this._spec.offsetY ? getActualNumValue(this._spec.offsetY, this._computeLayoutRadius()) : 0,
       limitRatio: this._spec.limitRatio || Infinity,
       title: {
         visible: this._spec.title.visible !== false && (!isValid(this._spec.title.field) || this._activeDatum !== null),
