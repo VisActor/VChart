@@ -691,9 +691,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   protected _updateExtensionMarkSpec() {
     this._spec.extensionMark?.forEach((spec, i) => {
-      const name = `${PREFIX}_series_${this.id}_extensionMark_${i}`;
-      // @ts-ignore
-      const mark = this._marks.getMarkWithInfo({ name });
+      const mark = this._marks.getMarkWithInfo({ name: `${PREFIX}_series_${this.id}_extensionMark_${i}` });
       this.initMarkStyleWithSpec(mark, spec);
     });
   }
