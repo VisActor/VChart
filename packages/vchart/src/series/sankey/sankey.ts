@@ -468,7 +468,7 @@ export class SankeySeries extends CartesianSeries<any> {
     if (isNil(datum) || isNil(datum.datum)) {
       return '';
     }
-    let text = datum?.datum ? datum.datum[this._spec.categoryField] : '';
+    let text = datum.datum[this._spec.categoryField] || '';
     if (this._spec.label?.formatMethod) {
       text = this._spec.label.formatMethod(text, datum.datum);
     }
