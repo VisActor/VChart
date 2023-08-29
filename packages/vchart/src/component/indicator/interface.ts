@@ -66,11 +66,13 @@ export interface IIndicatorSpec extends IModelSpec {
   gap?: number;
   /**
    * 指标卡 x 方向偏移
+   * 支持两种格式：像素值、百分比
    * @default 0
    */
   offsetX?: number;
   /**
    * 指标卡 y 方向偏移
+   * 支持两种格式：像素值、百分比
    * @default 0
    */
   offsetY?: number;
