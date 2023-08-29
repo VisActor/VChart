@@ -17,7 +17,7 @@ import { copyDataView } from '../../data/transforms/copy-data-view';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
 import type { ITextMark } from '../../mark/text';
-import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY, DEFAULT_DATA_INDEX } from '../../constant/index';
+import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_INDEX } from '../../constant/index';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
@@ -190,7 +190,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       this.setMarkStyle(labelMark, {
         text: (datum: Datum) => {
           const text = this._getDatumName(datum);
-          if (isFunction(this._spec.label?.formatMethod)) {
+          if (isFunction(this._spec?.label?.formatMethod)) {
             return this._spec.label.formatMethod(text, datum);
           }
           return text;
@@ -347,7 +347,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       return datum[this.nameField];
     }
     if (datum.properties?.[this._nameProperty]) {
-      if (this._spec.nameMap) {
+      if (this._spec?.nameMap) {
         return this._spec.nameMap[datum.properties[this._nameProperty]] ?? '';
       }
       return datum.properties[this._nameProperty] ?? '';
