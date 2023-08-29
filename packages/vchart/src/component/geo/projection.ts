@@ -32,6 +32,10 @@ export class Projection {
     return this.projection?.path?.(data);
   }
 
+  invert(point: [number, number]) {
+    return this.projection?.invert?.(point);
+  }
+
   scale(): number;
   scale(scale: number): void;
   scale(scale?: number): number | void {

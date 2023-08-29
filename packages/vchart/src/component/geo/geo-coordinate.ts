@@ -59,6 +59,10 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
   protected _centerCache: Map<StringOrNumber, { x: number; y: number }>;
 
   private _actualScale = 1;
+  getScale() {
+    return this._actualScale;
+  }
+
   private _evaluated = false;
   private _lastHeight = 0;
   private _lastWidth = 0;
@@ -343,6 +347,13 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
 
   shape(datum?: any) {
     return this._projection.shape(datum);
+  }
+
+  /**
+   * 根据像素坐标获取经纬度位置
+   */
+  invert(point: [number, number]) {
+    return this._projection.invert(point);
   }
 
   private evaluateProjection(start: [number, number], size: [number, number]) {
