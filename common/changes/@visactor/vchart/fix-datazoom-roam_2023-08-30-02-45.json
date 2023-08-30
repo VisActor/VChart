@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(dataZoom): when open roam and set dataZoom invisible, the interaction does not work as expected. fix #611",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
