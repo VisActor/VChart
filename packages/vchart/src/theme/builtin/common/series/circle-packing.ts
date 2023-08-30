@@ -14,7 +14,9 @@ export const circlePacking: ICirclePackingSeriesTheme = {
     visible: true,
     style: {
       cursor: 'pointer',
-      fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' },
+      fill: 'black',
+      stroke: 'white',
+      lineWidth: 2,
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
       fontFamily: THEME_CONSTANTS.defaultFontFamily
