@@ -13,7 +13,7 @@ export const mapLabel: IMapLabelTheme = {
       textAlign: 'left',
       fill: 'black',
       fontSize: THEME_CONSTANTS.l6FontSize,
-      lineHeight: THEME_CONSTANTS.l6LineHeight,
+      // lineHeight: THEME_CONSTANTS.l6LineHeight,
       fontFamily: THEME_CONSTANTS.defaultFontFamily
     }
   },
@@ -24,7 +24,7 @@ export const mapLabel: IMapLabelTheme = {
       textAlign: 'left',
       fill: 'black',
       fontSize: THEME_CONSTANTS.l6FontSize,
-      lineHeight: THEME_CONSTANTS.l6LineHeight,
+      // lineHeight: THEME_CONSTANTS.l6LineHeight,
       fontFamily: THEME_CONSTANTS.defaultFontFamily
     }
   },
