@@ -1,4 +1,3 @@
-import type { IModelSpec } from '../../../model/interface';
 import type { IMarkSpec } from '../../../typings/spec';
 import type {
   IAreaMarkSpec,
@@ -7,6 +6,7 @@ import type {
   ISymbolMarkSpec,
   ITextMarkSpec
 } from '../../../typings/visual';
+import type { IComponentSpec } from '../../base/interface';
 import type { IComponent } from '../../interface';
 import type { IDataFilterComponentSpec } from '../interface';
 
@@ -76,7 +76,7 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
   brushSelect?: boolean;
 }
 
-export type IDataZoomTheme = IModelSpec &
+export type IDataZoomTheme = IComponentSpec &
   IDataZoomStyle & {
     /** 显示的位置 */
     orient?: IDataZoomSpec['orient'];

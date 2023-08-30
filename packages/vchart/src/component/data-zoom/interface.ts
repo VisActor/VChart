@@ -1,9 +1,9 @@
-import type { IModelSpec } from '../../model/interface';
 import type { IOrientType } from '../../typings';
+import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
 
 /** spec */
-export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'height'> {
+export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' | 'height'> {
   /**
    * 是否显示组件
    * @default true
@@ -47,16 +47,6 @@ export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'he
    * 配置优先级：index > id
    */
   regionIndex?: number | number[];
-  regionId?: number | string | (number | string)[];
-
-  /**
-   * 关联的系列ID
-   */
-  seriesId?: number | string | (number | string)[];
-  /**
-   * 关联的系列序号
-   */
-  seriesIndex?: number | number[];
 
   /**
    * 数据过滤模式

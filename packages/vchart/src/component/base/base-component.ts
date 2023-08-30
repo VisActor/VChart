@@ -11,11 +11,14 @@ import type { IGroupMark } from '@visactor/vgrammar';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
-import type { Datum } from '../../typings';
-import type { ILayoutOrientPadding, IModelSpec } from '../../model/interface';
+import type { Datum, StringOrNumber } from '../../typings';
 import { normalizeLayoutPaddingSpec } from '../../util';
+import type { IComponentSpec } from './interface';
 
-export abstract class BaseComponent<T extends IModelSpec = IModelSpec> extends BaseModel<T> implements IComponent {
+export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
+  extends BaseModel<T>
+  implements IComponent
+{
   name: string = 'component';
   readonly modelType: string = 'component';
   pluginService?: IComponentPluginService;
