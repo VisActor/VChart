@@ -17,7 +17,7 @@ export const markByName: IGlobalMarkThemeByName = {
   label: {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,
-      lineHeight: THEME_CONSTANTS.l4LineHeight,
+      // lineHeight: THEME_CONSTANTS.l4LineHeight,
       fontFamily: THEME_CONSTANTS.defaultFontFamily,
       fontWeight: 'normal',
       fillOpacity: 1
