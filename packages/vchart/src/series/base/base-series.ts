@@ -857,10 +857,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
 
     if (
-      (isNil(originalSpec.extensionMark) && !isNil(this._spec.extensionMark)) ||
-      (!isNil(originalSpec.extensionMark) && isNil(this._spec.extensionMark)) ||
-      originalSpec.extensionMark.length !== this._spec.extensionMark.length ||
-      originalSpec.extensionMark.some(
+      array(originalSpec.extensionMark).length !== array(this._spec.extensionMark).length ||
+      originalSpec.extensionMark?.some(
         (mark, index) =>
           mark.type !== this._spec.extensionMark[index].type || mark.id !== this._spec.extensionMark[index].id
       )
@@ -878,7 +876,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
 
     // mark visible logic in compile
-    if (originalSpec.extensionMark.some((mark, index) => mark.visible !== this._spec.extensionMark[index].visible)) {
+    if (originalSpec.extensionMark?.some((mark, index) => mark.visible !== this._spec.extensionMark[index].visible)) {
       result.reCompile = true;
     }
 
