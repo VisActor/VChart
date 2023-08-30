@@ -47,9 +47,11 @@ export const discreteLegendFilter = (data: Array<any>, op: IDiscreteLegendFilter
 
   if (isArray(data) && data[0]?.nodes) {
     // data silter for sankey chart
-    data[0].nodes = data[0].nodes.filter(d => selectedFilter[d.key] === true);
+    data[0].nodes = data[0].nodes.filter((d: any) => selectedFilter[d.key] === true);
     if (data[0]?.links) {
-      data[0].links = data[0].links.filter(d => selectedFilter[d.source] === true && selectedFilter[d.target] === true);
+      data[0].links = data[0].links.filter(
+        (d: any) => selectedFilter[d.source] === true && selectedFilter[d.target] === true
+      );
     }
   } else {
     if (isValid(datumField)) {
