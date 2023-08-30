@@ -48,7 +48,8 @@ export const dataZoom: IDataZoomTheme = {
       scaleX: 1.2,
       scaleY: 1.2,
       stroke: { type: 'palette', key: 'dataZoomHandlerStrokeColor' },
-      lineWidth: 1
+      lineWidth: 1,
+      zIndex: 100
     }
   },
   endHandler: {
@@ -61,7 +62,8 @@ export const dataZoom: IDataZoomTheme = {
       scaleX: 1.2,
       scaleY: 1.2,
       stroke: { type: 'palette', key: 'dataZoomHandlerStrokeColor' },
-      lineWidth: 1
+      lineWidth: 1,
+      zIndex: 100
     }
   },
   startText: {
