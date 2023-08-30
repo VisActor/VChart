@@ -104,9 +104,9 @@
     "canvas": "2.11.2"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.15.7",
-    "@visactor/vdataset": "~0.15.7",
-    "@visactor/vscale": "~0.15.7",
+    "@visactor/vutils": "~0.15.9",
+    "@visactor/vdataset": "~0.15.9",
+    "@visactor/vscale": "~0.15.9",
     "@visactor/vgrammar": "~0.6.3",
     "@visactor/vgrammar-projection": "~0.6.3",
     "@visactor/vgrammar-wordcloud": "~0.6.3",
@@ -114,8 +114,8 @@
     "@visactor/vgrammar-hierarchy": "~0.6.3",
     "@visactor/vgrammar-sankey": "~0.6.3",
     "@visactor/vgrammar-util": "~0.6.3",
-    "@visactor/vrender": "~0.14.5",
-    "@visactor/vrender-components": "0.14.6-alpha.2"
+    "@visactor/vrender": "~0.14.6",
+    "@visactor/vrender-components": "~0.14.6"
   },
   "publishConfig": {
     "access": "public",

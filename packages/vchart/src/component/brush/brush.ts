@@ -234,7 +234,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
       const elements = grammarMark.elements;
       elements.forEach((el: IElement) => {
         const graphicItem = el.getGraphicItem();
-
+        const elementKey = mark.id + '_' + el.key;
         // 判断逻辑:
         // 应该被置为inBrush状态的图元:
         // before: 在out brush elment map, 即不在任何brush中
@@ -243,21 +243,21 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         // 应该被置为outOfBrush状态的图元:
         // before: 在当前brush 的 in brush element map中, 即在当前brush中
         // now: 不在当前brush中
-        if (this._outOfBrushElementsMap?.[el.key] && this._isBrushContainItem(operateMask, graphicItem)) {
+        if (this._outOfBrushElementsMap?.[elementKey] && this._isBrushContainItem(operateMask, graphicItem)) {
           graphicItem.addState('inBrush');
           if (!this._inBrushElementsMap[operateMask?.name]) {
             this._inBrushElementsMap[operateMask?.name] = {};
           }
-          this._inBrushElementsMap[operateMask?.name][el.key] = el;
-          delete this._outOfBrushElementsMap[el.key];
+          this._inBrushElementsMap[operateMask?.name][elementKey] = el;
+          delete this._outOfBrushElementsMap[elementKey];
         } else if (
-          this._inBrushElementsMap?.[operateMask?.name]?.[el.key] &&
+          this._inBrushElementsMap?.[operateMask?.name]?.[elementKey] &&
           !this._isBrushContainItem(operateMask, graphicItem)
         ) {
           graphicItem.removeState('inBrush');
           graphicItem.addState('outOfBrush');
-          this._outOfBrushElementsMap[el.key] = el;
-          delete this._inBrushElementsMap[operateMask.name][el.key];
+          this._outOfBrushElementsMap[elementKey] = el;
+          delete this._inBrushElementsMap[operateMask.name][elementKey];
         }
       });
     });
@@ -278,6 +278,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
           const elements = grammarMark.elements;
           elements.forEach((el: IElement) => {
             const graphicItem = el.getGraphicItem();
+            const elementKey = mark.id + '_' + el.key;
             // 判断逻辑:
             // 应该被置为inBrush状态的图元:
             // before: 在out brush elment map, 即不在任何brush中
@@ -287,22 +288,22 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
             // before: 在当前brush 的 in brush element map中, 即在当前brush中
             // now: 不在当前brush中
             if (
-              this._linkedOutOfBrushElementsMap?.[el.key] &&
+              this._linkedOutOfBrushElementsMap?.[elementKey] &&
               this._isBrushContainItem(operateMask, graphicItem, { dx: regionOffsetX, dy: regionOffsetY })
             ) {
               graphicItem.addState('inBrush');
               if (!this._linkedInBrushElementsMap[operateMask?.name]) {
                 this._linkedInBrushElementsMap[operateMask?.name] = {};
               }
-              this._linkedInBrushElementsMap[operateMask?.name][el.key] = el;
-              delete this._linkedOutOfBrushElementsMap[el.key];
+              this._linkedInBrushElementsMap[operateMask?.name][elementKey] = el;
+              delete this._linkedOutOfBrushElementsMap[elementKey];
             } else if (
-              this._linkedInBrushElementsMap?.[operateMask?.name]?.[el.key] &&
+              this._linkedInBrushElementsMap?.[operateMask?.name]?.[elementKey] &&
               !this._isBrushContainItem(operateMask, graphicItem, { dx: regionOffsetX, dy: regionOffsetY })
             ) {
               graphicItem.removeState('inBrush');
               graphicItem.addState('outOfBrush');
-              this._linkedOutOfBrushElementsMap[el.key] = el;
+              this._linkedOutOfBrushElementsMap[elementKey] = el;
             }
           });
         });
@@ -435,6 +436,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         const elements = grammarMark.elements;
         elements.forEach((el: IElement) => {
           const graphicItem = el.getGraphicItem();
+          const elementKey = mark.id + '_' + el.key;
           // 注册状态
           graphicItem.stateProxy = (stateName: string) => {
             if (stateName === 'inBrush') {
@@ -447,8 +449,8 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
           };
           // 所有图元置为out brush状态
           graphicItem.addState(stateName);
-          this._outOfBrushElementsMap[el.key] = el;
-          this._linkedOutOfBrushElementsMap[el.key] = el;
+          this._outOfBrushElementsMap[elementKey] = el;
+          this._linkedOutOfBrushElementsMap[elementKey] = el;
         });
       });
     });
@@ -502,10 +504,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     if (this._brushComponents) {
       this._container.removeChild(this._brushComponents as unknown as INode);
       this._brushComponents.forEach(brush => {
-        brush.stage.removeAllListeners('pointerdown');
-        brush.stage.removeAllListeners('pointermove');
-        brush.stage.removeAllListeners('pointerup');
-        brush.stage.removeAllListeners('pointerupoutside');
+        brush.releaseBrushEvents();
       });
       this._brushComponents = null;
     }
