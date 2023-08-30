@@ -1,5 +1,6 @@
-import type { IModelSpec, IPercent } from '../../model/interface';
+import type { IPercent } from '../../model/interface';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
+import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
 
 export interface IIndicatorItemSpec {
@@ -42,7 +43,7 @@ export interface IIndicatorItemSpec {
 
 export type IIndicator = IComponent;
 
-export interface IIndicatorSpec extends IModelSpec {
+export interface IIndicatorSpec extends IComponentSpec {
   /**
    * 是否显示指标卡组件
    * @default true
@@ -88,14 +89,6 @@ export interface IIndicatorSpec extends IModelSpec {
    * 指标卡内容文字配置
    */
   content?: IIndicatorItemSpec[] | IIndicatorItemSpec;
-  /**
-   * 组件关联的 region index
-   */
-  regionIndex?: number | number[];
-  /**
-   * 组件关联的 region id
-   */
-  regionId?: number | string | (number | string)[];
 }
 
 export interface IIndicatorItemTheme extends IIndicatorItemSpec {

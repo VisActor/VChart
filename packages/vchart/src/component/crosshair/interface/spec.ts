@@ -1,6 +1,7 @@
 import type { IModelSpec } from '../../../model/interface';
 import type { IPadding, StringOrNumber, ILineMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../../../typings';
 import type { IAxis } from '../../axis/interface';
+import type { IComponentSpec } from '../../base/interface';
 import type { IComponent } from '../../interface';
 
 export interface ICrossHair extends IComponent {
@@ -11,7 +12,7 @@ export interface ICrossHair extends IComponent {
 
 export type CrossHairTrigger = 'click' | 'hover' | ['click', 'hover'];
 
-export interface ICommonCrosshairSpec {
+export interface ICommonCrosshairSpec extends IComponentSpec {
   /**
    * 是否可以通过 点击 固定住一组 crosshair，也可以同时触发。
    * @default 'hover'
@@ -31,7 +32,7 @@ export interface ICommonCrosshairSpec {
   gridZIndex?: number;
 }
 
-export interface ICartesianCrosshairSpec extends ICommonCrosshairSpec, IModelSpec {
+export interface ICartesianCrosshairSpec extends ICommonCrosshairSpec {
   /**
    * 笛卡尔坐标系下 x 轴上 crosshair 配置
    */
@@ -42,7 +43,7 @@ export interface ICartesianCrosshairSpec extends ICommonCrosshairSpec, IModelSpe
   yField?: ICrosshairCategoryFieldSpec;
 }
 
-export interface IPolarCrosshairSpec extends ICommonCrosshairSpec, IModelSpec {
+export interface IPolarCrosshairSpec extends ICommonCrosshairSpec {
   /**
    * 极坐标系下 categoryField 字段对应轴上的 crosshair 配置
    */

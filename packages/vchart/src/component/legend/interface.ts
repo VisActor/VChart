@@ -9,7 +9,7 @@ import type {
   StringOrNumber
 } from '../../typings';
 import type { IComponent } from '../interface';
-import type { IModelSpec } from '../../model/interface';
+import type { IComponentSpec } from '../base/interface';
 
 export type ILegend = IComponent & {
   getLegendData: () => Datum[];
@@ -98,22 +98,4 @@ export type ILegendCommonSpec = {
      */
     style?: Omit<NoVisibleMarkStyle<IRectMarkSpec>, 'visible' | 'width' | 'height'>;
   };
-
-  /**
-   * 图例关联的region索引
-   * @default 0
-   */
-  regionIndex?: number | number[];
-  /**
-   * 图例关联的region id
-   */
-  regionId?: StringOrNumber | StringOrNumber[];
-  /**
-   * 图例关联的系列索引
-   */
-  seriesIndex?: number | number[];
-  /**
-   * 图例关联的系列id
-   */
-  seriesId?: StringOrNumber | StringOrNumber[];
-} & Omit<IModelSpec, 'orient'>;
+} & Omit<IComponentSpec, 'orient'>;

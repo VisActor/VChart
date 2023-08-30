@@ -14,6 +14,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IModelSpec } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
+import type { IComponentSpec } from '../base/interface';
 
 export interface StatisticsDomain {
   domain: any[];
@@ -40,7 +41,7 @@ export interface IAxisItemTheme<T> {
 }
 export type AxisAnimationPreset = 'groupFadeIn' | 'fadeIn' | 'grow';
 
-export interface ICommonAxisSpec extends Omit<IModelSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
+export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
   /**
    * 轴类型
    */
@@ -63,23 +64,6 @@ export interface ICommonAxisSpec extends Omit<IModelSpec, 'orient' | 'center'>, 
    * 子刻度线配置
    */
   subTick?: ISubTick;
-  /**
-   * 轴关联的region索引
-   * @default 0
-   */
-  regionIndex?: number | number[];
-  /**
-   * 轴关联的region id
-   */
-  regionId?: StringOrNumber | StringOrNumber[];
-  /**
-   * 轴关联的系列索引，默认为0
-   */
-  seriesIndex?: number | number[];
-  /**
-   * 轴关联的系列id
-   */
-  seriesId?: StringOrNumber | StringOrNumber[];
 
   /**
    * 是否开启动画，默认关闭
