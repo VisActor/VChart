@@ -6,9 +6,9 @@ import { ComponentTypeEnum } from '../interface';
 import type { LayoutItem } from '../../model/layout-item';
 import { BaseComponent } from '../base';
 import type { IRegion } from '../../region/interface';
-import type { IIndicator, IIndicatorItemSpec, IIndicatorTheme } from './interface';
+import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec, IIndicatorTheme } from './interface';
 import type { Maybe } from '../../typings';
-import { isValid, isFunction, array, merge, eachSeries, transformToGraphic, getActualNumValue } from '../../util';
+import { isValid, isFunction, array, mergeSpec, eachSeries, transformToGraphic, getActualNumValue } from '../../util';
 import { isEqual } from '@visactor/vutils';
 import { indicatorMapper } from './util';
 import type { IModel } from '../../model/interface';
@@ -20,7 +20,7 @@ import type { IndicatorAttributes } from '@visactor/vrender-components';
 import type { IGraphic, INode } from '@visactor/vrender';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 
-export class Indicator extends BaseComponent implements IIndicator {
+export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static speckey = 'indicator';
   static type = ComponentTypeEnum.indicator;
   type = ComponentTypeEnum.indicator;
@@ -66,7 +66,7 @@ export class Indicator extends BaseComponent implements IIndicator {
     super.setAttrFromSpec();
     this._gap = this._spec.gap || 0;
     this._title = this._spec.title;
-    this._content = this._spec.content;
+    this._content = array(this._spec.content);
     this._regions = this._option.getRegionsInUserIdOrIndex(array(this._spec.regionId), array(this._spec.regionIndex));
   }
 
@@ -150,7 +150,7 @@ export class Indicator extends BaseComponent implements IIndicator {
 
     const contentComponentSpec: IIndicatorItemSpec[] = [];
     array(this._spec.content).forEach((eachItem: IIndicatorItemSpec) => {
-      const contentSpec = merge({}, this._theme.content, eachItem);
+      const contentSpec = mergeSpec({}, this._theme.content, eachItem);
       contentComponentSpec.push({
         visible: contentSpec.visible !== false && (contentSpec.field ? this._activeDatum !== null : true),
         space: contentSpec.space || this._gap,

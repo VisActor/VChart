@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: new builtin dark theme, related #294",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

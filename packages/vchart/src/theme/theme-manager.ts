@@ -1,8 +1,8 @@
-import { merge } from '@visactor/vutils';
-import { buildinThemeMap, defaultThemeName } from './buildin-theme';
+import { builtinThemeMap, defaultThemeName } from './builtin';
 import type { ITheme } from './interface';
 import { InstanceManager } from '../core/instance-manager';
 import type { IVChart } from '../core/interface';
+import { mergeTheme } from '../util';
 
 export class ThemeManager {
   /** 主题字典 */
@@ -21,7 +21,7 @@ export class ThemeManager {
       return;
     }
     // 所有主题基于默认主题扩展，保证基础值
-    ThemeManager.themes.set(name, merge({}, ThemeManager.getDefaultTheme(), theme));
+    ThemeManager.themes.set(name, mergeTheme({}, ThemeManager.getDefaultTheme(), theme));
   }
 
   /**
@@ -77,9 +77,9 @@ export class ThemeManager {
 }
 
 // 先注册默认主题
-ThemeManager.registerTheme(defaultThemeName, buildinThemeMap.get(defaultThemeName));
+ThemeManager.registerTheme(defaultThemeName, builtinThemeMap.get(defaultThemeName));
 // 再注册其他内置主题
-buildinThemeMap.forEach((theme, name) => {
+builtinThemeMap.forEach((theme, name) => {
   if (name !== defaultThemeName) {
     ThemeManager.registerTheme(name, theme);
   }

@@ -16,6 +16,14 @@ export interface IScatterSeriesSpec
    */
   type: 'scatter';
   /**
+   * x轴字段
+   */
+  xField: string | string[];
+  /**
+   * y轴字段
+   */
+  yField: string | string[];
+  /**
    * 图元配置
    */
   [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;

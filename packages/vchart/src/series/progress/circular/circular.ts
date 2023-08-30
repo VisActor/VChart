@@ -1,7 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import type { BandScale } from '@visactor/vscale';
 import type { IArcMark } from '../../../mark/arc';
-import { MarkTypeEnum } from '../../../mark/interface';
 import type { Maybe, Datum } from '../../../typings';
 import { isValidNumber } from '../../../util';
 import type { SeriesMarkMap } from '../../interface';
@@ -12,22 +11,20 @@ import type { ICircularProgressSeriesSpec, ICircularProgressSeriesTheme } from '
 import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
 import type { IStateAnimateSpec } from '../../../animation/spec';
 import type { IProgressArcMark } from '../../../mark/progress-arc';
-import { BaseSeries } from '../../base/base-series';
 import { VChart } from '../../../core/vchart';
 import { ArcMark } from '../../../mark/arc';
 import { ProgressArcMark } from '../../../mark/progress-arc';
+import { circularProgressSeriesMark } from './constant';
 
 VChart.useMark([ArcMark, ProgressArcMark]);
 
-export class CircularProgressSeries extends ProgressLikeSeries<ICircularProgressSeriesSpec> {
+export class CircularProgressSeries<
+  T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
+> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.circularProgress;
   type = SeriesTypeEnum.circularProgress;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.track]: { name: SeriesMarkNameEnum.track, type: MarkTypeEnum.progressArc },
-    [SeriesMarkNameEnum.progress]: { name: SeriesMarkNameEnum.progress, type: MarkTypeEnum.progressArc }
-  };
+  static readonly mark: SeriesMarkMap = circularProgressSeriesMark;
 
   protected declare _theme: Maybe<ICircularProgressSeriesTheme>;
 

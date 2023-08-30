@@ -1,9 +1,10 @@
-import { isValid, merge } from '@visactor/vutils';
+import { isValid } from '@visactor/vutils';
 import { BaseTooltipModel } from './base-tooltip-model';
 import { ContentModel } from './content-model';
 import type { ITooltipModelOption } from './interface';
 import { TitleModel } from './title-model';
 import { defaultContainerStyle } from './style-constants';
+import { mergeSpec } from '../../../../../util';
 
 export class TooltipModel extends BaseTooltipModel {
   title: TitleModel | null = null;
@@ -118,7 +119,7 @@ export class TooltipModel extends BaseTooltipModel {
   setStyle(): void {
     const tooltipStyle = this._option.getTooltipStyle();
 
-    super.setStyle(merge({}, defaultContainerStyle, tooltipStyle.panel));
+    super.setStyle(mergeSpec({}, defaultContainerStyle, tooltipStyle.panel));
     Object.values(this.children).forEach((c, i) => {
       c.setStyle(
         i > 0

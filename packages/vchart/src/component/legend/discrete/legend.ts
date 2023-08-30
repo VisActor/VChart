@@ -20,12 +20,11 @@ import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/tran
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
 
-export class DiscreteLegend extends BaseLegend {
+export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
 
-  protected declare _spec: IDiscreteLegendSpec;
   protected declare _theme: IDiscreteLegendTheme;
 
   static createComponent(spec: any, options: IComponentOption) {
@@ -182,7 +181,7 @@ export class DiscreteLegend extends BaseLegend {
 
   private _getLegendItems() {
     const originData = (this._legendData.getLatestData() || []).map((datum: any) => {
-      const fill = datum.style('fill');
+      const fill = datum.style('fill') || datum.style('stroke');
       const stroke = datum.style('stroke');
       const lineWidth = datum.style('lineWidth');
       const symbolType = datum.style('symbolType');

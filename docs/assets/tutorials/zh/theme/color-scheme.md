@@ -300,7 +300,7 @@ const colorScheme: IThemeColorScheme = {
     // 语义色板
     palette: {
       labelFontColor: '#89909D',
-      titleFontColor: '#000000',
+      primaryFontColor: '#000000',
       axisGridColor: '#EBEDF2',
       axisDomainColor: '#D9DDE4'
     }
@@ -316,7 +316,7 @@ const colorScheme: IThemeColorScheme = {
   // 语义色板
   palette: {
     labelFontColor: '#89909D',
-    titleFontColor: '#000000',
+    primaryFontColor: '#000000',
     axisGridColor: '#EBEDF2',
     axisDomainColor: '#D9DDE4'
   }

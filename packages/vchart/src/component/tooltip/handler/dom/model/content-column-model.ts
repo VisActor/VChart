@@ -1,4 +1,4 @@
-import { isNumber, isString, merge, toNumber } from '@visactor/vutils';
+import { isNumber, isString, toNumber } from '@visactor/vutils';
 import {
   defaultKeyStyle,
   defaultContentColumnStyle,
@@ -15,6 +15,7 @@ import { TextModel } from './text-model';
 import { TOOLTIP_EMPTY_STRING } from '../../constants';
 import { getPixelPropertyStr } from '../util';
 import type { IToolTipLineActual } from '../../../../../typings';
+import { mergeSpec } from '../../../../../util';
 
 export type ContentColumnType = 'shape-box' | 'key-box' | 'value-box';
 
@@ -73,7 +74,7 @@ export class ContentColumnModel extends BaseTooltipModel {
   setStyle() {
     const tooltipStyle = this._option.getTooltipStyle();
 
-    super.setStyle(merge({}, defaultContentColumnStyle, tooltipStyle.content, this._getContentColumnStyle()));
+    super.setStyle(mergeSpec({}, defaultContentColumnStyle, tooltipStyle.content, this._getContentColumnStyle()));
 
     const renderContent = this._option.getTooltipActual()?.content ?? [];
     const contentAttributes = this._option.getTooltipAttributes()?.content ?? [];
@@ -81,7 +82,7 @@ export class ContentColumnModel extends BaseTooltipModel {
       let childStyle: any = {};
       if (this.className === 'key-box') {
         const { key, isKeyAdaptive } = line;
-        childStyle = merge({}, isKeyAdaptive ? defaultAdaptiveKeyStyle : defaultKeyStyle, {
+        childStyle = mergeSpec({}, isKeyAdaptive ? defaultAdaptiveKeyStyle : defaultKeyStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
           ...tooltipStyle.keyColumn.common,
           ...tooltipStyle.keyColumn.items?.[i]
@@ -94,14 +95,14 @@ export class ContentColumnModel extends BaseTooltipModel {
         }
         (this.children[i] as TextModel).setStyle(childStyle);
       } else if (this.className === 'value-box') {
-        childStyle = merge({}, defaultValueStyle, {
+        childStyle = mergeSpec({}, defaultValueStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
           ...tooltipStyle.valueColumn.common,
           ...tooltipStyle.valueColumn.items?.[i]
         });
         (this.children[i] as TextModel).setStyle(childStyle);
       } else if (this.className === 'shape-box') {
-        childStyle = merge({}, defaultShapeStyle, {
+        childStyle = mergeSpec({}, defaultShapeStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
           ...tooltipStyle.shapeColumn.common,
           ...tooltipStyle.shapeColumn.items?.[i]

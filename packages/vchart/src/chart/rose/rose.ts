@@ -5,7 +5,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
 import { VChart } from '../../core/vchart';
-import { array, merge } from '../../util';
+import { array, mergeSpec } from '../../util';
 VChart.useSeries([RoseSeries]);
 
 export class RoseChart extends RoseLikeChart {
@@ -40,7 +40,7 @@ export class RoseChart extends RoseLikeChart {
 
     // set default config for crosshair
     spec.crosshair = array(spec.crosshair || {}).map(crosshairCfg => {
-      return merge(
+      return mergeSpec(
         {
           categoryField: {
             visible: true,

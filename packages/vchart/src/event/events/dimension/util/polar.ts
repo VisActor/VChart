@@ -14,7 +14,9 @@ const getAxis = (chart: IChart, type: 'radius' | 'angle', pos: ILayoutPoint): Po
     .getAllComponents()
     .filter(
       c =>
-        c.specKey === 'axes' && (c as AxisComponent).orient === type && isInRegionBound(chart, c as AxisComponent, pos)
+        c.specKey === 'axes' &&
+        (c as AxisComponent).getOrient() === type &&
+        isInRegionBound(chart, c as AxisComponent, pos)
     ) as PolarAxis[];
   if (!axesComponents.length) {
     return null;

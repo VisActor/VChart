@@ -17,7 +17,7 @@ import type {
   ICartesianCrosshairSpec,
   IPolarCrosshairSpec,
   ICrosshairTheme,
-  ICrosshairXFieldSpec
+  ICrosshairCategoryFieldSpec
 } from './interface';
 import { Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../constant';
 import { defaultCrosshairTriggerEvent } from './config';
@@ -56,7 +56,10 @@ const ORIENT_MAP = {
   value: ['radius']
 };
 
-export abstract class BaseCrossHair extends BaseComponent implements ICrossHair {
+export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCrosshairSpec>
+  extends BaseComponent<T>
+  implements ICrossHair
+{
   layoutType: LayoutItem['layoutType'] = 'absolute';
   gridZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair_Grid;
   labelZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair;
@@ -74,11 +77,10 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
   protected _crosshairConfig: ICartesianCrosshairSpec | IPolarCrosshairSpec;
   private _limitBounds: Maybe<IBoundsLike>;
 
-  constructor(spec: ICartesianCrosshairSpec | IPolarCrosshairSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });
-    this._spec = spec;
     this.enable = true;
     this.showDefault = true;
   }
@@ -203,7 +205,7 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
     if (!bindingAxesIndex) {
       bindingAxesIndex = [];
       axesComponents.forEach((item, index) => {
-        if (ORIENT_MAP[field].includes(item.orient)) {
+        if (ORIENT_MAP[field].includes(item.getOrient())) {
           bindingAxesIndex.push(index);
         }
       });
@@ -302,7 +304,7 @@ export abstract class BaseCrossHair extends BaseComponent implements ICrossHair 
     }
   }
 
-  protected _parseField(field: ICrosshairXFieldSpec, fieldName: string) {
+  protected _parseField(field: ICrosshairCategoryFieldSpec, fieldName: string) {
     const hair = {} as any;
     const { line, label, visible } = field;
     hair.visible = visible;

@@ -22,7 +22,6 @@ import { registerDataSetInstanceTransform } from '../../data/register';
 import { SeriesData } from '../base/series-data';
 import { dataViewFromDataView } from '../../data/initialize';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { MarkTypeEnum } from '../../mark/interface';
 import type { ITextMark } from '../../mark/text';
 import type { IModelEvaluateOption } from '../../model/interface';
 import type { Datum, Maybe } from '../../typings';
@@ -30,20 +29,17 @@ import { Direction } from '../../typings';
 import type { IBarAnimationParams } from '../bar/animation';
 import { VChart } from '../../core/vchart';
 import { RuleMark } from '../../mark/rule';
+import { waterfallSeriesMark } from './constant';
 
 VChart.useMark([RuleMark]);
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
-export class WaterfallSeries extends BarSeries<any> {
+export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSpec> extends BarSeries<any> {
   static readonly type: string = SeriesTypeEnum.waterfall;
   type = SeriesTypeEnum.waterfall;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BarSeries.mark,
-    [SeriesMarkNameEnum.leaderLine]: { name: SeriesMarkNameEnum.leaderLine, type: MarkTypeEnum.rule },
-    [SeriesMarkNameEnum.stackLabel]: { name: SeriesMarkNameEnum.stackLabel, type: MarkTypeEnum.text }
-  };
+  static readonly mark: SeriesMarkMap = waterfallSeriesMark;
 
   protected declare _theme: Maybe<IWaterfallSeriesTheme>;
 
@@ -51,7 +47,7 @@ export class WaterfallSeries extends BarSeries<any> {
 
   protected _totalData?: SeriesData;
 
-  protected declare _spec: IWaterfallSeriesSpec;
+  protected declare _spec: T;
 
   protected _leaderLineMark: IRuleMark = null;
   protected _stackLabelMark: ITextMark = null;

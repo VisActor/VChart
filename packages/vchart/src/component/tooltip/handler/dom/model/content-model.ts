@@ -2,8 +2,7 @@ import { defaultContentContainerStyle } from './style-constants';
 import { BaseTooltipModel } from './base-tooltip-model';
 import { ContentColumnModel } from './content-column-model';
 import type { Maybe } from '@visactor/vutils';
-// eslint-disable-next-line no-duplicate-imports
-import { merge } from '@visactor/vutils';
+import { mergeSpec } from '../../../../../util';
 
 export class ContentModel extends BaseTooltipModel {
   shapeBox: Maybe<ContentColumnModel>;
@@ -47,7 +46,7 @@ export class ContentModel extends BaseTooltipModel {
   }
 
   setStyle(style?: Partial<CSSStyleDeclaration>): void {
-    super.setStyle(merge({}, defaultContentContainerStyle, style));
+    super.setStyle(mergeSpec({}, defaultContentContainerStyle, style));
     Object.values(this.children).forEach(c => {
       c.setStyle();
     });

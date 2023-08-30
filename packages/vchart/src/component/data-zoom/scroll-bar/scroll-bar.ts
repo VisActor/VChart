@@ -10,8 +10,9 @@ import { transformToGraphic } from '../../../util/style';
 import type { IRectGraphicAttribute, INode } from '@visactor/vrender';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
+import type { IScrollBarSpec } from './interface';
 
-export class ScrollBar extends DataFilterBaseComponent {
+export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
   type = ComponentTypeEnum.scrollBar;
   name: string = ComponentTypeEnum.scrollBar;

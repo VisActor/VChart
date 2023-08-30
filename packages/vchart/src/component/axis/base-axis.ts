@@ -10,24 +10,38 @@ import { BaseComponent } from '../base';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
 import type { CompilableData } from '../../compile/data';
-import type { IAxis, ITick, StatisticsDomain } from './interface';
+import type { IAxis, ICommonAxisSpec, ITick, StatisticsDomain } from './interface';
 import type { IComponentOption } from '../interface';
-import { array, eachSeries, get, getSeries, isArray, isBoolean, isFunction, isNil, isValid, merge } from '../../util';
+import {
+  array,
+  eachSeries,
+  get,
+  getSeries,
+  isArray,
+  isBoolean,
+  isFunction,
+  isNil,
+  isValid,
+  mergeSpec
+} from '../../util';
 import type { ISeries } from '../../series/interface';
 import { ChartEvent } from '../../constant';
 import type { Group } from '../../series/base/group';
 import { animationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { degreeToRadian, pickWithout, type LooseFunction } from '@visactor/vutils';
-import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './utils';
+import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
 
-export abstract class AxisComponent extends BaseComponent implements IAxis {
+export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
+  extends BaseComponent<T>
+  implements IAxis
+{
   static specKey = 'axes';
 
   protected _orient: IPolarOrientType | IOrientType;
-  get orient() {
+  getOrient() {
     return this._orient;
   }
 
@@ -82,7 +96,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
 
   protected _dataFieldText: string;
 
-  constructor(spec: any, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });
@@ -105,9 +119,9 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
       // 创建语法元素
 
       const axisMark = this._createMark(
-        { type: 'component', name: `axis-${this.orient}` },
+        { type: 'component', name: `axis-${this.getOrient()}` },
         {
-          componentType: this.orient === 'angle' ? 'circleAxis' : 'axis',
+          componentType: this.getOrient() === 'angle' ? 'circleAxis' : 'axis',
           mode: this._spec.mode
         }
       );
@@ -334,7 +348,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
     const labelSpec = pickWithout(spec.label, ['style', 'formatMethod', 'state']);
 
     return {
-      orient: this.orient,
+      orient: this.getOrient(),
       select: spec.select,
       hover: spec.hover,
       line: transformAxisLineStyle(spec.domainLine),
@@ -342,7 +356,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         style: isFunction(spec.label.style)
           ? (datum: Datum, index: number, data: Datum[], layer?: number) => {
               const style = this._preprocessSpec(spec.label.style(datum.rawValue, index, datum, data, layer));
-              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.label?.style, style)));
+              return transformToGraphic(this._preprocessSpec(mergeSpec({}, this._theme.label?.style, style)));
             }
           : transformToGraphic(spec.label.style),
         formatMethod: spec.label.formatMethod
@@ -360,8 +374,8 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         alignWithLabel: spec.tick.alignWithLabel,
         style: isFunction(spec.tick.style)
           ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = this._preprocessSpec(spec.tick.style(value, index, datum, data));
-              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.tick?.style, style)));
+              const style = this._preprocessSpec((spec.tick.style as any)(value, index, datum, data));
+              return transformToGraphic(this._preprocessSpec(mergeSpec({}, this._theme.tick?.style, style)));
             }
           : transformToGraphic(spec.tick.style),
         state: transformStateStyle(spec.tick.state),
@@ -374,8 +388,8 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         count: spec.subTick.tickCount,
         style: isFunction(spec.subTick.style)
           ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = spec.subTick.style(value, index, datum, data);
-              return transformToGraphic(merge({}, this._theme.subTick?.style, style));
+              const style = (spec.subTick.style as any)(value, index, datum, data);
+              return transformToGraphic(mergeSpec({}, this._theme.subTick?.style, style));
             }
           : transformToGraphic(spec.subTick.style),
         state: transformStateStyle(spec.subTick.state)
@@ -388,7 +402,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         style: isFunction(spec.grid.style)
           ? (datum: Datum, index: number) => {
               const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
-              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.grid?.style, style)));
+              return transformToGraphic(this._preprocessSpec(mergeSpec({}, this._theme.grid?.style, style)));
             }
           : transformToGraphic(spec.grid.style)
       },
@@ -404,7 +418,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         space: spec.title.space,
         autoRotate: false, // 默认不对外提供该配置
         angle: titleAngle ? degreeToRadian(titleAngle) : null,
-        textStyle: merge({}, titleTextStyle, transformToGraphic(spec.title.style)),
+        textStyle: mergeSpec({}, titleTextStyle, transformToGraphic(spec.title.style)),
         padding: spec.title.padding,
         shape: {
           visible: spec.title.shape?.visible,

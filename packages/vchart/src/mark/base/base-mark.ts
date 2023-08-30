@@ -14,7 +14,7 @@ import type {
   IThresholdStyle
 } from '../../typings';
 
-import { isBoolean, isFunction, isNil, isValid, merge, Color, createScaleWithSpec, isNumber } from '../../util';
+import { isBoolean, isFunction, isNil, isValid, mergeSpec, Color, createScaleWithSpec, isNumber } from '../../util';
 import type {
   IMarkRaw,
   IMarkStateStyle,
@@ -243,7 +243,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
     const attrLevel = stateStyle[state][attr]?.level;
     if (isValid(attrLevel) && attrLevel <= level) {
-      merge(stateStyle[state][attr], { style, level });
+      mergeSpec(stateStyle[state][attr], { style, level });
     }
 
     // some attr has extension channel in VChart to make some effect

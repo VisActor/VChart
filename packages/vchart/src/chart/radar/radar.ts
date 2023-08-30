@@ -1,6 +1,6 @@
 import { RadarSeries } from './../../series/radar/radar';
 import { SeriesTypeEnum } from '../../series/interface';
-import { array, merge } from '../../util';
+import { array, mergeSpec } from '../../util';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
 import { VChart } from '../../core/vchart';
@@ -20,7 +20,7 @@ export class RadarChart extends RoseLikeChart {
       point: spec.point,
       stack: spec.stack,
       percent: spec.percent,
-      area: merge(
+      area: mergeSpec(
         {
           visible: false
         },
@@ -49,7 +49,7 @@ export class RadarChart extends RoseLikeChart {
 
     // set default config for crosshair
     spec.crosshair = array(spec.crosshair || {}).map(crosshairCfg => {
-      return merge(
+      return mergeSpec(
         {
           categoryField: {
             visible: true,

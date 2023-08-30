@@ -88,6 +88,14 @@ export interface IIndicatorSpec extends IModelSpec {
    * 指标卡内容文字配置
    */
   content?: IIndicatorItemSpec[] | IIndicatorItemSpec;
+  /**
+   * 组件关联的 region index
+   */
+  regionIndex?: number | number[];
+  /**
+   * 组件关联的 region id
+   */
+  regionId?: number | string | (number | string)[];
 }
 
 export interface IIndicatorItemTheme extends IIndicatorItemSpec {

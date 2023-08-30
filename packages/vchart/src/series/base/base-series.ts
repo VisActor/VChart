@@ -10,7 +10,7 @@ import {
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
 } from '../../constant/index';
-import { SeriesMarkNameEnum } from '../interface';
+import { seriesMarkInfoMap } from '../interface';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
@@ -47,7 +47,7 @@ import {
   isValid,
   isBoolean,
   isString,
-  merge,
+  mergeSpec,
   isFunction,
   isArray,
   mergeFields,
@@ -75,17 +75,15 @@ import type { IGroupMark } from '../../mark/group';
 import { array, isEmpty, isEqual } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { Factory } from '../../core/factory';
+import { baseSeriesMark } from './constant';
 
-export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implements ISeries {
+export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly type: string = 'series';
   layoutType: LayoutItem['layoutType'] = 'absolute';
   readonly modelType: string = 'series';
   readonly name: string | undefined = undefined;
 
-  static readonly mark: SeriesMarkMap = {
-    [SeriesMarkNameEnum.label]: { name: SeriesMarkNameEnum.label, type: MarkTypeEnum.text }
-  };
+  static readonly mark: SeriesMarkMap = baseSeriesMark;
 
   protected _trigger!: ITrigger;
   /**
@@ -96,8 +94,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   }
 
   protected declare _option: ISeriesOption;
-
-  protected declare _spec: T;
 
   // 坐标系信息
   readonly coordinate: CoordinateType = 'none';
@@ -231,7 +227,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   protected _markAttributeContext: ISeriesMarkAttributeContext;
 
-  constructor(spec: any, options: ISeriesOption) {
+  constructor(spec: T, options: ISeriesOption) {
     super(spec, {
       ...options
     });
@@ -1033,18 +1029,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     this._preprocessSpec();
   }
 
-  /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec() {
-    const chartSpec = this.getChart().getSpec();
-    this._spec = merge({}, this._theme, this._getDefaultSpecFromChart(chartSpec), this._originalSpec);
-  }
-
-  /** 从 chart spec 提取配置作为 series 的默认 spec 配置 */
-  protected _getDefaultSpecFromChart(chartSpec: any): Partial<T> {
-    return {};
-  }
-
-  protected _createMark<T extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
+  protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
     const {
       key,
       groupKey,
@@ -1062,7 +1047,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       support3d = this._spec.support3d || !!(this._spec as any).zField,
       morph = false
     } = option;
-    const m = super._createMark<T>(markInfo, {
+    const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
       support3d,
       dataStatistics: dataStatistics ?? this._rawDataStatistics,
@@ -1100,7 +1085,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
         m.setLabelSpec(label);
       }
 
-      const spec = this.getSpec() || {};
+      const spec = this.getSpec() || ({} as T);
 
       m.setMorph(morph);
       m.setMorphKey(spec.morph?.morphKey || `${this._specIndex}`);
@@ -1113,7 +1098,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       if (!isNil(groupKey)) {
         m.setGroupKey(groupKey);
       }
-      this.initMarkStyleWithSpec(m, merge({}, themeSpec, markSpec || spec[m.name]));
+
+      this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));
     }
     return m;
   }
@@ -1187,8 +1173,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   getMarkInfoList() {
     const list = super.getMarkInfoList();
     if (!list.length) {
-      const SeriesConstructor = Factory.getSeries(this.type);
-      return Object.values(SeriesConstructor.mark ?? {});
+      return Object.values<ISeriesMarkInfo>(seriesMarkInfoMap[this.type] ?? {});
     }
     return list;
   }

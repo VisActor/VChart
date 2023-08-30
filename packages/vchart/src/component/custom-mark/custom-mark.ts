@@ -11,7 +11,7 @@ import type { IGroupMark } from '../../mark/group';
 import type { MarkTypeEnum } from '../../mark/interface';
 import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 
-export class CustomMark extends BaseComponent {
+export class CustomMark extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;
   type = ComponentTypeEnum.customMark;
 

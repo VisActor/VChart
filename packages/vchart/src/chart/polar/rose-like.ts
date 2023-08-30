@@ -1,4 +1,4 @@
-import type { IPolarAxis } from '../../component/axis/polar/interface';
+import type { IPolarAxis, IPolarAxisSpec } from '../../component/axis/polar/interface';
 import { PolarChart } from './polar';
 
 export class RoseLikeChart extends PolarChart {
@@ -26,8 +26,8 @@ export class RoseLikeChart extends PolarChart {
         spec.axes = [];
       }
       const haxAxes = { radius: false, angle: false };
-      (spec.axes ?? []).forEach((axis: IPolarAxis) => {
-        const orient = axis.orient;
+      (spec.axes ?? []).forEach((axis: IPolarAxisSpec) => {
+        const { orient } = axis;
         if (orient === 'radius') {
           haxAxes.radius = true;
         }

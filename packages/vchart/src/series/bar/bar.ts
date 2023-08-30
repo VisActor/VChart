@@ -5,7 +5,7 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum, DirectionType } from '../../typings';
-import { merge, valueInScaleRange, getActualNumValue } from '../../util';
+import { mergeSpec, valueInScaleRange, getActualNumValue } from '../../util';
 import type { BarAppearPreset, IBarAnimationParams } from './animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IBarSeriesSpec, IBarSeriesTheme } from './interface';
@@ -18,11 +18,11 @@ import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { array, isValid, last } from '@visactor/vutils';
+import { barSeriesMark } from './constant';
 
 VChart.useMark([RectMark, TextMark]);
 
@@ -34,10 +34,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.bar;
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.bar]: { name: SeriesMarkNameEnum.bar, type: MarkTypeEnum.rect }
-  };
+  static readonly mark: SeriesMarkMap = barSeriesMark;
 
   protected declare _theme: Maybe<IBarSeriesTheme>;
 
@@ -64,7 +61,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
         isSeriesMark: true,
-        label: merge({ animation: this._spec.animation }, this._spec.label),
+        label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
         progressive
       }
     ) as IRectMark;
