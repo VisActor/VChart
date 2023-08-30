@@ -17,7 +17,7 @@ import { sankeyNodes } from '../../data/transforms/sankey-nodes';
 import { sankeyLinks } from '../../data/transforms/sankey-links';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
-import { DEFAULT_DATA_INDEX, LayoutZIndex, AttributeLevel, Event_Bubble_Level } from '../../constant';
+import { DEFAULT_DATA_INDEX, LayoutZIndex, AttributeLevel, Event_Bubble_Level, ChartEvent } from '../../constant';
 import { SeriesData } from '../base/series-data';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
@@ -169,6 +169,7 @@ export class SankeySeries extends CartesianSeries<any> {
         false
       );
 
+      this._data?.getDataView().target.addListener('change', nodesDataView.reRunAllTransform);
       this._nodesSeriesData = new SeriesData(this._option, nodesDataView);
 
       const linksDataSet = new DataSet();
@@ -194,6 +195,7 @@ export class SankeySeries extends CartesianSeries<any> {
         false
       );
 
+      this._data?.getDataView().target.addListener('change', linksDataView.reRunAllTransform);
       this._linksSeriesData = new SeriesData(this._option, linksDataView);
     }
   }
@@ -541,6 +543,10 @@ export class SankeySeries extends CartesianSeries<any> {
 
   protected initEvent(): void {
     super.initEvent();
+
+    this._nodesSeriesData.getDataView()?.target.addListener('change', this.nodesSeriesDataUpdate.bind(this));
+    this._linksSeriesData.getDataView()?.target.addListener('change', this.linksSeriesDataUpdate.bind(this));
+
     if (this._spec.emphasis?.enable && this._spec.emphasis?.effect === 'adjacency') {
       if (this._spec.emphasis?.trigger === 'hover') {
         // 浮动事件
@@ -562,6 +568,16 @@ export class SankeySeries extends CartesianSeries<any> {
         this.event.on('pointerdown', { level: Event_Bubble_Level.mark }, this._handleRelatedClick);
       }
     }
+  }
+
+  private nodesSeriesDataUpdate() {
+    this.event.emit(ChartEvent.legendFilter, { model: this });
+    this._nodesSeriesData.updateData();
+  }
+
+  private linksSeriesDataUpdate() {
+    this.event.emit(ChartEvent.legendFilter, { model: this });
+    this._linksSeriesData.updateData();
   }
 
   protected _handleAdjacencyClick = (params: ExtendEventParam) => {
@@ -967,14 +983,39 @@ export class SankeySeries extends CartesianSeries<any> {
   }
 
   getNodeOrdinalColorScale(item: string) {
-    const colorDomain = this._nodesSeriesData.getDataView().latestData.map((datum: Datum) => {
-      return datum.key ?? datum[this._spec.categoryField];
-    });
+    const colorDomain = this._rawData.latestData[0].nodes[0]?.children
+      ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes))
+      : this._rawData.latestData[0].nodes.map((datum: Datum) => {
+          return datum.key ?? datum[this._spec.categoryField];
+        });
+
     const colorRange =
       this._option.globalScale.color?.range() ?? getDataScheme(this._option.getTheme().colorScheme, this.type as any);
+
     const ordinalScale = new ColorOrdinalScale();
+
     ordinalScale.domain(colorDomain).range?.(colorRange);
+
     return ordinalScale.scale(item);
+  }
+
+  extractNamesFromTree(tree: any) {
+    // Set 用于存储唯一的 name 值
+    const uniqueNames = new Set();
+
+    // 遍历当前节点的子节点
+    tree.forEach((node: any) => {
+      // 将当前节点的 name 值添加到 Set 中
+      uniqueNames.add(node.name);
+
+      // 如果当前节点还有子节点，则递归调用该函数继续遍历子节点
+      if (node.children) {
+        const childNames = this.extractNamesFromTree(node.children);
+        childNames.forEach(name => uniqueNames.add(name));
+      }
+    });
+
+    return uniqueNames;
   }
 
   getDimensionField() {

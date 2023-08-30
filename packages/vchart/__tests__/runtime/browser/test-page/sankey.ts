@@ -4,7 +4,7 @@ import { default as VChart } from '../../../../src/index';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 
 const run = () => {
-  const spec = {
+  const spec1 = {
     type: 'sankey',
     data: [
       {
@@ -680,17 +680,8 @@ const run = () => {
 
   console.log(specs, specs[0].data);
 
-  const spec1 = {
+  const spec = {
     type: 'sankey',
-    //   player: {
-    //   auto: true,
-    //   loop: true,
-    //   interval: 800,
-    //   width: 500,
-    //   position: 'middle',
-    //   type: 'continuous',
-    //   specs: specs
-    // },
     data: [specs[0].data],
     categoryField: 'name',
     valueField: 'value',
@@ -730,19 +721,9 @@ const run = () => {
         strokeOpacity: 1
       },
       state: {
-        hover: {
+        custom_unSelected: {
           fill: 'red',
-          fillOpacity: 1
-        },
-        selected: {
-          fill: '#dddddd',
-          stroke: '#333333',
-          lineWidth: 1,
-          fillOpacity: 1
-        },
-        blur: {
-          fillOpacity: 0.05,
-          strokeOpacity: 0.05
+          fillOpacity: 0.05
         }
       }
     },
@@ -755,37 +736,93 @@ const run = () => {
         fillOpacity: 1
       },
       state: {
-        hover: {
-          fillOpacity: 1
-        },
-        selected: {
-          fillOpacity: 1
-        },
-        blur: {
+        custom_unSelected: {
+          fill: 'red',
           fillOpacity: 0.05
         }
       }
-    },
-
-    emphasis: {
-      enable: true,
-      effect: 'adjacency'
     }
   };
 
-  const cs = new VChart(spec, {
+  const vChart = new VChart(spec1, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
-  console.time('renderTime');
-  cs.renderAsync().then(() => {
-    console.timeEnd('renderTime');
-  });
-  window['vchart'] = cs;
-  //   setTimeout(() => {
-  //     console.log(111, data[2]);
-  //     cs.updateData('data', data[2]);
-  //   }, 2000);
-  console.log(cs);
+  vChart.renderAsync();
+  window['vchart'] = vChart;
+  // 监听点击事件
+  // vChart.on('click', { level: 'mark' }, ctx => {
+  //   console.log('mark', ctx);
+  //   vChart.updateState({
+  //     // 名称与上方配置要对应
+  //     custom_unSelected: {
+  //       filter: datum => {
+  //         // 数据 type 不相等的进入这个状态
+  //         console.log('datum', datum);
+  //         return datum.source !== ctx.datum.key && datum.target !== ctx.datum.key;
+  //       }
+  //     }
+  //   });
+  // });
+
+  // setTimeout(() => {
+  //   console.log(111, data[2]);
+  //   vChart.updateData('data', data[2]);
+  // }, 2000);
+
+  // vChart.on('click', ctx => {
+  //   console.log('click-ctx', ctx);
+  //   vChart.updateData('data', [
+  //     {
+  //       name: 'data',
+  //       values: [
+  //         {
+  //           nodes: [
+  //             {
+  //               // value: 80,
+  //               name: 'B',
+  //               children: [
+  //                 {
+  //                   name: 'top',
+  //                   // value: 40,
+  //                   children: [
+  //                     { name: '00', value: 100 },
+  //                     { name: '01', value: 40 }
+  //                   ]
+  //                 },
+  //                 {
+  //                   name: 'middle',
+  //                   value: 10
+  //                 },
+  //                 {
+  //                   name: 'bottom',
+  //                   value: 30
+  //                 }
+  //               ]
+  //             },
+  //             {
+  //               value: 50,
+  //               name: 'C',
+  //               children: [
+  //                 {
+  //                   name: 'top',
+  //                   value: 20
+  //                 },
+  //                 {
+  //                   name: 'middle',
+  //                   value: 20
+  //                 },
+  //                 {
+  //                   name: 'bottom',
+  //                   value: 10
+  //                 }
+  //               ]
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     }
+  //   ]);
+  // });
 };
 run();

@@ -1,4 +1,4 @@
-import { isValid } from '@visactor/vutils';
+import { isValid, isArray } from '@visactor/vutils';
 import type { ISeries } from '../../../../series/interface';
 import type { IDiscreteLegendData, IDiscreteLegendDataMakeOption, IDiscreteLegendFilterOption } from './interface';
 import { DEFAULT_DATA_SERIES_FIELD } from '../../../../constant';
@@ -42,9 +42,19 @@ export const discreteLegendFilter = (data: Array<any>, op: IDiscreteLegendFilter
   selectedData.forEach(s => {
     selectedFilter[s] = true;
   });
+
   const datumField = field() ?? DEFAULT_DATA_SERIES_FIELD;
-  if (isValid(datumField)) {
-    data = data.filter(d => selectedFilter[d[datumField]] === true);
+
+  if (isArray(data) && data[0]?.nodes) {
+    // data silter for sankey chart
+    data[0].nodes = data[0].nodes.filter(d => selectedFilter[d.key] === true);
+    if (data[0]?.links) {
+      data[0].links = data[0].links.filter(d => selectedFilter[d.source] === true && selectedFilter[d.target] === true);
+    }
+  } else {
+    if (isValid(datumField)) {
+      data = data.filter(d => selectedFilter[d[datumField]] === true);
+    }
   }
   return data;
 };
