@@ -2,10 +2,10 @@ import type { ICartesianAxisCommonTheme } from '../../../../../component/axis/ca
 
 export const axisX: ICartesianAxisCommonTheme = {
   label: {
-    space: 6
+    space: 8
   },
   title: {
-    space: 6
+    space: 8
   },
   maxHeight: '30%'
 };
