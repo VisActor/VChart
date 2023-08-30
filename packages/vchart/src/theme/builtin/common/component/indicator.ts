@@ -8,7 +8,7 @@ export const indicator: IIndicatorTheme = {
     autoFit: false,
     style: {
       fontSize: THEME_CONSTANTS.l1FontSize,
-      lineHeight: THEME_CONSTANTS.l1LineHeight,
+      // lineHeight: THEME_CONSTANTS.l1LineHeight,
       fontFamily: THEME_CONSTANTS.defaultFontFamily,
       fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
       fontWeight: 'normal',
@@ -21,7 +21,7 @@ export const indicator: IIndicatorTheme = {
     visible: true,
     style: {
       fontSize: THEME_CONSTANTS.l2FontSize,
-      lineHeight: THEME_CONSTANTS.l2LineHeight,
+      // lineHeight: THEME_CONSTANTS.l2LineHeight,
       fontFamily: THEME_CONSTANTS.defaultFontFamily,
       fill: { type: 'palette', key: 'secondaryFontColor' },
       fontWeight: 'normal',
