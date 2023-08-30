@@ -24,7 +24,7 @@ export const treemap: ITreemapSeriesTheme = {
       stroke: 'white',
       lineWidth: 2,
       fontSize: THEME_CONSTANTS.l4FontSize,
-      lineHeight: THEME_CONSTANTS.l4LineHeight,
+      // lineHeight: THEME_CONSTANTS.l4LineHeight,
       fontFamily: THEME_CONSTANTS.defaultFontFamily,
       textBaseline: 'middle',
       textAlign: 'center'
