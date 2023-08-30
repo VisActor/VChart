@@ -94,6 +94,11 @@ export class DiscreteLegend extends BaseLegend {
   }
 
   protected _getSeriesLegendField(s: ISeries) {
+    // 用户声明的 field 优先级最高
+    if (this._spec.field) {
+      return this._spec.field;
+    }
+
     const defaultField = s.getSeriesField();
     if (!this._spec.scaleName) {
       return defaultField;
@@ -105,9 +110,7 @@ export class DiscreteLegend extends BaseLegend {
     if (!scaleSpec) {
       return defaultField;
     }
-    if (this._spec.field) {
-      return this._spec.field;
-    }
+
     if (!isDataDomainSpec(scaleSpec.domain)) {
       return defaultField;
     }
@@ -209,6 +212,8 @@ export class DiscreteLegend extends BaseLegend {
         }
       };
     });
-    return isFunction(this._spec.data) ? this._spec.data(originData) : originData;
+    return isFunction(this._spec.data)
+      ? this._spec.data(originData, this._option.globalScale.getScale('color'), this._option.globalScale)
+      : originData;
   }
 }
