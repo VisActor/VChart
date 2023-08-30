@@ -143,6 +143,10 @@ export class DataZoom extends DataFilterBaseComponent {
   }
 
   protected _computeWidth(): number {
+    if (this._visible === false) {
+      return 0;
+    }
+
     if (isNumber(this._spec.width)) {
       return this._spec.width;
     }
@@ -155,6 +159,10 @@ export class DataZoom extends DataFilterBaseComponent {
   }
 
   protected _computeHeight(): number {
+    if (this._visible === false) {
+      return 0;
+    }
+
     if (isNumber(this._spec.height)) {
       return this._spec.height;
     }

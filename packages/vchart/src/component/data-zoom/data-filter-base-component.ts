@@ -611,10 +611,6 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
   boundsInRect(rect: ILayoutRect): IBoundsLike {
     const result: IBoundsLike = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };
 
-    if (this._visible === false) {
-      return result;
-    }
-
     if (this._isHorizontal) {
       result.y2 = result.y1 + this._height;
       result.x2 = result.x1 + rect.width;
