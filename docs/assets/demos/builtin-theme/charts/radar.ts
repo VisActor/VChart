@@ -202,5 +202,28 @@ export default {
       visible: true,
       orient: 'right'
     }
+    /*
+    crosshair: {
+      categoryField: {
+        visible: true,
+        line: {
+          type: 'rect'
+        },
+        label: {
+          visible: true
+        }
+      },
+      valueField: {
+        visible: true,
+        line: {
+          type: 'line',
+          smooth: true
+        },
+        label: {
+          visible: true
+        }
+      }
+    }
+    */
   } as IRadarChartSpec
 } as IChartInfo;

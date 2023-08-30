@@ -96,6 +96,11 @@ export default {
         line: {
           type: 'rect'
         }
+        /*
+        label: {
+          visible: true
+        }
+        */
       },
       valueField: {
         visible: true,
@@ -103,6 +108,11 @@ export default {
           type: 'line',
           smooth: true
         }
+        /*
+        label: {
+          visible: true
+        }
+        */
       }
     },
     legends: {
