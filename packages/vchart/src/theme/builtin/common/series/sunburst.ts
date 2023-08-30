@@ -1,5 +1,6 @@
 import { POLAR_END_ANGLE, POLAR_START_ANGLE } from '../../../../constant';
 import type { ISunburstSeriesTheme } from '../../../../series/sunburst/interface';
+import { THEME_CONSTANTS } from '../constants';
 
 export const sunburst: ISunburstSeriesTheme = {
   innerRadius: 0,
@@ -23,7 +24,10 @@ export const sunburst: ISunburstSeriesTheme = {
     visible: true,
     style: {
       cursor: 'pointer',
-      fill: { type: 'palette', key: 'primaryFontColor' }
+      fill: { type: 'palette', key: 'primaryFontColor' },
+      fontSize: THEME_CONSTANTS.l5FontSize,
+      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontFamily: THEME_CONSTANTS.defaultFontFamily
     }
   }
 };
