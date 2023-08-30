@@ -58,14 +58,4 @@ export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> exte
   changeRegions(regions: IRegion[]): void {
     // do nothing
   }
-
-  clear(): void {
-    super.clear();
-
-    this._marks.forEach(mark => {
-      if (mark.getProduct()) {
-        mark.getProduct().release();
-      }
-    });
-  }
 }

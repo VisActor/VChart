@@ -72,7 +72,7 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
-import { array } from '@visactor/vutils';
+import { array, isEmpty, isEqual } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
@@ -659,7 +659,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     index: number
   ) {
     const mark = this._createMark(
-      { type: spec.type, name: `${PREFIX}_${index}` },
+      { type: spec.type, name: `${namePrefix}_${index}` },
       {
         markSpec: spec,
         parent: parentMark,
@@ -683,6 +683,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         mark.setDataView(dataView);
       }
     }
+  }
+
+  protected _updateExtensionMarkSpec() {
+    this._spec.extensionMark?.forEach((spec, i) => {
+      const mark = this._marks.getMarkWithInfo({ name: `${PREFIX}_series_${this.id}_extensionMark_${i}` });
+      this.initMarkStyleWithSpec(mark, spec);
+    });
   }
 
   getStackData(): ISeriesStackData {
@@ -834,6 +841,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** updateSpec */
   updateSpec(spec: any) {
+    const originalSpec = this._spec;
     const result = super.updateSpec(spec);
     if (spec.type !== this.type) {
       result.reMake = true;
@@ -841,10 +849,33 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     const { invalidType } = this._originalSpec;
     if (spec.invalidType !== invalidType) {
-      result.change = true;
-      result.reRender = true;
       result.reMake = true;
     }
+
+    if (
+      array(originalSpec.extensionMark).length !== array(this._spec.extensionMark).length ||
+      originalSpec.extensionMark?.some(
+        (mark, index) =>
+          mark.type !== this._spec.extensionMark[index].type || mark.id !== this._spec.extensionMark[index].id
+      )
+    ) {
+      result.reMake = true;
+    }
+
+    if (result.reMake) {
+      return result;
+    }
+
+    // mark visible logic in compile
+    if (this._marks.getMarks().some(m => originalSpec[m.name]?.visible !== this._spec[m.name]?.visible)) {
+      result.reCompile = true;
+    }
+
+    // mark visible logic in compile
+    if (originalSpec.extensionMark?.some((mark, index) => mark.visible !== this._spec.extensionMark[index].visible)) {
+      result.reCompile = true;
+    }
+
     return result;
   }
 
@@ -852,10 +883,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     super.reInit(theme);
 
     this.initMarkStyle();
-
     this.getMarksWithoutRoot().forEach(mark => {
-      this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
+      this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
     });
+    this._updateExtensionMarkSpec();
   }
 
   // 首次布局完成后填充系列数据
@@ -1023,7 +1054,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       attributeContext: this._markAttributeContext
     });
     if (isValid(m)) {
-      this._marks.addMark(m);
+      this._marks.addMark(m, { name: markInfo.name });
 
       if (isSeriesMark) {
         this._seriesMark = m;

@@ -436,19 +436,18 @@ export class VChart implements IVChart {
       this._chart.release();
       this._chart = null as unknown as IChart;
       this._compiler?.releaseGrammar();
-
       // chart 内部事件 模块自己必须删除
       // 外部事件不处理
       // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
       // VGrammar view 对象不需要释放，提供了reuse和morph能力之后，srView有上下文缓存
-    } else {
-      // FIXME: 暂时这么处理，还需要整体设计下组件的生命周期
-      this.getComponents().forEach(c => c.clear());
-      // TODO: 释放事件？
+    } else if (updateResult.reCompile) {
+      // recompile
+      // 清除之前的所有 compile 内容
+      this._compiler?.clear({ chart: this._chart, vChart: this });
+      // TODO: 释放事件？ vgrammar 的 view 应该不需要释放，响应的stage也没有释放，所以事件可以不绑定
       // 重新绑定事件
       // TODO: 释放XX？
-      // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
-      // 先compile
+      // 重新compile
       this._compiler?.compile({ chart: this._chart, vChart: this }, {});
     }
   }
@@ -766,6 +765,8 @@ export class VChart implements IVChart {
 
     this.updateCustomConfigAndRerenderSync(() => {
       spec = specTransform(spec) as any;
+      // because of in data-init, data will be set as array;
+      spec.data = spec.data ?? [];
       this._spec = spec;
       this._updateCurrentTheme();
       this._compiler?.getVGrammarView()?.updateLayoutTag();

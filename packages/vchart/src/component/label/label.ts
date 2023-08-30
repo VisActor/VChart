@@ -244,14 +244,4 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
       });
     });
   }
-
-  clear(): void {
-    super.clear();
-
-    this._labelComponentMap.forEach((context, mark) => {
-      if (mark.getProduct()) {
-        mark.getProduct().release();
-      }
-    });
-  }
 }

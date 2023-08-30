@@ -126,6 +126,28 @@ export abstract class BaseComponent<T extends IModelSpec = IModelSpec> extends B
     return this._container;
   }
 
+  /**
+   * updateSpec
+   */
+  updateSpec(spec: any) {
+    const originalSpec = this._originalSpec as {
+      regionId?: StringOrNumber;
+      regionIndex?: number;
+      seriesId?: StringOrNumber;
+      seriesIndex?: number;
+    };
+    const result = super.updateSpec(spec);
+    if (
+      originalSpec.regionId !== this._spec.regionId ||
+      originalSpec.regionIndex !== this._spec.regionIndex ||
+      originalSpec.seriesId !== this._spec.seriesId ||
+      originalSpec.seriesIndex !== this._spec.seriesIndex
+    ) {
+      result.reMake = true;
+    }
+    return result;
+  }
+
   release() {
     super.release();
     this.clear();

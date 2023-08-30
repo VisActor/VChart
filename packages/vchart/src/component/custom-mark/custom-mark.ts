@@ -9,7 +9,7 @@ import { LayoutLevel, LayoutZIndex, PREFIX } from '../../constant';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
 import type { IGroupMark } from '../../mark/group';
 import type { MarkTypeEnum } from '../../mark/interface';
-import { isNil, isValid, isValidNumber } from '@visactor/vutils';
+import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 
 export class CustomMark extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;
@@ -26,7 +26,7 @@ export class CustomMark extends BaseComponent<any> {
     if (!titleSpec) {
       return null;
     }
-    return [new CustomMark(spec.customMark, { ...options, specIndex: 0, specKey: 'CustomMark' })];
+    return [new CustomMark(spec.customMark, { ...options, specIndex: 0, specKey: 'customMark' })];
   }
 
   created() {
@@ -86,10 +86,10 @@ export class CustomMark extends BaseComponent<any> {
   /**
    * updateSpec
    */
-  updateSpec(spec: any) {
+  updateSpec(singleSpec: any, spec?: any) {
     const originalSpec = this._originalSpec;
     const result = super.updateSpec(spec);
-    if (originalSpec.orient !== spec.orient) {
+    if (!isEqual(originalSpec, spec)) {
       result.reMake = true;
     }
 

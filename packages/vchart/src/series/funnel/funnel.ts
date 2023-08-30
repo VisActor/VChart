@@ -829,8 +829,10 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
   updateSpec(spec: IFunnelSeriesSpec) {
     const originalSpec = this._originalSpec as IFunnelSeriesSpec;
+    const { data: _originalData, ...checkOriginal } = originalSpec;
     const result = super.updateSpec(spec);
-    if (!isEqual(originalSpec, spec)) {
+    const { data: _specData, ...checkSpec } = originalSpec;
+    if (!isEqual(checkOriginal, checkSpec)) {
       result.reCompile = true;
       result.reMake = true;
       result.reRender = true;

@@ -47,6 +47,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
   protected declare _theme: Maybe<IRadarSeriesTheme>;
 
   private _areaMark: ILineMark;
+  protected _sortDataByAxis: boolean = true;
 
   initGroups() {
     // do nothing

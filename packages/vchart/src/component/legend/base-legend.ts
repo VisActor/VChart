@@ -128,8 +128,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
       result.reMake = true;
       return result;
     }
-    result.reMake = true;
-
     return result;
   }
 

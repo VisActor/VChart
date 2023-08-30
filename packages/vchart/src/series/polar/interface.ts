@@ -44,6 +44,12 @@ export interface IPolarSeriesSpec extends ISeriesSpec {
    * @deprecated use outerRadius instead
    */
   radius?: number;
+
+  /** 是否将数据按照数轴排序
+   * @default false
+   * @since 1.3.0
+   */
+  sortDataByAxis?: boolean;
 }
 
 export interface IPolarSeriesTheme {

@@ -45,7 +45,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   protected _linkedOutOfBrushElementsMap: { [elementKey: string]: IElement } = {};
 
   private _needInitOutState: boolean = true;
-  private _isFristState: boolean = true;
+  private _isFirstState: boolean = true;
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
 
   static createComponent(spec: any, options: IComponentOption) {
@@ -140,10 +140,10 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         const { operateType, operateMask } = operateParams;
 
         // 需要重置out状态的情况：
-        // 1. _isFristState： 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加_isFristState来识别
+        // 1. _isFirstState 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加 _isFirstState 来识别
         // 2. _needInitOutState：框选模式为'single' 且 开始后的第一次drawing时（这里不选择drawStart而选择第一次触发drawing的时机是因为点击空白处也会触发drawStart）, 需要重置图元状态
         if (
-          this._isFristState ||
+          this._isFirstState ||
           (this._needInitOutState && brushMode === 'single' && operateType === IOperateType.drawing)
         ) {
           this._initMarkBrushState(componentIndex, 'outOfBrush');
@@ -454,7 +454,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         });
       });
     });
-    this._isFristState = false;
+    this._isFirstState = false;
   }
 
   protected initEvent() {
@@ -476,9 +476,12 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         this._updateBrushComponent(region, index);
       });
     }
+    const originalSpec = this._spec;
     const result = super.updateSpec(spec);
-    result.reRender = true;
-    result.reMake = true;
+    if (!isEqual(originalSpec, this._spec)) {
+      result.reRender = true;
+      result.reMake = true;
+    }
     return result;
   }
 
