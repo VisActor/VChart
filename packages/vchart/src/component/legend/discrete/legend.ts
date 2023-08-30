@@ -105,9 +105,12 @@ export class DiscreteLegend extends BaseLegend {
     if (!scaleSpec) {
       return defaultField;
     }
+
+    // field是只在图例指定了scale的情况下生效
     if (this._spec.field) {
       return this._spec.field;
     }
+
     if (!isDataDomainSpec(scaleSpec.domain)) {
       return defaultField;
     }
@@ -209,6 +212,8 @@ export class DiscreteLegend extends BaseLegend {
         }
       };
     });
-    return isFunction(this._spec.data) ? this._spec.data(originData) : originData;
+    return isFunction(this._spec.data)
+      ? this._spec.data(originData, this._option.globalScale.getScale('color'), this._option.globalScale)
+      : originData;
   }
 }

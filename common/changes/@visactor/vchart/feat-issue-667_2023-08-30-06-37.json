@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: supplement the callback parameters of discrete legend custom `data` to support obtaining scales, relate #667",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
