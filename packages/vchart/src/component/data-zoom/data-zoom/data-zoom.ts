@@ -206,7 +206,7 @@ export class DataZoom extends DataFilterBaseComponent {
   };
 
   protected _createOrUpdateComponent() {
-    if (!this._component) {
+    if (!this._component && this._visible) {
       const container = this.getContainer();
       this._component = new DataZoomComponent({
         zIndex: this.layoutZIndex,
