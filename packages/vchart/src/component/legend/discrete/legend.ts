@@ -94,11 +94,6 @@ export class DiscreteLegend extends BaseLegend {
   }
 
   protected _getSeriesLegendField(s: ISeries) {
-    // 用户声明的 field 优先级最高
-    if (this._spec.field) {
-      return this._spec.field;
-    }
-
     const defaultField = s.getSeriesField();
     if (!this._spec.scaleName) {
       return defaultField;
@@ -109,6 +104,11 @@ export class DiscreteLegend extends BaseLegend {
     const scaleSpec = this._option.globalScale.getScaleSpec(this._spec.scaleName);
     if (!scaleSpec) {
       return defaultField;
+    }
+
+    // field是只在图例指定了scale的情况下生效
+    if (this._spec.field) {
+      return this._spec.field;
     }
 
     if (!isDataDomainSpec(scaleSpec.domain)) {
