@@ -8,7 +8,8 @@ export type ICartesianAxisSpec =
   | ICartesianLinearAxisSpec
   | ICartesianBandAxisSpec
   | ICartesianTimeAxisSpec
-  | ICartesianLogAxisSpec;
+  | ICartesianLogAxisSpec
+  | ICartesianSymlogAxisSpec;
 
 export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
   /** 轴位置 */
@@ -94,4 +95,12 @@ export type ICartesianLogAxisSpec = ICartesianLinearAxisSpec & {
    * @default 10
    */
   base?: number;
+};
+
+export type ICartesianSymlogAxisSpec = ICartesianLinearAxisSpec & {
+  /**
+   * 底数
+   * @default 10
+   */
+  constant?: number;
 };

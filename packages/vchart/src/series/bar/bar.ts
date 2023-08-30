@@ -4,9 +4,8 @@ import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel } from '../../constant';
-import { getActualNumValue } from '../util/utils';
 import type { Maybe, Datum, DirectionType } from '../../typings';
-import { merge, valueInScaleRange } from '../../util';
+import { merge, valueInScaleRange, getActualNumValue } from '../../util';
 import type { BarAppearPreset, IBarAnimationParams } from './animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IBarSeriesSpec, IBarSeriesTheme } from './interface';
@@ -97,7 +96,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       text: (datum: Datum) => {
         return datum[this.getStackValueField()];
       },
-      z: this.dataToPositionZ.bind(this)
+      z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });
   }
 

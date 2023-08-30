@@ -27,7 +27,7 @@ export function isAttrChangeable<T>(key: string, stateStyle: IMarkStateStyle<T>)
   return false;
 }
 
-export function isStateAttrChangeable<T>(key: string, stateStyle: Partial<IAttrs<T>>) {
+export function isStateAttrChangeable<T>(key: string, stateStyle: Partial<IAttrs<T>>, facetField: string) {
   const style = stateStyle[key]?.style;
   const isGradient = isGradientAttribute(key, style);
   if (isGradient) {
@@ -39,7 +39,9 @@ export function isStateAttrChangeable<T>(key: string, stateStyle: Partial<IAttrs
   }
   const isScale = !!style?.scale;
   if (isScale) {
-    return true;
+    if (style.field !== facetField) {
+      return true;
+    }
   }
   return false;
 }
@@ -51,9 +53,8 @@ function isGradientAttribute(key: string, style: any) {
 function symbolAttrTransform(attr: string, value: any) {
   switch (attr) {
     case 'shape':
+    case 'symbolType':
       return chartShapes[value] ?? value;
-    case 'size':
-      return value;
     default:
       return value;
   }
@@ -71,6 +72,22 @@ const chartShapes = {
 const transforms = {
   symbol: symbolAttrTransform
 };
+const transformsCheck = {
+  symbol: {
+    shape: true,
+    symbolType: true
+  }
+};
+
+export function needAttrTransform(type: MarkType, attr: string) {
+  if (!transformsCheck[type]) {
+    return false;
+  }
+  if (!transformsCheck[type][attr]) {
+    return false;
+  }
+  return true;
+}
 
 export function attrTransform(type: MarkType, attr: string, value: any) {
   if (!transforms[type]) {

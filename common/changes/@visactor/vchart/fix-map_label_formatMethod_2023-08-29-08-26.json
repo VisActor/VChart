@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: map label support formatMethod",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

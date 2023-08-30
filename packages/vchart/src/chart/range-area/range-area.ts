@@ -4,7 +4,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { VChart } from '../../core/vchart';
-import { RangeAreaSeries } from '../../series';
+import { RangeAreaSeries } from '../../series/range-area/range-area';
 VChart.useSeries([RangeAreaSeries]);
 
 export class RangeAreaChart extends CartesianChart {

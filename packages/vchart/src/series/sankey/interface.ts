@@ -4,6 +4,7 @@ import type { IRectMarkSpec, ITextMarkSpec, ILinkPathMarkSpec } from '../../typi
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SankeyAppearPreset, SankeyMark } from './animation';
 import type { SeriesMarkNameEnum } from '../interface';
+import type { ILabelSpec } from '../../component/label';
 
 export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimationSpec<SankeyMark, SankeyAppearPreset> {
   type: 'sankey';
@@ -98,7 +99,7 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
   };
 
   /** 标签配置 */
-  [SeriesMarkNameEnum.label]?: IMarkSpec<ITextMarkSpec> & {
+  [SeriesMarkNameEnum.label]?: ILabelSpec & {
     /**
      * 标签布局方式
      * @default 'outside'

@@ -304,11 +304,9 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   }
 
   protected _computeAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType, opt: IAttributeOpt) {
-    let stateStyle;
-    if (!this.stateStyle[state]?.[key]) {
+    let stateStyle = this.stateStyle[state]?.[key];
+    if (!stateStyle) {
       stateStyle = this.stateStyle.normal[key];
-    } else {
-      stateStyle = this.stateStyle[state][key];
     }
     let baseValue = this._computeStateAttribute(stateStyle, key, datum, state, opt);
 
@@ -330,7 +328,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     opt: IAttributeOpt
   ) {
     if (!stateStyle) {
-      return;
+      return undefined;
     }
     if (stateStyle.referer) {
       return stateStyle.referer.getAttribute(key, datum, state, opt);
@@ -342,6 +340,11 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     if (GradientType.includes(stateStyle.style.gradient)) {
       // 渐变色处理，支持各个属性回调
       return this._computeGradientAttr(stateStyle.style, datum, opt);
+    }
+
+    if (['outerBorder', 'innerBorder'].includes(key as string)) {
+      // 内外描边处理，支持各个属性回调
+      return this._computeBorderAttr(stateStyle.style, datum, opt);
     }
 
     if (stateStyle.style.type === 'threshold') {
@@ -453,6 +456,47 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
 
     computeStyle.gradient = gradient;
 
+    return computeStyle;
+  }
+
+  private _computeBorderAttr(borderStyle: any, data: Datum, opt: IAttributeOpt) {
+    const { scale, field, ...mergedStyle } = borderStyle;
+
+    const computeStyle: any = {};
+
+    Object.keys(mergedStyle).forEach(key => {
+      const value = mergedStyle[key];
+      if (isFunction(value)) {
+        computeStyle[key] = value(data, this._attributeContext, opt, this.getDataView());
+      } else {
+        computeStyle[key] = value;
+      }
+    });
+    if (!('stroke' in computeStyle)) {
+      const themeColor = computeActualDataScheme(
+        getDataScheme(
+          this.model.getOption()?.getTheme()?.colorScheme,
+          this.model.modelType === 'series' ? (this.model.type as SeriesTypeEnum) : undefined
+        ),
+        (this.model as ISeries).getDefaultColorDomain()
+      );
+      let colorScale = scale;
+      let colorField = field;
+      if ((!scale || !field) && this.model.modelType === 'series') {
+        // 目前只有series有这个属性
+        const { scale: globalColorScale, field: globalField } = (this.model as BaseSeries<any>).getColorAttribute();
+        if (!scale) {
+          // 获取全局的 colorScale
+          colorScale = globalColorScale;
+        }
+        if (!colorField) {
+          colorField = globalField;
+        }
+        computeStyle.stroke = colorScale?.scale(data[colorField]) || themeColor[0];
+      }
+    } else if (GradientType.includes(mergedStyle.stroke?.gradient)) {
+      computeStyle.stroke = this._computeGradientAttr(mergedStyle.stroke, data, opt);
+    }
     return computeStyle;
   }
 

@@ -8,7 +8,7 @@ import { BaseComponent } from '../base';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorItemSpec, IIndicatorTheme } from './interface';
 import type { Maybe } from '../../typings';
-import { isValid, isFunction, array, merge, eachSeries } from '../../util';
+import { isValid, isFunction, array, merge, eachSeries, transformToGraphic, getActualNumValue } from '../../util';
 import { isEqual } from '@visactor/vutils';
 import { indicatorMapper } from './util';
 import type { IModel } from '../../model/interface';
@@ -18,7 +18,6 @@ import { Indicator as IndicatorComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IndicatorAttributes } from '@visactor/vrender-components';
 import type { IGraphic, INode } from '@visactor/vrender';
-import { transformToGraphic } from '../../util/style';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 
 export class Indicator extends BaseComponent implements IIndicator {
@@ -164,6 +163,7 @@ export class Indicator extends BaseComponent implements IIndicator {
         }
       });
     });
+
     return {
       visible: this._spec.visible !== false && (this._spec.fixed !== false || this._activeDatum !== null),
       size: {
@@ -173,8 +173,8 @@ export class Indicator extends BaseComponent implements IIndicator {
       zIndex: this.layoutZIndex,
       x: x,
       y: y,
-      dx: this._spec.offsetX ?? 0,
-      dy: this._spec.offsetY ?? 0,
+      dx: this._spec.offsetX ? getActualNumValue(this._spec.offsetX, this._computeLayoutRadius()) : 0,
+      dy: this._spec.offsetY ? getActualNumValue(this._spec.offsetY, this._computeLayoutRadius()) : 0,
       limitRatio: this._spec.limitRatio || Infinity,
       title: {
         visible: this._spec.title.visible !== false && (!isValid(this._spec.title.field) || this._activeDatum !== null),
@@ -230,6 +230,12 @@ export class Indicator extends BaseComponent implements IIndicator {
       return text(this._activeDatum, undefined) ?? '';
     }
     return text ?? '';
+  }
+
+  private _computeLayoutRadius() {
+    const region = this._regions[0];
+    const { width, height } = region.getLayoutRect();
+    return Math.min(width / 2, height / 2);
   }
 
   private isRelativeModel(model: IModel) {

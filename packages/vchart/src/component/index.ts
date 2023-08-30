@@ -16,14 +16,16 @@ import type {
   ICartesianBandAxisSpec,
   ICartesianTimeAxisSpec,
   ICartesianAxisSpec,
-  ICartesianLogAxisSpec
+  ICartesianLogAxisSpec,
+  ICartesianSymlogAxisSpec
 } from './axis/cartesian/index';
 import {
   CartesianAxis,
   CartesianLinearAxis,
   CartesianBandAxis,
   CartesianTimeAxis,
-  CartesianLogAxis
+  CartesianLogAxis,
+  CartesianSymlogAxis
 } from './axis/cartesian/index';
 import type { IPolarAxisSpec, IPolarBandAxisSpec, IPolarLinearAxisSpec } from './axis/polar';
 import { PolarAxis, PolarBandAxis, PolarLinearAxis } from './axis/polar';
@@ -64,6 +66,7 @@ export {
   CartesianLinearAxis,
   CartesianTimeAxis,
   CartesianLogAxis,
+  CartesianSymlogAxis,
   PolarAxis,
   PolarBandAxis,
   PolarLinearAxis,

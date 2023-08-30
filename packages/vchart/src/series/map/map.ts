@@ -1,3 +1,4 @@
+import { isFunction } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { MarkTypeEnum } from '../../mark/interface';
 import { registerGrammar } from '@visactor/vgrammar';
@@ -16,7 +17,7 @@ import { copyDataView } from '../../data/transforms/copy-data-view';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
 import type { ITextMark } from '../../mark/text';
-import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_KEY, DEFAULT_DATA_INDEX } from '../../constant/index';
+import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_INDEX } from '../../constant/index';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
@@ -188,7 +189,11 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
     if (labelMark) {
       this.setMarkStyle(labelMark, {
         text: (datum: Datum) => {
-          return this._getDatumName(datum);
+          const text = this._getDatumName(datum);
+          if (isFunction(this._spec?.label?.formatMethod)) {
+            return this._spec.label.formatMethod(text, datum);
+          }
+          return text;
         },
         x: (datum: Datum) => this.dataToPosition(datum)?.x,
         y: (datum: Datum) => this.dataToPosition(datum)?.y
@@ -342,7 +347,7 @@ export class MapSeries extends GeoSeries<IMapSeriesSpec> {
       return datum[this.nameField];
     }
     if (datum.properties?.[this._nameProperty]) {
-      if (this._spec.nameMap) {
+      if (this._spec?.nameMap) {
         return this._spec.nameMap[datum.properties[this._nameProperty]] ?? '';
       }
       return datum.properties[this._nameProperty] ?? '';

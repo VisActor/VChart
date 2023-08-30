@@ -209,6 +209,28 @@ async function triggerPhotoTest({ scmVersion, scmVersionStatus }: { scmVersion: 
   return res;
 }
 
+async function triggerPerformanceTest({
+  scmVersion,
+  scmVersionStatus
+}: {
+  scmVersion: string;
+  scmVersionStatus: string;
+}) {
+  const params = {
+    triggerType: 'performance-test',
+    scmVersion: scmVersion,
+    scmVersionStatus: scmVersionStatus,
+    commitId: process.env.GITHUB_SHA ?? '',
+    commitUrl: process.env.GITHUB_REF ?? '',
+    commitBranchName: process.env.GITHUB_HEAD_REF ?? '',
+    commitCreateUser: process.env.GITHUB_ACTOR ?? '',
+    commitDescription: ''
+  };
+
+  const res = await fetch<TriggerPhotoTestData>(API_URL, 'POST', () => getFormData(params));
+  return res;
+}
+
 async function getPhotoResult({ scmVersion, bundleId }: { scmVersion: string; bundleId: string }) {
   const params = {
     triggerType: 'photo-result',
@@ -288,6 +310,9 @@ async function trigger() {
   console.info(
     `[trigger], test result status: ${photoTestStatus}, totalCount: ${totalCount}, successCount: ${successCount}`
   );
+
+  // trigger performance test
+  await triggerPerformanceTest({ scmVersion, scmVersionStatus });
 
   if (photoTestStatus !== 'ok') {
     throw new Error(`photo test status: ${photoTestStatus}`);
