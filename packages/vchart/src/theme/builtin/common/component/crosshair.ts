@@ -1,11 +1,40 @@
 import type {
   ICrosshairLineSpec,
   ICrosshairRectSpec,
-  ICrosshairTheme,
   ICrosshairValueFieldSpec,
-  ICrosshairCategoryFieldSpec
+  ICrosshairCategoryFieldSpec,
+  ICrosshairLabelSpec,
+  ICrosshairTheme
 } from '../../../../component/crosshair/interface';
 import { THEME_CONSTANTS } from '../constants';
+
+const getLabelSpec = (): ICrosshairLabelSpec => ({
+  visible: false,
+  style: {
+    fontWeight: 'normal',
+    fill: { type: 'palette', key: 'labelReverseFontColor' },
+    fontSize: THEME_CONSTANTS.l5FontSize,
+    //lineHeight: THEME_CONSTANTS.l5LineHeight,
+    fontFamily: THEME_CONSTANTS.defaultFontFamily
+  },
+  labelBackground: {
+    padding: {
+      bottom: 0,
+      top: 0,
+      left: 2,
+      right: 2
+    },
+    style: {
+      fill: { type: 'palette', key: 'primaryFontColor' },
+      outerBorder: {
+        stroke: { type: 'palette', key: 'primaryFontColor' } as any,
+        distance: 0,
+        lineWidth: 3
+      },
+      cornerRadius: 1
+    }
+  }
+});
 
 const getBandField = (): ICrosshairCategoryFieldSpec => ({
   visible: false,
@@ -18,28 +47,7 @@ const getBandField = (): ICrosshairCategoryFieldSpec => ({
       lineDash: []
     }
   } as ICrosshairRectSpec,
-  label: {
-    visible: false,
-    style: {
-      fontWeight: 'normal',
-      fill: { type: 'palette', key: 'labelReverseFontColor' },
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily
-    },
-    labelBackground: {
-      padding: {
-        bottom: 4,
-        top: 0,
-        left: 5,
-        right: 5
-      },
-      style: {
-        fill: { type: 'palette', key: 'primaryFontColor' },
-        cornerRadius: 3
-      }
-    }
-  }
+  label: getLabelSpec()
 });
 
 const getLinearField = (): ICrosshairValueFieldSpec => ({
@@ -53,28 +61,7 @@ const getLinearField = (): ICrosshairValueFieldSpec => ({
       lineDash: [2, 3]
     }
   } as ICrosshairLineSpec,
-  label: {
-    visible: false,
-    style: {
-      fontWeight: 'normal',
-      fill: { type: 'palette', key: 'labelReverseFontColor' },
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily
-    },
-    labelBackground: {
-      padding: {
-        bottom: 4,
-        top: 0,
-        left: 5,
-        right: 5
-      },
-      style: {
-        fill: { type: 'palette', key: 'primaryFontColor' },
-        cornerRadius: 3
-      }
-    }
-  }
+  label: getLabelSpec()
 });
 
 export const crosshair: ICrosshairTheme = {
