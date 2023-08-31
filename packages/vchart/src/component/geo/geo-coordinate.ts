@@ -214,14 +214,14 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
               let value = values[0];
               if (isNil(value) && option?.datum) {
                 const nameFieldValue = option.datum[(s as ICartesianSeries).getDimensionField()[0]];
-                value = this._centerCache.get(nameFieldValue).x;
+                value = this._centerCache.get(nameFieldValue)?.x;
               }
               return this.dataToLongitude(value);
             },
             valueToPosition: (value: any, option) => {
               if (isNil(value) && option?.datum) {
                 const nameFieldValue = option.datum[(s as ICartesianSeries).getDimensionField()[0]];
-                value = this._centerCache.get(nameFieldValue).x;
+                value = this._centerCache.get(nameFieldValue)?.x;
               }
               return this.dataToLongitude(value);
             },
@@ -237,14 +237,14 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
               let value = values[0];
               if (isNil(value) && option?.datum) {
                 const nameFieldValue = option.datum[(s as ICartesianSeries).getDimensionField()[0]];
-                value = this._centerCache.get(nameFieldValue).y;
+                value = this._centerCache.get(nameFieldValue)?.y;
               }
               return this.dataToLatitude(value);
             },
             valueToPosition: (value: any, option) => {
               if (isNil(value) && option?.datum) {
                 const nameFieldValue = option.datum[(s as ICartesianSeries).getDimensionField()[0]];
-                value = this._centerCache.get(nameFieldValue).y;
+                value = this._centerCache.get(nameFieldValue)?.y;
               }
               return this.dataToLatitude(value);
             },
