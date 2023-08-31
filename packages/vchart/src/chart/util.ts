@@ -1,13 +1,13 @@
 import { getContainerSize, isString } from '@visactor/vutils';
 import { DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant/base';
 import { Direction } from '../typings';
-import { array, isMiniAppLikeMode, isTrueBrowser, isValid, merge } from '../util';
+import { array, isMiniAppLikeMode, isTrueBrowser, isValid, mergeSpec } from '../util';
 import type { ICartesianChartSpec } from './cartesian/interface';
 import type { IChartOption } from './interface/common';
 
 export function setDefaultCrosshairForCartesianChart(spec: ICartesianChartSpec) {
   spec.crosshair = array(spec.crosshair || {}).map(crosshairCfg => {
-    return merge(
+    return mergeSpec(
       {
         [spec.direction === Direction.horizontal ? 'yField' : 'xField']: {
           visible: true,

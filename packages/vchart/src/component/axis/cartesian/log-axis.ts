@@ -3,12 +3,13 @@ import { ComponentTypeEnum } from '../../interface';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { LogScale } from '@visactor/vscale';
 import { mixin } from '@visactor/vutils';
+import type { ICartesianLogAxisSpec } from './interface';
 
-export interface CartesianLogAxis
+export interface CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesianLogAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
-    CartesianLinearAxis {}
+    CartesianLinearAxis<T> {}
 
-export class CartesianLogAxis extends CartesianLinearAxis {
+export class CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesianLogAxisSpec> extends CartesianLinearAxis<T> {
   static type = ComponentTypeEnum.cartesianLogAxis;
   type = ComponentTypeEnum.cartesianLogAxis;
 

@@ -18,6 +18,14 @@ export interface ILineSeriesSpec
   /** 系列类型 */
   type: 'line';
   /**
+   * x轴字段
+   */
+  xField: string | string[];
+  /**
+   * y轴字段
+   */
+  yField: string | string[];
+  /**
    * 点图元配置
    */
   [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;

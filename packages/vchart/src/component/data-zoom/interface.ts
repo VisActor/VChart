@@ -1,9 +1,9 @@
-import type { IModelSpec } from '../../model/interface';
 import type { IOrientType } from '../../typings';
+import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
 
 /** spec */
-export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'height'> {
+export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' | 'height'> {
   /**
    * 是否显示组件
    * @default true
@@ -47,7 +47,6 @@ export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'he
    * 配置优先级：index > id
    */
   regionIndex?: number | number[];
-  regionId?: string | string[];
 
   /**
    * 数据过滤模式
@@ -72,6 +71,9 @@ export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'he
    */
   startValue?: number | string;
   endValue?: number | string;
+
+  /** 数据过滤对应的数据字段 */
+  valueField?: string;
 
   /**
    * start和end的配置模式：只有模式和配置匹配时才生效，比如rangeMode: ['percent', 'value'], 那么必须start和endValue都配置才可以生效

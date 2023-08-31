@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(brush): brush callback not update when updateSpec. fix #672",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

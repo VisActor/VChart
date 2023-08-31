@@ -1,9 +1,8 @@
 /* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../cartesian/cartesian';
-import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum } from '../../typings';
-import { array, merge } from '../../util';
+import { array, mergeSpec } from '../../util';
 import type { HeatmapAppearPreset } from './animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
@@ -16,24 +15,20 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ICellMark } from '../../mark/cell';
 import { normalizePadding } from '@visactor/vutils';
 import { HeatmapSeriesTooltipHelper } from './tooltip-helper';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { CellMark } from '../../mark/cell';
 import { TextMark } from '../../mark/text';
+import { heatmapSeriesMark } from './constant';
 
 VChart.useMark([CellMark, TextMark]);
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
-export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
+export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.heatmap;
   type = SeriesTypeEnum.heatmap;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.cell]: { name: SeriesMarkNameEnum.cell, type: MarkTypeEnum.cell },
-    [SeriesMarkNameEnum.cellBackground]: { name: SeriesMarkNameEnum.cellBackground, type: MarkTypeEnum.cell }
-  };
+  static readonly mark: SeriesMarkMap = heatmapSeriesMark;
 
   protected declare _theme: Maybe<IHeatmapSeriesTheme>;
 
@@ -65,7 +60,7 @@ export class HeatmapSeries extends CartesianSeries<IHeatmapSeriesSpec> {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('cell', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       isSeriesMark: true,
-      label: merge({ animation: this._spec.animation }, this._spec.label),
+      label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
       progressive
     }) as ICellMark;
 

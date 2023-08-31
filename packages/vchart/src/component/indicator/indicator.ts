@@ -6,9 +6,9 @@ import { ComponentTypeEnum } from '../interface';
 import type { LayoutItem } from '../../model/layout-item';
 import { BaseComponent } from '../base';
 import type { IRegion } from '../../region/interface';
-import type { IIndicator, IIndicatorItemSpec, IIndicatorTheme } from './interface';
+import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec, IIndicatorTheme } from './interface';
 import type { Maybe } from '../../typings';
-import { isValid, isFunction, array, merge, eachSeries } from '../../util';
+import { isValid, isFunction, array, mergeSpec, eachSeries, transformToGraphic, getActualNumValue } from '../../util';
 import { isEqual } from '@visactor/vutils';
 import { indicatorMapper } from './util';
 import type { IModel } from '../../model/interface';
@@ -18,10 +18,9 @@ import { Indicator as IndicatorComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IndicatorAttributes } from '@visactor/vrender-components';
 import type { IGraphic, INode } from '@visactor/vrender';
-import { transformToGraphic } from '../../util/style';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 
-export class Indicator extends BaseComponent implements IIndicator {
+export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static speckey = 'indicator';
   static type = ComponentTypeEnum.indicator;
   type = ComponentTypeEnum.indicator;
@@ -67,7 +66,7 @@ export class Indicator extends BaseComponent implements IIndicator {
     super.setAttrFromSpec();
     this._gap = this._spec.gap || 0;
     this._title = this._spec.title;
-    this._content = this._spec.content;
+    this._content = array(this._spec.content);
     this._regions = this._option.getRegionsInUserIdOrIndex(array(this._spec.regionId), array(this._spec.regionIndex));
   }
 
@@ -151,7 +150,7 @@ export class Indicator extends BaseComponent implements IIndicator {
 
     const contentComponentSpec: IIndicatorItemSpec[] = [];
     array(this._spec.content).forEach((eachItem: IIndicatorItemSpec) => {
-      const contentSpec = merge({}, this._theme.content, eachItem);
+      const contentSpec = mergeSpec({}, this._theme.content, eachItem);
       contentComponentSpec.push({
         visible: contentSpec.visible !== false && (contentSpec.field ? this._activeDatum !== null : true),
         space: contentSpec.space || this._gap,
@@ -164,6 +163,7 @@ export class Indicator extends BaseComponent implements IIndicator {
         }
       });
     });
+
     return {
       visible: this._spec.visible !== false && (this._spec.fixed !== false || this._activeDatum !== null),
       size: {
@@ -173,8 +173,8 @@ export class Indicator extends BaseComponent implements IIndicator {
       zIndex: this.layoutZIndex,
       x: x,
       y: y,
-      dx: this._spec.offsetX ?? 0,
-      dy: this._spec.offsetY ?? 0,
+      dx: this._spec.offsetX ? getActualNumValue(this._spec.offsetX, this._computeLayoutRadius()) : 0,
+      dy: this._spec.offsetY ? getActualNumValue(this._spec.offsetY, this._computeLayoutRadius()) : 0,
       limitRatio: this._spec.limitRatio || Infinity,
       title: {
         visible: this._spec.title.visible !== false && (!isValid(this._spec.title.field) || this._activeDatum !== null),
@@ -230,6 +230,12 @@ export class Indicator extends BaseComponent implements IIndicator {
       return text(this._activeDatum, undefined) ?? '';
     }
     return text ?? '';
+  }
+
+  private _computeLayoutRadius() {
+    const region = this._regions[0];
+    const { width, height } = region.getLayoutRect();
+    return Math.min(width / 2, height / 2);
   }
 
   private isRelativeModel(model: IModel) {

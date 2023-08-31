@@ -50,7 +50,7 @@ import { CirclePackingSeries } from './circle-packing/circle-packing';
 import type { ICirclePackingSeriesSpec } from './circle-packing/interface';
 import { SankeySeries } from './sankey/sankey';
 import type { ISankeySeriesSpec } from './sankey/interface';
-import { TreeMapSeries } from './treemap/treemap';
+import { TreemapSeries } from './treemap/treemap';
 import type { ITreemapSeriesSpec } from './treemap/interface';
 import type { IGaugePointerSeriesSpec, IGaugeSeriesSpec } from './gauge';
 import { GaugePointerSeries, GaugeSeries } from './gauge';
@@ -96,7 +96,7 @@ export {
   WordCloudSeries,
   Funnel3dSeries,
   FunnelSeries,
-  TreeMapSeries,
+  TreemapSeries as TreemapSeries,
   GaugePointerSeries,
   GaugeSeries,
   HeatmapSeries,

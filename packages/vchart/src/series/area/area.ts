@@ -1,14 +1,13 @@
 import type { DataView } from '@visactor/vdataset';
-import { isValid, merge } from '@visactor/vutils';
+import { isValid } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
-import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
+import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
 import { Direction } from '../../typings/space';
-import { MarkTypeEnum } from '../../mark/interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
-import type { Maybe, Datum, ConvertToMarkStyleSpec, IAreaMarkSpec } from '../../typings';
-import { valueInScaleRange, couldBeValidNumber } from '../../util';
+import type { Maybe, Datum, ConvertToMarkStyleSpec, IAreaMarkSpec, InterpolateType } from '../../typings';
+import { valueInScaleRange, mergeSpec } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
@@ -18,7 +17,6 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { BaseSeries } from '../base/base-series';
 
 import { VChart } from '../../core/vchart';
 import { LineMark } from '../../mark/line';
@@ -26,9 +24,10 @@ import { AreaMark } from '../../mark/area';
 import { TextMark } from '../../mark/text';
 import { SymbolMark } from '../../mark/symbol';
 import { AreaSeriesTooltipHelper } from './tooltip-helpter';
+import { areaSeriesMark } from './constant';
 VChart.useMark([LineMark, AreaMark, TextMark, SymbolMark]);
 
-export interface AreaSeries
+export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
       LineLikeSeriesMixin,
       | 'initLineMark'
@@ -40,22 +39,19 @@ export interface AreaSeries
       | '_lineMark'
       | '_symbolMark'
     >,
-    CartesianSeries<IAreaSeriesSpec> {}
+    CartesianSeries<T> {}
 
-export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
+export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.area;
   type = SeriesTypeEnum.area;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    ...lineLikeSeriesMarkMap,
-    [SeriesMarkNameEnum.area]: { name: SeriesMarkNameEnum.area, type: MarkTypeEnum.area }
-  };
+  static readonly mark: SeriesMarkMap = areaSeriesMark;
 
   protected declare _theme: Maybe<IAreaSeriesTheme>;
 
   protected _areaMark!: IAreaMark;
   protected _stack: boolean = true;
+  protected _sortDataByAxis: boolean = true;
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
@@ -92,8 +88,8 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
       mainSpec = lineSpec;
       subSpec = areaSpec;
     }
-    areaSpec.style = merge({}, subSpec.style, mainSpec.style);
-    areaSpec.state = merge({}, subSpec.state, mainSpec.state);
+    areaSpec.style = mergeSpec({}, subSpec.style, mainSpec.style);
+    areaSpec.state = mergeSpec({}, subSpec.state, mainSpec.state);
     if (!isAreaVisible) {
       areaSpec.style.fill = false;
     }
@@ -127,7 +123,8 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
   initMarkStyle(): void {
     // FIXME 是不是应该把curveType提前到上层配置
     // 不允许area和line的curveType不一致
-    const userCurveType = this.getSpec().area?.style?.curveType ?? this.getSpec().line?.style?.curveType;
+    const userCurveType = (this.getSpec().area?.style?.curveType ??
+      this.getSpec().line?.style?.curveType) as InterpolateType;
     const curveType =
       userCurveType === DEFAULT_SMOOTH_INTERPOLATE
         ? this._direction === Direction.vertical
@@ -254,6 +251,10 @@ export class AreaSeries extends CartesianSeries<IAreaSeriesSpec> {
   viewDataStatisticsUpdate(d: DataView) {
     super.viewDataStatisticsUpdate(d);
     this.encodeDefined(this._areaMark, 'defined');
+  }
+
+  getDefaultShapeType() {
+    return 'square';
   }
 }
 

@@ -814,9 +814,11 @@ type LegendItemDatum = {
 /**
  * 在原始图例绘制数据的基础上，进行自定义，比如可以自定义 value 值
  * @param data 图例的绘制数据
+ * @param colorScale 全局颜色映射 scale
+ * @param globalScale 图表上所有的 scale
  * @returns
  */
-data?: (data: LegendItemDatum[]) => LegendItemDatum[];
+data?: (data: LegendItemDatum[], colorScale: IBaseScale, globalScale: IGlobalScale) => LegendItemDatum[];
 ```
 
 {{ use: common-region-and-series-filter(

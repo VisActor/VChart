@@ -56,7 +56,7 @@ const data = [
   { type: 'rail', value: 38.3, month: 'November' },
   { type: 'highway', value: 23.8, month: 'November' },
   { type: 'civil aviation', value: 29.4, month: 'November' },
-  { type: 'rail', value: 62.8, month: 'December' },l
+  { type: 'rail', value: 62.8, month: 'December' },
   { type: 'highway', value: 35.8, month: 'December' },
   { type: 'civil aviation', value: 35.2, month: 'December' }
 ];

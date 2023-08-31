@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: indicator offsetY support radius",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

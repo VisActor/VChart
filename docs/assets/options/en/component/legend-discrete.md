@@ -827,6 +827,14 @@ type LegendItemDatum = {
  * @returns
  */
 data?: (data: LegendItemDatum[]) => LegendItemDatum[];
+/**
+ * Customization based on the data plotted in the original legend, e.g., you can customize the value value
+ * @param data Legend drawing data
+ * @param colorScale Global color map scale
+ * @param globalScale All scales on the chart
+ * @returns
+ */
+data?: (data: LegendItemDatum[], colorScale: IBaseScale, globalScale: IGlobalScale) => LegendItemDatum[];
 ```
 
 {{ use: common-region-and-series-filter(

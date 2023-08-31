@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(brush): highlight was not correct beacasue of same key",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

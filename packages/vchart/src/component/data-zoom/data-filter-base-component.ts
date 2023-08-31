@@ -8,7 +8,7 @@ import type { LayoutItem } from '../../model/layout-item';
 import type { IComponent, IComponentOption } from '../interface';
 import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
-import type { IOrientType, StringOrNumber } from '../../typings';
+import type { AdaptiveSpec, IOrientType, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -20,7 +20,7 @@ import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { mixin, clamp, isNil } from '@visactor/vutils';
-import type { IDataFilterComponent } from './interface';
+import type { IDataFilterComponent, IDataFilterComponentSpec } from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../compile/data';
 import type { BaseEventParams } from '../../event/interface';
@@ -28,7 +28,10 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 // eslint-disable-next-line no-duplicate-imports
 import { Zoomable } from '../../interaction/zoom/zoomable';
 
-export abstract class DataFilterBaseComponent extends BaseComponent implements IDataFilterComponent {
+export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
+  extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
+  implements IDataFilterComponent
+{
   layoutType: LayoutItem['layoutType'] = 'region-relative';
 
   protected _orient: IOrientType = 'left';
@@ -95,7 +98,7 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
   effect: IEffect = {
     onZoomChange: () => {
       if (this._relatedAxisComponent && this._spec.filterMode === 'axis') {
-        const scale = (this._relatedAxisComponent as CartesianAxis).getScale();
+        const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
         (scale as any).rangeFactor(this._isHorizontal ? [this._start, this._end] : [1 - this._end, 1 - this._start]);
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
@@ -128,11 +131,11 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
     return this._visible;
   }
 
-  constructor(spec: any, options: IComponentOption) {
-    super(spec, {
+  constructor(spec: T, options: IComponentOption) {
+    super(spec as any, {
       ...options
     });
-    this._orient = getOrient(spec);
+    this._orient = getOrient(spec as any);
     this._layoutOrient = this._orient;
     this._isHorizontal = getDirectionByOrient(this._layoutOrient) === Direction.horizontal;
     isValid(spec.autoIndent) && (this._autoIndent = spec.autoIndent);
@@ -387,7 +390,7 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
     return (pos - range[0]) / (range[1] - range[0]);
   }
 
-  protected _modeCheck(statePoint: string, mode: string) {
+  protected _modeCheck(statePoint: string, mode: string): any {
     if (statePoint === 'start') {
       return (mode === 'percent' && this._spec.start) || (mode === 'value' && this._spec.startValue);
     } else if (statePoint === 'end') {
@@ -432,7 +435,7 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
     const defaultRange = [0, 1];
 
     if (this._relatedAxisComponent) {
-      const scale = (this._relatedAxisComponent as CartesianAxis).getScale();
+      const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
       const isContinuousScale = isContinuous(scale.type);
       const domain = this._computeDomainOfStateScale(isContinuousScale);
 
@@ -611,10 +614,6 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
   boundsInRect(rect: ILayoutRect): IBoundsLike {
     const result: IBoundsLike = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };
 
-    if (this._visible === false) {
-      return result;
-    }
-
     if (this._isHorizontal) {
       result.y2 = result.y1 + this._height;
       result.x2 = result.x1 + rect.width;
@@ -623,26 +622,6 @@ export abstract class DataFilterBaseComponent extends BaseComponent implements I
       result.y2 = result.y1 + rect.height;
     }
     return result;
-  }
-
-  clear() {
-    super.clear();
-    this._stateScale = null;
-    this._relatedAxisComponent = null;
-
-    this._seriesIndex = null;
-    this._seriesUserId = null;
-    this._regionUserId = null;
-    this._regionIndex = null;
-    this._newDomain = null;
-
-    this._startValue = null;
-    this._endValue = null;
-
-    this._stateField = null;
-
-    this._width = null;
-    this._height = null;
   }
 }
 

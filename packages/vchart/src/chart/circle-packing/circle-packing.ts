@@ -4,7 +4,7 @@ import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import type { ICirclePackingChartSpec } from './interface';
 import { VChart } from '../../core/vchart';
-import { CirclePackingSeries } from '../../series';
+import { CirclePackingSeries } from '../../series/circle-packing/circle-packing';
 VChart.useSeries([CirclePackingSeries]);
 
 export class CirclePackingChart extends BaseChart {

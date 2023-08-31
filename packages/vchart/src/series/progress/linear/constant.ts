@@ -1,0 +1,10 @@
+import { MarkTypeEnum } from '../../../mark/interface';
+import { baseSeriesMark } from '../../base/constant';
+import { SeriesMarkNameEnum, type SeriesMarkMap } from '../../interface/common';
+
+export const linearProgressSeriesMark: SeriesMarkMap = {
+  ...baseSeriesMark,
+  [SeriesMarkNameEnum.track]: { name: SeriesMarkNameEnum.track, type: MarkTypeEnum.rect },
+  [SeriesMarkNameEnum.progress]: { name: SeriesMarkNameEnum.progress, type: MarkTypeEnum.rect },
+  [SeriesMarkNameEnum.group]: { name: SeriesMarkNameEnum.group, type: MarkTypeEnum.group }
+};

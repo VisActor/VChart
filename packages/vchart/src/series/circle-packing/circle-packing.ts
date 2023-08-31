@@ -8,7 +8,6 @@ import type { IMarkSpec } from '../..';
 import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface';
 import { SeriesTypeEnum } from '../interface';
 
 import { CartesianSeries } from '../cartesian/cartesian';
@@ -31,23 +30,20 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import type { CirclePackingAppearPreset } from './animation';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
 import { TextMark } from '../../mark/text';
+import { circlePackingSeriesMark } from './constant';
 
 VChart.useMark([ArcMark, TextMark]);
 
-export class CirclePackingSeries extends CartesianSeries<any> {
-  protected declare _spec: ICirclePackingSeriesSpec;
-
+export class CirclePackingSeries<
+  T extends ICirclePackingSeriesSpec = ICirclePackingSeriesSpec
+> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.circlePacking;
   type = SeriesTypeEnum.circlePacking;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.circlePacking]: { name: SeriesMarkNameEnum.circlePacking, type: MarkTypeEnum.arc }
-  };
+  static readonly mark: SeriesMarkMap = circlePackingSeriesMark;
 
   // 映射字段
   protected _categoryField!: string;

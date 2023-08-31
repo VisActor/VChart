@@ -6,7 +6,7 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface';
 import { BaseComponent } from '../base';
 import type { IGeoRegionSpec, IRegion, IRegionSpec } from '../../region/interface';
-import { isNil, merge } from '../../util';
+import { isNil, mergeSpec } from '../../util';
 import { ChartEvent, PREFIX } from '../../constant/index';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
@@ -21,14 +21,12 @@ import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 export function projectionName(key: string, id: number) {
   return `${PREFIX}_${id}_${key}`;
 }
-export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
+export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeoCoordinate {
   static type = ComponentTypeEnum.geoCoordinate;
   type = ComponentTypeEnum.geoCoordinate;
   name: string = ComponentTypeEnum.geoCoordinate;
 
   layoutType: ILayoutItem['layoutType'] = 'absolute';
-
-  protected declare _spec: IGeoRegionSpec;
 
   _longitudeField?: string;
   get longitudeField() {
@@ -59,6 +57,10 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
   protected _centerCache: Map<StringOrNumber, { x: number; y: number }>;
 
   private _actualScale = 1;
+  getScale() {
+    return this._actualScale;
+  }
+
   private _evaluated = false;
   private _lastHeight = 0;
   private _lastWidth = 0;
@@ -71,7 +73,7 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
     spec.region.forEach((r: IRegionSpec, i: number) => {
       if (r.coordinate === 'geo') {
         // 去除 padding 配置，避免重复计算
-        const spec = { ...r, padding: 0 };
+        const spec = { ...r, padding: 0 } as any;
         const c = new GeoCoordinate(spec, options);
         // FIXME: hack，regions的关联关系不应该在具体的component中处理
         c._regions = options.getRegionsInIndex([i]);
@@ -94,7 +96,7 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
       (this as unknown as IZoomable).initZoomable(this.event, this._option.mode);
     }
 
-    this._projectionSpec = merge(this._projectionSpec, this._spec.projection);
+    this._projectionSpec = mergeSpec(this._projectionSpec, this._spec.projection);
     if (this._projectionSpec.zoom > this._spec.zoomLimit?.max) {
       this._projectionSpec.zoom = this._spec.zoomLimit.max;
     }
@@ -212,14 +214,14 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
               let value = values[0];
               if (isNil(value) && option?.datum) {
                 const nameFieldValue = option.datum[(s as ICartesianSeries).getDimensionField()[0]];
-                value = this._centerCache.get(nameFieldValue).x;
+                value = this._centerCache.get(nameFieldValue)?.x;
               }
               return this.dataToLongitude(value);
             },
             valueToPosition: (value: any, option) => {
               if (isNil(value) && option?.datum) {
                 const nameFieldValue = option.datum[(s as ICartesianSeries).getDimensionField()[0]];
-                value = this._centerCache.get(nameFieldValue).x;
+                value = this._centerCache.get(nameFieldValue)?.x;
               }
               return this.dataToLongitude(value);
             },
@@ -235,14 +237,14 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
               let value = values[0];
               if (isNil(value) && option?.datum) {
                 const nameFieldValue = option.datum[(s as ICartesianSeries).getDimensionField()[0]];
-                value = this._centerCache.get(nameFieldValue).y;
+                value = this._centerCache.get(nameFieldValue)?.y;
               }
               return this.dataToLatitude(value);
             },
             valueToPosition: (value: any, option) => {
               if (isNil(value) && option?.datum) {
                 const nameFieldValue = option.datum[(s as ICartesianSeries).getDimensionField()[0]];
-                value = this._centerCache.get(nameFieldValue).y;
+                value = this._centerCache.get(nameFieldValue)?.y;
               }
               return this.dataToLatitude(value);
             },
@@ -343,6 +345,13 @@ export class GeoCoordinate extends BaseComponent implements IGeoCoordinate {
 
   shape(datum?: any) {
     return this._projection.shape(datum);
+  }
+
+  /**
+   * 根据像素坐标获取经纬度位置
+   */
+  invert(point: [number, number]) {
+    return this._projection.invert(point);
   }
 
   private evaluateProjection(start: [number, number], size: [number, number]) {

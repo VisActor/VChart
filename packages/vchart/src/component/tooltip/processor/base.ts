@@ -99,9 +99,9 @@ export abstract class BaseTooltipProcessor {
             }
           }
           if (isValid(firstSeries) && firstSeries.getDimensionField()[0] === firstSeries.fieldY[0]) {
-            return axis.orient === 'left' || axis.orient === 'right'; // 维度轴为Y轴时，选择只显示Y轴tooltip
+            return axis.getOrient() === 'left' || axis.getOrient() === 'right'; // 维度轴为Y轴时，选择只显示Y轴tooltip
           }
-          return axis.orient === 'bottom' || axis.orient === 'top'; // 维度轴为X轴时，选择只显示X轴tooltip
+          return axis.getOrient() === 'bottom' || axis.getOrient() === 'top'; // 维度轴为X轴时，选择只显示X轴tooltip
         })[0] ?? targetDimensionInfo[0];
       targetDimensionInfo = [dimensionAxisInfo];
     }

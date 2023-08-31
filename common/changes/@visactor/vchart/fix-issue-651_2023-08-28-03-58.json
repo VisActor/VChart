@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: sink the axis label's flush logic to the vrender-component, relate #651",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

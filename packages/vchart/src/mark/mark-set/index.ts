@@ -5,6 +5,8 @@ import type { IMark } from '../interface';
 export interface IMarkInfo {
   /** 样式和 seriesField 有关 */
   styleWithSeriesField?: boolean;
+  /** mark name */
+  name?: string;
 }
 
 export class MarkSet {

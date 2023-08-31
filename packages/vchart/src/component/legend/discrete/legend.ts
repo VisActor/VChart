@@ -20,12 +20,11 @@ import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/tran
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
 
-export class DiscreteLegend extends BaseLegend {
+export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
 
-  protected declare _spec: IDiscreteLegendSpec;
   protected declare _theme: IDiscreteLegendTheme;
 
   static createComponent(spec: any, options: IComponentOption) {
@@ -105,9 +104,12 @@ export class DiscreteLegend extends BaseLegend {
     if (!scaleSpec) {
       return defaultField;
     }
+
+    // field是只在图例指定了scale的情况下生效
     if (this._spec.field) {
       return this._spec.field;
     }
+
     if (!isDataDomainSpec(scaleSpec.domain)) {
       return defaultField;
     }
@@ -179,7 +181,7 @@ export class DiscreteLegend extends BaseLegend {
 
   private _getLegendItems() {
     const originData = (this._legendData.getLatestData() || []).map((datum: any) => {
-      const fill = datum.style('fill');
+      const fill = datum.style('fill') || datum.style('stroke');
       const stroke = datum.style('stroke');
       const lineWidth = datum.style('lineWidth');
       const symbolType = datum.style('symbolType');
@@ -209,6 +211,8 @@ export class DiscreteLegend extends BaseLegend {
         }
       };
     });
-    return isFunction(this._spec.data) ? this._spec.data(originData) : originData;
+    return isFunction(this._spec.data)
+      ? this._spec.data(originData, this._option.globalScale.getScale('color'), this._option.globalScale)
+      : originData;
   }
 }

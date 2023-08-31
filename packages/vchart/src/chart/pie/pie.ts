@@ -1,9 +1,9 @@
+import { PieSeries } from './../../series/pie/pie';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BasePieChart } from './base';
 import { VChart } from '../../core/vchart';
-import { PieSeries } from '../../series';
 VChart.useSeries([PieSeries]);
 
 export class PieChart extends BasePieChart {

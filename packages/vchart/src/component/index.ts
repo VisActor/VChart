@@ -16,8 +16,7 @@ import type {
   ICartesianBandAxisSpec,
   ICartesianTimeAxisSpec,
   ICartesianAxisSpec,
-  ICartesianLogAxisSpec,
-  ICartesianSymlogAxisSpec
+  ICartesianLogAxisSpec
 } from './axis/cartesian/index';
 import {
   CartesianAxis,

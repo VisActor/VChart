@@ -826,8 +826,8 @@ export class BaseChart extends CompilableBase implements IChart {
     this.transformSpec(spec);
     // spec set & transformSpec
     // diff meta length;
-    const currentKeys = Object.keys(this._spec);
-    const nextKeys = Object.keys(spec);
+    const currentKeys = Object.keys(this._spec).sort();
+    const nextKeys = Object.keys(spec).sort();
     if (JSON.stringify(currentKeys) !== JSON.stringify(nextKeys)) {
       result.reMake = true;
       return result;
@@ -837,12 +837,6 @@ export class BaseChart extends CompilableBase implements IChart {
     if (result.reMake) {
       return result;
     }
-    this.updateDataSpec(result);
-    if (result.reMake) {
-      return result;
-    }
-    // ensure that the domain of the scale follows the data change
-    this.updateGlobalScaleDomain();
     // region 变化
     this.updateRegionSpec(result);
     if (result.reMake) {
@@ -853,6 +847,15 @@ export class BaseChart extends CompilableBase implements IChart {
       return result;
     }
     this.updateSeriesSpec(result);
+    if (result.reMake) {
+      return result;
+    }
+    this.updateDataSpec(result);
+    if (result.reMake) {
+      return result;
+    }
+    // ensure that the domain of the scale follows the data change
+    this.updateGlobalScaleDomain();
     return result;
   }
 
@@ -906,7 +909,7 @@ export class BaseChart extends CompilableBase implements IChart {
           componentCount: 0
         };
         componentCache[c.specKey].componentCount++;
-        this._mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()]));
+        this._mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()], cmpSpec));
       } else {
         this._mergeUpdateResult(result, c.updateSpec(cmpSpec));
       }
@@ -1058,6 +1061,11 @@ export class BaseChart extends CompilableBase implements IChart {
     });
   }
 
+  clear() {
+    // call on recompile & release
+    this.getLayoutElements().forEach(i => i.clear?.());
+  }
+
   compile() {
     this.compileBackground();
     this.compileLayout();
@@ -1126,6 +1134,8 @@ export class BaseChart extends CompilableBase implements IChart {
 
   release() {
     super.release();
+    // clear event , temporary function of  chart items
+    this.clear();
 
     [...this._components, ...this._regions, ...this._series].forEach(m => {
       m.release();
@@ -1361,7 +1371,7 @@ export class BaseChart extends CompilableBase implements IChart {
         const dataFilter = {};
         dimensionInfo.forEach((d: IDimensionInfo) => {
           const { axis, value, data } = d;
-          const isY = axis.orient === 'left' || axis.orient === 'right';
+          const isY = axis.getOrient() === 'left' || axis.getOrient() === 'right';
           data.forEach(d => {
             if (isY) {
               dataFilter[(<ICartesianSeries>d.series).fieldY[0]] = value;

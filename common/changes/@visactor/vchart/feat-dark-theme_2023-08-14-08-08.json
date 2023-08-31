@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: improve the priority of markByName and mark in theme, related #418",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

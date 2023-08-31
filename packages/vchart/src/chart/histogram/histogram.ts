@@ -1,9 +1,9 @@
+import { BarSeries } from './../../series/bar/bar';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BaseHistogramChart } from './base';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { VChart } from '../../core/vchart';
-import { BarSeries } from '../../series';
 VChart.useSeries([BarSeries]);
 
 export class HistogramChart extends BaseHistogramChart {
