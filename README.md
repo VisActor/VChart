@@ -134,6 +134,15 @@ $ rush react
 $ rush docs
 ```
 
+## 📖 Documents
+
+After installation & clone & update, run docs to preview documents locally.
+
+```bash
+# start vchart document server
+$ rush docs
+```
+
 ## 🔗 Related Links
 
 - [Homepage](https://www.visactor.io/vchart)

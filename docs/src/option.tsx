@@ -6,6 +6,7 @@ import { LanguageContext } from './i18n';
 import { OptionDocument } from './option/index';
 import { parseOutline } from './option/outline';
 import { parseDescription } from './option/description';
+import menu from '../menu.json';
 
 export function Option() {
   const { language, setLanguage } = useContext(LanguageContext);
@@ -14,11 +15,13 @@ export function Option() {
   const { pathname: pathName } = location;
   const assetDirectory = pathName.split('/')[1];
 
+  const menuConfig = menu.find(menuItem => menuItem.menu === assetDirectory);
+
   const getOutline = async () => {
     try {
       const response = await fetch(`/documents/${assetDirectory}/${language}/outline.json`);
       const json = await response.json();
-      return parseOutline(json);
+      return parseOutline(json, menuConfig?.sectionMap ?? {});
     } catch (e) {
       console.log(e);
     }

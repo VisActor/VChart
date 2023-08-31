@@ -8,6 +8,10 @@
 
 标签整体 - 是否自动旋转。
 
+{{ use: component-marker-ref(
+  prefix = ${prefix}
+) }}
+
 #${prefix} minWidth(number) = 30
 
 标签整体 - 最小宽度像素值。

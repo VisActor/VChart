@@ -66,3 +66,5 @@ After cloning VChart, run `rush update` to fetch its dependencies. Then, you can
 4. `rush test` runs the complete test suite.
 5. `rush run -p <project_name> -s <script>` run the specified script for the specified project, eg. `rush run -p @visactor/vchart -s start`
 6. `rush prettier --dir <project_relative_path> --ext <file_type>` prettier the specified script for the specified project, eg. `rush prettier --dir packages/vchart --ext ts`
+
+If you want to update documents, you can run `rush docs` to preview VChart document contents locally.
