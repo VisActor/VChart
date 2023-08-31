@@ -248,11 +248,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         y: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
         fill: (datum: Datum) => {
-          const nodeName = datum.key
-            ? datum.key
-            : datum[this._spec.categoryField]
-            ? datum[this._spec.categoryField]
-            : '';
+          const nodeName = datum.key ?? datum[this._spec.categoryField] ?? '';
           return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(nodeName);
         }
       },
