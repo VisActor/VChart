@@ -3287,7 +3287,7 @@ packages:
       md5: 2.3.0
       micromatch: 4.0.5
       mini-css-extract-plugin: 0.8.0_webpack@4.46.0
-      miniprogram-simulate: 1.6.0
+      miniprogram-simulate: 1.6.1
       mkdirp: 1.0.4
       ora: 3.4.0
       postcss: 8.3.5
@@ -15228,14 +15228,15 @@ packages:
     resolution: {integrity: sha512-f2LUVYcQ5O664nOHhrEbtR//hlqln88dRY0mIwuRncJfuXMCdK9FBk0vzNDG6EgaaeTt3iGLeFQLRHlhYktkXw==}
     dev: true
 
-  /miniprogram-simulate/1.6.0:
-    resolution: {integrity: sha512-A3Ypl5Ei1yz+IBrv+8AcuYloOQbB1tvbBYTkOLTOo51RK6e+nkagp8uFufqQAdI7OdW52NFJhO9fv3QzJqcm2w==}
+  /miniprogram-simulate/1.6.1:
+    resolution: {integrity: sha512-WO+T1A1fYZV6qW4mLNEl/+Rtdpw339mPd8q0KkyGHUFbRCIMzIHVutn2UrhUbn6UWZpkGurKwDUckNkpLhJ9QA==}
     dependencies:
       csso: 3.5.1
       j-component: 1.4.9
       less: 3.13.1
       miniprogram-compiler: 0.2.2
       postcss: 7.0.39
+      pretty-format: 26.6.2
     dev: true
 
   /minizlib/2.1.2:
