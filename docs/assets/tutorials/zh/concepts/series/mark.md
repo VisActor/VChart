@@ -262,15 +262,13 @@ vchart.renderAsync();
 
 图表的图形元素都可以配置渐变色，[柱图](../../../../demo/gradient/bar)、[线图](../../../../demo/gradient/line)、[面积图](../../../../demo/gradient/bar)、[气泡图](../../../../demo/gradient/bar) 等都可以使用。
 
-### 渐变色的基本概念
+### 渐变色的基本概念与配置接口
 
-#### 渐变色坐标位置与图元的关系
+VChart 的渐变色配置格式对齐 CanvasRenderingContext2D 的渐变色 API，不同的渐变类型有不同的渐变效果，总的来说我们提供的渐变色能力是基于某种特定的二维空间规则，对图形进行连续颜色填充。
 
-VChart 的渐变色配置格式对齐 CanvasRenderingContext2D 的渐变色 API：
-
-- 线性渐变 [createLinearGradient](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createLinearGradient)
-- 径向渐变 [createRadialGradient](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createRadialGradient)
-- 圆锥渐变 [createConicGradient](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createConicGradient)
+- [线性渐变](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createLinearGradient)
+- [径向渐变](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createRadialGradient)
+- [圆锥渐变](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createConicGradient)
 
 如果想了解渐变色的绘制机制，请阅读上方对应渐变色的文档，其中有详细的效果说明。
 
@@ -313,6 +311,8 @@ export interface IColorStop {
   color: string;
 }
 ```
+
+### 渐变色坐标位置与图元的关系
 
 每一种渐变色的配置中都有多个与位置相关的属性。以最常用的线性渐变为例：
 
@@ -478,7 +478,7 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-#### 渐变色 stop 的意义
+### 渐变色 stop 的意义
 
 在 VChart 中，渐变色配置中的 stop 与上方的原生绘图 API 没有任何区别。stop 时渐变色的关键节点，颜色会在关键节点间按照渐变类型进行差值。
 
