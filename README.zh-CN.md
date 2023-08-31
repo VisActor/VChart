@@ -63,6 +63,7 @@ VChart 是 VisActor 可视化体系中的图表组件库，基于可视化语法
 4. [`lark-vchart`](./packages/lark-vchart/)：基于 [飞书小程序](https://open.feishu.cn/document/client-docs/gadget/introduction/host-environment) 封装的 VChart 图表组件
 5. [`tt-vchart`](./packages/lark-vchart/): 基于 [抖音小程序](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview/) 封装的 VChart 图表组件
 6. [`block-vchart`](./packages/block-vchart/)：基于 [飞书小组件](https://open.feishu.cn/document/client-docs/block/block-introduction) 封装的 VChart 图表组件
+7. [`docs`](./docs/): VChart 站点源码，同时也包含站点所有的中英文文档、图表示例代码等内容。
 
 ## 🔨 使用
 
@@ -129,6 +130,8 @@ $ rush update
 $ rush start
 # 开始 react-vchart 的本地开发
 $ rush react
+# 开始站点的本地开发
+$ rush docs
 ```
 
 ## 🔗 相关链接
