@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: SankeyChart legends not working, fix the bug #345",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
