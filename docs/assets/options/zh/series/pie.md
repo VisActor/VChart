@@ -102,6 +102,10 @@ pie: {
 
 标签配置。
 
+{{ use: component-label(
+  prefix = '#' + ${prefix},
+) }}
+
 <!-- IArcLabelSpec -->
 
 ##${prefix} position(string)
@@ -113,19 +117,6 @@ pie: {
 
 - `'outside'`
 - `'inside'`
-
-##${prefix} showRule(string)
-
-标签内容显示规则。
-默认值为`'all'`。
-
-可选值：
-
-- `'all'`
-- `'max'`
-- `'min'`
-- `'minAndMax'`
-- `'headAndTail'`
 
 ##${prefix} coverEnable(boolean)
 
@@ -216,8 +207,3 @@ pie: {
 
 是否启用切线约束。
 默认值为`true`。
-
-{{ use: component-label(
-  prefix = '#' + ${prefix},
-  noPosition = true
-) }}
