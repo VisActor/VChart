@@ -1,25 +1,17 @@
-import type { IChartTemp } from './../temp/interface';
-import { VChart } from '@visactor/vchart';
-import type { IChart, IChartSpec } from '@visactor/vchart';
+import type { Include } from './../typings/commnt';
+import { ElementsMap } from './../elements/index';
+import type { BaseElement } from '../elements/base-element';
+import type { IElementOption } from './../elements/interface';
 import type { ILayout } from './../layout/interface';
-import { SpecProcess } from '../spec-process/spec-process';
-import type { ISpecProcess } from '../spec-process/interface';
-import { Data } from './../data/data';
-import type { IData } from '../data/interface';
-import { Layout } from '../layout/layout';
-import { getTemp } from '../temp';
 import { isString } from '@visactor/vutils';
 
 export class VChartEditor {
-  protected _data: IData;
-  protected _specProcess: ISpecProcess;
   protected _layout: ILayout;
-  protected _temp: IChartTemp;
 
   protected _option: { dom: string | HTMLElement };
   protected _container: HTMLElement;
 
-  protected _vchart: IChart;
+  protected _elements: BaseElement[] = [];
 
   constructor(option: { dom: string | HTMLElement }) {
     this._option = option;
@@ -28,42 +20,29 @@ export class VChartEditor {
     if (dom) {
       this._container = isString(dom) ? document?.getElementById(dom) : dom;
     }
-    this._data = new Data();
-    this._specProcess = new SpecProcess(this._data, this.onSpecReady);
-    this._layout = new Layout(this._specProcess);
-  }
-
-  protected _initVChart(spec: IChartSpec) {
-    this._vchart = new VChart(spec, { dom: this._container });
-    this._layout.setVChart(this._vchart);
-  }
-
-  setTemp(key: string) {
-    this._temp = getTemp(key);
-    this._specProcess.updateTemp(this._temp);
-  }
-
-  setDataSource(type: string, value: any) {
-    this._data.changeDataSource(type, value);
-  }
-
-  onSpecReady = () => {
-    if (!this._vchart) {
-      this._initVChart(this._specProcess.getVChartSpec());
-      this._vchart.renderAsync();
-    } else {
-      this._vchart.updateSpec(this._specProcess.getVChartSpec());
+    if (!this._container) {
+      this._container.style.position = 'relative';
     }
-  };
+  }
 
-  clear() {
-    this._vchart.release();
-
-    this._data.clear();
-    this._temp.clear();
-    this._specProcess.clear();
-    this._layout.clear();
-
-    this._data = this._temp = this._specProcess = this._layout = this._vchart = null;
+  addElements(type: string, option: Include<IElementOption>) {
+    if (!ElementsMap[type]) {
+      return;
+    }
+    if (type === 'chart') {
+      const canvas = document.createElement('canvas');
+      canvas.width = this._container.clientWidth;
+      canvas.height = this._container.clientHeight;
+      canvas.style.position = 'absolute';
+      this._container.appendChild(canvas);
+      // @ts-ignore
+      option.renderCanvas = canvas;
+    }
+    const el = new ElementsMap[type](option);
+    if (!el) {
+      return;
+    }
+    el.initWithOption();
+    this._elements.push(el);
   }
 }
