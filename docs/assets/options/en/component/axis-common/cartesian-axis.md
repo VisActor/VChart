@@ -112,6 +112,17 @@ The function definition for this attribute is as follows:
   layoutFunc?: (labels: IText[], labelData: AxisItem[], layer: number, axis: IGroup) => void;
 ```
 
+##${prefix} containerAlign(string)
+
+Supported since `1.3.0` version, used to configure the alignment of the label relative to the overall coordinate axis container.
+
+- `top`: overall upward alignment (vertical direction)
+- `middle`: overall center alignment (vertical direction)
+- `bottom`: overall downward alignment (vertical direction)
+- `left`: overall left alignment (horizontal direction)
+- `center`: overall center alignment (horizontal direction)
+- `right`: Overall alignment to the right (horizontal direction)
+
 #${prefix} title(Object)
 
 Axis title configuration.

@@ -12,7 +12,7 @@ option: barChart
 
 By filling the chart with textures, the readability of the chart can be improved in scenarios with low screen brightness or targeting people with color vision deficiency.
 
-## Key Configurations
+## Key option
 
 - Configure texture attribute on graphic element, `texture`, which supports: `'circle' | 'diamond' | 'rect' | 'vertical-line' | 'horizontal-line' | 'bias-lr' | 'bias-rl' | 'grid'`.
 - Customize mappings via the `scales` property:
@@ -24,7 +24,7 @@ By filling the chart with textures, the readability of the chart can be improved
   - `field` defines the data field to be mapped
   - `scale` configures the id of the scale defined in the scales property
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

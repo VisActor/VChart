@@ -12,11 +12,11 @@ option: circlePackingChart
 
 This example demonstrates the multi-root usage of the CirclePacking chart.
 
-## Key Configurations
+## Key option
 
 - `data` Multi-branched tree data structure, each item in the first layer represents a root node.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const data = [

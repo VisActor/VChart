@@ -10,12 +10,12 @@ option: barChart#legends
 
 # Legend Displayed Inside the Chart
 
-## Key Configurations
+## Key option
 
 - Set the `position` of `legend` to `absolute` for the legend to be displayed inside the chart
 - Set the `left` and `top` of `legend` to the relative positions inside the chart
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

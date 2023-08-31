@@ -10,7 +10,7 @@ option: barChart#customMark
 
 # Custom Mark
 
-## Key Configurations
+## Key option
 
 - `player` attribute configures player data and logic
   - `player.specs` attribute configures all data specs on the playback timeline
@@ -19,7 +19,7 @@ option: barChart#customMark
   - Exclude `x` and `y` position attributes through `options.excludeChannels`
   - A shorter animation duration is configured for `x` and `y` via the `channel` method
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const goldenMedals = {

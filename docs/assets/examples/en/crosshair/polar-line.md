@@ -12,12 +12,12 @@ option: radarChart#crosshair
 
 The crosshair's performance in different coordinate systems is different, corresponding to different configurations. In the polar coordinate system, you need to configure on `categoryField` and `valueField`.
 
-## Key Configurations
+## Key option
 
 - `crosshair.categoryField` Configure the crosshair of the dimension data, usually the angle axis, and the line of the angle axis supports 'line' and 'rect' shapes
 - `crosshair.valueField` Configure the crosshair of the indicator data, usually the radius axis, line only supports 'line'
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

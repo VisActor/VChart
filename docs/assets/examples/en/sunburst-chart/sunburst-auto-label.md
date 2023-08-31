@@ -20,7 +20,7 @@ When the hierarchy in the sunburst chart is too deep, the area of each sector be
   - `enable` Enable the feature
   - `circumference` Circumference threshold. When the sector's circumference is below this value, the sector's label will be hidden, otherwise, the label will be displayed.
 
-## Code demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

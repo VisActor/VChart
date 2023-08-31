@@ -12,7 +12,7 @@ option: sankeyChart
 
 Vertical Sankey Chart. This example visualizes cash flow. Edges represent the cash flow amount for each line item in the cash flow statement. Red edges indicate operating expenses, and yellow edges indicate capital expenditures.
 
-## Key Configurations
+## Key option
 
 - Declare the `direction` attribute as 'vertical'
 - Declare the `label` attribute to configure the label setting, label layout can be set as `position: 'outside' | 'inside-start' | 'inside-middle' | 'inside-end' | 'left' | 'right'`, the maximum label text truncation length can be set using the `limit` configuration

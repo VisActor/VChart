@@ -14,12 +14,12 @@ Based on the 2D scatter chart, configure the zField to be recognized as a 3D sca
 
 > Data from observablehq.com
 
-## Key Configurations
+## Key option
 
 - Declare the `categoryField` attribute as the category field
 - Declare the `valueField` attribute as the value field
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

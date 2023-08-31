@@ -16,7 +16,7 @@ Segmented bar graphs can be realized with `extensionMark`.
 
 - `extensionMark.rule` implements segmented bars
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

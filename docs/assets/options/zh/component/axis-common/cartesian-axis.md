@@ -112,6 +112,17 @@ export type CustomMethod = (items: IText[], separation: number) => IText[];
   layoutFunc?: (labels: IText[], labelData: AxisItem[], layer: number, axis: IGroup) => void;
 ```
 
+##${prefix} containerAlign(string)
+
+自 `1.3.0` 版本开始支持，用于配置 label 相对于坐标轴容器整体的对齐方式。
+
+- `top`：整体向上对齐（垂直方向）
+- `middle`：整体居中对齐（垂直方向）
+- `bottom`：整体向下对齐（垂直方向）
+- `left`：整体向左对齐（水平方向）
+- `center`：整体居中对齐（水平方向）
+- `right`：整体向右对齐（水平方向）
+
 #${prefix} title(Object)
 
 轴标题配置。

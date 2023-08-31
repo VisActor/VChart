@@ -12,7 +12,7 @@ option: wordCloud3dChart
 
 The configuration of 3D word clouds mainly inherits the configuration of ordinary word clouds. The difference is that the type needs to be set to wordcloud3d, and then the ChartSpace instance needs to be added with the option3d configuration.
 
-## Key Configurations
+## Key option
 
 - The `depth_3d` attribute is declared as a numeric field, indicating the distance of the word cloud from the screen.
 - The `keepDirIn3d` text attribute configuration controls whether the text direction follows the rotation.
@@ -21,7 +21,7 @@ The configuration of 3D word clouds mainly inherits the configuration of ordinar
 - The `valueField` attribute is declared as a field for the text size.
 - The `maskShape` attribute is declared as the shape outline, supporting both image URL and shape string formats.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

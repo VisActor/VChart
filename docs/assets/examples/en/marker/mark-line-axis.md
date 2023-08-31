@@ -10,7 +10,7 @@ option: lineChart#markLine
 
 # markLine Axis Space Positioning
 
-## Key Configurations
+## Key option
 
 x-axis positioning:
 
@@ -27,7 +27,7 @@ Label configuration:
 - The `label.refY` attribute declares the vertical offset of the label relative to the line; similarly, the `label.refX` attribute declares the horizontal offset of the label relative to the line.
 - The `label.position` attribute declares the position of the label relative to the marked line and supports configurations like `"start" | "middle" | "end" | "insideStartTop" | "insideStartBottom" | "insideMiddleTop" | "insideMiddleBottom" | "insideEndTop" | "insideEndBottom"`.
 
-## Code demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

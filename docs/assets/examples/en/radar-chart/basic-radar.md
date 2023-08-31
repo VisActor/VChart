@@ -26,7 +26,7 @@ Radar charts can be used to display data across multiple dimensions, as well as 
   - `visible: true`: Display the area
   - `state`: Configure the style of the area when hovering
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

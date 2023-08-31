@@ -20,7 +20,7 @@ Configure the texture-related attributes on the shape:
   - `visible`: Display label.
   - `style`: Label style configuration.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

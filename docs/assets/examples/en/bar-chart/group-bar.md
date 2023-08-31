@@ -12,7 +12,7 @@ option: barChart
 
 Grouped bar charts are used to display data for multiple categories, comparing different categories of data through bar height.
 
-## Key Configurations
+## Key option
 
 - Set the `direction` property to 'horizontal'
 - Declare the `xField` property as a numerical field
@@ -20,7 +20,7 @@ Grouped bar charts are used to display data for multiple categories, comparing d
 - Declare the `seriesField` property as the color mapping field
 - Adjust the group spacing by setting the `paddingInner` property for the coordinate axis with `orient: left`
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

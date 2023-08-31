@@ -12,11 +12,11 @@ option: areaChart
 
 A smoothed area chart is an area chart that connects a series of data points with smooth curves.
 
-## Key Configurations
+## Key option
 
 - Configure the `curveType: 'monotone'` property in the `line.style` attribute. The default `style.curveType` property of the area chart element will be automatically synchronized, so there is no need to configure it again.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {
@@ -85,7 +85,7 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## Key Configurations
+## Key option
 
 None
 

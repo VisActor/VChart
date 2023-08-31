@@ -17,13 +17,13 @@ The configuration of the 3D pie chart inherits most of the configuration of the 
 1. Display the proportion of data in different categories.
 2. Compare the sizes of different categories, and the differences in values are relatively obvious.
 
-## Key configurations
+## Key option
 
 - `options3d` This configuration is passed into the ChartSpace constructor, declaring that the ChartSpace needs to support 3d mode
 - `categoryField` and `valueField` attributes are used to specify the pie chart category and fan angle fields respectively
 - `innerRadius` and `outerRadius` attributes are used to specify the inner and outer radii of the sector
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

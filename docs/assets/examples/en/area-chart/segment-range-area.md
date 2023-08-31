@@ -12,11 +12,11 @@ option: areaChart
 
 An interval area chart is a variant of an area chart that plots a range of data, with each point in the chart specified by two numerical properties.
 
-## critical configuration
+## Key option
 
 - `yField` The property is configured as an array composed of the minimum value numerical property and the maximum value numerical property
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

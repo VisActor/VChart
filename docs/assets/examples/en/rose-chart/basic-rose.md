@@ -23,7 +23,7 @@ A rose chart is a statistical chart drawn in polar coordinates. Each category in
 - The `seriesField` field is used to specify different series
 - Use `innerRadius` and `outerRadius` properties to specify the inner and outer radii of the sector
 
-## Code demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

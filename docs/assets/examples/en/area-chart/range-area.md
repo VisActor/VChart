@@ -14,11 +14,11 @@ The range area chart is a variant of the area chart, which can be used to draw d
 It is often combined with line charts to create composite charts.
 In this example, the range area is created by the minimum and maximum values of different categories.
 
-## Key Configurations
+## Key option
 
 - The `yField` attribute is configured as an array composed of the minimum and maximum numeric attributes
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -12,11 +12,11 @@ option: scatterChart#axes
 
 In the Cartesian coordinate system, when there are positive and negative values in the numerical axis, you can configure `domainLine.onZero` To display the axis of the x-axis on the 0 scale of the y-axis.
 
-## critical configuration
+## Key option
 
 exist `axes` On the property, turn on the specified axis `domainLine.onZero` Property, which defaults to false and needs to be turned on manually. Valid if and only if the other axis is a numeric axis and contains a 0 tick.
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const data = [

@@ -12,12 +12,12 @@ option: waterfallChart
 
 The waterfall chart combines absolute and relative values, making it suitable for expressing the relationship between several specific values in terms of quantity changes.
 
-## Key Configurations
+## Key option
 
 - `total` configures the total amount
 - `total.valueField` can specify the numeric value of the current total. You can place a total amount at any location and specify the total value.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

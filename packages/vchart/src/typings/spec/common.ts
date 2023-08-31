@@ -256,7 +256,7 @@ export interface IFieldsMeta {
   sortReverse?: boolean;
 }
 
-export interface SheetParseOptions {
+export interface SheetParseOptions extends CommonParseOptions {
   type: 'csv' | 'dsv' | 'tsv';
   options?: IDsvParserOptions;
 }

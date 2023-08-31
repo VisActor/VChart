@@ -294,7 +294,9 @@ vchart.getDataSet().getDataView('fieldsData').latestData ===
 
 ##${prefix} parser(Object)
 
-当数据内容为字符串时，可以通过配置 parser 指定解析方式，目前仅支持 **csv|dsv|tsv**
+自 `1.3.0` 版本开始，`parser` 上支持了 `clone` 属性配置，默认为 `true`，用于配置是否需要对数据进行 clone，如果考虑性能，你可以将其关闭，但是这会带了一些副作用，即我们会对传入的数据进行修改（不会对原有字段及值修改，只会在原有数据基础上添加一些字段）。
+
+当数据内容为字符串时，可以通过配置 parser 指定解析方式，目前仅支持 **csv|dsv|tsv**，配置如下：
 
 ```ts
 type parser = {
@@ -303,8 +305,17 @@ type parser = {
     // delimiter 必须是一个单字符。
     delimiter?: string; // 参数值默认为半角逗号，即默认将被处理文件视为 CSV , 当 delimiter='\t' 时，被处理文件就是TSV。
   };
+  /**
+   * 是否需要对数据进行 clone，默认为 true。
+   * 如果考虑性能，你可以将其关闭，但是这会带了一些副作用，即我们会对传入的数据进行修改（不会对原有字段及值修改，只会在原有数据基础上添加一些字段）。
+   * @default true
+   * @since 1.3.0
+   */
+  clone?: boolean;
 };
+```
 
+```ts
 // example
 const csvData = `date,最低,最高
 周一,18,28

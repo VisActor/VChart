@@ -24,7 +24,7 @@ To configure texture-related attributes on the graphics:
     - `bound`: When the graphic size is not enough to accommodate the current label, try to place it in the alternative position within `position`, i.e., at the top of the graphic (`top`).
     - `moveY`: If there is not enough space for the current label, find the location in the y-axis based on the offset.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

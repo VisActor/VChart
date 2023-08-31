@@ -12,7 +12,7 @@ option: wordCloudChart
 
 Display text at random angles.
 
-## Key Configurations
+## Key option
 
 - `nameField` attribute is set as the text field for words
 - `valueField` attribute is set as the field for word size
@@ -20,7 +20,7 @@ Display text at random angles.
 - `rotateAngles` attribute sets the range for random core word rotation angles, i.e., core word rotation angles are randomly selected from this array
 - `wordCloudShapeConfig.rotateAngles` attribute sets the range for random filling word rotation angles, i.e., filling word rotation angles are randomly selected from this array
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

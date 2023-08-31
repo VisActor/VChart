@@ -10,7 +10,7 @@ option: scatterChart
 
 # Dynamic Scatterplot
 
-## Key configurations
+## Key option
 
 - `player` attribute configures player data and logic
   - `player.specs` attribute configures all data specs on the playback timeline
@@ -23,7 +23,7 @@ option: scatterChart
 - Specify the `index` field in the data as the data key through `dataKey` for data update matching
 - Configure the colors of the four quadrants through `markArea`;
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const yearData = {};

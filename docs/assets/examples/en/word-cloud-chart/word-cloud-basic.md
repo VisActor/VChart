@@ -12,12 +12,12 @@ option: wordCloudChart
 
 Word cloud is an effective text data lake visualization method, which is often used to display large amounts of text data. In word cloud, in general, words with higher weight are more likely to be noticed than words with lower weight, so it can help users compare the composition of text and its weights.
 
-## critical configuration
+## Key option
 
 - `nameField` Property declared as text text field
 - `valueField` Property declared as text size field
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');

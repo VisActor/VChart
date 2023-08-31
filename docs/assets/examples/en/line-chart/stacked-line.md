@@ -14,7 +14,7 @@ Stacked Line Chart is a type of line chart, which is used to display the trends 
 
 This example compares the cosmetics sales of different countries. By using a stacked line chart to display the sales of different categories of cosmetics in various countries, it demonstrates the sales trend of cosmetics in these countries.
 
-## Key Configurations
+## Key option
 
 - The `seriesField` property is used to declare the field involved in color mapping
 - The `stack` property is set to true to configure stacking, which will stack according to the field declared by the `seriesField` property
@@ -82,7 +82,7 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## Key Configurations
+## Key option
 
 None
 

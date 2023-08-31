@@ -294,6 +294,8 @@ vchart.getDataSet().getDataView('fieldsData').latestData ===
 
 ##${prefix} parser(Object)
 
+Starting from `1.3.0` version, `parser` supports `clone` property configuration, the default is `true`, which is used to configure whether the data needs to be cloned. If you consider performance, you can turn it off, but this will It has some side effects, that is, we will modify the incoming data (the original fields and values will not be modified, only some fields will be added based on the original data).
+
 When the data content is a string, you can specify the parsing method by configuring the parser. It currently supports **csv|dsv|tsv** only.
 
 ```ts
@@ -303,8 +305,17 @@ type parser = {
     // delimiter 必须是一个单字符。
     delimiter?: string; // 参数值默认为半角逗号，即默认将被处理文件视为 CSV , 当 delimiter='\t' 时，被处理文件就是TSV。
   };
+  /**
+   * Whether to clone the data, the default is true.
+   * If you consider performance, you can turn it off, but this will have some side effects, that is, we will modify the incoming data (the original fields and values will not be modified, only some fields will be added based on the original data).
+   * @default true
+   * @since 1.3.0
+   */
+  clone?: boolean;
 };
+```
 
+```ts
 // example
 const csvData = `date,最低,最高
 周一,18,28

@@ -20,7 +20,7 @@ To implement a population pyramid chart, we use a combination of chart + layout 
 - Use `type: common` for the combined chart.
 - The `reverse` property of `xAxis` and `yAxis` is used to achieve the reversal of the bar chart.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const femaleData = [

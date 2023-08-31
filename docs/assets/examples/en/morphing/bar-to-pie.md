@@ -14,7 +14,7 @@ We often use different chart types for different visualization purposes. The sam
 
 ## Key configuration
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const pieSpec = {

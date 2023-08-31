@@ -12,13 +12,13 @@ option: roseChart
 
 When you need to compare data in multiple dimensions under polar coordinates, you can use a grouped stacked rose chart.
 
-## Key Configurations
+## Key option
 
 - The `stack` attribute is used to control whether stacking is enabled, with the default being true
 - `categoryField` is used to specify the grouping field in the data
 - In `axes`, the `paddingInner` and `paddingOuter` attributes specify the space within and between groups, respectively
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -21,7 +21,7 @@ Crosshair auxiliary lines are used to mark specific data points on a chart, usua
   - `datum`: Default display data
 - `dimension_hover`: The state when the mouse hovers over a certain dimension
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

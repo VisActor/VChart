@@ -12,7 +12,7 @@ cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sequenc
 The high complexity of time-series data makes it difficult for analysts to manually explore and find patterns, leading to an increasing need for visualization techniques to aid analysis in order to extract and communicate insights from event sequence datasets.
 For social media information, it is often necessary to show the different behaviors of different users at different times in the form of nodes and edges in the evolution of linear time, and in order to better discover the user's behavior preferences, it is also necessary to use histograms. The form of behavioral statistics is displayed. Time series diagrams based on linear time maps can show data in this scenario.
 
-## critical configuration
+## Key option
 
 The whole sequence diagram is divided from top to bottom: thumbnail axis component, timeline component, several bar series, dot series & link series, scroll bar component
 
@@ -68,7 +68,7 @@ Scroll bar component configuration:
 - `regionIndex` The property is declared as the data Region of the rolling control. Due to the special logic of the sequence diagram, it can be`regionIndex`Considered the dot series`seriesindex + 1`
 - `axisIndex` The property is declared as the data axis of the scroll control. Due to the special logic of the sequence diagram, it can be`axisIndex`Considered the dot series`seriesindex + 1`
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

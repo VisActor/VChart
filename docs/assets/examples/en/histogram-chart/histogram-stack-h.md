@@ -10,7 +10,7 @@ option: histogramChart
 
 # Horizontal Stacked Histogram
 
-## Key Configurations
+## Key option
 
 - Declare the frequency statistics left interval field as the `xField` attribute
 - Declare the frequency statistics right interval field as the `x2Field` attribute
@@ -18,7 +18,7 @@ option: histogramChart
 - Declare the group field as the `seriesField` attribute
 - Declare the chart direction field as the `direction` attribute; `horizontal` means horizontal direction, `vertical` means vertical direction
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {
