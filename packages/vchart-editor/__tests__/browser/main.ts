@@ -23,5 +23,30 @@ ND,14 to 17 Years,18794
 AK,Under 5 Years,72083
 AK,5 to 13 Years,85640
 AK,14 to 17 Years,22153`;
-editor.setDataSource('clipBoard', clipBoardData);
-editor.setTemp('bar');
+editor.addElements('chart', {
+  dataSource: {
+    type: 'clipBoard',
+    value: clipBoardData
+  },
+  temp: 'bar',
+  rect: {
+    x: 20,
+    y: 20,
+    width: 300,
+    height: 300
+  }
+});
+
+editor.addElements('chart', {
+  dataSource: {
+    type: 'clipBoard',
+    value: clipBoardData
+  },
+  temp: 'bar',
+  rect: {
+    x: 200,
+    y: 200,
+    width: 300,
+    height: 300
+  }
+});
