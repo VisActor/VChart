@@ -38,7 +38,6 @@ import { SeriesTypeEnum } from '../interface/type';
 import type { IPieOpt } from '../../data/transforms/pie';
 // eslint-disable-next-line no-duplicate-imports
 import { pie } from '../../data/transforms/pie';
-import { arcLabel } from '../../layout/label/arc-label';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IPieAnimationParams, PieAppearPreset } from './animation/animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
@@ -120,7 +119,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     }
 
     registerDataSetInstanceTransform(this._dataSet, 'pie', pie);
-    registerDataSetInstanceTransform(this._dataSet, 'arcLabel', arcLabel);
 
     viewData.transform(
       {
@@ -146,13 +144,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       type: 'dataview'
     });
     viewDataLabel.name = `${PREFIX}_series_${this.id}_viewDataLabel`;
-    viewDataLabel.transform(
-      {
-        type: 'arcLabel',
-        options: { series: this }
-      },
-      false
-    );
 
     this._viewDataLabel = new SeriesData(this._option, viewDataLabel);
   }
