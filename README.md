@@ -63,6 +63,7 @@ This repository includes the following packages:
 4. [`lark-vchart`](./packages/lark-vchart/): The VChart component encapsulated based on [Lark miniAPP](https://open.feishu.cn/document/client-docs/gadget/introduction/host-environment)
 5. [`tt-vchart`](./packages/lark-vchart/): The VChart component encapsulated based on [TikTok miniAPP](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview/)
 6. [`block-vchart`](./packages/block-vchart/): The VChart component encapsulated based on [Lark Block](https://open.feishu.cn/document/client-docs/block/block-introduction)
+7. [`docs`](./docs/): VChart site source code, and also contains all Chinese and English documents, chart sample codes, etc. of the site.
 
 ## 🔨 Usage
 
@@ -129,6 +130,8 @@ $ rush update
 $ rush start
 # start react-vchart development server
 $ rush react
+# start site development server
+$ rush docs
 ```
 
 ## 🔗 Related Links
