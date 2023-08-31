@@ -12,7 +12,7 @@ option: barChart
 
 Percentage stacked bar chart is used to display the proportion of multiple dimensions of data.
 
-## Key Configurations
+## Key option
 
 - Set `direction` property to 'horizontal'
 - Declare `xField` property as numeric field
@@ -21,7 +21,7 @@ Percentage stacked bar chart is used to display the proportion of multiple dimen
 - Set `stack` property to stack mode
 - Set `percent` property to `true` to enable numeric percentage calculation
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

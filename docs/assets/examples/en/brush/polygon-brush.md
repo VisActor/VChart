@@ -28,7 +28,7 @@ The rectangle selection component allows users to select any chart element in mu
   - `colorAlpha`: The transparency of the element, range `[0, 1]`.
 - `outOfBrush` attribute declares the style of unselected chart elements. Configurable styles are the same as above.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

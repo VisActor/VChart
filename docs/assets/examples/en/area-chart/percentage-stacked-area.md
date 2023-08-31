@@ -12,7 +12,7 @@ option: areaChart
 
 The percentage stacked area chart is a type of area chart that is used to display the trend of the percentage of each value changing over time or ordered categories.
 
-## Key configurations
+## Key option
 
 - The `seriesField` attribute is used to declare the field involved in color mapping
 - The `stack` attribute is set to true to configure stacking, stacking will be done according to the field declared by the `seriesField` attribute

@@ -16,7 +16,7 @@ Color segmentation for warning lines.
 
 Achieved by controlling the offset value of the gradient color.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

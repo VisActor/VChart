@@ -12,12 +12,12 @@ option: pieChart
 
 Pie charts can be adjusted by configuring the `innerRadius` and `outerRadius` attributes to specify the inner and outer radius of a sector, thereby forming a ring chart.
 
-## Key Configurations
+## Key option
 
 - The `categoryField` and `valueField` attributes are used to specify the pie chart category and sector angle fields, respectively.
 - The `innerRadius` and `outerRadius` attributes are used to specify the inner and outer radius of the sector.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

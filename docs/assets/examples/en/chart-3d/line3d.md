@@ -14,12 +14,12 @@ Configure zField on the basis of 2D line graph to be recognized as 3D line graph
 
 > Recreation of <https://www.datawrapper.de/charts>.
 
-## critical configuration
+## Key option
 
 - `seriesField` Properties are used to declare fields participating in color mapping
 - `legends` Properties are used to configure legends
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const latestData = [

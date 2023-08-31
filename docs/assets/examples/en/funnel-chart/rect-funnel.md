@@ -10,7 +10,7 @@ option: funnelChart
 
 # Rectangular Conversion Funnel Chart
 
-## Key Configurations
+## Key option
 
 - `type: funnel` Specifies the chart type to be a funnel chart
 - `categoryField` Specifies the category field
@@ -18,7 +18,7 @@ option: funnelChart
 - `isTransform: true` Configure as a conversion funnel chart, the conversion layer will be displayed in the chart
 - `shape: rect` Specifies the funnel layer shape to be rectangular
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

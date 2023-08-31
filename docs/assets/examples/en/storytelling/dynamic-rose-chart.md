@@ -10,7 +10,7 @@ option: roseChart
 
 # Dynamic Rose Chart
 
-## Key Configurations
+## Key option
 
 - `data.fields` attribute configures specific information of data fields
   - `[field].domain` attribute configures the value range and order of the `month` data field
@@ -18,7 +18,7 @@ option: roseChart
 - `data.id` attribute configures the data id, used for data updates and indexing;
 - `updateData(dataId: StringOrNumber, data: DataView | Datum[])` interface accepts two parameters, data id and new data, new data supports arrays and `DataView` format;
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const monthData = {

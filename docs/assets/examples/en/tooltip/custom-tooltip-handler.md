@@ -19,7 +19,7 @@ Note:
 - When the chart is deleted, the `release` function of the current tooltip handler will be called, please delete it as needed.
 - Since the custom tooltip handler will override the built-in tooltip logic, **some tooltip configuration items in the chart spec will no longer work**.
 
-## Code demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

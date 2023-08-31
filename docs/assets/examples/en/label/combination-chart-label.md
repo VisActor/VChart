@@ -12,7 +12,7 @@ option: commonChart#series-line.label
 
 In charts, labels are used to annotate the data displayed by the current graphic, which can be used to explain some data meanings of the graphic, such as values, names, etc.
 
-## Key Configurations
+## Key option
 
 Configure the following attributes on the graphics:
 

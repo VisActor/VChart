@@ -30,7 +30,7 @@ The selection box component allows users to arbitrarily select chart elements wi
   - `colorAlpha`: The transparency of the element, range `[0, 1]`.
 - The `outOfBrush` property declares the style of the chart elements that are not selected. Configurable styles are the same as above.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

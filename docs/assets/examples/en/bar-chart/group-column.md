@@ -17,7 +17,7 @@ This chart shows the comparison of the number of democratic countries and dictat
 - Set the mapping field and group field for the x-axis on the `xField` property.
 - The `seriesField` property declares the color mapping field.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

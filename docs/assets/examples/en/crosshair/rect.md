@@ -12,7 +12,7 @@ option: lineChart#crosshair
 
 Crosshair is used to mark specific data points in the chart, often triggered by mouse hover or click. The configuration attribute is `crosshair`. This example shows the default display effect of crosshair.
 
-## Key Configurations
+## Key option
 
 - `bindingAxesIndex`: Declare the index of the bound axis, default is 0
 - `defaultSelect`: Declare the default selected data
@@ -20,7 +20,7 @@ Crosshair is used to mark specific data points in the chart, often triggered by 
   - `datum`: the data displayed by default
 - `dimension_hover`: the state of a certain dimension when the mouse hovers
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

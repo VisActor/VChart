@@ -25,7 +25,7 @@ Box plot, also known as box-and-whisker plot, box chart, or box-and-whisker diag
 - `shaftWidth` attribute specifies the width of the maximum and minimum value lines
 - `shaftShape` attribute specifies the box plot shape, with two options: line and bar
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

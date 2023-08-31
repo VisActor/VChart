@@ -19,7 +19,7 @@ Hierarchical Sankey Chart refers to the Sankey Chart drawn with the input data a
 - The `sourceField` and `targetField` attributes do not need to be specified, they are generated according to the hierarchical structure
 - The `nodeKey` attribute declares the `key` value for parsing nodes
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -21,7 +21,7 @@ The bar progress chart is a type of chart in the rectangular coordinate system. 
 
 - The `categoryField` and `valueField` properties are used to specify the data category and rectangle length fields, respectively
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -10,14 +10,14 @@ option: barChart#customMark
 
 # Custom symbol mark
 
-## critical configuration
+## Key option
 
 - `extensionMark` Properties Configure Custom Text Graphics
   - `extensionMark.type` Property Configure the type of primitive
   - `extensionMark.dataId` Data source for attribute configuration metadata
   - `extensionMark.style` Property configures the style of the primitive
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

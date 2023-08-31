@@ -12,7 +12,7 @@ option: lineChart#scrollbar
 
 scrollBar controls the axis range, by setting `filterMode` to `axis`, it only affects the axis range, thus controlling the display area of the line.
 
-## Key Configurations
+## Key option
 
 - The `orient` property is declared as a string type, used to set the orientation of the `scollBar`. Available options: `bottom`, `right`
 - The `start` property is declared as a numeric field, with a value range of `[0, 1]`
@@ -20,7 +20,7 @@ scrollBar controls the axis range, by setting `filterMode` to `axis`, it only af
 - The `filterMode` property declares the way the `scrollBar` controls the data display range. Available options: `axis`, `filter`. When `filterMode` is set to `filter`, it filters multiple data, affecting the axis scale calculation; when `filterMode` is set to `axis`, it only affects the corresponding axis coordinate range, without filtering the data.
 - The `roam` property is declared as a `Boolean` type, used to set whether to enable the zoom and pan function
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

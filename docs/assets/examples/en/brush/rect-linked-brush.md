@@ -12,7 +12,7 @@ option: commonChart#brush
 
 The selection box component allows users to select arbitrary chart elements in a multi-selection manner within the chart area.
 
-## Key Configurations
+## Key option
 
 - The `brushType` attribute is declared as a selection box type, and the optional values are:
 

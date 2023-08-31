@@ -12,13 +12,13 @@ option: barChart#dataZoom
 
 In the thumbnail axis, you can configure the preview chart to display statistical data, which is the accumulation of associated data on the metric dimension. In Vchart, flexible style configuration is provided for background charts.
 
-## Key Configurations
+## Key option
 
 - The `backgroundChart` attribute is declared as the style of the preview chart, where `line` corresponds to the line chart style of the preview chart; `area` corresponds to the area chart style of the preview chart
 - The `selectedBackgroundChart` attribute is declared as the style of the selected part of the preview chart, where `line` corresponds to the line chart style of the preview chart; `area` corresponds to the area chart style of the preview chart
 - In addition, style configuration also supports background style, selected background style, dragging hint graphic style, left and right handle style, middle handle style, etc., for more details refer to spec configuration (todo: @chensiji, maybe adding a link here would be better).
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

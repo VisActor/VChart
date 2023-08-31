@@ -12,7 +12,7 @@ option: gaugeChart
 
 A comprehensive application of `gaugePointer`, `gauge`, `radar` and other series, where the `gaugePointer` series represents the hands of the clock.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const getClockData = () => {

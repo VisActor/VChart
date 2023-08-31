@@ -12,14 +12,14 @@ option: lineChart#axes
 
 The axis provides `subTick` and `subGrid` properties, which are used to configure sub-ticks and sub-grid lines.
 
-## Key Configurations
+## Key option
 
 Configure the specified direction axis on the `axes` property:
 
 - `subTick` property, used to configure sub-ticks, which are turned off by default. Set `{ visible: true }` to enable
 - `subGrid` property, used to configure sub-grid lines
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 // just mock a dataset

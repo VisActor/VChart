@@ -18,7 +18,7 @@ Text angle is displayed randomly.
 - `valueField` attribute is declared as the text size field
 - `rotateAngles` attribute is declared as the random range for text rotation angles, i.e., the text rotation angle is randomly selected from this array
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');

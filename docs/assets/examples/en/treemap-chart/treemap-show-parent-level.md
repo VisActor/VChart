@@ -10,14 +10,14 @@ option: treemapChart
 
 # Treemap Displaying Parent Level
 
-## Key Configurations
+## Key option
 
 - The `categoryField` property is declared as the classification field, and the field value is usually the node name;
 - The `valueField` property is declared as the numerical field, and the field value is usually the node weight;
 - The `nonLeaf` property is declared as the graphical property configuration of non-leaf nodes, and set `nonLeaf.visible` to `true` to display the parent node;
 - The `nonLeafLabel` property is declared as the graphical property configuration of non-leaf node labels;
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

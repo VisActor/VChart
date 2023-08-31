@@ -10,7 +10,7 @@ option: barChart
 
 # Dynamic Bar Chart
 
-## Key Configurations
+## Key option
 
 - The `player` attribute configures the player data and logic
   - The `player.specs` attribute configures the data spec for all playback timelines
@@ -19,7 +19,7 @@ option: barChart
   - Use `options.excludeChannels` to exclude the `x` and `y` position attributes
   - Configure a shorter animation duration for `x` and `y` through the `channel` method
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const goldenMedals = {

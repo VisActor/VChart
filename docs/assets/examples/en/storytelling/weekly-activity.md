@@ -26,7 +26,7 @@ option: circularProgress
   - `region.offsetX` can be configured as a percentage string, setting the space offset on the canvas x direction
 - Associate the axis with the series through `axis.seriesId`, configuring different axis ranges
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const firstDay = 1;

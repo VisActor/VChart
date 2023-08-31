@@ -22,7 +22,7 @@ Graphical type `symbol`
 
 ### type(string) = "symbol"
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -40,7 +40,7 @@ Graphical type `rule`
 
 Required configuration to specify the graphical type
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -58,7 +58,7 @@ Graphical type `text`
 
 Required configuration to specify the graphical type
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -76,7 +76,7 @@ Graphical type `rect`
 
 Required configuration to specify the graphical type
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -94,7 +94,7 @@ Graphical type `path`
 
 Required configuration to specify the graphical type
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -112,7 +112,7 @@ Graphical type `arc`
 
 Required configuration to specify the graphical type
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -130,7 +130,7 @@ Graphical type `polygon`
 
 Required configuration to specify the graphical type
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -148,7 +148,7 @@ Graphical type `image`
 
 Required configuration to specify the graphical type
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -166,7 +166,7 @@ Graphical type `group`
 
 Required configuration to specify the graphical type
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 

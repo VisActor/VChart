@@ -12,12 +12,12 @@ option: lineChart
 
 A multi-series line chart without stacking. This example demonstrates the price trends of different categories of products.
 
-## Key Configurations
+## Key option
 
 - The `seriesField` attribute is used to declare the field for color mapping
 - The `legends` attribute is used to configure the legend
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

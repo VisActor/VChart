@@ -12,13 +12,13 @@ option: barChart
 
 The most basic column chart requires a categorical variable and a numerical variable. In this example, we created a simple column chart to display a week's sales data, where the categorical variable is `month` and the numerical variable is `sales`.
 
-## Key Configurations
+## Key option
 
 - `type: bar` attribute declares it as a column chart
 - `xField` attribute declares the categorical or temporal field
 - `yField` attribute declares the numerical field
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -10,7 +10,7 @@ option: mapChart
 
 # Scatter Map
 
-## Key Configurations
+## Key option
 
 - Specify the chart type `type: common` as a combination chart
 - `series` field configures 2 chart series, this example configures a map series and a scatter series
@@ -25,7 +25,7 @@ option: mapChart
 
 - The continuous legend slider value defaults to a precision of 0, and for the current scenario where the data range is small, the display precision of the value is configured with `handlerText.precision`
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {
@@ -228,7 +228,7 @@ if (VChart.getMap('china')) {
 }
 ```
 
-## Key Configurations
+## Key option
 
 None
 

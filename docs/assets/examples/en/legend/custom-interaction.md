@@ -12,12 +12,12 @@ option: barChart#legends
 
 Discrete legends provide data filtering interactions by default. If you need to customize the selection interaction, you can first turn off the `select` configuration of the `legend`. Then implement through events and state update APIs. This example demonstrates how to implement the interaction of hovering over a legend item to highlight the corresponding graphic element.
 
-## Key Configurations
+## Key option
 
 - Set the `select` configuration of the `legend` to `false` to turn off the default selection interaction
 - Customize the interaction by listening to the `legendItemHover` and `legendItemUnHover` events
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

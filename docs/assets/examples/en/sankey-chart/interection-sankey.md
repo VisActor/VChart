@@ -12,14 +12,14 @@ option: sankeyChart
 
 A Sankey diagram is a schematic diagram that shows the flow of data from one set of values to another. The width of the branches corresponds to the flow size of the data. This chart displays the recruiting workflow.
 
-## Key Configurations
+## Key option
 
 - The `emphasis` property declares the interactive configuration
 - The `emphasis.trigger` property declares the type of interaction trigger. It can be configured as `trigger?: 'click' | 'hover'`, click trigger or hover trigger
 - The `emphasis.effect` property declares the interactive linkage effect. The Sankey chart provides 3 types of interactive linkage effects on nodes: 1.self: Only highlight the current node; 2.adjacency: Highlight the upstream and downstream nodes and associated edges of the current node, dimming other graphic elements; 3.related: Highlight the nodes and edges on the entire path related to the current node, dimming other graphic elements.
 - The `iterations` property declares the layout iteration count
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

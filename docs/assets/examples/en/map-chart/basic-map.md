@@ -19,7 +19,7 @@ option: mapChart
 - `map: china` specifies the name of the registered map data.
 - `nameMap` is the mapping relationship between the geographic names in the map data and the names in the data, which is used when the names in the map data and the data are inconsistent.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -22,7 +22,7 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
 
 ### type(string) = "symbol"
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -40,7 +40,7 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
 
 必选配置，指定图形类型
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -58,7 +58,7 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
 
 必选配置，指定图形类型
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -76,7 +76,7 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
 
 必选配置，指定图形类型
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -94,7 +94,7 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
 
 必选配置，指定图形类型
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -112,7 +112,7 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
 
 必选配置，指定图形类型
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -130,7 +130,7 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
 
 必选配置，指定图形类型
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -148,7 +148,7 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
 
 必选配置，指定图形类型
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 
@@ -166,7 +166,7 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
 
 必选配置，指定图形类型
 
-{{ use: common-extension-mark-base(
+{{ use: common-custom-mark-base(
   prefix = '##'
 ) }}
 

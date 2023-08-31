@@ -13,11 +13,11 @@ option: sankeyChart
 A Sankey diagram with nodes aligned to the left.
 This graph shows how energy is converted or transmitted before it is consumed or lost: supply on the left, demand on the right.
 
-## critical configuration
+## Key option
 
 - `nodeAlign` The property declares the alignment type of the node, which can be configured as'left '|' right '|' center '|' justify '|' start '|' end '
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

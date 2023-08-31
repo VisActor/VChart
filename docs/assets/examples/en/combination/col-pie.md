@@ -10,7 +10,7 @@ option: commonChart
 
 # Multi-region Pie Chart
 
-## Key Configurations
+## Key option
 
 - `type: 'common'` declares the chart as a combination chart type
 - The `layout` attribute declares the custom layout for the combination chart
@@ -21,7 +21,7 @@ option: commonChart
   - The `layout.row` attribute specifies the row height, supporting the format `{ index: xx, size: xx }`, with `index` indicating the row index and `size` the row height
   - The `layout.elements` attribute declares the ID of the layout unit for binding data series and layout units. Declared in the format `{modelId: xx, row: xx, col: xx}`, where `modelId` represents the ID name of the layout unit, and `row` and `col` indicate the row and column indexes of the layout unit, respectively.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

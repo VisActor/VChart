@@ -12,7 +12,7 @@ option: barChart#tooltip
 
 By default, tooltip content lines support custom configurations, including all text configurations with callbacks.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const data = [

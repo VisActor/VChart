@@ -18,7 +18,7 @@ For example, in this case, a broken dashed line is used to indicate the estimate
 
 - Set the `lineDash` style of the `line` graphic element to `lineDash: [5, 5]`
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

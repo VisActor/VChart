@@ -12,12 +12,12 @@ option: lineChart#data
 
 The `fields` configuration of data supports the processing of dimensions. Among them, the configuration of `sortIndex` can be used to sort the data, and setting `sortReverse` to `true` can reverse the order during sorting. By default, in non-inverted order: continuous numbers from small to large. Discrete data is sorted according to `domain` from front to back.
 
-## Key Configurations
+## Key option
 
 - `sortIndex` is configured in `fields` of `data`. It can be used to sort the data according to this dimension
 - `sortReverse` determines whether to reverse the order during sorting.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

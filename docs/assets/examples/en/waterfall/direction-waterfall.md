@@ -12,11 +12,11 @@ option: waterfallChart
 
 Use the `direction` configuration to change the chart direction
 
-## Key Configurations
+## Key option
 
 - `direction` configures the chart direction
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

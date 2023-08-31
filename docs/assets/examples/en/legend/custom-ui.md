@@ -12,13 +12,13 @@ option: barChart#legends
 
 When the overall presentation style of the legend does not meet the requirements, you can turn off the presentation of the legend through the `visible` attribute, and then display and interact with the custom legend through the provided related legend APIs.
 
-## Key Configurations
+## Key option
 
 - Set `legends.visible` to false, to turn off the presentation of the legend.
 - Use the `vchart.getLegendSelectedDataByIndex()` interface to obtain legend item data.
 - Use the `vchart.setLegendSelectedDataByIndex()` interface to set the selected data of legend items.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {
