@@ -12,13 +12,13 @@ option: wordCloudChart
 
 Enhance the data representation by customizing the word cloud outline. The text in the shape word cloud is divided into core words and filler words. The core words are mapped to text and font size according to the data and placed in the text graphics of the outline; the filler words are the text graphics supplemented to maintain the outline shape.
 
-## Key Configurations
+## Key option
 
 - `nameField` property declares the text field
 - `valueField` property declares the font size field
 - `maskShape` property declares the shape outline, supports both image url and shape string formats
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

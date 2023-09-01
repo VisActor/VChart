@@ -15,12 +15,12 @@ This example shows the trend of cigarette consumption in developed countries.
 
 > recreation of [https://www.datawrapper.de/charts](https://www.datawrapper.de/charts)。
 
-## Key Configurations
+## Key option
 
 - The `seriesField` attribute is used to declare the field involved in color mapping
 - The `legends` attribute is used to configure legends
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const latestData = [

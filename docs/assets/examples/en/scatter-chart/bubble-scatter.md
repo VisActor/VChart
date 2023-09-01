@@ -16,7 +16,7 @@ Bubble scatter charts are a variant of basic scatter charts, which add an extra 
 - `sizeFiled` attribute is declared as a size field
 - `size` the visual channel for point size
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

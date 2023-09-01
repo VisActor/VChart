@@ -12,12 +12,12 @@ option: scatterChart#data
 
 A separate custom filter is provided to handle some data that does not meet the requirements in the data.
 
-## Key Configurations
+## Key option
 
 - `transform`: Configure the current data's transform
 - `filter`: Filter the type of transform
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

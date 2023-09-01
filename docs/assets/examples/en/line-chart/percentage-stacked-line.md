@@ -12,7 +12,7 @@ option: lineChart
 
 The percentage stacked line chart is a type of line chart, which is used to show the trend of each value's percentage change over time or ordered categories.
 
-## Key Configurations
+## Key option
 
 - The `seriesField` property is used to declare the field participating in color mapping
 - The `stack` property is set to true to configure stacking, which will be stacked according to the field declared by the `seriesField` property

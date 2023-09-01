@@ -17,7 +17,7 @@ When we want to distinguish a specific part of the data, we can set a special st
 - Set the `lineDash` attribute of the `line` element to a callback function, determine whether it is the prediction data according to the `forecast` field of the data. If it is the latest data, set it to be dashed, otherwise set it to be solid.
 - Set the `texture` attribute of the `area` element to a callback function, determine whether it is the prediction data according to the `forecast` field of the data. If it is the latest data, fill in the texture.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

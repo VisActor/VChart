@@ -13,7 +13,7 @@ option: scatterChart
 
 In the `axes` property, enable the specified axis's `domainLine.onZero` property, which is false by default and needs to be manually enabled. This property is effective only when another axis is a numerical axis and contains a 0 scale.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

@@ -147,7 +147,7 @@
           "path": "on-zero",
           "title": {
             "zh": "0 刻度轴线",
-            "en": "0 刻度轴线"
+            "en": "Domain locate at zero"
           }
         },
         {
@@ -175,7 +175,21 @@
           "path": "log-axis",
           "title": {
             "zh": "log轴",
-            "en": "log轴"
+            "en": "Log axis"
+          }
+        },
+        {
+          "path": "symlog-axis",
+          "title": {
+            "zh": "symlog轴",
+            "en": "symlog axis"
+          }
+        },
+        {
+          "path": "label-container-align",
+          "title": {
+            "zh": "坐标轴标签整体对齐",
+            "en": "Overall alignment of axis labels"
           }
         }
       ]
@@ -1554,6 +1568,13 @@
             "zh": "环图",
             "en": "Ring Chart"
           }
+        },
+        {
+          "path": "linear-color-pie",
+          "title": {
+            "zh": "线性渐变颜色饼图",
+            "en": "Linear Gradient Color Pie Chart"
+          }
         }
       ]
     },
@@ -1572,6 +1593,13 @@
           }
         },
         {
+          "path": "circular-progress-with-text",
+          "title": {
+            "zh": "带文本标注的环形进度图",
+            "en": "Circular Progress Chart with text"
+          }
+        },
+        {
           "path": "linear-progress",
           "title": {
             "zh": "条形进度图",
@@ -1582,7 +1610,7 @@
           "path": "linear-progress-with-text",
           "title": {
             "zh": "带文本标注的条形进度图",
-            "en": "Bar chart with text labeling"
+            "en": "Bar Progress Chart with text"
           }
         },
         {

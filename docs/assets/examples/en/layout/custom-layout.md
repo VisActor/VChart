@@ -11,7 +11,7 @@ option: commonChart#layout
 
 In the chart, in addition to the built-in layout logic, users can also achieve a fully customized layout by using the custom layout interface.
 
-## Key Configurations
+## Key option
 
 Configure the texture-related properties on the graphics element:
 
@@ -26,7 +26,7 @@ export type LayoutCallBack = (
 ) => void;
 ```
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

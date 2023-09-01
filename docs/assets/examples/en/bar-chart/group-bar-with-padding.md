@@ -10,14 +10,14 @@ option: barChart
 
 # Group histogram interval
 
-## critical configuration
+## Key option
 
 - `type: bar` Property declared as a column chart
 - `xField` Property declared as category field or timing field
 - `yField` Property declared as numeric field
 - `axes.paddingInner`Property declared as column spacing
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

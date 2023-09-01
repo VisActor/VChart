@@ -12,12 +12,12 @@ option: barChart#data
 
 The `fields` configuration of data supports processing dimensions, in which configuring `sortIndex` can sort the data, and configuring `sortReverse` as `true` can reverse the order during sorting. By default, in the non-reverse order: continuous numbers are from small to large. Discrete data are from front to back according to the `domain`.
 
-## Key configurations
+## Key option
 
 - `sortIndex` is configured in the `fields` of `data`. Data can be sorted according to this dimension
 - `sortReverse` Whether to reverse the order when sorting.
 
-## Code demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

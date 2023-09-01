@@ -16,7 +16,7 @@ The links of a Sankey diagram have a source node and an end node (source), and n
 - By configuring the callback function of nameKey, use the node name as the starting and ending nodes of the edge.
   This example uses the callback function of nameKey as the node configuration of the edge.
 
-## critical configuration
+## Key option
 
 - `categoryField` Properties are declared as category fields representing node names
 - `valueField` A property declaration numeric field representing the weight of the relationship between nodes
@@ -30,7 +30,7 @@ The links of a Sankey diagram have a source node and an end node (source), and n
 - `node` Properties declare the style configuration of nodes in different states
 - `link` Properties declare the style configuration in different states
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const data = [

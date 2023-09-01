@@ -12,12 +12,12 @@ option: areaChart
 
 A stacked area chart is a type of area chart that is used to display the trend of each value's size changing over time or ordered categories.
 
-## Key Configurations
+## Key option
 
 - The `seriesField` attribute is used to declare the field involved in color mapping
 - The `stack` attribute is set to true to configure stacking, and will be stacked according to the field declared by the `seriesField` attribute
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

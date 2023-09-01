@@ -12,7 +12,7 @@ option: lineChart#markArea
 
 markArea supports axis space positioning, data point, and arbitrary coordinate positioning. This showcases the effects of axis space and data point positioning.
 
-## Key Configurations
+## Key option
 
 x-axis positioning:
 

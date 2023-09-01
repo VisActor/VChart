@@ -92,7 +92,7 @@ Whether to constrain labels to be within the plotting area.
 
 ##${prefix} avoidBaseMark(boolean) = false
 
-Whether to avoid the label corresponding to the base graphic element, not enabled by default.
+Whether to avoid the label corresponding to the base graphic element. In line charts / scatter plots / radar charts, the point element labels will be turned on by default, while in other charts, they are turned off by default.
 
 ##${prefix} strategy(Array)
 
@@ -187,5 +187,49 @@ Custom contrast ratio threshold. When the color contrast between the label text 
 ##${prefix} alternativeColors(string | string[])
 
 Customize alternative label colors. These colors will be added to the alternative color pool. Colors that satisfy text readability will be selected from the alternative color pool to replace the label color when the contrast does not meet the threshold. The default alternative color pool includes white `‘#ffffff’` and black `‘#000000’`.
+
+{{ /if }}
+
+{{ if: !${ignoreCustom} }}
+
+#${prefix} dataFilter(function)
+Custom label data filtering and sorting. Supported since version `1.3.0`.
+
+Returns an array set of label data with the layout order consistent with the array order. Therefore, the later data in the array will have a higher chance of colliding and being hidden. The function callback parameter is:` (data: LabelItem[]) => LabelItem[]`
+
+```ts
+export type LabelItem = {
+  id?: string;
+  data?: any;
+} & ITextGraphicAttribute;
+```
+
+#${prefix} customLayoutFunc(function)
+Custom label layout function. Supported since version `1.3.0`.
+
+When `customLayoutFunc` is configured, the default layout and overlap prevention logic will no longer take effect (`position`/`offset` will not be effective).
+
+The function callback parameter is: `(data: LabelItem[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[]`.
+Example usage:
+
+```js
+import { createText } from '@visactor/vrender';
+
+const layout = (data, getRelatedGraphic) => {
+  return data.map(d => {
+    const baseMark = getRelatedGraphic(d);
+    const x = (baseMark.AABBBounds.x1 + baseMark.AABBBounds.x2) / 2;
+    const y = (baseMark.AABBBounds.y1 + baseMark.AABBBounds.y2) / 2;
+    return createText({ ...d, x, y });
+  });
+};
+```
+
+#${prefix} customOverlapFunc(function)
+Custom label avoidance function. Supported since version `1.3.0`.
+
+When `customOverlapFunc` is configured, and if `customLayoutFunc` is not also configured, it will initially perform a layout based on position and offset before entering the custom avoidance logic. The configured overlap prevention logic (`overlap`) will not take effect.
+
+The function callback parameter is: `(label: Text[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[]`
 
 {{ /if }}

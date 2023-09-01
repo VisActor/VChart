@@ -12,12 +12,12 @@ option: scatterChart#data
 
 The `fields` configuration of data supports processing dimensions, and configuring `domain` can filter the data. In the current demo, some data is entered incorrectly, with incorrect units used, such as **centimeters** for height, but some data is in **meters**. We need to filter out this wrong information.
 
-## Key Configurations
+## Key option
 
 - `type`: The data type of the current data dimension, linear means continuous values, ordinal means discrete data.
 - `domain`: It is used to represent the current dimension in the data, and the content displayed in the chart should be within which interval. For continuous types, it is a numerical range, and for discrete types, it is an array item match.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

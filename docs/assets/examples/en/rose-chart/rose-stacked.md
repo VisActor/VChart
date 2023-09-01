@@ -17,7 +17,7 @@ Similar to the bar chart in the Cartesian coordinate system, the Rose chart supp
 - The `stack` property is used to control whether to enable stacking, and the default is true
 - The `bandPadding` field in `axes` can set the spacing between different groups
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

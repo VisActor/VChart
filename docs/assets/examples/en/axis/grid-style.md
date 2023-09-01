@@ -19,7 +19,7 @@ Configure the `grid.alternateColor` property on the `axes` property for the spec
 - If only one color fill is needed, use a string
 - If multiple colors are needed for alternating fills, use a string array
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

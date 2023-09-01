@@ -21,7 +21,7 @@ The `invalidType` property is set for `null`, `undefined`, and other non-complia
 - 'zero' means that the default value of that point is 0
 - 'ignore' means not to handle it
 
-## Code demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

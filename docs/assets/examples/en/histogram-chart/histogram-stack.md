@@ -10,14 +10,14 @@ option: histogramChart
 
 # Stacked Histogram
 
-## Key Configurations
+## Key option
 
 - The `xField` property is declared as the left interval field of the frequency statistic
 - The `x2Field` property is declared as the right interval field of the frequency statistic
 - The `yField` property is declared as the frequency value field
 - The `seriesField` property is declared as the grouping field
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

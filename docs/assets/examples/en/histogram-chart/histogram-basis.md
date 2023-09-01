@@ -12,13 +12,13 @@ option: histogramChart
 
 Histogram, also known as mass distribution chart, is used to represent the distribution of data and is a common statistical chart. Generally, the horizontal axis represents the data interval, the vertical axis represents the distribution, and the higher the column, the larger the number of data falling in this interval.
 
-## Key Configurations
+## Key option
 
 - `xField` property is declared as the left interval field for frequency statistics
 - `x2Field` property is declared as the right interval field for frequency statistics
 - `yField` property is declared as the frequency value field
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

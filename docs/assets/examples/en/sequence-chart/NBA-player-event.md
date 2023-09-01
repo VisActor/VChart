@@ -13,7 +13,7 @@ option: sequenceChart
 NBA player timing chart tracks each player's dribble time. Users can quickly see game times, changes made by coaches, and lineups.
 This use case only configures the dot or link series, not the column series. If you need to show pure timing data, you can refer to this use case.
 
-## critical configuration
+## Key option
 
 The entire sequence diagram is divided from top to bottom: timeline components, dot series & link series
 
@@ -44,7 +44,7 @@ The data of the link series depends on the event series
 - `toField` Property declared as destination location field
 - `dotTypeField` Property declared as relational type field
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

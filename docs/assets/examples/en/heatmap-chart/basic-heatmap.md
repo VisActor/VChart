@@ -22,7 +22,7 @@ This example, based on 2016 listed company data, explores the correlation betwee
 - `yField` attribute declares the y-axis classification field
 - `valueField` for the numerical field
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const items = [

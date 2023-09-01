@@ -17,12 +17,12 @@ A pie chart, also known as a pie-shaped chart, is a circular statistical chart d
 1. Display the proportion of different categories of data.
 2. Compare the size of different categories, with a relatively noticeable difference in category values.
 
-## Key configurations
+## Key option
 
 - `categoryField` and `valueField` attributes are used to specify the pie chart category and sector angle fields, respectively
 - `innerRadius` and `outerRadius` attributes are used to specify the inner and outer radius of the sector
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

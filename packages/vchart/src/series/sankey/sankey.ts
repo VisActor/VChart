@@ -16,7 +16,7 @@ import { sankeyNodes } from '../../data/transforms/sankey-nodes';
 import { sankeyLinks } from '../../data/transforms/sankey-links';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
-import { DEFAULT_DATA_INDEX, LayoutZIndex, AttributeLevel, Event_Bubble_Level } from '../../constant';
+import { DEFAULT_DATA_INDEX, LayoutZIndex, AttributeLevel, Event_Bubble_Level, ChartEvent } from '../../constant';
 import { SeriesData } from '../base/series-data';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
@@ -36,6 +36,8 @@ import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { LinkPathMark } from '../../mark/link-path';
 import { sankeySeriesMark } from './constant';
+import { flatten } from '../../data/transforms/flatten';
+import { SankeyNodeElement } from '@visactor/vgrammar-sankey';
 
 VChart.useMark([RectMark, LinkPathMark, TextMark]);
 
@@ -126,12 +128,27 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       registerDataSetInstanceParser(nodesDataSet, 'dataview', dataViewParser);
       registerDataSetInstanceTransform(nodesDataSet, 'sankeyNodes', sankeyNodes);
       registerDataSetInstanceTransform(nodesDataSet, 'addVChartProperty', addVChartProperty);
+      // 注册扁平化算法
+      registerDataSetInstanceTransform(nodesDataSet, 'flatten', flatten);
       const nodesDataView = new DataView(nodesDataSet);
       nodesDataView.parse([this.getViewData()], {
         type: 'dataview'
       });
       nodesDataView.transform({
         type: 'sankeyNodes'
+      });
+      // sankeyNode进行扁平化处理(针对层级数据)
+      nodesDataView.transform({
+        type: 'flatten',
+        options: {
+          callback: (node: SankeyNodeElement) => {
+            if (node.datum) {
+              const nodeData = node.datum[node.depth];
+              return { ...node, ...nodeData };
+            }
+            return node;
+          }
+        }
       });
 
       nodesDataView.transform(
@@ -145,6 +162,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         false
       );
 
+      this._data?.getDataView().target.addListener('change', nodesDataView.reRunAllTransform);
       this._nodesSeriesData = new SeriesData(this._option, nodesDataView);
 
       const linksDataSet = new DataSet();
@@ -170,6 +188,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         false
       );
 
+      this._data?.getDataView().target.addListener('change', linksDataView.reRunAllTransform);
       this._linksSeriesData = new SeriesData(this._option, linksDataView);
     }
   }
@@ -229,7 +248,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         y: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
         fill: (datum: Datum) => {
-          return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
+          const nodeName = datum.key ?? datum[this._spec.categoryField] ?? '';
+          return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(nodeName);
         }
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
@@ -503,6 +523,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   protected initEvent(): void {
     super.initEvent();
+
+    this._nodesSeriesData.getDataView()?.target.addListener('change', this.nodesSeriesDataUpdate.bind(this));
+    this._linksSeriesData.getDataView()?.target.addListener('change', this.linksSeriesDataUpdate.bind(this));
+
     if (this._spec.emphasis?.enable && this._spec.emphasis?.effect === 'adjacency') {
       if (this._spec.emphasis?.trigger === 'hover') {
         // 浮动事件
@@ -524,6 +548,16 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         this.event.on('pointerdown', { level: Event_Bubble_Level.mark }, this._handleRelatedClick);
       }
     }
+  }
+
+  private nodesSeriesDataUpdate() {
+    this.event.emit(ChartEvent.legendFilter, { model: this });
+    this._nodesSeriesData.updateData();
+  }
+
+  private linksSeriesDataUpdate() {
+    this.event.emit(ChartEvent.legendFilter, { model: this });
+    this._linksSeriesData.updateData();
   }
 
   protected _handleAdjacencyClick = (params: ExtendEventParam) => {
@@ -1219,14 +1253,49 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   getNodeOrdinalColorScale(item: string) {
-    const colorDomain = this._nodesSeriesData.getDataView().latestData.map((datum: Datum) => {
-      return datum.key;
-    });
+    const colorDomain = this._rawData.latestData[0]?.nodes
+      ? this._rawData.latestData[0].nodes[0]?.children
+        ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes))
+        : this._rawData.latestData[0].nodes.map((datum: Datum, index: number) => {
+            if (this._spec.nodeKey) {
+              return datum[this._spec.categoryField];
+            }
+            return index;
+          })
+      : this._rawData.latestData[0]?.values.map((datum: Datum, index: number) => {
+          if (this._spec.nodeKey) {
+            return datum[this._spec.categoryField];
+          }
+          return index;
+        });
+
     const colorRange =
       this._option.globalScale.color?.range() ?? getDataScheme(this._option.getTheme().colorScheme, this.type as any);
+
     const ordinalScale = new ColorOrdinalScale();
+
     ordinalScale.domain(colorDomain).range?.(colorRange);
+
     return ordinalScale.scale(item);
+  }
+
+  extractNamesFromTree(tree: any) {
+    // Set 用于存储唯一的 name 值
+    const uniqueNames = new Set();
+
+    // 遍历当前节点的子节点
+    tree.forEach((node: any) => {
+      // 将当前节点的 name 值添加到 Set 中
+      uniqueNames.add(node.name);
+
+      // 如果当前节点还有子节点，则递归调用该函数继续遍历子节点
+      if (node.children) {
+        const childNames = this.extractNamesFromTree(node.children);
+        childNames.forEach(name => uniqueNames.add(name));
+      }
+    });
+
+    return uniqueNames;
   }
 
   getDimensionField() {

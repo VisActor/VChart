@@ -12,7 +12,7 @@ option: scatterChart
 
 Gradients can be configured for color-supported attributes such as `fill` and `stroke` of the graphic element style. There are currently three types of gradient configurations supported: linear gradient, radial gradient, and conical gradient. This example demonstrates the use of radial gradients.
 
-## Key Configurations
+## Key option
 
 - Radial gradient configuration is as follows
 
@@ -39,7 +39,7 @@ Gradients can be configured for color-supported attributes such as `fill` and `s
 }
 ```
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

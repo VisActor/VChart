@@ -12,13 +12,13 @@ option: commonChart
 
 This example demonstrates a combination chart in the polar coordinate system, combining radar and rose series.
 
-## Key Configurations
+## Key option
 
 - `type: 'common'` declares it as a combination chart
 - Configure the corresponding series in `series`
 - Declare angle and radius axes in `axes`. Note that the axis information must be declared, otherwise it cannot be drawn
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

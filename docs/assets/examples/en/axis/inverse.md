@@ -12,14 +12,14 @@ option: lineChart#axes
 
 In this example, we reverse the specified axis through the `inverse` property provided on `axes`, and also add arrows to the axis lines.
 
-## Key Configurations
+## Key option
 
 Configure the following on the `axes` property for the specified axis direction:
 
 - Set the `inverse` property to true to enable axis inversion
 - Configure the `startSymbol` or `endSymbol` property on the `domainLine` property for marking both ends of the axis line
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

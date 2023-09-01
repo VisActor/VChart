@@ -20,7 +20,7 @@ In this example, the inverse relationship between MilesPerGallon and Horsepower 
 - `categoryField` attribute is declared as the category field
 - `valueField` attribute is declared as the value field
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

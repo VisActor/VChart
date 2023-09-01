@@ -1,8 +1,9 @@
 import { IconMinus, IconPlus } from '@arco-design/web-react/icon';
-import { IOptionOutlineNode } from './outline';
 import { Button } from '@arco-design/web-react';
+import { array } from '@visactor/vutils';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { IOptionOutlineNode } from './outline';
 
 export interface IOptionDescriptionNode {
   desc: string;
@@ -84,20 +85,24 @@ function DescriptionLeaf(props: IDescriptionNodeProps) {
         {leafText}
         <span style={{ color: 'rgb(134, 144, 156)' }}>{outline.default ? ` = ${outline.default}` : ''}</span>
       </h2>
-      {outline.type && outline.type !== '' && (
-        <div
-          style={{
-            background: 'rgb(232, 243, 255)',
-            width: 'fit-content',
-            padding: '0px 10px',
-            marginBottom: 10,
-            color: 'rgb(22, 93, 255)',
-            borderRadius: 2
-          }}
-        >
-          {outline.type}
-        </div>
-      )}
+      {outline.type && outline.type !== ''
+        ? array(outline.type).map(type => (
+            <div
+              style={{
+                background: 'rgb(232, 243, 255)',
+                width: 'fit-content',
+                padding: '0px 10px',
+                marginBottom: 10,
+                marginRight: 6,
+                color: 'rgb(22, 93, 255)',
+                borderRadius: 2,
+                display: 'inline-block'
+              }}
+            >
+              {type}
+            </div>
+          ))
+        : null}
       <div dangerouslySetInnerHTML={{ __html: description.desc }}></div>
     </div>
   );
@@ -189,20 +194,24 @@ function DescriptionNode(props: IDescriptionNodeProps) {
         {leafText}
         <span style={{ color: 'rgb(134, 144, 156)' }}>{outline.default ? ` = ${outline.default}` : ''}</span>
       </h2>
-      {outline.type && outline.type !== '' && (
-        <div
-          style={{
-            background: 'rgb(232, 243, 255)',
-            width: 'fit-content',
-            padding: '0px 10px',
-            marginBottom: 10,
-            color: 'rgb(22, 93, 255)',
-            borderRadius: 2
-          }}
-        >
-          {outline.type}
-        </div>
-      )}
+      {outline.type && outline.type !== ''
+        ? array(outline.type).map(type => (
+            <div
+              style={{
+                background: 'rgb(232, 243, 255)',
+                width: 'fit-content',
+                padding: '0px 10px',
+                marginBottom: 10,
+                marginRight: 6,
+                color: 'rgb(22, 93, 255)',
+                borderRadius: 2,
+                display: 'inline-block'
+              }}
+            >
+              {type}
+            </div>
+          ))
+        : null}
       <div dangerouslySetInnerHTML={{ __html: description.desc }}></div>
       <div style={{ marginLeft: 12 }}>
         {showChildren

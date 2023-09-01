@@ -18,7 +18,7 @@ You can modify the text display content with a custom function.
 - The `valueField` attribute is declared as the text size field
 - The `word.formatMethod` attribute is the custom format function declared for the text. This configuration can modify the display content of the word cloud without changing the original data. It will not affect tooltips or other native interactions and events.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');

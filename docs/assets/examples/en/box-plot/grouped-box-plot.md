@@ -23,7 +23,7 @@ This chart shows the total GDP (logarithmized with base 10) of various countries
 - The `seriesField` attribute specifies the field used to distinguish different series.
 - The `color` attribute specifies the color of each series.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

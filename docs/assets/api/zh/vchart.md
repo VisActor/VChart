@@ -330,6 +330,36 @@ updateDataInBatches: (list: { id: string; data: DataView | Datum[]; options?: IP
 updateDataSync: (id: StringOrNumber, data: DataView | Datum[], options?: IParserOptions) => IVChart;
 ```
 
+### updateFullData
+
+更新数据接口。参数为完整的数据项配置，可以通过此接口更新数据的 `fields` 配置，默认会自动渲染图表不需要再调用 `renderAsync()` 等渲染方法。
+
+```ts
+/**
+ * 更新数据。
+ * @param data 数据配置
+ * @param reRender 是否重新绘制
+ * @returns VChart 实例
+ * @since 1.3.0
+ */
+updateFullData: (data: IDataValues | IDataValues[], reRender: boolean = true) => IVChart;
+```
+
+### updateFullDataSync
+
+**同步**更新数据。参数为完整的数据项配置，可以通过此接口更新数据的 `fields` 配置，默认会自动渲染图表不需要再调用 `renderAsync()` 等渲染方法。
+
+```ts
+/**
+ * **同步**更新数据。
+ * @param data 数据配置
+ * @param reRender 是否重新绘制
+ * @returns VChart 实例
+ * @since 1.3.0
+ */
+updateFullDataSync: (data: IDataValues | IDataValues[], reRender: boolean = true) => IVChart;
+```
+
 ### updateSpec
 
 **异步**spec 更新，会自动渲染图表不需要再调用 `renderAsync()` 等渲染方法。
@@ -989,4 +1019,8 @@ convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isR
   number | null) &
   ((value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries, isRelativeToCanvas?: boolean) =>
     IPoint | null);
+```
+
+```
+
 ```

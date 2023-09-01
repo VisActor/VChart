@@ -16,7 +16,7 @@ The data of the Sankey diagram supports three forms:
 - An array of node data and json data of edge data, for example`[{id: 'nodes',values: [{nodeName: "xxx"}, {nodeName: "xxx"}]}, {id: 'links',values: [{ source: 0, target: 1, value: xxx }]}]`, corresponding to this example.
 - Hierarchical data formats, such as`nodes: [{values: xxx, name: xx, children: [{values: xxx, name: xx}, {values: xxx, name: xx}]}]`, corresponding to`Hierarchical Sankey Chart`Example.
 
-## critical configuration
+## Key option
 
 - `categoryField` Properties are declared as category fields representing node names
 - `valueField` A property declaration numeric field representing the weight of the relationship between nodes
@@ -30,7 +30,7 @@ The data of the Sankey diagram supports three forms:
 - `node` Properties declare the style configuration of nodes in different states
 - `link` Properties declare the style configuration in different states
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

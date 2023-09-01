@@ -16,7 +16,7 @@ Declare `player` for configuring the player.
 
 - `type` Player type
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

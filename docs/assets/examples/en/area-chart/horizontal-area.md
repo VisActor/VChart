@@ -12,14 +12,14 @@ option: areaChart
 
 A vertically oriented area chart.
 
-## Key Configurations
+## Key option
 
 - `type: area` attribute declares it as an area chart
 - `direction` attribute declares it as `horizontal`
 - `xField` attribute declares it as the numerical field
 - `yField` attribute declares it as the categorical field or time-series field
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

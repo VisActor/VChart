@@ -19,7 +19,7 @@ When multi-dimensional comparison is needed on a bar chart, a grouped stacked co
 - The `stack` attribute is set to true for stacking configuration, stacking according to the field declared by the `seriesField` attribute.
 - The `color` attribute is used for customizing colors.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

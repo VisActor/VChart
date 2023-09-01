@@ -16,7 +16,7 @@ Titles support rich text, which can be used to configure more complex text style
 
 - `textStyle(subtextStyle).character` property specifies the rich text configuration. You can declare text content, text size, text styles, etc. Text content supports escape characters, such as line breaks `\n`.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

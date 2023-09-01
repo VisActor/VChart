@@ -10,12 +10,12 @@ option: sunburstChart
 
 # Basic Sunburst Chart
 
-## Key Configurations
+## Key option
 
 - Declare `categoryField` as a classification field
 - Declare `valueField` as a numeric field
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

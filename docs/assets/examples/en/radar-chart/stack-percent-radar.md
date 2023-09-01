@@ -12,13 +12,13 @@ option: radarChart
 
 By configuring the `seriesField` grouped field and enabling the `stack` and `percent` attributes, the radar chart data can be percentage stacked.
 
-## Key Configurations
+## Key option
 
 - `seriesField`: Declare the grouping field
 - `stack`: Enable stacking
 - `percent`: Enable percentage calculation
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -16,7 +16,7 @@ option: funnelChart
 
 2. The process should be "consumptive" such as in the e-commerce field, registered users must go through layers of consumption before they reach the order stage; In the human resources field, the received resumes must go through multiple rounds of screening before reaching the final interview.
 
-## Key configurations
+## Key option
 
 - Specify the chart type as `type: common`, which is a composite chart
 - `categoryField` specifies the category field
@@ -25,7 +25,7 @@ option: funnelChart
   - Configure the region width, height, and offsets with percentages
 - `series[i].regionIndex` can specify the region area where series are drawn, default is 0, i.e., the first region.
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

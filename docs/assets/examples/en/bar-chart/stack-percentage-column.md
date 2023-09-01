@@ -12,14 +12,14 @@ option: barChart
 
 By configuring the `stack` and `percent` attributes, you can create a percentage stacked bar chart.
 
-## Key Configurations
+## Key option
 
 - The `seriesField` attribute is used to declare the field involved in color mapping
 - The `stack` attribute is set to true to configure stacking, which will depend on the field declared by the `seriesField` attribute for stacking
 - The `percent` attribute is set to true to perform percentage processing on data
 - In the `axes` attribute, the left axis label is formatted as a percentage with the `formatMethod` attribute, making the chart more readable
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

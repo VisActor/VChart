@@ -9,7 +9,7 @@ option: scatterChart
 
 # One-Dimensional Scatter Chart
 
-## Key Configurations
+## Key option
 
 1. `xField` x-axis attribute field
 2. `axes` axis configuration

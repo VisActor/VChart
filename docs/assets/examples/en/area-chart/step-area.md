@@ -16,7 +16,7 @@ A step area chart is a chart that connects a series of data points using step-sh
 
 - Configure the `curveType: 'step' | 'stepAfter' | 'stepBefore'` attribute in the `line.style` property
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -18,7 +18,7 @@ Canvases will be scaled overall to fit as many words as possible when words cann
 - `valueField` attribute declares the text size field
 - `wordCloudConfig.zoomToFit` attribute declares the adaptive scaling configuration for the word cloud; `shrink`: when enabled, the canvas will be scaled overall to fit as many words as possible when words cannot be placed, and the minimum font size can be set through `fontSizeLimitMin`, which defaults to 0, meaning all words can be placed
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');

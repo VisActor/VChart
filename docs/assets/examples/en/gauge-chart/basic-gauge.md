@@ -12,13 +12,13 @@ option: gaugeChart
 
 Gauge charts are a type of skeuomorphic chart, similar to a car's speedometer, where the scale represents a measurement and the pointer angle represents the current value.
 
-## Key Configurations
+## Key option
 
 - The `categoryField` and `valueField` properties are used to specify the data category and pointer angle fields respectively
 - The `innerRadius` and `outerRadius` properties are used to specify the inner and outer radii of the gauge
 - The `startAngle` and `endAngle` properties are used to specify the starting and ending angles of the gauge
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

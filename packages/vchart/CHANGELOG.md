@@ -1,6 +1,74 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 24 Aug 2023 07:23:56 GMT and should not be manually modified.
+This log was last generated on Thu, 31 Aug 2023 12:30:59 GMT and should not be manually modified.
+
+## 1.3.0
+Thu, 31 Aug 2023 12:30:59 GMT
+
+### Minor changes
+
+- feat: add `clone` property in `data.parse` to control whether clone the user data
+- feat: cartesian axis label support `containerAlign`, relate #380
+- feat: tooltip support configure single content line style, related #338
+- feat: support total label in stack charts. see #110
+
+### Patches
+
+- feat(invalidType): use the vrender function to realize the break and link of invalidType
+
+
+- feat: added updateFullData api to allow users to update fields at the same time when updating data, details in #478
+
+
+- feat: `innerBorder`/`outerBorder` supports the same configuration way as other graphic attributes.
+- refactor: access arc label component in pie chart
+- feat: add `getRegion()` and `getCenter()` method in _markAttributeContext for `extensionMark`
+- feat: new method `pauseAnimation()`, `resumeAnimation()` and `stopAnimation()` which support pausing, resuming and stopping all animation via vchart instance, related #534
+- feat: linear axis support `noDecimals` in tick configuration, see #396
+- feat: label support dataFilter and custom layout
+- feat: new builtin dark theme, related #294
+- fix: improve the priority of markByName and mark in theme, related #418
+- fix: dimension_hover resets the state when the mouse leaves the chart, related #513
+- refactor(area): remove line mark of area-series, merge style into area mark
+
+### Updates
+
+- feat: support label component event in #614
+- feat: support configuration of sortDataByAxis for sort series data with axis, details in #644
+
+
+- feat: new component spec item `noOuterPadding` to hide the outer side of padding, related #663
+- fix: dataZoom error when switching theme
+- feat: add new property `theme` to vchart init option to configure custom theme without modifying spec, related #689
+- feat: add `bandField` and `linearField` as common settings to crosshair's theme, related #698
+- feat: enhance dataToPosition in common geo series for #567
+- fix: SankeyChart legends not working, fix the bug #345
+- feat: geo coordinate component support invert and getScale API
+- feat: indicator offsetY support radius
+- feat: supplement the callback parameters of discrete legend custom `data` to support obtaining scales, relate #667
+- fix: fix the problem that selected clear not work after event filter check for mark
+
+
+- fix(brush): brush callback not update when updateSpec. fix #672
+- fix(brush): highlight was not correct beacasue of same key
+- fix(dataZoom): when open roam and set dataZoom invisible, the interaction does not work as expected. fix #611
+- feat: optimize the logic of updateSpec to ensure that chart series and components can be updated normally, details in #692
+
+
+- fix: fix the issue where updateSpec not work when data.id is missing in spec, see #535
+- fix: if only `level` is configured in the event filter parameter but `type` is not configured, then as long as the `level` is matched, it will be triggered, relate #623
+- refactor: sink the axis label's flush logic to the vrender-component, relate #651
+- fix: fix the infinite loop problem caused by arc adjustment, fixed #680
+- fix: map label support formatMethod
+- fix(marker): add config to control clip mode about marker. fix #181
+- fix: fix the issue where bar charts do not stack when percent is set to false, see#557
+- fix: fix the problem that the title component clear incompletely.
+- perf: dont trigger resize of vgrammar view when initialize chart
+
+
+- perf: dont create processor and tooltipHandler when create tooltip, create them when use them
+
+
 
 ## 1.2.3
 Thu, 24 Aug 2023 07:23:56 GMT
@@ -77,7 +145,7 @@ Thu, 10 Aug 2023 05:23:25 GMT
 - feat: dimension tooltip supports linear axis
 
 
-- feat: filling full data to map mark data in #420 
+- feat: filling full data to map mark data in #420
 - feat(background): support background of chart & series
 - feat(onError): support configuration of onerror in chart instance initoption
 - feat: supplement sync methods in vchart instance
@@ -251,11 +319,11 @@ Wed, 26 Jul 2023 03:18:52 GMT
 - fix(label): pickable shoule be false if label component is configured `interactive: false`
 - fix the layoutOffsetX|Y not work in normal items
 - fix: line mark has a different easing in update animation causes strange animation effect
-- fix: `channel` config not work in animation 
+- fix: `channel` config not work in animation
 - No longer requires to hold down the Ctrl key for zoom interaction & fix zoomLimit bug
 - fix: default tooltip handler needs to adapt to the scale property
 - fix(vchart): export IRegionSpec from VChart
-- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series 
+- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series
 - fix: compact window variable for non-browser env
 - fix: compact window variable for non-browser env
 

@@ -10,11 +10,11 @@ option: lineChart#legends
 
 # Tiled Legend Items
 
-## Key Configurations
+## Key option
 
 Manually set the `item.width` of the legend to '100%' to achieve a tiled effect.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

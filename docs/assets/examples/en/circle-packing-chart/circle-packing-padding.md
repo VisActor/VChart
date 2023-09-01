@@ -16,7 +16,7 @@ You can set the padding for each layer by configuring `layoutPadding`.
 
 - `layoutPadding` Padding for each layer.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const data = [

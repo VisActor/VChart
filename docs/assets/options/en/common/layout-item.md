@@ -127,9 +127,12 @@ Offset for the module's layout position in the Y direction.
 
 Display layer level for the module. When two modules overlap, the one with the larger level is displayed on top.
 
+{{ if: !${noClip} }}
 #${prefix} clip(boolean)
 
 Whether to clip the drawing content outside the layout area of the module.
+
+{{ /if }}
 
 #${prefix} left(ILayoutNumber)
 

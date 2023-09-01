@@ -12,11 +12,11 @@ option: pieChart#legends
 
 In discrete legends, when the legend item data does not meet the requirements, you can use the `data` configuration to customize the legend item data.
 
-## Key Configurations
+## Key option
 
 - `data` configure the legend item data
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

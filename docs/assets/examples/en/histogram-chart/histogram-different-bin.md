@@ -12,14 +12,14 @@ option: histogramChart
 
 The statistical bin range in a histogram can be different, used to display the frequency statistics within different ranges.
 
-## Key Configurations
+## Key option
 
 - Declare the left bin range field for frequency statistics with the `xField` property
 - Declare the right bin range field for frequency statistics with the `x2Field` property
 - Declare the frequency value field with the `yField` property
 - Declare the grouping field with the `seriesField` property
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

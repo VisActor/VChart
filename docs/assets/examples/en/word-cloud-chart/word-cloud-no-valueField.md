@@ -11,12 +11,12 @@ cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cl
 
 When the text size field is not configured, all text is the same size by default.
 
-## Key Configurations
+## Key option
 
 - Set the `nameField` attribute to the text field
 - Set the `valueField` attribute to the text size field; if not configured, all text sizes will be the same by default.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');

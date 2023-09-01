@@ -10,14 +10,14 @@ option: gaugeChart
 
 # Declaring meter diagrams using circularProgress
 
-## critical configuration
+## Key option
 
 - `categoryField`,`valueField` Properties are used to specify data categories and pointer angle fields, respectively
 - `innerRadius`,`outerRadius` Property is used to specify the inner and outer radii of the dashboard
 - `startAngle`,`endAngle` Properties are used to specify the start and end angles of the dashboard
 - `gauge`Properties can be configured[Background panel series for instrument diagram](../../option/gaugeChart#gauge)
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

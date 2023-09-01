@@ -12,7 +12,7 @@ option: lineChart#markPoint
 
 markArea supports data point and arbitrary coordinate positioning methods, and this demonstrates the data point positioning effect.
 
-## Key Configurations
+## Key option
 
 Data point positioning:
 
@@ -31,7 +31,7 @@ Data point positioning:
   - The `itemContent.autoRotate` attribute declares whether the annotation content automatically rotates to the direction parallel to the guide line.
   - The `itemContent.richText` attribute declares the annotation content style when `itemContent.type: richText`, and can also be applied to other annotation content types.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

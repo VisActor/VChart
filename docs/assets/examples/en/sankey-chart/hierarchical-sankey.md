@@ -20,7 +20,7 @@ Under hierarchical data, the interactive effect supports partial highlighting of
 - The `sourceField` and `targetField` attributes do not need to be specified, they are generated according to the hierarchical structure
 - The `nodeKey` attribute declares the `key` value for parsing nodes
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

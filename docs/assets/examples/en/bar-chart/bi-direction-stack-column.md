@@ -19,7 +19,7 @@ When there are positive and negative values in the data, you can stack the data 
 - The `stack` property is declared as true for configuring stacking, which will be stacked according to the fields declared in the `seriesField` property.
 - In the `axes` property, enable the `domainLine.onZero` configuration for the axis line located at the `bottom` position, and adjust the axis line to the vertical axis value 0.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

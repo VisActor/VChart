@@ -20,7 +20,7 @@ Customize the color mapping of core words and filler words through the configura
 - `colorList` property is declared as the random selection range of core word colors, i.e. the core word colors are randomly selected from this array
 - `wordCloudShapeConfig.fillingColorList` property is declared as the random selection range for filler word colors, i.e. filler word colors are randomly selected from this array
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {
