@@ -6,7 +6,7 @@ import type { IPyramid3dMark } from '../../mark/polygon/pyramid-3d';
 import type { IRuleMark } from '../../mark/rule';
 import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface';
+import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface/type';
 import { FunnelSeries } from './funnel';
 import type { IFunnel3dSeriesSpec, IFunnel3dSeriesTheme } from './interface';
 import { VChart } from '../../core/vchart';

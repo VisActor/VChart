@@ -12,7 +12,7 @@ import type {
 } from '../../typings';
 import type { IPercent } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface/type';
 
 type FunnelMarks = 'funnel';
 

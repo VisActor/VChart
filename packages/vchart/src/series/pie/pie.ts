@@ -32,9 +32,7 @@ import type { IArcMark } from '../../mark/arc';
 import type { ITextMark } from '../../mark/text';
 import type { IPathMark } from '../../mark/path';
 import type { IArcSeries, SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
-import { SeriesMarkNameEnum } from '../interface';
-import { SeriesTypeEnum } from '../interface/type';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IPieOpt } from '../../data/transforms/pie';
 // eslint-disable-next-line no-duplicate-imports
 import { pie } from '../../data/transforms/pie';
