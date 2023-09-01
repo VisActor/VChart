@@ -45,7 +45,7 @@ function writePrereleaseVersion(nextBump, preReleaseName) {
     let jsonFile = fs.readFileSync(pkgJsonPath, { encoding: 'utf-8' })
     const pkgJson = JSON.parse(jsonFile);
 
-    console.log(`handle project: ${project.packageName}`);
+    console.log(`handle project: ${project.packageName}, from ${pkgJson.version} to ${nextVersion}`);
 
     if (project.shouldPublish) {
       jsonFile = setJsonFileByKey(jsonFile, pkgJson, ['version'], nextVersion);

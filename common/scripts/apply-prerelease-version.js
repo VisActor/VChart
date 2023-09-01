@@ -1,4 +1,4 @@
-const writePrereleaseVersion = require('./set-prelease-version');
+const writePrereleaseVersion = require('./set-prerelease-version');
 const checkAndUpdateNextBump = require('./version-policies');
 
 
