@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of `seriesIndex` not work in discrete legend, see #732 ",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
