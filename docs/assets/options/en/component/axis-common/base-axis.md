@@ -106,6 +106,17 @@ The recommended number of ticks does not guarantee that the result will be the c
 
 Forcing the number of ticks to be set ensures that the number of ticks matches the set value, but may cause the tick value to be a decimal due to the data range.
 
+##${prefix} tickMode('average'|'d3') = 'average'
+
+The continuous axis tick generation algorithm, supported since version `1.3.0`, **only takes effect when the axis is a linear axis**.
+
+- 'average': Ticks are evenly distributed based on the axis range as much as possible.
+- 'd3': Generates tick values like the default logic of d3, using a base of [1, 2, 5].
+
+##${prefix} noDecimals(boolean) = false
+
+Avoiding decimal ticks, supported since version `1.3.0`, **only takes effect when the axis is a linear axis**.
+
 ##${prefix} dataFilter(Function)
 
 The function definition for tick data filtering is as follows:

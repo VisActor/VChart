@@ -106,6 +106,17 @@ tick 步长。
 
 强制设置的 tick 数量，可以保证 tick 的数量于设置的数值匹配，但是可能由于数据范围导致 tick 值为小数。
 
+##${prefix} tickMode('average'|'d3') = 'average'
+
+连续轴 tick 生成算法，自`1.3.0`版本开始支持，**仅当轴为线性轴时生效**。
+
+- `'average'`：根据轴范围尽可能均分
+- `'d3'`：与 d3 默认逻辑一致，以 [1, 2, 5] 为基数生成；
+
+##${prefix} noDecimals(boolean) = false
+
+是否避免小数 tick，自`1.3.0`版本开始支持，**仅当轴为线性轴时生效**。
+
 ##${prefix} dataFilter(Function)
 
 用于 tick 的数据过滤，函数定义如下：
