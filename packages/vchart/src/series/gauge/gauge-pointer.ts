@@ -2,7 +2,7 @@
 import { MarkTypeEnum } from '../../mark/interface';
 import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme } from './interface';
 import type { Datum, Maybe } from '../../typings';
 import type { IPathMark } from '../../mark/path';

@@ -7,7 +7,7 @@ import { DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
 import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
 import { isValid, radians } from '../../util';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { mixin } from '@visactor/vutils';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';

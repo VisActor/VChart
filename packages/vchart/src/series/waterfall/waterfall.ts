@@ -15,7 +15,7 @@ import type { WaterfallAppearPreset } from './animation';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { IWaterfallSeriesSpec, IWaterfallSeriesTheme } from './interface';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { ITransformOptions, DataView } from '@visactor/vdataset';
 import { registerDataSetInstanceTransform } from '../../data/register';

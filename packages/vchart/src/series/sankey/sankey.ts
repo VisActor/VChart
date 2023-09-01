@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IRectMark } from '../../mark/rect';
 import type { ILinkPathMark } from '../../mark/link-path';
 import type { ITextMark } from '../../mark/text';
@@ -37,7 +37,7 @@ import { TextMark } from '../../mark/text';
 import { LinkPathMark } from '../../mark/link-path';
 import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
-import { SankeyNodeElement } from '@visactor/vgrammar-sankey';
+import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
 
 VChart.useMark([RectMark, LinkPathMark, TextMark]);
 

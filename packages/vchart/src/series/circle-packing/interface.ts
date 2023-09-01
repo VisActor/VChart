@@ -1,7 +1,7 @@
 import type { IMarkSpec, IMarkTheme, ISeriesSpec } from '../..';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { IArcMarkSpec, ITextMarkSpec } from '../../typings';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesTheme } from '../polar/interface';
 import type { CirclePackingAppearPreset, CirclePackingMark } from './animation';
 

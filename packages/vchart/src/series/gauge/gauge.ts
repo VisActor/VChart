@@ -1,7 +1,7 @@
 import { isValid, radians } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import type { IProgressArcMark } from '../../mark/progress-arc';

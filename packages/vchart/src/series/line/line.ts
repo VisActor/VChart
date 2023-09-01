@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface';
+import { SeriesMarkNameEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../interface';
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';

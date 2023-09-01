@@ -2,7 +2,7 @@ import type { IAnimationSpec } from '../../../animation/spec';
 import type { DirectionType } from '../../../typings';
 import type { IMarkSpec, IMarkTheme } from '../../../typings/spec/common';
 import type { IRectMarkSpec } from '../../../typings/visual';
-import type { SeriesMarkNameEnum } from '../../interface';
+import type { SeriesMarkNameEnum } from '../../interface/type';
 import type { IProgressSeriesSpec } from '../interface';
 import type { LinearProgressAppearPreset } from './animation';
 

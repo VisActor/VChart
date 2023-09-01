@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import type { IFunnelSeries, SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface';
+import { SeriesMarkNameEnum } from '../interface/type';
 import type { IOrientType, IPoint, TextAlign, TextBaseLine, Maybe, Datum, StringOrNumber } from '../../typings';
 import { SeriesTypeEnum } from '../interface';
 import type { IPolygonMark } from '../../mark/polygon/polygon';

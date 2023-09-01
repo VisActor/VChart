@@ -4,7 +4,7 @@ import type { Maybe, Datum } from '../../typings';
 import { valueInScaleRange, mergeSpec } from '../../util';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IRoseAnimationParams, RoseAppearPreset } from './animation';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';

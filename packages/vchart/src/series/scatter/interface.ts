@@ -5,7 +5,7 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { ScatterAppearPreset, ScatterMarks } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface/type';
 
 export interface IScatterSeriesSpec
   extends ICartesianSeriesSpec,

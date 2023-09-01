@@ -3,7 +3,7 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { WaterfallAppearPreset } from './animation';
 import type { IBarSeriesSpec, IBarSeriesTheme } from '../bar/interface';
 import type { ILabelSpec } from '../../component/label';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface/type';
 
 type WaterfallMarks = 'bar';
 

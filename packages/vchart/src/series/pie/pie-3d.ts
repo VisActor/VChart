@@ -14,9 +14,7 @@ import type { Datum } from '../../typings';
 import { degrees, field } from '../../util';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IArcSeries, SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
-import { SeriesMarkNameEnum } from '../interface';
-import { SeriesTypeEnum } from '../interface/type';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPie3dSeriesSpec } from './interface';
 import { VChart } from '../../core/vchart';

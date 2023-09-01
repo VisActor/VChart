@@ -4,7 +4,7 @@ import type { IArcMark } from '../../../mark/arc';
 import type { Maybe, Datum } from '../../../typings';
 import { isValidNumber } from '../../../util';
 import type { SeriesMarkMap } from '../../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../../animation/config';
 import type { ICircularProgressSeriesSpec, ICircularProgressSeriesTheme } from './interface';

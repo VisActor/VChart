@@ -3,7 +3,7 @@ import type { IArcMarkSpec, IPathMarkSpec, IProgressArcMarkSpec, IRectMarkSpec }
 import type { IProgressLikeSeriesSpec, IProgressLikeSeriesTheme } from '../polar/progress-like/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { ProgressLikeAppearPreset } from '../polar/progress-like';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface/type';
 
 export type GaugePointerMarks = 'pointer' | 'pin' | 'pinBackground';
 

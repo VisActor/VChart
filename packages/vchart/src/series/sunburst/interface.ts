@@ -4,7 +4,7 @@ import type { SunburstLabelConfig } from '@visactor/vgrammar-hierarchy';
 import type { SunburstAppearPreset, SunburstMark } from './animation';
 import type { IArcMarkSpec, ITextMarkSpec } from '../../typings';
 import type { IPolarSeriesTheme } from '../polar/interface';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface/type';
 
 export interface ISunburstSeriesSpec
   extends Omit<ISeriesSpec, 'data'>,
