@@ -11,6 +11,7 @@ option: sankeyChart
 # Hierarchical Sankey Chart
 
 Hierarchical Sankey Chart refers to the Sankey Chart drawn with the input data as hierarchical data. Different from the data format composed of nodes and edges in the basic Sankey Chart, the input data of the hierarchical Sankey Chart is hierarchical data that recursively goes down level by level.
+Under hierarchical data, the interactive effect supports partial highlighting of edges based on the inflow of data. For example, in this example, click on the A node, and the "top-00" edge will only highlight the part flowing from the A node.
 
 ## Key Configuration
 
@@ -149,7 +150,7 @@ const spec = {
 
   emphasis: {
     enable: true,
-    effect: 'adjacency'
+    effect: 'related'
   }
 };
 

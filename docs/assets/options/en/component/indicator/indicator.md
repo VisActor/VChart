@@ -31,9 +31,13 @@ Options:
 
 X-direction offset for the indicator card.
 
+Two formats are supported: pixel value (number) and percentage (string).
+
 ### offsetY(number) = 0
 
 Y-direction offset for the indicator card.
+
+Two formats are supported: pixel value (number) and percentage (string).
 
 ### limitRatio(number) = 1
 
