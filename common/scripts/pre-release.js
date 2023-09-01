@@ -53,15 +53,9 @@ function run() {
   }
 
   if (preReleaseName && preReleaseType) {
-    // 0. update `nextBump`
-    checkAndUpdateNextBump(true);
 
     // 1. apply version and update version of package.json
-    spawnSync('sh', ['-c', `rush publish --apply --prerelease-name ${preReleaseName}`], {
-      stdio: 'inherit',
-      shell: false,
-    });
-
+    writePrereleaseVersion(checkAndUpdateNextBump(process.argv.slice(2)[1]), preReleaseName)
 
     // 2. build all the packages
     spawnSync('sh', ['-c', `rush build --only tag:package`], {

@@ -17,7 +17,7 @@ function run() {
   const cwd = process.cwd();
 
   // 0. update `nextBump`
-  checkAndUpdateNextBump(false, releaseVersion);
+  checkAndUpdateNextBump(releaseVersion);
 
   // 1. update version of package.json, this operation will remove the common/changes
   spawnSync('sh', ['-c', `rush version --bump`], {
