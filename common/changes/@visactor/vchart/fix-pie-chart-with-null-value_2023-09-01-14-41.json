@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: the issue of pie chart with null value, fixed https://github.com/VisActor/VChart/issues/748",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
