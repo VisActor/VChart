@@ -7,7 +7,7 @@ const fs = require('fs')
 const path = require('path')
 const checkAndUpdateNextBump = require('./version-policies');
 const getPackageJson = require('./get-package-json');
-const writePrereleaseVersion = require('./set-prelease-version');
+const writePrereleaseVersion = require('./set-prerelease-version');
 
 const semverRegex = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-(alpha|beta|rc)(?:\.(?:(0|[1-9])))*)$/;
 
