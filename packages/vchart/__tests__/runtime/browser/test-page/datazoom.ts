@@ -378,7 +378,6 @@ const run = () => {
     console.timeEnd('renderTime');
   });
   window['vchart'] = cs;
-  window['getSpec'] = getSpec;
   console.log(cs);
 };
 run();

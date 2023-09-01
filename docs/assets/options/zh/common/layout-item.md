@@ -127,9 +127,12 @@ padding: {
 
 模块的展示层级，当 2 个模块重叠时，层级较大的展示在上方。
 
+{{ if: !${noClip} }}
 #${prefix} clip(boolean)
 
 模块是否裁剪超出布局区域外的绘图内容 。
+
+{{/if}}
 
 #${prefix} left(ILayoutNumber)
 
