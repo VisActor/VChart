@@ -80,10 +80,18 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       type: 'discreteLegendDataMake',
       options: {
         series: () => {
-          return this._regions.reduce((pre, r) => {
-            pre.push(...r.getSeries());
-            return pre;
-          }, [] as ISeries[]);
+          const result: ISeries[] = [];
+          eachSeries(
+            this._regions,
+            s => {
+              result.push(s);
+            },
+            {
+              specIndex: this._spec.seriesIndex,
+              userId: this._spec.seriesId
+            }
+          );
+          return result;
         },
         seriesField: (s: ISeries) => this._getSeriesLegendField(s)
       }
