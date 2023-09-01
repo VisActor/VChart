@@ -13,7 +13,7 @@ option: lineChart#axes
 A Symlog axis is a type of axis used for drawing charts that balances between logarithmic and linear axes while retaining the advantages of logarithmic axes and linear axes.
 The Symlog axis is characterized by symmetry, that is, the scale lines of positive and negative values ​​are symmetrically distributed on both sides of the axis, which helps to better display the positive and negative relationship of the data. The tick marks on the Symlog axis are usually distributed on a logarithmic axis, but in the area close to 0, the tick marks are converted to a linear axis distribution to better display the absolute value of the data.
 
-## critical configuration
+## Key option
 
 exist `axes` Configure the axis type on the property:
 
@@ -160,6 +160,6 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## 相关教程
+## Related Tutorials
 
-附上和该 demo 配置相关联的教程或者 api 文档的链接。
+Attach a link to the tutorial or API documentation associated with this demo configuration.
