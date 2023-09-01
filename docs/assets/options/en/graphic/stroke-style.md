@@ -18,12 +18,8 @@ outerBorder: {
 },
 ```
 
-##${prefix} distance(number)
-
-Outer border distance, in px.
-
-{{ use: graphic-partial-stroke-style(
-  prefix = '#' + ${prefix}
+{{ use: border-style(
+prefix = '#' + ${prefix}
 ) }}
 
 #${prefix} innerBorder(Object)
@@ -40,10 +36,6 @@ innerBorder: {
 },
 ```
 
-##${prefix} distance(number)
-
-Inner border distance, in px.
-
-{{ use: graphic-partial-stroke-style(
-  prefix = '#' + ${prefix}
+{{ use: border-style(
+prefix = '#' + ${prefix}
 ) }}
