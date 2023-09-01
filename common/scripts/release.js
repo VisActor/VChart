@@ -51,7 +51,7 @@ function run() {
   const package = rushJson.projects.find((project) => project.name === '@visactor/vchart');
 
   if (package) {
-    const pkgJsonPath = path.resolve(project.projectFolder, 'package.json')
+    const pkgJsonPath = path.join( __dirname, '../../', project.projectFolder, 'package.json')
     const pkgJson = getPackageJson(pkgJsonPath)
 
     // 5. add tag
