@@ -341,6 +341,7 @@ Update data interface. The parameter is a complete data item configuration. You 
  * @param data
  * @param reRender
  * @returns VChart instance
+ * @since 1.3.0
  */
 updateFullData: (data: IDataValues | IDataValues[], reRender: boolean = true) => IVChart;
 ```
@@ -355,6 +356,7 @@ updateFullData: (data: IDataValues | IDataValues[], reRender: boolean = true) =>
  * @param data
  * @param reRender
  * @returns VChart instance
+ * @since 1.3.0
  */
 updateFullDataSync: (data: IDataValues | IDataValues[], reRender: boolean = true) => IVChart;
 ```

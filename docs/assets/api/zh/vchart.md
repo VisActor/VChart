@@ -340,6 +340,7 @@ updateDataSync: (id: StringOrNumber, data: DataView | Datum[], options?: IParser
  * @param data 数据配置
  * @param reRender 是否重新绘制
  * @returns VChart 实例
+ * @since 1.3.0
  */
 updateFullData: (data: IDataValues | IDataValues[], reRender: boolean = true) => IVChart;
 ```
@@ -354,6 +355,7 @@ updateFullData: (data: IDataValues | IDataValues[], reRender: boolean = true) =>
  * @param data 数据配置
  * @param reRender 是否重新绘制
  * @returns VChart 实例
+ * @since 1.3.0
  */
 updateFullDataSync: (data: IDataValues | IDataValues[], reRender: boolean = true) => IVChart;
 ```
