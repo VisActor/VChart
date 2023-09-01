@@ -50,7 +50,13 @@ const spec = {
   innerRadius: 0.2,
   categoryField: 'type',
   valueField: 'value',
-  seriesField: 'type'
+  seriesField: 'type',
+  label: {
+    visible: true,
+    layout: {
+      tangentConstraint: false
+    }
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
