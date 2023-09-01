@@ -31,13 +31,13 @@
 
 指标卡 x 方向偏移。
 
-支持两种格式：像素值（number）、百分比（string）。
+自`1.3.0`版本开始支持，支持两种格式：像素值（number）、百分比（string）。
 
 ### offsetY(number) = 0
 
 指标卡 y 方向偏移。
 
-支持两种格式：像素值（number）、百分比（string）。
+自`1.3.0`版本开始支持，支持两种格式：像素值（number）、百分比（string）。
 
 ### limitRatio(number) = 1
 
