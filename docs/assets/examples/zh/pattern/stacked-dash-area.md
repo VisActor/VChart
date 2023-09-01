@@ -72,7 +72,12 @@ const spec = {
     },
     state: {
       dimension_hover: {
-        size: 10
+        size: 10,
+        outerBorder: {
+          distance: 0,
+          lineWidth: 6,
+          strokeOpacity: 0.2
+        }
       }
     }
   },
