@@ -12,6 +12,9 @@
 
 标注组件是否可见。
 
+#${prefix} clip(boolean) = false
+自`1.3.0`版本开始支持，marker组件超出图表区域是否被裁剪。
+
 #${prefix} interactive(boolean) = false
 
 标注组件是否可交互。
@@ -29,7 +32,8 @@ marker组件是否自动拓展轴范围。
   defaultLayoutType = ${defaultLayoutType},
   defaultLayoutLevel = ${defaultLayoutLevel},
   defaultLayoutZIndex = ${defaultLayoutZIndex},
-  noOrient = true
+  noOrient = true,
+  noClip = true
 ) }}
 
 

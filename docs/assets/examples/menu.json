@@ -179,6 +179,13 @@
           }
         },
         {
+          "path": "symlog-axis",
+          "title": {
+            "zh": "symlog轴",
+            "en": "symlog axis"
+          }
+        },
+        {
           "path": "label-container-align",
           "title": {
             "zh": "坐标轴标签整体对齐",

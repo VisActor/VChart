@@ -61,6 +61,8 @@
 {{ import: component-time-axis }}
 {{ elif: ${type} === 'log' }}
 {{ import: component-log-axis }}
+{{ elif: ${type} === 'symlog' }}
+{{ import: component-symlog-axis }}
 {{ /if }}
 {{ /if }}
 

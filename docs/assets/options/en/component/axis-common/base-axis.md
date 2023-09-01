@@ -61,6 +61,8 @@ If or not the select interaction is enabled, the default is off.
 {{ import: component-time-axis }}
 {{ elif: ${type} === 'log' }}
 {{ import: component-log-axis }}
+{{ elif: ${type} === 'symlog' }}
+{{ import: component-symlog-axis }}
 {{ /if }}
 {{ /if }}
 
