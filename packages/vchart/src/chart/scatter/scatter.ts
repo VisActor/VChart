@@ -1,4 +1,4 @@
-import { ScatterSeries } from './../../series/scatter/scatter';
+import { ScatterSeries } from '../../series/scatter/scatter';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';

@@ -1,4 +1,4 @@
-import { RoseSeries } from './../../series/rose/rose';
+import { RoseSeries } from '../../series/rose/rose';
 import type { IPolarAxis } from '../../component/axis/polar/interface';
 import { POLAR_DEFAULT_RADIUS } from '../../constant';
 import { SeriesTypeEnum } from '../../series/interface';

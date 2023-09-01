@@ -1,5 +1,5 @@
-import type { ICrossHair } from './../component/crosshair/interface/spec';
-import type { IDimensionInfo } from './../event/events/dimension/interface';
+import type { ICrossHair } from '../component/crosshair/interface/spec';
+import type { IDimensionInfo } from '../event/events/dimension/interface';
 import type {
   ISeriesSpec,
   Datum,

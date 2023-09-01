@@ -1,4 +1,4 @@
-import { ChartEvent } from './../../../constant/event';
+import { ChartEvent } from '../../../constant/event';
 import { zeroAlign } from './zero-align-transform';
 import { BasicComponentPlugin } from '../basic-plugin';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';

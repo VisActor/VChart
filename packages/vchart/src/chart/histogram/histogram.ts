@@ -1,4 +1,4 @@
-import { BarSeries } from './../../series/bar/bar';
+import { BarSeries } from '../../series/bar/bar';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BaseHistogramChart } from './base';
