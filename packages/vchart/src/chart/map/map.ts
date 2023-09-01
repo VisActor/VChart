@@ -1,4 +1,4 @@
-import { MapSeries } from './../../series/map/map';
+import { MapSeries } from '../../series/map/map';
 import { BaseChart } from '../base-chart';
 import type { IRegionSpec } from '../../region/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';

@@ -1,4 +1,4 @@
-import { PieSeries } from './../../series/pie/pie';
+import { PieSeries } from '../../series/pie/pie';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';

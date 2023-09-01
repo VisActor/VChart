@@ -1,7 +1,7 @@
-import { PREFIX } from './../../constant/base';
-import type { ISeriesOption } from './../interface/common';
+import { PREFIX } from '../../constant/base';
+import type { ISeriesOption } from '../interface/common';
 import { DataView } from '@visactor/vdataset';
-import { ChartEvent } from './../../constant/event';
+import { ChartEvent } from '../../constant/event';
 import type { ITrigger } from '../../interaction/interface';
 import type { ISeries } from '../interface/series';
 import { AttributeLevel } from '../../constant';

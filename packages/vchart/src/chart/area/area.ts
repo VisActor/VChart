@@ -1,4 +1,4 @@
-import { AreaSeries } from './../../series/area/area';
+import { AreaSeries } from '../../series/area/area';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';

@@ -1,6 +1,6 @@
-import { LinkSeries } from './../../series/link/link';
-import { DotSeries } from './../../series/dot/dot';
-import type { IGridLayoutSpec } from './../../layout/interface';
+import { LinkSeries } from '../../series/link/link';
+import { DotSeries } from '../../series/dot/dot';
+import type { IGridLayoutSpec } from '../../layout/interface';
 import { BaseChart } from '../base-chart';
 import type { ISequenceChartSpec, ISequenceSeriesSpec } from './interface';
 import type { IRegion, IRegionSpec } from '../../region/interface';

@@ -1,4 +1,4 @@
-import type { utilFunctionCtx } from './../typings/params';
+import type { utilFunctionCtx } from '../typings/params';
 import { error } from './debug';
 /**
  * @description 图片导出相关接口
