@@ -1,3 +1,4 @@
+import type { DataView } from '@visactor/vdataset';
 import type { ICartesianSeries } from '../interface';
 import { BaseSeries } from '../base/base-series';
 import type { IPoint } from '../../typings/coordinate';
@@ -444,8 +445,8 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return array(this._spec.xField ?? this.fieldX);
   }
 
-  fillData(): void {
-    super.fillData();
+  viewDataUpdate(d: DataView): void {
+    super.viewDataUpdate(d);
     if (this.sortDataByAxis) {
       this._sortDataInAxisDomain();
     }
