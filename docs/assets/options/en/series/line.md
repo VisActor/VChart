@@ -79,6 +79,7 @@ Label position. Available options are:
 - `top-left`
 - `bottom-right`
 - `bottom-left`
+- `center`
 
 {{ use: component-label(
   prefix = '#' + ${prefix},

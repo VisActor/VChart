@@ -92,7 +92,7 @@ hover 状态样式配置。
 
 ##${prefix} avoidBaseMark(boolean) = false
 
-是否躲避标签对应的基础图元，默认不开启。
+是否躲避标签对应的基础图元，在折线图/散点图/雷达图的点图元标签会默认开启，其他图表中默认关闭。
 
 ##${prefix} strategy(Array)
 
@@ -165,6 +165,7 @@ hover 状态样式配置。
 #${prefix} smartInvert(Object|false)
 
 智能反色配置，大部分图表中默认关闭了智能反色，除以下场景：
+
 - 在柱状图中，当标签位置为内部（ `'inside'` | `'inside-top'` | `'inside-bottom'` | `'inside-right'` | `'inside-left'`） 时，默认开启。
 
 ##${prefix} textType(string)
@@ -190,3 +191,44 @@ hover 状态样式配置。
 自定义备选 label 颜色。这些颜色将补充在备选颜色池中，当对比度不满足阈值时从备选颜色池中选择满足文本可读性的颜色对 label 颜色更换。备选颜色池中默认包含白色 `‘#ffffff’` 和 黑色 `‘#000000’`。
 
 {{ /if }}
+
+#${prefix} dataFilter(function)
+自定义标签数据筛选和排序。自`1.3.0`版本开始支持。
+
+返回一组标签数据，布局顺序与数组顺序一致。所以在数组中越靠后的数据将越有可能发生碰撞并被隐藏。  
+函数回调参数为：`(data: LabelItem[]) => LabelItem[]`
+
+```ts
+export type LabelItem = {
+  id?: string;
+  data?: any;
+} & ITextGraphicAttribute;
+```
+
+#${prefix} customLayoutFunc(function)
+自定义标签布局函数。自`1.3.0`版本开始支持。
+
+当配置了 customLayoutFunc 后，默认布局和防重叠逻辑将不再生效（position/offset 不生效）。
+
+函数回调参数为：`(data: LabelItem[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[];`
+使用方式例如：
+
+```js
+import { createText } from '@visactor/vrender';
+
+const layout = (data, getRelatedGraphic) => {
+  return data.map(d => {
+    const baseMark = getRelatedGraphic(d);
+    const x = (baseMark.AABBBounds.x1 + baseMark.AABBBounds.x2) / 2;
+    const y = (baseMark.AABBBounds.y1 + baseMark.AABBBounds.y2) / 2;
+    return createText({ ...d, x, y });
+  });
+};
+```
+
+#${prefix} customOverlapFunc(function)
+自定义标签躲避函数。自`1.3.0`版本开始支持。
+
+当配置了 customOverlapFunc 后，若未配置`customLayoutFunc`，会根据 position 和 offset 进行初始布局后，进入自定义躲避逻辑。同时配置的防重叠逻辑(overlap)不生效。
+
+函数回调参数为：`(label: Text[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[];`
