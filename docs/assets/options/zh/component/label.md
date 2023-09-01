@@ -192,6 +192,8 @@ hover 状态样式配置。
 
 {{ /if }}
 
+{{ if: !${ignoreCustom} }}
+
 #${prefix} dataFilter(function)
 自定义标签数据筛选和排序。自`1.3.0`版本开始支持。
 
@@ -232,3 +234,5 @@ const layout = (data, getRelatedGraphic) => {
 当配置了 customOverlapFunc 后，若未配置`customLayoutFunc`，会根据 position 和 offset 进行初始布局后，进入自定义躲避逻辑。同时配置的防重叠逻辑(overlap)不生效。
 
 函数回调参数为：`(label: Text[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[];`
+
+{{ /if }}

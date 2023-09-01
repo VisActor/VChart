@@ -190,6 +190,8 @@ Customize alternative label colors. These colors will be added to the alternativ
 
 {{ /if }}
 
+{{ if: !${ignoreCustom} }}
+
 #${prefix} dataFilter(function)
 Custom label data filtering and sorting. Supported since version `1.3.0`.
 
@@ -229,3 +231,5 @@ Custom label avoidance function. Supported since version `1.3.0`.
 When `customOverlapFunc` is configured, and if `customLayoutFunc` is not also configured, it will initially perform a layout based on position and offset before entering the custom avoidance logic. The configured overlap prevention logic (`overlap`) will not take effect.
 
 The function callback parameter is: `(label: Text[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[]`
+
+{{ /if }}
