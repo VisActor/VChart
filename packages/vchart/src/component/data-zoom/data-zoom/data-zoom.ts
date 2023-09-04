@@ -86,15 +86,33 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     this._endHandlerSize = endHandlerVisble ? this._spec.endHandler.style.size : 0;
   }
 
-  protected _prepareSpecBeforeMergingTheme() {
-    // 如果用户配置了主题默认关闭的 mark，则自动加上 visible: true
-    const { line, area } = this._spec.selectedBackgroundChart;
-    if (line && line.visible !== false) {
-      line.visible = true;
+  protected _prepareSpecBeforeMergingTheme(originalSpec: T): T {
+    const newSpec: T = {
+      ...originalSpec
+    };
+    // 为了减少主题更改造成的影响，如果用户在 spec 配置了主题默认关闭的 mark，则自动加上 visible: true
+    const { selectedBackgroundChart } = newSpec;
+    const { line, area } = selectedBackgroundChart;
+    if (line || area) {
+      newSpec.selectedBackgroundChart = {
+        ...selectedBackgroundChart,
+        line:
+          line && line.visible !== false
+            ? {
+                ...line,
+                visible: true
+              }
+            : line,
+        area:
+          area && area.visible !== false
+            ? {
+                ...area,
+                visible: true
+              }
+            : area
+      };
     }
-    if (area && area.visible !== false) {
-      area.visible = true;
-    }
+    return newSpec;
   }
 
   /** LifeCycle API**/
