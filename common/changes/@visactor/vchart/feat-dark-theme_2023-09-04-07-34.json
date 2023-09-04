@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: `lineHeight` supports string proportional values, related #744",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
