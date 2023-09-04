@@ -1,23 +1,22 @@
+import { ChartLayout } from './layout/chart-layout';
 import type { IBoundsLike } from '@visactor/vutils';
 import { VChart } from '@visactor/vchart';
 import type { IChart, IChartSpec } from '@visactor/vchart';
-import type { IElementOption } from './../interface';
 import type { IRect, IPoint, ILayoutGuideLine } from '../../typings/space';
 import { BaseElement } from '../base-element';
 import type { IChartTemp } from './temp/interface';
-import type { ILayout } from '../../layout/interface';
+import type { IChartLayout } from './layout/interface';
 import { SpecProcess } from './spec-process/spec-process';
 import type { ISpecProcess } from './spec-process/interface';
 import { Data } from './data/data';
 import type { IData } from './data/interface';
-import { Layout } from '../../layout/layout';
 import { getTemp } from './temp';
 import type { IChartElementOption } from './interface';
 
 export class EditorChart extends BaseElement {
   protected _data: IData;
   protected _specProcess: ISpecProcess;
-  protected _layout: ILayout;
+  protected _layout: IChartLayout;
   protected _temp: IChartTemp;
 
   protected declare _opt: IChartElementOption;
@@ -30,7 +29,7 @@ export class EditorChart extends BaseElement {
 
     this._data = new Data();
     this._specProcess = new SpecProcess(this._data, this.onSpecReady);
-    this._layout = new Layout(this._specProcess);
+    this._layout = new ChartLayout(this._specProcess);
   }
 
   initWithOption(): void {
@@ -44,14 +43,16 @@ export class EditorChart extends BaseElement {
   }
 
   protected _initVChart(spec: IChartSpec) {
+    spec.width = this._rect.width + this._rect.x;
+    spec.height = this._rect.height + this._rect.y;
+    spec.background = 'transparent';
+    spec.padding = {
+      left: this._rect.x,
+      top: this._rect.y
+    };
     this._vchart = new VChart(spec, {
       renderCanvas: this._opt.renderCanvas,
-      viewBox: {
-        x1: this._rect.x,
-        x2: this._rect.x + this._rect.width,
-        y1: this._rect.y,
-        y2: this._rect.y + this._rect.height
-      }
+      stage: this._opt.layer.getStage()
     });
     this._layout.setVChart(this._vchart);
   }
