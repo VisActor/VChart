@@ -1,14 +1,11 @@
 import type { ISpecProcess } from '../spec-process/interface';
-import type { ILayoutData, ILayout } from './interface';
-import { LayoutEditor } from './layoutEditor';
+import type { ILayoutData, IChartLayout } from './interface';
+import { Layout as BaseLayout } from '@visactor/vchart';
 import type { IRect, ILayoutItem, IChart } from '@visactor/vchart';
 import type { IBoundsLike } from '@visactor/vutils';
-// temp
-import { Layout as BaseLayout } from './../../../vchart/src/layout/base-layout';
 
-export class Layout implements ILayout {
+export class ChartLayout implements IChartLayout {
   protected _layoutData: ILayoutData = null;
-  protected _layoutEditor: LayoutEditor = null;
   protected _specProcess: ISpecProcess;
   protected _vchart: IChart;
 
@@ -17,12 +14,10 @@ export class Layout implements ILayout {
 
   constructor(specProcess: ISpecProcess) {
     this._specProcess = specProcess;
-    this._layoutEditor = new LayoutEditor();
   }
 
   clear() {
     this._vchart = null;
-    this._layoutEditor = null;
     this._specProcess = null;
   }
 

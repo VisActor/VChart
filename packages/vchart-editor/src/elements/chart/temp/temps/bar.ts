@@ -5,6 +5,7 @@ import { BaseTemp } from './baseTemp';
 
 const spec = {
   type: 'common',
+  // background: 'transparent',
   series: [
     {
       type: 'bar',
@@ -117,7 +118,14 @@ const spec = {
   ],
   legends: {
     visible: true
-  }
+  },
+  region: [
+    {
+      style: {
+        fill: 'red'
+      }
+    }
+  ]
 };
 
 export class BarTemp extends BaseTemp {

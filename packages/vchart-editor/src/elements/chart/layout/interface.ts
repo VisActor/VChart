@@ -18,14 +18,14 @@ export interface ILayoutData {
   data: LayoutMeta[];
 }
 
-export interface ILayout {
+export interface IChartLayout {
   setLayoutData: (d: ILayoutData) => void;
   getLayoutData: () => ILayoutData;
   setVChart: (vchart: IChart) => void;
   clear: () => void;
 }
 
-export interface IDataParserConstructor {
+export interface IChartLayoutConstructor {
   type: string;
-  new (specProcess: ISpecProcess): ILayout;
+  new (specProcess: ISpecProcess): IChartLayout;
 }
