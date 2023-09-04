@@ -256,6 +256,26 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     return result;
   }
 
+  onDataUpdate(): void {
+    this._legendData?.getDataView().reRunAllTransform();
+    // 更新当前选中数据
+    this._initSelectedData();
+    if (this._legendComponent) {
+      // 更新组件
+      const attrs = this._getLegendAttributes(this.getLayoutRect());
+      if (!isEqual(attrs, this._cacheAttrs)) {
+        this._legendComponent.setAttributes(
+          mergeSpec({}, attrs, {
+            defaultSelected: this._selectedData // 图表 resize 之后应该保留上次筛选的结果
+          })
+        );
+      }
+    }
+    // 更新数据流
+    this.effect.onSelectedDataChange?.();
+    this.event.emit(ChartEvent.legendSelectedDataChange, { model: this });
+  }
+
   clear(): void {
     if (this._legendComponent) {
       this._container.removeChild(this._legendComponent);
