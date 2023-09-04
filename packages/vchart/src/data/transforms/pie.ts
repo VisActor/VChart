@@ -67,6 +67,10 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
 
     lastAngle = d[asEndAngle];
   });
-  data[data.length - 1][asEndAngle] = endAngle;
+  if (total !== 0) {
+    // 数据都为 0 时，起始角和结束角相同，不应该强制赋值
+    // 防止一个扇区的角度会因为浮点数精度问题和传入的 endAngle 不相等
+    data[data.length - 1][asEndAngle] = endAngle;
+  }
   return data;
 };
