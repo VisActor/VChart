@@ -96,6 +96,8 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
       );
     }
 
+    this._prepareSpecBeforeMergingTheme();
+
     // 将 theme merge 到 spec 中
     if (this._shouldMergeThemeToSpec) {
       if (isArray(this._originalSpec)) {
@@ -104,7 +106,8 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
         this._mergeThemeToSpec();
       }
     }
-    this._preprocessSpec();
+
+    this._prepareSpecAfterMergingTheme();
 
     // 默认忽略外侧 padding
     const { padding, noOuterPadding = true, orient } = this._spec;
@@ -117,7 +120,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   /** 是否在初始化时将 theme 自动 merge 到 spec */
-  protected _shouldMergeThemeToSpec() {
+  protected _shouldMergeThemeToSpec(): boolean {
     return true;
   }
 

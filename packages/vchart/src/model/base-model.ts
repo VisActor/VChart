@@ -240,8 +240,13 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     return {};
   }
 
-  /** 对 spec 进行遍历和转换 */
-  protected _preprocessSpec(obj?: any): any {
+  /** 在 merge 主题前对 spec 进行预处理 */
+  protected _prepareSpecBeforeMergingTheme(obj?: any): any {
+    // do nothing
+  }
+
+  /** 在 merge 主题后对 spec 进行遍历和转换 */
+  protected _prepareSpecAfterMergingTheme(obj?: any): any {
     if (!arguments.length) {
       obj = this._spec;
     }
