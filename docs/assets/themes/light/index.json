@@ -70,7 +70,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -88,7 +88,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -102,7 +102,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -137,7 +137,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -153,7 +153,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -180,7 +180,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -208,7 +208,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -224,7 +224,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -239,7 +239,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -254,7 +254,7 @@
       "label": {
         "style": {
           "fontSize": 10,
-          "lineHeight": 12,
+          "lineHeight": "120%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -273,7 +273,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -285,7 +285,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -300,7 +300,7 @@
       "title": {
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -311,7 +311,7 @@
       "subTitle": {
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -322,7 +322,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -336,7 +336,7 @@
       "word": {
         "style": {
           "fontSize": null,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -348,7 +348,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -357,7 +357,7 @@
       "fillingWord": {
         "style": {
           "fontSize": null,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -368,7 +368,7 @@
       "word": {
         "style": {
           "fontSize": null,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -380,7 +380,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -389,7 +389,7 @@
       "fillingWord": {
         "style": {
           "fontSize": null,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -401,7 +401,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -413,7 +413,7 @@
       "outerLabel": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -424,7 +424,7 @@
       "transformLabel": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -440,7 +440,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -452,7 +452,7 @@
       "outerLabel": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -463,7 +463,7 @@
       "transformLabel": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -481,7 +481,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -495,7 +495,7 @@
       "stackLabel": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -507,7 +507,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -523,7 +523,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -538,7 +538,7 @@
       "label": {
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -550,7 +550,7 @@
       "nonLeafLabel": {
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -569,7 +569,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -585,7 +585,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -621,7 +621,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -646,7 +646,7 @@
       "label": {
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -660,7 +660,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -676,7 +676,7 @@
       "minLabel": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -685,7 +685,7 @@
       "maxLabel": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -701,7 +701,7 @@
       "label": {
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1,
@@ -719,7 +719,7 @@
       "label": {
         "style": {
           "fontSize": 14,
-          "lineHeight": 22,
+          "lineHeight": "150%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fillOpacity": 1
@@ -735,7 +735,7 @@
     "text": {
       "style": {
         "fontSize": 14,
-        "lineHeight": 22,
+        "lineHeight": "150%",
         "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
         "fontWeight": "normal",
         "fillOpacity": 1
@@ -777,7 +777,7 @@
         "padding": 0,
         "textStyle": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fill": { "type": "palette", "key": ["titleFontColor", "primaryFontColor"] },
           "fontWeight": "normal"
@@ -805,7 +805,7 @@
           "style": {
             "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" },
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol"
           },
           "state": { "unSelected": { "fill": { "type": "palette", "key": "disableFontColor" } } }
@@ -823,7 +823,7 @@
           "padding": 0,
           "textStyle": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": ["titleFontColor", "primaryFontColor"] }
@@ -844,7 +844,7 @@
         "startText": {
           "style": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -854,7 +854,7 @@
         "endText": {
           "style": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -864,7 +864,7 @@
         "handlerText": {
           "style": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -886,7 +886,7 @@
           "padding": 0,
           "textStyle": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": ["titleFontColor", "primaryFontColor"] }
@@ -907,7 +907,7 @@
         "startText": {
           "style": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -917,7 +917,7 @@
         "endText": {
           "style": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -927,7 +927,7 @@
         "handlerText": {
           "style": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -950,7 +950,7 @@
         "padding": 0,
         "textStyle": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fill": { "type": "palette", "key": ["titleFontColor", "primaryFontColor"] }
@@ -961,7 +961,7 @@
       "startText": {
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -971,7 +971,7 @@
       "endText": {
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -981,7 +981,7 @@
       "handlerText": {
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fontWeight": "normal",
           "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -1018,7 +1018,7 @@
           "padding": 0,
           "textStyle": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": ["titleFontColor", "primaryFontColor"] }
@@ -1040,7 +1040,7 @@
         "startText": {
           "style": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -1050,7 +1050,7 @@
         "endText": {
           "style": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -1060,7 +1060,7 @@
         "handlerText": {
           "style": {
             "fontSize": 12,
-            "lineHeight": 16,
+            "lineHeight": "130%",
             "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
             "fontWeight": "normal",
             "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
@@ -1124,7 +1124,7 @@
         "space": 10,
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fill": { "type": "palette", "key": "secondaryFontColor" },
           "fontWeight": "normal",
@@ -1226,7 +1226,7 @@
       "spaceRow": 6,
       "titleLabel": {
         "fontSize": 14,
-        "lineHeight": 22,
+        "lineHeight": "150%",
         "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
         "fontColor": { "type": "palette", "key": ["titleFontColor", "primaryFontColor"] },
         "fontWeight": "bold",
@@ -1237,7 +1237,7 @@
       "shape": { "size": 8, "spacing": 6 },
       "keyLabel": {
         "fontSize": 14,
-        "lineHeight": 22,
+        "lineHeight": "150%",
         "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
         "fontColor": { "type": "palette", "key": "secondaryFontColor" },
         "textAlign": "left",
@@ -1246,7 +1246,7 @@
       },
       "valueLabel": {
         "fontSize": 14,
-        "lineHeight": 22,
+        "lineHeight": "150%",
         "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
         "fontColor": { "type": "palette", "key": ["titleFontColor", "primaryFontColor"] },
         "textBaseline": "middle",
@@ -1277,7 +1277,26 @@
         "size": 20,
         "style": { "fill": { "type": "palette", "key": "dataZoomBackgroundColor" }, "lineWidth": 0 }
       },
-      "selectedBackground": { "style": { "lineWidth": 0 } },
+      "selectedBackground": {
+        "style": {
+          "fill": { "type": "palette", "key": "dataZoomSelectedColor" },
+          "fillOpacity": 0.1,
+          "outerBorder": {
+            "stroke": { "type": "palette", "key": "dataZoomSelectedColor" },
+            "strokeOpacity": 0.2,
+            "distance": -0.5,
+            "lineWidth": 1
+          }
+        }
+      },
+      "selectedBackgroundChart": {
+        "area": {
+          "style": { "visible": false, "stroke": false, "fill": { "type": "palette", "key": "dataZoomChartColor" } }
+        },
+        "line": {
+          "style": { "visible": false, "stroke": { "type": "palette", "key": "dataZoomChartColor" }, "lineWidth": 1 }
+        }
+      },
       "startHandler": {
         "style": {
           "symbolType": "M-0.5-2.4h0.9c0.4,0,0.7,0.3,0.7,0.7v3.3c0,0.4-0.3,0.7-0.7,0.7h-0.9c-0.4,0-0.7-0.3-0.7-0.7v-3.3\\n      C-1.2-2-0.9-2.4-0.5-2.4z M-0.4-1.4L-0.4-1.4c0,0,0,0.1,0,0.1v2.6c0,0.1,0,0.1,0,0.1l0,0c0,0,0-0.1,0-0.1v-2.6\\n      C-0.4-1.4-0.4-1.4-0.4-1.4z M0.3-1.4L0.3-1.4c0,0,0,0.1,0,0.1v2.6c0,0.1,0,0.1,0,0.1l0,0c0,0,0-0.1,0-0.1v-2.6\\n      C0.3-1.4,0.3-1.4,0.3-1.4z",
@@ -1304,7 +1323,7 @@
         "padding": 8,
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
         }
@@ -1313,23 +1332,12 @@
         "padding": 8,
         "style": {
           "fontSize": 12,
-          "lineHeight": 16,
+          "lineHeight": "130%",
           "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
           "fill": { "type": "palette", "key": "secondaryFontColor", "default": "#89909d" }
         }
       },
-      "dragMask": {
-        "style": {
-          "fill": { "type": "palette", "key": "dataZoomSelectedColor", "a": 0.1 },
-          "stroke": { "type": "palette", "key": "dataZoomSelectedColor", "a": 0.2 },
-          "lineWidth": 3
-        }
-      },
       "backgroundChart": {
-        "area": { "style": { "stroke": false, "fill": { "type": "palette", "key": "dataZoomChartColor" } } },
-        "line": { "style": { "stroke": { "type": "palette", "key": "dataZoomChartColor" }, "lineWidth": 1 } }
-      },
-      "selectedBackgroundChart": {
         "area": { "style": { "stroke": false, "fill": { "type": "palette", "key": "dataZoomChartColor" } } },
         "line": { "style": { "stroke": { "type": "palette", "key": "dataZoomChartColor" }, "lineWidth": 1 } }
       }
@@ -1476,13 +1484,13 @@
       "padding": { "top": 4, "bottom": 20 },
       "textStyle": {
         "fontSize": 16,
-        "lineHeight": 24,
+        "lineHeight": "150%",
         "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
         "fill": { "type": "palette", "key": ["titleFontColor", "primaryFontColor"] }
       },
       "subtextStyle": {
         "fontSize": 14,
-        "lineHeight": 22,
+        "lineHeight": "150%",
         "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
         "fill": { "type": "palette", "key": "secondaryFontColor" }
       }
@@ -1525,14 +1533,14 @@
       "padding": 8,
       "titleStyle": {
         "fontSize": 12,
-        "lineHeight": 16,
+        "lineHeight": "130%",
         "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
         "fontWeight": "bold",
         "fill": { "type": "palette", "key": ["titleFontColor", "primaryFontColor"] }
       },
       "contentStyle": {
         "fontSize": 12,
-        "lineHeight": 16,
+        "lineHeight": "130%",
         "fontFamily": "PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol",
         "fill": { "type": "palette", "key": "secondaryFontColor" }
       },
