@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of legend's maxHeight not work",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
