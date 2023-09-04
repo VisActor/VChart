@@ -890,14 +890,14 @@ export class VChart implements IVChart {
     const userTheme = this._spec?.theme ?? this._option.theme;
     if (isString(userTheme)) {
       const theme = mergeTheme({}, ThemeManager.getTheme(userTheme));
-      this._currentTheme = preprocessSpecOrTheme(theme, theme.colorScheme);
+      this._currentTheme = preprocessSpecOrTheme('theme', theme, theme.colorScheme);
       this._currentThemeName = userTheme;
     } else {
       const theme = mergeTheme({}, ThemeManager.getTheme(this._currentThemeName), userTheme ?? {});
-      this._currentTheme = preprocessSpecOrTheme(theme, theme.colorScheme);
+      this._currentTheme = preprocessSpecOrTheme('theme', theme, theme.colorScheme);
     }
     // 设置 poptip 的主题
-    setPoptipTheme(preprocessSpecOrTheme(mergeSpec({}, this._currentTheme.component?.poptip)));
+    setPoptipTheme(preprocessSpecOrTheme('spec', mergeSpec({}, this._currentTheme.component?.poptip)));
     // 设置背景色
     this._compiler?.setBackground(this._getBackground());
   }

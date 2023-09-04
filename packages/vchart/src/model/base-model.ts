@@ -247,6 +247,7 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     }
 
     const newObj = preprocessSpecOrTheme(
+      'spec',
       obj,
       this._option.getTheme?.()?.colorScheme,
       this.modelType === 'series' ? (this.type as SeriesTypeEnum) : undefined

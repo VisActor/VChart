@@ -279,9 +279,10 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    */
   lineThrough?: boolean;
   /**
-   * 行高
+   * 行高（1.3.1 版本新增字符串类型表示比例值，如"150%"）
+   * @since 1.3.1
    */
-  lineHeight?: number;
+  lineHeight?: number | string;
   /**
    * poptip 相关配置
    */
