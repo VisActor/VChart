@@ -1,4 +1,4 @@
-import { isArray, isFunction, isObject, isString, isValid } from '@visactor/vutils';
+import { isArray, isFunction, isObject, isString, isValid, isValidNumber } from '@visactor/vutils';
 import type { SeriesTypeEnum } from '../../series/interface';
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 import { isDataView, isHTMLElement } from './common';
@@ -56,7 +56,10 @@ export function preprocessSpecOrTheme(
         // 处理 lineHeight 的比例值
         // FIXME: vrender 支持行高字符串后删掉这段逻辑
         const scale = Number.parseFloat(value.substring(0, value.length - 1)) / 100;
-        newObj[key] = obj.fontSize * scale;
+        const newValue = obj.fontSize * scale;
+        if (isValidNumber(newValue)) {
+          newObj[key] = newValue;
+        }
       }
       // 如果 spec 同级里没有 fontSize 配置，lineHeight 比例值失效
     } else {
