@@ -84,3 +84,5 @@ export enum SeriesMarkNameEnum {
   word = 'word',
   fillingWord = 'fillingWord'
 }
+
+export const seriesMarkNameSet = new Set<string>(Object.values(SeriesMarkNameEnum));
