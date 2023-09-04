@@ -7,14 +7,14 @@ export const poptip: IPoptipTheme = {
   padding: 8,
   titleStyle: {
     fontSize: THEME_CONSTANTS.l5FontSize,
-    lineHeight: THEME_CONSTANTS.l5LineHeight,
+    lineHeight: THEME_CONSTANTS.l5LineHeight as any, // FIXME: vrender 支持行高字符串后删除 any
     fontFamily: THEME_CONSTANTS.defaultFontFamily,
     fontWeight: 'bold',
     fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
   },
   contentStyle: {
     fontSize: THEME_CONSTANTS.l5FontSize,
-    lineHeight: THEME_CONSTANTS.l5LineHeight,
+    lineHeight: THEME_CONSTANTS.l5LineHeight as any, // FIXME: vrender 支持行高字符串后删除 any
     fontFamily: THEME_CONSTANTS.defaultFontFamily,
     fill: { type: 'palette', key: 'secondaryFontColor' }
   },
