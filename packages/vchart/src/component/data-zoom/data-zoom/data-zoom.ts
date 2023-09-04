@@ -91,7 +91,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       ...originalSpec
     };
     // 为了减少主题更改造成的影响，如果用户在 spec 配置了主题默认关闭的 mark，则自动加上 visible: true
-    const { selectedBackgroundChart } = newSpec;
+    const { selectedBackgroundChart = {} } = newSpec;
     const { line, area } = selectedBackgroundChart;
     if (line || area) {
       newSpec.selectedBackgroundChart = {
