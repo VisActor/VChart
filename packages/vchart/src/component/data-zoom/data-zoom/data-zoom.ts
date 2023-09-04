@@ -100,14 +100,20 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
           line && line.visible !== false
             ? {
                 ...line,
-                visible: true
+                style: {
+                  ...line.style,
+                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
+                }
               }
             : line,
         area:
           area && area.visible !== false
             ? {
                 ...area,
-                visible: true
+                style: {
+                  ...area.style,
+                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
+                }
               }
             : area
       };
