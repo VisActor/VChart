@@ -12,3 +12,6 @@ export const builtinThemeMap: Map<string, ITheme> = new Map([
 
 /** 默认主题 */
 export const defaultThemeName = lightTheme.name;
+
+/** 历史弃用主题 */
+export * from './common/legacy';

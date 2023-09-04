@@ -21,8 +21,8 @@ const handlerTheme: IContinuousLegendTheme['handler'] = {
 };
 
 export const sizeLegend: ISizeLegendTheme = {
-  ...DEFAULT_CONTINUOUS_LEGEND_THEME,
   horizontal: {
+    ...DEFAULT_CONTINUOUS_LEGEND_THEME,
     sizeBackground: {
       fill: { type: 'palette', key: 'dataZoomChartColor' }
     },
