@@ -18,7 +18,12 @@ interface IGradientColor {
  * @param value A value to convert to string and HTML-escape.
  */
 export function escapeHTML(value: any): string {
-  return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\(/g, '&#40;');
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\(/g, '&#40;')
+    .replace(/ /g, '&nbsp;');
 }
 
 export const getTooltipContentValue = <T>(
