@@ -54,7 +54,7 @@ export function preprocessSpecOrTheme(
     } else if (type === 'spec' && key === 'lineHeight' && isString(value) && value[value.length - 1] === '%') {
       if (isValid(obj.fontSize)) {
         // 处理 lineHeight 的比例值
-        // FIXME: 等 vender 支持这个功能以后删掉这段逻辑
+        // FIXME: vrender 支持行高字符串后删掉这段逻辑
         const scale = Number.parseFloat(value.substring(0, value.length - 1)) / 100;
         newObj[key] = obj.fontSize * scale;
       }
