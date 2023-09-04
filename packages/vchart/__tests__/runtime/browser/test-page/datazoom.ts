@@ -345,7 +345,6 @@ const run = () => {
       type: 'linear',
       range: [4, 16]
     },
-    background: 'rgba(255, 255, 255, 0)',
     point: {
       state: {
         hover: {
