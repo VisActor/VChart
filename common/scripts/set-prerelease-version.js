@@ -28,8 +28,11 @@ function writePrereleaseVersion(nextBump, preReleaseName) {
   if (!version.preReleaseName) {
     if (nextBump === 'major') {
       version.major += 1;
+      version.minor = 0;
+      version.patch = 0;
     } else if (nextBump === 'minor') {
       version.minor += 1;
+      version.patch = 0;
     } else {
       version.patch += 1;
     }
@@ -45,7 +48,11 @@ function writePrereleaseVersion(nextBump, preReleaseName) {
     let jsonFile = fs.readFileSync(pkgJsonPath, { encoding: 'utf-8' })
     const pkgJson = JSON.parse(jsonFile);
 
-    console.log(`handle project: ${project.packageName}, from ${pkgJson.version} to ${nextVersion}`);
+    if (project.shouldPublish) {
+      console.log(`handle project: ${project.packageName}, from ${pkgJson.version} to ${nextVersion}`);
+    } else {
+      console.log(`handle project: ${project.packageName}, update "dependencies" and "devDependencies" `);
+    }
 
     if (project.shouldPublish) {
       jsonFile = setJsonFileByKey(jsonFile, pkgJson, ['version'], nextVersion);
