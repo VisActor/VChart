@@ -42,13 +42,19 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     asK
   } = op;
 
-  const total = data.reduce((sum, d) => transformInvalidValue(d[angleField]) + sum, 0);
-  const max = data.reduce((m, d) => Math.max(m, transformInvalidValue(d[angleField])), -Infinity);
+  let total = 0;
+  let max = -Infinity;
+  for (let index = 0; index < data.length; index++) {
+    const angleFieldValue = transformInvalidValue(data[index][angleField]);
+    total += angleFieldValue;
+    max = Math.max(angleFieldValue, max);
+  }
 
   const intervalAngle = endAngle - startAngle;
   let lastAngle = startAngle;
   data.forEach(d => {
-    const ratio = total ? transformInvalidValue(d[angleField]) / total : 0;
+    const angleFieldValue = transformInvalidValue(d[angleField]);
+    const ratio = total ? angleFieldValue / total : 0;
     const radian = ratio * intervalAngle;
 
     asRatio && (d[asRatio] = ratio);
@@ -57,7 +63,7 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     asMiddleAngle && (d[asMiddleAngle] = lastAngle + radian / 2);
     asRadian && (d[asRadian] = radian);
     asQuadrant && (d[asQuadrant] = computeQuadrant(lastAngle + radian / 2));
-    asK && (d[asK] = max ? transformInvalidValue(d[angleField]) / max : 0);
+    asK && (d[asK] = max ? angleFieldValue / max : 0);
 
     lastAngle = d[asEndAngle];
   });
