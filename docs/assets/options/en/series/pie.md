@@ -101,6 +101,10 @@ Sector graphic style configuration.
 
 Label configuration.
 
+{{ use: component-label(
+  prefix = '#' + ${prefix},
+) }}
+
 <!-- IArcLabelSpec -->
 
 ##${prefix} position(string)
@@ -112,19 +116,6 @@ Optional values:
 
 - `'outside'`
 - `'inside'`
-
-##${prefix} showRule(string)
-
-Label content display rule.
-The default value is `'all'`.
-
-Optional values:
-
-- `'all'`
-- `'max'`
-- `'min'`
-- `'minAndMax'`
-- `'headAndTail'`
 
 ##${prefix} coverEnable(boolean)
 
@@ -215,8 +206,3 @@ Optional values:
 
 Enable tangent constraint.
 The default value is `true`.
-
-{{ use: component-label(
-  prefix = '#' + ${prefix},
-  noPosition = true
-) }}
