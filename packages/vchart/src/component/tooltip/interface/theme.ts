@@ -18,7 +18,7 @@ export interface ITooltipTextTheme {
   /** 字体基线 */
   textBaseline?: TextBaseLine;
   /** 行高 */
-  lineHeight?: number;
+  lineHeight?: number | string;
   /** 与相邻元素的水平间距 */
   spacing?: number;
   /** 是否支持换行 */
