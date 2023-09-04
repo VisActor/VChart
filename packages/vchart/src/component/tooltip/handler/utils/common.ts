@@ -23,7 +23,7 @@ export function escapeHTML(value: any): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/\(/g, '&#40;')
-    .replace(/ /g, '&nbsp;');
+    .replace(/  /g, ' &nbsp;'); // 转义符和真空格夹杂，在转义和正常换行之间取得平衡
 }
 
 export const getTooltipContentValue = <T>(
