@@ -17,7 +17,7 @@ const parseNextBumpFromVersion = (
 
   if (res) {  
     if (res.patch === 0) {
-      return formatted.minor == 0 ? MAJOR : MINOR;
+      return res.minor == 0 ? MAJOR : MINOR;
     }
   
     return PATCH
