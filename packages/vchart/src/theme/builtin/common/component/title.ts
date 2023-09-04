@@ -8,13 +8,13 @@ export const title: ITitleTheme = {
   },
   textStyle: {
     fontSize: THEME_CONSTANTS.l3FontSize,
-    lineHeight: THEME_CONSTANTS.l3LineHeight,
+    lineHeight: THEME_CONSTANTS.l3LineHeight as any, // FIXME: vrender 支持行高字符串后删除 any
     fontFamily: THEME_CONSTANTS.defaultFontFamily,
     fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
   },
   subtextStyle: {
     fontSize: THEME_CONSTANTS.l4FontSize,
-    lineHeight: THEME_CONSTANTS.l4LineHeight,
+    lineHeight: THEME_CONSTANTS.l4LineHeight as any, // FIXME: vrender 支持行高字符串后删除 any
     fontFamily: THEME_CONSTANTS.defaultFontFamily,
     fill: { type: 'palette', key: 'secondaryFontColor' }
   }
