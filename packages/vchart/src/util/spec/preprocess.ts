@@ -1,5 +1,5 @@
 import { isArray, isFunction, isObject, isString, isValid, isValidNumber } from '@visactor/vutils';
-import type { SeriesTypeEnum } from '../../series/interface';
+import { seriesMarkNameSet, type SeriesTypeEnum } from '../../series/interface';
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 import { isDataView, isHTMLElement } from './common';
 import { getActualColor, isColorKey } from '../../theme/color-scheme/util';
@@ -14,7 +14,7 @@ import { normalizeLayoutPaddingSpec } from '../space';
  * @returns
  */
 export function preprocessSpecOrTheme(
-  type: 'spec' | 'theme',
+  type: 'spec' | 'theme' | 'markSpec',
   obj: any,
   colorScheme?: IThemeColorScheme,
   seriesType?: SeriesTypeEnum
@@ -46,12 +46,17 @@ export function preprocessSpecOrTheme(
         // 查询、替换语义化颜色
         newObj[key] = getActualColor(value, colorScheme, seriesType);
       } else {
-        newObj[key] = preprocessSpecOrTheme(type, value, colorScheme, seriesType);
+        newObj[key] = preprocessSpecOrTheme(
+          seriesMarkNameSet.has(key) ? 'markSpec' : type,
+          value,
+          colorScheme,
+          seriesType
+        );
       }
-    } else if (key === 'padding') {
+    } else if (type !== 'markSpec' && key === 'padding') {
       // 标准化 padding
       newObj[key] = normalizeLayoutPaddingSpec(value);
-    } else if (type === 'spec' && key === 'lineHeight' && isString(value) && value[value.length - 1] === '%') {
+    } else if (type !== 'theme' && key === 'lineHeight' && isString(value) && value[value.length - 1] === '%') {
       if (isValid(obj.fontSize)) {
         // 处理 lineHeight 的比例值
         // FIXME: vrender 支持行高字符串后删掉这段逻辑

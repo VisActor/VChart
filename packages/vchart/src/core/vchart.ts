@@ -897,7 +897,7 @@ export class VChart implements IVChart {
       this._currentTheme = preprocessSpecOrTheme('theme', theme, theme.colorScheme);
     }
     // 设置 poptip 的主题
-    setPoptipTheme(preprocessSpecOrTheme('spec', mergeSpec({}, this._currentTheme.component?.poptip)));
+    setPoptipTheme(preprocessSpecOrTheme('markSpec', mergeSpec({}, this._currentTheme.component?.poptip)));
     // 设置背景色
     this._compiler?.setBackground(this._getBackground());
   }
