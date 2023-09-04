@@ -49,6 +49,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     return this._legendData.getLatestData();
   }
 
+  private _preSelectedData: StringOrNumber[] = [];
   protected _selectedData: StringOrNumber[] = [];
   /**
    * getSelectedData
@@ -145,9 +146,14 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   protected abstract _getLegendConstructor(): any;
   protected abstract _initEvent(): void;
 
+  private _bindLegendDataChange() {
+    this._preSelectedData = [...this._selectedData];
+    this._initSelectedData();
+  }
+
   protected initData() {
     const legendData = this._initLegendData();
-    legendData.target.addListener('change', this._initSelectedData.bind(this));
+    legendData.target.addListener('change', this._bindLegendDataChange.bind(this));
     this._legendData = new CompilableData(this._option, legendData);
 
     this._initSelectedData();
@@ -257,9 +263,10 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   }
 
   onDataUpdate(): void {
-    this._legendData?.getDataView().reRunAllTransform();
-    // 更新当前选中数据
-    this._initSelectedData();
+    if (JSON.stringify(this._preSelectedData) === JSON.stringify(this._selectedData)) {
+      return;
+    }
+
     if (this._legendComponent) {
       // 更新组件
       const attrs = this._getLegendAttributes(this.getLayoutRect());
@@ -282,6 +289,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
       this._legendComponent = null;
     }
     this._cacheAttrs = null;
+    this._preSelectedData = null;
     super.clear();
   }
 }
