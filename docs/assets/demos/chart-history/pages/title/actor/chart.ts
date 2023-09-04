@@ -711,6 +711,7 @@ export const pageTitleActorChart = (player: Player, actorMap: Record<string, Bas
         container.appendChild(text);
         const vchart = new VChart(
           {
+            padding: 10,
             ...spec,
             width: 60,
             height: 60
