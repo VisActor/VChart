@@ -5031,8 +5031,9 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "lineHeight": {
-          "$ref": "#/definitions/VisualType<number>",
-          "description": "行高"
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "行高（1.3.1 版本新增字符串类型表示比例值，如\"150%\"）",
+          "since": "1.3.1"
         },
         "lineThrough": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -5191,8 +5192,9 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "lineHeight": {
-          "$ref": "#/definitions/VisualType<number>",
-          "description": "行高"
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "行高（1.3.1 版本新增字符串类型表示比例值，如\"150%\"）",
+          "since": "1.3.1"
         },
         "lineThrough": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -5351,8 +5353,9 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "lineHeight": {
-          "$ref": "#/definitions/VisualType<number>",
-          "description": "行高"
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "行高（1.3.1 版本新增字符串类型表示比例值，如\"150%\"）",
+          "since": "1.3.1"
         },
         "lineThrough": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -53563,8 +53566,12 @@
           "type": "number"
         },
         "lineHeight": {
-          "description": "行高",
-          "type": "number"
+          "description": "行高（1.3.1 版本新增字符串类型表示比例值，如\"150%\"）",
+          "since": "1.3.1",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "lineThrough": {
           "description": "中划线",
@@ -54657,7 +54664,10 @@
         },
         "lineHeight": {
           "description": "行高",
-          "type": "number"
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "maxWidth": {
           "description": "最大宽度",
@@ -57047,6 +57057,41 @@
               {
                 "type": "string"
               }
+            ]
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,string|number>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "type": [
+              "string",
+              "number"
             ]
           },
           "type": "array"
@@ -60069,7 +60114,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@11533": {
+        "__@toStringTag@12047": {
           "type": "string"
         },
         "size": {
@@ -60077,14 +60122,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11533",
+        "__@toStringTag@12047",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@11533": {
+        "__@toStringTag@12047": {
           "type": "string"
         },
         "size": {
@@ -60092,14 +60137,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11533",
+        "__@toStringTag@12047",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@11533": {
+        "__@toStringTag@12047": {
           "type": "string"
         },
         "size": {
@@ -60107,14 +60152,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11533",
+        "__@toStringTag@12047",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@11533": {
+        "__@toStringTag@12047": {
           "type": "string"
         },
         "size": {
@@ -60122,14 +60167,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11533",
+        "__@toStringTag@12047",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@11533": {
+        "__@toStringTag@12047": {
           "type": "string"
         },
         "size": {
@@ -60137,14 +60182,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11533",
+        "__@toStringTag@12047",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@11533": {
+        "__@toStringTag@12047": {
           "type": "string"
         },
         "size": {
@@ -60152,14 +60197,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11533",
+        "__@toStringTag@12047",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@11533": {
+        "__@toStringTag@12047": {
           "type": "string"
         },
         "size": {
@@ -60167,14 +60212,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11533",
+        "__@toStringTag@12047",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@11533": {
+        "__@toStringTag@12047": {
           "type": "string"
         },
         "size": {
@@ -60182,7 +60227,7 @@
         }
       },
       "required": [
-        "__@toStringTag@11533",
+        "__@toStringTag@12047",
         "size"
       ],
       "type": "object"
@@ -70702,8 +70747,12 @@
           "type": "number"
         },
         "lineHeight": {
-          "description": "行高",
-          "type": "number"
+          "description": "行高（1.3.1 版本新增字符串类型表示比例值，如\"150%\"）",
+          "since": "1.3.1",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "lineThrough": {
           "description": "中划线",
@@ -73248,34 +73297,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@11533": {
+        "__@toStringTag@12047": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11533"
+        "__@toStringTag@12047"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@11533": {
+        "__@toStringTag@12047": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11533"
+        "__@toStringTag@12047"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@11533": {
+        "__@toStringTag@12047": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11533"
+        "__@toStringTag@12047"
       ],
       "type": "object"
     },
@@ -83464,6 +83513,25 @@
         },
         {
           "type": "string"
+        }
+      ]
+    },
+    "VisualType<string|number>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,string|number>"
+        },
+        {
+          "type": [
+            "string",
+            "number"
+          ]
         }
       ]
     },
