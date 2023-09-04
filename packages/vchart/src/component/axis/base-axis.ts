@@ -355,8 +355,12 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       label: {
         style: isFunction(spec.label.style)
           ? (datum: Datum, index: number, data: Datum[], layer?: number) => {
-              const style = this._preprocessSpec(spec.label.style(datum.rawValue, index, datum, data, layer));
-              return transformToGraphic(this._preprocessSpec(mergeSpec({}, this._theme.label?.style, style)));
+              const style = this._prepareSpecAfterMergingTheme(
+                spec.label.style(datum.rawValue, index, datum, data, layer)
+              );
+              return transformToGraphic(
+                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.label?.style, style))
+              );
             }
           : transformToGraphic(spec.label.style),
         formatMethod: spec.label.formatMethod
@@ -374,8 +378,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         alignWithLabel: spec.tick.alignWithLabel,
         style: isFunction(spec.tick.style)
           ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = this._preprocessSpec((spec.tick.style as any)(value, index, datum, data));
-              return transformToGraphic(this._preprocessSpec(mergeSpec({}, this._theme.tick?.style, style)));
+              const style = this._prepareSpecAfterMergingTheme((spec.tick.style as any)(value, index, datum, data));
+              return transformToGraphic(
+                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.tick?.style, style))
+              );
             }
           : transformToGraphic(spec.tick.style),
         state: transformStateStyle(spec.tick.state),
@@ -402,7 +408,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         style: isFunction(spec.grid.style)
           ? (datum: Datum, index: number) => {
               const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
-              return transformToGraphic(this._preprocessSpec(mergeSpec({}, this._theme.grid?.style, style)));
+              return transformToGraphic(
+                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.grid?.style, style))
+              );
             }
           : transformToGraphic(spec.grid.style)
       },

@@ -86,6 +86,17 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     this._endHandlerSize = endHandlerVisble ? this._spec.endHandler.style.size : 0;
   }
 
+  protected _prepareSpecBeforeMergingTheme() {
+    // 如果用户配置了主题默认关闭的 mark，则自动加上 visible: true
+    const { line, area } = this._spec.selectedBackgroundChart;
+    if (line && line.visible !== false) {
+      line.visible = true;
+    }
+    if (area && area.visible !== false) {
+      area.visible = true;
+    }
+  }
+
   /** LifeCycle API**/
   onLayoutEnd(ctx: any): void {
     this._updateScaleRange();

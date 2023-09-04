@@ -1024,9 +1024,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     } else {
       super._initTheme(globalTheme.series[this.type] ?? {});
     }
-
+    this._prepareSpecBeforeMergingTheme();
     this._mergeThemeToSpec();
-    this._preprocessSpec();
+    this._prepareSpecAfterMergingTheme();
   }
 
   protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
