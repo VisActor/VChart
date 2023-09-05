@@ -120,3 +120,4 @@ packages/lark-vchart/index.js
 
 # generated documents
 docs/public/documents
+docs/public/vchart/preview/failedPreviewLists.json

@@ -4,7 +4,7 @@ import { isContinuous } from '@visactor/vscale';
 import type { IGroup, IGraphic } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
-import type { IOrientType, IPolarOrientType, Datum, StringOrNumber } from '../../typings';
+import type { IOrientType, IPolarOrientType, Datum, StringOrNumber, IGroup as ISeriesGroup } from '../../typings';
 import { BaseComponent } from '../base';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
@@ -25,7 +25,6 @@ import {
 } from '../../util';
 import type { ISeries } from '../../series/interface';
 import { ChartEvent, LayoutZIndex } from '../../constant';
-import type { Group } from '../../series/base/group';
 import { animationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { degreeToRadian, pickWithout, type LooseFunction } from '@visactor/vutils';
@@ -278,7 +277,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected initScales() {
     this._scales = [this._scale];
-    const groups: Group[] = [];
+    const groups: ISeriesGroup[] = [];
     eachSeries(
       this._regions,
       s => {

@@ -5,6 +5,10 @@ import { View, Text } from '@tarojs/components';
 export default function Index() {
   const charts = [
     {
+      id: 'crosshair',
+      name: 'crosshair'
+    },
+    {
       id: 'scatter',
       name: 'scatter'
     },
