@@ -192,7 +192,11 @@ export function Markdown() {
           let processedText = text;
           // remove meta info for examples
           if (assetDirectory === 'examples') {
+            const coverLink = processedText.match(/cover:(.*)/)?.[1];
             processedText = processedText.replace(/---(.|\n)*---/, '').trim();
+            if (coverLink) {
+              processedText = processedText + `\n## Cover:\n![cover](${coverLink.trim()})`;
+            }
           }
           // Hack: process all livedemo code to livedemo language and replace these after
           processedText = processedText.replaceAll(/\`\`\`(.*) livedemo/g, '```livedemo');
