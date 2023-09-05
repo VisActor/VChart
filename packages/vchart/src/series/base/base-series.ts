@@ -28,7 +28,8 @@ import type {
   ISeriesSpec,
   IExtensionMarkSpec,
   IExtensionGroupMarkSpec,
-  EnableMarkType
+  EnableMarkType,
+  IGroup
 } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 // eslint-disable-next-line no-duplicate-imports
@@ -190,7 +191,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
-  protected _groups?: Group;
+  protected _groups?: IGroup;
   getGroups() {
     return this._groups;
   }
@@ -346,7 +347,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   protected initGroups() {
     const groupFields = this.getGroupFields();
     if (groupFields && groupFields.length) {
-      this._groups = new Group(groupFields);
+      this._groups = { fields: groupFields };
       // this._data && this._groups.initData(this._data.getDataView(), this._dataSet);
     }
   }
