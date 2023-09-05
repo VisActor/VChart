@@ -2,761 +2,52 @@
   "menu": "examples",
   "children": [
     {
-      "path": "area-chart",
+      "path": "storytelling",
       "title": {
-        "zh": "area-chart",
-        "en": "area-chart"
+        "zh": "storytelling",
+        "en": "storytelling"
       },
       "children": [
         {
-          "path": "basic-area",
+          "path": "dynamic-comparative-bar-chart",
           "title": {
-            "zh": "基础面积图",
-            "en": "Basic Area Chart"
+            "zh": "动态对比柱状图",
+            "en": "Dynamic Comparative Bar Chart"
           }
         },
         {
-          "path": "horizontal-area",
+          "path": "ranking-bar",
           "title": {
-            "zh": "垂直面积图",
-            "en": "Vertical Area Chart"
+            "zh": "动态条形图",
+            "en": "Dynamic Bar Chart"
           }
         },
         {
-          "path": "negative-values-area",
+          "path": "dynamic-line-chart",
           "title": {
-            "zh": "带负值面积图",
-            "en": "Area Chart with Negative Values"
+            "zh": "动态线图",
+            "en": "Dynamic Line Chart"
           }
         },
         {
-          "path": "null-value-area",
+          "path": "dynamic-rose-chart",
           "title": {
-            "zh": "存在空值的面积图",
-            "en": "Area chart with null values"
+            "zh": "动态玫瑰图",
+            "en": "Dynamic Rose Chart"
           }
         },
         {
-          "path": "percentage-stacked-area",
+          "path": "timeline-scatter",
           "title": {
-            "zh": "百分比堆叠面积图",
-            "en": "Percentage Stacked Area Chart"
+            "zh": "动态散点图",
+            "en": "Dynamic Scatterplot"
           }
         },
         {
-          "path": "range-area",
+          "path": "weekly-activity",
           "title": {
-            "zh": "区间面积图",
-            "en": "Range Area Chart"
-          }
-        },
-        {
-          "path": "smoothed-area",
-          "title": {
-            "zh": "平滑面积图",
-            "en": "Smoothed Area Chart"
-          }
-        },
-        {
-          "path": "stacked-area",
-          "title": {
-            "zh": "堆叠面积图",
-            "en": "Stacked Area Chart"
-          }
-        },
-        {
-          "path": "step-area",
-          "title": {
-            "zh": "阶梯面积图",
-            "en": "Step Area Chart"
-          }
-        },
-        {
-          "path": "stream-graph",
-          "title": {
-            "zh": "河流图",
-            "en": "Streamgraph"
-          }
-        },
-        {
-          "path": "unstacked-area",
-          "title": {
-            "zh": "非堆叠面积图",
-            "en": "非堆叠面积图"
-          }
-        },
-        {
-          "path": "area-with-marker",
-          "title": {
-            "zh": "多系列面积图",
-            "en": "Multi-series area chart"
-          }
-        },
-        {
-          "path": "area-style",
-          "title": {
-            "zh": "面积图样式",
-            "en": "面积图样式"
-          }
-        },
-        {
-          "path": "segment-range-area",
-          "title": {
-            "zh": "分段区间面积图",
-            "en": "Segment Range Area Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "axis",
-      "title": {
-        "zh": "axis",
-        "en": "axis"
-      },
-      "children": [
-        {
-          "path": "animation",
-          "title": {
-            "zh": "坐标轴动画",
-            "en": "Axis Animation"
-          }
-        },
-        {
-          "path": "grid-style",
-          "title": {
-            "zh": "网格线填充",
-            "en": "Grid Line Fill"
-          }
-        },
-        {
-          "path": "interactive",
-          "title": {
-            "zh": "坐标轴交互",
-            "en": "Axis Interaction"
-          }
-        },
-        {
-          "path": "inverse",
-          "title": {
-            "zh": "坐标轴反转",
-            "en": "Axis Inversion"
-          }
-        },
-        {
-          "path": "on-zero",
-          "title": {
-            "zh": "0 刻度轴线",
-            "en": "Domain locate at zero"
-          }
-        },
-        {
-          "path": "polar",
-          "title": {
-            "zh": "极坐标轴配置",
-            "en": "Polar Axis Configuration"
-          }
-        },
-        {
-          "path": "style",
-          "title": {
-            "zh": "通用样式配置",
-            "en": "General Style Configuration"
-          }
-        },
-        {
-          "path": "subtick-and-subgrid",
-          "title": {
-            "zh": "子刻度线和子网格线",
-            "en": "Sub-ticks and Sub-grid lines"
-          }
-        },
-        {
-          "path": "log-axis",
-          "title": {
-            "zh": "log轴",
-            "en": "Log axis"
-          }
-        },
-        {
-          "path": "symlog-axis",
-          "title": {
-            "zh": "symlog轴",
-            "en": "symlog axis"
-          }
-        },
-        {
-          "path": "label-container-align",
-          "title": {
-            "zh": "坐标轴标签整体对齐",
-            "en": "Overall alignment of axis labels"
-          }
-        }
-      ]
-    },
-    {
-      "path": "bar-chart",
-      "title": {
-        "zh": "bar-chart",
-        "en": "bar-chart"
-      },
-      "children": [
-        {
-          "path": "basic-bar",
-          "title": {
-            "zh": "基础条形图",
-            "en": "Base Bar Chart"
-          }
-        },
-        {
-          "path": "basic-column",
-          "title": {
-            "zh": "基础柱状图",
-            "en": "Basic Column Chart"
-          }
-        },
-        {
-          "path": "bi-direction-bar",
-          "title": {
-            "zh": "双向条形图",
-            "en": "Bi-directional Bar Chart"
-          }
-        },
-        {
-          "path": "bi-direction-stack-column",
-          "title": {
-            "zh": "双向堆积分组柱状图",
-            "en": "Bi-direction Stack Grouped Bar Chart"
-          }
-        },
-        {
-          "path": "gradient-column",
-          "title": {
-            "zh": "渐变圆角柱图",
-            "en": "Gradient Rounded Bar Chart"
-          }
-        },
-        {
-          "path": "group-bar",
-          "title": {
-            "zh": "分组条形图",
-            "en": "Grouped Bar Chart"
-          }
-        },
-        {
-          "path": "group-column",
-          "title": {
-            "zh": "分组柱状图",
-            "en": "Grouped Bar Chart"
-          }
-        },
-        {
-          "path": "group-stack-column",
-          "title": {
-            "zh": "分组堆叠柱状图",
-            "en": "Grouped Stacked Column Chart"
-          }
-        },
-        {
-          "path": "group-stack-percentage-column",
-          "title": {
-            "zh": "分组百分比堆叠柱状图",
-            "en": "Grouped Percentage Stacked Bar Chart"
-          }
-        },
-        {
-          "path": "population-pyramid",
-          "title": {
-            "zh": "人口金字塔",
-            "en": "Population Pyramid"
-          }
-        },
-        {
-          "path": "stack-column",
-          "title": {
-            "zh": "堆叠柱状图",
-            "en": "Stacked Bar Chart"
-          }
-        },
-        {
-          "path": "stack-percentage-bar",
-          "title": {
-            "zh": "百分比堆叠条形图",
-            "en": "Percentage Stacked Bar Chart"
-          }
-        },
-        {
-          "path": "stack-percentage-column",
-          "title": {
-            "zh": "百分比堆叠柱状图",
-            "en": "Percentage Stacked Bar Chart"
-          }
-        },
-        {
-          "path": "group-bar-with-padding",
-          "title": {
-            "zh": "分组柱状图间隔",
-            "en": "Group histogram interval"
-          }
-        },
-        {
-          "path": "group-bar-with-barGapInGroup",
-          "title": {
-            "zh": "分组柱图组内间距调整",
-            "en": "Spacing adjustment within grouped bars"
-          }
-        }
-      ]
-    },
-    {
-      "path": "box-plot",
-      "title": {
-        "zh": "box-plot",
-        "en": "box-plot"
-      },
-      "children": [
-        {
-          "path": "basic-box-plot",
-          "title": {
-            "zh": "基础箱型图",
-            "en": "Basic Box Plot"
-          }
-        },
-        {
-          "path": "box-plot-style",
-          "title": {
-            "zh": "箱型图样式",
-            "en": "Box Plot Style"
-          }
-        },
-        {
-          "path": "grouped-box-plot",
-          "title": {
-            "zh": "分组箱型图",
-            "en": "Grouped Box Plot"
-          }
-        }
-      ]
-    },
-    {
-      "path": "circle-packing-chart",
-      "title": {
-        "zh": "circle-packing-chart",
-        "en": "circle-packing-chart"
-      },
-      "children": [
-        {
-          "path": "basic-circle-packing",
-          "title": {
-            "zh": "基础 CirclePacking 图",
-            "en": "Basic CirclePacking Chart"
-          }
-        },
-        {
-          "path": "circle-packing-multiple-roots",
-          "title": {
-            "zh": "多根节点 CirclePacking 图",
-            "en": "Multi-root CirclePacking Chart"
-          }
-        },
-        {
-          "path": "circle-packing-padding",
-          "title": {
-            "zh": "带内边距的 CirclePacking 图",
-            "en": "CirclePacking Chart with Padding"
-          }
-        }
-      ]
-    },
-    {
-      "path": "combination",
-      "title": {
-        "zh": "combination",
-        "en": "combination"
-      },
-      "children": [
-        {
-          "path": "bar-combine",
-          "title": {
-            "zh": "组合图自定义多行多列布局",
-            "en": "Custom Multi-Row Multi-Column Layout in Combination Charts"
-          }
-        },
-        {
-          "path": "col-line",
-          "title": {
-            "zh": "单列组合图",
-            "en": "Combination Chart with Single Column"
-          }
-        },
-        {
-          "path": "col-pie",
-          "title": {
-            "zh": "多 region 饼图",
-            "en": "Multi-region Pie Chart"
-          }
-        },
-        {
-          "path": "dual-axis",
-          "title": {
-            "zh": "双轴图",
-            "en": "Dual Axis Chart"
-          }
-        },
-        {
-          "path": "easing-visualization",
-          "title": {
-            "zh": "缓动函数可视化",
-            "en": "Easing Functions Visualization"
-          }
-        },
-        {
-          "path": "line-pie",
-          "title": {
-            "zh": "线饼组合图",
-            "en": "Line-Pie Combination Chart"
-          }
-        },
-        {
-          "path": "polar-combine",
-          "title": {
-            "zh": "极坐标系下的组合图",
-            "en": "Combination Chart in Polar Coordinate System"
-          }
-        },
-        {
-          "path": "scatter-combine",
-          "title": {
-            "zh": "组合图自定义单行多列布局",
-            "en": "Custom Single Row Multi-Column Layout for Combination Charts"
-          }
-        },
-        {
-          "path": "single-region",
-          "title": {
-            "zh": "基础组合图",
-            "en": "Basic Combination Chart"
-          }
-        },
-        {
-          "path": "bar-line",
-          "title": {
-            "zh": "特殊轴效果的线柱组合图",
-            "en": "Bar-Line Combination Chart With UnNormal Axis"
-          }
-        }
-      ]
-    },
-    {
-      "path": "crosshair",
-      "title": {
-        "zh": "crosshair",
-        "en": "crosshair"
-      },
-      "children": [
-        {
-          "path": "line",
-          "title": {
-            "zh": "十字辅助线"
-          }
-        },
-        {
-          "path": "multiple-region",
-          "title": {
-            "zh": "组合图 crosshair",
-            "en": "Combined chart crosshair"
-          }
-        },
-        {
-          "path": "polar-line",
-          "title": {
-            "zh": "雷达图的 crosshair",
-            "en": "Crosshair of Radar Chart"
-          }
-        },
-        {
-          "path": "polar-rect",
-          "title": {
-            "zh": "玫瑰图的 crosshair",
-            "en": "Rose Chart Crosshair"
-          }
-        },
-        {
-          "path": "rect",
-          "title": {
-            "zh": "矩形十字辅助线",
-            "en": "Rectangular Crosshair"
-          }
-        }
-      ]
-    },
-    {
-      "path": "data",
-      "title": {
-        "zh": "data",
-        "en": "data"
-      },
-      "children": [
-        {
-          "path": "basic-data",
-          "title": {
-            "zh": "基础数据使用",
-            "en": "Basic Data Usage"
-          }
-        },
-        {
-          "path": "data-fields-alias",
-          "title": {
-            "zh": "数据别名",
-            "en": "Data Alias"
-          }
-        },
-        {
-          "path": "data-fields-domain",
-          "title": {
-            "zh": "按照domain进行数据筛选",
-            "en": "Data Filtering By Domain"
-          }
-        },
-        {
-          "path": "data-fields-sort",
-          "title": {
-            "zh": "数据排序",
-            "en": "Data Sorting"
-          }
-        },
-        {
-          "path": "data-filter",
-          "title": {
-            "zh": "数据筛选",
-            "en": "Data Filtering"
-          }
-        }
-      ]
-    },
-    {
-      "path": "data-zoom",
-      "title": {
-        "zh": "data-zoom",
-        "en": "data-zoom"
-      },
-      "children": [
-        {
-          "path": "data-zoom-polar",
-          "title": {
-            "zh": "缩略轴控制极坐标系图表",
-            "en": "Thumbnail Axis Controls Polar Chart"
-          }
-        },
-        {
-          "path": "filter-mode-axis",
-          "title": {
-            "zh": "轴缩放模式",
-            "en": "Axis Zoom Mode"
-          }
-        },
-        {
-          "path": "preview-data",
-          "title": {
-            "zh": "缩略轴预览图表样式配置",
-            "en": "Thumbnail Axis Preview Chart Style Configuration"
-          }
-        },
-        {
-          "path": "state-with-data",
-          "title": {
-            "zh": "缩略轴以数据的方式定义初始范围",
-            "en": "Define initial range in data form with thumbnail axis"
-          }
-        }
-      ]
-    },
-    {
-      "path": "funnel-chart",
-      "title": {
-        "zh": "funnel-chart",
-        "en": "funnel-chart"
-      },
-      "children": [
-        {
-          "path": "basic-funnel",
-          "title": {
-            "zh": "基础漏斗图",
-            "en": "Basic Funnel Chart"
-          }
-        },
-        {
-          "path": "custom-funnel",
-          "title": {
-            "zh": "自定义漏斗图",
-            "en": "Custom Funnel Chart"
-          }
-        },
-        {
-          "path": "transform-funnel",
-          "title": {
-            "zh": "转化漏斗图",
-            "en": "Conversion Funnel Chart"
-          }
-        },
-        {
-          "path": "rect-funnel",
-          "title": {
-            "zh": "矩形转化漏斗图",
-            "en": "Rectangular Conversion Funnel Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "gradient",
-      "title": {
-        "zh": "gradient",
-        "en": "gradient"
-      },
-      "children": [
-        {
-          "path": "area",
-          "title": {
-            "zh": "渐变面积图",
-            "en": "Gradient Area Chart"
-          }
-        },
-        {
-          "path": "bar",
-          "title": {
-            "zh": "渐变色-高度渐变",
-            "en": "Gradient Color - Height Gradient"
-          }
-        },
-        {
-          "path": "enhancement-gradient-line",
-          "title": {
-            "zh": "渐变色-颜色划分移动端",
-            "en": "Gradient Color - Color Segmentation on Mobile"
-          }
-        },
-        {
-          "path": "line",
-          "title": {
-            "zh": "渐变折线图",
-            "en": "Gradient Line Chart"
-          }
-        },
-        {
-          "path": "scatter",
-          "title": {
-            "zh": "渐变气泡图",
-            "en": "Gradient Bubble Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "histogram-chart",
-      "title": {
-        "zh": "histogram-chart",
-        "en": "histogram-chart"
-      },
-      "children": [
-        {
-          "path": "histogram-basis",
-          "title": {
-            "zh": "基础直方图",
-            "en": "Basic Histogram"
-          }
-        },
-        {
-          "path": "histogram-different-bin",
-          "title": {
-            "zh": "不同区间分布直方图",
-            "en": "Histogram with Different Bin Ranges"
-          }
-        },
-        {
-          "path": "histogram-stack",
-          "title": {
-            "zh": "堆叠直方图",
-            "en": "Stacked Histogram"
-          }
-        },
-        {
-          "path": "histogram-stack-h",
-          "title": {
-            "zh": "水平堆叠直方图",
-            "en": "Horizontal Stacked Histogram"
-          }
-        }
-      ]
-    },
-    {
-      "path": "legend",
-      "title": {
-        "zh": "legend",
-        "en": "legend"
-      },
-      "children": [
-        {
-          "path": "continuous",
-          "title": {
-            "zh": "连续图例",
-            "en": "Continuous Legend"
-          }
-        },
-        {
-          "path": "custom-data",
-          "title": {
-            "zh": "自定义图例项",
-            "en": "Custom Legend Item"
-          }
-        },
-        {
-          "path": "custom-interaction",
-          "title": {
-            "zh": "自定义图例交互",
-            "en": "Custom Legend Interaction"
-          }
-        },
-        {
-          "path": "custom-line-legend",
-          "title": {
-            "zh": "图例项平铺",
-            "en": "Tiled Legend Items"
-          }
-        },
-        {
-          "path": "custom-ui",
-          "title": {
-            "zh": "自定义图例 UI",
-            "en": "Custom Legend UI"
-          }
-        },
-        {
-          "path": "float",
-          "title": {
-            "zh": "图例展示在图表内部",
-            "en": "Legend Displayed Inside the Chart"
-          }
-        },
-        {
-          "path": "focus",
-          "title": {
-            "zh": "聚焦模式",
-            "en": "Focus Mode"
-          }
-        },
-        {
-          "path": "multiple-legends",
-          "title": {
-            "zh": "多图例/混合图例",
-            "en": "Multiple Legends/Mixed Legends"
-          }
-        },
-        {
-          "path": "single-select",
-          "title": {
-            "zh": "单选模式",
-            "en": "Single Selection Mode"
+            "zh": "环形图",
+            "en": "Circular Chart"
           }
         }
       ]
@@ -848,119 +139,108 @@
       ]
     },
     {
-      "path": "map-chart",
+      "path": "area-chart",
       "title": {
-        "zh": "map-chart",
-        "en": "map-chart"
+        "zh": "area-chart",
+        "en": "area-chart"
       },
       "children": [
         {
-          "path": "basic-map",
+          "path": "basic-area",
           "title": {
-            "zh": "基础地图",
-            "en": "Basic Map"
+            "zh": "基础面积图",
+            "en": "Basic Area Chart"
           }
         },
         {
-          "path": "scatter-map",
+          "path": "horizontal-area",
           "title": {
-            "zh": "散点地图",
-            "en": "Scatter Map"
-          }
-        }
-      ]
-    },
-    {
-      "path": "marker",
-      "title": {
-        "zh": "marker",
-        "en": "marker"
-      },
-      "children": [
-        {
-          "path": "mark-area-multi",
-          "title": {
-            "zh": "markArea 轴空间 和 数据点定位",
-            "en": "markArea Axis Space and Data Point Positioning"
+            "zh": "垂直面积图",
+            "en": "Vertical Area Chart"
           }
         },
         {
-          "path": "mark-area-quadrant",
+          "path": "negative-values-area",
           "title": {
-            "zh": "markArea 模拟象限图",
-            "en": "markArea Quadrant Chart Simulation"
+            "zh": "带负值面积图",
+            "en": "Area Chart with Negative Values"
           }
         },
         {
-          "path": "mark-line-axis",
+          "path": "null-value-area",
           "title": {
-            "zh": "markLine 轴空间定位",
-            "en": "markLine Axis Space Positioning"
+            "zh": "存在空值的面积图",
+            "en": "Area chart with null values"
           }
         },
         {
-          "path": "mark-line-coordinates",
+          "path": "percentage-stacked-area",
           "title": {
-            "zh": "markLine 数据高亮",
-            "en": "markLine Data Highlighting"
+            "zh": "百分比堆叠面积图",
+            "en": "Percentage Stacked Area Chart"
           }
         },
         {
-          "path": "mark-line-part-regression",
+          "path": "range-area",
           "title": {
-            "zh": "markLine 指定数据点并计算线性回归",
-            "en": "markLine Specifying Data Points and Calculating Linear Regression"
+            "zh": "区间面积图",
+            "en": "Range Area Chart"
+          }
+        },
+                {
+          "path": "segment-range-area",
+          "title": {
+            "zh": "分段区间面积图",
+            "en": "Segment Range Area Chart"
           }
         },
         {
-          "path": "mark-line-ref-series",
+          "path": "smoothed-area",
           "title": {
-            "zh": "markLine 指定关联系列数据点",
-            "en": "markLine Specifying Related Series Data Points"
+            "zh": "平滑面积图",
+            "en": "Smoothed Area Chart"
           }
         },
         {
-          "path": "mark-point-basic",
+          "path": "stacked-area",
           "title": {
-            "zh": "markPoint 数据点定位",
-            "en": "markPoint Data Point Positioning"
+            "zh": "堆叠面积图",
+            "en": "Stacked Area Chart"
           }
         },
         {
-          "path": "mark-area-basic",
+          "path": "step-area",
           "title": {
-            "zh": "markArea",
-            "en": "markArea"
+            "zh": "阶梯面积图",
+            "en": "Step Area Chart"
           }
         },
         {
-          "path": "mark-line-basic",
+          "path": "stream-graph",
           "title": {
-            "zh": "markLine",
-            "en": "markLine"
-          }
-        }
-      ]
-    },
-    {
-      "path": "pattern",
-      "title": {
-        "zh": "pattern",
-        "en": "pattern"
-      },
-      "children": [
-        {
-          "path": "accessible-column",
-          "title": {
-            "zh": "带纹理的分组柱状图",
-            "en": "Grouped Bar Chart with Textures"
+            "zh": "河流图",
+            "en": "Streamgraph"
           }
         },
         {
-          "path": "accessible-pie",
+          "path": "area-with-marker",
           "title": {
-            "zh": "带纹理的饼图",
-            "en": "Pie Chart with Texture"
+            "zh": "多系列面积图",
+            "en": "Multi-series area chart"
+          }
+        },
+        {
+          "path": "unstacked-area",
+          "title": {
+            "zh": "非堆叠面积图",
+            "en": "非堆叠面积图"
+          }
+        },
+        {
+          "path": "area-style",
+          "title": {
+            "zh": "面积图样式",
+            "en": "面积图样式"
           }
         },
         {
@@ -973,68 +253,152 @@
       ]
     },
     {
-      "path": "player",
+      "path": "bar-chart",
       "title": {
-        "zh": "player",
-        "en": "player"
+        "zh": "bar-chart",
+        "en": "bar-chart"
       },
       "children": [
         {
-          "path": "basic-player",
+          "path": "basic-column",
           "title": {
-            "zh": "基础播放器",
-            "en": "Basic Player"
+            "zh": "基础柱状图",
+            "en": "Basic Column Chart"
           }
         },
         {
-          "path": "continuous-player",
+          "path": "group-column",
           "title": {
-            "zh": "连续播放器",
-            "en": "Continuous Player"
+            "zh": "分组柱状图",
+            "en": "Grouped Bar Chart"
+          }
+        },
+        {
+          "path": "group-stack-column",
+          "title": {
+            "zh": "分组堆叠柱状图",
+            "en": "Grouped Stacked Column Chart"
+          }
+        },
+        {
+          "path": "group-stack-percentage-column",
+          "title": {
+            "zh": "分组百分比堆叠柱状图",
+            "en": "Grouped Percentage Stacked Bar Chart"
+          }
+        },
+        {
+          "path": "stack-column",
+          "title": {
+            "zh": "堆叠柱状图",
+            "en": "Stacked Bar Chart"
+          }
+        },
+        {
+          "path": "stack-percentage-column",
+          "title": {
+            "zh": "百分比堆叠柱状图",
+            "en": "Percentage Stacked Bar Chart"
+          }
+        },
+        {
+          "path": "bi-direction-stack-column",
+          "title": {
+            "zh": "双向堆积分组柱状图",
+            "en": "Bi-direction Stack Grouped Bar Chart"
+          }
+        },
+        {
+          "path": "basic-bar",
+          "title": {
+            "zh": "基础条形图",
+            "en": "Base Bar Chart"
+          }
+        },
+        {
+          "path": "bi-direction-bar",
+          "title": {
+            "zh": "双向条形图",
+            "en": "Bi-directional Bar Chart"
+          }
+        },
+        {
+          "path": "gradient-column",
+          "title": {
+            "zh": "渐变圆角柱图",
+            "en": "Gradient Rounded Bar Chart"
+          }
+        },
+        {
+          "path": "group-bar",
+          "title": {
+            "zh": "分组条形图",
+            "en": "Grouped Bar Chart"
+          }
+        },
+        {
+          "path": "population-pyramid",
+          "title": {
+            "zh": "人口金字塔",
+            "en": "Population Pyramid"
+          }
+        },
+        {
+          "path": "stack-percentage-bar",
+          "title": {
+            "zh": "百分比堆叠条形图",
+            "en": "Percentage Stacked Bar Chart"
+          }
+        },
+        {
+          "path": "group-bar-with-padding",
+          "title": {
+            "zh": "分组柱状图间隔",
+            "en": "Group histogram interval"
+          }
+        },
+        {
+          "path": "group-bar-with-barGapInGroup",
+          "title": {
+            "zh": "分组柱图组内间距调整",
+            "en": "Spacing adjustment within grouped bars"
           }
         }
       ]
     },
     {
-      "path": "radar-chart",
+      "path": "histogram-chart",
       "title": {
-        "zh": "radar-chart",
-        "en": "radar-chart"
+        "zh": "histogram-chart",
+        "en": "histogram-chart"
       },
       "children": [
         {
-          "path": "basic-radar",
+          "path": "histogram-basis",
           "title": {
-            "zh": "基础雷达图",
-            "en": "Basic Radar Chart"
+            "zh": "基础直方图",
+            "en": "Basic Histogram"
           }
         },
         {
-          "path": "multiple-radar",
+          "path": "histogram-different-bin",
           "title": {
-            "zh": "分组雷达图",
-            "en": "Grouped Radar Chart"
+            "zh": "不同区间分布直方图",
+            "en": "Histogram with Different Bin Ranges"
           }
         },
         {
-          "path": "radar-with-innerRadius",
+          "path": "histogram-stack",
           "title": {
-            "zh": "空心雷达图",
-            "en": "Hollow Radar Chart"
+            "zh": "堆叠直方图",
+            "en": "Stacked Histogram"
           }
         },
         {
-          "path": "stack-percent-radar",
+          "path": "histogram-stack-h",
           "title": {
-            "zh": "百分比堆叠雷达图",
-            "en": "Percentage Stacked Radar Chart"
-          }
-        },
-        {
-          "path": "stack-radar",
-          "title": {
-            "zh": "堆叠雷达图",
-            "en": "Stacked Radar Chart"
+            "zh": "水平堆叠直方图",
+            "en": "Horizontal Stacked Histogram"
           }
         }
       ]
@@ -1063,459 +427,31 @@
       ]
     },
     {
-      "path": "rose-chart",
+      "path": "box-plot",
       "title": {
-        "zh": "rose-chart",
-        "en": "rose-chart"
+        "zh": "box-plot",
+        "en": "box-plot"
       },
       "children": [
         {
-          "path": "basic-rose",
+          "path": "basic-box-plot",
           "title": {
-            "zh": "基础玫瑰图",
-            "en": "Basic Rose Chart"
+            "zh": "基础箱型图",
+            "en": "Basic Box Plot"
           }
         },
         {
-          "path": "rose-grouped",
+          "path": "grouped-box-plot",
           "title": {
-            "zh": "分组玫瑰图",
-            "en": "Grouped Rose Chart"
+            "zh": "分组箱型图",
+            "en": "Grouped Box Plot"
           }
         },
         {
-          "path": "rose-stacked",
+          "path": "box-plot-style",
           "title": {
-            "zh": "堆叠玫瑰图",
-            "en": "Stacked Rose Chart"
-          }
-        },
-        {
-          "path": "rose-stacked-group",
-          "title": {
-            "zh": "分组堆叠玫瑰图",
-            "en": "Grouped Stacked Rose Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "sankey-chart",
-      "title": {
-        "zh": "sankey-chart",
-        "en": "sankey-chart"
-      },
-      "children": [
-        {
-          "path": "align-nodes-left-sankey",
-          "title": {
-            "zh": "节点左对齐桑基图",
-            "en": "Node Left Aligned Sankey Chart"
-          }
-        },
-        {
-          "path": "basic-sankey",
-          "title": {
-            "zh": "基础桑基图",
-            "en": "Basic Sankey Chart"
-          }
-        },
-        {
-          "path": "direction-sankey",
-          "title": {
-            "zh": "垂直桑基图",
-            "en": "Vertical Sankey Chart"
-          }
-        },
-        {
-          "path": "hierarchical-sankey",
-          "title": {
-            "zh": "层级桑基图",
-            "en": "Hierarchical Sankey Chart"
-          }
-        },
-        {
-          "path": "interection-sankey",
-          "title": {
-            "zh": "交互桑基图",
-            "en": "Interactive Sankey Diagram"
-          }
-        },
-        {
-          "path": "another-data-structure-sankey",
-          "title": {
-            "zh": "桑基图的另一种数据格式",
-            "en": "Another Data Format for Sankey Charts"
-          }
-        },
-        {
-          "path": "nameKey-sankey",
-          "title": {
-            "zh": "桑基图多种边配置",
-            "en": "Sankey Diagram Multiple Edge Configurations"
-          }
-        }
-      ]
-    },
-    {
-      "path": "scatter-chart",
-      "title": {
-        "zh": "scatter-chart",
-        "en": "scatter-chart"
-      },
-      "children": [
-        {
-          "path": "basic-scatter",
-          "title": {
-            "zh": "基础散点图",
-            "en": "Basic Scatter Chart"
-          }
-        },
-        {
-          "path": "bubble-scatter",
-          "title": {
-            "zh": "气泡散点图",
-            "en": "Bubble Scatter Chart"
-          }
-        },
-        {
-          "path": "jitter-scatter",
-          "title": {
-            "zh": "扰动散点图",
-            "en": "Jitter Scatter Plot"
-          }
-        },
-        {
-          "path": "one-dimension-scatter",
-          "title": {
-            "zh": "一维散点图",
-            "en": "One-Dimensional Scatter Chart"
-          }
-        },
-        {
-          "path": "stack-scatter",
-          "title": {
-            "zh": "堆叠散点图",
-            "en": "Stacked Scatter Plot"
-          }
-        }
-      ]
-    },
-    {
-      "path": "scrollbar",
-      "title": {
-        "zh": "scrollbar",
-        "en": "scrollbar"
-      },
-      "children": [
-        {
-          "path": "basic-scrollbar-bar-chart",
-          "title": {
-            "zh": "scrollBar 基础用法",
-            "en": "Basic Usage of scrollBar"
-          }
-        },
-        {
-          "path": "scrollbar-line-chart",
-          "title": {
-            "zh": "scrollBar 控制轴范围",
-            "en": "scrollBar Controls Axis Range"
-          }
-        },
-        {
-          "path": "scrollbar-specified-value",
-          "title": {
-            "zh": "纵向 scrollBar",
-            "en": "Vertical scrollBar"
-          }
-        }
-      ]
-    },
-    {
-      "path": "sequence-chart",
-      "title": {
-        "zh": "sequence-chart",
-        "en": "sequence-chart"
-      },
-      "children": [
-        {
-          "path": "NBA-player-event",
-          "title": {
-            "zh": "NBA运动员时序图",
-            "en": "NBA Sequence Chart"
-          }
-        },
-        {
-          "path": "social-media-event",
-          "title": {
-            "zh": "社交媒体时序图",
-            "en": "Social Media Seuqnce Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "sunburst-chart",
-      "title": {
-        "zh": "sunburst-chart",
-        "en": "sunburst-chart"
-      },
-      "children": [
-        {
-          "path": "basic-sunburst",
-          "title": {
-            "zh": "基础旭日图",
-            "en": "Basic Sunburst Chart"
-          }
-        },
-        {
-          "path": "sunburst-auto-label",
-          "title": {
-            "zh": "旭日图隐藏密集标签",
-            "en": "Sunburst - Hiding Dense Labels"
-          }
-        },
-        {
-          "path": "sunburst-layout",
-          "title": {
-            "zh": "旭日图布局",
-            "en": "Sunburst Layout"
-          }
-        }
-      ]
-    },
-    {
-      "path": "title",
-      "title": {
-        "zh": "title",
-        "en": "title"
-      },
-      "children": [
-        {
-          "path": "basic-title",
-          "title": {
-            "zh": "基础标题",
-            "en": "Basic Title"
-          }
-        },
-        {
-          "path": "richText-title",
-          "title": {
-            "zh": "富文本标题",
-            "en": "Rich Text Title"
-          }
-        },
-        {
-          "path": "style-title",
-          "title": {
-            "zh": "自定义样式标题",
-            "en": "Customize Style Title"
-          }
-        }
-      ]
-    },
-    {
-      "path": "treemap-chart",
-      "title": {
-        "zh": "treemap-chart",
-        "en": "treemap-chart"
-      },
-      "children": [
-        {
-          "path": "basic-treemap",
-          "title": {
-            "zh": "基础矩形树图",
-            "en": "Basic Rectangle Treemap"
-          }
-        },
-        {
-          "path": "treemap-show-parent-level",
-          "title": {
-            "zh": "矩形树图显示父层级",
-            "en": "Treemap Displaying Parent Level"
-          }
-        }
-      ]
-    },
-    {
-      "path": "waterfall",
-      "title": {
-        "zh": "waterfall",
-        "en": "waterfall"
-      },
-      "children": [
-        {
-          "path": "basic-waterfall",
-          "title": {
-            "zh": "基础瀑布图",
-            "en": "Basic Waterfall Chart"
-          }
-        },
-        {
-          "path": "collect-waterfall",
-          "title": {
-            "zh": "分解瀑布图",
-            "en": "Decomposition Waterfall Chart"
-          }
-        },
-        {
-          "path": "direction-waterfall",
-          "title": {
-            "zh": "水平瀑布图",
-            "en": "Horizontal Waterfall Chart"
-          }
-        },
-        {
-          "path": "stack-waterfall",
-          "title": {
-            "zh": "堆积瀑布图",
-            "en": "Stacked Waterfall Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "word-cloud-chart",
-      "title": {
-        "zh": "word-cloud-chart",
-        "en": "word-cloud-chart"
-      },
-      "children": [
-        {
-          "path": "word-cloud-clip",
-          "title": {
-            "zh": "词云图文本裁剪",
-            "en": "Word Cloud Text Clipping"
-          }
-        },
-        {
-          "path": "word-cloud-enlarge",
-          "title": {
-            "zh": "词云图全局自适应画布",
-            "en": "Word Cloud Auto-fit to Canvas"
-          }
-        },
-        {
-          "path": "word-cloud-format",
-          "title": {
-            "zh": "词云图文字格式化",
-            "en": "Word Cloud Text Formatting"
-          }
-        },
-        {
-          "path": "word-cloud-no-valueField",
-          "title": {
-            "zh": "词云图不配置大小字段",
-            "en": "Word Cloud without Size Field Configuration"
-          }
-        },
-        {
-          "path": "word-cloud-rotate",
-          "title": {
-            "zh": "词云图随机角度",
-            "en": "Word Cloud with Random Angle"
-          }
-        },
-        {
-          "path": "word-cloud-shape-basis",
-          "title": {
-            "zh": "形状词云图",
-            "en": "Shape Word Cloud"
-          }
-        },
-        {
-          "path": "word-cloud-shape-custom-color",
-          "title": {
-            "zh": "形状词云图自定义颜色",
-            "en": "Shape Word Cloud Custom Color"
-          }
-        },
-        {
-          "path": "word-cloud-shape-rotate",
-          "title": {
-            "zh": "形状词云图随机旋转角",
-            "en": "Shape Word Cloud with Random Rotation Angles"
-          }
-        },
-        {
-          "path": "word-cloud-shrink",
-          "title": {
-            "zh": "词云图文字缩放",
-            "en": "Word Cloud Text Scaling"
-          }
-        },
-        {
-          "path": "word-cloud-basic",
-          "title": {
-            "zh": "基础词云图",
-            "en": "Basic Word Cloud Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "brush",
-      "title": {
-        "zh": "brush",
-        "en": "brush"
-      },
-      "children": [
-        {
-          "path": "x-linked-brush",
-          "title": {
-            "zh": "横向选择框选",
-            "en": "Horizontal Selection Box"
-          }
-        },
-        {
-          "path": "polygon-brush",
-          "title": {
-            "zh": "不规则框选",
-            "en": "Irregular Rectangle Selection"
-          }
-        },
-        {
-          "path": "rect-linked-brush",
-          "title": {
-            "zh": "矩形关联框选",
-            "en": "Rect Linked Brush"
-          }
-        }
-      ]
-    },
-    {
-      "path": "gauge-chart",
-      "title": {
-        "zh": "gauge-chart",
-        "en": "gauge-chart"
-      },
-      "children": [
-        {
-          "path": "basic-gauge",
-          "title": {
-            "zh": "基础仪表图",
-            "en": "Basic Gauge Chart"
-          }
-        },
-        {
-          "path": "clock",
-          "title": {
-            "zh": "时钟示例",
-            "en": "Clock Example"
-          }
-        },
-        {
-          "path": "gauge-gradient",
-          "title": {
-            "zh": "渐变仪表图",
-            "en": "Gradient Gauge Chart"
-          }
-        },
-        {
-          "path": "gauge-progress",
-          "title": {
-            "zh": "使用circularProgress声明仪表图",
-            "en": "使用circularProgress声明仪表图"
+            "zh": "箱型图样式",
+            "en": "Box Plot Style"
           }
         }
       ]
@@ -1579,12 +515,415 @@
       ]
     },
     {
+      "path": "rose-chart",
+      "title": {
+        "zh": "rose-chart",
+        "en": "rose-chart"
+      },
+      "children": [
+        {
+          "path": "basic-rose",
+          "title": {
+            "zh": "基础玫瑰图",
+            "en": "Basic Rose Chart"
+          }
+        },
+        {
+          "path": "rose-grouped",
+          "title": {
+            "zh": "分组玫瑰图",
+            "en": "Grouped Rose Chart"
+          }
+        },
+        {
+          "path": "rose-stacked",
+          "title": {
+            "zh": "堆叠玫瑰图",
+            "en": "Stacked Rose Chart"
+          }
+        },
+        {
+          "path": "rose-stacked-group",
+          "title": {
+            "zh": "分组堆叠玫瑰图",
+            "en": "Grouped Stacked Rose Chart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "funnel-chart",
+      "title": {
+        "zh": "funnel-chart",
+        "en": "funnel-chart"
+      },
+      "children": [
+        {
+          "path": "basic-funnel",
+          "title": {
+            "zh": "基础漏斗图",
+            "en": "Basic Funnel Chart"
+          }
+        },
+        {
+          "path": "custom-funnel",
+          "title": {
+            "zh": "自定义漏斗图",
+            "en": "Custom Funnel Chart"
+          }
+        },
+        {
+          "path": "rect-funnel",
+          "title": {
+            "zh": "矩形转化漏斗图",
+            "en": "Rectangular Conversion Funnel Chart"
+          }
+        },
+        {
+          "path": "transform-funnel",
+          "title": {
+            "zh": "转化漏斗图",
+            "en": "Conversion Funnel Chart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "scatter-chart",
+      "title": {
+        "zh": "scatter-chart",
+        "en": "scatter-chart"
+      },
+      "children": [
+        {
+          "path": "basic-scatter",
+          "title": {
+            "zh": "基础散点图",
+            "en": "Basic Scatter Chart"
+          }
+        },
+        {
+          "path": "bubble-scatter",
+          "title": {
+            "zh": "气泡散点图",
+            "en": "Bubble Scatter Chart"
+          }
+        },
+        {
+          "path": "jitter-scatter",
+          "title": {
+            "zh": "扰动散点图",
+            "en": "Jitter Scatter Plot"
+          }
+        },
+        {
+          "path": "one-dimension-scatter",
+          "title": {
+            "zh": "一维散点图",
+            "en": "One-Dimensional Scatter Chart"
+          }
+        },
+        {
+          "path": "stack-scatter",
+          "title": {
+            "zh": "堆叠散点图",
+            "en": "Stacked Scatter Plot"
+          }
+        }
+      ]
+    },
+    {
+      "path": "radar-chart",
+      "title": {
+        "zh": "radar-chart",
+        "en": "radar-chart"
+      },
+      "children": [
+        {
+          "path": "basic-radar",
+          "title": {
+            "zh": "基础雷达图",
+            "en": "Basic Radar Chart"
+          }
+        },
+        {
+          "path": "multiple-radar",
+          "title": {
+            "zh": "分组雷达图",
+            "en": "Grouped Radar Chart"
+          }
+        },
+        {
+          "path": "radar-with-innerRadius",
+          "title": {
+            "zh": "空心雷达图",
+            "en": "Hollow Radar Chart"
+          }
+        },
+        {
+          "path": "stack-percent-radar",
+          "title": {
+            "zh": "百分比堆叠雷达图",
+            "en": "Percentage Stacked Radar Chart"
+          }
+        },
+        {
+          "path": "stack-radar",
+          "title": {
+            "zh": "堆叠雷达图",
+            "en": "Stacked Radar Chart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "map-chart",
+      "title": {
+        "zh": "map-chart",
+        "en": "map-chart"
+      },
+      "children": [
+        {
+          "path": "basic-map",
+          "title": {
+            "zh": "基础地图",
+            "en": "Basic Map"
+          }
+        },
+        {
+          "path": "scatter-map",
+          "title": {
+            "zh": "散点地图",
+            "en": "Scatter Map"
+          }
+        }
+      ]
+    },
+    {
+      "path": "sankey-chart",
+      "title": {
+        "zh": "sankey-chart",
+        "en": "sankey-chart"
+      },
+      "children": [
+        {
+          "path": "basic-sankey",
+          "title": {
+            "zh": "基础桑基图",
+            "en": "Basic Sankey Chart"
+          }
+        },
+        {
+          "path": "direction-sankey",
+          "title": {
+            "zh": "垂直桑基图",
+            "en": "Vertical Sankey Chart"
+          }
+        },
+        {
+          "path": "align-nodes-left-sankey",
+          "title": {
+            "zh": "节点左对齐桑基图",
+            "en": "Node Left Aligned Sankey Chart"
+          }
+        },
+        {
+          "path": "hierarchical-sankey",
+          "title": {
+            "zh": "层级桑基图",
+            "en": "Hierarchical Sankey Chart"
+          }
+        },
+        {
+          "path": "interection-sankey",
+          "title": {
+            "zh": "交互桑基图",
+            "en": "Interactive Sankey Diagram"
+          }
+        },
+        {
+          "path": "another-data-structure-sankey",
+          "title": {
+            "zh": "桑基图的另一种数据格式",
+            "en": "Another Data Format for Sankey Charts"
+          }
+        },
+        {
+          "path": "nameKey-sankey",
+          "title": {
+            "zh": "桑基图多种边配置",
+            "en": "Sankey Diagram Multiple Edge Configurations"
+          }
+        }
+      ]
+    },
+    {
+      "path": "sequence-chart",
+      "title": {
+        "zh": "sequence-chart",
+        "en": "sequence-chart"
+      },
+      "children": [
+        {
+          "path": "social-media-event",
+          "title": {
+            "zh": "社交媒体时序图",
+            "en": "Social Media Seuqnce Chart"
+          }
+        },
+        {
+          "path": "NBA-player-event",
+          "title": {
+            "zh": "NBA运动员时序图",
+            "en": "NBA Sequence Chart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "word-cloud-chart",
+      "title": {
+        "zh": "word-cloud-chart",
+        "en": "word-cloud-chart"
+      },
+      "children": [
+        {
+          "path": "word-cloud-basic",
+          "title": {
+            "zh": "基础词云图",
+            "en": "Basic Word Cloud Chart"
+          }
+        },
+        {
+          "path": "word-cloud-clip",
+          "title": {
+            "zh": "词云图文本裁剪",
+            "en": "Word Cloud Text Clipping"
+          }
+        },
+        {
+          "path": "word-cloud-enlarge",
+          "title": {
+            "zh": "词云图全局自适应画布",
+            "en": "Word Cloud Auto-fit to Canvas"
+          }
+        },
+        {
+          "path": "word-cloud-format",
+          "title": {
+            "zh": "词云图文字格式化",
+            "en": "Word Cloud Text Formatting"
+          }
+        },
+        {
+          "path": "word-cloud-no-valueField",
+          "title": {
+            "zh": "词云图不配置大小字段",
+            "en": "Word Cloud without Size Field Configuration"
+          }
+        },
+        {
+          "path": "word-cloud-rotate",
+          "title": {
+            "zh": "词云图随机角度",
+            "en": "Word Cloud with Random Angle"
+          }
+        },
+        {
+          "path": "word-cloud-shrink",
+          "title": {
+            "zh": "词云图文字缩放",
+            "en": "Word Cloud Text Scaling"
+          }
+        },
+        {
+          "path": "word-cloud-shape-basis",
+          "title": {
+            "zh": "形状词云图",
+            "en": "Shape Word Cloud"
+          }
+        },
+        {
+          "path": "word-cloud-shape-custom-color",
+          "title": {
+            "zh": "形状词云图自定义颜色",
+            "en": "Shape Word Cloud Custom Color"
+          }
+        },
+        {
+          "path": "word-cloud-shape-rotate",
+          "title": {
+            "zh": "形状词云图随机旋转角",
+            "en": "Shape Word Cloud with Random Rotation Angles"
+          }
+        }
+      ]
+    },
+        {
+      "path": "gauge-chart",
+      "title": {
+        "zh": "gauge-chart",
+        "en": "gauge-chart"
+      },
+      "children": [
+        {
+          "path": "basic-gauge",
+          "title": {
+            "zh": "基础仪表图",
+            "en": "Basic Gauge Chart"
+          }
+        },
+        {
+          "path": "clock",
+          "title": {
+            "zh": "时钟示例",
+            "en": "Clock Example"
+          }
+        },
+        {
+          "path": "gauge-gradient",
+          "title": {
+            "zh": "渐变仪表图",
+            "en": "Gradient Gauge Chart"
+          }
+        },
+        {
+          "path": "gauge-progress",
+          "title": {
+            "zh": "使用circularProgress声明仪表图",
+            "en": "使用circularProgress声明仪表图"
+          }
+        }
+      ]
+    },
+    {
       "path": "progress",
       "title": {
         "zh": "progress",
         "en": "progress"
       },
       "children": [
+        {
+          "path": "linear-progress",
+          "title": {
+            "zh": "条形进度图",
+            "en": "Bar Progress Chart"
+          }
+        },
+        {
+          "path": "segment-linear-progress",
+          "title": {
+            "zh": "分段条形进度图",
+            "en": "Segmented Bar Progress Chart"
+          }
+        },
+        {
+          "path": "linear-progress-with-text",
+          "title": {
+            "zh": "带文本标注的条形进度图",
+            "en": "Bar Progress Chart with text"
+          }
+        },
         {
           "path": "circular-progress",
           "title": {
@@ -1598,42 +937,220 @@
             "zh": "带文本标注的环形进度图",
             "en": "Circular Progress Chart with text"
           }
-        },
+        }
+      ]
+    },
         {
-          "path": "linear-progress",
+      "path": "treemap-chart",
+      "title": {
+        "zh": "treemap-chart",
+        "en": "treemap-chart"
+      },
+      "children": [
+        {
+          "path": "basic-treemap",
           "title": {
-            "zh": "条形进度图",
-            "en": "Bar Progress Chart"
+            "zh": "基础矩形树图",
+            "en": "Basic Rectangle Treemap"
           }
         },
         {
-          "path": "linear-progress-with-text",
+          "path": "treemap-show-parent-level",
           "title": {
-            "zh": "带文本标注的条形进度图",
-            "en": "Bar Progress Chart with text"
-          }
-        },
-        {
-          "path": "segment-linear-progress",
-          "title": {
-            "zh": "分段条形进度图",
-            "en": "Segmented Bar Progress Chart"
+            "zh": "矩形树图显示父层级",
+            "en": "Treemap Displaying Parent Level"
           }
         }
       ]
     },
     {
-      "path": "theme",
+      "path": "waterfall",
       "title": {
-        "zh": "theme",
-        "en": "theme"
+        "zh": "waterfall",
+        "en": "waterfall"
       },
       "children": [
         {
-          "path": "theme-switch",
+          "path": "basic-waterfall",
           "title": {
-            "zh": "主题注册、切换",
-            "en": "Theme Registration and Switching"
+            "zh": "基础瀑布图",
+            "en": "Basic Waterfall Chart"
+          }
+        },
+        {
+          "path": "collect-waterfall",
+          "title": {
+            "zh": "分解瀑布图",
+            "en": "Decomposition Waterfall Chart"
+          }
+        },
+        {
+          "path": "direction-waterfall",
+          "title": {
+            "zh": "水平瀑布图",
+            "en": "Horizontal Waterfall Chart"
+          }
+        },
+        {
+          "path": "stack-waterfall",
+          "title": {
+            "zh": "堆积瀑布图",
+            "en": "Stacked Waterfall Chart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "heatmap-chart",
+      "title": {
+        "zh": "heatmap-chart",
+        "en": "heatmap-chart"
+      },
+      "children": [
+        {
+          "path": "basic-heatmap",
+          "title": {
+            "zh": "基础热力图",
+            "en": "Basic Heatmap"
+          }
+        }
+      ]
+    },
+    {
+      "path": "circle-packing-chart",
+      "title": {
+        "zh": "circle-packing-chart",
+        "en": "circle-packing-chart"
+      },
+      "children": [
+        {
+          "path": "basic-circle-packing",
+          "title": {
+            "zh": "基础 CirclePacking 图",
+            "en": "Basic CirclePacking Chart"
+          }
+        },
+        {
+          "path": "circle-packing-multiple-roots",
+          "title": {
+            "zh": "多根节点 CirclePacking 图",
+            "en": "Multi-root CirclePacking Chart"
+          }
+        },
+        {
+          "path": "circle-packing-padding",
+          "title": {
+            "zh": "带内边距的 CirclePacking 图",
+            "en": "CirclePacking Chart with Padding"
+          }
+        }
+      ]
+    },
+    {
+      "path": "sunburst-chart",
+      "title": {
+        "zh": "sunburst-chart",
+        "en": "sunburst-chart"
+      },
+      "children": [
+        {
+          "path": "basic-sunburst",
+          "title": {
+            "zh": "基础旭日图",
+            "en": "Basic Sunburst Chart"
+          }
+        },
+        {
+          "path": "sunburst-auto-label",
+          "title": {
+            "zh": "旭日图隐藏密集标签",
+            "en": "Sunburst - Hiding Dense Labels"
+          }
+        },
+        {
+          "path": "sunburst-layout",
+          "title": {
+            "zh": "旭日图布局",
+            "en": "Sunburst Layout"
+          }
+        }
+      ]
+    },
+    {
+      "path": "combination",
+      "title": {
+        "zh": "combination",
+        "en": "combination"
+      },
+      "children": [
+        {
+          "path": "bar-combine",
+          "title": {
+            "zh": "组合图自定义多行多列布局",
+            "en": "Custom Multi-Row Multi-Column Layout in Combination Charts"
+          }
+        },
+        {
+          "path": "col-line",
+          "title": {
+            "zh": "单列组合图",
+            "en": "Combination Chart with Single Column"
+          }
+        },
+        {
+          "path": "col-pie",
+          "title": {
+            "zh": "多 region 饼图",
+            "en": "Multi-region Pie Chart"
+          }
+        },
+        {
+          "path": "dual-axis",
+          "title": {
+            "zh": "双轴图",
+            "en": "Dual Axis Chart"
+          }
+        },
+        {
+          "path": "easing-visualization",
+          "title": {
+            "zh": "缓动函数可视化",
+            "en": "Easing Functions Visualization"
+          }
+        },
+        {
+          "path": "line-pie",
+          "title": {
+            "zh": "线饼组合图",
+            "en": "Line-Pie Combination Chart"
+          }
+        },
+        {
+          "path": "polar-combine",
+          "title": {
+            "zh": "极坐标系下的组合图",
+            "en": "Combination Chart in Polar Coordinate System"
+          }
+        },
+        {
+          "path": "scatter-combine",
+          "title": {
+            "zh": "组合图自定义单行多列布局",
+            "en": "Custom Single Row Multi-Column Layout for Combination Charts"
+          }
+        },
+        {
+          "path": "single-region",
+          "title": {
+            "zh": "基础组合图",
+            "en": "Basic Combination Chart"
+          }
+        },
+        {
+          "path": "bar-line",
+          "title": {
+            "zh": "特殊轴效果的线柱组合图",
+            "en": "Bar-Line Combination Chart With UnNormal Axis"
           }
         }
       ]
@@ -1697,6 +1214,122 @@
       ]
     },
     {
+      "path": "title",
+      "title": {
+        "zh": "title",
+        "en": "title"
+      },
+      "children": [
+        {
+          "path": "basic-title",
+          "title": {
+            "zh": "基础标题",
+            "en": "Basic Title"
+          }
+        },
+        {
+          "path": "richText-title",
+          "title": {
+            "zh": "富文本标题",
+            "en": "Rich Text Title"
+          }
+        },
+        {
+          "path": "style-title",
+          "title": {
+            "zh": "自定义样式标题",
+            "en": "Customize Style Title"
+          }
+        }
+      ]
+    },
+    {
+      "path": "axis",
+      "title": {
+        "zh": "axis",
+        "en": "axis"
+      },
+      "children": [
+        {
+          "path": "subtick-and-subgrid",
+          "title": {
+            "zh": "子刻度线和子网格线",
+            "en": "Sub-ticks and Sub-grid lines"
+          }
+        },
+        {
+          "path": "style",
+          "title": {
+            "zh": "通用样式配置",
+            "en": "General Style Configuration"
+          }
+        },
+        {
+          "path": "grid-style",
+          "title": {
+            "zh": "网格线填充",
+            "en": "Grid Line Fill"
+          }
+        },
+        {
+          "path": "polar",
+          "title": {
+            "zh": "极坐标轴配置",
+            "en": "Polar Axis Configuration"
+          }
+        },
+        {
+          "path": "on-zero",
+          "title": {
+            "zh": "0 刻度轴线",
+            "en": "Domain locate at zero"
+          }
+        },
+        {
+          "path": "inverse",
+          "title": {
+            "zh": "坐标轴反转",
+            "en": "Axis Inversion"
+          }
+        },
+        {
+          "path": "interactive",
+          "title": {
+            "zh": "坐标轴交互",
+            "en": "Axis Interaction"
+          }
+        },
+        {
+          "path": "log-axis",
+          "title": {
+            "zh": "log轴",
+            "en": "Log axis"
+          }
+        },
+        {
+          "path": "symlog-axis",
+          "title": {
+            "zh": "symlog轴",
+            "en": "symlog axis"
+          }
+        },
+        {
+          "path": "animation",
+          "title": {
+            "zh": "坐标轴动画",
+            "en": "Axis Animation"
+          }
+        },
+        {
+          "path": "label-container-align",
+          "title": {
+            "zh": "坐标轴标签整体对齐",
+            "en": "Overall alignment of axis labels"
+          }
+        }
+      ]
+    },
+    {
       "path": "tooltip",
       "title": {
         "zh": "tooltip",
@@ -1733,18 +1366,353 @@
         }
       ]
     },
-    {
-      "path": "heatmap-chart",
+        {
+      "path": "legend",
       "title": {
-        "zh": "heatmap-chart",
-        "en": "heatmap-chart"
+        "zh": "legend",
+        "en": "legend"
       },
       "children": [
         {
-          "path": "basic-heatmap",
+          "path": "single-select",
           "title": {
-            "zh": "基础热力图",
-            "en": "Basic Heatmap"
+            "zh": "单选模式",
+            "en": "Single Selection Mode"
+          }
+        },
+        {
+          "path": "focus",
+          "title": {
+            "zh": "聚焦模式",
+            "en": "Focus Mode"
+          }
+        },
+        {
+          "path": "float",
+          "title": {
+            "zh": "图例展示在图表内部",
+            "en": "Legend Displayed Inside the Chart"
+          }
+        },
+        {
+          "path": "multiple-legends",
+          "title": {
+            "zh": "多图例/混合图例",
+            "en": "Multiple Legends/Mixed Legends"
+          }
+        },
+        {
+          "path": "continuous",
+          "title": {
+            "zh": "连续图例",
+            "en": "Continuous Legend"
+          }
+        },
+        {
+          "path": "custom-data",
+          "title": {
+            "zh": "自定义图例项",
+            "en": "Custom Legend Item"
+          }
+        },
+        {
+          "path": "custom-interaction",
+          "title": {
+            "zh": "自定义图例交互",
+            "en": "Custom Legend Interaction"
+          }
+        },
+        {
+          "path": "custom-line-legend",
+          "title": {
+            "zh": "图例项平铺",
+            "en": "Tiled Legend Items"
+          }
+        },
+        {
+          "path": "custom-ui",
+          "title": {
+            "zh": "自定义图例 UI",
+            "en": "Custom Legend UI"
+          }
+        }
+      ]
+    },
+    {
+      "path": "crosshair",
+      "title": {
+        "zh": "crosshair",
+        "en": "crosshair"
+      },
+      "children": [
+        {
+          "path": "line",
+          "title": {
+            "zh": "十字辅助线"
+          }
+        },
+        {
+          "path": "rect",
+          "title": {
+            "zh": "矩形十字辅助线",
+            "en": "Rectangular Crosshair"
+          }
+        },
+        {
+          "path": "polar-line",
+          "title": {
+            "zh": "雷达图的 crosshair",
+            "en": "Crosshair of Radar Chart"
+          }
+        },
+        {
+          "path": "polar-rect",
+          "title": {
+            "zh": "玫瑰图的 crosshair",
+            "en": "Rose Chart Crosshair"
+          }
+        },
+        {
+          "path": "multiple-region",
+          "title": {
+            "zh": "组合图 crosshair",
+            "en": "Combined chart crosshair"
+          }
+        }
+      ]
+    },
+    {
+      "path": "data-zoom",
+      "title": {
+        "zh": "data-zoom",
+        "en": "data-zoom"
+      },
+      "children": [
+        {
+          "path": "state-with-data",
+          "title": {
+            "zh": "缩略轴以数据的方式定义初始范围",
+            "en": "Define initial range in data form with thumbnail axis"
+          }
+        },
+        {
+          "path": "filter-mode-axis",
+          "title": {
+            "zh": "轴缩放模式",
+            "en": "Axis Zoom Mode"
+          }
+        },
+        {
+          "path": "data-zoom-polar",
+          "title": {
+            "zh": "缩略轴控制极坐标系图表",
+            "en": "Thumbnail Axis Controls Polar Chart"
+          }
+        },
+        {
+          "path": "preview-data",
+          "title": {
+            "zh": "缩略轴预览图表样式配置",
+            "en": "Thumbnail Axis Preview Chart Style Configuration"
+          }
+        }
+      ]
+    },
+    {
+      "path": "scrollbar",
+      "title": {
+        "zh": "scrollbar",
+        "en": "scrollbar"
+      },
+      "children": [
+        {
+          "path": "basic-scrollbar-bar-chart",
+          "title": {
+            "zh": "scrollBar 基础用法",
+            "en": "Basic Usage of scrollBar"
+          }
+        },
+        {
+          "path": "scrollbar-line-chart",
+          "title": {
+            "zh": "scrollBar 控制轴范围",
+            "en": "scrollBar Controls Axis Range"
+          }
+        },
+        {
+          "path": "scrollbar-specified-value",
+          "title": {
+            "zh": "纵向 scrollBar",
+            "en": "Vertical scrollBar"
+          }
+        }
+      ]
+    },
+    {
+      "path": "player",
+      "title": {
+        "zh": "player",
+        "en": "player"
+      },
+      "children": [
+        {
+          "path": "basic-player",
+          "title": {
+            "zh": "基础播放器",
+            "en": "Basic Player"
+          }
+        },
+        {
+          "path": "continuous-player",
+          "title": {
+            "zh": "连续播放器",
+            "en": "Continuous Player"
+          }
+        }
+      ]
+    },
+        {
+      "path": "brush",
+      "title": {
+        "zh": "brush",
+        "en": "brush"
+      },
+      "children": [
+        {
+          "path": "polygon-brush",
+          "title": {
+            "zh": "不规则框选",
+            "en": "Irregular Rectangle Selection"
+          }
+        },
+        {
+          "path": "rect-linked-brush",
+          "title": {
+            "zh": "矩形关联框选",
+            "en": "Rect Linked Brush"
+          }
+        },
+        {
+          "path": "x-linked-brush",
+          "title": {
+            "zh": "横向选择框选",
+            "en": "Horizontal Selection Box"
+          }
+        }
+      ]
+    },
+    {
+      "path": "marker",
+      "title": {
+        "zh": "marker",
+        "en": "marker"
+      },
+      "children": [
+        {
+          "path": "mark-line-basic",
+          "title": {
+            "zh": "markLine",
+            "en": "markLine"
+          }
+        },
+        {
+          "path": "mark-line-axis",
+          "title": {
+            "zh": "markLine 轴空间定位",
+            "en": "markLine Axis Space Positioning"
+          }
+        },
+        {
+          "path": "mark-line-coordinates",
+          "title": {
+            "zh": "markLine 数据高亮",
+            "en": "markLine Data Highlighting"
+          }
+        },
+        {
+          "path": "mark-line-part-regression",
+          "title": {
+            "zh": "markLine 指定数据点并计算线性回归",
+            "en": "markLine Specifying Data Points and Calculating Linear Regression"
+          }
+        },
+        {
+          "path": "mark-line-ref-series",
+          "title": {
+            "zh": "markLine 指定关联系列数据点",
+            "en": "markLine Specifying Related Series Data Points"
+          }
+        },
+        {
+          "path": "mark-area-basic",
+          "title": {
+            "zh": "markArea",
+            "en": "markArea"
+          }
+        },
+        {
+          "path": "mark-area-multi",
+          "title": {
+            "zh": "markArea 轴空间 和 数据点定位",
+            "en": "markArea Axis Space and Data Point Positioning"
+          }
+        },
+        {
+          "path": "mark-area-quadrant",
+          "title": {
+            "zh": "markArea 模拟象限图",
+            "en": "markArea Quadrant Chart Simulation"
+          }
+        },
+        {
+          "path": "mark-point-basic",
+          "title": {
+            "zh": "markPoint 数据点定位",
+            "en": "markPoint Data Point Positioning"
+          }
+        }
+      ]
+    },
+    {
+      "path": "data",
+      "title": {
+        "zh": "data",
+        "en": "data"
+      },
+      "children": [
+        {
+          "path": "basic-data",
+          "title": {
+            "zh": "基础数据使用",
+            "en": "Basic Data Usage"
+          }
+        },
+        {
+          "path": "data-fields-alias",
+          "title": {
+            "zh": "数据别名",
+            "en": "Data Alias"
+          }
+        },
+        {
+          "path": "data-fields-domain",
+          "title": {
+            "zh": "按照domain进行数据筛选",
+            "en": "Data Filtering By Domain"
+          }
+        },
+        {
+          "path": "data-fields-sort",
+          "title": {
+            "zh": "数据排序",
+            "en": "Data Sorting"
+          }
+        },
+        {
+          "path": "data-filter",
+          "title": {
+            "zh": "数据筛选",
+            "en": "Data Filtering"
           }
         }
       ]
@@ -1764,17 +1732,17 @@
           }
         },
         {
-          "path": "combination-chart-label",
-          "title": {
-            "zh": "组合图标签",
-            "en": "Combination Chart Labels"
-          }
-        },
-        {
           "path": "line-label",
           "title": {
             "zh": "折线图标签",
             "en": "Line Chart Labels"
+          }
+        },
+        {
+          "path": "combination-chart-label",
+          "title": {
+            "zh": "组合图标签",
+            "en": "Combination Chart Labels"
           }
         }
       ]
@@ -1803,19 +1771,62 @@
       ]
     },
     {
-      "path": "preview-image",
+      "path": "gradient",
       "title": {
-        "zh": "preview-image",
-        "en": "preview-image"
+        "zh": "gradient",
+        "en": "gradient"
       },
       "children": [
         {
-          "path": "bi-direction-stack-column_files",
+          "path": "line",
           "title": {
-            "zh": "bi-direction-stack-column_files",
-            "en": "bi-direction-stack-column_files"
-          },
-          "children": []
+            "zh": "渐变折线图",
+            "en": "Gradient Line Chart"
+          }
+        },
+        {
+          "path": "bar",
+          "title": {
+            "zh": "渐变色-高度渐变",
+            "en": "Gradient Color - Height Gradient"
+          }
+        },
+        {
+          "path": "area",
+          "title": {
+            "zh": "渐变面积图",
+            "en": "Gradient Area Chart"
+          }
+        },
+        {
+          "path": "scatter",
+          "title": {
+            "zh": "渐变气泡图",
+            "en": "Gradient Bubble Chart"
+          }
+        },
+        {
+          "path": "enhancement-gradient-line",
+          "title": {
+            "zh": "渐变色-颜色划分移动端",
+            "en": "Gradient Color - Color Segmentation on Mobile"
+          }
+        }
+      ]
+    },
+    {
+      "path": "theme",
+      "title": {
+        "zh": "theme",
+        "en": "theme"
+      },
+      "children": [
+        {
+          "path": "theme-switch",
+          "title": {
+            "zh": "主题注册、切换",
+            "en": "Theme Registration and Switching"
+          }
         }
       ]
     },
@@ -1843,12 +1854,27 @@
       ]
     },
     {
-      "path": "log",
+      "path": "pattern",
       "title": {
-        "zh": "log",
-        "en": "log"
+        "zh": "pattern",
+        "en": "pattern"
       },
-      "children": []
+      "children": [
+        {
+          "path": "accessible-column",
+          "title": {
+            "zh": "带纹理的分组柱状图",
+            "en": "Grouped Bar Chart with Textures"
+          }
+        },
+        {
+          "path": "accessible-pie",
+          "title": {
+            "zh": "带纹理的饼图",
+            "en": "Pie Chart with Texture"
+          }
+        }
+      ]
     },
     {
       "path": "morphing",
@@ -1874,55 +1900,29 @@
       ]
     },
     {
-      "path": "storytelling",
+      "path": "preview-image",
       "title": {
-        "zh": "storytelling",
-        "en": "storytelling"
+        "zh": "preview-image",
+        "en": "preview-image"
       },
       "children": [
         {
-          "path": "dynamic-comparative-bar-chart",
+          "path": "bi-direction-stack-column_files",
           "title": {
-            "zh": "动态对比柱状图",
-            "en": "Dynamic Comparative Bar Chart"
-          }
-        },
-        {
-          "path": "dynamic-line-chart",
-          "title": {
-            "zh": "动态线图",
-            "en": "Dynamic Line Chart"
-          }
-        },
-        {
-          "path": "dynamic-rose-chart",
-          "title": {
-            "zh": "动态玫瑰图",
-            "en": "Dynamic Rose Chart"
-          }
-        },
-        {
-          "path": "ranking-bar",
-          "title": {
-            "zh": "动态条形图",
-            "en": "Dynamic Bar Chart"
-          }
-        },
-        {
-          "path": "timeline-scatter",
-          "title": {
-            "zh": "动态散点图",
-            "en": "Dynamic Scatterplot"
-          }
-        },
-        {
-          "path": "weekly-activity",
-          "title": {
-            "zh": "环形图",
-            "en": "Circular Chart"
-          }
+            "zh": "bi-direction-stack-column_files",
+            "en": "bi-direction-stack-column_files"
+          },
+          "children": []
         }
       ]
+    },
+    {
+      "path": "log",
+      "title": {
+        "zh": "log",
+        "en": "log"
+      },
+      "children": []
     },
     {
       "path": "preview-image-temp",
