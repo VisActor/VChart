@@ -37,7 +37,7 @@ export const SEGMENT_FIELD_START = `${PREFIX}_SEGMENT_START`;
 export const SEGMENT_FIELD_END = `${PREFIX}_SEGMENT_END`;
 
 export enum LayoutZIndex {
-  Axis_Grid = 100,
+  Axis_Grid = 50,
   CrossHair_Grid = 100,
   Region = 450,
 
