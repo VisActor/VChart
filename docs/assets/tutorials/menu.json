@@ -589,31 +589,70 @@
           }
         },
         {
-          "path": "first-of-all",
+          "path": "cross-end",
           "title": {
-            "zh": "跨端说明",
-            "en": "Cross-end Instructions"
+            "zh": "小程序",
+            "en": "Mini App"
+          },
+          "children": [
+            {
+              "path": "first-of-all",
+              "title": {
+                "zh": "跨端说明",
+                "en": "Cross-end Instructions"
+              }
+            },
+            {
+              "path": "miniapp-block",
+              "title": {
+                "zh": "飞书小组件",
+                "en": "Lark Mini-Program Widget"
+              }
+            },
+            {
+              "path": "miniapp-lark",
+              "title": {
+                "zh": "飞书小程序",
+                "en": "Lark Mini Program"
+              }
+            },
+            {
+              "path": "miniapp-tt",
+              "title": {
+                "zh": "字节小程序",
+                "en": "Byte Mini Program"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "custom-extension",
+      "title": {
+        "zh": "自定义拓展",
+        "en": "Custom Extension"
+      },
+      "children": [
+        {
+          "path": "custom-animation",
+          "title": {
+            "zh": "自定义动画",
+            "en": "Custom Animation"
           }
         },
         {
-          "path": "miniapp-block",
+          "path": "custom-mark",
           "title": {
-            "zh": "飞书小组件",
-            "en": "Lark Mini-Program Widget"
+            "zh": "自定义Mark",
+            "en": "Custom Mark"
           }
         },
         {
-          "path": "miniapp-lark",
+          "path": "custom-layout",
           "title": {
-            "zh": "飞书小程序",
-            "en": "Lark Mini Program"
-          }
-        },
-        {
-          "path": "miniapp-tt",
-          "title": {
-            "zh": "字节小程序",
-            "en": "Byte Mini Program"
+            "zh": "自定义布局",
+            "en": "Custom Layout"
           }
         }
       ]
@@ -624,6 +663,29 @@
         "zh": "事件",
         "en": "Events"
       }
+    },
+    {
+      "path": "intelligent-visualization",
+      "title": {
+        "zh": "智能可视化",
+        "en": "Intelligent Visualization"
+      },
+      "children": [
+        {
+          "path": "getting-started-vmind",
+          "title": {
+            "zh": "VMind快速上手",
+            "en": "VMind Getting Started"
+          }
+        },
+        {
+          "path": "getting-started-data-video",
+          "title": {
+            "zh": "数据视频入门",
+            "en": "Getting Started with Data Video"
+          }
+        }
+      ]
     },
     {
       "path": "faq",
