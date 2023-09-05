@@ -99,6 +99,8 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
     if (isContinues) {
       fValues = fValues.filter(couldBeValidNumber);
       allValid = fValues.length === len;
+    } else {
+      fValues = fValues.filter((entry: any) => entry !== undefined);
     }
 
     operations.forEach(op => {
