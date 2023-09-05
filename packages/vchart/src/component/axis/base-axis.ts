@@ -32,6 +32,7 @@ import { degreeToRadian, pickWithout, type LooseFunction } from '@visactor/vutil
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
+import type { IGroup as ISeriesGroup } from '../../typings';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -261,7 +262,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected initScales() {
     this._scales = [this._scale];
-    const groups: IGroup[] = [];
+    const groups: ISeriesGroup[] = [];
     eachSeries(
       this._regions,
       s => {
