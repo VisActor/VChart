@@ -86,9 +86,9 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
       return;
     }
     const operations: StatisticOperations = f.operations;
-    const isContinues = operations.some(op => op !== 'values');
+    const isNumberField = operations.some(op => op === 'min' || op === 'max' || op === 'allValid');
     let allValid = true;
-    let fValues = latestData.reduce((res: any[], d: Datum) => {
+    let fValues: any[] = latestData.reduce((res: any[], d: Datum) => {
       if (d) {
         res.push(d[key]);
       }
@@ -96,9 +96,21 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
     }, []);
     const len = fValues.length;
 
-    if (isContinues) {
+    if (isNumberField) {
       fValues = fValues.filter(couldBeValidNumber);
       allValid = fValues.length === len;
+    } else if (operations.some(op => op === 'array-min' || op === 'array-max')) {
+      fValues = fValues.reduce((res, entry) => {
+        if (entry) {
+          entry.forEach((d: any) => {
+            if (couldBeValidNumber(d)) {
+              res.push(d);
+            }
+          });
+        }
+
+        return res;
+      }, []);
     } else {
       fValues = fValues.filter((entry: any) => entry !== undefined);
     }
@@ -114,7 +126,6 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
             return;
           }
         } else if (op === 'allValid') {
-          result[key].allValid = allValid;
           return;
         }
 
@@ -128,6 +139,10 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
         }
       }
     });
+
+    if (isNumberField) {
+      result[key].allValid = allValid;
+    }
   });
 
   return result;
