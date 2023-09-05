@@ -310,3 +310,15 @@ export function Pie() {
   );
 }
 ```
+
+## 如何开发
+
+```bash
+# 因为 taro-vchart 依赖 vchart 的编译结果，所以先要运行如下命令
+$ rush run -p @visactor/vchart -s build:es5
+
+# 运行 lark 小程序
+$ rush run -p @visactor/taro-vchart -s dev:lark
+```
+
+然后使用飞书开发者工具导入 `packages/taro-vchart/dist/lark` 目录即可。
