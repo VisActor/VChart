@@ -30,6 +30,7 @@ import type { IBarAnimationParams } from '../bar/animation';
 import { VChart } from '../../core/vchart';
 import { RuleMark } from '../../mark/rule';
 import { waterfallSeriesMark } from './constant';
+import { Group } from '../base/group';
 
 VChart.useMark([RuleMark]);
 
@@ -52,6 +53,14 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
   protected _leaderLineMark: IRuleMark = null;
   protected _stackLabelMark: ITextMark = null;
   protected _labelMark: ITextMark = null;
+
+  protected initGroups() {
+    const groupFields = this.getGroupFields();
+    if (groupFields && groupFields.length) {
+      this._groups = new Group(groupFields);
+      this._data && this._groups.initData(this._data.getDataView(), this._dataSet);
+    }
+  }
 
   setAttrFromSpec() {
     super.setAttrFromSpec();

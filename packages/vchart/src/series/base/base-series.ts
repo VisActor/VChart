@@ -347,7 +347,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const groupFields = this.getGroupFields();
     if (groupFields && groupFields.length) {
       this._groups = new Group(groupFields);
-      this._data && this._groups.initData(this._data.getDataView(), this._dataSet);
+      // this._data && this._groups.initData(this._data.getDataView(), this._dataSet);
     }
   }
 
