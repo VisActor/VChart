@@ -16,9 +16,10 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
     const chartSpec = this._option.globalInstance.getChart()?.getSpec() as any;
-    this._startAngle =
-      degreeToRadian(this._spec.startAngle) ?? degreeToRadian(chartSpec?.startAngle) ?? POLAR_START_RADIAN;
-    this._endAngle = degreeToRadian(this._spec.endAngle) ?? degreeToRadian(chartSpec?.endAngle) ?? POLAR_END_RADIAN;
+    const startAngle = this._spec.startAngle ?? chartSpec?.startAngle;
+    this._startAngle = isValid(startAngle) ? degreeToRadian(startAngle) : POLAR_START_RADIAN;
+    const endAngle = this._spec.endAngle ?? chartSpec?.endAngle;
+    this._endAngle = isValid(endAngle) ? degreeToRadian(endAngle) : POLAR_END_RADIAN;
 
     // 值信息给角度
     this.setAngleField(this._spec.valueField || this._spec.angleField);

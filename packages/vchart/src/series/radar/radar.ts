@@ -127,7 +127,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         const rect = this.getLayoutRect();
         return Math.min(rect.width, rect.height);
       },
-      startAngle: degreeToRadian(this._spec.startAngle) ?? POLAR_START_RADIAN,
+      startAngle: isValid(this._spec.startAngle) ? degreeToRadian(this._spec.startAngle) : POLAR_START_RADIAN,
       pointToCoord: (point: IPoint) => this.angleAxisHelper?.pointToCoord(point),
       coordToPoint: (coord: IPolarPoint) => this.angleAxisHelper.coordToPoint(coord)
     };
