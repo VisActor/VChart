@@ -12,7 +12,10 @@ import type { Datum } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../series/interface';
 import { VChart } from '../../core/vchart';
+import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
 VChart.useSeries([DotSeries, LinkSeries]);
+
+const SCROLL_BAR_DEFAULT_SIZE = 10;
 
 export class SequenceChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sequence;
@@ -30,7 +33,8 @@ export class SequenceChart extends BaseChart {
     let rowNum = 0;
     const elements: any[] = [];
     const region: IRegionSpec[] = [];
-    const axes: any = [];
+    const axes: ICartesianAxisSpec[] = [];
+    const scrollBar: IScrollBarSpec[] = [];
     const rowHeight: any = [];
 
     // 计算默认series padding和series高度
@@ -50,7 +54,7 @@ export class SequenceChart extends BaseChart {
       (spec as any).legends[0].id = `legendRow${rowNum}`;
       rowHeight.push({
         index: rowNum,
-        size: 20
+        size: 40
       });
       rowNum++;
     }
@@ -178,6 +182,29 @@ export class SequenceChart extends BaseChart {
           regionIndex: region.length - 1
         });
 
+        // scrollBar 内置
+        if (seriesSpec.type === SeriesTypeEnum.dot) {
+          elements.push({
+            modelId: `scrollBarRightRow${rowNum}`,
+            col: 2,
+            row: rowNum
+          });
+          const data = this.getSeriesData(seriesSpec.dataId, seriesSpec.dataIndex);
+          const ratio = (seriesSpec?.height || defaultSeriesRowHeight) / (data.latestData.length * 30);
+          // scrollBar数组增加一个right scrollBar
+          scrollBar.push({
+            orient: 'right',
+            visible: seriesSpec.type === SeriesTypeEnum.dot && ratio < 1,
+            id: `scrollBarRightRow${rowNum}`,
+            start: 0,
+            end: Math.min(ratio, 1),
+            roam: false,
+            filterMode: 'axis',
+            regionIndex: region.length - 1,
+            axisId: `axesLeftRow${rowNum}`
+          });
+        }
+
         // seriesSpec绑定regionIndex
         seriesSpec.regionIndex = region.length - 1;
 
@@ -227,7 +254,7 @@ export class SequenceChart extends BaseChart {
 
     const layout: IGridLayoutSpec = {
       type: 'grid',
-      col: 3,
+      col: 4,
       row: rowNum,
       colWidth: [
         {
@@ -236,6 +263,10 @@ export class SequenceChart extends BaseChart {
         },
         {
           index: 2,
+          size: SCROLL_BAR_DEFAULT_SIZE
+        },
+        {
+          index: 3,
           size: rightAppendPadding
         }
       ],
@@ -246,6 +277,7 @@ export class SequenceChart extends BaseChart {
     spec.layout = layout;
     spec.region = region;
     spec.axes?.push(...axes);
+    spec.scrollBar = scrollBar;
   }
 
   /**
