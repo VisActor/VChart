@@ -260,7 +260,7 @@ vchart.renderAsync();
 
 ## 渐变色配置
 
-图表的图形元素都可以配置渐变色，[柱图](../../../../demo/gradient/bar)、[线图](../../../../demo/gradient/line)、[面积图](../../../../demo/gradient/bar)、[气泡图](../../../../demo/gradient/bar) 等都可以使用。
+图表的图形元素都可以配置渐变色，[柱图](../../../demo/gradient/bar)、[线图](../../../demo/gradient/line)、[面积图](../../../demo/gradient/bar)、[气泡图](../../../demo/gradient/bar) 等都可以使用。
 
 ### 渐变色的基本概念与配置接口
 
@@ -490,7 +490,7 @@ window['vchart'] = vchart;
   <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/tutorials/linear-gradient.png" alt="线的渐变坐标">
 </div>
 
-基于 stop 我们可以制作出特定的[渐变色图表](../../../../demo/gradient/enhancement-gradient-line)
+基于 stop 我们可以制作出特定的[渐变色图表](../../../demo/gradient/enhancement-gradient-line)
 
 这个特殊的渐变色图期望线在 60 分以上的部分是绿色，60 分以下的部分是红色。我们可以想办法制作出特定的一组 stop 来实现
 
@@ -515,4 +515,4 @@ const mid = 60; // 想要作为划分点的数据值
 const percent = (max - mid) / (max - min);
 ```
 
-完整配置可以在[图表示例](../../../../demo/gradient/enhancement-gradient-line)中查看
+完整配置可以在[图表示例](../../../demo/gradient/enhancement-gradient-line)中查看

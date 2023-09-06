@@ -106,7 +106,7 @@
 
 ## 4. 系列配置
 
-柱状图对应 `'bar'` 系列，`'bar'` 系列包含 `'bar'` 图元和 label，我们可以对这些图元和 label 进行配置。更多关于系列的介绍详见[系列教程](../Chart_Concepts/Series/Composition_and_Effect_of_Series)。
+柱状图对应 `'bar'` 系列，`'bar'` 系列包含 `'bar'` 图元和 label，我们可以对这些图元和 label 进行配置。更多关于系列的介绍详见[系列教程](../concepts/series/series)。
 
 ### 4.1 图元样式配置
 

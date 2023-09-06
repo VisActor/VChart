@@ -117,7 +117,7 @@ vchart.renderAsync();
 
 #### Data Flattening
 
-We provide a data flattening tool called `transform` and `flod`, which can help users convert non-flattened data into flattened data. In VChart, we offer various built-in data processing tools and support for adding custom data processing tools. For specific methods, please refer to [DataSet](./Dataset_and_Data_Processing).
+We provide a data flattening tool called `transform` and `flod`, which can help users convert non-flattened data into flattened data. In VChart, we offer various built-in data processing tools and support for adding custom data processing tools. For specific methods, please refer to [DataSet](./dataSet).
 
 The usage example of `flod` is as follows:
 

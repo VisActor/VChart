@@ -1,10 +1,10 @@
 # Brush Selection
 
-Brush is an interactive component provided by VChart, which can help users select data in the chart, making it convenient for users to further analyze or manipulate data. This tutorial mainly introduces the related concepts and components of Brush. For more detailed configuration and examples of Brush, please refer to the [configuration documentation](../../../option) and [example](../../../example) pages.
+Brush is an interactive component provided by VChart, which can help users select data in the chart, making it convenient for users to further analyze or manipulate data. This tutorial mainly introduces the related concepts and components of Brush. For more detailed configuration and examples of Brush, please refer to the [configuration documentation](../../option) and [example](../../example) pages.
 
 ## Components
 
-The Brush component mainly consists of a selection area, providing rich selection types, styles, and interactions, and also provides corresponding event support (`brushChange`, see [Event API](../../../api/API/event) for details).
+The Brush component mainly consists of a selection area, providing rich selection types, styles, and interactions, and also provides corresponding event support (`brushChange`, see [Event API](../../api/event) for details).
 
 <div style="text-align: center;">
   <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a21b.png" alt="Brush Schematic">

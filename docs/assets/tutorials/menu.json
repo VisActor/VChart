@@ -589,6 +589,13 @@
           }
         },
         {
+          "path": "vue",
+          "title": {
+            "zh": "Vue VChart",
+            "en": "Vue VChart"
+          }
+        },
+        {
           "path": "cross-end",
           "title": {
             "zh": "小程序",

@@ -36,7 +36,7 @@ In this example, we set some basic styles for the data labels of the line chart:
   - `fontSize`: Set the font size of the label text.
   - `fontWeight`: Set the font weight of the label text.
 
-For supported configuration properties of text graphics, please refer to the [configuration documentation](../../../../option/lineChart#label.style).
+For supported configuration properties of text graphics, please refer to the [configuration documentation](../../../option/lineChart#label.style).
 
 You can try editing the label styles in the example below:
 
@@ -151,7 +151,7 @@ In this example, we set the following options for the data labels of the scatter
 
 - `overlap`: If set to `false`, it indicates turning off the label avoidance function.
   - `overlap.hideOnHit`: Set not to hide when labels overlap.
-  - `overlap.strategy`: Set the processing strategy when labels overlap. For detailed strategy configuration, please refer to the [configuration documentation](../../../../option/scatterChart#label.overlap)
+  - `overlap.strategy`: Set the processing strategy when labels overlap. For detailed strategy configuration, please refer to the [configuration documentation](../../../option/scatterChart#label.overlap)
 
 Here's an example of a custom label anti-overlap strategy for a bar chart:
 

@@ -1,6 +1,6 @@
 # Range Area Chart
 
-[\[Configuration Manual\]](../../../option/rangeAreaChart)
+[\[Configuration Manual\]](../../option/rangeAreaChart)
 
 ## Introduction
 
@@ -21,9 +21,9 @@ The rectangular chart element is the basic element of the range area chart, and 
 
 Coordinate axes, tooltips, and other components serve as auxiliary chart display components and are optional configurations with default effects and functions:
 
-- `rangeAreaChart.axes`: Coordinate axis component, displayed by default and automatically infers the coordinate system and data mapping logic based on the chart type, detailed configuration see [VChart Coordinate Axis Component Configuration](../../../option/rangeAreaChart#axes)
-- `rangeAreaChart.tooltip`: Tooltip, displayed by default when interacting, detailed configuration see [VChart Tooltip Component Configuration](../../../option/rangeAreaChart#tooltip)
-- For more component configurations, see [VChart rangeAreaChart Configuration](../../../option/rangeAreaChart)
+- `rangeAreaChart.axes`: Coordinate axis component, displayed by default and automatically infers the coordinate system and data mapping logic based on the chart type, detailed configuration see [VChart Coordinate Axis Component Configuration](../../option/rangeAreaChart#axes)
+- `rangeAreaChart.tooltip`: Tooltip, displayed by default when interacting, detailed configuration see [VChart Tooltip Component Configuration](../../option/rangeAreaChart#tooltip)
+- For more component configurations, see [VChart rangeAreaChart Configuration](../../option/rangeAreaChart)
 
 ## Getting Started Quickly
 

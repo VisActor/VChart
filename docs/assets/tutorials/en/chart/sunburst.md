@@ -1,6 +1,6 @@
 # Sunburst Chart
 
-[\[Configuration Manual\]](../../../option/sunburstChart)
+[\[Configuration Manual\]](../../option/sunburstChart)
 
 ## Introduction
 
@@ -42,8 +42,8 @@ The hierarchical fan-like graphics are essential to the Sunburst Chart, and rela
 
 Tooltip information and other components that help with displaying the chart are optional configurations with default effects and features:
 
-- `sunburstChart.tooltip`: Tooltip information, displayed by default during interaction. For detailed configuration, see [VChart Tooltip Component Configuration ](../../../option/sunburstChart#tooltip)
-- For more component configuration, see [VChart sunburstChart configuration](../../../option/sunburstChart)
+- `sunburstChart.tooltip`: Tooltip information, displayed by default during interaction. For detailed configuration, see [VChart Tooltip Component Configuration ](../../option/sunburstChart#tooltip)
+- For more component configuration, see [VChart sunburstChart configuration](../../option/sunburstChart)
 
 ## Quick Start
 

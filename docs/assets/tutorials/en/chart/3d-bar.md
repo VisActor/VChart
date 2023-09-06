@@ -24,9 +24,9 @@ The rectangular chart element is an essential building block for bar/column char
 
 Axes, tooltips, and other components, which serve as auxiliary chart display components, are optional configurations with default effects and functionality:
 
-- `barChart.axes`: Axis component, displayed by default and automatically inferring coordinate system and data mapping logic based on chart type. For detailed configurations, see [VChart Axis Component Configuration](../../../option/barChart#axes)
-- `barChart.tooltip`: Tooltip information, displayed by default during interaction, for detailed configurations, see [VChart Tooltip Component Configuration](../../../option/barChart#tooltip)
-- For more component configurations, see [VChart barChart Configuration](../../../option/barChart)
+- `barChart.axes`: Axis component, displayed by default and automatically inferring coordinate system and data mapping logic based on chart type. For detailed configurations, see [VChart Axis Component Configuration](../../option/barChart#axes)
+- `barChart.tooltip`: Tooltip information, displayed by default during interaction, for detailed configurations, see [VChart Tooltip Component Configuration](../../option/barChart#tooltip)
+- For more component configurations, see [VChart barChart Configuration](../../option/barChart)
   As a 3D chart, 3D scatter plot needs to enable 3D view, which needs to be configured in the initialization parameters of vChart:
 
 - `options3d.enable`: Enable 3D view

@@ -1,6 +1,6 @@
 # Histogram
 
-[\[Configuration Manual\]](../../../option/histogramChart)
+[\[Configuration Manual\]](../../option/histogramChart)
 
 ## Introduction
 
@@ -25,9 +25,9 @@ The rectangle element is the basic element of the histogram, and the relevant dr
 
 Coordinate axes, tooltips, and other components that assist chart display are optional configuration, with default effects and functionality:
 
-- `histogramChart.axes`: Coordinate axis component, displayed by default, and automatically infers coordinate system and data mapping logic according to chart type. Note that histograms do not support discrete axes because they are used to statistically analyze the frequency distribution within each data range, and the main axis(values) must be entered as a value range, which isn't supported by the discrete axis. Detailed configuration can be found at [VChart coordinate axis component configuration](../../../option/histogramChart#axes)
-- `histogramChart.tooltip`: Tooltip, displayed by default during interaction, detailed configuration can be found at [VChart tooltip component configuration](../../../option/histogramChart#tooltip)
-- For more component configuration see [VChart histogramChart configuration](../../../option/histogramChart)
+- `histogramChart.axes`: Coordinate axis component, displayed by default, and automatically infers coordinate system and data mapping logic according to chart type. Note that histograms do not support discrete axes because they are used to statistically analyze the frequency distribution within each data range, and the main axis(values) must be entered as a value range, which isn't supported by the discrete axis. Detailed configuration can be found at [VChart coordinate axis component configuration](../../option/histogramChart#axes)
+- `histogramChart.tooltip`: Tooltip, displayed by default during interaction, detailed configuration can be found at [VChart tooltip component configuration](../../option/histogramChart#tooltip)
+- For more component configuration see [VChart histogramChart configuration](../../option/histogramChart)
 
 ## Getting Started
 

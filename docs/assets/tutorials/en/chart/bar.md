@@ -1,14 +1,14 @@
 # Bar Chart / Bar Graph
 
-[\[Configuration Manual\]](../../../option/barChart)
+[\[Configuration Manual\]](../../option/barChart)
 
 ## Introduction
 
 A bar chart is a statistical chart with a variable based on the length of a rectangle. Bar charts are used to compare two or more values (different times or different conditions), with only one variable, and are often used for smaller data set analysis.
 
-In VChart, you can display data values for multiple groups through the [Bar Chart Configuration](../../../option/barChart). As shown in the following figure:
+In VChart, you can display data values for multiple groups through the [Bar Chart Configuration](../../option/barChart). As shown in the following figure:
 ![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f27.png)
-In the [example](../../../demo/bar-chart/group-stack-column) shown above, you need the following key configurations:
+In the [example](../../demo/bar-chart/group-stack-column) shown above, you need the following key configurations:
 
 - Set the mapping field for the x-axis and the **grouping field** on the `xField` property.
 - `seriesField` property declares the color mapping field.
@@ -19,7 +19,7 @@ A bar graph is a bar chart with a transpose of the x and y axes. The configurati
 
 ![](https://temp.domain/obj/bit-cloud/350c0511133d336e62252321d.png)
 
-To achieve a [Population Pyramid Chart](../../../demo/bar-chart/population-pyramid) as shown above, you need to use a combination of chart + bar series + layout with the following configurations:
+To achieve a [Population Pyramid Chart](../../demo/bar-chart/population-pyramid) as shown above, you need to use a combination of chart + bar series + layout with the following configurations:
 
 - Grid layout, configured through the `layout` property, used for bar chart layout.
 - Use the `type: common` type, i.e., the combination chart.
@@ -39,9 +39,9 @@ Rectangle elements are the basic elements of bar charts/bar graphs, and the corr
 
 Coordinate axis, prompt information, and other components are optional configurations for assisting in chart presentation and come with default effects and functions:
 
-- `barChart.axes`: coordinate axis component, default displayed, and automatically infer coordinate system and data mapping logic based on chart type, detailed configuration see [VChart Coordinate Axis Component Configuration](../../../option/barChart#axes)
-- `barChart.tooltip`: prompts information, default interaction display, detailed configuration see [VChart Tooltip Component Configuration](../../../option/barChart#tooltip)
-- More component configurations see [VChart barChart configuration](../../../option/barChart)
+- `barChart.axes`: coordinate axis component, default displayed, and automatically infer coordinate system and data mapping logic based on chart type, detailed configuration see [VChart Coordinate Axis Component Configuration](../../option/barChart#axes)
+- `barChart.tooltip`: prompts information, default interaction display, detailed configuration see [VChart Tooltip Component Configuration](../../option/barChart#tooltip)
+- More component configurations see [VChart barChart configuration](../../option/barChart)
 
 ## Quick Start
 

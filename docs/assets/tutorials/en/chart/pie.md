@@ -1,6 +1,6 @@
 # Pie / Ring Chart
 
-[\[Configuration Manual\]](../../../option/pieChart)
+[\[Configuration Manual\]](../../option/pieChart)
 
 ## Introduction
 
@@ -8,9 +8,9 @@ Pie chart, also known as a pie chart, is a circular statistical chart divided in
 
 A donut chart is formed by adding the `innerRadius` and `outerRadius` attributes to the base of the pie chart to adjust the inner and outer radii of the specified sectors.
 
-In VChart, you can display the relative relationships of multiple data through the [Pie/Donut Chart Configuration](../../../option/pieChart). The following chart shows the distribution of the U.S. population by age in 2021 using a combination of a pie chart and donut chart:
+In VChart, you can display the relative relationships of multiple data through the [Pie/Donut Chart Configuration](../../option/pieChart). The following chart shows the distribution of the U.S. population by age in 2021 using a combination of a pie chart and donut chart:
 ![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f2b.png)
-In the [Nested Pie Chart Example](../../../demo/pie-chart/nested-pie) shown above, you need the following key configurations:
+In the [Nested Pie Chart Example](../../demo/pie-chart/nested-pie) shown above, you need the following key configurations:
 
 - The `categoryField` and `valueField` attributes are used to specify the pie chart category and sector angle fields, respectively
 - The `innerRadius` and `outerRadius` attributes are used to specify the inner and outer radii of the sector.
@@ -31,9 +31,9 @@ Sector primitives are the basic elements of pie/donut charts, and related drawin
 
 Indicator cards, tooltips, and other components that assist the chart in displaying are optional configurations with default effects and functionality:
 
-- `pieChart.indicator`: Indicator card component, located at the heart of the pie chart, used to display total data or the data of a specific sector during interaction. See the detailed configuration of [VChart Indicator Card Component Configuration](../../../option/pieChart#indicator)
-- `pieChart.tooltip`: Tooltip information, displayed by default during interaction. See the detailed configuration of [VChart Tooltip Component Configuration](../../../option/pieChart#tooltip)
-- For more component configurations, see [VChart pieChart Configuration](../../../option/pieChart)
+- `pieChart.indicator`: Indicator card component, located at the heart of the pie chart, used to display total data or the data of a specific sector during interaction. See the detailed configuration of [VChart Indicator Card Component Configuration](../../option/pieChart#indicator)
+- `pieChart.tooltip`: Tooltip information, displayed by default during interaction. See the detailed configuration of [VChart Tooltip Component Configuration](../../option/pieChart#tooltip)
+- For more component configurations, see [VChart pieChart Configuration](../../option/pieChart)
 
 ## Quick Start
 

@@ -1,6 +1,6 @@
 # Rose Chart
 
-[\[Configuration Manual\]](../../../option/roseChart)
+[\[Configuration Manual\]](../../option/roseChart)
 
 ## Introduction
 
@@ -24,9 +24,9 @@ Sector elements are the basic elements of a rose chart, and related drawing conf
 
 Axes, tooltips, and other components that assist in chart display are optional configurations with default effects and functionality:
 
-- `roseChart.axes`: Axes component, displayed by default and automatically infers the coordinate system and data mapping logic according to the chart type, for detailed configuration see [VChart Axes Component Configuration](../../../option/roseChart#axes)
-- `roseChart.tooltip`: Tooltip, displayed by default when interactive, for detailed configurations see [VChart Tooltip Component Configuration](../../../option/roseChart#tooltip)
-- For more component configurations, see [VChart roseChart configuration](../../../option/roseChart)
+- `roseChart.axes`: Axes component, displayed by default and automatically infers the coordinate system and data mapping logic according to the chart type, for detailed configuration see [VChart Axes Component Configuration](../../option/roseChart#axes)
+- `roseChart.tooltip`: Tooltip, displayed by default when interactive, for detailed configurations see [VChart Tooltip Component Configuration](../../option/roseChart#tooltip)
+- For more component configurations, see [VChart roseChart configuration](../../option/roseChart)
 
 ## Rose Chart Features
 

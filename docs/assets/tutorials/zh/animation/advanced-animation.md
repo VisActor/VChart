@@ -102,7 +102,7 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 ```
 
-上面的例子，就是在利用我们上一章（[动画类型](./Animation_Types)）中介绍的`duration`/`delay`/`easing`/`oneByOne`配置来实现简单的动画效果。
+上面的例子，就是在利用我们上一章（[VChart 动画教程](./defination-of-animtion)）中介绍的`duration`/`delay`/`easing`/`oneByOne`配置来实现简单的动画效果。
 
 
 图元的动画配置支持多种属性，用于对图元动画行为进行细节控制。以下是图元动画配置支持的属性：
@@ -682,4 +682,4 @@ vchart.renderAsync();
 在动画效果（Effect）中的如果简单的 `channel` 配置无法满足你的需要，可以通过`custom`和`customParameters`来配置自定义动画效果：
 - `custom`：自定义动画；
 - `customParameters`：自定义动画参数；
-详细使用可以参考[自定义动画](../extend/custom_animation)章节。
+详细使用可以参考[自定义动画](../custom-extension/custom-animation)章节。

@@ -24,8 +24,8 @@ Transformation layers, labels, and other auxiliary elements are only displayed i
 
 Tooltip information and other components that assist in chart presentation are optional configurations that come with default effects and functions:
 
-- `funnelChart.tooltip`: Tooltip information, displayed by default during interaction, for detailed configuration see [VChart Tooltip Component Configuration](../../../option/funnelChart#tooltip)
-- For more component configurations, see [VChart funnelChart Configuration](../../../option/funnelChart)
+- `funnelChart.tooltip`: Tooltip information, displayed by default during interaction, for detailed configuration see [VChart Tooltip Component Configuration](../../option/funnelChart#tooltip)
+- For more component configurations, see [VChart funnelChart Configuration](../../option/funnelChart)
 
 As a 3D chart, a 3D scatter plot requires enabling the 3D view, which needs to be configured in the initialization parameters of vChart:
 
@@ -100,4 +100,4 @@ const vchart = new VChart(spec, {
 vchart.renderAsync();
 ```
 
-For other configurations, refer to [Funnel Chart](../../../option/funnelChart)
+For other configurations, refer to [Funnel Chart](../../option/funnelChart)
