@@ -1,6 +1,6 @@
 # Word Cloud
 
-[\[Options Manual\]](../../../option/wordCloudChart)
+[\[Options Manual\]](../../option/wordCloudChart)
 
 ## Introduction
 

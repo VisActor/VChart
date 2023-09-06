@@ -1,6 +1,6 @@
 # DataZoom Data Filtering Slider
 
-DataZoom is a filtering slider component in the VChart chart library, which allows users to zoom and roam chart data more conveniently, improves data visibility, and enhances the interactivity of the chart. This tutorial mainly explains the related concepts and composition of DataZoom. For more detailed configuration and examples of DataZoom, please refer to the [Configuration Documentation](../../../option) and [Examples](../../../example) pages.
+DataZoom is a filtering slider component in the VChart chart library, which allows users to zoom and roam chart data more conveniently, improves data visibility, and enhances the interactivity of the chart. This tutorial mainly explains the related concepts and composition of DataZoom. For more detailed configuration and examples of DataZoom, please refer to the [Configuration Documentation](../../option) and [Examples](../../example) pages.
 
 ## Composition
 

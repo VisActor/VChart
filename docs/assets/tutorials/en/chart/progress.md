@@ -1,7 +1,7 @@
 # Progress Chart
 
-[\[Linear Progress Chart Option Manual\]](../../../option/linearProgressChart)  
-[\[Circular Progress Chart Option Manual\]](../../../option/circularProgressChart)
+[\[Linear Progress Chart Option Manual\]](../../option/linearProgressChart)  
+[\[Circular Progress Chart Option Manual\]](../../option/circularProgressChart)
 
 ## Introduction
 
@@ -23,8 +23,8 @@ The linear progress chart consists of the rectangular chart element representing
 
 Tooltip information and other components that act as auxiliary chart displays are optional configurations with default effects and functionality:
 
-- `linearProgressChart.tooltip`: Tooltip information, displayed by default during interaction, see [VChart Tooltip Component Configuration](../../../option/linearProgressChart#tooltip) for detailed configuration
-- For more component configurations, see [VChart linearProgressChart configuration](../../../option/linearProgressChart)
+- `linearProgressChart.tooltip`: Tooltip information, displayed by default during interaction, see [VChart Tooltip Component Configuration](../../option/linearProgressChart#tooltip) for detailed configuration
+- For more component configurations, see [VChart linearProgressChart configuration](../../option/linearProgressChart)
 
 ### Quick Start
 
@@ -282,8 +282,8 @@ The circular progress chart consists of the arc chart element representing progr
 
 Optional components, which are auxiliary chart displays, have self-contained default effects and functionality:
 
-- `circularProgressChart.tooltip`: Tooltip information, displayed by default during interaction, and more detailed configurations can be found in [VChart Tooltip Component Configuration](../../../option/circularProgress[type]tooltip)
-- For more component configurations, see [VChart circularProgressChart configuration](../../../option/circularProgress[type])
+- `circularProgressChart.tooltip`: Tooltip information, displayed by default during interaction, and more detailed configurations can be found in [VChart Tooltip Component Configuration](../../option/circularProgress[type]tooltip)
+- For more component configurations, see [VChart circularProgressChart configuration](../../option/circularProgress[type])
 
 ### Quick Start
 

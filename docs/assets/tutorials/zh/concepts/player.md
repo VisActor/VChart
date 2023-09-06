@@ -1,6 +1,6 @@
 # Player 播放器
 
-Player 播放器主要作用是增强动态叙事能力，支持播放、暂停播放、前进、后退等基本功能，帮助用户动态地展示序列数据。根据其支持的数据类型可以分为离散型和连续型两种播放类型。通过使用 Player 组件，用户可以在图表中回溯数据变化情况，帮助用户更加直观地观察数据的变化。本教程主要讲解 Player 的相关概念以及组成，关于 Player 更加详细的配置及示例，请参见[配置项文档](../../../option)及[示例](../../../example)页面。
+Player 播放器主要作用是增强动态叙事能力，支持播放、暂停播放、前进、后退等基本功能，帮助用户动态地展示序列数据。根据其支持的数据类型可以分为离散型和连续型两种播放类型。通过使用 Player 组件，用户可以在图表中回溯数据变化情况，帮助用户更加直观地观察数据的变化。本教程主要讲解 Player 的相关概念以及组成，关于 Player 更加详细的配置及示例，请参见[配置项文档](../../option)及[示例](../../example)页面。
 
 ## 组成
 
@@ -28,7 +28,7 @@ Player 组件由 2 个模块组成：
 
 ## 示例
 
-- [基础播放器(离散型)](../../../demo/player/basic-player)
-- [基础播放器(连续型)](../../../demo/player/continuous-player)
-- [ranking-bar](../../../demo/player/ranking-bar)
-- [timeline-scatter](../../../demo/player/timeline-scatter)
+- [基础播放器(离散型)](../../demo/player/basic-player)
+- [基础播放器(连续型)](../../demo/player/continuous-player)
+- [ranking-bar](../../demo/player/ranking-bar)
+- [timeline-scatter](../../demo/player/timeline-scatter)

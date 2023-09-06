@@ -86,10 +86,10 @@ npm install @visactor/taro-vchart
 | ------------- | -------- | ------------------------------------------------------------------------------------------------------- |
 | type          | string   | 配置的环境，目前组件支持的环境有：**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web') |
 | canvasId      | String   | 图表 id, 必确唯一                                                                                       |
-| spec          | Object   | 图表配置项, 请参考[VChart 配置项](../../../option)                                                                 |
+| spec          | Object   | 图表配置项, 请参考[VChart 配置项](../../option)                                                                 |
 | style         | Object   | 图表容器样式                                                                                            |
 | events        | Object[] | 事件绑定配置                                                                                            |
-| options       | Object   | 初始化 VChart 实例传入的额外配置项，同 [VChart 实例化配置项](../../../api/API/vchart#options)                                      |
+| options       | Object   | 初始化 VChart 实例传入的额外配置项，同 [VChart 实例化配置项](../../api/API/vchart#options)                                      |
 | onChartInit   | Function | 图表初始化完后触发的回调                                                                                |
 | onChartReady  | Function | 图表渲染完毕后触发的回调                                                                                |
 | onChartUpdate | Function | 图表更新完毕后触发的回调                                                                                |
@@ -189,7 +189,7 @@ export function Pie() {
 
 - `chartInstance.updateData()` 基于数据更新图表
 
-详细使用方法请参考:[VChart API](../../../api/API)
+详细使用方法请参考:[VChart API](../../api/API)
 
 #### 示例
 

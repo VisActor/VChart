@@ -1,6 +1,6 @@
 # 词云
 
-[\[配置项手册\]](../../../option/wordCloudChart)
+[\[配置项手册\]](../../option/wordCloudChart)
 
 ## 简介
 
@@ -307,7 +307,7 @@ window['vchart'] = vchart;
 
 #### 数据结构
 
-同[词云](../WordCloud#词云特性)
+同[词云](#词云特性)
 
 ### 形状配置为 url 图片
 

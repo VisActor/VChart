@@ -281,7 +281,7 @@ const { spec, time } = await(vmind.generateChart(csvData, describe)); //图表�
 
 这样我们就得到了对应动态图表的 VChart spec 和视频时长。
 
-VMind 目前支持柱状图、饼图、折线图、散点图、词云、动态条形图。你可以参考[VChart 快速上手](http://www.visactor.io/vchart/guide/tutorial_docs/Getting_Started)，使用 VChart 将其绘制出来，或者继续使用 VMind 将其导出为视频或 GIF。在未来，VMind 还将支持对话式的图表编辑功能，通过自然语言直接将编辑操作应用到图表上，实现更加个性化的数据视频创作。
+VMind 目前支持柱状图、饼图、折线图、散点图、词云、动态条形图。你可以参考[VChart 快速上手](../getting-started)，使用 VChart 将其绘制出来，或者继续使用 VMind 将其导出为视频或 GIF。在未来，VMind 还将支持对话式的图表编辑功能，通过自然语言直接将编辑操作应用到图表上，实现更加个性化的数据视频创作。
 
 # 图表视频导出
 

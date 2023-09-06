@@ -51,7 +51,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   protected _areaMark!: IAreaMark;
   protected _stack: boolean = true;
-  protected _sortDataByAxis: boolean = true;
+  protected _sortDataByAxis: boolean = false;
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();

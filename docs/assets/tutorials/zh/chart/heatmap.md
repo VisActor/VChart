@@ -37,9 +37,9 @@
 
 坐标轴、图例等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
 
-- `heatmapChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../../option/heatmapChart#axes)
-- `heatmapChart.legends`: 图例组件，在热力图中通常使用线性图例显示映射关系，详情配置见[VChart 图例组件配置](../../../option/heatmapChart#legends)
-- 更多组件配置见[VChart heatmapChart 配置](../../../option/heatmapChart)
+- `heatmapChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../option/heatmapChart#axes)
+- `heatmapChart.legends`: 图例组件，在热力图中通常使用线性图例显示映射关系，详情配置见[VChart 图例组件配置](../../option/heatmapChart#legends)
+- 更多组件配置见[VChart heatmapChart 配置](../../option/heatmapChart)
 
 ## 快速上手
 

@@ -36,7 +36,7 @@ VChart 支持多种类型的图表，包括柱状图、折线图、饼图、面�
   - `fontSize`：设置标签文本的字体大小。
   - `fontWeight`：设置标签文本的字体粗细。
 
-文字图元的支持的配置属性可以参考[配置项文档](../../../../option/lineChart#label.style)。
+文字图元的支持的配置属性可以参考[配置项文档](../../../option/lineChart#label.style)。
 
 你可以在下面的例子中尝试编辑标签的样式：
 
@@ -151,7 +151,7 @@ VChart 支持通过自定义函数来配置标签内容。例如，可以将柱�
 
 - `overlap`：若设置为 `false` 表示关闭标签躲避功能。
   - `overlap.hideOnHit`：设置标签发生重叠时不隐藏。
-  - `overlap.strategy`：设置标签发生重叠时的处理策略。详细策略配置可以参考[配置文档](../../../../option/scatterChart#label.overlap)
+  - `overlap.strategy`：设置标签发生重叠时的处理策略。详细策略配置可以参考[配置文档](../../../option/scatterChart#label.overlap)
 
 这里是一个柱状图自定义标签防重叠策略的示例：
 

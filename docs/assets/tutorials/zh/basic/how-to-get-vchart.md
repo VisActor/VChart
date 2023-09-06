@@ -16,7 +16,7 @@ $ npm install @visactor/vchart
 $ yarn add @visactor/vchart
 ```
 
-获取时候如何使用，详见[如何在项目中引用 VChart](./How_to_Import_VChart)。
+获取时候如何使用，详见[如何在项目中引用 VChart](./how-to-import-vchart)。
 
 ## cdn 获取
 

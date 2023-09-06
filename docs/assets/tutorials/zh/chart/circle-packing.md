@@ -39,8 +39,8 @@ Circle Packing 主要由相互嵌套的圆形图元及标签、提示信息等�
 
 提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
 
-- `circlePackingChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/circlePackingChart#tooltip)
-- 更多组件配置见[VChart circlePackingChart 配置](../../../option/circlePackingChart)
+- `circlePackingChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../option/circlePackingChart#tooltip)
+- 更多组件配置见[VChart circlePackingChart 配置](../../option/circlePackingChart)
 
 ## 快速上手
 

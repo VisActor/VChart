@@ -24,9 +24,9 @@ The use of the `@visactor/tt-vchart` chart component is shown below:
 ```
 
 - `canvasId` is the id of the chart, consistent with the id of the dom, please make sure **id is not repeated**.
-- `spec` is the core concept of VChart, and the spec of the cross-end components is consistent with the PC end. Chart configuration examples can be found in [VChart Chart Examples](../../../../example). For users who are not familiar with VChart, you can refer to the [Getting Started with VChart](../../Getting_Started) tutorial.
+- `spec` is the core concept of VChart, and the spec of the cross-end components is consistent with the PC end. Chart configuration examples can be found in [VChart Chart Examples](../../../example). For users who are not familiar with VChart, you can refer to the [Getting Started with VChart](../../getting-started) tutorial.
 - `styles` is the style of the chart container, which can be used to control chart width, height, and other styles.
-- `events` is an array of objects used to register a series of events, defined as follows, specific event names, event filtering configurations, and callback function parameters refer to [VChart Event API](todo)
+- `events` is an array of objects used to register a series of events, defined as follows, specific event names, event filtering configurations, and callback function parameters refer to [VChart Event API](../../../api/event)
 
 ```ts
 interface IEvent {

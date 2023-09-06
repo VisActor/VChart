@@ -40,7 +40,7 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
 
   protected declare _theme: Maybe<ILineSeriesTheme>;
 
-  protected _sortDataByAxis: boolean = true;
+  protected _sortDataByAxis: boolean = false;
 
   initMark(): void {
     const progressive = {
