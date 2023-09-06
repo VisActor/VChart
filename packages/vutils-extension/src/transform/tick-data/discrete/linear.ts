@@ -1,5 +1,5 @@
 import type { BandScale } from '@visactor/vscale';
-import { isValid } from '../../../../util';
+import { isValid } from '@visactor/vutils';
 import type { ICartesianTickDataOpt, ITickData } from '../interface';
 import { convertDomainToTickData, getCartesianLabelBounds, labelDistance, labelOverlap } from '../util';
 import type { AABBBounds } from '@visactor/vutils';

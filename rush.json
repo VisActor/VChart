@@ -59,6 +59,12 @@
       "versionPolicyName": "vchartMain"
     },
     {
+      "packageName": "@visactor/vutils-extension",
+      "projectFolder": "packages/vutils-extension",
+      "tags": ["package"],
+      "shouldPublish": true
+    },
+    {
       "packageName": "@visactor/tt-vchart",
       "projectFolder": "packages/tt-vchart",
       "shouldPublish": false

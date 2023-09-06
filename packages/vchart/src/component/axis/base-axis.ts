@@ -5,7 +5,7 @@ import type { INode, IGroup, IGraphic } from '@visactor/vrender';
 import { AXIS_ELEMENT_NAME } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
-import type { IOrientType, IPolarOrientType, Datum, StringOrNumber } from '../../typings';
+import type { IOrientType, IPolarOrientType, Datum, StringOrNumber, IGroup as ISeriesGroup } from '../../typings';
 import { BaseComponent } from '../base';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
@@ -32,7 +32,6 @@ import { degreeToRadian, pickWithout, type LooseFunction } from '@visactor/vutil
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
-import type { IGroup as ISeriesGroup } from '../../typings';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>

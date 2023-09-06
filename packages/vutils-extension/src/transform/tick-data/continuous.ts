@@ -1,7 +1,7 @@
 import type { LinearScale, ContinuousScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import { isValid, peek } from '../../../util';
+import { isValid, last } from '@visactor/vutils';
 import { DEFAULT_CONTINUOUS_TICK_COUNT } from './config';
 import type { ICartesianTickDataOpt, ITickData, ITickDataOpt } from './interface';
 import type { ILabelItem } from './util';
@@ -61,8 +61,8 @@ export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITick
         if (ticks.length > 1) {
           ticks.pop();
         }
-        if (peek(ticks) !== peek(scaleTicks)) {
-          ticks.push(peek(scaleTicks));
+        if (last(ticks) !== last(scaleTicks)) {
+          ticks.push(last(scaleTicks));
         }
       }
 

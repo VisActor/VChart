@@ -1,9 +1,9 @@
 import type { Datum } from '@visactor/vgrammar';
-import { isValid, isValidNumber } from '@visactor/vutils';
+import { degreeToRadian, isValid, isValidNumber } from '@visactor/vutils';
 import { POLAR_END_RADIAN, POLAR_START_RADIAN, STACK_FIELD_END, STACK_FIELD_START } from '../../../constant';
 import type { IMarkStyle } from '../../../mark/interface';
 import type { ConvertToMarkStyleSpec, ICommonSpec } from '../../../typings';
-import { radians, valueInScaleRange } from '../../../util';
+import { valueInScaleRange } from '../../../util';
 import { PolarSeries } from '../polar';
 import type { IProgressLikeSeriesSpec } from './interface';
 
@@ -16,8 +16,9 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
     const chartSpec = this._option.globalInstance.getChart()?.getSpec() as any;
-    this._startAngle = radians(this._spec.startAngle) ?? radians(chartSpec?.startAngle) ?? POLAR_START_RADIAN;
-    this._endAngle = radians(this._spec.endAngle) ?? radians(chartSpec?.endAngle) ?? POLAR_END_RADIAN;
+    this._startAngle =
+      degreeToRadian(this._spec.startAngle) ?? degreeToRadian(chartSpec?.startAngle) ?? POLAR_START_RADIAN;
+    this._endAngle = degreeToRadian(this._spec.endAngle) ?? degreeToRadian(chartSpec?.endAngle) ?? POLAR_END_RADIAN;
 
     // 值信息给角度
     this.setAngleField(this._spec.valueField || this._spec.angleField);

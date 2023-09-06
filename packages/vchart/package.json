@@ -116,7 +116,8 @@
     "@visactor/vgrammar-sankey": "~0.6.6",
     "@visactor/vgrammar-util": "~0.6.6",
     "@visactor/vrender": "~0.14.7",
-    "@visactor/vrender-components": "~0.14.7"
+    "@visactor/vrender-components": "~0.14.7",
+    "@visactor/vutils-extension": "workspace:0.0.1"
   },
   "publishConfig": {
     "access": "public",

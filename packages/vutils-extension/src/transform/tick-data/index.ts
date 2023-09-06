@@ -8,6 +8,7 @@ import type { ICartesianTickDataOpt, IPolarTickDataOpt, ITickData, ITickDataOpt 
 import { convertDomainToTickData } from './util';
 
 export * from './interface';
+export { convertDomainToTickData };
 
 // 总入口
 export const ticks = (scale: IBaseScale, op: ITickDataOpt): ITickData[] => {

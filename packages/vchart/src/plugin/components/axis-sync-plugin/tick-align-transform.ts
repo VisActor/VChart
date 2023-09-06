@@ -1,6 +1,6 @@
 import type { Datum } from '../../../typings';
 import type { CartesianAxis } from '../../../component';
-import { convertDomainToTickData } from '../../../data/transforms/tick-data/util';
+import { convertDomainToTickData } from '@visactor/vutils-extension';
 
 export interface ITickAlignOpt {
   targetAxis: () => CartesianAxis;

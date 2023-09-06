@@ -31,9 +31,9 @@ import { isValidCartesianAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { scaleParser } from '../../../data/parser/scale';
-import type { ICartesianTickDataOpt } from '../../../data/transforms/tick-data';
+import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
-import { ticks } from '../../../data/transforms/tick-data';
+import { ticks } from '@visactor/vutils-extension';
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataView } from '@visactor/vdataset';
