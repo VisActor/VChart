@@ -204,25 +204,11 @@ export class Compiler {
     this._height = height;
 
     this._view.resize(width, height);
-    return this.reRenderAsync({ morph: false });
+    return this.renderAsync({ morph: false });
   }
 
   setBackground(color: IColor) {
     this._view?.background(color);
-  }
-
-  reRenderAsync(morphConfig?: IMorphConfig) {
-    if (this.isInited) {
-      // 合并多次 renderSync 调用，另外如果使用 renderAsync 异步渲染的话，在小程序环境会有问题
-      if (this._rafId) {
-        vglobal.getCancelAnimationFrame()(this._rafId);
-      }
-
-      this._rafId = vglobal.getRequestAnimationFrame()(() => {
-        this.renderSync(morphConfig);
-      });
-    }
-    return Promise.resolve();
   }
 
   setSize(width: number, height: number) {
