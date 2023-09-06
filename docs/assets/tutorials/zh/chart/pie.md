@@ -25,9 +25,9 @@
 
 指标卡、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
 
-- `pieChart.indicator`: 指标卡组件，位于饼图的环心，用于展示总数据或在交互时展示某个扇区的数据，详情配置见[VChart 指标卡组件配置](../../../option/pieChart#indicator)
-- `pieChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/pieChart#tooltip)
-- 更多组件配置见[VChart pieChart 配置](../../../option/pieChart)
+- `pieChart.indicator`: 指标卡组件，位于饼图的环心，用于展示总数据或在交互时展示某个扇区的数据，详情配置见[VChart 指标卡组件配置](../../option/pieChart#indicator)
+- `pieChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../option/pieChart#tooltip)
+- 更多组件配置见[VChart pieChart 配置](../../option/pieChart)
 
 ## 快速上手
 

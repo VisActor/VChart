@@ -1,6 +1,6 @@
 # Funnel Chart
 
-[\[Configuration Manual\]](../../../option/funnelChart)
+[\[Configuration Manual\]](../../option/funnelChart)
 
 ## Introduction
 
@@ -26,8 +26,8 @@ Transformation layers, labels, and other auxiliary elements are displayed only u
 
 Tooltip information and other components that assist in chart display are optional configurations with default effects and features:
 
-- `funnelChart.tooltip`: Tooltip, displayed by default during interaction, detailed configuration can be found [VChart tooltip component configuration](../../../option/funnelChart#tooltip)
-- For more component configurations, see [VChart funnelChart configuration](../../../option/funnelChart)
+- `funnelChart.tooltip`: Tooltip, displayed by default during interaction, detailed configuration can be found [VChart tooltip component configuration](../../option/funnelChart#tooltip)
+- For more component configurations, see [VChart funnelChart configuration](../../option/funnelChart)
 
 ## Quick Start
 

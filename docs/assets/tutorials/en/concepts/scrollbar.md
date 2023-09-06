@@ -1,6 +1,6 @@
 # Scrollbar
 
-Scrollbar is an interactive component provided by VChart, which is similar to the ordinary dom scrollbar. When the content area of the chart is larger than the display area, the scrollbar can be configured to help view the chart. This tutorial mainly explains the related concepts and composition of the Scrollbar component. For more detailed configuration and examples of the Scrollbar component, please refer to the [configuration documentation](../../../option) and [example](../../../example) pages.
+Scrollbar is an interactive component provided by VChart, which is similar to the ordinary dom scrollbar. When the content area of the chart is larger than the display area, the scrollbar can be configured to help view the chart. This tutorial mainly explains the related concepts and composition of the Scrollbar component. For more detailed configuration and examples of the Scrollbar component, please refer to the [configuration documentation](../../option) and [example](../../example) pages.
 
 ## Components
 

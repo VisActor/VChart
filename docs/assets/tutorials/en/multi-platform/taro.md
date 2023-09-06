@@ -86,10 +86,10 @@ Usage example of the chart component:
 | ------------- | -------- | -----------------------------------------------------------------------------------------------|
 | type          | string   | Configured environment, currently supported environments: **Byte Mini Program** ('tt'), **Lark Mini Program** ('lark'), **Browser** ('h5', 'web') |
 | canvasId      | String   | Chart id, must be unique |
-| spec          | Object   | Chart configuration item, please refer to [VChart Configuration Item](../../../option) |
+| spec          | Object   | Chart configuration item, please refer to [VChart Configuration Item](../../option) |
 | style         | Object   | Chart container style |
 | events        | Object[] | Event binding configuration |
-| options       | Object   | Additional configuration items passed to the VChart instance during initialization, the same as [VChart instantiation configuration items](../../../api/API/vchart#options)|
+| options       | Object   | Additional configuration items passed to the VChart instance during initialization, the same as [VChart instantiation configuration items](../../api/API/vchart#options)|
 | onChartInit   | Function | Callback triggered after the chart is initialized |
 | onChartReady  | Function | Callback triggered after the chart is rendered |
 | onChartUpdate | Function | Callback triggered after the chart is updated |
@@ -189,7 +189,7 @@ In addition, users can also use the rendering interface provided by the VChart i
 
 - `chartInstance.updateData()` Update chart based on data
 
-For detailed usage, please refer to: [VChart API](../../../api/API)
+For detailed usage, please refer to: [VChart API](../../api/API)
 
 #### Example
 

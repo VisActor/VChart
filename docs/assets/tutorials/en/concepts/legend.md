@@ -1,6 +1,6 @@
 # Legend
 
-Legend is an auxiliary mark in charts, which distinguishes different data groups by color, shape, and size, helping to better convey the meaning of different visual encoding. It is also commonly used for data filtering in charts. In VChart, legends are divided into discrete legends and continuous legends according to the associated data types, and continuous legends are further divided into color legends and size legends. This tutorial mainly explains the related concepts and composition of Legend. For more detailed configuration and examples of Legend, please refer to the [configuration document](../../../option) and [example](../../../example) pages.
+Legend is an auxiliary mark in charts, which distinguishes different data groups by color, shape, and size, helping to better convey the meaning of different visual encoding. It is also commonly used for data filtering in charts. In VChart, legends are divided into discrete legends and continuous legends according to the associated data types, and continuous legends are further divided into color legends and size legends. This tutorial mainly explains the related concepts and composition of Legend. For more detailed configuration and examples of Legend, please refer to the [configuration document](../../option) and [example](../../example) pages.
 
 ## Discrete Legend
 
@@ -68,7 +68,7 @@ Additionally, the paginator also provides its own interaction state style config
 1. Interaction when the mouse hovers over the button
 2. Interaction when the mouse clicks
 
-This can be configured on `pager.handler.state`, see the [pager configuration documentation](../../../option/barChart#legends-discrete.pager) for details.
+This can be configured on `pager.handler.state`, see the [pager configuration documentation](../../option/barChart#legends-discrete.pager) for details.
 
 ## Continuous Legend
 
@@ -93,7 +93,7 @@ The continuous legend is divided into color legends and size legends, both of wh
 
 ## Customizing Legends
 
-VChart's legend component provides rich configuration options to meet various data visualization needs and also provides related [API interfaces](../../../api/API). When the default legend cannot meet the business requirements, the legend can be customized through the legend configuration options and related api interfaces.
+VChart's legend component provides rich configuration options to meet various data visualization needs and also provides related [API interfaces](../../api). When the default legend cannot meet the business requirements, the legend can be customized through the legend configuration options and related api interfaces.
 
 ### UI Customization
 
@@ -369,4 +369,4 @@ vchart.on('legendItemUnHover', e => {
 vchart.renderAsync();
 ```
 
-For more examples of `legend`, please refer to [Legend](../../../example).
+For more examples of `legend`, please refer to [Legend](../../example).

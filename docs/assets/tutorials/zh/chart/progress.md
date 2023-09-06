@@ -20,8 +20,8 @@
 
 提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
 
-- `linearProgressChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/linearProgressChart#tooltip)
-- 更多组件配置见[VChart linearProgressChart 配置](../../../option/linearProgressChart)
+- `linearProgressChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../option/linearProgressChart#tooltip)
+- 更多组件配置见[VChart linearProgressChart 配置](../../option/linearProgressChart)
 
 ### 快速上手
 
@@ -279,8 +279,8 @@ window.vchart = vchart;
 
 提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
 
-- `circleProgressChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/circleProgressChart#tooltip)
-- 更多组件配置见[VChart circleProgressChart 配置](../../../option/circleProgressChart)
+- `circleProgressChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../option/circleProgressChart#tooltip)
+- 更多组件配置见[VChart circleProgressChart 配置](../../option/circleProgressChart)
 
 ### 快速上手
 

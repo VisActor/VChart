@@ -1,6 +1,6 @@
 # Map
 
-[\[Configuration Item Manual\]](../../../option/mapChart)
+[\[Configuration Item Manual\]](../../option/mapChart)
 
 ## Introduction
 
@@ -23,7 +23,7 @@ Since mapping Geographical Regions requires the support of map data, the configu
 - `VChart.registerMap(mapName, mapData)`: VChart provides an api for map data registration, where`mapName`Indicates the name of the registered map data,`mapData`Refers to the specific map data, the default is`geojson`Type map data, also supported`topojson` Type map data.
 - `mapChart.map`: Specify to use the registered map data name
 
-For more map related configurations, see[Map](../../../option/mapChart)
+For more map related configurations, see[Map](../../option/mapChart)
 
 ## Get started quickly
 
@@ -140,7 +140,7 @@ await vChart.renderAsync();
 ### Specify nameMap
 
 As mentioned above, if the Region name in the metadata map data does not correspond to the base map data, you need to pass`mapChart.nameMap`Specify.
-For example in[Base map](../../../demo/map-chart/basic-map)In the example of, the Region name in the metadata map data does not have an administrative unit, but it is in the base map data, so it needs to be configured`mapChart.nameMap`.
+For example in[Base map](../../demo/map-chart/basic-map)In the example of, the Region name in the metadata map data does not have an administrative unit, but it is in the base map data, so it needs to be configured`mapChart.nameMap`.
 
 ### Custom Mapping
 
@@ -231,7 +231,7 @@ await vChart.renderAsync();
 
 ### Custom projection
 
-Can be configured in Map Region`projection: type`To configure the map projection type, you can refer to the specific configuration items[Configuration Item Document](../../../option/mapChart#region.projection.type).
+Can be configured in Map Region`projection: type`To configure the map projection type, you can refer to the specific configuration items[Configuration Item Document](../../option/mapChart#region.projection.type).
 
 ```javascript livedemo
 const spec = {

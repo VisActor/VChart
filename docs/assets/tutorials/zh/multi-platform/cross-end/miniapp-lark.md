@@ -25,9 +25,9 @@
 ```
 
 - `canvas-id` 为图表 id，与 dom 的 id 一致，请确保 id 不重复。
-- `spec` 是 VChart 的核心概念，跨端组件的 spec 与 PC 端保持一致。图表配置例子可以参见 [VChart 图表示例](../../../../example) 。对于不熟悉 VChart 的用户，可以参见 [快速开始 VChart](../../Getting_Started) 教程。
+- `spec` 是 VChart 的核心概念，跨端组件的 spec 与 PC 端保持一致。图表配置例子可以参见 [VChart 图表示例](../../demo) 。对于不熟悉 VChart 的用户，可以参见 [快速开始 VChart](../../getting-started) 教程。
 - `styles` 为图表容器样式，可以用于控制图表宽高等样式。
-- `events` 是一个对象数组，用于注册一系列事件，其定义如下，具体的事件名称、事件筛选配置以及回调函数的参数详见 [VChart 事件 API](../../../../api/API/event)
+- `events` 是一个对象数组，用于注册一系列事件，其定义如下，具体的事件名称、事件筛选配置以及回调函数的参数详见 [VChart 事件 API](../../../api/API/event)
 
 ```ts
 interface IEvent {
@@ -159,6 +159,22 @@ onChartReady() {
 	});
 },
 ```
+
+以给饼图给label text回调函数为例，详细步骤参考如下（用户可以视情况而调整策略，这里只提供一个基本的思路和步骤）：
+- step1: 在声明图表组件的时候配置id 和 chartOnReady事件，以便在空图表渲染完成后updateSpec
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-a.png)
+
+- step2: 在初始化图表时, 声明空图表（图表类型和数据是必须声明的，数据声明为空数组即可）
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-b.png)
+
+- step3: 在onChartReady事件中，通过selectComponent来获取组件和图表实例，并更新图表实例的spec
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-c.png)
+
+- 效果: 饼图的label的回调函数成功生效
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-d.gif)
+
 
 ## 问题反馈
 

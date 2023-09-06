@@ -20,9 +20,9 @@
 
 坐标轴、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
 
-- `lineChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../../option/line/axes/lineChart#axes)
-- `lineChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/line/axes/lineChart#tooltip)
-- 更多组件配置见[VChart lineChart 配置](../../../option/lineChart)
+- `lineChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../option/line/axes/lineChart#axes)
+- `lineChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../option/line/axes/lineChart#tooltip)
+- 更多组件配置见[VChart lineChart 配置](../../option/lineChart)
 
 ## 快速上手
 
@@ -399,7 +399,7 @@ window['vchart'] = vchart;
 
 ### 图元及样式
 
-折线图中使用到的主要图元有两个，分别是： point、 line 。对应图表中的标记点、线图元。可以单独针对每个 mark 配置对应样式，详细查看配置: [lineChart.line](../../../option/lineChart#line) 和 [lineChart.point](../../../option/lineChart#point)
+折线图中使用到的主要图元有两个，分别是： point、 line 。对应图表中的标记点、线图元。可以单独针对每个 mark 配置对应样式，详细查看配置: [lineChart.line](../../option/lineChart#line) 和 [lineChart.point](../../option/lineChart#point)
 
 #### 末尾虚线
 
@@ -468,7 +468,7 @@ window['vchart'] = vchart;
 
 #### 标记点样式
 
-标记点支持自定义形状和大小，我们通过配置设置标记点为稍大一些三角形，具体配置见[配置文档](../../../option/lineChart#point)
+标记点支持自定义形状和大小，我们通过配置设置标记点为稍大一些三角形，具体配置见[配置文档](../../option/lineChart#point)
 
 ```ts
 point: {

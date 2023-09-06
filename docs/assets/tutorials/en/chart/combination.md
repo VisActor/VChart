@@ -1,6 +1,6 @@
 # Combination Chart
 
-[\[Options Manual\]](../../../option/commonChart)
+[\[Options Manual\]](../../option/commonChart)
 
 ## Introduction
 
@@ -8,10 +8,10 @@ A combination chart is a type of data visualization chart that displays interdep
 
 The advantage of combination charts is that they can simultaneously present information from multiple data sets, providing a more comprehensive view of the overall trend and direction. By combining different data types, units, and measurements, combination charts can provide deeper and more comprehensive insights into complex data. Combination charts are widely used in various fields such as business, science, and medical to effectively analyze and compare various complex data.
 
-In VChart, you can combine various series through the [combination chart configuration](../../../option/commonChart):
+In VChart, you can combine various series through the [combination chart configuration](../../option/commonChart):
 ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab01.png)
 
-In the [combination chart example](../../../demo/combination/bar-combine) shown above, you need to use the following key configurations:
+In the [combination chart example](../../demo/combination/bar-combine) shown above, you need to use the following key configurations:
 
 - `type: 'common'` declares a combination chart type
 - `layout` attribute declares a custom combination chart layout

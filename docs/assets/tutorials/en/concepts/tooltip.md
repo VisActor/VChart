@@ -1,6 +1,6 @@
 # Tooltip
 
-Tooltip is the additional information displayed on different elements of the VChart chart, which is displayed through mouse hover operation. This tutorial mainly explains the related concepts and components of the tooltip. For more detailed configuration and examples of the components, please see the [Configuration Documentation](../../../option) and [Example](../../../example) pages.
+Tooltip is the additional information displayed on different elements of the VChart chart, which is displayed through mouse hover operation. This tutorial mainly explains the related concepts and components of the tooltip. For more detailed configuration and examples of the components, please see the [Configuration Documentation](../../option) and [Example](../../example) pages.
 
 <div style="text-align: center;">
   <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a212.png" alt="tooltip">
@@ -109,7 +109,7 @@ Content formatting example:
 
 ## Customization
 
-According to the chart and business requirements, we can further customize the tooltip. For details, please refer to the [`setTooltipHandler`](../../../api/API/vchart) method.
+According to the chart and business requirements, we can further customize the tooltip. For details, please refer to the [`setTooltipHandler`](../../api/API/vchart) method.
 
 ```javascript livedemo
 const data = [

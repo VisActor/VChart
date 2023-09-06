@@ -40,8 +40,8 @@
 
 提示信息等作为辅助图表展示的 group 件，属于可选配置，自带默认效果和功能:
 
-- `sunburstChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息 group 件配置](../../../option/sunburstChart#tooltip)
-- 更多 group 件配置见[VChart sunburstChart 配置](../../../option/sunburstChart)
+- `sunburstChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息 group 件配置](../../option/sunburstChart#tooltip)
+- 更多 group 件配置见[VChart sunburstChart 配置](../../option/sunburstChart)
 
 ## 快速上手
 

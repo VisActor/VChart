@@ -1,6 +1,6 @@
 # Radar Chart
 
-[\[Configuration Manual\]](../../../option/radarChart)
+[\[Configuration Manual\]](../../option/radarChart)
 
 ## Introduction
 
@@ -21,9 +21,9 @@ Area chart elements and point chart elements are the basic components of a radar
 
 Coordinate axes, tooltips, and other components are optional for auxiliary chart display, with default effects and features:
 
-- `radarChart.axes`: Axis component, displayed by default and automatically inferred based on chart type coordinate system and data mapping logic, detailed configuration see [VChart Axis Component Configuration](../../../option/radarChart#axes)
-- `radarChart.tooltip`: Tooltip information, displayed interactively by default, detailed configuration see [VChart Tooltip Information Component Configuration](../../../option/radarChart#tooltip)
-- More component configurations see [VChart radarChart configuration](../../../option/radarChart)
+- `radarChart.axes`: Axis component, displayed by default and automatically inferred based on chart type coordinate system and data mapping logic, detailed configuration see [VChart Axis Component Configuration](../../option/radarChart#axes)
+- `radarChart.tooltip`: Tooltip information, displayed interactively by default, detailed configuration see [VChart Tooltip Information Component Configuration](../../option/radarChart#tooltip)
+- More component configurations see [VChart radarChart configuration](../../option/radarChart)
 
 ### Quick Start
 

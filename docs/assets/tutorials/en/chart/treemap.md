@@ -1,6 +1,6 @@
 # Treemap
 
-[\[Configuration Manual\]](../../../option/treemapChart)
+[\[Configuration Manual\]](../../option/treemapChart)
 
 ## Introduction
 
@@ -22,8 +22,8 @@ Rectangle elements are the basic elements of the treemap, and relevant drawing c
 
 Tooltip information and other components that assist in chart presentation are optional configurations with default effects and functions:
 
-- `treemapChart.tooltip`: Tooltip, displayed by default during interactions, detailed configuration see [VChart Tooltip Component Configuration](../../../option/treemapChart#tooltip)
-- More component configurations can be found at [VChart treemapChart Configuration](../../../option/treemapChart)
+- `treemapChart.tooltip`: Tooltip, displayed by default during interactions, detailed configuration see [VChart Tooltip Component Configuration](../../option/treemapChart#tooltip)
+- More component configurations can be found at [VChart treemapChart Configuration](../../option/treemapChart)
 
 ## Getting Started
 
