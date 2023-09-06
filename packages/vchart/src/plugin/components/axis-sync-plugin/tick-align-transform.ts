@@ -55,5 +55,5 @@ export const tickAlign = (data: Array<Datum>, op: ITickAlignOpt) => {
     const percent = (d.value - targetDomain[0]) / targetRange;
     return currentRange * percent + currentDomain[0];
   });
-  return convertDomainToTickData(newTicks, currentTickTransform.options);
+  return convertDomainToTickData(newTicks);
 };

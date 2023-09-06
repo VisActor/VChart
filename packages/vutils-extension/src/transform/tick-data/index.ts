@@ -23,5 +23,5 @@ export const ticks = (scale: IBaseScale, op: ITickDataOpt): ITickData[] => {
       }
     }
   }
-  return convertDomainToTickData(scale.domain(), op);
+  return convertDomainToTickData(scale.domain());
 };

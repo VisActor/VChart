@@ -18,7 +18,7 @@ export const polarAngleAxisDiscreteTicks = (scale: BandScale, op: IPolarTickData
   const { tickCount, forceTickCount, tickStep, getRadius, labelOffset, labelGap = 0 } = op;
   const radius = getRadius?.();
   if (!radius) {
-    return convertDomainToTickData(scale.domain(), op);
+    return convertDomainToTickData(scale.domain());
   }
 
   let scaleTicks;
@@ -56,7 +56,7 @@ export const polarAngleAxisDiscreteTicks = (scale: BandScale, op: IPolarTickData
     scaleTicks = scale.domain();
   }
 
-  return convertDomainToTickData(scaleTicks, op);
+  return convertDomainToTickData(scaleTicks);
 };
 
 /** 计算合适的step */

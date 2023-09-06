@@ -19,13 +19,13 @@ import { convertDomainToTickData, getCartesianLabelBounds, hasOverlap, intersect
  */
 export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITickData[] => {
   if (!isContinuous(scale.type)) {
-    return convertDomainToTickData(scale.domain(), op);
+    return convertDomainToTickData(scale.domain());
   }
   // if range is so small
   const range = scale.range();
   const rangeSize = Math.abs(range[range.length - 1] - range[0]);
   if (rangeSize < 2) {
-    return convertDomainToTickData([scale.domain()[0]], op);
+    return convertDomainToTickData([scale.domain()[0]]);
   }
 
   const { tickCount, forceTickCount, tickStep, noDecimals = false } = op;
@@ -70,7 +70,7 @@ export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITick
     }
   }
 
-  return convertDomainToTickData(scaleTicks, op);
+  return convertDomainToTickData(scaleTicks);
 };
 
 const methods = {
