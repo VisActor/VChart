@@ -912,6 +912,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._viewDataMap.clear();
     // TODO: rawData transform clear;
     // this._dataSet=>// _rawData.tag = vchart
+    // clear add transforms of rawData
+    const transformIndex = this._rawData.transformsArr.findIndex(t => t.type === 'addVChartProperty');
+    if (transformIndex >= 0) {
+      this._rawData.transformsArr.splice(transformIndex, 1);
+    }
     this._data?.release();
     this._dataSet =
       this._data =

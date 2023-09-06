@@ -62,7 +62,7 @@ import { dataToDataView } from '../data/initialize';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { has, isFunction, isEmpty, isNil } from '@visactor/vutils';
+import { has, isFunction, isEmpty, isNil, isString } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
 import type { IGroupMark, IRunningConfig as IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
 import { CompilableBase } from '../compile/compilable-base';
@@ -233,10 +233,13 @@ export class BaseChart extends CompilableBase implements IChart {
     // TODO: to component
     // stack
     this._stack.init();
-    // this._stack.stackAll();
+    // data flow start
+    this.reDataFlow();
+  }
+
+  reDataFlow() {
     this._series.forEach(s => s.getRawData()?.markRunning());
     this._series.forEach(s => s.fillData());
-    // 此时 globalScale 已经生效组件可以获取到正确的映射
     this.updateGlobalScaleDomain();
   }
 
@@ -426,6 +429,24 @@ export class BaseChart extends CompilableBase implements IChart {
 
   getAllModels(): IModel[] {
     return [].concat(this.getAllSeries(), this.getAllComponents(), this.getAllRegions());
+  }
+
+  getModelInFilter(filter: string | { type: string; index: number } | ((model: IModel) => boolean)) {
+    if (isString(filter)) {
+      return this.getAllModels().find(m => m.userId === filter);
+    } else if (isFunction(filter)) {
+      return this.getAllModels().find(m => filter(m));
+    }
+    let index = 0;
+    return this.getAllModels().find(m => {
+      if (m.specKey === filter.type) {
+        if (index === filter.index) {
+          return true;
+        }
+        index++;
+      }
+      return false;
+    });
   }
 
   createLayout() {

@@ -308,10 +308,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       result.reMake = true;
       return result;
     }
-    result.reMake =
-      ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
-        JSON.stringify(originalSpec[k]) !== JSON.stringify(spec[k]);
-      }) || result.reMake;
     return result;
   }
 

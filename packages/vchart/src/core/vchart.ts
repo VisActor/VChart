@@ -1,3 +1,4 @@
+import type { IComponent } from './../component/interface/common';
 import type { ISeries } from '../series/interface/series';
 import { arrayParser } from '../data/parser/array';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
@@ -29,7 +30,8 @@ import {
   convertPoint,
   preprocessSpecOrTheme,
   mergeTheme,
-  getThemeObject
+  getThemeObject,
+  mergeSpecWithFilter
 } from '../util';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -59,14 +61,22 @@ import { AnimationStateEnum } from '../animation/interface';
 import type { IBoundsLike, ILogger } from '@visactor/vutils';
 import { ThemeManager } from '../theme/theme-manager';
 import type { ITheme } from '../theme';
-import type { IUpdateSpecResult } from '../model/interface';
+import type { IModel, IUpdateSpecResult } from '../model/interface';
 import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
 import type { ILegend } from '../component/legend/interface';
 import { getCanvasDataURL, URLToImage } from '../util/image';
 import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH, VGRAMMAR_HOOK_EVENT } from '../constant';
 // eslint-disable-next-line no-duplicate-imports
-import { getContainerSize, isArray, isEmpty, Logger, merge as mergeOrigin } from '@visactor/vutils';
+import {
+  getContainerSize,
+  isArray,
+  isEmpty,
+  Logger,
+  merge as mergeOrigin,
+  isFunction,
+  isObject
+} from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
@@ -773,6 +783,109 @@ export class VChart implements IVChart {
       this._compiler?.getVGrammarView()?.updateLayoutTag();
       return this._chart.updateSpec(spec, morphConfig);
     }, morphConfig);
+    return this as unknown as IVChart;
+  }
+
+  /**
+   * **异步方法** spec 更新
+   * @param filter
+   * @param spec
+   * @param forceMerge
+   * @returns
+   * @sync 1.4.0
+   */
+  updateModelSpec(
+    filter: string | { type: string; index: number } | ((model: IModel) => boolean),
+    spec: ISpec,
+    forceMerge: boolean = false,
+    morphConfig?: IMorphConfig
+  ) {
+    if (!spec || !this._spec) {
+      return this as unknown as IVChart;
+    }
+    if (isString(spec)) {
+      spec = JSON.parse(spec);
+    }
+
+    if (!isFunction(filter)) {
+      // find spec and update
+      mergeSpecWithFilter(this._spec, filter, spec, forceMerge);
+    }
+
+    if (this._chart) {
+      const model = this._chart.getModelInFilter(filter);
+      if (model) {
+        return this._updateModelSpec(model, spec, false, forceMerge, morphConfig);
+      }
+    }
+    return this;
+  }
+
+  /**
+   * **同步方法** spec 更新
+   * @param filter
+   * @param spec
+   * @param forceMerge
+   * @returns
+   * @sync 1.4.0
+   */
+  updateModelSpecSync(
+    filter: string | { type: string; index: number } | ((model: IModel) => boolean),
+    spec: ISpec,
+    forceMerge: boolean = false,
+    morphConfig?: IMorphConfig
+  ) {
+    if (!spec || !this._spec) {
+      return this as unknown as IVChart;
+    }
+    if (isString(spec)) {
+      spec = JSON.parse(spec);
+    }
+
+    if (!isFunction(filter)) {
+      // find spec and update
+      mergeSpecWithFilter(this._spec, filter, spec, forceMerge);
+    }
+
+    if (this._chart) {
+      const model = this._chart.getModelInFilter(filter);
+      if (model) {
+        return this._updateModelSpec(model, spec, true, forceMerge, morphConfig);
+      }
+    }
+    return this;
+  }
+
+  /**
+   * **同步方法** 模块 spec 更新
+   * @param model
+   * @param spec
+   * @param forceMerge
+   * @returns
+   */
+  protected _updateModelSpec(
+    model: IModel,
+    spec: ISpec,
+    sync: boolean = false,
+    forceMerge: boolean = false,
+    morphConfig?: IMorphConfig
+  ) {
+    if (forceMerge) {
+      spec = mergeSpec({}, model.getSpec(), spec);
+    }
+    const modifyConfig = () => {
+      const result = model.updateSpec(spec);
+      model.reInit();
+      if (result.change || result.reCompile || result.reMake || result.reMakeData || result.reSize || result.reRender) {
+        this._chart.reDataFlow();
+      }
+      return result;
+    };
+    if (sync) {
+      this.updateCustomConfigAndRerenderSync(modifyConfig, morphConfig);
+    } else {
+      this.updateCustomConfigAndRerender(modifyConfig, morphConfig);
+    }
     return this as unknown as IVChart;
   }
 
