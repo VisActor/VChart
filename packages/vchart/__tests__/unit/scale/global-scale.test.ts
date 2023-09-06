@@ -307,7 +307,7 @@ describe('global-scale test', () => {
           return {
             updateData: () => {},
             updateState: () => {},
-            reRenderAsync: () => {},
+            renderAsync: () => {},
             getVGrammarView: () => {
               return {
                 updateLayoutTag: () => {},
@@ -462,7 +462,7 @@ describe('global-scale test', () => {
           return {
             updateData: () => {},
             updateState: () => {},
-            reRenderAsync: () => {},
+            renderAsync: () => {},
             getVGrammarView: () => {
               return {
                 updateLayoutTag: () => {},
