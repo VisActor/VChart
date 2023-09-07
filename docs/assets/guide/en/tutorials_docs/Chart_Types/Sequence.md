@@ -15,17 +15,17 @@ The sequence chart is essentially a combination of specific series and component
 The sequence chart is a chart type used to display time series data, which can show the changes in data over time.
 In a sequence chart, we recommend configuring at least one pair of event link series, while the bar series can be configured with 0 or several as needed:
 
-- [Bar Series](../../option/sequenceChart#series-bar): Represents the total count of time series data within a specific time interval in the form of a bar chart.
-- [dot series](../../option/sequenceChart#series-dot): Represents events occurring at a specific time point in the form of dots.
-- [link series](../../option/sequenceChart#series-link): Represents the relationships between events in the form of edges.
+- [Bar Series](../../../option/sequenceChart#series-bar): Represents the total count of time series data within a specific time interval in the form of a bar chart.
+- [dot series](../../../option/sequenceChart#series-dot): Represents events occurring at a specific time point in the form of dots.
+- [link series](../../../option/sequenceChart#series-link): Represents the relationships between events in the form of edges.
 
-Note: [link series](../../option/sequenceChart#series-link) must be bound to the [dot series](../../option/sequenceChart#series-dot) through the `'dotSeriesIndex'` attribute because its drawing data and some configurations depend on the [dot series](../../option/sequenceChart#series-dot).
+Note: [link series](../../../option/sequenceChart#series-link) must be bound to the [dot series](../../../option/sequenceChart#series-dot) through the `'dotSeriesIndex'` attribute because its drawing data and some configurations depend on the [dot series](../../../option/sequenceChart#series-dot).
 
 Sequence charts typically also include the following components:
 
-- [Time Axis](../../option/sequenceChart#axes-time): The x-axis shared by all series, and the medium for mapping time-series data to graphic attributes.
-- [Zoom Axis](../../option/sequenceChart#dataZoom): When the sequence data is too dense, the zoom axis component will be bound to the time axis to "control the zoom of time."
-- [Scrollbar](../../option/sequenceChart#scrollbar): When there are too many parallel event series, i.e., too many categories in the y-direction, the scrollbar can be configured to "control the scrolling of the [dot series](../../option/sequenceChart#series-dot) and [link series](../../option/sequenceChart#series-link)."
+- [Time Axis](../../../option/sequenceChart#axes-time): The x-axis shared by all series, and the medium for mapping time-series data to graphic attributes.
+- [Zoom Axis](../../../option/sequenceChart#dataZoom): When the sequence data is too dense, the zoom axis component will be bound to the time axis to "control the zoom of time."
+- [Scrollbar](../../../option/sequenceChart#scrollbar): When there are too many parallel event series, i.e., too many categories in the y-direction, the scrollbar can be configured to "control the scrolling of the [dot series](../../../option/sequenceChart#series-dot) and [link series](../../../option/sequenceChart#series-link)."
 
 ## Quick Start
 

@@ -160,6 +160,21 @@ onChartReady() {
 },
 ```
 
+以给饼图给label text回调函数为例，详细步骤参考如下（用户可以视情况而调整策略，这里只提供一个基本的思路和步骤）：
+- step1: 在声明图表组件的时候配置id 和 chartOnReady事件，以便在空图表渲染完成后updateSpec
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-a.png)
+
+- step2: 在初始化图表时, 声明空图表（图表类型和数据是必须声明的，数据声明为空数组即可）
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-b.png)
+
+- step3: 在onChartReady事件中，通过selectComponent来获取组件和图表实例，并更新图表实例的spec
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-c.png)
+
+- 效果: 饼图的label的回调函数成功生效
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-d.gif)
+
 ## 问题反馈
 
 如果在使用过程中发现问题，欢迎在 [GitHub issues](https://github.com/VisActor/VChart/issues/new/choose) 中向我们反馈，非常感谢！
