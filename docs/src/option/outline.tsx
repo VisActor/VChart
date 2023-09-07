@@ -21,6 +21,7 @@ export interface IOptionOutlineNode {
 export function parseOutline(
   outline: any,
   sectionMap: { [key: string]: string } = {},
+  sectionMatch: { from: string; to: string }[] = [],
   path?: string,
   parent?: IOptionOutlineNode
 ) {
@@ -34,24 +35,39 @@ export function parseOutline(
       : `${path}.${outline.prop}`
     : outline.prop ?? '';
 
-  if (parent?.fullPath && Object.keys(sectionMap).includes(parent?.fullPath)) {
-    const basePath = `${sectionMap[parent.fullPath]}-${outline.arrayItemType}`;
-    const outlineNode: IOptionOutlineNode = {
-      basePath: basePath,
-      fullPath: fullPath,
-      allPath: [basePath],
-      prop: outline.prop,
-      default: outline.default,
-      type: outline.type ?? '',
-      isObject: outline.isObject ?? false,
-      isArray: outline.isArray ?? false,
-      parent: parent ?? null,
-      children: null
-    };
-    outlineNode.children = outline.children
-      ? outline.children.map((subOutline: any) => parseOutline(subOutline, sectionMap, basePath, outlineNode))
-      : null;
-    return outlineNode;
+  if (parent?.fullPath) {
+    let basePath: string | undefined = undefined;
+
+    if (Object.keys(sectionMap).includes(parent?.fullPath)) {
+      basePath = `${sectionMap[parent.fullPath]}-${outline.arrayItemType}`;
+    } else {
+      const match = sectionMatch.find(match => parent?.fullPath.match(match.from));
+      if (match) {
+        const matchedPath = parent.fullPath.replace(match.from, match.to);
+        basePath = `${matchedPath}-${outline.arrayItemType}`;
+      }
+    }
+
+    if (basePath !== undefined) {
+      const outlineNode: IOptionOutlineNode = {
+        basePath: basePath,
+        fullPath: fullPath,
+        allPath: [basePath],
+        prop: outline.prop,
+        default: outline.default,
+        type: outline.type ?? '',
+        isObject: outline.isObject ?? false,
+        isArray: outline.isArray ?? false,
+        parent: parent ?? null,
+        children: null
+      };
+      outlineNode.children = outline.children
+        ? outline.children.map((subOutline: any) =>
+            parseOutline(subOutline, sectionMap, sectionMatch, basePath, outlineNode)
+          )
+        : null;
+      return outlineNode;
+    }
   }
 
   const outlineNode: IOptionOutlineNode = {
@@ -67,7 +83,9 @@ export function parseOutline(
     children: null
   };
   outlineNode.children = outline.children
-    ? outline.children.map((subOutline: any) => parseOutline(subOutline, sectionMap, fullPath, outlineNode))
+    ? outline.children.map((subOutline: any) =>
+        parseOutline(subOutline, sectionMap, sectionMatch, fullPath, outlineNode)
+      )
     : null;
   return outlineNode;
 }
@@ -85,6 +103,9 @@ export function recordOutline(node: IOptionOutlineNode | null, map: Record<strin
 
 function getOutlineTextNode(node: IOptionOutlineNode) {
   if (node.prop) {
+    if (node.isArray) {
+      return `${node.prop}: [...]`;
+    }
     return node.children ? `${node.prop}: {...}` : `${node.prop}${node.default != null ? `: ${node.default}` : ''}`;
   } else {
     return node.children ? `${node.children[0].prop}=${node.children[0].default}` : '{...}';

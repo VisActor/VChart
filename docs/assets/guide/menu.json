@@ -2,119 +2,105 @@
   "menu": "tutorials",
   "children": [
     {
-      "path": "tutorial_docs/VChart_Website_Guide",
+      "path": "tutorial_docs",
       "title": {
         "zh": "站点指引",
         "en": "Site Guide"
-      }
-    },
-    {
-      "path": "tutorial_docs/Getting_Started",
-      "title": {
-        "zh": "快速上手",
-        "en": "Quick Start"
-      }
-    },
-    {
-      "path": "tutorial_docs/Basic",
-      "title": {
-        "zh": "入门",
-        "en": "Basic"
       },
       "children": [
         {
-          "path": "How_to_Get_VChart",
+          "path": "VChart_Website_Guide",
           "title": {
-            "zh": "如何获取 VChart",
-            "en": "How to Obtain VChart"
+            "zh": "站点指引",
+            "en": "Site Guide"
           }
         },
         {
-          "path": "How_to_Import_VChart",
+          "path": "Getting_Started",
           "title": {
-            "zh": "如何在项目中引用 VChart",
-            "en": "How to Reference VChart in Projects"
+            "zh": "快速上手",
+            "en": "Quick Start"
           }
         },
         {
-          "path": "A_Basic_Spec",
+          "path": "Basic",
           "title": {
-            "zh": "一份基础的 spec",
-            "en": "A Basic Spec"
-          }
-        }
-      ]
-    },
-    {
-      "path": "tutorial_docs/Chart_Concepts",
-      "title": {
-        "zh": "图表概念",
-        "en": "Chart Concepts"
-      },
-      "children": [
-        {
-          "path": "Understanding_VChart",
-          "title": {
-            "zh": "图表组成",
-            "en": "Chart Components"
-          }
-        },
-        {
-          "path": "Data",
-          "title": {
-            "zh": "数据",
-            "en": "Data"
+            "zh": "入门",
+            "en": "Basic"
           },
           "children": [
             {
-              "path": "Data_Types_and_Interface",
+              "path": "How_to_Get_VChart",
               "title": {
-                "zh": "数据类型与数据定义",
-                "en": "Data Types and Data Definition"
+                "zh": "如何获取 VChart",
+                "en": "How to Obtain VChart"
               }
             },
             {
-              "path": "Dataset_and_Data_Processing",
+              "path": "How_to_Import_VChart",
               "title": {
-                "zh": "DataSet",
-                "en": "DataSet"
+                "zh": "如何在项目中引用 VChart",
+                "en": "How to Reference VChart in Projects"
+              }
+            },
+            {
+              "path": "A_Basic_Spec",
+              "title": {
+                "zh": "一份基础的 spec",
+                "en": "A Basic Spec"
               }
             }
           ]
         },
         {
-          "path": "Title",
+          "path": "Chart_Concepts",
           "title": {
-            "zh": "Title 标题",
-            "en": "Title 标题"
-          }
-        },
-        {
-          "path": "Axes",
-          "title": {
-            "zh": "Axes 坐标轴",
-            "en": "Axes"
-          }
-        },
-        {
-          "path": "Series",
-          "title": {
-            "zh": "系列",
-            "en": "Series"
+            "zh": "图表概念",
+            "en": "Chart Concepts"
           },
           "children": [
             {
-              "path": "Label",
+              "path": "Understanding_VChart",
               "title": {
-                "zh": "Label 数据标签",
-                "en": "Label Data Labels"
+                "zh": "图表组成",
+                "en": "Chart Components"
               }
             },
             {
-              "path": "Mark",
+              "path": "Data",
               "title": {
-                "zh": "图元",
-                "en": "Graphic Elements"
+                "zh": "数据",
+                "en": "Data"
+              },
+              "children": [
+                {
+                  "path": "Data_Types_and_Interface",
+                  "title": {
+                    "zh": "数据类型与数据定义",
+                    "en": "Data Types and Data Definition"
+                  }
+                },
+                {
+                  "path": "Dataset_and_Data_Processing",
+                  "title": {
+                    "zh": "DataSet",
+                    "en": "DataSet"
+                  }
+                }
+              ]
+            },
+            {
+              "path": "Title",
+              "title": {
+                "zh": "Title 标题",
+                "en": "Title 标题"
+              }
+            },
+            {
+              "path": "Axes",
+              "title": {
+                "zh": "Axes 坐标轴",
+                "en": "Axes"
               }
             },
             {
@@ -122,547 +108,578 @@
               "title": {
                 "zh": "系列",
                 "en": "Series"
+              },
+              "children": [
+                {
+                  "path": "Label",
+                  "title": {
+                    "zh": "Label 数据标签",
+                    "en": "Label Data Labels"
+                  }
+                },
+                {
+                  "path": "Mark",
+                  "title": {
+                    "zh": "图元",
+                    "en": "Graphic Elements"
+                  }
+                },
+                {
+                  "path": "Composition_and_Effect_of_Series",
+                  "title": {
+                    "zh": "系列",
+                    "en": "Series"
+                  }
+                }
+              ]
+            },
+            {
+              "path": "Tooltip",
+              "title": {
+                "zh": "Tooltip 提示信息",
+                "en": "Tooltip"
+              }
+            },
+            {
+              "path": "Legend",
+              "title": {
+                "zh": "Legend 图例",
+                "en": "Legend"
+              }
+            },
+            {
+              "path": "Crosshair",
+              "title": {
+                "zh": "Crosshair 十字准星",
+                "en": "Crosshair"
+              }
+            },
+            {
+              "path": "Indicator",
+              "title": {
+                "zh": "Indicator 指标卡",
+                "en": "Indicator Card"
+              }
+            },
+            {
+              "path": "Datazoom",
+              "title": {
+                "zh": "DataZoom 数据筛选滑块",
+                "en": "DataZoom Data Filtering Slider"
+              }
+            },
+            {
+              "path": "Scrollbar",
+              "title": {
+                "zh": "Scrollbar 滚动条",
+                "en": "Scrollbar"
+              }
+            },
+            {
+              "path": "Player",
+              "title": {
+                "zh": "Player 播放器",
+                "en": "Player"
+              }
+            },
+            {
+              "path": "Brush",
+              "title": {
+                "zh": "Brush 框选",
+                "en": "Brush Selection"
+              }
+            },
+            {
+              "path": "marker",
+              "title": {
+                "zh": "Marker 数据标注",
+                "en": "Marker Data Annotation"
               }
             }
           ]
         },
         {
-          "path": "Tooltip",
-          "title": {
-            "zh": "Tooltip 提示信息",
-            "en": "Tooltip"
-          }
-        },
-        {
-          "path": "Legend",
-          "title": {
-            "zh": "Legend 图例",
-            "en": "Legend"
-          }
-        },
-        {
-          "path": "Crosshair",
-          "title": {
-            "zh": "Crosshair 十字准星",
-            "en": "Crosshair"
-          }
-        },
-        {
-          "path": "Indicator",
-          "title": {
-            "zh": "Indicator 指标卡",
-            "en": "Indicator Card"
-          }
-        },
-        {
-          "path": "Datazoom",
-          "title": {
-            "zh": "DataZoom 数据筛选滑块",
-            "en": "DataZoom Data Filtering Slider"
-          }
-        },
-        {
-          "path": "Scrollbar",
-          "title": {
-            "zh": "Scrollbar 滚动条",
-            "en": "Scrollbar"
-          }
-        },
-        {
-          "path": "Player",
-          "title": {
-            "zh": "Player 播放器",
-            "en": "Player"
-          }
-        },
-        {
-          "path": "Brush",
-          "title": {
-            "zh": "Brush 框选",
-            "en": "Brush Selection"
-          }
-        },
-        {
-          "path": "marker",
-          "title": {
-            "zh": "Marker 数据标注",
-            "en": "Marker Data Annotation"
-          }
-        }
-      ]
-    },
-    {
-      "path": "tutorial_docs/Chart_Types",
-      "title": {
-        "zh": "图表类型",
-        "en": "Chart Types"
-      },
-      "children": [
-        {
-          "path": "chart_types",
+          "path": "Chart_Types",
           "title": {
             "zh": "图表类型",
             "en": "Chart Types"
-          }
-        },
-        {
-          "path": "Combination",
-          "title": {
-            "zh": "组合图",
-            "en": "Combination Chart"
-          }
-        },
-        {
-          "path": "Line",
-          "title": {
-            "zh": "折线图",
-            "en": "Line Chart"
-          }
-        },
-        {
-          "path": "Area",
-          "title": {
-            "zh": "面积图",
-            "en": "Area Chart"
-          }
-        },
-        {
-          "path": "Bar",
-          "title": {
-            "zh": "柱状图/条形图",
-            "en": "Bar Chart / Bar Graph"
-          }
-        },
-        {
-          "path": "Pie",
-          "title": {
-            "zh": "饼/环图",
-            "en": "Pie / Ring Chart"
-          }
-        },
-        {
-          "path": "Rose",
-          "title": {
-            "zh": "玫瑰图",
-            "en": "Rose Chart"
-          }
-        },
-        {
-          "path": "Histogram",
-          "title": {
-            "zh": "直方图",
-            "en": "Histogram"
-          }
-        },
-        {
-          "path": "Scatter",
-          "title": {
-            "zh": "散点图",
-            "en": "Scatter Plot"
-          }
-        },
-        {
-          "path": "Heatmap",
-          "title": {
-            "zh": "热力图",
-            "en": "Heatmap"
-          }
-        },
-        {
-          "path": "BoxPlot",
-          "title": {
-            "zh": "箱型图",
-            "en": "Box Plot"
-          }
-        },
-        {
-          "path": "Waterfall",
-          "title": {
-            "zh": "瀑布图",
-            "en": "Waterfall Chart"
-          }
-        },
-        {
-          "path": "Funnel",
-          "title": {
-            "zh": "漏斗图",
-            "en": "Funnel Chart"
-          }
-        },
-        {
-          "path": "Sequence",
-          "title": {
-            "zh": "时序图",
-            "en": "Sequence Chart"
-          }
-        },
-        {
-          "path": "RangeColumn",
-          "title": {
-            "zh": "区间柱状图",
-            "en": "Range Column Chart"
-          }
-        },
-        {
-          "path": "RangeArea",
-          "title": {
-            "zh": "区间面积图",
-            "en": "Range Area Chart"
-          }
-        },
-        {
-          "path": "WordCloud",
-          "title": {
-            "zh": "词云",
-            "en": "Word Cloud"
-          }
-        },
-        {
-          "path": "Gauge",
-          "title": {
-            "zh": "仪表图",
-            "en": "Gauge Chart"
-          }
-        },
-        {
-          "path": "Treemap",
-          "title": {
-            "zh": "矩形树图",
-            "en": "Treemap"
-          }
-        },
-        {
-          "path": "Map",
-          "title": {
-            "zh": "地图",
-            "en": "Map"
-          }
-        },
-        {
-          "path": "Radar",
-          "title": {
-            "zh": "雷达图",
-            "en": "Radar Chart"
-          }
-        },
-        {
-          "path": "Sankey",
-          "title": {
-            "zh": "桑基图",
-            "en": "Sankey Diagram"
-          }
-        },
-        {
-          "path": "Progress",
-          "title": {
-            "zh": "进度图",
-            "en": "Progress Chart"
-          }
-        },
-        {
-          "path": "Circle-packing",
-          "title": {
-            "zh": "Circle Packing",
-            "en": "Circle Packing"
-          }
-        },
-        {
-          "path": "Sunburst",
-          "title": {
-            "zh": "旭日图",
-            "en": "Sunburst Chart"
-          }
-        },
-        {
-          "path": "3d_Line",
-          "title": {
-            "zh": "3d 折线图",
-            "en": "3d 折线图"
-          }
-        },
-        {
-          "path": "3d_Area",
-          "title": {
-            "zh": "3d 面积图",
-            "en": "3d Area Chart"
-          }
-        },
-        {
-          "path": "3d_Scatter",
-          "title": {
-            "zh": "3d 散点图",
-            "en": "3d 散点图"
-          }
-        },
-        {
-          "path": "3d_Bar",
-          "title": {
-            "zh": "3d 柱状图/条形图",
-            "en": "3D Bar/Column Chart"
-          }
-        },
-        {
-          "path": "3d_WordCloud",
-          "title": {
-            "zh": "3D 词云图",
-            "en": "3D Word Cloud"
-          }
-        },
-        {
-          "path": "3d_Funnel",
-          "title": {
-            "zh": "3d 漏斗图",
-            "en": "3D Funnel Chart"
-          }
-        }
-      ]
-    },
-    {
-      "path": "tutorial_docs/Animation",
-      "title": {
-        "zh": "动画",
-        "en": "Animation"
-      },
-      "children": [
-        {
-          "path": "Animation_Types",
-          "title": {
-            "zh": "VChart 动画教程",
-            "en": "VChart Animation Tutorial"
-          }
-        },
-        {
-          "path": "Animation_Attributes_and_Settings",
-          "title": {
-            "zh": "动画的属性与配置",
-            "en": "Animation Properties and Configurations"
-          }
-        },
-        {
-          "path": "Configuration_and_Choreography_of_Complex_Animations",
-          "title": {
-            "zh": "复杂动画的配置与编排",
-            "en": "Configuration and Arrangement of Complex Animations"
-          }
-        },
-        {
-          "path": "Animation_Cases",
-          "title": {
-            "zh": "常见动画案例",
-            "en": "Common Animation Cases"
-          }
-        }
-      ]
-    },
-    {
-      "path": "tutorial_docs/Layout",
-      "title": {
-        "zh": "布局",
-        "en": "Layout"
-      },
-      "children": [
-        {
-          "path": "Layout_Strategy",
-          "title": {
-            "zh": "布局策略",
-            "en": "Layout Strategies"
-          }
-        },
-        {
-          "path": "Layout_Cases",
-          "title": {
-            "zh": "案例说明",
-            "en": "Layout Examples"
           },
           "children": [
             {
-              "path": "example-grid",
+              "path": "chart_types",
               "title": {
-                "zh": "布局案例：grid 布局",
-                "en": "Layout Example: Grid Layout"
+                "zh": "图表类型",
+                "en": "Chart Types"
               }
             },
             {
-              "path": "example-custom",
+              "path": "Combination",
               "title": {
-                "zh": "布局案例：自定义布局",
-                "en": "Layout Example: Custom Layout"
+                "zh": "组合图",
+                "en": "Combination Chart"
+              }
+            },
+            {
+              "path": "Line",
+              "title": {
+                "zh": "折线图",
+                "en": "Line Chart"
+              }
+            },
+            {
+              "path": "Area",
+              "title": {
+                "zh": "面积图",
+                "en": "Area Chart"
+              }
+            },
+            {
+              "path": "Bar",
+              "title": {
+                "zh": "柱状图/条形图",
+                "en": "Bar Chart / Bar Graph"
+              }
+            },
+            {
+              "path": "Pie",
+              "title": {
+                "zh": "饼/环图",
+                "en": "Pie / Ring Chart"
+              }
+            },
+            {
+              "path": "Rose",
+              "title": {
+                "zh": "玫瑰图",
+                "en": "Rose Chart"
+              }
+            },
+            {
+              "path": "Histogram",
+              "title": {
+                "zh": "直方图",
+                "en": "Histogram"
+              }
+            },
+            {
+              "path": "Scatter",
+              "title": {
+                "zh": "散点图",
+                "en": "Scatter Plot"
+              }
+            },
+            {
+              "path": "Heatmap",
+              "title": {
+                "zh": "热力图",
+                "en": "Heatmap"
+              }
+            },
+            {
+              "path": "BoxPlot",
+              "title": {
+                "zh": "箱型图",
+                "en": "Box Plot"
+              }
+            },
+            {
+              "path": "Waterfall",
+              "title": {
+                "zh": "瀑布图",
+                "en": "Waterfall Chart"
+              }
+            },
+            {
+              "path": "Funnel",
+              "title": {
+                "zh": "漏斗图",
+                "en": "Funnel Chart"
+              }
+            },
+            {
+              "path": "Sequence",
+              "title": {
+                "zh": "时序图",
+                "en": "Sequence Chart"
+              }
+            },
+            {
+              "path": "RangeColumn",
+              "title": {
+                "zh": "区间柱状图",
+                "en": "Range Column Chart"
+              }
+            },
+            {
+              "path": "RangeArea",
+              "title": {
+                "zh": "区间面积图",
+                "en": "Range Area Chart"
+              }
+            },
+            {
+              "path": "WordCloud",
+              "title": {
+                "zh": "词云",
+                "en": "Word Cloud"
+              }
+            },
+            {
+              "path": "Gauge",
+              "title": {
+                "zh": "仪表图",
+                "en": "Gauge Chart"
+              }
+            },
+            {
+              "path": "Treemap",
+              "title": {
+                "zh": "矩形树图",
+                "en": "Treemap"
+              }
+            },
+            {
+              "path": "Map",
+              "title": {
+                "zh": "地图",
+                "en": "Map"
+              }
+            },
+            {
+              "path": "Radar",
+              "title": {
+                "zh": "雷达图",
+                "en": "Radar Chart"
+              }
+            },
+            {
+              "path": "Sankey",
+              "title": {
+                "zh": "桑基图",
+                "en": "Sankey Diagram"
+              }
+            },
+            {
+              "path": "Progress",
+              "title": {
+                "zh": "进度图",
+                "en": "Progress Chart"
+              }
+            },
+            {
+              "path": "CirclePacking",
+              "title": {
+                "zh": "Circle Packing",
+                "en": "Circle Packing"
+              }
+            },
+            {
+              "path": "Sunburst",
+              "title": {
+                "zh": "旭日图",
+                "en": "Sunburst Chart"
+              }
+            },
+            {
+              "path": "3d_Line",
+              "title": {
+                "zh": "3d 折线图",
+                "en": "3d 折线图"
+              }
+            },
+            {
+              "path": "3d_Area",
+              "title": {
+                "zh": "3d 面积图",
+                "en": "3d Area Chart"
+              }
+            },
+            {
+              "path": "3d_Scatter",
+              "title": {
+                "zh": "3d 散点图",
+                "en": "3d 散点图"
+              }
+            },
+            {
+              "path": "3d_Bar",
+              "title": {
+                "zh": "3d 柱状图/条形图",
+                "en": "3D Bar/Column Chart"
+              }
+            },
+            {
+              "path": "3d_WordCloud",
+              "title": {
+                "zh": "3D 词云图",
+                "en": "3D Word Cloud"
+              }
+            },
+            {
+              "path": "3d_Funnel",
+              "title": {
+                "zh": "3d 漏斗图",
+                "en": "3D Funnel Chart"
               }
             }
           ]
-        }
-      ]
-    },
-    {
-      "path": "tutorial_docs/extend",
-      "title": {
-        "zh": "自定义扩展",
-        "en": "Custom Extension"
-      },
-      "children": [
-        {
-          "path": "custom_animation",
-          "title": {
-            "zh": "自定义动画",
-            "en": "Custom Animation"
-          }
         },
         {
-          "path": "custom_layout",
+          "path": "Animation",
           "title": {
-            "zh": "自定义布局",
-            "en": "Custom Layout"
-          }
+            "zh": "动画",
+            "en": "Animation"
+          },
+          "children": [
+            {
+              "path": "Animation_Types",
+              "title": {
+                "zh": "VChart 动画教程",
+                "en": "VChart Animation Tutorial"
+              }
+            },
+            {
+              "path": "Animation_Attributes_and_Settings",
+              "title": {
+                "zh": "动画的属性与配置",
+                "en": "Animation Properties and Configurations"
+              }
+            },
+            {
+              "path": "Configuration_and_Choreography_of_Complex_Animations",
+              "title": {
+                "zh": "复杂动画的配置与编排",
+                "en": "Configuration and Arrangement of Complex Animations"
+              }
+            },
+            {
+              "path": "Animation_Cases",
+              "title": {
+                "zh": "常见动画案例",
+                "en": "Common Animation Cases"
+              }
+            }
+          ]
         },
         {
-          "path": "custom_mark",
+          "path": "Layout",
           "title": {
-            "zh": "自定义 mark",
-            "en": "Custom Mark"
-          }
-        }
-      ]
-    },
-    {
-      "path": "tutorial_docs/Theme",
-      "title": {
-        "zh": "主题",
-        "en": "Theme"
-      },
-      "children": [
+            "zh": "布局",
+            "en": "Layout"
+          },
+          "children": [
+            {
+              "path": "Layout_Strategy",
+              "title": {
+                "zh": "布局策略",
+                "en": "Layout Strategies"
+              }
+            },
+            {
+              "path": "Layout_Cases",
+              "title": {
+                "zh": "案例说明",
+                "en": "Layout Examples"
+              },
+              "children": [
+                {
+                  "path": "example-grid",
+                  "title": {
+                    "zh": "布局案例：grid 布局",
+                    "en": "Layout Example: Grid Layout"
+                  }
+                },
+                {
+                  "path": "example-custom",
+                  "title": {
+                    "zh": "布局案例：自定义布局",
+                    "en": "Layout Example: Custom Layout"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "extend",
+          "title": {
+            "zh": "自定义扩展",
+            "en": "Custom Extension"
+          },
+          "children": [
+            {
+              "path": "custom_animation",
+              "title": {
+                "zh": "自定义动画",
+                "en": "Custom Animation"
+              }
+            },
+            {
+              "path": "custom_layout",
+              "title": {
+                "zh": "自定义布局",
+                "en": "Custom Layout"
+              }
+            },
+            {
+              "path": "custom_mark",
+              "title": {
+                "zh": "自定义 mark",
+                "en": "Custom Mark"
+              }
+            }
+          ]
+        },
         {
           "path": "Theme",
           "title": {
-            "zh": "图表主题",
-            "en": "Chart Theme"
-          }
-        },
-        {
-          "path": "Color_Theme",
-          "title": {
-            "zh": "色板",
-            "en": "Color Palette"
-          }
-        },
-        {
-          "path": "Customize_Theme",
-          "title": {
-            "zh": "自定义主题",
-            "en": "Custom Themes"
-          }
-        }
-      ]
-    },
-    {
-      "path": "tutorial_docs/Progressive_Render",
-      "title": {
-        "zh": "VChart 渐进式渲染教程",
-        "en": "VChart Progressive Rendering Tutorial"
-      }
-    },
-    {
-      "path": "tutorial_docs/Cross-terminal_and_Developer_Ecology",
-      "title": {
-        "zh": "跨端与开发者生态",
-        "en": "Cross-terminal and Developer Ecology"
-      },
-      "children": [
-        {
-          "path": "node",
-          "title": {
-            "zh": "Node 服务端渲染",
-            "en": "Node Server-Side Rendering"
-          }
-        },
-        {
-          "path": "react",
-          "title": {
-            "zh": "React VChart",
-            "en": "React VChart"
-          }
-        },
-        {
-          "path": "taro",
-          "title": {
-            "zh": "Taro VChart",
-            "en": "Taro VChart"
-          }
-        },
-        {
-          "path": "mini-app",
-          "title": {
-            "zh": "小程序",
-            "en": "Mini App"
+            "zh": "主题",
+            "en": "Theme"
           },
           "children": [
             {
-              "path": "how",
+              "path": "Theme",
               "title": {
-                "zh": "跨端说明",
-                "en": "Cross-end Instructions"
+                "zh": "图表主题",
+                "en": "Chart Theme"
               }
             },
             {
-              "path": "block",
+              "path": "Color_Theme",
               "title": {
-                "zh": "飞书小组件",
-                "en": "Lark Mini-Program Widget"
+                "zh": "色板",
+                "en": "Color Palette"
               }
             },
             {
-              "path": "lark",
+              "path": "Customize_Theme",
               "title": {
-                "zh": "飞书小程序",
-                "en": "Lark Mini Program"
-              }
-            },
-            {
-              "path": "tt",
-              "title": {
-                "zh": "字节小程序",
-                "en": "Byte Mini Program"
+                "zh": "自定义主题",
+                "en": "Custom Themes"
               }
             }
           ]
-        }
-      ]
-    },
-    {
-      "path": "tutorial_docs/Event",
-      "title": {
-        "zh": "事件",
-        "en": "Events"
-      }
-    },
-    {
-      "path": "tutorial_docs/Intelligent_Visualization",
-      "title": {
-        "zh": "智能可视化",
-        "en": "Intelligent Visualization"
-      },
-      "children": [
+        },
+
         {
-          "path": "VMind_Getting_Started",
+          "path": "Intelligent_Visualization",
           "title": {
-            "zh": "VMind快速上手",
-            "en": "VMind Getting Started"
+            "zh": "智能可视化",
+            "en": "Intelligent Visualization"
+          },
+          "children": [
+            {
+              "path": "VMind_Getting_Started",
+              "title": {
+                "zh": "VMind快速上手",
+                "en": "VMind Getting Started"
+              }
+            },
+            {
+              "path": "Getting_Started_with_Data_Video",
+              "title": {
+                "zh": "数据视频入门",
+                "en": "Getting Started with Data Video"
+              }
+            }
+          ]
+        },
+        {
+          "path": "Progressive_Render",
+          "title": {
+            "zh": "VChart 渐进式渲染教程",
+            "en": "VChart Progressive Rendering Tutorial"
           }
         },
         {
-          "path": "Getting_Started_with_Data_Video",
+          "path": "Cross-terminal_and_Developer_Ecology",
           "title": {
-            "zh": "数据视频入门",
-            "en": "Getting Started with Data Video"
+            "zh": "跨端与开发者生态",
+            "en": "Cross-terminal and Developer Ecology"
+          },
+          "children": [
+            {
+              "path": "node",
+              "title": {
+                "zh": "Node 服务端渲染",
+                "en": "Node Server-Side Rendering"
+              }
+            },
+            {
+              "path": "react",
+              "title": {
+                "zh": "React VChart",
+                "en": "React VChart"
+              }
+            },
+            {
+              "path": "taro",
+              "title": {
+                "zh": "Taro VChart",
+                "en": "Taro VChart"
+              }
+            },
+            {
+              "path": "vue",
+              "title": {
+                "zh": "Vue VChart",
+                "en": "Vue VChart"
+              }
+            },
+            {
+              "path": "mini-app",
+              "title": {
+                "zh": "小程序",
+                "en": "Mini App"
+              },
+              "children": [
+                {
+                  "path": "how",
+                  "title": {
+                    "zh": "跨端说明",
+                    "en": "Cross-end Instructions"
+                  }
+                },
+                {
+                  "path": "block",
+                  "title": {
+                    "zh": "飞书小组件",
+                    "en": "Lark Mini-Program Widget"
+                  }
+                },
+                {
+                  "path": "lark",
+                  "title": {
+                    "zh": "飞书小程序",
+                    "en": "Lark Mini Program"
+                  }
+                },
+                {
+                  "path": "tt",
+                  "title": {
+                    "zh": "字节小程序",
+                    "en": "Byte Mini Program"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Event",
+          "title": {
+            "zh": "事件",
+            "en": "Events"
+          }
+        },
+        {
+          "path": "FAQ",
+          "title": {
+            "zh": "FAQ",
+            "en": "FAQ"
           }
         }
       ]
-    },
-    {
-      "path": "tutorial_docs/FAQ",
-      "title": {
-        "zh": "FAQ",
-        "en": "FAQ"
-      }
     }
   ]
 }
