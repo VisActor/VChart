@@ -13,9 +13,8 @@ import type { DataView } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../series/interface';
 import { VChart } from '../../core/vchart';
 import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
+import { SCROLL_BAR_DEFAULT_SIZE } from '../../constant/scroll-bar';
 VChart.useSeries([DotSeries, LinkSeries]);
-
-const SCROLL_BAR_DEFAULT_SIZE = 10;
 
 export class SequenceChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sequence;
@@ -45,27 +44,27 @@ export class SequenceChart extends BaseChart {
     const leftAppendPadding = spec?.appendPadding?.left || 0;
     const rightAppendPadding = spec?.appendPadding?.right || 0;
 
-    if ((spec as any)?.legends) {
+    if (spec?.legends) {
       elements.push({
         modelId: `legendRow${rowNum}`,
         col: 1,
         row: rowNum
       });
-      (spec as any).legends[0].id = `legendRow${rowNum}`;
+      spec.legends[0].id = `legendRow${rowNum}`;
       rowHeight.push({
         index: rowNum,
-        size: 40
+        size: spec.legends[0].height ?? 40
       });
       rowNum++;
     }
 
-    if ((spec as any)?.dataZoom) {
+    if (spec?.dataZoom) {
       elements.push({
         modelId: `dataZoomRow${rowNum}`,
         col: 1,
         row: rowNum
       });
-      (spec as any).dataZoom[0].id = `dataZoomRow${rowNum}`;
+      spec.dataZoom[0].id = `dataZoomRow${rowNum}`;
       rowNum++;
 
       // 增加空行，拟合series padding效果
@@ -190,7 +189,10 @@ export class SequenceChart extends BaseChart {
             row: rowNum
           });
           const data = this.getSeriesData(seriesSpec.dataId, seriesSpec.dataIndex);
-          const ratio = (seriesSpec?.height || defaultSeriesRowHeight) / (data.latestData.length * 30);
+          let ratio = 0;
+          if (data.latestData.length && data.latestData.length > 0) {
+            ratio = (seriesSpec?.height || defaultSeriesRowHeight) / (data.latestData.length * 30);
+          }
           // scrollBar数组增加一个right scrollBar
           scrollBar.push({
             orient: 'right',
@@ -245,8 +247,8 @@ export class SequenceChart extends BaseChart {
     });
 
     // 添加legends和datazoom的regionIndex
-    if ((spec as any)?.legends) {
-      (spec as any).legends[0].regionIndex = [region.length - 1];
+    if (spec?.legends) {
+      spec.legends[0].regionIndex = [region.length - 1];
     }
     // if ((spec as any)?.dataZoom) {
     //   (spec as any).dataZoom[0].regionIndex = Array.from({length: region.length - 1},(item, index)=> index+1);
