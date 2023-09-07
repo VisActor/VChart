@@ -886,8 +886,8 @@ export class VChart implements IVChart {
 
   // 主题相关方法
   /** 当 spec 或者 currentThemeName 有变化时需要调用此方法对 currentTheme 进行更新 */
-  private _updateCurrentTheme() {
-    const userTheme = this._spec?.theme ?? this._option.theme;
+  private _updateCurrentTheme(newTheme?: string | ITheme) {
+    const userTheme = newTheme ?? this._spec?.theme ?? this._option.theme;
     if (isString(userTheme)) {
       const theme = mergeTheme({}, ThemeManager.getTheme(userTheme));
       this._currentTheme = preprocessSpecOrTheme('theme', theme, theme.colorScheme);
@@ -934,8 +934,7 @@ export class VChart implements IVChart {
     }
 
     await this.updateCustomConfigAndRerender(() => {
-      this._currentThemeName = name;
-      this._updateCurrentTheme();
+      this._updateCurrentTheme(name);
       this._chart?.setCurrentTheme(this._currentTheme, true);
       return { change: true, reMake: false };
     });
@@ -955,8 +954,7 @@ export class VChart implements IVChart {
     }
 
     this.updateCustomConfigAndRerenderSync(() => {
-      this._currentThemeName = name;
-      this._updateCurrentTheme();
+      this._updateCurrentTheme(name);
       this._chart?.setCurrentTheme(this._currentTheme, true);
       return { change: true, reMake: false };
     });
