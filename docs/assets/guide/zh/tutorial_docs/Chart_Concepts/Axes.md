@@ -82,6 +82,313 @@ axes: [
 ];
 ```
 
+## 轴范围配置
+
+对于线性轴（type: 'linear'/'time'/'log'/'symlog'），我们提供了如下属性用于配置轴的数据范围：
+
+- `min`: 配置数值轴的最小值，优先级高于 `zero`，`nice`。
+- `max`: 配置数值轴的最大值，优先级高于 `zero`，`nice`。
+- `nice`: 是否根据数据将轴范围调整到相对规整的数值，比如当配置了 max = 999, nice 并不会将轴范围优化，当配置了 min 和 max，该配置项失效。到 1000。
+- `niceType`: 配置 nice 效果的类型，是精度优先还是 tickCount 优先（比如 tickCount 为 2 那 nice 出来的精度就很低）。不配置就默认是 tickCountFirst。
+- `zero`: 是否包含 0 值。当配置了 min 和 max，该配置项失效。
+- `expand`: 轴范围按比例扩展，如 `expand: { min: 0.1, max: 0.1 }`当配置了 min 和 max，该配置项失效。
+
+```ts
+axes: [
+  {
+    orient: 'left',
+    min: 100,
+    max: 400
+  }
+];
+```
+
+对于离散轴（type: 'band'），我们提供了如下属性用于配置轴的数据范围：
+
+- `domain`: 配置离散轴的数值范围。
+
+```ts
+axes: [
+  {
+    orient: 'bottom',
+    domain: ['x', 'y', 'z']
+  }
+];
+```
+
+## 轴 tick 配置
+
+轴 `tick` 属性上提供了如下配置用于控制 tick 的显示间距、个数等。
+
+- `tickStep` tick 步长。
+- `tickCount` 建议的 tick 数量，并不保证结果一定是配置值。
+- `forceTickCount` 强制设置的 tick 数量，可以保证 tick 的数量于设置的数值匹配，但是可能由于数据范围导致 tick 值为小数。
+- `tickMode` 连续轴 tick 生成算法，自 `1.3.0`版本开始支持，仅当轴为线性轴时生效。
+- `noDecimals` 是否避免小数 tick，自 `1.3.0` 版本开始支持，仅当轴为线性轴时生效。
+
+```ts
+axes: [
+  {
+    orient: 'left',
+    tick: {
+      tickCount: 5
+    }
+  }
+];
+```
+
+## 轴标签布局配置
+
+### 轴采样 `label.sampling`
+
+坐标轴标签默认开启了防重叠的标签采样能力，通过 `axes` 属性上对应方向的轴的 `label.sampling` 属性进行控制，下图为文本过多时默认的展示结果：
+
+```javascript livedemo
+const spec = {
+  type: 'bar',
+
+  xField: 'x',
+  yField: 'y',
+  axes: [
+    {
+      orient: 'bottom',
+      sampling: false,
+      label: {
+        autoRotate: true,
+        autoHide: true
+      }
+    }
+  ],
+  data: [
+    {
+      id: 'event_analysis_stack',
+      values: [
+        { x: '0', y: 28, c: 0 },
+        { x: 0.5, y: 20, c: 1 },
+        { x: 1, y: 43, c: 0 },
+        { x: 1.5, y: 35, c: 1 },
+        { x: 2, y: 81, c: 0 },
+        { x: 2.5, y: 10, c: 1 },
+        { x: 3, y: 19, c: 0 },
+        { x: 3.5, y: 15, c: 1 },
+        { x: 4, y: 52, c: 0 },
+        { x: 4.5, y: 48, c: 1 },
+        { x: 5, y: 24, c: 0 },
+        { x: 5.5, y: 28, c: 1 },
+        { x: 6, y: 87, c: 0 },
+        { x: 6.5, y: 66, c: 1 },
+        { x: 7, y: 17, c: 0 },
+        { x: 7.5, y: 27, c: 1 },
+        { x: 8, y: 68, c: 0 },
+        { x: 8.5, y: 16, c: 1 },
+        { x: 9, y: 49, c: 0 },
+        { x: 9.5, y: 25, c: 1 },
+        { x: 10, y: 28, c: 0 },
+        { x: 10.5, y: 20, c: 1 },
+        { x: 11, y: 43, c: 0 },
+        { x: 11.5, y: 35, c: 1 },
+        { x: 12, y: 81, c: 0 },
+        { x: 12.5, y: 10, c: 1 },
+        { x: 13, y: 19, c: 0 },
+        { x: 13.5, y: 15, c: 1 },
+        { x: 14, y: 52, c: 0 },
+        { x: 14.5, y: 48, c: 1 },
+        { x: 15, y: 24, c: 0 },
+        { x: 15.5, y: 28, c: 1 },
+        { x: 16, y: 87, c: 0 },
+        { x: 16.5, y: 66, c: 1 },
+        { x: 17, y: 17, c: 0 },
+        { x: 17.5, y: 27, c: 1 },
+        { x: 18, y: 68, c: 0 },
+        { x: 18.5, y: 16, c: 1 },
+        { x: 19, y: 49, c: 0 },
+        { x: 19.5, y: 25, c: 1 },
+        { x: 20, y: 28, c: 0 },
+        { x: 20.5, y: 20, c: 1 },
+        { x: 21, y: 43, c: 0 },
+        { x: 21.5, y: 35, c: 1 },
+        { x: 22, y: 81, c: 0 },
+        { x: 22.5, y: 10, c: 1 },
+        { x: 23, y: 19, c: 0 },
+        { x: 23.5, y: 15, c: 1 },
+        { x: 24, y: 52, c: 0 },
+        { x: 24.5, y: 48, c: 1 },
+        { x: 25, y: 24, c: 0 },
+        { x: 25.5, y: 28, c: 1 },
+        { x: 26, y: 87, c: 0 },
+        { x: 26.5, y: 66, c: 1 },
+        { x: 27, y: 17, c: 0 },
+        { x: 27.5, y: 27, c: 1 },
+        { x: 28, y: 68, c: 0 },
+        { x: 28.5, y: 16, c: 1 },
+        { x: 29, y: 49, c: 0 },
+        { x: 29.5, y: 25, c: 1 },
+        { x: 30, y: 28, c: 0 },
+        { x: 30.5, y: 20, c: 1 },
+        { x: 31, y: 43, c: 0 },
+        { x: 31.5, y: 35, c: 1 },
+        { x: 32, y: 81, c: 0 },
+        { x: 32.5, y: 10, c: 1 },
+        { x: 33, y: 19, c: 0 },
+        { x: 33.5, y: 15, c: 1 },
+        { x: 34, y: 52, c: 0 },
+        { x: 34.5, y: 48, c: 1 },
+        { x: 35, y: 24, c: 0 },
+        { x: 35.5, y: 28, c: 1 },
+        { x: 36, y: 87, c: 0 },
+        { x: 36.5, y: 66, c: 1 },
+        { x: 37, y: 17, c: 0 },
+        { x: 37.5, y: 27, c: 1 },
+        { x: 38, y: 68, c: 0 },
+        { x: 38.5, y: 16, c: 1 },
+        { x: 39, y: 49, c: 0 },
+        { x: 39.5, y: 25, c: 1 }
+      ]
+    }
+  ]
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
+
+我们可以通过 `label.minGap` 来配置标签之间的间距。
+
+### 轴组件的标签布局
+
+坐标轴组件本身也提供了轴标签的一些布局策略，包括：
+
+- `autoHide` 自动隐藏
+- `autoRotate` 自动旋转
+- `autoLimit` 自动省略
+
+这些默认都是关闭的，默认我们采用的是轴采样布局策略来进行轴标签的防重叠，因为轴采样算法时在数据层面进行抽样，然后再绘制坐标轴组件，相比来说性能更好，所以当你需要使用轴组件的标签布局策略时，需要手动开启。
+
+下图展示了在关闭轴采样后，x 轴标签配置了 `autoHide`、 `autoRotate` 的效果：
+
+```javascript livedemo
+const spec = {
+  type: 'bar',
+
+  xField: 'x',
+  yField: 'y',
+  axes: [
+    {
+      orient: 'bottom',
+      sampling: false,
+      label: {
+        autoRotate: true,
+        autoHide: true
+      }
+    }
+  ],
+  data: [
+    {
+      id: 'event_analysis_stack',
+      values: [
+        { x: '0', y: 28, c: 0 },
+        { x: 0.5, y: 20, c: 1 },
+        { x: 1, y: 43, c: 0 },
+        { x: 1.5, y: 35, c: 1 },
+        { x: 2, y: 81, c: 0 },
+        { x: 2.5, y: 10, c: 1 },
+        { x: 3, y: 19, c: 0 },
+        { x: 3.5, y: 15, c: 1 },
+        { x: 4, y: 52, c: 0 },
+        { x: 4.5, y: 48, c: 1 },
+        { x: 5, y: 24, c: 0 },
+        { x: 5.5, y: 28, c: 1 },
+        { x: 6, y: 87, c: 0 },
+        { x: 6.5, y: 66, c: 1 },
+        { x: 7, y: 17, c: 0 },
+        { x: 7.5, y: 27, c: 1 },
+        { x: 8, y: 68, c: 0 },
+        { x: 8.5, y: 16, c: 1 },
+        { x: 9, y: 49, c: 0 },
+        { x: 9.5, y: 25, c: 1 },
+        { x: 10, y: 28, c: 0 },
+        { x: 10.5, y: 20, c: 1 },
+        { x: 11, y: 43, c: 0 },
+        { x: 11.5, y: 35, c: 1 },
+        { x: 12, y: 81, c: 0 },
+        { x: 12.5, y: 10, c: 1 },
+        { x: 13, y: 19, c: 0 },
+        { x: 13.5, y: 15, c: 1 },
+        { x: 14, y: 52, c: 0 },
+        { x: 14.5, y: 48, c: 1 },
+        { x: 15, y: 24, c: 0 },
+        { x: 15.5, y: 28, c: 1 },
+        { x: 16, y: 87, c: 0 },
+        { x: 16.5, y: 66, c: 1 },
+        { x: 17, y: 17, c: 0 },
+        { x: 17.5, y: 27, c: 1 },
+        { x: 18, y: 68, c: 0 },
+        { x: 18.5, y: 16, c: 1 },
+        { x: 19, y: 49, c: 0 },
+        { x: 19.5, y: 25, c: 1 },
+        { x: 20, y: 28, c: 0 },
+        { x: 20.5, y: 20, c: 1 },
+        { x: 21, y: 43, c: 0 },
+        { x: 21.5, y: 35, c: 1 },
+        { x: 22, y: 81, c: 0 },
+        { x: 22.5, y: 10, c: 1 },
+        { x: 23, y: 19, c: 0 },
+        { x: 23.5, y: 15, c: 1 },
+        { x: 24, y: 52, c: 0 },
+        { x: 24.5, y: 48, c: 1 },
+        { x: 25, y: 24, c: 0 },
+        { x: 25.5, y: 28, c: 1 },
+        { x: 26, y: 87, c: 0 },
+        { x: 26.5, y: 66, c: 1 },
+        { x: 27, y: 17, c: 0 },
+        { x: 27.5, y: 27, c: 1 },
+        { x: 28, y: 68, c: 0 },
+        { x: 28.5, y: 16, c: 1 },
+        { x: 29, y: 49, c: 0 },
+        { x: 29.5, y: 25, c: 1 },
+        { x: 30, y: 28, c: 0 },
+        { x: 30.5, y: 20, c: 1 },
+        { x: 31, y: 43, c: 0 },
+        { x: 31.5, y: 35, c: 1 },
+        { x: 32, y: 81, c: 0 },
+        { x: 32.5, y: 10, c: 1 },
+        { x: 33, y: 19, c: 0 },
+        { x: 33.5, y: 15, c: 1 },
+        { x: 34, y: 52, c: 0 },
+        { x: 34.5, y: 48, c: 1 },
+        { x: 35, y: 24, c: 0 },
+        { x: 35.5, y: 28, c: 1 },
+        { x: 36, y: 87, c: 0 },
+        { x: 36.5, y: 66, c: 1 },
+        { x: 37, y: 17, c: 0 },
+        { x: 37.5, y: 27, c: 1 },
+        { x: 38, y: 68, c: 0 },
+        { x: 38.5, y: 16, c: 1 },
+        { x: 39, y: 49, c: 0 },
+        { x: 39.5, y: 25, c: 1 }
+      ]
+    }
+  ]
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
+
+我们也提供了其他关于轴标签布局的 demo：
+
+- [关闭轴标签采样 & dataFilter](../../examples/axis/disable-sampling)
+- [坐标轴首尾文字向内收缩](../../examples/axis/flush)
+- [坐标轴文本自动隐藏](../../examples/axis/axis-label-autoHide)
+- [坐标轴文本自动旋转](../../examples/axis/axis-label-autoRotate)
+- [坐标轴文本自动省略](../../examples/axis/axis-label-autoLimit)
+
 ## 绘制多个坐标轴
 
 在某些情况下，图表中可能需要绘制多坐标轴，我们只需要按需往 `axes` 属性中添加坐标轴配置即可。
@@ -145,7 +452,174 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 ```
 
+### 多轴同步
+
+我们为多轴提供了 `sync` 配置，可以用来配置多轴的 0 值对齐，或者 tick 比例对齐。
+
+```ts
+export interface ILinearAxisSync {
+  /**
+   * 配置参照的轴 id
+   */
+  axisId: StringOrNumber;
+  /**
+   * 是否保持 2 个轴的 0 值对齐
+   * @default false
+   */
+  zeroAlign?: boolean;
+  /**
+   * 是否使这个轴的 tick 与目标轴保持比例对齐
+   * @default false
+   */
+  tickAlign?: boolean;
+}
+```
+
+#### 2 个轴的 0 值对齐
+
+```javascript livedemo
+const spec = {
+  type: 'common',
+  seriesField: 'color',
+  data: [
+    {
+      id: 'id0',
+      values: [
+        { x: 'Monday', y: 15 },
+        { x: 'Tuesday', y: 12 },
+        { x: 'Wednesday', y: 15 },
+        { x: 'Thursday', y: 10 },
+        { x: 'Friday', y: 13 },
+        { x: 'Saturday', y: 10 },
+        { x: 'Sunday', y: 20 }
+      ]
+    },
+    {
+      id: 'id1',
+      values: [
+        { x: 'Monday', y: -52 },
+        { x: 'Tuesday', y: -43 },
+        { x: 'Wednesday', y: -33 },
+        { x: 'Thursday', y: -22 },
+        { x: 'Friday', y: -10 },
+        { x: 'Saturday', y: -30 },
+        { x: 'Sunday', y: -50 }
+      ]
+    }
+  ],
+  series: [
+    {
+      type: 'bar',
+      id: 'bar',
+      dataIndex: 0,
+      stack: false,
+      label: { visible: true },
+      xField: 'x',
+      yField: 'y'
+    },
+    {
+      type: 'line',
+      id: 'line',
+      dataIndex: 1,
+      label: { visible: true },
+      seriesField: 'type',
+      xField: 'x',
+      yField: 'y',
+      stack: false
+    }
+  ],
+  axes: [
+    { orient: 'left', seriesIndex: [0], id: 'axisLeft', nice: false, zero: false },
+    {
+      orient: 'right',
+      seriesId: ['line'],
+      gird: { visible: false },
+      nice: false,
+      zero: false,
+      sync: { axisId: 'axisLeft', zeroAlign: true }
+    },
+    { orient: 'bottom', label: { visible: true }, type: 'band' }
+  ]
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+```
+
+#### 两个轴的 tick 保持比例对齐
+
+```javascript livedemo
+const spec = {
+  type: 'common',
+  seriesField: 'color',
+  data: [
+    {
+      id: 'id0',
+      values: [
+        { x: 'Monday', y: 15 },
+        { x: 'Tuesday', y: 12 },
+        { x: 'Wednesday', y: 15 },
+        { x: 'Thursday', y: 10 },
+        { x: 'Friday', y: 13 },
+        { x: 'Saturday', y: 10 },
+        { x: 'Sunday', y: 20 }
+      ]
+    },
+    {
+      id: 'id1',
+      values: [
+        { x: 'Monday', y: -52 },
+        { x: 'Tuesday', y: -43 },
+        { x: 'Wednesday', y: -33 },
+        { x: 'Thursday', y: -22 },
+        { x: 'Friday', y: -10 },
+        { x: 'Saturday', y: -30 },
+        { x: 'Sunday', y: -50 }
+      ]
+    }
+  ],
+  series: [
+    {
+      type: 'bar',
+      id: 'bar',
+      dataIndex: 0,
+      stack: false,
+      label: { visible: true },
+      xField: 'x',
+      yField: 'y'
+    },
+    {
+      type: 'line',
+      id: 'line',
+      dataIndex: 1,
+      label: { visible: true },
+      seriesField: 'type',
+      xField: 'x',
+      yField: 'y',
+      stack: false
+    }
+  ],
+  axes: [
+    { orient: 'left', seriesIndex: [0], id: 'axisLeft', nice: false, zero: false },
+    {
+      orient: 'right',
+      seriesId: ['line'],
+      gird: { visible: false },
+      nice: false,
+      zero: false,
+      sync: { axisId: 'axisLeft', tickAlign: true }
+    },
+    { orient: 'bottom', label: { visible: true }, type: 'band' }
+  ]
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+```
+
 ## 示例
+
+更多实例详见：[轴实例](https://www.visactor.io/vchart/example#axis)
 
 ### 0 刻度轴线配置
 
