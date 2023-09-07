@@ -103,7 +103,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     // TODO: 待支持
   }
 
-  protected _hide() {
+  hide() {
     this._radiusCrosshair && this._radiusCrosshair.hideAll();
     this._radiusLabelCrosshair && this._radiusLabelCrosshair.hideAll();
     this._angleCrosshair && this._angleCrosshair.hideAll();
@@ -189,7 +189,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
         return;
       }
       // 隐藏
-      this._hide();
+      this.hide();
       return;
     }
     // 删除之前的currValue
