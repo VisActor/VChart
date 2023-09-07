@@ -128,11 +128,11 @@ vchart.renderAsync();
 
 ```ts
 // Import the VChart core module
-import { VChart } from '@visactor/vchart/core';
+import { VChart } from '@visactor/vchart/es/core';
 // Import bar chart
-import { BarChart } from '@visactor/vchart/chart';
+import { BarChart } from '@visactor/vchart/es/chart';
 // Import Cartesian axes, Tooltip, CrossHair components
-import { CartesianLinearAxis, CartesianBandAxis, Tooltip, CartesianCrossHair } from '@visactor/vchart/component';
+import { CartesianLinearAxis, CartesianBandAxis, Tooltip, CartesianCrossHair } from '@visactor/vchart/es/component';
 // Register chart
 VChart.useChart([BarChart]);
 // Register components
