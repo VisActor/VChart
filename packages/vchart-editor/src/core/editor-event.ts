@@ -24,6 +24,7 @@ export class EditorEvent {
           this._triggerLayer.tryEvent(e as MouseEvent);
           if (this._triggerLayer.isInActive) {
             hasActive = true;
+            hasTrigger = true;
           }
         }
         if (!hasActive) {
