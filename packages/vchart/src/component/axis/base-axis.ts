@@ -448,11 +448,13 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       alternateColor: spec.grid.alternateColor,
       alignWithLabel: spec.grid.alignWithLabel,
       style: isFunction(spec.grid.style)
-        ? (datum: Datum, index: number) => {
-            const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
-            return transformToGraphic(
-              this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.grid?.style, style))
-            );
+        ? () => {
+            return (datum: Datum, index: number) => {
+              const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
+              return transformToGraphic(
+                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.grid?.style, style))
+              );
+            };
           }
         : transformToGraphic(spec.grid.style),
       subGrid: {
