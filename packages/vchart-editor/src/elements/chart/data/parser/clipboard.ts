@@ -7,6 +7,7 @@ export class ClipBoardParser implements IDataParser {
   readonly type: string = ClipBoardParser.type;
   protected _data: DataView = null;
   protected _dataSet: DataSet = null;
+  protected _dataValue: string | {} = null;
   protected _onDataUpdateCall: DataUpdateCall = null;
   constructor(dataSet: DataSet, call: DataUpdateCall, value: any) {
     this._dataSet = dataSet;
@@ -19,7 +20,16 @@ export class ClipBoardParser implements IDataParser {
   getData() {
     return this._data;
   }
+
+  getSave() {
+    return {
+      type: 'clipBoard',
+      value: this._dataValue
+    };
+  }
+
   updateValue(value: unknown) {
+    this._dataValue = value;
     // TODO hack for demo
     this._data.setFields({
       State: {},

@@ -1,5 +1,6 @@
 import type { IData, StandardData } from '../data/interface';
 import type { ILayoutData } from '../layout/interface';
+import { getTemp } from '../temp';
 import type { IChartTemp } from '../temp/interface';
 import type { IEditorSpec, ISpecProcess } from './interface';
 // @ts-ignore
@@ -35,18 +36,27 @@ export class SpecProcess implements ISpecProcess {
         ...DefaultEditorSpec
       };
     }
+    if (this._editorSpec.layout) {
+      this.updateLayout(this._editorSpec.layout);
+    }
+    if (this._editorSpec.theme) {
+      this.updateLayout(this._editorSpec.theme);
+    }
+    if (this._editorSpec.temp) {
+      this.updateTemp(this._editorSpec.temp);
+    }
   }
   updateTheme(theme: ITheme) {
     this._editorSpec.theme = theme;
     this.transformSpec();
   }
-  updateTemp(temp: IChartTemp) {
-    this._specTemp = temp;
+  updateTemp(key: string) {
+    this._specTemp = getTemp(key);
+    this._editorSpec.temp = key;
     this._checkSpecReady();
   }
   updateLayout(layout: ILayoutData) {
     this._editorSpec.layout = layout;
-    this.transformSpec();
   }
   getVChartSpec() {
     return this._vchartSpec;
@@ -76,6 +86,7 @@ export class SpecProcess implements ISpecProcess {
 
   clear() {
     this._onSpecReadyCall = null;
+    this._specTemp.clear();
     this._specTemp = null;
     this._editorSpec = null;
     this._vchartSpec = null;

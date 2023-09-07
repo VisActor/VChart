@@ -39,6 +39,10 @@ export class Data implements IData {
     this._updateListener.push(call);
   }
 
+  getSave() {
+    return this._parser.getSave();
+  }
+
   clear() {
     this._updateListener = [];
     this._parser.clear();
