@@ -146,15 +146,19 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     activeType?: TooltipActiveType,
     data?: TooltipData
   ) => {
+    const tooltipSpec = this._component.getSpec() as ITooltipSpec;
+    if (!tooltipSpec) {
+      return TooltipResult.failed;
+    }
+
     /** 关闭 tooltip */
     if (!visible) {
       this._cacheViewSpec = undefined;
       this._cacheActualTooltip = undefined;
 
-      const spec = this._component.getSpec() as ITooltipSpec;
       /** 用户自定义逻辑 */
-      if (spec.handler) {
-        return spec.handler.hideTooltip?.(params) ?? TooltipResult.success;
+      if (tooltipSpec.handler) {
+        return tooltipSpec.handler.hideTooltip?.(params) ?? TooltipResult.success;
       }
       /** 默认逻辑 */
       this._updateTooltip(false, params);
@@ -172,7 +176,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     } else {
       spec = getTooltipSpecForShow(
         activeType!,
-        this._component.getSpec(),
+        tooltipSpec,
         (params as BaseEventParams).model as ISeries,
         (params as DimensionEventParams).dimensionInfo
       );
@@ -371,8 +375,16 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const { width: tooltipBoxWidth = 0, height: tooltipBoxHeight = 0 } =
       this._getTooltipBoxSize(actualTooltip, changePositionOnly) ?? {};
 
+    const invalidPosition = {
+      x: Infinity,
+      y: Infinity
+    };
+
     const { offsetX, offsetY } = this._option;
     const tooltipSpec = this._component.getSpec();
+    if (!tooltipSpec) {
+      return invalidPosition;
+    }
 
     const isCanvas = tooltipSpec.renderMode === 'canvas';
     const canvasRect = params?.chart?.getCanvasRect();
@@ -448,10 +460,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       containerSize.height = window.innerHeight;
 
       if (!isCanvas) {
-        tooltipParentElementRect = tooltipParentElement?.getBoundingClientRect() ?? {
-          x: Infinity,
-          y: Infinity
-        };
+        tooltipParentElementRect = tooltipParentElement?.getBoundingClientRect() ?? invalidPosition;
         const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
         const chartElementRect = chartElement?.getBoundingClientRect();
         relativePosOffset = {
