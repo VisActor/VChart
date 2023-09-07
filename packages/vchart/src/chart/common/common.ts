@@ -8,6 +8,13 @@ export class CommonChart extends BaseChart {
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.common;
 
+  protected _getDefaultSeriesSpec(spec: any) {
+    const defaultSpec = super._getDefaultSeriesSpec(spec);
+    // 组合图系列的默认配置由系列自身配置 data/dataIndex/dataId 决定，无需默认配置
+    delete defaultSpec.data;
+    return defaultSpec;
+  }
+
   transformSpec(spec: any): void {
     super.transformSpec(spec);
     if (isArray(spec.series)) {
