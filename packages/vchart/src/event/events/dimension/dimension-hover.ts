@@ -17,7 +17,7 @@ export class DimensionHoverEvent extends DimensionEvent {
     });
 
     this._eventDispatcher.register<'pointerout'>('pointerout', {
-      query: { ...handler.query, source: Event_Source_Type.chart },
+      query: { ...handler.query, source: Event_Source_Type.canvas },
       callback: this.onMouseOut
     });
 
