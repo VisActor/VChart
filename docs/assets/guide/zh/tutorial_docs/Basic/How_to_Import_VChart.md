@@ -128,11 +128,11 @@ vchart.renderAsync();
 
 ```ts
 // 引入 VChart 核心模块
-import { VChart } from '@visactor/vchart/core';
+import { VChart } from '@visactor/vchart/es/core';
 // 引入柱状图
-import { BarChart } from '@visactor/vchart/chart';
+import { BarChart } from '@visactor/vchart/es/chart';
 // 引入坐标轴、Tooltip、CrossHair组件
-import { CartesianLinearAxis, CartesianBandAxis, Tooltip, CartesianCrossHair } from '@visactor/vchart/component';
+import { CartesianLinearAxis, CartesianBandAxis, Tooltip, CartesianCrossHair } from '@visactor/vchart/es/component';
 // 注册图表
 VChart.useChart([BarChart]);
 // 注册组件
