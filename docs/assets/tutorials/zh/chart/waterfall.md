@@ -16,13 +16,13 @@
 - `waterfallChart.data`: 图表绘制的数据源
 - `waterfallChart.xField`: 分类字段，映射矩形图元的 x 坐标或宽度
 - `waterfallChart.yField`: 数值字段，映射矩形图元的高度或 y 坐标
-- `waterfallChart.total`: 用于配置图表计算的**总计数据对应的矩形图元**，详细配置见[waterfallChart.total](../../../option/waterfallChart#total)
+- `waterfallChart.total`: 用于配置图表计算的**总计数据对应的矩形图元**，详细配置见[waterfallChart.total](../../option/waterfallChart#total)
 
 坐标轴、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能：
 
-- `waterfallChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详细配置见[VChart 坐标轴组件配置](../../../option/waterfallChart#axes)
-- `waterfallChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/waterfallChart#tooltip)
-- 更多组件配置见[VChart waterfallChart 配置](../../../option/waterfallChart)
+- `waterfallChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详细配置见[VChart 坐标轴组件配置](../../option/waterfallChart#axes)
+- `waterfallChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../option/waterfallChart#tooltip)
+- 更多组件配置见[VChart waterfallChart 配置](../../option/waterfallChart)
 
 ## 快速上手
 

@@ -24,8 +24,8 @@
 
 提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
 
-- `funnelChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/funnelChart#tooltip)
-- 更多组件配置见[VChart funnelChart 配置](../../../option/funnelChart)
+- `funnelChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../option/funnelChart#tooltip)
+- 更多组件配置见[VChart funnelChart 配置](../../option/funnelChart)
 
 作为 3d 图表，3d 散点图需要开启 3d 视图，需要在 vChart 的初始化参数中配置 3d 视角:
 

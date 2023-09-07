@@ -1,10 +1,10 @@
 # Brush 框选
 
-Brush 是 VChart 提供的一款交互组件，该组件可以帮助用户在图表中对数据进行选取，方便用户进一步分析或操作数据。本教程主要讲解 Brush 的相关概念以及组成，关于 Brush 更加详细的配置及示例，详见[配置项文档](../../../option)及[示例](../../../example)页面。
+Brush 是 VChart 提供的一款交互组件，该组件可以帮助用户在图表中对数据进行选取，方便用户进一步分析或操作数据。本教程主要讲解 Brush 的相关概念以及组成，关于 Brush 更加详细的配置及示例，详见[配置项文档](../../option)及[示例](../../example)页面。
 
 ## 组成
 
-Brush 组件主要有一个框选区域组成，提供了丰富的框选类型、样式以及交互支持，同时也提供了对应的事件（`brushChange`，详见[事件 API](../../../api/API/event)）。
+Brush 组件主要有一个框选区域组成，提供了丰富的框选类型、样式以及交互支持，同时也提供了对应的事件（`brushChange`，详见[事件 API](../../api/event)）。
 
 <div style="text-align: center;">
   <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a21b.png" alt="Brush 图示">

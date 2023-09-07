@@ -2,7 +2,7 @@
 
 Marker is a chart auxiliary annotation component designed to enhance data perception and assist data narration, commonly used to highlight a specific data point or display the statistical results of multiple data points. **It should be noted that this component currently only supports Cartesian coordinate system charts.**
 
-This tutorial mainly explains the related concepts and components of the Marker component. For more detailed configuration and examples of the Marker component, please refer to the [Configuration Documentation](../../../option) and [Example](../../../example) pages.
+This tutorial mainly explains the related concepts and components of the Marker component. For more detailed configuration and examples of the Marker component, please refer to the [Configuration Documentation](../../option) and [Example](../../example) pages.
 
 ## Annotation Types
 
@@ -101,4 +101,4 @@ MarkArea can be configured through the `markArea` attribute:
 
 ## Examples
 
-For more examples of using the Marker component, please refer to the [Marker Examples](../../../example) page.
+For more examples of using the Marker component, please refer to the [Marker Examples](../../example) page.

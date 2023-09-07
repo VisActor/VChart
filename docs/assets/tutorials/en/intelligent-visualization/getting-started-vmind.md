@@ -18,7 +18,7 @@ npm install @visactor/vmind
 yarn add @visactor/vmind
 ```
 
-VMind needs to be used with VChart. In order to draw diagrams, you also need to introduce VChart into your project. See the specific tutorial for details [Get started quickly](http://www.visactor.io/vchart/guide/tutorial_docs/Getting_Started)
+VMind needs to be used with VChart. In order to draw diagrams, you also need to introduce VChart into your project. See the specific tutorial for details [Get started quickly](../getting-started)
 
 ## Introducing VMind
 

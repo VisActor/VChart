@@ -1,6 +1,6 @@
 # Sequence Chart
 
-[\[Configuration Guide\]](../../../option/sequenceChart)
+[\[Configuration Guide\]](../../option/sequenceChart)
 
 ## Introduction
 

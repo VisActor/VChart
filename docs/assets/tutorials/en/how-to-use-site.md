@@ -6,19 +6,19 @@ This document is mainly to help you better use the VChart site and help you get 
 
 ### Quick Start
 
-First, you need to complete the VChart [Quick Start](./Getting_Started) section, which will teach you how to configure and use the environment required by VChart, as well as how to build your first graphic.
+First, you need to complete the VChart [Quick Start](./getting-started) section, which will teach you how to configure and use the environment required by VChart, as well as how to build your first graphic.
 
 ### Understand Your First Chart
 
-After completing the [Quick Start](./Getting_Started), you can learn more about how to create a simple line chart by studying the [Chart Components](../tutorial_docs/Chart_Concepts/Understanding_VChart) section, including data, series, marks, and components configurations.
+After completing the [Quick Start](./getting-started), you can learn more about how to create a simple line chart by studying the [Chart Components](../concepts/understanding-vchart) section, including data, series, marks, and components configurations.
 
 ## Documentation
 
 VChart's documentation provides detailed information about features and configurations. Depending on your needs, you can check out the following sections:
 
-- [Tutorial](./VChart_Website_Guide): Introduces the basic concepts and various usage methods of VChart charts.
-- [Configuration Items](../../option): Provides detailed explanations of all configuration items for VChart charts.
-- [API](../../api): Provides detailed explanations of all available interfaces for VChart.
+- [Tutorial](./how-to-use-site): Introduces the basic concepts and various usage methods of VChart charts.
+- [Configuration Items](../option): Provides detailed explanations of all configuration items for VChart charts.
+- [API](../api): Provides detailed explanations of all available interfaces for VChart.
 
 ## Chart Examples
 

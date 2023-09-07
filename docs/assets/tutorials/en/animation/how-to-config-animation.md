@@ -63,7 +63,7 @@ window['vchart'] = vchart;
 
 ### Animation Easing Effect
 
-Easing effects describe the process of "acceleration" of the animation. Setting the appropriate easing effect can make the chart animation more dynamic. VChart has many built-in easing effect types that can be selected through the `animation.easing` property. The default value is `cubicOut`. The following built-in easing effect types are available, and you can refer to the [easing demo](../../../demo/combination/easing-visualization) for more information.
+Easing effects describe the process of "acceleration" of the animation. Setting the appropriate easing effect can make the chart animation more dynamic. VChart has many built-in easing effect types that can be selected through the `animation.easing` property. The default value is `cubicOut`. The following built-in easing effect types are available, and you can refer to the [easing demo](../../demo/combination/easing-visualization) for more information.
 
 - linear
 - quadIn

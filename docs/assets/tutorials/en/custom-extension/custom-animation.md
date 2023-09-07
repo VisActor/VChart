@@ -399,7 +399,7 @@ export interface ICustomAnimate {
   MergedEndProps: () => Record<string, any> | void;
 }
 ```
-The interface defines some basic animation properties and lifecycle functions that can be used to create, update, and destroy custom animations. Detailed documentation can be found in [VRender Custom Animation](../../../../vrender/guide/asd/Basic_Tutorial/Events_and_Animation).
+The interface defines some basic animation properties and lifecycle functions that can be used to create, update, and destroy custom animations. Detailed documentation can be found in [VRender Custom Animation](../../../vrender/guide/asd/Basic_Tutorial/Events_and_Animation).
 
 The following example uses the built-in `StreamLight` custom animation class from `VRender` to implement the bar chart streamer effect:
 

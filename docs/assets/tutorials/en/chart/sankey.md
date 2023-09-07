@@ -1,6 +1,6 @@
 # Sankey Diagram
 
-[\[Configuration manual\]](../../../option/sankeyChart)
+[\[Configuration manual\]](../../option/sankeyChart)
 
 ## Introduction
 
@@ -28,8 +28,8 @@ Node and link components are essential elements of the Sankey diagram, and the r
 
 Tooltip and other components that assist in chart display are optional configurations with default effects and functions:
 
-- `sankeyChart.tooltip`: Tooltip information. Default interaction is displayed. For detailed configuration, see the [VChart Tooltip Component Configuration](../../../option/sankeyChart#tooltip).
-- For more component configurations, see [VChart sankeyChart Configuration](../../../option/sankeyChart).
+- `sankeyChart.tooltip`: Tooltip information. Default interaction is displayed. For detailed configuration, see the [VChart Tooltip Component Configuration](../../option/sankeyChart#tooltip).
+- For more component configurations, see [VChart sankeyChart Configuration](../../option/sankeyChart).
 
 ## Quick Start
 

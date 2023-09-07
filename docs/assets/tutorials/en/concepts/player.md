@@ -1,6 +1,6 @@
 # Player
 
-Player's main purpose is to enhance dynamic narrative capabilities, supporting basic functions such as playing, pausing, fast forwarding, and rewinding, helping users dynamically display sequential data. It can be divided into two types of playback based on the supported data types: discrete and continuous. By using the Player component, users can trace back the changes in the data in the chart, which helps them to observe data changes more intuitively. This tutorial mainly introduces the concepts and components of Player, for more detailed configuration and examples of Player, please refer to the [Configuration Document](../../../option) and [Examples](../../../example) pages.
+Player's main purpose is to enhance dynamic narrative capabilities, supporting basic functions such as playing, pausing, fast forwarding, and rewinding, helping users dynamically display sequential data. It can be divided into two types of playback based on the supported data types: discrete and continuous. By using the Player component, users can trace back the changes in the data in the chart, which helps them to observe data changes more intuitively. This tutorial mainly introduces the concepts and components of Player, for more detailed configuration and examples of Player, please refer to the [Configuration Document](../../option) and [Examples](../../example) pages.
 
 ## Components
 
@@ -28,7 +28,7 @@ According to the presentation type of the player, Player can be divided into two
 
 ## Examples
 
-- [Basic Player (Discrete)](../../../demo/player/basic-player)
-- [Basic Player (Continuous)](../../../demo/player/continuous-player)
-- [ranking-bar](../../../demo/player/ranking-bar)
-- [timeline-scatter](../../../demo/player/timeline-scatter)
+- [Basic Player (Discrete)](../../demo/player/basic-player)
+- [Basic Player (Continuous)](../../demo/player/continuous-player)
+- [ranking-bar](../../demo/player/ranking-bar)
+- [timeline-scatter](../../demo/player/timeline-scatter)

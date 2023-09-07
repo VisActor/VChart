@@ -1,6 +1,6 @@
 # 地图
 
-[\[配置项手册\]](../../../option/mapChart)
+[\[配置项手册\]](../../option/mapChart)
 
 ## 简介
 
@@ -23,7 +23,7 @@
 - `VChart.registerMap(mapName, mapData)`: VChart 提供地图数据注册的 api，其中`mapName`表示注册的地图数据名称，`mapData`指具体的地图数据，默认为`geojson`类型地图数据，也支持`topojson` 类型地图数据。
 - `mapChart.map`: 指定使用注册的地图数据名称
 
-更多地图相关配置见[地图](../../../option/mapChart)
+更多地图相关配置见[地图](../../option/mapChart)
 
 ## 快速上手
 
@@ -140,7 +140,7 @@ await vChart.renderAsync();
 ### 指定 nameMap
 
 正如上文所说，如果图元映射数据中的区域名称与底图数据不对应，需要通过`mapChart.nameMap`指定。
-比如在[基础地图](../../../demo/map-chart/basic-map)的例子中，图元映射数据中的区域名称不带行政单位，但底图数据中是有的，所以需要配置`mapChart.nameMap`。
+比如在[基础地图](../../demo/map-chart/basic-map)的例子中，图元映射数据中的区域名称不带行政单位，但底图数据中是有的，所以需要配置`mapChart.nameMap`。
 
 ### 自定义映射
 
@@ -231,7 +231,7 @@ await vChart.renderAsync();
 
 ### 自定义投影
 
-可以在地图区域配置`projection: type`来配置地图投影类型，具体配置项可以参考[配置项文档](../../../option/mapChart#region.projection.type)。
+可以在地图区域配置`projection: type`来配置地图投影类型，具体配置项可以参考[配置项文档](../../option/mapChart#region.projection.type)。
 
 ```javascript livedemo
 const spec = {

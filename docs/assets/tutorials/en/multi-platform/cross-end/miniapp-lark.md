@@ -25,9 +25,9 @@ The usage of the `@visactor/lark-vchart` chart component is shown below:
 ```
 
 - `canvas-id` is the chart id, consistent with the id of the dom. Please make sure the id is not duplicated.
-- `spec` is the core concept of VChart, with the spec of the cross-end component consistent with the PC side. Chart configuration examples can be found in [VChart Examples](../../../../example). For users unfamiliar with VChart, please refer to the [Getting Started with VChart](../../Getting_Started) tutorial.
+- `spec` is the core concept of VChart, with the spec of the cross-end component consistent with the PC side. Chart configuration examples can be found in [VChart Examples](../../../example). For users unfamiliar with VChart, please refer to the [Getting Started with VChart](../../getting-started) tutorial.
 - `styles` are the chart container styles, which can be used to control chart width, height, etc.
-- `events` is an array of objects used to register a series of events, defined as follows. For specific event names, event filter configurations, and callback function parameters, please refer to [VChart Event API](../../../../api/API/event)
+- `events` is an array of objects used to register a series of events, defined as follows. For specific event names, event filter configurations, and callback function parameters, please refer to [VChart Event API](../../../api/event)
 
 ```ts
 interface IEvent {
@@ -159,6 +159,21 @@ onChartReady() {
 	});
 },
 ```
+
+To give the pie chart to the label text callback function as an example, the detailed steps refer to the following (the user can adjust the strategy depending on the situation, here only provides a basic idea and steps):
+- step1: Configure the id and chartOnReady event when declaring the chart component to updateSpec when the empty chart is rendered.
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-a.png)
+
+- step2: when initializing the chart, declare an empty chart (chart type and data must be declared, data can be declared as an empty array)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-b.png)
+
+- step3: In the onChartReady event, get the component and chart instance by selectComponent and update the spec of the chart instance
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-c.png)
+
+- Result: The callback function for the pie chart's label works.
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-d.gif)
 
 ## Feedback
 

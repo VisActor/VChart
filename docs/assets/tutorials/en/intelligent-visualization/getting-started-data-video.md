@@ -282,7 +282,7 @@ const { spec, time } = await(vmind.generateChart(csvData, describe)); //Intellig
 
 In this way we get the VChart spec and video duration corresponding to the dynamic chart.
 
-VMind currently supports bar charts, pie charts, line charts, scatter charts, word clouds, and dynamic bar charts. you can refer to [Get started quickly with VChart](http://www.visactor.io/vchart/guide/tutorial_docs/Getting_Started). Use VChart to plot it, or continue to use VMind to export it as a video or GIF. In the future, VMind will also support conversational chart editing, applying editing operations directly to charts through natural language for more personalized data video creation.
+VMind currently supports bar charts, pie charts, line charts, scatter charts, word clouds, and dynamic bar charts. you can refer to [Get started quickly with VChart](../getting-started). Use VChart to plot it, or continue to use VMind to export it as a video or GIF. In the future, VMind will also support conversational chart editing, applying editing operations directly to charts through natural language for more personalized data video creation.
 
 # Chart video export
 
