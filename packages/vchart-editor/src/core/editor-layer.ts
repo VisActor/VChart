@@ -1,16 +1,21 @@
+import type { IEditorLayer } from './interface';
 import type { IStage } from '@visactor/vrender';
 import { createStage } from '@visactor/vrender';
 import { CreateID } from '../utils/common';
 import { TriggerEvent } from './const';
 import type { BaseElement } from '../elements/base-element';
 
-export class EditorLayer {
+export class EditorLayer implements IEditorLayer {
+  type: string = 'default';
   _triggerElement: any = null;
   // _stage:
   getEventTriggerElement() {
     return this._triggerElement;
   }
-  protected _id: number = CreateID();
+  protected _id: string | number;
+  get id() {
+    return this._id;
+  }
 
   protected _canvas: HTMLCanvasElement;
   protected _stage: IStage;
@@ -39,18 +44,20 @@ export class EditorLayer {
     return this._elements;
   }
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, id?: string | number) {
+    this._id = id ?? CreateID();
     this._container = container;
     this.initCanvas();
     this.initEvent();
   }
 
-  private initCanvas() {
+  protected initCanvas() {
     const canvas = document.createElement('canvas');
     canvas.width = this._container.clientWidth;
     canvas.height = this._container.clientHeight;
     canvas.style.position = 'absolute';
     canvas.style.pointerEvents = 'none';
+    canvas.id = `_vchart_editor_layer_${this._id}_canvas`;
     this._container.appendChild(canvas);
     this._canvas = canvas;
 

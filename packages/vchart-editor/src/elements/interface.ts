@@ -1,9 +1,21 @@
-import type { EditorLayer } from './../core/editor-layer';
+import type { IEditorLayer } from './../core/interface';
 import type { IRect, IPoint } from '../typings/space';
 
-export interface IElementOption {
+export interface IElementOption extends Partial<IElementData> {
+  layer: IEditorLayer;
+  id?: string | number;
+}
+
+export interface IElementData {
   rect: IRect;
-  position?: IPoint;
   anchor?: IPoint;
-  layer: EditorLayer;
+  id: string | number;
+  type: string;
+  attribute: {
+    [key: string]: any;
+  };
+}
+
+export interface IElement {
+  getData: () => IElementData;
 }
