@@ -73,6 +73,18 @@ const run = () => {
   });
   console.time('renderTime');
 
+  cs.on('tooltipShow', () => {
+    console.log('tooltipShow');
+  });
+
+  cs.on('tooltipHide', () => {
+    console.log('tooltipHide');
+  });
+
+  cs.on('tooltipRelease', () => {
+    console.log('tooltipRelease');
+  });
+
   cs.renderAsync().then(() => {
     console.timeEnd('renderTime');
   });
