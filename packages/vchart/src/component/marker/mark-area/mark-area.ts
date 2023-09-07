@@ -21,7 +21,7 @@ import type { INode } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
 
-export class MarkArea extends BaseMarker implements IMarkArea {
+export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;
   type = ComponentTypeEnum.markArea;
   name: string = ComponentTypeEnum.markArea;
@@ -30,7 +30,6 @@ export class MarkArea extends BaseMarker implements IMarkArea {
 
   static speckey = 'markArea';
 
-  protected declare _spec: IMarkAreaSpec & IMarkAreaTheme;
   protected declare _theme: IMarkAreaTheme;
 
   // markArea组件

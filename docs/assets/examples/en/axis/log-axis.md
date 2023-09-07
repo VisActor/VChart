@@ -14,13 +14,13 @@ In charting, the log axis is a coordinate axis used to display data. Unlike the 
 
 The characteristic of the log axis is that the interval between scales is calculated according to the logarithmic function (usually base 10). This means that each logarithmic unit (size unit) of the data has the same physical length, e.g. from 1 to 10, 10 to 100, 100 to 1000, etc. For exponential growth or exponential decline of data, the log axis can better show the relative change of data.
 
-## critical configuration
+## Key option
 
 exist `axes` Configure the axis type on the property:
 
 - `type` Properties are set to`'log'`, used to configure the axis type
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

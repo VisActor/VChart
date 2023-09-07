@@ -9,7 +9,7 @@ import { Region } from '../region/region';
 import { Layout } from '../layout/base-layout';
 import { GroupMark } from '../mark/group';
 import { ComponentMark } from '../mark/component';
-import { ImageMark } from './../mark/image';
+import { ImageMark } from '../mark/image';
 
 // register groupMark and componentMark
 VChart.useMark([ComponentMark, GroupMark, ImageMark]);

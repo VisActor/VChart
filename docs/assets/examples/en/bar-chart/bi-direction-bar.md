@@ -12,14 +12,14 @@ option: barChart
 
 During the drawing process of the bar chart, when there are positive and negative values in the data, the bar chart will be automatically drawn according to the direction of the positive and negative values. In order to better display the difference between positive and negative values, we highlight the differences between positive and negative values by differentiating the colors of the bars.
 
-## Key Configurations
+## Key option
 
 - Set the `direction` attribute to 'horizontal'
 - Declare the `xField` attribute as the numeric field
 - Declare the `yField` attribute as the categorical field
 - Set the `bar.style.fill` attribute as a callback function that returns different colors depending on the positive or negative values of the data
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -14,7 +14,7 @@ option: scatterChart#legends
 
 The `legends` configuration item supports arrays and can be configured with multiple legends.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

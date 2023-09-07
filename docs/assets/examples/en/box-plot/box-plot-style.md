@@ -12,13 +12,13 @@ option: boxPlotChart
 
 By setting the style field of the boxPlot graphic element, you can modify the style of the box plot. By setting the shaftShape field, you can draw the box plot as a bar.
 
-## Key Configurations
+## Key option
 
 - `shaftShape` property specifies the shape of the box plot, divided into line and bar
 - `shaftOpacity` property specifies the transparency of the maximum and minimum values of the box plot, which will only take effect when shaftShape=bar
 - `boxWidth` and `shaftWidth` properties are used to configure the width of the box formed by the upper and lower quartiles of the box plot, and the width of the maximum and minimum values
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

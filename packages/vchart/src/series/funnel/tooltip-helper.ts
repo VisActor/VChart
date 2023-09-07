@@ -1,6 +1,5 @@
 import type { IFunnelSeries, ISeriesTooltipHelper } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
-import { SeriesMarkNameEnum } from '../interface';
+import { SeriesMarkNameEnum } from '../interface/type';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import { FUNNEL_REACH_RATIO } from '../../constant/funnel';
 import { isValid } from '@visactor/vutils';

@@ -79,6 +79,7 @@ point 图元样式配置。
 - `top-left`
 - `bottom-right`
 - `bottom-left`
+- `center`
 
 {{ use: component-label(
   prefix = '#' + ${prefix},

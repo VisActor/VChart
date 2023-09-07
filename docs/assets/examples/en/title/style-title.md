@@ -19,7 +19,7 @@ The title style supports customization.
 - `align` property declares the horizontal text alignment, supporting three alignment methods `'left' | 'center' | 'right'`.
 - `verticalAlign` property declares the vertical text alignment, supporting three alignment methods `'top' | 'middle' | 'bottom'`.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

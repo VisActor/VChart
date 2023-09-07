@@ -12,12 +12,12 @@ option: barChart
 
 This example compares the population of each state in the United States. Through the stacked bar chart, it not only compares the total population of each state but also shows the composition and comparison of different age groups in each state.
 
-## Key Configurations
+## Key option
 
 - The `seriesField` property is used to declare the field participating in color mapping
 - The `stack` property is set to true for configuring stacking, and stacking will be done according to the field declared by the `seriesField` property
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

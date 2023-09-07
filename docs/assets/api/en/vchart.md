@@ -331,6 +331,36 @@ updateDataInBatches: (list: { id: string; data: DataView | Datum[]; options?: IP
 updateDataSync: (id: StringOrNumber, data: DataView | Datum[], options?: IParserOptions) => IVChart;
 ```
 
+### updateFullData
+
+Update data interface. The parameter is a complete data item configuration. You can update the `fields` configuration of the data through this interface. By default, the chart will be automatically rendered without calling rendering methods such as `renderAsync()`.
+
+```ts
+/**
+ * update data
+ * @param data
+ * @param reRender
+ * @returns VChart instance
+ * @since 1.3.0
+ */
+updateFullData: (data: IDataValues | IDataValues[], reRender: boolean = true) => IVChart;
+```
+
+### updateFullDataSync
+
+**Sync** Update data interface. The parameter is a complete data item configuration. You can update the `fields` configuration of the data through this interface. By default, the chart will be automatically rendered without calling rendering methods such as `renderAsync()`.
+
+```ts
+/**
+ * **Sync** update data
+ * @param data
+ * @param reRender
+ * @returns VChart instance
+ * @since 1.3.0
+ */
+updateFullDataSync: (data: IDataValues | IDataValues[], reRender: boolean = true) => IVChart;
+```
+
 ### updateSpec
 
 **asynchronous**The spec update will automatically render the chart without calling it again `renderAsync()` And other rendering methods.
@@ -984,6 +1014,10 @@ convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isR
   number | null) &
   ((value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries, isRelativeToCanvas?: boolean) =>
     IPoint | null);
+```
+
+```
+
 ```
 
 ```

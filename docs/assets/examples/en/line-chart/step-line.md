@@ -16,7 +16,7 @@ A step line chart is a chart that connects a series of data points with stair-sh
 
 - Configure the `curveType: 'step'|'stepAfter'|'stepBefore'` attribute in the `line.style` property
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

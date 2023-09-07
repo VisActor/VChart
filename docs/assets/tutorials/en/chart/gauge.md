@@ -1,6 +1,6 @@
 # Gauge Chart
 
-[\[Configuration Manual\]](../../../option/gaugeChart)
+[\[Configuration Manual\]](../../option/gaugeChart)
 
 ## Introduction
 

@@ -22,7 +22,7 @@ option: commonChart
   - The `layout.row` attribute specifies the row height, supporting specification in `{ index: xx, size: xx }` format, where `index` indicates the index of the row and `size` refers to the row height
   - The `layout.elements` attribute declares the ID of the layout unit so that the data series can be bound with the layout unit. Declare using the `{ modelId: xx, row: xx, col: xx }` format, where `modelId` indicates the ID name of the layout unit, and `row` and `col` represent the index of the row and column where the layout unit is located, respectively.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

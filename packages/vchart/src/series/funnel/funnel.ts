@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import type { IFunnelSeries, SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface';
+import { SeriesMarkNameEnum } from '../interface/type';
 import type { IOrientType, IPoint, TextAlign, TextBaseLine, Maybe, Datum, StringOrNumber } from '../../typings';
 import { SeriesTypeEnum } from '../interface';
 import type { IPolygonMark } from '../../mark/polygon/polygon';
@@ -41,10 +41,14 @@ import { VChart } from '../../core/vchart';
 import { PolygonMark } from '../../mark/polygon/polygon';
 import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
+import { funnelSeriesMark } from './constant';
 
 VChart.useMark([PolygonMark, TextMark, RuleMark]);
 
-export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunnelSeries {
+export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
+  extends BaseSeries<T>
+  implements IFunnelSeries
+{
   static readonly type: string = SeriesTypeEnum.funnel;
   type = SeriesTypeEnum.funnel;
   protected _funnelMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.funnel;
@@ -52,14 +56,7 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
   protected _transformMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.transform;
   protected _transformMarkType: MarkTypeEnum = MarkTypeEnum.polygon;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.funnel]: { name: SeriesMarkNameEnum.funnel, type: MarkTypeEnum.polygon },
-    [SeriesMarkNameEnum.transform]: { name: SeriesMarkNameEnum.transform, type: MarkTypeEnum.polygon },
-    [SeriesMarkNameEnum.transformLabel]: { name: SeriesMarkNameEnum.transformLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.outerLabel]: { name: SeriesMarkNameEnum.outerLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.outerLabelLine]: { name: SeriesMarkNameEnum.outerLabelLine, type: MarkTypeEnum.rule }
-  };
+  static readonly mark: SeriesMarkMap = funnelSeriesMark;
 
   protected _categoryField!: string;
   getCategoryField() {
@@ -832,8 +829,10 @@ export class FunnelSeries extends BaseSeries<IFunnelSeriesSpec> implements IFunn
 
   updateSpec(spec: IFunnelSeriesSpec) {
     const originalSpec = this._originalSpec as IFunnelSeriesSpec;
+    const { data: _originalData, ...checkOriginal } = originalSpec;
     const result = super.updateSpec(spec);
-    if (!isEqual(originalSpec, spec)) {
+    const { data: _specData, ...checkSpec } = originalSpec;
+    if (!isEqual(checkOriginal, checkSpec)) {
       result.reCompile = true;
       result.reMake = true;
       result.reRender = true;

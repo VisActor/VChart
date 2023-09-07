@@ -6,19 +6,19 @@
 
 ### 快速上手
 
-首先，你需要完成 VChart [快速上手](./Getting_Started) 这个章节它将教你如何配置和使用 VChart 需要的环境，以及如何构建你的第一个图形。
+首先，你需要完成 VChart [快速上手](./getting-started) 这个章节它将教你如何配置和使用 VChart 需要的环境，以及如何构建你的第一个图形。
 
 ### 了解你的第一张图表
 
-在你完成[快速上手](./Getting_Started)后，你可以通过学习[图表组成](../tutorial_docs/Chart_Concepts/Understanding_VChart)章节来深入了解如何创建一个简单的折线图，包括数据、series、marks 和 components 的配置。
+在你完成[快速上手](./getting-started)后，你可以通过学习[图表组成](../concepts/understanding-vchart)章节来深入了解如何创建一个简单的折线图，包括数据、series、marks 和 components 的配置。
 
 ## 文档
 
 VChart 的文档提供了有关功能和配置的详细信息。根据你的需求，你可以查看以下几个部分：
 
-- [教程](./VChart_Website_Guide)：介绍了 VChart 图表的基本概念和各种使用方法。
-- [配置项](../../option)：提供了 VChart 图表的所有配置项及其详细说明。
-- [API](../../api)：提供了 VChart 所有可用接口的详细说明。
+- [教程](./how-to-use-site)：介绍了 VChart 图表的基本概念和各种使用方法。
+- [配置项](../option)：提供了 VChart 图表的所有配置项及其详细说明。
+- [API](../api)：提供了 VChart 所有可用接口的详细说明。
 
 ## 图表示例
 

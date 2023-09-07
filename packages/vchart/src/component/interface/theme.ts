@@ -1,4 +1,3 @@
-import type { PopTipAttributes } from '@visactor/vrender-components';
 import type { IAxisCommonTheme, ICartesianAxisCommonTheme, IPolarAxisCommonTheme } from '../axis';
 import type { IBrushTheme } from '../brush';
 import type { ICrosshairTheme } from '../crosshair/interface';
@@ -14,6 +13,7 @@ import type { ITitleTheme } from '../title';
 import type { ITooltipTheme } from '../tooltip/interface';
 import type { ComponentTypeEnum } from './type';
 import type { ITotalLabelTheme } from '../label';
+import type { IPoptipTheme } from '../poptip/interface';
 
 export interface IComponentTheme {
   /**
@@ -107,7 +107,7 @@ export interface IComponentTheme {
   /**
    * 省略文本配置
    */
-  [ComponentTypeEnum.poptip]?: PopTipAttributes;
+  [ComponentTypeEnum.poptip]?: IPoptipTheme;
   /**
    * 堆叠总计标签配置
    * @since 1.3.0

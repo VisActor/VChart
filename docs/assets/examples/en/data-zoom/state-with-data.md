@@ -12,14 +12,14 @@ option: rangeColumnChart#dataZoom
 
 Usually, the initial range of the thumbnail axis is represented by a ratio value from 0 to 1. VChart supports defining the initial range in the form of data.
 
-## Key configurations
+## Key option
 
 - Declare the `startValue` property as the data of the left endpoint of the initial range
 - Declare the `endValue` property as the data of the right endpoint of the initial range
 - Declare the `start` property as the ratio of the left endpoint of the initial range, range `[0, 1]`
 - Declare the `end` property as the ratio of the right endpoint of the initial range, range `[0, 1]`
 
-## Code demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

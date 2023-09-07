@@ -10,7 +10,7 @@ import {
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
 } from '../../constant/index';
-import { SeriesMarkNameEnum } from '../interface';
+import { seriesMarkInfoMap } from '../interface';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
@@ -28,7 +28,8 @@ import type {
   ISeriesSpec,
   IExtensionMarkSpec,
   IExtensionGroupMarkSpec,
-  EnableMarkType
+  EnableMarkType,
+  IGroup
 } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 // eslint-disable-next-line no-duplicate-imports
@@ -47,7 +48,7 @@ import {
   isValid,
   isBoolean,
   isString,
-  merge,
+  mergeSpec,
   isFunction,
   isArray,
   mergeFields,
@@ -72,20 +73,18 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
-import { array } from '@visactor/vutils';
+import { array, isEmpty, isEqual } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { Factory } from '../../core/factory';
+import { baseSeriesMark } from './constant';
 
-export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implements ISeries {
+export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly type: string = 'series';
   layoutType: LayoutItem['layoutType'] = 'absolute';
   readonly modelType: string = 'series';
   readonly name: string | undefined = undefined;
 
-  static readonly mark: SeriesMarkMap = {
-    [SeriesMarkNameEnum.label]: { name: SeriesMarkNameEnum.label, type: MarkTypeEnum.text }
-  };
+  static readonly mark: SeriesMarkMap = baseSeriesMark;
 
   protected _trigger!: ITrigger;
   /**
@@ -96,8 +95,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   }
 
   protected declare _option: ISeriesOption;
-
-  protected declare _spec: T;
 
   // 坐标系信息
   readonly coordinate: CoordinateType = 'none';
@@ -194,7 +191,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     }
   }
 
-  protected _groups?: Group;
+  protected _groups?: IGroup;
   getGroups() {
     return this._groups;
   }
@@ -231,7 +228,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   protected _markAttributeContext: ISeriesMarkAttributeContext;
 
-  constructor(spec: any, options: ISeriesOption) {
+  constructor(spec: T, options: ISeriesOption) {
     super(spec, {
       ...options
     });
@@ -350,8 +347,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   protected initGroups() {
     const groupFields = this.getGroupFields();
     if (groupFields && groupFields.length) {
-      this._groups = new Group(groupFields);
-      this._data && this._groups.initData(this._data.getDataView(), this._dataSet);
+      this._groups = { fields: groupFields };
+      // this._data && this._groups.initData(this._data.getDataView(), this._dataSet);
     }
   }
 
@@ -663,7 +660,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     index: number
   ) {
     const mark = this._createMark(
-      { type: spec.type, name: `${PREFIX}_${index}` },
+      { type: spec.type, name: `${namePrefix}_${index}` },
       {
         markSpec: spec,
         parent: parentMark,
@@ -687,6 +684,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
         mark.setDataView(dataView);
       }
     }
+  }
+
+  protected _updateExtensionMarkSpec() {
+    this._spec.extensionMark?.forEach((spec, i) => {
+      const mark = this._marks.getMarkWithInfo({ name: `${PREFIX}_series_${this.id}_extensionMark_${i}` });
+      this.initMarkStyleWithSpec(mark, spec);
+    });
   }
 
   getStackData(): ISeriesStackData {
@@ -838,6 +842,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
   /** updateSpec */
   updateSpec(spec: any) {
+    const originalSpec = this._spec;
     const result = super.updateSpec(spec);
     if (spec.type !== this.type) {
       result.reMake = true;
@@ -845,10 +850,33 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
 
     const { invalidType } = this._originalSpec;
     if (spec.invalidType !== invalidType) {
-      result.change = true;
-      result.reRender = true;
       result.reMake = true;
     }
+
+    if (
+      array(originalSpec.extensionMark).length !== array(this._spec.extensionMark).length ||
+      originalSpec.extensionMark?.some(
+        (mark, index) =>
+          mark.type !== this._spec.extensionMark[index].type || mark.id !== this._spec.extensionMark[index].id
+      )
+    ) {
+      result.reMake = true;
+    }
+
+    if (result.reMake) {
+      return result;
+    }
+
+    // mark visible logic in compile
+    if (this._marks.getMarks().some(m => originalSpec[m.name]?.visible !== this._spec[m.name]?.visible)) {
+      result.reCompile = true;
+    }
+
+    // mark visible logic in compile
+    if (originalSpec.extensionMark?.some((mark, index) => mark.visible !== this._spec.extensionMark[index].visible)) {
+      result.reCompile = true;
+    }
+
     return result;
   }
 
@@ -856,10 +884,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     super.reInit(theme);
 
     this.initMarkStyle();
-
     this.getMarksWithoutRoot().forEach(mark => {
-      this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
+      this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
     });
+    this._updateExtensionMarkSpec();
   }
 
   // 首次布局完成后填充系列数据
@@ -997,23 +1025,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
     } else {
       super._initTheme(globalTheme.series[this.type] ?? {});
     }
-
     this._mergeThemeToSpec();
-    this._preprocessSpec();
   }
 
-  /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec() {
-    const chartSpec = this.getChart().getSpec();
-    this._spec = merge({}, this._theme, this._getDefaultSpecFromChart(chartSpec), this._originalSpec);
-  }
-
-  /** 从 chart spec 提取配置作为 series 的默认 spec 配置 */
-  protected _getDefaultSpecFromChart(chartSpec: any): Partial<T> {
-    return {};
-  }
-
-  protected _createMark<T extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
+  protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
     const {
       key,
       groupKey,
@@ -1031,14 +1046,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
       support3d = this._spec.support3d || !!(this._spec as any).zField,
       morph = false
     } = option;
-    const m = super._createMark<T>(markInfo, {
+    const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
       support3d,
       dataStatistics: dataStatistics ?? this._rawDataStatistics,
       attributeContext: this._markAttributeContext
     });
     if (isValid(m)) {
-      this._marks.addMark(m);
+      this._marks.addMark(m, { name: markInfo.name });
 
       if (isSeriesMark) {
         this._seriesMark = m;
@@ -1069,7 +1084,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
         m.setLabelSpec(label);
       }
 
-      const spec = this.getSpec() || {};
+      const spec = this.getSpec() || ({} as T);
 
       m.setMorph(morph);
       m.setMorphKey(spec.morph?.morphKey || `${this._specIndex}`);
@@ -1083,7 +1098,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
         m.setGroupKey(groupKey);
       }
 
-      this.initMarkStyleWithSpec(m, merge({}, themeSpec, markSpec || spec[m.name]));
+      this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));
     }
     return m;
   }
@@ -1157,8 +1172,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel implem
   getMarkInfoList() {
     const list = super.getMarkInfoList();
     if (!list.length) {
-      const SeriesConstructor = Factory.getSeries(this.type);
-      return Object.values(SeriesConstructor.mark ?? {});
+      return Object.values<ISeriesMarkInfo>(seriesMarkInfoMap[this.type] ?? {});
     }
     return list;
   }

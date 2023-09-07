@@ -11,6 +11,7 @@ Cartesian coordinate axis configuration, supports:
 - Discrete axis: `type: 'band'`
 - Time axis: `type: 'time'`
 - Log axis: `type: 'log'`
+- Symlog axis: `type: 'symlog'`
 
 Note: Histograms do not support discrete axes, as histograms are used to count the frequency distribution within data intervals, and the main axis must be passed as numerical intervals, which are not supported by discrete axes.
 
@@ -80,4 +81,18 @@ Declare a log axis.
   prefix = '##',
   coordType = 'cartesian',
   type='log'
+) }}
+
+## axes.symlog(Object)
+
+Supported since `1.3.0` version, Symlog axis configuration.
+
+### type(string) = 'symlog'
+
+Declare a symlog axis.
+
+{{ use: component-base-axis(
+  prefix = '##',
+  coordType = 'cartesian',
+  type='symlog'
 ) }}

@@ -1,4 +1,4 @@
-import type { IModel } from './../../../model/interface';
+import type { IModel } from '../../../model/interface';
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { BaseEventParams } from '../../../event/interface';
 import type { DimensionTooltipInfo, MarkTooltipInfo } from '../processor/interface';

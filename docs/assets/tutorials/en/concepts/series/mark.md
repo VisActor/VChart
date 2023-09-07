@@ -180,30 +180,36 @@ const spec = {
     {
       id: 'shapeScale',
       type: 'ordinal',
-      domain: [{
-        dataId: 'data1',
-        fields: ['type']
-      }, {
-        dataId: 'data2',
-        fields: ['group']
-      }],
-      range: ['circle', 'rect','triangle','diamond']
+      domain: [
+        {
+          dataId: 'data1',
+          fields: ['type']
+        },
+        {
+          dataId: 'data2',
+          fields: ['group']
+        }
+      ],
+      range: ['circle', 'rect', 'triangle', 'diamond']
     },
     {
       id: 'sizeScale',
       type: 'ordinal',
-      domain: [{
-        dataId: 'data1',
-        fields: ['y']
-      }, {
-        dataId: 'data2',
-        fields: ['y']
-      }],
+      domain: [
+        {
+          dataId: 'data1',
+          fields: ['y']
+        },
+        {
+          dataId: 'data2',
+          fields: ['y']
+        }
+      ],
       range: [10, 20]
-    },
+    }
   ],
   axes: [{ orient: 'left' }, { orient: 'bottom' }]
-}
+};
 // 最终 scale 的 domain 如下：
 // shapeScale.domain() === ['typeA','typeB','typeC','typeD'];
 // sizeScale.domain() === [-50,200];
@@ -251,3 +257,262 @@ const spec = {
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 ```
+
+## Gradient configuration
+
+The graphic elements of the chart can be configured with gradient colors, [column graph](../../../demo/gradient/bar), [line graph](../../../.. /demo/gradient/line), [area](../../../demo/gradient/bar), [bubble](../../../../demo /gradient/bar) etc. can be used.
+
+### The basic concept and configuration interface of gradient color
+
+VChart's gradient color configuration format aligns with CanvasRenderingContext2D's gradient color API. Different gradient types have different gradient effects. Generally speaking, the gradient color capability we provide is based on a specific two-dimensional space rule to fill graphics with continuous colors.
+
+- [LinearGradient](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createLinearGradient)
+- [RadialGradient](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createRadialGradient)
+- [ConicGradient](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createConicGradient)
+
+If you want to understand the drawing mechanism of the gradient color, please read the corresponding gradient color document above, which has a detailed description of the effect.
+
+Gradient configuration for VChart:
+
+```ts
+interface IGradientStop {
+  offset: number;
+  color: string;
+}
+export type IGradientColor = ILinearGradient | IRadialGradient | IConicalGradient;
+export interface ILinearGradient {
+  gradient: 'linear';
+  x0?: number;
+  y0?: number;
+  x1?: number;
+  y1?: number;
+  stops: IGradientStop[];
+}
+export interface IRadialGradient {
+  gradient: 'radial';
+  x0?: number;
+  y0?: number;
+  x1?: number;
+  y1?: number;
+  r0?: number;
+  r1?: number;
+  stops: IGradientStop[];
+}
+export interface IConicalGradient {
+  gradient: 'conical';
+  startAngle?: number;
+  endAngle?: number;
+  x?: number;
+  y?: number;
+  stops: IGradientStop[];
+}
+export interface IColorStop {
+  offset: number;
+  color: string;
+}
+```
+
+### The relationship between the coordinate position of the gradient color and the primitive
+
+Each gradient configuration has multiple position-related properties. Take the most commonly used linear gradient as an example:
+
+<div style="text-align: center;">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/tutorials/color-gradient.png" alt="线性渐变示意">
+</div>
+
+There are 2 sets of coordinates in the configuration: `[x0,y0], [x1,y1]` represent the start and end points of the linear gradient respectively, and the gradient color will proceed along the route from the start point to the end point. In VChart, the configuration of these two sets of coordinates is also supported, but there are `some differences` from the native API. In the native API, these two sets of coordinates are pixel positions. In VChart, in order to facilitate user configuration, we provide a proportional configuration based on the element's bounding box.
+
+Use several pictures to illustrate the gradient position of different chart elements
+
+<div style="text-align: center;">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/tutorials/line-gradient.png" alt="Gradient coordinates of the line">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/tutorials/rect-gradient.png" alt="Gradient coordinates of the rect">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/tutorials/point-gradient.png" alt="Gradient coordinates of the point">
+</div>
+
+Therefore, when configuring `x0: 0, y0: 0.5, x1: 1, y1: 0.5` on the gradient color of the line, it means that the direction of the gradient is from left to right.
+
+```javascript livedemo
+const spec = {
+  type: 'line',
+  data: [
+    {
+      id: 'line',
+      fields: {
+        y: {
+          alias: 'minimum temperature'
+        }
+      },
+      values: [
+        {
+          x: 'Monday',
+          y: 18,
+          c: 0
+        },
+        {
+          x: 'Tuesday',
+          y: 16,
+          c: 0
+        },
+        {
+          x: 'Wednesday',
+          y: 17,
+          c: 0
+        },
+        {
+          x: 'Thursday',
+          y: 18,
+          c: 0
+        },
+        {
+          x: 'Friday',
+          y: 19,
+          c: 0
+        },
+        {
+          x: 'Saturday',
+          y: 20,
+          c: 0
+        },
+        {
+          x: 'Sunday',
+          y: 17,
+          latest: true,
+          c: 0
+        },
+        {
+          x: 'Monday',
+          y: 28,
+          c: 1
+        },
+        {
+          x: 'Tuesday',
+          y: 26,
+          c: 1
+        },
+        {
+          x: 'Wednesday',
+          y: 27,
+          c: 1
+        },
+        {
+          x: 'Thursday',
+          y: 28,
+          c: 1
+        },
+        {
+          x: 'Friday',
+          y: 29,
+          c: 1
+        },
+        {
+          x: 'Saturday',
+          y: 30,
+          c: 1
+        },
+        {
+          x: 'Sunday',
+          y: 27,
+          latest: true,
+          c: 1
+        }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y',
+  seriesField: 'c',
+  line: {
+    style: {
+      curveType: 'basis',
+      lineWidth: 2,
+      stroke: {
+        gradient: 'linear',
+        x0: 0,
+        y0: 0.5,
+        x1: 1,
+        y1: 0.5,
+        stops: [
+          {
+            offset: 0,
+            color: data => {
+              if (data.c === 0) {
+                return '#009800';
+              }
+              return '#000098';
+            },
+            opacity: 0
+          },
+          {
+            offset: 0.5,
+            color: data => {
+              if (data.c === 0) {
+                return '#1d983a';
+              }
+              return '#1d3a98';
+            },
+            opacity: 0.5
+          },
+          {
+            offset: 1,
+            color: data => {
+              if (data.c === 0) {
+                return '#4d98ca';
+              }
+              return '#4dca98';
+            },
+            opacity: 1
+          }
+        ]
+      }
+    }
+  },
+  point: {
+    visible: false
+  }
+};
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
+
+### The meaning of gradient color stop
+
+In VChart, the stop in the gradient configuration is no different from the native drawing API above. When stop is the key node of the gradient color, the color will be different according to the gradient type between the key nodes.
+
+We can imagine that the complete gradient is a `[0,1]` number axis, and stop is the point on this number axis. After we configure a fixed color for the corresponding point, other points on the number axis will be based on the 2 before and after it. A stop for color difference.
+
+In the schematic diagram below, 4 stops are set, and the color of the entire column is filled according to the difference rule:
+
+<div style="text-align: center;">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/tutorials/linear-gradient.png" alt="线的渐变坐标">
+</div>
+
+Based on stop we can make a specific [gradient color chart](../../../demo/gradient/enhancement-gradient-line)
+
+This particular gradient color chart expects the portion of the line above 60 points to be green and the portion below 60 points to be red. We can find a way to make a specific set of stops to achieve
+
+```ts
+// We first use scores to divide these stop nodes
+0 => 'red'
+60 => 'red'
+60 => 'green'
+100 => 'green'
+```
+
+Yes, you can set two stop nodes at the same numerical position, so that the difference is always `red` for the position **less than 60 minutes**, and the difference is always `red` for the position **greater than 60 minutes**. It's `green`.
+
+Now one question is how to calculate the stop of 60 points, its actual scale coordinates in the graph. Here is a calculation method.
+
+ps: It is necessary to obtain the maximum and minimum values in the data in advance
+
+```ts
+const max; // The maximum value in the data, which can be obtained by traversing the data
+const min; // The minimum value in the data, which can be obtained by traversing the data
+const mid = 60; // the data value you want to use as the dividing point
+const percent = (max - mid) / (max - min);
+```
+
+The complete configuration can be viewed in [diagram example](../../../demo/gradient/enhancement-gradient-line)

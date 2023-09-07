@@ -10,7 +10,7 @@ option: commonChart
 
 # Dynamic Comparative Bar Chart
 
-## Key Configurations
+## Key option
 
 To achieve the dynamic population pyramid chart, we used a combination of charts and layouts, with specific configurations as follows:
 
@@ -19,7 +19,7 @@ To achieve the dynamic population pyramid chart, we used a combination of charts
 - The `reverse` property of `xAxis` and `yAxis` is used to implement the reversal of the bar chart.
 - `player.specs` is configured with a series of data sets for playback and automatically plays through the `player.auto: true` configuration.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

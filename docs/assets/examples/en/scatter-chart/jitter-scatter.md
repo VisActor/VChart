@@ -17,7 +17,7 @@ Jitter scatter plots help observers see the distribution and trend of data point
 
 > Data from observablehq.com
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const data = [

@@ -32,13 +32,10 @@ import type { IArcMark } from '../../mark/arc';
 import type { ITextMark } from '../../mark/text';
 import type { IPathMark } from '../../mark/path';
 import type { IArcSeries, SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
-import { SeriesMarkNameEnum } from '../interface';
-import { SeriesTypeEnum } from '../interface/type';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IPieOpt } from '../../data/transforms/pie';
 // eslint-disable-next-line no-duplicate-imports
 import { pie } from '../../data/transforms/pie';
-import { arcLabel } from '../../layout/label/arc-label';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IPieAnimationParams, PieAppearPreset } from './animation/animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
@@ -49,12 +46,12 @@ import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar';
 import { centerOffsetConfig } from './animation/centerOffset';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { TextMark } from '../../mark/text';
 import { ArcMark } from '../../mark/arc';
-import { merge } from '../../util';
+import { mergeSpec } from '../../util';
+import { pieSeriesMark } from './constant';
 
 VChart.useMark([PathMark, TextMark, ArcMark]);
 
@@ -64,11 +61,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _pieMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.pie;
   protected _pieMarkType: MarkTypeEnum = MarkTypeEnum.arc;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.pie]: { name: SeriesMarkNameEnum.pie, type: MarkTypeEnum.arc },
-    [SeriesMarkNameEnum.labelLine]: { name: SeriesMarkNameEnum.labelLine, type: MarkTypeEnum.path }
-  };
+  static readonly mark: SeriesMarkMap = pieSeriesMark;
 
   protected _viewDataLabel!: SeriesData;
 
@@ -124,7 +117,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     }
 
     registerDataSetInstanceTransform(this._dataSet, 'pie', pie);
-    registerDataSetInstanceTransform(this._dataSet, 'arcLabel', arcLabel);
 
     viewData.transform(
       {
@@ -150,13 +142,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       type: 'dataview'
     });
     viewDataLabel.name = `${PREFIX}_series_${this.id}_viewDataLabel`;
-    viewDataLabel.transform(
-      {
-        type: 'arcLabel',
-        options: { series: this }
-      },
-      false
-    );
 
     this._viewDataLabel = new SeriesData(this._option, viewDataLabel);
   }
@@ -175,7 +160,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true,
-        label: merge({ animation: this._spec.animation }, this._spec.label)
+        label: mergeSpec({ animation: this._spec.animation }, this._spec.label)
       }
     ) as IArcMark;
   }
@@ -471,8 +456,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     }
   }
 
-  getDefaultShapeType(): string {
-    return 'square';
+  getDefaultShapeType() {
+    return 'circle';
   }
 
   getGroupFields(): string[] {
@@ -504,7 +489,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 }
 
-export class PieSeries extends BasePieSeries<IPieSeriesSpec> implements IArcSeries {
+export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
   static readonly type: string = SeriesTypeEnum.pie;
   type = SeriesTypeEnum.pie;
 }

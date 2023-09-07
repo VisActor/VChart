@@ -2,7 +2,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { VChart } from '../../core/vchart';
-import { HeatmapSeries } from '../../series';
+import { HeatmapSeries } from '../../series/heatmap/heatmap';
 VChart.useSeries([HeatmapSeries]);
 
 export class HeatmapChart extends CartesianChart {

@@ -19,7 +19,7 @@ Note:
 - When the chart is deleted, the `release` function of the current tooltip handler will be called, please delete it as needed.
 - Since the custom tooltip handler will override the built-in tooltip logic, **some tooltip configuration items in the chart spec will no longer work**.
 
-## Code demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [
@@ -56,7 +56,7 @@ const data = [
   { type: 'rail', value: 38.3, month: 'November' },
   { type: 'highway', value: 23.8, month: 'November' },
   { type: 'civil aviation', value: 29.4, month: 'November' },
-  { type: 'rail', value: 62.8, month: 'December' },l
+  { type: 'rail', value: 62.8, month: 'December' },
   { type: 'highway', value: 35.8, month: 'December' },
   { type: 'civil aviation', value: 35.2, month: 'December' }
 ];
@@ -144,7 +144,10 @@ const tooltipChartSpec = {
   data: [
     {
       id: 'tooltipData',
-      values: [],
+      values: [
+        { type: 'rail', value: 31.8, month: 'January' },
+        { type: 'highway', value: 39.2, month: 'January' }
+      ],
       fields: dataFields
     }
   ],

@@ -43,3 +43,7 @@ Used for interval data, declaring the data field for the end of the interval.
 Used for interval data, declaring the data field for the end of the interval.
 
 {{ /if }}
+
+#${prefix} sortDataByAxis(boolean)
+
+sortDataByAxis field. Specifying whether the data is sorted in axis order can ensure that the graph is drawn in the correct order when the order of the data is uncertain. If you expect not to disrupt the order of the original data, configure it to false.

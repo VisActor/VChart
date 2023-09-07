@@ -1,4 +1,5 @@
 import type { Stage as VRenderStage } from '@visactor/vrender';
+// eslint-disable-next-line no-duplicate-imports
 import { createStage } from '@visactor/vrender';
 import { CanvasLayer } from './canvas-layer';
 import { LayerType } from './interface';

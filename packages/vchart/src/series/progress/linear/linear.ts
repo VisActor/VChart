@@ -1,10 +1,9 @@
 /* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../../cartesian/cartesian';
 import type { SeriesMarkMap } from '../../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
 import type { IRectMark } from '../../../mark/rect';
 import type { IGroupMark } from '../../../mark/group';
-import { MarkTypeEnum } from '../../../mark/interface';
 import { valueInScaleRange } from '../../../util';
 import { AttributeLevel } from '../../../constant';
 import type { Datum, Maybe } from '../../../typings';
@@ -14,23 +13,20 @@ import type { ILinearProgressAnimationParams, LinearProgressAppearPreset } from 
 import type { ILinearProgressSeriesSpec, ILinearProgressSeriesTheme } from './interface';
 import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
-import { BaseSeries } from '../../base/base-series';
 import { VChart } from '../../../core/vchart';
 import { RectMark } from '../../../mark/rect';
 import { createRect } from '@visactor/vrender';
+import { linearProgressSeriesMark } from './constant';
 
 VChart.useMark([RectMark]);
 
-export class LinearProgressSeries extends CartesianSeries<ILinearProgressSeriesSpec> {
+export class LinearProgressSeries<
+  T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec
+> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.linearProgress;
   type = SeriesTypeEnum.linearProgress;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.track]: { name: SeriesMarkNameEnum.track, type: MarkTypeEnum.rect },
-    [SeriesMarkNameEnum.progress]: { name: SeriesMarkNameEnum.progress, type: MarkTypeEnum.rect },
-    [SeriesMarkNameEnum.group]: { name: SeriesMarkNameEnum.group, type: MarkTypeEnum.group }
-  };
+  static readonly mark: SeriesMarkMap = linearProgressSeriesMark;
 
   protected declare _theme: Maybe<ILinearProgressSeriesTheme>;
 

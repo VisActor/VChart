@@ -1,13 +1,12 @@
 import type { IMarkSpec } from '../../typings/spec/common';
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
 import type { ISymbolMarkSpec, ILineMarkSpec } from '../../typings/visual';
-import type { IInvalidType } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
 import type { ILineLikeSeriesTheme } from '../mixin/line-mixin';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface/type';
 
 type LineMarks = 'point' | 'line';
 
@@ -17,6 +16,14 @@ export interface ILineSeriesSpec
     IMarkProgressiveConfig {
   /** 系列类型 */
   type: 'line';
+  /**
+   * x轴字段
+   */
+  xField: string | string[];
+  /**
+   * y轴字段
+   */
+  yField: string | string[];
   /**
    * 点图元配置
    */

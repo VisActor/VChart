@@ -1,4 +1,4 @@
-import type { IFillMarkSpec, IImageMarkSpec } from './../visual';
+import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
 import type { ILayoutPaddingSpec } from '../../model/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar';
@@ -41,6 +41,7 @@ import type {
 } from '../visual';
 import type { StateValue } from '../../compile/mark';
 import type { ISeriesStyle, SeriesType } from '../../series/interface';
+// eslint-disable-next-line no-duplicate-imports
 import type { ILayoutOrientPadding } from '../../model/interface';
 import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
@@ -101,6 +102,12 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * @since 1.2.0
    */
   onError?: (...args: any[]) => void;
+
+  /**
+   * 默认主题（支持完整主题对象或者主题名称，主题名称需要提前在 `ThemeManager` 中注册）
+   * @since 1.3.0
+   */
+  theme?: string | ITheme;
 }
 
 export enum RenderModeEnum {
@@ -250,7 +257,7 @@ export interface IFieldsMeta {
   sortReverse?: boolean;
 }
 
-export interface SheetParseOptions {
+export interface SheetParseOptions extends CommonParseOptions {
   type: 'csv' | 'dsv' | 'tsv';
   options?: IDsvParserOptions;
 }
@@ -416,6 +423,10 @@ export interface ISeriesSpec extends ITriggerSpec {
 }
 
 export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph'>;
+
+export type AdaptiveSpec<T, K extends keyof any> = {
+  [key in Exclude<keyof T, K>]: T[key];
+} & { [key in K]: any };
 
 /** markSpec */
 export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {

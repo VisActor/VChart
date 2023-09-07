@@ -12,11 +12,11 @@ option: waterfallChart
 
 You can use `total.collectCountField` to perform partial data aggregation, which can be used to display the total information of a certain stage.
 
-## Key Configurations
+## Key option
 
 - `total.collectCountField` configures the total calculation, including the data of the first n dimension values.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

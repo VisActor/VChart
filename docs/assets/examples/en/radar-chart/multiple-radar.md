@@ -12,7 +12,7 @@ option: radarChart
 
 Grouped Radar Chart
 
-## Key Configurations
+## Key option
 
 - `seriesField`: Specify the grouping field
 - `axes`: Configure the two axes of the radar chart
@@ -24,7 +24,7 @@ Grouped Radar Chart
   - `visible: true`: Display the legend
   - `orient: 'top'`: Legend position
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const mockData = [];

@@ -1,35 +1,30 @@
 /* eslint-disable no-duplicate-imports */
 import type { IArcMark } from '../../mark/arc';
-import { MarkTypeEnum } from '../../mark/interface';
 import type { Maybe, Datum } from '../../typings';
-import { valueInScaleRange, degrees, merge } from '../../util';
+import { valueInScaleRange, mergeSpec } from '../../util';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IRoseAnimationParams, RoseAppearPreset } from './animation';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
-import { AttributeLevel } from '../../constant';
-import { BarSeries } from '../bar/bar';
 import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
 import { TextMark } from '../../mark/text';
+import { roseSeriesMark } from './constant';
 
 VChart.useMark([ArcMark, TextMark]);
 
 export const DefaultBandWidth = 0.5;
 
-export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
+export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends RoseLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.rose;
   type = SeriesTypeEnum.rose;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BarSeries.mark,
-    [SeriesMarkNameEnum.rose]: { name: SeriesMarkNameEnum.rose, type: MarkTypeEnum.arc }
-  };
+  static readonly mark: SeriesMarkMap = roseSeriesMark;
 
   protected declare _theme: Maybe<IRoseSeriesTheme>;
   protected _stack: boolean = true;
@@ -51,7 +46,7 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
-      label: merge({ animation: this._spec.animation }, this._spec.label)
+      label: mergeSpec({ animation: this._spec.animation }, this._spec.label)
     }) as IArcMark;
   }
 
@@ -128,5 +123,9 @@ export class RoseSeries extends RoseLikeSeries<IRoseSeriesSpec> {
         )
       );
     }
+  }
+
+  getDefaultShapeType() {
+    return 'circle';
   }
 }

@@ -4,6 +4,7 @@ import { LanguageContext, LanguageEnum, getStoredLanguage, storeLanguage } from 
 import menu from '../menu.json';
 import { Markdown } from './markdown';
 import { Option } from './option';
+import { Demo } from './demo';
 
 const menuRoutes: RouteObject[] = menu.map(menuItem => {
   if (menuItem.type === 'markdown-template') {
@@ -14,6 +15,17 @@ const menuRoutes: RouteObject[] = menu.map(menuItem => {
         {
           path: '*',
           element: <Option />
+        }
+      ]
+    };
+  } else if (menuItem.type === 'demos') {
+    return {
+      path: `/${menuItem.menu}`,
+      element: <Demo />,
+      children: [
+        {
+          path: '*',
+          element: <Demo />
         }
       ]
     };

@@ -1,6 +1,6 @@
 # Circle Packing
 
-[\[Configuration Manual\]](../../../option/circlePackingChart)
+[\[Configuration Manual\]](../../option/circlePackingChart)
 
 ## Introduction
 
@@ -41,8 +41,8 @@ Nested circle graphics are the basic elements of Circle Packing, and the related
 
 Tooltips and other auxiliary components for chart display are optional configuration, with default effects and functionality:
 
-- `circlePackingChart.tooltip`: Tooltip, displayed by default when interacting, detailed configuration can be found in [VChart Tooltip Component Configuration](../../../option/circlePackingChart#tooltip)
-- For more component configuration, see [VChart circlePackingChart Configuration](../../../option/circlePackingChart)
+- `circlePackingChart.tooltip`: Tooltip, displayed by default when interacting, detailed configuration can be found in [VChart Tooltip Component Configuration](../../option/circlePackingChart#tooltip)
+- For more component configuration, see [VChart circlePackingChart Configuration](../../option/circlePackingChart)
 
 ## Quick Start
 

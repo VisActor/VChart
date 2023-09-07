@@ -1,5 +1,5 @@
-import { error } from './../../../util/debug';
-import type { IAxis } from './../../../component/axis/interface';
+import { error } from '../../../util/debug';
+import type { IAxis } from '../../../component/axis/interface';
 import type { RenderMode } from '../../../typings/spec/common';
 import type {
   BaseEventParams,

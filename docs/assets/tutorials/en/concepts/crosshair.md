@@ -1,6 +1,6 @@
 # Crosshair
 
-Crosshair, translated into Chinese as a crosshair, is used to mark points in the chart and add text labels. In different coordinate systems, the performance of the crosshair will be different. In VChart, crosshair is disabled by default, and users can enable it through the `crosshair` configuration. This tutorial mainly explains the concepts and composition of crosshair. For more detailed configuration and examples of crosshair, please refer to the [Configuration document](../../../option) and [Example](../../../example) pages.
+Crosshair, translated into Chinese as a crosshair, is used to mark points in the chart and add text labels. In different coordinate systems, the performance of the crosshair will be different. In VChart, crosshair is disabled by default, and users can enable it through the `crosshair` configuration. This tutorial mainly explains the concepts and composition of crosshair. For more detailed configuration and examples of crosshair, please refer to the [Configuration document](../../option) and [Example](../../example) pages.
 
 ## Components
 

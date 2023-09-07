@@ -20,6 +20,9 @@ Whether the annotation component is interactive.
 
 Whether the marker component automatically expands the axis range.
 
+#${prefix} clip(boolean) = false
+Supported since `1.3.0` version, whether the marker component is clipped beyond the chart area
+
 #${prefix} id(string | number)
 
 The annotation component ID.
@@ -29,5 +32,6 @@ The annotation component ID.
   defaultLayoutType = ${defaultLayoutType},
   defaultLayoutLevel = ${defaultLayoutLevel},
   defaultLayoutZIndex = ${defaultLayoutZIndex},
-  noOrient = true
+  noOrient = true,
+  noClip = true
 ) }}

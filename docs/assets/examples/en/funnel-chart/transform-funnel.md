@@ -29,7 +29,7 @@ In this example, we created a conversion funnel chart to track the user conversi
   - `outerLabel.visible: true` externally labeled is not displayed by default, and needs to be configured as true.
   - `outerLabel.position: 'right'` configures it to be displayed on the right.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

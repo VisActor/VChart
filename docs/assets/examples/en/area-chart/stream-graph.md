@@ -13,13 +13,13 @@ Streamgraph is a type of stacked area chart. It displays a value (Y-axis) evolvi
 In contrast to the stacked area, there are no corners: the edges are rounded, giving a smooth impression. Moreover, the areas usually move around a central axis, forming flowing organic shapes.
 The following example shows the evolution of baby name frequencies in the United States between 1880 and 2015.
 
-## Key Configurations
+## Key option
 
 - The `seriesField` property is used to declare the field involved in color mapping
 - The `stack` property is set to true to configure stacking, and will stack according to the field declared by the `seriesField` property
 - The `stackOffsetSilhouette` property is set to `true` to configure placing the series symmetrically around the centerline
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/stream-graph-data.json');

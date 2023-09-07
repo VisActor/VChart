@@ -117,7 +117,7 @@ vchart.renderAsync();
 
 #### 数据展平
 
-我们提供了一个数据展平工具 `transform` `flod`，可以帮助用户将非展平数据展平。在 VChart 中，我们提供了多种内置的数据处理工具，并且支持用户传入更多自定义数据处理工具。具体方法请参考 [DataSet](./Dataset_and_Data_Processing)。
+我们提供了一个数据展平工具 `transform` `flod`，可以帮助用户将非展平数据展平。在 VChart 中，我们提供了多种内置的数据处理工具，并且支持用户传入更多自定义数据处理工具。具体方法请参考 [DataSet](./dataSet)。
 
 `flod` 使用示例如下：
 

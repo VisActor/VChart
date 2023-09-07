@@ -12,11 +12,11 @@ option: pieChart
 
 Pie charts can be set with an indicator card by configuring the `indicator` component.
 
-## Key Configurations
+## Key option
 
 - The `indicator` property is used to configure the pie chart indicator card
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

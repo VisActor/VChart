@@ -1,9 +1,9 @@
 import type { IComponent } from '../../interface';
 import type { ITextGraphicAttribute, IRichTextCharacter, RichTextWordBreak } from '@visactor/vrender';
-import type { IModelSpec } from '../../../model/interface';
 import type { IOrientType, IPadding, StringOrNumber } from '../../../typings';
+import type { IComponentSpec } from '../../base/interface';
 
-export interface ITitleSpec extends Omit<IModelSpec, 'orient'> {
+export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
   /**
    * 是否显示标题
    */

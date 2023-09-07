@@ -16,7 +16,7 @@ When we need to highlight the data fluctuation within a range, we can use the `m
 
 - Use the `markArea.coordinates` property to declare the data range to be annotated
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

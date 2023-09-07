@@ -12,12 +12,12 @@ option: lineChart
 
 Line charts are constructed by connecting a series of data points to form a trend. Line charts are used to analyze the trends of things changing over time or ordered categories. If there are multiple sets of data, they are used to analyze the interaction and influence of multiple data sets over time or ordered categories. The line's direction indicates positive/negative changes. The slope of the line indicates the degree of change. In this example, we created a basic line chart to show the temperature change of a day.
 
-## Key Configurations
+## Key option
 
 - Declare the `xField` attribute as continuous time intervals or ordered category fields
 - Declare the `yField` attribute as numerical fields
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

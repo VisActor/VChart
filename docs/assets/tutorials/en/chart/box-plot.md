@@ -1,6 +1,6 @@
 # Box Plot
 
-[\[Configuration Manual\]](../../../option/boxPlotChart)
+[\[Configuration Manual\]](../../option/boxPlotChart)
 
 ## Introduction
 
@@ -8,7 +8,7 @@ A box plot (English: box plot), also known as a box-whisker plot, box chart, box
 
 ## Chart Composition
 
-Box plots are made up of box plot elements (box plot elements are a special type of chart element, based on the [VGrammr Glyph chart element](../../../../vgrammar/guide/guides/mark/mark-glyph) packaging) and other components.
+Box plots are made up of box plot elements (box plot elements are a special type of chart element, based on the [VGrammr Glyph chart element](../../../vgrammar/guide/guides/mark/mark-glyph) packaging) and other components.
 
 ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf05.png)
 
@@ -26,9 +26,9 @@ The box plot element is the basic element of a box plot. To draw a complete box 
 
 Components such as coordinate axes and tooltips, which help present the chart, are optional configurations with built-in default effects and functions:
 
-- `boxPlotChart.axes`: Coordinate axis component, displayed by default and automatically infers coordinate system and data mapping logic based on chart type; note that histogram does not support discrete axes, as histogram is used to display frequency distribution within data ranges, so the main axis must be input in the form of value ranges; discrete axes do not support this feature. For detailed configuration, see [VChart Coordinate Axis Component Configuration](../../../option/boxPlotChart#axes)
-- `boxPlotChart.tooltip`: Tooltip information, displayed by default when interacting; for detailed configuration, see [VChart Tooltip Information Component Configuration](../../../option/boxPlotChart#tooltip)
-- For more component configurations, see [VChart boxPlotChart configuration](../../../option/boxPlotChart)
+- `boxPlotChart.axes`: Coordinate axis component, displayed by default and automatically infers coordinate system and data mapping logic based on chart type; note that histogram does not support discrete axes, as histogram is used to display frequency distribution within data ranges, so the main axis must be input in the form of value ranges; discrete axes do not support this feature. For detailed configuration, see [VChart Coordinate Axis Component Configuration](../../option/boxPlotChart#axes)
+- `boxPlotChart.tooltip`: Tooltip information, displayed by default when interacting; for detailed configuration, see [VChart Tooltip Information Component Configuration](../../option/boxPlotChart#tooltip)
+- For more component configurations, see [VChart boxPlotChart configuration](../../option/boxPlotChart)
 
 ## Quick Start
 

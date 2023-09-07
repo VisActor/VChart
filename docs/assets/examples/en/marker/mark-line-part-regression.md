@@ -22,7 +22,7 @@ Data regression:
 
 - When configuring data points through the `coordinates` attribute, you can further aggregate data points by configuring `process`; When the `process` attribute is configured as `{ xy: "regression" }`, data regression can be performed.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

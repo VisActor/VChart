@@ -97,12 +97,33 @@ const goldenMedals = {
   ]
 };
 
+const colors = {
+  China: '#d62728',
+  USA: '#1664FF',
+  Russia: '#B2CFFF',
+  'U.K.': '#1AC6FF',
+  Australia: '#94EFFF',
+  Japan: '#FF8A00',
+  Cuba: '#FFCE7A',
+  Germany: '#3CC780',
+  France: '#B9EDCD',
+  Italy: '#7442D4',
+  'South Korea': '#DDC5FA',
+  'Russian Olympic Committee': '#B2CFFF',
+  Netherlands: '#FFC400',
+  Hungary: '#FAE878'
+};
+
 const dataSpecs = Object.keys(goldenMedals).map(year => {
   return {
     data: [
       {
         id: 'id',
-        values: goldenMedals[year].sort((a, b) => b.value - a.value)
+        values: goldenMedals[year]
+          .sort((a, b) => b.value - a.value)
+          .map(v => {
+            return { ...v, fill: colors[v.country] };
+          })
       },
       {
         id: 'year',
@@ -124,6 +145,11 @@ const spec = {
   yField: 'country',
   xField: 'value',
   seriesField: 'country',
+  bar: {
+    style: {
+      fill: datum => datum.fill
+    }
+  },
   axes: [
     {
       animation: true,

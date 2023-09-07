@@ -10,7 +10,7 @@ option: commonChart
 
 # Line-Pie Combination Chart
 
-## Key Configurations
+## Key option
 
 - `type: 'common'` declares the chart as a combination chart type
 - `layout` property declares the custom layout for the combination chart
@@ -21,7 +21,7 @@ option: commonChart
   - `layout.row` property specifies row height, supports specifying with `{ index: xx, size: xx }`, where `index` represents the index of the row, `size` indicates the row height
   - `layout.elements` property declares the layout unit ID for binding data series and layout unit. Declare it in `{modelId: xx, row: xx, col: xx}` format, where `modelId` represents the ID name of the layout unit, `row` and `col` represent the index of the row and column where the layout unit is located, respectively.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -1,5 +1,5 @@
 import type { IPolarSeries } from '../../series/interface/series';
-import { isArray, isValid, isValidNumber, merge, isNil, clamp } from '../../util';
+import { isArray, isValid, isValidNumber, mergeSpec, isNil, clamp } from '../../util';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
@@ -20,7 +20,7 @@ import { polarToCartesian, getIntersectPoint, PointService, getAngleByPoint } fr
 import type { IGroup, INode } from '@visactor/vrender';
 import { angleLabelOrientAttribute, radiusLabelOrientAttribute } from '../../util/math';
 import { limitTagInBounds } from './util';
-import { getAxisLabelOffset } from '../axis/utils';
+import { getAxisLabelOffset } from '../axis/util';
 
 interface ICrosshairInfo {
   x: number;
@@ -50,7 +50,7 @@ enum LayoutType {
 type IBound = { x1: number; y1: number; x2: number; y2: number };
 type IAxisInfo = Map<number, IBound & { axis: IPolarAxis }>;
 
-export class PolarCrossHair extends BaseCrossHair {
+export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
   static type = ComponentTypeEnum.polarCrosshair;
   type = ComponentTypeEnum.polarCrosshair;
   name: string = ComponentTypeEnum.polarCrosshair;
@@ -88,7 +88,7 @@ export class PolarCrossHair extends BaseCrossHair {
     return components;
   }
 
-  constructor(spec: IPolarCrosshairSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });
@@ -152,9 +152,11 @@ export class PolarCrossHair extends BaseCrossHair {
     // 获取所有的value
     axisMap.forEach((item, id) => {
       const axis = item.axis;
+      const { x: axisStartX, y: axisStartY } = item.axis.getLayoutStartPoint();
+      const { x, y } = this.getLayoutStartPoint();
       let value = axis.positionToData({
-        x: point.x - (item.axis.getLayoutStartPoint().x - this.getLayoutStartPoint().x),
-        y: point.y - (item.axis.getLayoutStartPoint().y - this.getLayoutStartPoint().y)
+        x: point.x - (axisStartX - x),
+        y: point.y - (axisStartY - y)
       });
       if (isContinuous(axis.getScale().type) && isValidNumber(+value)) {
         value = (+value as number).toFixed(2);
@@ -241,7 +243,7 @@ export class PolarCrossHair extends BaseCrossHair {
       const bandWidth = series.angleAxisHelper.getBandwidth(0);
       this.currValueX.forEach(({ axis, v, coord, ...rest }) => {
         v = v ?? '';
-        merge(xCrossHairInfo, rest);
+        mergeSpec(xCrossHairInfo, rest);
         const angle = series.angleAxisHelper.dataToPosition([v]);
         xCrossHairInfo.angle = angle;
         if (this.xHair.label?.visible) {
@@ -266,7 +268,7 @@ export class PolarCrossHair extends BaseCrossHair {
         }
         yCrossHairInfo.angle = coord.angle;
         yCrossHairInfo.axis = axis;
-        merge(yCrossHairInfo, rest);
+        mergeSpec(yCrossHairInfo, rest);
       });
     }
 
@@ -432,7 +434,7 @@ export class PolarCrossHair extends BaseCrossHair {
           crosshair = new PolygonCrosshair({
             ...positionAttrs,
             lineStyle: this.yHair.style,
-            zIndex: this.gridZIndex
+            zIndex: this.gridZIndex + 1 // 样式优化：线盖在面上
           });
         } else {
           crosshair = new CircleCrosshair({

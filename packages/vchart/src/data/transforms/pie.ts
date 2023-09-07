@@ -1,6 +1,6 @@
 import type { DataView } from '@visactor/vdataset';
 import type { Datum } from '../../typings';
-import { computeQuadrant } from '../../util';
+import { computeQuadrant, couldBeValidNumber } from '../../util';
 
 export interface IPieOpt {
   angleField: string;
@@ -15,6 +15,13 @@ export interface IPieOpt {
   asRatio: string;
   asQuadrant: string;
   asK: string;
+}
+
+function transformInvalidValue(value: any) {
+  if (!couldBeValidNumber(value)) {
+    return 0;
+  }
+  return Number.parseFloat(value);
 }
 
 export const pie = (originData: Array<DataView>, op: IPieOpt) => {
@@ -35,13 +42,19 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     asK
   } = op;
 
-  const total = data.reduce((sum, d) => Number.parseFloat(d[angleField]) + sum, 0);
-  const max = data.reduce((m, d) => Math.max(m, Number.parseFloat(d[angleField])), -Infinity);
+  let total = 0;
+  let max = -Infinity;
+  for (let index = 0; index < data.length; index++) {
+    const angleFieldValue = transformInvalidValue(data[index][angleField]);
+    total += angleFieldValue;
+    max = Math.max(angleFieldValue, max);
+  }
 
   const intervalAngle = endAngle - startAngle;
   let lastAngle = startAngle;
   data.forEach(d => {
-    const ratio = Number.parseFloat(d[angleField]) / total;
+    const angleFieldValue = transformInvalidValue(d[angleField]);
+    const ratio = total ? angleFieldValue / total : 0;
     const radian = ratio * intervalAngle;
 
     asRatio && (d[asRatio] = ratio);
@@ -50,10 +63,14 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     asMiddleAngle && (d[asMiddleAngle] = lastAngle + radian / 2);
     asRadian && (d[asRadian] = radian);
     asQuadrant && (d[asQuadrant] = computeQuadrant(lastAngle + radian / 2));
-    asK && (d[asK] = Number.parseFloat(d[angleField]) / max);
+    asK && (d[asK] = max ? angleFieldValue / max : 0);
 
     lastAngle = d[asEndAngle];
   });
-  data[data.length - 1][asEndAngle] = endAngle;
+  if (total !== 0) {
+    // 数据都为 0 时，起始角和结束角相同，不应该强制赋值
+    // 防止一个扇区的角度会因为浮点数精度问题和传入的 endAngle 不相等
+    data[data.length - 1][asEndAngle] = endAngle;
+  }
   return data;
 };

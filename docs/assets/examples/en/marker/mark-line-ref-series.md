@@ -18,7 +18,7 @@ Data point positioning:
 
 - When declaring data points or aggregation values array to create a markLine by using the `coordinates` attribute, the data point declaration can include `refRelativeSeriesIndex` or `refRelativeSeriesId` attributes, such as `{ xKey: value , yKey: value, refRelativeSeriesIndex: value, refRelativeSeriesId: value }`. In this, `refRelativeSeriesIndex` represents the index of the related series, and `refRelativeSeriesId` represents the ID of the related series. The priority of ID is higher than the index.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

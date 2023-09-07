@@ -1,15 +1,15 @@
 # Line Chart
 
-[\[Configuration Manual\]](../../../option/lineChart)
+[\[Configuration Manual\]](../../option/lineChart)
 
 ## Introduction
 
 A line chart is constructed by connecting a series of data points to reveal trends. Line charts are used to analyze the trends of things changing over time or sequential categories. If there is more than one group of data, a line chart can be used to analyze the interaction and impact of multiple data groups changing over time or categorical sequences. The direction of the line chart indicates positive/negative changes, and the slope of the line chart indicates the degree of change.
 
-In VChart, you can display the data trends of different categories through [Line Chart Configuration](../../../option/lineChart). As shown in the example below, it displays the changing trend of cigarette consumption in developed countries:
+In VChart, you can display the data trends of different categories through [Line Chart Configuration](../../option/lineChart). As shown in the example below, it displays the changing trend of cigarette consumption in developed countries:
 ![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523215.png)
 
-In the [Line Chart Example](../../../demo/line-chart/multi-line) shown above, you need to use the following key configurations:
+In the [Line Chart Example](../../demo/line-chart/multi-line) shown above, you need to use the following key configurations:
 
 - `seriesField` property is used to declare the field involved in color mapping
 - `legends` property is used for configuring the legend
@@ -28,9 +28,9 @@ Point elements and line elements are the basic elements of a line chart, and the
 
 Axis components, tooltip information, and other components that serve as auxiliary chart display components are optional configurations with default effects and functionality:
 
-- `lineChart.axes`: Axis component, displayed by default and automatically infers the coordinate system and data mapping logic based on the chart type, detailed configuration can be found in [VChart Axis Component Configuration](../../../option/line/axes/lineChart#axes)
-- `lineChart.tooltip`:tooltip information, displayed by default during interaction, detailed configuration can be found in [VChart Tooltip Information Component Configuration](../../../option/line/axes/lineChart#tooltip)
-- For more component configurations, see [VChart lineChart Configuration](../../../option/lineChart)
+- `lineChart.axes`: Axis component, displayed by default and automatically infers the coordinate system and data mapping logic based on the chart type, detailed configuration can be found in [VChart Axis Component Configuration](../../option/line/axes/lineChart#axes)
+- `lineChart.tooltip`:tooltip information, displayed by default during interaction, detailed configuration can be found in [VChart Tooltip Information Component Configuration](../../option/line/axes/lineChart#tooltip)
+- For more component configurations, see [VChart lineChart Configuration](../../option/lineChart)
 
 ## Quick Start
 
@@ -407,7 +407,7 @@ window['vchart'] = vchart;
 
 ### Elements and Styles
 
-The main elements used in line charts are two: point and line. They correspond to chart elements like markers and lines. Each mark can be individually configured for its style, see the detailed configuration: [lineChart.line](../../../option/lineChart#line) and [lineChart.point](../../../option/lineChart#point)
+The main elements used in line charts are two: point and line. They correspond to chart elements like markers and lines. Each mark can be individually configured for its style, see the detailed configuration: [lineChart.line](../../option/lineChart#line) and [lineChart.point](../../option/lineChart#point)
 
 #### Dashed Lines at the End
 
@@ -476,7 +476,7 @@ window['vchart'] = vchart;
 
 #### Marker Point Style
 
-Marker points support custom shapes and sizes. We set the marker points to slightly larger triangles through configurations. For specific configurations, see [Configuration Documentation](../../../option/lineChart#point)
+Marker points support custom shapes and sizes. We set the marker points to slightly larger triangles through configurations. For specific configurations, see [Configuration Documentation](../../option/lineChart#point)
 
 ```ts
 point: {

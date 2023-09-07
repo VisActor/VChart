@@ -118,3 +118,16 @@ point 图元样式配置。
   hasSmartInvert = true,
   defaultOffset = 5,
 ) }}
+
+#${prefix} totalLabel(Object)
+
+总计标签，当图表在堆叠场景时生效。自`1.3.0`版本开始支持。
+
+{{ use: component-label(
+  prefix = '#' + ${prefix},
+  noPosition = true,
+  hasOverlap = false,
+  hasSmartInvert = false,
+  defaultOffset = 5,
+  ignoreCustom = true
+) }}

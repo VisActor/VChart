@@ -1,6 +1,6 @@
 # Waterfall Chart
 
-[Configuration Manual](../../../option/waterfallChart)
+[Configuration Manual](../../option/waterfallChart)
 
 ## Introduction
 
@@ -18,13 +18,13 @@ Rectangular chart elements are the basic elements of waterfall charts, and relat
 - `waterfallChart.data`: Data source for chart rendering
 - `waterfallChart.xField`: Categorical field, mapping rectangle chart element's x-coordinate or width
 - `waterfallChart.yField`: Numeric field, mapping rectangle chart element's height or y-coordinate
-- `waterfallChart.total`: Used to configure this **rectangular chart element corresponding to the total calculated data** of the chart, see [waterfallChart.total](../../../option/waterfallChart#total) for detailed configuration
+- `waterfallChart.total`: Used to configure this **rectangular chart element corresponding to the total calculated data** of the chart, see [waterfallChart.total](../../option/waterfallChart#total) for detailed configuration
 
 Coordinate axes, tooltip information, and other components that serve as auxiliary chart displays are optional configurations with default effects and features:
 
-- `waterfallChart.axes`: Coordinate axis component, by default it is displayed and automatically inferred coordinate system and data mapping logic based on the chart type, see [VChart coordinate axis component configuration](../../../option/waterfallChart#axes) for detailed configuration
-- `waterfallChart.tooltip`: Tooltip information, displayed by default during interaction, see [VChart tooltip information component configuration](../../../option/waterfallChart#tooltip) for detailed configuration
-- For more component configurations, see [VChart waterfallChart configuration](../../../option/waterfallChart)
+- `waterfallChart.axes`: Coordinate axis component, by default it is displayed and automatically inferred coordinate system and data mapping logic based on the chart type, see [VChart coordinate axis component configuration](../../option/waterfallChart#axes) for detailed configuration
+- `waterfallChart.tooltip`: Tooltip information, displayed by default during interaction, see [VChart tooltip information component configuration](../../option/waterfallChart#tooltip) for detailed configuration
+- For more component configurations, see [VChart waterfallChart configuration](../../option/waterfallChart)
 
 ## Quick Start
 

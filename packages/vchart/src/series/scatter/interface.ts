@@ -5,7 +5,7 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { ScatterAppearPreset, ScatterMarks } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface/type';
 
 export interface IScatterSeriesSpec
   extends ICartesianSeriesSpec,
@@ -15,6 +15,14 @@ export interface IScatterSeriesSpec
    * 系列类型
    */
   type: 'scatter';
+  /**
+   * x轴字段
+   */
+  xField: string | string[];
+  /**
+   * y轴字段
+   */
+  yField: string | string[];
   /**
    * 图元配置
    */

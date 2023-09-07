@@ -12,7 +12,7 @@ option: scatterChart#markArea
 
 By using markArea, you can configure fill styles for different regions of the chart, thus simulating the effect of a quadrant chart.
 
-## Key Configurations
+## Key option
 
 Data point positioning:
 
@@ -22,7 +22,7 @@ Area style configuration:
 
 - The `area.style` attribute declares the style for the area region, supporting graphic attributes such as `fill` and `stroke`.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

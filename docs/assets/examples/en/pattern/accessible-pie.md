@@ -12,7 +12,7 @@ option: pieChart
 
 Filling the chart with texture can improve the readability of the chart in scenarios with low screen brightness or for color-blind audiences.
 
-## Key Configurations
+## Key option
 
 Configure the related properties of the texture on the graphic elements:
 
@@ -21,7 +21,7 @@ Configure the related properties of the texture on the graphic elements:
 - `textureSize`: The size of the texture unit.
 - `texturePadding`: The gap size between texture units.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const textureMap = {

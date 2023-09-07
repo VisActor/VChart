@@ -6,7 +6,7 @@
 
 ## 图表构成
 
-箱形图由箱形图元（箱形图元是一种特殊图元，基于[VGrammr Glyph 图元](../../../../vgrammar/guide/guides/mark/mark-glyph)封装）及其他组件构成。
+箱形图由箱形图元（箱形图元是一种特殊图元，基于[VGrammr Glyph 图元](../../../vgrammar/guide/guides/mark/mark-glyph)封装）及其他组件构成。
 
 ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf05.png)
 
@@ -24,9 +24,9 @@
 
 坐标轴、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
 
-- `boxPlotChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，注意直方图不支持离散轴，因为直方图用于统计数据区间内的频率分布，主轴必须以数值区间的形式传入，离散轴不支持该功能。详情配置见[VChart 坐标轴组件配置](../../../option/boxPlotChart#axes)
-- `boxPlotChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/boxPlotChart#tooltip)
-- 更多组件配置见[VChart boxPlotChart 配置](../../../option/boxPlotChart)
+- `boxPlotChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，注意直方图不支持离散轴，因为直方图用于统计数据区间内的频率分布，主轴必须以数值区间的形式传入，离散轴不支持该功能。详情配置见[VChart 坐标轴组件配置](../../option/boxPlotChart#axes)
+- `boxPlotChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../option/boxPlotChart#tooltip)
+- 更多组件配置见[VChart boxPlotChart 配置](../../option/boxPlotChart)
 
 ## 快速上手
 

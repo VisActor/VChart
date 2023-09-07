@@ -1,6 +1,6 @@
 # Indicator Card
 
-Indicator Card (Indicator) is an important component used in pie charts, rose charts, radar charts, and other polar coordinate charts. It can display the key data information of the chart, making the chart more informative and readable. This tutorial mainly explains the related concepts and components of the indicator. For more detailed configuration and examples of indicators, please refer to the [Configuration Document](../../../option) and [Example](../../../example) pages.
+Indicator Card (Indicator) is an important component used in pie charts, rose charts, radar charts, and other polar coordinate charts. It can display the key data information of the chart, making the chart more informative and readable. This tutorial mainly explains the related concepts and components of the indicator. For more detailed configuration and examples of indicators, please refer to the [Configuration Document](../../option) and [Example](../../example) pages.
 
 ## Composition
 

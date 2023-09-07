@@ -1,12 +1,12 @@
-import { PREFIX } from './../../constant/base';
-import type { ISeriesOption } from './../interface/common';
+import { PREFIX } from '../../constant/base';
+import type { ISeriesOption } from '../interface/common';
 import { DataView } from '@visactor/vdataset';
-import { ChartEvent } from './../../constant/event';
+import { ChartEvent } from '../../constant/event';
 import type { ITrigger } from '../../interaction/interface';
 import type { ISeries } from '../interface/series';
-import { AttributeLevel, STACK_FIELD_END } from '../../constant';
+import { AttributeLevel } from '../../constant';
 
-import type { IMark, IMarkProgressiveConfig, IMarkRaw } from '../../mark/interface';
+import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import type { ILineMark } from '../../mark/line';
@@ -20,24 +20,21 @@ import type {
   ISymbolMarkSpec,
   Maybe,
   Datum,
-  IMarkTheme,
-  ICommonSpec
+  IMarkTheme
 } from '../../typings';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import { Direction } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { DEFAULT_CLOSE_STROKE_JOIN, DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
-import { couldBeValidNumber, isNil, isValid, merge } from '../../util';
-import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper, SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
-import { SeriesMarkNameEnum } from '../interface';
+import { mergeSpec } from '../../util';
+import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
 import type { ILabelSpec } from '../../component/label';
 import { shouldDoMorph, userAnimationConfig } from '../../animation/utils';
-import type { DimensionEventParams } from '../../event/events/dimension';
+import { DimensionEventEnum, type DimensionEventParams } from '../../event/events/dimension';
 import type { EventCallback, EventParams } from '../../event/interface';
-import { DimensionEventEnum } from '../../event/events/dimension';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
+import { lineLikeSeriesMark } from './constant';
 
 export interface ILineLikeSeriesTheme {
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
@@ -67,7 +64,7 @@ export interface LineLikeSeriesMixin extends ISeries {
 
 export class LineLikeSeriesMixin {
   initLineMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
-    this._lineMark = this._createMark(lineLikeSeriesMarkMap.line, {
+    this._lineMark = this._createMark(lineLikeSeriesMark.line, {
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: isSeriesMark ?? true,
@@ -181,11 +178,11 @@ export class LineLikeSeriesMixin {
   }
 
   initSymbolMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
-    this._symbolMark = this._createMark(lineLikeSeriesMarkMap.point, {
+    this._symbolMark = this._createMark(lineLikeSeriesMark.point, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      label: merge({ animation: this._spec.animation }, this._spec.label),
+      label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
       progressive,
       isSeriesMark: !!isSeriesMark
     }) as ISymbolMark;
@@ -315,8 +312,3 @@ export class LineLikeSeriesMixin {
     }
   }
 }
-
-export const lineLikeSeriesMarkMap: SeriesMarkMap = {
-  [SeriesMarkNameEnum.point]: { name: SeriesMarkNameEnum.point, type: MarkTypeEnum.symbol },
-  [SeriesMarkNameEnum.line]: { name: SeriesMarkNameEnum.line, type: MarkTypeEnum.line }
-};

@@ -65,7 +65,7 @@ window['vchart'] = vchart;
 
 ### 动画缓动效果
 
-缓动效果是描述动画“变速度”的过程。设置合适的缓动效果可以让图表动画更具生动感。VChart内置了众多缓动效果类型，我们可以通过`animation.easing`属性来选择。默认值为`cubicOut`。以下可选的内置缓动效果类型，可以参考[缓动demo](../../../demo/combination/easing-visualization)
+缓动效果是描述动画“变速度”的过程。设置合适的缓动效果可以让图表动画更具生动感。VChart内置了众多缓动效果类型，我们可以通过`animation.easing`属性来选择。默认值为`cubicOut`。以下可选的内置缓动效果类型，可以参考[缓动demo](../../demo/combination/easing-visualization)
 
 - linear
 - quadIn

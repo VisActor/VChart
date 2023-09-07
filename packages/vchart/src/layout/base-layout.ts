@@ -1,4 +1,4 @@
-import type { utilFunctionCtx } from './../typings/params';
+import type { utilFunctionCtx } from '../typings/params';
 import type { IChart } from '../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ILayoutItem } from '../model/interface';

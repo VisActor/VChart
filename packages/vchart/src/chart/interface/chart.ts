@@ -1,4 +1,4 @@
-import type { IEvent } from './../../event/interface';
+import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';

@@ -56,54 +56,20 @@ const run = () => {
     seriesField: 'country',
     legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
     crosshair: {
-      xField: { visible: true }
+      xField: { visible: true, label: { visible: true } },
+      yField: { visible: true, label: { visible: true } }
     },
-    tooltip: {
-      dimension: {
-        title: {
-          valueStyle: {
-            fill: 'green'
-          }
-        },
-        content: [
-          {
-            key: datum => datum['country'],
-            value: datum => datum['value'],
-            valueStyle: {
-              fill: 'red',
-              fontWeight: 'bold'
-            }
-          },
-          {
-            key: '第二行',
-            value: datum => datum['value'],
-            keyStyle: {
-              fill: 'blue',
-              fontWeight: 'bold'
-            },
-            valueStyle: {
-              fontSize: 12
-            }
-          }
-        ],
-        updateContent: prev => {
-          prev[2].keyStyle = {
-            fill: 'orange',
-            fontWeight: 'bold'
-          };
-          prev[2].valueStyle = {
-            fill: 'orange',
-            fontWeight: 'bold'
-          };
-          return prev;
-        }
-      }
-    }
+    axes: [
+      { type: 'band', orient: 'bottom', title: { visible: true } },
+      { type: 'linear', orient: 'left', title: { visible: true } }
+    ]
   };
 
+  // VChart.ThemeManager.setCurrentTheme('dark');
   const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
-    mode: isMobile ? 'mobile-browser' : 'desktop-browser'
+    mode: isMobile ? 'mobile-browser' : 'desktop-browser',
+    theme: 'dark'
   });
   console.time('renderTime');
 

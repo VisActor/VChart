@@ -12,7 +12,7 @@ option: radarChart#dataZoom
 
 Generally speaking, the thumbnail axis component follows the Cartesian coordinate axis for axis scaling to update the chart elements. In VChart, the thumbnail axis component performs related data filtering to trigger axis updates, thus achieving the effect of controlling any coordinate axis.
 
-## Key Configurations
+## Key option
 
 - The `orient` attribute declares the position of the thumbnail axis component relative to the chart; `bottom` is at the bottom of the chart, `top` is at the top of the chart, `left` is at the left side of the chart, `right` is at the right side of the chart.
 - The `filterMode` attribute declares the scaling method of the thumbnail axis component; `filter` is to filter data to achieve axis scaling effect, `axis` is to scale the axis directly without filtering data.

@@ -24,7 +24,7 @@ The `invalidType` property is the connection method for non-compliant data point
 TODO：
 `invalidType = link` effect does not meet the expectation
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

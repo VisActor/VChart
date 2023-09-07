@@ -4,4 +4,4 @@
 
 #${prefix} base(number) = 10
 
-base.
+base number.

@@ -39,7 +39,12 @@ export interface IMapSeriesSpec extends ISeriesSpec, IAnimationSpec<LineMarks, '
   defaultFillColor?: string;
 
   /** 标签配置 */
-  label?: IMarkSpec<ITextMarkSpec> & { offset?: number; position?: string };
+
+  label?: IMarkSpec<ITextMarkSpec> & {
+    offset?: number;
+    position?: string;
+    formatMethod?: (text: string | string[], datum?: any) => string | string[];
+  };
 }
 
 export interface IMapSeriesTheme {

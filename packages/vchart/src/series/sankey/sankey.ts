@@ -1,8 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
-import { MarkTypeEnum } from '../../mark/interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IRectMark } from '../../mark/rect';
 import type { ILinkPathMark } from '../../mark/link-path';
 import type { ITextMark } from '../../mark/text';
@@ -17,7 +16,7 @@ import { sankeyNodes } from '../../data/transforms/sankey-nodes';
 import { sankeyLinks } from '../../data/transforms/sankey-links';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
-import { DEFAULT_DATA_INDEX, LayoutZIndex, AttributeLevel, Event_Bubble_Level } from '../../constant';
+import { DEFAULT_DATA_INDEX, LayoutZIndex, AttributeLevel, Event_Bubble_Level, ChartEvent } from '../../constant';
 import { SeriesData } from '../base/series-data';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
@@ -30,29 +29,25 @@ import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement } from '@visactor/vgrammar';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { array } from '../../util';
+import { array, isNil } from '../../util';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { BarSeries } from '../bar/bar';
 import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { LinkPathMark } from '../../mark/link-path';
+import { sankeySeriesMark } from './constant';
+import { flatten } from '../../data/transforms/flatten';
+import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
 
 VChart.useMark([RectMark, LinkPathMark, TextMark]);
 
 registerSankeyTransforms();
 
-export class SankeySeries extends CartesianSeries<any> {
+export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
   type = SeriesTypeEnum.sankey;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BarSeries.mark,
-    [SeriesMarkNameEnum.node]: { name: SeriesMarkNameEnum.node, type: MarkTypeEnum.rect },
-    [SeriesMarkNameEnum.link]: { name: SeriesMarkNameEnum.link, type: MarkTypeEnum.linkPath }
-  };
-
-  protected declare _spec: ISankeySeriesSpec;
+  static readonly mark: SeriesMarkMap = sankeySeriesMark;
 
   private _nodeMark: IRectMark;
   private _linkMark: ILinkPathMark;
@@ -133,12 +128,27 @@ export class SankeySeries extends CartesianSeries<any> {
       registerDataSetInstanceParser(nodesDataSet, 'dataview', dataViewParser);
       registerDataSetInstanceTransform(nodesDataSet, 'sankeyNodes', sankeyNodes);
       registerDataSetInstanceTransform(nodesDataSet, 'addVChartProperty', addVChartProperty);
+      // 注册扁平化算法
+      registerDataSetInstanceTransform(nodesDataSet, 'flatten', flatten);
       const nodesDataView = new DataView(nodesDataSet);
       nodesDataView.parse([this.getViewData()], {
         type: 'dataview'
       });
       nodesDataView.transform({
         type: 'sankeyNodes'
+      });
+      // sankeyNode进行扁平化处理(针对层级数据)
+      nodesDataView.transform({
+        type: 'flatten',
+        options: {
+          callback: (node: SankeyNodeElement) => {
+            if (node.datum) {
+              const nodeData = node.datum[node.depth];
+              return { ...node, ...nodeData };
+            }
+            return node;
+          }
+        }
       });
 
       nodesDataView.transform(
@@ -152,6 +162,7 @@ export class SankeySeries extends CartesianSeries<any> {
         false
       );
 
+      this._data?.getDataView().target.addListener('change', nodesDataView.reRunAllTransform);
       this._nodesSeriesData = new SeriesData(this._option, nodesDataView);
 
       const linksDataSet = new DataSet();
@@ -177,6 +188,7 @@ export class SankeySeries extends CartesianSeries<any> {
         false
       );
 
+      this._data?.getDataView().target.addListener('change', linksDataView.reRunAllTransform);
       this._linksSeriesData = new SeriesData(this._option, linksDataView);
     }
   }
@@ -236,7 +248,8 @@ export class SankeySeries extends CartesianSeries<any> {
         y: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
         fill: (datum: Datum) => {
-          return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
+          const nodeName = datum.key ?? datum[this._spec.categoryField] ?? '';
+          return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(nodeName);
         }
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
@@ -283,9 +296,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => datum.x0,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'left',
             textBaseline: 'middle'
@@ -300,9 +311,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'center',
             textBaseline: 'middle'
@@ -317,9 +326,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => datum.x1,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'right',
             textBaseline: 'middle'
@@ -341,9 +348,7 @@ export class SankeySeries extends CartesianSeries<any> {
             fill: (datum: Datum) => {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
-            text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: 'center',
             textBaseline: (datum: Datum) => {
@@ -365,9 +370,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => datum.x0,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'left',
             textBaseline: 'middle'
@@ -382,9 +385,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'center',
             textBaseline: 'middle'
@@ -399,9 +400,7 @@ export class SankeySeries extends CartesianSeries<any> {
             x: (datum: Datum) => datum.x1,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: '#ffffff',
-            text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
             textAlign: 'right',
             textBaseline: 'middle'
@@ -418,9 +417,7 @@ export class SankeySeries extends CartesianSeries<any> {
             fill: (datum: Datum) => {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
-            text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: 'right',
             textBaseline: 'middle'
@@ -437,9 +434,7 @@ export class SankeySeries extends CartesianSeries<any> {
             fill: (datum: Datum) => {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
-            text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: 'left',
             textBaseline: 'middle'
@@ -461,9 +456,7 @@ export class SankeySeries extends CartesianSeries<any> {
             fill: (datum: Datum) => {
               return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(datum.key);
             },
-            text: (datum: Datum) => {
-              return datum?.datum ? datum.datum[this._spec.categoryField] : '';
-            },
+            text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: (datum: Datum) => {
               if (datum.x1 >= this._viewBox.x2) {
@@ -482,6 +475,17 @@ export class SankeySeries extends CartesianSeries<any> {
     this._labelMark.setZIndex(this._labelLayoutZIndex);
     this._trigger.registerMark(this._labelMark);
     this._tooltipHelper?.activeTriggerSet.mark.add(this._labelMark);
+  }
+
+  private _createText(datum: Datum) {
+    if (isNil(datum) || isNil(datum.datum)) {
+      return '';
+    }
+    let text = datum.datum[this._spec.categoryField] || '';
+    if (this._spec.label?.formatMethod) {
+      text = this._spec.label.formatMethod(text, datum.datum);
+    }
+    return text;
   }
 
   initAnimation() {
@@ -519,6 +523,10 @@ export class SankeySeries extends CartesianSeries<any> {
 
   protected initEvent(): void {
     super.initEvent();
+
+    this._nodesSeriesData.getDataView()?.target.addListener('change', this.nodesSeriesDataUpdate.bind(this));
+    this._linksSeriesData.getDataView()?.target.addListener('change', this.linksSeriesDataUpdate.bind(this));
+
     if (this._spec.emphasis?.enable && this._spec.emphasis?.effect === 'adjacency') {
       if (this._spec.emphasis?.trigger === 'hover') {
         // 浮动事件
@@ -542,12 +550,24 @@ export class SankeySeries extends CartesianSeries<any> {
     }
   }
 
+  private nodesSeriesDataUpdate() {
+    this.event.emit(ChartEvent.legendFilter, { model: this });
+    this._nodesSeriesData.updateData();
+  }
+
+  private linksSeriesDataUpdate() {
+    this.event.emit(ChartEvent.legendFilter, { model: this });
+    this._linksSeriesData.updateData();
+  }
+
   protected _handleAdjacencyClick = (params: ExtendEventParam) => {
     const element = params.item;
     if (element && element.mark.id().includes('node')) {
       this._handleNodeAdjacencyClick(element);
     } else if (element && element.mark.id().includes('link')) {
       this._handleLinkAdjacencyClick(element);
+    } else {
+      this._handleClearEmpty();
     }
   };
 
@@ -557,7 +577,32 @@ export class SankeySeries extends CartesianSeries<any> {
       this._handleNodeRelatedClick(element);
     } else if (element && element.mark.id().includes('link')) {
       this._handleLinkRelatedClick(element);
+    } else {
+      this._handleClearEmpty();
     }
+  };
+
+  protected _handleClearEmpty = () => {
+    const nodeVGrammarMark = this._nodeMark.getProduct();
+
+    if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
+      return;
+    }
+    const allNodeElements = nodeVGrammarMark.elements;
+
+    const linkVGrammarMark = this._linkMark.getProduct();
+
+    if (!linkVGrammarMark || !linkVGrammarMark.elements || !linkVGrammarMark.elements.length) {
+      return;
+    }
+    const allLinkElements = linkVGrammarMark.elements;
+
+    allNodeElements.forEach(el => {
+      el.clearStates();
+    });
+    allLinkElements.forEach(el => {
+      el.clearStates();
+    });
   };
 
   protected _handleNodeAdjacencyClick = (element: IElement) => {
@@ -590,10 +635,12 @@ export class SankeySeries extends CartesianSeries<any> {
           if (father === 'parents') {
             const originalDatum = linkDatum.datum;
             const val = originalDatum
-              .filter((entry: any) => entry.parents.some((par: any) => par.key === nodeDatum.key))
-              .reduce((sum: number, d: any) => {
-                return (sum += d.value);
-              }, 0);
+              ? originalDatum
+                  .filter((entry: any) => entry.parents.some((par: any) => par.key === nodeDatum.key))
+                  .reduce((sum: number, d: any) => {
+                    return (sum += d.value);
+                  }, 0)
+              : 0;
             ratio = val / linkDatum.value;
           }
 
@@ -680,15 +727,17 @@ export class SankeySeries extends CartesianSeries<any> {
           if (father === 'parents') {
             const originalDatum = linkDatum.datum;
             const val = originalDatum
-              .filter((entry: any) =>
-                entry.parents.some(
-                  (par: any, index: number) =>
-                    par.key === curLinkDatum.source && entry.parents[index + 1]?.key === curLinkDatum.target
-                )
-              )
-              .reduce((sum: number, d: any) => {
-                return (sum += d.value);
-              }, 0);
+              ? originalDatum
+                  .filter((entry: any) =>
+                    entry.parents.some(
+                      (par: any, index: number) =>
+                        par.key === curLinkDatum.source && entry.parents[index + 1]?.key === curLinkDatum.target
+                    )
+                  )
+                  .reduce((sum: number, d: any) => {
+                    return (sum += d.value);
+                  }, 0)
+              : 0;
             ratio = val / linkDatum.value;
           }
 
@@ -740,9 +789,6 @@ export class SankeySeries extends CartesianSeries<any> {
 
   protected _handleNodeRelatedClick = (element: IElement) => {
     const nodeDatum = element.getDatum();
-    const highlightNodes: string[] = [nodeDatum.key];
-    const highlightLinks: string[] = [];
-
     const nodeVGrammarMark = this._nodeMark.getProduct();
 
     if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
@@ -757,187 +803,449 @@ export class SankeySeries extends CartesianSeries<any> {
     }
     const allLinkElements = linkVGrammarMark.elements;
 
-    allLinkElements.forEach((linkEl: IElement, i: number) => {
-      linkEl.clearStates();
-      const linkDatum = linkEl.getDatum();
-      const father = linkDatum?.parents ? 'parents' : 'source';
-      if (array(linkDatum[father]).includes(nodeDatum.key)) {
-        // 下游link
+    const father = allLinkElements[0].getDatum()?.parents ? 'parents' : 'source';
 
-        if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
-          highlightLinks.push(linkDatum.key ?? linkDatum.index);
-        }
-        if (!highlightNodes.includes(linkDatum.source)) {
-          highlightNodes.push(linkDatum.source);
-        }
-
-        if (!highlightNodes.includes(linkDatum.target)) {
-          highlightNodes.push(linkDatum.target);
-          // 下游link的目标节点
-          const targetNode = allNodeElements.find(nodeElement => {
-            return nodeElement.data[0].key === linkDatum.target;
-          });
-
-          // 以下游link的目标节点为起点的links
-          let targetNodeSourceLinks: any[] = targetNode.data[0].sourceLinks as any[];
-          while (targetNodeSourceLinks?.length > 0) {
-            const newTargetNodeSourceLinks: any[] = [];
-            targetNodeSourceLinks.forEach((targetNodeSourceLinkDatum: any) => {
-              if (!highlightLinks.includes(targetNodeSourceLinkDatum.key ?? targetNodeSourceLinkDatum.index)) {
-                highlightLinks.push(targetNodeSourceLinkDatum.key ?? targetNodeSourceLinkDatum.index);
-                // 该links的目标节点
-                if (!highlightNodes.includes(targetNodeSourceLinkDatum.target)) {
-                  highlightNodes.push(targetNodeSourceLinkDatum.target);
-                  const sourceNodeTemp = allNodeElements.find(nodeElement => {
-                    return nodeElement.data[0].key === targetNodeSourceLinkDatum.target;
-                  });
-                  // 以该目标节点为起点的links
-                  newTargetNodeSourceLinks.push(sourceNodeTemp.data[0].targetLinks as any[]);
-                } else {
-                  return;
-                }
-              } else {
-                return;
-              }
-            });
-            targetNodeSourceLinks = newTargetNodeSourceLinks;
-            return;
-          }
-        }
-      } else if (linkDatum.target === nodeDatum.key) {
-        // 上游link
-        if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
-          highlightLinks.push(linkDatum.key ?? linkDatum.index);
-        }
-        if (!highlightNodes.includes(linkDatum.source)) {
-          highlightNodes.push(linkDatum.source);
-          const sourceNode = allNodeElements.find(nodeElement => {
-            return nodeElement.data[0].key === linkDatum.source;
-          });
-          let sourceNodeTargetLinks: any[] = sourceNode.data[0].targetLinks as any;
-          while (sourceNodeTargetLinks?.length > 0) {
-            const newSourceNodeTargetLinks: any[] = [];
-            sourceNodeTargetLinks.forEach((sourceNodeTargetLinkDatum: any) => {
-              if (!highlightLinks.includes(sourceNodeTargetLinkDatum.key ?? sourceNodeTargetLinkDatum.index)) {
-                highlightLinks.push(sourceNodeTargetLinkDatum.key ?? sourceNodeTargetLinkDatum.index);
-                if (!highlightNodes.includes(sourceNodeTargetLinkDatum.source)) {
-                  highlightNodes.push(sourceNodeTargetLinkDatum.source);
-                  const sourceNodeTemp = allNodeElements.find(nodeElement => {
-                    return nodeElement.data[0].key === sourceNodeTargetLinkDatum.source;
-                  });
-                  newSourceNodeTargetLinks.push(sourceNodeTemp.data[0].targetLinks as any[]);
-                } else {
-                  return;
-                }
-              } else {
-                return;
-              }
-            });
-            sourceNodeTargetLinks = newSourceNodeTargetLinks;
-            return;
-          }
-        }
-      }
-    });
-
-    [this._linkMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLinkElements = vGrammarMark.elements;
+    if (father === 'source') {
+      // node-link 型数据
+      const highlightNodes: string[] = [nodeDatum.key];
+      const highlightLinks: string[] = [];
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
         linkEl.clearStates();
-        if (highlightLinks.includes(linkEl.getDatum().key ?? linkEl.getDatum().index)) {
-          const linkDatum = linkEl.getDatum();
-          const father = linkDatum?.parents ? 'parents' : 'source';
-          let ratio;
-          if (father === 'parents') {
-            const originalDatum = linkDatum.datum;
-            const val = originalDatum
-              .filter((entry: any) => entry.parents.some((par: any) => par.key === nodeDatum.key))
-              .reduce((sum: number, d: any) => {
-                return (sum += d.value);
-              }, 0);
-            ratio = val / linkDatum.value;
+        const linkDatum = linkEl.getDatum();
+        const father = linkDatum?.parents ? 'parents' : 'source';
+
+        if (array(linkDatum[father]).includes(nodeDatum.key)) {
+          // 下游link
+          if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
+            highlightLinks.push(linkDatum.key ?? linkDatum.index);
           }
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
+          }
+
+          if (!highlightNodes.includes(linkDatum.target)) {
+            highlightNodes.push(linkDatum.target);
+            // 下游link的目标节点
+            const targetNode = allNodeElements.find(nodeElement => {
+              return nodeElement.data[0].key === linkDatum.target;
+            });
+
+            // 以下游link的目标节点为起点的links
+            let targetNodeSourceLinks: any[] = targetNode.data[0].sourceLinks as any[];
+            while (targetNodeSourceLinks?.length > 0) {
+              const newTargetNodeSourceLinks: any[] = [];
+              targetNodeSourceLinks.forEach((targetNodeSourceLinkDatum: any) => {
+                if (!highlightLinks.includes(targetNodeSourceLinkDatum.key ?? targetNodeSourceLinkDatum.index)) {
+                  highlightLinks.push(targetNodeSourceLinkDatum.key ?? targetNodeSourceLinkDatum.index);
+                  // 该links的目标节点
+                  if (!highlightNodes.includes(targetNodeSourceLinkDatum.target)) {
+                    highlightNodes.push(targetNodeSourceLinkDatum.target);
+                    const sourceNodeTemp = allNodeElements.find(nodeElement => {
+                      return nodeElement.data[0].key === targetNodeSourceLinkDatum.target;
+                    });
+                    // 以该目标节点为起点的links
+                    newTargetNodeSourceLinks.push(sourceNodeTemp.data[0].targetLinks as any[]);
+                  } else {
+                    return;
+                  }
+                } else {
+                  return;
+                }
+              });
+              targetNodeSourceLinks = newTargetNodeSourceLinks;
+              return;
+            }
+          }
+        } else if (linkDatum.target === nodeDatum.key) {
+          // 上游link
+          if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
+            highlightLinks.push(linkDatum.key ?? linkDatum.index);
+          }
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
+            const sourceNode = allNodeElements.find(nodeElement => {
+              return nodeElement.data[0].key === linkDatum.source;
+            });
+            let sourceNodeTargetLinks: any[] = sourceNode.data[0].targetLinks as any;
+            while (sourceNodeTargetLinks?.length > 0) {
+              const newSourceNodeTargetLinks: any[] = [];
+              sourceNodeTargetLinks.forEach((sourceNodeTargetLinkDatum: any) => {
+                if (!highlightLinks.includes(sourceNodeTargetLinkDatum.key ?? sourceNodeTargetLinkDatum.index)) {
+                  highlightLinks.push(sourceNodeTargetLinkDatum.key ?? sourceNodeTargetLinkDatum.index);
+                  if (!highlightNodes.includes(sourceNodeTargetLinkDatum.source)) {
+                    highlightNodes.push(sourceNodeTargetLinkDatum.source);
+                    const sourceNodeTemp = allNodeElements.find(nodeElement => {
+                      return nodeElement.data[0].key === sourceNodeTargetLinkDatum.source;
+                    });
+                    newSourceNodeTargetLinks.push(sourceNodeTemp.data[0].targetLinks as any[]);
+                  } else {
+                    return;
+                  }
+                } else {
+                  return;
+                }
+              });
+              sourceNodeTargetLinks = newSourceNodeTargetLinks;
+              return;
+            }
+          }
+        }
+      });
+
+      [this._linkMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLinkElements = vGrammarMark.elements;
+
+        allLinkElements.forEach((linkEl: IElement, i: number) => {
+          linkEl.clearStates();
+          if (highlightLinks.includes(linkEl.getDatum().key ?? linkEl.getDatum().index)) {
+            linkEl.useStates(['selected']);
+          } else {
+            linkEl.useStates(['blur']);
+          }
+        });
+      });
+
+      [this._nodeMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allNodeElements = vGrammarMark.elements;
+
+        allNodeElements.forEach(el => {
+          el.clearStates();
+          if (highlightNodes.includes(el.getDatum().key)) {
+            //
+          } else {
+            el.useStates(['blur']);
+          }
+        });
+      });
+
+      [this._labelMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLabelElements = vGrammarMark.elements;
+
+        allLabelElements.forEach(el => {
+          el.clearStates();
+          if (highlightNodes.includes(el.getDatum().key)) {
+            //
+          } else {
+            el.useStates(['blur']);
+          }
+        });
+      });
+    } else {
+      // 层级型数据
+      const highlightNodes: string[] = [nodeDatum.key];
+
+      const upstreamLinks = nodeDatum.targetLinks.reduce((res: any[], link: any) => {
+        const dividedLinks = array((link as any).datum);
+
+        dividedLinks.forEach(dividedLink => {
+          const parents = dividedLink.parents;
+          const len = parents.length;
+
+          for (let i = 0; i < len; i++) {
+            const source = parents[i].key;
+            const target = parents[i + 1] ? parents[i + 1].key : nodeDatum.key;
+            const value = dividedLink.value;
+
+            // 检查 res 数组中是否已存在相同的 source 和 target
+            const existingItem = res.find(item => item.source === source && item.target === target);
+
+            if (existingItem) {
+              // 如果存在相同的项，则对其 value 进行累加
+              existingItem.value += value;
+            } else {
+              // 如果不存在相同的项，则添加新的项到 res 数组中
+              res.push({ source, target, value });
+            }
+          }
+        });
+        return res;
+      }, []);
+
+      allLinkElements.forEach((linkEl: IElement, i: number) => {
+        linkEl.clearStates();
+        const linkDatum = linkEl.getDatum();
+        const father = linkDatum?.parents ? 'parents' : 'source';
+        const originalDatum = linkDatum.datum;
+        const selectedDatum = originalDatum
+          ? originalDatum.filter((entry: any) => entry[father].some((par: any) => par.key === nodeDatum.key))
+          : null;
+
+        const upSelectedLink = upstreamLinks.find(
+          (upLink: any) => upLink.source === linkDatum.source && upLink.target === linkDatum.target
+        );
+
+        if (selectedDatum && selectedDatum.length) {
+          // 下游link
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
+          }
+
+          if (!highlightNodes.includes(linkDatum.target)) {
+            highlightNodes.push(linkDatum.target);
+          }
+
+          const val = selectedDatum.reduce((sum: number, d: any) => {
+            return (sum += d.value);
+          }, 0);
+          const ratio = val / linkDatum.value;
+
+          linkEl.useStates(['selected']);
           linkEl.addState('selected', { ratio });
-        } else {
-          linkEl.useStates(['blur']);
+
+          return;
         }
-      });
-    });
 
-    [this._nodeMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+        if (upSelectedLink) {
+          // 上游link
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
+          }
 
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          if (!highlightNodes.includes(linkDatum.target)) {
+            highlightNodes.push(linkDatum.target);
+          }
+
+          linkEl.useStates(['selected']);
+          linkEl.addState('selected', { ratio: upSelectedLink.value / linkDatum.value });
+
+          return;
+        }
+
+        linkEl.useStates(['blur']);
+
         return;
-      }
-      const allNodeElements = vGrammarMark.elements;
-
-      allNodeElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
       });
-    });
 
-    [this._labelMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+      [this._nodeMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
 
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLabelElements = vGrammarMark.elements;
-
-      allLabelElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
         }
+        const allNodeElements = vGrammarMark.elements;
+
+        allNodeElements.forEach(el => {
+          el.clearStates();
+          if (highlightNodes.includes(el.getDatum().key)) {
+            //
+          } else {
+            el.useStates(['blur']);
+          }
+        });
       });
-    });
+
+      [this._labelMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLabelElements = vGrammarMark.elements;
+
+        allLabelElements.forEach(el => {
+          el.clearStates();
+          if (highlightNodes.includes(el.getDatum().key)) {
+            //
+          } else {
+            el.useStates(['blur']);
+          }
+        });
+      });
+    }
   };
 
   protected _handleLinkRelatedClick = (element: IGlyphElement) => {
-    [this._linkMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLinkElements = vGrammarMark.elements;
+    const nodeVGrammarMark = this._nodeMark.getProduct();
+
+    if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
+      return;
+    }
+    const allNodeElements = nodeVGrammarMark.elements;
+
+    const linkVGrammarMark = this._linkMark.getProduct();
+
+    if (!linkVGrammarMark || !linkVGrammarMark.elements || !linkVGrammarMark.elements.length) {
+      return;
+    }
+    const allLinkElements = linkVGrammarMark.elements;
+
+    const father = element.getDatum()?.parents ? 'parents' : 'source';
+    if (father === 'source') {
+      [this._linkMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLinkElements = vGrammarMark.elements;
+        allLinkElements.forEach(linkEl => {
+          linkEl.clearStates();
+        });
+      });
+      [this._nodeMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allNodeElements = vGrammarMark.elements;
+        allNodeElements.forEach(el => {
+          el.clearStates();
+        });
+      });
+      [this._labelMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLabelElements = vGrammarMark.elements;
+        allLabelElements.forEach(el => {
+          el.clearStates();
+        });
+      });
+    } else {
+      const curLinkDatum = element.getDatum();
+      const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
+      const upstreamLinks: Array<{ source: string; target: string; value: number }> = [];
+
+      const dividedLinks = array((curLinkDatum as any).datum);
+
+      dividedLinks.forEach(dividedLink => {
+        const parents = (dividedLink as any).parents;
+        const len = parents.length;
+        for (let i = 0; i < len - 1; i++) {
+          const source = parents[i].key;
+          const target = parents[i + 1].key;
+          const value = dividedLink.value;
+
+          // 检查 upstreamLinks 数组中是否已存在相同的 source 和 target
+          const existingItem = upstreamLinks.find(item => item.source === source && item.target === target);
+          upstreamLinks.push({
+            source: parents[i].key,
+            target: parents[i + 1].key,
+            value: dividedLink.value
+          });
+
+          if (existingItem) {
+            // 如果存在相同的项，则对其 value 进行累加
+            existingItem.value += value;
+          } else {
+            // 如果不存在相同的项，则添加新的项到 upstreamLinks 数组中
+            upstreamLinks.push({ source, target, value });
+          }
+        }
+      });
+
       allLinkElements.forEach(linkEl => {
         linkEl.clearStates();
-      });
-    });
-    [this._nodeMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+        const linkDatum = linkEl.getDatum();
+        const originalDatum = linkDatum.datum;
+
+        if (linkDatum.source === curLinkDatum.source && linkDatum.target === curLinkDatum.target) {
+          // 自身
+          linkEl.useStates(['selected']);
+          linkEl.addState('selected', { ratio: 1 });
+          return;
+        }
+
+        const selectedDatum = originalDatum
+          ? originalDatum.filter((entry: any, index: number) =>
+              entry.parents.some(
+                (par: any) => par.key === curLinkDatum.target && entry.parents[index - 1]?.key === curLinkDatum.source
+              )
+            )
+          : null;
+
+        if (selectedDatum && selectedDatum.length) {
+          // 下游link
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
+          }
+
+          if (!highlightNodes.includes(linkDatum.target)) {
+            highlightNodes.push(linkDatum.target);
+          }
+
+          const val = selectedDatum
+            .filter((entry: any) => {
+              return entry.parents.some((par: any, index: number) => {
+                return par.key === curLinkDatum.source && entry.parents[index + 1]?.key === curLinkDatum.target;
+              });
+            })
+            .reduce((sum: number, d: any) => {
+              return (sum += d.value);
+            }, 0);
+          const ratio = val / linkDatum.value;
+
+          linkEl.useStates(['selected']);
+          linkEl.addState('selected', { ratio });
+
+          return;
+        }
+
+        const upSelectedLink = upstreamLinks.find(
+          (upLink: any) => upLink.source === linkDatum.source && upLink.target === linkDatum.target
+        );
+
+        if (upSelectedLink) {
+          // 点击节点的上游一层的节点
+          if (!highlightNodes.includes(linkDatum.source)) {
+            highlightNodes.push(linkDatum.source);
+          }
+          if (!highlightNodes.includes(linkDatum.target)) {
+            highlightNodes.push(linkDatum.target);
+          }
+          linkEl.useStates(['selected']);
+          linkEl.addState('selected', { ratio: upSelectedLink.value / linkDatum.value });
+
+          return;
+        }
+        linkEl.useStates(['blur']);
+
         return;
-      }
-      const allNodeElements = vGrammarMark.elements;
+      });
+
       allNodeElements.forEach(el => {
         el.clearStates();
+        if (highlightNodes.includes(el.getDatum().key)) {
+          //
+        } else {
+          el.useStates(['blur']);
+        }
       });
-    });
-    [this._labelMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLabelElements = vGrammarMark.elements;
-      allLabelElements.forEach(el => {
-        el.clearStates();
+
+      [this._labelMark].forEach(mark => {
+        const vGrammarMark = mark.getProduct();
+
+        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+          return;
+        }
+        const allLabelElements = vGrammarMark.elements;
+
+        allLabelElements.forEach(el => {
+          el.clearStates();
+          if (highlightNodes.includes(el.getDatum().key)) {
+            //
+          } else {
+            el.useStates(['blur']);
+          }
+        });
       });
-    });
+    }
   };
 
   protected initTooltip() {
@@ -945,14 +1253,49 @@ export class SankeySeries extends CartesianSeries<any> {
   }
 
   getNodeOrdinalColorScale(item: string) {
-    const colorDomain = this._nodesSeriesData.getDataView().latestData.map((datum: Datum) => {
-      return datum.key;
-    });
+    const colorDomain = this._rawData.latestData[0]?.nodes
+      ? this._rawData.latestData[0].nodes[0]?.children
+        ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes))
+        : this._rawData.latestData[0].nodes.map((datum: Datum, index: number) => {
+            if (this._spec.nodeKey) {
+              return datum[this._spec.categoryField];
+            }
+            return index;
+          })
+      : this._rawData.latestData[0]?.values.map((datum: Datum, index: number) => {
+          if (this._spec.nodeKey) {
+            return datum[this._spec.categoryField];
+          }
+          return index;
+        });
+
     const colorRange =
       this._option.globalScale.color?.range() ?? getDataScheme(this._option.getTheme().colorScheme, this.type as any);
+
     const ordinalScale = new ColorOrdinalScale();
+
     ordinalScale.domain(colorDomain).range?.(colorRange);
+
     return ordinalScale.scale(item);
+  }
+
+  extractNamesFromTree(tree: any) {
+    // Set 用于存储唯一的 name 值
+    const uniqueNames = new Set();
+
+    // 遍历当前节点的子节点
+    tree.forEach((node: any) => {
+      // 将当前节点的 name 值添加到 Set 中
+      uniqueNames.add(node.name);
+
+      // 如果当前节点还有子节点，则递归调用该函数继续遍历子节点
+      if (node.children) {
+        const childNames = this.extractNamesFromTree(node.children);
+        childNames.forEach(name => uniqueNames.add(name));
+      }
+    });
+
+    return uniqueNames;
   }
 
   getDimensionField() {

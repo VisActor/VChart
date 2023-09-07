@@ -11,6 +11,7 @@
 - 离散轴：`type: 'band'`
 - 时间轴：`type: 'time'`
 - log轴：`type: 'log'`
+- symlog轴：`type: 'symlog'`
 
 注：直方图不支持离散轴，因为直方图用于统计数据区间内的频率分布，主轴必须以数值区间的形式传入，离散轴不支持该功能。
 
@@ -79,4 +80,18 @@ TODO: 补充图示。
   prefix = '##',
   coordType = 'cartesian',
   type='log'
+) }}
+
+## axes.symlog(Object)
+
+自`1.3.0`版本开始支持，symlog轴配置。
+
+### type(string) = 'symlog'
+
+声明symlog轴。
+
+{{ use: component-base-axis(
+  prefix = '##',
+  coordType = 'cartesian',
+  type='symlog'
 ) }}

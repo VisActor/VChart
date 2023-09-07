@@ -12,7 +12,7 @@ option: barChart
 
 The grouped percentage stacked bar chart is used to display data from multiple dimensions as well as the proportions of each dimension.
 
-## Key Configurations
+## Key option
 
 - Set the x-axis mapping field and **grouping field** on the `xField` property.
 - The `seriesField` property declares the color mapping field.
@@ -21,7 +21,7 @@ The grouped percentage stacked bar chart is used to display data from multiple d
 - Customize the color with the `color` property
 - Format the left axis label as a percentage in the `axes` property (`formatMethod` property) to make the chart more readable
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

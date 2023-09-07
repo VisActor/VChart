@@ -1,7 +1,6 @@
 import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
 import type { ITextMark } from '../../mark/text';
-// eslint-disable-next-line no-duplicate-imports
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IWordCloud3dSeriesSpec } from './interface';
 import type { Datum } from '../../typings';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
@@ -17,7 +16,9 @@ import {
 import type { ICompilableMark } from '../../compile/mark';
 import { BaseWordCloudSeries } from './base';
 
-export class WordCloud3dSeries extends BaseWordCloudSeries<IWordCloud3dSeriesSpec> {
+export class WordCloud3dSeries<
+  T extends IWordCloud3dSeriesSpec = IWordCloud3dSeriesSpec
+> extends BaseWordCloudSeries<T> {
   static readonly type: string = SeriesTypeEnum.wordCloud3d;
   type = SeriesTypeEnum.wordCloud3d;
 

@@ -1,9 +1,9 @@
+import { BarSeries } from '../../series/bar/bar';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { VChart } from '../../core/vchart';
-import { BarSeries } from '../../series';
 import type { IBarChartSpec } from './interface';
 VChart.useSeries([BarSeries]);
 

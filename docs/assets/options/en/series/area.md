@@ -118,3 +118,16 @@ Label position. Optional values:
   hasSmartInvert = true,
   defaultOffset = 5,
 ) }}
+
+#${prefix} totalLabel(Object)
+
+Total label, working when the data is stacked. Supported since version `1.3.0`.
+
+{{ use: component-label(
+  prefix = '#' + ${prefix},
+  noPosition = true,
+  hasOverlap = false,
+  hasSmartInvert = false,
+  defaultOffset = 5,
+  ignoreCustom = true
+) }}

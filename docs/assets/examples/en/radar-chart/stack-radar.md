@@ -12,12 +12,12 @@ option: radarChart
 
 By configuring the group field with `seriesField` and enabling the `stack` property, you can stack the data of the radar chart.
 
-## Key Configurations
+## Key option
 
 - `seriesField`: Declare group field
 - `stack`: Enable stacking
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

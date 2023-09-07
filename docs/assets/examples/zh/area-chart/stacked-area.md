@@ -16,6 +16,8 @@ option: areaChart
 
 - `seriesField` 属性用来声明参与颜色映射的字段
 - `stack` 属性声明为 true 用来配置堆叠，会根据 `seriesField` 属性声明的字段进行堆叠
+- 通过在 `data.fields` 属性上为对应的字段配置 `domain` 和 `sortIndex` 来控制堆叠的顺序，
+- 通过为 `tooltip.dimension` 配置 `updateContent` 可以动态得为 tooltip 的内容添加需要的信息
 
 ## 代码演示
 
@@ -23,6 +25,12 @@ option: areaChart
 const spec = {
   type: 'area',
   data: {
+    fields: {
+      country: {
+        domain: ['China', 'USA', 'EU', 'Africa'],
+        sortIndex: 0
+      }
+    },
     values: [
       { type: 'Nail polish', country: 'Africa', value: 4229 },
       { type: 'Nail polish', country: 'EU', value: 4376 },
@@ -70,7 +78,23 @@ const spec = {
   xField: 'type',
   yField: 'value',
   seriesField: 'country',
-  legends: [{ visible: true, position: 'middle', orient: 'bottom' }]
+  legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
+  tooltip: {
+    dimension: {
+      updateContent: data => {
+        let sum = 0;
+        data.forEach(datum => {
+          sum += +datum.value;
+        });
+        data.push({
+          hasShape: 'false',
+          key: 'Total',
+          value: sum
+        });
+        return data;
+      }
+    }
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });

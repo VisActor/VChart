@@ -1,6 +1,6 @@
 # Scatter Plot
 
-[\[Option Manual\]](../../../option/scatterChart)
+[\[Option Manual\]](../../option/scatterChart)
 
 ## Introduction
 
@@ -21,9 +21,9 @@ A scatter plot consists of point elements, axes, tooltip information, and other 
 
 Axes, tooltip information, and other components are optional configurations that assist the chart display and come with default effects and capabilities:
 
-- `scatterChart.axes`: Axis component, displayed by default, and automatically infers coordinate system and data mapping logic based on chart type, detailed configuration see [VChart Axis Component Configuration](../../../option/scatterChart#axes)
-- `scatterChart.tooltip`: Tooltip information, displayed during interaction by default, detailed configuration see [VChart Tooltip Component Configuration](../../../option/scatterChart#tooltip)
-- For more component configurations, see [VChart scatterChart configuration](../../../option/scatterChart)
+- `scatterChart.axes`: Axis component, displayed by default, and automatically infers coordinate system and data mapping logic based on chart type, detailed configuration see [VChart Axis Component Configuration](../../option/scatterChart#axes)
+- `scatterChart.tooltip`: Tooltip information, displayed during interaction by default, detailed configuration see [VChart Tooltip Component Configuration](../../option/scatterChart#tooltip)
+- For more component configurations, see [VChart scatterChart configuration](../../option/scatterChart)
 
 ### Quick Start
 

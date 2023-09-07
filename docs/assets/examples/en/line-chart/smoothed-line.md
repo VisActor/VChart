@@ -16,7 +16,7 @@ A smooth line chart is a chart that connects a series of data points with smooth
 
 - Configure the `curveType: 'monotone'` attribute in the `line.style` property
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

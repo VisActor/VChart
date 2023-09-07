@@ -5,7 +5,7 @@ import type { ISankeyChartSpec } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../series/interface';
 import { VChart } from '../../core/vchart';
-import { SankeySeries } from '../../series';
+import { SankeySeries } from '../../series/sankey/sankey';
 VChart.useSeries([SankeySeries]);
 
 export class SankeyChart extends BaseChart {

@@ -12,12 +12,12 @@ option: commonChart#dataZoom
 
 Achieve the effect of zooming the axis by directly changing the axis mapping, at this time the data is not filtered.
 
-## Key Configurations
+## Key option
 
 - The `orient` property declares the position of the thumbnail axis component relative to the chart; `bottom` is the bottom of the chart, `top` is the top of the chart, `left` is the left side of the chart, and `right` is the right side of the chart
 - The `filterMode` property declares the zooming method of the thumbnail axis component; `filter` is to filter the data to achieve the effect of zooming the axis, `axis` is to directly zoom the axis without filtering the data
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -12,14 +12,14 @@ option: barChart#scrollbar
 
 Vertical `scrollBar` is used to control the number of bars in the horizontal bar chart. In this example, we created a simple bar chart to display a week's sales data, where the categorical variable is `year`, and the numeric variable is `sales`. The `scrollBar` and the categorical variable `year` are automatically bound, used to control the data display range.
 
-## Key Configurations
+## Key option
 
 - The `orient` property is declared as a string type, used for setting the orientation of `scollBar`. The optional values are: `bottom`, `right`
 - The `startValue` property declares the starting value of the `scollBar` associated field, used for controlling the display range of the data
 - The `endValue` property declares the ending value of the `scollBar` associated field, used for controlling the display range of the data
 - The `roam` property is declared as a `Boolean` type, used for setting whether to enable the zoom and pan feature
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

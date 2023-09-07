@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { IColorLegendSpec, ISizeLegendSpec } from './interface';
 import { ColorContinuousLegend, SizeContinuousLegend } from '@visactor/vrender-components';
-import { isEmpty, merge, isValid } from '@visactor/vutils';
+import { isEmpty, isValid } from '@visactor/vutils';
+import { mergeSpec } from '../../../util';
 import { transformComponentStyle, transformToGraphic } from '../../../util/style';
 import { transformLegendTitleAttributes } from '../util';
 
@@ -36,7 +37,7 @@ export function getContinuousLegendAttributes(spec: IColorLegendSpec | ISizeLege
     padding, // vchart 布局模块已经处理了
 
     ...restSpec
-  } = merge({}, spec);
+  } = mergeSpec({}, spec);
 
   const attrs = restSpec;
 
@@ -72,7 +73,7 @@ export function getContinuousLegendAttributes(spec: IColorLegendSpec | ISizeLege
   }
 
   if (background.visible && !isEmpty(background.style)) {
-    merge(attrs, background.style);
+    mergeSpec(attrs, background.style);
     if (isValid(background.padding)) {
       attrs.padding = background.padding;
     }

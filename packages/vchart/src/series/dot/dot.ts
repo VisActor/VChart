@@ -2,7 +2,7 @@
 import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD } from '../../constant/index';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Maybe, Datum } from '../../typings';
-import { isValid, merge } from '../../util';
+import { isValid, mergeSpec } from '../../util';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IRuleMark } from '../../mark/rule';
@@ -23,30 +23,20 @@ import { objFlat } from '../../data/transforms/obj-flat';
 import { DEFAULT_GRID_BACKGROUND } from './config';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
 import { RectMark } from '../../mark/rect';
+import { dotSeriesMark } from './constant';
 
 VChart.useMark([SymbolMark, TextMark, RuleMark, RectMark]);
 
-export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
+export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.dot;
   type = SeriesTypeEnum.dot;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.group]: { name: SeriesMarkNameEnum.group, type: MarkTypeEnum.group },
-    [SeriesMarkNameEnum.grid]: { name: SeriesMarkNameEnum.grid, type: MarkTypeEnum.rule },
-    [SeriesMarkNameEnum.gridBackground]: { name: SeriesMarkNameEnum.gridBackground, type: MarkTypeEnum.rect },
-    [SeriesMarkNameEnum.dot]: { name: SeriesMarkNameEnum.dot, type: MarkTypeEnum.symbol },
-    [SeriesMarkNameEnum.title]: { name: SeriesMarkNameEnum.title, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.subTitle]: { name: SeriesMarkNameEnum.subTitle, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.symbol]: { name: SeriesMarkNameEnum.symbol, type: MarkTypeEnum.symbol }
-  };
+  static readonly mark: SeriesMarkMap = dotSeriesMark;
 
   protected declare _theme: Maybe<IDotSeriesTheme>;
 
@@ -160,7 +150,7 @@ export class DotSeries extends CartesianSeries<IDotSeriesSpec> {
     this.setSubTitleField(this._spec.subTitleField);
     this.setDotTypeField(this._spec.dotTypeField);
     this.setHighLightSeriesGroup(this._spec.highLightSeriesGroup);
-    this.setGridBackground(merge(DEFAULT_GRID_BACKGROUND, this._spec?.grid?.background || {}));
+    this.setGridBackground(mergeSpec(DEFAULT_GRID_BACKGROUND, this._spec?.grid?.background || {}));
   }
 
   private _clipMark: IGroupMark;

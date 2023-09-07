@@ -122,3 +122,4 @@ packages/wx-vchart/miniprogram/miniprogram_npm/
 
 # generated documents
 docs/public/documents
+docs/public/vchart/preview/failedPreviewLists.json

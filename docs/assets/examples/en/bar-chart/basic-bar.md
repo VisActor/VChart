@@ -12,13 +12,13 @@ option: barChart
 
 The bar chart is based on the histogram, and the x-axis and y-axis are transposed. The configuration is basically the same as the histogram, but the configuration of the x-axis and y-axis needs to be swapped, and at the same time, it needs to be added `direction` The property is configured as'horizontal '.
 
-## critical configuration
+## Key option
 
 - `direction` Property configured as'horizont'
 - `xField` Property declared as numeric field
 - `yField` Property declaration as category field
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

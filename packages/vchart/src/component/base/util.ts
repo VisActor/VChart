@@ -1,10 +1,17 @@
+import type { IChart } from '../../chart/interface';
 import type { ITheme } from '../../theme';
 import { getOrient } from '../axis/cartesian/util';
-import { getCartesianAxisTheme, getPolarAxisTheme } from '../axis/utils';
+import { getCartesianAxisTheme, getPolarAxisTheme } from '../axis/util';
+import { getCartesianCrosshairTheme, getPolarCrosshairTheme } from '../crosshair/util';
 import { ComponentTypeEnum } from '../interface';
 import { getLayout } from '../legend/util';
 
-export function getComponentThemeFromGlobalTheme(type: ComponentTypeEnum, theme: ITheme, componentSpec: any) {
+export function getComponentThemeFromGlobalTheme(
+  type: ComponentTypeEnum,
+  theme: ITheme,
+  componentSpec: any,
+  chart: IChart
+) {
   switch (type) {
     case ComponentTypeEnum.cartesianBandAxis:
       return getCartesianAxisTheme(getOrient(componentSpec), 'band', theme);
@@ -24,8 +31,9 @@ export function getComponentThemeFromGlobalTheme(type: ComponentTypeEnum, theme:
     case ComponentTypeEnum.polarAxis:
       return getPolarAxisTheme(componentSpec.orient, undefined, theme);
     case ComponentTypeEnum.cartesianCrosshair:
+      return getCartesianCrosshairTheme(theme, chart);
     case ComponentTypeEnum.polarCrosshair:
-      return theme.component?.crosshair;
+      return getPolarCrosshairTheme(theme, chart);
     case ComponentTypeEnum.colorLegend:
       return theme.component?.colorLegend[getLayout(componentSpec)];
     case ComponentTypeEnum.sizeLegend:

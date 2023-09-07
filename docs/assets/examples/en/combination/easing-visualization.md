@@ -10,14 +10,14 @@ option: commonChart
 
 # Easing Functions Visualization
 
-## Key Configurations
+## Key option
 
 - `type: 'common'` declaring as combination chart type
 - Configuring the layout of multiple `region` in the `layout` property
 - `animationAppear` configuring the outgoing animation
   - `animationAppear.easing` configuring the easing function for outgoing animation
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const easingFuncs = {

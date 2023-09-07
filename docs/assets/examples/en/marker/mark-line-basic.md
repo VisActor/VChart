@@ -14,7 +14,7 @@ Use the `markLine` data annotation component to mark the special data on each di
 
 ## Key configuration
 
-## Code demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

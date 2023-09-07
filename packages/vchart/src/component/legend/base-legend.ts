@@ -7,13 +7,13 @@ import type { LayoutItem } from '../../model/layout-item';
 // eslint-disable-next-line no-duplicate-imports
 import type { IOrientType, IPoint, StringOrNumber } from '../../typings';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
-import { isValid, merge, isValidOrient, array, eachSeries, isValidNumber } from '../../util';
+import { isValid, mergeSpec, isValidOrient, array, eachSeries, isValidNumber } from '../../util';
 import { CompilableData } from '../../compile/data';
 // eslint-disable-next-line no-duplicate-imports
-import type { ILegend } from './interface';
+import type { ILegend, ILegendCommonSpec } from './interface';
 import type { IGroup } from '@visactor/vrender';
 
-export abstract class BaseLegend extends BaseComponent implements ILegend {
+export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseComponent<T> implements ILegend {
   layoutType: LayoutItem['layoutType'] = 'normal';
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Legend;
   layoutLevel: number = LayoutLevel.Legend;
@@ -49,6 +49,7 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
     return this._legendData.getLatestData();
   }
 
+  private _preSelectedData: StringOrNumber[] = [];
   protected _selectedData: StringOrNumber[] = [];
   /**
    * getSelectedData
@@ -128,8 +129,6 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
       result.reMake = true;
       return result;
     }
-    result.reMake = true;
-
     return result;
   }
 
@@ -147,9 +146,14 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
   protected abstract _getLegendConstructor(): any;
   protected abstract _initEvent(): void;
 
+  private _bindLegendDataChange() {
+    this._preSelectedData = [...this._selectedData];
+    this._initSelectedData();
+  }
+
   protected initData() {
     const legendData = this._initLegendData();
-    legendData.target.addListener('change', this._initSelectedData.bind(this));
+    legendData.target.addListener('change', this._bindLegendDataChange.bind(this));
     this._legendData = new CompilableData(this._option, legendData);
 
     this._initSelectedData();
@@ -201,7 +205,7 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
     if (this._legendComponent) {
       if (!isEqual(attrs, this._cacheAttrs)) {
         this._legendComponent.setAttributes(
-          merge({}, attrs, {
+          mergeSpec({}, attrs, {
             defaultSelected: this._selectedData // 图表 resize 之后应该保留上次筛选的结果
           })
         );
@@ -209,7 +213,7 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
     } else {
       const legendConstructor = this._getLegendConstructor();
       const legend = new legendConstructor(
-        merge({}, attrs, {
+        mergeSpec({}, attrs, {
           defaultSelected: this._selectedData
         })
       );
@@ -258,12 +262,34 @@ export abstract class BaseLegend extends BaseComponent implements ILegend {
     return result;
   }
 
+  onDataUpdate(): void {
+    if (JSON.stringify(this._preSelectedData) === JSON.stringify(this._selectedData)) {
+      return;
+    }
+
+    if (this._legendComponent) {
+      // 更新组件
+      const attrs = this._getLegendAttributes(this.getLayoutRect());
+      if (!isEqual(attrs, this._cacheAttrs)) {
+        this._legendComponent.setAttributes(
+          mergeSpec({}, attrs, {
+            defaultSelected: this._selectedData // 图表 resize 之后应该保留上次筛选的结果
+          })
+        );
+      }
+    }
+    // 更新数据流
+    this.effect.onSelectedDataChange?.();
+    this.event.emit(ChartEvent.legendSelectedDataChange, { model: this });
+  }
+
   clear(): void {
     if (this._legendComponent) {
       this._container.removeChild(this._legendComponent);
       this._legendComponent = null;
     }
     this._cacheAttrs = null;
+    this._preSelectedData = null;
     super.clear();
   }
 }
