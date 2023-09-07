@@ -1,4 +1,4 @@
-import { isNil } from '@visactor/vutils';
+import { isNil, precisionAdd } from '@visactor/vutils';
 import type { DataView } from '@visactor/vdataset';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { Datum } from '../../typings';
@@ -90,7 +90,7 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
                 start = +d[totalSpec.startField];
               }
               if (totalSpec.valueField && !isNil(d[totalSpec.valueField])) {
-                end = start + +d[totalSpec.valueField];
+                end = precisionAdd(start, +d[totalSpec.valueField]);
               }
             }
             d[startAs] = start;
@@ -103,7 +103,7 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
       }
       if (!isTotalTag) {
         d[startAs] = +total.end;
-        d[endAs] = d[startAs] + +d[valueField];
+        d[endAs] = precisionAdd(d[startAs], +d[valueField]);
         total.end = d[endAs];
       }
       total.isTotal = isTotalTag;
@@ -136,7 +136,7 @@ export const waterfallFillTotal = (data: Array<Datum>, op: IWaterfallFillEndOpt)
   const { indexField, valueField, total, seriesField } = op;
   const totalData = {
     [indexField]: total?.text || 'total',
-    [valueField]: data.reduce((pre, cur) => pre + +cur[valueField], 0)
+    [valueField]: data.reduce((pre, cur) => precisionAdd(pre, +cur[valueField]), 0)
   };
   if (seriesField) {
     totalData[seriesField] = 'total';

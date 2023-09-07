@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import type { IRuleMark } from '../../mark/rule';
-import { isNil } from '@visactor/vutils';
+import { isNil, precisionSub } from '@visactor/vutils';
 import {
   AttributeLevel,
   PREFIX,
@@ -287,7 +287,8 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     if (this._stackLabelMark) {
       this.setMarkStyle(this._stackLabelMark, {
         text: (datum: Datum) => {
-          const text = this._spec.stackLabel?.valueType === 'absolute' ? datum.end : datum.end - datum.start;
+          const text =
+            this._spec.stackLabel?.valueType === 'absolute' ? datum.end : precisionSub(datum.end, datum.start);
           if (this._spec.stackLabel?.formatMethod) {
             return this._spec.stackLabel.formatMethod(text, datum);
           }
