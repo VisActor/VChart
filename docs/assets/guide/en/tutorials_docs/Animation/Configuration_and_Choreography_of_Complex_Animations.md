@@ -594,4 +594,89 @@ VChart provides animation arrangement configuration based on JSON spec to meet a
 
 A timeline represents the animation performance of a graphic element over a specific period of time. A timeline contains a set of serialized animation fragments (TimeSlice). The timeline describes the animation performance of a graphic element over a period of time. Animations in different timelines can be executed in parallel. The timeline can also be set with `loop: true` to loop the configured animation effects.
 
-![Timeline schematic diagram](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/23e5d313c2c3a66d4ca
+![Timeline schematic diagram](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/23e5d313c2c3a66d4ca)
+
+### Timeslice
+
+In a timeline, each time slice is executed serially, and the constituent elements in a time slice include:
+- `effect`: The specific execution effect of the animation, which describes the specific interpolation calculation logic of the visual channel attributes of the primitive. Effects can be encapsulated specific animation effects, or animation configurations configured by developers to start and end states, and describe the calculation logic of animation attribute interpolation. Each timeSlice can be configured with multiple `effect`;
+- `duration`: the execution duration of animation slices;
+- `delay`: the waiting time before the execution of the animation slice;
+
+### Animation Effect (Effect)
+The constituent elements in animation effects (Effect) include:
+- `channel`: the changed visual channel attribute, which describes the visual channel attribute when the interpolation calculation starts and ends;
+- `easing`: easing strategy for difference calculation;
+
+The following example achieves an accordion effect by animating a looping timeline:
+```javascript livedemo
+const spec = {
+  type: 'bar',
+  data: [
+    {
+      id: 'id0',
+      values: [
+        { x: '1', y: 22 },
+        { x: '2', y: 43 },
+        { x: '3', y: 33 },
+        { x: '4', y: 22 },
+        { x: '5', y: 10 },
+        { x: '6', y: 30 },
+        { x: '7', y: 46 },
+        { x: '8', y: 21 },
+        { x: '9', y: 33 },
+        { x: '10', y: 43 },
+        { x: '11', y: 42 },
+        { x: '12', y: 30 },
+        { x: '13', y: 9 },
+        { x: '14', y: 46 }
+      ]
+    }
+  ],
+  xField: ['x'],
+  yField: 'y',
+  axes: [
+    { orient: 'bottom', type: 'band' },
+    { orientation: 'left', type: 'linear' }
+  ],
+  animationNormal: {
+    bar: [
+      {
+        loop: true,
+        startTime: 100,
+        oneByOne: 100,
+        timeSlices: [
+          {
+            delay: 1000,
+            effects: {
+              channel: {
+                fillOpacity: { to: 0.5 }
+              },
+              easing: 'linear'
+            },
+            duration: 500
+          },
+          {
+            effects: {
+              channel: {
+                fillOpacity: { to: 1 }
+              },
+              easing: 'linear'
+            },
+            duration: 500
+          }
+        ]
+      }
+    ]
+  }
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+```
+
+## Custom animation
+In the animation effect (Effect), if the simple `channel` configuration cannot meet your needs, you can configure custom animation effects through `custom` and `customParameters`:
+- `custom`: custom animation;
+- `customParameters`: Custom animation parameters;
+For detailed usage, please refer to the [Custom Animation](../extend/custom_animation) chapter.

@@ -160,6 +160,21 @@ onChartReady() {
 },
 ```
 
+To give the pie chart to the label text callback function as an example, the detailed steps refer to the following (the user can adjust the strategy depending on the situation, here only provides a basic idea and steps):
+- step1: Configure the id and chartOnReady event when declaring the chart component to updateSpec when the empty chart is rendered.
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-a.png)
+
+- step2: when initializing the chart, declare an empty chart (chart type and data must be declared, data can be declared as an empty array)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-b.png)
+
+- step3: In the onChartReady event, get the component and chart instance by selectComponent and update the spec of the chart instance
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-c.png)
+
+- Result: The callback function for the pie chart's label works.
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-d.gif)
+
 ## Feedback
 
 If you encounter any problems during use, please feel free to provide feedback on [GitHub issues](https://github.com/VisActor/VChart/issues/new/choose), thank you!

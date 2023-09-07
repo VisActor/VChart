@@ -13,17 +13,17 @@
 时序图是一种用于展示时间序列数据的图表类型，它可以表现出数据在时间上的变化趋势。  
 在时序图中，我们推荐至少配置一对事件 link 系列，柱系列可根据需要配置 0 个或若干个:
 
-- [柱系列](../../option/sequenceChart#series-bar): 以柱状图的形式表示特定时间间隔内的时序数据总数。
-- [dot 系列](../../option/sequenceChart#series-dot): 以点的形式表示特定时间点发生的事件。
-- [link 系列](../../option/sequenceChart#series-link): 以边的形式表示事件与事件之间的关联关系。
+- [柱系列](../../../option/sequenceChart#series-bar): 以柱状图的形式表示特定时间间隔内的时序数据总数。
+- [dot 系列](../../../option/sequenceChart#series-dot): 以点的形式表示特定时间点发生的事件。
+- [link 系列](../../../option/sequenceChart#series-link): 以边的形式表示事件与事件之间的关联关系。
 
-注意：[link 系列](../../option/sequenceChart#series-link)必须通过`'dotSeriesIndex'`属性与 [dot 系列](../../option/sequenceChart#series-dot)绑定，因为其绘制数据及部分配置依赖于 [dot 系列](../../option/sequenceChart#series-dot)。
+注意：[link 系列](../../../option/sequenceChart#series-link)必须通过`'dotSeriesIndex'`属性与 [dot 系列](../../../option/sequenceChart#series-dot)绑定，因为其绘制数据及部分配置依赖于 [dot 系列](../../../option/sequenceChart#series-dot)。
 
 时序图通常还包含以下组件:
 
-- [时间轴](../../option/sequenceChart#axes-time): 所有系列共用的 x 轴，也是时序数据与图元属性映射的介质。
-- [缩略轴](../../option/sequenceChart#dataZoom): 在时序数据展示过于密集时，会将缩略轴组件与时间轴绑定以"控制时间的缩放"。
-- [滚动条](../../option/sequenceChart#scrollbar): 当并行的事件序列过多，即 y 方向分类过多时，可以通过配置滚动条以“控制 [dot 系列](../../option/sequenceChart#series-dot)和[link 系列](../../option/sequenceChart#series-link)的上下滚动”。
+- [时间轴](../../../option/sequenceChart#axes-time): 所有系列共用的 x 轴，也是时序数据与图元属性映射的介质。
+- [缩略轴](../../../option/sequenceChart#dataZoom): 在时序数据展示过于密集时，会将缩略轴组件与时间轴绑定以"控制时间的缩放"。
+- [滚动条](../../../option/sequenceChart#scrollbar): 当并行的事件序列过多，即 y 方向分类过多时，可以通过配置滚动条以“控制 [dot 系列](../../../option/sequenceChart#series-dot)和[link 系列](../../../option/sequenceChart#series-link)的上下滚动”。
 
 ## 快速上手
 
