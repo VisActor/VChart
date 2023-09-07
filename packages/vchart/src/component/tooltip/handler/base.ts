@@ -259,7 +259,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     let tooltipVisible = pattern?.visible !== false;
     if (
       !data ||
-      event.type === 'mouseout' ||
+      event.type === 'pointerout' ||
       !actualTooltip.visible ||
       (!actualTooltip.title && !actualTooltip.content)
     ) {
