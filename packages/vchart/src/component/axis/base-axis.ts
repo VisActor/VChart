@@ -26,13 +26,13 @@ import {
 } from '../../util';
 import type { ISeries } from '../../series/interface';
 import { ChartEvent } from '../../constant';
-import type { Group } from '../../series/base/group';
 import { animationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { degreeToRadian, pickWithout, type LooseFunction } from '@visactor/vutils';
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
+import type { IGroup as ISeriesGroup } from '../../typings';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -262,7 +262,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected initScales() {
     this._scales = [this._scale];
-    const groups: Group[] = [];
+    const groups: ISeriesGroup[] = [];
     eachSeries(
       this._regions,
       s => {

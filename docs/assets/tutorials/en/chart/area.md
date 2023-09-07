@@ -1,16 +1,16 @@
 # Area Chart
 
-[\[Configuration Manual\]](../../../option/areaChart)
+[\[Configuration Manual\]](../../option/areaChart)
 
 ## Introduction
 
 Area charts visually display quantitative data. It is based on line charts. Areas between the axis and the line are often emphasized with colors, textures, and shading lines. Typically, an area chart compares two or more quantities. Area charts are suitable for illustrating the trend changes of one or more groups of data under continuous independent variables, as well as comparing them with each other, while also being able to observe the changing trend of the total data.
 
-In VChart, you can use the [area chart configuration](../../../option/areaChart) to display the changing trends of both data components and total data simultaneously. As shown below, this example shows the trend of sales of different cosmetics:
+In VChart, you can use the [area chart configuration](../../option/areaChart) to display the changing trends of both data components and total data simultaneously. As shown below, this example shows the trend of sales of different cosmetics:
 
 ![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523219.png)
 
-In the [area chart example](../../../demo/area-chart/stacked-area) shown above, you need to use the following key configurations:
+In the [area chart example](../../demo/area-chart/stacked-area) shown above, you need to use the following key configurations:
 
 - `seriesField` attribute is used to declare the field participating in color mapping
 - `stack` attribute is declared as true for configuring stacking, which will be stacked according to the field declared in the `seriesField` attribute
@@ -29,9 +29,9 @@ Point elements and line elements are essential for area charts, and relevant dra
 
 Axes, tooltips, and other auxiliary chart display components are optional configurations with default effects and functionalities:
 
-- `areaChart.axes`: Axis components, automatically displayed and inferred according to chart type with coordinate system and data mapping logic, for detailed configuration see [VChart Axis Component Configuration](../../../option/areaChart#axes)
-- `areaChart.tooltip`: Tooltip information, displayed interactively by default, for detailed configuration see [VChart Tooltip Configuration](../../../option/areaChart#tooltip)
-- For more component configurations see [VChart areaChart configuration](../../../option/areaChart)
+- `areaChart.axes`: Axis components, automatically displayed and inferred according to chart type with coordinate system and data mapping logic, for detailed configuration see [VChart Axis Component Configuration](../../option/areaChart#axes)
+- `areaChart.tooltip`: Tooltip information, displayed interactively by default, for detailed configuration see [VChart Tooltip Configuration](../../option/areaChart#tooltip)
+- For more component configurations see [VChart areaChart configuration](../../option/areaChart)
 
 ## Quick Start
 

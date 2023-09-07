@@ -72,10 +72,7 @@ export function transformAxisLabelStateStyle(stateStyle: any) {
 }
 
 export function transformToGraphic(style: any) {
-  if (isEmpty(style)) {
-    return style;
-  }
-  if (style.angle) {
+  if (style?.angle) {
     style.angle = degreeToRadian(style.angle);
   }
 

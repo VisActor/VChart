@@ -1,10 +1,10 @@
 # 如何在项目中引用 VChart
 
-在[如何获取 VChart](./How_to_Get_VChart)章节中我们介绍了获取 VChart 的方式，本章节会一一介绍这些获取方式下如何引用 VChart。
+在[如何获取 VChart](./how-to-get-vchart)章节中我们介绍了获取 VChart 的方式，本章节会一一介绍这些获取方式下如何引用 VChart。
 
 ## cdn 使用
 
-我们从 [cdn](./How_to_Get_VChart#cdn-获取) 获取到 VChart 文件后，就可以将其添加到 HTML 文件的 `<script>` 标签中：
+我们从 [cdn](./how-to-get-vchart#cdn-获取) 获取到 VChart 文件后，就可以将其添加到 HTML 文件的 `<script>` 标签中：
 
 ```html
 <body>
@@ -65,7 +65,7 @@
 
 ## npm 使用
 
-我们通过 [npm](./How_to_Get_VChart#npm-获取) 的方式将 `@visactor/vchart` 安装到项目之后，就可以通过如下方式进行使用了：
+我们通过 [npm](./how-to-get-vchart#npm-获取) 的方式将 `@visactor/vchart` 安装到项目之后，就可以通过如下方式进行使用了：
 
 ```ts
 import { default as VChart } from '@visactor/vchart';

@@ -1,6 +1,6 @@
 # Range Column Chart
 
-[\[Configuration Manual\]](../../../option/rangeColumnChart)
+[\[Configuration Manual\]](../../option/rangeColumnChart)
 
 ## Introduction
 
@@ -24,9 +24,9 @@ Rectangular chart elements are essential for range column charts, and related dr
 
 Axes, tooltips, and other components that assist in chart display are optional configurations with default effects and features:
 
-- `rangeColumnChart.axes`: Axis component, the default display automatically infers the coordinate system and data mapping logic according to the chart type, detailed configuration can be found in [VChart Axis Component Configuration](../../../option/rangeColumnChart#axes)
-- `rangeColumnChart.tooltip`: Tooltip, default interactive display, detailed configuration can be found in [VChart Tooltip Component Configuration](../../../option/rangeColumnChart#tooltip)
-- More component configurations can be found in [VChart rangeColumnChart Configuration](../../../option/rangeColumnChart)
+- `rangeColumnChart.axes`: Axis component, the default display automatically infers the coordinate system and data mapping logic according to the chart type, detailed configuration can be found in [VChart Axis Component Configuration](../../option/rangeColumnChart#axes)
+- `rangeColumnChart.tooltip`: Tooltip, default interactive display, detailed configuration can be found in [VChart Tooltip Component Configuration](../../option/rangeColumnChart#tooltip)
+- More component configurations can be found in [VChart rangeColumnChart Configuration](../../option/rangeColumnChart)
 
 ### Quick Start
 

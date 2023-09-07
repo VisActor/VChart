@@ -1,11 +1,11 @@
 {
   "changes": [
     {
-      "comment": "feat: upgrade vdataset for clone source data when call updateData\n\n",
+      "comment": "perf: optimize the performance of dimension-statistics\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
   ],
   "packageName": "@visactor/vchart",
-  "email": "lixuef1313@163.com"
+  "email": "dingling112@gmail.com"
 }

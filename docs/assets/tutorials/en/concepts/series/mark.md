@@ -260,7 +260,7 @@ vchart.renderAsync();
 
 ## Gradient configuration
 
-The graphic elements of the chart can be configured with gradient colors, [column graph](../../../../demo/gradient/bar), [line graph](../../../.. /demo/gradient/line), [area](../../../../demo/gradient/bar), [bubble](../../../../demo /gradient/bar) etc. can be used.
+The graphic elements of the chart can be configured with gradient colors, [column graph](../../../demo/gradient/bar), [line graph](../../../.. /demo/gradient/line), [area](../../../demo/gradient/bar), [bubble](../../../../demo /gradient/bar) etc. can be used.
 
 ### The basic concept and configuration interface of gradient color
 
@@ -490,7 +490,7 @@ In the schematic diagram below, 4 stops are set, and the color of the entire col
   <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/tutorials/linear-gradient.png" alt="线的渐变坐标">
 </div>
 
-Based on stop we can make a specific [gradient color chart](../../../../demo/gradient/enhancement-gradient-line)
+Based on stop we can make a specific [gradient color chart](../../../demo/gradient/enhancement-gradient-line)
 
 This particular gradient color chart expects the portion of the line above 60 points to be green and the portion below 60 points to be red. We can find a way to make a specific set of stops to achieve
 
@@ -515,4 +515,4 @@ const mid = 60; // the data value you want to use as the dividing point
 const percent = (max - mid) / (max - min);
 ```
 
-The complete configuration can be viewed in [diagram example](../../../../demo/gradient/enhancement-gradient-line)
+The complete configuration can be viewed in [diagram example](../../../demo/gradient/enhancement-gradient-line)

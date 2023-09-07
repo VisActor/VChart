@@ -43,8 +43,8 @@ The `mode` value for Feishu Widgets, Feishu Mini Programs and Byte Mini Programs
 
 For specific usage, please refer to the respective tutorials:
 
-- [Feishu Widgets](./block)
-- [Feishu Mini Programs](./lark)
-- [Byte Mini Programs](./tt)
+- [Feishu Widgets](./miniapp-block)
+- [Feishu Mini Programs](./miniapp-lark)
+- [Byte Mini Programs](./miniapp-tt)
 
 In addition, other mini-programs, such as WeChat Mini Programs, are also in our compatibility plan and will be available soon.

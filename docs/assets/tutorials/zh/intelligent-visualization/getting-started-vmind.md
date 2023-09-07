@@ -18,7 +18,7 @@ npm install @visactor/vmind
 yarn add @visactor/vmind
 ```
 
-VMind 需要配合 VChart 一起使用。为了进行图表绘制，你还需要在项目中引入 VChart。具体教程详见 [快速上手](http://www.visactor.io/vchart/guide/tutorial_docs/Getting_Started)
+VMind 需要配合 VChart 一起使用。为了进行图表绘制，你还需要在项目中引入 VChart。具体教程详见 [快速上手](../getting-started)
 
 ## 引入 VMind
 

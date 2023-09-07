@@ -14,7 +14,7 @@ import { normalizeLayoutPaddingSpec } from '../space';
  * @returns
  */
 export function preprocessSpecOrTheme(
-  type: 'spec' | 'theme' | 'markSpec',
+  type: 'spec' | 'theme' | 'mark-spec' | 'mark-theme',
   obj: any,
   colorScheme?: IThemeColorScheme,
   seriesType?: SeriesTypeEnum
@@ -47,16 +47,16 @@ export function preprocessSpecOrTheme(
         newObj[key] = getActualColor(value, colorScheme, seriesType);
       } else {
         newObj[key] = preprocessSpecOrTheme(
-          seriesMarkNameSet.has(key) ? 'markSpec' : type,
+          seriesMarkNameSet.has(key) ? (type.includes('spec') ? 'mark-spec' : 'mark-theme') : type,
           value,
           colorScheme,
           seriesType
         );
       }
-    } else if (type !== 'markSpec' && key === 'padding') {
+    } else if (!type.includes('mark') && key === 'padding') {
       // 标准化 padding
       newObj[key] = normalizeLayoutPaddingSpec(value);
-    } else if (type !== 'theme' && key === 'lineHeight' && isString(value) && value[value.length - 1] === '%') {
+    } else if (!type.includes('theme') && key === 'lineHeight' && isString(value) && value[value.length - 1] === '%') {
       if (isValid(obj.fontSize)) {
         // 处理 lineHeight 的比例值
         // FIXME: vrender 支持行高字符串后删掉这段逻辑

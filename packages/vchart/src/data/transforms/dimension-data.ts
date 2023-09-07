@@ -28,22 +28,29 @@ function groups(data: Datum[], fields: string[], dimensionValues: object): any {
   const first = fields[0];
   const _rest = fields.slice(1);
   dimensionValues[first] = new Set();
-  return mapValues(groupBy(data, first, dimensionValues[first]), (value, key) => {
-    return groups(value, _rest, dimensionValues);
-  });
+
+  const grouped = groupBy(data, first, dimensionValues[first]);
+  if (_rest.length) {
+    return mapValues(grouped, (value, key) => {
+      return groups(value, _rest, dimensionValues);
+    });
+  }
+
+  return grouped;
 }
 
 function groupBy(data: Datum[], field: string, set: Set<string>) {
-  const groups = new Map();
+  const groups = {};
+
   data.forEach(d => {
     const key = d[field];
-    if (!groups.has(key)) {
-      groups.set(key, []);
+    if (!groups[key]) {
+      groups[key] = [];
       set.add(key);
     }
-    groups.get(key).push(d);
+    groups[key].push(d);
   });
-  return Object.fromEntries(groups);
+  return groups;
 }
 
 export function mapValues(target: object, fn: (value: any, key: string) => any) {

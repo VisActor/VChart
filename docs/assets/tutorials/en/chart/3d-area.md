@@ -21,9 +21,9 @@ Point elements and line elements are the basic components of an area chart, and 
 
 Axes, tooltips, and other components that assist in chart display are optional configurations with default effects and functions:
 
-- `areaChart.axes`: Axis component, default is to display and automatically infer the coordinate system and data mapping logic according to the chart type. For detailed configuration, see [VChart Axis Component Configuration](../../../option/areaChart#axes)
-- `areaChart.tooltip`: Tooltip, default is displayed during interaction. For detailed configuration, see [VChart Tooltip Component Configuration](../../../option/areaChart#tooltip)
-- For more component configurations, see [VChart areaChart Configuration](../../../option/areaChart)
+- `areaChart.axes`: Axis component, default is to display and automatically infer the coordinate system and data mapping logic according to the chart type. For detailed configuration, see [VChart Axis Component Configuration](../../option/areaChart#axes)
+- `areaChart.tooltip`: Tooltip, default is displayed during interaction. For detailed configuration, see [VChart Tooltip Component Configuration](../../option/areaChart#tooltip)
+- For more component configurations, see [VChart areaChart Configuration](../../option/areaChart)
 
 As a 3d chart, the 3d area chart requires enabling the 3d view. Configure the 3d view in the vChart initialization parameters:
 

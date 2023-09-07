@@ -2,6 +2,44 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.3.1",
+      "tag": "@visactor/vchart_v1.3.1",
+      "date": "Tue, 05 Sep 2023 11:24:47 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: `lineHeight` supports string proportional values, related #744"
+          },
+          {
+            "comment": "fix: move \\'SeriesMarkNameEnum\\' to single file, solve the issue of codesandbox can not work, it looks like an error in the Codesandbox' bundler, see https://github.com/codesandbox/codesandbox-client/issues/6435"
+          },
+          {
+            "comment": "feat: upgrade vdataset for clone source data when call updateData\n\n"
+          },
+          {
+            "comment": "fix: fix sortDataByAxis not work after updateData\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of legend does not update after updateData, fix #769"
+          },
+          {
+            "comment": "fix: fix the issue of legend's maxHeight not work"
+          },
+          {
+            "comment": "fix: the issue of pie chart with null value, fixed https://github.com/VisActor/VChart/issues/748"
+          },
+          {
+            "comment": "fix: fix the problem that the pie chart draws a full circle when the data is all 0, because the endAngle of the last piece of data is forced to configure the endAngle of polar coordinates"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix: fix the issue of `seriesIndex` not work in discrete legend, see #732 "
+          }
+        ]
+      }
+    },
+    {
       "version": "1.3.0",
       "tag": "@visactor/vchart_v1.3.0",
       "date": "Thu, 31 Aug 2023 12:30:59 GMT",
