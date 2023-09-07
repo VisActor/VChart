@@ -687,7 +687,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
           items: items[0],
           verticalFactor: this._axisStyle.verticalFactor,
           depth: depthZ,
-          length: regionHeight
+          length: regionHeight,
+          z: z,
+          alpha,
+          anchor3d
         };
       }
       return axisAttrs;
