@@ -1236,7 +1236,3 @@ window['vchart'] = vchart;
 ## Related Tutorials
 
 Attach links to tutorials or API documentation associated with this demo configuration.
-
-```
-
-```

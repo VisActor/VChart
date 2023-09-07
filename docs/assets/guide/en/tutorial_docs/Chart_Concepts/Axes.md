@@ -82,6 +82,313 @@ axes: [
 ];
 ```
 
+## Axis range configuration
+
+For linear axes (type: 'linear'/'time'/'log'/'symlog'), we provide the following properties for configuring the data range of the axes:
+
+- `min`: configure the minimum value of the value axis, the priority is higher than `zero`, `nice`.
+- `max`: Configure the maximum value of the value axis, the priority is higher than `zero`, `nice`.
+- `nice`: Whether to adjust the axis range to a relatively regular value based on the data. For example, when max = 999 is configured, nice will not optimize the axis range. When min and max are configured, this configuration item becomes invalid. to 1000.
+- `niceType`: Configure the type of nice effect, whether accuracy is priority or tickCount is priority (for example, if tickCount is 2, the accuracy of nice will be very low). If not configured, the default is tickCountFirst.
+- `zero`: Whether to include 0 values. When min and max are configured, this configuration item becomes invalid.
+- `expand`: The axis range is expanded proportionally, such as `expand: { min: 0.1, max: 0.1 }` When min and max are configured, this configuration item is invalid.
+
+```ts
+axes: [
+  {
+    orient: 'left',
+    min: 100,
+    max: 400
+  }
+];
+```
+
+For discrete axes (type: 'band'), we provide the following properties to configure the data range of the axis:
+
+- `domain`: Configure the value range of the discrete axes.
+
+```ts
+axes: [
+  {
+    orient: 'bottom',
+    domain: ['x', 'y', 'z']
+  }
+];
+```
+
+## axis tick configuration
+
+The following configuration is provided on the axis `tick` attribute to control the display spacing, number, etc. of ticks.
+
+- `tickStep` tick step size.
+- `tickCount` is the recommended number of ticks and does not guarantee that the result will be the configured value.
+- `forceTickCount` forces the number of ticks to be set to ensure that the number of ticks matches the set value, but the tick value may be a decimal due to the data range.
+- `tickMode` continuous axis tick generation algorithm, supported since `1.3.0` version, only takes effect when the axis is a linear axis.
+- `noDecimals` Whether to avoid decimal ticks, supported since version `1.3.0`, only takes effect when the axis is a linear axis.
+
+```ts
+axes: [
+  {
+    orient: 'left',
+    tick: {
+      tickCount: 5
+    }
+  }
+];
+```
+
+## Axis label layout configuration
+
+### Axis sampling `label.sampling`
+
+By default, the axis labels enable the anti-overlapping label sampling capability, which is controlled by the `label.sampling` attribute of the axis in the corresponding direction on the `axes` attribute. The following figure shows the default display results when there are too many texts:
+
+```javascript livedemo
+const spec = {
+  type: 'bar',
+
+  xField: 'x',
+  yField: 'y',
+  axes: [
+    {
+      orient: 'bottom',
+      sampling: false,
+      label: {
+        autoRotate: true,
+        autoHide: true
+      }
+    }
+  ],
+  data: [
+    {
+      id: 'event_analysis_stack',
+      values: [
+        { x: '0', y: 28, c: 0 },
+        { x: 0.5, y: 20, c: 1 },
+        { x: 1, y: 43, c: 0 },
+        { x: 1.5, y: 35, c: 1 },
+        { x: 2, y: 81, c: 0 },
+        { x: 2.5, y: 10, c: 1 },
+        { x: 3, y: 19, c: 0 },
+        { x: 3.5, y: 15, c: 1 },
+        { x: 4, y: 52, c: 0 },
+        { x: 4.5, y: 48, c: 1 },
+        { x: 5, y: 24, c: 0 },
+        { x: 5.5, y: 28, c: 1 },
+        { x: 6, y: 87, c: 0 },
+        { x: 6.5, y: 66, c: 1 },
+        { x: 7, y: 17, c: 0 },
+        { x: 7.5, y: 27, c: 1 },
+        { x: 8, y: 68, c: 0 },
+        { x: 8.5, y: 16, c: 1 },
+        { x: 9, y: 49, c: 0 },
+        { x: 9.5, y: 25, c: 1 },
+        { x: 10, y: 28, c: 0 },
+        { x: 10.5, y: 20, c: 1 },
+        { x: 11, y: 43, c: 0 },
+        { x: 11.5, y: 35, c: 1 },
+        { x: 12, y: 81, c: 0 },
+        { x: 12.5, y: 10, c: 1 },
+        { x: 13, y: 19, c: 0 },
+        { x: 13.5, y: 15, c: 1 },
+        { x: 14, y: 52, c: 0 },
+        { x: 14.5, y: 48, c: 1 },
+        { x: 15, y: 24, c: 0 },
+        { x: 15.5, y: 28, c: 1 },
+        { x: 16, y: 87, c: 0 },
+        { x: 16.5, y: 66, c: 1 },
+        { x: 17, y: 17, c: 0 },
+        { x: 17.5, y: 27, c: 1 },
+        { x: 18, y: 68, c: 0 },
+        { x: 18.5, y: 16, c: 1 },
+        { x: 19, y: 49, c: 0 },
+        { x: 19.5, y: 25, c: 1 },
+        { x: 20, y: 28, c: 0 },
+        { x: 20.5, y: 20, c: 1 },
+        { x: 21, y: 43, c: 0 },
+        { x: 21.5, y: 35, c: 1 },
+        { x: 22, y: 81, c: 0 },
+        { x: 22.5, y: 10, c: 1 },
+        { x: 23, y: 19, c: 0 },
+        { x: 23.5, y: 15, c: 1 },
+        { x: 24, y: 52, c: 0 },
+        { x: 24.5, y: 48, c: 1 },
+        { x: 25, y: 24, c: 0 },
+        { x: 25.5, y: 28, c: 1 },
+        { x: 26, y: 87, c: 0 },
+        { x: 26.5, y: 66, c: 1 },
+        { x: 27, y: 17, c: 0 },
+        { x: 27.5, y: 27, c: 1 },
+        { x: 28, y: 68, c: 0 },
+        { x: 28.5, y: 16, c: 1 },
+        { x: 29, y: 49, c: 0 },
+        { x: 29.5, y: 25, c: 1 },
+        { x: 30, y: 28, c: 0 },
+        { x: 30.5, y: 20, c: 1 },
+        { x: 31, y: 43, c: 0 },
+        { x: 31.5, y: 35, c: 1 },
+        { x: 32, y: 81, c: 0 },
+        { x: 32.5, y: 10, c: 1 },
+        { x: 33, y: 19, c: 0 },
+        { x: 33.5, y: 15, c: 1 },
+        { x: 34, y: 52, c: 0 },
+        { x: 34.5, y: 48, c: 1 },
+        { x: 35, y: 24, c: 0 },
+        { x: 35.5, y: 28, c: 1 },
+        { x: 36, y: 87, c: 0 },
+        { x: 36.5, y: 66, c: 1 },
+        { x: 37, y: 17, c: 0 },
+        { x: 37.5, y: 27, c: 1 },
+        { x: 38, y: 68, c: 0 },
+        { x: 38.5, y: 16, c: 1 },
+        { x: 39, y: 49, c: 0 },
+        { x: 39.5, y: 25, c: 1 }
+      ]
+    }
+  ]
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
+
+We can configure the spacing between labels via `label.minGap`.
+
+### Label layout for the axis component
+
+The axis component itself also provides some layout strategies for axis labels, including:
+
+- `autoHide` automatically hides
+- `autoRotate` auto-rotate
+- `autoLimit` is automatically omitted
+
+These are all turned off by default. By default, we use the axis sampling layout strategy to prevent overlapping of axis labels, because the axis sampling algorithm performs sampling at the data level, and then draws the coordinate axis components, which has better performance in comparison. So when you need to use the label layout strategy of the axis component, you need to manually enable it.
+
+The following figure shows the effect of configuring `autoHide` and `autoRotate` on the x-axis label after turning off the axis sampling:
+
+```javascript livedemo
+const spec = {
+  type: 'bar',
+
+  xField: 'x',
+  yField: 'y',
+  axes: [
+    {
+      orient: 'bottom',
+      sampling: false,
+      label: {
+        autoRotate: true,
+        autoHide: true
+      }
+    }
+  ],
+  data: [
+    {
+      id: 'event_analysis_stack',
+      values: [
+        { x: '0', y: 28, c: 0 },
+        { x: 0.5, y: 20, c: 1 },
+        { x: 1, y: 43, c: 0 },
+        { x: 1.5, y: 35, c: 1 },
+        { x: 2, y: 81, c: 0 },
+        { x: 2.5, y: 10, c: 1 },
+        { x: 3, y: 19, c: 0 },
+        { x: 3.5, y: 15, c: 1 },
+        { x: 4, y: 52, c: 0 },
+        { x: 4.5, y: 48, c: 1 },
+        { x: 5, y: 24, c: 0 },
+        { x: 5.5, y: 28, c: 1 },
+        { x: 6, y: 87, c: 0 },
+        { x: 6.5, y: 66, c: 1 },
+        { x: 7, y: 17, c: 0 },
+        { x: 7.5, y: 27, c: 1 },
+        { x: 8, y: 68, c: 0 },
+        { x: 8.5, y: 16, c: 1 },
+        { x: 9, y: 49, c: 0 },
+        { x: 9.5, y: 25, c: 1 },
+        { x: 10, y: 28, c: 0 },
+        { x: 10.5, y: 20, c: 1 },
+        { x: 11, y: 43, c: 0 },
+        { x: 11.5, y: 35, c: 1 },
+        { x: 12, y: 81, c: 0 },
+        { x: 12.5, y: 10, c: 1 },
+        { x: 13, y: 19, c: 0 },
+        { x: 13.5, y: 15, c: 1 },
+        { x: 14, y: 52, c: 0 },
+        { x: 14.5, y: 48, c: 1 },
+        { x: 15, y: 24, c: 0 },
+        { x: 15.5, y: 28, c: 1 },
+        { x: 16, y: 87, c: 0 },
+        { x: 16.5, y: 66, c: 1 },
+        { x: 17, y: 17, c: 0 },
+        { x: 17.5, y: 27, c: 1 },
+        { x: 18, y: 68, c: 0 },
+        { x: 18.5, y: 16, c: 1 },
+        { x: 19, y: 49, c: 0 },
+        { x: 19.5, y: 25, c: 1 },
+        { x: 20, y: 28, c: 0 },
+        { x: 20.5, y: 20, c: 1 },
+        { x: 21, y: 43, c: 0 },
+        { x: 21.5, y: 35, c: 1 },
+        { x: 22, y: 81, c: 0 },
+        { x: 22.5, y: 10, c: 1 },
+        { x: 23, y: 19, c: 0 },
+        { x: 23.5, y: 15, c: 1 },
+        { x: 24, y: 52, c: 0 },
+        { x: 24.5, y: 48, c: 1 },
+        { x: 25, y: 24, c: 0 },
+        { x: 25.5, y: 28, c: 1 },
+        { x: 26, y: 87, c: 0 },
+        { x: 26.5, y: 66, c: 1 },
+        { x: 27, y: 17, c: 0 },
+        { x: 27.5, y: 27, c: 1 },
+        { x: 28, y: 68, c: 0 },
+        { x: 28.5, y: 16, c: 1 },
+        { x: 29, y: 49, c: 0 },
+        { x: 29.5, y: 25, c: 1 },
+        { x: 30, y: 28, c: 0 },
+        { x: 30.5, y: 20, c: 1 },
+        { x: 31, y: 43, c: 0 },
+        { x: 31.5, y: 35, c: 1 },
+        { x: 32, y: 81, c: 0 },
+        { x: 32.5, y: 10, c: 1 },
+        { x: 33, y: 19, c: 0 },
+        { x: 33.5, y: 15, c: 1 },
+        { x: 34, y: 52, c: 0 },
+        { x: 34.5, y: 48, c: 1 },
+        { x: 35, y: 24, c: 0 },
+        { x: 35.5, y: 28, c: 1 },
+        { x: 36, y: 87, c: 0 },
+        { x: 36.5, y: 66, c: 1 },
+        { x: 37, y: 17, c: 0 },
+        { x: 37.5, y: 27, c: 1 },
+        { x: 38, y: 68, c: 0 },
+        { x: 38.5, y: 16, c: 1 },
+        { x: 39, y: 49, c: 0 },
+        { x: 39.5, y: 25, c: 1 }
+      ]
+    }
+  ]
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
+
+We also provide other demos on axis label layout:
+
+- [Turn off axis label sampling & dataFilter](../../examples/axis/disable-sampling)
+- [The first and last text of the coordinate axis shrink inwards](../../examples/axis/flush)
+- [Axis text auto-hide](../../examples/axis/axis-label-autoHide)
+- [Axis Text Auto Rotate](../../examples/axis/axis-label-autoRotate)
+- [Axis text is automatically omitted](../../examples/axis/axis-label-autoLimit)
+
 ## Drawing multiple axes
 
 In some cases, multiple axes may need to be drawn in the chart. We only need to add the axis configuration to the `axes` property as needed.
@@ -145,7 +452,174 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 ```
 
+### Multi-axis synchronization
+
+We provide `sync` configuration for multiple axes, which can be used to configure 0 value alignment or tick proportional alignment of multiple axes.
+
+```ts
+export interface ILinearAxisSync {
+  /**
+   * 配置参照的轴 id
+   */
+  axisId: StringOrNumber;
+  /**
+   * 是否保持 2 个轴的 0 值对齐
+   * @default false
+   */
+  zeroAlign?: boolean;
+  /**
+   * 是否使这个轴的 tick 与目标轴保持比例对齐
+   * @default false
+   */
+  tickAlign?: boolean;
+}
+```
+
+#### 0 value alignment for 2 axes
+
+```javascript livedemo
+const spec = {
+  type: 'common',
+  seriesField: 'color',
+  data: [
+    {
+      id: 'id0',
+      values: [
+        { x: 'Monday', y: 15 },
+        { x: 'Tuesday', y: 12 },
+        { x: 'Wednesday', y: 15 },
+        { x: 'Thursday', y: 10 },
+        { x: 'Friday', y: 13 },
+        { x: 'Saturday', y: 10 },
+        { x: 'Sunday', y: 20 }
+      ]
+    },
+    {
+      id: 'id1',
+      values: [
+        { x: 'Monday', y: -52 },
+        { x: 'Tuesday', y: -43 },
+        { x: 'Wednesday', y: -33 },
+        { x: 'Thursday', y: -22 },
+        { x: 'Friday', y: -10 },
+        { x: 'Saturday', y: -30 },
+        { x: 'Sunday', y: -50 }
+      ]
+    }
+  ],
+  series: [
+    {
+      type: 'bar',
+      id: 'bar',
+      dataIndex: 0,
+      stack: false,
+      label: { visible: true },
+      xField: 'x',
+      yField: 'y'
+    },
+    {
+      type: 'line',
+      id: 'line',
+      dataIndex: 1,
+      label: { visible: true },
+      seriesField: 'type',
+      xField: 'x',
+      yField: 'y',
+      stack: false
+    }
+  ],
+  axes: [
+    { orient: 'left', seriesIndex: [0], id: 'axisLeft', nice: false, zero: false },
+    {
+      orient: 'right',
+      seriesId: ['line'],
+      gird: { visible: false },
+      nice: false,
+      zero: false,
+      sync: { axisId: 'axisLeft', zeroAlign: true }
+    },
+    { orient: 'bottom', label: { visible: true }, type: 'band' }
+  ]
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+```
+
+#### Keep the ticks of the two axes aligned proportionally
+
+```javascript livedemo
+const spec = {
+  type: 'common',
+  seriesField: 'color',
+  data: [
+    {
+      id: 'id0',
+      values: [
+        { x: 'Monday', y: 15 },
+        { x: 'Tuesday', y: 12 },
+        { x: 'Wednesday', y: 15 },
+        { x: 'Thursday', y: 10 },
+        { x: 'Friday', y: 13 },
+        { x: 'Saturday', y: 10 },
+        { x: 'Sunday', y: 20 }
+      ]
+    },
+    {
+      id: 'id1',
+      values: [
+        { x: 'Monday', y: -52 },
+        { x: 'Tuesday', y: -43 },
+        { x: 'Wednesday', y: -33 },
+        { x: 'Thursday', y: -22 },
+        { x: 'Friday', y: -10 },
+        { x: 'Saturday', y: -30 },
+        { x: 'Sunday', y: -50 }
+      ]
+    }
+  ],
+  series: [
+    {
+      type: 'bar',
+      id: 'bar',
+      dataIndex: 0,
+      stack: false,
+      label: { visible: true },
+      xField: 'x',
+      yField: 'y'
+    },
+    {
+      type: 'line',
+      id: 'line',
+      dataIndex: 1,
+      label: { visible: true },
+      seriesField: 'type',
+      xField: 'x',
+      yField: 'y',
+      stack: false
+    }
+  ],
+  axes: [
+    { orient: 'left', seriesIndex: [0], id: 'axisLeft', nice: false, zero: false },
+    {
+      orient: 'right',
+      seriesId: ['line'],
+      gird: { visible: false },
+      nice: false,
+      zero: false,
+      sync: { axisId: 'axisLeft', tickAlign: true }
+    },
+    { orient: 'bottom', label: { visible: true }, type: 'band' }
+  ]
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+```
+
 ## Examples
+
+For more examples, see: [Axis Example](https://www.visactor.io/vchart/example#axis)
 
 ### 0 Tick axis line configuration
 
