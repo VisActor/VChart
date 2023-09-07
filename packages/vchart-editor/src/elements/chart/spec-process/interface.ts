@@ -13,7 +13,7 @@ export interface ISpecProcess {
   updateEditorSpec: (spec: IEditorSpec) => void;
   // for each model
   updateTheme: (theme: ITheme) => void;
-  updateTemp: (temp: IChartTemp) => void;
+  updateTemp: (temp: string) => void;
   updateLayout: (layout: ILayoutData) => void;
 
   getVChartSpec: () => IChartSpec;

@@ -8,6 +8,7 @@ const spec = {
   // background: 'transparent',
   series: [
     {
+      id: 'bar-0',
       type: 'bar',
       xField: 'State',
       yField: 'Population',
@@ -27,10 +28,12 @@ const spec = {
   axes: [
     {
       orient: 'left',
+      id: 'axis-left',
       type: 'linear'
     },
     {
       orient: 'bottom',
+      id: 'axis-right',
       type: 'band'
     }
   ],
@@ -117,18 +120,21 @@ const spec = {
     }
   ],
   legends: {
+    id: 'legend-discrete',
     visible: true
   },
   region: [
     {
+      id: 'region-0',
       style: {
-        fill: 'red'
+        // fill: 'red'
       }
     }
   ]
 };
 
 export class BarTemp extends BaseTemp {
+  type = 'bar';
   checkDataEnable(data: StandardData, info: DataInfo, opt?: any): boolean {
     const xField: string[] = [];
     const yField: string[] = [];
