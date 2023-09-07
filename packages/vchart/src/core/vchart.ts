@@ -28,7 +28,8 @@ import {
   specTransform,
   convertPoint,
   preprocessSpecOrTheme,
-  mergeTheme
+  mergeTheme,
+  getThemeObject
 } from '../util';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -885,17 +886,42 @@ export class VChart implements IVChart {
   }
 
   // 主题相关方法
-  /** 当 spec 或者 currentThemeName 有变化时需要调用此方法对 currentTheme 进行更新 */
-  private _updateCurrentTheme(newTheme?: string | ITheme) {
-    const userTheme = newTheme ?? this._spec?.theme ?? this._option.theme;
-    if (isString(userTheme)) {
-      const theme = mergeTheme({}, ThemeManager.getTheme(userTheme));
-      this._currentTheme = preprocessSpecOrTheme('theme', theme, theme.colorScheme);
-      this._currentThemeName = userTheme;
+  /**
+   * 当 spec 或者 currentThemeName 有变化时需要调用此方法对 currentTheme 进行更新
+   * @param nextThemeName 通过 setCurrentTheme 方法新设的主题
+   */
+  private _updateCurrentTheme(nextThemeName?: string) {
+    let optionTheme: Maybe<string | ITheme> = this._option.theme;
+    let specTheme: Maybe<string | ITheme> = this._spec?.theme;
+
+    let finalTheme: ITheme;
+    if (ThemeManager.themeExist(nextThemeName)) {
+      // 优先级最低
+      const newTheme = ThemeManager.getTheme(nextThemeName);
+      // 优先级适中
+      optionTheme = !optionTheme || isString(optionTheme) ? {} : optionTheme;
+      // 优先级最高
+      specTheme = !specTheme || isString(specTheme) ? {} : specTheme;
+      // 合并
+      finalTheme = mergeTheme({}, newTheme, optionTheme, specTheme);
+      this._currentThemeName = nextThemeName;
     } else {
-      const theme = mergeTheme({}, ThemeManager.getTheme(this._currentThemeName), userTheme ?? {});
-      this._currentTheme = preprocessSpecOrTheme('theme', theme, theme.colorScheme);
+      if (isString(specTheme) && ThemeManager.themeExist(specTheme)) {
+        // 以 specTheme 为最底开始合并
+        finalTheme = mergeTheme({}, ThemeManager.getTheme(specTheme));
+        this._currentThemeName = specTheme;
+      } else if (isString(optionTheme) && ThemeManager.themeExist(optionTheme)) {
+        // 以 optionTheme 为最底开始合并
+        finalTheme = mergeTheme({}, ThemeManager.getTheme(optionTheme), getThemeObject(specTheme));
+        this._currentThemeName = optionTheme;
+      } else {
+        // 以 baseTheme 为最底开始合并
+        const baseTheme = getThemeObject(this._currentThemeName);
+        finalTheme = mergeTheme({}, baseTheme, getThemeObject(optionTheme), getThemeObject(specTheme));
+      }
     }
+
+    this._currentTheme = preprocessSpecOrTheme('theme', finalTheme, finalTheme.colorScheme);
     // 设置 poptip 的主题
     setPoptipTheme(preprocessSpecOrTheme('mark-theme', mergeSpec({}, this._currentTheme.component?.poptip)));
     // 设置背景色

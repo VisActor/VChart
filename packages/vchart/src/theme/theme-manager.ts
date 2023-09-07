@@ -2,6 +2,7 @@ import { defaultThemeName, getMergedTheme, themes } from './builtin';
 import type { ITheme } from './interface';
 import { InstanceManager } from '../core/instance-manager';
 import type { IVChart } from '../core/interface';
+import { isString } from '@visactor/vutils';
 
 export class ThemeManager {
   /** 主题字典 */
@@ -46,7 +47,10 @@ export class ThemeManager {
    * @param name 主题名称
    * @returns 是否存在
    */
-  static themeExist(name: string) {
+  static themeExist(name: any) {
+    if (!isString(name)) {
+      return false;
+    }
     return ThemeManager.themes.has(name);
   }
 
