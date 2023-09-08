@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: add `closePath` for line and area mark in polar coordinate, fixed #654",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
