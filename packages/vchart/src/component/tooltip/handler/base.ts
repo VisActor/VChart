@@ -96,7 +96,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
   protected _attributeCache?: TooltipAttributes | null = null;
 
-  protected _style: ITooltipStyle;
+  protected _style: Partial<ITooltipStyle>;
 
   // tooltip 容器
   protected _container!: Maybe<IGroup | HTMLElement>;
@@ -542,18 +542,12 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     };
   }
 
-  protected _getStyle(): ITooltipStyle {
+  protected _getStyle(): Partial<ITooltipStyle> {
     const tooltipSpec = this._component.getSpec();
     const { style = {}, enterable, transitionDuration } = tooltipSpec as ITooltipSpec;
 
-    const {
-      panel: { backgroundColor, border, shadow, padding },
-      titleLabel,
-      shape,
-      keyLabel,
-      valueLabel,
-      spaceRow
-    } = style;
+    const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow } = style;
+    const { backgroundColor, border, shadow, padding } = panel;
 
     // tooltip background style
     const panelStyle: ITooltipPanelStyle = {

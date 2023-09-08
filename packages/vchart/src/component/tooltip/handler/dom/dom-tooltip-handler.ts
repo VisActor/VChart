@@ -15,7 +15,7 @@ import { domDocument } from '../../../../util/env';
 export class DomTooltipHandler extends BaseTooltipHandler {
   type = TooltipHandlerType.dom;
 
-  protected _tooltipContainer: HTMLElement = domDocument?.body;
+  protected _tooltipContainer = domDocument?.body;
   protected _domStyle: IDomTooltipStyle;
   protected _tooltipActual?: IToolTipActual;
   protected declare _container: Maybe<HTMLDivElement>;
