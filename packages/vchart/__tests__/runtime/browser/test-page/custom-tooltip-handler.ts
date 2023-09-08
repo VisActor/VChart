@@ -127,10 +127,7 @@ const run = () => {
     data: [
       {
         id: 'tooltipData',
-        values: [
-          { type: 'rail', value: 31.8, month: 'January' },
-          { type: 'highway', value: 39.2, month: 'January' }
-        ],
+        values: [],
         fields: dataFields
       }
     ],
