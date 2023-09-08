@@ -104,7 +104,8 @@ export class LineLikeSeriesMixin {
           lineMark,
           {
             lineJoin: DEFAULT_CLOSE_STROKE_JOIN,
-            curveType: DEFAULT_LINEAR_CLOSED_INTERPOLATE
+            curveType: DEFAULT_LINEAR_CLOSED_INTERPOLATE,
+            closePath: true
           },
           'normal',
           AttributeLevel.Series

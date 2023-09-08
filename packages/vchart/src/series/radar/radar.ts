@@ -110,7 +110,8 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
             return value;
           },
           fill: this.getColorAttribute(),
-          curveType: DEFAULT_LINEAR_CLOSED_INTERPOLATE
+          curveType: DEFAULT_LINEAR_CLOSED_INTERPOLATE,
+          closePath: true
         },
         'normal',
         AttributeLevel.Series
