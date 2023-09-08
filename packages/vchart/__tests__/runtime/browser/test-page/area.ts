@@ -59,8 +59,16 @@ const getSpec = (): IAreaChartSpec => ({
     yField: { visible: true, label: { visible: true } }
   },
   axes: [
-    { type: 'band', orient: 'bottom', title: { visible: true } },
-    { type: 'linear', orient: 'left', title: { visible: true } }
+    {
+      orient: 'bottom',
+      type: 'band',
+      bandSize: 100
+    },
+    { orient: 'left', type: 'linear' }
+  ],
+  scrollBar: [
+    { orient: 'bottom', start: 0, filterMode: 'axis', axisIndex: 0, auto: true }
+    // { orient: 'bottom', start: 0, end: 0.5, roam: true, filterMode: 'axis' }
   ]
 });
 
@@ -68,8 +76,8 @@ const run = () => {
   // VChart.ThemeManager.setCurrentTheme('dark');
   const cs = new VChart(getSpec(), {
     dom: document.getElementById('chart') as HTMLElement,
-    mode: isMobile ? 'mobile-browser' : 'desktop-browser',
-    theme: 'dark'
+    mode: isMobile ? 'mobile-browser' : 'desktop-browser'
+    //theme: 'dark'
   });
   console.time('renderTime');
 

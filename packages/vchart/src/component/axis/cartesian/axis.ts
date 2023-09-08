@@ -291,7 +291,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return [f[0]];
   }
 
-  protected _initData() {
+  protected _initTickData(sampling: boolean) {
     registerDataSetInstanceParser(this._option.dataSet, 'scale', scaleParser);
     registerDataSetInstanceTransform(this._option.dataSet, 'ticks', ticks);
 
@@ -305,7 +305,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         {
           type: 'ticks',
           options: {
-            sampling: this._spec.sampling !== false, // default do sampling
+            sampling,
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,
@@ -328,6 +328,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     tickData.target.addListener('change', this._forceLayout.bind(this));
 
     this._tickData = new CompilableData(this._option, tickData);
+  }
+
+  protected _initData() {
+    this._initTickData(this._spec.sampling !== false); // default do sampling
   }
 
   protected axisHelper(): IAxisHelper {
@@ -534,7 +538,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
    * @param rect
    * @returns
    */
-  boundsInRect(rect: ILayoutRect): IBoundsLike {
+  _boundsInRect(rect: ILayoutRect): IBoundsLike {
     let result: IBoundsLike = { x1: 0, y1: 0, x2: 0, y2: 0 };
     if (!this._visible) {
       return result;

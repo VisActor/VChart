@@ -99,7 +99,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
    * @param rect
    * @returns
    */
-  boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
+  _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
     this._width = this._computeWidth(rect);
     this._height = this._computeHeight(rect);
     this._dx = this._computeDx(fullSpace);
