@@ -16,9 +16,9 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.3.1
-      '@visactor/vgrammar': ~0.6.6
-      '@visactor/vrender': ~0.14.7
-      '@visactor/vutils': ~0.15.10
+      '@visactor/vgrammar': 0.7.0-alpha.2
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vutils': ~0.15.11
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
       canvas: 2.11.2
@@ -40,9 +40,9 @@ importers:
     dependencies:
       '@arco-design/web-react': 2.46.1_vnxzf5c44dqo4vncfl2mrh2gwm
       '@visactor/vchart': link:../packages/vchart
-      '@visactor/vgrammar': 0.6.6
-      '@visactor/vrender': 0.14.7
-      '@visactor/vutils': 0.15.10
+      '@visactor/vgrammar': 0.7.0-alpha.2
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vutils': 0.15.11
       axios: 1.5.0
       highlight.js: 11.8.0
       markdown-it: 13.0.1
@@ -118,9 +118,9 @@ importers:
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.3.1
-      '@visactor/vgrammar': ~0.6.6
-      '@visactor/vrender': ~0.14.7
-      '@visactor/vutils': ~0.15.10
+      '@visactor/vgrammar': 0.7.0-alpha.2
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vutils': ~0.15.11
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
       eslint-config-prettier: 8.5.0
@@ -139,9 +139,9 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vgrammar': 0.6.6
-      '@visactor/vrender': 0.14.7
-      '@visactor/vutils': 0.15.10
+      '@visactor/vgrammar': 0.7.0-alpha.2
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vutils': 0.15.11
       react-is: 18.2.0
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
@@ -271,18 +271,18 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vdataset': ~0.15.10
-      '@visactor/vgrammar': ~0.6.6
-      '@visactor/vgrammar-hierarchy': ~0.6.6
-      '@visactor/vgrammar-projection': ~0.6.6
-      '@visactor/vgrammar-sankey': ~0.6.6
-      '@visactor/vgrammar-util': ~0.6.6
-      '@visactor/vgrammar-wordcloud': ~0.6.6
-      '@visactor/vgrammar-wordcloud-shape': ~0.6.6
-      '@visactor/vrender': ~0.14.7
-      '@visactor/vrender-components': ~0.14.7
-      '@visactor/vscale': ~0.15.10
-      '@visactor/vutils': ~0.15.10
+      '@visactor/vdataset': ~0.15.11
+      '@visactor/vgrammar': 0.7.0-alpha.2
+      '@visactor/vgrammar-hierarchy': 0.7.0-alpha.2
+      '@visactor/vgrammar-projection': 0.7.0-alpha.2
+      '@visactor/vgrammar-sankey': 0.7.0-alpha.2
+      '@visactor/vgrammar-util': 0.7.0-alpha.2
+      '@visactor/vgrammar-wordcloud': 0.7.0-alpha.2
+      '@visactor/vgrammar-wordcloud-shape': 0.7.0-alpha.2
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vrender-components': 0.15.0-alpha.14
+      '@visactor/vscale': ~0.15.11
+      '@visactor/vutils': ~0.15.11
       '@visactor/vutils-extension': workspace:0.0.1
       canvas: 2.11.2
       d3-array: 3.2.3
@@ -314,18 +314,18 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vdataset': 0.15.10
-      '@visactor/vgrammar': 0.6.6
-      '@visactor/vgrammar-hierarchy': 0.6.6
-      '@visactor/vgrammar-projection': 0.6.6
-      '@visactor/vgrammar-sankey': 0.6.6
-      '@visactor/vgrammar-util': 0.6.6
-      '@visactor/vgrammar-wordcloud': 0.6.6
-      '@visactor/vgrammar-wordcloud-shape': 0.6.6
-      '@visactor/vrender': 0.14.7
-      '@visactor/vrender-components': 0.14.7
-      '@visactor/vscale': 0.15.10
-      '@visactor/vutils': 0.15.10
+      '@visactor/vdataset': 0.15.11
+      '@visactor/vgrammar': 0.7.0-alpha.2
+      '@visactor/vgrammar-hierarchy': 0.7.0-alpha.2
+      '@visactor/vgrammar-projection': 0.7.0-alpha.2
+      '@visactor/vgrammar-sankey': 0.7.0-alpha.2
+      '@visactor/vgrammar-util': 0.7.0-alpha.2
+      '@visactor/vgrammar-wordcloud': 0.7.0-alpha.2
+      '@visactor/vgrammar-wordcloud-shape': 0.7.0-alpha.2
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vrender-components': 0.15.0-alpha.14
+      '@visactor/vscale': 0.15.11
+      '@visactor/vutils': 0.15.11
       '@visactor/vutils-extension': link:../vutils-extension
     devDependencies:
       '@esbuild-plugins/node-globals-polyfill': 0.1.1
@@ -378,9 +378,9 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vchart': workspace:1.3.1
-      '@visactor/vdataset': ~0.15.10
-      '@visactor/vrender': ~0.14.7
-      '@visactor/vutils': ~0.15.10
+      '@visactor/vdataset': ~0.15.11
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vutils': ~0.15.11
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -398,9 +398,9 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vdataset': 0.15.10
-      '@visactor/vrender': 0.14.7
-      '@visactor/vutils': 0.15.10
+      '@visactor/vdataset': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vutils': 0.15.11
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -462,9 +462,9 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vrender': ~0.14.7
-      '@visactor/vscale': ~0.15.10
-      '@visactor/vutils': ~0.15.10
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vscale': ~0.15.11
+      '@visactor/vutils': ~0.15.11
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -481,9 +481,9 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vrender': 0.14.7
-      '@visactor/vscale': 0.15.10
-      '@visactor/vutils': 0.15.10
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vscale': 0.15.11
+      '@visactor/vutils': 0.15.11
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -688,8 +688,8 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
       '@visactor/vchart': workspace:1.3.1
-      '@visactor/vrender': ~0.14.7
-      '@visactor/vutils': ~0.15.10
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vutils': ~0.15.11
       cross-env: ^7.0.3
       eslint: ~8.18.0
       jest: ^26.0.0
@@ -701,8 +701,8 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../../packages/vchart
-      '@visactor/vrender': 0.14.7
-      '@visactor/vutils': 0.15.10
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vutils': 0.15.11
     devDependencies:
       '@internal/bundler': link:../bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -830,7 +830,7 @@ packages:
       '@babel/helper-compilation-targets': 7.22.15
       '@babel/helper-module-transforms': 7.22.15_@babel+core@7.20.12
       '@babel/helpers': 7.22.15
-      '@babel/parser': 7.22.15
+      '@babel/parser': 7.22.16
       '@babel/template': 7.22.15
       '@babel/traverse': 7.22.15
       '@babel/types': 7.22.15
@@ -1093,8 +1093,8 @@ packages:
       chalk: 2.4.2
       js-tokens: 4.0.0
 
-  /@babel/parser/7.22.15:
-    resolution: {integrity: sha512-RWmQ/sklUN9BvGGpCDgSubhHWfAx24XDTDObup4ffvxaYsptOg2P3KG0j+1eWKLxpkX0j0uHxmpq2Z1SP/VhxA==}
+  /@babel/parser/7.22.16:
+    resolution: {integrity: sha512-+gPfKv8UWeKKeJTUxe59+OobVcrYHETCsORl61EmSkmgymguYk/X5bp7GuUIXaFsc6y++v8ZxPsLSSuujqDphA==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -2040,7 +2040,7 @@ packages:
       babel-plugin-polyfill-corejs2: 0.3.3_@babel+core@7.20.12
       babel-plugin-polyfill-corejs3: 0.6.0_@babel+core@7.20.12
       babel-plugin-polyfill-regenerator: 0.4.1_@babel+core@7.20.12
-      core-js-compat: 3.32.1
+      core-js-compat: 3.32.2
       semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
@@ -2129,7 +2129,7 @@ packages:
     resolution: {integrity: sha512-SAj8oKi8UogVi6eXQXKNPu8qZ78Yzy7zawrlTr0M+IuW/g8Qe9gVDhGcF9h1S69OyACpYoLxEzpjs1M15sI5wQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      core-js-pure: 3.32.1
+      core-js-pure: 3.32.2
       regenerator-runtime: 0.14.0
     dev: true
 
@@ -2160,7 +2160,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.22.13
-      '@babel/parser': 7.22.15
+      '@babel/parser': 7.22.16
       '@babel/types': 7.22.15
 
   /@babel/traverse/7.0.0-beta.44:
@@ -2188,7 +2188,7 @@ packages:
       '@babel/helper-function-name': 7.22.5
       '@babel/helper-hoist-variables': 7.22.5
       '@babel/helper-split-export-declaration': 7.22.6
-      '@babel/parser': 7.22.15
+      '@babel/parser': 7.22.16
       '@babel/types': 7.22.15
       debug: 4.3.4
       globals: 11.12.0
@@ -3748,7 +3748,7 @@ packages:
   /@types/babel__core/7.20.0:
     resolution: {integrity: sha512-+n8dL/9GWblDO0iU6eZAwEIJVr5DWigtle+Q6HLOrh/pdbXOhOtqzq8VPPE2zvNJzSKY4vH/z3iT3tn0A3ypiQ==}
     dependencies:
-      '@babel/parser': 7.22.15
+      '@babel/parser': 7.22.16
       '@babel/types': 7.22.15
       '@types/babel__generator': 7.6.4
       '@types/babel__template': 7.4.1
@@ -3762,7 +3762,7 @@ packages:
   /@types/babel__template/7.4.1:
     resolution: {integrity: sha512-azBFKemX6kMg5Io+/rdGT0dkGreboUVR0Cdm3fz9QJWpaQGJRQXl7C+6hOTCZcMll7KFyEQpgbYI2lHdsS4U7g==}
     dependencies:
-      '@babel/parser': 7.22.15
+      '@babel/parser': 7.22.16
       '@babel/types': 7.22.15
 
   /@types/babel__traverse/7.20.1:
@@ -4345,13 +4345,13 @@ packages:
     resolution: {integrity: sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==}
     dev: true
 
-  /@visactor/vdataset/0.15.10:
-    resolution: {integrity: sha512-OSbDp+O2nIsbQBRcSiC7cQaYCvvg4RXZKDqlzzwcFMhapKX8KjR5LPDyDZxHFnplXjBN9rxoLAKEaN7b7Dbi6A==}
+  /@visactor/vdataset/0.15.11:
+    resolution: {integrity: sha512-p1VPzlBJlcF4gUGBR9fkU735pd/Zw42XPqcA9R3xHbz+mz+LvdBKapy6dcyu0rvXVgjarHo5TG5HzEvO6dV4ag==}
     dependencies:
       '@turf/flatten': 6.5.0
       '@turf/helpers': 6.5.0
       '@turf/rewind': 6.5.0
-      '@visactor/vutils': 0.15.10
+      '@visactor/vutils': 0.15.11
       d3-dsv: 3.0.1
       d3-geo: 1.12.1
       d3-hexbin: 0.2.2
@@ -4367,102 +4367,104 @@ packages:
       topojson-client: 3.1.0
     dev: false
 
-  /@visactor/vgrammar-coordinate/0.6.6:
-    resolution: {integrity: sha512-7bDLw763JwxIdT3mLAOyax6uzRJTKudKX5GiQVRjbxQP4B5ULhXrMXJq6PpciaVa0WLVay5mBI1LdLQfGS06YQ==}
+  /@visactor/vgrammar-coordinate/0.7.0-alpha.2:
+    resolution: {integrity: sha512-6a47ezJALQjKGcCnkWIo/qOvYuPHbc4sf7PobPsb2EnEGATCbB2j+o9XRSZfkNw4Mj3M2xCxL0zgG9OclST95w==}
     dependencies:
-      '@visactor/vgrammar-util': 0.6.6
-      '@visactor/vutils': 0.15.10
+      '@visactor/vgrammar-util': 0.7.0-alpha.2
+      '@visactor/vutils': 0.15.11
     dev: false
 
-  /@visactor/vgrammar-hierarchy/0.6.6:
-    resolution: {integrity: sha512-ieCdHvpUPSHQByQAcZGB/VdWeFPjnM3ZLShXGVAP4u68EcvbVjhXfP5L9U3s+R0KitT8nXx72h7fy1soZRk+Cg==}
+  /@visactor/vgrammar-hierarchy/0.7.0-alpha.2:
+    resolution: {integrity: sha512-tqtb9wmBfNvPax9o/S1s5xsA8w/y4k/J86tJRC+Tro95qwR7Py3jAdlRQ8iO2mGBk++4R6cUnNbsj1FAgnRi8w==}
     dependencies:
-      '@visactor/vgrammar': 0.6.6
-      '@visactor/vgrammar-util': 0.6.6
-      '@visactor/vrender': 0.14.7
-      '@visactor/vutils': 0.15.10
+      '@visactor/vgrammar': 0.7.0-alpha.2
+      '@visactor/vgrammar-util': 0.7.0-alpha.2
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vutils': 0.15.11
     dev: false
 
-  /@visactor/vgrammar-projection/0.6.6:
-    resolution: {integrity: sha512-UDqtmqLKLr6lJXdJFIvF7JUJrWLrfvgUx1rlt53GmUQk4SiczTf7UYvtuML+CCkkkyZY0GIfUs19nPaP+jCjww==}
+  /@visactor/vgrammar-projection/0.7.0-alpha.2:
+    resolution: {integrity: sha512-WhQYygk6DYEFY4My4Uajma5wOJH4q4RP0GWmIgL0sxDbQNEXGcIp8heiKMlULMy9EcvtRdSHgN9ONtM/nG/sbA==}
     dependencies:
-      '@visactor/vgrammar': 0.6.6
-      '@visactor/vgrammar-util': 0.6.6
-      '@visactor/vutils': 0.15.10
+      '@visactor/vgrammar': 0.7.0-alpha.2
+      '@visactor/vgrammar-util': 0.7.0-alpha.2
+      '@visactor/vutils': 0.15.11
       d3-geo: 1.12.1
     dev: false
 
-  /@visactor/vgrammar-sankey/0.6.6:
-    resolution: {integrity: sha512-szv0CdIodw7kJ6RCjAKqfZEDB6kLiayyjrcsBk2te8n9qxADO1ColLmr503fytK5q+BK/opE/dB/o/oQlutPwQ==}
+  /@visactor/vgrammar-sankey/0.7.0-alpha.2:
+    resolution: {integrity: sha512-pxt/xcB13bAaSy5LhCVfTs5Bo6VNx+XmQfSvhwg717nWWgM93XEj4xm7wM2ZJHoC2O0qglcGQto9cq7/G2RQ5Q==}
     dependencies:
-      '@visactor/vgrammar': 0.6.6
-      '@visactor/vgrammar-util': 0.6.6
-      '@visactor/vrender': 0.14.7
-      '@visactor/vutils': 0.15.10
+      '@visactor/vgrammar': 0.7.0-alpha.2
+      '@visactor/vgrammar-util': 0.7.0-alpha.2
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vutils': 0.15.11
     dev: false
 
-  /@visactor/vgrammar-util/0.6.6:
-    resolution: {integrity: sha512-43vdFYBYZCHcjzHT8RmM7iiUPnF63NFlMH5RLr2mnJweHTp8Io4SwAm2I1ujt//E7MbHfOewv1yoHPlDZ4ZPeg==}
+  /@visactor/vgrammar-util/0.7.0-alpha.2:
+    resolution: {integrity: sha512-Ka9s4aTJA6QK2aFs/9aSvfCs6hkSZqr/P/FWknIuU31cCjm8+BjuEJ9AAtdk3mfGcfIAs6tabLz40/jPFNft1g==}
     dependencies:
-      '@visactor/vutils': 0.15.10
+      '@visactor/vutils': 0.15.11
     dev: false
 
-  /@visactor/vgrammar-wordcloud-shape/0.6.6:
-    resolution: {integrity: sha512-/R7LJl0p+JqF3XyCi/0DlJyRSI8g6WVuLuFVcRyBOrFQRYQZiR8PJI4zeGkfcRuSHoBwP1ZIXcfU+dV74YPVFg==}
+  /@visactor/vgrammar-wordcloud-shape/0.7.0-alpha.2:
+    resolution: {integrity: sha512-DdBR3cpT+uqyYpUfDtKGejSmQ0NprZA0Xz/MQpHDZJ21OKoGU84Tabk+Rn2ZL11pzx4ReZom0Rug0a9ElfpJZw==}
     dependencies:
-      '@visactor/vgrammar': 0.6.6
-      '@visactor/vgrammar-util': 0.6.6
-      '@visactor/vrender': 0.14.7
-      '@visactor/vscale': 0.15.10
-      '@visactor/vutils': 0.15.10
+      '@visactor/vgrammar': 0.7.0-alpha.2
+      '@visactor/vgrammar-util': 0.7.0-alpha.2
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vscale': 0.15.11
+      '@visactor/vutils': 0.15.11
     dev: false
 
-  /@visactor/vgrammar-wordcloud/0.6.6:
-    resolution: {integrity: sha512-Rm6AFcOZHlp2/1Yt2HoZEMlBjLW6CZScGR18/PcBNcxTHSPF2b/5U2vA1uv7xGPvN4JXW4Yf9cZOzR2Zh5oPeA==}
+  /@visactor/vgrammar-wordcloud/0.7.0-alpha.2:
+    resolution: {integrity: sha512-5B+i/AIEyRLXADDCBdcTwjUXN/GFsSEmi2nq9dznUHYYC7zjoQal63VhU118MoICbssnqc+hLo6ATnItYNXkGg==}
     dependencies:
-      '@visactor/vgrammar': 0.6.6
-      '@visactor/vgrammar-util': 0.6.6
-      '@visactor/vrender': 0.14.7
-      '@visactor/vutils': 0.15.10
+      '@visactor/vgrammar': 0.7.0-alpha.2
+      '@visactor/vgrammar-util': 0.7.0-alpha.2
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vutils': 0.15.11
     dev: false
 
-  /@visactor/vgrammar/0.6.6:
-    resolution: {integrity: sha512-Wemu95RZp0NDfKdJw1/nJGAGX6ocrwD93Oos9R6oKJ7WVblwAMiB8NsfDZ4UKwh0SLlrDi1XP8SyX8Az8Vmiyg==}
+  /@visactor/vgrammar/0.7.0-alpha.2:
+    resolution: {integrity: sha512-zBN6XaC7LbpnoYSv2UpGi8N2hBjIxzIeKogAbeb1I7c4+iICUAaHhww55DIEPhX09irK9zNmHVOGOr7htzMhDw==}
     dependencies:
-      '@visactor/vgrammar-coordinate': 0.6.6
-      '@visactor/vgrammar-util': 0.6.6
-      '@visactor/vrender': 0.14.7
-      '@visactor/vrender-components': 0.14.7
-      '@visactor/vscale': 0.15.10
-      '@visactor/vutils': 0.15.10
+      '@visactor/vdataset': 0.15.11
+      '@visactor/vgrammar-coordinate': 0.7.0-alpha.2
+      '@visactor/vgrammar-util': 0.7.0-alpha.2
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vrender-components': 0.15.0-alpha.14
+      '@visactor/vscale': 0.15.11
+      '@visactor/vutils': 0.15.11
     dev: false
 
-  /@visactor/vrender-components/0.14.7:
-    resolution: {integrity: sha512-iMOsjUszEJ8eF1L8WIDhJoEZjJAs+NMxEYSQ5EjBDbuPnbQ9GP20E0kaClnEQfRPwS4dc3q+HolUdlIwuEOrYA==}
+  /@visactor/vrender-components/0.15.0-alpha.14:
+    resolution: {integrity: sha512-oRsxMhXBVRkbZcHVgtKUuZe0Mik5vaQvBvumO6rQNXmyyGaZlUEIbnsMK4mjnSmnNw/39hBS5yLpLzqRmfD9xw==}
     dependencies:
-      '@visactor/vrender': 0.14.7
-      '@visactor/vscale': 0.15.10
-      '@visactor/vutils': 0.15.10
+      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vscale': 0.15.11
+      '@visactor/vutils': 0.15.11
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vrender/0.14.7:
-    resolution: {integrity: sha512-q4dbO0r9DaCEWt7rkPV1NdAi4FFd55MiGx3ojax1vw/3KjWBXWWJIJZPDE+vZGQPLO8+fQP7jsLOaiHYOGi+IA==}
+  /@visactor/vrender/0.15.0-alpha.14:
+    resolution: {integrity: sha512-AwbpF2Yv21B961368U5JwS+y4iy7XoErqec4OgCt4Ujifet7g3ZphGKkw5RCnGtOP/2rqWl+syd8abmU8FdsMA==}
     dependencies:
-      '@visactor/vutils': 0.15.10
+      '@visactor/vutils': 0.15.11
       color-convert: 2.0.1
       core-js: 3.31.1
+      fast-xml-parser: 4.2.7
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vscale/0.15.10:
-    resolution: {integrity: sha512-WqC11Gkn2WjNP6DH02UvRyB08ey9br7vTVkpCzQGCIA2v2r4tH/09qygDQaWBsDLzV7z3eb7JzwZkxl8WTMDKg==}
+  /@visactor/vscale/0.15.11:
+    resolution: {integrity: sha512-cHgTxDQq6wz6n/4ZxdaB4hKw3Si7QY3MaQIhBqNUFOY+zK4Vjuslt4LtVrHHMROs3QGJ0TORGL/y2HOdNj16SQ==}
     dependencies:
-      '@visactor/vutils': 0.15.10
+      '@visactor/vutils': 0.15.11
     dev: false
 
-  /@visactor/vutils/0.15.10:
-    resolution: {integrity: sha512-W1whehG8kplhnbHtsT/g5KjVlXt51/V8uh5J7qRzFr7X5djZ6Z6ZsvmD50mgDPxEjV5NwAF6X5qNZT4xxbGVsA==}
+  /@visactor/vutils/0.15.11:
+    resolution: {integrity: sha512-siHDMxBD5YHtmraat4NrbG3g6kiLDzx+mpxHkXfrH9MgkLDfy70nI8hbJKwGXGusvTZzStB6AB6D0nGxnKQv6A==}
     dependencies:
       '@turf/helpers': 6.5.0
       '@turf/invariant': 6.5.0
@@ -5341,8 +5343,8 @@ packages:
       es-abstract: 1.22.1
       es-shim-unscopables: 1.0.0
 
-  /array.prototype.flatmap/1.3.1:
-    resolution: {integrity: sha512-8UGn9O1FDVvMNB0UlLv4voxRMze7+FpHyF5mSMRjWHUMlpoDViniy05870VlxhfgTnLbpuwTzvD76MTtWxB/mQ==}
+  /array.prototype.flatmap/1.3.2:
+    resolution: {integrity: sha512-Ewyx0c9PmpcsByhSW4r+9zDU7sGjFc86qf/kKtuSCRdhfbk0SNLLkaT5qvcHnRGgc5NP/ly/y+qkXkqONX54CQ==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
@@ -5407,11 +5409,11 @@ packages:
     engines: {node: '>=0.8'}
     dev: true
 
-  /assert/1.5.0:
-    resolution: {integrity: sha512-EDsgawzwoun2CZkCgtxJbv392v4nbk9XDD06zI+kQYoBM/3RBWLlEyJARDOmhAAosBjWACEkKL6S+lIZtcAubA==}
+  /assert/1.5.1:
+    resolution: {integrity: sha512-zzw1uCAgLbsKwBfFc8CX78DDg+xZeBksSO3vwVIDDN5i94eOrPsSSyiVhmsSABFDM/OcpE2aagCat9dnWQLG1A==}
     dependencies:
-      object-assign: 4.1.1
-      util: 0.10.3
+      object.assign: 4.1.4
+      util: 0.10.4
     dev: true
 
   /assertion-error/1.1.0:
@@ -5485,7 +5487,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.10
-      caniuse-lite: 1.0.30001527
+      caniuse-lite: 1.0.30001528
       fraction.js: 4.3.6
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -5498,7 +5500,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 3.2.8
-      caniuse-lite: 1.0.30001527
+      caniuse-lite: 1.0.30001528
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       postcss: 6.0.23
@@ -5511,7 +5513,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.10
-      caniuse-lite: 1.0.30001527
+      caniuse-lite: 1.0.30001528
       chalk: 2.4.2
       normalize-range: 0.1.2
       num2fraction: 1.2.2
@@ -5524,7 +5526,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.10
-      caniuse-lite: 1.0.30001527
+      caniuse-lite: 1.0.30001528
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       picocolors: 0.2.1
@@ -5544,8 +5546,8 @@ packages:
     resolution: {integrity: sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg==}
     dev: true
 
-  /axe-core/4.7.2:
-    resolution: {integrity: sha512-zIURGIS1E1Q4pcrMjp+nnEh+16G56eG/MUllJH8yEvw7asDo7Ac9uhC9KIH5jzpITueEZolfYglnCGIuSBz39g==}
+  /axe-core/4.8.0:
+    resolution: {integrity: sha512-ZtlVZobOeDQhb/y2lMK6mznDw7TJHDNcKx5/bbBkFvArIQ5CVFhSI6hWWQnMx9I8cNmNmZ30wpDyOC2E2nvgbQ==}
     engines: {node: '>=4'}
     dev: true
 
@@ -5639,7 +5641,7 @@ packages:
       eslint: '>= 4.12.1'
     dependencies:
       '@babel/code-frame': 7.22.13
-      '@babel/parser': 7.22.15
+      '@babel/parser': 7.22.16
       '@babel/traverse': 7.22.15
       '@babel/types': 7.22.15
       eslint: 6.8.0
@@ -5657,7 +5659,7 @@ packages:
       eslint: '>= 4.12.1'
     dependencies:
       '@babel/code-frame': 7.22.13
-      '@babel/parser': 7.22.15
+      '@babel/parser': 7.22.16
       '@babel/traverse': 7.22.15
       '@babel/types': 7.22.15
       eslint: 8.18.0
@@ -5894,7 +5896,7 @@ packages:
     dependencies:
       '@babel/core': 7.20.12
       '@babel/helper-define-polyfill-provider': 0.3.3_@babel+core@7.20.12
-      core-js-compat: 3.32.1
+      core-js-compat: 3.32.2
     transitivePeerDependencies:
       - supports-color
 
@@ -6088,7 +6090,7 @@ packages:
       babel-plugin-transform-imports-api: 1.0.0
       babel-plugin-transform-react-jsx-to-rn-stylesheet: 3.3.17
       babel-plugin-transform-taroapi: 3.3.17
-      core-js: 3.32.1
+      core-js: 3.32.2
       metro-react-native-babel-preset: 0.66.2_@babel+core@7.20.12
       react-refresh: 0.9.0
     transitivePeerDependencies:
@@ -6446,8 +6448,8 @@ packages:
     resolution: {integrity: sha512-WHVocJYavUwVgVViC0ORikPHQquXwVh939TaelZ4WDqpWgTX/FsGhl/+P4qBUAGcRvtOgDgC+xftNWWp2RUTAQ==}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001527
-      electron-to-chromium: 1.4.508
+      caniuse-lite: 1.0.30001528
+      electron-to-chromium: 1.4.512
     dev: true
 
   /browserslist/4.21.10:
@@ -6455,8 +6457,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001527
-      electron-to-chromium: 1.4.508
+      caniuse-lite: 1.0.30001528
+      electron-to-chromium: 1.4.512
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11_browserslist@4.21.10
 
@@ -6743,8 +6745,8 @@ packages:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
     dev: true
 
-  /caniuse-lite/1.0.30001527:
-    resolution: {integrity: sha512-YkJi7RwPgWtXVSgK4lG9AHH57nSzvvOp9MesgXmw4Q7n0C3H04L0foHqfxcmSAm5AcWb8dW9AYj2tR7/5GnddQ==}
+  /caniuse-lite/1.0.30001528:
+    resolution: {integrity: sha512-0Db4yyjR9QMNlsxh+kKWzQtkyflkG/snYheSzkjmvdEtEXB1+jt7A2HmSEiO6XIJPIbo92lHNGNySvE5pZcs5Q==}
 
   /canvas/2.11.2:
     resolution: {integrity: sha512-ItanGBMrmRV7Py2Z+Xhs7cT+FNt5K0vPL4p9EZ/UX/Mu7hFbkxSjKF2KVtPwX7UYWp7dRKnrTvReflgrItJbdw==}
@@ -7504,13 +7506,13 @@ packages:
       webpack-log: 2.0.0
     dev: true
 
-  /core-js-compat/3.32.1:
-    resolution: {integrity: sha512-GSvKDv4wE0bPnQtjklV101juQ85g6H3rm5PDP20mqlS5j0kXF3pP97YvAu5hl+uFHqMictp3b2VxOHljWMAtuA==}
+  /core-js-compat/3.32.2:
+    resolution: {integrity: sha512-+GjlguTDINOijtVRUxrQOv3kfu9rl+qPNdX2LTbJ/ZyVTuxK+ksVSAGX1nHstu4hrv1En/uPTtWgq2gI5wt4AQ==}
     dependencies:
       browserslist: 4.21.10
 
-  /core-js-pure/3.32.1:
-    resolution: {integrity: sha512-f52QZwkFVDPf7UEQZGHKx6NYxsxmVGJe5DIvbzOdRMJlmT6yv0KDjR8rmy3ngr/t5wU54c7Sp/qIJH0ppbhVpQ==}
+  /core-js-pure/3.32.2:
+    resolution: {integrity: sha512-Y2rxThOuNywTjnX/PgA5vWM6CZ9QB9sz9oGeCixV8MqXZO70z/5SHzf9EeBrEBK0PN36DnEBBu9O/aGWzKuMZQ==}
     requiresBuild: true
     dev: true
 
@@ -7525,8 +7527,8 @@ packages:
     requiresBuild: true
     dev: false
 
-  /core-js/3.32.1:
-    resolution: {integrity: sha512-lqufgNn9NLnESg5mQeYsxQP5w7wrViSj0jr/kv6ECQiByzQkrn1MKvV0L3acttpDqfQrHLwr2KCMgX5b8X+lyQ==}
+  /core-js/3.32.2:
+    resolution: {integrity: sha512-pxXSw1mYZPDGvTQqEc5vgIb83jGQKFGYWY76z4a7weZXUolw3G+OvpZqSRcfYOoOVUQJYEPsWeQK8pKEnUtWxQ==}
     requiresBuild: true
     dev: true
 
@@ -8266,7 +8268,7 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
     dependencies:
-      '@babel/parser': 7.22.15
+      '@babel/parser': 7.22.16
       '@babel/traverse': 7.22.15
       builtin-modules: 3.3.0
       deprecate: 1.1.1
@@ -8641,8 +8643,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.508:
-    resolution: {integrity: sha512-FFa8QKjQK/A5QuFr2167myhMesGrhlOBD+3cYNxO9/S4XzHEXesyTD/1/xF644gC8buFPz3ca6G1LOQD0tZrrg==}
+  /electron-to-chromium/1.4.512:
+    resolution: {integrity: sha512-1W8wRbYlQE4ph7eoj3TJ+uqwO6+xvAE/L+KGU7WTQQvX3tnSIGZAb90MTsMoJqzntamiwJhBAj4WZmygXhsOUg==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
@@ -8801,8 +8803,8 @@ packages:
       regexp.prototype.flags: 1.5.0
       safe-array-concat: 1.0.1
       safe-regex-test: 1.0.0
-      string.prototype.trim: 1.2.7
-      string.prototype.trimend: 1.0.6
+      string.prototype.trim: 1.2.8
+      string.prototype.trimend: 1.0.7
       string.prototype.trimstart: 1.0.7
       typed-array-buffer: 1.0.0
       typed-array-byte-length: 1.0.0
@@ -9205,7 +9207,7 @@ packages:
       array-includes: 3.1.7
       array.prototype.findlastindex: 1.2.3
       array.prototype.flat: 1.3.2
-      array.prototype.flatmap: 1.3.1
+      array.prototype.flatmap: 1.3.2
       debug: 3.2.7
       doctrine: 2.1.0
       eslint: 6.8.0
@@ -9231,7 +9233,7 @@ packages:
       array-includes: 3.1.7
       array.prototype.findlastindex: 1.2.3
       array.prototype.flat: 1.3.2
-      array.prototype.flatmap: 1.3.1
+      array.prototype.flatmap: 1.3.2
       debug: 3.2.7
       doctrine: 2.1.0
       eslint: 8.18.0
@@ -9257,9 +9259,9 @@ packages:
       '@babel/runtime': 7.22.15
       aria-query: 5.3.0
       array-includes: 3.1.7
-      array.prototype.flatmap: 1.3.1
+      array.prototype.flatmap: 1.3.2
       ast-types-flow: 0.0.7
-      axe-core: 4.7.2
+      axe-core: 4.8.0
       axobject-query: 3.2.1
       damerau-levenshtein: 1.0.8
       emoji-regex: 9.2.2
@@ -9335,7 +9337,7 @@ packages:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
     dependencies:
       array-includes: 3.1.7
-      array.prototype.flatmap: 1.3.1
+      array.prototype.flatmap: 1.3.2
       doctrine: 2.1.0
       eslint: 6.8.0
       estraverse: 5.3.0
@@ -9358,7 +9360,7 @@ packages:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
     dependencies:
       array-includes: 3.1.7
-      array.prototype.flatmap: 1.3.1
+      array.prototype.flatmap: 1.3.2
       doctrine: 2.1.0
       eslint: 8.18.0
       estraverse: 5.3.0
@@ -10033,6 +10035,13 @@ packages:
 
   /fast-levenshtein/2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
+
+  /fast-xml-parser/4.2.7:
+    resolution: {integrity: sha512-J8r6BriSLO1uj2miOk1NW0YVm8AGOOu3Si2HQp/cSmo6EA4m3fcwu2WKjJ4RK9wMLBtg69y1kS8baDiQBR41Ig==}
+    hasBin: true
+    dependencies:
+      strnum: 1.0.5
+    dev: false
 
   /fastparse/1.1.2:
     resolution: {integrity: sha512-483XLLxTVIwWK3QTrMGRqUfUpoOs/0hbQrl2oz4J0pAcm3A3bu84wxTFqGqkJzewCLdME38xJLJAxBABfQT8sQ==}
@@ -11857,10 +11866,6 @@ packages:
       once: 1.4.0
       wrappy: 1.0.2
 
-  /inherits/2.0.1:
-    resolution: {integrity: sha512-8nWq2nLTAwd02jTqJExUYFSD/fKq6VH9Y/oG2accc/kdI0V98Bag8d5a4gi3XHz73rDWa2PvTtvcWYquKqSENA==}
-    dev: true
-
   /inherits/2.0.3:
     resolution: {integrity: sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==}
     dev: true
@@ -12610,7 +12615,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       '@babel/generator': 7.21.1
-      '@babel/parser': 7.22.15
+      '@babel/parser': 7.22.16
       '@babel/template': 7.22.15
       '@babel/traverse': 7.22.15
       '@babel/types': 7.22.15
@@ -12637,7 +12642,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       '@babel/core': 7.20.12
-      '@babel/parser': 7.22.15
+      '@babel/parser': 7.22.16
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
       semver: 6.3.1
@@ -15591,7 +15596,7 @@ packages:
   /node-libs-browser/2.2.1:
     resolution: {integrity: sha512-h/zcD8H9kaDZ9ALUWwlBUDo6TKF8a7qBSCSEGfjTVIYeqsioSKaAX+BN7NgiMGp6iSIXZ3PxgCu8KS3b71YK5Q==}
     dependencies:
-      assert: 1.5.0
+      assert: 1.5.1
       browserify-zlib: 0.2.0
       buffer: 4.9.2
       console-browserify: 1.2.0
@@ -19301,16 +19306,16 @@ packages:
       regexp.prototype.flags: 1.5.0
       side-channel: 1.0.4
 
-  /string.prototype.trim/1.2.7:
-    resolution: {integrity: sha512-p6TmeT1T3411M8Cgg9wBTMRtY2q9+PNy9EV1i2lIXUN/btt763oIfxwN3RR8VU6wHX8j/1CFy0L+YuThm6bgOg==}
+  /string.prototype.trim/1.2.8:
+    resolution: {integrity: sha512-lfjY4HcixfQXOfaqCvcBuOIapyaroTXhbkfJN3gcB1OtyupngWK4sEET9Knd0cXd28kTUqu/kHoV4HKSJdnjiQ==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.2.0
       es-abstract: 1.22.1
 
-  /string.prototype.trimend/1.0.6:
-    resolution: {integrity: sha512-JySq+4mrPf9EsDBEDYMOb/lM7XQLulwg5R/m1r0PXEFqrV0qHvl58sdTilSXtKOflCsK2E8jxf+GKC0T07RWwQ==}
+  /string.prototype.trimend/1.0.7:
+    resolution: {integrity: sha512-Ni79DqeB72ZFq1uH/L6zJ+DKZTkOtPIHovb3YZHQViE+HDouuU4mBrLOLDn5Dde3RF8qw5qVETEjhu9locMLvA==}
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.2.0
@@ -19472,6 +19477,10 @@ packages:
     dependencies:
       escape-string-regexp: 1.0.5
     dev: true
+
+  /strnum/1.0.5:
+    resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
+    dev: false
 
   /style-loader/1.3.0_webpack@4.46.0:
     resolution: {integrity: sha512-V7TCORko8rs9rIqkSrlMfkqA63DfoGBBJmK1kKGCcSi+BWb4cqz0SRsnp4l6rU5iwOEd0/2ePv68SV22VXon4Q==}
@@ -20919,10 +20928,10 @@ packages:
       safe-array-concat: 1.0.1
     dev: true
 
-  /util/0.10.3:
-    resolution: {integrity: sha512-5KiHfsmkqacuKjkRkdV7SsfDJ2EGiPsK92s2MhNSY0craxjTdKTtqKsJaCWp4LW33ZZ0OPUv1WO/TFvNQRiQxQ==}
+  /util/0.10.4:
+    resolution: {integrity: sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==}
     dependencies:
-      inherits: 2.0.1
+      inherits: 2.0.3
     dev: true
 
   /util/0.11.1:

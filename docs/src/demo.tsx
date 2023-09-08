@@ -30,7 +30,7 @@ function generateMenuItem(node: IMenuItem, assetDirectory: string, language: Lan
           top: 0
           // behavior: 'smooth',
         });
-        navigate(`/${assetDirectory}?path=${node.path}`, { replace: true });
+        navigate(`/vchart/${assetDirectory}?path=${node.path}`, { replace: true });
       }}
     >
       {node.title[language]}
@@ -63,11 +63,16 @@ function Outline(props: IOutlineProps) {
 function Content(props: IContentProps) {
   const location = useLocation();
   const { pathname: pathName } = location;
-  const assetDirectory = pathName.split('/')[1];
+  const assetDirectory = pathName.split('/')[2];
 
   return (
     <div className="demo-container" style={{ width: '100%', height: '100%' }}>
-      {props.content ? <iframe src={`/assets/${assetDirectory}/${props.content}`} style={{ width: '100%', height: '100%', border: 'none' }}></iframe> : null}
+      {props.content ? (
+        <iframe
+          src={`/assets/${assetDirectory}/${props.content}`}
+          style={{ width: '100%', height: '100%', border: 'none' }}
+        ></iframe>
+      ) : null}
     </div>
   );
 }
@@ -77,7 +82,7 @@ export function Demo() {
 
   const location = useLocation();
   const { pathname: pathName } = location;
-  const assetDirectory = pathName.split('/')[1];
+  const assetDirectory = pathName.split('/')[2];
 
   const [outline, setOutline] = useState<any>([]);
   const [content, setContent] = useState<string | null>(null);
