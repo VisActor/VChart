@@ -56,8 +56,8 @@ export interface ICompilableMark extends IGrammarItem {
   setFacet: (facet: string) => void;
 
   // 标签
-  getLabelSpec: () => ILabelSpec;
-  setLabelSpec: (label: ILabelSpec) => void;
+  getLabelSpec: () => ILabelSpec[];
+  addLabelSpec: (label: ILabelSpec) => void;
 
   // 状态
   state: MarkStateManager;
@@ -111,6 +111,9 @@ export interface ICompilableMark extends IGrammarItem {
   // 用户 id
   getUserId: () => StringOrNumber | undefined;
   setUserId: (id: StringOrNumber) => void;
+
+  // 是否支持 3d
+  getSupport3d: () => boolean | undefined;
 
   compile: (option?: IMarkCompileOption) => void;
 

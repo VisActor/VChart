@@ -15,6 +15,7 @@ export const waterfall: IWaterfallSeriesTheme = {
     }
   },
   stackLabel: {
+    visible: true,
     offset: 12,
     position: 'withChange',
     style: {

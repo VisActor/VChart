@@ -1,3 +1,4 @@
+import type { ILabelMark } from './../../mark/label';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
@@ -5,7 +6,6 @@ import type { LayoutItem } from '../../model/layout-item';
 import { AttributeLevel, LayoutZIndex, STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP } from '../../constant';
 import type { MarkType } from '../../mark/interface';
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
-import type { ITextMark } from '../../mark/text';
 import { getSeries, mergeSpec } from '../../util';
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar';
@@ -13,6 +13,7 @@ import { textAttribute } from './util';
 import { BaseLabelComponent } from './base-label';
 import type { ITotalLabelSpec, ITotalLabelTheme } from './interface';
 import type { IModelInitOption } from '../../model/interface';
+import type { Datum } from '../../typings';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;
@@ -22,7 +23,7 @@ export class TotalLabel extends BaseLabelComponent {
   layoutType: LayoutItem['layoutType'] = 'absolute';
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Label;
 
-  private _textMark?: ITextMark;
+  private _textMark?: ILabelMark;
   private _baseMark?: IMark;
 
   series: ISeries;
@@ -54,7 +55,7 @@ export class TotalLabel extends BaseLabelComponent {
   protected _initTextMark() {
     if (this.series.getSpec().totalLabel?.visible) {
       const mark = this.series.getMarksInType([MarkTypeEnum.rect, MarkTypeEnum.symbol])[0];
-      const textMark = this._createMark({ type: MarkTypeEnum.text, name: `${mark.name}-total-label` });
+      const textMark = this._createMark({ type: MarkTypeEnum.label, name: `${mark.name}-total-label` }) as ILabelMark;
       this._baseMark = mark;
       this._textMark = textMark;
       this._initTextMarkStyle();
@@ -66,7 +67,7 @@ export class TotalLabel extends BaseLabelComponent {
     this.setMarkStyle(
       this._textMark,
       {
-        text: datum => {
+        text: (datum: Datum) => {
           return datum[STACK_FIELD_TOTAL];
         }
       },
@@ -116,9 +117,14 @@ export class TotalLabel extends BaseLabelComponent {
             );
           }
         })
-        .encode((datum, element) => {
+        .encode(datum => {
           return textAttribute(
-            { baseMark: this._baseMark, labelMark: this._textMark, series: this.series },
+            {
+              baseMark: this._baseMark,
+              labelMark: this._textMark,
+              series: this.series,
+              labelSpec: this.series.getSpec().totalLabel
+            },
             datum,
             this._spec.formatMethod
           );
