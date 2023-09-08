@@ -15,6 +15,8 @@ import { VChart } from '../../core/vchart';
 import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../constant/scroll-bar';
 import type { IComponentSpec } from '../../component/base/interface';
+import { array } from '@visactor/vutils';
+import { normalizeLayoutPaddingSpec } from '../../util';
 VChart.useSeries([DotSeries, LinkSeries]);
 
 export class SequenceChart extends BaseChart {
@@ -52,9 +54,18 @@ export class SequenceChart extends BaseChart {
         row: rowNum
       });
       this.addAttrToComponentSpec(spec.legends, 'id', `legendRow${rowNum}`);
+      // legend offset 和 padding 兼容处理
+      const legendSpec = array(spec.legends);
+      let legendHeight = legendSpec[0].height ?? 40;
+      if (legendSpec[0].padding) {
+        const legendPadding = normalizeLayoutPaddingSpec(legendSpec[0].padding);
+        legendHeight += Number(legendPadding?.bottom ?? 0);
+        legendHeight += Number(legendPadding?.top ?? 0);
+        legendSpec[0].offsetY = Number(legendSpec[0]?.offsetY ?? 0) + Number(legendPadding?.top ?? 0);
+      }
       rowHeight.push({
         index: rowNum,
-        size: (Array.isArray(spec.legends) ? spec.legends[0].height : spec.legends.height) ?? 40
+        size: legendHeight
       });
       rowNum++;
 
