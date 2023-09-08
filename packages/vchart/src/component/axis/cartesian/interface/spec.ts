@@ -89,7 +89,11 @@ export type ICartesianLinearAxisSpec = ICartesianAxisCommonSpec &
     sync?: ILinearAxisSync;
   };
 
-export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec & IBandAxisSpec;
+export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec &
+  IBandAxisSpec & {
+    /** 轴组宽设置 */
+    bandSize?: number;
+  };
 
 export type ICartesianTimeAxisSpec = Omit<ICartesianAxisCommonSpec, 'inverse'> & {
   /**
