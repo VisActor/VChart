@@ -867,8 +867,13 @@ export class BaseChart extends CompilableBase implements IChart {
     array(this._spec.data).forEach((d, i) => {
       const dataView = this._dataSet.getDataView(d.id);
       if (dataView) {
+        if (d.fields) {
+          dataView.setFields(d.fields);
+        }
+
         if (d.values) {
-          dataView.updateRawData(d.values);
+          // d is not dataview
+          dataView.parseNewData(d.values, d.parser);
         } else if (!d.latestData) {
           dataView.updateRawData([]);
         }
