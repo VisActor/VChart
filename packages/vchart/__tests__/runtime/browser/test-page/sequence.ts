@@ -468,9 +468,9 @@ const run = () => {
       {
         visible: true,
         orient: 'top',
-        height: 40,
-        offsetX: 400,
-        padding: 100,
+        // height: 40,
+        // offsetX: 400,
+        // padding: 100,
         item: {
           visible: true,
           maxRow: 1
