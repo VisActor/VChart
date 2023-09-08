@@ -943,8 +943,9 @@ export class BaseChart extends CompilableBase implements IChart {
         }
         s.updateRawData(values);
       }
+      const lastSpec = s.getSpec();
       this._mergeUpdateResult(result, s.updateSpec(spec));
-      s.reInit();
+      s.reInit(null, lastSpec);
     });
   }
 

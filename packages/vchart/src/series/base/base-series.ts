@@ -686,10 +686,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
-  protected _updateExtensionMarkSpec() {
+  protected _updateExtensionMarkSpec(lastSpec?: any) {
     this._spec.extensionMark?.forEach((spec, i) => {
       const mark = this._marks.getMarkWithInfo({ name: `${PREFIX}_series_${this.id}_extensionMark_${i}` });
+      if (lastSpec && isEqual(lastSpec.extensionMark?.[i], spec)) {
+        return;
+      }
       this.initMarkStyleWithSpec(mark, spec);
+      mark.updateStaticEncode();
+      mark.updateLayoutState();
     });
   }
 
@@ -880,14 +885,19 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return result;
   }
 
-  reInit(theme?: any) {
+  reInit(theme?: any, lastSpec?: any) {
     super.reInit(theme);
 
     this.initMarkStyle();
     this.getMarksWithoutRoot().forEach(mark => {
+      if (lastSpec && isEqual(lastSpec[mark.name], this._spec[mark.name])) {
+        return;
+      }
       this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
+      mark.updateStaticEncode();
+      mark.updateLayoutState(true);
     });
-    this._updateExtensionMarkSpec();
+    this._updateExtensionMarkSpec(lastSpec);
   }
 
   // 首次布局完成后填充系列数据

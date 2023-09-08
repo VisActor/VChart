@@ -320,7 +320,15 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     }
   }
 
-  compileEncode() {
+  updateStaticEncode() {
+    if (!this._product) {
+      return;
+    }
+    const { enterStyles } = this._separateStyle();
+    this._product.encodeState(this._facet ? 'group' : 'enter', enterStyles);
+  }
+
+  protected _separateStyle() {
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...temp } = this.stateStyle;
 
     const enterStyles: Record<string, MarkFunctionType<any>> = {};
@@ -338,6 +346,12 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         enterStyles[key] = this.compileCommonAttributeCallback(key, 'normal');
       }
     });
+    return { enterStyles, updateStyles };
+  }
+
+  compileEncode() {
+    const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...temp } = this.stateStyle;
+    const { enterStyles, updateStyles } = this._separateStyle();
     this._product.encode(updateStyles);
     this._product.encodeState(this._facet ? 'group' : 'enter', enterStyles);
 
