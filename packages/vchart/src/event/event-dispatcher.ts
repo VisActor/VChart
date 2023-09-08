@@ -39,12 +39,17 @@ export class EventDispatcher implements IEventDispatcher {
   // view 事件与 window 事件视作为不同类型的事件信息，进行独立的冒泡处理
   private _viewBubbles: Map<EventType, Bubble> = new Map<EventType, Bubble>();
   private _windowBubbles: Map<EventType, Bubble> = new Map<EventType, Bubble>();
+  private _canvasBubbles: Map<EventType, Bubble> = new Map<EventType, Bubble>();
 
   private _viewListeners: Map<string, (params: CompilerListenerParameters) => void> = new Map<
     string,
     (params: CompilerListenerParameters) => void
   >();
   private _windowListeners: Map<string, (params: CompilerListenerParameters) => void> = new Map<
+    string,
+    (params: CompilerListenerParameters) => void
+  >();
+  private _canvasListeners: Map<string, (params: CompilerListenerParameters) => void> = new Map<
     string,
     (params: CompilerListenerParameters) => void
   >();
@@ -160,6 +165,10 @@ export class EventDispatcher implements IEventDispatcher {
       this._compiler.removeEventListener(Event_Source_Type.window, entry[0], entry[1]);
     }
     this._windowListeners.clear();
+    for (const entry of this._canvasListeners.entries()) {
+      this._compiler.removeEventListener(Event_Source_Type.canvas, entry[0], entry[1]);
+    }
+    this._canvasListeners.clear();
     for (const bubble of this._viewBubbles.values()) {
       bubble.release();
     }
@@ -168,6 +177,10 @@ export class EventDispatcher implements IEventDispatcher {
       bubble.release();
     }
     this._windowBubbles.clear();
+    for (const bubble of this._canvasBubbles.values()) {
+      bubble.release();
+    }
+    this._canvasBubbles.clear();
   }
 
   /**
@@ -364,6 +377,8 @@ export class EventDispatcher implements IEventDispatcher {
         return this._viewBubbles;
       case Event_Source_Type.window:
         return this._windowBubbles;
+      case Event_Source_Type.canvas:
+        return this._canvasBubbles;
       default:
         return this._viewBubbles;
     }
@@ -375,6 +390,8 @@ export class EventDispatcher implements IEventDispatcher {
         return this._viewListeners;
       case Event_Source_Type.window:
         return this._windowListeners;
+      case Event_Source_Type.canvas:
+        return this._canvasListeners;
       default:
         return this._viewListeners;
     }

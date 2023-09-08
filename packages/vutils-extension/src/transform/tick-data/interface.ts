@@ -1,6 +1,8 @@
-import type { ITick } from '../../../component/axis';
-import type { IPolarAxisSpec } from '../../../component/axis/polar/interface';
-import type { CoordinateType, IOrientType, IPolarOrientType, ITextMarkSpec } from '../../../typings';
+import { ITextGraphicAttribute } from '@visactor/vrender';
+
+type CoordinateType = 'cartesian' | 'polar' | 'geo' | 'none';
+type IOrientType = 'left' | 'top' | 'right' | 'bottom' | 'z';
+type IPolarOrientType = 'radius' | 'angle';
 
 export interface ITickDataOpt {
   /**
@@ -10,15 +12,15 @@ export interface ITickDataOpt {
   tickCount?: number;
   forceTickCount?: number;
   tickStep?: number;
-  tickMode?: ITick['tickMode'];
-  noDecimals?: ITick['noDecimals'];
+  tickMode?: 'average' | 'd3' | string;
+  noDecimals?: boolean;
 
   coordinateType: CoordinateType;
   axisOrientType: IOrientType | IPolarOrientType;
   startAngle?: number;
 
   labelFormatter?: (value: any) => string;
-  labelStyle: ITextMarkSpec;
+  labelStyle: ITextGraphicAttribute;
   labelGap?: number;
 }
 
@@ -31,7 +33,7 @@ export interface ICartesianTickDataOpt extends ITickDataOpt {
 export interface IPolarTickDataOpt extends ITickDataOpt {
   axisOrientType: IPolarOrientType;
   getRadius: () => number;
-  axisSpec: IPolarAxisSpec;
+  labelOffset: number;
 }
 
 export interface ITickData {

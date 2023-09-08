@@ -43,6 +43,7 @@ export class Compiler {
   }
   protected _viewListeners: Map<(...args: any[]) => any, EventListener> = new Map();
   protected _windowListeners: Map<(...args: any[]) => any, EventListener> = new Map();
+  protected _canvasListeners: Map<(...args: any[]) => any, EventListener> = new Map();
 
   isInited: boolean = false;
   // 是否已经销毁
@@ -297,6 +298,25 @@ export class Compiler {
       this._windowListeners.set(callback, { type, callback: wrappedCallback });
       const windowObject = this._getGlobalThis();
       windowObject?.addEventListener(type, wrappedCallback);
+    } else if (source === Event_Source_Type.canvas) {
+      const wrappedCallback = function wrappedCallback(event: any) {
+        // TODO: vgrammar 暂未提供基于事件直接筛选相应 mark 的能力，这里无法获取到相应的 item
+        const params: CompilerListenerParameters = {
+          event,
+          type,
+          source,
+          item: null,
+          datum: null,
+          markId: null,
+          modelId: null,
+          markUserId: null,
+          modelUserId: null
+        };
+        callback.call(null, params);
+      }.bind(this);
+      this._canvasListeners.set(callback, { type, callback: wrappedCallback });
+      const canvasObject = this.getStage()?.window;
+      canvasObject?.addEventListener(type, wrappedCallback);
     }
   }
 
@@ -317,6 +337,11 @@ export class Compiler {
       const wrappedCallback = this._windowListeners.get(callback)?.callback;
       wrappedCallback && windowObject?.removeEventListener(type, wrappedCallback);
       this._windowListeners.delete(callback);
+    } else if (source === Event_Source_Type.canvas) {
+      const canvasObject = this._getGlobalThis();
+      const wrappedCallback = this._canvasListeners.get(callback)?.callback;
+      wrappedCallback && canvasObject?.removeEventListener(type, wrappedCallback);
+      this._canvasListeners.delete(callback);
     }
   }
 
@@ -324,6 +349,7 @@ export class Compiler {
     // 相应的事件remove在model中完成
     this._viewListeners.clear();
     this._windowListeners.clear();
+    this._canvasListeners.clear();
   }
 
   release(): void {

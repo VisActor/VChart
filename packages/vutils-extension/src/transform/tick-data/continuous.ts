@@ -1,7 +1,7 @@
 import type { LinearScale, ContinuousScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import { isValid, peek } from '../../../util';
+import { isValid, last } from '@visactor/vutils';
 import { DEFAULT_CONTINUOUS_TICK_COUNT } from './config';
 import type { ICartesianTickDataOpt, ITickData, ITickDataOpt } from './interface';
 import type { ILabelItem } from './util';
@@ -19,13 +19,13 @@ import { convertDomainToTickData, getCartesianLabelBounds, hasOverlap, intersect
  */
 export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITickData[] => {
   if (!isContinuous(scale.type)) {
-    return convertDomainToTickData(scale.domain(), op);
+    return convertDomainToTickData(scale.domain());
   }
   // if range is so small
   const range = scale.range();
   const rangeSize = Math.abs(range[range.length - 1] - range[0]);
   if (rangeSize < 2) {
-    return convertDomainToTickData([scale.domain()[0]], op);
+    return convertDomainToTickData([scale.domain()[0]]);
   }
 
   const { tickCount, forceTickCount, tickStep, noDecimals = false } = op;
@@ -61,8 +61,8 @@ export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITick
         if (ticks.length > 1) {
           ticks.pop();
         }
-        if (peek(ticks) !== peek(scaleTicks)) {
-          ticks.push(peek(scaleTicks));
+        if (last(ticks) !== last(scaleTicks)) {
+          ticks.push(last(scaleTicks));
         }
       }
 
@@ -70,7 +70,7 @@ export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITick
     }
   }
 
-  return convertDomainToTickData(scaleTicks, op);
+  return convertDomainToTickData(scaleTicks);
 };
 
 const methods = {
