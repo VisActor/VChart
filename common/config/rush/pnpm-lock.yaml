@@ -1,5 +1,9 @@
 lockfileVersion: 5.4
 
+overrides:
+  '@visactor/vrender': 0.15.0-alpha.15
+  '@visactor/vrender-components': 0.15.0-alpha.15
+
 importers:
 
   .:
@@ -4379,7 +4383,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vrender': 0.15.0-alpha.15
       '@visactor/vutils': 0.15.11
     dev: false
 
@@ -4397,7 +4401,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vrender': 0.15.0-alpha.15
       '@visactor/vutils': 0.15.11
     dev: false
 
@@ -4412,7 +4416,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vrender': 0.15.0-alpha.15
       '@visactor/vscale': 0.15.11
       '@visactor/vutils': 0.15.11
     dev: false
@@ -4422,7 +4426,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.14
+      '@visactor/vrender': 0.15.0-alpha.15
       '@visactor/vutils': 0.15.11
     dev: false
 
@@ -4432,19 +4436,10 @@ packages:
       '@visactor/vdataset': 0.15.11
       '@visactor/vgrammar-coordinate': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.14
-      '@visactor/vrender-components': 0.15.0-alpha.14
+      '@visactor/vrender': 0.15.0-alpha.15
+      '@visactor/vrender-components': 0.15.0-alpha.15
       '@visactor/vscale': 0.15.11
       '@visactor/vutils': 0.15.11
-    dev: false
-
-  /@visactor/vrender-components/0.15.0-alpha.14:
-    resolution: {integrity: sha512-oRsxMhXBVRkbZcHVgtKUuZe0Mik5vaQvBvumO6rQNXmyyGaZlUEIbnsMK4mjnSmnNw/39hBS5yLpLzqRmfD9xw==}
-    dependencies:
-      '@visactor/vrender': 0.15.0-alpha.14
-      '@visactor/vscale': 0.15.11
-      '@visactor/vutils': 0.15.11
-      inversify: 6.0.1
     dev: false
 
   /@visactor/vrender-components/0.15.0-alpha.15:
@@ -4453,16 +4448,6 @@ packages:
       '@visactor/vrender': 0.15.0-alpha.15
       '@visactor/vscale': 0.15.11
       '@visactor/vutils': 0.15.11
-      inversify: 6.0.1
-    dev: false
-
-  /@visactor/vrender/0.15.0-alpha.14:
-    resolution: {integrity: sha512-AwbpF2Yv21B961368U5JwS+y4iy7XoErqec4OgCt4Ujifet7g3ZphGKkw5RCnGtOP/2rqWl+syd8abmU8FdsMA==}
-    dependencies:
-      '@visactor/vutils': 0.15.11
-      color-convert: 2.0.1
-      core-js: 3.31.1
-      fast-xml-parser: 4.2.7
       inversify: 6.0.1
     dev: false
 
@@ -13014,7 +12999,7 @@ packages:
       jest: ^24.0.0
     dependencies:
       electron: 11.5.0
-      jest: 26.6.3_ts-node@10.9.0
+      jest: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
       jest-haste-map: 24.9.0
       jest-message-util: 24.9.0
       jest-mock: 24.9.0
