@@ -169,12 +169,12 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       // 移动端的点按 + 滑动触发
       if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
         this._mountEvent('pointerdown', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
-        this._mountEvent('pointerup', { source: 'window' }, this._handleMouseOut);
+        this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
       }
-      this._mountEvent('pointerout', { source: 'canvas' }, this._handleMouseOut);
+      this._mountEvent('pointerout', { source: 'canvas' }, this._getMouseOutHandler(false));
     } else if (trigger === 'click') {
       this._mountEvent('pointertap', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
-      this._mountEvent('pointerup', { source: 'window' }, this._handleMouseOut);
+      this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
     }
   }
 
@@ -186,7 +186,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     });
   };
 
-  protected _handleMouseOut = (params: BaseEventParams) => {
+  protected _getMouseOutHandler = (needPointerDetection?: boolean) => (params: BaseEventParams) => {
     if (this._alwaysShow) {
       return;
     }
@@ -195,10 +195,19 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return;
     }
 
+    const browserEnv = isTrueBrowser(this._option.mode);
+    const { clientX, clientY } = params.event as MouseEvent;
+
     // 当 enterable 为 true，同时鼠标移入 tooltip 时 pointerleave 事件也会触发，所以这里做一个判断
-    if (isTrueBrowser(this._option.mode) && this._isPointerOnTooltip(params)) {
+    if (browserEnv && this._isPointerOnTooltip(params)) {
       return;
     }
+
+    // 判断鼠标是否在图表范围内
+    if (browserEnv && needPointerDetection && this._isPointerInChart({ x: clientX, y: clientY })) {
+      return;
+    }
+
     this._handleChartMouseOut(params);
   };
 

@@ -4574,7 +4574,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
@@ -4605,10 +4605,6 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
           "description": "style格式转换"
         },
@@ -4629,11 +4625,15 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -4643,7 +4643,7 @@
       ],
       "description": "style格式转换"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -4674,10 +4674,6 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
           "description": "style格式转换"
         },
@@ -4698,11 +4694,15 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5072,11 +5072,11 @@
           "description": "文字内容"
         },
         "textAlign": {
-          "$ref": "#/definitions/VisualType<TextAlign>",
+          "$ref": "#/definitions/VisualType<TextAlignType>",
           "description": "文字对齐方式"
         },
         "textBaseline": {
-          "$ref": "#/definitions/VisualType<TextBaseLine>",
+          "$ref": "#/definitions/VisualType<TextBaselineType>",
           "description": "文字居中方式"
         },
         "texture": {
@@ -5233,11 +5233,11 @@
           "description": "文字内容"
         },
         "textAlign": {
-          "$ref": "#/definitions/VisualType<TextAlign>",
+          "$ref": "#/definitions/VisualType<TextAlignType>",
           "description": "文字对齐方式"
         },
         "textBaseline": {
-          "$ref": "#/definitions/VisualType<TextBaseLine>",
+          "$ref": "#/definitions/VisualType<TextBaselineType>",
           "description": "文字居中方式"
         },
         "texture": {
@@ -5394,11 +5394,11 @@
           "description": "文字内容"
         },
         "textAlign": {
-          "$ref": "#/definitions/VisualType<TextAlign>",
+          "$ref": "#/definitions/VisualType<TextAlignType>",
           "description": "文字对齐方式"
         },
         "textBaseline": {
-          "$ref": "#/definitions/VisualType<TextBaseLine>",
+          "$ref": "#/definitions/VisualType<TextBaselineType>",
           "description": "文字居中方式"
         },
         "texture": {
@@ -18207,6 +18207,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -24285,25 +24288,28 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IAreaSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IBarSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IBar3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ICircularProgressSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IDotSeriesSpec"
+                "$ref": "#/definitions/IWaterfallSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IFunnelSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IFunnel3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IAreaSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ICircularProgressSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IDotSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IGaugePointerSeriesSpec"
@@ -24336,9 +24342,6 @@
                 "$ref": "#/definitions/IScatterSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWaterfallSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IWordCloudSeriesSpec"
               },
               {
@@ -24351,25 +24354,25 @@
                 "$ref": "#/definitions/ISunburstSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ICirclePackingSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IHeatmapSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ISankeySeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRoseSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IBoxPlotSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ICirclePackingSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IRangeColumnChartSpec"
               },
               {
                 "$ref": "#/definitions/IRangeAreaChartSpec"
+              },
+              {
+                "$ref": "#/definitions/IRoseSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IHeatmapSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ISankeySeriesSpec"
               }
             ]
           },
@@ -25820,11 +25823,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -26664,6 +26667,16 @@
                   "$ref": "#/definitions/HTMLImageElement"
                 }
               ]
+            },
+            {
+              "allOf": [
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "图例背景配置"
@@ -26807,6 +26820,9 @@
         },
         "hover": {
           "type": "boolean"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -27630,6 +27646,9 @@
     },
     "IDrawContribution": {
       "properties": {
+        "afterDraw": {
+          "typeof": "function"
+        },
         "backupDirtyBounds": {
           "$ref": "#/definitions/IBounds"
         },
@@ -27790,11 +27809,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -30882,6 +30901,9 @@
         "addUpdateGlobalPositionTag": {
           "typeof": "function"
         },
+        "addUpdateLayoutTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -30914,6 +30936,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -31180,7 +31205,7 @@
           "typeof": "function"
         },
         "resources": {
-          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
         },
         "rotate": {
           "typeof": "function"
@@ -31288,6 +31313,7 @@
         "addState",
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
+        "addUpdateLayoutTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animate",
@@ -31422,6 +31448,9 @@
         "addUpdateGlobalPositionTag": {
           "typeof": "function"
         },
+        "addUpdateLayoutTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -31454,6 +31483,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -31720,7 +31752,7 @@
           "typeof": "function"
         },
         "resources": {
-          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
         },
         "rotate": {
           "typeof": "function"
@@ -31828,6 +31860,7 @@
         "addState",
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
+        "addUpdateLayoutTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animate",
@@ -31957,6 +31990,12 @@
         },
         "visible": {
           "type": "boolean"
+        },
+        "zIndex": {
+          "default": 50,
+          "description": "快捷属性，也可以在 `style` 中配置，用于配置网格线的绘制顺序，默认为 50",
+          "since": "1.4.0",
+          "type": "number"
         }
       },
       "type": "object"
@@ -32039,6 +32078,9 @@
         "addUpdateGlobalPositionTag": {
           "typeof": "function"
         },
+        "addUpdateLayoutTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -32071,6 +32113,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -32355,7 +32400,7 @@
           "typeof": "function"
         },
         "resources": {
-          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
         },
         "rotate": {
           "typeof": "function"
@@ -32472,6 +32517,7 @@
         "addState",
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
+        "addUpdateLayoutTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animate",
@@ -35329,6 +35375,9 @@
         "addUpdateGlobalPositionTag": {
           "typeof": "function"
         },
+        "addUpdateLayoutTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -35367,6 +35416,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "blendMode": {
           "type": "string"
@@ -35706,7 +35758,7 @@
           "typeof": "function"
         },
         "resources": {
-          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
         },
         "rotate": {
           "typeof": "function"
@@ -35847,6 +35899,7 @@
         "addState",
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
+        "addUpdateLayoutTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "afterDraw",
@@ -42750,6 +42803,9 @@
             }
           ]
         },
+        "contentFormatMethod": {
+          "typeof": "function"
+        },
         "contentStyle": {
           "allOf": [
             {
@@ -42819,6 +42875,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -43024,6 +43083,9 @@
               ]
             }
           ]
+        },
+        "titleFormatMethod": {
+          "typeof": "function"
         },
         "titleStyle": {
           "allOf": [
@@ -51244,6 +51306,9 @@
         "addUpdateGlobalPositionTag": {
           "typeof": "function"
         },
+        "addUpdateLayoutTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -51276,6 +51341,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -51560,7 +51628,7 @@
           "typeof": "function"
         },
         "resources": {
-          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
         },
         "rotate": {
           "typeof": "function"
@@ -51680,6 +51748,7 @@
         "addState",
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
+        "addUpdateLayoutTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animate",
@@ -51955,6 +52024,9 @@
         "getLayer": {
           "typeof": "function"
         },
+        "getTimeline": {
+          "typeof": "function"
+        },
         "height": {
           "type": "number"
         },
@@ -52038,6 +52110,9 @@
         },
         "option3d": {
           "$ref": "#/definitions/IOption3D"
+        },
+        "params": {
+          "$ref": "#/definitions/Partial<IStageParams>"
         },
         "parent": {
           "$ref": "#/definitions/IStage"
@@ -52237,6 +52312,7 @@
         "getElementsByName",
         "getElementsByType",
         "getLayer",
+        "getTimeline",
         "height",
         "hooks",
         "increaseAutoRender",
@@ -52253,6 +52329,7 @@
         "off",
         "on",
         "once",
+        "params",
         "parent",
         "pick",
         "pickerService",
@@ -53851,6 +53928,9 @@
     },
     "ITicker": {
       "properties": {
+        "addTimeline": {
+          "typeof": "function"
+        },
         "getFPS": {
           "typeof": "function"
         },
@@ -53883,6 +53963,7 @@
         }
       },
       "required": [
+        "addTimeline",
         "pause",
         "resume",
         "start",
@@ -56548,7 +56629,7 @@
       ],
       "type": "object"
     },
-    "IVisualSpecStyle<unknown,TextAlign>": {
+    "IVisualSpecStyle<unknown,TextAlignType>": {
       "properties": {
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
@@ -56561,7 +56642,7 @@
         "range": {
           "description": "will set to scale.range, it means output of scale",
           "items": {
-            "$ref": "#/definitions/TextAlign"
+            "$ref": "#/definitions/TextAlignType"
           },
           "type": "array"
         },
@@ -56580,7 +56661,7 @@
       ],
       "type": "object"
     },
-    "IVisualSpecStyle<unknown,TextBaseLine>": {
+    "IVisualSpecStyle<unknown,TextBaselineType>": {
       "properties": {
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
@@ -56593,7 +56674,7 @@
         "range": {
           "description": "will set to scale.range, it means output of scale",
           "items": {
-            "$ref": "#/definitions/TextBaseLine"
+            "$ref": "#/definitions/TextBaselineType"
           },
           "type": "array"
         },
@@ -58201,10 +58282,16 @@
         "getNativeHandler": {
           "typeof": "function"
         },
+        "getTopLeft": {
+          "typeof": "function"
+        },
         "height": {
           "type": "number"
         },
         "hooks": {
+          "typeof": "function"
+        },
+        "isVisible": {
           "typeof": "function"
         },
         "maxHeight": {
@@ -58218,6 +58305,9 @@
         },
         "minWidth": {
           "type": "number"
+        },
+        "onVisibleChange": {
+          "typeof": "function"
         },
         "release": {
           "typeof": "function"
@@ -58279,12 +58369,15 @@
         "getContext",
         "getImageBuffer",
         "getNativeHandler",
+        "getTopLeft",
         "height",
         "hooks",
+        "isVisible",
         "maxHeight",
         "maxWidth",
         "minHeight",
         "minWidth",
+        "onVisibleChange",
         "release",
         "removeEventListener",
         "resizable",
@@ -60114,7 +60207,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12050": {
+        "__@toStringTag@13459": {
           "type": "string"
         },
         "size": {
@@ -60122,14 +60215,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12050",
+        "__@toStringTag@13459",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12050": {
+        "__@toStringTag@13459": {
           "type": "string"
         },
         "size": {
@@ -60137,14 +60230,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12050",
+        "__@toStringTag@13459",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12050": {
+        "__@toStringTag@13459": {
           "type": "string"
         },
         "size": {
@@ -60152,14 +60245,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12050",
+        "__@toStringTag@13459",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12050": {
+        "__@toStringTag@13459": {
           "type": "string"
         },
         "size": {
@@ -60167,14 +60260,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12050",
+        "__@toStringTag@13459",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12050": {
+        "__@toStringTag@13459": {
           "type": "string"
         },
         "size": {
@@ -60182,14 +60275,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12050",
+        "__@toStringTag@13459",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12050": {
+        "__@toStringTag@13459": {
           "type": "string"
         },
         "size": {
@@ -60197,14 +60290,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12050",
+        "__@toStringTag@13459",
         "size"
       ],
       "type": "object"
     },
-    "Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
+    "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12050": {
+        "__@toStringTag@13459": {
           "type": "string"
         },
         "size": {
@@ -60212,14 +60305,29 @@
         }
       },
       "required": [
-        "__@toStringTag@12050",
+        "__@toStringTag@13459",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
+      "properties": {
+        "__@toStringTag@13459": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@13459",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12050": {
+        "__@toStringTag@13459": {
           "type": "string"
         },
         "size": {
@@ -60227,7 +60335,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12050",
+        "__@toStringTag@13459",
         "size"
       ],
       "type": "object"
@@ -60638,6 +60746,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -60748,6 +60859,9 @@
         },
         "hover": {
           "type": "boolean"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -63130,6 +63244,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -64247,6 +64364,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -64348,6 +64468,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -64866,6 +64989,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -64954,6 +65080,9 @@
         },
         "forceShowCap": {
           "type": "boolean"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -65190,6 +65319,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -65269,6 +65401,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -65568,6 +65703,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -65627,6 +65765,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -65854,6 +65995,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -65929,6 +66073,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -66163,6 +66310,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -66219,6 +66369,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -66457,6 +66610,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -66555,6 +66711,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -66798,6 +66957,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -66834,6 +66996,19 @@
         "childrenPickable": {
           "type": "boolean"
         },
+        "cornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -66857,6 +67032,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "image": {
           "anyOf": [
@@ -67587,6 +67765,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -67669,6 +67850,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -68423,6 +68607,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -68482,6 +68669,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -68713,6 +68903,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -68782,6 +68975,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -69222,6 +69418,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -69294,6 +69493,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -69521,6 +69723,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -69593,6 +69798,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -69949,6 +70157,101 @@
       },
       "type": "object"
     },
+    "Partial<IStageParams>": {
+      "properties": {
+        "afterRender": {
+          "typeof": "function"
+        },
+        "autoRender": {
+          "type": "boolean"
+        },
+        "background": {
+          "$ref": "#/definitions/IColor"
+        },
+        "beforeRender": {
+          "typeof": "function"
+        },
+        "canvas": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "canvasControled": {
+          "type": "boolean"
+        },
+        "container": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "disableDirtyBounds": {
+          "type": "boolean"
+        },
+        "dpr": {
+          "type": "number"
+        },
+        "enableHtmlAttribute": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLElement"
+            },
+            {
+              "type": [
+                "string",
+                "boolean"
+              ]
+            }
+          ]
+        },
+        "enableLayout": {
+          "type": "boolean"
+        },
+        "height": {
+          "type": "number"
+        },
+        "interactiveLayer": {
+          "type": "boolean"
+        },
+        "optimize": {
+          "typeof": "function"
+        },
+        "pluginList": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "poptip": {
+          "type": "boolean"
+        },
+        "renderStyle": {
+          "type": "string"
+        },
+        "ticker": {
+          "$ref": "#/definitions/ITicker"
+        },
+        "title": {
+          "type": "string"
+        },
+        "viewBox": {
+          "$ref": "#/definitions/IBoundsLike"
+        },
+        "width": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
     "Partial<ISymbolGraphicAttribute>": {
       "properties": {
         "alpha": {
@@ -70030,6 +70333,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -70086,6 +70392,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -70330,6 +70639,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -70417,6 +70729,12 @@
             "string",
             "number"
           ]
+        },
+        "html": {
+          "typeof": "function"
+        },
+        "ignoreBuf": {
+          "type": "boolean"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -71154,6 +71472,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -71238,6 +71559,12 @@
             "string",
             "number"
           ]
+        },
+        "html": {
+          "typeof": "function"
+        },
+        "ignoreBuf": {
+          "type": "boolean"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -71509,6 +71836,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -71578,6 +71908,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -71800,6 +72133,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -71856,6 +72192,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -73297,34 +73636,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12050": {
+        "__@toStringTag@13459": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12050"
+        "__@toStringTag@13459"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12050": {
+        "__@toStringTag@13459": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12050"
+        "__@toStringTag@13459"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12050": {
+        "__@toStringTag@13459": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12050"
+        "__@toStringTag@13459"
       ],
       "type": "object"
     },
@@ -73334,10 +73673,10 @@
     "Record<string,ConvertToMarkStyleSpec<IPathMarkSpec>|IMarkStateSpec<IPathMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>": {
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>": {
@@ -73487,6 +73826,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -73575,6 +73917,9 @@
         },
         "forceShowCap": {
           "type": "boolean"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -73751,6 +74096,7 @@
         "fill",
         "fillOpacity",
         "forceShowCap",
+        "html",
         "innerBorder",
         "innerRadius",
         "keepDirIn3d",
@@ -73876,6 +74222,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -73955,6 +74304,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -74130,6 +74482,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -74252,6 +74605,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -74311,6 +74667,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -74475,6 +74834,7 @@
         "endAngle",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -74597,6 +74957,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -74672,6 +75035,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -74845,6 +75211,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -74984,6 +75351,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -75082,6 +75452,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -75269,6 +75642,7 @@
         "flexDirection",
         "flexWrap",
         "height",
+        "html",
         "innerBorder",
         "justifyContent",
         "keepDirIn3d",
@@ -75393,6 +75767,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -75429,6 +75806,19 @@
         "childrenPickable": {
           "type": "boolean"
         },
+        "cornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -75452,6 +75842,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "image": {
           "anyOf": [
@@ -75624,6 +76017,7 @@
         "boundsMode",
         "boundsPadding",
         "childrenPickable",
+        "cornerRadius",
         "cursor",
         "customPickShape",
         "dx",
@@ -75632,6 +76026,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "image",
         "innerBorder",
         "keepDirIn3d",
@@ -75756,6 +76151,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -75838,6 +76236,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -76014,6 +76415,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -76136,6 +76538,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -76195,6 +76600,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -76363,6 +76771,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -76484,6 +76893,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -76553,6 +76965,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -76717,6 +77132,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -76838,6 +77254,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -76910,6 +77329,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -77075,6 +77497,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -77197,6 +77620,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77269,6 +77695,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -77431,6 +77860,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -77552,6 +77982,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77617,6 +78050,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -77809,6 +78245,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -77939,6 +78376,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78036,6 +78476,19 @@
         "childrenPickable": {
           "type": "boolean"
         },
+        "cornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -78062,6 +78515,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "id": {
           "type": "string"
@@ -78264,6 +78720,7 @@
         "boundsMode",
         "boundsPadding",
         "childrenPickable",
+        "cornerRadius",
         "cursor",
         "customPickShape",
         "direction",
@@ -78273,6 +78730,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "id",
         "image",
         "innerBorder",
@@ -78401,6 +78859,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78457,6 +78918,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -78637,6 +79101,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -78759,6 +79224,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78846,6 +79314,12 @@
             "string",
             "number"
           ]
+        },
+        "html": {
+          "typeof": "function"
+        },
+        "ignoreBuf": {
+          "type": "boolean"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -79060,6 +79534,8 @@
         "fontStyle",
         "fontVariant",
         "fontWeight",
+        "html",
+        "ignoreBuf",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -82615,8 +83091,10 @@
       "description": "text",
       "enum": [
         "center",
+        "end",
         "left",
-        "right"
+        "right",
+        "start"
       ],
       "type": "string"
     },
@@ -83211,7 +83689,7 @@
         }
       ]
     },
-    "VisualType<TextAlign>": {
+    "VisualType<TextAlignType>": {
       "anyOf": [
         {
           "$ref": "#/definitions/IVisualScale"
@@ -83220,20 +83698,22 @@
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,TextAlign>"
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,TextAlignType>"
         },
         {
           "enum": [
             "center",
+            "end",
             "left",
-            "right"
+            "right",
+            "start"
           ],
           "type": "string"
         }
       ],
       "description": "text"
     },
-    "VisualType<TextBaseLine>": {
+    "VisualType<TextBaselineType>": {
       "anyOf": [
         {
           "$ref": "#/definitions/IVisualScale"
@@ -83242,7 +83722,7 @@
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,TextBaseLine>"
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,TextBaselineType>"
         },
         {
           "enum": [
