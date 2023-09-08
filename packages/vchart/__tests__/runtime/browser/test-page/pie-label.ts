@@ -324,20 +324,13 @@ const run = () => {
     },
     label: {
       visible: true,
-      position: 'inside',
-      // smartInvert: false,
-      smartInvert: {
-        strokeStrategy: 'similarBase',
-        brightColor: '#fff000',
-        darkColor: '#dd0000'
-      },
       style: {
         fontSize: 16,
         lineWidth: 2
       },
       line: {
-        style: {},
-        line1MinLength: 30
+        line1MinLength: 30,
+        smooth: true
       },
       layout: {
         // align: 'edge'
@@ -764,7 +757,7 @@ const run = () => {
     hash: '8fefead4c53c18c47279796bce64468e'
   };
 
-  const cs = new VChart(spec_694, {
+  const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
