@@ -376,6 +376,27 @@ updateFullDataSync: (data: IDataValues | IDataValues[], reRender: boolean = true
 updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => Promise<IVChart>;
 ```
 
+### updateModelSpec
+
+**asynchronous** module spec update, you can specify to update the configuration of a chart module through filter, and the chart will be automatically rendered without calling rendering methods such as `renderAsync()`.
+
+```ts
+/**
+ * model spec update
+ * @param filter
+ * @param spec
+ * @param forceMerge
+ * @returns
+ * @sync 1.4.0
+ */
+updateModelSpec: (
+  filter: string | { type: string; index: number },
+  spec: unknown,
+  forceMerge?: boolean,
+  morphConfig?: IMorphConfig
+) => Promise<IVChart>;
+```
+
 ### updateViewBox
 
 Update the drawing Region. viewBox is the drawing Region in the format `{ x1: number; x2: number; y1: number; y2: number }`.

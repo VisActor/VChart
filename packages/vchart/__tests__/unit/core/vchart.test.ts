@@ -275,8 +275,8 @@ describe('VChart', () => {
 
       const rootGroup = vchart.getStage().defaultLayer.find(node => node.name === 'root', false) as unknown as Group;
 
-      const leftAxisLabelGroup = rootGroup.children.find(child =>
-        child.name?.includes('axis-left')
+      const leftAxisLabelGroup = rootGroup.children.find(
+        child => child.name?.includes('axis-left')
       ) as unknown as Group;
       const labels = leftAxisLabelGroup.find(
         node => node.name === 'axis-label-container-layer-0',
@@ -704,6 +704,129 @@ describe('VChart', () => {
 
       expect(point1.x).toBe(markCoord.x);
       expect(point1.y).toBe(markCoord.y);
+    });
+  });
+
+  describe('updateModelSpec', () => {
+    let container: HTMLElement;
+    let dom: HTMLElement;
+    let vchart: VChart;
+    beforeAll(() => {
+      container = createDiv();
+      dom = createDiv(container);
+      dom.id = 'container';
+      container.style.position = 'fixed';
+      container.style.width = '500px';
+      container.style.height = '500px';
+      container.style.top = '0px';
+      container.style.left = '0px';
+
+      const spec = {
+        type: 'common',
+        seriesField: 'color',
+        data: [
+          {
+            id: 'id0',
+            values: [
+              { x: '周一', type: '早餐', y: 15 },
+              { x: '周一', type: '午餐', y: 25 },
+              { x: '周二', type: '早餐', y: 12 },
+              { x: '周二', type: '午餐', y: 30 },
+              { x: '周三', type: '早餐', y: 15 },
+              { x: '周三', type: '午餐', y: 24 },
+              { x: '周四', type: '早餐', y: 10 },
+              { x: '周四', type: '午餐', y: 25 },
+              { x: '周五', type: '早餐', y: 13 },
+              { x: '周五', type: '午餐', y: 20 },
+              { x: '周六', type: '早餐', y: 10 },
+              { x: '周六', type: '午餐', y: 10 },
+              { x: '周日', type: '早餐', y: 20 },
+              { x: '周日', type: '午餐', y: 19 }
+            ]
+          },
+          {
+            id: 'id1',
+            values: [
+              { x: '周一', type: '饮料', y: -52 },
+              { x: '周二', type: '饮料', y: -43 },
+              { x: '周三', type: '饮料', y: -33 },
+              { x: '周四', type: '饮料', y: -22 },
+              { x: '周五', type: '饮料', y: -10 },
+              { x: '周六', type: '饮料', y: -30 },
+              { x: '周日', type: '饮料', y: -50 }
+            ]
+          }
+        ],
+        series: [
+          {
+            type: 'bar',
+            id: 'bar',
+            dataIndex: 0,
+            stack: false,
+            label: { visible: true },
+            seriesField: 'type',
+            xField: ['x', 'type'],
+            yField: 'y'
+          },
+          {
+            type: 'line',
+            id: 'line',
+            dataIndex: 1,
+            label: { visible: true },
+            seriesField: 'type',
+            xField: 'x',
+            yField: 'y',
+            stack: false
+          }
+        ],
+        axes: [
+          { orient: 'left', seriesIndex: [0], id: 'axisLeft', nice: false, zero: false },
+          {
+            orient: 'right',
+            id: 'axisRight',
+            seriesId: ['line'],
+            gird: { visible: false },
+            nice: false,
+            zero: false,
+            label: { autoLimit: false },
+            maxWidth: '50%'
+          },
+          {
+            orient: 'bottom',
+            label: { visible: true },
+            type: 'band',
+            domain: ['周一', '周二', '周三']
+          }
+        ]
+      };
+      vchart = new VChart(spec as any, {
+        dom
+      });
+      vchart.renderSync();
+    });
+
+    afterEach(() => {
+      removeDom(container);
+      vchart.release();
+    });
+
+    it('axis domain change', async () => {
+      await vchart.updateModelSpec('axisLeft', { min: -100, max: 100 } as any, true);
+
+      let axis = vchart.getComponents().find(com => com.layoutOrient === 'left') as any;
+
+      expect(axis.getScale().domain()).toEqual([-100, 100]);
+
+      await vchart.updateModelSpec(
+        'axisRight',
+        {
+          seriesId: ['bar', 'line']
+        } as any,
+        true
+      );
+      axis = vchart.getComponents().find(com => com.layoutOrient === 'right') as any;
+
+      expect(axis.getScale().domain()).toEqual([-52, 30]);
     });
   });
 });

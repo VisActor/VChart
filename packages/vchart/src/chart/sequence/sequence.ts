@@ -19,6 +19,8 @@ import { array } from '@visactor/vutils';
 import { normalizeLayoutPaddingSpec } from '../../util';
 VChart.useSeries([DotSeries, LinkSeries]);
 
+const SCROLL_BAR_DEFAULT_SIZE = 10;
+
 export class SequenceChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sequence;
   static readonly view: string = 'singleDefault'; // csj-Q: view是什么含义

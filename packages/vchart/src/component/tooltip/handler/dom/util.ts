@@ -20,7 +20,10 @@ export const getPixelPropertyStr = (num?: number | number[], defaultStr?: string
   return defaultStr ?? 'initial';
 };
 
-export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<TooltipAttributes>): IDomTooltipStyle {
+export function getDomStyles(
+  style: Partial<ITooltipStyle>,
+  attributeCache?: Maybe<TooltipAttributes>
+): IDomTooltipStyle {
   const {
     panel: {
       fill: fillColor,

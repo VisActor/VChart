@@ -44,6 +44,9 @@ export interface IChart extends ICompilable {
   getSpec: () => any;
   setSpec: (s: any) => void;
 
+  // data flow
+  reDataFlow: () => void;
+
   setCanvasRect: (width: number, height: number) => void;
   getCanvasRect: () => ILayoutRect;
 
@@ -102,6 +105,9 @@ export interface IChart extends ICompilable {
   // model
   getModelById: (id: number) => IModel | undefined;
   getModelByUserId: (userId: StringOrNumber) => IModel | undefined;
+  getModelInFilter: (
+    filter: string | { type: string; index: number } | ((model: IModel) => boolean)
+  ) => IModel | undefined;
   getAllModels: () => IModel[];
 
   // mark
