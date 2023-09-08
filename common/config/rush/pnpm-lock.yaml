@@ -1,8 +1,8 @@
 lockfileVersion: 5.4
 
 overrides:
-  '@visactor/vrender': 0.15.0-alpha.15
-  '@visactor/vrender-components': 0.15.0-alpha.15
+  '@visactor/vrender': 0.15.0-alpha.17
+  '@visactor/vrender-components': 0.15.0-alpha.17
 
 importers:
 
@@ -21,7 +21,7 @@ importers:
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.3.1
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.15
+      '@visactor/vrender': 0.15.0-alpha.17
       '@visactor/vutils': ~0.15.11
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
@@ -45,8 +45,8 @@ importers:
       '@arco-design/web-react': 2.46.1_vnxzf5c44dqo4vncfl2mrh2gwm
       '@visactor/vchart': link:../packages/vchart
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vutils': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vutils': 0.15.12
       axios: 1.5.0
       highlight.js: 11.8.0
       markdown-it: 13.0.1
@@ -123,7 +123,7 @@ importers:
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.3.1
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.15
+      '@visactor/vrender': 0.15.0-alpha.17
       '@visactor/vutils': ~0.15.11
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
@@ -144,8 +144,8 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vutils': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vutils': 0.15.12
       react-is: 18.2.0
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
@@ -283,8 +283,8 @@ importers:
       '@visactor/vgrammar-util': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud-shape': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vrender-components': 0.15.0-alpha.15
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vrender-components': 0.15.0-alpha.17
       '@visactor/vscale': ~0.15.11
       '@visactor/vutils': ~0.15.11
       '@visactor/vutils-extension': workspace:0.0.1
@@ -318,7 +318,7 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vdataset': 0.15.11
+      '@visactor/vdataset': 0.15.12
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-hierarchy': 0.7.0-alpha.3
       '@visactor/vgrammar-projection': 0.7.0-alpha.3
@@ -326,10 +326,10 @@ importers:
       '@visactor/vgrammar-util': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud-shape': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vrender-components': 0.15.0-alpha.15
-      '@visactor/vscale': 0.15.11
-      '@visactor/vutils': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vrender-components': 0.15.0-alpha.17
+      '@visactor/vscale': 0.15.12
+      '@visactor/vutils': 0.15.12
       '@visactor/vutils-extension': link:../vutils-extension
     devDependencies:
       '@esbuild-plugins/node-globals-polyfill': 0.1.1
@@ -383,7 +383,7 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vchart': workspace:1.3.1
       '@visactor/vdataset': ~0.15.11
-      '@visactor/vrender': 0.15.0-alpha.15
+      '@visactor/vrender': 0.15.0-alpha.17
       '@visactor/vutils': ~0.15.11
       eslint: ~8.18.0
       husky: 7.0.4
@@ -402,9 +402,9 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vdataset': 0.15.11
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vutils': 0.15.11
+      '@visactor/vdataset': 0.15.12
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vutils': 0.15.12
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -466,7 +466,7 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vrender': 0.15.0-alpha.15
+      '@visactor/vrender': 0.15.0-alpha.17
       '@visactor/vscale': ~0.15.11
       '@visactor/vutils': ~0.15.11
       eslint: ~8.18.0
@@ -485,9 +485,9 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vscale': 0.15.11
-      '@visactor/vutils': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vscale': 0.15.12
+      '@visactor/vutils': 0.15.12
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -692,7 +692,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
       '@visactor/vchart': workspace:1.3.1
-      '@visactor/vrender': 0.15.0-alpha.15
+      '@visactor/vrender': 0.15.0-alpha.17
       '@visactor/vutils': ~0.15.11
       cross-env: ^7.0.3
       eslint: ~8.18.0
@@ -705,8 +705,8 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../../packages/vchart
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vutils': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vutils': 0.15.12
     devDependencies:
       '@internal/bundler': link:../bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -4349,13 +4349,13 @@ packages:
     resolution: {integrity: sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==}
     dev: true
 
-  /@visactor/vdataset/0.15.11:
-    resolution: {integrity: sha512-p1VPzlBJlcF4gUGBR9fkU735pd/Zw42XPqcA9R3xHbz+mz+LvdBKapy6dcyu0rvXVgjarHo5TG5HzEvO6dV4ag==}
+  /@visactor/vdataset/0.15.12:
+    resolution: {integrity: sha512-eLJ1qbnPC/uvuWiKo6llCOnEv0Gx5QyvryifwxbEbklyzRbqYkSZmBxXxG3yQM/hs84WVmamx6Z7hF0JNLZseg==}
     dependencies:
       '@turf/flatten': 6.5.0
       '@turf/helpers': 6.5.0
       '@turf/rewind': 6.5.0
-      '@visactor/vutils': 0.15.11
+      '@visactor/vutils': 0.15.12
       d3-dsv: 3.0.1
       d3-geo: 1.12.1
       d3-hexbin: 0.2.2
@@ -4375,7 +4375,7 @@ packages:
     resolution: {integrity: sha512-SLkdgrumk1OB4hd0bENt2SVjoHKpn2k/9BjMVvp8j3DFdRvg+VQmvOffhVaQ9qGtPPwkhQLCdizDezeIyG/78w==}
     dependencies:
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vutils': 0.15.11
+      '@visactor/vutils': 0.15.12
     dev: false
 
   /@visactor/vgrammar-hierarchy/0.7.0-alpha.3:
@@ -4383,8 +4383,8 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vutils': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vutils': 0.15.12
     dev: false
 
   /@visactor/vgrammar-projection/0.7.0-alpha.3:
@@ -4392,7 +4392,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vutils': 0.15.11
+      '@visactor/vutils': 0.15.12
       d3-geo: 1.12.1
     dev: false
 
@@ -4401,14 +4401,14 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vutils': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vutils': 0.15.12
     dev: false
 
   /@visactor/vgrammar-util/0.7.0-alpha.3:
     resolution: {integrity: sha512-VBjQoQrrSG53D9YBwFTwNaLvccb9zuOiIf+wO7bX4o77K+zL890OKerwtyMchWnKw6nJOHb0ghAQw4TLuL4WmA==}
     dependencies:
-      '@visactor/vutils': 0.15.11
+      '@visactor/vutils': 0.15.12
     dev: false
 
   /@visactor/vgrammar-wordcloud-shape/0.7.0-alpha.3:
@@ -4416,9 +4416,9 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vscale': 0.15.11
-      '@visactor/vutils': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vscale': 0.15.12
+      '@visactor/vutils': 0.15.12
     dev: false
 
   /@visactor/vgrammar-wordcloud/0.7.0-alpha.3:
@@ -4426,49 +4426,49 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vutils': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vutils': 0.15.12
     dev: false
 
   /@visactor/vgrammar/0.7.0-alpha.3:
     resolution: {integrity: sha512-U8Eka5MDFtahsGxZIZGWaLDhriss4bCRPsfncN5HEwbhdZQnWziSWw3pJptwlgwD4FVp5FxlVc/EwX5HMr5WAA==}
     dependencies:
-      '@visactor/vdataset': 0.15.11
+      '@visactor/vdataset': 0.15.12
       '@visactor/vgrammar-coordinate': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vrender-components': 0.15.0-alpha.15
-      '@visactor/vscale': 0.15.11
-      '@visactor/vutils': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vrender-components': 0.15.0-alpha.17
+      '@visactor/vscale': 0.15.12
+      '@visactor/vutils': 0.15.12
     dev: false
 
-  /@visactor/vrender-components/0.15.0-alpha.15:
-    resolution: {integrity: sha512-sEZDSH3bTCCi7k3xKSFCitlYVa4BgkBj64igaweqC0b9IpaAcVJvdd1Z8K5PCglCSN7tugmwqWCB5ZpYRLtt9A==}
+  /@visactor/vrender-components/0.15.0-alpha.17:
+    resolution: {integrity: sha512-1El/M+XAVorwNwFdHQkk9Pw3IM5qVmbQGrZbiQgKKwrdOe1AS4gLU0kj4d9ioGs5N8zEMLFxb5jVa+ffX2eG4g==}
     dependencies:
-      '@visactor/vrender': 0.15.0-alpha.15
-      '@visactor/vscale': 0.15.11
-      '@visactor/vutils': 0.15.11
+      '@visactor/vrender': 0.15.0-alpha.17
+      '@visactor/vscale': 0.15.12
+      '@visactor/vutils': 0.15.12
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vrender/0.15.0-alpha.15:
-    resolution: {integrity: sha512-9bk2BOYAMZjzn0S1lKivqfFVP2XjGbHRI46CqrWcT/WAaP55tGg/Myw9ToIs+PhIQ4Zn6wHNBCmS8Xu6xmmoSQ==}
+  /@visactor/vrender/0.15.0-alpha.17:
+    resolution: {integrity: sha512-IwrDcu3w0avWb2vkRN5e46ULoYAE/FReFNhOTftWVaE0+u7HnBiKFcAoKzWDAUrxasFalAW2JNnltw8oUQ3CQw==}
     dependencies:
-      '@visactor/vutils': 0.15.11
+      '@visactor/vutils': 0.15.12
       color-convert: 2.0.1
       core-js: 3.31.1
       fast-xml-parser: 4.2.7
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vscale/0.15.11:
-    resolution: {integrity: sha512-cHgTxDQq6wz6n/4ZxdaB4hKw3Si7QY3MaQIhBqNUFOY+zK4Vjuslt4LtVrHHMROs3QGJ0TORGL/y2HOdNj16SQ==}
+  /@visactor/vscale/0.15.12:
+    resolution: {integrity: sha512-rJHV2m4uwJb6X+psvVcXKsLiuCma36NIAieGqc6WjnoAJogiN/0KExc3WSuZtcipCo2hayd3Tc4AeFqv6jFQcg==}
     dependencies:
-      '@visactor/vutils': 0.15.11
+      '@visactor/vutils': 0.15.12
     dev: false
 
-  /@visactor/vutils/0.15.11:
-    resolution: {integrity: sha512-siHDMxBD5YHtmraat4NrbG3g6kiLDzx+mpxHkXfrH9MgkLDfy70nI8hbJKwGXGusvTZzStB6AB6D0nGxnKQv6A==}
+  /@visactor/vutils/0.15.12:
+    resolution: {integrity: sha512-A0tleGdSWBqpJIaG1+dKa2kdDSGopZ2IEWAp9mWvgm/FO1erScc7NfdL9EjuR6bGfnnVlInUvsPUWQFh9/GPFg==}
     dependencies:
       '@turf/helpers': 6.5.0
       '@turf/invariant': 6.5.0
