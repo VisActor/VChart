@@ -5,10 +5,10 @@ import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { AttributeLevel, POLAR_START_RADIAN } from '../../constant';
 import { DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
 import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
-import { isValid, radians } from '../../util';
+import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { mixin } from '@visactor/vutils';
+import { degreeToRadian, mixin } from '@visactor/vutils';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
@@ -127,7 +127,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         const rect = this.getLayoutRect();
         return Math.min(rect.width, rect.height);
       },
-      startAngle: radians(this._spec.startAngle) ?? POLAR_START_RADIAN,
+      startAngle: isValid(this._spec.startAngle) ? degreeToRadian(this._spec.startAngle) : POLAR_START_RADIAN,
       pointToCoord: (point: IPoint) => this.angleAxisHelper?.pointToCoord(point),
       coordToPoint: (coord: IPolarPoint) => this.angleAxisHelper.coordToPoint(coord)
     };

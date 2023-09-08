@@ -1,9 +1,8 @@
 import type { BandScale } from '@visactor/vscale';
-import { isValid } from '../../../../util';
+import { isValid } from '@visactor/vutils';
 import type { IPolarTickDataOpt, ITickData } from '../interface';
 import { convertDomainToTickData, getPolarAngleLabelBounds, labelOverlap } from '../util';
 import type { AABBBounds } from '@visactor/vutils';
-import { getAxisLabelOffset } from '../../../../component/axis/util';
 
 /**
  * 对于离散轴：
@@ -16,10 +15,10 @@ import { getAxisLabelOffset } from '../../../../component/axis/util';
  * @returns
  */
 export const polarAngleAxisDiscreteTicks = (scale: BandScale, op: IPolarTickDataOpt): ITickData[] => {
-  const { tickCount, forceTickCount, tickStep, getRadius, axisSpec, labelGap = 0 } = op;
+  const { tickCount, forceTickCount, tickStep, getRadius, labelOffset, labelGap = 0 } = op;
   const radius = getRadius?.();
   if (!radius) {
-    return convertDomainToTickData(scale.domain(), op);
+    return convertDomainToTickData(scale.domain());
   }
 
   let scaleTicks;
@@ -33,7 +32,6 @@ export const polarAngleAxisDiscreteTicks = (scale: BandScale, op: IPolarTickData
     const domain = scale.domain();
     const range = scale.range();
 
-    const labelOffset = getAxisLabelOffset(axisSpec);
     const labelBoundsList = getPolarAngleLabelBounds(scale, domain, op);
 
     const rangeStart = Math.min(...range);
@@ -58,7 +56,7 @@ export const polarAngleAxisDiscreteTicks = (scale: BandScale, op: IPolarTickData
     scaleTicks = scale.domain();
   }
 
-  return convertDomainToTickData(scaleTicks, op);
+  return convertDomainToTickData(scaleTicks);
 };
 
 /** 计算合适的step */

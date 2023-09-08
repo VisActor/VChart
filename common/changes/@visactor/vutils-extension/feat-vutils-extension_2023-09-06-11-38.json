@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vutils-extension",
+      "comment": "feat: intialize visactor/vutils-extension, for code resuse",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vutils-extension"
+}

@@ -1,5 +1,5 @@
 import type { BandScale } from '@visactor/vscale';
-import { isValid } from '../../../../util';
+import { isValid } from '@visactor/vutils';
 import type { ICartesianTickDataOpt, ITickData } from '../interface';
 import { convertDomainToTickData, getCartesianLabelBounds, labelDistance, labelOverlap } from '../util';
 import type { AABBBounds } from '@visactor/vutils';
@@ -28,9 +28,9 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
   const rangeSize = Math.abs(range[range.length - 1] - range[0]);
   if (rangeSize < 2) {
     if (op.labelLastVisible) {
-      return convertDomainToTickData([domain[domain.length - 1]], op);
+      return convertDomainToTickData([domain[domain.length - 1]]);
     }
-    return convertDomainToTickData([domain[0]], op);
+    return convertDomainToTickData([domain[0]]);
   }
 
   let scaleTicks;
@@ -108,7 +108,7 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
     scaleTicks = scale.domain();
   }
 
-  return convertDomainToTickData(scaleTicks, op);
+  return convertDomainToTickData(scaleTicks);
 };
 
 /** 计算合适的step */

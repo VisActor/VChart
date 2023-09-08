@@ -10,20 +10,19 @@ import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
 import { Factory } from '../../../core/factory';
-import { isArray, isValidNumber, mergeSpec, polarToCartesian, radians, eachSeries } from '../../../util';
+import { isArray, isValidNumber, mergeSpec, polarToCartesian, eachSeries } from '../../../util';
 import { scaleParser } from '../../../data/parser/scale';
-import type { IPolarTickDataOpt } from '../../../data/transforms/tick-data';
-// eslint-disable-next-line no-duplicate-imports
-import { ticks } from '../../../data/transforms/tick-data';
+import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
+import { ticks } from '@visactor/vutils-extension';
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber } from '../../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { isPolarAxisSeries } from '../../../series/util/utils';
-import { isValidPolarAxis } from '../util';
+import { getAxisLabelOffset, isValidPolarAxis } from '../util';
 
 import type { Dict } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { PointService, isValid } from '@visactor/vutils';
+import { PointService, degreeToRadian, isValid } from '@visactor/vutils';
 import type { IEffect } from '../../../model/interface';
 import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
@@ -178,8 +177,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     const chartSpec = this.getChart().getSpec() as any;
     const startAngle = this._spec.startAngle ?? chartSpec.startAngle;
     const endAngle = this._spec.endAngle ?? chartSpec.endAngle;
-    this._startAngle = radians(startAngle ?? POLAR_START_ANGLE);
-    this._endAngle = radians(endAngle ?? (isValid(startAngle) ? startAngle + 360 : POLAR_END_ANGLE));
+    this._startAngle = degreeToRadian(startAngle ?? POLAR_START_ANGLE);
+    this._endAngle = degreeToRadian(endAngle ?? (isValid(startAngle) ? startAngle + 360 : POLAR_END_ANGLE));
   }
 
   setLayoutStartPosition(pos: Partial<IPoint>): void {
@@ -234,7 +233,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
             labelFormatter: label.formatMethod,
             labelGap: label.minGap,
 
-            axisSpec: this._spec,
+            labelOffset: getAxisLabelOffset(this._spec),
             getRadius: () => this.getOuterRadius()
           } as IPolarTickDataOpt
         },

@@ -1,26 +1,24 @@
 import type { IBaseScale } from '@visactor/vscale';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { AABBBounds, polarToCartesian } from '@visactor/vutils';
-import { getAxisLabelOffset } from '../../../component/axis/util';
-import type { TextAlign, TextBaseLine } from '../../../typings';
-import { angleLabelOrientAttribute, initTextMeasure, radians } from '../../../util';
-import type { ICartesianTickDataOpt, IPolarTickDataOpt, ITickData, ITickDataOpt } from './interface';
-import type { IGraphic } from '@visactor/vrender';
+import { AABBBounds, degreeToRadian, polarToCartesian } from '@visactor/vutils';
+import type { IGraphic, TextAlignType, TextBaselineType } from '@visactor/vrender';
+import { initTextMeasure } from '../../utils/text';
+import { angleLabelOrientAttribute } from '../../utils/polar';
+import type { ICartesianTickDataOpt, IPolarTickDataOpt, ITickData } from './interface';
 
-export const convertDomainToTickData = (domain: any[], op: ITickDataOpt): ITickData[] => {
+export const convertDomainToTickData = (domain: any[]): ITickData[] => {
   const ticks = domain.map((t: number, index: number) => {
     return {
       index,
       value: t
-      // label: op.labelFormatter ? op.labelFormatter(t) : `${t}`
     };
   });
   return ticks;
 };
 
 /** 判断两个label是否有重叠情况 */
-export const labelOverlap = (prevLabel: AABBBounds, nextLabel: AABBBounds, gap: number = 0): boolean => {
+export const labelOverlap = (prevLabel: AABBBounds, nextLabel: AABBBounds, gap = 0): boolean => {
   const prevBounds = new AABBBounds(prevLabel).expand(gap / 2);
   const nextBounds = new AABBBounds(nextLabel).expand(gap / 2);
   return prevBounds.intersects(nextBounds);
@@ -74,7 +72,7 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
   if (isHorizontal) {
     orientAngle = 0;
   } else if (isVertical) {
-    orientAngle = radians(-90);
+    orientAngle = degreeToRadian(-90);
   }
 
   const textMeasure = initTextMeasure(labelStyle);
@@ -91,7 +89,7 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
     let textX = Math.cos(orientAngle) * pos;
     let textY = -Math.sin(orientAngle) * pos;
 
-    let align: TextAlign;
+    let align: TextAlignType;
     if (labelFlush && isHorizontal && i === 0) {
       align = 'left';
     } else if (labelFlush && isHorizontal && i === domain.length - 1) {
@@ -105,7 +103,7 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
       textX -= textWidth / 2;
     }
 
-    let baseline: TextBaseLine;
+    let baseline: TextBaselineType;
     if (labelFlush && isVertical && i === 0) {
       baseline = 'top';
     } else if (labelFlush && isVertical && i === domain.length - 1) {
@@ -130,11 +128,9 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
 };
 
 export const getPolarAngleLabelBounds = (scale: IBaseScale, domain: any[], op: IPolarTickDataOpt): AABBBounds[] => {
-  const { labelStyle, getRadius, axisSpec, labelFormatter } = op;
+  const { labelStyle, getRadius, labelOffset, labelFormatter } = op;
   const radius = getRadius?.();
   const labelAngle = labelStyle.angle ?? 0;
-
-  const labelOffset = getAxisLabelOffset(axisSpec);
 
   const textMeasure = initTextMeasure(labelStyle);
   const labelBoundsList = domain.map((v: any) => {
