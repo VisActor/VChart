@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix bug of series mark static style are not updated when updateSpec\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}
