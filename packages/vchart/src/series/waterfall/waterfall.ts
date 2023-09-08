@@ -218,7 +218,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 
     this.setMarkStyle(labelMark, {
       text: (datum: Datum) => {
-        return this._spec.stackLabel?.valueType === 'absolute' ? datum.end : precisionSub(datum.end - datum.start);
+        return this._spec.stackLabel?.valueType === 'absolute' ? datum.end : precisionSub(datum.end, datum.start);
       }
     });
   }
