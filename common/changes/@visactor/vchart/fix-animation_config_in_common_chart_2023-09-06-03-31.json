@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of animation config not work in common chart, related #814",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
