@@ -62,7 +62,7 @@ import { dataToDataView } from '../data/initialize';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { has, isFunction, isEmpty } from '@visactor/vutils';
+import { has, isFunction, isEmpty, isNil } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
 import type { IGroupMark, IRunningConfig as IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
 import { CompilableBase } from '../compile/compilable-base';
@@ -75,6 +75,7 @@ import { DimensionEventEnum } from '../event/events/dimension';
 import type { ITooltip } from '../component/tooltip/interface';
 import type { IRectMark } from '../mark/rect';
 import { calculateChartSize } from './util';
+import { isDiscrete } from '@visactor/vscale';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -155,7 +156,7 @@ export class BaseChart extends CompilableBase implements IChart {
     this._layoutTag = tag;
     if (this.getCompiler()?.getVGrammarView()) {
       this.getCompiler().getVGrammarView().updateLayoutTag();
-      tag && reLayout && this.getCompiler().reRenderAsync(morphConfig);
+      tag && reLayout && this.getCompiler().renderAsync(morphConfig);
     }
     return this._layoutTag;
   }
@@ -866,8 +867,13 @@ export class BaseChart extends CompilableBase implements IChart {
     array(this._spec.data).forEach((d, i) => {
       const dataView = this._dataSet.getDataView(d.id);
       if (dataView) {
+        if (d.fields) {
+          dataView.setFields(d.fields);
+        }
+
         if (d.values) {
-          dataView.updateRawData(d.values);
+          // d is not dataview
+          dataView.parseNewData(d.values, d.parser);
         } else if (!d.latestData) {
           dataView.updateRawData([]);
         }
@@ -942,8 +948,9 @@ export class BaseChart extends CompilableBase implements IChart {
         }
         s.updateRawData(values);
       }
+      const lastSpec = s.getSpec();
       this._mergeUpdateResult(result, s.updateSpec(spec));
-      s.reInit();
+      s.reInit(null, lastSpec);
     });
   }
 
@@ -1363,26 +1370,29 @@ export class BaseChart extends CompilableBase implements IChart {
         }
       }
     });
-    if (!dimensionInfo) {
-      return;
-    }
+    const isUnableValue =
+      isNil(value) || !dimensionInfo || dimensionInfo.every(d => isDiscrete(d.axis.getScale().type) && isNil(d.index));
     // tooltip
     if (opt.tooltip !== false) {
       const tooltip = this._components.find(c => c.type === ComponentTypeEnum.tooltip) as unknown as ITooltip;
-      if (tooltip.getVisible()) {
-        const dataFilter = {};
-        dimensionInfo.forEach((d: IDimensionInfo) => {
-          const { axis, value, data } = d;
-          const isY = axis.getOrient() === 'left' || axis.getOrient() === 'right';
-          data.forEach(d => {
-            if (isY) {
-              dataFilter[(<ICartesianSeries>d.series).fieldY[0]] = value;
-            } else {
-              dataFilter[(<ICartesianSeries>d.series).fieldX[0]] = value;
-            }
+      if (tooltip?.getVisible()) {
+        if (isUnableValue) {
+          (<any>tooltip).hideTooltip?.();
+        } else {
+          const dataFilter = {};
+          dimensionInfo.forEach((d: IDimensionInfo) => {
+            const { axis, value, data } = d;
+            const isY = axis.getOrient() === 'left' || axis.getOrient() === 'right';
+            data.forEach(d => {
+              if (isY) {
+                dataFilter[(<ICartesianSeries>d.series).fieldY[0]] = value;
+              } else {
+                dataFilter[(<ICartesianSeries>d.series).fieldX[0]] = value;
+              }
+            });
           });
-        });
-        tooltip.showTooltip(dataFilter, opt.showTooltipOption);
+          tooltip.showTooltip(dataFilter, opt.showTooltipOption);
+        }
       }
     }
     if (opt.crosshair !== false) {
@@ -1390,12 +1400,17 @@ export class BaseChart extends CompilableBase implements IChart {
         c => c.type === ComponentTypeEnum.cartesianCrosshair
       ) as unknown as ICrossHair;
       if (crosshair && crosshair.clearAxisValue && crosshair.setAxisValue) {
-        dimensionInfo.forEach((d: IDimensionInfo) => {
-          const { axis, value } = d;
-          crosshair.clearAxisValue();
-          crosshair.setAxisValue(value, axis);
-          crosshair.layoutByValue();
-        });
+        if (isUnableValue) {
+          crosshair.clearAxisValue?.();
+          crosshair.hide?.();
+        } else {
+          dimensionInfo.forEach((d: IDimensionInfo) => {
+            const { axis, value } = d;
+            crosshair.clearAxisValue();
+            crosshair.setAxisValue(value, axis);
+            crosshair.layoutByValue();
+          });
+        }
       }
     }
   }

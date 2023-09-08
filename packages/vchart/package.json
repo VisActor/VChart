@@ -105,18 +105,19 @@
     "canvas": "2.11.2"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.15.10",
-    "@visactor/vdataset": "~0.15.10",
-    "@visactor/vscale": "~0.15.10",
-    "@visactor/vgrammar": "~0.6.6",
-    "@visactor/vgrammar-projection": "~0.6.6",
-    "@visactor/vgrammar-wordcloud": "~0.6.6",
-    "@visactor/vgrammar-wordcloud-shape": "~0.6.6",
-    "@visactor/vgrammar-hierarchy": "~0.6.6",
-    "@visactor/vgrammar-sankey": "~0.6.6",
-    "@visactor/vgrammar-util": "~0.6.6",
-    "@visactor/vrender": "~0.14.7",
-    "@visactor/vrender-components": "~0.14.7"
+    "@visactor/vutils": "~0.15.11",
+    "@visactor/vdataset": "~0.15.11",
+    "@visactor/vscale": "~0.15.11",
+    "@visactor/vgrammar": "0.7.0-alpha.3",
+    "@visactor/vgrammar-projection": "0.7.0-alpha.3",
+    "@visactor/vgrammar-wordcloud": "0.7.0-alpha.3",
+    "@visactor/vgrammar-wordcloud-shape": "0.7.0-alpha.3",
+    "@visactor/vgrammar-hierarchy": "0.7.0-alpha.3",
+    "@visactor/vgrammar-sankey": "0.7.0-alpha.3",
+    "@visactor/vgrammar-util": "0.7.0-alpha.3",
+    "@visactor/vrender": "0.15.0-alpha.15",
+    "@visactor/vrender-components": "0.15.0-alpha.15",
+    "@visactor/vutils-extension": "workspace:0.0.1"
   },
   "publishConfig": {
     "access": "public",

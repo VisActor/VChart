@@ -23,7 +23,7 @@ export class RoseChart extends RoseLikeChart {
       seriesField: spec.seriesField,
       stack: spec.stack,
       percent: spec.percent
-      // startAngle: radians(spec.startAngle || 0),
+      // startAngle: degreeToRadian(spec.startAngle || 0),
     };
   }
 

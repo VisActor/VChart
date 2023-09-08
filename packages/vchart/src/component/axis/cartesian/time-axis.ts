@@ -4,7 +4,7 @@ import { isXAxis, TimeUtil } from './util';
 import { eachSeries, isArray, mergeSpec } from '../../../util';
 import type { ICartesianSeries } from '../../../series/interface';
 import { CartesianLinearAxis } from './linear-axis';
-import type { ICartesianTickDataOpt } from '../../../data/transforms/tick-data';
+import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
 import { ComponentTypeEnum } from '../../interface';
 import type { Datum } from '../../../typings';
 import { CompilableData } from '../../../compile/data';

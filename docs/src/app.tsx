@@ -9,7 +9,7 @@ import { Demo } from './demo';
 const menuRoutes: RouteObject[] = menu.map(menuItem => {
   if (menuItem.type === 'markdown-template') {
     return {
-      path: `/${menuItem.menu}`,
+      path: `/vchart/${menuItem.menu}`,
       element: <Option />,
       children: [
         {
@@ -20,7 +20,7 @@ const menuRoutes: RouteObject[] = menu.map(menuItem => {
     };
   } else if (menuItem.type === 'demos') {
     return {
-      path: `/${menuItem.menu}`,
+      path: `/vchart/${menuItem.menu}`,
       element: <Demo />,
       children: [
         {
@@ -31,7 +31,7 @@ const menuRoutes: RouteObject[] = menu.map(menuItem => {
     };
   }
   return {
-    path: `/${menuItem.menu}`,
+    path: `/vchart/${menuItem.menu}`,
     element: <Markdown />,
     children: [
       {
@@ -45,7 +45,7 @@ const menuRoutes: RouteObject[] = menu.map(menuItem => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate replace to="/examples" />
+    element: <Navigate replace to="/vchart/examples" />
   },
   ...menuRoutes
 ]);

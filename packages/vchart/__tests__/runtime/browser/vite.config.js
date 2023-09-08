@@ -1,3 +1,4 @@
+import * as path from 'path';
 import localConf from './vite.config.local';
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
@@ -39,5 +40,10 @@ export default {
       ]
     }
   },
-  resolve: localConf.resolve || {}
+  resolve: {
+    ...localConf.resolve,
+    alias: {
+      '@visactor/vutils-extension': path.resolve(__dirname, '../../../../vutils-extension/src/index.ts')
+    }
+  }
 };

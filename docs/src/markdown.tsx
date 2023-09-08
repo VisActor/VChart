@@ -71,7 +71,7 @@ function generateMenuItem(node: IMenuItem, assetDirectory: string, language: Lan
           top: 0
           // behavior: 'smooth',
         });
-        navigate(`/${assetDirectory}${node.fullPath}`, { replace: true });
+        navigate(`/vchart/${assetDirectory}${node.fullPath}`, { replace: true });
       }}
     >
       {node.title[language]}
@@ -85,7 +85,7 @@ function Outline(props: IOutlineProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname: pathName } = location;
-  const fullPath = '/' + pathName.split(`/`).slice(2).join('/');
+  const fullPath = '/' + pathName.split(`/`).slice(3).join('/');
 
   return (
     <div
@@ -95,7 +95,7 @@ function Outline(props: IOutlineProps) {
         paddingBottom: 20
       }}
     >
-      <Menu selectedKeys={[fullPath]}>
+      <Menu selectedKeys={[fullPath]} autoOpen>
         {(props.menuItems ?? []).map((node: any) => generateMenuItem(node, props.assetDirectory, language, navigate))}
       </Menu>
     </div>
@@ -151,7 +151,7 @@ export function Markdown() {
 
   const location = useLocation();
   const { pathname: pathName } = location;
-  const assetDirectory = pathName.split('/')[1];
+  const assetDirectory = pathName.split('/')[2];
 
   const [outline, setOutline] = useState<any>([]);
   const [content, setContent] = useState<string>('');

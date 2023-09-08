@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import { isValid } from '@visactor/vutils';
+import { degreeToRadian, isValid } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import {
   AttributeLevel,
@@ -23,7 +23,7 @@ import {
   DEFAULT_DATA_KEY
 } from '../../constant';
 import type { Maybe, IPoint, Datum, StateValueType } from '../../typings';
-import { field, isNil, isSpecValueWithScale, normalizeStartEndAngle, polarToCartesian, radians } from '../../util';
+import { field, isNil, isSpecValueWithScale, normalizeStartEndAngle, polarToCartesian } from '../../util';
 import type { IModelLayoutOption } from '../../model/interface';
 import { PolarSeries } from '../polar/polar';
 import type { IMark } from '../../mark/interface';
@@ -93,12 +93,12 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     this._cornerRadius = this._spec?.cornerRadius ?? 0;
 
     const normalized = normalizeStartEndAngle(
-      isValid(this._spec?.startAngle) ? radians(this._spec.startAngle) : this._startAngle,
-      isValid(this._spec?.endAngle) ? radians(this._spec.endAngle) : this._endAngle
+      isValid(this._spec?.startAngle) ? degreeToRadian(this._spec.startAngle) : this._startAngle,
+      isValid(this._spec?.endAngle) ? degreeToRadian(this._spec.endAngle) : this._endAngle
     );
     this._startAngle = normalized.startAngle;
     this._endAngle = normalized.endAngle;
-    this._padAngle = isValid(this._spec?.padAngle) ? radians(this._spec.padAngle) : 0;
+    this._padAngle = isValid(this._spec?.padAngle) ? degreeToRadian(this._spec.padAngle) : 0;
 
     // 值信息给角度，angleField 是为了兼容小组件用法，因为 spec 改造前已经开放了
     this.setAngleField(this._spec.valueField || this._spec.angleField);

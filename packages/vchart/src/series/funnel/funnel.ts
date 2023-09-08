@@ -32,7 +32,7 @@ import { field, calcLayoutNumber, isNumber } from '../../util';
 import type { FunnelAppearPreset, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
 import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
-import { isEqual, isValid } from '@visactor/vutils';
+import { isEqual, isFunction, isValid, merge } from '@visactor/vutils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
@@ -42,6 +42,8 @@ import { PolygonMark } from '../../mark/polygon/polygon';
 import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
 import { funnelSeriesMark } from './constant';
+import type { ILabelMark } from '../../mark/label';
+import type { LabelItem } from '@visactor/vrender-components';
 
 VChart.useMark([PolygonMark, TextMark, RuleMark]);
 
@@ -86,8 +88,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
   protected _funnelMark: IPolygonMark | null = null;
   protected _funnelTransformMark: IPolygonMark | null = null;
-  protected _labelMark: ITextMark | null = null;
-  protected _transformLabelMark: ITextMark | null = null;
+  protected _labelMark: ILabelMark | null = null;
+  protected _transformLabelMark: ILabelMark | null = null;
   protected _funnelOuterLabelMark: { label?: ITextMark; line?: IRuleMark } = {};
 
   setAttrFromSpec(): void {
@@ -178,7 +180,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         defaultMorphElementKey: this._seriesField,
         key: this._seriesField,
         groupKey: this._seriesField,
-        isSeriesMark: true
+        isSeriesMark: true,
+        label: merge({ animation: this._spec.animation }, this._spec.label)
       }
     ) as IPolygonMark;
 
@@ -194,25 +197,12 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
           key: this._seriesField,
           skipBeforeLayouted: false,
           dataView: this._viewDataTransform.getDataView(),
-          dataProductId: this._viewDataTransform.getProductId()
+          dataProductId: this._viewDataTransform.getProductId(),
+          label: merge({ animation: this._spec.animation }, this._spec.transformLabel)
         }
       );
     }
-    if (this._spec?.label?.visible) {
-      this._labelMark = this._createMark(FunnelSeries.mark.label, {
-        themeSpec: this._theme?.label,
-        key: this._seriesField
-      });
-    }
-    if (this._spec?.transformLabel?.visible) {
-      this._transformLabelMark = this._createMark(FunnelSeries.mark.transformLabel, {
-        themeSpec: this._theme?.transformLabel,
-        key: this._seriesField,
-        skipBeforeLayouted: false,
-        dataView: this._viewDataTransform.getDataView(),
-        dataProductId: this._viewDataTransform.getProductId()
-      });
-    }
+
     if (this._spec?.outerLabel?.visible) {
       const { line } = this._spec.outerLabel ?? {};
       const { line: lineTheme } = this._theme?.outerLabel ?? {};
@@ -221,14 +211,14 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         themeSpec: this._theme?.outerLabel,
         key: this._seriesField,
         markSpec: this._spec.outerLabel,
-        depend: this._labelMark
+        skipBeforeLayouted: true
       }) as ITextMark;
 
       this._funnelOuterLabelMark.line = this._createMark(FunnelSeries.mark.outerLabelLine, {
         themeSpec: lineTheme,
         key: this._seriesField,
         markSpec: line,
-        depend: [this._funnelOuterLabelMark.label, this._labelMark]
+        depend: [this._funnelOuterLabelMark.label]
       }) as IRuleMark;
     }
   }
@@ -277,50 +267,18 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       this._tooltipHelper?.activeTriggerSet.mark.add(funnelTransformMark);
     }
 
-    const labelMark = this._labelMark;
-    if (labelMark) {
-      this.setMarkStyle(
-        labelMark,
-        {
-          text: (datum: Datum) => `${datum[this.getCategoryField()]} ${datum[this.getValueField()]}`,
-          x: (datum: Datum) => this._computeLabelPosition(datum).x,
-          y: (datum: Datum) => this._computeLabelPosition(datum).y,
-          limit: (datum: Datum) => this._computeLabelLimit(datum, this._spec.label),
-          stroke: this.getColorAttribute()
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-      this._trigger.registerMark(labelMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(labelMark);
-    }
-
-    const transformLabelMark = this._transformLabelMark;
-    if (transformLabelMark) {
-      this.setMarkStyle(
-        transformLabelMark,
-        {
-          text: (datum: Datum) => {
-            const ratio = field(FUNNEL_REACH_RATIO).bind(this)(datum) as number;
-            return `${(ratio * 100).toFixed(1)}%`;
-          },
-          x: (datum: Datum) => this._computeLabelPosition(datum).x,
-          y: (datum: Datum) => this._computeLabelPosition(datum).y,
-          limit: (datum: Datum) => this._computeLabelLimit(datum, this._spec.transformLabel)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-      this._trigger.registerMark(transformLabelMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(transformLabelMark);
-    }
-
     const outerLabelMark = this._funnelOuterLabelMark.label;
     if (outerLabelMark) {
       this.setMarkStyle(
         outerLabelMark,
         {
-          text: (datum: Datum) => `${datum[this.getCategoryField()]}`,
+          text: (datum: Datum) => {
+            const text = `${datum[this.getCategoryField()]}`;
+            if (isFunction(this._spec.outerLabel.formatMethod)) {
+              return this._spec.outerLabel.formatMethod(text, datum);
+            }
+            return text;
+          },
           x: (datum: Datum) => this._computeOuterLabelPosition(datum).x,
           y: (datum: Datum) => this._computeOuterLabelPosition(datum).y,
           textAlign: (datum: Datum) => this._computeOuterLabelPosition(datum).align,
@@ -340,6 +298,54 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
           y: (datum: Datum) => this._computeOuterLabelLinePosition(datum).y1,
           x1: (datum: Datum) => this._computeOuterLabelLinePosition(datum).x2,
           y1: (datum: Datum) => this._computeOuterLabelLinePosition(datum).y2
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+  }
+
+  initLabelMarkStyle(labelMark?: ILabelMark) {
+    if (!labelMark) {
+      return;
+    }
+
+    const target = labelMark.getTarget();
+    const component = labelMark.getComponent();
+
+    if (target === this._funnelMark) {
+      this._labelMark = labelMark;
+      this.setMarkStyle(
+        labelMark,
+        {
+          text: (datum: Datum) => `${datum[this.getCategoryField()]} ${datum[this.getValueField()]}`,
+          x: (datum: Datum) => this._computeLabelPosition(datum).x,
+          y: (datum: Datum) => this._computeLabelPosition(datum).y,
+          maxLineWidth: (datum: Datum) => this._computeLabelLimit(datum, this._spec.label),
+          stroke: this.getColorAttribute()
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+      if (this._funnelOuterLabelMark?.label) {
+        this._funnelOuterLabelMark.label.setDepend(component);
+      }
+
+      if (this._funnelOuterLabelMark?.line) {
+        this._funnelOuterLabelMark.line.setDepend(...this._funnelOuterLabelMark.line.getDepend());
+      }
+    } else if (this._funnelTransformMark && target === this._funnelTransformMark) {
+      this._transformLabelMark = labelMark;
+      this.setMarkStyle(
+        labelMark,
+        {
+          text: (datum: Datum) => {
+            const ratio = field(FUNNEL_REACH_RATIO).bind(this)(datum) as number;
+            return `${(ratio * 100).toFixed(1)}%`;
+          },
+          x: (datum: Datum) => this._computeLabelPosition(datum).x,
+          y: (datum: Datum) => this._computeLabelPosition(datum).y,
+          maxLineWidth: (datum: Datum) => this._computeLabelLimit(datum, this._spec.transformLabel)
         },
         'normal',
         AttributeLevel.Series
@@ -367,7 +373,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         );
       }
     }
-    [this._labelMark, this._funnelOuterLabelMark?.label, this._transformLabelMark].forEach(m => {
+    [this._funnelOuterLabelMark?.label].forEach(m => {
       if (m) {
         m.setAnimationConfig(animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(m.name, this._spec)));
       }
@@ -681,7 +687,9 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       return Math.abs(points[3].x - points[0].x);
     }
 
-    return this._computeMaxSize();
+    // return this._computeMaxSize();
+    // FIXME: 待 vrender 修复 maxLineWidth 在 bound 计算的 bug 后可以恢复注释
+    return undefined;
   }
 
   private _computeOuterLabelPosition(datum: Datum) {
@@ -731,10 +739,15 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     // 垂直方向上的limit计算逻辑
     const points = this.getPoints(datum);
     const shapeMiddleWidth = (Math.abs(points[0].x - points[1].x) + Math.abs(points[2].x - points[3].x)) / 2;
+    const categoryField = this.getCategoryField();
+
     const funnelLabelBounds = this._labelMark
+      ?.getComponent()
       ?.getProduct()
-      ?.elements?.find((el: any) => el.data[0]?.[this.getCategoryField()] === datum[this.getCategoryField()])
-      ?.getBounds();
+      .getGroupGraphicItem()
+      .find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
+        return type === 'text' && attribute.data?.[categoryField] === datum[categoryField];
+      }, true)?.AABBBounds;
 
     const funnelLabelWidth = funnelLabelBounds ? funnelLabelBounds.x2 - funnelLabelBounds.x1 : 0;
     return (
@@ -751,10 +764,15 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       ?.getProduct()
       ?.elements?.find((el: any) => el.data[0]?.[categoryField] === datum[categoryField])
       ?.getBounds();
+
     const labelMarkBounds = this._labelMark
+      ?.getComponent()
       ?.getProduct()
-      ?.elements?.find((el: any) => el.data[0]?.[categoryField] === datum[categoryField])
-      ?.getBounds();
+      .getGroupGraphicItem()
+      .find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
+        return type === 'text' && attribute.data?.[categoryField] === datum[categoryField];
+      }, true)?.AABBBounds;
+
     let x1;
     let x2;
     let y1;

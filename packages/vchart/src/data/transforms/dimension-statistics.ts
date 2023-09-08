@@ -4,60 +4,32 @@ import { couldBeValidNumber, isFunction, mergeFields } from '../../util';
 import type { DataView } from '@visactor/vdataset';
 import type { Datum } from '../../typings';
 
-export const StatisticsDefault = {
-  allValid: () => true,
-  min: () => Number.MAX_VALUE,
-  max: () => Number.MIN_VALUE,
-  values: () => new Set(),
-  //计算数组形式的data中的最大最小值
-  'array-min': () => Number.MAX_VALUE,
-  'array-max': () => Number.MIN_VALUE
-};
-export const StatisticsValueTransform = {
-  allValid: (v: any) => v,
-  min: (v: any) => (v === StatisticsDefault.min() ? 0 : v),
-  max: (v: any) => (v === StatisticsDefault.max() ? 0 : v),
-  values: (v: Set<string>) => Array.from(v),
-  //计算数组形式的data中的最大最小值
-  'array-min': (v: any) => (v === StatisticsDefault.min() ? 0 : v),
-  'array-max': (v: any) => (v === StatisticsDefault.max() ? 0 : v)
-};
+const methods = {
+  min: (arr: any[]) => {
+    return arr.length ? Math.min.apply(null, arr) : 0;
+  },
+  max: (arr: any[]) => {
+    return arr.length ? Math.max.apply(null, arr) : 0;
+  },
+  'array-min': (arr: any[]) => {
+    return arr.length ? Math.min.apply(null, arr) : 0;
+  },
+  'array-max': (arr: any[]) => {
+    return arr.length ? Math.max.apply(null, arr) : 0;
+  },
+  values: (arr: any[]) => {
+    const map = {};
+    const res: any[] = [];
 
-function StatisticsArrayMin(last: any, valueArr: any) {
-  const filteredValueArr = (valueArr ?? []).filter((v: any) => couldBeValidNumber(v));
-  if (filteredValueArr.length === 0) {
-    return last;
-  }
-  return Math.min(last, ...filteredValueArr);
-}
+    for (const entry of arr) {
+      if (!map[entry]) {
+        res.push(entry);
+        map[entry] = 1;
+      }
+    }
 
-function StatisticsArrayMax(last: any, valueArr: any) {
-  const filteredValueArr = (valueArr ?? []).filter((v: any) => couldBeValidNumber(v));
-  if (filteredValueArr.length === 0) {
-    return last;
+    return res;
   }
-  return Math.max(last, ...filteredValueArr);
-}
-
-function StatisticsValues(last: Set<string>, value: any) {
-  if (value === undefined) {
-    return last;
-  }
-  if (last.has(value)) {
-    return last;
-  }
-  last.add(value);
-  return last;
-}
-
-export const StatisticsMethod = {
-  allValid: couldBeValidNumber,
-  min: Math.min,
-  max: Math.max,
-  values: StatisticsValues,
-  //计算数组形式的data中的最大最小值
-  'array-min': StatisticsArrayMin,
-  'array-max': StatisticsArrayMax
 };
 
 export type StatisticOperations = Array<'max' | 'min' | 'values' | 'array-max' | 'array-min' | 'allValid'>;
@@ -105,117 +77,73 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
     IFieldsMeta
   >;
   fields.forEach(f => {
+    const key = f.key;
     // NOTE: the same key in fields has been merge already
-    result[f.key] = {};
-    const dataFiledInKey = dataFields?.[f.key];
-    if (sourceStatistics && fieldFollowSource && fieldFollowSource(f.key) && sourceStatistics[f.key]) {
-      result[f.key] = sourceStatistics[f.key];
+    result[key] = {};
+    const dataFiledInKey = dataFields?.[key];
+    if (sourceStatistics && fieldFollowSource && fieldFollowSource(key) && sourceStatistics[key]) {
+      result[key] = sourceStatistics[key];
       return;
     }
-    let willMin: boolean = false;
-    let willMax: boolean = false;
-    let willValid: boolean = false;
-    const operations: StatisticOperations = [];
-    f.operations.forEach(o => {
-      if (o === 'max') {
-        willMax = true;
-      } else if (o === 'min') {
-        willMin = true;
-      } else if (o === 'allValid') {
-        willValid = true;
-      } else {
-        operations.push(o);
+    const operations: StatisticOperations = f.operations;
+    const isNumberField = operations.some(op => op === 'min' || op === 'max' || op === 'allValid');
+    let allValid = true;
+    let fValues: any[] = latestData.reduce((res: any[], d: Datum) => {
+      if (d) {
+        res.push(d[key]);
       }
-    });
+      return res;
+    }, []);
+    const len = fValues.length;
+
+    if (isNumberField) {
+      fValues = fValues.filter(couldBeValidNumber);
+      allValid = fValues.length === len;
+    } else if (operations.some(op => op === 'array-min' || op === 'array-max')) {
+      fValues = fValues.reduce((res, entry) => {
+        if (entry) {
+          entry.forEach((d: any) => {
+            if (couldBeValidNumber(d)) {
+              res.push(d);
+            }
+          });
+        }
+
+        return res;
+      }, []);
+    } else {
+      fValues = fValues.filter((entry: any) => entry !== undefined);
+    }
 
     operations.forEach(op => {
       // @chensij 如果指定了计算的domain结果，则忽略计算（目前该逻辑仅在dot series中维护，因为dot series期望在filter data之后x轴改变domain，y轴不改变domain）
       if (f.customize) {
-        result[f.key][op] = f.customize;
+        result[key][op] = f.customize;
       } else {
         if (dataFiledInKey && dataFiledInKey.lockStatisticsByDomain && !isNil(dataFiledInKey.domain)) {
           if (op === 'values') {
-            result[f.key][op] = [...dataFiledInKey.domain];
+            result[key][op] = [...dataFiledInKey.domain];
             return;
           }
+        } else if (op === 'allValid') {
+          return;
         }
-        result[f.key][op] = StatisticsDefault[op]();
-        const isValues = op === 'values';
-        latestData.forEach((d: Datum) => {
-          if (!d) {
-            return;
-          }
-          const value = d[f.key];
-          if (isValues) {
-            StatisticsMethod[op](result[f.key][op], value);
-          } else {
-            result[f.key][op] = StatisticsMethod[op](result[f.key][op], value);
-          }
-        });
-        result[f.key][op] = StatisticsValueTransform[op](result[f.key][op]);
+
+        result[key][op] = methods[op](fValues);
+
         if (op === 'array-max') {
-          result[f.key].max = result[f.key][op];
+          result[key].max = result[key][op];
         }
         if (op === 'array-min') {
-          result[f.key].min = result[f.key][op];
+          result[key].min = result[key][op];
         }
       }
     });
 
-    // min max valid
-    if (willMin || willMax || willValid) {
-      if (f.customize) {
-        if (willMin) {
-          result[f.key].min = f.customize;
-        }
-        if (willMax) {
-          result[f.key].max = f.customize;
-        }
-      } else {
-        if (dataFiledInKey && dataFiledInKey.lockStatisticsByDomain && !isNil(dataFiledInKey.domain)) {
-          if (willMin) {
-            result[f.key][op] = Math.min(...(dataFiledInKey.domain as number[]));
-          }
-          if (willMax) {
-            result[f.key][op] = Math.max(...(dataFiledInKey.domain as number[]));
-          }
-        }
-        if (willMin) {
-          result[f.key].min = StatisticsDefault.min();
-        }
-        if (willMax) {
-          result[f.key].max = StatisticsDefault.max();
-        }
-        result[f.key].allValid = StatisticsDefault.allValid();
-        latestData.forEach((d: Datum) => {
-          if (!d) {
-            return;
-          }
-
-          let value = d[f.key];
-          if (!couldBeValidNumber(value)) {
-            if (result[f.key].allValid) {
-              result[f.key].allValid = false;
-            }
-          } else {
-            value = +value;
-            if (willMin && result[f.key].min > value) {
-              result[f.key].min = value;
-            }
-            if (willMax && result[f.key].max < value) {
-              result[f.key].max = value;
-            }
-          }
-        });
-        if (willMin) {
-          result[f.key].min = StatisticsValueTransform.min(result[f.key].min);
-        }
-        if (willMax) {
-          result[f.key].max = StatisticsValueTransform.max(result[f.key].max);
-        }
-        result[f.key].allValid = StatisticsValueTransform.allValid(result[f.key].allValid);
-      }
+    if (isNumberField) {
+      result[key].allValid = allValid;
     }
   });
+
   return result;
 };
