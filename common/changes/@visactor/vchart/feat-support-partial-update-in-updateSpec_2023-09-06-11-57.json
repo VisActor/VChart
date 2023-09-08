@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "feat: srovide updateModelSpec api, so that users can update the configuration of a chart module individually\n\n",
+      "comment": "feat: provide updateModelSpec api, so that users can update the configuration of a chart module individually\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
