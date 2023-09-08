@@ -10,7 +10,7 @@ option: barChart#axes
 
 # Turn off axis label sampling & dataFilter
 
-坐标轴标签默认开启了防重叠的标签采样能力，通过在 `axes` 属性上为对应方向的轴配置 `label.sampling` 即可，另外如果相对 label 及 tick 做一些自定义，也可以通过 `label.dataFilter` 或者 `tick.dataFilter` 进行一些自定义的处理。
+Axis labels enable anti-overlap label sampling capabilities by default. You can configure `label.sampling` for the axis in the corresponding direction on the `axes` attribute. In addition, if you want to make some customizations relative to label and tick, you can also use `label .dataFilter` or `tick.dataFilter` to perform some customized processing.
 
 ## Key Configuration
 
