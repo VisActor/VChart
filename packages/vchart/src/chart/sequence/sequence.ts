@@ -14,21 +14,13 @@ import type { ISeriesOption } from '../../series/interface';
 import { VChart } from '../../core/vchart';
 import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../constant/scroll-bar';
+import type { IComponentSpec } from '../../component/base/interface';
 VChart.useSeries([DotSeries, LinkSeries]);
 
 export class SequenceChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sequence;
   static readonly view: string = 'singleDefault'; // csj-Q: view是什么含义
   readonly type: string = ChartTypeEnum.sequence;
-
-  addAttrToComponentSpec(componentSpec, attr, value) {
-    if (Array.isArray(componentSpec)) {
-      componentSpec[0][attr] = value;
-    } else {
-      componentSpec[attr] = value;
-    }
-    return componentSpec;
-  }
 
   /**
    * @override
@@ -355,5 +347,14 @@ export class SequenceChart extends BaseChart {
         region.addSeries(series);
       }
     });
+  }
+
+  addAttrToComponentSpec(componentSpec: any, attr: string, value: any) {
+    if (Array.isArray(componentSpec)) {
+      componentSpec[0][attr] = value;
+    } else {
+      componentSpec[attr] = value;
+    }
+    return componentSpec;
   }
 }
