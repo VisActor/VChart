@@ -103,6 +103,36 @@ export interface IVChart {
   updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => Promise<IVChart>;
 
   /**
+   * **同步方法** spec 更新
+   * @param filter
+   * @param spec
+   * @param forceMerge
+   * @returns
+   * @sync 1.4.0
+   */
+  updateModelSpecSync: (
+    filter: string | { type: string; index: number },
+    spec: unknown,
+    forceMerge?: boolean,
+    morphConfig?: IMorphConfig
+  ) => IVChart;
+
+  /**
+   * **同步方法** spec 更新
+   * @param filter
+   * @param spec
+   * @param forceMerge
+   * @returns
+   * @sync 1.4.0
+   */
+  updateModelSpec: (
+    filter: string | { type: string; index: number },
+    spec: unknown,
+    forceMerge?: boolean,
+    morphConfig?: IMorphConfig
+  ) => Promise<IVChart>;
+
+  /**
    * 更新绘制区域。
    * @param viewBox 绘制区域
    * @param reRender 是否重新渲染，默认为 true

@@ -794,9 +794,9 @@ export class VChart implements IVChart {
    * @returns
    * @sync 1.4.0
    */
-  updateModelSpec(
+  async updateModelSpec(
     filter: string | { type: string; index: number } | ((model: IModel) => boolean),
-    spec: ISpec,
+    spec: unknown,
     forceMerge: boolean = false,
     morphConfig?: IMorphConfig
   ) {
@@ -818,7 +818,7 @@ export class VChart implements IVChart {
         return this._updateModelSpec(model, spec, false, forceMerge, morphConfig);
       }
     }
-    return this;
+    return this as unknown as IVChart;
   }
 
   /**
@@ -831,7 +831,7 @@ export class VChart implements IVChart {
    */
   updateModelSpecSync(
     filter: string | { type: string; index: number } | ((model: IModel) => boolean),
-    spec: ISpec,
+    spec: unknown,
     forceMerge: boolean = false,
     morphConfig?: IMorphConfig
   ) {
@@ -850,10 +850,10 @@ export class VChart implements IVChart {
     if (this._chart) {
       const model = this._chart.getModelInFilter(filter);
       if (model) {
-        return this._updateModelSpec(model, spec, true, forceMerge, morphConfig);
+        return this._updateModelSpec(model, spec, true, forceMerge, morphConfig) as IVChart;
       }
     }
-    return this;
+    return this as unknown as IVChart;
   }
 
   /**
@@ -865,7 +865,7 @@ export class VChart implements IVChart {
    */
   protected _updateModelSpec(
     model: IModel,
-    spec: ISpec,
+    spec: unknown,
     sync: boolean = false,
     forceMerge: boolean = false,
     morphConfig?: IMorphConfig
@@ -882,11 +882,9 @@ export class VChart implements IVChart {
       return result;
     };
     if (sync) {
-      this.updateCustomConfigAndRerenderSync(modifyConfig, morphConfig);
-    } else {
-      this.updateCustomConfigAndRerender(modifyConfig, morphConfig);
+      return this.updateCustomConfigAndRerenderSync(modifyConfig, morphConfig);
     }
-    return this as unknown as IVChart;
+    return this.updateCustomConfigAndRerender(modifyConfig, morphConfig);
   }
 
   /**
