@@ -423,7 +423,6 @@ export class VChart implements IVChart {
     if (!isValid(result)) {
       return this as unknown as IVChart;
     }
-    result.reMake = true;
     this._reCompile(result);
     await this.renderAsync(morphConfig);
     return this as unknown as IVChart;
