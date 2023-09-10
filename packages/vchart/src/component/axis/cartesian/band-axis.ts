@@ -21,8 +21,6 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
 
   protected declare _scales: BandScale[];
 
-  protected _fixedWholeRangeSize: number = NaN;
-
   protected computeDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[] {
     return this.computeBandDomain(data);
   }
@@ -77,9 +75,16 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
   }
 
   updateFixedWholeLength() {
-    if (this._spec.bandSize && this._scale) {
-      this._scale.bandwidth(this._spec.bandSize);
-      this._fixedWholeRangeSize = this._scale.calculateWholeRangeSize();
+    if (this._scale) {
+      if (this._spec.bandSize) {
+        this._scale.bandwidth(this._spec.bandSize);
+      }
+      if (this._spec.maxBandSize) {
+        this._scale.maxBandwidth(this._spec.maxBandSize);
+      }
+      if (this._spec.minBandSize) {
+        this._scale.minBandwidth(this._spec.minBandSize);
+      }
     }
   }
 }

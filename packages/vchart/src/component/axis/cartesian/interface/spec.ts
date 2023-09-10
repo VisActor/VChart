@@ -93,6 +93,10 @@ export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec &
   IBandAxisSpec & {
     /** 轴组宽设置 */
     bandSize?: number;
+    /** 轴最大组宽设置 */
+    maxBandSize?: number;
+    /** 轴最小组宽设置 */
+    minBandSize?: number;
   };
 
 export type ICartesianTimeAxisSpec = Omit<ICartesianAxisCommonSpec, 'inverse'> & {

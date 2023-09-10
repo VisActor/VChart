@@ -241,7 +241,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     const [start, end] = this._scale.range();
     if (newRange[0] !== start || newRange[1] !== end) {
       isScaleChange = true;
-      (this._scale.range as any)(newRange, false, true); // 兼容 band 轴
+      this._scale.range(newRange);
     }
 
     return isScaleChange;
