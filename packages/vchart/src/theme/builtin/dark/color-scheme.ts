@@ -42,6 +42,9 @@ export const colorScheme: IThemeColorScheme = {
       /** 缩略轴选择区域颜色 */
       dataZoomSelectedColor: '#4284FF',
 
+      /** 滚动条滑块颜色 */
+      scrollBarSliderColor: '#ffffff',
+
       /** 提示信息背景区域颜色 */
       tooltipBackgroundColor: '#404349',
 

@@ -1,6 +1,6 @@
 import type { IPadding } from '../../../typings';
-import type { IMarkSpec } from '../../../typings/spec';
 import type { IRectMarkSpec } from '../../../typings/visual';
+import type { IComponentSpec } from '../../base/interface';
 import type { IDataFilterComponentSpec } from '../interface';
 
 export interface IScrollBarStyle {
@@ -29,17 +29,18 @@ export interface IScrollBarSpec extends IDataFilterComponentSpec, IScrollBarStyl
   limitRange?: [number, number];
 }
 
-export type IScrollBarTheme = IScrollBarStyle & {
-  /** 显示的位置 */
-  orient?: IScrollBarSpec['orient'];
-  /** 组件宽度 */
-  width?: IScrollBarSpec['width'];
-  /** 组件高度 */
-  height?: IScrollBarSpec['height'];
-  /** 滑块是否圆角。 */
-  round?: IScrollBarSpec['round'];
-  /**
-   * 滚动条内边距，影响滑轨的实际可用空间 [top, right, bottom, left]
-   */
-  innerPadding?: IScrollBarSpec['innerPadding'];
-};
+export type IScrollBarTheme = IComponentSpec &
+  IScrollBarStyle & {
+    /** 显示的位置 */
+    orient?: IScrollBarSpec['orient'];
+    /** 组件宽度 */
+    width?: IScrollBarSpec['width'];
+    /** 组件高度 */
+    height?: IScrollBarSpec['height'];
+    /** 滑块是否圆角。 */
+    round?: IScrollBarSpec['round'];
+    /**
+     * 滚动条内边距，影响滑轨的实际可用空间 [top, right, bottom, left]
+     */
+    innerPadding?: IScrollBarSpec['innerPadding'];
+  };
