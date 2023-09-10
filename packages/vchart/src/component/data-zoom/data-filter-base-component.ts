@@ -12,10 +12,10 @@ import type { AdaptiveSpec, IOrientType, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
+import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
-import type { CartesianAxis, CartesianBandAxis, ICartesianAxisSpec, ICartesianBandAxisSpec } from '../axis/cartesian';
+import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
 import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -108,6 +108,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     onZoomChange: () => {
       if (this._relatedAxisComponent && this._spec.filterMode === 'axis') {
         const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
+        // 提前更改 scale
+        scale.range(this._stateScale?.range(), true);
         // 可以在这里更改滚动条是正向还是反向
         (scale as any).rangeFactor([this._start, this._end]);
         this._relatedAxisComponent.effect.scaleUpdate();
@@ -650,6 +652,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _autoUpdate(rect?: ILayoutRect): boolean {
     const axisSpec = this._relatedAxisComponent?.getSpec() as ICartesianBandAxisSpec | undefined;
     const bandSize = axisSpec?.bandSize;
+    const maxBandSize = axisSpec?.maxBandSize;
+    const minBandSize = axisSpec?.minBandSize;
     if (
       rect?.height === this._cacheRect?.height &&
       rect?.width === this._cacheRect?.width &&
@@ -659,26 +663,42 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     this._cacheRect = rect;
     let isShown = true;
+    const scale = this._stateScale as BandScale;
+    scale.range(this._isHorizontal ? [0, rect.width] : [0, rect.height]);
     if (this._auto && isDiscrete(this._stateScale.type)) {
-      if (bandSize) {
-        const scale = this._stateScale as BandScale;
-        const hasRangeFactor = this._start && this._end;
-        scale.range(this._isHorizontal ? [0, rect.width] : [0, rect.height], true);
-        if (hasRangeFactor) {
+      if (bandSize || minBandSize || maxBandSize) {
+        if (this._start || this._end) {
           scale.rangeFactor([this._start, this._end], true);
         }
-        // @ts-ignore
-        scale.bandwidth(bandSize, false, hasRangeFactor);
-        const [start, end] = scale.rangeFactor();
-        this.setStartAndEnd(start, end);
-        if (start === 0 && end === 1) {
+        if (bandSize) {
+          scale.bandwidth(bandSize, true);
+        }
+        if (maxBandSize) {
+          scale.maxBandwidth(maxBandSize, true);
+        }
+        if (minBandSize) {
+          scale.minBandwidth(minBandSize, true);
+        }
+        scale.rescale(false);
+        let [start, end] = scale.rangeFactor();
+        if ((!start && !end) || !scale.isBandwidthFixed()) {
+          start = 0;
+          end = 1;
           this.hide();
           isShown = false;
         } else {
-          this.show();
+          if (start === 0 && end === 1) {
+            this.hide();
+            isShown = false;
+          } else {
+            this.show();
+          }
         }
+        this._start = start;
+        this._end = end;
       }
     }
+    this.setStartAndEnd(this._start, this._end);
     this._cacheVisibility = isShown;
     return isShown;
   }
