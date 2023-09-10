@@ -26,7 +26,7 @@ export class BandAxisMixin {
     let parentScale = this._scale;
     this._scales.forEach((scale, i) => {
       if (i > 0) {
-        scale.range([0, parentScale.bandwidth()]);
+        scale.range([0, parentScale.bandwidth()], false, true);
         parentScale = scale;
       }
     });

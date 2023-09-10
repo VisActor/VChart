@@ -28,7 +28,6 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 // eslint-disable-next-line no-duplicate-imports
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { AbstractComponent } from '@visactor/vrender-components';
-import type { IAxis } from '../axis/interface';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
@@ -109,7 +108,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     onZoomChange: () => {
       if (this._relatedAxisComponent && this._spec.filterMode === 'axis') {
         const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
-        (scale as any).rangeFactor(this._isHorizontal ? [this._start, this._end] : [1 - this._end, 1 - this._start]);
+        // 可以在这里更改滚动条是正向还是反向
+        (scale as any).rangeFactor([this._start, this._end]);
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
         eachSeries(
@@ -662,8 +662,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (this._auto && isDiscrete(this._stateScale.type)) {
       if (bandSize) {
         const scale = this._stateScale as BandScale;
-        scale.range(this._isHorizontal ? [0, rect.width] : [0, rect.height]);
         const hasRangeFactor = this._start && this._end;
+        scale.range(this._isHorizontal ? [0, rect.width] : [0, rect.height], true);
         if (hasRangeFactor) {
           scale.rangeFactor([this._start, this._end], true);
         }
