@@ -1,6 +1,6 @@
+import type { ILayoutItemSpec } from '../../../model/interface';
 import type { IPadding } from '../../../typings';
 import type { IRectMarkSpec } from '../../../typings/visual';
-import type { IComponentSpec } from '../../base/interface';
 import type { IDataFilterComponentSpec } from '../interface';
 
 export interface IScrollBarStyle {
@@ -29,7 +29,7 @@ export interface IScrollBarSpec extends IDataFilterComponentSpec, IScrollBarStyl
   limitRange?: [number, number];
 }
 
-export type IScrollBarTheme = IComponentSpec &
+export type IScrollBarTheme = ILayoutItemSpec &
   IScrollBarStyle & {
     /** 显示的位置 */
     orient?: IScrollBarSpec['orient'];
