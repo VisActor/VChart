@@ -14,7 +14,7 @@ option: barChart#axes
 
 Configure the axes for the corresponding direction on the `axes` attribute:
 
-- The `label.sampling` property is set to `false` to turn off axis sampling
+- The `sampling` property is set to `false` to turn off axis sampling
 - The `label.autoRotate` property is set to `true` to turn on the axis component's label auto-rotation.
 - The `label.autoHide` property is set to `true` to enable the auto-hiding of the label of the axis component.
 

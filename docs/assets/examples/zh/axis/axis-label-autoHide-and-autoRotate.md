@@ -14,7 +14,7 @@ option: barChart#axes
 
 在 `axes` 属性上为对应方向的轴配置：
 
-- `label.sampling` 属性配置为 `false` 关闭轴采样
+- `sampling` 属性配置为 `false` 关闭轴采样
 - `label.autoRotate` 属性配置为 `true` 来开启轴组件的标签自动旋转。
 - `label.autoHide` 属性配置为 `true` 来开启轴组件的标签自动隐藏。
 
