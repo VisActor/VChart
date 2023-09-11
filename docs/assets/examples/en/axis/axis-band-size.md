@@ -1,9 +1,31 @@
-import { isMobile } from 'react-device-detect';
-import type { IAreaChartSpec } from '../../../../src/index';
-// eslint-disable-next-line no-duplicate-imports
-import { default as VChart } from '../../../../src/index';
+---
+category: demo
+group: axis
+keywords: areaChart,axis,scrollBar
+cover: /vchart/preview/axis-band-size_1.4.0.png
+option: barChart#axes
+---
 
-const getSpec = (): IAreaChartSpec => ({
+# Axis fixed bandSize and auto scroll bar
+
+Sometimes we have a requirement for a fixed discrete axis band width (the band width is the width occupied by a tick on the coordinate axis). The visual effect is that regardless of the size of the chart container, the distance between the ticks on the axis remains unchanged (if it is a bar chart, the column width also remains unchanged).
+
+## Key Configuration
+
+In the Cartesian coordinate system, if you want to fix the band width of the discrete axis, you can manually set the band width by configuring `bandSize` on the axis.
+
+Furthermore, if you want to configure the maximum or minimum band width, you can do so by configuring `maxBandSize` or `minBandSize` on the axis.
+
+Taking the minimum band width as an example, since the chart will display all the ticks in the container proportionally by default, the automatically calculated band width will also decrease proportionally when the chart container becomes smaller. When the automatically calculated band width is less than `minBandSize`, the band width will maintain the value of `minBandSize`.
+
+When `bandSize` is already configured, `maxBandSize` and `minBandSize` will no longer take effect.
+
+Additionally, if the band width is fixed, the chart size is likely to exceed the container. At this point, you can configure the scrollBar or dataZoom components, and configure 'auto' to 'true' in the component spec.
+
+## Code Demo
+
+```javascript livedemo
+const spec = {
   type: 'area',
   data: {
     values: [
@@ -49,7 +71,6 @@ const getSpec = (): IAreaChartSpec => ({
     visible: true,
     text: 'Stacked area chart of cosmetic products sales'
   },
-  // stack: true,
   xField: 'type',
   yField: 'value',
   seriesField: 'country',
@@ -62,43 +83,28 @@ const getSpec = (): IAreaChartSpec => ({
     {
       orient: 'bottom',
       type: 'band',
-      minBandSize: 50,
-      maxBandSize: 100
+      bandSize: 100
     },
     { orient: 'left', type: 'linear' }
   ],
   scrollBar: [
-    { orient: 'bottom', start: 0, filterMode: 'axis', axisIndex: 0, auto: true }
-    // { orient: 'bottom', start: 0, end: 0.5, roam: true, filterMode: 'axis' }
+    {
+      orient: 'bottom',
+      start: 0,
+      filterMode: 'axis',
+      axisIndex: 0,
+      auto: true
+    }
   ]
-});
-
-const run = () => {
-  // VChart.ThemeManager.setCurrentTheme('dark');
-  const cs = new VChart(getSpec(), {
-    dom: document.getElementById('chart') as HTMLElement,
-    mode: isMobile ? 'mobile-browser' : 'desktop-browser',
-    theme: 'dark'
-  });
-  console.time('renderTime');
-
-  cs.on('tooltipShow', () => {
-    console.log('tooltipShow');
-  });
-
-  cs.on('tooltipHide', () => {
-    console.log('tooltipHide');
-  });
-
-  cs.on('tooltipRelease', () => {
-    console.log('tooltipRelease');
-  });
-
-  cs.renderAsync().then(() => {
-    console.timeEnd('renderTime');
-  });
-  window['vchart'] = cs;
-  window['getSpec'] = getSpec;
-  console.log(cs);
 };
-run();
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
+
+## Related Tutorials
+
+Attach links to tutorials or API documentation associated with this demo configuration.

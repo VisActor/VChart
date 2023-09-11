@@ -1,9 +1,31 @@
-import { isMobile } from 'react-device-detect';
-import type { IAreaChartSpec } from '../../../../src/index';
-// eslint-disable-next-line no-duplicate-imports
-import { default as VChart } from '../../../../src/index';
+---
+category: demo
+group: axis
+keywords: areaChart,axis,scrollBar
+cover: /vchart/preview/axis-band-size_1.4.0.png
+option: barChart#axes
+---
 
-const getSpec = (): IAreaChartSpec => ({
+# 固定组宽并自动出现滚动条
+
+有时我们有固定离散轴的组宽的需求（组宽为坐标轴上一个 tick 所占的宽度）。在视觉表现上是这样的效果：不管图表容器大小如何变化，轴上 tick 和 tick 之间的距离保持不变（如果是柱状图，则柱宽也保持不变）。
+
+## 关键配置
+
+在笛卡尔坐标系下，如果想固定离散轴的组宽，可以通过在轴上配置 `bandSize` 来人为设置组宽。
+
+进一步地，如果想配置最大或最小组宽，可以通过在轴上配置 `maxBandSize` 或 `minBandSize` 来实现。
+
+以最小组宽为例，由于图表会在容器中默认等比例展示全部的 tick，那么当图表容器变小时，自动计算的组宽也会等比例缩小。当自动计算的组宽小于 `minBandSize` 时，组宽将维持 `minBandSize` 的值。
+
+当已经配置 `bandSize` 时，`maxBandSize` 和 `minBandSize` 将不再生效。
+
+另外，如果组宽被固定，图表大小很可能会超出容器。这时可以配置 scrollBar 或者 dataZoom 组件，并在组件 spec 中将 `auto` 配置为 `true`。
+
+## 代码演示
+
+```javascript livedemo
+const spec = {
   type: 'area',
   data: {
     values: [
@@ -49,7 +71,6 @@ const getSpec = (): IAreaChartSpec => ({
     visible: true,
     text: 'Stacked area chart of cosmetic products sales'
   },
-  // stack: true,
   xField: 'type',
   yField: 'value',
   seriesField: 'country',
@@ -62,43 +83,28 @@ const getSpec = (): IAreaChartSpec => ({
     {
       orient: 'bottom',
       type: 'band',
-      minBandSize: 50,
-      maxBandSize: 100
+      bandSize: 100
     },
     { orient: 'left', type: 'linear' }
   ],
   scrollBar: [
-    { orient: 'bottom', start: 0, filterMode: 'axis', axisIndex: 0, auto: true }
-    // { orient: 'bottom', start: 0, end: 0.5, roam: true, filterMode: 'axis' }
+    {
+      orient: 'bottom',
+      start: 0,
+      filterMode: 'axis',
+      axisIndex: 0,
+      auto: true
+    }
   ]
-});
-
-const run = () => {
-  // VChart.ThemeManager.setCurrentTheme('dark');
-  const cs = new VChart(getSpec(), {
-    dom: document.getElementById('chart') as HTMLElement,
-    mode: isMobile ? 'mobile-browser' : 'desktop-browser',
-    theme: 'dark'
-  });
-  console.time('renderTime');
-
-  cs.on('tooltipShow', () => {
-    console.log('tooltipShow');
-  });
-
-  cs.on('tooltipHide', () => {
-    console.log('tooltipHide');
-  });
-
-  cs.on('tooltipRelease', () => {
-    console.log('tooltipRelease');
-  });
-
-  cs.renderAsync().then(() => {
-    console.timeEnd('renderTime');
-  });
-  window['vchart'] = cs;
-  window['getSpec'] = getSpec;
-  console.log(cs);
 };
-run();
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
+
+## 相关教程
+
+附上和该 demo 配置相关联的教程或者 api 文档的链接。

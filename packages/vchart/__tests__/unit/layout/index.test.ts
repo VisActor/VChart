@@ -28,7 +28,8 @@ describe('layout simple line chart', () => {
     leftAxis1.layoutOrient = 'left';
     leftAxis1.layoutLevel = 202;
     leftAxis1.layoutBindRegionID = [1];
-    leftAxis1.boundsInRect = itemBoundsInRect(leftAxis1);
+    //@ts-ignore
+    leftAxis1._boundsInRect = itemBoundsInRect(leftAxis1);
 
     const leftAxis2 = new LayoutItem({ autoIndent: false } as any);
     leftAxis2.layoutType = 'region-relative';
@@ -36,7 +37,8 @@ describe('layout simple line chart', () => {
     leftAxis2.layoutOrient = 'left';
     leftAxis2.layoutLevel = 202;
     leftAxis2.layoutBindRegionID = [1];
-    leftAxis2.boundsInRect = itemBoundsInRect(leftAxis2);
+    //@ts-ignore
+    leftAxis2._boundsInRect = itemBoundsInRect(leftAxis2);
 
     const bottomAxis = new LayoutItem({} as any);
     bottomAxis.layoutOrient = 'bottom';
@@ -44,7 +46,8 @@ describe('layout simple line chart', () => {
     bottomAxis.setLayoutRect({ height: 20 });
     bottomAxis.layoutLevel = 202;
     bottomAxis.layoutBindRegionID = [1];
-    bottomAxis.boundsInRect = itemBoundsInRect(bottomAxis);
+    //@ts-ignore
+    bottomAxis._boundsInRect = itemBoundsInRect(bottomAxis);
 
     const bottomLegend = new LayoutItem({} as any);
     bottomLegend.layoutOrient = 'bottom';
@@ -55,7 +58,8 @@ describe('layout simple line chart', () => {
       height: 10
     });
     bottomLegend.layoutLevel = 302;
-    bottomLegend.boundsInRect = itemBoundsInRect(bottomLegend);
+    //@ts-ignore
+    bottomLegend._boundsInRect = itemBoundsInRect(bottomLegend);
 
     const layout = new Layout();
     layout.layoutItems(
