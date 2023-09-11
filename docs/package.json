@@ -23,6 +23,7 @@
     "react-router-dom": "6.9.0"
   },
   "devDependencies": {
+    "lodash": "4.17.21",
     "@internal/eslint-config": "workspace:*",
     "@internal/ts-config": "workspace:*",
     "@internal/story-player": "workspace:*",

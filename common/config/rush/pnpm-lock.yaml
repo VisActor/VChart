@@ -28,6 +28,7 @@ importers:
       globby: 11.1.0
       highlight.js: ^11.8.0
       htmlparser2: ^4.1.0
+      lodash: 4.17.21
       markdown-it: ^13.0.0
       marked: ^0.3.19
       react: ^18.0.0
@@ -64,6 +65,7 @@ importers:
       fs-extra: 10.1.0
       globby: 11.1.0
       htmlparser2: 4.1.0
+      lodash: 4.17.21
       marked: 0.3.19
       react-device-detect: 2.2.3_biqbaboplfbrettd7655fr4n2y
       typescript: 4.9.5
