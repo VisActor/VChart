@@ -268,6 +268,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _buildMarkAttributeContext() {
     this._markAttributeContext = {
+      vchart: this._option.globalInstance,
       globalScale: (key: string, value: string | number) => {
         return this._option.globalScale.getScale(key)?.scale(value);
       },
