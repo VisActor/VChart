@@ -12,7 +12,7 @@ import type { AdaptiveSpec, IOrientType, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import type { IBaseScale } from '@visactor/vscale';
+import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
@@ -107,11 +107,16 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   effect: IEffect = {
     onZoomChange: () => {
       if (this._relatedAxisComponent && this._spec.filterMode === 'axis') {
-        const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
-        // 提前更改 scale
-        scale.range(this._stateScale?.range(), true);
+        const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
+        if (this._auto) {
+          // 提前更改 scale
+          scale.range(this._stateScale?.range(), true);
+        }
         // 可以在这里更改滚动条是正向还是反向
-        (scale as any).rangeFactor([this._start, this._end]);
+        const newRangeFactor: [number, number] = this._isHorizontal
+          ? [this._start, this._end]
+          : [1 - this._end, 1 - this._start];
+        scale.rangeFactor(newRangeFactor);
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
         eachSeries(
@@ -650,6 +655,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   protected _autoUpdate(rect?: ILayoutRect): boolean {
+    if (!this._auto) {
+      return true;
+    }
     const axisSpec = this._relatedAxisComponent?.getSpec() as ICartesianBandAxisSpec | undefined;
     const bandSize = axisSpec?.bandSize;
     const maxBandSize = axisSpec?.maxBandSize;
@@ -664,8 +672,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._cacheRect = rect;
     let isShown = true;
     const scale = this._stateScale as BandScale;
-    scale.range(this._isHorizontal ? [0, rect.width] : [0, rect.height]);
-    if (this._auto && isDiscrete(this._stateScale.type)) {
+    scale.range(this._isHorizontal ? [0, rect.width] : axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
+    if (isDiscrete(scale.type)) {
       if (bandSize || minBandSize || maxBandSize) {
         if (this._start || this._end) {
           scale.rangeFactor([this._start, this._end], true);
