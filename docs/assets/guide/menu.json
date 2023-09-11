@@ -627,6 +627,13 @@
               }
             },
             {
+              "path": "python",
+              "title": {
+                "zh": "python",
+                "en": "python"
+              }
+            },
+            {
               "path": "mini-app",
               "title": {
                 "zh": "小程序",

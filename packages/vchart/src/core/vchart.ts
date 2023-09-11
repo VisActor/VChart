@@ -10,7 +10,15 @@ import type { DimensionIndexOption, IChart, IChartConstructor } from '../chart/i
 import type { IComponentConstructor } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../component/interface';
-import type { EventCallback, EventParams, EventQuery, EventType, IEvent, IEventDispatcher } from '../event/interface';
+import type {
+  EventCallback,
+  EventParams,
+  EventParamsDefinition,
+  EventQuery,
+  EventType,
+  IEvent,
+  IEventDispatcher
+} from '../event/interface';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
@@ -185,6 +193,11 @@ export class VChart implements IVChart {
   private _chart!: Maybe<IChart>;
   private _compiler: Compiler;
   private _event: Maybe<IEvent>;
+  private _userEvents: {
+    eType: EventType;
+    query: EventQuery | EventCallback<EventParamsDefinition[EventType]>;
+    callback?: EventCallback<EventParamsDefinition[EventType]>;
+  }[] = [];
   private _eventDispatcher: Maybe<IEventDispatcher>;
   private _dataSet!: Maybe<DataSet>;
   getDataSet() {
@@ -421,7 +434,6 @@ export class VChart implements IVChart {
     if (!isValid(result)) {
       return this as unknown as IVChart;
     }
-
     this._reCompile(result);
     await this.renderAsync(morphConfig);
     return this as unknown as IVChart;
@@ -448,9 +460,9 @@ export class VChart implements IVChart {
       this._chart = null as unknown as IChart;
       this._compiler?.releaseGrammar();
       // chart 内部事件 模块自己必须删除
-      // 外部事件不处理
-      // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
-      // VGrammar view 对象不需要释放，提供了reuse和morph能力之后，srView有上下文缓存
+      // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
+      // 外部事件现在需要重新添加
+      this._userEvents.forEach(e => this.on(e.eType, e.query as any, e.callback));
     } else if (updateResult.reCompile) {
       // recompile
       // 清除之前的所有 compile 内容
@@ -541,6 +553,7 @@ export class VChart implements IVChart {
     this._chart?.release();
     this._compiler?.release();
     this._eventDispatcher?.release();
+    this._userEvents.length = 0;
     this._unBindResizeEvent();
     // resetID(); // 为什么要重置ID呢？
 
@@ -550,6 +563,7 @@ export class VChart implements IVChart {
     this._compiler = null;
     this._spec = null;
     // this._option = null;
+    this._userEvents = null;
     this._event = null;
     this._eventDispatcher = null;
 
@@ -940,9 +954,14 @@ export class VChart implements IVChart {
   on(eType: EventType, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery | EventCallback<EventParams>, handler?: EventCallback<EventParams>): void {
+    this._userEvents.push({ eType, query, callback: handler });
     this._event?.on(eType as any, query as any, handler as any);
   }
   off(eType: string, handler?: EventCallback<EventParams>): void {
+    const index = this._userEvents.findIndex(e => e.eType === eType && e.callback === handler);
+    if (index >= 0) {
+      this._userEvents.splice(index, 1);
+    }
     this._event?.off(eType, handler);
   }
 

@@ -10,13 +10,13 @@ option: barChart#axes
 
 # Turn off axis label sampling & dataFilter
 
-Axis labels enable anti-overlap label sampling capabilities by default. You can configure `label.sampling` for the axis in the corresponding direction on the `axes` attribute. In addition, if you want to make some customizations relative to label and tick, you can also use `label .dataFilter` or `tick.dataFilter` to perform some customized processing.
+Axis labels enable anti-overlap label sampling capabilities by default. You can configure `sampling` for the axis in the corresponding direction on the `axes` attribute. In addition, if you want to make some customizations relative to label and tick, you can also use `label .dataFilter` or `tick.dataFilter` to perform some customized processing.
 
 ## Key Configuration
 
 Configure the axes for the corresponding direction on the `axes` attribute:
 
-- The `label.sampling` property is set to `false` to turn off axis sampling
+- The `sampling` property is set to `false` to turn off axis sampling
 - Configure `label.dataFilter` and `tick.dataFilter` to customize the data of label and tick
 
 ## Demo source
