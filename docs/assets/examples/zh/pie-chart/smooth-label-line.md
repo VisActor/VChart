@@ -4,7 +4,7 @@ group: pie
 title: 平滑标签线的饼图
 keywords: pieChart,comparison,composition,proportion,circle
 order: 6-8
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pie-chart/smooth-label-line.png
+cover: /vchart/preview/pie-chart/smooth-label-line_1.4.0.png
 option: pieChart
 ---
 
