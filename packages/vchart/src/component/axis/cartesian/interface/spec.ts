@@ -91,11 +91,20 @@ export type ICartesianLinearAxisSpec = ICartesianAxisCommonSpec &
 
 export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec &
   IBandAxisSpec & {
-    /** 轴组宽设置 */
+    /**
+     * 轴组宽设置
+     * @since 1.4.0
+     */
     bandSize?: number;
-    /** 轴最大组宽设置 */
+    /**
+     * 轴最大组宽设置
+     * @since 1.4.0
+     */
     maxBandSize?: number;
-    /** 轴最小组宽设置 */
+    /**
+     * 轴最小组宽设置
+     * @since 1.4.0
+     */
     minBandSize?: number;
   };
 
