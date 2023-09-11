@@ -33,52 +33,48 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
     this._initDataView();
   }
 
-  private _isSpecAggrOrRege(spec: IDataPos) {
+  private _isSpecAggrOrRege(spec: IDataPos | IDataPosCallback) {
     return spec === 'regression' || AGGR_TYPE.includes(spec as any);
+  }
+
+  private _getAllRelativeSeries() {
+    return {
+      getRelativeSeries: () => this._relativeSeries,
+      getStartRelativeSeries: () => this._startRelativeSeries,
+      getEndRelativeSeries: () => this._endRelativeSeries
+    };
   }
 
   protected _processSpecX(specX: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
     let processType: IAggrType | IRegressType;
-    if (isFunction(specX)) {
-      specX = specX(
-        this._relativeSeries.getData().getLatestData(),
-        this._startRelativeSeries.getData().getLatestData(),
-        this._endRelativeSeries.getData().getLatestData()
-      );
-    }
     if (this._isSpecAggrOrRege(specX)) {
       processType = specX as unknown as IAggrType;
       return {
         x: {
           field: relativeSeries.getSpec().xField,
           aggrType: processType
-        }
+        },
+        ...this._getAllRelativeSeries()
       };
     }
-    return { x: specX };
+    return { x: specX, ...this._getAllRelativeSeries() };
   }
 
   protected _processSpecY(specY: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
     let processType: IAggrType | IRegressType;
-    if (isFunction(specY)) {
-      specY = specY(
-        this._relativeSeries.getData().getLatestData(),
-        this._startRelativeSeries.getData().getLatestData(),
-        this._endRelativeSeries.getData().getLatestData()
-      );
-    }
     if (this._isSpecAggrOrRege(specY)) {
       processType = specY as unknown as IAggrType;
       return {
         y: {
           field: relativeSeries.getSpec().yField,
           aggrType: processType
-        }
+        },
+        ...this._getAllRelativeSeries()
       };
     }
-    return { y: specY };
+    return { y: specY, ...this._getAllRelativeSeries() };
   }
 
   protected _processSpecCoo(spec: any) {
@@ -104,7 +100,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         option.y = coordinateY;
       }
       option.getRefRelativeSeries = () => refRelativeSeries;
-      return option;
+      return { ...option, ...this._getAllRelativeSeries() };
     });
   }
 
