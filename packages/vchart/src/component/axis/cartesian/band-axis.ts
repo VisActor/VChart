@@ -37,10 +37,6 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
     this.calcScales(DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING);
   }
 
-  protected _initData() {
-    this._initTickData(this._spec.sampling !== false && !this._spec.bandSize);
-  }
-
   protected axisHelper() {
     const getScale = (depth: number) => {
       return this._scales[depth];
