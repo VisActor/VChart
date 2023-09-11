@@ -15,10 +15,10 @@ export type IOptionAggrField = {
 
 export type IOptionPos = IOptionAggrField | string | number;
 
-export type IOptionAggr = {
-  x?: IOptionPos;
-  y?: IOptionPos;
-  getRefRelativeSeries?: () => ICartesianSeries;
+export type IOptionSeries = {
+  getRelativeSeries: () => ICartesianSeries;
+  getStartRelativeSeries: () => ICartesianSeries;
+  getEndRelativeSeries: () => ICartesianSeries;
 };
 
 export type IOptionCallback = (
@@ -27,9 +27,11 @@ export type IOptionCallback = (
   endRelativeSeriesData: any
 ) => IOptionPos;
 
-export type IOptionsAggr = IOptionAggr[];
-
-export type IOptionsCallback = IOptionCallback[];
+export type IOptionAggr = {
+  x?: IOptionPos | IOptionCallback;
+  y?: IOptionPos | IOptionCallback;
+  getRefRelativeSeries?: () => ICartesianSeries;
+} & IOptionSeries;
 
 export const markerMin = (_data: Array<DataView>, opt: IOption) => {
   const data = _data[0].latestData;
@@ -71,15 +73,7 @@ export function markerMedian(_data: Array<DataView>, opt: IOption) {
   return median(data, opt.field);
 }
 
-export function markerAggregation(
-  _data: Array<DataView>,
-  options: {
-    aggr: IOptionsAggr | IOptionCallback;
-    getRelativeSeries: () => ICartesianSeries;
-    getStartRelativeSeries: () => ICartesianSeries;
-    getEndRelativeSeries: () => ICartesianSeries;
-  }
-) {
+export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]) {
   const aggrMap = {
     min: markerMin,
     max: markerMax,

@@ -78,10 +78,7 @@ const run = () => {
     yField: 'value',
     markLine: [
       {
-        y: data => {
-          console.log('y', data);
-          return data[2].value;
-        },
+        y: 'min',
         startSymbol: {
           visible: true,
           symbolType: 'triangleDown',
