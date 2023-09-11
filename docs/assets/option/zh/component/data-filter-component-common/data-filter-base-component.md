@@ -94,7 +94,7 @@
 
 #${prefix} auto(boolean) = false
 
-是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失。
+是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失。自 `1.4.0` 版本开始支持。
 
 {{ use: common-layout-item(
   prefix = ${prefix},
