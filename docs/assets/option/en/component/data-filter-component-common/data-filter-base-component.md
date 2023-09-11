@@ -94,7 +94,7 @@ Enable mouse zoom and pan roaming.
 
 #${prefix} auto(boolean) = false
 
-Whether it is in automatic mode. After opening, the component will not cause scaling of the axis, and configurations such as `end` and `roam` that may cause scaling will be ignored, and the component can automatically disappear.
+Whether it is in automatic mode. After opening, the component will not cause scaling of the axis, and configurations such as `end` and `roam` that may cause scaling will be ignored, and the component can automatically disappear. Supported since version `1.4.0`.
 
 {{ use: common-layout-item(
   prefix = ${prefix},
