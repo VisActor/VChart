@@ -1,8 +1,8 @@
 lockfileVersion: 5.4
 
 overrides:
-  '@visactor/vrender': 0.15.0-alpha.19
-  '@visactor/vrender-components': 0.15.0-alpha.19
+  '@visactor/vrender': 0.15.0-alpha.20
+  '@visactor/vrender-components': 0.15.0-alpha.20
 
 importers:
 
@@ -21,7 +21,7 @@ importers:
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.3.1
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vutils': 0.15.13-alpha.3
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
@@ -46,7 +46,7 @@ importers:
       '@arco-design/web-react': 2.46.1_vnxzf5c44dqo4vncfl2mrh2gwm
       '@visactor/vchart': link:../packages/vchart
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vutils': 0.15.13-alpha.3
       axios: 1.5.0
       highlight.js: 11.8.0
@@ -125,7 +125,7 @@ importers:
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.3.1
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vutils': 0.15.13-alpha.3
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
@@ -146,7 +146,7 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vutils': 0.15.13-alpha.3
       react-is: 18.2.0
     devDependencies:
@@ -285,8 +285,8 @@ importers:
       '@visactor/vgrammar-util': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud-shape': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
-      '@visactor/vrender-components': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
+      '@visactor/vrender-components': 0.15.0-alpha.20
       '@visactor/vscale': 0.15.13-alpha.3
       '@visactor/vutils': 0.15.13-alpha.3
       '@visactor/vutils-extension': workspace:0.0.1
@@ -328,8 +328,8 @@ importers:
       '@visactor/vgrammar-util': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud-shape': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
-      '@visactor/vrender-components': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
+      '@visactor/vrender-components': 0.15.0-alpha.20
       '@visactor/vscale': 0.15.13-alpha.3
       '@visactor/vutils': 0.15.13-alpha.3
       '@visactor/vutils-extension': link:../vutils-extension
@@ -385,7 +385,7 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vchart': workspace:1.3.1
       '@visactor/vdataset': 0.15.13-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vutils': 0.15.13-alpha.3
       eslint: ~8.18.0
       husky: 7.0.4
@@ -405,7 +405,7 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vdataset': 0.15.13-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vutils': 0.15.13-alpha.3
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
@@ -468,7 +468,7 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vscale': 0.15.13-alpha.3
       '@visactor/vutils': 0.15.13-alpha.3
       eslint: ~8.18.0
@@ -487,7 +487,7 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vscale': 0.15.13-alpha.3
       '@visactor/vutils': 0.15.13-alpha.3
     devDependencies:
@@ -694,7 +694,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
       '@visactor/vchart': workspace:1.3.1
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vutils': 0.15.13-alpha.3
       cross-env: ^7.0.3
       eslint: ~8.18.0
@@ -707,7 +707,7 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../../packages/vchart
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vutils': 0.15.13-alpha.3
     devDependencies:
       '@internal/bundler': link:../bundler
@@ -3545,7 +3545,7 @@ packages:
       jsonp-retry: 1.0.3
       mobile-detect: 1.4.5
       raf: 3.4.1
-      whatwg-fetch: 3.6.18
+      whatwg-fetch: 3.6.19
     dev: true
 
   /@tarojs/taro-loader/3.3.17:
@@ -4385,7 +4385,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vutils': 0.15.13-alpha.3
     dev: false
 
@@ -4403,7 +4403,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vutils': 0.15.13-alpha.3
     dev: false
 
@@ -4418,7 +4418,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vscale': 0.15.13-alpha.3
       '@visactor/vutils': 0.15.13-alpha.3
     dev: false
@@ -4428,7 +4428,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vutils': 0.15.13-alpha.3
     dev: false
 
@@ -4438,23 +4438,23 @@ packages:
       '@visactor/vdataset': 0.15.13-alpha.3
       '@visactor/vgrammar-coordinate': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.19
-      '@visactor/vrender-components': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
+      '@visactor/vrender-components': 0.15.0-alpha.20
       '@visactor/vscale': 0.15.13-alpha.3
       '@visactor/vutils': 0.15.13-alpha.3
     dev: false
 
-  /@visactor/vrender-components/0.15.0-alpha.19:
-    resolution: {integrity: sha512-b1mH0/mOjocmucKBJiuERQ0+x0H9CDMuqMMPsvfpm5+/Ov5nLKrMCyHUD+BUNfcCNSFtFP6Jd5oppi+hlMMzOg==}
+  /@visactor/vrender-components/0.15.0-alpha.20:
+    resolution: {integrity: sha512-jJsurC6PSa14rwwqGI4mF0Xn+EvCWbiZgydasDFT1yA0vydwpbn+tS75ibUcNxUXeUmroW4zrRsYexpOq9Junw==}
     dependencies:
-      '@visactor/vrender': 0.15.0-alpha.19
+      '@visactor/vrender': 0.15.0-alpha.20
       '@visactor/vscale': 0.15.13-alpha.3
       '@visactor/vutils': 0.15.13-alpha.3
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vrender/0.15.0-alpha.19:
-    resolution: {integrity: sha512-XqEVeIvEfsE0xMCYfeDmFlWw/DbbjzTNiEpa0LFWypTb2tioOYWfpbmP6Rs/ineqGM+xsBDMCntMrkdXOHL6zQ==}
+  /@visactor/vrender/0.15.0-alpha.20:
+    resolution: {integrity: sha512-UCIiYC2/mDIyG5+B0znm5O+akR4fI3auO+Z8HyrhryY6LLj2vpxVbCT0z1JDQq+ytH9YeBComhxFnObeqtjMuQ==}
     dependencies:
       '@visactor/vutils': 0.15.13-alpha.3
       color-convert: 2.0.1
@@ -12599,7 +12599,7 @@ packages:
     resolution: {integrity: sha512-9c4TNAKYXM5PRyVcwUZrF3W09nQ+sO7+jydgs4ZGW9dhsLG2VOlISJABombdQqQRXCwuYG3sYV/puGf5rp0qmA==}
     dependencies:
       node-fetch: 1.7.3
-      whatwg-fetch: 3.6.18
+      whatwg-fetch: 3.6.19
     dev: true
 
   /isstream/0.1.2:
@@ -14968,7 +14968,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.8
+      minimist: 1.2.5
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -17367,7 +17367,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.8
+      minimist: 1.2.5
       strip-json-comments: 2.0.1
     dev: true
 
@@ -21578,8 +21578,8 @@ packages:
       iconv-lite: 0.4.24
     dev: true
 
-  /whatwg-fetch/3.6.18:
-    resolution: {integrity: sha512-ltN7j66EneWn5TFDO4L9inYC1D+Czsxlrw2SalgjMmEMkLfA5SIZxEFdE6QtHFiiM6Q7WL32c7AkI3w6yxM84Q==}
+  /whatwg-fetch/3.6.19:
+    resolution: {integrity: sha512-d67JP4dHSbm2TrpFj8AbO8DnL1JXL5J9u0Kq2xW6d0TFDbCA3Muhdt8orXC22utleTVj7Prqt82baN6RBvnEgw==}
     dev: true
 
   /whatwg-mimetype/2.3.0:

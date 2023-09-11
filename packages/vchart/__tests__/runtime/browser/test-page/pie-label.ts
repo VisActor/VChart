@@ -750,7 +750,7 @@ const run = () => {
     hash: '8fefead4c53c18c47279796bce64468e'
   };
 
-  const cs = new VChart(spec_huazhu, {
+  const cs = new VChart(spec_animation, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
