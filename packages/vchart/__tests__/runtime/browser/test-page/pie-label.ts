@@ -254,7 +254,13 @@ const run = () => {
     },
     label: {
       visible: true,
-      pickable: false
+      pickable: false,
+      line: {
+        smooth: true,
+        style: {
+          lineWidth: 2
+        }
+      }
       // position: 'inside'
     }
   };
@@ -313,14 +319,9 @@ const run = () => {
     outerRadius: 0.8,
     valueField: 'value',
     categoryField: 'type',
-    // centerOffset: 10,
     title: {
       visible: true,
       text: 'Statistics of Surface Element Content'
-    },
-    legends: {
-      visible: true,
-      orient: 'left'
     },
     label: {
       visible: true,
@@ -330,19 +331,11 @@ const run = () => {
       },
       line: {
         line1MinLength: 30,
-        smooth: true
-      },
-      layout: {
-        // align: 'edge'
-      },
-      formatMethod: () => {
-        return 'test';
+        smooth: true,
+        style: {
+          lineWidth: 2
+        }
       }
-      // style: {
-      //   // text: datum => {
-      //   //   return '12345678';
-      //   // }
-      // }
     },
     tooltip: {
       mark: {
