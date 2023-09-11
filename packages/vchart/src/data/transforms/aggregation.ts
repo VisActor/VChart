@@ -2,7 +2,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { IAggrType } from '../../component/marker/interface';
 import type { ICartesianSeries } from '../../series/interface';
 
-import { variance, average, min, max, sum, standardDeviation, median, isValid } from '../../util';
+import { variance, average, min, max, sum, standardDeviation, median, isValid, isFunction } from '../../util';
 
 export type IOption = {
   field: string;
@@ -21,7 +21,15 @@ export type IOptionAggr = {
   getRefRelativeSeries?: () => ICartesianSeries;
 };
 
-export type IOptionAggrs = IOptionAggr[];
+export type IOptionCallback = (
+  relativeSeriesData: any,
+  startRelativeSeriesData: any,
+  endRelativeSeriesData: any
+) => IOptionPos;
+
+export type IOptionsAggr = IOptionAggr[];
+
+export type IOptionsCallback = IOptionCallback[];
 
 export const markerMin = (_data: Array<DataView>, opt: IOption) => {
   const data = _data[0].latestData;
@@ -63,7 +71,15 @@ export function markerMedian(_data: Array<DataView>, opt: IOption) {
   return median(data, opt.field);
 }
 
-export function markerAggregation(_data: Array<DataView>, options: IOptionAggrs) {
+export function markerAggregation(
+  _data: Array<DataView>,
+  options: {
+    aggr: IOptionsAggr | IOptionCallback;
+    getRelativeSeries: () => ICartesianSeries;
+    getStartRelativeSeries: () => ICartesianSeries;
+    getEndRelativeSeries: () => ICartesianSeries;
+  }
+) {
   const aggrMap = {
     min: markerMin,
     max: markerMax,
@@ -84,8 +100,16 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggrs)
       y: string | number | null;
       getRefRelativeSeries?: () => ICartesianSeries;
     } = { x: null, y: null };
+
+    const relativeSeriesData = option.getRelativeSeries().getData().getLatestData();
+    const startRelativeSeriesData = option.getStartRelativeSeries().getData().getLatestData();
+    const endRelativeSeriesData = option.getEndRelativeSeries().getData().getLatestData();
+
     if (isValid(option.x)) {
-      const x = option.x;
+      let x = option.x;
+      if (isFunction(x)) {
+        x = x(relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData);
+      }
       if (typeof x === 'string' || typeof x === 'number') {
         result.x = x;
       } else {
@@ -94,7 +118,10 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggrs)
       }
     }
     if (isValid(option.y)) {
-      const y = option.y;
+      let y = option.y;
+      if (isFunction(y)) {
+        y = y(relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData);
+      }
       if (typeof y === 'string' || typeof y === 'number') {
         result.y = y;
       } else {
