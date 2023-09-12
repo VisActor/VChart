@@ -85,6 +85,9 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
   }
 
   protected _markerLayout() {
+    if (!this._markerComponent) {
+      return;
+    }
     const spec = this._spec as any;
     const data = this._markerData;
     const startRelativeSeries = this._startRelativeSeries;
@@ -124,12 +127,12 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       width: maxX - minX,
       height: maxY - minY
     };
-    this._markerComponent?.setAttributes({
+    this._markerComponent.setAttributes({
       points: points,
       label: {
         ...this._markerComponent.attribute?.label,
         text: this._spec.label.formatMethod
-          ? this._spec.label.formatMethod(dataPoints)
+          ? this._spec.label.formatMethod(dataPoints, this._relativeSeries.getViewData().latestData)
           : this._markerComponent.attribute?.label?.text
       },
       limitRect

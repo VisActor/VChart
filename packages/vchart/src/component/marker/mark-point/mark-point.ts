@@ -85,6 +85,9 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
   }
 
   protected _markerLayout() {
+    if (!this._markerComponent) {
+      return;
+    }
     const spec = this._spec;
     const data = this._markerData;
     const relativeSeries = this._relativeSeries;
@@ -109,14 +112,14 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
       height: maxY - minY
     };
 
-    this._markerComponent?.setAttributes({
+    this._markerComponent.setAttributes({
       position: point,
       itemContent: {
         ...this._markerComponent.attribute?.itemContent,
         textStyle: {
           ...this._markerComponent.attribute?.itemContent?.textStyle,
           text: this._spec.itemContent.text?.formatMethod
-            ? this._spec.itemContent.text.formatMethod(dataPoints)
+            ? this._spec.itemContent.text.formatMethod(dataPoints, this._relativeSeries.getViewData().latestData)
             : this._markerComponent.attribute?.itemContent?.textStyle?.text
         }
       },
