@@ -28,6 +28,7 @@ import { VChart } from '../../core/vchart';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
 import { scatterSeriesMark } from './constant';
+import type { ILabelMark } from '../../mark/label';
 
 VChart.useMark([SymbolMark, TextMark]);
 
@@ -40,6 +41,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   protected declare _theme: Maybe<IScatterSeriesTheme>;
 
   private _symbolMark: ISymbolMark;
+  private _labelMark: ILabelMark;
 
   private _size: IScatterSeriesSpec['size'];
   private _sizeField: string;
@@ -307,10 +309,11 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   /**
    * 初始化LabelMark
    */
-  initLabelMarkStyle(labelMark?: ITextMark): void {
+  initLabelMarkStyle(labelMark?: ILabelMark): void {
     if (!labelMark) {
       return;
     }
+    this._labelMark = labelMark;
     this.setMarkStyle(
       labelMark,
       {
@@ -356,6 +359,12 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
         }
       });
     });
+
+    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+
+    if (vgrammarLabel) {
+      vgrammarLabel.evaluateSync(null, null);
+    }
   }
 
   handlePan(e: any) {
@@ -376,6 +385,11 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
         }
       });
     });
+    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+
+    if (vgrammarLabel) {
+      vgrammarLabel.evaluateSync(null, null);
+    }
   }
 
   getDefaultShapeType() {
