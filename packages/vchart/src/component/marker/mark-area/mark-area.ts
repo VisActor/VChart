@@ -65,6 +65,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       areaStyle: transformToGraphic(this._spec.area?.style),
       label: {
         ...this._spec.label,
+        confine: this._spec.label?.confine ?? true,
         padding: this._spec.label?.labelBackground?.padding,
         shape: {
           ...transformToGraphic(this._spec.label?.shape),
@@ -95,7 +96,6 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
     const isCoordinateLayout = isValid(spec.coordinates);
     const isPositionLayout = isValid(spec.positions);
     const autoRange = spec?.autoRange ?? false;
-    const isNeedClip = spec?.clip ?? false;
 
     let points: IPointLike[] = [];
     let lines: [IPointLike, IPointLike][] = [];
@@ -112,20 +112,18 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
     }
 
     const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-    let clipRange;
-    if (isNeedClip) {
-      const { minX, maxX, minY, maxY } = this._computeClipRange([
-        startRelativeSeries.getRegion(),
-        endRelativeSeries.getRegion(),
-        relativeSeries.getRegion()
-      ]);
-      clipRange = {
-        x: minX,
-        y: minY,
-        width: maxX - minX,
-        height: maxY - minY
-      };
-    }
+
+    const { minX, maxX, minY, maxY } = this._computeClipRange([
+      startRelativeSeries.getRegion(),
+      endRelativeSeries.getRegion(),
+      relativeSeries.getRegion()
+    ]);
+    const limitRect = {
+      x: minX,
+      y: minY,
+      width: maxX - minX,
+      height: maxY - minY
+    };
     this._markerComponent?.setAttributes({
       points: points,
       label: {
@@ -134,7 +132,8 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
           ? this._spec.label.formatMethod(dataPoints)
           : this._markerComponent.attribute?.label?.text
       },
-      clipRange
+      limitRect,
+      clipInRange: spec?.clip ?? false
     });
   }
 

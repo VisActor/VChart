@@ -47,6 +47,9 @@ export type IMarkerLabelSpec = {
      * 内部边距
      */
     padding?: IPadding;
+    /**
+     * 背景面板样式
+     */
     style: Omit<IRectMarkSpec, 'visible'>;
   };
   /**
@@ -75,6 +78,13 @@ export type IMarkerLabelSpec = {
    * label文本 - shape 同文本之间的间距
    */
   space?: number;
+
+  /**
+   * 是否自动调整 label 使其展示在 marker 可见区域内。
+   * @default true
+   * @since 1.4.0
+   */
+  confine?: boolean;
 } & IMarkerRef;
 
 export interface IMarkerRef {
