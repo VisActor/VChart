@@ -81,7 +81,6 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
       },
       label: {
         ...this._spec.label,
-        confine: this._spec.label?.confine ?? true,
         padding: this._spec.label?.labelBackground?.padding,
         shape: {
           ...transformToGraphic(this._spec.label?.shape),

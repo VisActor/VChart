@@ -81,7 +81,7 @@ export type IMarkerLabelSpec = {
 
   /**
    * 是否自动调整 label 使其展示在 marker 可见区域内。
-   * @default true
+   * @default false
    * @since 1.4.0
    */
   confine?: boolean;

@@ -65,7 +65,6 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       areaStyle: transformToGraphic(this._spec.area?.style),
       label: {
         ...this._spec.label,
-        confine: this._spec.label?.confine ?? true,
         padding: this._spec.label?.labelBackground?.padding,
         shape: {
           ...transformToGraphic(this._spec.label?.shape),
