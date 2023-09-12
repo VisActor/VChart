@@ -2,7 +2,6 @@ import type { DataView } from '@visactor/vdataset';
 import { array, isFunction } from '@visactor/vutils';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IOptionAggr } from '../../data/transforms/aggregation';
-import type { IOptionRegr } from '../../data/transforms/regression';
 import type { IModelRenderOption } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
 import type { IRegion } from '../../region/interface';
@@ -87,7 +86,11 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
 
       const { xField, yField } = refRelativeSeries.getSpec();
       const { [xField]: coordinateX, [yField]: coordinateY } = coordinate;
-      const option: IOptionAggr = { x: null, y: null };
+      const option: IOptionAggr = {
+        x: undefined,
+        y: undefined,
+        ...this._getAllRelativeSeries()
+      };
       if (this._isSpecAggr(coordinateX)) {
         option.x = { field: xField, aggrType: coordinateX as IAggrType };
       } else {
@@ -100,7 +103,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         option.y = coordinateY;
       }
       option.getRefRelativeSeries = () => refRelativeSeries;
-      return { ...option, ...this._getAllRelativeSeries() };
+      return option;
     });
   }
 
