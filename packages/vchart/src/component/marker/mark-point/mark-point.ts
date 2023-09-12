@@ -75,7 +75,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
         },
         richTextStyle: this._spec.itemContent?.richText?.style,
         ...this._spec.itemContent
-      }
+      },
+      clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markPoint;
     this._markerComponent.name = 'markPoint';
@@ -119,8 +120,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
             : this._markerComponent.attribute?.itemContent?.textStyle?.text
         }
       },
-      limitRect,
-      clipInRange: spec?.clip ?? false
+      limitRect
     });
   }
 

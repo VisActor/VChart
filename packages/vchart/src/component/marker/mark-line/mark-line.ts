@@ -92,7 +92,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
           visible: this._spec.label?.labelBackground?.visible ?? true
         },
         textStyle: transformToGraphic(this._spec.label?.style)
-      }
+      },
+      clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markLine;
     this._markerComponent.name = 'markLine';
@@ -151,8 +152,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
           ? this._spec.label.formatMethod(dataPoints)
           : this._markerComponent.attribute?.label?.text
       },
-      limitRect,
-      clipInRange: spec?.clip ?? false
+      limitRect
     });
   }
 

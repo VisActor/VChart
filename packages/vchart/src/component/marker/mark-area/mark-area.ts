@@ -76,7 +76,8 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
           visible: this._spec.label?.labelBackground?.visible ?? true
         },
         textStyle: transformToGraphic(this._spec.label?.style)
-      }
+      },
+      clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markArea;
     this._markerComponent.name = 'markArea';
@@ -132,8 +133,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
           ? this._spec.label.formatMethod(dataPoints)
           : this._markerComponent.attribute?.label?.text
       },
-      limitRect,
-      clipInRange: spec?.clip ?? false
+      limitRect
     });
   }
 
