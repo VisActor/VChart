@@ -560,8 +560,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   ) => {
     const { zoomDelta } = params;
     const delta = Math.abs(this._start - this._end);
-    // FIXME: 后续开放配置控制灵敏度
-    const ZOOM_RATE = 0.15;
 
     if (delta >= 1 && zoomDelta > 1) {
       return;
@@ -570,7 +568,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (delta <= 0.01 && zoomDelta < 1) {
       return;
     }
-    const value = (delta * (zoomDelta - 1) * ZOOM_RATE) / 2;
+    const value = (delta * (zoomDelta - 1)) / 2;
     const start = clamp(this._start - value, 0, 1);
     const end = clamp(this._end + value, 0, 1);
 
@@ -581,13 +579,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const [dx, dy] = delta;
     const value = this._isHorizontal ? dx : dy;
     const totalValue = this._isHorizontal ? this.getLayoutRect().width : this.getLayoutRect().height;
-
+    // FIXME: 经验值, 后续开放配置控制灵敏度
+    const SCROLL_RATE = 0.02;
     if (Math.abs(value) >= 1e-6) {
       if (value > 0 && this._end < 1) {
-        const moveDelta = Math.min(1 - this._end, value / totalValue);
+        const moveDelta = Math.min(1 - this._end, value / totalValue) * SCROLL_RATE;
         this._handleChange(this._start + moveDelta, this._end + moveDelta, true);
       } else if (value < 0 && this._start > 0) {
-        const moveDelta = Math.max(-this._start, value / totalValue);
+        const moveDelta = Math.max(-this._start, value / totalValue) * SCROLL_RATE;
         this._handleChange(this._start + moveDelta, this._end + moveDelta, true);
       }
     }
