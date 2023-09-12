@@ -107,16 +107,16 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   effect: IEffect = {
     onZoomChange: () => {
       if (this._relatedAxisComponent && this._spec.filterMode === 'axis') {
-        const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
+        const axisScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
+        const axisSpec = this._relatedAxisComponent.getSpec() as ICartesianBandAxisSpec;
         if (this._auto) {
           // 提前更改 scale
-          scale.range(this._stateScale?.range(), true);
+          axisScale.range(this._stateScale?.range(), true);
         }
         // 可以在这里更改滚动条是正向还是反向
-        const newRangeFactor: [number, number] = this._isHorizontal
-          ? [this._start, this._end]
-          : [1 - this._end, 1 - this._start];
-        scale.rangeFactor(newRangeFactor);
+        const newRangeFactor: [number, number] =
+          this._isHorizontal || axisSpec.inverse ? [this._start, this._end] : [1 - this._end, 1 - this._start];
+        axisScale.rangeFactor(newRangeFactor);
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
         eachSeries(
