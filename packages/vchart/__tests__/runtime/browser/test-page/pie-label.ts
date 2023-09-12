@@ -750,7 +750,191 @@ const run = () => {
     hash: '8fefead4c53c18c47279796bce64468e'
   };
 
-  const cs = new VChart(spec_animation, {
+  const spec_rose_inner = {
+    type: 'rose',
+    categoryField: '20001',
+    valueField: '230901165008033',
+    seriesField: '20001',
+    padding: 0,
+    data: [
+      {
+        id: 'data',
+        values: [
+          {
+            '20001': '华东',
+            '230901164619028': '华东',
+            '230901165008033': '4684506.442247391'
+          },
+          {
+            '20001': '中南',
+            '230901164619028': '中南',
+            '230901165008033': '4137415.0951108932'
+          },
+          {
+            '20001': '地区-dongbei',
+            '230901164619028': '地区-dongbei',
+            '230901165008033': '2681567.4745378494'
+          },
+          {
+            '20001': '华北',
+            '230901164619028': '华北',
+            '230901165008033': '2447301.0141382217'
+          },
+          {
+            '20001': '西南',
+            '230901164619028': '西南',
+            '230901165008033': '1303124.5089645386'
+          },
+          {
+            '20001': '西北',
+            '230901164619028': '西北',
+            '230901165008033': '815039.5979347229'
+          }
+        ],
+        fields: {
+          '20001': {
+            alias: '图例项 ',
+            domain: ['华东', '中南', '地区-dongbei', '华北', '西南', '西北'],
+            lockStatisticsByDomain: true
+          },
+          '230901164619028': {
+            alias: '地区'
+          },
+          '230901165008033': {
+            alias: '销售额'
+          }
+        }
+      }
+    ],
+    outerRadius: 1,
+    label: {
+      visible: true,
+      overlap: {
+        hideOnHit: true
+      },
+      style: {
+        fontSize: 12,
+        fill: '#fff',
+        stroke: null,
+        lineWidth: 2,
+        strokeOpacity: 1,
+        angle: 0
+      },
+      formatMethod: (text, datum) => {
+        return [datum['20001'], datum['230901165008033']];
+      },
+      position: 'inside',
+      interactive: false
+    },
+    color: {
+      field: '20001',
+      type: 'ordinal',
+      range: ['#207BFE', '#00CFFF', '#FC7703', '#5BCF78', '#2F4DE0', '#94D8FF'],
+      specified: {},
+      domain: ['华东', '中南', '地区-dongbei', '华北', '西南', '西北']
+    },
+    legends: [
+      {
+        type: 'discrete',
+        id: 'legend',
+        orient: 'top',
+        position: 'start',
+        layoutType: 'normal',
+        visible: true,
+        maxRow: 1,
+        title: {
+          textStyle: {
+            fontSize: 30,
+            fill: '#6F6F6F'
+          }
+        },
+        item: {
+          focus: true,
+          focusIconStyle: {
+            size: 14
+          },
+          maxWidth: 400,
+          spaceRow: 0,
+          spaceCol: 0,
+          padding: {
+            top: 1,
+            bottom: 1,
+            left: 2,
+            right: 2
+          },
+          background: {
+            visible: false,
+            style: {
+              fillOpacity: 0.001
+            }
+          },
+          label: {
+            style: {
+              fontSize: 30,
+              fill: '#6F6F6F'
+            }
+          },
+          shape: {
+            style: {
+              lineWidth: 0,
+              symbolType: 'square'
+            }
+          }
+        },
+        pager: {
+          textStyle: {},
+          handler: {
+            style: {},
+            state: {
+              disable: {}
+            }
+          }
+        },
+        padding: {
+          top: 0,
+          bottom: 16,
+          left: 0,
+          right: 0
+        }
+      }
+    ],
+    hover: {
+      enable: true
+    },
+    select: {
+      enable: true
+    },
+    rose: {
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 1,
+          zIndex: 500
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1
+        },
+        selected_reverse: {
+          fillOpacity: 0.3,
+          strokeWidth: 0.3
+        }
+      }
+    },
+    tooltip: {
+      handler: {}
+    },
+    background: 'rgba(255, 255, 255, 0)',
+    pie: {},
+    animation: false,
+    hash: 'fe55e3cd90bd483d9cd25ee424d202a9'
+  };
+
+  const cs = new VChart(spec_rose_inner, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
