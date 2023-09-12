@@ -187,7 +187,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         }
       }
     }
-    this._option.onError('need at least one series');
+    this._option?.onError('need at least one series');
     return null;
   }
 

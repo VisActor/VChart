@@ -313,7 +313,7 @@ export class SequenceChart extends BaseChart {
       } else {
         // 保证数据最终是 DataView 实例
         spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], {
-          onError: this._option.onError
+          onError: this._option?.onError
         });
         // link series添加关联的dot series data
         if (spec.type === SeriesTypeEnum.link) {
@@ -322,7 +322,7 @@ export class SequenceChart extends BaseChart {
             this._dataSet,
             this._spec.data as DataView[],
             {
-              onError: this._option.onError
+              onError: this._option?.onError
             }
           );
         }
