@@ -78,7 +78,10 @@ const run = () => {
     yField: 'value',
     markLine: [
       {
-        y: 'min',
+        y: data => {
+          console.log('y', data);
+          return data[2].value;
+        },
         startSymbol: {
           visible: true,
           symbolType: 'triangleDown',
@@ -145,147 +148,47 @@ const run = () => {
   window['vchart'] = cs;
   console.log(cs);
 
-  //   cs.updateSpec({
-  //   type: "line",
-  //   data: {
-  //     id: "line",
-  //     values: [
-  //       {
-  //         time: "2:00",
-  //         value: 8
-  //       },
-  //       {
-  //         time: "4:00",
-  //         value: 9
-  //       },
-  //       {
-  //         time: "6:00",
-  //         value: 20
-  //       },
-  //       {
-  //         time: "8:00",
-  //         value: 14
-  //       },
-  //       {
-  //         time: "10:00",
-  //         value: 16
-  //       },
-  //       {
-  //         time: "12:00",
-  //         value: 17
-  //       },
-  //       {
-  //         time: "14:00",
-  //         value: 17
-  //       },
-  //       {
-  //         time: "16:00",
-  //         value: 16
-  //       },
-  //       {
-  //         time: "18:00",
-  //         value: 15
-  //       }
-  //     ]
-  //   },
-  //   xField: "time",
-  //   yField: "value",
-  //   markLine: [
-  //     {
-  //       y: (data) => {
-  //         console.log("y", data.getLatestData());
-  //         return data.getLatestData()[2].value;
-  //       },
-  //       startSymbol: {
-  //         visible: true,
-  //         symbolType: "triangleDown",
-  //         style: {
-  //           size: 10,
-  //           fill: "#f3a016"
-  //         }
-  //       },
-  //       endSymbol: {
-  //         visible: false
-  //       },
-  //       autoRange: true,
-  //       label: {
-  //         visible: true,
-  //         style: {
-  //           dx: -4,
-  //           dy: 0,
-  //           fontSize: 12,
-  //           fontWeight: "normal",
-  //           fill: "#fff",
-  //           cursor: "pointer"
-  //         },
-  //         position: "insideStartTop",
-  //         labelBackground: {
-  //           visible: true,
-  //           padding: {
-  //             left: 5,
-  //             right: 5,
-  //             top: 2,
-  //             bottom: 2
-  //           },
-  //           style: {
-  //             fill: "#2F3B52",
-  //             fillOpacity: 0.9,
-  //             dx: -4,
-  //             dy: 0
-  //           }
-  //         }
-  //       },
-  //       line: {
-  //         style: {
-  //           stroke: "#f3a016",
-  //           lineWidth: 2,
-  //           lineDash: [3, 3],
-  //           cursor: "pointer"
-  //         }
-  //       },
-  //       relativeSeriesId: "mainSeries",
-  //       id: "7d14708c-de9d-49a1-919a-26c65ff95b42",
-  //       interactive: true
-  //     }
-  //   ]
-  // })
-
-  cs.updateDataSync('line', [
+  cs.updateFullDataSync([
     {
-      time: '2:00',
-      value: 8
-    },
-    {
-      time: '4:00',
-      value: 9
-    },
-    {
-      time: '6:00',
-      value: 20
-    },
-    {
-      time: '8:00',
-      value: 14
-    },
-    {
-      time: '10:00',
-      value: 16
-    },
-    {
-      time: '12:00',
-      value: 17
-    },
-    {
-      time: '14:00',
-      value: 17
-    },
-    {
-      time: '16:00',
-      value: 16
-    },
-    {
-      time: '18:00',
-      value: 15
+      id: 'line',
+      values: [
+        {
+          time: '2:00',
+          value: 8
+        },
+        {
+          time: '4:00',
+          value: 9
+        },
+        {
+          time: '6:00',
+          value: 20
+        },
+        {
+          time: '8:00',
+          value: 14
+        },
+        {
+          time: '10:00',
+          value: 16
+        },
+        {
+          time: '12:00',
+          value: 17
+        },
+        {
+          time: '14:00',
+          value: 17
+        },
+        {
+          time: '16:00',
+          value: 16
+        },
+        {
+          time: '18:00',
+          value: 15
+        }
+      ]
     }
   ]);
 };

@@ -33,8 +33,8 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
     this._initDataView();
   }
 
-  private _isSpecAggrOrRege(spec: IDataPos | IDataPosCallback) {
-    return spec === 'regression' || AGGR_TYPE.includes(spec as any);
+  private _isSpecAggr(spec: IDataPos | IDataPosCallback) {
+    return AGGR_TYPE.includes(spec as any);
   }
 
   private _getAllRelativeSeries() {
@@ -48,7 +48,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
   protected _processSpecX(specX: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
     let processType: IAggrType | IRegressType;
-    if (this._isSpecAggrOrRege(specX)) {
+    if (this._isSpecAggr(specX)) {
       processType = specX as unknown as IAggrType;
       return {
         x: {
@@ -64,7 +64,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
   protected _processSpecY(specY: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
     let processType: IAggrType | IRegressType;
-    if (this._isSpecAggrOrRege(specY)) {
+    if (this._isSpecAggr(specY)) {
       processType = specY as unknown as IAggrType;
       return {
         y: {
@@ -87,14 +87,14 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
 
       const { xField, yField } = refRelativeSeries.getSpec();
       const { [xField]: coordinateX, [yField]: coordinateY } = coordinate;
-      const option: IOptionAggr | IOptionRegr = { x: null, y: null };
-      if (this._isSpecAggrOrRege(coordinateX)) {
+      const option: IOptionAggr = { x: null, y: null };
+      if (this._isSpecAggr(coordinateX)) {
         option.x = { field: xField, aggrType: coordinateX as IAggrType };
       } else {
         option.x = coordinateX;
       }
 
-      if (this._isSpecAggrOrRege(coordinateY)) {
+      if (this._isSpecAggr(coordinateY)) {
         option.y = { field: yField, aggrType: coordinateY as IAggrType };
       } else {
         option.y = coordinateY;
