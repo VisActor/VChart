@@ -54,6 +54,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     });
 
     this._valueField = 'y';
+    this._filterMode = spec.filterMode ?? 'filter';
   }
 
   created() {
@@ -294,7 +295,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       this.event.emit(ChartEvent.dataZoomChange, {
         model: this,
         value: {
-          filterData: this._spec.filterMode !== 'axis',
+          filterData: this._filterMode !== 'axis',
           start,
           end,
           startValue: this._startValue,
