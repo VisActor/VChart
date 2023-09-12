@@ -76,12 +76,12 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
 
     if (isArray(spec)) {
       if (isNil(field)) {
-        this._option.onError(`${key}Field is required.`);
+        this._option?.onError(`${key}Field is required.`);
         return spec;
       }
 
       if (spec.length > 2) {
-        this._option.onError(`${key} length is invalid, specify up to 2 ${key}s.`);
+        this._option?.onError(`${key} length is invalid, specify up to 2 ${key}s.`);
         return spec;
       }
       const scaleName = `${PREFIX}_series_scatter_${this.id}_scale_${key}`;
@@ -105,7 +105,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     // 若sizeSpec是对象
     if (isObject(spec)) {
       if (isNil(field)) {
-        this._option.onError(`${key}Field is required.`);
+        this._option?.onError(`${key}Field is required.`);
         return spec;
       }
       const scaleName = `${PREFIX}_series_scatter_${this.id}_scale_${key}`;
@@ -130,7 +130,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     }
 
     // 其余情况报错
-    this._option.onError(`${key} attribute is invalid.`);
+    this._option?.onError(`${key} attribute is invalid.`);
     return spec;
   }
 

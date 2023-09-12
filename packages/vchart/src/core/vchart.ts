@@ -229,7 +229,7 @@ export class VChart implements IVChart {
 
   constructor(spec: ISpec, options: IInitOption) {
     this._option = mergeOrigin(this._option, options);
-    this._onError = this._option.onError;
+    this._onError = this._option?.onError;
 
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
 
@@ -244,7 +244,7 @@ export class VChart implements IVChart {
     }
 
     if (mode !== 'node' && !this._container && !this._canvas && !this._stage) {
-      this._option.onError('please specify container or renderCanvas!');
+      this._option?.onError('please specify container or renderCanvas!');
       return;
     }
 
@@ -309,7 +309,7 @@ export class VChart implements IVChart {
       const curSpecData = specData[i];
       dataViewArr.push(
         dataToDataView(curSpecData, <DataSet>this._dataSet, dataViewArr, {
-          onError: this._option.onError
+          onError: this._option?.onError
         })
       );
     }
@@ -319,7 +319,7 @@ export class VChart implements IVChart {
 
   private _initChart(spec: any) {
     if (!this._compiler) {
-      this._option.onError('compiler is not initialized');
+      this._option?.onError('compiler is not initialized');
       return;
     }
     this._initData();
@@ -345,7 +345,7 @@ export class VChart implements IVChart {
       onError: this._onError
     });
     if (!chart) {
-      this._option.onError('init chart fail');
+      this._option?.onError('init chart fail');
       return;
     }
     this._chart = chart;
@@ -691,7 +691,7 @@ export class VChart implements IVChart {
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
-          onError: this._option.onError
+          onError: this._option?.onError
         });
         this._spec.data.push(dataView);
       }
@@ -724,7 +724,7 @@ export class VChart implements IVChart {
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
-          onError: this._option.onError
+          onError: this._option?.onError
         });
         this._spec.data.push(dataView);
       }
@@ -1281,7 +1281,7 @@ export class VChart implements IVChart {
       });
       return url;
     }
-    this._option.onError(new ReferenceError(`render is not defined`));
+    this._option?.onError(new ReferenceError(`render is not defined`));
 
     return null;
   }
@@ -1293,7 +1293,7 @@ export class VChart implements IVChart {
    */
   async exportImg(name?: string) {
     if (!isTrueBrowser(this._option.mode)) {
-      this._option.onError(new TypeError(`non-browser environment can not export img`));
+      this._option?.onError(new TypeError(`non-browser environment can not export img`));
       return;
     }
 
@@ -1301,7 +1301,7 @@ export class VChart implements IVChart {
     if (dataURL) {
       URLToImage(name, dataURL);
     } else {
-      this._option.onError(new ReferenceError(`render is not defined`));
+      this._option?.onError(new ReferenceError(`render is not defined`));
     }
   }
 
@@ -1311,7 +1311,7 @@ export class VChart implements IVChart {
    */
   getImageBuffer() {
     if (this._option.mode !== 'node') {
-      this._option.onError(new TypeError('getImageBuffer() now only support node environment.'));
+      this._option?.onError(new TypeError('getImageBuffer() now only support node environment.'));
       return;
     }
     const stage = this.getStage();
@@ -1320,7 +1320,7 @@ export class VChart implements IVChart {
       const buffer = stage.window.getImageBuffer();
       return buffer;
     }
-    this._option.onError(new ReferenceError(`render is not defined`));
+    this._option?.onError(new ReferenceError(`render is not defined`));
 
     return null;
   }
