@@ -4,8 +4,8 @@ import { isNil, isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
-import type { IOptionAggrs } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
+import type { IOptionAggr } from '../../../data/transforms/aggregation';
 import { markerAggregation } from '../../../data/transforms/aggregation';
 import { xLayout, yLayout, coordinateLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
@@ -168,7 +168,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
       return;
     }
 
-    let options: IOptionAggrs | IOptionRegr;
+    let options: IOptionAggr[] | IOptionRegr;
     let processData: DataView;
     let needAgggr: boolean = false;
     let needRegr: boolean = false;
