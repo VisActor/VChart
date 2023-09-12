@@ -594,13 +594,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const [dx, dy] = delta;
     const value = this._isHorizontal ? dx : dy;
     const totalValue = this._isHorizontal ? this.getLayoutRect().width : this.getLayoutRect().height;
-
+    // FIXME: 经验值, 后续开放配置控制灵敏度
+    const SCROLL_RATE = 0.02;
     if (Math.abs(value) >= 1e-6) {
       if (value > 0 && this._end < 1) {
-        const moveDelta = Math.min(1 - this._end, value / totalValue);
+        const moveDelta = Math.min(1 - this._end, value / totalValue) * SCROLL_RATE;
         this._handleChange(this._start + moveDelta, this._end + moveDelta, true);
       } else if (value < 0 && this._start > 0) {
-        const moveDelta = Math.max(-this._start, value / totalValue);
+        const moveDelta = Math.max(-this._start, value / totalValue) * SCROLL_RATE;
         this._handleChange(this._start + moveDelta, this._end + moveDelta, true);
       }
     }
