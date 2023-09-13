@@ -1,6 +1,6 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import type { ITooltipPattern, TooltipActiveType } from '../../typings';
+import type { IToolTipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
 import { TimeUtil } from '../../component/axis/cartesian/util';
 import { isValid } from '@visactor/vutils';
 
@@ -9,7 +9,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
     super.updateTooltipSpec();
     if (isValid(this.spec?.mark)) {
       this.spec!.mark.updateContent = (prev: any, datum: any, params: any) => {
-        const childrenContent: any = [];
+        const childrenContent: IToolTipLinePattern[] = [];
         const childrenPrev = prev.filter((p: any) => p.key === 'children');
         childrenPrev.length > 0 &&
           childrenPrev[0].value.forEach((element: any) => {
@@ -19,6 +19,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
                 shapeType: 'circle',
                 hasShape: flag,
                 shapeColor: this.contentShapeColorCallback(datum[0].datum[0]),
+                shapeStroke: this.contentShapeColorCallback(datum[0].datum[0]),
                 key: key,
                 value: element[key] + ''
               });
@@ -45,6 +46,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
             hasShape: true,
             shapeType: 'square',
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             key: (datum: any) => datum.type,
             value: (datum: any) => datum.id
           },
@@ -52,6 +54,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
             hasShape: true,
             shapeType: 'square',
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             key: 'event_time',
             value: (datum: any) => TimeUtil.getInstance().timeFormat('%Y%m%d', datum.event_time)
           },
@@ -59,6 +62,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
             hasShape: true,
             shapeType: 'square',
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             key: 'action_type',
             value: (datum: any) => datum.action_type
           },
@@ -66,6 +70,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
             shapeType: 'square',
             hasShape: true,
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             key: 'children',
             value: (datum: any) => {
               return datum.children;
@@ -73,7 +78,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
           }
         ],
         updateContent: (prev: any, datum: any, params: any) => {
-          const childrenContent: any = [];
+          const childrenContent: IToolTipLinePattern[] = [];
           prev[3].value.forEach((element: any) => {
             let flag = true;
             for (const key in element) {
@@ -81,9 +86,10 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
                 shapeType: 'circle',
                 hasShape: flag,
                 shapeColor: this.contentShapeColorCallback(datum[0].datum[0]),
+                shapeStroke: this.contentShapeColorCallback(datum[0].datum[0]),
                 key: key,
                 value: element[key] + ''
-              });
+              } as IToolTipLinePattern);
               flag = false;
             }
           });

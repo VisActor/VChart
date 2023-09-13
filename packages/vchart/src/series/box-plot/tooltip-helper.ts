@@ -23,6 +23,7 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
           hasShape: true,
           shapeType: this.contentShapeTypeCallback,
           shapeColor: this.getOutlierFillColor,
+          shapeStroke: this.getOutlierFillColor,
           shapeHollow: false
         },
         {
@@ -31,6 +32,7 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
           hasShape: true,
           shapeType: this.contentShapeTypeCallback,
           shapeColor: this.contentShapeColorCallback,
+          shapeStroke: this.contentShapeColorCallback,
           shapeHollow: false
         },
         {
@@ -39,6 +41,7 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
           hasShape: true,
           shapeType: this.contentShapeTypeCallback,
           shapeColor: this.contentShapeColorCallback,
+          shapeStroke: this.contentShapeColorCallback,
           shapeHollow: false
         },
         {
@@ -47,6 +50,7 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
           hasShape: true,
           shapeType: this.contentShapeTypeCallback,
           shapeColor: this.contentShapeColorCallback,
+          shapeStroke: this.contentShapeColorCallback,
           shapeHollow: false
         },
         {
@@ -55,6 +59,7 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
           hasShape: true,
           shapeType: this.contentShapeTypeCallback,
           shapeColor: this.contentShapeColorCallback,
+          shapeStroke: this.contentShapeColorCallback,
           shapeHollow: false
         },
         {
@@ -63,6 +68,7 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
           hasShape: true,
           shapeType: this.contentShapeTypeCallback,
           shapeColor: this.contentShapeColorCallback,
+          shapeStroke: this.contentShapeColorCallback,
           shapeHollow: false
         },
         {
@@ -71,6 +77,7 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
           hasShape: true,
           shapeType: this.contentShapeTypeCallback,
           shapeColor: this.contentShapeColorCallback,
+          shapeStroke: this.contentShapeColorCallback,
           shapeHollow: false
         }
       ]

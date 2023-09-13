@@ -261,7 +261,17 @@ const getShapePattern = (
   defaultShapePattern?: ITooltipShapePattern
 ): ITooltipShapePattern => {
   const shapePatternFromMap = shapePatternMap?.[userLinePattern?.seriesId ?? 0] ?? shapePatternMap?.[0];
-  const shapeKeys: (keyof ITooltipShapePattern)[] = ['hasShape', 'shapeType', 'shapeColor'];
+  const shapeKeys: Set<keyof ITooltipShapePattern> = new Set(
+    []
+      .concat(
+        Object.keys(userLinePattern ?? {}),
+        Object.keys(userPattern ?? {}),
+        Object.keys(shapePatternFromMap ?? {}),
+        Object.keys(defaultShapePattern ?? {})
+      )
+      .filter(key => key.toLowerCase().includes('shape')) as any[]
+  );
+
   const shapePattern: ITooltipShapePattern = {};
   shapeKeys.forEach(key => {
     const value =
