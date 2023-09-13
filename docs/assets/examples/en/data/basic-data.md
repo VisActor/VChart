@@ -16,7 +16,7 @@ The vast majority of charts need to configure data. The `data` can be configured
 
 Configure the data required for the chart in the values attribute of `data`
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

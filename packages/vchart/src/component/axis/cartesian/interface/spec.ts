@@ -68,8 +68,19 @@ export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
 };
 
 export interface ILinearAxisSync {
+  /**
+   * 配置参照的轴 id
+   */
   axisId: StringOrNumber;
+  /**
+   * 是否保持 2 个轴的 0 值对齐
+   * @default false
+   */
   zeroAlign?: boolean;
+  /**
+   * 是否使这个轴的 tick 与目标轴保持比例对齐
+   * @default false
+   */
   tickAlign?: boolean;
 }
 
@@ -78,7 +89,24 @@ export type ICartesianLinearAxisSpec = ICartesianAxisCommonSpec &
     sync?: ILinearAxisSync;
   };
 
-export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec & IBandAxisSpec;
+export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec &
+  IBandAxisSpec & {
+    /**
+     * 轴组宽设置
+     * @since 1.4.0
+     */
+    bandSize?: number;
+    /**
+     * 轴最大组宽设置
+     * @since 1.4.0
+     */
+    maxBandSize?: number;
+    /**
+     * 轴最小组宽设置
+     * @since 1.4.0
+     */
+    minBandSize?: number;
+  };
 
 export type ICartesianTimeAxisSpec = Omit<ICartesianAxisCommonSpec, 'inverse'> & {
   /**

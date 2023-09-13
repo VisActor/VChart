@@ -5,31 +5,34 @@ import type { IBaseScale, BandScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { ChartEvent, LayoutZIndex, POLAR_START_ANGLE, POLAR_START_RADIAN } from '../../../constant';
 import type { LayoutItem } from '../../../model/layout-item';
-import type { IPolarAxis, IPolarAxisCommonTheme } from './interface';
+import type { IPolarAxis, IPolarAxisCommonSpec, IPolarAxisCommonTheme } from './interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
 import { Factory } from '../../../core/factory';
-import { isArray, isValidNumber, merge, polarToCartesian, radians, eachSeries, getFieldAlias } from '../../../util';
+import { isArray, isValidNumber, mergeSpec, polarToCartesian, eachSeries } from '../../../util';
 import { scaleParser } from '../../../data/parser/scale';
-import type { IPolarTickDataOpt } from '../../../data/transforms/tick-data';
-// eslint-disable-next-line no-duplicate-imports
-import { ticks } from '../../../data/transforms/tick-data';
+import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
+import { ticks } from '@visactor/vutils-extension';
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber } from '../../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { isPolarAxisSeries } from '../../../series/util/utils';
-import { isValidPolarAxis } from '../utils';
+import { getAxisLabelOffset, isValidPolarAxis } from '../util';
 
 import type { Dict } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { PointService, isValid } from '@visactor/vutils';
+import { PointService, degreeToRadian, isValid } from '@visactor/vutils';
 import type { IEffect } from '../../../model/interface';
 import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
 import type { ITick } from '../interface';
+import { HOOK_EVENT } from '@visactor/vgrammar';
 
-export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
+export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommonSpec>
+  extends AxisComponent<T>
+  implements IPolarAxis
+{
   static type = ComponentTypeEnum.polarAxis;
   type = ComponentTypeEnum.polarAxis;
   name: string = ComponentTypeEnum.polarAxis;
@@ -56,7 +59,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
   protected declare _theme: IPolarAxisCommonTheme;
 
   protected _orient: IPolarOrientType = 'radius';
-  get orient() {
+  getOrient() {
     return this._orient;
   }
 
@@ -72,6 +75,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
   }
 
   private _axisStyle: any;
+  private _gridStyle: any;
 
   static createAxis(spec: any, options: IComponentOption): IPolarAxis {
     // TODO: 基于数据处理 axis 类型
@@ -145,7 +149,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
       eachSeries(
         this._regions,
         s => {
-          if (this.orient === 'radius') {
+          if (this.getOrient() === 'radius') {
             (s as IPolarSeries).radiusAxisHelper = this.axisHelper();
           } else {
             (s as IPolarSeries).angleAxisHelper = this.axisHelper();
@@ -162,8 +166,10 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    const axisStyle = this._getAxisAttributes();
-    this._axisStyle = axisStyle;
+    if (this.visible) {
+      this._axisStyle = this._getAxisAttributes();
+      this._gridStyle = this._getGridAttributes();
+    }
 
     this._tick = this._spec.tick;
     this._orient = this._spec.orient === 'angle' ? 'angle' : 'radius';
@@ -171,8 +177,8 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     const chartSpec = this.getChart().getSpec() as any;
     const startAngle = this._spec.startAngle ?? chartSpec.startAngle;
     const endAngle = this._spec.endAngle ?? chartSpec.endAngle;
-    this._startAngle = radians(startAngle ?? POLAR_START_ANGLE);
-    this._endAngle = radians(endAngle ?? (isValid(startAngle) ? startAngle + 360 : POLAR_END_ANGLE));
+    this._startAngle = degreeToRadian(startAngle ?? POLAR_START_ANGLE);
+    this._endAngle = degreeToRadian(endAngle ?? (isValid(startAngle) ? startAngle + 360 : POLAR_END_ANGLE));
   }
 
   setLayoutStartPosition(pos: Partial<IPoint>): void {
@@ -227,7 +233,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
             labelFormatter: label.formatMethod,
             labelGap: label.minGap,
 
-            axisSpec: this._spec,
+            labelOffset: getAxisLabelOffset(this._spec),
             getRadius: () => this.getOuterRadius()
           } as IPolarTickDataOpt
         },
@@ -238,15 +244,13 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     this._tickData = new CompilableData(this._option, tickData);
   }
 
-  protected initEvent() {
-    super.initEvent();
-
-    if (this.visible) {
-      this.event.on('afterElementEncode', eventParams => {
-        const mark = eventParams.item;
-        if (this._option.getChart().getLayoutTag() === false && mark.context?.model === this) {
-          // 代理组件上的事件，目前坐标轴组件比较特殊，包含了网格线，但是事件这块只提供不包含网格线部分的响应
-          this._delegateAxisContainerEvent(mark.getGroupGraphicItem());
+  afterCompile() {
+    const product = this._axisMark?.getProduct();
+    if (product) {
+      product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
+        if (this._isLayout === false) {
+          // 布局结束之后再进行插件的调用
+          this._delegateAxisContainerEvent(product.getGroupGraphicItem());
         }
       });
     }
@@ -254,7 +258,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
 
   protected updateScaleRange() {
     const inverse = this._spec.inverse;
-    if (this.orient === 'radius') {
+    if (this.getOrient() === 'radius') {
       this._scale.range(
         inverse
           ? [this.computeLayoutOuterRadius(), this.computeLayoutInnerRadius()]
@@ -274,7 +278,8 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
         if (depth > 0) {
           field = s.getGroups()?.fields?.[depth];
         } else {
-          field = this.orient === 'radius' ? (s as IPolarSeries).getRadiusField() : (s as IPolarSeries).getAngleField();
+          field =
+            this.getOrient() === 'radius' ? (s as IPolarSeries).getRadiusField() : (s as IPolarSeries).getAngleField();
         }
         field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
         if (!depth) {
@@ -303,7 +308,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     eachSeries(
       this._regions,
       s => {
-        if (this.orient === 'radius') {
+        if (this.getOrient() === 'radius') {
           (s as IPolarSeries).setRadiusScale(this._scale);
           (s as IPolarSeries).radiusAxisHelper = this.axisHelper();
         } else {
@@ -319,7 +324,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
   }
 
   protected getSeriesStatisticsField(s: IPolarSeries) {
-    const f = this.orient === 'radius' ? s.getRadiusField() : s.getAngleField();
+    const f = this.getOrient() === 'radius' ? s.getRadiusField() : s.getAngleField();
     if (isContinuous(this._scale.type)) {
       return f;
     }
@@ -354,7 +359,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
 
   positionToData(position: IPoint) {
     const coord = this.pointToCoord(position);
-    if (this.orient === 'radius') {
+    if (this.getOrient() === 'radius') {
       return this._scale.invert(coord.radius);
     }
 
@@ -367,7 +372,6 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
         const transformedAngle = ((angle + Math.abs(range[0])) % rangeValue) - Math.abs(range[0]);
         return this._scale.invert(transformedAngle);
       }
-
       return this._scale.invert((coord.angle + (this._scale as BandScale).bandwidth() / 2) % rangeValue);
     }
 
@@ -406,11 +410,16 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     dy /= radius;
 
     let radian = Math.atan2(dy, dx);
-    const dir = radian < startAngle ? 1 : -1;
-    while (radian < startAngle || radian > endAngle) {
-      radian += dir * Math.PI * 2;
+    if (radian < startAngle) {
+      while (radian <= startAngle) {
+        radian += Math.PI * 2;
+      }
     }
-
+    if (radian > endAngle) {
+      while (radian >= endAngle) {
+        radian -= Math.PI * 2;
+      }
+    }
     return {
       radius,
       angle: radian
@@ -450,7 +459,7 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
 
   updateLayoutAttribute(): void {
     if (this._visible) {
-      if (this.orient === 'radius') {
+      if (this.getOrient() === 'radius') {
         this._layoutRadiusAxis();
       } else {
         this._layoutAngleAxis();
@@ -465,35 +474,41 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     const radius = this.computeLayoutOuterRadius();
     const innerRadius = this.computeLayoutInnerRadius();
     const angleRange = this._endAngle - this._startAngle;
-    const attrs = {
+    const items = isArray(this._tickData.getLatestData())
+      ? this._tickData.getLatestData().map((obj: Datum) => {
+          const angle = this.dataToPosition([obj.value]);
+          return {
+            id: obj.value,
+            label: obj.value,
+            value: (angle - this._startAngle) / angleRange,
+            rawValue: obj.value
+          };
+        })
+      : [];
+    const commonAttrs = {
       ...this.getLayoutStartPoint(),
       inside: this._spec.inside,
       center,
       radius,
       innerRadius,
       startAngle: this._startAngle,
-      endAngle: this._endAngle,
-      grid: {
-        type: 'line',
-        smoothLink: true
-      },
+      endAngle: this._endAngle
+    };
+    const attrs: any = {
+      ...commonAttrs,
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items: isArray(this._tickData.getLatestData())
-        ? [
-            this._tickData.getLatestData().map((obj: Datum) => {
-              const angle = this.dataToPosition([obj.value]);
-              return {
-                id: obj.value,
-                label: obj.value,
-                value: (angle - this._startAngle) / angleRange,
-                rawValue: obj.value
-              };
-            })
-          ]
-        : []
+      items: items.length ? [items] : []
     };
+    if (this._spec.grid.visible) {
+      attrs.grid = {
+        type: 'line',
+        smoothLink: true,
+        items,
+        ...commonAttrs
+      };
+    }
     this._update(attrs);
   }
 
@@ -504,36 +519,42 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
     const endPoint = this.coordToPoint({ angle: this._startAngle, radius });
     const startPoint = this.coordToPoint({ angle: this._startAngle, radius: innerRadius });
     const distance = PointService.distancePP(startPoint, endPoint);
-    const attrs = {
+    const items = isArray(this._tickData.getLatestData())
+      ? this._tickData.getLatestData().map((obj: Datum) => {
+          const value = this.dataToPosition([obj.value]);
+          return {
+            id: obj.value,
+            label: obj.value,
+            value: (value - innerRadius) / distance,
+            rawValue: obj.value
+          };
+        })
+      : [];
+    const commonAttrs = {
       ...this.getLayoutStartPoint(),
       start: startPoint,
       end: endPoint,
-      verticalFactor: -1,
-      grid: {
+      verticalFactor: -1
+    };
+    const attrs: any = {
+      ...commonAttrs,
+      title: {
+        text: this._spec.title.text || this._dataFieldText
+      },
+      items: items.length ? [items] : []
+    };
+    if (this._spec.grid?.visible) {
+      attrs.grid = {
+        items,
         type: this._spec.grid?.smooth ? 'circle' : 'polygon',
         center,
         closed: true,
         sides: this._refAngleAxis.tickValues().length,
         startAngle: this._startAngle,
-        endAngle: this._endAngle
-      },
-      title: {
-        text: this._spec.title.text || this._dataFieldText
-      },
-      items: isArray(this._tickData.getLatestData())
-        ? [
-            this._tickData.getLatestData().map((obj: Datum) => {
-              const value = this.dataToPosition([obj.value]);
-              return {
-                id: obj.value,
-                label: obj.value,
-                value: (value - innerRadius) / distance,
-                rawValue: obj.value
-              };
-            })
-          ]
-        : []
-    };
+        endAngle: this._endAngle,
+        ...commonAttrs
+      };
+    }
     this._update(attrs);
   }
 
@@ -589,7 +610,13 @@ export abstract class PolarAxis extends AxisComponent implements IPolarAxis {
   }
 
   private _update(attrs: Dict<unknown>) {
-    const product = this.getMarks()[0].getProduct(); // 获取语法元素并更新
-    product.encode(merge({}, this._axisStyle, attrs));
+    const { grid: gridAttrs, ...axisAttrs } = attrs;
+    const axisProduct = this._axisMark.getProduct(); // 获取语法元素并更新
+    axisProduct.encode(mergeSpec({}, this._axisStyle, axisAttrs));
+
+    if (this._gridMark) {
+      const gridProduct = this._gridMark.getProduct(); // 获取语法元素并更新
+      gridProduct.encode(mergeSpec({}, this._gridStyle, gridAttrs));
+    }
   }
 }

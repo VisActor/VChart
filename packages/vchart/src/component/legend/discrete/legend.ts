@@ -20,12 +20,11 @@ import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/tran
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
 
-export class DiscreteLegend extends BaseLegend {
+export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
 
-  protected declare _spec: IDiscreteLegendSpec;
   protected declare _theme: IDiscreteLegendTheme;
 
   static createComponent(spec: any, options: IComponentOption) {
@@ -81,10 +80,18 @@ export class DiscreteLegend extends BaseLegend {
       type: 'discreteLegendDataMake',
       options: {
         series: () => {
-          return this._regions.reduce((pre, r) => {
-            pre.push(...r.getSeries());
-            return pre;
-          }, [] as ISeries[]);
+          const result: ISeries[] = [];
+          eachSeries(
+            this._regions,
+            s => {
+              result.push(s);
+            },
+            {
+              specIndex: this._spec.seriesIndex,
+              userId: this._spec.seriesId
+            }
+          );
+          return result;
         },
         seriesField: (s: ISeries) => this._getSeriesLegendField(s)
       }
@@ -105,9 +112,12 @@ export class DiscreteLegend extends BaseLegend {
     if (!scaleSpec) {
       return defaultField;
     }
+
+    // field是只在图例指定了scale的情况下生效
     if (this._spec.field) {
       return this._spec.field;
     }
+
     if (!isDataDomainSpec(scaleSpec.domain)) {
       return defaultField;
     }
@@ -144,9 +154,10 @@ export class DiscreteLegend extends BaseLegend {
       layout,
       items: this._getLegendItems(),
       zIndex: this.layoutZIndex,
+      ...getLegendAttributes(this._spec, rect),
+      // maxWidth 和 maxHeight 已经在布局模块处理了，所以 rect 的优先级最高
       maxWidth: rect.width,
-      maxHeight: rect.height,
-      ...getLegendAttributes(this._spec, rect)
+      maxHeight: rect.height
     };
     this._addDefaultTitleText(attrs);
     return attrs;
@@ -179,7 +190,7 @@ export class DiscreteLegend extends BaseLegend {
 
   private _getLegendItems() {
     const originData = (this._legendData.getLatestData() || []).map((datum: any) => {
-      const fill = datum.style('fill');
+      const fill = datum.style('fill') || datum.style('stroke');
       const stroke = datum.style('stroke');
       const lineWidth = datum.style('lineWidth');
       const symbolType = datum.style('symbolType');
@@ -209,6 +220,8 @@ export class DiscreteLegend extends BaseLegend {
         }
       };
     });
-    return isFunction(this._spec.data) ? this._spec.data(originData) : originData;
+    return isFunction(this._spec.data)
+      ? this._spec.data(originData, this._option.globalScale.getScale('color'), this._option.globalScale)
+      : originData;
   }
 }

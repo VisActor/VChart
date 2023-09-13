@@ -1,3 +1,4 @@
+import type { DataView } from '@visactor/vdataset';
 import type { ICartesianSeries } from '../interface';
 import { BaseSeries } from '../base/base-series';
 import type { IPoint } from '../../typings/coordinate';
@@ -20,6 +21,7 @@ import { array, shallowCompare, isValid } from '../../util';
 import { isContinuous } from '@visactor/vscale';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { ICartesianSeriesSpec } from './interface';
+import { sortDataInAxisHelper } from '../util/utils';
 
 export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesianSeriesSpec>
   extends BaseSeries<T>
@@ -130,6 +132,11 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
   setZAxisHelper(h: IAxisHelper) {
     this._zAxisHelper = h;
     this.onYAxisHelperUpdate();
+  }
+
+  protected _sortDataByAxis: boolean = false;
+  get sortDataByAxis() {
+    return this._sortDataByAxis;
   }
 
   getStatisticFields() {
@@ -266,6 +273,10 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     }
     if (this._stackOffsetSilhouette) {
       this.setValueFieldToStackOffsetSilhouette();
+    }
+
+    if (isValid(this._spec.sortDataByAxis)) {
+      this._sortDataByAxis = this._spec.sortDataByAxis === true;
     }
   }
 
@@ -432,5 +443,22 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       return array(this._spec.yField ?? this.fieldY);
     }
     return array(this._spec.xField ?? this.fieldX);
+  }
+
+  viewDataUpdate(d: DataView): void {
+    super.viewDataUpdate(d);
+    if (this.sortDataByAxis) {
+      this._sortDataInAxisDomain();
+    }
+  }
+
+  _sortDataInAxisDomain() {
+    if (this.getViewData()?.latestData?.length) {
+      sortDataInAxisHelper(
+        this._direction === Direction.horizontal ? this._yAxisHelper : this._xAxisHelper,
+        this._direction === Direction.horizontal ? this._fieldY[0] : this._fieldX[0],
+        this.getViewData().latestData
+      );
+    }
   }
 }

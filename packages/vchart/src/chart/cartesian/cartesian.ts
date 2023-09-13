@@ -1,7 +1,7 @@
 import type { IRegion } from '../../region/interface';
 import { BaseChart } from '../base-chart';
 import type { ISeries } from '../../series/interface';
-import type { IAxis } from '../../component/axis/interface';
+import type { ICartesianAxisSpec } from '../../component';
 
 export class CartesianChart extends BaseChart {
   readonly seriesType: string;
@@ -45,8 +45,8 @@ export class CartesianChart extends BaseChart {
       }
       spec.region.forEach((r: IRegion) => {
         const haxAxes = { x: false, y: false, z: false };
-        spec.axes.forEach((axis: IAxis) => {
-          const orient = axis.orient;
+        spec.axes.forEach((axis: ICartesianAxisSpec) => {
+          const { orient } = axis;
           if (orient === 'top' || orient === 'bottom') {
             haxAxes.x = true;
           }

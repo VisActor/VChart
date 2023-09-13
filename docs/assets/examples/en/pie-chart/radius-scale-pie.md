@@ -11,12 +11,12 @@ option: pieChart
 
 Pie charts can map data with internal and external radii by configuring custom scales.
 
-## critical configuration
+## Key option
 
 - `categoryField`,`valueField` Properties are used to specify the pie category and fan angle fields, respectively
 - `innerRadius`,`outerRadius` Property is used to specify the inner and outer radii of the sector
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

@@ -69,3 +69,5 @@ VisActor 团队会关注所有的 pull request，我们会 review 以及合并�
 4. `rush test` 运行所有项目的 test 脚本
 5. `rush run -p <project_name> -s <script>` 运行指定项目的指定脚本，eg. `rush run -p @visactor/vchart -s start`
 6. `rush prettier --dir <project_relative_path> --ext <file_type>` 格式化指定项目的源代码，eg. `rush prettier --dir packages/vchart --ext ts`
+
+如果你需要更新文档内容，你可以执行 `rush docs` 在本地运行 VChart 的文档内容预览。

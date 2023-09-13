@@ -20,7 +20,7 @@ The `bandPadding`, `paddingInner` and `paddingOuter` configurations are provided
 - `paddingInner`: inner margin of the band axis
 - `paddingOuter`: outer margin of the band axis
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

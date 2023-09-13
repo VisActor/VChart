@@ -10,13 +10,13 @@ option: barChart#legends
 
 # Focus Mode
 
-## Key Configurations
+## Key option
 
 - `legend.item.focus` configures the focus mode
 - `defaultSelected` configures the default selected item
 - `allowAllCanceled` allows all items to be deselected
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const data = [

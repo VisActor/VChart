@@ -12,13 +12,13 @@ option: areaChart
 
 An area chart with both positive and negative values.
 
-## Key Configurations
+## Key option
 
 - `type: area` attribute declares it as an area chart
 - `xField` attribute declares it as a categorical field or time field
 - `yField` attribute declares it as a numerical field
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

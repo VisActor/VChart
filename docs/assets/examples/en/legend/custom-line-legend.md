@@ -10,11 +10,11 @@ option: lineChart#legends
 
 # Tiled Legend Items
 
-## Key Configurations
+## Key option
 
 Manually set the `item.width` of the legend to '100%' to achieve a tiled effect.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [
@@ -460,8 +460,9 @@ const spec = {
       width: '100%', // The width of the legend item fills the display area
       shape: {
         style: {
-          size: 8,
-          symbolType: 'square'
+          size: 14,
+          symbolType:
+            'M 4.08 0.62 H 2.55 c -0.23 1.14 -1.23 2 -2.43 2 S -2.09 1.76 -2.32 0.62 H -3.86 c -0.27 0 -0.5 -0.22 -0.5 -0.5 c 0 -0.28 0.22 -0.5 0.5 -0.5 H -2.32 c 0.23 -1.14 1.23 -2 2.43 -2 s 2.2 0.86 2.43 2 H 4.08 c 0.27 0 0.5 0.22 0.5 0.5 c 0 0.28 -0.22 0.5 -0.5 0.5 z M 0.11 -1.38 c -0.82 0 -1.49 0.67 -1.49 1.5 s 0.67 1.5 1.49 1.5 S 1.6 0.95 1.6 0.12 s -0.67 -1.5 -1.49 -1.5 z'
         }
       },
       value: {

@@ -17,7 +17,7 @@ The `extensionMark` allows you to add the necessary text markup to the bar.
 - `extensionMark.text` implements text markup.
 - `extensionMark.rule` Realizing the goal line
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

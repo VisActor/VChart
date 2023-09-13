@@ -1,20 +1,23 @@
 import type { IEffect } from '../../../model/interface';
 import { DataView } from '@visactor/vdataset';
 import { isXAxis, TimeUtil } from './util';
-import { eachSeries, isArray, merge } from '../../../util';
+import { eachSeries, isArray, mergeSpec } from '../../../util';
 import type { ICartesianSeries } from '../../../series/interface';
 import { CartesianLinearAxis } from './linear-axis';
-import type { ICartesianTickDataOpt } from '../../../data/transforms/tick-data';
+import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
 import { ComponentTypeEnum } from '../../interface';
 import type { Datum } from '../../../typings';
 import { CompilableData } from '../../../compile/data';
 import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
+import type { ICartesianTimeAxisSpec } from './interface';
 
-export interface CartesianTimeAxis
+export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
-    CartesianLinearAxis {}
+    CartesianLinearAxis<T> {}
 
-export class CartesianTimeAxis extends CartesianLinearAxis {
+export class CartesianTimeAxis<
+  T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec
+> extends CartesianLinearAxis<T> {
   static type = ComponentTypeEnum.cartesianTimeAxis;
   type = ComponentTypeEnum.cartesianTimeAxis;
 
@@ -28,7 +31,7 @@ export class CartesianTimeAxis extends CartesianLinearAxis {
       eachSeries(
         this._regions,
         s => {
-          if (isXAxis(this.orient)) {
+          if (isXAxis(this.getOrient())) {
             (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
           } else {
             (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
@@ -44,7 +47,7 @@ export class CartesianTimeAxis extends CartesianLinearAxis {
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
-    this._tick = merge({}, this._spec.tick, this._spec.layers?.[0]);
+    this._tick = mergeSpec({}, this._spec.tick, this._spec.layers?.[0]);
   }
 
   protected _initData() {

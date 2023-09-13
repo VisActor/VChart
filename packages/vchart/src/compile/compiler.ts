@@ -43,6 +43,7 @@ export class Compiler {
   }
   protected _viewListeners: Map<(...args: any[]) => any, EventListener> = new Map();
   protected _windowListeners: Map<(...args: any[]) => any, EventListener> = new Map();
+  protected _canvasListeners: Map<(...args: any[]) => any, EventListener> = new Map();
 
   isInited: boolean = false;
   // 是否已经销毁
@@ -99,7 +100,7 @@ export class Compiler {
       return;
     }
     const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);
-    if (this._option.onError) {
+    if (this._option?.onError) {
       logger.addErrorHandler((...args) => {
         this._option.onError(...args);
       });
@@ -165,6 +166,12 @@ export class Compiler {
     this.updateDepend();
   }
 
+  clear(ctx: { chart: IChart; vChart: VChart }) {
+    const { chart } = ctx;
+    chart.clear();
+    this.releaseGrammar();
+  }
+
   async renderAsync(morphConfig?: IMorphConfig): Promise<any> {
     this.initView();
     if (!this._view) {
@@ -198,25 +205,11 @@ export class Compiler {
     this._height = height;
 
     this._view.resize(width, height);
-    return this.reRenderAsync({ morph: false });
+    return this.renderAsync({ morph: false });
   }
 
   setBackground(color: IColor) {
     this._view?.background(color);
-  }
-
-  reRenderAsync(morphConfig?: IMorphConfig) {
-    if (this.isInited) {
-      // 合并多次 renderSync 调用，另外如果使用 renderAsync 异步渲染的话，在小程序环境会有问题
-      if (this._rafId) {
-        vglobal.getCancelAnimationFrame()(this._rafId);
-      }
-
-      this._rafId = vglobal.getRequestAnimationFrame()(() => {
-        this.renderSync(morphConfig);
-      });
-    }
-    return Promise.resolve();
   }
 
   setSize(width: number, height: number) {
@@ -291,6 +284,25 @@ export class Compiler {
       this._windowListeners.set(callback, { type, callback: wrappedCallback });
       const windowObject = this._getGlobalThis();
       windowObject?.addEventListener(type, wrappedCallback);
+    } else if (source === Event_Source_Type.canvas) {
+      const wrappedCallback = function wrappedCallback(event: any) {
+        // TODO: vgrammar 暂未提供基于事件直接筛选相应 mark 的能力，这里无法获取到相应的 item
+        const params: CompilerListenerParameters = {
+          event,
+          type,
+          source,
+          item: null,
+          datum: null,
+          markId: null,
+          modelId: null,
+          markUserId: null,
+          modelUserId: null
+        };
+        callback.call(null, params);
+      }.bind(this);
+      this._canvasListeners.set(callback, { type, callback: wrappedCallback });
+      const canvasObject = this.getStage()?.window;
+      canvasObject?.addEventListener(type, wrappedCallback);
     }
   }
 
@@ -311,6 +323,11 @@ export class Compiler {
       const wrappedCallback = this._windowListeners.get(callback)?.callback;
       wrappedCallback && windowObject?.removeEventListener(type, wrappedCallback);
       this._windowListeners.delete(callback);
+    } else if (source === Event_Source_Type.canvas) {
+      const canvasObject = this._getGlobalThis();
+      const wrappedCallback = this._canvasListeners.get(callback)?.callback;
+      wrappedCallback && canvasObject?.removeEventListener(type, wrappedCallback);
+      this._canvasListeners.delete(callback);
     }
   }
 
@@ -318,6 +335,7 @@ export class Compiler {
     // 相应的事件remove在model中完成
     this._viewListeners.clear();
     this._windowListeners.clear();
+    this._canvasListeners.clear();
   }
 
   release(): void {

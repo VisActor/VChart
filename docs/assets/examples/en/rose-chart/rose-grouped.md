@@ -12,13 +12,13 @@ option: roseChart
 
 Similar to the bar chart in the Cartesian coordinate system, the rose chart supports grouping by setting the `categoryField` field to an array.
 
-## Key Configurations
+## Key option
 
 - The `categoryField` property specifies the field used for grouping, supporting both strings and arrays. In this example, grouping is done based on the `time` and `type` fields in the data
 - The `seriesField` field is used to divide different series
 - The `axes` field is used to set the properties of polar coordinate axis labels, tick lines, etc.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const data = {

@@ -7,11 +7,10 @@ import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
-import { MarkTypeEnum } from '../../mark/interface';
-import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, merge } from '../../util';
+import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, mergeSpec } from '../../util';
 import { AttributeLevel } from '../../constant';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import {
   SCATTER_DEFAULT_RANGE_SHAPE,
@@ -25,25 +24,24 @@ import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../anima
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ScatterAppearPreset } from './animation';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
+import { scatterSeriesMark } from './constant';
+import type { ILabelMark } from '../../mark/label';
 
 VChart.useMark([SymbolMark, TextMark]);
 
-export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
+export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
   type = SeriesTypeEnum.scatter;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.point]: { name: SeriesMarkNameEnum.point, type: MarkTypeEnum.symbol }
-  };
+  static readonly mark: SeriesMarkMap = scatterSeriesMark;
 
   protected declare _theme: Maybe<IScatterSeriesTheme>;
 
   private _symbolMark: ISymbolMark;
+  private _labelMark: ILabelMark;
 
   private _size: IScatterSeriesSpec['size'];
   private _sizeField: string;
@@ -80,12 +78,12 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
 
     if (isArray(spec)) {
       if (isNil(field)) {
-        this._option.onError(`${key}Field is required.`);
+        this._option?.onError(`${key}Field is required.`);
         return spec;
       }
 
       if (spec.length > 2) {
-        this._option.onError(`${key} length is invalid, specify up to 2 ${key}s.`);
+        this._option?.onError(`${key} length is invalid, specify up to 2 ${key}s.`);
         return spec;
       }
       const scaleName = `${PREFIX}_series_scatter_${this.id}_scale_${key}`;
@@ -109,7 +107,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     // 若sizeSpec是对象
     if (isObject(spec)) {
       if (isNil(field)) {
-        this._option.onError(`${key}Field is required.`);
+        this._option?.onError(`${key}Field is required.`);
         return spec;
       }
       const scaleName = `${PREFIX}_series_scatter_${this.id}_scale_${key}`;
@@ -134,7 +132,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
     }
 
     // 其余情况报错
-    this._option.onError(`${key} attribute is invalid.`);
+    this._option?.onError(`${key} attribute is invalid.`);
     return spec;
   }
 
@@ -214,7 +212,7 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      label: merge({ animation: this._spec.animation }, this._spec.label),
+      label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
       progressive,
       isSeriesMark: true
     }) as ISymbolMark;
@@ -311,10 +309,11 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
   /**
    * 初始化LabelMark
    */
-  initLabelMarkStyle(labelMark?: ITextMark): void {
+  initLabelMarkStyle(labelMark?: ILabelMark): void {
     if (!labelMark) {
       return;
     }
+    this._labelMark = labelMark;
     this.setMarkStyle(
       labelMark,
       {
@@ -360,6 +359,12 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
         }
       });
     });
+
+    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+
+    if (vgrammarLabel) {
+      vgrammarLabel.evaluateSync(null, null);
+    }
   }
 
   handlePan(e: any) {
@@ -380,5 +385,14 @@ export class ScatterSeries extends CartesianSeries<IScatterSeriesSpec> {
         }
       });
     });
+    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+
+    if (vgrammarLabel) {
+      vgrammarLabel.evaluateSync(null, null);
+    }
+  }
+
+  getDefaultShapeType() {
+    return 'circle';
   }
 }

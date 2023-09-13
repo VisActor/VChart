@@ -26,7 +26,7 @@ In this example, the data comes from the file size hierarchy of a visualization 
 - `categoryField` is declared as the category field, the field value is usually the node name
 - `valueField` is declared as the value field, the field value is usually the node weight
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

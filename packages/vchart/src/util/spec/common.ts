@@ -1,0 +1,37 @@
+import { DataView } from '@visactor/vdataset';
+import { ThemeManager, type ITheme } from '../../theme';
+import { isObject, isString } from '@visactor/vutils';
+
+export function isDataView(obj: any): obj is DataView {
+  return obj instanceof DataView;
+}
+
+export function isHTMLElement(obj: any): obj is Element {
+  try {
+    return obj instanceof Element;
+  } catch {
+    // 跨端 plan B
+    const htmlElementKeys: (keyof Element)[] = [
+      'children',
+      'innerHTML',
+      'classList',
+      'setAttribute',
+      'tagName',
+      'getBoundingClientRect'
+    ];
+    const keys = Object.keys(obj);
+    return htmlElementKeys.every(key => keys.includes(key));
+  }
+}
+
+export function getThemeObject(theme?: string | ITheme): ITheme {
+  if (isString(theme)) {
+    if (ThemeManager.themeExist(theme)) {
+      return ThemeManager.getTheme(theme);
+    }
+    return {};
+  } else if (isObject(theme)) {
+    return theme;
+  }
+  return {};
+}

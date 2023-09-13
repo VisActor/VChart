@@ -16,7 +16,7 @@ option: commonChart
 - `layout.type` configure the built-in grid layout
 - `layout.elements` configure the layout position information for each chart module
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const regionStyle = {

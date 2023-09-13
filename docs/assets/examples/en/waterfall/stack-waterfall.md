@@ -16,7 +16,7 @@ A stacked effect can be created by having multiple data for an `x` value.
 
 - `seriesField` configures the data grouping field
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

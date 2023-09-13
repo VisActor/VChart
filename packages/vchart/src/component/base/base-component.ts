@@ -11,9 +11,14 @@ import type { IGroupMark } from '@visactor/vgrammar';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
-import type { Datum } from '../../typings';
+import type { Datum, StringOrNumber } from '../../typings';
+import { normalizeLayoutPaddingSpec } from '../../util';
+import type { IComponentSpec } from './interface';
 
-export abstract class BaseComponent extends BaseModel implements IComponent {
+export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
+  extends BaseModel<T>
+  implements IComponent
+{
   name: string = 'component';
   readonly modelType: string = 'component';
   pluginService?: IComponentPluginService;
@@ -33,7 +38,7 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
 
   animate?: IAnimate;
 
-  constructor(spec: any, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, options);
     this._regions = options.getRegionsInIndex();
     this.layoutBindRegionID = this._regions.map(x => x.id);
@@ -82,17 +87,26 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
       super._initTheme(theme);
     } else {
       super._initTheme(
-        getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, globalTheme, this._originalSpec)
+        getComponentThemeFromGlobalTheme(
+          this.type as ComponentTypeEnum,
+          globalTheme,
+          this._originalSpec,
+          this._option.getChart()
+        )
       );
     }
 
     // 将 theme merge 到 spec 中
-    if (isArray(this._originalSpec)) {
-      this._spec = this._originalSpec.map(spec => merge({}, this._theme, spec));
-    } else {
-      this._spec = merge({}, this._theme, this._originalSpec);
+    this._mergeThemeToSpec();
+
+    // 默认忽略外侧 padding
+    const { padding, noOuterPadding = true, orient } = this._spec;
+    if (noOuterPadding && padding && orient) {
+      this._spec.padding = {
+        ...normalizeLayoutPaddingSpec(padding),
+        [orient]: 0
+      };
     }
-    this._preprocessSpec();
   }
 
   protected getContainer() {
@@ -101,6 +115,29 @@ export abstract class BaseComponent extends BaseModel implements IComponent {
     }
 
     return this._container;
+  }
+
+  /**
+   * updateSpec
+   */
+  updateSpec(spec: any) {
+    const originalSpec = this._originalSpec as {
+      regionId?: StringOrNumber;
+      regionIndex?: number;
+      seriesId?: StringOrNumber;
+      seriesIndex?: number;
+      visible?: boolean;
+    };
+    const result = super.updateSpec(spec);
+    if (!result.reMake) {
+      result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
+        return JSON.stringify(originalSpec[k]) !== JSON.stringify(spec[k]);
+      });
+    }
+    if (originalSpec.visible !== spec.visible) {
+      result.reCompile = true;
+    }
+    return result;
   }
 
   release() {

@@ -12,11 +12,11 @@ option: pieChart
 
 Pie charts support labels displayed inside or outside through configuring the `label` attribute on the series or chart spec.
 
-## Key Configurations
+## Key option
 
 - The `label` attribute is used to configure the pie chart labels
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

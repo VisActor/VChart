@@ -1,33 +1,47 @@
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import type { INode, IGroup, IGraphic } from '@visactor/vrender';
-import { AXIS_ELEMENT_NAME } from '@visactor/vrender-components';
+import type { IGroup, IGraphic } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
-import type { IOrientType, IPolarOrientType, Datum, StringOrNumber } from '../../typings';
+import type { IOrientType, IPolarOrientType, Datum, StringOrNumber, IGroup as ISeriesGroup } from '../../typings';
 import { BaseComponent } from '../base';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
 import type { CompilableData } from '../../compile/data';
-import type { IAxis, ITick, StatisticsDomain } from './interface';
+import type { IAxis, ICommonAxisSpec, ITick, StatisticsDomain } from './interface';
 import type { IComponentOption } from '../interface';
-import { array, eachSeries, get, getSeries, isArray, isBoolean, isFunction, isNil, isValid, merge } from '../../util';
+import {
+  array,
+  eachSeries,
+  get,
+  getSeries,
+  isArray,
+  isBoolean,
+  isFunction,
+  isNil,
+  isValid,
+  mergeSpec
+} from '../../util';
 import type { ISeries } from '../../series/interface';
-import { ChartEvent } from '../../constant';
-import type { Group } from '../../series/base/group';
+import { ChartEvent, LayoutZIndex } from '../../constant';
 import { animationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import { degreeToRadian, type LooseFunction } from '@visactor/vutils';
-import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './utils';
+import { degreeToRadian, pickWithout, type LooseFunction } from '@visactor/vutils';
+import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
+import { GridEnum } from '@visactor/vgrammar';
+import type { IComponentMark } from '../../mark/component';
 
-export abstract class AxisComponent extends BaseComponent implements IAxis {
+export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
+  extends BaseComponent<T>
+  implements IAxis
+{
   static specKey = 'axes';
 
   protected _orient: IPolarOrientType | IOrientType;
-  get orient() {
+  getOrient() {
     return this._orient;
   }
 
@@ -81,8 +95,10 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
   abstract transformScaleDomain(): void;
 
   protected _dataFieldText: string;
+  protected _axisMark: IComponentMark;
+  protected _gridMark: IComponentMark;
 
-  constructor(spec: any, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });
@@ -103,23 +119,36 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
 
     if (this._visible) {
       // 创建语法元素
-
       const axisMark = this._createMark(
-        { type: 'component', name: `axis-${this.orient}` },
+        { type: 'component', name: `axis-${this.getOrient()}` },
         {
-          componentType: this.orient === 'angle' ? 'circleAxis' : 'axis',
+          componentType: this.getOrient() === 'angle' ? 'circleAxis' : 'axis',
           mode: this._spec.mode
         }
       );
-      this._marks.addMark(axisMark);
-
+      this._axisMark = axisMark;
       axisMark.setZIndex(this.layoutZIndex);
       if (isValid(this._spec.id)) {
         axisMark.setUserId(this._spec.id);
       }
+      this._marks.addMark(axisMark);
+
+      if (this._spec.grid?.visible) {
+        const gridMark = this._createMark(
+          { type: 'component', name: `axis-${this.getOrient()}-grid` },
+          {
+            componentType: this.getOrient() === 'angle' ? GridEnum.circleAxisGrid : GridEnum.lineAxisGrid,
+            mode: this._spec.mode
+          }
+        );
+        gridMark.setZIndex(this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid);
+        this._marks.addMark(gridMark);
+        this._gridMark = gridMark;
+      }
+
       // interactive
       if (isBoolean(this._spec.interactive)) {
-        axisMark.setInteractive(this._spec.interactive);
+        this._marks.forEach(m => m.setInteractive(this._spec.interactive));
       }
 
       // Tip: 支持 spec.animationAppear.axis，并且坐标轴默认关闭动画
@@ -154,7 +183,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         axisAnimateConfig.update[0].customParameters = {
           enter: axisAnimateConfig.enter[0]
         };
-        axisMark.setAnimationConfig(axisAnimateConfig);
+        this._marks.forEach(m => m.setAnimationConfig(axisAnimateConfig));
       }
     }
   }
@@ -248,7 +277,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
 
   protected initScales() {
     this._scales = [this._scale];
-    const groups: Group[] = [];
+    const groups: ISeriesGroup[] = [];
     eachSeries(
       this._regions,
       s => {
@@ -279,10 +308,6 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
       result.reMake = true;
       return result;
     }
-    result.reMake =
-      ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
-        JSON.stringify(originalSpec[k]) !== JSON.stringify(spec[k]);
-      }) || result.reMake;
     return result;
   }
 
@@ -311,12 +336,8 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
   }
 
   protected _delegateAxisContainerEvent(component: IGroup) {
-    const axisMainContainer = component?.find((node: INode) => node.name === AXIS_ELEMENT_NAME.axisContainer, true);
-    if (axisMainContainer) {
-      // 代理组件上的事件，目前坐标轴组件比较特殊，包含了网格线，但是事件这块只提供不包含网格线部分的响应
-      axisMainContainer.addEventListener('*', ((event: any, type: string) =>
-        this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
-    }
+    component.addEventListener('*', ((event: any, type: string) =>
+      this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
   }
 
   protected _getAxisAttributes() {
@@ -331,19 +352,22 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
       }
     }
 
+    const labelSpec = pickWithout(spec.label, ['style', 'formatMethod', 'state']);
+
     return {
-      orient: this.orient,
+      orient: this.getOrient(),
       select: spec.select,
       hover: spec.hover,
       line: transformAxisLineStyle(spec.domainLine),
       label: {
-        visible: spec.label.visible,
-        space: spec.label.space,
-        inside: spec.label.inside,
         style: isFunction(spec.label.style)
           ? (datum: Datum, index: number, data: Datum[], layer?: number) => {
-              const style = this._preprocessSpec(spec.label.style(datum.rawValue, index, datum, data, layer));
-              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.label?.style, style)));
+              const style = this._prepareSpecAfterMergingTheme(
+                spec.label.style(datum.rawValue, index, datum, data, layer)
+              );
+              return transformToGraphic(
+                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.label?.style, style))
+              );
             }
           : transformToGraphic(spec.label.style),
         formatMethod: spec.label.formatMethod
@@ -352,16 +376,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
             }
           : null,
         state: transformAxisLabelStateStyle(spec.label.state),
-        autoRotate: !!spec.label.autoRotate,
-        autoHide: !!spec.label.autoHide,
-        autoLimit: !!spec.label.autoLimit,
-        autoRotateAngle: spec.label.autoRotateAngle,
-        autoHideMethod: spec.label.autoHideMethod,
-        autoHideSeparation: spec.label.autoHideSeparation,
-        limitEllipsis: spec.label.limitEllipsis,
-        layoutFunc: spec.label.layoutFunc,
-        dataFilter: spec.label.dataFilter,
-        containerAlign: spec.label.containerAlign
+        ...labelSpec
       },
       tick: {
         visible: spec.tick.visible,
@@ -370,8 +385,10 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         alignWithLabel: spec.tick.alignWithLabel,
         style: isFunction(spec.tick.style)
           ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = this._preprocessSpec(spec.tick.style(value, index, datum, data));
-              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.tick?.style, style)));
+              const style = this._prepareSpecAfterMergingTheme((spec.tick.style as any)(value, index, datum, data));
+              return transformToGraphic(
+                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.tick?.style, style))
+              );
             }
           : transformToGraphic(spec.tick.style),
         state: transformStateStyle(spec.tick.state),
@@ -384,29 +401,11 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         count: spec.subTick.tickCount,
         style: isFunction(spec.subTick.style)
           ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = spec.subTick.style(value, index, datum, data);
-              return transformToGraphic(merge({}, this._theme.subTick?.style, style));
+              const style = (spec.subTick.style as any)(value, index, datum, data);
+              return transformToGraphic(mergeSpec({}, this._theme.subTick?.style, style));
             }
           : transformToGraphic(spec.subTick.style),
         state: transformStateStyle(spec.subTick.state)
-      },
-      grid: {
-        type: 'line',
-        visible: spec.grid.visible,
-        alternateColor: spec.grid.alternateColor,
-        alignWithLabel: spec.grid.alignWithLabel,
-        style: isFunction(spec.grid.style)
-          ? (datum: Datum, index: number) => {
-              const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
-              return transformToGraphic(this._preprocessSpec(merge({}, this._theme.grid?.style, style)));
-            }
-          : transformToGraphic(spec.grid.style)
-      },
-      subGrid: {
-        type: 'line',
-        visible: spec.subGrid.visible,
-        alternateColor: spec.subGrid.alternateColor,
-        style: transformToGraphic(spec.subGrid.style)
       },
       title: {
         visible: spec.title.visible,
@@ -414,7 +413,7 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         space: spec.title.space,
         autoRotate: false, // 默认不对外提供该配置
         angle: titleAngle ? degreeToRadian(titleAngle) : null,
-        textStyle: merge({}, titleTextStyle, transformToGraphic(spec.title.style)),
+        textStyle: mergeSpec({}, titleTextStyle, transformToGraphic(spec.title.style)),
         padding: spec.title.padding,
         shape: {
           visible: spec.title.shape?.visible,
@@ -435,6 +434,30 @@ export abstract class AxisComponent extends BaseComponent implements IAxis {
         visible: spec.background?.visible,
         style: transformToGraphic(spec.background?.style),
         state: transformStateStyle(spec.background?.state)
+      }
+    };
+  }
+
+  protected _getGridAttributes() {
+    const spec = this._spec;
+    return {
+      alternateColor: spec.grid.alternateColor,
+      alignWithLabel: spec.grid.alignWithLabel,
+      style: isFunction(spec.grid.style)
+        ? () => {
+            return (datum: Datum, index: number) => {
+              const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
+              return transformToGraphic(
+                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.grid?.style, style))
+              );
+            };
+          }
+        : transformToGraphic(spec.grid.style),
+      subGrid: {
+        type: 'line',
+        visible: spec.subGrid.visible,
+        alternateColor: spec.subGrid.alternateColor,
+        style: transformToGraphic(spec.subGrid.style)
       }
     };
   }

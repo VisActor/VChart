@@ -10,7 +10,7 @@ option: lineChart
 
 # Dynamic Line Chart
 
-## Key Configurations
+## Key option
 
 - Set the `xField` property to a continuous timestamp data
 - Set the `yField` property to a numeric field
@@ -20,7 +20,7 @@ option: lineChart
 - Configure the annotation line using the `markLine` property
   - Use `markLine.y` to configure the annotation line corresponding to the y-axis value
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 function func(x) {

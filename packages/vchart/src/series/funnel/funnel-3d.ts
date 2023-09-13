@@ -5,19 +5,23 @@ import { MarkTypeEnum } from '../../mark/interface';
 import type { IPyramid3dMark } from '../../mark/polygon/pyramid-3d';
 import type { IRuleMark } from '../../mark/rule';
 import type { ITextMark } from '../../mark/text';
-import { BaseSeries } from '../base/base-series';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface';
+import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface/type';
 import { FunnelSeries } from './funnel';
-import type { IFunnel3dSeriesTheme } from './interface';
+import type { IFunnel3dSeriesSpec, IFunnel3dSeriesTheme } from './interface';
 import { VChart } from '../../core/vchart';
 import { Pyramid3dMark } from '../../mark/polygon/pyramid-3d';
 import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
+import type { AdaptiveSpec } from '../../typings';
+import { funnel3dSeriesMark } from './constant';
+import type { ILabelMark } from '../../mark/label';
 
 VChart.useMark([Pyramid3dMark, TextMark, RuleMark]);
 
-export class Funnel3dSeries extends FunnelSeries {
+export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec> extends FunnelSeries<
+  AdaptiveSpec<T, 'type'>
+> {
   static readonly type: string = SeriesTypeEnum.funnel3d;
   type = SeriesTypeEnum.funnel3d;
   protected _funnelMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.funnel3d;
@@ -25,14 +29,7 @@ export class Funnel3dSeries extends FunnelSeries {
   protected _transformMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.transform3d;
   protected _transformMarkType: MarkTypeEnum = MarkTypeEnum.pyramid3d;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.funnel3d]: { name: SeriesMarkNameEnum.funnel3d, type: MarkTypeEnum.pyramid3d },
-    [SeriesMarkNameEnum.transform3d]: { name: SeriesMarkNameEnum.transform3d, type: MarkTypeEnum.pyramid3d },
-    [SeriesMarkNameEnum.transformLabel]: { name: SeriesMarkNameEnum.transformLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.outerLabel]: { name: SeriesMarkNameEnum.outerLabel, type: MarkTypeEnum.text },
-    [SeriesMarkNameEnum.outerLabelLine]: { name: SeriesMarkNameEnum.outerLabelLine, type: MarkTypeEnum.rule }
-  };
+  static readonly mark: SeriesMarkMap = funnel3dSeriesMark;
 
   protected declare _theme: Maybe<IFunnel3dSeriesTheme>;
 
@@ -46,7 +43,9 @@ export class Funnel3dSeries extends FunnelSeries {
       {
         themeSpec: this._theme?.funnel3d,
         key: this._seriesField,
-        isSeriesMark: true
+        isSeriesMark: true,
+        label: this._spec.label,
+        support3d: true
       }
     ) as IPyramid3dMark;
 
@@ -66,22 +65,7 @@ export class Funnel3dSeries extends FunnelSeries {
         }
       );
     }
-    if (this._spec?.label?.visible) {
-      this._labelMark = this._createMark(Funnel3dSeries.mark.label, {
-        themeSpec: this._theme?.label,
-        key: this._seriesField,
-        support3d: this._spec.label.support3d
-      });
-    }
-    if (this._spec?.transformLabel?.visible) {
-      this._transformLabelMark = this._createMark(Funnel3dSeries.mark.transformLabel, {
-        themeSpec: this._theme?.transformLabel,
-        key: this._seriesField,
-        skipBeforeLayouted: false,
-        dataView: this._viewDataTransform.getDataView(),
-        dataProductId: this._viewDataTransform.getProductId()
-      });
-    }
+
     if (this._spec?.outerLabel?.visible) {
       const { line } = this._spec.outerLabel ?? {};
       const { line: lineTheme } = this._theme?.outerLabel ?? {};
@@ -89,15 +73,14 @@ export class Funnel3dSeries extends FunnelSeries {
       this._funnelOuterLabelMark.label = this._createMark(Funnel3dSeries.mark.outerLabel, {
         themeSpec: this._theme?.outerLabel,
         key: this._seriesField,
-        markSpec: this._spec.outerLabel,
-        depend: this._labelMark
+        markSpec: this._spec.outerLabel
       }) as ITextMark;
 
       this._funnelOuterLabelMark.line = this._createMark(Funnel3dSeries.mark.outerLabelLine, {
         themeSpec: lineTheme,
         key: this._seriesField,
         markSpec: line,
-        depend: [this._funnelOuterLabelMark.label, this._labelMark]
+        depend: [this._funnelOuterLabelMark.label]
       }) as IRuleMark;
     }
   }
@@ -122,24 +105,35 @@ export class Funnel3dSeries extends FunnelSeries {
         AttributeLevel.Series
       );
     }
+  }
 
-    const labelMark = this._labelMark;
-    if (labelMark) {
-      this.setMarkStyle(
-        labelMark,
-        {
-          z: _ => {
-            if (this._isHorizontal()) {
-              return 0;
-            }
-            const points = this.getPoints(_);
-            const width = Math.max(Math.abs(points[0].x - points[1].x), Math.abs(points[2].x - points[3].x));
-            return (this._computeMaxSize() - width) / 2;
+  initLabelMarkStyle(labelMark?: ILabelMark) {
+    super.initLabelMarkStyle(labelMark);
+
+    this.setMarkStyle(
+      labelMark,
+      {
+        z: _ => {
+          if (this._isHorizontal()) {
+            return 0;
           }
-        },
-        'normal',
-        AttributeLevel.Series
-      );
+          const points = this.getPoints(_);
+          const width = Math.max(Math.abs(points[0].x - points[1].x), Math.abs(points[2].x - points[3].x));
+          return (this._computeMaxSize() - width) / 2;
+        }
+      },
+      'normal',
+      AttributeLevel.Series
+    );
+
+    this._labelMark = labelMark;
+
+    if (this._funnelOuterLabelMark?.label) {
+      this._funnelOuterLabelMark.label.setDepend(labelMark.getComponent());
+    }
+
+    if (this._funnelOuterLabelMark?.line) {
+      this._funnelOuterLabelMark.line.setDepend(...this._funnelOuterLabelMark.line.getDepend());
     }
   }
 }

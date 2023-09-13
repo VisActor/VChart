@@ -1,6 +1,6 @@
-import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, IChartPadding } from '../../typings';
+import type { ITextMarkSpec, IMarkSpec, ISeriesSpec } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface/type';
 
 export enum WordCloudShapeEnum {
   triangleForward = 'triangleForward', // 右箭头

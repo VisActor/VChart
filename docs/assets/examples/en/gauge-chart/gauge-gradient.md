@@ -12,7 +12,7 @@ option: gaugeChart
 
 The background and pointer of the gauge chart support flexible customization.
 
-## Key Configurations
+## Key option
 
 - `categoryField` and `valueField` attributes are used to specify the data category and pointer angle fields, respectively
 - `innerRadius` and `outerRadius` attributes are used to specify the inner and outer radii of the gauge
@@ -20,7 +20,7 @@ The background and pointer of the gauge chart support flexible customization.
 - The `gauge` attribute is used to specify the gauge part of the gauge chart corresponding to the series, which defaults to the progress chart series
 - The `pointer`, `pin`, and `pinBackground` attributes are used to configure the 3 components of the gauge chart pointer
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const pointerPath =

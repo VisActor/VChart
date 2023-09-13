@@ -18,7 +18,7 @@ When there is extra-long text in the data, the part of the text that exceeds the
 - `valueField` attribute declares the text size field
 - `wordCloudConfig.drawOutOfBound` attribute declares the handling method for extra-long text that exceeds the canvas; `clip`: draw the extra-long text, and the part that exceeds the canvas is clipped; `hidden`: do not draw the extra-long text
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');

@@ -17,7 +17,7 @@ Continuous legend is used to represent continuous data, such as color, size, etc
 - Color legend: Configure `{ type: 'color' }` in `legends`, and associate the data field controlled by the continuous legend through the `field` attribute
 - Size legend: Configure `{ type: 'size' }` in `legends`, and associate the data field controlled by the continuous legend through the `field` attribute
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

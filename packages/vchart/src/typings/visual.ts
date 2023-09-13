@@ -9,7 +9,7 @@ import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark'
 import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
-import type { IRepeatType } from '@visactor/vrender';
+import type { IRepeatType, TextAlignType, TextBaselineType } from '@visactor/vrender';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {
@@ -279,9 +279,10 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    */
   lineThrough?: boolean;
   /**
-   * 行高
+   * 行高（1.3.1 版本新增字符串类型表示比例值，如"150%"）
+   * @since 1.3.1
    */
-  lineHeight?: number;
+  lineHeight?: number | string;
   /**
    * poptip 相关配置
    */
@@ -526,7 +527,7 @@ export interface IImageMarkSpec extends IFillMarkSpec {
 /**
  * text
  */
-export type TextAlign = 'left' | 'right' | 'center';
-export type TextBaseLine = 'top' | 'bottom' | 'middle' | 'alphabetic';
+export type TextAlign = TextAlignType;
+export type TextBaseLine = TextBaselineType;
 export type FontStyle = 'normal' | 'italic' | 'oblique' | string;
 export type FontWeight = 'normal' | 'bold' | 'lighter' | 'bolder' | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;

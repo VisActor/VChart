@@ -14,6 +14,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IModelSpec } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
+import type { IComponentSpec } from '../base/interface';
 
 export interface StatisticsDomain {
   domain: any[];
@@ -24,7 +25,7 @@ export interface IAxis extends IComponent {
   valueToPosition: (value: any) => number;
   getScale: () => IBaseScale;
   getScales: () => IBaseScale[];
-  orient: ICartesianAxisSpec['orient'] | IPolarOrientType;
+  getOrient: () => ICartesianAxisSpec['orient'] | IPolarOrientType;
   visible: boolean;
   getStatisticsDomain: () => StatisticsDomain;
 }
@@ -40,7 +41,7 @@ export interface IAxisItemTheme<T> {
 }
 export type AxisAnimationPreset = 'groupFadeIn' | 'fadeIn' | 'grow';
 
-export interface ICommonAxisSpec extends Omit<IModelSpec, 'orient'>, IAnimationSpec<string, string> {
+export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
   /**
    * 轴类型
    */
@@ -63,23 +64,6 @@ export interface ICommonAxisSpec extends Omit<IModelSpec, 'orient'>, IAnimationS
    * 子刻度线配置
    */
   subTick?: ISubTick;
-  /**
-   * 轴关联的region索引
-   * @default 0
-   */
-  regionIndex?: number | number[];
-  /**
-   * 轴关联的region id
-   */
-  regionId?: StringOrNumber | StringOrNumber[];
-  /**
-   * 轴关联的系列索引，默认为0
-   */
-  seriesIndex?: number | number[];
-  /**
-   * 轴关联的系列id
-   */
-  seriesId?: StringOrNumber | StringOrNumber[];
 
   /**
    * 是否开启动画，默认关闭
@@ -193,6 +177,12 @@ export interface IGrid extends IAxisItem<IRuleMarkSpec> {
    * 网格线样式，支持回调
    */
   style?: IRuleMarkSpec | StyleCallback<IRuleMarkSpec | undefined>;
+  /**
+   * 快捷属性，也可以在 `style` 中配置，用于配置网格线的绘制顺序，默认为 50
+   * @default 50
+   * @since 1.4.0
+   */
+  zIndex?: number;
 }
 
 // 刻度线配置
@@ -406,4 +396,10 @@ export interface IAxisCommonTheme {
   tick?: ITick;
   /** 轴刻度线配置 */
   subTick?: ISubTick;
+}
+
+export interface IBandAxisTheme extends IAxisCommonTheme {
+  bandPadding?: number | number[];
+  paddingInner?: number | number[];
+  paddingOuter?: number | number[];
 }

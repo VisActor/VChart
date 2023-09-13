@@ -12,7 +12,7 @@ option: sunburstChart
 
 Sunburst charts support configuration for layout control on each layer
 
-## Key Configurations
+## Key option
 
 - `innerRadius` The inner radius of the sector for each layer
 - `outerRadius` The outer radius of the sector for each layer

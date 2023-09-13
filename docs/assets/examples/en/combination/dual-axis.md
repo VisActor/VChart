@@ -10,7 +10,7 @@ option: commonChart
 
 # Dual Axis Chart
 
-## Key Configurations
+## Key option
 
 - `type: 'common'` declares the combined chart type
 - `axes`'s `seriesIndex` property is configured as the `series` index to be associated with the axis
@@ -23,7 +23,7 @@ option: commonChart
   - `layout.row` property specifies row height, supports specifying by `{ index: xx, size: xx }`, where `index` represents the index of the row and `size` indicates row height
   - `layout.elements` property declares the layout unit's ID for data series and layout unit binding. Declared by `{modelId: xx, row: xx, col: xx}`, where `modelId` represents the ID name of the layout unit, and `row` and `col` respectively represent the indices of the rows and columns of the layout unit.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

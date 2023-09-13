@@ -56,8 +56,8 @@ export interface ICompilableMark extends IGrammarItem {
   setFacet: (facet: string) => void;
 
   // 标签
-  getLabelSpec: () => ILabelSpec;
-  setLabelSpec: (label: ILabelSpec) => void;
+  getLabelSpec: () => ILabelSpec[];
+  addLabelSpec: (label: ILabelSpec) => void;
 
   // 状态
   state: MarkStateManager;
@@ -65,6 +65,8 @@ export interface ICompilableMark extends IGrammarItem {
   hasState: (state: string) => boolean;
   getState: (state: string) => any;
   updateState: (newState: Record<string, unknown>) => Promise<void>;
+  /** 更新group | enter中的静态样式 */
+  updateStaticEncode: () => void;
   /** 更新encode中的样式 */
   updateLayoutState: (noRender?: boolean, recursion?: boolean) => Promise<void>;
   /** 更新某一个状态 */
@@ -111,6 +113,9 @@ export interface ICompilableMark extends IGrammarItem {
   // 用户 id
   getUserId: () => StringOrNumber | undefined;
   setUserId: (id: StringOrNumber) => void;
+
+  // 是否支持 3d
+  getSupport3d: () => boolean | undefined;
 
   compile: (option?: IMarkCompileOption) => void;
 

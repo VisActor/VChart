@@ -1,5 +1,6 @@
 import type { ILegendCommonSpec, ITitle } from './interface';
-import { isEmpty, merge } from '@visactor/vutils';
+import { isEmpty } from '@visactor/vutils';
+import { mergeSpec } from '../../util';
 import { transformToGraphic } from '../../util/style';
 
 export function transformLegendTitleAttributes(title: ITitle) {
@@ -10,7 +11,7 @@ export function transformLegendTitleAttributes(title: ITitle) {
     transformedTitle.textStyle = transformToGraphic(title.style);
   }
   if (!isEmpty(title.textStyle)) {
-    merge(transformedTitle.textStyle, transformToGraphic(title.textStyle));
+    mergeSpec(transformedTitle.textStyle, transformToGraphic(title.textStyle));
   }
 
   if (title.shape?.style) {

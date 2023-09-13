@@ -12,7 +12,7 @@ option: commonChart
 
 Combination charts often need to arrange different series through custom layouts.
 
-## Key Configurations
+## Key option
 
 - `type: 'common'` declares combination chart type
 - `layout` attribute declares custom layouts for combination charts
@@ -30,7 +30,7 @@ Combination charts often need to arrange different series through custom layouts
 
 - `axes` attribute declares different axis components. `regionIndex` and `id` attributes are the same as above.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

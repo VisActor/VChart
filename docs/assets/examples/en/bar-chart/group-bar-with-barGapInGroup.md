@@ -21,7 +21,7 @@ When there are multiple levels of grouping, you can use an array to set the spac
 1. number type, representing the pixel value
 2. string type, percentage usage, e.g. '10%', the value is the bandWidth percentage of the scale corresponding to the last grouped field (since the columns are of equal width, the scale of the last grouped level is used)
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

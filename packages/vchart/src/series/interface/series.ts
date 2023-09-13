@@ -6,18 +6,18 @@ import type { IMark } from '../../mark/interface';
 import type { CoordinateType, IPoint, IPolarPoint } from '../../typings/coordinate';
 import type { IRegion } from '../../region/interface';
 import type { IBaseScale } from '@visactor/vscale';
-import type { Group } from '../base/group';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
 import type { ISeriesSeriesInfo, ISeriesStackData, ISeriesUpdateDataOption } from './common';
 import type { ISeriesTooltipHelper } from './tooltip-helper';
-import type { IInvalidType, Datum, DirectionType } from '../../typings';
+import type { IInvalidType, Datum, DirectionType, IGroup } from '../../typings';
 import type { StateValueType } from '../../compile/mark';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { IGroupMark } from '../../mark/group';
 import type { ITextMark } from '../../mark/text';
 import type { IArcLabelSpec } from '../pie/interface';
 import type { IGeoCoordinateHelper } from '../../component/geo/interface';
+import type { ILabelMark } from '../../mark/label';
 
 // 使用类型约束系列支持的样式，但是感觉这样不合理 不使用这样的方式去做
 // export interface ISeries<A extends string> extends IModel
@@ -147,7 +147,7 @@ export interface ISeries extends IModel, ILayoutItem {
   getSeriesStyle: (datum: Datum) => ISeriesSeriesInfo['style'];
   getSeriesInfoInField: (field: string) => ISeriesSeriesInfo[];
   getSeriesInfoList: () => ISeriesSeriesInfo[];
-  getGroups: () => Group | undefined;
+  getGroups: () => IGroup | undefined;
   getDimensionField: () => string[];
   getMeasureField: () => string[];
   getStatisticFields: () => { key: string; operations: StatisticOperations }[];
@@ -177,7 +177,7 @@ export interface ISeries extends IModel, ILayoutItem {
    */
   getDefaultShapeType: () => string;
   /** 获取系列标签配置 */
-  initLabelMarkStyle?: (textMark: ITextMark) => void;
+  initLabelMarkStyle?: (labelMark: ILabelMark) => void;
 }
 
 export interface ICartesianSeries extends ISeries {

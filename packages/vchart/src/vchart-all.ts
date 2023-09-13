@@ -24,7 +24,7 @@ import {
   RangeColumn3dChart,
   SunburstChart,
   CirclePackingChart,
-  TreeMapChart,
+  TreemapChart,
   WaterfallChart,
   BoxPlotChart,
   SankeyChart,
@@ -65,7 +65,7 @@ import { GridLayout, Layout3d } from './layout';
 import { loadPoptip } from '@visactor/vrender-components';
 
 // 装载 poptip
-loadPoptip({});
+loadPoptip();
 
 // charts
 VChart.useChart([
@@ -93,7 +93,7 @@ VChart.useChart([
   RangeColumn3dChart,
   SunburstChart,
   CirclePackingChart,
-  TreeMapChart,
+  TreemapChart,
   WaterfallChart,
   BoxPlotChart,
   SankeyChart,

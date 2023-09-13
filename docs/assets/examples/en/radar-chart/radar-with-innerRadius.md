@@ -12,14 +12,14 @@ option: radarChart
 
 By configuring the `innerRadius` property, you can make the radar chart hollow.
 
-## Key Configurations
+## Key option
 
 - `innerRadius`: Configuring the inner radius of the radar chart
 - `outerRadius`: Configuring the outer radius of the radar chart
 - `grid.alignWithLabel`: Configure whether the grid aligns with the scale
 - `label.visible`: Configure whether the label is visible
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const mockData = [];

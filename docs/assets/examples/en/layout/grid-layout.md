@@ -11,7 +11,7 @@ option: commonChart#layout
 
 In the diagram, in addition to the built-in layout logic, the user can also pass`layout.type: 'grid'`Declare row and column layout.
 
-## critical configuration
+## Key option
 
 - modelId The id of the layout module.
 - What column is the col element in? Count from left to right, starting at 0.
@@ -19,7 +19,7 @@ In the diagram, in addition to the built-in layout logic, the user can also pass
 - colSpan column direction, the current element occupies several columns, the default value is 1.
 - rowSpan row direction, the current element occupies several rows, the default value is 1.
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

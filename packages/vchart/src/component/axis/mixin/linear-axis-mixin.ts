@@ -1,6 +1,6 @@
 import type { LinearScale } from '@visactor/vscale';
 import { isNil, isValid, maxInArr, minInArr } from '../../../util';
-import { getLinearAxisSpecDomain } from '../utils';
+import { getLinearAxisSpecDomain } from '../util';
 import type { IAxisLocationCfg } from '../cartesian/interface';
 import type { ITick } from '../interface';
 import { ChartEvent } from '../../../constant';
@@ -79,6 +79,9 @@ export class LinearAxisMixin {
   }
 
   valueToPosition(value: any): number {
+    if (this._spec.type === 'log' && (value === 0 || value[0] === 0)) {
+      return this._scale.range()[0];
+    }
     return this._scale.scale(value);
   }
 

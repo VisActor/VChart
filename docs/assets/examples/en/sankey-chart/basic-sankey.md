@@ -13,7 +13,7 @@ option: sankeyChart
 A Sankey diagram is a flow diagram that shows how values flow from one set to another. The width of the branches corresponds to the size of the data flow.
 This chart shows how energy is converted or transmitted before being consumed or lost: supply on the left and demand on the right.
 
-## Key Configurations
+## Key option
 
 - `categoryField` property declares the category field, representing the node name
 - `valueField` property declares the numeric field, representing the weight of the relationships between nodes
@@ -27,7 +27,7 @@ This chart shows how energy is converted or transmitted before being consumed or
 - `node` property declares the styling configuration for nodes in different states
 - `link` property declares the styling configuration for edges in different states
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

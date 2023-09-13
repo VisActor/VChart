@@ -22,12 +22,11 @@ export interface IPolarAxisHelper {
 }
 
 export interface IPolarAxis extends IComponent {
-  // 为了与直角坐标系轴对齐，这里也通过 orient 来区别 angle/redius 轴
-  orient: IPolarOrientType;
-
   startAngle: number;
   endAngle: number;
 
+  // 为了与直角坐标系轴对齐，这里也通过 orient 来区别 angle/redius 轴
+  getOrient: () => IPolarOrientType;
   getScale: () => IBaseScale;
   setRefAngleAxis: (axes: IPolarAxis) => this;
   tickValues: () => number[];

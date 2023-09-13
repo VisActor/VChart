@@ -17,7 +17,7 @@ Global animation enhances the observer's tracking of data changes in certain sce
 - `morph.morphKey`: Specifies the correlation between the series of different charts; changes in the data of series with the same `morphKey` will be analyzed automatically.
 - `morph.morphElementKey`: specifies the matching field for the data of the series that owns the association.
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 function calculateAverage(data, dim) {

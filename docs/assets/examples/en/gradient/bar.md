@@ -12,11 +12,11 @@ option: barChart
 
 The gradient color of the bar chart is related to its height.
 
-## Key Configurations
+## Key option
 
 The graphic properties on the chart element support custom mapping.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

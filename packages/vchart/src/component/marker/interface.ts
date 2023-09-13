@@ -2,6 +2,7 @@ import type { IPadding, IPointLike } from '@visactor/vutils';
 import type { SymbolType } from '@visactor/vrender';
 import type { IModelSpec } from '../../model/interface';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
+import type { IComponentSpec } from '../base/interface';
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = string | number | IAggrType;
@@ -105,7 +106,7 @@ export interface IMarkerAxisSpec {
   relativeRelativeSeriesIndex?: number;
 }
 
-export interface IMarkerSpec extends IModelSpec {
+export interface IMarkerSpec extends IComponentSpec {
   /**
    * 标注数据关联的series
    */

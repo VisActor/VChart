@@ -11,3 +11,4 @@ export * from './params';
 export * from './visual';
 export * from './common';
 export * from './spec';
+export * from './group';

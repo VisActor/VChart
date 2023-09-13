@@ -12,7 +12,7 @@ option: bar3dChart
 
 The configuration of the 3D bar chart inherits most of the configuration of a regular bar chart. The difference is that the `type` needs to be configured to `rect3d`, and the ChartSpace instance is instantiated with the `option3d` configuration. The 3D bar chart has Cartesian axes, and the axes can also be configured with `mode: 3d` to support 3D mode.
 
-## Key Configurations
+## Key option
 
 - `type: bar3d` attribute declares a bar chart
 - The `xField` attribute declares the category field or the time series field
@@ -21,7 +21,7 @@ The configuration of the 3D bar chart inherits most of the configuration of a re
 - In the 3d mode, `z` is the z-coordinate position of the `rect`
 - Axes support different modes with `mode: 3d` configuration
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

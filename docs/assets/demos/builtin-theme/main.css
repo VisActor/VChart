@@ -1,0 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
+#buttons {
+  text-align: center;
+}
+
+button {
+  margin: 0 10px;
+}

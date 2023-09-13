@@ -12,7 +12,7 @@ option: areaChart
 
 You can configure gradient colors on color-configurable properties such as `fill` and `stroke` of graphic styles. Currently, three types of gradient configurations are supported: linear gradient, radial gradient, and conical gradient. This example demonstrates the use of linear gradients.
 
-## Key Configurations
+## Key option
 
 - Linear gradient configuration is as follows
 
@@ -37,7 +37,7 @@ You can configure gradient colors on color-configurable properties such as `fill
 }
 ```
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

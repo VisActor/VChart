@@ -1,17 +1,14 @@
-/**
- * @todo vgrammar axis 支持 mode: '3d' 配置传入
- */
 import type { IBounds, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption, ILayoutRect } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { IAxisLocationCfg, ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
-import { isArray, isValid, isValidNumber, merge, eachSeries, isNil, isUndefined } from '../../../util';
+import { isArray, isValid, isValidNumber, mergeSpec, eachSeries, isNil, isUndefined } from '../../../util';
 import type { IOrientType } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
-import type { IBaseScale, ILinearScale } from '@visactor/vscale';
+import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import type { LayoutItem } from '../../../model/layout-item';
@@ -27,22 +24,25 @@ import { ComponentTypeEnum } from '../../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar';
 import type { LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { isValidCartesianAxis } from '../utils';
+import { isValidCartesianAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { scaleParser } from '../../../data/parser/scale';
-import type { ICartesianTickDataOpt } from '../../../data/transforms/tick-data';
+import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
-import { ticks } from '../../../data/transforms/tick-data';
+import { ticks } from '@visactor/vutils-extension';
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
 
-const CartesianAxisPlugin = [pluginMap.AxisLabelOverlapPlugin, pluginMap.AxisSyncPlugin];
+const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
 
-export abstract class CartesianAxis extends AxisComponent implements IAxis {
+export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartesianAxisCommonSpec>
+  extends AxisComponent<T>
+  implements IAxis
+{
   static type = ComponentTypeEnum.cartesianAxis;
   type = ComponentTypeEnum.cartesianAxis;
   name: string = ComponentTypeEnum.cartesianAxis;
@@ -59,7 +59,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   layout3dBox?: { width: number; height: number; length: number };
 
   protected _orient: IOrientType = 'left';
-  get orient() {
+  getOrient() {
     return this._orient;
   }
 
@@ -98,7 +98,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     _lastComputeOutBounds: IBoundsLike;
   } = { width: 0, height: 0, _lastComputeOutBounds: { x1: 0, x2: 0, y1: 0, y2: 0 } };
 
-  constructor(spec: ICartesianAxisCommonSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });
@@ -198,11 +198,11 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       eachSeries(
         this._regions,
         s => {
-          if (isXAxis(this.orient)) {
+          if (isXAxis(this.getOrient())) {
             (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
-          } else if (isYAxis(this.orient)) {
+          } else if (isYAxis(this.getOrient())) {
             (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
-          } else if (isZAxis(this.orient)) {
+          } else if (isZAxis(this.getOrient())) {
             (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
           }
         },
@@ -223,13 +223,12 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     const { width, height } = this.getLayoutRect();
     const inverse = this._spec.inverse;
     let newRange: number[] = [];
-    if (isXAxis(this.orient)) {
+    if (isXAxis(this.getOrient())) {
       if (isValidNumber(width)) {
         newRange = inverse ? [width, 0] : [0, width];
       }
-    } else if (isZAxis(this.orient)) {
+    } else if (isZAxis(this.getOrient())) {
       if (isValidNumber(width)) {
-        // TODO 这里需要设置布局
         newRange = inverse ? [width, 0] : [0, width];
         this._scale.range(newRange);
       }
@@ -259,28 +258,29 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    const isX = isXAxis(this.orient);
-    if (isX) {
-      if (isUndefined(this._spec.maxHeight)) {
-        this._spec.maxHeight = '30%';
+    if (this.visible) {
+      const isX = isXAxis(this.getOrient());
+      if (isX) {
+        if (isUndefined(this._spec.maxHeight)) {
+          this._spec.maxHeight = '30%';
+        }
+      } else if (isUndefined(this._spec.maxWidth)) {
+        this._spec.maxWidth = '30%';
       }
-    } else if (isUndefined(this._spec.maxWidth)) {
-      this._spec.maxWidth = '30%';
+
+      const axisStyle: any = this._getAxisAttributes();
+      axisStyle.label.formatMethod = this.getLabelFormatMethod();
+      axisStyle.verticalFactor = this.getOrient() === 'top' || this.getOrient() === 'right' ? -1 : 1;
+      this._axisStyle = axisStyle;
     }
-
-    const axisStyle: any = this._getAxisAttributes();
-    axisStyle.label.formatMethod = this.getLabelFormatMethod();
-    axisStyle.verticalFactor = this.orient === 'top' || this.orient === 'right' ? -1 : 1;
-    this._axisStyle = axisStyle;
-
     this._tick = this._spec.tick;
   }
 
   protected getSeriesStatisticsField(s: ICartesianSeries) {
     let f: string[];
-    if (isXAxis(this.orient)) {
+    if (isXAxis(this.getOrient())) {
       f = s.fieldX;
-    } else if (isZAxis(this.orient)) {
+    } else if (isZAxis(this.getOrient())) {
       f = s.fieldZ;
     } else {
       f = s.fieldY;
@@ -291,7 +291,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     return [f[0]];
   }
 
-  protected _initData() {
+  protected _initTickData(sampling: boolean) {
     registerDataSetInstanceParser(this._option.dataSet, 'scale', scaleParser);
     registerDataSetInstanceTransform(this._option.dataSet, 'ticks', ticks);
 
@@ -305,7 +305,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         {
           type: 'ticks',
           options: {
-            sampling: this._spec.sampling !== false, // default do sampling
+            sampling,
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,
@@ -330,6 +330,10 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     this._tickData = new CompilableData(this._option, tickData);
   }
 
+  protected _initData() {
+    this._initTickData(this._spec.sampling !== false); // default do sampling
+  }
+
   protected axisHelper(): IAxisHelper {
     const getScale = (depth: number = 0) => {
       return this._scales[depth];
@@ -338,7 +342,6 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       isContinuous: isContinuous(this._scale.type),
       dataToPosition: this.dataToPosition.bind(this),
       getScale,
-      // TODO 轴可以设置domain
       getStatisticsDomain: () => this.getStatisticsDomain(),
       getAxisType: () => this.type,
       getAxisId: () => this.id,
@@ -348,13 +351,13 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
 
   /** LifeCycle API**/
   afterCompile() {
-    const product = this.getMarks()[0]?.getProduct();
+    const product = this._axisMark?.getProduct();
     if (product) {
       product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
         if (this._isLayout === false) {
           // 布局结束之后再进行插件的调用
           // 插件在布局后
-          if (isXAxis(this.orient)) {
+          if (isXAxis(this.getOrient())) {
             this.callPlugin(plugin => {
               this.pluginService &&
                 plugin.onDidLayoutHorizontal &&
@@ -366,7 +369,6 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
             });
           }
 
-          // 代理组件上的事件，目前坐标轴组件比较特殊，包含了网格线，但是事件这块只提供不包含网格线部分的响应
           this._delegateAxisContainerEvent(product.getGroupGraphicItem());
         }
       });
@@ -409,7 +411,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       this._regions,
       s => {
         scales.push(
-          this.orient === 'left' || this.orient === 'right'
+          this.getOrient() === 'left' || this.getOrient() === 'right'
             ? (s as ICartesianSeries).scaleY
             : (s as ICartesianSeries).scaleX
         );
@@ -431,11 +433,11 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         if (depth > 0) {
           field = s.getGroups()?.fields?.[depth];
         } else {
-          if (isXAxis(this.orient)) {
+          if (isXAxis(this.getOrient())) {
             field = (s as ICartesianSeries).fieldX2
               ? [...(s as ICartesianSeries).fieldX, (s as ICartesianSeries).fieldX2]
               : (s as ICartesianSeries).fieldX;
-          } else if (isZAxis(this.orient)) {
+          } else if (isZAxis(this.getOrient())) {
             field = (s as ICartesianSeries).fieldZ;
           } else {
             field = (s as ICartesianSeries).fieldY;
@@ -466,13 +468,13 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     eachSeries(
       this._regions,
       s => {
-        if (isXAxis(this.orient)) {
+        if (isXAxis(this.getOrient())) {
           (s as ICartesianSeries).setScaleX(this._scale);
           (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
-        } else if (isYAxis(this.orient)) {
+        } else if (isYAxis(this.getOrient())) {
           (s as ICartesianSeries).setScaleY(this._scale);
           (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
-        } else if (isZAxis(this.orient)) {
+        } else if (isZAxis(this.getOrient())) {
           (s as ICartesianSeries).setScaleZ(this._scale);
           (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
         }
@@ -536,17 +538,17 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
    * @param rect
    * @returns
    */
-  boundsInRect(rect: ILayoutRect): IBoundsLike {
+  _boundsInRect(rect: ILayoutRect): IBoundsLike {
     let result: IBoundsLike = { x1: 0, y1: 0, x2: 0, y2: 0 };
     if (!this._visible) {
       return result;
     }
-    this._verticalLimitSize = isXAxis(this.orient) ? rect.height : rect.width;
+    this._verticalLimitSize = isXAxis(this.getOrient()) ? rect.height : rect.width;
 
     this.setLayoutRect(rect);
     this.updateScaleRange();
     this.computeData();
-    const isX = isXAxis(this.orient);
+    const isX = isXAxis(this.getOrient());
     const context = { skipLayout: false };
 
     if (isX) {
@@ -561,13 +563,13 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
           plugin.onWillLayoutVertical && plugin.onWillLayoutVertical(this.pluginService, context, this);
         });
     }
-    const product = this.getMarks()[0].getProduct();
+    const product = this._axisMark.getProduct();
     this._latestBounds = product.getBounds();
     if (!context.skipLayout) {
       const attrs = this._getUpdateAttribute(true);
       const axisComponent = product.getGroupGraphicItem();
       const updateBounds = axisComponent.getBoundsWithoutRender(
-        merge({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs)
+        mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs)
       );
       if (isFinite(updateBounds.width())) {
         result = updateBounds;
@@ -582,10 +584,15 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
       return;
     }
     // 正式的更新布局属性
-    const attrs = this._getUpdateAttribute(false);
-    const product = this.getMarks()[0].getProduct(); // 获取语法元素
-    const axisAttrs = merge({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs);
-    product.encode(axisAttrs);
+    const { grid: updateGridAttrs, ...updateAxisAttrs } = this._getUpdateAttribute(false);
+    const axisProduct = this._axisMark.getProduct(); // 获取语法元素
+    const axisAttrs = mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, updateAxisAttrs);
+    axisProduct.encode(axisAttrs);
+
+    if (this._gridMark) {
+      const gridProduct = this._gridMark.getProduct(); // 获取语法元素
+      gridProduct.encode(mergeSpec({ ...this.getLayoutStartPoint() }, this._getGridAttributes(), updateGridAttrs));
+    }
 
     super.updateLayoutAttribute();
   }
@@ -663,24 +670,34 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
         anchor3d = [0, 0, 0];
         alpha = Math.PI / 2;
       }
-      return {
+      const items = this.getLabelItems(width);
+      const axisAttrs: any = {
         start: { x: 0, y: 0 },
         end: { x: depth, y: 0 },
         z: z,
         alpha,
         anchor3d,
-        grid: {
-          type: 'line',
-          depth: depthZ,
-          length: regionHeight,
-          visible: this._spec.grid.visible && !ignoreGrid
-        },
         title: {
           text: this._spec.title.text || this._dataFieldText,
           maxWidth: this._getTitleLimit(isX)
         },
-        items: this.getLabelItems(width)
-      } as LineAxisAttributes;
+        items
+      };
+      if (!ignoreGrid) {
+        axisAttrs.grid = {
+          type: 'line',
+          start: { x: 0, y: 0 },
+          end: { x: depth, y: 0 },
+          items: items[0],
+          verticalFactor: this._axisStyle.verticalFactor,
+          depth: depthZ,
+          length: regionHeight,
+          z: z,
+          alpha,
+          anchor3d
+        };
+      }
+      return axisAttrs;
     }
     let verticalMinSize = isX ? this._minHeight : this._minWidth;
     if (
@@ -689,23 +706,29 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     ) {
       verticalMinSize = this._verticalLimitSize;
     }
-    const attrs: LineAxisAttributes = {
+    const items = this.getLabelItems(axisLength);
+    const attrs: any = {
       start: { x: 0, y: 0 },
       end,
-      grid: {
-        type: 'line',
-        depth,
-        length: gridLength,
-        visible: this._spec.grid.visible && !ignoreGrid
-      },
       title: {
         text: this._spec.title.text || this._dataFieldText,
         maxWidth: this._getTitleLimit(isX)
       },
-      items: this.getLabelItems(axisLength),
+      items,
       verticalLimitSize: this._verticalLimitSize,
       verticalMinSize
     };
+    if (!ignoreGrid) {
+      attrs.grid = {
+        type: 'line',
+        start: { x: 0, y: 0 },
+        end,
+        items: items[0],
+        verticalFactor: this._axisStyle.verticalFactor,
+        depth,
+        length: gridLength
+      };
+    }
 
     return attrs;
   }
@@ -729,7 +752,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
     if (this.visible && onZero && visible !== false) {
       const { onZeroAxisId, onZeroAxisIndex } = this._spec.domainLine;
       const axesComponents = this._option.getComponentsByKey('axes') as IAxis[];
-      const isX = isXAxis(this.orient);
+      const isX = isXAxis(this.getOrient());
 
       // 判断坐标轴是否可用
       const isValidAxis = (item: any) => {
@@ -757,7 +780,7 @@ export abstract class CartesianAxis extends AxisComponent implements IAxis {
           bindAxis = relativeAxes[0];
         }
         if (bindAxis) {
-          const axisMark = this.getMarks()[0].getProduct();
+          const axisMark = this._axisMark.getProduct();
           // 找到了绑定的 axis，获取基线的位置
           const position = bindAxis.valueToPosition(0);
           // 获取偏移量

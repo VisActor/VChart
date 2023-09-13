@@ -2,6 +2,12 @@
   "version": "0.1.0",
   "configurations": [
     {
+      "name": "Node.js - Debug Current File",
+      "type": "node",
+      "request": "launch",
+      "program": "${file}"
+    },
+    {
       "name": "generate documents",
       "port": 9229,
       "program": "${workspaceFolder}/docs/libs/template-parse/build.js",

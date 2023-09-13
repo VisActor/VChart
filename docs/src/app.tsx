@@ -4,11 +4,12 @@ import { LanguageContext, LanguageEnum, getStoredLanguage, storeLanguage } from 
 import menu from '../menu.json';
 import { Markdown } from './markdown';
 import { Option } from './option';
+import { Demo } from './demo';
 
 const menuRoutes: RouteObject[] = menu.map(menuItem => {
   if (menuItem.type === 'markdown-template') {
     return {
-      path: `/${menuItem.menu}`,
+      path: `/vchart/${menuItem.menu}`,
       element: <Option />,
       children: [
         {
@@ -17,9 +18,20 @@ const menuRoutes: RouteObject[] = menu.map(menuItem => {
         }
       ]
     };
+  } else if (menuItem.type === 'demos') {
+    return {
+      path: `/vchart/${menuItem.menu}`,
+      element: <Demo />,
+      children: [
+        {
+          path: '*',
+          element: <Demo />
+        }
+      ]
+    };
   }
   return {
-    path: `/${menuItem.menu}`,
+    path: `/vchart/${menuItem.menu}`,
     element: <Markdown />,
     children: [
       {
@@ -33,7 +45,7 @@ const menuRoutes: RouteObject[] = menu.map(menuItem => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate replace to="/examples" />
+    element: <Navigate replace to="/vchart/examples" />
   },
   ...menuRoutes
 ]);

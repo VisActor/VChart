@@ -4,7 +4,7 @@ import type { TreemapOptions } from '@visactor/vgrammar-hierarchy';
 import type { ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { TreemapAppearPreset, TreemapMark } from './animation';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface/type';
 
 export interface ITreemapSeriesSpec
   extends Omit<ISeriesSpec, 'data'>,

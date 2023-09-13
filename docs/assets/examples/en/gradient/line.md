@@ -14,7 +14,7 @@ option: lineChart
 
 The shape attributes on the graphic element support custom mapping.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

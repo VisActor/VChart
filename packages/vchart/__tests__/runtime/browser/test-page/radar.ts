@@ -51,6 +51,10 @@ const run = () => {
         }
       }
     ],
+    crosshair: {
+      categoryField: { visible: true },
+      valueField: { visible: true }
+    },
     legends: {
       visible: true,
       orient: 'top'

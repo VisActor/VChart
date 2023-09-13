@@ -4,7 +4,7 @@ import { isNil, isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
-import type { IOptionAggrs } from '../../../data/transforms/aggregation';
+import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
 import { xLayout, yLayout, coordinateLayout } from '../utils';
@@ -21,7 +21,7 @@ import type { INode } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
 
-export class MarkArea extends BaseMarker implements IMarkArea {
+export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;
   type = ComponentTypeEnum.markArea;
   name: string = ComponentTypeEnum.markArea;
@@ -30,7 +30,6 @@ export class MarkArea extends BaseMarker implements IMarkArea {
 
   static speckey = 'markArea';
 
-  protected declare _spec: IMarkAreaSpec & IMarkAreaTheme;
   protected declare _theme: IMarkAreaTheme;
 
   // markArea组件
@@ -149,7 +148,7 @@ export class MarkArea extends BaseMarker implements IMarkArea {
       return null;
     }
 
-    let options: IOptionAggrs | IOptionRegr;
+    let options: IOptionAggr[];
 
     registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
     registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);

@@ -16,7 +16,7 @@ import { registerDataSetInstanceTransform } from '../../data/register';
 import { flatten } from '../../data/transforms/flatten';
 import { sunburstLayout } from '../../data/transforms/sunburst';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../interface';
 
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
@@ -32,10 +32,10 @@ import { SunburstTooltipHelper } from './tooltip-helper';
 import type { animationInfo } from './animation/interface';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
 import { TextMark } from '../../mark/text';
+import { sunburstSeriesMark } from './constant';
 
 VChart.useMark([ArcMark, TextMark]);
 
@@ -45,10 +45,7 @@ export class SunburstSeries extends PolarSeries<any> {
   static readonly type: string = SeriesTypeEnum.sunburst;
   type = SeriesTypeEnum.sunburst;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.sunburst]: { name: SeriesMarkNameEnum.sunburst, type: MarkTypeEnum.arc }
-  };
+  static readonly mark: SeriesMarkMap = sunburstSeriesMark;
 
   private _sunburstMark: IArcMark;
   private _labelMark: ITextMark;

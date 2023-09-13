@@ -1,8 +1,9 @@
 import { DataSet, DataView } from '@visactor/vdataset';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { dimensionTree } from '../../data/transforms/dimension-data';
+import type { IGroup } from '../../typings';
 
-export class Group {
+export class Group implements IGroup {
   protected _fields: string[] = [];
   get fields() {
     return this._fields;

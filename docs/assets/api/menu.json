@@ -2,21 +2,21 @@
   "menu": "api",
   "children": [
     {
-      "path": "vchart",
+      "path": "API/vchart",
       "title": {
         "zh": "VChart",
         "en": "VChart"
       }
     },
     {
-      "path": "event",
+      "path": "API/event",
       "title": {
         "zh": "事件",
         "en": "Event"
       }
     },
     {
-      "path": "theme",
+      "path": "API/theme",
       "title": {
         "zh": "主题",
         "en": "Theme"

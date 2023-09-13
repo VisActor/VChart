@@ -12,7 +12,7 @@ option: funnelChart#tooltip
 
 By default, tooltip supports configuring different tooltip content based on the type of mark.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

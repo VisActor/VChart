@@ -1,15 +1,14 @@
 /* eslint-disable no-duplicate-imports */
-import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
+import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { ILineMark } from '../../mark/line';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel, POLAR_START_RADIAN } from '../../constant';
 import { DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
 import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
-import { isValid, radians } from '../../util';
+import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
-import { mixin } from '@visactor/vutils';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
+import { degreeToRadian, mixin } from '@visactor/vutils';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
@@ -17,16 +16,16 @@ import type { IRadarAnimationParams, RadarAppearPreset } from './animation';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAreaMark } from '../../mark/area';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { AreaMark } from '../../mark/area';
 import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
+import { radarSeriesMark } from './constant';
 
 VChart.useMark([AreaMark, LineMark, SymbolMark, TextMark]);
 
-export interface RadarSeries
+export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<
       LineLikeSeriesMixin,
       | 'initLineMark'
@@ -37,21 +36,18 @@ export interface RadarSeries
       | '_lineMark'
       | '_symbolMark'
     >,
-    RoseLikeSeries<IRadarSeriesSpec> {}
+    RoseLikeSeries<T> {}
 
-export class RadarSeries extends RoseLikeSeries<IRadarSeriesSpec> {
+export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends RoseLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.radar;
   type = SeriesTypeEnum.radar;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    ...lineLikeSeriesMarkMap,
-    [SeriesMarkNameEnum.area]: { name: SeriesMarkNameEnum.area, type: MarkTypeEnum.area }
-  };
+  static readonly mark: SeriesMarkMap = radarSeriesMark;
 
   protected declare _theme: Maybe<IRadarSeriesTheme>;
 
   private _areaMark: ILineMark;
+  protected _sortDataByAxis: boolean = false;
 
   initGroups() {
     // do nothing
@@ -131,7 +127,7 @@ export class RadarSeries extends RoseLikeSeries<IRadarSeriesSpec> {
         const rect = this.getLayoutRect();
         return Math.min(rect.width, rect.height);
       },
-      startAngle: radians(this._spec.startAngle) ?? POLAR_START_RADIAN,
+      startAngle: isValid(this._spec.startAngle) ? degreeToRadian(this._spec.startAngle) : POLAR_START_RADIAN,
       pointToCoord: (point: IPoint) => this.angleAxisHelper?.pointToCoord(point),
       coordToPoint: (coord: IPolarPoint) => this.angleAxisHelper.coordToPoint(coord)
     };
@@ -164,6 +160,10 @@ export class RadarSeries extends RoseLikeSeries<IRadarSeriesSpec> {
         );
       }
     });
+  }
+
+  getDefaultShapeType() {
+    return 'square';
   }
 }
 

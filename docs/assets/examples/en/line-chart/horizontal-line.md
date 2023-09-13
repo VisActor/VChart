@@ -12,14 +12,14 @@ option: lineChart
 
 A line chart with a vertical orientation.
 
-## critical configuration
+## Key option
 
 - `direction` The property is declared as `horizontal`
 - `xField` Property declaration numeric field
 - `yField` Property declared as a continuous interval or ordered category field
 - `axes` Property set to left axis to `band` Type, the lower side axis is `linear` type
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

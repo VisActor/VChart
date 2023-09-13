@@ -9,7 +9,7 @@ import { LayoutZIndex } from '../../constant';
 import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 
-export abstract class BaseLabelComponent extends BaseComponent {
+export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
@@ -17,7 +17,7 @@ export abstract class BaseLabelComponent extends BaseComponent {
   layoutType: LayoutItem['layoutType'] = 'absolute';
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Label;
 
-  constructor(spec: ILabelSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, options);
     this._regions = options.getRegionsInIndex([options.specIndex]);
     this.layoutBindRegionID = this._regions.map(x => x.id);
@@ -57,15 +57,5 @@ export abstract class BaseLabelComponent extends BaseComponent {
   }
   changeRegions(regions: IRegion[]): void {
     // do nothing
-  }
-
-  clear(): void {
-    super.clear();
-
-    this._marks.forEach(mark => {
-      if (mark.getProduct()) {
-        mark.getProduct().release();
-      }
-    });
   }
 }

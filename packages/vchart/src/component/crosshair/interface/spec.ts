@@ -1,17 +1,19 @@
 import type { IModelSpec } from '../../../model/interface';
 import type { IPadding, StringOrNumber, ILineMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../../../typings';
 import type { IAxis } from '../../axis/interface';
+import type { IComponentSpec } from '../../base/interface';
 import type { IComponent } from '../../interface';
 
 export interface ICrossHair extends IComponent {
   clearAxisValue?: () => void;
   setAxisValue?: (v: StringOrNumber, axis: IAxis) => void;
   layoutByValue?: (v?: number) => void;
+  hide?: () => void;
 }
 
 export type CrossHairTrigger = 'click' | 'hover' | ['click', 'hover'];
 
-export interface ICommonCrosshairSpec {
+export interface ICommonCrosshairSpec extends IComponentSpec {
   /**
    * 是否可以通过 点击 固定住一组 crosshair，也可以同时触发。
    * @default 'hover'
@@ -31,28 +33,28 @@ export interface ICommonCrosshairSpec {
   gridZIndex?: number;
 }
 
-export interface ICartesianCrosshairSpec extends ICommonCrosshairSpec, IModelSpec {
+export interface ICartesianCrosshairSpec extends ICommonCrosshairSpec {
   /**
    * 笛卡尔坐标系下 x 轴上 crosshair 配置
    */
-  xField?: ICrosshairXFieldSpec;
+  xField?: ICrosshairCategoryFieldSpec;
   /**
    * 笛卡尔坐标系下 y 轴上 crosshair 配置
    */
-  yField?: ICrosshairXFieldSpec;
+  yField?: ICrosshairCategoryFieldSpec;
 }
 
-export interface IPolarCrosshairSpec extends ICommonCrosshairSpec, IModelSpec {
+export interface IPolarCrosshairSpec extends ICommonCrosshairSpec {
   /**
    * 极坐标系下 categoryField 字段对应轴上的 crosshair 配置
    */
-  categoryField?: ICrosshairXFieldSpec;
+  categoryField?: ICrosshairCategoryFieldSpec;
   /**
    * 极坐标系下 valueField 字段对应轴上的 crosshair 配置
    */
   valueField?: ICrosshairValueFieldSpec;
 }
-export interface ICrosshairXFieldSpec extends ICrosshairDataBindSpec {
+export interface ICrosshairCategoryFieldSpec extends ICrosshairDataBindSpec {
   /**
    * 是否可见
    */

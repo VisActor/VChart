@@ -16,7 +16,7 @@ Axes support animations, but they are turned off by default. If you need to enab
 
 Configure `animation: true` for the specified direction axis on the `axes` property.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const asiaData = {
@@ -1236,7 +1236,3 @@ window['vchart'] = vchart;
 ## Related Tutorials
 
 Attach links to tutorials or API documentation associated with this demo configuration.
-
-```
-
-```

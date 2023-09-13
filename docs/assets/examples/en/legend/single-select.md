@@ -12,12 +12,12 @@ option: lineChart#legends
 
 Discrete legend supports single selection mode, which can be configured through `legend.selectMode`.
 
-## Key Configurations
+## Key option
 
 - `legend.selectMode` configures the single selection mode
 - `defaultSelected` configures the default selected item
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

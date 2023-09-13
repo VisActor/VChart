@@ -22,7 +22,7 @@ The circular progress chart is a chart type under the polar coordinate system. I
 - `categoryField` and `valueField` properties are used to specify the data category and arc angle field respectively
 - `innerRadius` and `outerRadius` properties are used to specify the inner and outer radius of the progress chart
 
-## Code demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

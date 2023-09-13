@@ -84,6 +84,8 @@ export interface IBrushTheme {
 }
 
 export interface IBrushSpec extends IBrushTheme, IBrushDataBindSpec {
+  /** 组件 id */
+  id?: string;
   /**
    * 组件可见性
    * @default true

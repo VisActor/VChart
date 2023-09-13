@@ -1,7 +1,7 @@
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { ISymbolMarkSpec, IRuleMarkSpec, ITextMarkSpec, ConvertToMarkStyleSpec } from '../../typings/visual';
-import type { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import type { SeriesMarkNameEnum } from '../interface/type';
 
 interface ISequenceLabel {
   visible?: boolean;

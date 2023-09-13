@@ -12,14 +12,14 @@ option: circlePackingChart
 
 This example demonstrates the basic usage of CirclePacking chart.
 
-## Key Configurations
+## Key option
 
 - The `categoryField` attribute is declared as the classification field
 - The `valueField` attribute is declared as the numerical field
 - `circlePacking` Circle element configuration
 - `label` Label element configuration
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const data = [

@@ -6,8 +6,9 @@ import type {
   ISymbolMarkSpec,
   ITextMarkSpec
 } from '../../../typings/visual';
+import type { IComponentSpec } from '../../base/interface';
 import type { IComponent } from '../../interface';
-import type { IDataFilterComponentSpec } from '../interface';
+import type { IDataFilterComponentSpec, IFilterMode } from '../interface';
 
 export type IDataZoom = IComponent;
 
@@ -52,6 +53,12 @@ export interface IDataZoomStyle {
 /** spec */
 export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec {
   /**
+   * 数据过滤模式
+   * @default 'filter' （dataZoom默认数据过滤模式）
+   * 详细可参考：https://echarts.apache.org/zh/option.html#dataZoom-slider.filterMode）
+   */
+  filterMode?: IFilterMode;
+  /**
    * 背景趋势线对应的字段
    */
   valueField?: string;
@@ -70,16 +77,22 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
   };
   /**
    * 是否开启框选, 如果不开启则支持selectedBackground拖拽（框选和拖拽两者互斥）
-   * @default true
+   * @default false
    */
   brushSelect?: boolean;
 }
 
-export type IDataZoomTheme = IDataZoomStyle & {
-  /** 显示的位置 */
-  orient?: IDataZoomSpec['orient'];
-  /** 组件宽度 */
-  width?: IDataZoomSpec['width'];
-  /** 组件高度 */
-  height?: IDataZoomSpec['height'];
-};
+export type IDataZoomTheme = IComponentSpec &
+  IDataZoomStyle & {
+    /** 显示的位置 */
+    orient?: IDataZoomSpec['orient'];
+    /** 组件宽度 */
+    width?: IDataZoomSpec['width'];
+    /** 组件高度 */
+    height?: IDataZoomSpec['height'];
+    /**
+     * 是否开启框选, 如果不开启则支持selectedBackground拖拽（框选和拖拽两者互斥）
+     * @default false
+     */
+    brushSelect?: boolean;
+  };

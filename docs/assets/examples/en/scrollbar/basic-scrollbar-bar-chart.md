@@ -19,7 +19,7 @@ The most basic usage of `scrollBar`, used to control the number of bars in a bar
 - The `end` attribute is declared as a numerical field, with a value range of `[0, 1]`. Note that the value of the `start` attribute should be less than the value of `end`.
 - The `roam` attribute is declared as a `Boolean` type and is used to set whether to enable the zoom and move function.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

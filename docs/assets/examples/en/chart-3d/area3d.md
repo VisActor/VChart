@@ -12,11 +12,11 @@ option: AreaChart
 
 Configure the zField on the basis of the 2D area map, it can be recognized as a 3D area map, and then configure the z-axis.
 
-## critical configuration
+## Key option
 
 - `stack` The property declared false is used to configure the data not to use stacking. This property defaults to true in the area map, so it needs to be manually set to false
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

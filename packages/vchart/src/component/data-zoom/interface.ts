@@ -1,9 +1,9 @@
-import type { IModelSpec } from '../../model/interface';
 import type { IOrientType } from '../../typings';
+import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
 
 /** spec */
-export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'height'> {
+export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' | 'height'> {
   /**
    * 是否显示组件
    * @default true
@@ -47,14 +47,6 @@ export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'he
    * 配置优先级：index > id
    */
   regionIndex?: number | number[];
-  regionId?: string | string[];
-
-  /**
-   * 数据过滤模式
-   * @default true （默认直接过滤数据）
-   * 详细可参考：https://echarts.apache.org/zh/option.html#dataZoom-slider.filterMode）
-   */
-  filterMode?: 'filter' | 'axis';
   /**
    * 起点配置（比例）：范围[0, 1]
    * @default 0
@@ -73,6 +65,9 @@ export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'he
   startValue?: number | string;
   endValue?: number | string;
 
+  /** 数据过滤对应的数据字段 */
+  valueField?: string;
+
   /**
    * start和end的配置模式：只有模式和配置匹配时才生效，比如rangeMode: ['percent', 'value'], 那么必须start和endValue都配置才可以生效
    */
@@ -85,8 +80,15 @@ export interface IDataFilterComponentSpec extends Omit<IModelSpec, 'width' | 'he
    * 是否开启鼠标缩放和平移漫游。默认不开启
    */
   roam?: boolean;
+  /**
+   * 是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失
+   * @since 1.4.0
+   */
+  auto?: boolean;
 }
 
 export interface IDataFilterComponent extends IComponent {
   setStartAndEnd: (start: number, end: number) => any;
 }
+
+export type IFilterMode = 'filter' | 'axis';

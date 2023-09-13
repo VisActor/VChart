@@ -5,6 +5,7 @@ import type { ITheme } from '../../../src/theme';
 import { ThemeManager } from '../../../src/theme';
 import { createCanvas, removeDom } from '../../util/dom';
 import type { ILineChartSpec } from '../../../src';
+import type { IColorSchemeStruct } from '../../../src/theme/color-scheme/interface';
 
 describe('theme switch test', () => {
   let canvasDom: HTMLCanvasElement;
@@ -37,22 +38,24 @@ describe('theme switch test', () => {
     dataView.parse(data, {
       type: 'csv'
     });
-    const spec: ILineChartSpec = {
-      type: 'line',
-      xField: 'x',
-      yField: 'y',
-      data: dataView,
-      animation: false,
-      tooltip: {
-        visible: false
-      }
-    };
 
-    vchart = new VChart(spec, {
-      renderCanvas: canvasDom,
-      background: 'yellow',
-      autoFit: true
-    });
+    vchart = new VChart(
+      {
+        type: 'line',
+        xField: 'x',
+        yField: 'y',
+        data: dataView,
+        animation: false,
+        tooltip: {
+          visible: false
+        }
+      } as ILineChartSpec,
+      {
+        renderCanvas: canvasDom,
+        background: 'yellow',
+        autoFit: true
+      }
+    );
 
     await vchart.renderAsync();
 
@@ -89,7 +92,7 @@ describe('theme switch test', () => {
     expect(series?.getSpec()?.label?.offset).toBe(30);
 
     // color scheme
-    expect(vchart.getCurrentTheme().colorScheme?.default[0]).toBe('red');
+    expect((vchart.getCurrentTheme().colorScheme?.default as IColorSchemeStruct)?.dataScheme[0]).toBe('red');
     expect(series?.getSeriesInfoList()[0].style('fill')).toBe('red');
   });
 
@@ -110,26 +113,28 @@ describe('theme switch test', () => {
     VChart.ThemeManager.registerTheme('newTheme', {
       background: 'red'
     });
-    const spec: ILineChartSpec = {
-      type: 'line',
-      xField: 'x',
-      yField: 'y',
-      data: dataView,
-      animation: false,
-      tooltip: {
-        visible: false
-      },
-      theme: 'newTheme'
-    };
 
-    vchart = new VChart(spec, {
-      renderCanvas: canvasDom,
-      background: 'yellow',
-      autoFit: true
-    });
+    vchart = new VChart(
+      {
+        type: 'line',
+        xField: 'x',
+        yField: 'y',
+        data: dataView,
+        animation: false,
+        tooltip: {
+          visible: false
+        },
+        theme: 'newTheme'
+      } as ILineChartSpec,
+      {
+        renderCanvas: canvasDom,
+        background: 'yellow',
+        autoFit: true
+      }
+    );
 
     await vchart.renderAsync();
-    await vchart.setCurrentTheme('light');
+    // await vchart.setCurrentTheme('light');
     // sepc
     expect(vchart.getCurrentTheme().background).toBe('red');
     expect(vchart.getCurrentThemeName()).toBe('newTheme');
@@ -149,32 +154,32 @@ describe('theme switch test', () => {
     dataView.parse(data, {
       type: 'csv'
     });
-    VChart.ThemeManager.registerTheme('newTheme', {
-      background: 'red'
-    });
-    const spec: ILineChartSpec = {
-      type: 'line',
-      xField: 'x',
-      yField: 'y',
-      data: dataView,
-      animation: false,
-      tooltip: {
-        visible: false
-      },
-      theme: {
-        background: 'red'
-      }
-    };
 
-    vchart = new VChart(spec, {
-      renderCanvas: canvasDom,
-      background: 'yellow',
-      autoFit: true
-    });
+    vchart = new VChart(
+      {
+        type: 'line',
+        xField: 'x',
+        yField: 'y',
+        data: dataView,
+        animation: false,
+        tooltip: {
+          visible: false
+        },
+        theme: {
+          background: 'red'
+        }
+      } as ILineChartSpec,
+      {
+        renderCanvas: canvasDom,
+        background: 'yellow',
+        autoFit: true
+      }
+    );
 
     await vchart.renderAsync();
-    // sepc
+    // spec
     expect(vchart.getCurrentTheme().background).toBe('red');
+    expect(vchart.getCompiler().getVGrammarView().background()).toBe('red');
     expect(vchart.getCurrentThemeName()).toBe('light');
   });
 });

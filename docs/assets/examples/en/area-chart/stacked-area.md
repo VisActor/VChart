@@ -12,17 +12,25 @@ option: areaChart
 
 A stacked area chart is a type of area chart that is used to display the trend of each value's size changing over time or ordered categories.
 
-## Key Configurations
+## Key option
 
 - The `seriesField` attribute is used to declare the field involved in color mapping
 - The `stack` attribute is set to true to configure stacking, and will be stacked according to the field declared by the `seriesField` attribute
+- Control the stacking order by configuring `domain` and `lockStatisticsByDomain` for the corresponding fields on the `data.fields` property. When `lockStatisticsByDomain` is true, it will be stacked from top to bottom in the order of the declared `domain`
+- By configuring `updateContent` for `tooltip.dimension`, you can dynamically add the required information to the tooltip content.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {
   type: 'area',
   data: {
+    fields: {
+      country: {
+        domain: ['Africa', 'EU', 'China', 'USA'].reverse(),
+        lockStatisticsByDomain: true
+      }
+    },
     values: [
       { type: 'Nail polish', country: 'Africa', value: 4229 },
       { type: 'Nail polish', country: 'EU', value: 4376 },
@@ -70,13 +78,29 @@ const spec = {
   xField: 'type',
   yField: 'value',
   seriesField: 'country',
-  legends: [{ visible: true, position: 'middle', orient: 'bottom' }]
+  legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
+  tooltip: {
+    dimension: {
+      updateContent: data => {
+        let sum = 0;
+        data.forEach(datum => {
+          sum += +datum.value;
+        });
+        data.push({
+          hasShape: 'false',
+          key: 'Total',
+          value: sum
+        });
+        return data;
+      }
+    }
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 
-// Just for the convenience of console debugging, do not copy
+// Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
 

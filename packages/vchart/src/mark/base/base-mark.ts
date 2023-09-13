@@ -1,5 +1,4 @@
 import type { IStateInfo, IAttributeOpt, IModelMarkAttributeContext } from '../../compile/mark/interface';
-import { radians } from '../../util/math';
 import type { BaseSeries } from '../../series/base/base-series';
 import type {
   Datum,
@@ -14,7 +13,7 @@ import type {
   IThresholdStyle
 } from '../../typings';
 
-import { isBoolean, isFunction, isNil, isValid, merge, Color, createScaleWithSpec, isNumber } from '../../util';
+import { isBoolean, isFunction, isNil, isValid, mergeSpec, Color, createScaleWithSpec, isNumber } from '../../util';
 import type {
   IMarkRaw,
   IMarkStateStyle,
@@ -32,6 +31,7 @@ import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme
 import type { ISeries, SeriesTypeEnum } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
+import { degreeToRadian } from '@visactor/vutils';
 
 export type ExChannelCall = (
   key: string | number | symbol,
@@ -102,16 +102,16 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   convertAngleToRadian(styleConverter: StyleConvert<number>): StyleConvert<any> {
     // 用户传入的angle配置，需要做一层转换
     if (isNumber(styleConverter)) {
-      return radians(styleConverter) as StyleConvert<any>;
+      return degreeToRadian(styleConverter) as StyleConvert<any>;
     } else if ((styleConverter as VisualScaleType).scale) {
       const range = (styleConverter as VisualScaleType).scale.range();
 
-      (styleConverter as VisualScaleType).scale.range(range.map(radians));
+      (styleConverter as VisualScaleType).scale.range(range.map(degreeToRadian));
 
       return styleConverter as StyleConvert<any>;
     } else if (typeof styleConverter === 'function') {
       return ((item: any, ctx: any, opt: IAttributeOpt, source?: DataView) => {
-        return radians((styleConverter as FunctionType<number>)(item, ctx, opt, source));
+        return degreeToRadian((styleConverter as FunctionType<number>)(item, ctx, opt, source));
       }) as StyleConvert<any>;
     }
 
@@ -243,7 +243,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
     const attrLevel = stateStyle[state][attr]?.level;
     if (isValid(attrLevel) && attrLevel <= level) {
-      merge(stateStyle[state][attr], { style, level });
+      mergeSpec(stateStyle[state][attr], { style, level });
     }
 
     // some attr has extension channel in VChart to make some effect

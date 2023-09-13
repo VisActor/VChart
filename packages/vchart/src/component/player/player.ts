@@ -23,14 +23,13 @@ import { transformContinuousSpecToAttrs, transformDiscreteSpecToAttrs } from './
 import { isHorizontal, isVertical } from './utils/orient';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
 
-export class Player extends BaseComponent implements IComponent {
+export class Player extends BaseComponent<IPlayer> implements IComponent {
   layoutZIndex: number = LayoutZIndex.Player;
   layoutLevel: number = LayoutLevel.Player;
 
   static type = ComponentTypeEnum.player;
   type = ComponentTypeEnum.player;
   specKey = 'player';
-  protected declare _spec: IPlayer;
   private _orient: IOrientType = 'bottom';
   private _specs: Partial<IChartSpec>[];
 
@@ -100,7 +99,7 @@ export class Player extends BaseComponent implements IComponent {
    * @param rect
    * @returns
    */
-  boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
+  _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
     this._width = this._computeWidth(rect);
     this._height = this._computeHeight(rect);
     this._dx = this._computeDx(fullSpace);

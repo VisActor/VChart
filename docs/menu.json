@@ -4,17 +4,26 @@
     "type": "markdown"
   },
   {
-    "menu": "tutorials",
+    "menu": "guide",
     "type": "markdown"
   },
   {
-    "menu": "options",
+    "menu": "option",
     "type": "markdown-template",
-    "entry": "options",
+    "entry": "option",
     "sections": [".legends", ".axes", ".series", ".total", ".extensionMark", ".customMark"]
   },
   {
     "menu": "api",
     "type": "markdown"
+  },
+  {
+    "menu": "demos",
+    "type": "demos",
+    "demos": [
+      { "title": { "zh": "图表简史", "en": "Chart History" }, "path": "chart-history/index.html" },
+      { "title": { "zh": "内置主题", "en": "Builtin Themes" }, "path": "builtin-theme/index.html" },
+      { "title": { "zh": "七夕叙事模板", "en": "Qixi Love Story" }, "path": "qixi/index.html" }
+    ]
   }
 ]

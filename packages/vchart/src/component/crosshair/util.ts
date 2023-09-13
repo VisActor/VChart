@@ -1,6 +1,13 @@
 import type { Tag } from '@visactor/vrender-components';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { Datum } from '../../typings';
+import type { Datum, IOrientType } from '../../typings';
+import type { IChart } from '../../chart/interface';
+import type { ITheme } from '../../theme';
+import type { ICrosshairTheme } from './interface';
+import { isValid, mergeSpec } from '../../util';
+import { isXAxis, isYAxis } from '../axis/cartesian/util';
+import { isDiscrete } from '@visactor/vscale';
+import type { IAxis } from '../axis';
 
 export function limitTagInBounds(shape: Tag, bounds: IBoundsLike) {
   const { x1: regionMinX, y1: regionMinY, x2: regionMaxX, y2: regionMaxY } = bounds;
@@ -57,3 +64,55 @@ export function getDatumByValue(data: Datum[], value: number, startField: string
 
   return null;
 }
+
+export const getCartesianCrosshairTheme = (theme: ITheme, chart: IChart): ICrosshairTheme => {
+  const axes = chart.getAllComponents().filter(component => component.type.includes('Axis')) as IAxis[];
+  const { bandField, linearField, xField, yField } = theme.component.crosshair ?? {};
+
+  const xAxis = axes.find(axis => isXAxis(axis.getOrient() as IOrientType));
+  let newXField;
+  if (isValid(xAxis)) {
+    newXField = mergeSpec({}, isDiscrete(xAxis.getScale().type) ? bandField : linearField, xField);
+  } else {
+    newXField = xField;
+  }
+
+  const yAxis = axes.find(axis => isYAxis(axis.getOrient() as IOrientType));
+  let newYField;
+  if (isValid(yAxis)) {
+    newYField = mergeSpec({}, isDiscrete(yAxis.getScale().type) ? bandField : linearField, yField);
+  } else {
+    newYField = yField;
+  }
+
+  return {
+    xField: newXField,
+    yField: newYField
+  };
+};
+
+export const getPolarCrosshairTheme = (theme: ITheme, chart: IChart): ICrosshairTheme => {
+  const axes = chart.getAllComponents().filter(component => component.type.includes('Axis')) as IAxis[];
+  const { bandField, linearField, categoryField, valueField } = theme.component.crosshair ?? {};
+
+  const angleAxis = axes.find(axis => axis.getOrient() === 'angle');
+  let newAngleField;
+  if (isValid(angleAxis)) {
+    newAngleField = mergeSpec({}, isDiscrete(angleAxis.getScale().type) ? bandField : linearField, categoryField);
+  } else {
+    newAngleField = categoryField;
+  }
+
+  const radiusAxis = axes.find(axis => axis.getOrient() === 'radius');
+  let newRadiusField;
+  if (isValid(radiusAxis)) {
+    newRadiusField = mergeSpec({}, isDiscrete(radiusAxis.getScale().type) ? bandField : linearField, valueField);
+  } else {
+    newRadiusField = valueField;
+  }
+
+  return {
+    categoryField: newAngleField,
+    valueField: newRadiusField
+  };
+};

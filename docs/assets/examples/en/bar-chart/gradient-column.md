@@ -12,14 +12,14 @@ option: barChart
 
 By configuring the style of the bar chart element, you can create a gradient color and rounded bar chart.
 
-## Key Configurations
+## Key option
 
 Configure the following in the `bar.style` property:
 
 - `cornerRadius` attribute to set the rounded corner size. When the attribute is a number, it represents the size of the four rounded corners; when it is an array, it represents the upper left, upper right, lower right, and lower left corner sizes.
 - Configure the gradient color in the `fill` attribute according to the gradient color settings.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

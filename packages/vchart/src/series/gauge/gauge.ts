@@ -1,8 +1,7 @@
-/* eslint-disable no-duplicate-imports */
-import { MarkTypeEnum } from '../../mark/interface';
-import { isValid, radians } from '../../util';
+import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import type { IProgressArcMark } from '../../mark/progress-arc';
@@ -13,21 +12,19 @@ import type { Maybe } from '../../typings';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
+// eslint-disable-next-line no-duplicate-imports
 import { ProgressArcMark } from '../../mark/progress-arc';
+import { gaugeSeriesMark } from './constant';
+import { degreeToRadian } from '@visactor/vutils';
 
 VChart.useMark([ProgressArcMark]);
 
-export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
+export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
   type = SeriesTypeEnum.gauge;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.segment]: { name: SeriesMarkNameEnum.segment, type: MarkTypeEnum.progressArc },
-    [SeriesMarkNameEnum.track]: { name: SeriesMarkNameEnum.track, type: MarkTypeEnum.progressArc }
-  };
+  static readonly mark: SeriesMarkMap = gaugeSeriesMark;
 
   protected declare _theme: Maybe<IGaugeSeriesTheme>;
 
@@ -39,8 +36,7 @@ export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
-
-    this._padAngle = radians(this._spec.padAngle ?? 0);
+    this._padAngle = degreeToRadian(this._spec.padAngle ?? 0);
   }
 
   initData(): void {
@@ -152,5 +148,9 @@ export class GaugeSeries extends ProgressLikeSeries<IGaugeSeriesSpec> {
         userAnimationConfig(SeriesMarkNameEnum.segment, this._spec)
       )
     );
+  }
+
+  getDefaultShapeType() {
+    return 'circle';
   }
 }

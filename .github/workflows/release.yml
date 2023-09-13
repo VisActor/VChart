@@ -36,7 +36,7 @@ jobs:
 
       - name: Parse semver version from branch name
         id: semver_parser
-        uses: xile611/read-package-version-action@v2.1
+        uses: xile611/read-package-version-action@main
         with:
           path: packages/vchart
           semver_string: ${{ github.ref_name }}
@@ -76,7 +76,7 @@ jobs:
 
       - name: Get npm version
         id: package-version
-        uses: xile611/read-package-version-action@v2.1
+        uses: xile611/read-package-version-action@main
         with:
           path: packages/vchart
 

@@ -4,8 +4,8 @@ import { isNil, isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
-import type { IOptionAggrs } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
+import type { IOptionAggr } from '../../../data/transforms/aggregation';
 import { markerAggregation } from '../../../data/transforms/aggregation';
 import { xLayout, yLayout, coordinateLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
@@ -24,7 +24,7 @@ import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant';
 import type { IRegion } from '../../../region/interface';
 
-export class MarkLine extends BaseMarker implements IMarkLine {
+export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
   type = ComponentTypeEnum.markLine;
   name: string = ComponentTypeEnum.markLine;
@@ -33,7 +33,6 @@ export class MarkLine extends BaseMarker implements IMarkLine {
 
   static speckey = 'markLine';
 
-  protected declare _spec: IMarkLineSpec & IMarkLineTheme;
   protected declare _theme: IMarkLineTheme;
 
   protected declare _markerComponent: MarkLineComponent;
@@ -169,7 +168,7 @@ export class MarkLine extends BaseMarker implements IMarkLine {
       return;
     }
 
-    let options: IOptionAggrs | IOptionRegr;
+    let options: IOptionAggr[] | IOptionRegr;
     let processData: DataView;
     let needAgggr: boolean = false;
     let needRegr: boolean = false;

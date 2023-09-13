@@ -11,7 +11,7 @@ cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/range-c
 
 Range Column Chart. Display a series of data by drawing two Y values for each data point, with each Y value being drawn as the upper and lower limits of the column.
 
-## Key Configurations
+## Key option
 
 - Set the `xField` attribute as the categorical field
 - Set the `yField` attribute as an array consisting of the minimum numeric attribute and the maximum numeric attribute

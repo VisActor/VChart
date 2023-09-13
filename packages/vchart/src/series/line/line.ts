@@ -1,9 +1,9 @@
 /* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface';
+import { SeriesMarkNameEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../interface';
-import { LineLikeSeriesMixin, lineLikeSeriesMarkMap } from '../mixin/line-mixin';
+import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
 import type { Datum, Maybe } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -11,15 +11,15 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
+import { lineSeriesMark } from './constant';
 
 VChart.useMark([LineMark, SymbolMark, TextMark]);
 
-export interface LineSeries
+export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
       LineLikeSeriesMixin,
       | 'initLineMark'
@@ -30,18 +30,17 @@ export interface LineSeries
       | '_lineMark'
       | '_symbolMark'
     >,
-    CartesianSeries<ILineSeriesSpec> {}
+    CartesianSeries<T> {}
 
-export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
+export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.line;
   type = SeriesTypeEnum.line;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    ...lineLikeSeriesMarkMap
-  };
+  static readonly mark: SeriesMarkMap = lineSeriesMark;
 
   protected declare _theme: Maybe<ILineSeriesTheme>;
+
+  protected _sortDataByAxis: boolean = false;
 
   initMark(): void {
     const progressive = {
@@ -86,6 +85,10 @@ export class LineSeries extends CartesianSeries<ILineSeriesSpec> {
       }
       return this._seriesMark?.getAttribute(attribute as any, datum) ?? null;
     };
+  }
+
+  getDefaultShapeType() {
+    return 'circle';
   }
 }
 

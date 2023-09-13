@@ -12,7 +12,7 @@ option: areaChart
 
 Area plots display quantitative data graphically. It is based on line plots. Regions between axes and lines are usually emphasized with colors, textures and shaded lines. Usually, an area plot compares two or more quantities. Area plots are suitable for trend changes and comparisons between one or more sets of data that want to be reflected under continuous independent variables, while also observing the trend of changes in the total amount of data.
 
-## critical configuration
+## Key option
 
 - `type: area` Property declared as area map
 - `xField` Property declared as category field or timing field
@@ -20,7 +20,7 @@ Area plots display quantitative data graphically. It is based on line plots. Reg
 - `stack`Property declared as whether to stack
 - `markLine` Properties are declared as guides for data tags, `markLine.coordinates` Used to specify data coordinates
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const markLineStyle = {

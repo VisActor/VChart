@@ -11,7 +11,7 @@ import type { IHair } from './base';
 import { BaseCrossHair } from './base';
 import type { IGroup, INode } from '@visactor/vrender';
 import { getDatumByValue, limitTagInBounds } from './util';
-import { getAxisLabelOffset } from '../axis/utils';
+import { getAxisLabelOffset } from '../axis/util';
 import type { IAxis } from '../axis/interface';
 import type { IOrientType, StringOrNumber } from '../../typings';
 import { isXAxis } from '../axis/cartesian/util';
@@ -52,7 +52,7 @@ enum LayoutType {
 type IBound = { x1: number; y1: number; x2: number; y2: number };
 type IAxisInfo = Map<number, IBound & { axis: IAxis }>;
 
-export class CartesianCrossHair extends BaseCrossHair {
+export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCrosshairSpec> extends BaseCrossHair<T> {
   static type = ComponentTypeEnum.cartesianCrosshair;
   type = ComponentTypeEnum.cartesianCrosshair;
   name: string = ComponentTypeEnum.cartesianCrosshair;
@@ -93,7 +93,7 @@ export class CartesianCrossHair extends BaseCrossHair {
     return components;
   }
 
-  constructor(spec: ICartesianCrosshairSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, {
       ...options
     });
@@ -105,7 +105,7 @@ export class CartesianCrossHair extends BaseCrossHair {
     if (!this.showDefault) {
       return;
     }
-    const { xField = {}, yField = {} } = this._spec;
+    const { xField = {}, yField = {} } = this._spec as any; // FIXME: spec 类型需要补全
     if (xField?.visible && xField.defaultSelect) {
       const { axisIndex, datum } = xField.defaultSelect;
       this.defaultCrosshair(axisIndex, datum, LayoutType.VERTICAL, true);
@@ -167,7 +167,7 @@ export class CartesianCrossHair extends BaseCrossHair {
    * set axis value of crosshair
    */
   setAxisValue(v: StringOrNumber, axis: IAxis) {
-    if (isXAxis(axis.orient as unknown as IOrientType)) {
+    if (isXAxis(axis.getOrient() as unknown as IOrientType)) {
       this.currValueX.set(axis.getSpecIndex(), {
         v,
         axis
@@ -230,7 +230,7 @@ export class CartesianCrossHair extends BaseCrossHair {
         return;
       }
       // 隐藏
-      this._hide();
+      this.hide();
       return;
     }
     // 删除之前的currValue
@@ -243,7 +243,7 @@ export class CartesianCrossHair extends BaseCrossHair {
     this.layoutByValue(LayoutType.ALL);
   }
 
-  protected _hide() {
+  hide() {
     // 隐藏
     this._xCrosshair && this._xCrosshair.hideAll();
     this._xTopLabel && this._xTopLabel.hideAll();
@@ -340,12 +340,12 @@ export class CartesianCrossHair extends BaseCrossHair {
         }
         if (this.xHair.label?.visible) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());
-          if (axis.orient === 'bottom') {
+          if (axis.getOrient() === 'bottom') {
             xCrossHairInfo.bottom.visible = true;
             xCrossHairInfo.bottom.text = v;
             xCrossHairInfo.bottom.dx = 0;
             xCrossHairInfo.bottom.dy = labelOffset;
-          } else if (axis.orient === 'top') {
+          } else if (axis.getOrient() === 'top') {
             xCrossHairInfo.top.visible = true;
             xCrossHairInfo.top.text = v;
             xCrossHairInfo.top.dx = 0;
@@ -379,12 +379,12 @@ export class CartesianCrossHair extends BaseCrossHair {
         }
         if (this.yHair.label?.visible) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());
-          if (axis.orient === 'left') {
+          if (axis.getOrient() === 'left') {
             yCrossHairInfo.left.visible = true;
             yCrossHairInfo.left.text = v;
             yCrossHairInfo.left.dx = -labelOffset;
             yCrossHairInfo.left.dy = 0;
-          } else if (axis.orient === 'right') {
+          } else if (axis.getOrient() === 'right') {
             yCrossHairInfo.right.visible = true;
             yCrossHairInfo.right.text = v;
             yCrossHairInfo.right.dx = labelOffset;
@@ -610,7 +610,7 @@ export class CartesianCrossHair extends BaseCrossHair {
         crosshair = new LineCrosshair({
           ...attributes,
           lineStyle: style,
-          zIndex: this.gridZIndex
+          zIndex: this.gridZIndex + 1 // 样式优化：线盖在面上
         });
       } else if (type === 'rect') {
         crosshair = new RectCrosshair({

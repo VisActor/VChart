@@ -1,6 +1,6 @@
 import type { Maybe } from '@visactor/vutils';
 import type { FontWeight, TextAlign } from '../../../../typings';
-import { isValid, merge, isArray } from '../../../../util';
+import { isValid, mergeSpec, isArray } from '../../../../util';
 import type { ITooltipTheme } from '../../interface';
 import type { ITooltipTextStyle, ITooltipStyle } from '../interface';
 import type { ILabelStyle, IMargin, IShapeStyle, IDomTooltipStyle } from './interface';
@@ -20,7 +20,10 @@ export const getPixelPropertyStr = (num?: number | number[], defaultStr?: string
   return defaultStr ?? 'initial';
 };
 
-export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<TooltipAttributes>): IDomTooltipStyle {
+export function getDomStyles(
+  style: Partial<ITooltipStyle>,
+  attributeCache?: Maybe<TooltipAttributes>
+): IDomTooltipStyle {
   const {
     panel: {
       fill: fillColor,
@@ -70,7 +73,7 @@ export function getDomStyles(style: ITooltipStyle, attributeCache?: Maybe<Toolti
       transitionProperty: transitionDuration ? 'transform' : 'initial',
       transitionTimingFunction: transitionDuration ? 'ease-out' : 'initial'
     },
-    title: getLabelStyle(merge({}, title, attributeCache?.title?.value)),
+    title: getLabelStyle(mergeSpec({}, title, attributeCache?.title?.value)),
     content: {},
     shapeColumn: {
       common: shapeStyle,
@@ -137,7 +140,7 @@ function getLabelStyle(
     multiLine,
     wordBreak,
     maxWidth
-  } = merge({}, defaultStyle, labelStyle) as ITooltipTextStyle;
+  } = mergeSpec({}, defaultStyle, labelStyle) as ITooltipTextStyle;
   const styleObj: ILabelStyle = {};
 
   styleObj.fontFamily = labelFont;
@@ -159,7 +162,7 @@ function getShapeStyle(
   if (!shapeStyle) {
     return undefined;
   }
-  const { size } = merge({}, defaultStyle, shapeStyle);
+  const { size } = mergeSpec({}, defaultStyle, shapeStyle);
   const styleObj: IShapeStyle = {};
 
   styleObj.width = getPixelPropertyStr(size);

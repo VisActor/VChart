@@ -1,5 +1,5 @@
-import type { utilFunctionCtx } from './../typings/params';
-import { warn } from './../util/debug';
+import type { utilFunctionCtx } from '../typings/params';
+import { warn } from '../util/debug';
 import { isString } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, DataView } from '@visactor/vdataset';

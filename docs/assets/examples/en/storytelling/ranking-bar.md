@@ -10,7 +10,7 @@ option: barChart
 
 # Dynamic Bar Chart
 
-## Key Configurations
+## Key option
 
 - The `player` attribute configures the player data and logic
   - The `player.specs` attribute configures the data spec for all playback timelines
@@ -19,7 +19,7 @@ option: barChart
   - Use `options.excludeChannels` to exclude the `x` and `y` position attributes
   - Configure a shorter animation duration for `x` and `y` through the `channel` method
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const goldenMedals = {
@@ -96,13 +96,36 @@ const goldenMedals = {
     { country: 'Italy', value: 10 }
   ]
 };
+// const colors = {
+//   '中国': '#d62728', '美国': '#1664FF', '俄罗斯': '#B2CFFF', '英国': '#1AC6FF', '澳大利亚': '#94EFFF', '日本': '#FF8A00', '古巴': '#FFCE7A', '德国': '#3CC780', '法国': '#B9EDCD', '意大利': '#7442D4', '韩国': '#DDC5FA', '俄罗斯奥林匹克委员会': '#B2CFFF', '荷兰': '#FFC400', '匈牙利': '#FAE878'
+// }
+const colors = {
+  China: '#d62728',
+  USA: '#1664FF',
+  Russia: '#B2CFFF',
+  'U.K.': '#1AC6FF',
+  Australia: '#94EFFF',
+  Japan: '#FF8A00',
+  Cuba: '#FFCE7A',
+  Germany: '#3CC780',
+  France: '#B9EDCD',
+  Italy: '#7442D4',
+  'South Korea': '#DDC5FA',
+  'Russian Olympic Committee': '#B2CFFF',
+  Netherlands: '#FFC400',
+  Hungary: '#FAE878'
+};
 
 const dataSpecs = Object.keys(goldenMedals).map(year => {
   return {
     data: [
       {
         id: 'id',
-        values: goldenMedals[year].sort((a, b) => b.value - a.value)
+        values: goldenMedals[year]
+          .sort((a, b) => b.value - a.value)
+          .map(v => {
+            return { ...v, fill: colors[v.country] };
+          })
       },
       {
         id: 'year',
@@ -124,6 +147,11 @@ const spec = {
   yField: 'country',
   xField: 'value',
   seriesField: 'country',
+  bar: {
+    style: {
+      fill: datum => datum.fill
+    }
+  },
   axes: [
     {
       animation: true,

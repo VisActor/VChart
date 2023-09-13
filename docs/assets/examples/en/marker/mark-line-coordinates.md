@@ -12,7 +12,7 @@ option: lineChart#markLine
 
 markLine highlights line chart data by data point positioning
 
-## Key Configurations
+## Key option
 
 Data point positioning:
 

@@ -1,7 +1,8 @@
 import type { BaseLabelAttrs } from '@visactor/vrender-components';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings';
+import type { IComponentSpec } from '../base/interface';
 
-export interface ILabelSpec {
+export interface ILabelSpec extends IComponentSpec {
   /** 默认不显示标签 */
   visible?: boolean;
   /** 是否支持交互。@default false */
@@ -36,6 +37,12 @@ export interface ILabelSpec {
    * @since 1.3.0
    */
   customOverlapFunc?: BaseLabelAttrs['customOverlapFunc'];
+  /** 标签布局 */
+  labelLayout?: 'series' | 'region';
+  /** 中心点偏移距离 */
+  centerOffset?: number;
+  /** 是否支持3D */
+  support3d?: boolean;
 }
 
 type LabelStateStyle<T> = {

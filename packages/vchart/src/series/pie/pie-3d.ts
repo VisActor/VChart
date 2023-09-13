@@ -11,34 +11,29 @@ import {
   DEFAULT_LABEL_VISIBLE
 } from '../../constant';
 import type { Datum } from '../../typings';
-import { degrees, field } from '../../util';
+import { field } from '../../util';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IArcSeries, SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
-import { SeriesMarkNameEnum } from '../interface';
-import { SeriesTypeEnum } from '../interface/type';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPie3dSeriesSpec } from './interface';
-import { BaseSeries } from '../base/base-series';
 import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { TextMark } from '../../mark/text';
 import { Arc3dMark } from '../../mark/arc-3d';
 import { BasePieSeries } from './pie';
+import { pie3dSeriesMark } from './constant';
+import { radianToDegree } from '@visactor/vutils';
 
 VChart.useMark([PathMark, TextMark, Arc3dMark]);
 
-export class Pie3dSeries extends BasePieSeries<IPie3dSeriesSpec> implements IArcSeries {
+export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
   static readonly type: string = SeriesTypeEnum.pie3d;
   type = SeriesTypeEnum.pie3d;
   protected _pieMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.pie3d;
   protected _pieMarkType: MarkTypeEnum = MarkTypeEnum.arc3d;
 
-  static readonly mark: SeriesMarkMap = {
-    ...BaseSeries.mark,
-    [SeriesMarkNameEnum.pie3d]: { name: SeriesMarkNameEnum.pie3d, type: MarkTypeEnum.arc3d },
-    [SeriesMarkNameEnum.labelLine]: { name: SeriesMarkNameEnum.labelLine, type: MarkTypeEnum.path }
-  };
+  static readonly mark: SeriesMarkMap = pie3dSeriesMark;
 
   protected _angle3d: number;
 
@@ -111,7 +106,7 @@ export class Pie3dSeries extends BasePieSeries<IPie3dSeriesSpec> implements IArc
           textBaseline: this._spec.label?.position === 'inside' ? 'middle' : 'top',
           angle: (datum: Datum) => {
             const angle = datum[ARC_MIDDLE_ANGLE];
-            return this._spec.label?.position === 'inside' ? degrees(angle) : 0;
+            return this._spec.label?.position === 'inside' ? radianToDegree(angle) : 0;
           },
           limit: field(DEFAULT_LABEL_LIMIT).bind(this),
           ...params3d

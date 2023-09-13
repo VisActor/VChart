@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(log-axis): log scale has no result about zero when bar stack has a zero baseline value. fix #634",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

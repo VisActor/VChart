@@ -12,14 +12,14 @@ option: rangeColumnChart
 
 Range Column Chart. It displays a series of data by drawing two X values for each data point, each X value being drawn as the upper and lower limits of the bar.
 
-## Key configurations
+## Key option
 
 - Set the `direction` property to 'horizontal'
 - Configure the `xField` property as an array of the minimum value numeric property and the maximum value numeric property
 - Declare the `yField` property as the categorical field
 - `label.position` can be set to `middle`, `start`, `end`, or `bothEnd`, which represent label positions in the middle, at the start, at the end, and at both ends, respectively. Default is `middle`
 
-## Code demonstration
+## Demo source
 
 ```javascript livedemo
 const spec = {

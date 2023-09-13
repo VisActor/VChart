@@ -1,14 +1,14 @@
 import type { LogScale } from '@visactor/vscale';
+// eslint-disable-next-line no-duplicate-imports
 import { LinearScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
 import { isValid } from '../../../util';
-import type { IAxisHelper } from './interface';
+import type { IAxisHelper, ICartesianLinearAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface';
-import { getLinearAxisSpecDomain } from '../utils';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { mixin } from '@visactor/vutils';
 
-export interface CartesianLinearAxis
+export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec>
   extends Pick<
       LinearAxisMixin,
       | 'setExtraAttrFromSpec'
@@ -20,9 +20,11 @@ export interface CartesianLinearAxis
       | 'transformScaleDomain'
       | 'setExtendDomain'
     >,
-    CartesianAxis {}
+    CartesianAxis<T> {}
 
-export class CartesianLinearAxis extends CartesianAxis {
+export class CartesianLinearAxis<
+  T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec
+> extends CartesianAxis<T> {
   static type = ComponentTypeEnum.cartesianLinearAxis;
   type = ComponentTypeEnum.cartesianLinearAxis;
 
@@ -36,7 +38,6 @@ export class CartesianLinearAxis extends CartesianAxis {
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
     this.setExtraAttrFromSpec();
-    this._domain = getLinearAxisSpecDomain(this._spec);
   }
 
   /**

@@ -19,27 +19,19 @@ option: mapChart
 - `map: china` specifies the name of the registered map data.
 - `nameMap` is the mapping relationship between the geographic names in the map data and the names in the data, which is used when the names in the map data and the data are inconsistent.
 
-## Code Demonstration
+## Demo source
 
 ```javascript livedemo
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/geojson/usa.json');
+const geojson = await response.json();
+VChart.registerMap('usa', geojson);
+
 const spec = {
   type: 'map',
-  map: 'china',
-  nameField: 'name',
-  valueField: 'value',
-  legends: [
-    {
-      visible: true,
-      type: 'size',
-      field: 'value',
-      orient: 'bottom',
-      position: 'start',
-      title: {
-        visible: true,
-        text: 'Population'
-      }
-    }
-  ],
+  title: {
+    text: 'USA Population Estimates (2012)',
+    subtext: 'Data from www.census.gov'
+  },
   color: {
     type: 'linear',
     range: ['rgb(252,250,97)', 'rgb(252,150,134)', 'rgb(87,33,15)']
@@ -55,189 +47,93 @@ const spec = {
   },
   data: [
     {
-      name: 'data',
       values: [
-        {
-          name: '北京',
-          value: 21893095
-        },
-        {
-          name: '天津',
-          value: 13866009
-        },
-        {
-          name: '河北',
-          value: 74610235
-        },
-        {
-          name: '山西',
-          value: 34915616
-        },
-        {
-          name: '内蒙古',
-          value: 24049155
-        },
-        {
-          name: '辽宁',
-          value: 42591407
-        },
-        {
-          name: '吉林',
-          value: 24073453
-        },
-        {
-          name: '黑龙江',
-          value: 31850088
-        },
-        {
-          name: '上海',
-          value: 24870895
-        },
-        {
-          name: '江苏',
-          value: 84748016
-        },
-        {
-          name: '浙江',
-          value: 64567588
-        },
-        {
-          name: '安徽',
-          value: 61027171
-        },
-        {
-          name: '福建',
-          value: 41540086
-        },
-        {
-          name: '江西',
-          value: 45188635
-        },
-        {
-          name: '山东',
-          value: 101527453
-        },
-        {
-          name: '河南',
-          value: 99365519
-        },
-        {
-          name: '湖北',
-          value: 57752557
-        },
-        {
-          name: '湖南',
-          value: 66444864
-        },
-        {
-          name: '广东',
-          value: 126012510
-        },
-        {
-          name: '广西',
-          value: 50126804
-        },
-        {
-          name: '海南',
-          value: 10081232
-        },
-        {
-          name: '重庆',
-          value: 32054159
-        },
-        {
-          name: '四川',
-          value: 83674866
-        },
-        {
-          name: '贵州',
-          value: 38562148
-        },
-        {
-          name: '云南',
-          value: 47209277
-        },
-        {
-          name: '西藏',
-          value: 3648100
-        },
-        {
-          name: '陕西',
-          value: 39528999
-        },
-        {
-          name: '甘肃',
-          value: 25019831
-        },
-        {
-          name: '青海',
-          value: 5923957
-        },
-        {
-          name: '宁夏',
-          value: 7202654
-        },
-        {
-          name: '新疆',
-          value: 25852345
-        },
-        {
-          name: '中国香港',
-          value: 7474200
-        },
-        {
-          name: '澳门',
-          value: 683218
-        },
-        {
-          name: '中国台湾',
-          value: 23561236
-        }
+        { name: 'Alabama', value: 4822023 },
+        { name: 'Alaska', value: 731449 },
+        { name: 'Arizona', value: 6553255 },
+        { name: 'Arkansas', value: 2949131 },
+        { name: 'California', value: 38041430 },
+        { name: 'Colorado', value: 5187582 },
+        { name: 'Connecticut', value: 3590347 },
+        { name: 'Delaware', value: 917092 },
+        { name: 'District of Columbia', value: 632323 },
+        { name: 'Florida', value: 19317568 },
+        { name: 'Georgia', value: 9919945 },
+        { name: 'Hawaii', value: 1392313 },
+        { name: 'Idaho', value: 1595728 },
+        { name: 'Illinois', value: 12875255 },
+        { name: 'Indiana', value: 6537334 },
+        { name: 'Iowa', value: 3074186 },
+        { name: 'Kansas', value: 2885905 },
+        { name: 'Kentucky', value: 4380415 },
+        { name: 'Louisiana', value: 4601893 },
+        { name: 'Maine', value: 1329192 },
+        { name: 'Maryland', value: 5884563 },
+        { name: 'Massachusetts', value: 6646144 },
+        { name: 'Michigan', value: 9883360 },
+        { name: 'Minnesota', value: 5379139 },
+        { name: 'Mississippi', value: 2984926 },
+        { name: 'Missouri', value: 6021988 },
+        { name: 'Montana', value: 1005141 },
+        { name: 'Nebraska', value: 1855525 },
+        { name: 'Nevada', value: 2758931 },
+        { name: 'New Hampshire', value: 1320718 },
+        { name: 'New Jersey', value: 8864590 },
+        { name: 'New Mexico', value: 2085538 },
+        { name: 'New York', value: 19570261 },
+        { name: 'North Carolina', value: 9752073 },
+        { name: 'North Dakota', value: 699628 },
+        { name: 'Ohio', value: 11544225 },
+        { name: 'Oklahoma', value: 3814820 },
+        { name: 'Oregon', value: 3899353 },
+        { name: 'Pennsylvania', value: 12763536 },
+        { name: 'Rhode Island', value: 1050292 },
+        { name: 'South Carolina', value: 4723723 },
+        { name: 'South Dakota', value: 833354 },
+        { name: 'Tennessee', value: 6456243 },
+        { name: 'Texas', value: 26059203 },
+        { name: 'Utah', value: 2855287 },
+        { name: 'Vermont', value: 626011 },
+        { name: 'Virginia', value: 8185867 },
+        { name: 'Washington', value: 6897012 },
+        { name: 'West Virginia', value: 1855413 },
+        { name: 'Wisconsin', value: 5726398 },
+        { name: 'Wyoming', value: 576412 }
       ]
     }
   ],
-  nameMap: {
-    广东省: '广东',
-    江苏省: '江苏',
-    山东省: '山东',
-    河南省: '河南',
-    河北省: '河北',
-    浙江省: '浙江',
-    四川省: '四川',
-    安徽省: '安徽',
-    辽宁省: '辽宁',
-    陕西省: '陕西',
-    山西省: '山西',
-    湖北省: '湖北',
-    北京市: '北京',
-    湖南省: '湖南',
-    黑龙江省: '黑龙江',
-    福建省: '福建',
-    内蒙古自治区: '内蒙古',
-    云南省: '云南',
-    江西省: '江西',
-    重庆市: '重庆',
-    上海市: '上海',
-    贵州省: '贵州',
-    吉林省: '吉林',
-    天津市: '天津',
-    广西壮族自治区: '广西',
-    甘肃省: '甘肃',
-    新疆维吾尔自治区: '新疆',
-    宁夏回族自治区: '宁夏',
-    海南省: '海南',
-    青海省: '青海',
-    西藏自治区: '西藏',
-    香港特别行政区: '中国香港',
-    台湾省: '中国台湾',
-    澳门特别行政区: '澳门'
-  }
+  nameField: 'name',
+  valueField: 'value',
+  nameProperty: 'name',
+  map: 'usa',
+  region: [
+    {
+      roam: true,
+      projection: {
+        type: 'albersUsa'
+      }
+    }
+  ],
+  legends: [
+    {
+      visible: true,
+      type: 'color',
+      field: 'value',
+      orient: 'bottom',
+      position: 'start',
+      title: {
+        visible: true,
+        text: 'Population'
+      }
+    }
+  ]
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-if (VChart.getMap('china')) {
-  vchart.renderAsync();
-}
+vchart.renderAsync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
 ```
 
 ## Related Tutorials

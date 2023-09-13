@@ -1,10 +1,9 @@
 import type { Maybe } from '@visactor/vutils';
-// eslint-disable-next-line no-duplicate-imports
-import { merge } from '@visactor/vutils';
 import { defaultH2Style } from './style-constants';
 import { BaseTooltipModel } from './base-tooltip-model';
 import { ShapeModel } from './shape-model';
 import { TextModel } from './text-model';
+import { mergeSpec } from '../../../../../util';
 
 export class TitleModel extends BaseTooltipModel {
   shape: Maybe<ShapeModel>;
@@ -59,7 +58,7 @@ export class TitleModel extends BaseTooltipModel {
     const tooltipActual = this._option.getTooltipActual();
 
     const { title } = tooltipActual;
-    super.setStyle(merge({}, defaultH2Style, tooltipStyle.title, style));
+    super.setStyle(mergeSpec({}, defaultH2Style, tooltipStyle.title, style));
 
     this.shape?.setStyle(
       {

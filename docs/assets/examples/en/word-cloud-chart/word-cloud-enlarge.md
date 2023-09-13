@@ -12,13 +12,13 @@ option: wordCloudChart
 
 Enlarge the font size to fit the canvas width and height when there are fewer words.
 
-## Key configurations
+## Key option
 
 - The `nameField` property is set as the text field
 - The `valueField` property is set as the font size field
 - The `wordCloudConfig.zoomToFit` property is set for the adaptive scaling configuration of the word cloud; `enlarge`: when enabled, the font size will be enlarged to fit the canvas width and height when there are fewer words, and you can set the maximum font size with `fontSizeLimitMax`, which will be defaulted to fill the canvas
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

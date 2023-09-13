@@ -12,7 +12,7 @@ option: barChart#tooltip
 
 The default tooltip supports custom configuration in style, content, and location.
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const data = [

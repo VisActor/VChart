@@ -10,14 +10,14 @@ option: areaChart
 
 # Area chart style
 
-## critical configuration
+## Key option
 
 - `type: area` Property declared as area map
 - `xField` Property declared as category field or timing field
 - `yField` Property declared as numeric field
 - `area.style` Style star with property declared as area primitive
 
-## Code demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

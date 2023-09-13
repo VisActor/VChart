@@ -10,12 +10,12 @@ option: roseChart#crosshair
 
 # Rose Chart Crosshair
 
-## Key Configurations
+## Key option
 
 - `crosshair.categoryField` configures the crosshair of dimension data, generally for the angle axis, and the angle axis line supports 'line' and 'rect' shapes
 - `crosshair.valueField` configures the crosshair of metric data, generally for the radius axis, and line only supports 'line'
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const data = [

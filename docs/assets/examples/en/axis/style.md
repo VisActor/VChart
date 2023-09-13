@@ -12,7 +12,7 @@ option: lineChart#axes
 
 In this example, we configure the axis style through the configuration options provided by `axes`, and we can draw multiple axes by configuring them.
 
-## Key Configurations
+## Key option
 
 For the axes of the Cartesian coordinate system, we provide configurations for the `left`, `right`, `top`, and `bottom` directions, with the default Y-axis displayed on the left and the X-axis displayed at the bottom. We can control the axis display on different directions by adding corresponding direction configurations to the `axes` property, such as `{orient: 'top'}`.
 
@@ -24,7 +24,7 @@ For axis style configuration, configure through:
 - `grid` Coordinate axis grid line configuration
 - `title` Coordinate axis title configuration
 
-## Code Demo
+## Demo source
 
 ```javascript livedemo
 const spec = {

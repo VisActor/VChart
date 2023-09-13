@@ -4,7 +4,7 @@ import type { IProgressArcMarkSpec } from '../../../typings/visual';
 import type { ProgressLikeAppearPreset } from '../../polar/progress-like/animation';
 import type { IProgressSeriesSpec } from '../interface';
 import type { IProgressLikeSeriesSpec, IProgressLikeSeriesTheme } from '../../polar/progress-like/interface';
-import type { SeriesMarkNameEnum } from '../../interface';
+import type { SeriesMarkNameEnum } from '../../interface/type';
 
 export type CircularProgressMarks = 'progress' | 'track';
 

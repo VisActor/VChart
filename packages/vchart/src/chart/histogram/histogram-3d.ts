@@ -1,8 +1,8 @@
+import { Bar3dSeries } from '../../series/bar/bar-3d';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BaseHistogramChart } from './base';
 import { VChart } from '../../core/vchart';
-import { Bar3dSeries } from '../../series';
 VChart.useSeries([Bar3dSeries]);
 
 export class Histogram3dChart extends BaseHistogramChart {
