@@ -101,7 +101,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     onZoomChange: () => {
       if (this._relatedAxisComponent && this._filterMode === 'axis') {
         const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
-        (scale as any).rangeFactor([this._start, this._end]);
+        (scale as any).rangeFactor(
+          this._isHorizontal || scale.type === 'band' ? [this._start, this._end] : [1 - this._end, 1 - this._start]
+        );
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
         eachSeries(
