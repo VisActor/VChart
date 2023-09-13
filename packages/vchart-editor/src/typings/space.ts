@@ -21,3 +21,12 @@ export interface ILayoutGuideLine {
   direction: DirectionType;
   pos: number;
 }
+
+export interface ILayoutAttribute {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  angle: number;
+  anchor: [number | string, number | string];
+}

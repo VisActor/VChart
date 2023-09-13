@@ -16,11 +16,17 @@ export class EditorChart extends BaseElement {
   protected _data: IData;
   protected _specProcess: ISpecProcess;
   protected _layout: IChartLayout;
+  get layout() {
+    return this._layout;
+  }
 
   protected declare _opt: IChartElementOption;
   protected _container: HTMLElement;
 
   protected _vchart: IChart;
+  get vchart() {
+    return this._vchart;
+  }
 
   constructor(opt: IChartElementOption) {
     super(opt);
@@ -74,7 +80,7 @@ export class EditorChart extends BaseElement {
     }
   };
 
-  clear() {
+  release() {
     this._vchart.release();
 
     this._data.clear();

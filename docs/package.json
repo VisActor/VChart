@@ -13,7 +13,7 @@
     "@visactor/vchart": "workspace:1.3.0-beta.9",
     "@visactor/vutils": "~0.15.9",
     "@visactor/vgrammar": "~0.6.5",
-    "@visactor/vrender": "~0.14.7",
+    "@visactor/vrender": "~0.15.1",
     "markdown-it": "^13.0.0",
     "highlight.js": "^11.8.0",
     "axios": "^1.4.0",

@@ -2,7 +2,10 @@ import { DefaultLayout } from './default-layout';
 import type { ISpecProcess } from '../spec-process/interface';
 import type { ILayoutData, IChartLayout, LayoutMeta } from './interface';
 import type { IRect, ILayoutItem, IChart } from '@visactor/vchart';
-import type { IBoundsLike } from '@visactor/vutils';
+import { merge, type IBoundsLike } from '@visactor/vutils';
+import type { IPoint } from '../../../typings/space';
+import { LayoutRectToRect, isPointInRect } from '../../../utils/space';
+import { transformModelPos } from '../utils/layout';
 
 export class ChartLayout implements IChartLayout {
   protected _layoutData: ILayoutData = null;
@@ -57,6 +60,9 @@ export class ChartLayout implements IChartLayout {
     const chart = this._vchart.getChart();
     const items = chart.getAllRegions().concat(chart.getAllComponents());
     items.forEach((item: any) => {
+      if (item.type === 'tooltip' || item.type === 'crosshair') {
+        return;
+      }
       layoutData.push({
         id: item.userId,
         layout: {
@@ -77,21 +83,26 @@ export class ChartLayout implements IChartLayout {
       if (!data) {
         return;
       }
-      i.setLayoutRect({
-        x: data.layout.x.offset,
-        y: data.layout.y.offset,
-        width: data.layout.width.offset,
-        height: data.layout.height.offset
-      });
+      const rect = LayoutRectToRect(data.layout);
+      i.computeBoundsInRect(rect);
+      i.setLayoutRect(rect);
       const pos = { x: data.layout.x.offset, y: data.layout.y.offset };
-      if (i.type.startsWith('cartesianAxis')) {
-        if (i.layoutOrient === 'left') {
-          pos.x -= data.layout.width.offset;
-        } else if (i.layoutOrient === 'top') {
-          pos.y -= data.layout.height.offset;
-        }
-      }
+      transformModelPos(i, pos);
       i.setLayoutStartPosition(pos);
     });
+  }
+
+  getOverModel(pos: IPoint) {
+    return this._layoutData.data.find(d => isPointInRect(pos, LayoutRectToRect(d.layout)));
+  }
+  setModelLayoutData(d: LayoutMeta) {
+    if (!this._layoutData?.data) {
+      return;
+    }
+    const meta = this._layoutData.data.find(_d => _d.id === d.id);
+    if (!meta) {
+      this._layoutData.data.push(meta);
+    }
+    merge(meta, d);
   }
 }
