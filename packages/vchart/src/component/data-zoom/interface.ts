@@ -47,14 +47,6 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
    * 配置优先级：index > id
    */
   regionIndex?: number | number[];
-
-  /**
-   * 数据过滤模式
-   * @default 'filter' （dataZoom默认数据过滤模式）
-   * @default 'axis' (scrollBar默认视口裁剪模式)
-   * 详细可参考：https://echarts.apache.org/zh/option.html#dataZoom-slider.filterMode）
-   */
-  filterMode?: IFilterMode;
   /**
    * 起点配置（比例）：范围[0, 1]
    * @default 0
