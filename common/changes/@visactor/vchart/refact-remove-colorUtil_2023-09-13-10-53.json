@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: remove the usage of ColorUtil",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
