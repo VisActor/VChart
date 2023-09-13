@@ -44,11 +44,16 @@ export class VChartEditor {
     if (!this._container) {
       this._container.style.position = 'relative';
     }
-    this._editorController = new EditorController(this._container, () => {
-      if (this._event.triggerLayer) {
-        return this._event.triggerLayer;
+    this._editorController = new EditorController(this._container, {
+      getTopLayer: () => {
+        if (this._event.triggerLayer) {
+          return this._event.triggerLayer;
+        }
+        return this._layers[0];
+      },
+      saveData: () => {
+        this._option.data?.save?.();
       }
-      return this._layers[0];
     });
     this.initEvent();
   }
