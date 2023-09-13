@@ -3,7 +3,7 @@ import type { FontWeight, TextAlign } from '../../../../typings';
 import { isValid, mergeSpec, isArray } from '../../../../util';
 import type { ITooltipTheme } from '../../interface';
 import type { ITooltipTextStyle, ITooltipStyle } from '../interface';
-import type { ILabelStyle, IMargin, IShapeStyle, IDomTooltipStyle } from './interface';
+import type { ILabelStyle, IShapeStyle, IDomTooltipStyle } from './interface';
 import type { TooltipAttributes } from '@visactor/vrender-components';
 
 const DEFAULT_SHAPE_SPACING = 8;
@@ -43,9 +43,16 @@ export function getDomStyles(
     title,
     shape,
     enterable,
-    spaceRow,
     transitionDuration
   } = style;
+
+  const {
+    panel: panelAttribute,
+    title: titleAttribute,
+    content: contentAttribute,
+    keyWidth,
+    valueWidth
+  } = attributeCache ?? {};
 
   const backgroundColor = fillColor as string;
 
@@ -53,15 +60,15 @@ export function getDomStyles(
   const keyStyle = getLabelStyle(key);
   const valueStyle = getLabelStyle(value);
 
-  const styles = {
+  const styles: IDomTooltipStyle = {
     panel: {
-      width: getPixelPropertyStr((attributeCache?.panel?.width ?? 0) + lineWidth * 2),
-      minHeight: getPixelPropertyStr((attributeCache?.panel?.height ?? 0) + lineWidth * 2),
+      width: getPixelPropertyStr((panelAttribute?.width ?? 0) + lineWidth * 2),
+      minHeight: getPixelPropertyStr((panelAttribute?.height ?? 0) + lineWidth * 2),
       paddingBottom: getPixelPropertyStr(padding.bottom),
       paddingLeft: getPixelPropertyStr(padding.left),
       paddingRight: getPixelPropertyStr(padding.right),
       paddingTop: getPixelPropertyStr(padding.top),
-      borderColor: strokeColor,
+      borderColor: strokeColor as string,
       borderWidth: getPixelPropertyStr(lineWidth),
       borderRadius: getPixelPropertyStr(cornerRadius),
       backgroundColor: backgroundColor ? `${backgroundColor}` : 'transparent',
@@ -73,53 +80,50 @@ export function getDomStyles(
       transitionProperty: transitionDuration ? 'transform' : 'initial',
       transitionTimingFunction: transitionDuration ? 'ease-out' : 'initial'
     },
-    title: getLabelStyle(mergeSpec({}, title, attributeCache?.title?.value)),
+    title: {
+      marginTop: '0px',
+      marginBottom: contentAttribute?.length ? getPixelPropertyStr(titleAttribute?.spaceRow) : '0px',
+      ...getLabelStyle(mergeSpec({}, title, titleAttribute?.value))
+    },
     content: {},
     shapeColumn: {
       common: shapeStyle,
       items: [],
       width: getPixelPropertyStr(shape.size),
-      marginRight: getPixelPropertyStr(shape.spacing ?? DEFAULT_SHAPE_SPACING)
+      marginRight: getPixelPropertyStr(shape.spacing ?? DEFAULT_SHAPE_SPACING),
+      marginBottom: getPixelPropertyStr(-(contentAttribute?.[contentAttribute?.length - 1]?.spaceRow ?? 0))
     },
     keyColumn: {
       common: keyStyle,
-      items: attributeCache?.content?.map(({ key }) => ({
-        ...keyStyle,
-        ...getLabelStyle(key as ITooltipTextStyle),
-        ...(key?.multiLine ? { width: getPixelPropertyStr(Math.ceil(key.width)) } : undefined) // 对多行文本使用定宽
-      })),
-      width: getPixelPropertyStr(attributeCache?.keyWidth),
+      items: contentAttribute?.map(
+        ({ key, spaceRow }, i) =>
+          ({
+            marginTop: '0px',
+            marginBottom: i < contentAttribute.length - 1 ? getPixelPropertyStr(spaceRow) : '0px',
+            ...keyStyle,
+            ...getLabelStyle(key as ITooltipTextStyle),
+            ...(key?.multiLine ? { width: getPixelPropertyStr(Math.ceil(key.width)) } : undefined) // 对多行文本使用定宽
+          } as ILabelStyle)
+      ),
+      width: getPixelPropertyStr(keyWidth),
       marginRight: getPixelPropertyStr(key.spacing ?? DEFAULT_KEY_SPACING)
     },
     valueColumn: {
       common: valueStyle,
-      items: attributeCache?.content?.map(({ value }) => ({
-        ...valueStyle,
-        ...getLabelStyle(value as ITooltipTextStyle),
-        ...(value?.multiLine ? { width: getPixelPropertyStr(Math.ceil(value.width)) } : undefined) // 对多行文本使用定宽
-      })),
-      width: getPixelPropertyStr(attributeCache?.valueWidth),
+      items: contentAttribute?.map(
+        ({ value, spaceRow }, i) =>
+          ({
+            marginTop: '0px',
+            marginBottom: i < contentAttribute.length - 1 ? getPixelPropertyStr(spaceRow) : '0px',
+            ...valueStyle,
+            ...getLabelStyle(value as ITooltipTextStyle),
+            ...(value?.multiLine ? { width: getPixelPropertyStr(Math.ceil(value.width)) } : undefined) // 对多行文本使用定宽
+          } as ILabelStyle)
+      ),
+      width: getPixelPropertyStr(valueWidth),
       marginRight: getPixelPropertyStr(value.spacing ?? DEFAULT_VALUE_SPACING)
-    },
-    spaceRow: getPixelPropertyStr(spaceRow)
-  } as IDomTooltipStyle;
-
-  if (isValid(spaceRow)) {
-    const gapUnit = spaceRow / 2;
-    ([styles.shapeColumn.common, styles.keyColumn.common, styles.valueColumn.common] as IMargin[]).forEach(obj => {
-      obj.marginTop = getPixelPropertyStr(gapUnit);
-      obj.marginBottom = obj.marginTop;
-    });
-    styles.content.marginTop = getPixelPropertyStr(-gapUnit);
-    styles.content.marginBottom = styles.content.marginTop;
-  } else {
-    (
-      [styles.content, styles.shapeColumn.common, styles.keyColumn.common, styles.valueColumn.common] as IMargin[]
-    ).forEach(obj => {
-      obj.marginTop = 'initial';
-      obj.marginBottom = 'initial';
-    });
-  }
+    }
+  };
   return styles;
 }
 

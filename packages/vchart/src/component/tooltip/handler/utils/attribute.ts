@@ -17,7 +17,14 @@ export const getTooltipAttributes = (
   actualTooltip: IToolTipActual,
   style: Partial<ITooltipStyle>
 ): TooltipAttributes => {
-  const { spaceRow, padding, title: titleStyle, shape: shapeStyle, key: keyStyle, value: valueStyle } = style;
+  const {
+    spaceRow: commonSpaceRow,
+    padding,
+    title: titleStyle,
+    shape: shapeStyle,
+    key: keyStyle,
+    value: valueStyle
+  } = style;
 
   const attribute: TooltipAttributes = {
     ...style,
@@ -27,13 +34,13 @@ export const getTooltipAttributes = (
 
     titleStyle: {
       value: titleStyle,
-      spaceRow
+      spaceRow: commonSpaceRow
     },
     contentStyle: {
       shape: shapeStyle,
       key: keyStyle,
       value: valueStyle,
-      spaceRow
+      spaceRow: commonSpaceRow
     },
 
     hasContentShape: false,
@@ -58,9 +65,11 @@ export const getTooltipAttributes = (
     hasShape: titleHasShape,
     shapeType: titleShapeType = '',
     shapeHollow: titleShapeHollow,
-    shapeColor: titleShapeColor
+    shapeColor: titleShapeColor,
+    spaceRow: titleSpaceRow
   } = title;
   attribute.title.visible = titleVisible;
+  attribute.title.spaceRow = titleSpaceRow ?? commonSpaceRow;
   if (titleVisible) {
     const lineTitleStyle = mergeSpec({}, titleStyle, getTextAttributes(titleValueStyle, undefined, {}));
     const { text, width, height } = measureTooltipText(titleValue, lineTitleStyle);
@@ -101,7 +110,7 @@ export const getTooltipAttributes = (
     });
     if (filteredContent.length) {
       if (titleVisible) {
-        containerHeight += spaceRow; // title 与 content 之前的间隔
+        containerHeight += attribute.title.spaceRow; // title 与 content 之前的间隔
       }
 
       let hasContentShape = false;
@@ -110,9 +119,18 @@ export const getTooltipAttributes = (
       const valueWidths: number[] = [];
 
       attribute.content = filteredContent.map((item, i) => {
-        const itemAttrs: TooltipRowAttrs = { height: 0, spaceRow };
         let itemHeight = 0;
-        const { hasShape, key, shapeColor, shapeHollow, shapeType = '', value, isKeyAdaptive } = item;
+        const {
+          hasShape,
+          key,
+          shapeColor,
+          shapeHollow,
+          shapeType = '',
+          value,
+          isKeyAdaptive,
+          spaceRow: lineSpaceRow
+        } = item;
+        const itemAttrs: TooltipRowAttrs = { height: 0, spaceRow: lineSpaceRow ?? commonSpaceRow };
         if (isValid(key)) {
           const lineKeyStyle = mergeSpec({}, keyStyle, getTextAttributes(item.keyStyle, undefined, {}));
           const { width, height, text } = measureTooltipText(key, lineKeyStyle);
@@ -161,7 +179,7 @@ export const getTooltipAttributes = (
         itemAttrs.height = itemHeight;
         containerHeight += itemHeight;
         if (i < filteredContent.length - 1) {
-          containerHeight += spaceRow;
+          containerHeight += itemAttrs.spaceRow;
         }
 
         return itemAttrs;
@@ -199,6 +217,7 @@ interface ITooltipTextInfo {
 }
 
 export const measureTooltipText = (text: string, style: ITooltipTextStyle): ITooltipTextInfo => {
+  text = (text ?? '').toString();
   const measure = initTextMeasure(style as any);
   if (!style.multiLine) {
     // 单行文本

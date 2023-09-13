@@ -103,7 +103,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         (this.children[i] as TextModel).setStyle(childStyle);
       } else if (this.className === 'shape-box') {
         childStyle = mergeSpec({}, defaultShapeStyle, {
-          height: getPixelPropertyStr(contentAttributes[i].height),
+          height: getPixelPropertyStr(contentAttributes[i].height + contentAttributes[i].spaceRow),
           ...tooltipStyle.shapeColumn.common,
           ...tooltipStyle.shapeColumn.items?.[i]
         });

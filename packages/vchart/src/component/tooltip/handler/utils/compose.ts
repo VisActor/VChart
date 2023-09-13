@@ -158,6 +158,7 @@ export const getOneLineData = (
   const visible: boolean =
     getTooltipContentValue(config.visible, datum, params) !== false && (isValid(key) || isValid(value));
   const isKeyAdaptive = getTooltipContentValue(config.isKeyAdaptive, datum, params);
+  const spaceRow = getTooltipContentValue(config.spaceRow, datum, params);
 
   const shapeType = getTooltipContentValue(config.shapeType, datum, params);
   const shapeColor = getTooltipContentValue(config.shapeColor, datum, params);
@@ -174,6 +175,7 @@ export const getOneLineData = (
     shapeHollow: config.shapeHollow,
     shapeColor,
     keyStyle,
-    valueStyle
+    valueStyle,
+    spaceRow
   };
 };

@@ -118,19 +118,8 @@ export class TooltipModel extends BaseTooltipModel {
 
   setStyle(): void {
     const tooltipStyle = this._option.getTooltipStyle();
-
     super.setStyle(mergeSpec({}, defaultContainerStyle, tooltipStyle.panel));
-    Object.values(this.children).forEach((c, i) => {
-      c.setStyle(
-        i > 0
-          ? {
-              marginTop: tooltipStyle.spaceRow
-            }
-          : {
-              marginTop: '0px'
-            }
-      );
-    });
+    Object.values(this.children).forEach(c => c.setStyle());
   }
 
   setContent() {

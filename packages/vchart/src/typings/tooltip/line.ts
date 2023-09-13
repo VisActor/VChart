@@ -11,6 +11,11 @@ export interface IToolTipLinePattern extends ITooltipShapePattern, ITooltipLabel
   visible?: TooltipContentProperty<boolean>;
   /** key 列是否适应内容 */
   isKeyAdaptive?: TooltipContentProperty<boolean>;
+  /**
+   * 该行行间距
+   * @since 1.4.0
+   */
+  spaceRow?: TooltipContentProperty<number>;
 }
 
 export interface IToolTipLineActual extends ITooltipShapeActual, ITooltipLabelActual {
@@ -22,4 +27,9 @@ export interface IToolTipLineActual extends ITooltipShapeActual, ITooltipLabelAc
   visible?: boolean;
   /** key 列是否适应内容 */
   isKeyAdaptive?: boolean;
+  /**
+   * 该行行间距
+   * @since 1.4.0
+   */
+  spaceRow?: number;
 }
