@@ -95,4 +95,6 @@ export function getTextOffset(
       dy: dy > 0 ? -(dy / 2) : Math.abs(dy / 2)
     };
   }
+
+  return {};
 }
