@@ -19,6 +19,7 @@ export class LinkSeriesTooltipHelper extends BaseSeriesTooltipHelper implements 
             hasShape: true,
             shapeType: 'square',
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             key: 'time',
             value: (datum: any) => TimeUtil.getInstance().timeFormat('%Y%m%d %H:%M', datum.from.split('_')[1])
           },
@@ -26,6 +27,7 @@ export class LinkSeriesTooltipHelper extends BaseSeriesTooltipHelper implements 
             hasShape: true,
             shapeType: 'square',
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             key: 'type',
             value: (datum: any) => datum.action_type
           },
@@ -33,6 +35,7 @@ export class LinkSeriesTooltipHelper extends BaseSeriesTooltipHelper implements 
             hasShape: true,
             shapeType: 'square',
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             key: 'from',
             value: (datum: any) => datum.from
           },
@@ -40,6 +43,7 @@ export class LinkSeriesTooltipHelper extends BaseSeriesTooltipHelper implements 
             hasShape: true,
             shapeType: 'square',
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             key: 'to',
             value: (datum: any) => datum.to
           }

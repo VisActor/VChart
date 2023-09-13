@@ -25,6 +25,7 @@ export class RangeColumnSeriesTooltipHelper extends BaseSeriesTooltipHelper impl
           hasShape: true,
           shapeType: this.contentShapeTypeCallback,
           shapeColor: this.contentShapeColorCallback,
+          shapeStroke: this.contentShapeColorCallback,
           shapeHollow: false
         }
       ]

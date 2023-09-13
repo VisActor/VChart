@@ -155,6 +155,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
             hasShape: true,
             shapeType: this.contentShapeTypeCallback,
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             shapeHollow: false
           }
         ]
@@ -175,6 +176,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
             hasShape: true,
             shapeType: this.contentShapeTypeCallback,
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             shapeHollow: false
           });
         })

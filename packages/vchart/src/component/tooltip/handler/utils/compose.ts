@@ -60,8 +60,7 @@ export const getShowContent = (
     tooltipContent.title = {
       value: getTooltipContentValue(patternTitle?.value, datum, params),
       valueStyle: getTooltipContentValue(patternTitle?.valueStyle, datum, params),
-      hasShape: patternTitle.hasShape,
-      shapeHollow: patternTitle.shapeHollow
+      hasShape: patternTitle.hasShape
     };
   }
 
@@ -162,6 +161,9 @@ export const getOneLineData = (
 
   const shapeType = getTooltipContentValue(config.shapeType, datum, params);
   const shapeColor = getTooltipContentValue(config.shapeColor, datum, params);
+  const shapeFill = getTooltipContentValue(config.shapeFill, datum, params);
+  const shapeStroke = getTooltipContentValue(config.shapeStroke, datum, params);
+  const shapeLineWidth = getTooltipContentValue(config.shapeLineWidth, datum, params);
   const keyStyle = getTooltipContentValue(config.keyStyle, datum, params);
   const valueStyle = getTooltipContentValue(config.valueStyle, datum, params);
 
@@ -172,6 +174,9 @@ export const getOneLineData = (
     isKeyAdaptive,
     hasShape: config.hasShape,
     shapeType: shapeType as any,
+    shapeFill,
+    shapeStroke,
+    shapeLineWidth,
     shapeHollow: config.shapeHollow,
     shapeColor,
     keyStyle,

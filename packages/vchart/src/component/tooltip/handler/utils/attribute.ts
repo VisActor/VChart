@@ -113,10 +113,10 @@ export const getTooltipAttributes = (
         containerHeight += attribute.title.spaceRow; // title 与 content 之前的间隔
       }
 
-      let hasContentShape = false;
       const keyWidths: number[] = [];
       const adaptiveKeyWidths: number[] = [];
       const valueWidths: number[] = [];
+      const shapeWidths: number[] = [];
 
       attribute.content = filteredContent.map((item, i) => {
         let itemHeight = 0;
@@ -126,6 +126,10 @@ export const getTooltipAttributes = (
           shapeColor,
           shapeHollow,
           shapeType = '',
+          shapeFill,
+          shapeStroke,
+          shapeLineWidth,
+          shapeSize,
           value,
           isKeyAdaptive,
           spaceRow: lineSpaceRow
@@ -159,19 +163,24 @@ export const getTooltipAttributes = (
           valueWidths.push(width);
           itemHeight = Math.max(itemHeight, height);
         }
-        if (hasShape && builtinSymbolsMap[shapeType]) {
-          hasContentShape = true;
+        if (hasShape) {
           const shape: TooltipSymbolAttrs = {
             visible: true,
             symbolType: shapeType
           };
+          const adaptiveShapeFill = shapeFill ?? shapeColor;
           if (shapeHollow) {
-            shape.stroke = shapeColor;
+            shape.stroke = adaptiveShapeFill;
           } else {
-            shape.fill = shapeColor;
+            shape.fill = adaptiveShapeFill;
           }
-          itemHeight = Math.max(shapeStyle.size, itemHeight);
+          shape.stroke = shapeStroke ?? adaptiveShapeFill;
+          shape.lineWidth = shapeLineWidth;
           itemAttrs.shape = shape;
+
+          const shapeWidth = shapeSize ?? shapeStyle.size;
+          itemHeight = Math.max(shapeWidth, itemHeight);
+          shapeWidths.push(shapeWidth);
         } else {
           itemAttrs.shape = { visible: false };
         }
@@ -188,13 +197,13 @@ export const getTooltipAttributes = (
       const maxKeyWidth = keyWidths.length ? Math.max(...keyWidths) : 0; // name 需要对齐
       const maxAdaptiveKeyWidth = adaptiveKeyWidths.length ? Math.max(...adaptiveKeyWidths) : 0;
       const maxValueWidth = valueWidths.length ? Math.max(...valueWidths) : 0; // value 需要对齐
-      const shapeWidth = hasContentShape ? shapeStyle.size + shapeStyle.spacing : 0; // shape 列宽度
+      const shapeWidth = shapeWidths.length ? Math.max(...shapeWidths) + shapeStyle.spacing : 0; // shape 列宽度
       maxWidth = Math.max(
         maxKeyWidth + maxValueWidth + keyStyle.spacing + valueStyle.spacing + shapeWidth,
         maxAdaptiveKeyWidth + shapeWidth,
         maxWidth
       );
-      attribute.hasContentShape = hasContentShape;
+      attribute.hasContentShape = !!shapeWidths.length;
       attribute.keyWidth = maxKeyWidth;
       attribute.valueWidth = maxValueWidth;
     }
