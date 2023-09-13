@@ -4,7 +4,7 @@ group: pie
 title: 线性渐变颜色饼图
 keywords: pieChart,comparison,composition,proportion,circle
 order: 6-6
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/linear-color-pie.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pie-chart/linear-color-pie.png
 option: pieChart
 ---
 

@@ -105,9 +105,9 @@
     "canvas": "2.11.2"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.15.11",
-    "@visactor/vdataset": "~0.15.11",
-    "@visactor/vscale": "~0.15.11",
+    "@visactor/vutils": "~0.15.14",
+    "@visactor/vdataset": "~0.15.14",
+    "@visactor/vscale": "~0.15.14",
     "@visactor/vgrammar": "~0.6.6",
     "@visactor/vgrammar-projection": "~0.6.6",
     "@visactor/vgrammar-wordcloud": "~0.6.6",

@@ -62,10 +62,10 @@ const spec = {
   indicator: [
     {
       visible: true,
+      offsetY: '70%',
       title: {
         style: {
           text: '70%',
-          dy: 250,
           fontSize: 60,
           fontWeight: 800
         }
