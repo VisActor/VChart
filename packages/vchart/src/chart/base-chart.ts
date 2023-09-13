@@ -820,6 +820,7 @@ export class BaseChart extends CompilableBase implements IChart {
       reSize: false,
       reCompile: false
     };
+    // width/height
     // 需要重新布局
     this.setLayoutTag(true, morphConfig);
     // 第一版简易逻辑如果配置项出现增删，直接重新创建chart

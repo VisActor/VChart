@@ -123,6 +123,57 @@ const spec = {
     id: 'legend-discrete',
     visible: true
   },
+  title: {
+    id: 'title',
+    visible: true,
+    align: 'left',
+    verticalAlign: 'top',
+    orient: 'top',
+    textStyle: {
+      character: [
+        {
+          text: 'Editor Test',
+          fontSize: 30,
+          textAlign: 'center',
+          textDecoration: 'underline',
+          stroke: '#0f51b5'
+        }
+      ]
+    },
+    subtextStyle: {
+      character: [
+        {
+          text: 'Mapbox',
+          fontWeight: 'bold',
+          fontSize: 30,
+          fill: '#3f51b5'
+        },
+        {
+          text: '',
+          fill: '#000'
+        },
+        {
+          text: 'alternative solution',
+          fontStyle: 'italic',
+          fill: '#3f51b5'
+        },
+        {
+          text: 'sub Title!',
+          fill: '#000'
+        },
+        {
+          text: 'Map',
+          textDecoration: 'line-through',
+          fill: '#000'
+        },
+        {
+          text: '[1]',
+          script: 'super',
+          fill: '#000'
+        }
+      ]
+    }
+  },
   region: [
     {
       id: 'region-0',

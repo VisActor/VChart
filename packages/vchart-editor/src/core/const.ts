@@ -1,11 +1,11 @@
 export const MouseEvents: (keyof HTMLElementEventMap)[] = [
-  // 'mousedown',
-  // 'mouseenter',
-  // 'mouseleave',
-  // 'mousemove',
-  // 'mouseout',
-  // 'mouseover',
-  // 'mouseup',
+  'mousedown',
+  'mouseenter',
+  'mouseleave',
+  'mousemove',
+  'mouseout',
+  'mouseover',
+  'mouseup',
 
   'pointercancel',
   'pointerdown',
@@ -16,8 +16,16 @@ export const MouseEvents: (keyof HTMLElementEventMap)[] = [
   'pointerover',
   'pointerup',
 
+  'touchcancel',
+  'touchend',
+  'touchmove',
+  'touchstart',
+
   'click',
-  'dblclick'
+  'dblclick',
+
+  'wheel',
+  'scroll'
 ];
 
 export const TriggerEvent: { [key in keyof HTMLElementEventMap]?: true } = {

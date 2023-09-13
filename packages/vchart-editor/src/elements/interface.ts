@@ -18,4 +18,5 @@ export interface IElementData {
 
 export interface IElement {
   getData: () => IElementData;
+  release: () => void;
 }

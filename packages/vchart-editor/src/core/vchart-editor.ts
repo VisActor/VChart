@@ -1,3 +1,4 @@
+import { EditorController } from './editor-controller';
 import type { IEditorData, IVChartEditorInitOption } from './interface';
 import { EditorEvent } from './editor-event';
 import { ChartLayer } from '../elements/chart/chart-layer';
@@ -26,9 +27,15 @@ export class VChartEditor {
 
   protected _data: IEditorData;
 
+  protected _editorController: EditorController;
+  get editorController() {
+    return this._editorController;
+  }
+
   constructor(option: IVChartEditorInitOption) {
     this._option = option;
     const { dom } = this._option;
+
     this._option.data.setLayers(this.getLayers);
     this._option.data.setDataKey(`_vchart_editor_${this._option.id}`);
     if (dom) {
@@ -37,6 +44,12 @@ export class VChartEditor {
     if (!this._container) {
       this._container.style.position = 'relative';
     }
+    this._editorController = new EditorController(this._container, () => {
+      if (this._event.triggerLayer) {
+        return this._event.triggerLayer;
+      }
+      return this._layers[0];
+    });
     this.initEvent();
   }
 
@@ -110,5 +123,11 @@ export class VChartEditor {
         });
       }
     });
+  }
+
+  release() {
+    this._editorController.release();
+    this._layers.forEach(l => l.release());
+    this._layers = [];
   }
 }

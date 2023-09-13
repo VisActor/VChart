@@ -46,4 +46,6 @@ export abstract class BaseElement {
   abstract getBounds(): IBoundsLike;
 
   abstract getLayoutGuideLine(): ILayoutGuideLine[];
+
+  abstract release(): void;
 }
