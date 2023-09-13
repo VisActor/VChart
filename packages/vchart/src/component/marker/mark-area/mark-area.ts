@@ -98,7 +98,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
     const isYLayout = isValid(spec.y) && isValid(spec.y1);
     const isCoordinateLayout = isValid(spec.coordinates);
     const isPositionLayout = isValid(spec.positions);
-    const autoRange = spec?.autoRange ?? false;
+    const autoRange = spec.autoRange ?? false;
 
     let points: IPointLike[] = [];
     let lines: [IPointLike, IPointLike][] = [];
@@ -116,17 +116,21 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
 
     const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
 
-    const { minX, maxX, minY, maxY } = this._computeClipRange([
-      startRelativeSeries.getRegion(),
-      endRelativeSeries.getRegion(),
-      relativeSeries.getRegion()
-    ]);
-    const limitRect = {
-      x: minX,
-      y: minY,
-      width: maxX - minX,
-      height: maxY - minY
-    };
+    let limitRect;
+    if (spec.clip || spec.label?.confine) {
+      const { minX, maxX, minY, maxY } = this._computeClipRange([
+        startRelativeSeries.getRegion(),
+        endRelativeSeries.getRegion(),
+        relativeSeries.getRegion()
+      ]);
+      limitRect = {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
+      };
+    }
+
     this._markerComponent.setAttributes({
       points: points,
       label: {

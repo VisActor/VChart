@@ -27,7 +27,7 @@ export type IMarkLineSpec =
         | IMarkLinePositionsSpec
       ) &
       IMarkLineTheme)
-  | IStepPMarkLineSpec; // 标注目标：任意位置
+  | IStepMarkLineSpec; // 标注目标：任意位置
 
 export interface IMarkLineXSpec extends IMarkerAxisSpec {
   /**
@@ -81,7 +81,7 @@ export type IMarkLineCoordinateSpec = {
  */
 export type IMarkLinePositionsSpec = IMarkerPositionsSpec;
 
-export type IStepPMarkLineSpec = IMarkerSpec & {
+export type IStepMarkLineSpec = IMarkerSpec & {
   /**
    * 指定辅助线的连接类型，step 的连接方式为由交替的水平线和处置线组成的
    */

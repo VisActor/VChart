@@ -104,13 +104,16 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
 
     const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
 
-    const { minX, maxX, minY, maxY } = this._computeClipRange([relativeSeries.getRegion()]);
-    const limitRect = {
-      x: minX,
-      y: minY,
-      width: maxX - minX,
-      height: maxY - minY
-    };
+    let limitRect;
+    if (spec.clip) {
+      const { minX, maxX, minY, maxY } = this._computeClipRange([relativeSeries.getRegion()]);
+      limitRect = {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
+      };
+    }
 
     this._markerComponent.setAttributes({
       position: point,

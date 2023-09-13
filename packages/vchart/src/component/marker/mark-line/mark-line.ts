@@ -1,5 +1,5 @@
 import { DataView } from '@visactor/vdataset';
-import type { IMarkLine, IMarkLineSpec, IMarkLineTheme, IStepPMarkLineSpec } from './interface';
+import type { IMarkLine, IMarkLineSpec, IMarkLineTheme, IStepMarkLineSpec } from './interface';
 import { isNil, isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -119,7 +119,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     const isCoordinateLayout =
       isValid(spec.coordinates) && (!isValid(spec.process) || ('process' in spec && 'xy' in spec.process));
     const isPositionLayout = isValid(spec.positions);
-    const autoRange = spec?.autoRange ?? false;
+    const autoRange = spec.autoRange ?? false;
 
     let points: IPointLike[] = [];
     if (isXLayout) {
@@ -134,17 +134,22 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
 
     const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
     const seriesData = this._relativeSeries.getViewData().latestData;
-    const { minX, maxX, minY, maxY } = this._computeClipRange([
-      startRelativeSeries.getRegion(),
-      endRelativeSeries.getRegion(),
-      relativeSeries.getRegion()
-    ]);
-    const limitRect = {
-      x: minX,
-      y: minY,
-      width: maxX - minX,
-      height: maxY - minY
-    };
+
+    let limitRect;
+    if (spec.clip || spec.label?.confine) {
+      const { minX, maxX, minY, maxY } = this._computeClipRange([
+        startRelativeSeries.getRegion(),
+        endRelativeSeries.getRegion(),
+        relativeSeries.getRegion()
+      ]);
+      limitRect = {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
+      };
+    }
+
     const labelAttrs = {
       ...this._markerComponent.attribute?.label,
       text: this._spec.label.formatMethod
@@ -152,9 +157,9 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         : this._markerComponent.attribute?.label?.text
     };
 
-    if ((this._spec as IStepPMarkLineSpec).type === 'type-step') {
-      const { multiSegment, mainSegmentIndex } = (this._spec as IStepPMarkLineSpec).line || {};
-      const { connectDirection, expandDistance = 0 } = this._spec as IStepPMarkLineSpec;
+    if ((this._spec as IStepMarkLineSpec).type === 'type-step') {
+      const { multiSegment, mainSegmentIndex } = (this._spec as IStepMarkLineSpec).line || {};
+      const { connectDirection, expandDistance = 0 } = this._spec as IStepMarkLineSpec;
 
       const joinPoints = getInsertPoints(points[0], points[1], connectDirection, expandDistance);
 
