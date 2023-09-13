@@ -459,11 +459,6 @@ importers:
       ts-jest: 26.5.6_jest@26.6.3
       ts-json-schema-generator: 1.3.0
 
-  ../../packages/wx-vchart:
-    specifiers:
-      miniprogram-api-typings: ^2.8.3-1
-    devDependencies:
-      miniprogram-api-typings: 2.12.0
   ../../packages/vutils-extension:
     specifiers:
       '@internal/bundler': workspace:*
@@ -518,6 +513,42 @@ importers:
       tslint: 5.12.1_typescript@4.9.5
       typescript: 4.9.5
       vite: 3.2.6_@types+node@20.6.0
+
+  ../../packages/wx-vchart:
+    specifiers:
+      '@babel/core': 7.20.12
+      '@babel/preset-env': 7.20.2
+      '@internal/bundler': workspace:*
+      '@internal/eslint-config': workspace:*
+      '@internal/ts-config': workspace:*
+      '@rollup/plugin-babel': 6.0.3
+      '@rollup/plugin-commonjs': 24.1.0
+      '@rollup/plugin-node-resolve': 15.0.2
+      '@rollup/plugin-typescript': 11.1.0
+      '@rushstack/eslint-patch': ~1.1.4
+      eslint: ~8.18.0
+      miniprogram-api-typings: ^2.8.3-1
+      rimraf: 3.0.2
+      rollup: 3.20.5
+      rollup-plugin-copy: 3.4.0
+      rollup-plugin-terser: 7.0.2
+    devDependencies:
+      '@babel/core': 7.20.12
+      '@babel/preset-env': 7.20.2_@babel+core@7.20.12
+      '@internal/bundler': link:../../tools/bundler
+      '@internal/eslint-config': link:../../share/eslint-config
+      '@internal/ts-config': link:../../share/ts-config
+      '@rollup/plugin-babel': 6.0.3_rwgaouhtlfp3yqsg36xgfp2t24
+      '@rollup/plugin-commonjs': 24.1.0_rollup@3.20.5
+      '@rollup/plugin-node-resolve': 15.0.2_rollup@3.20.5
+      '@rollup/plugin-typescript': 11.1.0_rollup@3.20.5
+      '@rushstack/eslint-patch': 1.1.4
+      eslint: 8.18.0
+      miniprogram-api-typings: 2.12.0
+      rimraf: 3.0.2
+      rollup: 3.20.5
+      rollup-plugin-copy: 3.4.0
+      rollup-plugin-terser: 7.0.2_rollup@3.20.5
 
   ../../share/eslint-config:
     specifiers:
