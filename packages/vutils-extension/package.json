@@ -22,7 +22,7 @@
     "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "dependencies": {
-    "@visactor/vutils": "0.15.13-alpha.4",
+    "@visactor/vutils": "0.15.14",
     "@visactor/vscale": "0.15.13-alpha.4",
     "@visactor/vrender": "0.15.1"
   },
