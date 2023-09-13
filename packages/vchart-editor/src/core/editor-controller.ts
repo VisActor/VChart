@@ -5,6 +5,7 @@ import { createRect } from '@visactor/vrender';
 import type { IRect as IRenderRect } from '@visactor/vrender';
 import type { IEditorElement, EditorHandlerFunc, IEditorLayer } from './interface';
 import { isPointInRect } from '../utils/space';
+import { MinSize } from './const';
 export class EditorController {
   protected _currentEditorElements: IEditorElement = null;
   protected _currentEditorBox: LayoutEditorComponent = null;
@@ -14,10 +15,19 @@ export class EditorController {
   protected _startHandler: EditorHandlerFunc[] = [];
   protected _stoptHandler: EditorHandlerFunc[] = [];
 
-  protected _getTopLayer: () => IEditorLayer;
+  protected _opt: {
+    getTopLayer: () => IEditorLayer;
+    saveData: () => void;
+  };
 
-  constructor(public container: HTMLElement, getTopLayer: () => IEditorLayer) {
-    this._getTopLayer = getTopLayer;
+  constructor(
+    public container: HTMLElement,
+    opt: {
+      getTopLayer: () => IEditorLayer;
+      saveData: () => void;
+    }
+  ) {
+    this._opt = opt;
   }
 
   setEditorElements(el: IEditorElement, event: PointerEvent) {
@@ -45,8 +55,20 @@ export class EditorController {
         updateHandler: data => {
           // TODO: 吸附
           console.log('editor update');
+          let hasChange = false;
+          if (data.width < MinSize) {
+            data.width = MinSize;
+            hasChange = true;
+          }
+          if (data.height < MinSize) {
+            data.height = MinSize;
+            hasChange = true;
+          }
           if (this._currentOverBorder) {
             this._currentOverBorder.setAttributes(data);
+          }
+          if (hasChange) {
+            return data;
           }
           return undefined;
         },
@@ -54,6 +76,7 @@ export class EditorController {
           this._currentEditorElements.updateAttribute({ layout: data });
           this._stoptHandler.forEach(h => h(this._currentEditorElements));
           console.log('editor end');
+          this._opt.saveData();
         },
         event: event
       });
@@ -104,7 +127,7 @@ export class EditorController {
     if (this._currentOverBorder) {
       this._removeOverBorder();
     }
-    const layer = this._currentEditorElements?.layer ?? this._getTopLayer();
+    const layer = this._currentEditorElements?.layer ?? this._opt.getTopLayer();
     if (!layer) {
       return;
     }
