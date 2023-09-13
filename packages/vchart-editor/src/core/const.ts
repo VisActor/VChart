@@ -32,3 +32,5 @@ export const TriggerEvent: { [key in keyof HTMLElementEventMap]?: true } = {
   // mousedown: true,
   pointerdown: true
 };
+
+export const MinSize = 5;
