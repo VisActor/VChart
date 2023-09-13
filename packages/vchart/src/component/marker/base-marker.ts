@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { array, isFunction } from '@visactor/vutils';
+import { array } from '@visactor/vutils';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IOptionAggr } from '../../data/transforms/aggregation';
 import type { IModelRenderOption } from '../../model/interface';
