@@ -289,7 +289,7 @@ export class DefaultLayout {
       // 处理特殊元素的宽高
       if (['left', 'right'].includes(item.layoutOrient)) {
         // 用户有配置的话，已经处理过，不需要再次处理
-        const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
+        const relativeRegion = filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
           height: relativeRegion.getLayoutRect().height
@@ -298,7 +298,7 @@ export class DefaultLayout {
           y: relativeRegion.getLayoutStartPoint().y + item.layoutOffsetY + item.layoutPaddingTop
         });
       } else if (['top', 'bottom'].includes(item.layoutOrient)) {
-        const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
+        const relativeRegion = filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
           width: relativeRegion.getLayoutRect().width
@@ -321,15 +321,6 @@ export class DefaultLayout {
       // 设置盒子
       item.absoluteLayoutInRect(this._chartLayoutRect);
     });
-  }
-
-  // 对普通布局来说，只出一个 region 绑定
-  filterRegionsWithID(regions: IRegion[], id: number): ILayoutItem {
-    const target = regions.find(x => x.id === id);
-    if (!target) {
-      // (this._onError ?? error)('can not find target region item, invalid id');
-    }
-    return target;
   }
 
   /**
@@ -369,4 +360,13 @@ export class DefaultLayout {
     });
     return result;
   }
+}
+
+// 对普通布局来说，只出一个 region 绑定
+export function filterRegionsWithID(regions: IRegion[], id: number): ILayoutItem {
+  const target = regions.find(x => x.id === id);
+  if (!target) {
+    // (this._onError ?? error)('can not find target region item, invalid id');
+  }
+  return target;
 }

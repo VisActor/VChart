@@ -1,30 +1,32 @@
-import type { IRect } from './../../../typings/space.d';
+import type { IPoint, IRect } from './../../../typings/space';
 import type { IChart } from '@visactor/chart';
-import type { IBoundsLike } from '@visactor/vutils';
 import type { ISpecProcess } from '../spec-process/interface';
 type ILayoutNumber = { percent?: number; offset: number };
+export type ILayoutRect = {
+  // 所有模块统一使用如下结构记录布局信息
+  x: ILayoutNumber;
+  y: ILayoutNumber;
+  width: ILayoutNumber;
+  height: ILayoutNumber;
+};
 export type LayoutMeta = {
   id: number | string;
-  layout: {
-    // 所有模块统一使用如下结构记录布局信息
-    x: ILayoutNumber;
-    y: ILayoutNumber;
-    width: ILayoutNumber;
-    height: ILayoutNumber;
-  };
+  layout: ILayoutRect;
 };
 
 export interface ILayoutData {
-  viewBox: IBoundsLike;
+  viewBox: IRect;
   data: LayoutMeta[];
 }
 
 export interface IChartLayout {
   setViewBox: (r: IRect) => void;
   setLayoutData: (d: ILayoutData) => void;
+  setModelLayoutData: (d: LayoutMeta) => void;
   getLayoutData: () => ILayoutData;
   setVChart: (vchart: IChart) => void;
   clear: () => void;
+  getOverModel: (pos: IPoint) => LayoutMeta;
 }
 
 export interface IChartLayoutConstructor {

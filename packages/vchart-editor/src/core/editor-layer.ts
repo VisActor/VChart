@@ -1,6 +1,6 @@
-import type { IEditorLayer } from './interface';
-import type { IStage } from '@visactor/vrender';
-import { createStage } from '@visactor/vrender';
+import type { IEditorElement, IEditorLayer } from './interface';
+import type { IStage, IGroup } from '@visactor/vrender';
+import { createGroup, createStage } from '@visactor/vrender';
 import { CreateID } from '../utils/common';
 import { TriggerEvent } from './const';
 import type { BaseElement } from '../elements/base-element';
@@ -44,11 +44,39 @@ export class EditorLayer implements IEditorLayer {
     return this._elements;
   }
 
+  protected _editorGroup: IGroup;
+  get editorGroup() {
+    return this._editorGroup;
+  }
+
+  protected _activeElement: IEditorElement | IEditorElement[];
+  get activeElement() {
+    return this._activeElement;
+  }
+
   constructor(container: HTMLElement, id?: string | number) {
     this._id = id ?? CreateID();
     this._container = container;
     this.initCanvas();
     this.initEvent();
+    this.initEditorGroup();
+  }
+
+  release() {
+    this._stage.release();
+    this._elements.forEach(el => el.release());
+    this._elements = null;
+    this._editorGroup = null;
+  }
+
+  initEditorGroup() {
+    const group = createGroup({
+      x: 0,
+      y: 0,
+      zIndex: 999999
+    });
+    this._stage.defaultLayer.add(group);
+    this._editorGroup = group;
   }
 
   protected initCanvas() {
@@ -66,7 +94,8 @@ export class EditorLayer implements IEditorLayer {
       width: this._canvas.clientWidth,
       height: this._canvas.clientHeight,
       canvasControled: false,
-      autoRender: true
+      autoRender: true,
+      disableDirtyBounds: true
     });
     // @ts-ignore
     this._stage = stage;
@@ -76,13 +105,17 @@ export class EditorLayer implements IEditorLayer {
   protected initEvent() {
     this._stage.addEventListener('*', e => {
       // @ts-ignore
-      if (!(e.target === this._stage || e.target.name === 'root')) {
-        this._isInActive = true;
-        if (TriggerEvent[e.type]) {
-          this._isTrigger = true;
-        }
-      }
+      this._onEvent(e);
     });
+  }
+
+  protected _onEvent(e: Event) {
+    if (!(e.target === this._stage || !e.target || (<any>e.target).name === 'root')) {
+      this._isInActive = true;
+      if (TriggerEvent[e.type]) {
+        this._isTrigger = true;
+      }
+    }
   }
 
   tryEvent(e: MouseEvent) {
