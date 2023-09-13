@@ -3,7 +3,7 @@ import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { ILineMark } from '../../mark/line';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { AttributeLevel, POLAR_START_RADIAN } from '../../constant';
-import { DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
+import { DEFAULT_LINEAR_INTERPOLATE } from '../../typings';
 import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
 import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
@@ -110,7 +110,8 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
             return value;
           },
           fill: this.getColorAttribute(),
-          curveType: DEFAULT_LINEAR_CLOSED_INTERPOLATE
+          curveType: DEFAULT_LINEAR_INTERPOLATE,
+          closePath: true
         },
         'normal',
         AttributeLevel.Series
