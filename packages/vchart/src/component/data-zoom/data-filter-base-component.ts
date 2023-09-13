@@ -20,7 +20,7 @@ import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { mixin, clamp, isNil } from '@visactor/vutils';
-import type { IDataFilterComponent, IDataFilterComponentSpec } from './interface';
+import type { IDataFilterComponent, IDataFilterComponentSpec, IFilterMode } from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../compile/data';
 import type { BaseEventParams } from '../../event/interface';
@@ -87,6 +87,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _width!: number;
   protected _height!: number;
 
+  protected _filterMode!: IFilterMode;
+
   /**
    * 外部可以通过此方法强制改变datazoom的start和end，达到聚焦定位的效果
    * @param start datazoom起点所在的相对位置
@@ -106,17 +108,17 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   effect: IEffect = {
     onZoomChange: () => {
-      if (this._relatedAxisComponent && this._spec.filterMode === 'axis') {
+      if (this._relatedAxisComponent && this._filterMode === 'axis') {
         const axisScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
-        const axisSpec = this._relatedAxisComponent.getSpec() as ICartesianBandAxisSpec;
+        // const axisSpec = (this._relatedAxisComponent as CartesianAxis<any>).getSpec() as ICartesianBandAxisSpec;
         if (this._auto) {
           // 提前更改 scale
           axisScale.range(this._stateScale?.range(), true);
         }
-        // 可以在这里更改滚动条是正向还是反向
-        const newRangeFactor: [number, number] =
-          this._isHorizontal || axisSpec.inverse ? [this._start, this._end] : [1 - this._end, 1 - this._start];
-        axisScale.rangeFactor(newRangeFactor);
+        // // 可以在这里更改滚动条是正向还是反向
+        // const newRangeFactor: [number, number] =
+        //   this._isHorizontal || axisSpec.inverse ? [this._start, this._end] : [1 - this._end, 1 - this._start];
+        axisScale.rangeFactor([this._start, this._end]);
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
         eachSeries(
@@ -439,7 +441,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._start = start;
     this._end = end;
 
-    if ((!this._relatedAxisComponent || this._spec.filterMode !== 'axis') && (this._start !== 0 || this._end !== 1)) {
+    if ((!this._relatedAxisComponent || this._filterMode !== 'axis') && (this._start !== 0 || this._end !== 1)) {
       this._newDomain = this._parseDomainFromState(this._startValue, this._endValue);
     }
   }
@@ -484,7 +486,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   protected _addTransformToSeries() {
-    if (!this._relatedAxisComponent || this._spec.filterMode !== 'axis') {
+    if (!this._relatedAxisComponent || this._filterMode !== 'axis') {
       registerDataSetInstanceTransform(this._option.dataSet, 'dataFilterWithNewDomain', dataFilterWithNewDomain);
 
       eachSeries(
@@ -594,13 +596,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const [dx, dy] = delta;
     const value = this._isHorizontal ? dx : dy;
     const totalValue = this._isHorizontal ? this.getLayoutRect().width : this.getLayoutRect().height;
-
+    // FIXME: 经验值, 后续开放配置控制灵敏度
+    const SCROLL_RATE = 0.02;
     if (Math.abs(value) >= 1e-6) {
       if (value > 0 && this._end < 1) {
-        const moveDelta = Math.min(1 - this._end, value / totalValue);
+        const moveDelta = Math.min(1 - this._end, value / totalValue) * SCROLL_RATE;
         this._handleChange(this._start + moveDelta, this._end + moveDelta, true);
       } else if (value < 0 && this._start > 0) {
-        const moveDelta = Math.max(-this._start, value / totalValue);
+        const moveDelta = Math.max(-this._start, value / totalValue) * SCROLL_RATE;
         this._handleChange(this._start + moveDelta, this._end + moveDelta, true);
       }
     }
