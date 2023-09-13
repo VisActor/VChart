@@ -1,8 +1,8 @@
 lockfileVersion: 5.4
 
 overrides:
-  '@visactor/vrender': 0.15.0-alpha.24
-  '@visactor/vrender-components': 0.15.0-alpha.24
+  '@visactor/vrender': 0.15.1
+  '@visactor/vrender-components': 0.15.1
 
 importers:
 
@@ -21,7 +21,7 @@ importers:
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.3.1
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': ~0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
@@ -46,7 +46,7 @@ importers:
       '@arco-design/web-react': 2.46.1_vnxzf5c44dqo4vncfl2mrh2gwm
       '@visactor/vchart': link:../packages/vchart
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
       axios: 1.5.0
       highlight.js: 11.8.0
@@ -125,7 +125,7 @@ importers:
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.3.1
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': ~0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
@@ -146,7 +146,7 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
       react-is: 18.2.0
     devDependencies:
@@ -285,8 +285,8 @@ importers:
       '@visactor/vgrammar-util': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud-shape': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.24
-      '@visactor/vrender-components': 0.15.0-alpha.24
+      '@visactor/vrender': ~0.15.1
+      '@visactor/vrender-components': ~0.15.1
       '@visactor/vscale': 0.15.13-alpha.4
       '@visactor/vutils': 0.15.13-alpha.4
       '@visactor/vutils-extension': workspace:0.0.1
@@ -328,8 +328,8 @@ importers:
       '@visactor/vgrammar-util': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud-shape': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.24
-      '@visactor/vrender-components': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
+      '@visactor/vrender-components': 0.15.1
       '@visactor/vscale': 0.15.13-alpha.4
       '@visactor/vutils': 0.15.13-alpha.4
       '@visactor/vutils-extension': link:../vutils-extension
@@ -385,7 +385,7 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vchart': workspace:1.3.1
       '@visactor/vdataset': 0.15.13-alpha.4
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': ~0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
       eslint: ~8.18.0
       husky: 7.0.4
@@ -405,7 +405,7 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vdataset': 0.15.13-alpha.4
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
@@ -468,7 +468,7 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': ~0.15.1
       '@visactor/vscale': 0.15.13-alpha.4
       '@visactor/vutils': 0.15.13-alpha.4
       eslint: ~8.18.0
@@ -487,7 +487,7 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
       '@visactor/vscale': 0.15.13-alpha.4
       '@visactor/vutils': 0.15.13-alpha.4
     devDependencies:
@@ -694,7 +694,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
       '@visactor/vchart': workspace:1.3.1
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': ~0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
       cross-env: ^7.0.3
       eslint: ~8.18.0
@@ -707,7 +707,7 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../../packages/vchart
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
     devDependencies:
       '@internal/bundler': link:../bundler
@@ -4045,7 +4045,7 @@ packages:
     dependencies:
       '@types/caseless': 0.12.3
       '@types/node': 20.6.0
-      '@types/tough-cookie': 4.0.2
+      '@types/tough-cookie': 4.0.3
       form-data: 2.5.1
     dev: true
 
@@ -4093,8 +4093,8 @@ packages:
       '@types/node': 20.6.0
     dev: true
 
-  /@types/tough-cookie/4.0.2:
-    resolution: {integrity: sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==}
+  /@types/tough-cookie/4.0.3:
+    resolution: {integrity: sha512-THo502dA5PzG/sfQH+42Lw3fvmYkceefOspdCwpHRul8ik2Jv1K8I5OZz1AT3/rs46kwgMCe9bSBmDLYkkOMGg==}
     dev: true
 
   /@types/undertaker-registry/1.0.2:
@@ -4385,7 +4385,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
     dev: false
 
@@ -4403,7 +4403,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
     dev: false
 
@@ -4418,7 +4418,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
       '@visactor/vscale': 0.15.13-alpha.4
       '@visactor/vutils': 0.15.13-alpha.4
     dev: false
@@ -4428,7 +4428,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
     dev: false
 
@@ -4438,23 +4438,23 @@ packages:
       '@visactor/vdataset': 0.15.13-alpha.4
       '@visactor/vgrammar-coordinate': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.24
-      '@visactor/vrender-components': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
+      '@visactor/vrender-components': 0.15.1
       '@visactor/vscale': 0.15.13-alpha.4
       '@visactor/vutils': 0.15.13-alpha.4
     dev: false
 
-  /@visactor/vrender-components/0.15.0-alpha.24:
-    resolution: {integrity: sha512-222Uw/pRKIQhGTeV7+EgCWZ8jcHyDwq3RXFsD96zcsS6YA8IYI3FMiGUNBolN13mvNMsqjkUn8l4divkDtx2CA==}
+  /@visactor/vrender-components/0.15.1:
+    resolution: {integrity: sha512-NTJtliK+HIGEyxVeMrL9/Y5ptEU+R8iRGyaMj7U/Z5Y1oLQk/2QNk/K3zyXE3eD4EbF15TsXu7tD+KxRig9Nuw==}
     dependencies:
-      '@visactor/vrender': 0.15.0-alpha.24
+      '@visactor/vrender': 0.15.1
       '@visactor/vscale': 0.15.13-alpha.4
       '@visactor/vutils': 0.15.13-alpha.4
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vrender/0.15.0-alpha.24:
-    resolution: {integrity: sha512-6GSknw1bnwcJ/vTcwK6ArNGL+bfTD6aMYGydGHjk/Teb2+kb8MUztmo4wfvspIsCvTL9tUXEVyhXbycs/qy+mg==}
+  /@visactor/vrender/0.15.1:
+    resolution: {integrity: sha512-MR+F83ik3+GC54tgfuBQuptxp2PKsp+4tIWArcv4ECcJFHAeTmikbKOAn0hSMSS0SuG+XaM2W63WYxeiqiHNug==}
     dependencies:
       '@visactor/vutils': 0.15.13-alpha.4
       color-convert: 2.0.1
@@ -6455,7 +6455,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001533
-      electron-to-chromium: 1.4.515
+      electron-to-chromium: 1.4.518
     dev: true
 
   /browserslist/4.21.10:
@@ -6464,7 +6464,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001533
-      electron-to-chromium: 1.4.515
+      electron-to-chromium: 1.4.518
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11_browserslist@4.21.10
 
@@ -6760,7 +6760,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@mapbox/node-pre-gyp': 1.0.11
-      nan: 2.17.0
+      nan: 2.18.0
       simple-get: 3.1.1
     transitivePeerDependencies:
       - encoding
@@ -8649,8 +8649,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.515:
-    resolution: {integrity: sha512-VTq6vjk3kCfG2qdzQRd/i9dIyVVm0dbtZIgFzrLgfB73mXDQT2HPKVRc1EoZcAVUv9XhXAu08DWqJuababdGGg==}
+  /electron-to-chromium/1.4.518:
+    resolution: {integrity: sha512-eqbfyW9i/en/qgIPsddW+cuxQvjq3KZmfH+/gc3f/gnynYj0qxee0yRmll69W0SGwiVD+goeU1J9LT6zDHDzlg==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
@@ -10606,7 +10606,7 @@ packages:
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
-      nan: 2.17.0
+      nan: 2.18.0
     optional: true
 
   /fsevents/2.1.3:
@@ -14968,7 +14968,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.5
+      minimist: 1.2.8
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -15487,8 +15487,8 @@ packages:
       thenify-all: 1.6.0
     dev: true
 
-  /nan/2.17.0:
-    resolution: {integrity: sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==}
+  /nan/2.18.0:
+    resolution: {integrity: sha512-W7tfG7vMOGtD30sHoZSSc/JVYiyDPEyQVso/Zz+/uQd0B0L46gtC+pHha5FFMRpil6fm/AoEcRWyOVi4+E/f8w==}
 
   /nanoid/3.3.1:
     resolution: {integrity: sha512-n6Vs/3KGyxPQd6uO0eH4Bv0ojGSUvuLlIHtC3Y0kEO23YRge8H9x1GCzLn28YX0H66pMkxuaeESFq4tKISKwdw==}
@@ -17367,7 +17367,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.5
+      minimist: 1.2.8
       strip-json-comments: 2.0.1
     dev: true
 
@@ -21969,7 +21969,7 @@ packages:
       require-directory: 2.1.1
       string-width: 4.2.3
       y18n: 5.0.8
-      yargs-parser: 20.2.9
+      yargs-parser: 20.2.4
     dev: true
 
   /yargs/17.7.2:
