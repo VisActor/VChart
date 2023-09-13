@@ -1,8 +1,8 @@
 import type { IPadding, IPointLike } from '@visactor/vutils';
 import type { SymbolType } from '@visactor/vrender';
-import type { IModelSpec } from '../../model/interface';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
+import type { Datum } from '@visactor/vrender-components';
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = string | number | IAggrType;
@@ -46,7 +46,10 @@ export type IMarkerLabelSpec = {
     /**
      * 内部边距
      */
-    padding?: IPadding;
+    padding?: IPadding | number[] | number;
+    /**
+     * 背景面板样式
+     */
     style: Omit<IRectMarkSpec, 'visible'>;
   };
   /**
@@ -55,10 +58,11 @@ export type IMarkerLabelSpec = {
   text?: string | string[] | number | number[];
   /**
    * label文本 - 文本格式化
-   * @param datum marker组件聚合或回归计算后的数据值
+   * @param markData 组成标注的数据
+   * @param seriesData 标注关联的数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (datum: IDataPos) => string | string[] | number | number[];
+  formatMethod?: (markData: Datum[], seriesData: Datum[]) => string | string[] | number | number[];
   /**
    * label文本 - 文本样式
    */
@@ -75,6 +79,13 @@ export type IMarkerLabelSpec = {
    * label文本 - shape 同文本之间的间距
    */
   space?: number;
+
+  /**
+   * 是否自动调整 label 使其展示在 marker 可见区域内。
+   * @default false
+   * @since 1.4.0
+   */
+  confine?: boolean;
 } & IMarkerRef;
 
 export interface IMarkerRef {

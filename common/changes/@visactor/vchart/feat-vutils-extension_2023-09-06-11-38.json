@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: remove unused code, and transform ticks transform to vutils-extension",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

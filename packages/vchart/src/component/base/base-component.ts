@@ -126,15 +126,16 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
       regionIndex?: number;
       seriesId?: StringOrNumber;
       seriesIndex?: number;
+      visible?: boolean;
     };
     const result = super.updateSpec(spec);
-    if (
-      originalSpec.regionId !== this._spec.regionId ||
-      originalSpec.regionIndex !== this._spec.regionIndex ||
-      originalSpec.seriesId !== this._spec.seriesId ||
-      originalSpec.seriesIndex !== this._spec.seriesIndex
-    ) {
-      result.reMake = true;
+    if (!result.reMake) {
+      result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
+        return JSON.stringify(originalSpec[k]) !== JSON.stringify(spec[k]);
+      });
+    }
+    if (originalSpec.visible !== spec.visible) {
+      result.reCompile = true;
     }
     return result;
   }

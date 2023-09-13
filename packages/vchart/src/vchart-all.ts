@@ -65,7 +65,7 @@ import { GridLayout, Layout3d } from './layout';
 import { loadPoptip } from '@visactor/vrender-components';
 
 // 装载 poptip
-loadPoptip({});
+loadPoptip();
 
 // charts
 VChart.useChart([

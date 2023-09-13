@@ -14,7 +14,7 @@ export interface IMarkLineTheme {
     position?: IMarkLineLabelPosition;
   } & IMarkerLabelSpec;
 
-  startSymbol: IMarkerSymbol;
+  startSymbol?: IMarkerSymbol;
 
-  endSymbol: IMarkerSymbol;
+  endSymbol?: IMarkerSymbol;
 }

@@ -12,6 +12,10 @@ import type { Datum } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../series/interface';
 import { VChart } from '../../core/vchart';
+import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
+import { SCROLL_BAR_DEFAULT_SIZE } from '../../constant/scroll-bar';
+import { array } from '@visactor/vutils';
+import { normalizeLayoutPaddingSpec } from '../../util';
 VChart.useSeries([DotSeries, LinkSeries]);
 
 export class SequenceChart extends BaseChart {
@@ -30,7 +34,8 @@ export class SequenceChart extends BaseChart {
     let rowNum = 0;
     const elements: any[] = [];
     const region: IRegionSpec[] = [];
-    const axes: any = [];
+    const axes: ICartesianAxisSpec[] = [];
+    const scrollBar: IScrollBarSpec[] = [];
     const rowHeight: any = [];
 
     // 计算默认series padding和series高度
@@ -41,27 +46,36 @@ export class SequenceChart extends BaseChart {
     const leftAppendPadding = spec?.appendPadding?.left || 0;
     const rightAppendPadding = spec?.appendPadding?.right || 0;
 
-    if ((spec as any)?.legends) {
+    if (spec?.legends) {
       elements.push({
         modelId: `legendRow${rowNum}`,
         col: 1,
         row: rowNum
       });
-      (spec as any).legends[0].id = `legendRow${rowNum}`;
+      this.addAttrToComponentSpec(spec.legends, 'id', `legendRow${rowNum}`);
+      // legend offset 和 padding 兼容处理
+      const legendSpec = array(spec.legends);
+      let legendHeight = legendSpec[0].height ?? 40;
+      if (legendSpec[0].padding) {
+        const legendPadding = normalizeLayoutPaddingSpec(legendSpec[0].padding);
+        legendHeight += Number(legendPadding?.bottom ?? 0);
+        legendHeight += Number(legendPadding?.top ?? 0);
+        legendSpec[0].offsetY = Number(legendSpec[0]?.offsetY ?? 0) + Number(legendPadding?.top ?? 0);
+      }
       rowHeight.push({
         index: rowNum,
-        size: 20
+        size: legendHeight
       });
       rowNum++;
     }
 
-    if ((spec as any)?.dataZoom) {
+    if (spec?.dataZoom) {
       elements.push({
         modelId: `dataZoomRow${rowNum}`,
         col: 1,
         row: rowNum
       });
-      (spec as any).dataZoom[0].id = `dataZoomRow${rowNum}`;
+      this.addAttrToComponentSpec(spec.dataZoom, 'id', `dataZoomRow${rowNum}`);
       rowNum++;
 
       // 增加空行，拟合series padding效果
@@ -178,6 +192,32 @@ export class SequenceChart extends BaseChart {
           regionIndex: region.length - 1
         });
 
+        // scrollBar 内置
+        if (seriesSpec.type === SeriesTypeEnum.dot) {
+          elements.push({
+            modelId: `scrollBarRightRow${rowNum}`,
+            col: 2,
+            row: rowNum
+          });
+          const data = this.getSeriesData(seriesSpec.dataId, seriesSpec.dataIndex);
+          let ratio = 0;
+          if (data.latestData.length && data.latestData.length > 0) {
+            ratio = (seriesSpec?.height || defaultSeriesRowHeight) / (data.latestData.length * 30);
+          }
+          // scrollBar数组增加一个right scrollBar
+          scrollBar.push({
+            orient: 'right',
+            visible: seriesSpec.type === SeriesTypeEnum.dot && ratio < 1,
+            id: `scrollBarRightRow${rowNum}`,
+            start: 0,
+            end: Math.min(ratio, 1),
+            roam: false,
+            filterMode: 'axis',
+            regionIndex: region.length - 1,
+            axisId: `axesLeftRow${rowNum}`
+          });
+        }
+
         // seriesSpec绑定regionIndex
         seriesSpec.regionIndex = region.length - 1;
 
@@ -218,8 +258,8 @@ export class SequenceChart extends BaseChart {
     });
 
     // 添加legends和datazoom的regionIndex
-    if ((spec as any)?.legends) {
-      (spec as any).legends[0].regionIndex = [region.length - 1];
+    if (spec?.legends) {
+      this.addAttrToComponentSpec(spec.legends, 'regionIndex', [region.length - 1]);
     }
     // if ((spec as any)?.dataZoom) {
     //   (spec as any).dataZoom[0].regionIndex = Array.from({length: region.length - 1},(item, index)=> index+1);
@@ -227,7 +267,7 @@ export class SequenceChart extends BaseChart {
 
     const layout: IGridLayoutSpec = {
       type: 'grid',
-      col: 3,
+      col: 4,
       row: rowNum,
       colWidth: [
         {
@@ -236,6 +276,10 @@ export class SequenceChart extends BaseChart {
         },
         {
           index: 2,
+          size: SCROLL_BAR_DEFAULT_SIZE
+        },
+        {
+          index: 3,
           size: rightAppendPadding
         }
       ],
@@ -246,6 +290,7 @@ export class SequenceChart extends BaseChart {
     spec.layout = layout;
     spec.region = region;
     spec.axes?.push(...axes);
+    spec.scrollBar = scrollBar;
   }
 
   /**
@@ -268,7 +313,7 @@ export class SequenceChart extends BaseChart {
       } else {
         // 保证数据最终是 DataView 实例
         spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], {
-          onError: this._option.onError
+          onError: this._option?.onError
         });
         // link series添加关联的dot series data
         if (spec.type === SeriesTypeEnum.link) {
@@ -277,7 +322,7 @@ export class SequenceChart extends BaseChart {
             this._dataSet,
             this._spec.data as DataView[],
             {
-              onError: this._option.onError
+              onError: this._option?.onError
             }
           );
         }
@@ -312,5 +357,14 @@ export class SequenceChart extends BaseChart {
         region.addSeries(series);
       }
     });
+  }
+
+  addAttrToComponentSpec(componentSpec: any, attr: string, value: any) {
+    if (Array.isArray(componentSpec)) {
+      componentSpec[0][attr] = value;
+    } else {
+      componentSpec[attr] = value;
+    }
+    return componentSpec;
   }
 }

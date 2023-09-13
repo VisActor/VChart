@@ -230,7 +230,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
         return;
       }
       // 隐藏
-      this._hide();
+      this.hide();
       return;
     }
     // 删除之前的currValue
@@ -243,7 +243,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     this.layoutByValue(LayoutType.ALL);
   }
 
-  protected _hide() {
+  hide() {
     // 隐藏
     this._xCrosshair && this._xCrosshair.hideAll();
     this._xTopLabel && this._xTopLabel.hideAll();

@@ -5,7 +5,7 @@ name: TEST CI
 
 on:
   push:
-    branches: ['main', 'develop', 'dev/**']
+    branches: ['main', 'develop']
   pull_request:
     branches: ['main', 'develop', 'dev/**']
 
@@ -30,6 +30,8 @@ jobs:
         # Install rush
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
+      - name: Build vutils-extension
+        run: node common/scripts/install-run-rush.js build --only @visactor/vutils-extension
       - name: Build VChart
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'

@@ -268,6 +268,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _buildMarkAttributeContext() {
     this._markAttributeContext = {
+      vchart: this._option.globalInstance,
       globalScale: (key: string, value: string | number) => {
         return this._option.globalScale.getScale(key)?.scale(value);
       },
@@ -543,7 +544,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return dataKey(datum, index);
     }
 
-    this._option.onError(`invalid dataKey: ${dataKey}`);
+    this._option?.onError(`invalid dataKey: ${dataKey}`);
   }
 
   protected _addDataIndexAndKey() {
@@ -686,10 +687,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
-  protected _updateExtensionMarkSpec() {
+  protected _updateExtensionMarkSpec(lastSpec?: any) {
     this._spec.extensionMark?.forEach((spec, i) => {
       const mark = this._marks.getMarkWithInfo({ name: `${PREFIX}_series_${this.id}_extensionMark_${i}` });
+      if (lastSpec && isEqual(lastSpec.extensionMark?.[i], spec)) {
+        return;
+      }
       this.initMarkStyleWithSpec(mark, spec);
+      mark.updateStaticEncode();
+      mark.updateLayoutState();
     });
   }
 
@@ -880,14 +886,19 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return result;
   }
 
-  reInit(theme?: any) {
+  reInit(theme?: any, lastSpec?: any) {
     super.reInit(theme);
 
     this.initMarkStyle();
     this.getMarksWithoutRoot().forEach(mark => {
+      if (lastSpec && isEqual(lastSpec[mark.name], this._spec[mark.name])) {
+        return;
+      }
       this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
+      mark.updateStaticEncode();
+      mark.updateLayoutState(true);
     });
-    this._updateExtensionMarkSpec();
+    this._updateExtensionMarkSpec(lastSpec);
   }
 
   // 首次布局完成后填充系列数据
@@ -902,6 +913,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._viewDataMap.clear();
     // TODO: rawData transform clear;
     // this._dataSet=>// _rawData.tag = vchart
+    // clear add transforms of rawData
+    const transformIndex = this._rawData.transformsArr.findIndex(t => t.type === 'addVChartProperty');
+    if (transformIndex >= 0) {
+      this._rawData.transformsArr.splice(transformIndex, 1);
+    }
     this._data?.release();
     this._dataSet =
       this._data =
@@ -1081,7 +1097,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       }
 
       if (isValid(label)) {
-        m.setLabelSpec(label);
+        m.addLabelSpec(label);
       }
 
       const spec = this.getSpec() || ({} as T);

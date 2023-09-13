@@ -1,11 +1,11 @@
 import { DataView } from '@visactor/vdataset';
-import type { IMarkLine, IMarkLineSpec, IMarkLineTheme } from './interface';
+import type { IMarkLine, IMarkLineSpec, IMarkLineTheme, IStepMarkLineSpec } from './interface';
 import { isNil, isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
-import type { IOptionAggrs } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
+import type { IOptionAggr } from '../../../data/transforms/aggregation';
 import { markerAggregation } from '../../../data/transforms/aggregation';
 import { xLayout, yLayout, coordinateLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
@@ -22,7 +22,7 @@ import type { IOptionRegr } from '../../../data/transforms/regression';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant';
-import type { IRegion } from '../../../region/interface';
+import { getInsertPoints, getTextOffset } from './util';
 
 export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
@@ -68,7 +68,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
           y: 0
         }
       ],
-      lineStyle: transformToGraphic(this._spec?.line.style),
+      lineStyle: this._spec?.line.style as unknown as any,
       startSymbol: {
         ...this._spec?.startSymbol,
         visible: this._spec.startSymbol?.visible,
@@ -91,7 +91,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
           visible: this._spec.label?.labelBackground?.visible ?? true
         },
         textStyle: transformToGraphic(this._spec.label?.style)
-      }
+      },
+      clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markLine;
     this._markerComponent.name = 'markLine';
@@ -115,8 +116,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     const isCoordinateLayout =
       isValid(spec.coordinates) && (!isValid(spec.process) || ('process' in spec && 'xy' in spec.process));
     const isPositionLayout = isValid(spec.positions);
-    const autoRange = spec?.autoRange ?? false;
-    const isNeedClip = spec?.clip ?? false;
+    const autoRange = spec.autoRange ?? false;
 
     let points: IPointLike[] = [];
     if (isXLayout) {
@@ -130,14 +130,16 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     }
 
     const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-    let clipRange;
-    if (isNeedClip) {
+    const seriesData = this._relativeSeries.getViewData().latestData;
+
+    let limitRect;
+    if (spec.clip || spec.label?.confine) {
       const { minX, maxX, minY, maxY } = this._computeClipRange([
         startRelativeSeries.getRegion(),
         endRelativeSeries.getRegion(),
         relativeSeries.getRegion()
       ]);
-      clipRange = {
+      limitRect = {
         x: minX,
         y: minY,
         width: maxX - minX,
@@ -145,16 +147,70 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
       };
     }
 
-    this._markerComponent?.setAttributes({
-      points: points,
-      label: {
-        ...this._markerComponent.attribute?.label,
-        text: this._spec.label.formatMethod
-          ? this._spec.label.formatMethod(dataPoints)
-          : this._markerComponent.attribute?.label?.text
-      },
-      clipRange
-    });
+    const labelAttrs = {
+      ...this._markerComponent?.attribute?.label,
+      text: this._spec.label.formatMethod
+        ? this._spec.label.formatMethod(dataPoints, seriesData)
+        : this._markerComponent?.attribute?.label?.text
+    };
+
+    if ((this._spec as IStepMarkLineSpec).type === 'type-step') {
+      const { multiSegment, mainSegmentIndex } = (this._spec as IStepMarkLineSpec).line || {};
+      const { connectDirection, expandDistance = 0 } = this._spec as IStepMarkLineSpec;
+
+      const joinPoints = getInsertPoints(points[0], points[1], connectDirection, expandDistance);
+
+      let labelPositionAttrs: any;
+      if (multiSegment && isValid(mainSegmentIndex)) {
+        // 如果用户配置了主线段，则不进行 label 的偏移处理，直接显示在主线段中间
+        labelPositionAttrs = {
+          position: 'middle',
+          autoRotate: false,
+          refX: 0,
+          refY: 0
+        };
+      } else {
+        labelPositionAttrs = {
+          position: 'start',
+          autoRotate: false,
+          ...getTextOffset(points[0], points[1], connectDirection, expandDistance),
+          efX: 0,
+          refY: 0
+        };
+      }
+
+      this._markerComponent?.setAttributes({
+        points: multiSegment
+          ? [
+              [joinPoints[0], joinPoints[1]],
+              [joinPoints[1], joinPoints[2]],
+              [joinPoints[2], joinPoints[3]]
+            ]
+          : joinPoints,
+        label: {
+          ...labelAttrs,
+          ...labelPositionAttrs,
+          textStyle: {
+            ...this._markerComponent?.attribute?.label.textStyle,
+            textAlign: 'center',
+            textBaseline: 'middle'
+          }
+        },
+        limitRect,
+        multiSegment,
+        mainSegmentIndex,
+        dx: this.layoutOffsetX,
+        dy: this.layoutOffsetY
+      });
+    } else {
+      this._markerComponent?.setAttributes({
+        points: points,
+        label: labelAttrs,
+        limitRect,
+        dx: this.layoutOffsetX,
+        dy: this.layoutOffsetY
+      });
+    }
   }
 
   protected _initDataView(): void {
@@ -168,7 +224,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
       return;
     }
 
-    let options: IOptionAggrs | IOptionRegr;
+    let options: IOptionAggr[] | IOptionRegr;
     let processData: DataView;
     let needAgggr: boolean = false;
     let needRegr: boolean = false;
@@ -205,9 +261,10 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         needAgggr = true;
       }
       if (spec.process && 'xy' in spec.process) {
+        const { xField, yField } = relativeSeries.getSpec();
         options = {
-          fieldX: relativeSeries.getSpec().xField,
-          fieldY: relativeSeries.getSpec().yField
+          fieldX: xField,
+          fieldY: yField
         };
         needRegr = true;
       }

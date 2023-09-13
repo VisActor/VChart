@@ -17,5 +17,10 @@
       "module": "commonjs"
     }
   },
+  "references": [
+    {
+      "path": "../vutils-extension"
+    }
+  ],
   "include": ["src"]
 }

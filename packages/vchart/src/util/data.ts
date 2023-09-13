@@ -1,6 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
 import type { StatisticOperations } from '../data/transforms/dimension-statistics';
-import type { IFieldsMeta } from '../typings/spec/common';
 
 export function mergeFields(
   targetFields: {

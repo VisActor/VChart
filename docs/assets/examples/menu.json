@@ -187,7 +187,7 @@
             "en": "Range Area Chart"
           }
         },
-                {
+        {
           "path": "segment-range-area",
           "title": {
             "zh": "分段区间面积图",
@@ -859,7 +859,7 @@
         }
       ]
     },
-        {
+    {
       "path": "gauge-chart",
       "title": {
         "zh": "gauge-chart",
@@ -940,7 +940,7 @@
         }
       ]
     },
-        {
+    {
       "path": "treemap-chart",
       "title": {
         "zh": "treemap-chart",
@@ -1326,6 +1326,62 @@
             "zh": "坐标轴标签整体对齐",
             "en": "Overall alignment of axis labels"
           }
+        },
+        {
+          "path": "disable-sampling",
+          "title": {
+            "zh": "关闭轴标签采样 & dataFilter",
+            "en": "Turn off axis label sampling & dataFilter"
+          }
+        },
+        {
+          "path": "flush",
+          "title": {
+            "zh": "坐标轴首尾文字向内收缩",
+            "en": "Axis label flush"
+          }
+        },
+        {
+          "path": "axis-label-autoHide",
+          "title": {
+            "zh": "坐标轴文本自动隐藏",
+            "en": "Axis label autoHide"
+          }
+        },
+        {
+          "path": "axis-label-autoRotate",
+          "title": {
+            "zh": "坐标轴文本自动旋转",
+            "en": "Axis label autoRotate"
+          }
+        },
+        {
+          "path": "axis-label-autoLimit",
+          "title": {
+            "zh": "坐标轴文本自动省略",
+            "en": "Axis label autoLimit"
+          }
+        },
+        {
+          "path": "axis-label-autoHide-and-autoRotate",
+          "title": {
+            "zh": "坐标轴组件标签布局组合使用",
+            "en": "Axis label autoHide and autoRotate"
+          }
+        },
+        {
+          "path": "axis-sync",
+          "title": {
+            "zh": "多轴 tick 同步",
+            "en": "Axis tick sync"
+          }
+        },
+        {
+          "path": "axis-band-size",
+          "title": {
+            "zh": "固定组宽并自动出现滚动条",
+            "en": "Axis fixed bandSize and auto scroll bar"
+          }
         }
       ]
     },
@@ -1366,7 +1422,7 @@
         }
       ]
     },
-        {
+    {
       "path": "legend",
       "title": {
         "zh": "legend",
@@ -1571,7 +1627,7 @@
         }
       ]
     },
-        {
+    {
       "path": "brush",
       "title": {
         "zh": "brush",

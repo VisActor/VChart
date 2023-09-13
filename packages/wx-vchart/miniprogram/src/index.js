@@ -1,4 +1,5 @@
-const VChart = require('./vchart/index');
+/* eslint-disable */
+import VChart, { vglobal } from './vchart/index';
 // import mapJson from "./data/map-data-china";
 
 Component({
@@ -52,13 +53,11 @@ Component({
 
   methods: {
     init() {
-      console.log('init=============', VChart);
       wx.createSelectorQuery()
         .in(this)
         .select(`#${this.data.canvasId}_draw_canvas`) // 在 WXML 中填入的 id
         .fields({ node: true, size: true })
         .exec(async res => {
-          console.log(res);
           const canvas = res[0].node;
           const canvasIdLists = [
             `${this.data.canvasId}_draw_canvas`,
@@ -66,7 +65,6 @@ Component({
             `${this.data.canvasId}_hit_canvas`
           ];
 
-          console.log(canvas.width, canvas.height);
           const domref = { width: res[0].width, height: res[0].height };
           this.setData({
             offscreenCanvasWidth: domref.width,
@@ -75,8 +73,8 @@ Component({
 
           this.chart && this.chart.release();
 
-          await VChart.vglobal.setEnv('wx', { domref, force: true, canvasIdLists, freeCanvasIdx: 2, component: this });
-          const chartInstance = new VChart.default(
+          await vglobal.setEnv('wx', { domref, force: true, canvasIdLists, freeCanvasIdx: 2, component: this });
+          const chartInstance = new VChart(
             {
               ...this.data.spec,
               width: domref.width,
@@ -96,7 +94,6 @@ Component({
               renderCanvas: `${this.data.canvasId}_draw_canvas`
             }
           );
-          console.log(chartInstance);
           this.chart = chartInstance;
           this.triggerEvent('chartinit');
 

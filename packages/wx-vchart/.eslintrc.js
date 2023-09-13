@@ -28,5 +28,6 @@ module.exports = {
   },
   // extends: 'eslint:recommended',
   ignorePatterns: ['typings', '*.ts'],
-  rules: {}
+  rules: {},
+  ignorePatterns: ['./miniprogram/src/index.js']
 };

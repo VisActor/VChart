@@ -2,13 +2,13 @@
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { ILineMark } from '../../mark/line';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
-import { AttributeLevel, POLAR_START_RADIAN } from '../../constant';
-import { DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
+import { AttributeLevel, ChartEvent, POLAR_START_RADIAN } from '../../constant';
+import { DEFAULT_LINEAR_INTERPOLATE } from '../../typings';
 import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
-import { isValid, radians } from '../../util';
+import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { mixin } from '@visactor/vutils';
+import { degreeToRadian, mixin } from '@visactor/vutils';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
@@ -33,6 +33,7 @@ export interface RadarSeries<T extends IRadarSeriesSpec>
       | 'initLabelMarkStyle'
       | 'initLineMarkStyle'
       | 'initSymbolMarkStyle'
+      | 'encodeDefined'
       | '_lineMark'
       | '_symbolMark'
     >,
@@ -110,11 +111,27 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
             return value;
           },
           fill: this.getColorAttribute(),
-          curveType: DEFAULT_LINEAR_CLOSED_INTERPOLATE
+          curveType: DEFAULT_LINEAR_INTERPOLATE,
+          closePath: true
         },
         'normal',
         AttributeLevel.Series
       );
+
+      if (this._invalidType !== 'zero') {
+        this.setMarkStyle(
+          areaMark,
+          {
+            defined: this._getInvalidDefined,
+            connectedType: this._getInvalidConnectType()
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
+      this.event.on(ChartEvent.viewDataStatisticsUpdate, { filter: param => param.model === this }, () => {
+        this.encodeDefined(areaMark, 'defined');
+      });
       this._trigger.registerMark(areaMark);
       this._tooltipHelper?.activeTriggerSet.dimension.add(areaMark);
     }
@@ -127,7 +144,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         const rect = this.getLayoutRect();
         return Math.min(rect.width, rect.height);
       },
-      startAngle: radians(this._spec.startAngle) ?? POLAR_START_RADIAN,
+      startAngle: isValid(this._spec.startAngle) ? degreeToRadian(this._spec.startAngle) : POLAR_START_RADIAN,
       pointToCoord: (point: IPoint) => this.angleAxisHelper?.pointToCoord(point),
       coordToPoint: (coord: IPolarPoint) => this.angleAxisHelper.coordToPoint(coord)
     };

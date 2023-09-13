@@ -111,7 +111,8 @@ export enum ChartEvent {
 
 export enum Event_Source_Type {
   chart = 'chart',
-  window = 'window'
+  window = 'window',
+  canvas = 'canvas'
 }
 
 export enum Event_Bubble_Level {

@@ -46,7 +46,7 @@ const spec = {
       orient: 'bottom'
     },
     {
-      zIndex: 100,
+      zIndex: 101,
       orient: 'left',
       inverse: true, // inverse the left axis
       domainLine: {

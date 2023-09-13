@@ -8,6 +8,7 @@ export interface ICrossHair extends IComponent {
   clearAxisValue?: () => void;
   setAxisValue?: (v: StringOrNumber, axis: IAxis) => void;
   layoutByValue?: (v?: number) => void;
+  hide?: () => void;
 }
 
 export type CrossHairTrigger = 'click' | 'hover' | ['click', 'hover'];

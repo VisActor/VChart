@@ -106,7 +106,7 @@ describe('Bar chart test', () => {
           return {
             updateData: () => {},
             updateState: () => {},
-            reRenderAsync: () => {},
+            renderAsync: () => {},
             getVGrammarView: () => {
               return {
                 updateLayoutTag: () => {}

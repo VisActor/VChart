@@ -17,6 +17,7 @@ export default {
   resolve: {
     alias: {
       '@visactor/vchart': path.resolve('../packages/vchart/src/index.ts'),
+      '@visactor/vutils-extension': path.resolve('../packages/vutils-extension/src/index.ts'),
       '@internal/story-player': path.resolve('../tools/story-player/src/index.ts')
     }
   },

@@ -4,7 +4,7 @@ group: axis
 title: Overall alignment of axis labels
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-8
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/label-container-align.jpeg
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/axis/label-container-align.jpeg
 option: barChart#axes
 ---
 

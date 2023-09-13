@@ -1,6 +1,6 @@
 import type { Datum } from '../../../typings';
 import type { CartesianAxis } from '../../../component';
-import { convertDomainToTickData } from '../../../data/transforms/tick-data/util';
+import { convertDomainToTickData } from '@visactor/vutils-extension';
 
 export interface ITickAlignOpt {
   targetAxis: () => CartesianAxis;
@@ -55,5 +55,5 @@ export const tickAlign = (data: Array<Datum>, op: ITickAlignOpt) => {
     const percent = (d.value - targetDomain[0]) / targetRange;
     return currentRange * percent + currentDomain[0];
   });
-  return convertDomainToTickData(newTicks, currentTickTransform.options);
+  return convertDomainToTickData(newTicks);
 };
