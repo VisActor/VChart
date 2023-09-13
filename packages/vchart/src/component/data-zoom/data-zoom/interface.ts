@@ -8,7 +8,7 @@ import type {
 } from '../../../typings/visual';
 import type { IComponentSpec } from '../../base/interface';
 import type { IComponent } from '../../interface';
-import type { IDataFilterComponentSpec } from '../interface';
+import type { IDataFilterComponentSpec, IFilterMode } from '../interface';
 
 export type IDataZoom = IComponent;
 
@@ -52,6 +52,12 @@ export interface IDataZoomStyle {
 
 /** spec */
 export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec {
+  /**
+   * 数据过滤模式
+   * @default 'filter' （dataZoom默认数据过滤模式）
+   * 详细可参考：https://echarts.apache.org/zh/option.html#dataZoom-slider.filterMode）
+   */
+  filterMode?: IFilterMode;
   /**
    * 背景趋势线对应的字段
    */
