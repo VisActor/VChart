@@ -9,7 +9,7 @@ import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum, ConvertToMarkStyleSpec, IAreaMarkSpec, InterpolateType } from '../../typings';
 import { valueInScaleRange, mergeSpec } from '../../util';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface';
+import { SeriesMarkNameEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../interface';
 import { mixin } from '@visactor/vutils';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -51,7 +51,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   protected _areaMark!: IAreaMark;
   protected _stack: boolean = true;
-  protected _sortDataByAxis: boolean = true;
+  protected _sortDataByAxis: boolean = false;
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();

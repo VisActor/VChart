@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: add vchart to context in params of mark function style\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}

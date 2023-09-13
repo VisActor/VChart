@@ -1,12 +1,12 @@
-import { builtinThemeMap, defaultThemeName } from './builtin';
+import { defaultThemeName, getMergedTheme, themes } from './builtin';
 import type { ITheme } from './interface';
 import { InstanceManager } from '../core/instance-manager';
 import type { IVChart } from '../core/interface';
-import { mergeTheme } from '../util';
+import { isString } from '@visactor/vutils';
 
 export class ThemeManager {
   /** 主题字典 */
-  static themes: Map<string, ITheme> = new Map();
+  static readonly themes = themes;
 
   private static _currentThemeName: string = defaultThemeName; // 设置缺省为默认主题
 
@@ -21,7 +21,7 @@ export class ThemeManager {
       return;
     }
     // 所有主题基于默认主题扩展，保证基础值
-    ThemeManager.themes.set(name, mergeTheme({}, ThemeManager.getDefaultTheme(), theme));
+    ThemeManager.themes.set(name, getMergedTheme(theme));
   }
 
   /**
@@ -47,7 +47,10 @@ export class ThemeManager {
    * @param name 主题名称
    * @returns 是否存在
    */
-  static themeExist(name: string) {
+  static themeExist(name: any) {
+    if (!isString(name)) {
+      return false;
+    }
     return ThemeManager.themes.has(name);
   }
 
@@ -75,12 +78,3 @@ export class ThemeManager {
     return ThemeManager._currentThemeName;
   }
 }
-
-// 先注册默认主题
-ThemeManager.registerTheme(defaultThemeName, builtinThemeMap.get(defaultThemeName));
-// 再注册其他内置主题
-builtinThemeMap.forEach((theme, name) => {
-  if (name !== defaultThemeName) {
-    ThemeManager.registerTheme(name, theme);
-  }
-});

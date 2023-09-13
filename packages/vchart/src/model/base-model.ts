@@ -21,7 +21,7 @@ import type { CompilableData } from '../compile/data/compilable-data';
 import { ModelStateManager } from './model-state-manager';
 import { PREFIX } from '../constant';
 import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar';
-import { array, isEqual, isNil } from '@visactor/vutils';
+import { array, isArray, isEqual, isNil } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import type { SeriesTypeEnum } from '../series/interface';
 import { MarkSet } from '../mark/mark-set';
@@ -231,8 +231,25 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
 
   /** 将 theme merge 到 spec 中 */
   protected _mergeThemeToSpec() {
-    const chartSpec = this.getChart().getSpec();
-    this._spec = mergeSpec({}, this._theme, this._getDefaultSpecFromChart(chartSpec), this._originalSpec);
+    if (this._shouldMergeThemeToSpec()) {
+      const specFromChart = this._getDefaultSpecFromChart(this.getChart().getSpec());
+
+      // this._originalSpec + specFromChart + this._theme = this._spec
+      const merge = (originalSpec: any) =>
+        mergeSpec(
+          {},
+          this._theme,
+          this._prepareSpecBeforeMergingTheme(specFromChart),
+          this._prepareSpecBeforeMergingTheme(originalSpec)
+        );
+
+      if (isArray(this._originalSpec)) {
+        this._spec = this._originalSpec.map(spec => merge(spec)) as unknown as T;
+      } else {
+        this._spec = merge(this._originalSpec);
+      }
+    }
+    this._prepareSpecAfterMergingTheme();
   }
 
   /** 从 chart spec 提取配置作为 model 的默认 spec 配置 */
@@ -240,13 +257,25 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     return {};
   }
 
-  /** 对 spec 进行遍历和转换 */
-  protected _preprocessSpec(obj?: any): any {
+  /** 是否在初始化时将 theme 自动 merge 到 spec */
+  protected _shouldMergeThemeToSpec(): boolean {
+    return true;
+  }
+
+  /** 在 merge 主题前对 spec 进行预处理 */
+  protected _prepareSpecBeforeMergingTheme(obj?: any): any {
+    // do nothing
+    return obj;
+  }
+
+  /** 在 merge 主题后对 spec 进行遍历和转换 */
+  protected _prepareSpecAfterMergingTheme(obj?: any): any {
     if (!arguments.length) {
       obj = this._spec;
     }
 
     const newObj = preprocessSpecOrTheme(
+      'spec',
       obj,
       this._option.getTheme?.()?.colorScheme,
       this.modelType === 'series' ? (this.type as SeriesTypeEnum) : undefined

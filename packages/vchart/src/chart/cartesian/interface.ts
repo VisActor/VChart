@@ -24,13 +24,13 @@ export interface ICartesianChartSpec extends IChartSpec {
   /**
    * 参考线配置
    */
-  markLine?: IMarkLineSpec;
+  markLine?: IMarkLineSpec | IMarkLineSpec[];
   /**
    * 参考区域配置
    */
-  markArea?: IMarkAreaSpec;
+  markArea?: IMarkAreaSpec | IMarkLineSpec[];
   /**
    * 参考点配置
    */
-  markPoint?: IMarkPointSpec;
+  markPoint?: IMarkPointSpec | IMarkPointSpec[];
 }

@@ -1,7 +1,6 @@
 import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
 import type { ITextMark } from '../../mark/text';
-// eslint-disable-next-line no-duplicate-imports
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IWordCloud3dSeriesSpec } from './interface';
 import type { Datum } from '../../typings';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';

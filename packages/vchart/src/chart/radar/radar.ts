@@ -1,4 +1,4 @@
-import { RadarSeries } from './../../series/radar/radar';
+import { RadarSeries } from '../../series/radar/radar';
 import { SeriesTypeEnum } from '../../series/interface';
 import { array, mergeSpec } from '../../util';
 import { ChartTypeEnum } from '../interface';

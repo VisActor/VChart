@@ -54,6 +54,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     });
 
     this._valueField = 'y';
+    this._filterMode = spec.filterMode ?? 'filter';
   }
 
   created() {
@@ -84,6 +85,41 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const endHandlerVisble = this._spec.endHandler.style.visible ?? true;
     this._startHandlerSize = startHandlerVisble ? this._spec.startHandler.style.size : 0;
     this._endHandlerSize = endHandlerVisble ? this._spec.endHandler.style.size : 0;
+  }
+
+  protected _prepareSpecBeforeMergingTheme(originalSpec: T): T {
+    const newSpec: T = {
+      ...originalSpec
+    };
+    // 为了减少主题更改造成的影响，如果用户在 spec 配置了主题默认关闭的 mark，则自动加上 visible: true
+    const { selectedBackgroundChart = {} } = newSpec;
+    const { line, area } = selectedBackgroundChart;
+    if (line || area) {
+      newSpec.selectedBackgroundChart = {
+        ...selectedBackgroundChart,
+        line:
+          line && line.visible !== false
+            ? {
+                ...line,
+                style: {
+                  ...line.style,
+                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
+                }
+              }
+            : line,
+        area:
+          area && area.visible !== false
+            ? {
+                ...area,
+                style: {
+                  ...area.style,
+                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
+                }
+              }
+            : area
+      };
+    }
+    return newSpec;
   }
 
   /** LifeCycle API**/
@@ -259,7 +295,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       this.event.emit(ChartEvent.dataZoomChange, {
         model: this,
         value: {
-          filterData: this._spec.filterMode !== 'axis',
+          filterData: this._filterMode !== 'axis',
           start,
           end,
           startValue: this._startValue,

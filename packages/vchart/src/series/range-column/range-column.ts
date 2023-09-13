@@ -2,7 +2,7 @@ import { BarSeries } from '../bar/bar';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
 import type { IRectMark } from '../../mark/rect';
 import type { ITextMark } from '../../mark/text';

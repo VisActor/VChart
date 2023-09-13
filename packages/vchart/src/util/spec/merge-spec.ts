@@ -1,4 +1,5 @@
-import { isArray, isArrayLike, isPlainObject, isValid } from '@visactor/vutils';
+import { isArray, isArrayLike, isObject, isPlainObject, isValid } from '@visactor/vutils';
+import type { StringOrNumber } from '../../typings';
 
 function baseMerge(target: any, source: any, shallowArray: boolean = false) {
   if (source) {
@@ -96,4 +97,35 @@ export function mergeSpec(target: any, ...sources: any[]): any {
     baseMerge(target, source, true);
   }
   return target;
+}
+
+export function mergeSpecWithFilter(
+  target: any,
+  filter: string | { type: string; index: number },
+  spec: any,
+  forceMerge: boolean
+) {
+  Object.keys(target).forEach(k => {
+    if (isObject(filter)) {
+      if (filter.type === k) {
+        if (isArray(target[k])) {
+          if (target[k].length >= filter.index) {
+            target[k][filter.index] = forceMerge ? mergeSpec({}, target[k][filter.index], spec) : spec;
+          }
+        } else {
+          target[k] = forceMerge ? mergeSpec({}, target[k], spec) : spec;
+        }
+      }
+    } else {
+      // filter === user id
+      if (isArray(target[k])) {
+        const index = target[k].findIndex((_s: { id: StringOrNumber }) => _s.id === filter);
+        if (index >= 0) {
+          target[k][index] = forceMerge ? mergeSpec({}, target[k][index], spec) : spec;
+        }
+      } else if (target.id === filter) {
+        target[k] = forceMerge ? mergeSpec({}, target[k], spec) : spec;
+      }
+    }
+  });
 }

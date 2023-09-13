@@ -1,6 +1,3 @@
-/**
- * @todo vgrammar axis 支持 mode: '3d' 配置传入
- */
 import type { IBounds, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption, ILayoutRect } from '../../../model/interface';
@@ -31,9 +28,9 @@ import { isValidCartesianAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { scaleParser } from '../../../data/parser/scale';
-import type { ICartesianTickDataOpt } from '../../../data/transforms/tick-data';
+import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
-import { ticks } from '../../../data/transforms/tick-data';
+import { ticks } from '@visactor/vutils-extension';
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataView } from '@visactor/vdataset';
@@ -232,7 +229,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       }
     } else if (isZAxis(this.getOrient())) {
       if (isValidNumber(width)) {
-        // TODO 这里需要设置布局
         newRange = inverse ? [width, 0] : [0, width];
         this._scale.range(newRange);
       }
@@ -262,20 +258,21 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    const isX = isXAxis(this.getOrient());
-    if (isX) {
-      if (isUndefined(this._spec.maxHeight)) {
-        this._spec.maxHeight = '30%';
+    if (this.visible) {
+      const isX = isXAxis(this.getOrient());
+      if (isX) {
+        if (isUndefined(this._spec.maxHeight)) {
+          this._spec.maxHeight = '30%';
+        }
+      } else if (isUndefined(this._spec.maxWidth)) {
+        this._spec.maxWidth = '30%';
       }
-    } else if (isUndefined(this._spec.maxWidth)) {
-      this._spec.maxWidth = '30%';
+
+      const axisStyle: any = this._getAxisAttributes();
+      axisStyle.label.formatMethod = this.getLabelFormatMethod();
+      axisStyle.verticalFactor = this.getOrient() === 'top' || this.getOrient() === 'right' ? -1 : 1;
+      this._axisStyle = axisStyle;
     }
-
-    const axisStyle: any = this._getAxisAttributes();
-    axisStyle.label.formatMethod = this.getLabelFormatMethod();
-    axisStyle.verticalFactor = this.getOrient() === 'top' || this.getOrient() === 'right' ? -1 : 1;
-    this._axisStyle = axisStyle;
-
     this._tick = this._spec.tick;
   }
 
@@ -294,7 +291,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return [f[0]];
   }
 
-  protected _initData() {
+  protected _initTickData(sampling: boolean) {
     registerDataSetInstanceParser(this._option.dataSet, 'scale', scaleParser);
     registerDataSetInstanceTransform(this._option.dataSet, 'ticks', ticks);
 
@@ -308,7 +305,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         {
           type: 'ticks',
           options: {
-            sampling: this._spec.sampling !== false, // default do sampling
+            sampling,
             tickCount: tick.tickCount,
             forceTickCount: tick.forceTickCount,
             tickStep: tick.tickStep,
@@ -333,6 +330,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this._tickData = new CompilableData(this._option, tickData);
   }
 
+  protected _initData() {
+    this._initTickData(this._spec.sampling !== false); // default do sampling
+  }
+
   protected axisHelper(): IAxisHelper {
     const getScale = (depth: number = 0) => {
       return this._scales[depth];
@@ -341,7 +342,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       isContinuous: isContinuous(this._scale.type),
       dataToPosition: this.dataToPosition.bind(this),
       getScale,
-      // TODO 轴可以设置domain
       getStatisticsDomain: () => this.getStatisticsDomain(),
       getAxisType: () => this.type,
       getAxisId: () => this.id,
@@ -351,7 +351,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   /** LifeCycle API**/
   afterCompile() {
-    const product = this.getMarks()[0]?.getProduct();
+    const product = this._axisMark?.getProduct();
     if (product) {
       product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
         if (this._isLayout === false) {
@@ -369,7 +369,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
             });
           }
 
-          // 代理组件上的事件，目前坐标轴组件比较特殊，包含了网格线，但是事件这块只提供不包含网格线部分的响应
           this._delegateAxisContainerEvent(product.getGroupGraphicItem());
         }
       });
@@ -539,7 +538,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
    * @param rect
    * @returns
    */
-  boundsInRect(rect: ILayoutRect): IBoundsLike {
+  _boundsInRect(rect: ILayoutRect): IBoundsLike {
     let result: IBoundsLike = { x1: 0, y1: 0, x2: 0, y2: 0 };
     if (!this._visible) {
       return result;
@@ -564,7 +563,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
           plugin.onWillLayoutVertical && plugin.onWillLayoutVertical(this.pluginService, context, this);
         });
     }
-    const product = this.getMarks()[0].getProduct();
+    const product = this._axisMark.getProduct();
     this._latestBounds = product.getBounds();
     if (!context.skipLayout) {
       const attrs = this._getUpdateAttribute(true);
@@ -585,10 +584,15 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       return;
     }
     // 正式的更新布局属性
-    const attrs = this._getUpdateAttribute(false);
-    const product = this.getMarks()[0].getProduct(); // 获取语法元素
-    const axisAttrs = mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs);
-    product.encode(axisAttrs);
+    const { grid: updateGridAttrs, ...updateAxisAttrs } = this._getUpdateAttribute(false);
+    const axisProduct = this._axisMark.getProduct(); // 获取语法元素
+    const axisAttrs = mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, updateAxisAttrs);
+    axisProduct.encode(axisAttrs);
+
+    if (this._gridMark) {
+      const gridProduct = this._gridMark.getProduct(); // 获取语法元素
+      gridProduct.encode(mergeSpec({ ...this.getLayoutStartPoint() }, this._getGridAttributes(), updateGridAttrs));
+    }
 
     super.updateLayoutAttribute();
   }
@@ -666,24 +670,34 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         anchor3d = [0, 0, 0];
         alpha = Math.PI / 2;
       }
-      return {
+      const items = this.getLabelItems(width);
+      const axisAttrs: any = {
         start: { x: 0, y: 0 },
         end: { x: depth, y: 0 },
         z: z,
         alpha,
         anchor3d,
-        grid: {
-          type: 'line',
-          depth: depthZ,
-          length: regionHeight,
-          visible: this._spec.grid.visible && !ignoreGrid
-        },
         title: {
           text: this._spec.title.text || this._dataFieldText,
           maxWidth: this._getTitleLimit(isX)
         },
-        items: this.getLabelItems(width)
-      } as LineAxisAttributes;
+        items
+      };
+      if (!ignoreGrid) {
+        axisAttrs.grid = {
+          type: 'line',
+          start: { x: 0, y: 0 },
+          end: { x: depth, y: 0 },
+          items: items[0],
+          verticalFactor: this._axisStyle.verticalFactor,
+          depth: depthZ,
+          length: regionHeight,
+          z: z,
+          alpha,
+          anchor3d
+        };
+      }
+      return axisAttrs;
     }
     let verticalMinSize = isX ? this._minHeight : this._minWidth;
     if (
@@ -692,23 +706,29 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     ) {
       verticalMinSize = this._verticalLimitSize;
     }
-    const attrs: LineAxisAttributes = {
+    const items = this.getLabelItems(axisLength);
+    const attrs: any = {
       start: { x: 0, y: 0 },
       end,
-      grid: {
-        type: 'line',
-        depth,
-        length: gridLength,
-        visible: this._spec.grid.visible && !ignoreGrid
-      },
       title: {
         text: this._spec.title.text || this._dataFieldText,
         maxWidth: this._getTitleLimit(isX)
       },
-      items: this.getLabelItems(axisLength),
+      items,
       verticalLimitSize: this._verticalLimitSize,
       verticalMinSize
     };
+    if (!ignoreGrid) {
+      attrs.grid = {
+        type: 'line',
+        start: { x: 0, y: 0 },
+        end,
+        items: items[0],
+        verticalFactor: this._axisStyle.verticalFactor,
+        depth,
+        length: gridLength
+      };
+    }
 
     return attrs;
   }
@@ -760,7 +780,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
           bindAxis = relativeAxes[0];
         }
         if (bindAxis) {
-          const axisMark = this.getMarks()[0].getProduct();
+          const axisMark = this._axisMark.getProduct();
           // 找到了绑定的 axis，获取基线的位置
           const position = bindAxis.valueToPosition(0);
           // 获取偏移量

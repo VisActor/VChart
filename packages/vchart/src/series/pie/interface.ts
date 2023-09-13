@@ -1,7 +1,7 @@
 import type { IAnimationSpec } from '../../animation/spec';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
-import type { IArcMarkSpec, ITextMarkSpec, IPathMarkSpec, IArc3dMarkSpec } from '../../typings/visual';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { IArcMarkSpec, ITextMarkSpec, IArc3dMarkSpec, ILineMarkSpec } from '../../typings/visual';
+import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { PieAppearPreset } from './animation/animation';
 import type { ILabelSpec } from '../../component/label';
@@ -79,7 +79,7 @@ export interface IPie3dSeriesTheme extends IPolarSeriesTheme {
   [SeriesMarkNameEnum.label]?: IArcLabelSpec;
 }
 
-export interface IArcLabelLineSpec extends IMarkSpec<IPathMarkSpec> {
+export interface IArcLabelLineSpec extends IMarkSpec<ILineMarkSpec> {
   /**
    * 是否显示引导线
    * @default true
@@ -95,6 +95,12 @@ export interface IArcLabelLineSpec extends IMarkSpec<IPathMarkSpec> {
    * @default 10
    */
   line2MinLength?: number;
+  /**
+   * 引导线是否光滑
+   * @default false
+   * @SInCE 1.4.0
+   */
+  smooth?: boolean;
 }
 
 export type ArcLabelAlignType = 'arc' | 'labelLine' | 'edge';

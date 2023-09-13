@@ -21,7 +21,7 @@ export const treemap: ITreemapSeriesTheme = {
     }
   },
   nonLeafLabel: {
-    padding: THEME_CONSTANTS.l4FontSize * 2,
+    padding: THEME_CONSTANTS.l5FontSize * 2,
     style: {
       fill: 'black',
       stroke: 'white',

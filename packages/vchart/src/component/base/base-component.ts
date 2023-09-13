@@ -97,14 +97,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
     }
 
     // 将 theme merge 到 spec 中
-    if (this._shouldMergeThemeToSpec) {
-      if (isArray(this._originalSpec)) {
-        this._spec = this._originalSpec.map(spec => merge({}, this._theme, spec)) as unknown as T;
-      } else {
-        this._mergeThemeToSpec();
-      }
-    }
-    this._preprocessSpec();
+    this._mergeThemeToSpec();
 
     // 默认忽略外侧 padding
     const { padding, noOuterPadding = true, orient } = this._spec;
@@ -114,11 +107,6 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
         [orient]: 0
       };
     }
-  }
-
-  /** 是否在初始化时将 theme 自动 merge 到 spec */
-  protected _shouldMergeThemeToSpec() {
-    return true;
   }
 
   protected getContainer() {
@@ -138,15 +126,16 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
       regionIndex?: number;
       seriesId?: StringOrNumber;
       seriesIndex?: number;
+      visible?: boolean;
     };
     const result = super.updateSpec(spec);
-    if (
-      originalSpec.regionId !== this._spec.regionId ||
-      originalSpec.regionIndex !== this._spec.regionIndex ||
-      originalSpec.seriesId !== this._spec.seriesId ||
-      originalSpec.seriesIndex !== this._spec.seriesIndex
-    ) {
-      result.reMake = true;
+    if (!result.reMake) {
+      result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
+        return JSON.stringify(originalSpec[k]) !== JSON.stringify(spec[k]);
+      });
+    }
+    if (originalSpec.visible !== spec.visible) {
+      result.reCompile = true;
     }
     return result;
   }

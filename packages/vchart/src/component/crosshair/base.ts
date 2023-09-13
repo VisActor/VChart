@@ -88,7 +88,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   protected abstract _showDefaultCrosshair(): void;
   protected abstract _layoutCrosshair(x: number, y: number): void;
   protected abstract _parseFieldInfo(): void;
-  protected abstract _hide(): void;
+  abstract hide(): void;
 
   protected _getLimitBounds() {
     if (!this._limitBounds) {
@@ -147,7 +147,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       if (this.enableRemain) {
         return;
       }
-      this._hide();
+      this.hide();
     });
   }
 
@@ -361,7 +361,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         stroke: rectStroke,
         ...rectStyle
       },
-      zIndex: this.labelZIndex
+      zIndex: this.labelZIndex,
+      childrenPickable: false,
+      pickable: false
     };
 
     return hair;

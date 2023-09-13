@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../../cartesian/cartesian';
 import type { SeriesMarkMap } from '../../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
 import type { IRectMark } from '../../../mark/rect';
 import type { IGroupMark } from '../../../mark/group';
 import { valueInScaleRange } from '../../../util';

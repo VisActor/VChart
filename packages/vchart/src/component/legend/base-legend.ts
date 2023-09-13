@@ -49,6 +49,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     return this._legendData.getLatestData();
   }
 
+  private _preSelectedData: StringOrNumber[] = [];
   protected _selectedData: StringOrNumber[] = [];
   /**
    * getSelectedData
@@ -145,9 +146,14 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   protected abstract _getLegendConstructor(): any;
   protected abstract _initEvent(): void;
 
+  private _bindLegendDataChange() {
+    this._preSelectedData = [...this._selectedData];
+    this._initSelectedData();
+  }
+
   protected initData() {
     const legendData = this._initLegendData();
-    legendData.target.addListener('change', this._initSelectedData.bind(this));
+    legendData.target.addListener('change', this._bindLegendDataChange.bind(this));
     this._legendData = new CompilableData(this._option, legendData);
 
     this._initSelectedData();
@@ -190,7 +196,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     }
   }
 
-  boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
+  _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
     if (!this._visible) {
       return { x1: 0, y1: 0, x2: 0, y2: 0 };
     }
@@ -256,12 +262,34 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     return result;
   }
 
+  onDataUpdate(): void {
+    if (JSON.stringify(this._preSelectedData) === JSON.stringify(this._selectedData)) {
+      return;
+    }
+
+    if (this._legendComponent) {
+      // 更新组件
+      const attrs = this._getLegendAttributes(this.getLayoutRect());
+      if (!isEqual(attrs, this._cacheAttrs)) {
+        this._legendComponent.setAttributes(
+          mergeSpec({}, attrs, {
+            defaultSelected: this._selectedData // 图表 resize 之后应该保留上次筛选的结果
+          })
+        );
+      }
+    }
+    // 更新数据流
+    this.effect.onSelectedDataChange?.();
+    this.event.emit(ChartEvent.legendSelectedDataChange, { model: this });
+  }
+
   clear(): void {
     if (this._legendComponent) {
       this._container.removeChild(this._legendComponent);
       this._legendComponent = null;
     }
     this._cacheAttrs = null;
+    this._preSelectedData = null;
     super.clear();
   }
 }

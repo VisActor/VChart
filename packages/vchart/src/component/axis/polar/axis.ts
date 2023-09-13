@@ -10,24 +10,24 @@ import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
 import { Factory } from '../../../core/factory';
-import { isArray, isValidNumber, mergeSpec, polarToCartesian, radians, eachSeries } from '../../../util';
+import { isArray, isValidNumber, mergeSpec, polarToCartesian, eachSeries } from '../../../util';
 import { scaleParser } from '../../../data/parser/scale';
-import type { IPolarTickDataOpt } from '../../../data/transforms/tick-data';
-// eslint-disable-next-line no-duplicate-imports
-import { ticks } from '../../../data/transforms/tick-data';
+import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
+import { ticks } from '@visactor/vutils-extension';
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber } from '../../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { isPolarAxisSeries } from '../../../series/util/utils';
-import { isValidPolarAxis } from '../util';
+import { getAxisLabelOffset, isValidPolarAxis } from '../util';
 
 import type { Dict } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { PointService, isValid } from '@visactor/vutils';
+import { PointService, degreeToRadian, isValid } from '@visactor/vutils';
 import type { IEffect } from '../../../model/interface';
 import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
 import type { ITick } from '../interface';
+import { HOOK_EVENT } from '@visactor/vgrammar';
 
 export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommonSpec>
   extends AxisComponent<T>
@@ -75,6 +75,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   private _axisStyle: any;
+  private _gridStyle: any;
 
   static createAxis(spec: any, options: IComponentOption): IPolarAxis {
     // TODO: 基于数据处理 axis 类型
@@ -165,8 +166,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    const axisStyle = this._getAxisAttributes();
-    this._axisStyle = axisStyle;
+    if (this.visible) {
+      this._axisStyle = this._getAxisAttributes();
+      this._gridStyle = this._getGridAttributes();
+    }
 
     this._tick = this._spec.tick;
     this._orient = this._spec.orient === 'angle' ? 'angle' : 'radius';
@@ -174,8 +177,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     const chartSpec = this.getChart().getSpec() as any;
     const startAngle = this._spec.startAngle ?? chartSpec.startAngle;
     const endAngle = this._spec.endAngle ?? chartSpec.endAngle;
-    this._startAngle = radians(startAngle ?? POLAR_START_ANGLE);
-    this._endAngle = radians(endAngle ?? (isValid(startAngle) ? startAngle + 360 : POLAR_END_ANGLE));
+    this._startAngle = degreeToRadian(startAngle ?? POLAR_START_ANGLE);
+    this._endAngle = degreeToRadian(endAngle ?? (isValid(startAngle) ? startAngle + 360 : POLAR_END_ANGLE));
   }
 
   setLayoutStartPosition(pos: Partial<IPoint>): void {
@@ -230,7 +233,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
             labelFormatter: label.formatMethod,
             labelGap: label.minGap,
 
-            axisSpec: this._spec,
+            labelOffset: getAxisLabelOffset(this._spec),
             getRadius: () => this.getOuterRadius()
           } as IPolarTickDataOpt
         },
@@ -241,15 +244,13 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     this._tickData = new CompilableData(this._option, tickData);
   }
 
-  protected initEvent() {
-    super.initEvent();
-
-    if (this.visible) {
-      this.event.on('afterElementEncode', eventParams => {
-        const mark = eventParams.item;
-        if (this._option.getChart().getLayoutTag() === false && mark.context?.model === this) {
-          // 代理组件上的事件，目前坐标轴组件比较特殊，包含了网格线，但是事件这块只提供不包含网格线部分的响应
-          this._delegateAxisContainerEvent(mark.getGroupGraphicItem());
+  afterCompile() {
+    const product = this._axisMark?.getProduct();
+    if (product) {
+      product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
+        if (this._isLayout === false) {
+          // 布局结束之后再进行插件的调用
+          this._delegateAxisContainerEvent(product.getGroupGraphicItem());
         }
       });
     }
@@ -473,35 +474,41 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     const radius = this.computeLayoutOuterRadius();
     const innerRadius = this.computeLayoutInnerRadius();
     const angleRange = this._endAngle - this._startAngle;
-    const attrs = {
+    const items = isArray(this._tickData.getLatestData())
+      ? this._tickData.getLatestData().map((obj: Datum) => {
+          const angle = this.dataToPosition([obj.value]);
+          return {
+            id: obj.value,
+            label: obj.value,
+            value: (angle - this._startAngle) / angleRange,
+            rawValue: obj.value
+          };
+        })
+      : [];
+    const commonAttrs = {
       ...this.getLayoutStartPoint(),
       inside: this._spec.inside,
       center,
       radius,
       innerRadius,
       startAngle: this._startAngle,
-      endAngle: this._endAngle,
-      grid: {
-        type: 'line',
-        smoothLink: true
-      },
+      endAngle: this._endAngle
+    };
+    const attrs: any = {
+      ...commonAttrs,
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items: isArray(this._tickData.getLatestData())
-        ? [
-            this._tickData.getLatestData().map((obj: Datum) => {
-              const angle = this.dataToPosition([obj.value]);
-              return {
-                id: obj.value,
-                label: obj.value,
-                value: (angle - this._startAngle) / angleRange,
-                rawValue: obj.value
-              };
-            })
-          ]
-        : []
+      items: items.length ? [items] : []
     };
+    if (this._spec.grid.visible) {
+      attrs.grid = {
+        type: 'line',
+        smoothLink: true,
+        items,
+        ...commonAttrs
+      };
+    }
     this._update(attrs);
   }
 
@@ -512,36 +519,42 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     const endPoint = this.coordToPoint({ angle: this._startAngle, radius });
     const startPoint = this.coordToPoint({ angle: this._startAngle, radius: innerRadius });
     const distance = PointService.distancePP(startPoint, endPoint);
-    const attrs = {
+    const items = isArray(this._tickData.getLatestData())
+      ? this._tickData.getLatestData().map((obj: Datum) => {
+          const value = this.dataToPosition([obj.value]);
+          return {
+            id: obj.value,
+            label: obj.value,
+            value: (value - innerRadius) / distance,
+            rawValue: obj.value
+          };
+        })
+      : [];
+    const commonAttrs = {
       ...this.getLayoutStartPoint(),
       start: startPoint,
       end: endPoint,
-      verticalFactor: -1,
-      grid: {
+      verticalFactor: -1
+    };
+    const attrs: any = {
+      ...commonAttrs,
+      title: {
+        text: this._spec.title.text || this._dataFieldText
+      },
+      items: items.length ? [items] : []
+    };
+    if (this._spec.grid?.visible) {
+      attrs.grid = {
+        items,
         type: this._spec.grid?.smooth ? 'circle' : 'polygon',
         center,
         closed: true,
         sides: this._refAngleAxis.tickValues().length,
         startAngle: this._startAngle,
-        endAngle: this._endAngle
-      },
-      title: {
-        text: this._spec.title.text || this._dataFieldText
-      },
-      items: isArray(this._tickData.getLatestData())
-        ? [
-            this._tickData.getLatestData().map((obj: Datum) => {
-              const value = this.dataToPosition([obj.value]);
-              return {
-                id: obj.value,
-                label: obj.value,
-                value: (value - innerRadius) / distance,
-                rawValue: obj.value
-              };
-            })
-          ]
-        : []
-    };
+        endAngle: this._endAngle,
+        ...commonAttrs
+      };
+    }
     this._update(attrs);
   }
 
@@ -597,7 +610,13 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   private _update(attrs: Dict<unknown>) {
-    const product = this.getMarks()[0].getProduct(); // 获取语法元素并更新
-    product.encode(mergeSpec({}, this._axisStyle, attrs));
+    const { grid: gridAttrs, ...axisAttrs } = attrs;
+    const axisProduct = this._axisMark.getProduct(); // 获取语法元素并更新
+    axisProduct.encode(mergeSpec({}, this._axisStyle, axisAttrs));
+
+    if (this._gridMark) {
+      const gridProduct = this._gridMark.getProduct(); // 获取语法元素并更新
+      gridProduct.encode(mergeSpec({}, this._gridStyle, gridAttrs));
+    }
   }
 }

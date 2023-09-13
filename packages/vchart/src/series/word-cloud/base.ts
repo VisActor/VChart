@@ -5,7 +5,7 @@ import { isValid } from '@visactor/vutils';
 import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface';
+import { SeriesMarkNameEnum } from '../interface/type';
 import { isTrueBrowser } from '../../util';
 import {
   DEFAULT_DRAW_OUT_OF_BOUND,

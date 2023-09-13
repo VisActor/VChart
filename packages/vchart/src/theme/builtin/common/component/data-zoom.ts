@@ -35,7 +35,30 @@ export const dataZoom: IDataZoomTheme = {
   },
   selectedBackground: {
     style: {
-      lineWidth: 0
+      fill: { type: 'palette', key: 'dataZoomSelectedColor' },
+      fillOpacity: 0.1,
+      outerBorder: {
+        stroke: { type: 'palette', key: 'dataZoomSelectedColor' },
+        strokeOpacity: 0.2,
+        distance: -0.5,
+        lineWidth: 1
+      }
+    }
+  },
+  selectedBackgroundChart: {
+    area: {
+      style: {
+        visible: false,
+        stroke: false,
+        fill: { type: 'palette', key: 'dataZoomChartColor' }
+      }
+    },
+    line: {
+      style: {
+        visible: false,
+        stroke: { type: 'palette', key: 'dataZoomChartColor' },
+        lineWidth: 1
+      }
     }
   },
   startHandler: {
@@ -84,28 +107,7 @@ export const dataZoom: IDataZoomTheme = {
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
     }
   },
-  dragMask: {
-    style: {
-      fill: { type: 'palette', key: 'dataZoomSelectedColor', a: 0.1 },
-      stroke: { type: 'palette', key: 'dataZoomSelectedColor', a: 0.2 },
-      lineWidth: 3
-    }
-  },
   backgroundChart: {
-    area: {
-      style: {
-        stroke: false,
-        fill: { type: 'palette', key: 'dataZoomChartColor' }
-      }
-    },
-    line: {
-      style: {
-        stroke: { type: 'palette', key: 'dataZoomChartColor' },
-        lineWidth: 1
-      }
-    }
-  },
-  selectedBackgroundChart: {
     area: {
       style: {
         stroke: false,

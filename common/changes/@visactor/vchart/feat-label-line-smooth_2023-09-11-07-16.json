@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: pie label line support smooth",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

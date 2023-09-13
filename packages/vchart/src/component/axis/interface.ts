@@ -177,6 +177,12 @@ export interface IGrid extends IAxisItem<IRuleMarkSpec> {
    * 网格线样式，支持回调
    */
   style?: IRuleMarkSpec | StyleCallback<IRuleMarkSpec | undefined>;
+  /**
+   * 快捷属性，也可以在 `style` 中配置，用于配置网格线的绘制顺序，默认为 50
+   * @default 50
+   * @since 1.4.0
+   */
+  zIndex?: number;
 }
 
 // 刻度线配置

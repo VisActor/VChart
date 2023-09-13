@@ -10,5 +10,17 @@ import { colorScheme } from './color-scheme';
 
 export const darkTheme: ITheme = {
   name: 'dark',
-  colorScheme
+  colorScheme,
+  component: {
+    dataZoom: {
+      selectedBackground: {
+        style: {
+          fillOpacity: 0.4,
+          outerBorder: {
+            strokeOpacity: 0.4
+          }
+        }
+      }
+    }
+  }
 };

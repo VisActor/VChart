@@ -10,7 +10,7 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, mergeSpec } from '../../util';
 import { AttributeLevel } from '../../constant';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import {
   SCATTER_DEFAULT_RANGE_SHAPE,
@@ -28,6 +28,7 @@ import { VChart } from '../../core/vchart';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
 import { scatterSeriesMark } from './constant';
+import type { ILabelMark } from '../../mark/label';
 
 VChart.useMark([SymbolMark, TextMark]);
 
@@ -40,6 +41,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   protected declare _theme: Maybe<IScatterSeriesTheme>;
 
   private _symbolMark: ISymbolMark;
+  private _labelMark: ILabelMark;
 
   private _size: IScatterSeriesSpec['size'];
   private _sizeField: string;
@@ -76,12 +78,12 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
 
     if (isArray(spec)) {
       if (isNil(field)) {
-        this._option.onError(`${key}Field is required.`);
+        this._option?.onError(`${key}Field is required.`);
         return spec;
       }
 
       if (spec.length > 2) {
-        this._option.onError(`${key} length is invalid, specify up to 2 ${key}s.`);
+        this._option?.onError(`${key} length is invalid, specify up to 2 ${key}s.`);
         return spec;
       }
       const scaleName = `${PREFIX}_series_scatter_${this.id}_scale_${key}`;
@@ -105,7 +107,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     // 若sizeSpec是对象
     if (isObject(spec)) {
       if (isNil(field)) {
-        this._option.onError(`${key}Field is required.`);
+        this._option?.onError(`${key}Field is required.`);
         return spec;
       }
       const scaleName = `${PREFIX}_series_scatter_${this.id}_scale_${key}`;
@@ -130,7 +132,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     }
 
     // 其余情况报错
-    this._option.onError(`${key} attribute is invalid.`);
+    this._option?.onError(`${key} attribute is invalid.`);
     return spec;
   }
 
@@ -307,10 +309,11 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   /**
    * 初始化LabelMark
    */
-  initLabelMarkStyle(labelMark?: ITextMark): void {
+  initLabelMarkStyle(labelMark?: ILabelMark): void {
     if (!labelMark) {
       return;
     }
+    this._labelMark = labelMark;
     this.setMarkStyle(
       labelMark,
       {
@@ -356,6 +359,12 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
         }
       });
     });
+
+    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+
+    if (vgrammarLabel) {
+      vgrammarLabel.evaluateSync(null, null);
+    }
   }
 
   handlePan(e: any) {
@@ -376,6 +385,11 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
         }
       });
     });
+    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+
+    if (vgrammarLabel) {
+      vgrammarLabel.evaluateSync(null, null);
+    }
   }
 
   getDefaultShapeType() {

@@ -1,6 +1,7 @@
 import { MarkTypeEnum } from '../../mark/interface';
 import { bar3dSeriesMark, barSeriesMark } from '../bar/constant';
-import { SeriesMarkNameEnum, type SeriesMarkMap } from '../interface/common';
+import type { SeriesMarkMap } from '../interface/common';
+import { SeriesMarkNameEnum } from '../interface/type';
 
 export const rangeColumnSeriesMark: SeriesMarkMap = {
   ...barSeriesMark,

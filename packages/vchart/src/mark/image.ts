@@ -1,4 +1,4 @@
-import type { IImageMarkSpec } from './../typings/visual';
+import type { IImageMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports

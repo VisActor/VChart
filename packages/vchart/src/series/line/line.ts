@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface';
+import { SeriesMarkNameEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../interface';
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
@@ -40,7 +40,7 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
 
   protected declare _theme: Maybe<ILineSeriesTheme>;
 
-  protected _sortDataByAxis: boolean = true;
+  protected _sortDataByAxis: boolean = false;
 
   initMark(): void {
     const progressive = {

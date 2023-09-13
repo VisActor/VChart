@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { MarkTypeEnum } from '../../mark/interface';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface';
+import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface/type';
 import { BarSeries } from './bar';
 import { VChart } from '../../core/vchart';
 import { Rect3dMark } from '../../mark/rect-3d';

@@ -1,43 +1,25 @@
 
 const fs = require('fs')
 const path = require('path')
-const SEMVER_REG = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/gm;
+const parseVersion = require('./parse-version');
 const PRERELEASE = 'prerelease';
 const MINOR = 'minor';
 const MAJOR = 'major';
 const PATCH = 'patch';
 const NEXT_BUMPMS = [PRERELEASE, PATCH, MINOR, MAJOR];
+const setJsonFileByKey = require('./set-json-file');
 
-
-const readVersionPolicies = (
-) => {
-  const filePath = path.join(__dirname, '../config/rush/version-policies.json');
-  return JSON.parse(fs.readFileSync(filePath).toString())
-}
 
 const parseNextBumpFromVersion = (
   versionString
 ) => {
-  const res = SEMVER_REG.exec(versionString);
+  const res = parseVersion(versionString);
 
-  if (res) {
-    const formatted = {
-      major: res[1],
-      minor: res[2],
-      patch: res[3],
-      preReleaseName: res[4],
-      preReleaseType: res[4] ? (res[4].includes('.') ? res[4].split('.')[0] : res[4]) : ''
-    };
-
-
-    if (formatted.preReleaseName) {
-      return PRERELEASE;
+  if (res) {  
+    if (res.patch === 0) {
+      return res.minor == 0 ? MAJOR : MINOR;
     }
-
-    if (formatted.patch === '0') {
-      return formatted.minor == '0' ? MAJOR : MINOR;
-    }
-
+  
     return PATCH
   }
 
@@ -48,13 +30,15 @@ const parseNextBumpFromVersion = (
 const writeNextBump = (
   nextBump,
 ) => {
-  const json = readVersionPolicies();
-  console.log(json)
+  const filePath = path.join(__dirname, '../config/rush/version-policies.json');
+  let fileContent = fs.readFileSync(filePath).toString()
+  const json = JSON.parse(fileContent);
   const curNextBump = json[0].nextBump
 
   if (nextBump !== curNextBump) {
-    json[0].nextBump = nextBump;
-    fs.writeFileSync(path.join(__dirname, '../config/rush/version-policies.json'), JSON.stringify(json))
+    fileContent = setJsonFileByKey(fileContent, json, ['0', 'nextBump'], nextBump);
+
+    fs.writeFileSync(path.join(__dirname, '../config/rush/version-policies.json'), fileContent)
   }
 }
 
@@ -83,16 +67,19 @@ const readNextBumpFromChanges = () => {
  }
 }
 
-const checkAndUpdateNextBump = (isPre, version) => {
-  if (isPre) {
-    writeNextBump(PRERELEASE);
-  } else if (version && NEXT_BUMPMS.includes(version)) {
-    writeNextBump(version);
+const checkAndUpdateNextBump = (version) => {
+  let nextBump = PATCH;
+
+   if (version && NEXT_BUMPMS.includes(version)) {
+    nextBump = version;
   } else if (version) {
-    writeNextBump(parseNextBumpFromVersion(version));
+    nextBump = parseNextBumpFromVersion(version);
   } else {
-    writeNextBump(readNextBumpFromChanges());
+    nextBump = readNextBumpFromChanges();
   }
+  writeNextBump(nextBump);
+
+  return nextBump;
 }
 
 module.exports = checkAndUpdateNextBump;

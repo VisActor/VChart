@@ -8,7 +8,7 @@ import { Direction } from '../../typings';
 import { isNumber, valueInScaleRange } from '../../util';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IBoxPlotSeriesSpec, IBoxPlotSeriesTheme } from './interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { registerDataSetInstanceTransform } from '../../data/register';

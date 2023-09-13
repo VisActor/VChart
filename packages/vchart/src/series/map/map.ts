@@ -1,8 +1,6 @@
-import { isFunction } from '@visactor/vutils';
+import { Matrix } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
-import { MarkTypeEnum } from '../../mark/interface';
 import { registerGrammar } from '@visactor/vgrammar';
-import type { IElement } from '@visactor/vgrammar';
 import type { FeatureData } from '@visactor/vgrammar-projection';
 import { Projection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
@@ -10,16 +8,15 @@ import type { IPathMark } from '../../mark/path';
 import { geoSourceMap } from './geo-source';
 import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { isValid, isValidNumber } from '../../util';
+import { isValid, isValidNumber, mergeSpec } from '../../util';
 import { GeoSeries } from '../geo/geo';
 import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
-import type { ITextMark } from '../../mark/text';
 import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_INDEX } from '../../constant/index';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
@@ -29,6 +26,7 @@ import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { TextMark } from '../../mark/text';
 import { mapSeriesMark } from './constant';
+import type { ILabelMark } from '../../mark/label';
 
 VChart.useMark([PathMark, TextMark]);
 
@@ -53,7 +51,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
   private _areaCache: Map<string, { shape: string }> = new Map();
 
   private _pathMark: IPathMark;
-  private _labelMark: ITextMark;
+  private _labelMark: ILabelMark;
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
@@ -63,11 +61,11 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._valueField = this._spec.valueField;
     this._spec.nameProperty && (this._nameProperty = this._spec.nameProperty);
     if (!this.map) {
-      this._option.onError(`map type '${this.map}' is not specified !`);
+      this._option?.onError(`map type '${this.map}' is not specified !`);
     }
 
     if (!geoSourceMap.get(this.map)) {
-      this._option.onError(`'${this.map}' data is not registered !`);
+      this._option?.onError(`'${this.map}' data is not registered !`);
     }
   }
 
@@ -82,7 +80,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     // 初始化地图数据
     const features = geoSourceMap.get(this.map);
     if (!features) {
-      this._option.onError('no valid map data found!');
+      this._option?.onError('no valid map data found!');
     }
     const mapData = new DataView(this._dataSet);
 
@@ -128,19 +126,9 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       isSeriesMark: true,
       skipBeforeLayouted: true,
       dataView: this._mapViewData.getDataView(),
-      dataProductId: this._mapViewData.getProductId()
+      dataProductId: this._mapViewData.getProductId(),
+      label: mergeSpec({ animation: this._spec.animation }, this._spec.label)
     }) as IPathMark;
-
-    if (this._spec.label?.visible) {
-      this._labelMark = this._createMark(MapSeries.mark.label, {
-        // map zoom/scale need to be transformed in path.group
-        // so label mark cannot be in the same groupMark
-        parent: this.getRegion().getGroupMark(),
-        skipBeforeLayouted: true,
-        dataView: this._mapViewData.getDataView(),
-        dataProductId: this._mapViewData.getProductId()
-      }) as ITextMark;
-    }
   }
 
   initMarkStyle() {
@@ -181,33 +169,27 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       this._trigger.registerMark(pathMark);
       this._tooltipHelper?.activeTriggerSet.mark.add(pathMark);
     }
+  }
 
-    const labelMark = this._labelMark;
-    if (labelMark) {
-      this.setMarkStyle(labelMark, {
-        text: (datum: Datum) => {
-          const text = this._getDatumName(datum);
-          if (isFunction(this._spec?.label?.formatMethod)) {
-            return this._spec.label.formatMethod(text, datum);
-          }
-          return text;
-        },
-        x: (datum: Datum) => this.dataToPosition(datum)?.x,
-        y: (datum: Datum) => this.dataToPosition(datum)?.y
-      });
+  initLabelMarkStyle(labelMark: ILabelMark) {
+    if (!labelMark) {
+      return;
     }
+    this._labelMark = labelMark;
+    this.setMarkStyle(labelMark, {
+      text: (datum: Datum) => {
+        const text = this._getDatumName(datum);
+        return text;
+      },
+      x: (datum: Datum) => this.dataToPosition(datum)?.x,
+      y: (datum: Datum) => this.dataToPosition(datum)?.y
+    });
   }
 
   initAnimation() {
     this._pathMark.setAnimationConfig(
       animationConfig(DEFAULT_MARK_ANIMATION.path(), userAnimationConfig(SeriesMarkNameEnum.area, this._spec))
     );
-
-    if (this._labelMark) {
-      this._labelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec))
-      );
-    }
   }
 
   protected initTooltip() {
@@ -269,28 +251,20 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       return;
     }
 
-    this.getMarksWithoutRoot().forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const elements = vGrammarMark.elements;
-
-      if (mark.type === MarkTypeEnum.path) {
-        vGrammarMark.group.getGroupGraphicItem().scale(scale, scale, scaleCenter);
-      } else {
-        // label Mark 的定位，需要通过 dataToPosition 来计算
-        elements.forEach((el: IElement) => {
-          const graphicItem = el.getGraphicItem();
-          const datum = el.getDatum();
-          const newPosition = this.dataToPosition(datum);
-          if (newPosition && graphicItem) {
-            graphicItem.translateTo(newPosition.x, newPosition.y);
-          }
+    const pathGroup = this.getRootMark().getProduct()?.getGroupGraphicItem();
+    if (pathGroup) {
+      if (!pathGroup.attribute.postMatrix) {
+        pathGroup.setAttributes({
+          postMatrix: new Matrix()
         });
       }
-    });
+      pathGroup.scale(scale, scale, scaleCenter);
+    }
+    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+
+    if (vgrammarLabel) {
+      vgrammarLabel.evaluateSync(null, null);
+    }
   }
 
   handlePan(e: PanEventParam) {
@@ -298,29 +272,20 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     if (delta[0] === 0 && delta[1] === 0) {
       return;
     }
-
-    this.getMarksWithoutRoot().forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const elements = vGrammarMark.elements;
-
-      if (mark.type === MarkTypeEnum.path) {
-        vGrammarMark.group.getGroupGraphicItem().translate(delta[0], delta[1]);
-      } else {
-        // label Mark 的定位，需要通过 dataToPosition 来计算
-        elements.forEach((el: IElement, i: number) => {
-          const graphicItem = el.getGraphicItem();
-          const datum = el.getDatum();
-          const newPosition = this.dataToPosition(datum);
-          if (newPosition && graphicItem) {
-            graphicItem.translateTo(newPosition.x, newPosition.y);
-          }
+    const pathGroup = this.getRootMark().getProduct()?.getGroupGraphicItem();
+    if (pathGroup) {
+      if (!pathGroup.attribute.postMatrix) {
+        pathGroup.setAttributes({
+          postMatrix: new Matrix()
         });
       }
-    });
+      pathGroup.translate(delta[0], delta[1]);
+    }
+    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+
+    if (vgrammarLabel) {
+      vgrammarLabel.evaluateSync(null, null);
+    }
   }
 
   protected _getDatumCenter(datum: any): [number, number] {
@@ -353,11 +318,11 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
   }
 
   dataToPositionX(data: any): number {
-    this._option.onError('Method not implemented.');
+    this._option?.onError('Method not implemented.');
     return 0;
   }
   dataToPositionY(data: any): number {
-    this._option.onError('Method not implemented.');
+    this._option?.onError('Method not implemented.');
     return 0;
   }
 

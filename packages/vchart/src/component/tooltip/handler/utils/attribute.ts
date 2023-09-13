@@ -13,7 +13,10 @@ import type { IRichTextParagraphCharacter } from '@visactor/vrender';
 import { builtinSymbolsMap, getRichTextBounds } from '@visactor/vrender';
 import { getTextAttributes } from './style';
 
-export const getTooltipAttributes = (actualTooltip: IToolTipActual, style: ITooltipStyle): TooltipAttributes => {
+export const getTooltipAttributes = (
+  actualTooltip: IToolTipActual,
+  style: Partial<ITooltipStyle>
+): TooltipAttributes => {
   const { spaceRow, padding, title: titleStyle, shape: shapeStyle, key: keyStyle, value: valueStyle } = style;
 
   const attribute: TooltipAttributes = {

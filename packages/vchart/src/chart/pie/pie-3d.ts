@@ -1,4 +1,4 @@
-import { Pie3dSeries } from './../../series/pie/pie-3d';
+import { Pie3dSeries } from '../../series/pie/pie-3d';
 import type { ISeries } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../../series/interface';

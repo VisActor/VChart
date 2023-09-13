@@ -7,22 +7,22 @@ export const THEME_CONSTANTS: IThemeConstants = {
   defaultFontSize: 14,
 
   l1FontSize: 32,
-  l1LineHeight: 48,
+  l1LineHeight: '150%',
 
   l2FontSize: 20,
-  l2LineHeight: 28,
+  l2LineHeight: '140%',
 
   l3FontSize: 16,
-  l3LineHeight: 24,
+  l3LineHeight: '150%',
 
   l4FontSize: 14,
-  l4LineHeight: 22,
+  l4LineHeight: '150%',
 
   l5FontSize: 12,
-  l5LineHeight: 16,
+  l5LineHeight: '130%',
 
   l6FontSize: 10,
-  l6LineHeight: 12,
+  l6LineHeight: '120%',
 
   axisTickSize: 4,
 

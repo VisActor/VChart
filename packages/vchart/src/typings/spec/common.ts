@@ -1,4 +1,4 @@
-import type { IFillMarkSpec, IImageMarkSpec } from './../visual';
+import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
 import type { ILayoutPaddingSpec } from '../../model/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar';
