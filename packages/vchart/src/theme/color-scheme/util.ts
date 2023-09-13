@@ -1,6 +1,5 @@
-import { array, isArray, isFunction, isObject, isString, isValid } from '@visactor/vutils';
+import { array, hslToRgb, isArray, isFunction, isObject, isString, isValid, rgbToHsl } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { ColorUtil } from '@visactor/vutils';
 import type { SeriesTypeEnum } from '../../series/interface';
 import { Color } from '../../util/color';
 import type {
@@ -127,8 +126,8 @@ export function queryColorFromColorScheme(
   let c = new Color(color);
   if (isValid(colorKey.l)) {
     const { r, g, b } = c.color;
-    const { h, s } = ColorUtil.rgbToHsl(r, g, b);
-    const rgb = ColorUtil.hslToRgb(h, s, colorKey.l);
+    const { h, s } = rgbToHsl(r, g, b);
+    const rgb = hslToRgb(h, s, colorKey.l);
     const newColor = new Color(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
     newColor.setOpacity(c.color.opacity);
     c = newColor;

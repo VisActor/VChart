@@ -1,5 +1,3 @@
-import { ColorUtil } from '@visactor/vutils';
-
-const { Color } = ColorUtil;
+import { Color } from '@visactor/vutils';
 
 export { Color };
