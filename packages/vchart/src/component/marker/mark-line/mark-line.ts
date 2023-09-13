@@ -196,13 +196,17 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         },
         limitRect,
         multiSegment,
-        mainSegmentIndex
+        mainSegmentIndex,
+        dx: this.layoutOffsetX,
+        dy: this.layoutOffsetY
       });
     } else {
       this._markerComponent.setAttributes({
         points: points,
         label: labelAttrs,
-        limitRect
+        limitRect,
+        dx: this.layoutOffsetX,
+        dy: this.layoutOffsetY
       });
     }
   }

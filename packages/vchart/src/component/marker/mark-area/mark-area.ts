@@ -135,7 +135,9 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
           ? this._spec.label.formatMethod(dataPoints, this._relativeSeries.getViewData().latestData)
           : this._markerComponent.attribute?.label?.text
       },
-      limitRect
+      limitRect,
+      dx: this.layoutOffsetX,
+      dy: this.layoutOffsetY
     });
   }
 
