@@ -22,10 +22,10 @@ import type {
   Datum,
   IMarkTheme
 } from '../../typings';
-import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
+import { DEFAULT_LINEAR_INTERPOLATE, DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import { Direction } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
-import { DEFAULT_CLOSE_STROKE_JOIN, DEFAULT_LINEAR_CLOSED_INTERPOLATE } from '../../typings';
+import { DEFAULT_CLOSE_STROKE_JOIN } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '../../util';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
@@ -104,7 +104,8 @@ export class LineLikeSeriesMixin {
           lineMark,
           {
             lineJoin: DEFAULT_CLOSE_STROKE_JOIN,
-            curveType: DEFAULT_LINEAR_CLOSED_INTERPOLATE
+            curveType: DEFAULT_LINEAR_INTERPOLATE,
+            closePath: true
           },
           'normal',
           AttributeLevel.Series
