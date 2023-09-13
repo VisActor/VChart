@@ -29,6 +29,7 @@ export class EditorController {
     }
     if (this._currentEditorBox) {
       this._currentEditorBox.release();
+      this._currentEditorBox = null;
     }
 
     if (el) {
