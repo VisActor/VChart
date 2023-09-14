@@ -5,7 +5,8 @@ function App() {
   return (
     <div>
       <p>VChart Editor UI</p>
-      <Title />
+      <Title spec={{}} />
+      {/* <Title spec={{}} entries={[{ key: 'fontSize' }]} /> */}
     </div>
   );
 }

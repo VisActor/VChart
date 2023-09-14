@@ -1,15 +1,22 @@
-import type { LanguageEnum } from '../util/i18n';
-
 export interface IBaseComponentConfig {
   key: string;
   label?: string;
   default?: any;
 }
 
+export interface IInputComponentConfig extends IBaseComponentConfig {
+  default?: string;
+  placeholder?: string;
+}
+
 export interface ISliderNumberComponentConfig extends IBaseComponentConfig {
   default?: number;
   min?: number;
   max?: number;
+}
+
+export interface IColorComponentConfig extends IBaseComponentConfig {
+  default?: string;
 }
 
 export interface IFontFamilyComponentConfig extends IBaseComponentConfig {
@@ -21,11 +28,6 @@ export interface IFontStyleComponentConfig extends IBaseComponentConfig {
   default?: { bold: boolean; underline: boolean; italic: boolean };
 }
 
-export interface IEditorComponentConfig {
-  label: string;
-  entries: IBaseComponentConfig[];
-}
-
-export interface ITitleEditorComponentConfig extends IEditorComponentConfig {
-  entries: (ISliderNumberComponentConfig | IFontFamilyComponentConfig | IFontStyleComponentConfig)[];
+export interface ITextAlignComponentConfig extends IBaseComponentConfig {
+  default?: 'left' | 'center' | 'right';
 }

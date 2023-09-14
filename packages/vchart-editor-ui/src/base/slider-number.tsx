@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { InputNumber, Slider } from '@douyinfe/semi-ui';
 import { isArray } from '@visactor/vutils';
-import type { ISliderNumberComponentProps } from '../typings/base';
+import type { IBaseSliderNumberComponentProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
 
-export function SliderNumber(props: ISliderNumberComponentProps) {
+export function SliderNumber(props: IBaseSliderNumberComponentProps) {
   const label = props.label ?? defaultBaseComponentConfig.fontFamily.label;
   const defaultValue = props.value ?? defaultBaseComponentConfig.sliderNumber.default;
   const min = props.config?.min ?? defaultBaseComponentConfig.sliderNumber.min;
