@@ -20,7 +20,8 @@ import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { mixin, clamp, isNil } from '@visactor/vutils';
-import type { IDataFilterComponent, IDataFilterComponentSpec, IFilterMode } from './interface';
+import { IFilterMode } from './interface';
+import type { IDataFilterComponent, IDataFilterComponentSpec } from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../compile/data';
 import type { BaseEventParams } from '../../event/interface';
@@ -99,14 +100,15 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   effect: IEffect = {
     onZoomChange: () => {
-      if (this._relatedAxisComponent && this._filterMode === 'axis') {
+      if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
         const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
-        // band轴和linear轴的range是相反的
-        // 比如相同的region范围, band scale range为[0, 500], linear scale range为[500, 0]
-        // 而datazoom/scrollbar的range强制为[0, 500]
-        // 所以这里在转换时针对band scale的场景下做一次转置, 有待优化
+        // 轴的range有时是相反的
+        // 比如相同的region范围, 有的场景range为[0, 500], 有的场景range为[500, 0]
+        // 而datazoom/scrollbar的range是根据布局强制转化为[0, 500]
+        // 所以这里在转换时进行判断并做转置, 有待优化
+
         (scale as any).rangeFactor(
-          this._isHorizontal || isDiscrete(scale.type) ? [this._start, this._end] : [1 - this._end, 1 - this._start]
+          scale.range()[0] < scale.range()[1] ? [this._start, this._end] : [1 - this._end, 1 - this._start]
         );
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
@@ -430,7 +432,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._start = start;
     this._end = end;
 
-    if ((!this._relatedAxisComponent || this._filterMode !== 'axis') && (this._start !== 0 || this._end !== 1)) {
+    // eslint-disable-next-line max-len
+    if (
+      (!this._relatedAxisComponent || this._filterMode !== IFilterMode.axis) &&
+      (this._start !== 0 || this._end !== 1)
+    ) {
       this._newDomain = this._parseDomainFromState(this._startValue, this._endValue);
     }
   }
@@ -475,7 +481,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   protected _addTransformToSeries() {
-    if (!this._relatedAxisComponent || this._filterMode !== 'axis') {
+    if (!this._relatedAxisComponent || this._filterMode !== IFilterMode.axis) {
       registerDataSetInstanceTransform(this._option.dataSet, 'dataFilterWithNewDomain', dataFilterWithNewDomain);
 
       eachSeries(

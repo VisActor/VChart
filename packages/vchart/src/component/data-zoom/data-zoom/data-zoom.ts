@@ -14,6 +14,7 @@ import type { ILinearScale } from '@visactor/vscale';
 import { LinearScale } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import type { IDataZoomSpec } from './interface';
+import { IFilterMode } from '../interface';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -54,7 +55,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     });
 
     this._valueField = 'y';
-    this._filterMode = spec.filterMode ?? 'filter';
+    this._filterMode = spec.filterMode ?? IFilterMode.filter;
   }
 
   created() {
@@ -295,7 +296,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       this.event.emit(ChartEvent.dataZoomChange, {
         model: this,
         value: {
-          filterData: this._filterMode !== 'axis',
+          filterData: this._filterMode !== IFilterMode.axis,
           start,
           end,
           startValue: this._startValue,
