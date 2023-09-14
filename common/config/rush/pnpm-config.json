@@ -90,7 +90,10 @@
    */
   "globalOverrides": {
     "@visactor/vrender": "0.15.1",
-    "@visactor/vrender-components": "0.15.1"
+    "@visactor/vrender-components": "0.15.1",
+    "@visactor/vutils": "0.16.0-alpha.2",
+    "@visactor/vdataset": "0.16.0-alpha.2",
+    "@visactor/vscale": "0.16.0-alpha.2"
   },
 
   /**
