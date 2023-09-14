@@ -1,3 +1,5 @@
+import type { WordcloudAppearPreset } from './../series/word-cloud/animation';
+import { wordcloudPresetAnimation } from './../series/word-cloud/animation';
 /* eslint-disable no-duplicate-imports */
 import { TagPointsUpdate } from '@visactor/vrender';
 import type { IElement } from '@visactor/vgrammar';
@@ -32,7 +34,7 @@ import type { IRangeColumnAnimationParams } from '../series/range-column/animati
 import { rangeColumnGrowOut } from '../series/range-column/animation';
 import { ClipDirectionAnimate, GroupFadeOut } from '@visactor/vrender';
 import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
-import type { IWordcloud3dAnimationParams } from '../series/word-cloud/animation';
+import type { IWordcloud3dAnimationParams, IWordcloudAnimationParams } from '../series/word-cloud/animation';
 import { WordCloud3dAnimation } from '../series/word-cloud/animation';
 import type { ISunburstAnimationParams, SunburstAppearPreset } from '../series/sunburst/animation';
 import { sunburstPresetAnimation, sunburstExit, sunburstEnter } from '../series/sunburst/animation';
@@ -263,8 +265,8 @@ export const DEFAULT_MARK_ANIMATION: Record<string, (params?: any, preset?: any)
       }
     };
   },
-  wordCloud: () => ({
-    appear: { type: 'fadeIn' },
+  wordCloud: (params: IWordcloudAnimationParams, preset: WordcloudAppearPreset) => ({
+    appear: wordcloudPresetAnimation(params, preset),
     enter: { type: 'fadeIn' },
     exit: { type: 'fadeOut' },
     disappear: { type: 'fadeOut' }
