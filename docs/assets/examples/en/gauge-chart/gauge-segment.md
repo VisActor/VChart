@@ -1,14 +1,14 @@
 ---
 category: examples
 group: gauge
-title: Gauge Chart with CircularProgress Series
+title: Gauge Chart with Gauge Series
 keywords: gauge,comparison,circle
-order: 15-3
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab0b.png
+order: 15-4
+cover: /vchart/preview/gauge-segment_1.4.0.png
 option: gaugeChart
 ---
 
-# Gauge Chart with CircularProgress Series
+# Gauge Chart with Gauge Series
 
 ## Key option
 
@@ -24,60 +24,62 @@ const spec = {
   type: 'gauge',
   data: [
     {
-      id: 'id0',
+      id: 'pointer',
       values: [
         {
-          type: '目标A',
-          value: 0.7
+          type: 'A',
+          value: 0.6
+        }
+      ]
+    },
+    {
+      id: 'segment',
+      values: [
+        {
+          type: 'level1',
+          value: 0.4
+        },
+        {
+          type: 'level2',
+          value: 0.6
+        },
+        {
+          type: 'level3',
+          value: 0.8
         }
       ]
     }
   ],
-  radiusField: 'type',
-  categoryField: 'type',
-  valueField: 'value',
-  outerRadius: 0.8,
-  innerRadius: 0.75,
-  startAngle: -240,
-  endAngle: 60,
   gauge: {
-    type: 'circularProgress',
-    cornerRadius: 20,
-    progress: {
+    type: 'gauge',
+    dataIndex: 1,
+    categoryField: 'type',
+    valueField: 'value',
+    seriesField: 'type',
+    segment: {
       style: {
-        fill: '#1664ff'
-      }
-    },
-    track: {
-      style: {
-        fill: '#000'
+        cornerRadius: 10
       }
     }
   },
   pointer: {
     style: {
-      fill: '#333'
+      fill: '#666666'
     }
   },
-  indicator: [
-    {
-      visible: true,
-      title: {
-        style: {
-          text: '70%',
-          dy: 250,
-          fontSize: 60,
-          fontWeight: 800
-        }
-      }
-    }
-  ]
+  categoryField: 'type',
+  valueField: 'value',
+  outerRadius: 0.8,
+  innerRadius: 0.5,
+  startAngle: -180,
+  endAngle: 0,
+  axes: [{ type: 'linear', orient: 'angle', grid: { visible: false } }]
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 
-// Just for the convenience of console debugging, do not copy
+// Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
 
