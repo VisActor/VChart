@@ -91,4 +91,7 @@ export interface IDataFilterComponent extends IComponent {
   setStartAndEnd: (start: number, end: number) => any;
 }
 
-export type IFilterMode = 'filter' | 'axis';
+export enum IFilterMode {
+  filter = 'filter',
+  axis = 'axis'
+}

@@ -12,6 +12,7 @@ import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';
 import type { IZoomable } from '../../../interaction/zoom/zoomable';
+import { IFilterMode } from '../interface';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
@@ -43,12 +44,13 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     super(spec as any, {
       ...options
     });
-    this._filterMode = spec.filterMode ?? 'axis';
+    this._filterMode = spec.filterMode ?? IFilterMode.axis;
   }
 
   /** LifeCycle API**/
   onLayoutEnd(ctx: any): void {
     this._updateScaleRange();
+    this.effect.onZoomChange?.();
     super.onLayoutEnd(ctx);
   }
 
@@ -118,7 +120,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       this.event.emit(ChartEvent.scrollBarChange, {
         model: this,
         value: {
-          filterData: this._filterMode !== 'axis',
+          filterData: this._filterMode !== IFilterMode.axis,
           start: this._start,
           end: this._end,
           startValue: this._startValue,
