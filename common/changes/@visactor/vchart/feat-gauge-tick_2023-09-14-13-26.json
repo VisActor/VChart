@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: tick mask support for polar progress-like charts, related #596",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
