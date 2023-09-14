@@ -5,6 +5,7 @@ import { Symbol } from '@visactor/vrender';
 import { isObject, isString } from '../../../../../util';
 import type { ShapeType } from '../../../../../typings';
 import { BaseTooltipModel } from './base-tooltip-model';
+import { pixelPropertyStrToNumber } from '../util';
 
 export interface IShapeSvgOption {
   hasShape?: boolean;
@@ -58,14 +59,13 @@ function getSvgHtml(option?: IShapeSvgOption) {
   }
 
   const { symbolType, size, fill, stroke, lineWidth, hollow = false, marginTop = '0px' } = option;
-
-  const symbol = new Symbol({ symbolType });
+  const symbol = new Symbol({ symbolType, size: pixelPropertyStrToNumber(size) as number, fill: true });
   const pathModel = symbol.getParsedPath().path ?? symbol.getParsedPath().pathStr;
   const path = pathModel.toString();
   let viewBox = '-0.5 -0.5 1 1';
   if (!isString(pathModel)) {
     const bounds = pathModel.bounds;
-    viewBox = `${bounds.x1} ${bounds.y1} ${bounds.x2} ${bounds.y2}`;
+    viewBox = `${bounds.x1} ${bounds.y1} ${bounds.width()} ${bounds.height()}`;
   }
 
   let fillString: string = 'currentColor';
