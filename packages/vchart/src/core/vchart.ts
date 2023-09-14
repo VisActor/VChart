@@ -296,32 +296,11 @@ export class VChart implements IVChart {
     this._spec = specTransform(isString(spec) ? JSON.parse(spec) : spec);
   }
 
-  private _initData() {
-    if (isNil(this._dataSet)) {
-      warn('dataSet is not initialized');
-      return;
-    }
-    const specData: (DataView | IDataValues)[] = array(this._spec.data);
-
-    const dataViewArr: DataView[] = [];
-    for (let i = 0; i < specData.length; i++) {
-      const curSpecData = specData[i];
-      dataViewArr.push(
-        dataToDataView(curSpecData, <DataSet>this._dataSet, dataViewArr, {
-          onError: this._option?.onError
-        })
-      );
-    }
-
-    this._spec.data = dataViewArr;
-  }
-
   private _initChart(spec: any) {
     if (!this._compiler) {
       this._option?.onError('compiler is not initialized');
       return;
     }
-    this._initData();
     // 放到这里而不是放到chart内的考虑
     // 用户spec更新，也许会有core上图表实例的内容存在
     // 如果要支持spec的类似Proxy监听，更新逻辑应当从这一层开始。如果在chart上做，就需要在再向上发送spec更新消息，不是很合理。
@@ -612,13 +591,13 @@ export class VChart implements IVChart {
    * @param list 待更新的数据列表
    * @returns VChart 实例
    */
-  async updateDataInBatches(
-    list: { id: string; data: DataView | Datum[]; options?: IParserOptions }[]
-  ): Promise<IVChart> {
+  async updateDataInBatches(list: { id: string; data: Datum[]; options?: IParserOptions }[]): Promise<IVChart> {
     if (this._chart) {
-      list.forEach(({ id, data, options }) => {
-        this._chart.updateData(id, data, false, options);
-      });
+      this._chart.updateFullData(
+        list.map(({ id, data, options }) => {
+          return { id, values: data, parser: options };
+        })
+      );
       this._chart.updateGlobalScaleDomain();
       await this._compiler.renderAsync();
       return this as unknown as IVChart;

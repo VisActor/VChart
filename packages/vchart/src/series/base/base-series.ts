@@ -42,7 +42,7 @@ import type {
   SeriesMarkMap,
   ISeriesMarkInfo
 } from '../interface';
-import { dataViewFromDataView } from '../../data/initialize';
+import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import {
   isNil,
   isValid,
@@ -303,7 +303,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** data */
   protected initData(): void {
-    this._rawData = this._spec.data as DataView;
+    this._rawData = dataToDataView(this._spec.data, this._dataSet, this._option.sourceDataList, {
+      onError: this._option?.onError
+    });
     this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
     this._addDataIndexAndKey();
     // 初始化viewData
@@ -850,6 +852,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const result = super.updateSpec(spec);
     if (spec.type !== this.type) {
       result.reMake = true;
+    }
+
+    if (this._rawData && spec.data && !(spec.data instanceof DataView)) {
+      updateDataViewInData(this._rawData, spec.data, true);
+    }
+
+    // hover & selected
+    if (!isEqual(this._spec.hover, originalSpec.hover) || !isEqual(this._spec.select, originalSpec.select)) {
+      result.reMake = true;
+      return result;
     }
 
     const { invalidType } = this._originalSpec;
