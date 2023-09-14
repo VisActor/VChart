@@ -125,6 +125,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           angleField: this._angleField[0],
           startAngle: this._startAngle,
           endAngle: this._endAngle,
+          minAngle: isValid(this._spec?.minAngle) ? degreeToRadian(this._spec.minAngle) : 0,
           asStartAngle: ARC_START_ANGLE,
           asEndAngle: ARC_END_ANGLE,
           asRatio: ARC_RATIO,

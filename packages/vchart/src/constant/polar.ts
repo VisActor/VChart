@@ -1,5 +1,6 @@
 import { PREFIX } from './base';
 
+export const ARC_TRANSFORM_VALUE = `${PREFIX}_ARC_TRANSFORM_VALUE`;
 export const ARC_RATIO = `${PREFIX}_ARC_RATIO`;
 export const ARC_START_ANGLE = `${PREFIX}_ARC_START_ANGLE`;
 export const ARC_END_ANGLE = `${PREFIX}_ARC_END_ANGLE`;
