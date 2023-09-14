@@ -19,7 +19,7 @@ import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
 import type { StringOrNumber } from '../typings';
-import { IFilterMode } from '../component/data-zoom/interface';
+import { IFilterMode } from '../component/data-zoom/constant';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> implements IRegion {
   static type = 'region';
