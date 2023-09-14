@@ -61,8 +61,14 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
 
   protected _getClipDefaultValue() {
     const chartSpec = this._option.getChart().getSpec();
-    const hasDataZoom = (chartSpec as any).dataZoom?.some?.((entry: IDataZoomSpec) => entry.filterMode === 'axis');
-    const hasScrollBar = (chartSpec as any).scrollBar?.some?.((entry: IScrollBarSpec) => entry.filterMode === 'axis');
+    const hasDataZoom = (chartSpec as any).dataZoom?.some?.((entry: any) => {
+      const filterMode = entry.filterMode ?? 'filter';
+      return filterMode === 'aixs';
+    });
+    const hasScrollBar = (chartSpec as any).scrollBar?.some?.((entry: any) => {
+      const filterMode = entry.filterMode ?? 'axis';
+      return filterMode === 'axis';
+    });
 
     return hasDataZoom || hasScrollBar ? true : this.layoutClip;
   }
@@ -304,7 +310,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
   compileMarks(group?: string | IVGrammarGroupMark) {
     this.getMarks().forEach(m => {
       m.compile({ group });
-      m.getProduct()
+      m
+        .getProduct()
         ?.configure({
           context: {
             model: this
