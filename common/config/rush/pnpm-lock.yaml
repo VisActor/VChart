@@ -1,8 +1,8 @@
 lockfileVersion: 5.4
 
 overrides:
-  '@visactor/vrender': 0.15.0-alpha.20
-  '@visactor/vrender-components': 0.15.0-alpha.20
+  '@visactor/vrender': 0.15.1
+  '@visactor/vrender-components': 0.15.1
 
 importers:
 
@@ -21,8 +21,8 @@ importers:
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.3.1
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vutils': 0.16.0-alpha.2
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
       canvas: 2.11.2
@@ -46,8 +46,8 @@ importers:
       '@arco-design/web-react': 2.46.1_vnxzf5c44dqo4vncfl2mrh2gwm
       '@visactor/vchart': link:../packages/vchart
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vutils': 0.16.0-alpha.2
       axios: 1.5.0
       highlight.js: 11.8.0
       markdown-it: 13.0.1
@@ -125,8 +125,8 @@ importers:
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.3.1
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vutils': 0.16.0-alpha.2
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
       eslint-config-prettier: 8.5.0
@@ -146,8 +146,8 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vgrammar': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vutils': 0.16.0-alpha.2
       react-is: 18.2.0
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
@@ -256,7 +256,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       rollup: 3.20.5
-      rollup-plugin-import-css: 3.3.1_rollup@3.20.5
+      rollup-plugin-import-css: 3.3.3_rollup@3.20.5
       stylelint: 9.3.0
       tslib: 2.3.1
       typescript: 4.9.5
@@ -277,7 +277,7 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vdataset': 0.15.13-alpha.4
+      '@visactor/vdataset': 0.16.0-alpha.2
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-hierarchy': 0.7.0-alpha.3
       '@visactor/vgrammar-projection': 0.7.0-alpha.3
@@ -285,10 +285,10 @@ importers:
       '@visactor/vgrammar-util': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud-shape': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vrender-components': 0.15.0-alpha.20
-      '@visactor/vscale': 0.15.13-alpha.4
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vrender-components': 0.15.1
+      '@visactor/vscale': 0.16.0-alpha.2
+      '@visactor/vutils': 0.16.0-alpha.2
       '@visactor/vutils-extension': workspace:0.0.1
       canvas: 2.11.2
       d3-array: 3.2.3
@@ -320,7 +320,7 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vdataset': 0.15.13-alpha.4
+      '@visactor/vdataset': 0.16.0-alpha.2
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-hierarchy': 0.7.0-alpha.3
       '@visactor/vgrammar-projection': 0.7.0-alpha.3
@@ -328,10 +328,10 @@ importers:
       '@visactor/vgrammar-util': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud': 0.7.0-alpha.3
       '@visactor/vgrammar-wordcloud-shape': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vrender-components': 0.15.0-alpha.20
-      '@visactor/vscale': 0.15.13-alpha.4
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vrender-components': 0.15.1
+      '@visactor/vscale': 0.16.0-alpha.2
+      '@visactor/vutils': 0.16.0-alpha.2
       '@visactor/vutils-extension': link:../vutils-extension
     devDependencies:
       '@esbuild-plugins/node-globals-polyfill': 0.1.1
@@ -384,9 +384,9 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vchart': workspace:1.3.1
-      '@visactor/vdataset': 0.15.13-alpha.4
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vdataset': 0.16.0-alpha.2
+      '@visactor/vrender': 0.15.1
+      '@visactor/vutils': 0.16.0-alpha.2
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -404,9 +404,9 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vdataset': 0.15.13-alpha.4
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vdataset': 0.16.0-alpha.2
+      '@visactor/vrender': 0.15.1
+      '@visactor/vutils': 0.16.0-alpha.2
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -468,9 +468,9 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vscale': 0.15.13-alpha.4
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vscale': 0.16.0-alpha.2
+      '@visactor/vutils': 0.16.0-alpha.2
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -487,9 +487,9 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vscale': 0.15.13-alpha.4
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vscale': 0.16.0-alpha.2
+      '@visactor/vutils': 0.16.0-alpha.2
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -513,6 +513,42 @@ importers:
       tslint: 5.12.1_typescript@4.9.5
       typescript: 4.9.5
       vite: 3.2.6_@types+node@20.6.0
+
+  ../../packages/wx-vchart:
+    specifiers:
+      '@babel/core': 7.20.12
+      '@babel/preset-env': 7.20.2
+      '@internal/bundler': workspace:*
+      '@internal/eslint-config': workspace:*
+      '@internal/ts-config': workspace:*
+      '@rollup/plugin-babel': 6.0.3
+      '@rollup/plugin-commonjs': 24.1.0
+      '@rollup/plugin-node-resolve': 15.0.2
+      '@rollup/plugin-typescript': 11.1.0
+      '@rushstack/eslint-patch': ~1.1.4
+      eslint: ~8.18.0
+      miniprogram-api-typings: ^2.8.3-1
+      rimraf: 3.0.2
+      rollup: 3.20.5
+      rollup-plugin-copy: 3.4.0
+      rollup-plugin-terser: 7.0.2
+    devDependencies:
+      '@babel/core': 7.20.12
+      '@babel/preset-env': 7.20.2_@babel+core@7.20.12
+      '@internal/bundler': link:../../tools/bundler
+      '@internal/eslint-config': link:../../share/eslint-config
+      '@internal/ts-config': link:../../share/ts-config
+      '@rollup/plugin-babel': 6.0.3_rwgaouhtlfp3yqsg36xgfp2t24
+      '@rollup/plugin-commonjs': 24.1.0_rollup@3.20.5
+      '@rollup/plugin-node-resolve': 15.0.2_rollup@3.20.5
+      '@rollup/plugin-typescript': 11.1.0_rollup@3.20.5
+      '@rushstack/eslint-patch': 1.1.4
+      eslint: 8.18.0
+      miniprogram-api-typings: 2.12.0
+      rimraf: 3.0.2
+      rollup: 3.20.5
+      rollup-plugin-copy: 3.4.0
+      rollup-plugin-terser: 7.0.2_rollup@3.20.5
 
   ../../share/eslint-config:
     specifiers:
@@ -694,8 +730,8 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
       '@visactor/vchart': workspace:1.3.1
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vutils': 0.16.0-alpha.2
       cross-env: ^7.0.3
       eslint: ~8.18.0
       jest: ^26.0.0
@@ -707,8 +743,8 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../../packages/vchart
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vutils': 0.16.0-alpha.2
     devDependencies:
       '@internal/bundler': link:../bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -4045,7 +4081,7 @@ packages:
     dependencies:
       '@types/caseless': 0.12.3
       '@types/node': 20.6.0
-      '@types/tough-cookie': 4.0.2
+      '@types/tough-cookie': 4.0.3
       form-data: 2.5.1
     dev: true
 
@@ -4093,8 +4129,8 @@ packages:
       '@types/node': 20.6.0
     dev: true
 
-  /@types/tough-cookie/4.0.2:
-    resolution: {integrity: sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==}
+  /@types/tough-cookie/4.0.3:
+    resolution: {integrity: sha512-THo502dA5PzG/sfQH+42Lw3fvmYkceefOspdCwpHRul8ik2Jv1K8I5OZz1AT3/rs46kwgMCe9bSBmDLYkkOMGg==}
     dev: true
 
   /@types/undertaker-registry/1.0.2:
@@ -4351,13 +4387,35 @@ packages:
     resolution: {integrity: sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==}
     dev: true
 
-  /@visactor/vdataset/0.15.13-alpha.4:
-    resolution: {integrity: sha512-DA4GktqwvR4crAnAWYBWOkCzf6As+JjXOyHIyWYQUbt6djEjE+1EPkGKockIXmYAl56YRTYL+64WhxFHSle2zQ==}
+  /@visactor/vdataset/0.15.14:
+    resolution: {integrity: sha512-uPRUJAcldwEUezQnXUIB5IwFyMhktgc9YyObm0fFtBEf9P+zln+d/cW1jIN8H2oTIaTyAryDCzZ3MDWTI8jOqg==}
     dependencies:
       '@turf/flatten': 6.5.0
       '@turf/helpers': 6.5.0
       '@turf/rewind': 6.5.0
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vutils': 0.15.14
+      d3-dsv: 3.0.1
+      d3-geo: 1.12.1
+      d3-hexbin: 0.2.2
+      d3-hierarchy: 3.1.2
+      eventemitter3: 4.0.7
+      geobuf: 3.0.2
+      geojson-dissolve: 3.1.0
+      path-browserify: 1.0.1
+      pbf: 3.2.1
+      point-at-length: 1.1.0
+      simple-statistics: 7.8.3
+      simplify-geojson: 1.0.5
+      topojson-client: 3.1.0
+    dev: false
+
+  /@visactor/vdataset/0.16.0-alpha.2:
+    resolution: {integrity: sha512-1/LetucmTKpF3hd35CfG7PrSlLbW/nJQNPlYb7YY1EVGU1eHkwcGl6hP5I/ADimCty+9qyXUaCXSQBCZxFHOsw==}
+    dependencies:
+      '@turf/flatten': 6.5.0
+      '@turf/helpers': 6.5.0
+      '@turf/rewind': 6.5.0
+      '@visactor/vutils': 0.16.0-alpha.2
       d3-dsv: 3.0.1
       d3-geo: 1.12.1
       d3-hexbin: 0.2.2
@@ -4377,7 +4435,7 @@ packages:
     resolution: {integrity: sha512-SLkdgrumk1OB4hd0bENt2SVjoHKpn2k/9BjMVvp8j3DFdRvg+VQmvOffhVaQ9qGtPPwkhQLCdizDezeIyG/78w==}
     dependencies:
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vutils': 0.15.14
     dev: false
 
   /@visactor/vgrammar-hierarchy/0.7.0-alpha.3:
@@ -4385,8 +4443,8 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vutils': 0.15.14
     dev: false
 
   /@visactor/vgrammar-projection/0.7.0-alpha.3:
@@ -4394,7 +4452,7 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vutils': 0.15.14
       d3-geo: 1.12.1
     dev: false
 
@@ -4403,14 +4461,14 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vutils': 0.15.14
     dev: false
 
   /@visactor/vgrammar-util/0.7.0-alpha.3:
     resolution: {integrity: sha512-VBjQoQrrSG53D9YBwFTwNaLvccb9zuOiIf+wO7bX4o77K+zL890OKerwtyMchWnKw6nJOHb0ghAQw4TLuL4WmA==}
     dependencies:
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vutils': 0.15.14
     dev: false
 
   /@visactor/vgrammar-wordcloud-shape/0.7.0-alpha.3:
@@ -4418,9 +4476,9 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vscale': 0.15.13-alpha.4
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vscale': 0.15.14
+      '@visactor/vutils': 0.15.14
     dev: false
 
   /@visactor/vgrammar-wordcloud/0.7.0-alpha.3:
@@ -4428,49 +4486,63 @@ packages:
     dependencies:
       '@visactor/vgrammar': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vutils': 0.15.14
     dev: false
 
   /@visactor/vgrammar/0.7.0-alpha.3:
     resolution: {integrity: sha512-U8Eka5MDFtahsGxZIZGWaLDhriss4bCRPsfncN5HEwbhdZQnWziSWw3pJptwlgwD4FVp5FxlVc/EwX5HMr5WAA==}
     dependencies:
-      '@visactor/vdataset': 0.15.13-alpha.4
+      '@visactor/vdataset': 0.15.14
       '@visactor/vgrammar-coordinate': 0.7.0-alpha.3
       '@visactor/vgrammar-util': 0.7.0-alpha.3
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vrender-components': 0.15.0-alpha.20
-      '@visactor/vscale': 0.15.13-alpha.4
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vrender-components': 0.15.1
+      '@visactor/vscale': 0.15.14
+      '@visactor/vutils': 0.15.14
     dev: false
 
-  /@visactor/vrender-components/0.15.0-alpha.20:
-    resolution: {integrity: sha512-jJsurC6PSa14rwwqGI4mF0Xn+EvCWbiZgydasDFT1yA0vydwpbn+tS75ibUcNxUXeUmroW4zrRsYexpOq9Junw==}
+  /@visactor/vrender-components/0.15.1:
+    resolution: {integrity: sha512-NTJtliK+HIGEyxVeMrL9/Y5ptEU+R8iRGyaMj7U/Z5Y1oLQk/2QNk/K3zyXE3eD4EbF15TsXu7tD+KxRig9Nuw==}
     dependencies:
-      '@visactor/vrender': 0.15.0-alpha.20
-      '@visactor/vscale': 0.15.13-alpha.4
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vrender': 0.15.1
+      '@visactor/vscale': 0.15.14
+      '@visactor/vutils': 0.15.14
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vrender/0.15.0-alpha.20:
-    resolution: {integrity: sha512-UCIiYC2/mDIyG5+B0znm5O+akR4fI3auO+Z8HyrhryY6LLj2vpxVbCT0z1JDQq+ytH9YeBComhxFnObeqtjMuQ==}
+  /@visactor/vrender/0.15.1:
+    resolution: {integrity: sha512-MR+F83ik3+GC54tgfuBQuptxp2PKsp+4tIWArcv4ECcJFHAeTmikbKOAn0hSMSS0SuG+XaM2W63WYxeiqiHNug==}
     dependencies:
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vutils': 0.15.14
       color-convert: 2.0.1
       core-js: 3.31.1
       fast-xml-parser: 4.2.7
       inversify: 6.0.1
     dev: false
 
-  /@visactor/vscale/0.15.13-alpha.4:
-    resolution: {integrity: sha512-TGu9+zxUu8Rfp+OBprWobNYlMmrD1FP0CWe5twANcSIGIHNjrcr4NQht2kmd9cvUIbg22cQ7XkwIPN12BmQHmQ==}
+  /@visactor/vscale/0.15.14:
+    resolution: {integrity: sha512-ttGdvS49APcO23WFfsbq9zyQ1y767LjqchPPL78KOrd4UjhYQXRCdeqz7K4A57e333R37oLnPfSuIVFz9qJGYw==}
     dependencies:
-      '@visactor/vutils': 0.15.13-alpha.4
+      '@visactor/vutils': 0.15.14
     dev: false
 
-  /@visactor/vutils/0.15.13-alpha.4:
-    resolution: {integrity: sha512-cNUEs5cb5kkiMyRETb1FVVMHlvdwtNOaks9noMvw0JxGhDNFrgGdV1acj42z3JvaQpjXfIV58WOB3GrGJMdL6g==}
+  /@visactor/vscale/0.16.0-alpha.2:
+    resolution: {integrity: sha512-AbLCPph15K5uAasE2TheuUITodQbCYHDhamCrsnrLyWHlTCbFuJmy9oJabR9Y8HzmrHn0sUL+32/e1jUDfdv+Q==}
+    dependencies:
+      '@visactor/vutils': 0.16.0-alpha.2
+    dev: false
+
+  /@visactor/vutils/0.15.14:
+    resolution: {integrity: sha512-mZuJhXdDZqq5arqc/LfEmWOY6l7ErK1MurO8bR3vESxeCaQ18pN36iit15K2IMQVJuKZPnZ2ksw8+a1irXi/8A==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+      eventemitter3: 4.0.7
+    dev: false
+
+  /@visactor/vutils/0.16.0-alpha.2:
+    resolution: {integrity: sha512-jSxgQU5kyssni4yvtRh7DsPgup13IES8cFRqBWHl+D5hKiCYtZg9iap5U36tyhnXc4VjvQAVgTcryvIpPWB2Dg==}
     dependencies:
       '@turf/helpers': 6.5.0
       '@turf/invariant': 6.5.0
@@ -5261,7 +5333,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
       get-intrinsic: 1.2.1
       is-string: 1.0.7
@@ -5334,7 +5406,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
       es-shim-unscopables: 1.0.0
       get-intrinsic: 1.2.1
@@ -5345,7 +5417,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
       es-shim-unscopables: 1.0.0
 
@@ -5354,7 +5426,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
       es-shim-unscopables: 1.0.0
 
@@ -5363,7 +5435,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
       es-array-method-boxes-properly: 1.0.0
       is-string: 1.0.7
@@ -5375,7 +5447,7 @@ packages:
     dependencies:
       array-buffer-byte-length: 1.0.0
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
       get-intrinsic: 1.2.1
       is-array-buffer: 3.0.2
@@ -5493,7 +5565,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.10
-      caniuse-lite: 1.0.30001532
+      caniuse-lite: 1.0.30001534
       fraction.js: 4.3.6
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -5506,7 +5578,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 3.2.8
-      caniuse-lite: 1.0.30001532
+      caniuse-lite: 1.0.30001534
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       postcss: 6.0.23
@@ -5519,7 +5591,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.10
-      caniuse-lite: 1.0.30001532
+      caniuse-lite: 1.0.30001534
       chalk: 2.4.2
       normalize-range: 0.1.2
       num2fraction: 1.2.2
@@ -5532,7 +5604,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.10
-      caniuse-lite: 1.0.30001532
+      caniuse-lite: 1.0.30001534
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       picocolors: 0.2.1
@@ -6454,8 +6526,8 @@ packages:
     resolution: {integrity: sha512-WHVocJYavUwVgVViC0ORikPHQquXwVh939TaelZ4WDqpWgTX/FsGhl/+P4qBUAGcRvtOgDgC+xftNWWp2RUTAQ==}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001532
-      electron-to-chromium: 1.4.513
+      caniuse-lite: 1.0.30001534
+      electron-to-chromium: 1.4.520
     dev: true
 
   /browserslist/4.21.10:
@@ -6463,8 +6535,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001532
-      electron-to-chromium: 1.4.513
+      caniuse-lite: 1.0.30001534
+      electron-to-chromium: 1.4.520
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11_browserslist@4.21.10
 
@@ -6751,8 +6823,8 @@ packages:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
     dev: true
 
-  /caniuse-lite/1.0.30001532:
-    resolution: {integrity: sha512-FbDFnNat3nMnrROzqrsg314zhqN5LGQ1kyyMk2opcrwGbVGpHRhgCWtAgD5YJUqNAiQ+dklreil/c3Qf1dfCTw==}
+  /caniuse-lite/1.0.30001534:
+    resolution: {integrity: sha512-vlPVrhsCS7XaSh2VvWluIQEzVhefrUQcEsQWSS5A5V+dM07uv1qHeQzAOTGIMy9i3e9bH15+muvI/UHojVgS/Q==}
 
   /canvas/2.11.2:
     resolution: {integrity: sha512-ItanGBMrmRV7Py2Z+Xhs7cT+FNt5K0vPL4p9EZ/UX/Mu7hFbkxSjKF2KVtPwX7UYWp7dRKnrTvReflgrItJbdw==}
@@ -6760,7 +6832,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@mapbox/node-pre-gyp': 1.0.11
-      nan: 2.17.0
+      nan: 2.18.0
       simple-get: 3.1.1
     transitivePeerDependencies:
       - encoding
@@ -7047,8 +7119,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /cli-spinners/2.9.0:
-    resolution: {integrity: sha512-4/aL9X3Wh0yiMQlE+eeRhWP6vclO3QRtw1JHKIT0FFUs5FjpFmESqtMvYZ0+lbzBw900b95mS0hohy+qn2VK/g==}
+  /cli-spinners/2.9.1:
+    resolution: {integrity: sha512-jHgecW0pxkonBJdrKsqxgRX9AcG+u/5k0Q7WPDfi8AogLAdwxEkyYYNWwZ5GvVFoFx2uiY1eNcSK00fh+1+FyQ==}
     engines: {node: '>=6'}
     dev: true
 
@@ -8167,7 +8239,7 @@ packages:
       is-regex: 1.1.4
       object-is: 1.1.5
       object-keys: 1.1.1
-      regexp.prototype.flags: 1.5.0
+      regexp.prototype.flags: 1.5.1
     dev: true
 
   /deep-extend/0.6.0:
@@ -8217,15 +8289,24 @@ packages:
     resolution: {integrity: sha512-0ISdNousHvZT2EiFlZeZAHBUvSxmKswVCEf8hW7KWgG4a8MVEu/3Vb6uWYozkjylyCxe0JBIiRB1jV45S70WVQ==}
     dev: true
 
+  /define-data-property/1.1.0:
+    resolution: {integrity: sha512-UzGwzcjyv3OtAvolTj1GoyNYzfFR+iqbGjcnBEENZVCpM4/Ng1yhGNvS3lR/xDS74Tb2wGG9WzNSNIOS9UVb2g==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      get-intrinsic: 1.2.1
+      gopd: 1.0.1
+      has-property-descriptors: 1.0.0
+
   /define-lazy-prop/2.0.0:
     resolution: {integrity: sha512-Ds09qNh8yw3khSjiJjiUInaGX9xlqZDY7JVryGxdxV7NPeuqQfplOpQ66yJFZut3jLa5zOwkXw1g9EI2uKh4Og==}
     engines: {node: '>=8'}
     dev: true
 
-  /define-properties/1.2.0:
-    resolution: {integrity: sha512-xvqAVKGfT1+UAvPwKTVw/njhdQ8ZhXK4lI0bCIuCMrp2up9nPnaDftrLtmpTazqd1o+UY4zgzU+avtMbDP+ldA==}
+  /define-properties/1.2.1:
+    resolution: {integrity: sha512-8QmQKqEASLd5nx0U1B1okLElbUuuttJ/AnYmRXbbbGDWh6uS208EjD4Xqq/I9wK7u0v6O08XhTWnt5XtEbR6Dg==}
     engines: {node: '>= 0.4'}
     dependencies:
+      define-data-property: 1.1.0
       has-property-descriptors: 1.0.0
       object-keys: 1.1.1
 
@@ -8649,8 +8730,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.513:
-    resolution: {integrity: sha512-cOB0xcInjm+E5qIssHeXJ29BaUyWpMyFKT5RB3bsLENDheCja0wMkHJyiPl0NBE/VzDI7JDuNEQWhe6RitEUcw==}
+  /electron-to-chromium/1.4.520:
+    resolution: {integrity: sha512-Frfus2VpYADsrh1lB3v/ft/WVFlVzOIm+Q0p7U7VqHI6qr7NWHYKe+Wif3W50n7JAFoBsWVsoU0+qDks6WQ60g==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
@@ -8806,7 +8887,7 @@ packages:
       object-inspect: 1.12.3
       object-keys: 1.1.1
       object.assign: 4.1.4
-      regexp.prototype.flags: 1.5.0
+      regexp.prototype.flags: 1.5.1
       safe-array-concat: 1.0.1
       safe-regex-test: 1.0.0
       string.prototype.trim: 1.2.8
@@ -9356,7 +9437,7 @@ packages:
       prop-types: 15.8.1
       resolve: 2.0.0-next.4
       semver: 6.3.1
-      string.prototype.matchall: 4.0.9
+      string.prototype.matchall: 4.0.10
     dev: true
 
   /eslint-plugin-react/7.30.1_eslint@8.18.0:
@@ -9379,7 +9460,7 @@ packages:
       prop-types: 15.8.1
       resolve: 2.0.0-next.4
       semver: 6.3.1
-      string.prototype.matchall: 4.0.9
+      string.prototype.matchall: 4.0.10
 
   /eslint-plugin-taro/2.2.19_qnj6j5lts2zfavoiwthslq75pu:
     resolution: {integrity: sha512-LUtO+dUFtAdrNzRjFeaVrUZ1L7VJOLU+ah2/uUqhRhzZyJYiqRiJkQBu0q5BhUcE5v7lATlc5i05eBYNPiCXsg==}
@@ -10606,7 +10687,7 @@ packages:
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
-      nan: 2.17.0
+      nan: 2.18.0
     optional: true
 
   /fsevents/2.1.3:
@@ -10633,7 +10714,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
       functions-have-names: 1.2.3
 
@@ -11001,7 +11082,7 @@ packages:
     resolution: {integrity: sha512-sFdI5LyBiNTHjRd7cGPWapiHWMOXKyuBNX/cWJ3NfzrZQVa8GI/8cofCl74AOVqq9W5kNmguTIzJ/1s2gyI9wA==}
     engines: {node: '>= 0.4'}
     dependencies:
-      define-properties: 1.2.0
+      define-properties: 1.2.1
 
   /globby/10.0.1:
     resolution: {integrity: sha512-sSs4inE1FB2YQiymcmTv6NWENryABjUNPeWhOvmn4SjtKybglsyPZxFB3U1/+L1bYi0rNZDqCLlHyLYDl1Pq5A==}
@@ -13001,7 +13082,7 @@ packages:
       jest: ^24.0.0
     dependencies:
       electron: 11.5.0
-      jest: 26.6.3_ts-node@10.9.0
+      jest: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
       jest-haste-map: 24.9.0
       jest-message-util: 24.9.0
       jest-mock: 24.9.0
@@ -15301,6 +15382,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /miniprogram-api-typings/2.12.0:
+    resolution: {integrity: sha512-ibvbqeslVFur0IAvTxLMvsbtvVcMo6gwvOnj0YZHV7aeDLu091VQRrETT2QuiG9P6aZWRcxeNGJChRKVPCp9VQ==}
+    dev: true
+
   /miniprogram-api-typings/3.12.0:
     resolution: {integrity: sha512-tE0zjq+3bFEgUROzCjXTdtLY+FmqiTX4kZWXc8bCC7M9wSHCriBz+ga1E2i1PcI+DQJoz2cyK8Cv2exJv6XEzA==}
     dev: true
@@ -15487,8 +15572,8 @@ packages:
       thenify-all: 1.6.0
     dev: true
 
-  /nan/2.17.0:
-    resolution: {integrity: sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==}
+  /nan/2.18.0:
+    resolution: {integrity: sha512-W7tfG7vMOGtD30sHoZSSc/JVYiyDPEyQVso/Zz+/uQd0B0L46gtC+pHha5FFMRpil6fm/AoEcRWyOVi4+E/f8w==}
 
   /nanoid/3.3.1:
     resolution: {integrity: sha512-n6Vs/3KGyxPQd6uO0eH4Bv0ojGSUvuLlIHtC3Y0kEO23YRge8H9x1GCzLn28YX0H66pMkxuaeESFq4tKISKwdw==}
@@ -15832,7 +15917,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
     dev: true
 
   /object-keys/1.1.1:
@@ -15850,7 +15935,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       has-symbols: 1.0.3
       object-keys: 1.1.1
 
@@ -15869,7 +15954,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
 
   /object.fromentries/2.0.7:
@@ -15877,7 +15962,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
 
   /object.getownpropertydescriptors/2.1.7:
@@ -15886,7 +15971,7 @@ packages:
     dependencies:
       array.prototype.reduce: 1.0.6
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
       safe-array-concat: 1.0.1
     dev: true
@@ -15895,7 +15980,7 @@ packages:
     resolution: {integrity: sha512-HqaQtqLnp/8Bn4GL16cj+CUYbnpe1bh0TtEaWvybszDG4tgxCJuRpV8VGuvNaI1fAnI4lUJzDG55MXcOH4JZcQ==}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
       get-intrinsic: 1.2.1
     dev: true
@@ -15903,7 +15988,7 @@ packages:
   /object.hasown/1.1.3:
     resolution: {integrity: sha512-fFI4VcYpRHvSLXxP7yiZOMAd331cPfd2p7PFDVbgUsYOfCT3tICVqXWngbjr4m49OvsBwUBQ6O2uQoJvy3RexA==}
     dependencies:
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
 
   /object.map/1.0.1:
@@ -15941,7 +16026,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
 
   /obuf/1.1.2:
@@ -16064,7 +16149,7 @@ packages:
     dependencies:
       chalk: 2.4.2
       cli-cursor: 2.1.0
-      cli-spinners: 2.9.0
+      cli-spinners: 2.9.1
       log-symbols: 2.2.0
       strip-ansi: 5.2.0
       wcwidth: 1.0.1
@@ -16076,7 +16161,7 @@ packages:
     dependencies:
       chalk: 3.0.0
       cli-cursor: 3.1.0
-      cli-spinners: 2.9.0
+      cli-spinners: 2.9.1
       is-interactive: 1.0.0
       log-symbols: 3.0.0
       mute-stream: 0.0.8
@@ -17716,13 +17801,13 @@ packages:
     resolution: {integrity: sha512-jbD/FT0+9MBU2XAZluI7w2OBs1RBi6p9M83nkoZayQXXU9e8Robt69FcZc7wU4eJD/YFTjn1JdCk3rbMJajz8Q==}
     dev: true
 
-  /regexp.prototype.flags/1.5.0:
-    resolution: {integrity: sha512-0SutC3pNudRKgquxGoRGIz946MZVHqbNfPjBdxeOhBrdgDKlRoXmYLQN9xRbrR09ZXWeGAdPuif7egofn6v5LA==}
+  /regexp.prototype.flags/1.5.1:
+    resolution: {integrity: sha512-sy6TXMN+hnP/wMy+ISxg3krXx7BAtWVO4UouuCN/ziM9UEne0euamVNafDfvC83bRNr95y0V5iijeDQFUNpvrg==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
-      functions-have-names: 1.2.3
+      define-properties: 1.2.1
+      set-function-name: 2.0.1
 
   /regexpp/2.0.1:
     resolution: {integrity: sha512-lv0M6+TkDVniA3aD1Eg0DVpfU/booSu7Eev3TDO/mZKHBfVjgCGTV4t4buppESEYDtkArYFOxTJWv6S5C+iaNw==}
@@ -18210,7 +18295,7 @@ packages:
       globalthis: 1.0.3
       json-stringify-safe: 5.0.1
       semver-compare: 1.0.0
-      sprintf-js: 1.1.2
+      sprintf-js: 1.1.3
     dev: true
     optional: true
 
@@ -18241,8 +18326,8 @@ packages:
       rollup: 3.20.5
     dev: true
 
-  /rollup-plugin-import-css/3.3.1_rollup@3.20.5:
-    resolution: {integrity: sha512-/v/OjjDPhhhbua5w4VzHRTtqfyyG950jJSObtM9os5ELGgaHiolNOvpZNk2KeTSFMuhdrXirGXM64bluHgwySA==}
+  /rollup-plugin-import-css/3.3.3_rollup@3.20.5:
+    resolution: {integrity: sha512-s7jyth3n5vpdadyIozb4HpBf4CYJ2kQh0NH9aNXAUuNNQJMlqBjT4n/gm8a9KvDqodR3A4VzyrbTGJz/EJ9AFg==}
     engines: {node: '>=16'}
     peerDependencies:
       rollup: ^2.x.x || ^3.x.x
@@ -18683,6 +18768,14 @@ packages:
   /set-blocking/2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
+  /set-function-name/2.0.1:
+    resolution: {integrity: sha512-tMNCiqYVkXIZgc2Hnoy2IvC/f8ezc5koaRFkCjrpWzGpCd3qbZXPzVy9MAZzK1ch/X0jvSkojys3oqJN0qCmdA==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      define-data-property: 1.1.0
+      functions-have-names: 1.2.3
+      has-property-descriptors: 1.0.0
+
   /set-value/2.0.1:
     resolution: {integrity: sha512-JxHc1weCN68wRY0fhCoXpyK55m/XPHafOmK4UWD7m2CI14GMcFypt4w/0+NV5f/ZMby2F6S2wwA7fgynh9gWSw==}
     engines: {node: '>=0.10.0'}
@@ -19099,8 +19192,8 @@ packages:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
     dev: true
 
-  /sprintf-js/1.1.2:
-    resolution: {integrity: sha512-VE0SOVEHCk7Qc8ulkWw3ntAzXuqf7S2lvwQaDLRnUeIEaKNQJzV6BwmLKhOqT61aGhfUMrXeaBk+oDGCzvhcug==}
+  /sprintf-js/1.1.3:
+    resolution: {integrity: sha512-Oo+0REFV59/rz3gfJNKQiBlwfHaSESl1pcGyABQsnnIfWOFt6JNj5gCog2U6MLZ//IGYD+nA8nI+mTShREReaA==}
     dev: true
     optional: true
 
@@ -19300,16 +19393,17 @@ packages:
     resolution: {integrity: sha512-n69H31OnxSGSZyZbgBlvYIXlrMhJQ0dQAX1js1QDhpaUH6zmU3QYlj07bCwCNlPOu3oRXIubGPl2gDGnHsiCqg==}
     dev: true
 
-  /string.prototype.matchall/4.0.9:
-    resolution: {integrity: sha512-6i5hL3MqG/K2G43mWXWgP+qizFW/QH/7kCNN13JrJS5q48FN5IKksLDscexKP3dnmB6cdm9jlNgAsWNLpSykmA==}
+  /string.prototype.matchall/4.0.10:
+    resolution: {integrity: sha512-rGXbGmOEosIQi6Qva94HUjgPs9vKW+dkG7Y8Q5O2OYkWL6wFaTRZO8zM4mhP94uX55wgyrXzfS2aGtGzUL7EJQ==}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
       get-intrinsic: 1.2.1
       has-symbols: 1.0.3
       internal-slot: 1.0.5
-      regexp.prototype.flags: 1.5.0
+      regexp.prototype.flags: 1.5.1
+      set-function-name: 2.0.1
       side-channel: 1.0.4
 
   /string.prototype.trim/1.2.8:
@@ -19317,21 +19411,21 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
 
   /string.prototype.trimend/1.0.7:
     resolution: {integrity: sha512-Ni79DqeB72ZFq1uH/L6zJ+DKZTkOtPIHovb3YZHQViE+HDouuU4mBrLOLDn5Dde3RF8qw5qVETEjhu9locMLvA==}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
 
   /string.prototype.trimstart/1.0.7:
     resolution: {integrity: sha512-NGhtDFu3jCEm7B4Fy0DpLewdJQOZcQ0rGbwQ/+stjnrp2i+rlKeCvos9hOIeCmqwratM47OBxY7uFZzjxHXmrg==}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
 
   /string_decoder/0.10.31:
@@ -20035,8 +20129,8 @@ packages:
       next-tick: 1.1.0
     dev: false
 
-  /tinybench/2.5.0:
-    resolution: {integrity: sha512-kRwSG8Zx4tjF9ZiyH4bhaebu+EDz1BOx9hOigYHlUW4xxI/wKIUQUqo018UlU4ar6ATPBsaMrdbKZ+tmPdohFA==}
+  /tinybench/2.5.1:
+    resolution: {integrity: sha512-65NKvSuAVDP/n4CqH+a9w2kTlLReS9vhsAP06MWx+/89nMinJyB2icyl58RIcqCmIggpojIGeuJGhjU1aGMBSg==}
     dev: true
 
   /tinypool/0.4.0:
@@ -20918,7 +21012,7 @@ packages:
   /util.promisify/1.0.0:
     resolution: {integrity: sha512-i+6qA2MPhvoKLuxnJNpXAGhg7HphQOSUq2LKMZD0m15EiskXUkMvKdF4Uui0WYeCUGea+o2cw/ZuwehtfsrNkA==}
     dependencies:
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       object.getownpropertydescriptors: 2.1.7
     dev: true
 
@@ -20926,7 +21020,7 @@ packages:
     resolution: {integrity: sha512-PBdZ03m1kBnQ5cjjO0ZvJMJS+QsbyIcFwi4hY4U76OQsCO9JrOYjbCFgIF76ccFg9xnJo7ZHPkqyj1GqmdS7MA==}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       for-each: 0.3.3
       has-proto: 1.0.1
       has-symbols: 1.0.3
@@ -21280,7 +21374,7 @@ packages:
       source-map: 0.6.1
       std-env: 3.4.3
       strip-literal: 1.3.0
-      tinybench: 2.5.0
+      tinybench: 2.5.1
       tinypool: 0.4.0
       vite: 3.2.6_7zwh35utftxekdfxofw6etm2hq
       vite-node: 0.30.1_7zwh35utftxekdfxofw6etm2hq

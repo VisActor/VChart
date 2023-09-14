@@ -16,3 +16,6 @@ export * from './typings/spec/index';
 
 // theme
 export { ThemeManager } from './theme/index';
+
+// vrender
+export { vglobal } from '@visactor/vrender';

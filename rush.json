@@ -53,6 +53,12 @@
       "versionPolicyName": "vchartMain"
     },
     {
+      "packageName": "@visactor/wx-vchart",
+      "projectFolder": "packages/wx-vchart",
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
+    },
+    {
       "packageName": "@visactor/vchart-schema",
       "projectFolder": "packages/vchart-schema",
       "shouldPublish": true,
