@@ -12,7 +12,7 @@ import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';
 import type { IZoomable } from '../../../interaction/zoom/zoomable';
-import { IFilterMode } from '../interface';
+import { IFilterMode } from '../constant';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;

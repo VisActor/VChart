@@ -14,7 +14,7 @@ import type { ILinearScale } from '@visactor/vscale';
 import { LinearScale } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import type { IDataZoomSpec } from './interface';
-import { IFilterMode } from '../interface';
+import { IFilterMode } from '../constant';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;

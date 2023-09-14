@@ -16,7 +16,7 @@ import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../constant/scroll-bar';
 import { array } from '@visactor/vutils';
 import { normalizeLayoutPaddingSpec } from '../../util';
-import { IFilterMode } from '../../component/data-zoom/interface';
+import { IFilterMode } from '../../component/data-zoom/constant';
 VChart.useSeries([DotSeries, LinkSeries]);
 
 export class SequenceChart extends BaseChart {
