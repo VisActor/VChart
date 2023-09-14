@@ -73,6 +73,7 @@ export class EditorLayer implements IEditorLayer {
     const group = createGroup({
       x: 0,
       y: 0,
+      pickable: false,
       zIndex: 999999
     });
     this._stage.defaultLayer.add(group);
@@ -110,7 +111,14 @@ export class EditorLayer implements IEditorLayer {
   }
 
   protected _onEvent(e: Event) {
-    if (!(e.target === this._stage || !e.target || (<any>e.target).name === 'root')) {
+    if (
+      !(
+        !e.target ||
+        e.target === this._stage.defaultLayer ||
+        e.target === this._stage ||
+        (<any>e.target).name === 'root'
+      )
+    ) {
       this._isInActive = true;
       if (TriggerEvent[e.type]) {
         this._isTrigger = true;

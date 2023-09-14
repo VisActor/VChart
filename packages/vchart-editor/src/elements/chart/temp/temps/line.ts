@@ -8,27 +8,18 @@ const spec = {
   // background: 'transparent',
   series: [
     {
-      id: 'bar-0',
-      type: 'bar',
+      id: 'line-0',
+      type: 'line',
       xField: 'State',
       yField: 'Population',
       seriesField: 'Age',
-      stack: true,
-      bar: {
-        // The state style of bar
-        state: {
-          hover: {
-            stroke: '#000',
-            lineWidth: 1
-          }
-        }
-      }
+      stack: false
     }
   ],
   axes: [
     {
-      orient: 'left',
-      id: 'axis-left',
+      orient: 'right',
+      id: 'axis-right',
       type: 'linear'
     },
     {
@@ -39,7 +30,7 @@ const spec = {
   ],
   data: [
     {
-      id: 'barData',
+      id: 'lineData',
       values: [
         {
           State: 'WY',
@@ -132,44 +123,11 @@ const spec = {
     textStyle: {
       character: [
         {
-          text: 'Bar Editor Test',
+          text: 'Line Editor Test',
           fontSize: 30,
           textAlign: 'center',
           textDecoration: 'underline',
           stroke: '#0f51b5'
-        }
-      ]
-    },
-    subtextStyle: {
-      character: [
-        {
-          text: 'Mapbox',
-          fontWeight: 'bold',
-          fontSize: 30,
-          fill: '#3f51b5'
-        },
-        {
-          text: '',
-          fill: '#000'
-        },
-        {
-          text: 'alternative solution',
-          fontStyle: 'italic',
-          fill: '#3f51b5'
-        },
-        {
-          text: 'sub Title!',
-          fill: '#000'
-        },
-        {
-          text: 'Map',
-          textDecoration: 'line-through',
-          fill: '#000'
-        },
-        {
-          text: '[1]',
-          script: 'super',
-          fill: '#000'
         }
       ]
     }
@@ -184,8 +142,8 @@ const spec = {
   ]
 };
 
-export class BarTemp extends BaseTemp {
-  type = 'bar';
+export class LineTemp extends BaseTemp {
+  type = 'line';
   checkDataEnable(data: StandardData, info: DataInfo, opt?: any): boolean {
     const xField: string[] = [];
     const yField: string[] = [];

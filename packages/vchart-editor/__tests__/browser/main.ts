@@ -44,6 +44,22 @@ if (editor.layers.length === 0) {
       height: 300
     }
   });
+
+  editor.addElements('chart', {
+    attribute: {
+      data: {
+        type: 'clipBoard',
+        value: clipBoardData
+      },
+      temp: 'line'
+    },
+    rect: {
+      x: 120,
+      y: 120,
+      width: 400,
+      height: 400
+    }
+  });
 }
 
 // editor.addElements('chart', {
