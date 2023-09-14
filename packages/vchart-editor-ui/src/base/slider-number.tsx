@@ -1,39 +1,38 @@
 import { useState } from 'react';
 import { InputNumber, Slider } from '@douyinfe/semi-ui';
-import { isArray, merge } from '@visactor/vutils';
-import type { IBaseFontSizeComponentProps } from '../typings/base';
+import { isArray } from '@visactor/vutils';
+import type { ISliderNumberComponentProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
 
-export function SliderNumber(props: IBaseFontSizeComponentProps) {
-  const config = merge({}, defaultBaseComponentConfig.fontSize ?? {}, props.config ?? {});
-
-  const defaultFontSize = props.fontSize ?? config.value.default;
-  const minFontSize = props.min ?? config.value.min;
-  const maxFontSize = props.max ?? config.value.max;
-  const [value, setValue] = useState<number>(defaultFontSize);
+export function SliderNumber(props: ISliderNumberComponentProps) {
+  const label = props.label ?? defaultBaseComponentConfig.fontFamily.label;
+  const defaultValue = props.value ?? defaultBaseComponentConfig.sliderNumber.default;
+  const min = props.config?.min ?? defaultBaseComponentConfig.sliderNumber.min;
+  const max = props.config?.max ?? defaultBaseComponentConfig.sliderNumber.max;
+  const [value, setValue] = useState<number>(defaultValue);
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <p>{config.label}</p>
+      <p>{label}</p>
       <Slider
         value={value}
-        min={minFontSize}
-        max={maxFontSize}
-        onChange={fontSize => {
-          const finalFontSize = isArray(fontSize) ? fontSize[0] : fontSize;
-          setValue(finalFontSize);
-          props.onChange?.(finalFontSize);
+        min={min}
+        max={max}
+        onChange={value => {
+          const finalValue = isArray(value) ? value[0] : value;
+          setValue(finalValue);
+          props.onChange?.(finalValue);
         }}
         style={{ width: 200 }}
       ></Slider>
       <InputNumber
         value={value}
-        min={minFontSize}
-        max={maxFontSize}
-        onChange={fontSize => {
-          const finalFontSize = isArray(fontSize) ? fontSize[0] : fontSize;
-          setValue(finalFontSize);
-          props.onChange?.(finalFontSize);
+        min={min}
+        max={max}
+        onChange={value => {
+          const finalValue = isArray(value) ? value[0] : value;
+          setValue(finalValue);
+          props.onChange?.(finalValue);
         }}
       />
     </div>

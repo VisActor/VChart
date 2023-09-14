@@ -1,28 +1,25 @@
-import type { IBaseComponentConfig } from './config';
+import type {
+  IBaseComponentConfig,
+  IFontFamilyComponentConfig,
+  IFontStyleComponentConfig,
+  ISliderNumberComponentConfig
+} from './config';
 
-export interface IBaseComponentProps {
-  label?: string;
-  config?: IBaseComponentConfig;
+export interface IBaseComponentProps<Config extends IBaseComponentConfig> {
+  label: string;
+  config?: Config;
   onChange?: (value: any) => void;
 }
 
-export interface IBaseFontSizeComponentProps extends IBaseComponentProps {
-  fontSize?: number;
-  min?: number;
-  max?: number;
+export interface ISliderNumberComponentProps extends IBaseComponentProps<ISliderNumberComponentConfig> {
+  value: number;
 }
 
-export interface ISliderNumberComponentProps extends IBaseComponentProps {
-  value?: number;
-  min?: number;
-  max?: number;
-}
-
-export interface IBaseFontFamilyComponentProps extends IBaseComponentProps {
+export interface IBaseFontFamilyComponentProps extends IBaseComponentProps<IFontFamilyComponentConfig> {
   fontFamily?: string;
 }
 
-export interface IBaseFontStyleComponentProps extends IBaseComponentProps {
+export interface IBaseFontStyleComponentProps extends IBaseComponentProps<IFontStyleComponentConfig> {
   bolder?: boolean;
   underline?: boolean;
   italic?: boolean;
