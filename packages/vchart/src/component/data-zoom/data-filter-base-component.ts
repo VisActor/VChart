@@ -10,7 +10,7 @@ import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
 import type { AdaptiveSpec, IOrientType, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
-import { BandScale, isContinuous } from '@visactor/vscale';
+import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -101,7 +101,13 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     onZoomChange: () => {
       if (this._relatedAxisComponent && this._filterMode === 'axis') {
         const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
-        (scale as any).rangeFactor([this._start, this._end]);
+        // band轴和linear轴的range是相反的
+        // 比如相同的region范围, band scale range为[0, 500], linear scale range为[500, 0]
+        // 而datazoom/scrollbar的range强制为[0, 500]
+        // 所以这里在转换时针对band scale的场景下做一次转置, 有待优化
+        (scale as any).rangeFactor(
+          this._isHorizontal || isDiscrete(scale.type) ? [this._start, this._end] : [1 - this._end, 1 - this._start]
+        );
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
         eachSeries(
