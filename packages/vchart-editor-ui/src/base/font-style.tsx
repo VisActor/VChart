@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { IconBold, IconItalic, IconUnderline } from '@douyinfe/semi-icons';
 import { IconButton } from '@douyinfe/semi-ui';
-
-import { merge } from '@visactor/vutils';
 import type { IBaseFontStyleComponentProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
 
@@ -18,18 +16,17 @@ const selectedStyle = {
 };
 
 export function FontStyle(props: IBaseFontStyleComponentProps) {
-  const config = merge({}, defaultBaseComponentConfig.fontStyle ?? {}, props.config ?? {});
-
-  const defaultBolder = props.bolder ?? config.value.default.bolder;
-  const defaultUnderline = props.underline ?? config.value.default.underline;
-  const defaultItalic = props.italic ?? config.value.default.italic;
+  const label = props.label ?? defaultBaseComponentConfig.fontFamily.label;
+  const defaultBolder = props.bolder ?? defaultBaseComponentConfig.fontStyle.default.bold;
+  const defaultUnderline = props.underline ?? defaultBaseComponentConfig.fontStyle.default.underline;
+  const defaultItalic = props.italic ?? defaultBaseComponentConfig.fontStyle.default.italic;
   const [bolder, setBolder] = useState<boolean>(defaultBolder);
   const [underline, setUnderline] = useState<boolean>(defaultUnderline);
   const [italic, setItalic] = useState<boolean>(defaultItalic);
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <p>{config.label}</p>
+      <p>{label}</p>
       <IconButton
         icon={<IconBold />}
         style={bolder ? selectedStyle : normalStyle}
