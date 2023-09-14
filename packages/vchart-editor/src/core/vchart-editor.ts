@@ -50,10 +50,10 @@ export class VChartEditor {
           return this._event.triggerLayer;
         }
         return this._layers[0];
-      },
-      saveData: () => {
-        this._option.data?.save?.();
       }
+    });
+    this._editorController.addEndHandler(() => {
+      this._option.data?.save?.();
     });
     this.initEvent();
   }
