@@ -20,7 +20,7 @@ import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { mixin, clamp, isNil } from '@visactor/vutils';
-import { IFilterMode } from './interface';
+import { IFilterMode } from './constant';
 import type { IDataFilterComponent, IDataFilterComponentSpec } from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../compile/data';

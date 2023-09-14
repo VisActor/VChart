@@ -90,8 +90,3 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
 export interface IDataFilterComponent extends IComponent {
   setStartAndEnd: (start: number, end: number) => any;
 }
-
-export enum IFilterMode {
-  filter = 'filter',
-  axis = 'axis'
-}
