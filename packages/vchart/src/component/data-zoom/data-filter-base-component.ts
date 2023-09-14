@@ -10,7 +10,7 @@ import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
 import type { AdaptiveSpec, IOrientType, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
-import { BandScale, isContinuous } from '@visactor/vscale';
+import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -106,7 +106,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         // 而datazoom/scrollbar的range强制为[0, 500]
         // 所以这里在转换时针对band scale的场景下做一次转置, 有待优化
         (scale as any).rangeFactor(
-          this._isHorizontal || scale.type === 'band' ? [this._start, this._end] : [1 - this._end, 1 - this._start]
+          this._isHorizontal || isDiscrete(scale.type) ? [this._start, this._end] : [1 - this._end, 1 - this._start]
         );
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
