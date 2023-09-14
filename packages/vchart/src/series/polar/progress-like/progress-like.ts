@@ -97,9 +97,9 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
 
     if (tickMask?.forceAlign && this._isTickMaskVisible(axis)) {
       const field = this._stack ? STACK_FIELD_START : SEGMENT_FIELD_START;
+      const originValue = datum[field];
       const scale = this.angleAxisHelper.getScale(0);
       const subTickData = this._getAngleAxisSubTickData(axis);
-      const originValue = datum[field];
       const step = subTickData[1].value - subTickData[0].value;
       const offsetAngle = degreeToRadian(tickMask.offsetAngle);
 
@@ -136,9 +136,9 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
 
     if (tickMask?.forceAlign && this._isTickMaskVisible(axis)) {
       const field = this._stack ? STACK_FIELD_END : this._angleField[0];
+      const originValue = datum[field];
       const scale = this.angleAxisHelper.getScale(0);
       const subTickData = this._getAngleAxisSubTickData(axis);
-      const originValue = datum[field];
       const step = subTickData[1].value - subTickData[0].value;
       const offsetAngle = degreeToRadian(tickMask.offsetAngle);
 
