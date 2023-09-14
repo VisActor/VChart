@@ -40,18 +40,26 @@ export class CircularProgressSeries<
   }
 
   initMark(): void {
-    this._trackMark = this._createMark(CircularProgressSeries.mark.track) as IArcMark;
-    this._progressMark = this._createMark(CircularProgressSeries.mark.progress, {
-      isSeriesMark: true
-    }) as IArcMark;
+    super.initMark();
+    this._initTrackMark();
+    this._initProgressMark();
   }
 
   initMarkStyle(): void {
-    this.initTrackMarkStyle();
-    this.initProgressMarkStyle();
+    super.initMarkStyle();
+    this._initTrackMarkStyle();
+    this._initProgressMarkStyle();
   }
 
-  private initProgressMarkStyle() {
+  private _initProgressMark() {
+    this._progressMark = this._createMark(CircularProgressSeries.mark.progress, {
+      parent: this._arcGroupMark,
+      isSeriesMark: true
+    }) as IArcMark;
+    return this._progressMark;
+  }
+
+  private _initProgressMarkStyle() {
     const progressMark = this._progressMark;
     if (progressMark) {
       this.setMarkStyle(progressMark, {
@@ -76,7 +84,14 @@ export class CircularProgressSeries<
     }
   }
 
-  private initTrackMarkStyle() {
+  private _initTrackMark() {
+    this._trackMark = this._createMark(CircularProgressSeries.mark.track, {
+      parent: this._arcGroupMark
+    }) as IArcMark;
+    return this._trackMark;
+  }
+
+  private _initTrackMarkStyle() {
     const trackMark = this._trackMark;
     if (trackMark) {
       this.setMarkStyle(trackMark, {

@@ -13,6 +13,7 @@ import { Factory } from '../../../core/factory';
 import { isArray, isValidNumber, mergeSpec, polarToCartesian, eachSeries } from '../../../util';
 import { scaleParser } from '../../../data/parser/scale';
 import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
+// eslint-disable-next-line no-duplicate-imports
 import { ticks } from '@visactor/vutils-extension';
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber } from '../../../typings';
