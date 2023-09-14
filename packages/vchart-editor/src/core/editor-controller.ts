@@ -13,18 +13,16 @@ export class EditorController {
   protected _currentOverBorder: IRenderRect = null;
 
   protected _startHandler: EditorHandlerFunc[] = [];
-  protected _stoptHandler: EditorHandlerFunc[] = [];
+  protected _endHandler: EditorHandlerFunc[] = [];
 
   protected _opt: {
     getTopLayer: () => IEditorLayer;
-    saveData: () => void;
   };
 
   constructor(
     public container: HTMLElement,
     opt: {
       getTopLayer: () => IEditorLayer;
-      saveData: () => void;
     }
   ) {
     this._opt = opt;
@@ -74,9 +72,8 @@ export class EditorController {
         },
         endHandler: data => {
           this._currentEditorElements.updateAttribute({ layout: data });
-          this._stoptHandler.forEach(h => h(this._currentEditorElements));
+          this._endHandler.forEach(h => h(this._currentEditorElements));
           console.log('editor end');
-          this._opt.saveData();
         },
         event: event
       });
@@ -93,13 +90,13 @@ export class EditorController {
       this._startHandler.slice(index, 1);
     }
   }
-  addStopHandler(handler: EditorHandlerFunc) {
-    this._stoptHandler.push(handler);
+  addEndHandler(handler: EditorHandlerFunc) {
+    this._endHandler.push(handler);
   }
-  removeStopHandler(handler: EditorHandlerFunc) {
-    const index = this._stoptHandler.findIndex(h => h === handler);
+  removeEndHandler(handler: EditorHandlerFunc) {
+    const index = this._endHandler.findIndex(h => h === handler);
     if (index >= 0) {
-      this._stoptHandler.slice(index, 1);
+      this._endHandler.slice(index, 1);
     }
   }
 
@@ -160,6 +157,6 @@ export class EditorController {
   release() {
     this._currentEditorBox?.release();
     this._startHandler = null;
-    this._stoptHandler = null;
+    this._endHandler = null;
   }
 }
