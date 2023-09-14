@@ -26,6 +26,12 @@
       "shouldPublish": false
     },
     {
+      "packageName": "@visactor/vchart-editor-ui",
+      "projectFolder": "packages/vchart-editor-ui",
+      "tags": ["package"],
+      "shouldPublish": false
+    },
+    {
       "packageName": "@visactor/vchart",
       "projectFolder": "packages/vchart",
       "tags": ["package"],

@@ -1,0 +1,1 @@
+describe('VChart Editor ui', () => {});

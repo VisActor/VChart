@@ -126,6 +126,13 @@
       "summary": "Start the vchart editor development server",
       "description": "Run this command to start vchart editor development server",
       "shellCommand": "rush run -p @visactor/vchart-editor -s start"
+    },
+    {
+      "commandKind": "global",
+      "name": "editor-ui",
+      "summary": "Start the vchart editor ui development server",
+      "description": "Run this command to start vchart editor development server",
+      "shellCommand": "rush run -p @visactor/vchart-editor-ui -s start"
     }
   ],
   "parameters": [
