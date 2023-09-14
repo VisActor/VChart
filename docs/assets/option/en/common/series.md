@@ -143,4 +143,5 @@ Data matching field, configurable for multiple data primitives.
   noPreset = ${noPreset},
   preset = ${preset},
   defaultPreset = ${defaultPreset},
+  seriesType = ${seriesType},
 ) }}
