@@ -29,7 +29,7 @@ export class EditorController {
   }
 
   setEditorElements(el: IEditorElement, event: PointerEvent) {
-    if (this._currentEditorElements?.id === el?.id) {
+    if (this._currentEditorElements?.id === el?.id && this._currentEditorElements?.layer === el?.layer) {
       return;
     }
     if (this._currentEditorBox?.isEditor) {
@@ -38,6 +38,7 @@ export class EditorController {
     if (this._currentEditorBox) {
       this._currentEditorBox.release();
       this._currentEditorBox = null;
+      this._currentEditorElements = null;
     }
 
     if (el) {
@@ -133,8 +134,8 @@ export class EditorController {
       fill: false,
       stroke: 'blue',
       lineWidth: 2,
-      shadowBlur: 4,
-      shadowColor: 'blue',
+      // shadowBlur: 4,
+      // shadowColor: 'blue',
       pickable: false
     });
     layer.editorGroup.add(this._currentOverBorder);

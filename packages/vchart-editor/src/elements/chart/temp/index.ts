@@ -1,7 +1,9 @@
 import type { IChartTempConstructor } from './interface';
 import { BarTemp } from './temps/bar';
+import { LineTemp } from './temps/line';
 export const TempList: { [key: string]: IChartTempConstructor } = {
-  bar: BarTemp
+  bar: BarTemp,
+  line: LineTemp
 };
 
 export function getTemp(key: string) {
