@@ -91,7 +91,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
     return newStyle;
   }
 
-  protected _getAngleValueStart(datum: Datum) {
+  protected _getAngleValueStart = (datum: Datum) => {
     const axis = this._getAngleAxis();
     const { tickMask } = this._spec;
 
@@ -115,9 +115,6 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
             : undefined;
         if (targetIndex !== undefined) {
           const pos = this.angleAxisHelper.dataToPosition([subTickData[targetIndex].value - step / 2]);
-          if (this._stack) {
-            return valueInScaleRange(pos, scale) + offsetAngle;
-          }
           return pos + offsetAngle;
         }
       }
@@ -128,9 +125,9 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
       return pos + offsetAngle;
     }
     return this._getAngleValueStartWithoutMask(datum);
-  }
+  };
 
-  protected _getAngleValueEnd(datum: Datum) {
+  protected _getAngleValueEnd = (datum: Datum) => {
     const axis = this._getAngleAxis();
     const { tickMask } = this._spec;
 
@@ -153,9 +150,6 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
           : undefined;
       if (targetIndex !== undefined) {
         const pos = this.angleAxisHelper.dataToPosition([subTickData[targetIndex].value + step / 2]);
-        if (this._stack) {
-          return valueInScaleRange(pos, scale) + offsetAngle;
-        }
         return pos + offsetAngle;
       }
       const pos = this.angleAxisHelper.dataToPosition([subTickData[0].value - step / 2]);
@@ -165,7 +159,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
       return pos + offsetAngle;
     }
     return this._getAngleValueEndWithoutMask(datum);
-  }
+  };
 
   protected _getAngleValueStartWithoutMask(datum: Datum) {
     if (this._stack) {

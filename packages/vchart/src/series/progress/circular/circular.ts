@@ -15,6 +15,7 @@ import { VChart } from '../../../core/vchart';
 import { ArcMark } from '../../../mark/arc';
 import { ProgressArcMark } from '../../../mark/progress-arc';
 import { circularProgressSeriesMark } from './constant';
+import { STACK_FIELD_END, STACK_FIELD_START } from '../../../constant';
 
 VChart.useMark([ArcMark, ProgressArcMark]);
 
@@ -65,10 +66,10 @@ export class CircularProgressSeries<
       this.setMarkStyle(progressMark, {
         x: () => this.angleAxisHelper.center().x,
         y: () => this.angleAxisHelper.center().y,
-        startAngle: this._getAngleValueStart.bind(this),
-        endAngle: this._getAngleValueEnd.bind(this),
-        innerRadius: this._getRadiusValueStart.bind(this),
-        outerRadius: this._getRadiusValueEnd.bind(this),
+        startAngle: this._getAngleValueStart,
+        endAngle: this._getAngleValueEnd,
+        innerRadius: this._getRadiusValueStart,
+        outerRadius: this._getRadiusValueEnd,
         cap: this._spec.roundCap ?? false,
         boundsMode: 'imprecise',
         cornerRadius: this._spec.cornerRadius,
@@ -99,16 +100,24 @@ export class CircularProgressSeries<
           const scale = this.angleAxisHelper.getScale(0);
           const range = scale.range();
           const min = Math.min(range[0], range[range.length - 1]);
-          const startValue = this._getAngleValueStart(datum);
+          const startValue = this._getAngleValueStartWithoutMask(datum);
           // 堆叠情况只显示第一组的背景
           return Math.abs(startValue - min) <= 1e-14;
         },
         x: () => this.angleAxisHelper.center().x,
         y: () => this.angleAxisHelper.center().y,
-        startAngle: this._startAngle,
-        endAngle: this._endAngle,
-        innerRadius: this._getRadiusValueStart.bind(this),
-        outerRadius: this._getRadiusValueEnd.bind(this),
+        startAngle: () => {
+          const scale = this.angleAxisHelper.getScale(0);
+          const domain = scale.domain();
+          return this._getAngleValueStart({ [STACK_FIELD_START]: domain[0] });
+        },
+        endAngle: () => {
+          const scale = this.angleAxisHelper.getScale(0);
+          const domain = scale.domain();
+          return this._getAngleValueEnd({ [STACK_FIELD_END]: domain[domain.length - 1] });
+        },
+        innerRadius: this._getRadiusValueStart,
+        outerRadius: this._getRadiusValueEnd,
         cornerRadius: this._spec.cornerRadius,
         fill: this.getColorAttribute(),
         zIndex: 100
@@ -117,7 +126,7 @@ export class CircularProgressSeries<
     }
   }
 
-  protected _getRadiusValueStart(datum: Datum) {
+  protected _getRadiusValueStart = (datum: Datum) => {
     if (this.getGroupFields().length > 1) {
       const value = this.radiusAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields()));
       if (isValidNumber(value)) {
@@ -125,9 +134,9 @@ export class CircularProgressSeries<
       }
     }
     return this.radiusAxisHelper.dataToPosition([datum[this._radiusField[0]]]);
-  }
+  };
 
-  protected _getRadiusValueEnd(datum: Datum) {
+  protected _getRadiusValueEnd = (datum: Datum) => {
     if (this.getGroupFields().length > 1) {
       const value =
         this.radiusAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) +
@@ -140,7 +149,7 @@ export class CircularProgressSeries<
       this.radiusAxisHelper.dataToPosition([datum[this._radiusField[0]]]) +
       (this.radiusAxisHelper.getScale(0) as BandScale).step()
     );
-  }
+  };
 
   initAnimation() {
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<any>)?.preset;

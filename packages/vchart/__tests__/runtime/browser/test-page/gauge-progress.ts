@@ -2,6 +2,7 @@ import { isMobile } from 'react-device-detect';
 import type { IGaugeChartSpec } from '../../../../src/index';
 // eslint-disable-next-line no-duplicate-imports
 import { default as VChart } from '../../../../src/index';
+import { degreeToRadian } from '@visactor/vutils';
 
 const run = () => {
   const pointerPath =
@@ -37,6 +38,8 @@ const run = () => {
         style: {
           fill: {
             gradient: 'conical',
+            startAngle: degreeToRadian(-225 - 5),
+            endAngle: degreeToRadian(45 + 5),
             stops: [
               {
                 offset: 0,
