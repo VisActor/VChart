@@ -109,7 +109,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   effect: IEffect = {
     onZoomChange: () => {
-      if (this._relatedAxisComponent && this._filterMode === 'axis') {
+      if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
         const axisScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
         const axisSpec = (this._relatedAxisComponent as CartesianAxis<any>).getSpec() as ICartesianBandAxisSpec;
         if (this._auto) {
