@@ -8,7 +8,8 @@ import type {
 } from '../../../typings/visual';
 import type { IComponentSpec } from '../../base/interface';
 import type { IComponent } from '../../interface';
-import type { IDataFilterComponentSpec, IFilterMode } from '../interface';
+import type { IFilterMode } from '../constant';
+import type { IDataFilterComponentSpec } from '../interface';
 
 export type IDataZoom = IComponent;
 
