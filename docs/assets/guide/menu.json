@@ -629,8 +629,15 @@
             {
               "path": "python",
               "title": {
-                "zh": "python",
-                "en": "python"
+                "zh": "Python",
+                "en": "Python"
+              }
+            },
+            {
+              "path": "lynx",
+              "title": {
+                "zh": "Lynx",
+                "en": "Lynx"
               }
             },
             {
