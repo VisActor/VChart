@@ -190,7 +190,7 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
 
   clear(): void {
     if (this._titleComponent) {
-      this._container.removeChild(this._titleComponent as unknown as IGroup);
+      this.getContainer()?.removeChild(this._titleComponent as unknown as IGroup);
       this._titleComponent = null;
     }
     this._cacheAttrs = null;

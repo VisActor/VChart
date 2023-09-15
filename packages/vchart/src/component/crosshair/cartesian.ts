@@ -651,7 +651,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       this._yRightLabel
     ].forEach(c => {
       if (c) {
-        this._container?.removeChild(c as unknown as INode);
+        this.getContainer()?.removeChild(c as unknown as INode);
         c = null;
       }
     });

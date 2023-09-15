@@ -373,7 +373,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
   clear(): void {
     if (this._component) {
-      this._container.removeChild(this._component as unknown as INode);
+      this.getContainer()?.removeChild(this._component as unknown as INode);
       this._component = null;
     }
     super.clear();
