@@ -196,7 +196,7 @@ export class VChart implements IVChart {
   private _userEvents: {
     eType: EventType;
     query: EventQuery | EventCallback<EventParamsDefinition[EventType]>;
-    callback?: EventCallback<EventParamsDefinition[EventType]>;
+    handler?: EventCallback<EventParamsDefinition[EventType]>;
   }[] = [];
   private _eventDispatcher: Maybe<IEventDispatcher>;
   private _dataSet!: Maybe<DataSet>;
@@ -462,7 +462,7 @@ export class VChart implements IVChart {
       // chart 内部事件 模块自己必须删除
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
-      this._userEvents.forEach(e => this.on(e.eType, e.query as any, e.callback));
+      this._userEvents.forEach(e => this._event?.on(e.eType as any, e.query as any, e.handler as any));
     } else if (updateResult.reCompile) {
       // recompile
       // 清除之前的所有 compile 内容
@@ -954,11 +954,11 @@ export class VChart implements IVChart {
   on(eType: EventType, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery | EventCallback<EventParams>, handler?: EventCallback<EventParams>): void {
-    this._userEvents.push({ eType, query, callback: handler });
+    this._userEvents.push({ eType, query, handler });
     this._event?.on(eType as any, query as any, handler as any);
   }
   off(eType: string, handler?: EventCallback<EventParams>): void {
-    const index = this._userEvents.findIndex(e => e.eType === eType && e.callback === handler);
+    const index = this._userEvents.findIndex(e => e.eType === eType && e.handler === handler);
     if (index >= 0) {
       this._userEvents.splice(index, 1);
     }
