@@ -57,7 +57,13 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
     if (isNil(stateFields[i])) {
       return;
     }
-
+    // 按照用户指定的domain进行排序(这里不通过getRawDataStatistics来取是因为时机不对，此时getRawDataStatistics还没有正确结果)
+    const stateFieldInfo = dv.getFields()?.[stateFields[i]];
+    if (stateFieldInfo && stateFieldInfo.lockStatisticsByDomain) {
+      stateFieldInfo.domain.forEach((d: any) => {
+        resultObj[d] = 0;
+      });
+    }
     dv.latestData.forEach((d: any) => {
       // 针对rangeColumn等xField为数组形式的图表，需要将xField的所有value都记录下来
       array(stateFields[i]).forEach(state => {

@@ -25,7 +25,8 @@ export class PolarChart extends BaseChart {
       innerRadius: spec.innerRadius,
 
       startAngle: spec.startAngle,
-      endAngle: spec.endAngle
+      endAngle: spec.endAngle,
+      sortDataByAxis: spec.sortDataByAxis
     };
     const seriesType = this.seriesType;
     if (seriesType) {

@@ -1,4 +1,4 @@
-# Title 标题
+# Title
 
 The chart title is mainly used to display the theme information of the chart. The title of VChart is displayed at the top of the chart by default, consisting of the main title and subtitle, with the option of displaying the subtitle below. This tutorial mainly explains the related concepts and components of Title. For more detailed configuration and examples of Title, please refer to [Configuration Document](../../../option) and [Example](../../../example) pages.
 

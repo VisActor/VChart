@@ -8,7 +8,11 @@ export default {
     host: '0.0.0.0',
     port: 3020,
     https: !!process.env.HTTPS,
-    open: true
+    open: true,
+    headers: {
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+      'Cross-Origin-Opener-Policy': 'same-origin'
+    }
   },
   define: {
     __DEV__: true,
