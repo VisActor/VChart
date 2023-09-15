@@ -28,7 +28,7 @@ import type { IEffect } from '../../../model/interface';
 import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
 import type { ITick } from '../interface';
-import { HOOK_EVENT } from '@visactor/vgrammar';
+import { HOOK_EVENT } from '@visactor/vgrammar-core';
 
 export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommonSpec>
   extends AxisComponent<T>

@@ -14,7 +14,7 @@ import type {
   MarkAnimationSpec,
   Nil,
   TransformSpec
-} from '@visactor/vgrammar';
+} from '@visactor/vgrammar-core';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { MarkData } from './mark-data';
 import type { ILabelSpec } from '../../component/label';

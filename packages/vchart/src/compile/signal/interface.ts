@@ -1,4 +1,4 @@
-import type { SignalFunctionType } from '@visactor/vgrammar';
+import type { SignalFunctionType } from '@visactor/vgrammar-core';
 import type { Maybe } from '../../typings';
 import type { IGrammarItem, ICompilableInitOption } from '../interface';
 

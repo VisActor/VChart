@@ -8,7 +8,7 @@ import type { MarkType } from '../../mark/interface';
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
 import { getSeries, mergeSpec } from '../../util';
 import type { ICartesianSeries, ISeries } from '../../series/interface';
-import type { IGroupMark, IView } from '@visactor/vgrammar';
+import type { IGroupMark, IView } from '@visactor/vgrammar-core';
 import { textAttribute } from './util';
 import { BaseLabelComponent } from './base-label';
 import type { ITotalLabelSpec, ITotalLabelTheme } from './interface';

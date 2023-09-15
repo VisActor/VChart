@@ -1,4 +1,4 @@
-import type { IElement } from '@visactor/vgrammar';
+import type { IElement } from '@visactor/vgrammar-core';
 import { StateManager } from '../compile/signal';
 import type { StateValueMap } from '../compile/signal/interface';
 import { PREFIX } from '../constant';
