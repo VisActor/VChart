@@ -19,7 +19,7 @@ import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
 import type { StringOrNumber } from '../typings';
-import type { IDataZoomSpec, IScrollBarSpec } from '../component/data-zoom';
+import { IFilterMode } from '../component/data-zoom/constant';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> implements IRegion {
   static type = 'region';
@@ -61,8 +61,14 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
 
   protected _getClipDefaultValue() {
     const chartSpec = this._option.getChart().getSpec();
-    const hasDataZoom = (chartSpec as any).dataZoom?.some?.((entry: IDataZoomSpec) => entry.filterMode === 'axis');
-    const hasScrollBar = (chartSpec as any).scrollBar?.some?.((entry: IScrollBarSpec) => entry.filterMode === 'axis');
+    const hasDataZoom = (chartSpec as any).dataZoom?.some?.((entry: any) => {
+      const filterMode = entry.filterMode ?? IFilterMode.filter;
+      return filterMode === IFilterMode.axis;
+    });
+    const hasScrollBar = (chartSpec as any).scrollBar?.some?.((entry: any) => {
+      const filterMode = entry.filterMode ?? IFilterMode.axis;
+      return filterMode === IFilterMode.axis;
+    });
 
     return hasDataZoom || hasScrollBar ? true : this.layoutClip;
   }

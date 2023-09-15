@@ -2,6 +2,47 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.3.2",
+      "tag": "@visactor/vchart_v1.3.2",
+      "date": "Thu, 14 Sep 2023 12:36:21 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: the setDimensionIndex api supports deselecting ability by passing in null\n\n"
+          },
+          {
+            "comment": "feat: use precision calculations in waterfall charts to avoid unexpected values for labels, details in #721\n\n"
+          },
+          {
+            "comment": "fix(log-axis): log scale has no result about zero when bar stack has a zero baseline value. fix #634"
+          },
+          {
+            "comment": "fix: fix the user event listener becomes invalid after updateSpec\n\n"
+          },
+          {
+            "comment": "fix: fix bug of series mark static style are not updated when updateSpec\n\n"
+          },
+          {
+            "comment": "fix: fix bug data fields are not updated when updateSpec, details in #829\n\n"
+          },
+          {
+            "comment": "feat(scrollBar): interactive default config."
+          },
+          {
+            "comment": "perf: optimize the performance of dimension-statistics\n\n"
+          },
+          {
+            "comment": "perf: only calculate dimensionTree when need\n\n"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix: fix the issue of animation config not work in common chart, related #814"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.3.1",
       "tag": "@visactor/vchart_v1.3.1",
       "date": "Tue, 05 Sep 2023 11:24:47 GMT",

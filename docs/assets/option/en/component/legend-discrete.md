@@ -22,7 +22,7 @@ Sets the legend item that is selected by default when the legend is initialized.
 
 Whether or not to enable the checking of the legend, the default is on.
 
-### selectedMode(string) = 'multiple'
+### selectMode(string) = 'multiple'
 
 The check mode of the legend, with optional values: `'multiple'`, `'single'`, for multiple and single selection respectively.
 
@@ -32,7 +32,7 @@ If or not hover interaction is enabled.
 
 ### allowAllCanceled(boolean) = false
 
-Whether to allow all legend items to be unchecked, default is no, only valid if `selectedMode` is `'multiple'`.
+Whether to allow all legend items to be unchecked, default is no, only valid if `selectMode` is `'multiple'`.
 
 ### reversed(boolean) = false
 

@@ -1904,6 +1904,13 @@
             "zh": "主题注册、切换",
             "en": "Theme Registration and Switching"
           }
+        },
+        {
+          "path": "theme-style",
+          "title": {
+            "zh": "不同风格主题注册、切换",
+            "en": "Different Style of Theme Registration and Switching"
+          }
         }
       ]
     },

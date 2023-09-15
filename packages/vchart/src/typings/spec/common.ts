@@ -116,6 +116,7 @@ export enum RenderModeEnum {
   'node' = 'node',
   'worker' = 'worker',
   'miniApp' = 'miniApp',
+  'wx' = 'wx',
   'desktop-miniApp' = 'desktop-miniApp',
   'lynx' = 'lynx'
 }
