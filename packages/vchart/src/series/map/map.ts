@@ -1,8 +1,7 @@
 import { Matrix } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
-import { registerGrammar } from '@visactor/vgrammar';
-import type { FeatureData } from '@visactor/vgrammar-projection';
-import { Projection } from '@visactor/vgrammar-projection';
+import type { FeatureData } from '@visactor/vgrammar-core';
+import { registerProjection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
 import type { IPathMark } from '../../mark/path';
 import { geoSourceMap } from './geo-source';
@@ -31,7 +30,7 @@ import type { ILabelMark } from '../../mark/label';
 VChart.useMark([PathMark, TextMark]);
 
 // 注册语法元素
-registerGrammar('projection', Projection, 'projections');
+registerProjection();
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;

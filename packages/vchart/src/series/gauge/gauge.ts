@@ -7,7 +7,7 @@ import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import type { IProgressArcMark } from '../../mark/progress-arc';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { SEGMENT_FIELD_END, SEGMENT_FIELD_START } from '../../constant';
-import type { Datum } from '@visactor/vgrammar';
+import type { Datum } from '@visactor/vgrammar-core';
 import type { Maybe } from '../../typings';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';

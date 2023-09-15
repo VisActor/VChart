@@ -1,4 +1,4 @@
-import type { Datum } from '@visactor/vgrammar';
+import type { Datum } from '@visactor/vgrammar-core';
 import { degreeToRadian, isValid, isValidNumber } from '@visactor/vutils';
 import {
   AttributeLevel,

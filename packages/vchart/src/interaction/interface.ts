@@ -1,4 +1,4 @@
-import type { IElement } from '@visactor/vgrammar';
+import type { IElement } from '@visactor/vgrammar-core';
 import type { IMark } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { BaseEventParams, IEventDispatcher, EventType } from '../event/interface';

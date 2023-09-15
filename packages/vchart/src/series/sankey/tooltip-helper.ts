@@ -1,6 +1,6 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import type { Datum } from '@visactor/vgrammar';
+import type { Datum } from '@visactor/vgrammar-core';
 import type { IToolTipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
 import { isNumber } from '@visactor/vutils';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';

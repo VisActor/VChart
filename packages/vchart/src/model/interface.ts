@@ -4,7 +4,7 @@ import type { IEvent, IEventDispatcher } from '../event/interface';
 import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { VChart } from '../vchart-all';
-import type { IData, IElement, IMark as IVGrammarMark } from '@visactor/vgrammar';
+import type { IData, IElement, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 import type {
   IOrientType,
   IPoint,

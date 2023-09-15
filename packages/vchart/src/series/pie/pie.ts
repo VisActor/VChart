@@ -44,7 +44,7 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { IAnimationTypeConfig } from '@visactor/vgrammar';
+import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
 import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';

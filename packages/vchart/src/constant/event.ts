@@ -1,4 +1,4 @@
-export { HOOK_EVENT as VGRAMMAR_HOOK_EVENT } from '@visactor/vgrammar';
+export { HOOK_EVENT as VGRAMMAR_HOOK_EVENT } from '@visactor/vgrammar-core';
 
 export const BASE_EVENTS = [
   'pointerdown',

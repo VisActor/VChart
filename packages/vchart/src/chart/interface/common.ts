@@ -1,7 +1,7 @@
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IRenderOption } from '../../compile/interface';
 import type { IModelOption } from '../../model/interface';
-import type { IView } from '@visactor/vgrammar';
+import type { IView } from '@visactor/vgrammar-core';
 import type { IBoundsLike } from '@visactor/vutils';
 
 export interface ILayoutParams {

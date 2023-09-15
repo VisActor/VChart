@@ -1,4 +1,4 @@
-import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar';
+import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import type { ISunburstAnimationParams } from './interface';
 import type { Datum } from '../../../typings';
 import { computeRatio, getInnerMostElements } from './utils';
