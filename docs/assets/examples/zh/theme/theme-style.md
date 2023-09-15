@@ -10,7 +10,6 @@ option: barChart#theme
 # 不同风格的主题注册、切换
 
 ## 代码演示
-
 ```javascript livedemo
 /** step1: perpare */ 
 // step1.1: mock spec
@@ -175,6 +174,15 @@ for (const colorKey in colorTheme) {
   option.text = colorName;
   select.appendChild(option);
 }
+// append select about vchart default theme
+const optionLight = document.createElement("option");
+optionLight.value = 'light';
+optionLight.text = 'light(VChart内置)';
+select.appendChild(optionLight);
+const optionDark = document.createElement("option");
+optionDark.value = 'dark';
+optionDark.text = 'dark(VChart内置)';
+select.appendChild(optionDark);
 // step2.4: init theme
 VChart.ThemeManager.setCurrentTheme("volcanoBlue");
 
