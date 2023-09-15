@@ -211,7 +211,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   }
 
   protected _isScaleValid(scale: IBaseScale | ILinearScale) {
-    if (!scale.domain()) {
+    if (!scale || !scale.domain()) {
       return false;
     }
     const domain = scale.domain();
