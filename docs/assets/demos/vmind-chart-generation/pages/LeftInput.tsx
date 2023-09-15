@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import './index.scss';
 import { Avatar, Input, Divider, Button, InputNumber, Upload, Message } from '@arco-design/web-react';
 import {
+  carSaleMockData,
   mockUserInput10,
   mockUserInput2,
   mockUserInput3,
@@ -27,8 +28,8 @@ type IPropsType = {
 
 export function LeftInput(props: IPropsType) {
   const { openAIKey, setOpenAIKey } = props;
-  const [describe, setDescribe] = useState<string>(mockUserInput6Eng.input);
-  const [csv, setCsv] = useState<string>(mockUserInput6Eng.csv);
+  const [describe, setDescribe] = useState<string>(carSaleMockData.input);
+  const [csv, setCsv] = useState<string>(carSaleMockData.csv);
   const [loading, setLoading] = useState<boolean>(false);
 
   const askGPT = useCallback(async () => {
