@@ -10,7 +10,6 @@ option: barChart#theme
 # Deffient Style of Theme Registration and Switching
 
 ## Live Demo
-
 ```javascript livedemo
 /** step1: perpare */ 
 // step1.1: mock spec
@@ -169,12 +168,21 @@ for (const colorKey in colorTheme) {
   };
   // register theme 
   VChart.ThemeManager.registerTheme(colorKey, theme[colorName]);
-  // option in select component
+   // option in select component
   const option = document.createElement("option");
   option.value = colorKey;
   option.text = colorName;
   select.appendChild(option);
 }
+// append select about vchart default theme
+const optionLight = document.createElement("option");
+optionLight.value = 'light';
+optionLight.text = 'light(VChart内置)';
+select.appendChild(optionLight);
+const optionDark = document.createElement("option");
+optionDark.value = 'dark';
+optionDark.text = 'dark(VChart内置)';
+select.appendChild(optionDark);
 // step2.4: init theme
 VChart.ThemeManager.setCurrentTheme("volcanoBlue");
 
