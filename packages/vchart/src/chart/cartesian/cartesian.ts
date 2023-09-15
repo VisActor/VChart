@@ -26,7 +26,8 @@ export class CartesianChart extends BaseChart {
       stack: spec.stack, // 是否堆叠
       percent: spec.percent, // 是否百分比堆叠
       stackOffsetSilhouette: spec.stackOffsetSilhouette, // 是否围绕中心轴偏移轮廓,
-      totalLabel: spec.totalLabel
+      totalLabel: spec.totalLabel,
+      sortDataByAxis: spec.sortDataByAxis
     };
     const seriesType = this.seriesType;
     if (seriesType) {
