@@ -431,12 +431,16 @@ For the big screen, which is heavy on performance and light on analysis, the the
 
 According to the design of the effect, the style of the chart is divided into three modules: "Color Palette", "Meta Style" and "Component Style".
 
-- The 'color palette' is distilled from business deposits and is open for your reference here: [https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/color.json](https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/color.json).
+- The 'color palette' is distilled from business deposits and is open for your reference here: [https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/colors.json](https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/colors.json).
 
 - "Mark Style" is a gradient effect, which is configured by [Mark Gradient Configuration](../../../option/barChart#bar.style.fill).
 
 - Component styles are realized through the specific configuration of each component.
 Eventually, these configurations are written into the theme, and then through the theme registration and switching to achieve different scenarios of the chart style effect.
+
+Of course, VChart also has two sets of built-in themes that users can use without registering. Their specific configurations are as follows:
+- dark: [https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/dark.json](https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/dark.json)
+- light: [https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/color.json](https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/color.json)
 
 The following example demonstrates the above process:
 
