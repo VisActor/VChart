@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(datazoom): state scale domain error when domain is locked. fix #629",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
