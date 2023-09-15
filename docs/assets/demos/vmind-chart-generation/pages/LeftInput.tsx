@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import './index.scss';
 import { Avatar, Input, Divider, Button, InputNumber, Upload, Message } from '@arco-design/web-react';
 import {
+  carSaleMockData,
   mockUserInput10,
   mockUserInput2,
   mockUserInput3,
@@ -27,8 +28,8 @@ type IPropsType = {
 
 export function LeftInput(props: IPropsType) {
   const { openAIKey, setOpenAIKey } = props;
-  const [describe, setDescribe] = useState<string>(mockUserInput6Eng.input);
-  const [csv, setCsv] = useState<string>(mockUserInput6Eng.csv);
+  const [describe, setDescribe] = useState<string>(carSaleMockData.input);
+  const [csv, setCsv] = useState<string>(carSaleMockData.csv);
   const [loading, setLoading] = useState<boolean>(false);
 
   const askGPT = useCallback(async () => {
@@ -53,9 +54,7 @@ export function LeftInput(props: IPropsType) {
         }}
       >
         <p>
-          <Avatar size={18} style={{ backgroundColor: '#3370ff' }}>
-            1
-          </Avatar>
+          <Avatar size={18}>1</Avatar>
           <span
             style={{
               marginLeft: 10
@@ -64,11 +63,7 @@ export function LeftInput(props: IPropsType) {
             Input your openAI api key:
           </span>
         </p>
-        <Input
-          value={openAIKey}
-          onChange={v => setOpenAIKey(v)}
-          style={{ width: 250, background: 'transparent', border: '1px solid #eee' }}
-        />
+        <Input value={openAIKey} onChange={v => setOpenAIKey(v)} style={{ width: 250 }} />
       </div>
 
       <div
@@ -78,9 +73,7 @@ export function LeftInput(props: IPropsType) {
         }}
       >
         <p>
-          <Avatar size={18} style={{ backgroundColor: '#3370ff' }}>
-            2
-          </Avatar>
+          <Avatar size={18}>2</Avatar>
           <span style={{ marginLeft: 10 }}>What would you like to visualize?</span>
         </p>
 
@@ -88,7 +81,7 @@ export function LeftInput(props: IPropsType) {
           placeholder={describe}
           defaultValue={describe}
           onChange={v => setDescribe(v)}
-          style={{ minHeight: 160, background: 'transparent', border: '1px solid #eee' }}
+          style={{ minHeight: 160 }}
         />
       </div>
 
@@ -99,17 +92,10 @@ export function LeftInput(props: IPropsType) {
         }}
       >
         <p>
-          <Avatar size={18} style={{ backgroundColor: '#3370ff' }}>
-            3
-          </Avatar>
+          <Avatar size={18}>3</Avatar>
           <span style={{ marginLeft: 10 }}>Input your data file in csv format</span>
         </p>
-        <TextArea
-          placeholder={csv}
-          value={csv}
-          onChange={v => setCsv(v)}
-          style={{ minHeight: 300, background: 'transparent', border: '1px solid #eee' }}
-        />
+        <TextArea placeholder={csv} value={csv} onChange={v => setCsv(v)} style={{ minHeight: 300 }} />
       </div>
 
       <Divider style={{ marginTop: 60 }} />
@@ -122,7 +108,7 @@ export function LeftInput(props: IPropsType) {
           }}
           disabled={!openAIKey}
           shape="round"
-          type="primary"
+          //type="primary"
         >
           generate chart (preview)
         </Button>
