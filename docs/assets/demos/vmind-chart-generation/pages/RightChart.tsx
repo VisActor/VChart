@@ -118,7 +118,7 @@ export function RightChart(props: IPropsType) {
       </Modal>
       <Spin style={{ flex: 1, display: 'flex', background: 'rgb(244, 244, 245)' }} loading={generating}>
         <Card hoverable style={{ flex: 1, background: 'rgb(244, 244, 245)' }}>
-          <div className="right-chart-title">
+          {/*<div className="right-chart-title">
             <Space>
               <Button
                 disabled={!(!!props.spec && !!props.time)}
@@ -143,7 +143,7 @@ export function RightChart(props: IPropsType) {
                 export Video
               </Button>
             </Space>
-          </div>
+          </div>*/}
           <div className="right-chart-content">
             <div id="vmind-chart"></div>
           </div>
