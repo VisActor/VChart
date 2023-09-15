@@ -123,7 +123,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
   clear(): void {
     super.clear();
     if (this._playerComponent) {
-      this.getContainer()?.removeChild(this._playerComponent);
+      this.getContainer()?.removeChild(this._playerComponent as unknown as INode);
     }
     this._playerComponent = null;
   }
