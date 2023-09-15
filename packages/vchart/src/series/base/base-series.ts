@@ -196,8 +196,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return this._groups;
   }
 
-  protected _stackValue!: string;
-
   protected _stack: boolean = false;
   getStack() {
     return this._stack;
@@ -439,7 +437,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     );
 
     this._data.getDataView().target.removeListener('change', this._viewDataStatistics.reRunAllTransform);
-    if (this._stack || this._stackValue) {
+    if (this._stack) {
       this.createdStackData();
     }
   }

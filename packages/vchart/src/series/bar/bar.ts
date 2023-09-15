@@ -3,7 +3,7 @@ import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { MarkTypeEnum } from '../../mark/interface';
-import { AttributeLevel } from '../../constant';
+import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
 import type { Maybe, Datum, DirectionType } from '../../typings';
 import { mergeSpec, valueInScaleRange, getActualNumValue } from '../../util';
 import type { BarAppearPreset, IBarAnimationParams } from './animation';
@@ -41,6 +41,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _stack: boolean = true;
   protected _bandPosition = 0;
   protected _rectMark!: IRectMark;
+
+  private _cachedRectPositions;
 
   initMark(): void {
     const progressive = {
@@ -106,18 +108,99 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
   }
 
+  private _calculateRectPosition() {
+    if (!this._cachedRectPositions) {
+      const isVertical = this.direction === Direction.vertical;
+      let start;
+      let end;
+      let startMethod;
+      let endMethod;
+      let scale;
+      let inverse;
+      if (isVertical) {
+        start = 'y1';
+        end = 'y';
+        startMethod = 'dataToPositionY1';
+        endMethod = 'dataToPositionY';
+        scale = this._yAxisHelper.getScale?.(0);
+        inverse = this._yAxisHelper.isInverse();
+      } else {
+        start = 'x1';
+        end = 'x';
+        startMethod = 'dataToPositionX1';
+        endMethod = 'dataToPositionX';
+        scale = this._xAxisHelper.getScale?.(0);
+        inverse = this._xAxisHelper.isInverse();
+      }
+
+      this._cachedRectPositions = {};
+      const stackData = this.getStackData();
+      const barMinHeight = this._spec.barMinHeight;
+
+      const calculatePosition = (data, cache) => {
+        Object.keys(data.nodes).forEach(key => {
+          if (data.nodes[key].nodes) {
+            calculatePosition(data.nodes[key], cache);
+          } else {
+            const values = data.nodes[key].values;
+
+            let lastY;
+            values.forEach((obj, index) => {
+              const y1 = valueInScaleRange(this[startMethod](obj), scale);
+              let y = valueInScaleRange(this[endMethod](obj), scale);
+
+              if (index === 0) {
+                lastY = y1;
+              }
+
+              let height = Math.abs(y1 - y);
+              if (height < barMinHeight) {
+                height = barMinHeight;
+              }
+
+              let flag = 1;
+              if (y < y1) {
+                flag = -1;
+              } else if (y === y1) {
+                flag = isVertical ? (inverse ? 1 : -1) : inverse ? -1 : 1;
+              }
+              y = lastY + flag * height;
+              this._cachedRectPositions[obj[DEFAULT_DATA_KEY]] = {
+                [start]: lastY,
+                [end]: y
+              };
+              lastY = y;
+            });
+          }
+        });
+      };
+      calculatePosition(stackData, this._cachedRectPositions);
+    }
+  }
+
   initBandRectMarkStyle() {
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
-    // TODO: 这里要考虑更多 条件因素
-    // TODO: 这里要补充堆积
+
     // guess the direction which the user want
     if (this.direction === Direction.horizontal) {
       this.setMarkStyle(
         this._rectMark,
         {
-          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
-          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
+          x: (datum: Datum) => {
+            if (this._spec.barMinHeight) {
+              this._calculateRectPosition();
+              return this._cachedRectPositions[datum[DEFAULT_DATA_KEY]].x;
+            }
+            return valueInScaleRange(this.dataToPositionX(datum), xScale);
+          },
+          x1: (datum: Datum) => {
+            if (this._spec.barMinHeight) {
+              this._calculateRectPosition();
+              return this._cachedRectPositions[datum[DEFAULT_DATA_KEY]].x1;
+            }
+            return valueInScaleRange(this.dataToPositionX1(datum), xScale);
+          },
           y: (datum: Datum) => this._getPosition(this.direction, datum),
           height: () => this._getBarWidth(this._yAxisHelper)
         },
@@ -129,23 +212,19 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         this._rectMark,
         {
           x: (datum: Datum) => this._getPosition(this.direction, datum),
-          y: (datum: Datum) => {
+          y: (datum: Datum, ctx, opt, dataView) => {
             if (this._spec.barMinHeight) {
-              if (this._stack) {
-                // 如果进行了堆叠，在配置了 barMinHeight 的情况下需要进行处理
-              } else {
-                const y1 = valueInScaleRange(this.dataToPositionY1(datum), yScale);
-                const y = valueInScaleRange(this.dataToPositionY(datum), yScale);
-                if (Math.abs(y - y1) < this._spec.barMinHeight) {
-                  return y1 + this._spec.barMinHeight;
-                }
-                return y;
-              }
+              this._calculateRectPosition();
+              return this._cachedRectPositions[datum[DEFAULT_DATA_KEY]].y;
             }
 
             return valueInScaleRange(this.dataToPositionY(datum), yScale);
           },
           y1: (datum: Datum) => {
+            if (this._spec.barMinHeight) {
+              this._calculateRectPosition();
+              return this._cachedRectPositions[datum[DEFAULT_DATA_KEY]].y1;
+            }
             return valueInScaleRange(this.dataToPositionY1(datum), yScale);
           },
           width: () => {
@@ -161,17 +240,57 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   initLinearRectMarkStyle() {
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
-    this.setMarkStyle(
-      this._rectMark,
-      {
-        x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
-        x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
-        y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), yScale),
-        y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY1(datum), yScale)
-      },
-      'normal',
-      AttributeLevel.Series
-    );
+
+    if (this.direction === Direction.vertical) {
+      this.setMarkStyle(
+        this._rectMark,
+        {
+          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
+          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
+          y: (datum: Datum, ctx, opt, dataView) => {
+            if (this._spec.barMinHeight) {
+              this._calculateRectPosition();
+              return this._cachedRectPositions[datum[DEFAULT_DATA_KEY]].y;
+            }
+
+            return valueInScaleRange(this.dataToPositionY(datum), yScale);
+          },
+          y1: (datum: Datum) => {
+            if (this._spec.barMinHeight) {
+              this._calculateRectPosition();
+              return this._cachedRectPositions[datum[DEFAULT_DATA_KEY]].y1;
+            }
+            return valueInScaleRange(this.dataToPositionY1(datum), yScale);
+          }
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    } else {
+      this.setMarkStyle(
+        this._rectMark,
+        {
+          x: (datum: Datum) => {
+            if (this._spec.barMinHeight) {
+              this._calculateRectPosition();
+              return this._cachedRectPositions[datum[DEFAULT_DATA_KEY]].x;
+            }
+            return valueInScaleRange(this.dataToPositionX(datum), xScale);
+          },
+          x1: (datum: Datum) => {
+            if (this._spec.barMinHeight) {
+              this._calculateRectPosition();
+              return this._cachedRectPositions[datum[DEFAULT_DATA_KEY]].x1;
+            }
+            return valueInScaleRange(this.dataToPositionX1(datum), xScale);
+          },
+          y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), yScale),
+          y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY1(datum), yScale)
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
   }
 
   initAnimation() {
@@ -268,6 +387,11 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const continuous = isContinuous(scale.type || 'band');
     const pos = dataToPosition(datum);
     return pos + (bandWidth - size) * 0.5 + (continuous ? -bandWidth / 2 : 0);
+  }
+
+  onLayoutEnd(ctx: any) {
+    super.onLayoutEnd(ctx);
+    this._cachedRectPositions = null;
   }
 
   /**
