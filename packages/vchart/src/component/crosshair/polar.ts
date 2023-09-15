@@ -500,7 +500,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     [(this._radiusCrosshair, this._radiusLabelCrosshair, this._angleCrosshair, this._angleLabelCrosshair)].forEach(
       c => {
         if (c) {
-          this._container?.removeChild(c as unknown as INode);
+          this.getContainer()?.removeChild(c as unknown as INode);
           c = null;
         }
       }
