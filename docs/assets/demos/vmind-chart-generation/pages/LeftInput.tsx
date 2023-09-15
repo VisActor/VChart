@@ -27,8 +27,8 @@ type IPropsType = {
 
 export function LeftInput(props: IPropsType) {
   const { openAIKey, setOpenAIKey } = props;
-  const [describe, setDescribe] = useState<string>(mockUserInput6.input);
-  const [csv, setCsv] = useState<string>(mockUserInput6.csv);
+  const [describe, setDescribe] = useState<string>(mockUserInput6Eng.input);
+  const [csv, setCsv] = useState<string>(mockUserInput6Eng.csv);
   const [loading, setLoading] = useState<boolean>(false);
 
   const askGPT = useCallback(async () => {
