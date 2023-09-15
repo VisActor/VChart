@@ -11,6 +11,8 @@ import type { IRectGraphicAttribute, INode } from '@visactor/vrender';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';
+import type { IZoomable } from '../../../interaction/zoom/zoomable';
+import { IFilterMode } from '../constant';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
@@ -38,9 +40,17 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     return zooms;
   }
 
+  constructor(spec: T, options: IComponentOption) {
+    super(spec as any, {
+      ...options
+    });
+    this._filterMode = spec.filterMode ?? IFilterMode.axis;
+  }
+
   /** LifeCycle API**/
   onLayoutEnd(ctx: any): void {
     this._updateScaleRange();
+    this.effect.onZoomChange?.();
     super.onLayoutEnd(ctx);
   }
 
@@ -110,7 +120,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       this.event.emit(ChartEvent.scrollBarChange, {
         model: this,
         value: {
-          filterData: this._spec.filterMode !== 'axis',
+          filterData: this._filterMode !== IFilterMode.axis,
           start: this._start,
           end: this._end,
           startValue: this._startValue,
@@ -131,6 +141,13 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         const value = e.detail.value;
         this._handleChange(value[0], value[1]);
       });
+    }
+  }
+
+  protected _initCommonEvent() {
+    if (this._spec.roam) {
+      (this as unknown as IZoomable).initScrollEventOfRegions(this._regions, null, this._handleChartScroll);
+      (this as unknown as IZoomable).initDragEventOfRegions(this._regions, null, this._handleChartDrag);
     }
   }
 

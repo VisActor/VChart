@@ -10,7 +10,15 @@ import type { DimensionIndexOption, IChart, IChartConstructor } from '../chart/i
 import type { IComponentConstructor } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../component/interface';
-import type { EventCallback, EventParams, EventQuery, EventType, IEvent, IEventDispatcher } from '../event/interface';
+import type {
+  EventCallback,
+  EventParams,
+  EventParamsDefinition,
+  EventQuery,
+  EventType,
+  IEvent,
+  IEventDispatcher
+} from '../event/interface';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
@@ -185,6 +193,11 @@ export class VChart implements IVChart {
   private _chart!: Maybe<IChart>;
   private _compiler: Compiler;
   private _event: Maybe<IEvent>;
+  private _userEvents: {
+    eType: EventType;
+    query: EventQuery | EventCallback<EventParamsDefinition[EventType]>;
+    handler?: EventCallback<EventParamsDefinition[EventType]>;
+  }[] = [];
   private _eventDispatcher: Maybe<IEventDispatcher>;
   private _dataSet!: Maybe<DataSet>;
   getDataSet() {
@@ -216,7 +229,7 @@ export class VChart implements IVChart {
 
   constructor(spec: ISpec, options: IInitOption) {
     this._option = mergeOrigin(this._option, options);
-    this._onError = this._option.onError;
+    this._onError = this._option?.onError;
 
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
 
@@ -231,7 +244,7 @@ export class VChart implements IVChart {
     }
 
     if (mode !== 'node' && !this._container && !this._canvas && !this._stage) {
-      this._option.onError('please specify container or renderCanvas!');
+      this._option?.onError('please specify container or renderCanvas!');
       return;
     }
 
@@ -296,7 +309,7 @@ export class VChart implements IVChart {
       const curSpecData = specData[i];
       dataViewArr.push(
         dataToDataView(curSpecData, <DataSet>this._dataSet, dataViewArr, {
-          onError: this._option.onError
+          onError: this._option?.onError
         })
       );
     }
@@ -306,7 +319,7 @@ export class VChart implements IVChart {
 
   private _initChart(spec: any) {
     if (!this._compiler) {
-      this._option.onError('compiler is not initialized');
+      this._option?.onError('compiler is not initialized');
       return;
     }
     this._initData();
@@ -332,7 +345,7 @@ export class VChart implements IVChart {
       onError: this._onError
     });
     if (!chart) {
-      this._option.onError('init chart fail');
+      this._option?.onError('init chart fail');
       return;
     }
     this._chart = chart;
@@ -421,7 +434,6 @@ export class VChart implements IVChart {
     if (!isValid(result)) {
       return this as unknown as IVChart;
     }
-
     this._reCompile(result);
     await this.renderAsync(morphConfig);
     return this as unknown as IVChart;
@@ -448,9 +460,9 @@ export class VChart implements IVChart {
       this._chart = null as unknown as IChart;
       this._compiler?.releaseGrammar();
       // chart 内部事件 模块自己必须删除
-      // 外部事件不处理
-      // 释放 compiler compiler需要释放吗？ 还是释放当前的内容就可以呢
-      // VGrammar view 对象不需要释放，提供了reuse和morph能力之后，srView有上下文缓存
+      // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
+      // 外部事件现在需要重新添加
+      this._userEvents.forEach(e => this._event?.on(e.eType as any, e.query as any, e.handler as any));
     } else if (updateResult.reCompile) {
       // recompile
       // 清除之前的所有 compile 内容
@@ -541,6 +553,7 @@ export class VChart implements IVChart {
     this._chart?.release();
     this._compiler?.release();
     this._eventDispatcher?.release();
+    this._userEvents.length = 0;
     this._unBindResizeEvent();
     // resetID(); // 为什么要重置ID呢？
 
@@ -550,6 +563,7 @@ export class VChart implements IVChart {
     this._compiler = null;
     this._spec = null;
     // this._option = null;
+    this._userEvents = null;
     this._event = null;
     this._eventDispatcher = null;
 
@@ -677,7 +691,7 @@ export class VChart implements IVChart {
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
-          onError: this._option.onError
+          onError: this._option?.onError
         });
         this._spec.data.push(dataView);
       }
@@ -710,7 +724,7 @@ export class VChart implements IVChart {
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
-          onError: this._option.onError
+          onError: this._option?.onError
         });
         this._spec.data.push(dataView);
       }
@@ -940,9 +954,14 @@ export class VChart implements IVChart {
   on(eType: EventType, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery | EventCallback<EventParams>, handler?: EventCallback<EventParams>): void {
+    this._userEvents.push({ eType, query, handler });
     this._event?.on(eType as any, query as any, handler as any);
   }
   off(eType: string, handler?: EventCallback<EventParams>): void {
+    const index = this._userEvents.findIndex(e => e.eType === eType && e.handler === handler);
+    if (index >= 0) {
+      this._userEvents.splice(index, 1);
+    }
     this._event?.off(eType, handler);
   }
 
@@ -1262,7 +1281,7 @@ export class VChart implements IVChart {
       });
       return url;
     }
-    this._option.onError(new ReferenceError(`render is not defined`));
+    this._option?.onError(new ReferenceError(`render is not defined`));
 
     return null;
   }
@@ -1274,7 +1293,7 @@ export class VChart implements IVChart {
    */
   async exportImg(name?: string) {
     if (!isTrueBrowser(this._option.mode)) {
-      this._option.onError(new TypeError(`non-browser environment can not export img`));
+      this._option?.onError(new TypeError(`non-browser environment can not export img`));
       return;
     }
 
@@ -1282,7 +1301,7 @@ export class VChart implements IVChart {
     if (dataURL) {
       URLToImage(name, dataURL);
     } else {
-      this._option.onError(new ReferenceError(`render is not defined`));
+      this._option?.onError(new ReferenceError(`render is not defined`));
     }
   }
 
@@ -1292,7 +1311,7 @@ export class VChart implements IVChart {
    */
   getImageBuffer() {
     if (this._option.mode !== 'node') {
-      this._option.onError(new TypeError('getImageBuffer() now only support node environment.'));
+      this._option?.onError(new TypeError('getImageBuffer() now only support node environment.'));
       return;
     }
     const stage = this.getStage();
@@ -1301,7 +1320,7 @@ export class VChart implements IVChart {
       const buffer = stage.window.getImageBuffer();
       return buffer;
     }
-    this._option.onError(new ReferenceError(`render is not defined`));
+    this._option?.onError(new ReferenceError(`render is not defined`));
 
     return null;
   }

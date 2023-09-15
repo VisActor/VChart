@@ -4,7 +4,7 @@ group: axis
 title: Axis label autoHide and autoRotate
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-14
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/axis/axis-label-autoHide-and-autoRotate.jpeg
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoHide-and-autoRotate.png
 option: barChart#axes
 ---
 
@@ -14,7 +14,7 @@ option: barChart#axes
 
 Configure the axes for the corresponding direction on the `axes` attribute:
 
-- The `label.sampling` property is set to `false` to turn off axis sampling
+- The `sampling` property is set to `false` to turn off axis sampling
 - The `label.autoRotate` property is set to `true` to turn on the axis component's label auto-rotation.
 - The `label.autoHide` property is set to `true` to enable the auto-hiding of the label of the axis component.
 

@@ -6,7 +6,7 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface';
 import { BaseComponent } from '../base';
 import type { IGeoRegionSpec, IRegion, IRegionSpec } from '../../region/interface';
-import { isNil, mergeSpec } from '../../util';
+import { eachSeries, isNil, mergeSpec } from '../../util';
 import { ChartEvent, PREFIX } from '../../constant/index';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
@@ -185,7 +185,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   initProjection() {
     this._projection = new Projection(this._projectionSpec);
     if (this._projection.projection === null) {
-      this._option.onError('unsupported projection type!');
+      this._option?.onError('unsupported projection type!');
       return;
     }
   }
@@ -272,7 +272,13 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
       const dx = (width - this._lastWidth) / 2;
       const dy = (height - this._lastHeight) / 2;
       this.pan([dx, dy]);
-      this.event.emit('panmove', { delta: [dx, dy], model: this } as ExtendEventParam);
+      eachSeries(this._regions, s => {
+        // 其他系列会根据 projection 进行 encode.x/y 上的位置更新
+        // 只有地图系列，位置不依赖 encode，而是通过 translate 进行更新
+        if (s.type === SeriesTypeEnum.map) {
+          s.handlePan({ delta: [dx, dy] });
+        }
+      });
     }
     this._lastWidth = width;
     this._lastHeight = height;

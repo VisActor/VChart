@@ -4,7 +4,7 @@ group: axis
 title: 坐标轴组件标签布局组合使用
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-14
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/axis/axis-label-autoHide-and-autoRotate.jpeg
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoHide-and-autoRotate.png
 option: barChart#axes
 ---
 
@@ -14,7 +14,7 @@ option: barChart#axes
 
 在 `axes` 属性上为对应方向的轴配置：
 
-- `label.sampling` 属性配置为 `false` 关闭轴采样
+- `sampling` 属性配置为 `false` 关闭轴采样
 - `label.autoRotate` 属性配置为 `true` 来开启轴组件的标签自动旋转。
 - `label.autoHide` 属性配置为 `true` 来开启轴组件的标签自动隐藏。
 

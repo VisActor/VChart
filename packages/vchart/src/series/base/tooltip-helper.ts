@@ -4,7 +4,7 @@ import { array, isFunction, isValid } from '../../util';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
 import { BaseTooltipHelper } from '../../model/tooltip-helper';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
-import type { Datum } from '@visactor/vgrammar';
+import type { Datum } from '@visactor/vgrammar-core';
 import { getTooltipActualActiveType } from '../../component/tooltip/utils';
 
 interface ISeriesCacheInfo {
@@ -155,6 +155,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
             hasShape: true,
             shapeType: this.contentShapeTypeCallback,
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             shapeHollow: false
           }
         ]
@@ -175,6 +176,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
             hasShape: true,
             shapeType: this.contentShapeTypeCallback,
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             shapeHollow: false
           });
         })

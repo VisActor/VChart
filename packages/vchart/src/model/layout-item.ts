@@ -301,7 +301,7 @@ export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends Com
     this._lastComputeRect = rect;
     // 将布局空间限制到 spec 设置内
     // 避免操作到元素本身的 aabbbounds
-    const bounds = { ...this.boundsInRect(this._setRectInSpec(rect), rect) };
+    const bounds = { ...this._boundsInRect(this._setRectInSpec(rect), rect) };
     // 用户设置了布局元素宽高的场景下，内部布局结果的 bounds 不能直接作为图表布局bounds
     this.changeBoundsBySetting(bounds);
     // 保留当前模块的布局超出内容,用来处理自动缩进
@@ -321,7 +321,7 @@ export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends Com
    * @param rect 布局最终使用的rect
    * @param fullSpace 布局可以使用的空间，用与部分模块的 position 计算
    */
-  boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): IBoundsLike {
+  protected _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): IBoundsLike {
     return { x1: 0, y1: 0, x2: rect.width, y2: rect.height };
   }
 

@@ -157,6 +157,12 @@ pie: {
 引导线 line2 部分最小长度。
 默认值为`10`。
 
+###${prefix} smooth(boolean)
+
+引导线是否光滑。
+默认值为`false`。
+从 1.4.0 版本开始支持。
+
 {{ use: common-mark(
   prefix = '##' + ${prefix}
 ) }}

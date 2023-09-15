@@ -103,7 +103,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         (this.children[i] as TextModel).setStyle(childStyle);
       } else if (this.className === 'shape-box') {
         childStyle = mergeSpec({}, defaultShapeStyle, {
-          height: getPixelPropertyStr(contentAttributes[i].height),
+          height: getPixelPropertyStr(contentAttributes[i].height + contentAttributes[i].spaceRow),
           ...tooltipStyle.shapeColumn.common,
           ...tooltipStyle.shapeColumn.items?.[i]
         });
@@ -171,9 +171,11 @@ export class ContentColumnModel extends BaseTooltipModel {
     };
     return {
       hasShape: line.hasShape,
-      shapeType: line.shapeType,
+      symbolType: line.shapeType,
       size: shapeColumn.width,
-      color: line.shapeColor,
+      fill: line.shapeFill ?? line.shapeColor,
+      stroke: line.shapeStroke,
+      lineWidth: line.shapeLineWidth,
       hollow: line.shapeHollow,
       marginTop: `calc((${keyColumn.lineHeight ?? keyColumn.fontSize ?? '18px'} - ${shapeColumn.width ?? '8px'}) / 2)`
     } as IShapeSvgOption;

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(sequence): add scrollbar layout spec to sequence. close #792",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

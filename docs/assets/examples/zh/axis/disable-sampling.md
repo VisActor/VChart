@@ -4,19 +4,19 @@ group: axis
 title: 关闭轴标签采样 & dataFilter
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-9
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/axis/disable-sampling.jpeg
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/disable-sampling.png
 option: barChart#axes
 ---
 
 # 关闭轴标签采样 & dataFilter
 
-坐标轴标签默认开启了防重叠的标签采样能力，通过在 `axes` 属性上为对应方向的轴配置 `label.sampling` 即可，另外如果相对 label 及 tick 做一些自定义，也可以通过 `label.dataFilter` 或者 `tick.dataFilter` 进行一些自定义的处理。
+坐标轴标签默认开启了防重叠的标签采样能力，通过在 `axes` 属性上为对应方向的轴配置 `sampling` 即可，另外如果相对 label 及 tick 做一些自定义，也可以通过 `label.dataFilter` 或者 `tick.dataFilter` 进行一些自定义的处理。
 
 ## 关键配置
 
 在 `axes` 属性上为对应方向的轴配置：
 
-- `label.sampling` 属性配置为 `false` 关闭轴采样
+- `sampling` 属性配置为 `false` 关闭轴采样
 - 配置 `label.dataFilter` 和 `tick.dataFilter` 对 label 及 tick 的数据进行自定义
 
 ## 代码演示

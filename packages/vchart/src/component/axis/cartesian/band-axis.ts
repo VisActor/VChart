@@ -6,6 +6,7 @@ import { ComponentTypeEnum } from '../../interface';
 import { mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
+
 export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec>
   extends Pick<
       BandAxisMixin,
@@ -65,8 +66,23 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
 
     return position + bandScale.bandwidth() * (cfg.bandPosition ?? 0.5);
   }
+
   transformScaleDomain() {
-    // do nothing
+    this.updateFixedWholeLength();
+  }
+
+  updateFixedWholeLength() {
+    if (this._scale) {
+      if (this._spec.bandSize) {
+        this._scale.bandwidth(this._spec.bandSize);
+      }
+      if (this._spec.maxBandSize) {
+        this._scale.maxBandwidth(this._spec.maxBandSize);
+      }
+      if (this._spec.minBandSize) {
+        this._scale.minBandwidth(this._spec.minBandSize);
+      }
+    }
   }
 }
 

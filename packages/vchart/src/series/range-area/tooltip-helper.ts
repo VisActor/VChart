@@ -24,6 +24,7 @@ export class RangeAreaSeriesTooltipHelper extends BaseSeriesTooltipHelper implem
             hasShape: true,
             shapeType: this.contentShapeTypeCallback,
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             shapeHollow: false
           }
         ]
@@ -49,6 +50,7 @@ export class RangeAreaSeriesTooltipHelper extends BaseSeriesTooltipHelper implem
               hasShape: true,
               shapeType: this.contentShapeTypeCallback,
               shapeColor: this.contentShapeColorCallback,
+              shapeStroke: this.contentShapeColorCallback,
               shapeHollow: false
             });
           }

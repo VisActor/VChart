@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: enhance default wordcloud appear animation, details in #675",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

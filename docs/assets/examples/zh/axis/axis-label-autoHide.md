@@ -4,7 +4,7 @@ group: axis
 title: 坐标轴文本自动隐藏
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-11
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/axis/axis-label-autoHide.jpeg
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoHide.png
 option: barChart#axes
 ---
 
@@ -18,7 +18,7 @@ option: barChart#axes
 
 在 `axes` 属性上为对应方向的轴配置：
 
-- `label.sampling` 属性配置为 `false` 来关闭轴采样
+- `sampling` 属性配置为 `false` 来关闭轴采样
 - `label.autoHide` 属性配置为 `true` 来开启轴组件的标签布局策略 autoHide
 - 配置 `label.autoHideMethod` 来调整策略
 

@@ -64,7 +64,12 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { has, isFunction, isEmpty, isNil, isString } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
-import type { IGroupMark, IRunningConfig as IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
+import type {
+  IGroupMark,
+  IRunningConfig as IMorphConfig,
+  IMark as IVGrammarMark,
+  IView
+} from '@visactor/vgrammar-core';
 import { CompilableBase } from '../compile/compilable-base';
 import type { IStateInfo } from '../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -193,7 +198,7 @@ export class BaseChart extends CompilableBase implements IChart {
       getChartViewRect: () => this._viewRect,
       getChart: () => this,
       globalScale: this._globalScale,
-      onError: this._option.onError
+      onError: this._option?.onError
     };
     this._stack = new Stack(this);
     this._spec = spec;
@@ -313,7 +318,7 @@ export class BaseChart extends CompilableBase implements IChart {
       } else {
         // 保证数据最终是 DataView 实例
         spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], {
-          onError: this._option.onError
+          onError: this._option?.onError
         });
       }
 
@@ -473,7 +478,7 @@ export class BaseChart extends CompilableBase implements IChart {
       const layout = new (Factory.getLayout(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
         this._spec.layout,
         {
-          onError: this._option.onError
+          onError: this._option?.onError
         }
       );
       this._layoutFunc = layout.layoutItems.bind(layout);
@@ -722,7 +727,7 @@ export class BaseChart extends CompilableBase implements IChart {
   getSeriesData(id: StringOrNumber | undefined, index: number | undefined): DataView | undefined {
     if (!this._spec.data) {
       // 没有数据，报错处理
-      this._option.onError('no data in spec!');
+      this._option?.onError('no data in spec!');
       return null;
     }
 
@@ -737,7 +742,7 @@ export class BaseChart extends CompilableBase implements IChart {
       }
 
       // id不匹配，报错处理
-      this._option.onError(`no data matches dataId ${id}!`);
+      this._option?.onError(`no data matches dataId ${id}!`);
       return null;
     }
 
@@ -747,7 +752,7 @@ export class BaseChart extends CompilableBase implements IChart {
         return this._spec.data[index];
       }
       // index不匹配，报错处理
-      this._option.onError(`no data matches dataIndex ${index}!`);
+      this._option?.onError(`no data matches dataIndex ${index}!`);
       return null;
     }
 

@@ -1,6 +1,6 @@
-import type { IElement } from '@visactor/vgrammar';
+import type { IElement } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
-import { DiffState } from '@visactor/vgrammar';
+import { DiffState } from '@visactor/vgrammar-core';
 
 /**
  * 计算角度对于起点的比例

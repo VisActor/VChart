@@ -47,13 +47,6 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
    * 配置优先级：index > id
    */
   regionIndex?: number | number[];
-
-  /**
-   * 数据过滤模式
-   * @default true （默认直接过滤数据）
-   * 详细可参考：https://echarts.apache.org/zh/option.html#dataZoom-slider.filterMode）
-   */
-  filterMode?: 'filter' | 'axis';
   /**
    * 起点配置（比例）：范围[0, 1]
    * @default 0
@@ -87,6 +80,11 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
    * 是否开启鼠标缩放和平移漫游。默认不开启
    */
   roam?: boolean;
+  /**
+   * 是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失
+   * @since 1.4.0
+   */
+  auto?: boolean;
 }
 
 export interface IDataFilterComponent extends IComponent {

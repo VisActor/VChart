@@ -4,7 +4,7 @@ group: axis
 title: Axis label autoHide
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-11
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/axis/axis-label-autoHide.jpeg
+cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoHide.png
 option: barChart#axes
 ---
 
@@ -18,7 +18,7 @@ This example introduces the use of `autoHide`.
 
 Configure the axes for the corresponding direction on the `axes` attribute:
 
-- Configure `label.sampling` property to `false` to turn off axis sampling
+- Configure `sampling` property to `false` to turn off axis sampling
 - The `label.autoHide` property is set to `true` to enable the axis component's label layout strategy autoHide
 - Configure `label.autoHideMethod` to adjust the strategy
 

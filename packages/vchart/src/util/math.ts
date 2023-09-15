@@ -1,6 +1,6 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IPoint, IPolarPoint, Quadrant, TextAlign, TextBaseLine } from '../typings';
-import type { Datum } from '@visactor/vgrammar';
+import type { Datum } from '@visactor/vgrammar-core';
 import { isValidNumber } from './type';
 import { regressionLinear } from '@visactor/vgrammar-util';
 import { isNumberClose, isGreater, isLess, isValid, PointService, median as visMedian } from '@visactor/vutils';

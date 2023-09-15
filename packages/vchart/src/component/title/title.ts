@@ -111,7 +111,7 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
     super.setLayoutStartPosition({ x, y });
   }
 
-  boundsInRect(rect: ILayoutRect) {
+  _boundsInRect(rect: ILayoutRect) {
     let result: Partial<ILayoutRect> = {};
     this.setLayoutRect(rect);
 

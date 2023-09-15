@@ -2,25 +2,30 @@
   "menu": "api",
   "children": [
     {
-      "path": "API/vchart",
-      "title": {
-        "zh": "VChart",
-        "en": "VChart"
-      }
-    },
-    {
-      "path": "API/event",
-      "title": {
-        "zh": "事件",
-        "en": "Event"
-      }
-    },
-    {
-      "path": "API/theme",
-      "title": {
-        "zh": "主题",
-        "en": "Theme"
-      }
+      "path": "API",
+      "children": [
+        {
+          "path": "vchart",
+          "title": {
+            "zh": "VChart",
+            "en": "VChart"
+          }
+        },
+        {
+          "path": "event",
+          "title": {
+            "zh": "事件",
+            "en": "Event"
+          }
+        },
+        {
+          "path": "theme",
+          "title": {
+            "zh": "主题",
+            "en": "Theme"
+          }
+        }
+      ]
     }
   ]
 }

@@ -41,8 +41,9 @@ export default {
     }
   },
   resolve: {
-    ...localConf.resolve,
+    ...localConf?.resolve,
     alias: {
+      ...localConf?.resolve?.alias,
       '@visactor/vutils-extension': path.resolve(__dirname, '../../../../vutils-extension/src/index.ts')
     }
   }

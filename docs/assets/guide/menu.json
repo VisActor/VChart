@@ -93,7 +93,7 @@
               "path": "Title",
               "title": {
                 "zh": "Title 标题",
-                "en": "Title 标题"
+                "en": "Title"
               }
             },
             {
@@ -624,6 +624,20 @@
               "title": {
                 "zh": "Vue VChart",
                 "en": "Vue VChart"
+              }
+            },
+            {
+              "path": "python",
+              "title": {
+                "zh": "Python",
+                "en": "Python"
+              }
+            },
+            {
+              "path": "lynx",
+              "title": {
+                "zh": "Lynx",
+                "en": "Lynx"
               }
             },
             {

@@ -17,5 +17,5 @@ export function isMobileLikeMode(mode: RenderMode) {
 }
 
 export function isMiniAppLikeMode(mode: RenderMode) {
-  return mode.includes('miniApp') || mode === 'lynx';
+  return mode.includes('miniApp') || mode === 'lynx' || mode === 'wx';
 }

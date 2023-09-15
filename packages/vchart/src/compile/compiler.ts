@@ -1,6 +1,37 @@
-import type { IElement, IView } from '@visactor/vgrammar';
+import type { IElement, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
-import { View, registerBasicTransforms } from '@visactor/vgrammar';
+import {
+  View,
+  registerFilterTransform,
+  registerMapTransform,
+  registerClipInAnimation,
+  registerClipOutAnimation,
+  registerFadeInAnimation,
+  registerFadeOutAnimation,
+  registerGrowAngleInAnimation,
+  registerGrowAngleOutAnimation,
+  registerGrowCenterInAnimation,
+  registerGrowCenterOutAnimation,
+  registerGrowHeightInAnimation,
+  registerGrowHeightOutAnimation,
+  registerGrowPointsInAnimation,
+  registerGrowPointsOutAnimation,
+  registerGrowPointsXInAnimation,
+  registerGrowPointsXOutAnimation,
+  registerGrowPointsYInAnimation,
+  registerGrowPointsYOutAnimation,
+  registerGrowRadiusInAnimation,
+  registerGrowRadiusOutAnimation,
+  registerGrowWidthInAnimation,
+  registerGrowWidthOutAnimation,
+  registerMoveInAnimation,
+  registerMoveOutAnimation,
+  registerRotateInAnimation,
+  registerRotateOutAnimation,
+  registerScaleInAnimation,
+  registerScaleOutAnimation,
+  registerUpdateAnimation
+} from '@visactor/vgrammar-core';
 import type {
   CompilerListenerParameters,
   CompilerModel,
@@ -31,8 +62,37 @@ type EventListener = {
 };
 
 // for side effect bundling, do not remove this line.
-registerBasicTransforms();
-
+View.useRegisters([
+  registerFilterTransform,
+  registerMapTransform,
+  registerClipInAnimation,
+  registerClipOutAnimation,
+  registerFadeInAnimation,
+  registerFadeOutAnimation,
+  registerGrowAngleInAnimation,
+  registerGrowAngleOutAnimation,
+  registerGrowCenterInAnimation,
+  registerGrowCenterOutAnimation,
+  registerGrowHeightInAnimation,
+  registerGrowHeightOutAnimation,
+  registerGrowPointsInAnimation,
+  registerGrowPointsOutAnimation,
+  registerGrowPointsXInAnimation,
+  registerGrowPointsXOutAnimation,
+  registerGrowPointsYInAnimation,
+  registerGrowPointsYOutAnimation,
+  registerGrowRadiusInAnimation,
+  registerGrowRadiusOutAnimation,
+  registerGrowWidthInAnimation,
+  registerGrowWidthOutAnimation,
+  registerMoveInAnimation,
+  registerMoveOutAnimation,
+  registerRotateInAnimation,
+  registerRotateOutAnimation,
+  registerScaleInAnimation,
+  registerScaleOutAnimation,
+  registerUpdateAnimation
+]);
 export class Compiler {
   protected _view: IView;
   /**
@@ -100,7 +160,7 @@ export class Compiler {
       return;
     }
     const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);
-    if (this._option.onError) {
+    if (this._option?.onError) {
       logger.addErrorHandler((...args) => {
         this._option.onError(...args);
       });
