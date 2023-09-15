@@ -80,7 +80,7 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
     const key = f.key;
     // NOTE: the same key in fields has been merge already
     result[key] = {};
-    const dataFiledInKey = dataFields?.[key];
+    const dataFieldInKey = dataFields?.[key];
     if (sourceStatistics && fieldFollowSource && fieldFollowSource(key) && sourceStatistics[key]) {
       result[key] = sourceStatistics[key];
       return;
@@ -120,9 +120,9 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
       if (f.customize) {
         result[key][op] = f.customize;
       } else {
-        if (dataFiledInKey && dataFiledInKey.lockStatisticsByDomain && !isNil(dataFiledInKey.domain)) {
+        if (dataFieldInKey && dataFieldInKey.lockStatisticsByDomain && !isNil(dataFieldInKey.domain)) {
           if (op === 'values') {
-            result[key][op] = [...dataFiledInKey.domain];
+            result[key][op] = [...dataFieldInKey.domain];
             return;
           }
         } else if (op === 'allValid') {
