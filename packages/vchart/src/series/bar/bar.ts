@@ -129,8 +129,25 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         this._rectMark,
         {
           x: (datum: Datum) => this._getPosition(this.direction, datum),
-          y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), yScale),
-          y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY1(datum), yScale),
+          y: (datum: Datum) => {
+            if (this._spec.barMinHeight) {
+              if (this._stack) {
+                // 如果进行了堆叠，在配置了 barMinHeight 的情况下需要进行处理
+              } else {
+                const y1 = valueInScaleRange(this.dataToPositionY1(datum), yScale);
+                const y = valueInScaleRange(this.dataToPositionY(datum), yScale);
+                if (Math.abs(y - y1) < this._spec.barMinHeight) {
+                  return y1 + this._spec.barMinHeight;
+                }
+                return y;
+              }
+            }
+
+            return valueInScaleRange(this.dataToPositionY(datum), yScale);
+          },
+          y1: (datum: Datum) => {
+            return valueInScaleRange(this.dataToPositionY1(datum), yScale);
+          },
           width: () => {
             return this._getBarWidth(this._xAxisHelper);
           }
