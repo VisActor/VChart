@@ -8,7 +8,7 @@ const Content = Layout.Content;
 export function Home() {
   const [spec, setSpec] = useState<any>(undefined);
   const [openAIKey, setOpenAIKey] = useState<string | undefined>(undefined);
-
+  document.body.setAttribute('arco-theme', 'dark');
   const [time, setTime] = useState<{
     totalTime: number;
     frameArr: any[];

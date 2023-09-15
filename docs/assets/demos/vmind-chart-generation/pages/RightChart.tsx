@@ -102,7 +102,7 @@ export function RightChart(props: IPropsType) {
       <Modal
         title={outType}
         visible={!!outType}
-        style={{ width: '' }}
+        style={{ width: 1000, height: 650 }}
         okText="下载"
         onOk={() => {
           setOutType('');
@@ -116,9 +116,9 @@ export function RightChart(props: IPropsType) {
       >
         {outType === 'gif' ? <img src={src} /> : <video controls src={src} />}
       </Modal>
-      <Spin style={{ flex: 1, display: 'flex', background: 'rgb(244, 244, 245)' }} loading={generating}>
-        <Card hoverable style={{ flex: 1, background: 'rgb(244, 244, 245)' }}>
-          {/*<div className="right-chart-title">
+      <Spin style={{ flex: 1, display: 'flex' }} loading={generating}>
+        <Card hoverable style={{ flex: 1 }}>
+          <div className="right-chart-title">
             <Space>
               <Button
                 disabled={!(!!props.spec && !!props.time)}
@@ -127,7 +127,7 @@ export function RightChart(props: IPropsType) {
                   generateGif();
                 }}
                 shape="round"
-                type="primary"
+                //type="primary"
               >
                 export GIF
               </Button>
@@ -138,12 +138,12 @@ export function RightChart(props: IPropsType) {
                   generateVideo();
                 }}
                 shape="round"
-                type="primary"
+                //type="primary"
               >
                 export Video
               </Button>
             </Space>
-          </div>*/}
+          </div>
           <div className="right-chart-content">
             <div id="vmind-chart"></div>
           </div>
