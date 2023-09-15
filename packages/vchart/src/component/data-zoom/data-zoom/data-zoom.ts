@@ -1,4 +1,4 @@
-import { isArray, isNil, isNumber } from '@visactor/vutils';
+import { isArray, isNil, isNumber, uniqArray } from '@visactor/vutils';
 import { mergeSpec } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -9,9 +9,9 @@ import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
 import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute } from '@visactor/vrender';
 import type { Datum } from '../../../typings';
-import type { ILinearScale } from '@visactor/vscale';
+import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import { LinearScale } from '@visactor/vscale';
+import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import type { IDataZoomSpec } from './interface';
 import { IFilterMode } from '../constant';
@@ -212,6 +212,20 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     return this.getLayoutRect().height - (this._startHandlerSize + this._endHandlerSize) / 2;
   }
 
+  protected _isScaleValid(scale: IBaseScale | ILinearScale) {
+    if (!scale.domain()) {
+      return false;
+    }
+    const domain = scale.domain();
+    if (isContinuous(scale.type) && domain[0] === domain[1]) {
+      return false;
+    }
+    if (isDiscrete(scale.type) && uniqArray(domain).length === 1) {
+      return false;
+    }
+    return true;
+  }
+
   protected _dataToPositionX = (datum: Datum): number => {
     const offsetLeft = this._orient === 'left' ? this._middleHandlerSize : 0;
     const offsetHandler = this._isHorizontal ? this._startHandlerSize / 2 : 0;
@@ -247,6 +261,9 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _createOrUpdateComponent() {
     if (!this._component && this._visible) {
       const container = this.getContainer();
+      const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
+      const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
+      const isNeedPreview = this._isScaleValid(xScale) && this._isScaleValid(yScale);
       this._component = new DataZoomComponent({
         zIndex: this.layoutZIndex,
         start: this._start,
@@ -263,15 +280,15 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         showDetail: this._spec?.showDetail,
         brushSelect: this._spec?.brushSelect ?? false,
         previewData: this._data.getLatestData(),
-        previewCallbackX: this._dataToPositionX,
-        previewCallbackY: this._dataToPositionY,
+        previewCallbackX: isNeedPreview && this._dataToPositionX,
+        previewCallbackY: isNeedPreview && this._dataToPositionY,
         ...(this._getComponentAttrs() as any)
       });
 
       if (this._isHorizontal) {
-        this._component.setPreviewCallbackY1(this._dataToPositionY2);
+        isNeedPreview && this._component.setPreviewCallbackY1(this._dataToPositionY2);
       } else {
-        this._component.setPreviewCallbackX1(this._dataToPositionX2);
+        isNeedPreview && this._component.setPreviewCallbackX1(this._dataToPositionX2);
       }
       this._component.setStatePointToData((state: number) => this._statePointToData(state));
       this._component.setUpdateStateCallback((start: number, end: number) => {
