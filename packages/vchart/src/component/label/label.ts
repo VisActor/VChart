@@ -8,7 +8,7 @@ import { ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
 import { eachSeries, mergeSpec } from '../../util';
 import type { ISeries } from '../../series/interface';
-import type { IGroupMark, ILabel, IMark } from '@visactor/vgrammar';
+import { registerLabel, type IGroupMark, type ILabel, type IMark } from '@visactor/vgrammar-core';
 import { labelRuleMap, textAttribute } from './util';
 import type { IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
@@ -33,6 +33,8 @@ export interface ILabelComponentContext {
   labelInfo: ILabelInfo[];
 }
 
+// call the register fucntion when register this component to VChart
+registerLabel();
 VChart.useMark([LabelMark]);
 
 export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent<T> {

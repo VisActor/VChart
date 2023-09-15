@@ -4,7 +4,7 @@ group: axis
 title: symlog轴
 keywords: lineChart,comparison,composition,trend,axis
 order: 25-6
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/symlog-axis.png.jpeg
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/symlog-axis.png
 option: lineChart#axes
 ---
 

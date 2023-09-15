@@ -1,4 +1,4 @@
-import type { IElement, IMark as IVGrammarMark } from '@visactor/vgrammar';
+import type { IElement, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 import { isContinuous } from '@visactor/vscale';
 import { isArray, isObject, isValid, isBoolean } from '@visactor/vutils';
 import { PREFIX } from '../../constant';

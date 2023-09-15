@@ -20,7 +20,8 @@ import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { mixin, clamp, isNil } from '@visactor/vutils';
-import type { IDataFilterComponent, IDataFilterComponentSpec, IFilterMode } from './interface';
+import { IFilterMode } from './constant';
+import type { IDataFilterComponent, IDataFilterComponentSpec } from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../compile/data';
 import type { BaseEventParams } from '../../event/interface';
@@ -108,16 +109,23 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   effect: IEffect = {
     onZoomChange: () => {
-      if (this._relatedAxisComponent && this._filterMode === 'axis') {
+      if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
         const axisScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
         const axisSpec = (this._relatedAxisComponent as CartesianAxis<any>).getSpec() as ICartesianBandAxisSpec;
         if (this._auto) {
           // 提前更改 scale
           axisScale.range(this._stateScale?.range(), true);
         }
-        // 可以在这里更改滚动条是正向还是反向
+        // 轴的range有时是相反的
+        // 比如相同的region范围, 有的场景range为[0, 500], 有的场景range为[500, 0]
+        // 而datazoom/scrollbar的range是根据布局强制转化为[0, 500]
+        // 所以这里在转换时进行判断并做转置, 有待优化
+
+        // 轴在inverse时，也要做专置处理
         const newRangeFactor: [number, number] =
-          this._isHorizontal || axisSpec.inverse ? [this._start, this._end] : [1 - this._end, 1 - this._start];
+          axisScale.range()[0] < axisScale.range()[1] || axisSpec.inverse
+            ? [this._start, this._end]
+            : [1 - this._end, 1 - this._start];
         axisScale.rangeFactor(newRangeFactor);
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
@@ -441,7 +449,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._start = start;
     this._end = end;
 
-    if ((!this._relatedAxisComponent || this._filterMode !== 'axis') && (this._start !== 0 || this._end !== 1)) {
+    // eslint-disable-next-line max-len
+    if (
+      (!this._relatedAxisComponent || this._filterMode !== IFilterMode.axis) &&
+      (this._start !== 0 || this._end !== 1)
+    ) {
       this._newDomain = this._parseDomainFromState(this._startValue, this._endValue);
     }
   }
@@ -486,7 +498,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   protected _addTransformToSeries() {
-    if (!this._relatedAxisComponent || this._filterMode !== 'axis') {
+    if (!this._relatedAxisComponent || this._filterMode !== IFilterMode.axis) {
       registerDataSetInstanceTransform(this._option.dataSet, 'dataFilterWithNewDomain', dataFilterWithNewDomain);
 
       eachSeries(
@@ -577,6 +589,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   ) => {
     const { zoomDelta } = params;
     const delta = Math.abs(this._start - this._end);
+    // FIXME: 后续开放配置控制灵敏度
+    const ZOOM_RATE = 0.15;
 
     if (delta >= 1 && zoomDelta > 1) {
       return;
@@ -585,7 +599,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (delta <= 0.01 && zoomDelta < 1) {
       return;
     }
-    const value = (delta * (zoomDelta - 1)) / 2;
+    const value = (delta * (zoomDelta - 1) * ZOOM_RATE) / 2;
     const start = clamp(this._start - value, 0, 1);
     const end = clamp(this._end + value, 0, 1);
 

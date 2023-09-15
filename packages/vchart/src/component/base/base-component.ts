@@ -7,7 +7,7 @@ import { ComponentPluginService } from '../../plugin/components/plugin-service';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
 import { isArray, merge } from '@visactor/vutils';
 import { getComponentThemeFromGlobalTheme } from './util';
-import type { IGroupMark } from '@visactor/vgrammar';
+import type { IGroupMark } from '@visactor/vgrammar-core';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';

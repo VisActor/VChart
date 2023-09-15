@@ -27,7 +27,6 @@ module.exports = {
     requireMiniProgram: true
   },
   // extends: 'eslint:recommended',
-  ignorePatterns: ['typings', '*.ts'],
-  rules: {},
-  ignorePatterns: ['./miniprogram/src/index.js']
+  ignorePatterns: ['typings', '*.ts', 'miniprogram'],
+  rules: {}
 };

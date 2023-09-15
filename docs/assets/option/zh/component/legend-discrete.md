@@ -22,7 +22,7 @@
 
 是否开启图例的选中功能，默认开启。
 
-### selectedMode(string) = 'multiple'
+### selectMode(string) = 'multiple'
 
 图例的选中模式，可选值：`'multiple'`，`'single'`，分别代表多选和单选。
 
@@ -32,7 +32,7 @@
 
 ### allowAllCanceled(boolean) = false
 
-是否允许取消选中所有图例项，默认不允许，仅在 `selectedMode` 为 `'multiple'` 时有效。
+是否允许取消选中所有图例项，默认不允许，仅在 `selectMode` 为 `'multiple'` 时有效。
 
 ### reversed(boolean) = false
 

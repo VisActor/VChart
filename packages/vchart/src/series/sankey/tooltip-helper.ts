@@ -1,6 +1,6 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import type { Datum } from '@visactor/vgrammar';
+import type { Datum } from '@visactor/vgrammar-core';
 import type { IToolTipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
 import { isNumber } from '@visactor/vutils';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
@@ -34,9 +34,8 @@ export class SankeySeriesTooltipHelper extends BaseSeriesTooltipHelper implement
             },
             hasShape: true,
             shapeType: this.contentShapeTypeCallback,
-            shapeColor: (datum: Datum) => {
-              return this.contentShapeColorCallback(datum);
-            },
+            shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             shapeHollow: false
           }
         ]
@@ -57,6 +56,7 @@ export class SankeySeriesTooltipHelper extends BaseSeriesTooltipHelper implement
             hasShape: true,
             shapeType: this.contentShapeTypeCallback,
             shapeColor: this.contentShapeColorCallback,
+            shapeStroke: this.contentShapeColorCallback,
             shapeHollow: false
           });
         })

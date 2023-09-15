@@ -1,16 +1,19 @@
 import type { IGradientColor, ILinearGradient } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
-import { builtinSymbolsMap } from '@visactor/vrender';
+import { Symbol } from '@visactor/vrender';
 
 import { isObject, isString } from '../../../../../util';
 import type { ShapeType } from '../../../../../typings';
 import { BaseTooltipModel } from './base-tooltip-model';
+import { pixelPropertyStrToNumber } from '../util';
 
 export interface IShapeSvgOption {
   hasShape?: boolean;
-  shapeType?: ShapeType;
+  symbolType?: ShapeType | string;
   size?: string;
-  color?: string | IGradientColor;
+  fill?: string | IGradientColor;
+  stroke?: string;
+  lineWidth?: number;
   hollow?: boolean;
   marginTop?: string;
 }
@@ -51,43 +54,52 @@ export class ShapeModel extends BaseTooltipModel {
 }
 
 function getSvgHtml(option?: IShapeSvgOption) {
-  if (!option?.hasShape || !option.shapeType || !builtinSymbolsMap[option.shapeType]) {
+  if (!option?.hasShape || !option.symbolType) {
     return '';
   }
 
-  const { shapeType, size, color, hollow = false, marginTop = '0px' } = option;
+  const { symbolType, size, fill, stroke, lineWidth, hollow = false, marginTop = '0px' } = option;
+  const symbol = new Symbol({ symbolType, size: pixelPropertyStrToNumber(size) as number, fill: true });
+  const pathModel = symbol.getParsedPath().path ?? symbol.getParsedPath().pathStr;
+  const path = pathModel.toString();
+  let viewBox = '-0.5 -0.5 1 1';
+  if (!isString(pathModel)) {
+    const bounds = pathModel.bounds;
+    viewBox = `${bounds.x1} ${bounds.y1} ${bounds.width()} ${bounds.height()}`;
+  }
 
-  // FIXME 通过 VRender 获取symbol path
-  const path = builtinSymbolsMap[shapeType].pathStr;
-  let fill: string = 'currentColor';
-  if (!color || isString(color) || hollow) {
-    fill = hollow ? 'none' : (color as string) ?? 'currentColor';
+  let fillString: string = 'currentColor';
+  if (!fill || isString(fill) || hollow) {
+    fillString = hollow ? 'none' : (fill as string) ?? 'currentColor';
     return `
-    <svg width="${size}" height="${size}" viewBox="-0.5 -0.5 1 1"
+    <svg width="${size}" height="${size}" viewBox="${viewBox}"
       style="display: inline-block; vertical-align: middle; margin-top: ${marginTop};">
-      <path fill="${fill}" d="${path}" style="fill: ${fill};">
+      <path
+        d="${path}"
+        style="fill: ${fillString}; stroke: ${stroke ?? fillString}; stroke-width: ${lineWidth ?? 0}px"
+      >
       </path>
     </svg>`;
   }
-  if (isObject(color)) {
-    fill = 'gradientColor';
+  if (isObject(fill)) {
+    fillString = 'gradientColor';
     let gradient = '';
-    if ((color as IGradientColor).gradient === 'radial') {
+    if ((fill as IGradientColor).gradient === 'radial') {
       gradient = `
-      <radialGradient id="${fill}" cx="50%" cy="50%" r="50%" fx="0%" fy="0%">
-        ${(((color as IGradientColor).stops as any[]) ?? []).map(
+      <radialGradient id="${fillString}" cx="50%" cy="50%" r="50%" fx="0%" fy="0%">
+        ${(((fill as IGradientColor).stops as any[]) ?? []).map(
           s => `<stop offset="${s.offset}" stop-color="${s.color}"/>`
         )}
      	</radialGradient>
       `;
-    } else if ((color as IGradientColor).gradient === 'linear') {
+    } else if ((fill as IGradientColor).gradient === 'linear') {
       gradient = `
-      <linearGradient id="${fill}" x1="${(((color as ILinearGradient).x0 as number) ?? 0) * 100}%" y1="${
-        (((color as ILinearGradient).y0 as number) ?? 0) * 100
-      }%" x2="${(((color as ILinearGradient).x1 as number) ?? 0) * 100}%" y2="${
-        (((color as ILinearGradient).y1 as number) ?? 0) * 100
+      <linearGradient id="${fillString}" x1="${(((fill as ILinearGradient).x0 as number) ?? 0) * 100}%" y1="${
+        (((fill as ILinearGradient).y0 as number) ?? 0) * 100
+      }%" x2="${(((fill as ILinearGradient).x1 as number) ?? 0) * 100}%" y2="${
+        (((fill as ILinearGradient).y1 as number) ?? 0) * 100
       }%">
-        ${((color as ILinearGradient).stops ?? []).map(s => `<stop offset="${s.offset}" stop-color="${s.color}"/>`)}
+        ${((fill as ILinearGradient).stops ?? []).map(s => `<stop offset="${s.offset}" stop-color="${s.color}"/>`)}
       </linearGradient>
       `;
     }
@@ -95,7 +107,10 @@ function getSvgHtml(option?: IShapeSvgOption) {
     <svg width="${size}" height="${size}" viewBox="-0.5 -0.5 1 1"
       style="display: inline-block; vertical-align: middle; margin-top: ${marginTop};">
       ${gradient}
-      <path fill="url(#${fill})" d="${path}" style="fill: url(#${fill});">
+      <path
+        d="${path}"
+        style="fill: url(#${fillString}); stroke: ${stroke ?? fillString}; stroke-width: ${lineWidth ?? 0}px"
+      >
       </path>
     </svg>`;
   }

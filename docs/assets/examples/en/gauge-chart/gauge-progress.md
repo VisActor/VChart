@@ -1,14 +1,14 @@
 ---
 category: examples
 group: gauge
-title: 使用circularProgress声明仪表图
+title: Gauge Chart with CircularProgress Series
 keywords: gauge,comparison,circle
 order: 15-3
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab0b.png
 option: gaugeChart
 ---
 
-# Declaring meter diagrams using circularProgress
+# Gauge Chart with CircularProgress Series
 
 ## Key option
 
@@ -62,10 +62,10 @@ const spec = {
   indicator: [
     {
       visible: true,
+      offsetY: '70%',
       title: {
         style: {
           text: '70%',
-          dy: 250,
           fontSize: 60,
           fontWeight: 800
         }

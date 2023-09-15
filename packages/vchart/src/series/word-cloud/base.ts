@@ -45,6 +45,7 @@ import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { VChart } from '../../core/vchart';
 import { TextMark } from '../../mark/text';
 import { wordCloudSeriesMark } from './constant';
+import type { IStateAnimateSpec } from '../../animation/spec';
 
 VChart.useMark([TextMark]);
 
@@ -205,11 +206,20 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   initAnimation() {
-    if (this._wordMark) {
-      this._wordMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.wordCloud(), userAnimationConfig(SeriesMarkNameEnum.word, this._spec))
-      );
-    }
+    [this._wordMark, this._fillingWordMark].forEach(mark => {
+      if (mark) {
+        const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<any>)?.preset;
+        const params = {
+          animationConfig: () => mark.getAnimationConfig()?.appear?.[0]
+        };
+        mark.setAnimationConfig(
+          animationConfig(
+            DEFAULT_MARK_ANIMATION.wordCloud(params, appearPreset),
+            userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
+          )
+        );
+      }
+    });
   }
 
   protected getWordOrdinalColorScale(field: string, isFillingWord: boolean) {

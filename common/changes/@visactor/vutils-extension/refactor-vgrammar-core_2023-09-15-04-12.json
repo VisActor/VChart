@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "refactor: use @visctor/vgrammar-core to replace @visctor/vgrammar\n\n",
+      "type": "patch",
+      "packageName": "@visactor/vutils-extension"
+    }
+  ],
+  "packageName": "@visactor/vutils-extension",
+  "email": "dingling112@gmail.com"
+}

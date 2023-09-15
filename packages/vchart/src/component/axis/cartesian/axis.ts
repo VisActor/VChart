@@ -21,7 +21,7 @@ import type { IPoint, StringOrNumber } from '../../../typings';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
-import { HOOK_EVENT } from '@visactor/vgrammar';
+import { HOOK_EVENT } from '@visactor/vgrammar-core';
 import type { LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { isValidCartesianAxis } from '../util';

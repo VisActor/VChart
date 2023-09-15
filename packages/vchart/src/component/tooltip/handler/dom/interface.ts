@@ -18,7 +18,6 @@ export interface IDomTooltipStyle {
   shapeColumn: TooltipColumnStyle<IShapeStyle>;
   keyColumn: TooltipColumnStyle<ILabelStyle>;
   valueColumn: TooltipColumnStyle<ILabelStyle>;
-  spaceRow: string;
 }
 
 export type TooltipColumnStyle<T> = IMargin & {

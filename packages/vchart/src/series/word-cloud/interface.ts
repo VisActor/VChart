@@ -1,6 +1,7 @@
 import type { ITextMarkSpec, IMarkSpec, ISeriesSpec } from '../../typings';
-import type { IAnimationSpec } from '../../animation/spec';
+import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import type { WordcloudAppearPreset } from './animation';
 
 export enum WordCloudShapeEnum {
   triangleForward = 'triangleForward', // 右箭头
@@ -195,7 +196,7 @@ export type WordCloudShapeConfigType = {
   fillingRatio?: number;
 };
 
-export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<string, string> {
+export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<string, WordcloudAppearPreset> {
   /**
    * 文本字段
    */
@@ -280,7 +281,25 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
     padding?: number;
     // formatMethod?: (text: string | string[], datum?: any) => string | string[];
   };
+
+  animationAppear?:
+    | boolean
+    | (IStateAnimateSpec<WordcloudAppearPreset> & {
+        /**
+         * 默认prest('scaleIn')时，duration为词云中单个词的动画参考时长。当单词数过多，会根据单词总数和总动画时长进行动态调整
+         * prest为 'fadeIn' 时，则为总动画时长。
+         */
+        duration?: number;
+        /**
+         * 词云入场动画总时长，在默认prest('scaleIn')时生效。
+         * @default 1000
+         * @since 1.4.0
+         */
+        totalTime?: number;
+      })
+    | IMarkAnimateSpec<string>;
 }
+
 // TODO: 补充 IAnimationSpec 动画类型 @hefeifei
 export interface IWordCloudSeriesSpec extends IWordCloudSeriesBaseSpec {
   type: 'wordCloud';

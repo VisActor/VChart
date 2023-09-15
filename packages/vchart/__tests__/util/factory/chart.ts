@@ -22,7 +22,7 @@ import { TestRegion } from './region';
 import { TestSeries } from './series';
 import { DataSet } from '@visactor/vdataset';
 import { getTestCompiler } from './compiler';
-import type { IView, IGroupMark } from '@visactor/vgrammar';
+import type { IView, IGroupMark } from '@visactor/vgrammar-core';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ITheme } from '../../../src/theme';
 import type { LayoutCallBack } from '../../../src/layout/interface';

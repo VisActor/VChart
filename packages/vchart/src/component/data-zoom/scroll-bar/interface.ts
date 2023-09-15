@@ -1,7 +1,8 @@
 import type { ILayoutItemSpec } from '../../../model/interface';
 import type { IPadding } from '../../../typings';
 import type { IRectMarkSpec } from '../../../typings/visual';
-import type { IDataFilterComponentSpec, IFilterMode } from '../interface';
+import type { IFilterMode } from '../constant';
+import type { IDataFilterComponentSpec } from '../interface';
 
 export interface IScrollBarStyle {
   /**

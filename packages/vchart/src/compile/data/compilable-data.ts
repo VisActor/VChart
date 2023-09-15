@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import type { IData as IVGrammarData } from '@visactor/vgrammar';
+import type { IData as IVGrammarData } from '@visactor/vgrammar-core';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe } from '../../typings';
 import { isNil } from '../../util';

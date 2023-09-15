@@ -13,6 +13,7 @@
   defaultPreset = ${defaultPreset},
   defaultDuration = 1000,
   defaultEasing = 'cubicOut',
+  seriesType = ${seriesType}
 ) }}
 
 #${prefix} animationEnter(boolean|object)
@@ -24,6 +25,7 @@
   defaultDuration = 300,
   defaultEasing = 'linear',
   noPreset = true,
+  seriesType = ${seriesType}
 ) }}
 
 #${prefix} animationUpdate(boolean|object)
@@ -48,14 +50,14 @@
   noPreset = true,
 ) }}
 
-
 #${prefix} animationDisappear(boolean|object)
 
 图表退场动画。配置为 `false` 可以关闭该动画。
 
 {{ use: animate-state-animate(
-  prefix = '#' + ${prefix},
-  defaultDuration = 500,
-  defaultEasing = 'cubicIn',
-  noPreset = true,
+prefix = '#' + ${prefix},
+defaultDuration = 500,
+defaultEasing = 'cubicIn',
+noPreset = true,
+
 ) }}

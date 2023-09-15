@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import { PREFIX } from '../../constant/base';
-import type { IElement } from '@visactor/vgrammar';
+import type { IElement } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import type { Maybe, Datum, ScaleType, VisualType } from '../../typings';
 import type { ISymbolMark } from '../../mark/symbol';

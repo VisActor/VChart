@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { isNil } from '@visactor/vutils';
-import type { IView, MarkSpec } from '@visactor/vgrammar';
+import type { IView, MarkSpec } from '@visactor/vgrammar-core';
 
 import ViewContext from '../context/view';
 import { uid } from '../util';

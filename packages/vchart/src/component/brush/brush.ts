@@ -14,7 +14,7 @@ import type { IGraphic, INode, IPolygon, IRectGraphicAttribute } from '@visactor
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
-import type { IElement } from '@visactor/vgrammar';
+import type { IElement } from '@visactor/vgrammar-core';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
