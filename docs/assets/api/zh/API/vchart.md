@@ -375,6 +375,27 @@ updateFullDataSync: (data: IDataValues | IDataValues[], reRender: boolean = true
 updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => Promise<IVChart>;
 ```
 
+### updateModelSpec
+
+**异步**模块 spec 更新，可以通过 filter 指定更新某一个图表模块的配置，会自动渲染图表不需要再调用 `renderAsync()` 等渲染方法。
+
+```ts
+/**
+ * 模块 spec 更新
+ * @param filter
+ * @param spec
+ * @param forceMerge
+ * @returns
+ * @sync 1.4.0
+ */
+updateModelSpec: (
+  filter: string | { type: string; index: number },
+  spec: unknown,
+  forceMerge?: boolean,
+  morphConfig?: IMorphConfig
+) => Promise<IVChart>;
+```
+
 ### updateViewBox
 
 更新绘制区域。viewBox 为绘制区域，格式为 `{ x1: number; x2: number; y1: number; y2: number }`。

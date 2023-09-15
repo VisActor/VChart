@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: lock crosshair label to uninteractive, because it will affect axis label's event pick",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

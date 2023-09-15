@@ -48,18 +48,18 @@ export class LinearProgressSeries<
    * trackMark与progressMark使用绝对定位
    */
   initMark(): void {
-    this.initProgressGroupMark();
-    this.initTrackMark();
-    this.initProgressMark();
+    this._initProgressGroupMark();
+    this._initTrackMark();
+    this._initProgressMark();
   }
 
   initMarkStyle(): void {
-    this.initProgressGroupMarkStyle();
-    this.initTrackMarkStyle();
-    this.initProgressMarkStyle();
+    this._initProgressGroupMarkStyle();
+    this._initTrackMarkStyle();
+    this._initProgressMarkStyle();
   }
 
-  private initProgressMark() {
+  private _initProgressMark() {
     this._progressMark = this._createMark(LinearProgressSeries.mark.progress, {
       isSeriesMark: true,
       parent: this._progressGroupMark
@@ -67,7 +67,7 @@ export class LinearProgressSeries<
     return this._progressMark;
   }
 
-  private initProgressMarkStyle() {
+  private _initProgressMarkStyle() {
     const progressMark = this._progressMark;
     if (progressMark) {
       if (this._spec.direction === 'vertical') {
@@ -114,14 +114,14 @@ export class LinearProgressSeries<
     }
   }
 
-  private initTrackMark() {
+  private _initTrackMark() {
     this._trackMark = this._createMark(LinearProgressSeries.mark.track, {
       parent: this._progressGroupMark
     }) as IRectMark;
     return this._trackMark;
   }
 
-  private initTrackMarkStyle() {
+  private _initTrackMarkStyle() {
     const trackMark = this._trackMark;
     if (trackMark) {
       if (this._spec.direction === 'vertical') {
@@ -158,7 +158,7 @@ export class LinearProgressSeries<
     }
   }
 
-  private initProgressGroupMark() {
+  private _initProgressGroupMark() {
     // FIXME: disable group mark layout to prevent reevaluate after layout end
     this._progressGroupMark = this._createMark(LinearProgressSeries.mark.group, {
       skipBeforeLayouted: false
@@ -166,7 +166,7 @@ export class LinearProgressSeries<
     return this._progressGroupMark;
   }
 
-  private initProgressGroupMarkStyle() {
+  private _initProgressGroupMarkStyle() {
     const groupMark = this._progressGroupMark;
     groupMark.setZIndex(this.layoutZIndex);
     groupMark.created();

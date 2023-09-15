@@ -1,4 +1,4 @@
-import { isValid, radians } from '../../util';
+import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
@@ -16,6 +16,7 @@ import { VChart } from '../../core/vchart';
 // eslint-disable-next-line no-duplicate-imports
 import { ProgressArcMark } from '../../mark/progress-arc';
 import { gaugeSeriesMark } from './constant';
+import { degreeToRadian } from '@visactor/vutils';
 
 VChart.useMark([ProgressArcMark]);
 
@@ -35,8 +36,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
-
-    this._padAngle = radians(this._spec.padAngle ?? 0);
+    this._padAngle = degreeToRadian(this._spec.padAngle ?? 0);
   }
 
   initData(): void {
@@ -70,13 +70,18 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   }
 
   initMark(): void {
-    this._trackMark = this._createMark(GaugeSeries.mark.track) as IProgressArcMark;
+    super.initMark();
+    this._trackMark = this._createMark(GaugeSeries.mark.track, {
+      parent: this._arcGroupMark
+    }) as IProgressArcMark;
     this._segmentMark = this._createMark(GaugeSeries.mark.segment, {
+      parent: this._arcGroupMark,
       isSeriesMark: true
     }) as IProgressArcMark;
   }
 
   initMarkStyle(): void {
+    super.initMarkStyle();
     this.initTrackMarkStyle();
     this.initSegmentMarkStyle();
   }
@@ -122,14 +127,14 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     }
   }
 
-  protected _getAngleValueStart(datum: Datum) {
+  protected _getAngleValueStartWithoutMask(datum: Datum) {
     const angle = isValid(datum[SEGMENT_FIELD_START])
       ? this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_START]])
       : this._startAngle;
     return angle + (this._spec.padAngle ?? 0) / 2;
   }
 
-  protected _getAngleValueEnd(datum: Datum) {
+  protected _getAngleValueEndWithoutMask(datum: Datum) {
     const angle = this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_END]]);
     return angle - (this._spec.padAngle ?? 0) / 2;
   }

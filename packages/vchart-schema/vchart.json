@@ -2431,6 +2431,124 @@
       },
       "type": "object"
     },
+    "ConvertToMarkStyleSpec<ILineMarkSpec>_2": {
+      "description": "style格式转换",
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>"
+        },
+        "curveType": {
+          "$ref": "#/definitions/VisualType<InterpolateType>"
+        },
+        "defined": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "enableSegments": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框"
+        },
+        "lineCap": {
+          "$ref": "#/definitions/VisualType<LineStrokeCap>"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "lineJoin": {
+          "$ref": "#/definitions/VisualType<LineStrokeJoin>"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "miterLimit": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+        },
+        "strokeBoundsBuffer": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>"
+        }
+      },
+      "type": "object"
+    },
     "ConvertToMarkStyleSpec<ILinkPathMarkSpec>": {
       "description": "style格式转换",
       "properties": {
@@ -2822,118 +2940,6 @@
       "type": "object"
     },
     "ConvertToMarkStyleSpec<IPathMarkSpec>_1": {
-      "description": "style格式转换",
-      "properties": {
-        "alpha": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "anchor": {
-          "$ref": "#/definitions/VisualType<[number,number]>"
-        },
-        "anchor3d": {
-          "$ref": "#/definitions/VisualType<[number,number]>"
-        },
-        "angle": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
-        },
-        "beta": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "boundsMode": {
-          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">"
-        },
-        "cursor": {
-          "$ref": "#/definitions/VisualType<Cursor>"
-        },
-        "fill": {
-          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
-        },
-        "fillOpacity": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "innerBorder": {
-          "$ref": "#/definitions/VisualType<IBorder>",
-          "description": "内边框"
-        },
-        "lineDash": {
-          "$ref": "#/definitions/VisualType<number[]>"
-        },
-        "lineDashOffset": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "lineWidth": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "opacity": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "outerBorder": {
-          "$ref": "#/definitions/VisualType<IBorder>",
-          "description": "外边框"
-        },
-        "path": {
-          "$ref": "#/definitions/VisualType<string>"
-        },
-        "pickMode": {
-          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
-          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
-        },
-        "scaleCenter": {
-          "$ref": "#/definitions/VisualType<{x:number;y:number;}>"
-        },
-        "scaleX": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "scaleY": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "smoothScale": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
-        },
-        "strokeOpacity": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "texture": {
-          "$ref": "#/definitions/VisualType<string>",
-          "description": "纹理的类型"
-        },
-        "textureColor": {
-          "$ref": "#/definitions/VisualType<string>",
-          "description": "纹理的颜色"
-        },
-        "texturePadding": {
-          "$ref": "#/definitions/VisualType<number>",
-          "description": "纹理之间空隙的大小"
-        },
-        "textureSize": {
-          "$ref": "#/definitions/VisualType<number>",
-          "description": "纹理单元的大小"
-        },
-        "visible": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "x": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "y": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "z": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "zIndex": {
-          "$ref": "#/definitions/VisualType<number>"
-        }
-      },
-      "type": "object"
-    },
-    "ConvertToMarkStyleSpec<IPathMarkSpec>_2": {
       "description": "style格式转换",
       "properties": {
         "alpha": {
@@ -4574,7 +4580,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
@@ -4605,10 +4611,6 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
           "description": "style格式转换"
         },
@@ -4629,11 +4631,15 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -4643,7 +4649,7 @@
       ],
       "description": "style格式转换"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -4674,10 +4680,6 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
           "description": "style格式转换"
         },
@@ -4698,11 +4700,15 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5072,11 +5078,11 @@
           "description": "文字内容"
         },
         "textAlign": {
-          "$ref": "#/definitions/VisualType<TextAlign>",
+          "$ref": "#/definitions/VisualType<TextAlignType>",
           "description": "文字对齐方式"
         },
         "textBaseline": {
-          "$ref": "#/definitions/VisualType<TextBaseLine>",
+          "$ref": "#/definitions/VisualType<TextBaselineType>",
           "description": "文字居中方式"
         },
         "texture": {
@@ -5233,11 +5239,11 @@
           "description": "文字内容"
         },
         "textAlign": {
-          "$ref": "#/definitions/VisualType<TextAlign>",
+          "$ref": "#/definitions/VisualType<TextAlignType>",
           "description": "文字对齐方式"
         },
         "textBaseline": {
-          "$ref": "#/definitions/VisualType<TextBaseLine>",
+          "$ref": "#/definitions/VisualType<TextBaselineType>",
           "description": "文字居中方式"
         },
         "texture": {
@@ -5394,11 +5400,11 @@
           "description": "文字内容"
         },
         "textAlign": {
-          "$ref": "#/definitions/VisualType<TextAlign>",
+          "$ref": "#/definitions/VisualType<TextAlignType>",
           "description": "文字对齐方式"
         },
         "textBaseline": {
-          "$ref": "#/definitions/VisualType<TextBaseLine>",
+          "$ref": "#/definitions/VisualType<TextBaselineType>",
           "description": "文字居中方式"
         },
         "texture": {
@@ -16982,12 +16988,17 @@
           "description": "开启分片渲染的阀值，对应的是单系列data的长度",
           "type": "number"
         },
+        "smooth": {
+          "default": false,
+          "description": "引导线是否光滑",
+          "type": "boolean"
+        },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IPathMarkSpec>|IMarkStateSpec<IPathMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<ILineMarkSpec>|IMarkStateSpec<ILineMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_2",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_2",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -17769,15 +17780,198 @@
           "description": "线图元配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "name": {
@@ -18205,6 +18399,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "type": "string"
@@ -19033,15 +19230,198 @@
           "description": "图例配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "name": {
@@ -19553,15 +19933,198 @@
           "description": "图例配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "name": {
@@ -20564,15 +21127,198 @@
           "description": "图例配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "maxField": {
@@ -21741,6 +22487,9 @@
         },
         {
           "$ref": "#/definitions/IBandAxisSpec"
+        },
+        {
+          "typeof": "function"
         }
       ]
     },
@@ -24285,25 +25034,28 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IAreaSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IBarSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IBar3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ICircularProgressSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IDotSeriesSpec"
+                "$ref": "#/definitions/IWaterfallSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IFunnelSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IFunnel3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IAreaSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ICircularProgressSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IDotSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IGaugePointerSeriesSpec"
@@ -24336,9 +25088,6 @@
                 "$ref": "#/definitions/IScatterSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWaterfallSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IWordCloudSeriesSpec"
               },
               {
@@ -24351,25 +25100,25 @@
                 "$ref": "#/definitions/ISunburstSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ICirclePackingSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IHeatmapSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ISankeySeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRoseSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IBoxPlotSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ICirclePackingSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IRangeColumnChartSpec"
               },
               {
                 "$ref": "#/definitions/IRangeAreaChartSpec"
+              },
+              {
+                "$ref": "#/definitions/IRoseSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IHeatmapSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ISankeySeriesSpec"
               }
             ]
           },
@@ -25820,11 +26569,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -26124,6 +26873,11 @@
     "IDataZoomSpec": {
       "description": "spec",
       "properties": {
+        "auto": {
+          "description": "是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "autoIndent": {
           "description": "是否进行自动缩进",
           "type": "boolean"
@@ -26191,13 +26945,9 @@
           "type": "string"
         },
         "filterMode": {
-          "default": "true （默认直接过滤数据）\n详细可参考：https://echarts.apache.org/zh/option.html#dataZoom-slider.filterMode）",
-          "description": "数据过滤模式",
-          "enum": [
-            "axis",
-            "filter"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/IFilterMode",
+          "default": "'filter' （dataZoom默认数据过滤模式）\n详细可参考：https://echarts.apache.org/zh/option.html#dataZoom-slider.filterMode）",
+          "description": "数据过滤模式"
         },
         "height": {
           "anyOf": [
@@ -26664,6 +27414,16 @@
                   "$ref": "#/definitions/HTMLImageElement"
                 }
               ]
+            },
+            {
+              "allOf": [
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "图例背景配置"
@@ -26807,6 +27567,9 @@
         },
         "hover": {
           "type": "boolean"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -27199,6 +27962,19 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleName": {
           "description": "scaleName must match the id of the scale configured in **scales**",
           "type": "string"
@@ -27238,6 +28014,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -27630,6 +28409,9 @@
     },
     "IDrawContribution": {
       "properties": {
+        "afterDraw": {
+          "typeof": "function"
+        },
         "backupDirtyBounds": {
           "$ref": "#/definitions/IBounds"
         },
@@ -27790,11 +28572,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -27864,6 +28646,13 @@
           ]
         }
       ]
+    },
+    "IFilterMode": {
+      "enum": [
+        "axis",
+        "filter"
+      ],
+      "type": "string"
     },
     "IFullThemeSpec": {
       "properties": {
@@ -30882,6 +31671,9 @@
         "addUpdateGlobalPositionTag": {
           "typeof": "function"
         },
+        "addUpdateLayoutTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -30914,6 +31706,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -30997,6 +31792,9 @@
           "typeof": "function"
         },
         "getElementsByType": {
+          "typeof": "function"
+        },
+        "getNoWorkAnimateAttr": {
           "typeof": "function"
         },
         "getOffsetXY": {
@@ -31180,7 +31978,7 @@
           "typeof": "function"
         },
         "resources": {
-          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
         },
         "rotate": {
           "typeof": "function"
@@ -31288,6 +32086,7 @@
         "addState",
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
+        "addUpdateLayoutTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animate",
@@ -31324,6 +32123,7 @@
         "getElementById",
         "getElementsByName",
         "getElementsByType",
+        "getNoWorkAnimateAttr",
         "getOffsetXY",
         "getState",
         "globalAABBBounds",
@@ -31422,6 +32222,9 @@
         "addUpdateGlobalPositionTag": {
           "typeof": "function"
         },
+        "addUpdateLayoutTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -31454,6 +32257,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -31537,6 +32343,9 @@
           "typeof": "function"
         },
         "getElementsByType": {
+          "typeof": "function"
+        },
+        "getNoWorkAnimateAttr": {
           "typeof": "function"
         },
         "getOffsetXY": {
@@ -31720,7 +32529,7 @@
           "typeof": "function"
         },
         "resources": {
-          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
         },
         "rotate": {
           "typeof": "function"
@@ -31828,6 +32637,7 @@
         "addState",
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
+        "addUpdateLayoutTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animate",
@@ -31864,6 +32674,7 @@
         "getElementById",
         "getElementsByName",
         "getElementsByType",
+        "getNoWorkAnimateAttr",
         "getOffsetXY",
         "getState",
         "globalAABBBounds",
@@ -31957,6 +32768,12 @@
         },
         "visible": {
           "type": "boolean"
+        },
+        "zIndex": {
+          "default": 50,
+          "description": "快捷属性，也可以在 `style` 中配置，用于配置网格线的绘制顺序，默认为 50",
+          "since": "1.4.0",
+          "type": "number"
         }
       },
       "type": "object"
@@ -32039,6 +32856,9 @@
         "addUpdateGlobalPositionTag": {
           "typeof": "function"
         },
+        "addUpdateLayoutTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -32071,6 +32891,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -32163,6 +32986,9 @@
           "typeof": "function"
         },
         "getElementsByType": {
+          "typeof": "function"
+        },
+        "getNoWorkAnimateAttr": {
           "typeof": "function"
         },
         "getOffsetXY": {
@@ -32355,7 +33181,7 @@
           "typeof": "function"
         },
         "resources": {
-          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
         },
         "rotate": {
           "typeof": "function"
@@ -32472,6 +33298,7 @@
         "addState",
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
+        "addUpdateLayoutTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animate",
@@ -32510,6 +33337,7 @@
         "getElementById",
         "getElementsByName",
         "getElementsByType",
+        "getNoWorkAnimateAttr",
         "getOffsetXY",
         "getState",
         "globalAABBBounds",
@@ -32826,15 +33654,198 @@
           "description": "图例配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "name": {
@@ -33707,15 +34718,198 @@
           "description": "图例配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "name": {
@@ -34200,15 +35394,198 @@
           "description": "图例配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "name": {
@@ -35329,6 +36706,9 @@
         "addUpdateGlobalPositionTag": {
           "typeof": "function"
         },
+        "addUpdateLayoutTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -35367,6 +36747,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "blendMode": {
           "type": "string"
@@ -35483,6 +36866,9 @@
           "typeof": "function"
         },
         "getNativeHandler": {
+          "typeof": "function"
+        },
+        "getNoWorkAnimateAttr": {
           "typeof": "function"
         },
         "getOffsetXY": {
@@ -35706,7 +37092,7 @@
           "typeof": "function"
         },
         "resources": {
-          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
         },
         "rotate": {
           "typeof": "function"
@@ -35847,6 +37233,7 @@
         "addState",
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
+        "addUpdateLayoutTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "afterDraw",
@@ -35893,6 +37280,7 @@
         "getElementsByName",
         "getElementsByType",
         "getNativeHandler",
+        "getNoWorkAnimateAttr",
         "getOffsetXY",
         "getState",
         "globalAABBBounds",
@@ -36000,6 +37388,91 @@
         "releaseLayer",
         "restLayerCount"
       ],
+      "type": "object"
+    },
+    "ILayoutItemSpec": {
+      "properties": {
+        "bottom": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "center": {
+          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
+          "type": "boolean"
+        },
+        "clip": {
+          "description": "模块是否裁剪超出布局区域外的绘图内容",
+          "type": "boolean"
+        },
+        "height": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：高度"
+        },
+        "layoutLevel": {
+          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
+          "type": "number"
+        },
+        "layoutType": {
+          "$ref": "#/definitions/ILayoutType",
+          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
+        },
+        "left": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "maxHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大高度"
+        },
+        "maxWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大宽度"
+        },
+        "minHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小高度"
+        },
+        "minWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小宽度"
+        },
+        "noOuterPadding": {
+          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
+          "type": "boolean"
+        },
+        "offsetX": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：X"
+        },
+        "offsetY": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：Y"
+        },
+        "orient": {
+          "$ref": "#/definitions/IOrientType",
+          "description": "模块布局位置"
+        },
+        "padding": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局间距"
+        },
+        "right": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "top": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "width": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：宽度"
+        },
+        "zIndex": {
+          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
+          "type": "number"
+        }
+      },
       "type": "object"
     },
     "ILayoutNumber": {
@@ -36325,15 +37798,198 @@
           "description": "线图元配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "name": {
@@ -39029,6 +40685,38 @@
               "$ref": "#/definitions/IMarkLineTheme"
             }
           ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/IMarkerSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/IMarkerSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         }
       ]
     },
@@ -39057,10 +40745,6 @@
           "$ref": "#/definitions/IMarkerSymbol"
         }
       },
-      "required": [
-        "endSymbol",
-        "startSymbol"
-      ],
       "type": "object"
     },
     "IMarkLineXSpec": {
@@ -42750,6 +44434,9 @@
             }
           ]
         },
+        "contentFormatMethod": {
+          "typeof": "function"
+        },
         "contentStyle": {
           "allOf": [
             {
@@ -42819,6 +44506,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -42924,6 +44614,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -42949,6 +44652,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "space": {
@@ -43024,6 +44730,9 @@
               ]
             }
           ]
+        },
+        "titleFormatMethod": {
+          "typeof": "function"
         },
         "titleStyle": {
           "allOf": [
@@ -44704,15 +46413,198 @@
           "description": "线图元配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "maxField": {
@@ -45542,15 +47434,198 @@
           "description": "图例配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "maxField": {
@@ -46396,15 +48471,198 @@
           "description": "图例配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "maxField": {
@@ -49682,15 +51940,198 @@
           "description": "图例配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "name": {
@@ -50302,6 +52743,11 @@
     },
     "IScrollBarSpec": {
       "properties": {
+        "auto": {
+          "description": "是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "autoIndent": {
           "description": "是否进行自动缩进",
           "type": "boolean"
@@ -50342,13 +52788,9 @@
           "type": "string"
         },
         "filterMode": {
-          "default": "true （默认直接过滤数据）\n详细可参考：https://echarts.apache.org/zh/option.html#dataZoom-slider.filterMode）",
-          "description": "数据过滤模式",
-          "enum": [
-            "axis",
-            "filter"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/IFilterMode",
+          "default": "'axis' (scrollBar默认视口裁剪模式)\n详细可参考：https://echarts.apache.org/zh/option.html#dataZoom-slider.filterMode）",
+          "description": "数据过滤模式"
         },
         "height": {
           "anyOf": [
@@ -50632,6 +53074,9 @@
     },
     "IScrollBarTheme": {
       "allOf": [
+        {
+          "$ref": "#/definitions/ILayoutItemSpec"
+        },
         {
           "$ref": "#/definitions/IScrollBarStyle"
         },
@@ -51244,6 +53689,9 @@
         "addUpdateGlobalPositionTag": {
           "typeof": "function"
         },
+        "addUpdateLayoutTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -51276,6 +53724,9 @@
         },
         "backgroundImg": {
           "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -51368,6 +53819,9 @@
           "typeof": "function"
         },
         "getElementsByType": {
+          "typeof": "function"
+        },
+        "getNoWorkAnimateAttr": {
           "typeof": "function"
         },
         "getOffsetXY": {
@@ -51560,7 +54014,7 @@
           "typeof": "function"
         },
         "resources": {
-          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
         },
         "rotate": {
           "typeof": "function"
@@ -51680,6 +54134,7 @@
         "addState",
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
+        "addUpdateLayoutTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animate",
@@ -51718,6 +54173,7 @@
         "getElementById",
         "getElementsByName",
         "getElementsByType",
+        "getNoWorkAnimateAttr",
         "getOffsetXY",
         "getState",
         "globalAABBBounds",
@@ -51955,6 +54411,9 @@
         "getLayer": {
           "typeof": "function"
         },
+        "getTimeline": {
+          "typeof": "function"
+        },
         "height": {
           "type": "number"
         },
@@ -52038,6 +54497,9 @@
         },
         "option3d": {
           "$ref": "#/definitions/IOption3D"
+        },
+        "params": {
+          "$ref": "#/definitions/Partial<IStageParams>"
         },
         "parent": {
           "$ref": "#/definitions/IStage"
@@ -52237,6 +54699,7 @@
         "getElementsByName",
         "getElementsByType",
         "getLayer",
+        "getTimeline",
         "height",
         "hooks",
         "increaseAutoRender",
@@ -52253,6 +54716,7 @@
         "off",
         "on",
         "once",
+        "params",
         "parent",
         "pick",
         "pickerService",
@@ -53851,6 +56315,9 @@
     },
     "ITicker": {
       "properties": {
+        "addTimeline": {
+          "typeof": "function"
+        },
         "getFPS": {
           "typeof": "function"
         },
@@ -53883,6 +56350,7 @@
         }
       },
       "required": [
+        "addTimeline",
         "pause",
         "resume",
         "start",
@@ -56548,7 +59016,7 @@
       ],
       "type": "object"
     },
-    "IVisualSpecStyle<unknown,TextAlign>": {
+    "IVisualSpecStyle<unknown,TextAlignType>": {
       "properties": {
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
@@ -56561,7 +59029,7 @@
         "range": {
           "description": "will set to scale.range, it means output of scale",
           "items": {
-            "$ref": "#/definitions/TextAlign"
+            "$ref": "#/definitions/TextAlignType"
           },
           "type": "array"
         },
@@ -56580,7 +59048,7 @@
       ],
       "type": "object"
     },
-    "IVisualSpecStyle<unknown,TextBaseLine>": {
+    "IVisualSpecStyle<unknown,TextBaselineType>": {
       "properties": {
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
@@ -56593,7 +59061,7 @@
         "range": {
           "description": "will set to scale.range, it means output of scale",
           "items": {
-            "$ref": "#/definitions/TextBaseLine"
+            "$ref": "#/definitions/TextBaselineType"
           },
           "type": "array"
         },
@@ -57437,15 +59905,198 @@
           "description": "图例配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "参考点配置"
         },
         "name": {
@@ -58201,10 +60852,16 @@
         "getNativeHandler": {
           "typeof": "function"
         },
+        "getTopLeft": {
+          "typeof": "function"
+        },
         "height": {
           "type": "number"
         },
         "hooks": {
+          "typeof": "function"
+        },
+        "isVisible": {
           "typeof": "function"
         },
         "maxHeight": {
@@ -58218,6 +60875,9 @@
         },
         "minWidth": {
           "type": "number"
+        },
+        "onVisibleChange": {
+          "typeof": "function"
         },
         "release": {
           "typeof": "function"
@@ -58279,12 +60939,15 @@
         "getContext",
         "getImageBuffer",
         "getNativeHandler",
+        "getTopLeft",
         "height",
         "hooks",
+        "isVisible",
         "maxHeight",
         "maxWidth",
         "minHeight",
         "minWidth",
+        "onVisibleChange",
         "release",
         "removeEventListener",
         "resizable",
@@ -60114,7 +62777,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@11528": {
+        "__@toStringTag@12976": {
           "type": "string"
         },
         "size": {
@@ -60122,14 +62785,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11528",
+        "__@toStringTag@12976",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@11528": {
+        "__@toStringTag@12976": {
           "type": "string"
         },
         "size": {
@@ -60137,14 +62800,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11528",
+        "__@toStringTag@12976",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@11528": {
+        "__@toStringTag@12976": {
           "type": "string"
         },
         "size": {
@@ -60152,14 +62815,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11528",
+        "__@toStringTag@12976",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@11528": {
+        "__@toStringTag@12976": {
           "type": "string"
         },
         "size": {
@@ -60167,14 +62830,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11528",
+        "__@toStringTag@12976",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@11528": {
+        "__@toStringTag@12976": {
           "type": "string"
         },
         "size": {
@@ -60182,14 +62845,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11528",
+        "__@toStringTag@12976",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@11528": {
+        "__@toStringTag@12976": {
           "type": "string"
         },
         "size": {
@@ -60197,14 +62860,14 @@
         }
       },
       "required": [
-        "__@toStringTag@11528",
+        "__@toStringTag@12976",
         "size"
       ],
       "type": "object"
     },
-    "Map<string|HTMLCanvasElement|HTMLImageElement,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
+    "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@11528": {
+        "__@toStringTag@12976": {
           "type": "string"
         },
         "size": {
@@ -60212,14 +62875,29 @@
         }
       },
       "required": [
-        "__@toStringTag@11528",
+        "__@toStringTag@12976",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
+      "properties": {
+        "__@toStringTag@12976": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12976",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@11528": {
+        "__@toStringTag@12976": {
           "type": "string"
         },
         "size": {
@@ -60227,7 +62905,7 @@
         }
       },
       "required": [
-        "__@toStringTag@11528",
+        "__@toStringTag@12976",
         "size"
       ],
       "type": "object"
@@ -60638,6 +63316,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -60749,6 +63430,9 @@
         "hover": {
           "type": "boolean"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -60833,6 +63517,19 @@
         "reversed": {
           "type": "boolean"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -60868,6 +63565,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -63130,6 +65830,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -63194,6 +65897,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -63219,6 +65935,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -63287,6 +66006,17 @@
         },
         "zIndex": {
           "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Omit<IMarkLineTheme,\"line\"|\"label\">": {
+      "properties": {
+        "endSymbol": {
+          "$ref": "#/definitions/IMarkerSymbol"
+        },
+        "startSymbol": {
+          "$ref": "#/definitions/IMarkerSymbol"
         }
       },
       "type": "object"
@@ -64247,6 +66977,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -64349,6 +67082,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -64416,6 +67152,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -64441,6 +67190,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "space": {
@@ -64866,6 +67618,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -64955,6 +67710,9 @@
         "forceShowCap": {
           "type": "boolean"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -65015,6 +67773,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -65040,6 +67811,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "startAngle": {
@@ -65190,6 +67964,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -65228,6 +68005,9 @@
         },
         "clipRange": {
           "type": "number"
+        },
+        "closePath": {
+          "type": "boolean"
         },
         "connectedStyle": {
           "typeof": "function"
@@ -65269,6 +68049,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -65324,6 +68107,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -65355,6 +68151,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -65568,6 +68367,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -65628,6 +68430,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -65679,6 +68484,19 @@
         "radius": {
           "type": "number"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -65704,6 +68522,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "startAngle": {
@@ -65854,6 +68675,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -65930,6 +68754,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -65988,6 +68815,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -66013,6 +68853,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -66163,6 +69006,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -66220,6 +69066,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -66268,6 +69117,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -66293,6 +69155,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -66457,6 +69322,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -66556,6 +69424,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -66620,6 +69491,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -66645,6 +69529,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -66798,6 +69685,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -66834,6 +69724,19 @@
         "childrenPickable": {
           "type": "boolean"
         },
+        "cornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -66857,6 +69760,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "image": {
           "anyOf": [
@@ -66925,6 +69831,19 @@
         "repeatY": {
           "$ref": "#/definitions/IRepeatType"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -66950,6 +69869,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -67587,6 +70509,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -67629,6 +70554,9 @@
         "clipRangeByDimension": {
           "$ref": "#/definitions/IClipRangeByDimensionType"
         },
+        "closePath": {
+          "type": "boolean"
+        },
         "connectedStyle": {
           "typeof": "function"
         },
@@ -67669,6 +70597,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -67724,6 +70655,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -67755,6 +70699,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -68423,6 +71370,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -68483,6 +71433,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -68541,6 +71494,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -68566,6 +71532,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -68713,6 +71682,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -68749,6 +71721,9 @@
         "childrenPickable": {
           "type": "boolean"
         },
+        "closePath": {
+          "type": "boolean"
+        },
         "cornerRadius": {
           "anyOf": [
             {
@@ -68782,6 +71757,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -68837,6 +71815,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -68862,6 +71853,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -69222,6 +72216,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -69295,6 +72292,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -69346,6 +72346,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -69371,6 +72384,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -69521,6 +72537,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -69594,6 +72613,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -69642,6 +72664,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -69667,6 +72702,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -69949,6 +72987,101 @@
       },
       "type": "object"
     },
+    "Partial<IStageParams>": {
+      "properties": {
+        "afterRender": {
+          "typeof": "function"
+        },
+        "autoRender": {
+          "type": "boolean"
+        },
+        "background": {
+          "$ref": "#/definitions/IColor"
+        },
+        "beforeRender": {
+          "typeof": "function"
+        },
+        "canvas": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "canvasControled": {
+          "type": "boolean"
+        },
+        "container": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "disableDirtyBounds": {
+          "type": "boolean"
+        },
+        "dpr": {
+          "type": "number"
+        },
+        "enableHtmlAttribute": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLElement"
+            },
+            {
+              "type": [
+                "string",
+                "boolean"
+              ]
+            }
+          ]
+        },
+        "enableLayout": {
+          "type": "boolean"
+        },
+        "height": {
+          "type": "number"
+        },
+        "interactiveLayer": {
+          "type": "boolean"
+        },
+        "optimize": {
+          "typeof": "function"
+        },
+        "pluginList": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "poptip": {
+          "type": "boolean"
+        },
+        "renderStyle": {
+          "type": "string"
+        },
+        "ticker": {
+          "$ref": "#/definitions/ITicker"
+        },
+        "title": {
+          "type": "string"
+        },
+        "viewBox": {
+          "$ref": "#/definitions/IBoundsLike"
+        },
+        "width": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
     "Partial<ISymbolGraphicAttribute>": {
       "properties": {
         "alpha": {
@@ -70030,6 +73163,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -70087,6 +73223,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -70135,6 +73274,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -70160,6 +73312,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "size": {
@@ -70330,6 +73485,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -70418,6 +73576,12 @@
             "number"
           ]
         },
+        "html": {
+          "typeof": "function"
+        },
+        "ignoreBuf": {
+          "type": "boolean"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -70475,6 +73639,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleIn3d": {
           "type": "boolean"
         },
@@ -70503,6 +73680,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -71154,6 +74334,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -71239,6 +74422,12 @@
             "number"
           ]
         },
+        "html": {
+          "typeof": "function"
+        },
+        "ignoreBuf": {
+          "type": "boolean"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -71296,6 +74485,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleIn3d": {
           "type": "boolean"
         },
@@ -71324,6 +74526,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -71509,6 +74714,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -71579,6 +74787,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -71627,6 +74838,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -71649,6 +74873,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "size": {
@@ -71800,6 +75027,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -71857,6 +75087,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -71905,6 +75138,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -71930,6 +75176,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -73297,47 +76546,47 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@11528": {
+        "__@toStringTag@12976": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11528"
+        "__@toStringTag@12976"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@11528": {
+        "__@toStringTag@12976": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11528"
+        "__@toStringTag@12976"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@11528": {
+        "__@toStringTag@12976": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@11528"
+        "__@toStringTag@12976"
       ],
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<IGroupMarkSpec>|IMarkStateSpec<IGroupMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IPathMarkSpec>|IMarkStateSpec<IPathMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<ILineMarkSpec>|IMarkStateSpec<ILineMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>": {
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>": {
@@ -73487,6 +76736,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -73576,6 +76828,9 @@
         "forceShowCap": {
           "type": "boolean"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -73636,6 +76891,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -73661,6 +76929,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "startAngle": {
@@ -73751,6 +77022,7 @@
         "fill",
         "fillOpacity",
         "forceShowCap",
+        "html",
         "innerBorder",
         "innerRadius",
         "keepDirIn3d",
@@ -73769,6 +77041,7 @@
         "pickMode",
         "pickable",
         "postMatrix",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -73778,6 +77051,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "startAngle",
         "stroke",
         "strokeBoundsBuffer",
@@ -73876,6 +77150,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -73914,6 +77191,9 @@
         },
         "clipRange": {
           "type": "number"
+        },
+        "closePath": {
+          "type": "boolean"
         },
         "connectedStyle": {
           "typeof": "function"
@@ -73955,6 +77235,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -74010,6 +77293,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -74041,6 +77337,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -74118,6 +77417,7 @@
         "boundsPadding",
         "childrenPickable",
         "clipRange",
+        "closePath",
         "connectedStyle",
         "connectedType",
         "connectedX",
@@ -74130,6 +77430,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -74145,6 +77446,7 @@
         "pickable",
         "points",
         "postMatrix",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -74155,6 +77457,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
@@ -74252,6 +77555,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -74312,6 +77618,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -74363,6 +77672,19 @@
         "radius": {
           "type": "number"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -74388,6 +77710,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "startAngle": {
@@ -74475,6 +77800,7 @@
         "endAngle",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -74490,6 +77816,7 @@
         "pickable",
         "postMatrix",
         "radius",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -74499,6 +77826,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "startAngle",
         "stroke",
         "strokeBoundsBuffer",
@@ -74597,6 +77925,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -74673,6 +78004,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -74731,6 +78065,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -74756,6 +78103,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -74845,6 +78195,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -74860,6 +78211,7 @@
         "pickMode",
         "pickable",
         "postMatrix",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -74869,6 +78221,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
@@ -74984,6 +78337,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -75083,6 +78439,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -75147,6 +78506,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -75172,6 +78544,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -75269,6 +78644,7 @@
         "flexDirection",
         "flexWrap",
         "height",
+        "html",
         "innerBorder",
         "justifyContent",
         "keepDirIn3d",
@@ -75285,6 +78661,7 @@
         "pickMode",
         "pickable",
         "postMatrix",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -75294,6 +78671,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
@@ -75393,6 +78771,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -75429,6 +78810,19 @@
         "childrenPickable": {
           "type": "boolean"
         },
+        "cornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -75452,6 +78846,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "image": {
           "anyOf": [
@@ -75520,6 +78917,19 @@
         "repeatY": {
           "$ref": "#/definitions/IRepeatType"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -75545,6 +78955,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -75624,6 +79037,7 @@
         "boundsMode",
         "boundsPadding",
         "childrenPickable",
+        "cornerRadius",
         "cursor",
         "customPickShape",
         "dx",
@@ -75632,6 +79046,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "image",
         "innerBorder",
         "keepDirIn3d",
@@ -75649,6 +79064,7 @@
         "postMatrix",
         "repeatX",
         "repeatY",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -75658,6 +79074,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
@@ -75756,6 +79173,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -75798,6 +79218,9 @@
         "clipRangeByDimension": {
           "$ref": "#/definitions/IClipRangeByDimensionType"
         },
+        "closePath": {
+          "type": "boolean"
+        },
         "connectedStyle": {
           "typeof": "function"
         },
@@ -75838,6 +79261,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -75893,6 +79319,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -75924,6 +79363,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -76002,6 +79444,7 @@
         "childrenPickable",
         "clipRange",
         "clipRangeByDimension",
+        "closePath",
         "connectedStyle",
         "connectedType",
         "connectedX",
@@ -76014,6 +79457,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -76029,6 +79473,7 @@
         "pickable",
         "points",
         "postMatrix",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -76039,6 +79484,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
@@ -76136,6 +79582,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -76196,6 +79645,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -76254,6 +79706,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -76279,6 +79744,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -76363,6 +79831,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -76378,6 +79847,7 @@
         "pickMode",
         "pickable",
         "postMatrix",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -76387,6 +79857,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
@@ -76484,6 +79955,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -76520,6 +79994,9 @@
         "childrenPickable": {
           "type": "boolean"
         },
+        "closePath": {
+          "type": "boolean"
+        },
         "cornerRadius": {
           "anyOf": [
             {
@@ -76553,6 +80030,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -76608,6 +80088,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -76633,6 +80126,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -76709,6 +80205,7 @@
         "boundsMode",
         "boundsPadding",
         "childrenPickable",
+        "closePath",
         "cornerRadius",
         "cursor",
         "customPickShape",
@@ -76717,6 +80214,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -76732,6 +80230,7 @@
         "pickable",
         "points",
         "postMatrix",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -76741,6 +80240,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
@@ -76838,6 +80338,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -76911,6 +80414,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -76962,6 +80468,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -76987,6 +80506,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -77075,6 +80597,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -77090,6 +80613,7 @@
         "pickMode",
         "pickable",
         "postMatrix",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -77099,6 +80623,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
@@ -77197,6 +80722,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77270,6 +80798,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -77318,6 +80849,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -77343,6 +80887,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -77431,6 +80978,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -77445,6 +80993,7 @@
         "pickMode",
         "pickable",
         "postMatrix",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -77454,6 +81003,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
@@ -77552,6 +81102,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77618,6 +81171,9 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -77675,6 +81231,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -77700,6 +81269,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "singleLine": {
@@ -77809,6 +81381,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -77826,6 +81399,7 @@
         "pickMode",
         "pickable",
         "postMatrix",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -77835,6 +81409,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "singleLine",
         "stroke",
         "strokeBoundsBuffer",
@@ -77939,6 +81514,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78036,6 +81614,19 @@
         "childrenPickable": {
           "type": "boolean"
         },
+        "cornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -78062,6 +81653,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "typeof": "function"
         },
         "id": {
           "type": "string"
@@ -78146,6 +81740,19 @@
         "repeatY": {
           "$ref": "#/definitions/IRepeatType"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -78171,6 +81778,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -78264,6 +81874,7 @@
         "boundsMode",
         "boundsPadding",
         "childrenPickable",
+        "cornerRadius",
         "cursor",
         "customPickShape",
         "direction",
@@ -78273,6 +81884,7 @@
         "fill",
         "fillOpacity",
         "height",
+        "html",
         "id",
         "image",
         "innerBorder",
@@ -78292,6 +81904,7 @@
         "postMatrix",
         "repeatX",
         "repeatY",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -78301,6 +81914,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
@@ -78401,6 +82015,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78458,6 +82075,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "typeof": "function"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -78506,6 +82126,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -78531,6 +82164,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "size": {
@@ -78637,6 +82273,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "html",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -78651,6 +82288,7 @@
         "pickMode",
         "pickable",
         "postMatrix",
+        "scaleCenter",
         "scaleX",
         "scaleY",
         "scaleZ",
@@ -78660,6 +82298,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "size",
         "stroke",
         "strokeBoundsBuffer",
@@ -78759,6 +82398,9 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78847,6 +82489,12 @@
             "number"
           ]
         },
+        "html": {
+          "typeof": "function"
+        },
+        "ignoreBuf": {
+          "type": "boolean"
+        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -78904,6 +82552,19 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "scaleCenter": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
         "scaleIn3d": {
           "type": "boolean"
         },
@@ -78932,6 +82593,9 @@
           "type": "number"
         },
         "shadowOffsetY": {
+          "type": "number"
+        },
+        "shadowRootIdx": {
           "type": "number"
         },
         "stroke": {
@@ -79060,6 +82724,8 @@
         "fontStyle",
         "fontVariant",
         "fontWeight",
+        "html",
+        "ignoreBuf",
         "innerBorder",
         "keepDirIn3d",
         "layout",
@@ -79077,6 +82743,7 @@
         "pickMode",
         "pickable",
         "postMatrix",
+        "scaleCenter",
         "scaleIn3d",
         "scaleX",
         "scaleY",
@@ -79087,6 +82754,7 @@
         "shadowColor",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
@@ -82615,8 +86283,10 @@
       "description": "text",
       "enum": [
         "center",
+        "end",
         "left",
-        "right"
+        "right",
+        "start"
       ],
       "type": "string"
     },
@@ -83211,7 +86881,7 @@
         }
       ]
     },
-    "VisualType<TextAlign>": {
+    "VisualType<TextAlignType>": {
       "anyOf": [
         {
           "$ref": "#/definitions/IVisualScale"
@@ -83220,20 +86890,22 @@
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,TextAlign>"
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,TextAlignType>"
         },
         {
           "enum": [
             "center",
+            "end",
             "left",
-            "right"
+            "right",
+            "start"
           ],
           "type": "string"
         }
       ],
       "description": "text"
     },
-    "VisualType<TextBaseLine>": {
+    "VisualType<TextBaselineType>": {
       "anyOf": [
         {
           "$ref": "#/definitions/IVisualScale"
@@ -83242,7 +86914,7 @@
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,TextBaseLine>"
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,TextBaselineType>"
         },
         {
           "enum": [

@@ -62,7 +62,7 @@ import { dataToDataView } from '../data/initialize';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { has, isFunction, isEmpty, isNil } from '@visactor/vutils';
+import { has, isFunction, isEmpty, isNil, isString } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
 import type { IGroupMark, IRunningConfig as IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar';
 import { CompilableBase } from '../compile/compilable-base';
@@ -156,7 +156,7 @@ export class BaseChart extends CompilableBase implements IChart {
     this._layoutTag = tag;
     if (this.getCompiler()?.getVGrammarView()) {
       this.getCompiler().getVGrammarView().updateLayoutTag();
-      tag && reLayout && this.getCompiler().reRenderAsync(morphConfig);
+      tag && reLayout && this.getCompiler().renderAsync(morphConfig);
     }
     return this._layoutTag;
   }
@@ -193,7 +193,7 @@ export class BaseChart extends CompilableBase implements IChart {
       getChartViewRect: () => this._viewRect,
       getChart: () => this,
       globalScale: this._globalScale,
-      onError: this._option.onError
+      onError: this._option?.onError
     };
     this._stack = new Stack(this);
     this._spec = spec;
@@ -233,10 +233,13 @@ export class BaseChart extends CompilableBase implements IChart {
     // TODO: to component
     // stack
     this._stack.init();
-    // this._stack.stackAll();
+    // data flow start
+    this.reDataFlow();
+  }
+
+  reDataFlow() {
     this._series.forEach(s => s.getRawData()?.markRunning());
     this._series.forEach(s => s.fillData());
-    // 此时 globalScale 已经生效组件可以获取到正确的映射
     this.updateGlobalScaleDomain();
   }
 
@@ -310,7 +313,7 @@ export class BaseChart extends CompilableBase implements IChart {
       } else {
         // 保证数据最终是 DataView 实例
         spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], {
-          onError: this._option.onError
+          onError: this._option?.onError
         });
       }
 
@@ -428,6 +431,24 @@ export class BaseChart extends CompilableBase implements IChart {
     return [].concat(this.getAllSeries(), this.getAllComponents(), this.getAllRegions());
   }
 
+  getModelInFilter(filter: string | { type: string; index: number } | ((model: IModel) => boolean)) {
+    if (isString(filter)) {
+      return this.getAllModels().find(m => m.userId === filter);
+    } else if (isFunction(filter)) {
+      return this.getAllModels().find(m => filter(m));
+    }
+    let index = 0;
+    return this.getAllModels().find(m => {
+      if (m.specKey === filter.type) {
+        if (index === filter.index) {
+          return true;
+        }
+        index++;
+      }
+      return false;
+    });
+  }
+
   createLayout() {
     this._updateLayoutRect(this._option.viewBox);
     this._initLayoutFunc();
@@ -452,7 +473,7 @@ export class BaseChart extends CompilableBase implements IChart {
       const layout = new (Factory.getLayout(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
         this._spec.layout,
         {
-          onError: this._option.onError
+          onError: this._option?.onError
         }
       );
       this._layoutFunc = layout.layoutItems.bind(layout);
@@ -701,7 +722,7 @@ export class BaseChart extends CompilableBase implements IChart {
   getSeriesData(id: StringOrNumber | undefined, index: number | undefined): DataView | undefined {
     if (!this._spec.data) {
       // 没有数据，报错处理
-      this._option.onError('no data in spec!');
+      this._option?.onError('no data in spec!');
       return null;
     }
 
@@ -716,7 +737,7 @@ export class BaseChart extends CompilableBase implements IChart {
       }
 
       // id不匹配，报错处理
-      this._option.onError(`no data matches dataId ${id}!`);
+      this._option?.onError(`no data matches dataId ${id}!`);
       return null;
     }
 
@@ -726,7 +747,7 @@ export class BaseChart extends CompilableBase implements IChart {
         return this._spec.data[index];
       }
       // index不匹配，报错处理
-      this._option.onError(`no data matches dataIndex ${index}!`);
+      this._option?.onError(`no data matches dataIndex ${index}!`);
       return null;
     }
 

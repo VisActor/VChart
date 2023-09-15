@@ -196,7 +196,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     }
   }
 
-  boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
+  _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
     if (!this._visible) {
       return { x1: 0, y1: 0, x2: 0, y2: 0 };
     }

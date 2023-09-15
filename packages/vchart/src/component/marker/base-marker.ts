@@ -1,8 +1,7 @@
 import type { DataView } from '@visactor/vdataset';
-import { array, isFunction } from '@visactor/vutils';
+import { array } from '@visactor/vutils';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IOptionAggr } from '../../data/transforms/aggregation';
-import type { IOptionRegr } from '../../data/transforms/regression';
 import type { IModelRenderOption } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
 import type { IRegion } from '../../region/interface';
@@ -33,52 +32,48 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
     this._initDataView();
   }
 
-  private _isSpecAggrOrRege(spec: IDataPos) {
-    return spec === 'regression' || AGGR_TYPE.includes(spec as any);
+  private _isSpecAggr(spec: IDataPos | IDataPosCallback) {
+    return AGGR_TYPE.includes(spec as any);
+  }
+
+  private _getAllRelativeSeries() {
+    return {
+      getRelativeSeries: () => this._relativeSeries,
+      getStartRelativeSeries: () => this._startRelativeSeries,
+      getEndRelativeSeries: () => this._endRelativeSeries
+    };
   }
 
   protected _processSpecX(specX: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
     let processType: IAggrType | IRegressType;
-    if (isFunction(specX)) {
-      specX = specX(
-        this._relativeSeries.getData().getLatestData(),
-        this._startRelativeSeries.getData().getLatestData(),
-        this._endRelativeSeries.getData().getLatestData()
-      );
-    }
-    if (this._isSpecAggrOrRege(specX)) {
+    if (this._isSpecAggr(specX)) {
       processType = specX as unknown as IAggrType;
       return {
         x: {
           field: relativeSeries.getSpec().xField,
           aggrType: processType
-        }
+        },
+        ...this._getAllRelativeSeries()
       };
     }
-    return { x: specX };
+    return { x: specX, ...this._getAllRelativeSeries() };
   }
 
   protected _processSpecY(specY: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
     let processType: IAggrType | IRegressType;
-    if (isFunction(specY)) {
-      specY = specY(
-        this._relativeSeries.getData().getLatestData(),
-        this._startRelativeSeries.getData().getLatestData(),
-        this._endRelativeSeries.getData().getLatestData()
-      );
-    }
-    if (this._isSpecAggrOrRege(specY)) {
+    if (this._isSpecAggr(specY)) {
       processType = specY as unknown as IAggrType;
       return {
         y: {
           field: relativeSeries.getSpec().yField,
           aggrType: processType
-        }
+        },
+        ...this._getAllRelativeSeries()
       };
     }
-    return { y: specY };
+    return { y: specY, ...this._getAllRelativeSeries() };
   }
 
   protected _processSpecCoo(spec: any) {
@@ -91,14 +86,18 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
 
       const { xField, yField } = refRelativeSeries.getSpec();
       const { [xField]: coordinateX, [yField]: coordinateY } = coordinate;
-      const option: IOptionAggr | IOptionRegr = { x: null, y: null };
-      if (this._isSpecAggrOrRege(coordinateX)) {
+      const option: IOptionAggr = {
+        x: undefined,
+        y: undefined,
+        ...this._getAllRelativeSeries()
+      };
+      if (this._isSpecAggr(coordinateX)) {
         option.x = { field: xField, aggrType: coordinateX as IAggrType };
       } else {
         option.x = coordinateX;
       }
 
-      if (this._isSpecAggrOrRege(coordinateY)) {
+      if (this._isSpecAggr(coordinateY)) {
         option.y = { field: yField, aggrType: coordinateY as IAggrType };
       } else {
         option.y = coordinateY;
@@ -188,7 +187,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         }
       }
     }
-    this._option.onError('need at least one series');
+    this._option?.onError('need at least one series');
     return null;
   }
 

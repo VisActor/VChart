@@ -12,10 +12,10 @@ import type { AdaptiveSpec, IOrientType, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import type { IBaseScale } from '@visactor/vscale';
+import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
-import type { CartesianAxis } from '../axis/cartesian';
+import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
 import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -28,6 +28,7 @@ import type { BaseEventParams } from '../../event/interface';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 // eslint-disable-next-line no-duplicate-imports
 import { Zoomable } from '../../interaction/zoom/zoomable';
+import type { AbstractComponent } from '@visactor/vrender-components';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
@@ -35,8 +36,16 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 {
   layoutType: LayoutItem['layoutType'] = 'region-relative';
 
+  protected _component: AbstractComponent;
+
   protected _orient: IOrientType = 'left';
   protected _isHorizontal: boolean;
+
+  // 是否为自动模式
+  protected _auto?: boolean;
+  protected _fixedBandSize?: number;
+  protected _cacheRect?: ILayoutRect;
+  protected _cacheVisibility?: boolean;
 
   get orient() {
     return this._orient;
@@ -101,15 +110,23 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   effect: IEffect = {
     onZoomChange: () => {
       if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
-        const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
+        const axisScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
+        const axisSpec = (this._relatedAxisComponent as CartesianAxis<any>).getSpec() as ICartesianBandAxisSpec;
+        if (this._auto) {
+          // 提前更改 scale
+          axisScale.range(this._stateScale?.range(), true);
+        }
         // 轴的range有时是相反的
         // 比如相同的region范围, 有的场景range为[0, 500], 有的场景range为[500, 0]
         // 而datazoom/scrollbar的range是根据布局强制转化为[0, 500]
         // 所以这里在转换时进行判断并做转置, 有待优化
 
-        (scale as any).rangeFactor(
-          scale.range()[0] < scale.range()[1] ? [this._start, this._end] : [1 - this._end, 1 - this._start]
-        );
+        // 轴在inverse时，也要做专置处理
+        const newRangeFactor: [number, number] =
+          axisScale.range()[0] < axisScale.range()[1] || axisSpec.inverse
+            ? [this._start, this._end]
+            : [1 - this._end, 1 - this._start];
+        axisScale.rangeFactor(newRangeFactor);
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
         eachSeries(
@@ -400,15 +417,15 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return (pos - range[0]) / (range[1] - range[0]);
   }
 
-  protected _modeCheck(statePoint: string, mode: string): any {
+  protected _modeCheck(statePoint: 'start' | 'end', mode: string): any {
     if (statePoint === 'start') {
       return (mode === 'percent' && this._spec.start) || (mode === 'value' && this._spec.startValue);
-    } else if (statePoint === 'end') {
-      return (mode === 'percent' && this._spec.end) || (mode === 'value' && this._spec.endValue);
     }
+    return (mode === 'percent' && this._spec.end) || (mode === 'value' && this._spec.endValue);
   }
 
   protected _setStateFromSpec() {
+    this._auto = !!this._spec.auto;
     let start;
     let end;
     if (this._spec.rangeMode) {
@@ -572,6 +589,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   ) => {
     const { zoomDelta } = params;
     const delta = Math.abs(this._start - this._end);
+    // FIXME: 后续开放配置控制灵敏度
+    const ZOOM_RATE = 0.15;
 
     if (delta >= 1 && zoomDelta > 1) {
       return;
@@ -580,7 +599,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (delta <= 0.01 && zoomDelta < 1) {
       return;
     }
-    const value = (delta * (zoomDelta - 1)) / 2;
+    const value = (delta * (zoomDelta - 1) * ZOOM_RATE) / 2;
     const start = clamp(this._start - value, 0, 1);
     const end = clamp(this._end + value, 0, 1);
 
@@ -626,7 +645,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
    * @param rect
    * @returns
    */
-  boundsInRect(rect: ILayoutRect): IBoundsLike {
+  _boundsInRect(rect: ILayoutRect): IBoundsLike {
+    const isShown = this._autoUpdate(rect);
+    if (!isShown) {
+      return { x1: 0, y1: 0, x2: 0, y2: 0 };
+    }
+
     const result: IBoundsLike = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };
 
     if (this._isHorizontal) {
@@ -637,6 +661,71 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       result.y2 = result.y1 + rect.height;
     }
     return result;
+  }
+
+  hide() {
+    this._component?.hideAll();
+  }
+
+  show() {
+    this._component?.showAll();
+  }
+
+  protected _autoUpdate(rect?: ILayoutRect): boolean {
+    if (!this._auto) {
+      return true;
+    }
+    const axisSpec = this._relatedAxisComponent?.getSpec() as ICartesianBandAxisSpec | undefined;
+    const bandSize = axisSpec?.bandSize;
+    const maxBandSize = axisSpec?.maxBandSize;
+    const minBandSize = axisSpec?.minBandSize;
+    if (
+      rect?.height === this._cacheRect?.height &&
+      rect?.width === this._cacheRect?.width &&
+      this._fixedBandSize === bandSize
+    ) {
+      return this._cacheVisibility;
+    }
+    this._cacheRect = rect;
+    let isShown = true;
+    const scale = this._stateScale as BandScale;
+    scale.range(this._isHorizontal ? [0, rect.width] : axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
+    if (isDiscrete(scale.type)) {
+      if (bandSize || minBandSize || maxBandSize) {
+        if (this._start || this._end) {
+          scale.rangeFactor([this._start, this._end], true);
+        }
+        if (bandSize) {
+          scale.bandwidth(bandSize, true);
+        }
+        if (maxBandSize) {
+          scale.maxBandwidth(maxBandSize, true);
+        }
+        if (minBandSize) {
+          scale.minBandwidth(minBandSize, true);
+        }
+        scale.rescale(false);
+        let [start, end] = scale.rangeFactor();
+        if ((!start && !end) || !scale.isBandwidthFixed()) {
+          start = 0;
+          end = 1;
+          this.hide();
+          isShown = false;
+        } else {
+          if (start === 0 && end === 1) {
+            this.hide();
+            isShown = false;
+          } else {
+            this.show();
+          }
+        }
+        this._start = start;
+        this._end = end;
+      }
+    }
+    this.setStartAndEnd(this._start, this._end);
+    this._cacheVisibility = isShown;
+    return isShown;
   }
 }
 

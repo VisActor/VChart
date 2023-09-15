@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: add vchart to context in params of mark function style\n\n",
+      "type": "patch",
+      "packageName": "@visactor/vutils-extension"
+    }
+  ],
+  "packageName": "@visactor/vutils-extension",
+  "email": "lixuef1313@163.com"
+}

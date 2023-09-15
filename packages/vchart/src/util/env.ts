@@ -1,7 +1,7 @@
 import type { RenderMode } from '../typings/spec';
 
 export const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
-export const domDocument = isBrowser && globalThis.document;
+export const domDocument = isBrowser ? globalThis.document : undefined;
 
 // Taro 会模拟实现 DOM，所以还是加上 mode 的判断
 export function isTrueBrowser(mode: RenderMode): boolean {
@@ -17,5 +17,5 @@ export function isMobileLikeMode(mode: RenderMode) {
 }
 
 export function isMiniAppLikeMode(mode: RenderMode) {
-  return mode.includes('miniApp') || mode === 'lynx';
+  return mode.includes('miniApp') || mode === 'lynx' || mode === 'wx';
 }

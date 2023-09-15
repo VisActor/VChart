@@ -156,6 +156,12 @@ The default value is `20`.
 Guide line line2 part minimum length.
 The default value is `10`.
 
+###${prefix} smooth(boolean)
+
+Whether the guide line is smooth.
+The default value is `false`.
+Supported since version 1.4.0.
+
 {{ use: common-mark(
   prefix = '##' + ${prefix}
 ) }}

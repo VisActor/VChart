@@ -361,7 +361,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         stroke: rectStroke,
         ...rectStyle
       },
-      zIndex: this.labelZIndex
+      zIndex: this.labelZIndex,
+      childrenPickable: false,
+      pickable: false
     };
 
     return hair;

@@ -4,7 +4,7 @@ import { isNil, isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
-import type { IOptionAggrs } from '../../../data/transforms/aggregation';
+import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
 import { xLayout, yLayout, coordinateLayout } from '../utils';
@@ -75,7 +75,8 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
           visible: this._spec.label?.labelBackground?.visible ?? true
         },
         textStyle: transformToGraphic(this._spec.label?.style)
-      }
+      },
+      clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markArea;
     this._markerComponent.name = 'markArea';
@@ -94,8 +95,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
     const isYLayout = isValid(spec.y) && isValid(spec.y1);
     const isCoordinateLayout = isValid(spec.coordinates);
     const isPositionLayout = isValid(spec.positions);
-    const autoRange = spec?.autoRange ?? false;
-    const isNeedClip = spec?.clip ?? false;
+    const autoRange = spec.autoRange ?? false;
 
     let points: IPointLike[] = [];
     let lines: [IPointLike, IPointLike][] = [];
@@ -112,29 +112,33 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
     }
 
     const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-    let clipRange;
-    if (isNeedClip) {
+
+    let limitRect;
+    if (spec.clip || spec.label?.confine) {
       const { minX, maxX, minY, maxY } = this._computeClipRange([
         startRelativeSeries.getRegion(),
         endRelativeSeries.getRegion(),
         relativeSeries.getRegion()
       ]);
-      clipRange = {
+      limitRect = {
         x: minX,
         y: minY,
         width: maxX - minX,
         height: maxY - minY
       };
     }
+
     this._markerComponent?.setAttributes({
       points: points,
       label: {
-        ...this._markerComponent.attribute?.label,
+        ...this._markerComponent?.attribute?.label,
         text: this._spec.label.formatMethod
-          ? this._spec.label.formatMethod(dataPoints)
-          : this._markerComponent.attribute?.label?.text
+          ? this._spec.label.formatMethod(dataPoints, this._relativeSeries.getViewData().latestData)
+          : this._markerComponent?.attribute?.label?.text
       },
-      clipRange
+      limitRect,
+      dx: this.layoutOffsetX,
+      dy: this.layoutOffsetY
     });
   }
 
@@ -148,7 +152,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       return null;
     }
 
-    let options: IOptionAggrs | IOptionRegr;
+    let options: IOptionAggr[];
 
     registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
     registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);

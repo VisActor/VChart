@@ -1,13 +1,46 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 05 Sep 2023 11:24:47 GMT and should not be manually modified.
+This log was last generated on Thu, 14 Sep 2023 12:36:21 GMT and should not be manually modified.
+
+## 1.3.2
+Thu, 14 Sep 2023 12:36:21 GMT
+
+### Patches
+
+- fix: fix the issue of animation config not work in common chart, related #814
+
+### Updates
+
+- feat: the setDimensionIndex api supports deselecting ability by passing in null
+
+
+- feat: use precision calculations in waterfall charts to avoid unexpected values for labels, details in #721
+
+
+- fix(log-axis): log scale has no result about zero when bar stack has a zero baseline value. fix #634
+- fix: fix the user event listener becomes invalid after updateSpec
+
+
+- fix: fix bug of series mark static style are not updated when updateSpec
+
+
+- fix: fix bug data fields are not updated when updateSpec, details in #829
+
+
+- feat(scrollBar): interactive default config.
+- perf: optimize the performance of dimension-statistics
+
+
+- perf: only calculate dimensionTree when need
+
+
 
 ## 1.3.1
 Tue, 05 Sep 2023 11:24:47 GMT
 
 ### Patches
 
-- fix: fix the issue of `seriesIndex` not work in discrete legend, see #732 
+- fix: fix the issue of `seriesIndex` not work in discrete legend, see #732
 
 ### Updates
 
@@ -167,7 +200,7 @@ Thu, 10 Aug 2023 05:23:25 GMT
 - feat: dimension tooltip supports linear axis
 
 
-- feat: filling full data to map mark data in #420 
+- feat: filling full data to map mark data in #420
 - feat(background): support background of chart & series
 - feat(onError): support configuration of onerror in chart instance initoption
 - feat: supplement sync methods in vchart instance
@@ -341,11 +374,11 @@ Wed, 26 Jul 2023 03:18:52 GMT
 - fix(label): pickable shoule be false if label component is configured `interactive: false`
 - fix the layoutOffsetX|Y not work in normal items
 - fix: line mark has a different easing in update animation causes strange animation effect
-- fix: `channel` config not work in animation 
+- fix: `channel` config not work in animation
 - No longer requires to hold down the Ctrl key for zoom interaction & fix zoomLimit bug
 - fix: default tooltip handler needs to adapt to the scale property
 - fix(vchart): export IRegionSpec from VChart
-- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series 
+- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series
 - fix: compact window variable for non-browser env
 - fix: compact window variable for non-browser env
 

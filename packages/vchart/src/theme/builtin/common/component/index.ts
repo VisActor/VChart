@@ -20,6 +20,7 @@ import { title } from './title';
 import { tooltip } from './tooltip';
 import { poptip } from './poptip';
 import { totalLabel } from './total-label';
+import { scrollBar } from './scroll-bar';
 
 export const component: IComponentTheme = {
   discreteLegend,
@@ -44,5 +45,6 @@ export const component: IComponentTheme = {
   title,
   mapLabel,
   poptip,
-  totalLabel
+  totalLabel,
+  scrollBar
 };

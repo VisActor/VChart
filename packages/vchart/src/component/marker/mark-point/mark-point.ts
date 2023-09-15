@@ -75,7 +75,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
         },
         richTextStyle: this._spec.itemContent?.richText?.style,
         ...this._spec.itemContent
-      }
+      },
+      clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markPoint;
     this._markerComponent.name = 'markPoint';
@@ -90,7 +91,6 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
     const isCoordinateLayout = 'coordinate' in spec;
     const isPositionLayout = 'position' in spec;
     const autoRange = spec?.autoRange ?? false;
-    const isNeedClip = spec?.clip ?? false;
 
     let point: IPointLike;
     if (isCoordinateLayout) {
@@ -100,28 +100,32 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
     }
 
     const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-    let clipRange;
-    if (isNeedClip) {
+
+    let limitRect;
+    if (spec.clip) {
       const { minX, maxX, minY, maxY } = this._computeClipRange([relativeSeries.getRegion()]);
-      clipRange = {
+      limitRect = {
         x: minX,
         y: minY,
         width: maxX - minX,
         height: maxY - minY
       };
     }
+
     this._markerComponent?.setAttributes({
       position: point,
       itemContent: {
-        ...this._markerComponent.attribute?.itemContent,
+        ...this._markerComponent?.attribute?.itemContent,
         textStyle: {
-          ...this._markerComponent.attribute?.itemContent?.textStyle,
+          ...this._markerComponent?.attribute?.itemContent?.textStyle,
           text: this._spec.itemContent.text?.formatMethod
-            ? this._spec.itemContent.text.formatMethod(dataPoints)
-            : this._markerComponent.attribute?.itemContent?.textStyle?.text
+            ? this._spec.itemContent.text.formatMethod(dataPoints, this._relativeSeries.getViewData().latestData)
+            : this._markerComponent?.attribute?.itemContent?.textStyle?.text
         }
       },
-      clipRange
+      limitRect,
+      dx: this.layoutOffsetX,
+      dy: this.layoutOffsetY
     });
   }
 

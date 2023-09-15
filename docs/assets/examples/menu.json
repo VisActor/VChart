@@ -890,8 +890,29 @@
         {
           "path": "gauge-progress",
           "title": {
-            "zh": "使用circularProgress声明仪表图",
-            "en": "使用circularProgress声明仪表图"
+            "zh": "使用circularProgress系列声明仪表图",
+            "en": "Gauge Chart with CircularProgress Series"
+          }
+        },
+        {
+          "path": "gauge-segment",
+          "title": {
+            "zh": "使用gauge系列声明仪表图",
+            "en": "Gauge Chart with Gauge Series"
+          }
+        },
+        {
+          "path": "gauge-progress-tick",
+          "title": {
+            "zh": "tick模式仪表图",
+            "en": "Gauge Chart with Tick Mask"
+          }
+        },
+        {
+          "path": "gauge-segment-tick",
+          "title": {
+            "zh": "tick模式分段仪表图",
+            "en": "Segmented Gauge Chart with Tick Mask"
           }
         }
       ]
@@ -1373,7 +1394,14 @@
           "path": "axis-sync",
           "title": {
             "zh": "多轴 tick 同步",
-            "en": "axis tick sync"
+            "en": "Axis tick sync"
+          }
+        },
+        {
+          "path": "axis-band-size",
+          "title": {
+            "zh": "固定组宽并自动出现滚动条",
+            "en": "Axis fixed bandSize and auto scroll bar"
           }
         }
       ]

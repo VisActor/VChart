@@ -2,6 +2,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IComponent } from '../../../interface';
 import type { IPoint, IPolarOrientType, IPolarPoint } from '../../../../typings';
 import type { IGrid } from '../../interface';
+import type { ICompilableData } from '../../../../compile/data';
 
 export type IPolarGrid = IGrid & {
   /**
@@ -35,6 +36,7 @@ export interface IPolarAxis extends IComponent {
   getInnerRadius: () => number;
   dataToPosition: (values: any[]) => number;
   positionToData: (position: IPoint) => any;
+  getTickData: () => ICompilableData;
   // 将半径和角度转换为笛卡尔坐标点
   coordToPoint: (point: IPolarPoint) => IPoint;
   pointToCoord: (point: IPoint) => IPolarPoint;

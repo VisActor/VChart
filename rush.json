@@ -53,10 +53,22 @@
       "versionPolicyName": "vchartMain"
     },
     {
+      "packageName": "@visactor/wx-vchart",
+      "projectFolder": "packages/wx-vchart",
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
+    },
+    {
       "packageName": "@visactor/vchart-schema",
       "projectFolder": "packages/vchart-schema",
       "shouldPublish": true,
       "versionPolicyName": "vchartMain"
+    },
+    {
+      "packageName": "@visactor/vutils-extension",
+      "projectFolder": "packages/vutils-extension",
+      "tags": ["package"],
+      "shouldPublish": true
     },
     {
       "packageName": "@visactor/tt-vchart",

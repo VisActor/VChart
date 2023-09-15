@@ -37,6 +37,9 @@ export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
   /** 缩略轴选择区域颜色 */
   dataZoomSelectedColor: string;
 
+  /** 滚动条滑块颜色 */
+  scrollBarSliderColor: string;
+
   /** 提示信息背景区域颜色 */
   tooltipBackgroundColor: string;
 
