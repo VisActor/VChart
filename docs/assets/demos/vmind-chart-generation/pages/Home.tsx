@@ -19,7 +19,7 @@ export function Home() {
         resizeDirections={['right']}
         style={{
           height: '100%',
-          minWidth: 300
+          minWidth: 400
         }}
       >
         <LeftInput
