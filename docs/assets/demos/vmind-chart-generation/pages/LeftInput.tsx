@@ -40,7 +40,7 @@ export function LeftInput(props: IPropsType) {
     const vmind = new VMind(openAIKey!);
 
     const { spec, time } = await vmind.generateChart(csv, describe);
-    props.onSpecGenerate(spec, time as any);
+    props.onSpecGenerate(spec, time);
     setLoading(false);
   }, [describe, csv, openAIKey]);
 
