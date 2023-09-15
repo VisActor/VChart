@@ -81,7 +81,7 @@ export function LeftInput(props: IPropsType) {
           placeholder={describe}
           defaultValue={describe}
           onChange={v => setDescribe(v)}
-          style={{ minHeight: 160 }}
+          style={{ minHeight: 120 }}
         />
       </div>
 
