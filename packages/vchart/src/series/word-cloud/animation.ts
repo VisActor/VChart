@@ -1,4 +1,4 @@
-import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar';
+import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import { RotateBySphereAnimate } from '@visactor/vrender';
 
 export interface IWordcloud3dAnimationParams {

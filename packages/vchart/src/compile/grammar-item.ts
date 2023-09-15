@@ -1,4 +1,4 @@
-import type { IGrammarBase } from '@visactor/vgrammar';
+import type { IGrammarBase } from '@visactor/vgrammar-core';
 import type { Maybe } from '../typings';
 import { createID, isValid } from '../util';
 import { CompilableBase } from './compilable-base';

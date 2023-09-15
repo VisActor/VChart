@@ -1,4 +1,4 @@
-import type { Datum } from '@visactor/vgrammar';
+import type { Datum } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 
 export interface IDimensionTreeOpt {

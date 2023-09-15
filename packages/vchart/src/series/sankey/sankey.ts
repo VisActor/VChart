@@ -27,7 +27,7 @@ import { Bounds } from '@visactor/vutils';
 import type { ISankeyAnimationParams } from './animation';
 import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
-import type { IElement, IGlyphElement } from '@visactor/vgrammar';
+import type { IElement, IGlyphElement } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { array, isNil } from '../../util';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';

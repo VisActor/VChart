@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import { TagPointsUpdate } from '@visactor/vrender';
-import type { IElement } from '@visactor/vgrammar';
+import type { IElement } from '@visactor/vgrammar-core';
 import type { AreaAppearPreset, IAreaAnimationParams } from '../series/area/animation';
 import { areaPresetAnimation } from '../series/area/animation';
 import type { BarAppearPreset, IBarAnimationParams } from '../series/bar/animation';

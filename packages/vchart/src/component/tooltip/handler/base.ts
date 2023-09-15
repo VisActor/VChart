@@ -36,7 +36,7 @@ import { getTextAttributes } from './utils/style';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isNumber, isObject, isValidNumber } from '@visactor/vutils';
-import type { IElement } from '@visactor/vgrammar';
+import type { IElement } from '@visactor/vgrammar-core';
 import type { IModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-components';

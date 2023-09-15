@@ -1,6 +1,6 @@
-import type { IGroupMark } from '@visactor/vgrammar';
+import type { IGroupMark } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
-import { GrammarMarkType } from '@visactor/vgrammar';
+import { GrammarMarkType } from '@visactor/vgrammar-core';
 import type { ICommonSpec } from '../typings';
 import { BaseMark } from './base/base-mark';
 import type { IMarkOption, IMarkRaw } from './interface';

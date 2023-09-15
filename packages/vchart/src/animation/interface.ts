@@ -1,4 +1,4 @@
-export type { MarkAnimationSpec } from '@visactor/vgrammar';
+export type { MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { ICompilable } from '../compile/interface';
 
 export enum AnimationStateEnum {

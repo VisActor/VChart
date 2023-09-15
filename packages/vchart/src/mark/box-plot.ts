@@ -1,8 +1,8 @@
 import type { IBoxPlotMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IGroupMark } from '@visactor/vgrammar';
+import type { IGroupMark } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
-import { registerBarBoxplotGlyph, registerBoxplotGlyph } from '@visactor/vgrammar';
+import { registerBarBoxplotGlyph, registerBoxplotGlyph } from '@visactor/vgrammar-core';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';

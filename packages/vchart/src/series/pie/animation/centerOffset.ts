@@ -1,4 +1,4 @@
-import type { IAnimationTimeline, IAnimationTypeConfig } from '@visactor/vgrammar';
+import type { IAnimationTimeline, IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { isValidNumber, polarToCartesian } from '../../../util';
 import { ARC_MIDDLE_ANGLE } from '../../../constant';
 import type { IArcMark } from '../../../mark/arc';
