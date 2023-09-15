@@ -11,7 +11,8 @@ export class BaseHistogramChart extends CartesianChart {
     return {
       ...super._getDefaultSeriesSpec(spec),
       x2Field: spec?.x2Field,
-      y2Field: spec?.y2Field
+      y2Field: spec?.y2Field,
+      barMinHeight: spec?.barMinHeight
     };
   }
 }
