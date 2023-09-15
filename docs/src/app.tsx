@@ -5,6 +5,7 @@ import menu from '../menu.json';
 import { Markdown } from './markdown';
 import { Option } from './option';
 import { Demo } from './demo';
+import { VMind } from './vmind';
 
 const menuRoutes: RouteObject[] = menu.map(menuItem => {
   if (menuItem.type === 'markdown-template') {
@@ -28,6 +29,12 @@ const menuRoutes: RouteObject[] = menu.map(menuItem => {
           element: <Demo />
         }
       ]
+    };
+  } else if (menuItem.type === 'VMind') {
+    return {
+      path: `/vchart/${menuItem.menu}`,
+
+      element: <VMind />
     };
   }
   return {

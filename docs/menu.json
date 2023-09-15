@@ -23,11 +23,11 @@
     "demos": [
       { "title": { "zh": "图表简史", "en": "Chart History" }, "path": "chart-history/index.html" },
       { "title": { "zh": "内置主题", "en": "Builtin Themes" }, "path": "builtin-theme/index.html" },
-      { "title": { "zh": "七夕叙事模板", "en": "Qixi Love Story" }, "path": "qixi/index.html" },
-      {
-        "title": { "zh": "VMind图表智能生成", "en": "VMind Chart Generation" },
-        "path": "vmind-chart-generation/index.html"
-      }
+      { "title": { "zh": "七夕叙事模板", "en": "Qixi Love Story" }, "path": "qixi/index.html" }
     ]
+  },
+  {
+    "menu": "VMind Chart Generator",
+    "type": "VMind"
   }
 ]

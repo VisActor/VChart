@@ -17,7 +17,7 @@ importers:
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.3.2
       '@visactor/vgrammar': ~0.6.6
-      '@visactor/vmind': 1.0.4
+      '@visactor/vmind': 1.0.6-alpha.1
       '@visactor/vrender': ~0.14.8
       '@visactor/vutils': ~0.15.14
       '@vitejs/plugin-react': 3.1.0
@@ -43,7 +43,7 @@ importers:
       '@arco-design/web-react': 2.46.1_vnxzf5c44dqo4vncfl2mrh2gwm
       '@visactor/vchart': link:../packages/vchart
       '@visactor/vgrammar': 0.6.6
-      '@visactor/vmind': 1.0.4_zek35pddvdjy2zglnyjcvmb6jq
+      '@visactor/vmind': 1.0.6-alpha.1_7i2a3jlfudjwv4qjzxr3uxbiwi
       '@visactor/vrender': 0.14.8
       '@visactor/vutils': 0.15.14
       axios: 1.5.0
@@ -4432,16 +4432,14 @@ packages:
       '@visactor/vutils': 0.15.14
     dev: false
 
-  /@visactor/vmind/1.0.4_zek35pddvdjy2zglnyjcvmb6jq:
-    resolution: {integrity: sha512-qkqyZSv5O+tOUviozoCKLCOWuqS+Shx6Wbbrzcdis+0CM7Z4rfGSpchxtWwYKtpHOB90cuV7pd4r6EFg5k+QKA==}
+  /@visactor/vmind/1.0.6-alpha.1_7i2a3jlfudjwv4qjzxr3uxbiwi:
+    resolution: {integrity: sha512-LnC22s1TpRhTJMx2k0MkiOV8AQDVS8efS6w8E/VGCUMz2zKjK69XFFuzET0tYQtaB1iAnx5o1/e5hNu1upJdTA==}
     peerDependencies:
       '@arco-design/web-react': ^2.48.1
-      '@visactor/vchart': 1.2.0
     dependencies:
       '@arco-design/web-react': 2.46.1_vnxzf5c44dqo4vncfl2mrh2gwm
       '@ffmpeg/core': 0.11.0
       '@ffmpeg/ffmpeg': 0.11.6
-      '@visactor/vchart': link:../../packages/vchart
       axios: 1.5.0
       exceljs: 4.3.0
       react: 17.0.2

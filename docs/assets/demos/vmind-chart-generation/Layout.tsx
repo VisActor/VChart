@@ -4,12 +4,12 @@ import { PageHeader, Button, Layout } from '@arco-design/web-react';
 export function LayoutWrap(props: any) {
   return (
     <Layout style={{ height: '100%' }}>
-        <PageHeader
-          style={{ background: 'var(--color-bg-2)', borderBottom: '1px solid #eee' }}
-          title='VChart Video'
-          subTitle='every word, every story'
-        />
-        {props.children}
+      <PageHeader
+        style={{ background: 'var(--color-bg-2)', borderBottom: '1px solid #eee' }}
+        title="VMind Playground"
+        subTitle="every word, every story"
+      />
+      {props.children}
     </Layout>
-  )
+  );
 }

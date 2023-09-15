@@ -2,7 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import './index.scss';
 import { Button, Input, Card, Space, Modal, Spin } from '@arco-design/web-react';
 import { defaultTicker } from '@visactor/vrender';
-import { default as VChart } from '@visactor/vchart';
+import VChart from '@visactor/vchart';
+
 import VMind from '@visactor/vmind';
 const TextArea = Input.TextArea;
 
@@ -32,7 +33,7 @@ function downloadVideo(link: string, filename: string = 'out') {
 }
 
 export function RightChart(props: IPropsType) {
-  const [chartSpace, setChartSpace] = useState<VChart | null>(null);
+  const [chartSpace, setChartSpace] = useState<any | null>(null);
   const [generating, setGenerating] = useState<boolean>(false);
   const [outType, setOutType] = useState<'gif' | 'video' | ''>('');
   const [src, setSrc] = useState('');
@@ -55,7 +56,7 @@ export function RightChart(props: IPropsType) {
     }
     setGenerating(true);
     const vmind = new VMind(openAIKey!);
-    const src = await vmind.exportVideo(spec, time);
+    const src = await vmind.exportVideo(spec, time, VChart);
     setSrc(src);
     setOutType('video');
     setGenerating(false);
@@ -68,7 +69,7 @@ export function RightChart(props: IPropsType) {
     }
     setGenerating(true);
     const vmind = new VMind(openAIKey!);
-    const src = await vmind.exportGIF(spec, time);
+    const src = await vmind.exportGIF(spec, time, VChart);
     setSrc(src);
     setOutType('gif');
     setGenerating(false);
@@ -76,7 +77,6 @@ export function RightChart(props: IPropsType) {
   }, [props.spec, props.time]);
 
   useEffect(() => {
-    defaultTicker.mode = 'raf';
     const { spec, time } = props;
     if (!time || !spec) {
       return;
@@ -84,16 +84,17 @@ export function RightChart(props: IPropsType) {
     let cs = chartSpace;
     if (!cs) {
       cs = new VChart(spec, {
-        dom: 'chart',
+        dom: 'vmind-chart',
         mode: 'desktop-browser',
         dpr: 2,
         disableDirtyBounds: true
       });
+      defaultTicker.mode = 'raf';
       setChartSpace(cs);
     } else {
       cs.updateSpec(props.spec);
     }
-    //cs.renderAsync();
+    cs.renderAsync();
   }, [props.spec, props.time]);
 
   return (
@@ -144,7 +145,7 @@ export function RightChart(props: IPropsType) {
             </Space>
           </div>
           <div className="right-chart-content">
-            <div id="chart"></div>
+            <div id="vmind-chart"></div>
           </div>
         </Card>
       </Spin>
