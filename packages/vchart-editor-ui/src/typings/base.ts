@@ -6,11 +6,21 @@ import type {
   IInputComponentConfig,
   ISelectComponentConfig,
   ISliderNumberComponentConfig,
+  ISwitchComponentConfig,
   ITextAlignComponentConfig
 } from './config';
 
 export interface IPanelTitleProps {
   label: string;
+}
+
+export interface IEditorHeaderProps {
+  label: string;
+  checked?: boolean;
+  collapsed?: boolean;
+  onCheck?: () => void;
+  onCollapse?: () => void;
+  onRefresh?: () => void;
 }
 
 export interface IBaseComponentProps<Config extends IBaseComponentConfig> {
@@ -25,6 +35,10 @@ export interface IBaseInputComponentProps extends IBaseComponentProps<IInputComp
 
 export interface IBaseSelectComponentProps extends IBaseComponentProps<ISelectComponentConfig> {
   value: string;
+}
+
+export interface IBaseSwitchComponentProps extends IBaseComponentProps<ISwitchComponentConfig> {
+  value: boolean;
 }
 
 export interface IBaseSliderNumberComponentProps extends IBaseComponentProps<ISliderNumberComponentConfig> {
