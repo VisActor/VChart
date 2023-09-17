@@ -6,6 +6,7 @@ import type {
   IInputComponentConfig,
   ISelectComponentConfig,
   ISliderNumberComponentConfig,
+  ISwitchComponentConfig,
   ITextAlignComponentConfig
 } from '../typings/config';
 import type { ITitleComponentEntries, ITitleComponentProps } from '../typings/components';
@@ -18,14 +19,27 @@ import { titleDefaultProps } from '../config/editor';
 import { Color } from '../base/color';
 import { TextAlign } from '../base/text-align';
 import { Select } from '../base/select';
+import { Switch } from '../base/switch';
+import { EditorHeader } from '../base/editor-header';
+import { useState } from 'react';
 
 function generateTitleEntries(
   section: 'title' | 'subTitle',
-  entries: ITitleComponentEntries['title']['entries'],
+  entries: ITitleComponentEntries['subTitle']['entries'],
   onChange: (entryType: string, key: string, value: any) => void
 ) {
   return entries.map((entry, index) => {
     switch (entry.key) {
+      case 'display':
+        return (
+          <Switch
+            key={`${entry.key}-${index}`}
+            label={entry.label}
+            value={false}
+            onChange={(value: number) => onChange(section, 'display', value)}
+            config={entry as ISwitchComponentConfig}
+          />
+        );
       case 'text':
         return (
           <Input
@@ -123,25 +137,31 @@ export function Title(props: ITitleComponentProps) {
   const label = props.label ?? titleDefaultProps.label;
   const entries = props.sections ?? titleDefaultProps.sections;
 
+  const [collapsed, setCollapsed] = useState<boolean>(false);
+
   return (
     <div>
-      <p>{label}</p>
-      {entries.title ? (
+      <EditorHeader label={label} collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)} />
+      {!collapsed ? (
         <>
-          {!isNil(entries.title.label) ? <PanelTitle label={entries.title.label} /> : null}
-          {generateTitleEntries('title', entries.title.entries, onChange)}
-        </>
-      ) : null}
-      {entries.subTitle ? (
-        <>
-          {!isNil(entries.subTitle.label) ? <PanelTitle label={entries.subTitle.label} /> : null}
-          {generateTitleEntries('subTitle', entries.subTitle.entries, onChange)}
-        </>
-      ) : null}
-      {entries.align ? (
-        <>
-          {!isNil(entries.align.label) ? <PanelTitle label={entries.align.label} /> : null}
-          {generateAlignEntries(entries.align.entries, onChange)}
+          {entries.title ? (
+            <>
+              {!isNil(entries.title.label) ? <PanelTitle label={entries.title.label} /> : null}
+              {generateTitleEntries('title', entries.title.entries, onChange)}
+            </>
+          ) : null}
+          {entries.subTitle ? (
+            <>
+              {!isNil(entries.subTitle.label) ? <PanelTitle label={entries.subTitle.label} /> : null}
+              {generateTitleEntries('subTitle', entries.subTitle.entries, onChange)}
+            </>
+          ) : null}
+          {entries.align ? (
+            <>
+              {!isNil(entries.align.label) ? <PanelTitle label={entries.align.label} /> : null}
+              {generateAlignEntries(entries.align.entries, onChange)}
+            </>
+          ) : null}
         </>
       ) : null}
     </div>

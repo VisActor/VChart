@@ -4,6 +4,7 @@ import type {
   IFontStyleComponentConfig,
   ISelectComponentConfig,
   ISliderNumberComponentConfig,
+  ISwitchComponentConfig,
   ITextAlignComponentConfig
 } from './config';
 
@@ -27,7 +28,12 @@ export interface ITitleComponentEntries {
   };
   subTitle?: {
     label?: string;
-    entries?: (ISliderNumberComponentConfig | IFontFamilyComponentConfig | IFontStyleComponentConfig)[];
+    entries?: (
+      | ISwitchComponentConfig
+      | ISliderNumberComponentConfig
+      | IFontFamilyComponentConfig
+      | IFontStyleComponentConfig
+    )[];
   };
   align?: {
     label?: string;

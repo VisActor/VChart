@@ -5,6 +5,7 @@ import type {
   IInputComponentConfig,
   ISelectComponentConfig,
   ISliderNumberComponentConfig,
+  ISwitchComponentConfig,
   ITextAlignComponentConfig
 } from '../typings/config';
 
@@ -19,6 +20,10 @@ export const defaultBaseComponentConfig = {
     default: null as null,
     options: [] as { value: string; label: string }[]
   } as Omit<ISelectComponentConfig, 'key'>,
+  switch: {
+    label: '开关',
+    default: false
+  } as Omit<ISwitchComponentConfig, 'key'>,
   sliderNumber: {
     label: '数值',
     default: 10,

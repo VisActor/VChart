@@ -14,6 +14,11 @@ export interface ISelectComponentConfig extends IBaseComponentConfig {
   options?: { value: string; label: string }[];
 }
 
+export interface ISwitchComponentConfig extends IBaseComponentConfig {
+  default?: boolean;
+  options?: { value: string; label: string }[];
+}
+
 export interface ISliderNumberComponentConfig extends IBaseComponentConfig {
   default?: number;
   min?: number;

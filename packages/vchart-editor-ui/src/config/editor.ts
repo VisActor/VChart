@@ -16,6 +16,7 @@ export const titleDefaultProps: Omit<ITitleComponentProps, 'spec'> = {
     subTitle: {
       label: '副标题',
       entries: [
+        { key: 'display', label: '显示副标题' },
         { key: 'text' },
         { key: 'fontSize', label: '字号' },
         { key: 'fontFamily', label: '字体' },
