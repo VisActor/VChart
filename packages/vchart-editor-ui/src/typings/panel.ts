@@ -8,12 +8,12 @@ import type {
   ITextAlignComponentConfig
 } from './config';
 
-export interface IComponentSection {
+export interface IPanelComponentSection {
   label?: string;
   entries?: IBaseComponentConfig[];
 }
 
-export interface IComponentProps {
+export interface IPanelComponentProps {
   spec: any;
   sections?: any;
   onChange?: () => void;
@@ -41,7 +41,7 @@ export interface ITitleComponentEntries {
   };
 }
 
-export interface ITitleComponentProps extends IComponentProps {
+export interface ITitleComponentProps extends IPanelComponentProps {
   spec: any;
   label?: string;
   sections?: ITitleComponentEntries;
