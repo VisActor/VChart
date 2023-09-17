@@ -2,6 +2,7 @@ import type {
   IBaseComponentConfig,
   IFontFamilyComponentConfig,
   IFontStyleComponentConfig,
+  ISelectComponentConfig,
   ISliderNumberComponentConfig,
   ITextAlignComponentConfig
 } from './config';
@@ -30,7 +31,7 @@ export interface ITitleComponentEntries {
   };
   align?: {
     label?: string;
-    entries?: ITextAlignComponentConfig[];
+    entries?: (ISelectComponentConfig | ITextAlignComponentConfig)[];
   };
 }
 
