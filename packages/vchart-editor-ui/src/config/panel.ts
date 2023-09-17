@@ -1,4 +1,4 @@
-import type { ITitleComponentProps } from '../typings/components';
+import type { ITitleComponentProps } from '../typings/panel';
 
 export const titleDefaultProps: Omit<ITitleComponentProps, 'spec'> = {
   label: '图表标题',

@@ -9,13 +9,13 @@ import type {
   ISwitchComponentConfig,
   ITextAlignComponentConfig
 } from '../typings/config';
-import type { ITitleComponentEntries, ITitleComponentProps } from '../typings/components';
+import type { ITitleComponentEntries, ITitleComponentProps } from '../typings/panel';
 import { Input } from '../base/input';
 import { SliderNumber } from '../base/slider-number';
 import { FontFamily } from '../base/font-family';
 import { FontStyle } from '../base/font-style';
 import { PanelTitle } from '../base/panel-title';
-import { titleDefaultProps } from '../config/editor';
+import { titleDefaultProps } from '../config/panel';
 import { Color } from '../base/color';
 import { TextAlign } from '../base/text-align';
 import { Select } from '../base/select';
@@ -137,7 +137,7 @@ export function Title(props: ITitleComponentProps) {
   const label = props.label ?? titleDefaultProps.label;
   const entries = props.sections ?? titleDefaultProps.sections;
 
-  const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [collapsed, setCollapsed] = useState<boolean>(true);
 
   return (
     <div>
