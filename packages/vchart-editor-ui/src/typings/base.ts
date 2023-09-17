@@ -1,9 +1,12 @@
 import type {
   IBaseComponentConfig,
+  IColorComponentConfig,
   IFontFamilyComponentConfig,
   IFontStyleComponentConfig,
   IInputComponentConfig,
-  ISliderNumberComponentConfig
+  ISelectComponentConfig,
+  ISliderNumberComponentConfig,
+  ITextAlignComponentConfig
 } from './config';
 
 export interface IPanelTitleProps {
@@ -20,11 +23,15 @@ export interface IBaseInputComponentProps extends IBaseComponentProps<IInputComp
   value: string;
 }
 
+export interface IBaseSelectComponentProps extends IBaseComponentProps<ISelectComponentConfig> {
+  value: string;
+}
+
 export interface IBaseSliderNumberComponentProps extends IBaseComponentProps<ISliderNumberComponentConfig> {
   value: number;
 }
 
-export interface IBaseColorComponentProps extends IBaseComponentProps<ISliderNumberComponentConfig> {
+export interface IBaseColorComponentProps extends IBaseComponentProps<IColorComponentConfig> {
   color: string;
 }
 
@@ -38,6 +45,6 @@ export interface IBaseFontStyleComponentProps extends IBaseComponentProps<IFontS
   italic: boolean;
 }
 
-export interface IBaseTextAlignComponentProps extends IBaseComponentProps<IFontStyleComponentConfig> {
+export interface IBaseTextAlignComponentProps extends IBaseComponentProps<ITextAlignComponentConfig> {
   textAlign: 'left' | 'center' | 'right';
 }
