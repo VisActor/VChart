@@ -9,6 +9,11 @@ export interface IInputComponentConfig extends IBaseComponentConfig {
   placeholder?: string;
 }
 
+export interface ISelectComponentConfig extends IBaseComponentConfig {
+  default?: string;
+  options?: { value: string; label: string }[];
+}
+
 export interface ISliderNumberComponentConfig extends IBaseComponentConfig {
   default?: number;
   min?: number;

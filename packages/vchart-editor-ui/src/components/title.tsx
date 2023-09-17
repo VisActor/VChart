@@ -1,13 +1,23 @@
 import { isNil } from '@visactor/vutils';
+import type {
+  IColorComponentConfig,
+  IFontFamilyComponentConfig,
+  IFontStyleComponentConfig,
+  IInputComponentConfig,
+  ISelectComponentConfig,
+  ISliderNumberComponentConfig,
+  ITextAlignComponentConfig
+} from '../typings/config';
+import type { ITitleComponentEntries, ITitleComponentProps } from '../typings/components';
 import { Input } from '../base/input';
 import { SliderNumber } from '../base/slider-number';
 import { FontFamily } from '../base/font-family';
 import { FontStyle } from '../base/font-style';
 import { PanelTitle } from '../base/panel-title';
 import { titleDefaultProps } from '../config/editor';
-import type { ITitleComponentEntries, ITitleComponentProps } from '../typings/components';
 import { Color } from '../base/color';
 import { TextAlign } from '../base/text-align';
+import { Select } from '../base/select';
 
 function generateTitleEntries(
   section: 'title' | 'subTitle',
@@ -23,6 +33,7 @@ function generateTitleEntries(
             label={entry.label}
             value={null}
             onChange={(fontSize: number) => onChange(section, 'text', fontSize)}
+            config={entry as IInputComponentConfig}
           />
         );
       case 'fontSize':
@@ -32,6 +43,7 @@ function generateTitleEntries(
             label={entry.label}
             value={10}
             onChange={(fontSize: number) => onChange(section, 'fontSize', fontSize)}
+            config={entry as ISliderNumberComponentConfig}
           />
         );
       case 'fontFamily':
@@ -41,6 +53,7 @@ function generateTitleEntries(
             label={entry.label}
             fontFamily="PingFangSC-Regular"
             onChange={(fontFamily: string) => onChange(section, 'fontFamily', fontFamily)}
+            config={entry as IFontFamilyComponentConfig}
           />
         );
       case 'fontStyle':
@@ -52,6 +65,7 @@ function generateTitleEntries(
             underline={false}
             italic={false}
             onChange={(fontStyle: any) => onChange(section, 'fontStyle', fontStyle)}
+            config={entry as IFontStyleComponentConfig}
           />
         );
       case 'color':
@@ -61,6 +75,7 @@ function generateTitleEntries(
             label={entry.label}
             color={'#aaaaaa'}
             onChange={(color: string) => onChange(section, 'color', color)}
+            config={entry as IColorComponentConfig}
           />
         );
     }
@@ -74,6 +89,16 @@ function generateAlignEntries(
 ) {
   return entries.map((entry, index) => {
     switch (entry.key) {
+      case 'position':
+        return (
+          <Select
+            key={`${entry.key}-${index}`}
+            label={entry.label}
+            value={'center'}
+            onChange={(position: string) => onChange('align', 'position', position)}
+            config={entry as ISelectComponentConfig}
+          />
+        );
       case 'textAlign':
         return (
           <TextAlign
@@ -81,6 +106,7 @@ function generateAlignEntries(
             label={entry.label}
             textAlign={'center'}
             onChange={(textAlign: number) => onChange('align', 'textAlign', textAlign)}
+            config={entry as ITextAlignComponentConfig}
           />
         );
     }

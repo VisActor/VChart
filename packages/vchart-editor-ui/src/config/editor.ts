@@ -25,7 +25,18 @@ export const titleDefaultProps: Omit<ITitleComponentProps, 'spec'> = {
     },
     align: {
       label: '排列',
-      entries: [{ key: 'textAlign', label: '对齐方式' }]
+      entries: [
+        {
+          key: 'position',
+          label: '显示位置',
+          options: [
+            { value: 'left', label: '居左' },
+            { value: 'center', label: '居中' },
+            { value: 'right', label: '居右' }
+          ]
+        },
+        { key: 'textAlign', label: '对齐方式' }
+      ]
     }
   }
 };

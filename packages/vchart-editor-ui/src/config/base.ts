@@ -3,6 +3,7 @@ import type {
   IFontFamilyComponentConfig,
   IFontStyleComponentConfig,
   IInputComponentConfig,
+  ISelectComponentConfig,
   ISliderNumberComponentConfig,
   ITextAlignComponentConfig
 } from '../typings/config';
@@ -13,6 +14,11 @@ export const defaultBaseComponentConfig = {
     default: null as null,
     placeHolder: '请输入内容'
   } as Omit<IInputComponentConfig, 'key'>,
+  select: {
+    label: '选择',
+    default: null as null,
+    options: [] as { value: string; label: string }[]
+  } as Omit<ISelectComponentConfig, 'key'>,
   sliderNumber: {
     label: '数值',
     default: 10,
