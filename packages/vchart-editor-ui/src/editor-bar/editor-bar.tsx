@@ -1,9 +1,19 @@
 import { Divider } from '@douyinfe/semi-ui';
-import { IconHistogram } from '@douyinfe/semi-icons';
+import { IconHistogram, IconMore } from '@douyinfe/semi-icons';
 import type { IEditorComponentProps } from '../typings/editor-bar';
 import { EditorBarChart } from './chart';
 import { EditorBarPalette } from './palette';
 import { EditorBarFill } from './fill';
+import { IconHorizontalLine } from '../svg/horizontal-line';
+import { IconVerticalLine } from '../svg/vertical-line';
+import { IconHorizontalRect } from '../svg/horizontal-rect';
+import { IconVerticalRect } from '../svg/vertical-rect';
+import { IconCombineMark } from '../svg/combine-mark';
+import { IconSumDiff } from '../svg/sum-diff';
+import { IconHierarchyDiff } from '../svg/hierarchy-diff';
+import { IconAddText } from '../svg/add-text';
+import { IconEditData } from '../svg/edit-data';
+import { IconComment } from '../svg/comment';
 // import horizontalLineSVG from '../assets/horizontal-line.svg';
 
 const chartList = [
@@ -37,7 +47,29 @@ export function EditorBar(props: IEditorComponentProps) {
         <Divider layout="vertical" margin="12px" />
         <EditorBarPalette palette={paletteList[0]} paletteList={paletteList} />
         <Divider layout="vertical" margin="12px" />
+        <IconHorizontalLine />
+        <Divider layout="vertical" margin="12px" />
+        <IconVerticalLine />
+        <Divider layout="vertical" margin="12px" />
+        <IconHorizontalRect />
+        <Divider layout="vertical" margin="12px" />
+        <IconVerticalRect />
+        <Divider layout="vertical" margin="12px" />
+        <IconCombineMark />
+        <Divider layout="vertical" margin="12px" />
+        <IconSumDiff />
+        <Divider layout="vertical" margin="12px" />
+        <IconHierarchyDiff />
+        <Divider layout="vertical" margin="12px" />
+        <IconAddText />
+        <Divider layout="vertical" margin="12px" />
+        <IconEditData />
+        <Divider layout="vertical" margin="12px" />
         <EditorBarFill fillColor="#FFFFFF" fillOpacity={1} />
+        <Divider layout="vertical" margin="12px" />
+        <IconComment />
+        <Divider layout="vertical" margin="12px" />
+        <IconMore />
       </div>
     </>
   );
