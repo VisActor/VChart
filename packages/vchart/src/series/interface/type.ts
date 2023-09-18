@@ -31,7 +31,8 @@ export enum SeriesTypeEnum {
   sunburst = 'sunburst',
   circlePacking = 'circlePacking',
   waterfall = 'waterfall',
-  heatmap = 'heatmap'
+  heatmap = 'heatmap',
+  correlation = 'correlation'
 }
 
 export enum SeriesMarkNameEnum {
@@ -82,7 +83,10 @@ export enum SeriesMarkNameEnum {
   leaderLine = 'leaderLine',
   stackLabel = 'stackLabel',
   word = 'word',
-  fillingWord = 'fillingWord'
+  fillingWord = 'fillingWord',
+  ripplePoint = 'ripplePoint',
+  centerPoint = 'centerPoint',
+  centerLabel = 'centerLabel'
 }
 
 export const seriesMarkNameSet = new Set<string>(Object.values(SeriesMarkNameEnum));

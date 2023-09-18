@@ -346,6 +346,18 @@ export interface IBoxPlotMarkSpec extends ICommonSpec {
   max?: (datum: Datum) => number;
 }
 
+export interface IRippleMarkSpec extends ICommonSpec {
+  /**
+   * 波纹密度ripple
+   * ripple 取值范为[0,1]
+   */
+  ripple?: number;
+  /**
+   * 水波纹最大半径
+   */
+  size?: number;
+}
+
 export interface IOutlierMarkSpec {
   //异常点填充颜色
   fill?: string;
