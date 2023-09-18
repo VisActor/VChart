@@ -193,7 +193,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
 
   clear(): void {
     if (this._markerComponent) {
-      this._container.removeChild(this._markerComponent as unknown as INode);
+      this.getContainer()?.removeChild(this._markerComponent as unknown as INode);
       this._markerComponent = null;
     }
     super.clear();

@@ -1,8 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import './index.scss';
-import { Avatar, Input, Divider, Button, InputNumber, Upload, Message } from '@arco-design/web-react';
+import { Avatar, Input, Divider, Button, InputNumber, Upload, Message, Select } from '@arco-design/web-react';
 import {
+  acceptRatioData,
   carSaleMockData,
+  carSalesDataEng,
+  mallSalesData,
   mockUserInput10,
   mockUserInput2,
   mockUserInput3,
@@ -12,7 +15,7 @@ import {
   mockUserInput8
 } from '../constants';
 import VMind from '@visactor/vmind';
-
+const Option = Select.Option;
 const TextArea = Input.TextArea;
 type IPropsType = {
   openAIKey: string | undefined;
@@ -26,11 +29,21 @@ type IPropsType = {
   ) => void;
 };
 
+const demoDataList: { [key: string]: any } = {
+  'Electric vehicle sales': carSalesDataEng,
+  'College entrance examination': acceptRatioData,
+  'Shopping Mall Sales Performance': mallSalesData,
+  'Global GDP': mockUserInput6Eng,
+  'Sales of different drinkings': mockUserInput3Eng
+};
+
 export function LeftInput(props: IPropsType) {
+  const defaultDataKey = Object.keys(demoDataList)[0];
   const { openAIKey, setOpenAIKey } = props;
-  const [describe, setDescribe] = useState<string>(carSaleMockData.input);
-  const [csv, setCsv] = useState<string>(carSaleMockData.csv);
+  const [describe, setDescribe] = useState<string>(demoDataList[defaultDataKey].input);
+  const [csv, setCsv] = useState<string>(demoDataList[defaultDataKey].csv);
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectedDataName, setSelectedDataName] = useState<string>(defaultDataKey);
 
   const askGPT = useCallback(async () => {
     setLoading(true);
@@ -49,8 +62,42 @@ export function LeftInput(props: IPropsType) {
     <div className="left-sider">
       <div
         style={{
-          marginLeft: 20,
-          marginBottom: 20
+          marginTop: 20,
+          width: '80%',
+          marginBottom: 10
+        }}
+      >
+        <div
+          style={{
+            marginBottom: 10
+          }}
+        >
+          <span>Demo Data:</span>
+        </div>
+        <Select
+          style={{
+            width: '100%'
+          }}
+          value={selectedDataName}
+          onChange={v => {
+            setSelectedDataName(v);
+            const dataObj = demoDataList[v];
+            setDescribe(dataObj.input);
+            setCsv(dataObj.csv);
+          }}
+        >
+          {Object.keys(demoDataList).map(name => (
+            <Option key={name} value={name}>
+              {name}
+            </Option>
+          ))}
+        </Select>
+      </div>
+      <div
+        style={{
+          marginLeft: 5,
+          marginBottom: 20,
+          width: '80%'
         }}
       >
         <p>
@@ -63,13 +110,14 @@ export function LeftInput(props: IPropsType) {
             Input your openAI api key:
           </span>
         </p>
-        <Input value={openAIKey} onChange={v => setOpenAIKey(v)} style={{ width: 250 }} />
+        <Input value={openAIKey} onChange={v => setOpenAIKey(v)} style={{ width: '100%' }} />
       </div>
 
       <div
         style={{
           marginLeft: 10,
-          marginBottom: 20
+          marginBottom: 20,
+          width: '80%'
         }}
       >
         <p>
@@ -77,28 +125,24 @@ export function LeftInput(props: IPropsType) {
           <span style={{ marginLeft: 10 }}>What would you like to visualize?</span>
         </p>
 
-        <TextArea
-          placeholder={describe}
-          defaultValue={describe}
-          onChange={v => setDescribe(v)}
-          style={{ minHeight: 120 }}
-        />
+        <TextArea value={describe} onChange={v => setDescribe(v)} style={{ minHeight: 160 }} />
       </div>
 
       <div
         style={{
           marginLeft: 10,
-          marginBottom: 20
+          marginBottom: 20,
+          width: '80%'
         }}
       >
         <p>
           <Avatar size={18}>3</Avatar>
           <span style={{ marginLeft: 10 }}>Input your data file in csv format</span>
         </p>
-        <TextArea placeholder={csv} value={csv} onChange={v => setCsv(v)} style={{ minHeight: 300 }} />
+        <TextArea value={csv} onChange={v => setCsv(v)} style={{ minHeight: 300 }} />
       </div>
 
-      <Divider style={{ marginTop: 60 }} />
+      <Divider style={{ marginTop: 20 }} />
 
       <div className="generate-botton">
         <Button

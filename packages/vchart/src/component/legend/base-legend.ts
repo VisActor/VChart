@@ -285,7 +285,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
 
   clear(): void {
     if (this._legendComponent) {
-      this._container.removeChild(this._legendComponent);
+      this.getContainer()?.removeChild(this._legendComponent);
       this._legendComponent = null;
     }
     this._cacheAttrs = null;

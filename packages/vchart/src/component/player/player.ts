@@ -122,6 +122,9 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
 
   clear(): void {
     super.clear();
+    if (this._playerComponent) {
+      this.getContainer()?.removeChild(this._playerComponent as unknown as INode);
+    }
     this._playerComponent = null;
   }
 
@@ -305,7 +308,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
   private _initEvent = () => {
     // 自动播放
     this._option.globalInstance.on(ChartEvent.rendered, () => {
-      if (this._spec.auto) {
+      if (this._spec?.auto) {
         this._playerComponent.play();
       }
     });
@@ -324,7 +327,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
       }
 
       // 循环播放
-      if (this._spec.loop) {
+      if (this._spec?.loop) {
         this._playerComponent.play();
       }
     });
