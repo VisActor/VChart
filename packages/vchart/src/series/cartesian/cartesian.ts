@@ -371,7 +371,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     }
     return this._fieldX2 && this._fieldX2 in datum
       ? this.valueToPositionX(this.getDatumPositionValues(datum, this._fieldX2))
-      : this._xAxisHelper.getScale?.(0).range()[0];
+      : this.valueToPositionX(0);
   }
 
   dataToPositionY1(datum: Datum): number {
@@ -380,7 +380,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     }
     return this._fieldY2 && this._fieldY2 in datum
       ? this.valueToPositionY(this.getDatumPositionValues(datum, this._fieldY2))
-      : this._yAxisHelper.getScale?.(0).range()[0];
+      : this.valueToPositionY(0);
   }
 
   positionToData(p: IPoint): IPoint | null {
