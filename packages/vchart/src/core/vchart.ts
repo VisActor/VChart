@@ -964,9 +964,13 @@ export class VChart implements IVChart {
         this._userEvents.splice(index, 1);
       }
     } else {
+      this._userEvents.forEach(e => {
+        if (e.eType === eType) {
+          this._event?.off(eType, e.handler);
+        }
+      });
       this._userEvents = this._userEvents.filter(e => e.eType !== eType);
     }
-    this._event?.off(eType, handler);
   }
 
   // 状态相关方法
