@@ -962,8 +962,8 @@ export class VChart implements IVChart {
       const index = this._userEvents.findIndex(e => e.eType === eType && e.handler === handler);
       if (index >= 0) {
         this._userEvents.splice(index, 1);
+        this._event?.off(eType, handler);
       }
-      this._event?.off(eType, handler);
     } else {
       this._userEvents.forEach(e => {
         if (e.eType === eType) {
