@@ -1,12 +1,14 @@
 import type { DataView } from '@visactor/vdataset';
 import type { Datum } from '../../typings';
 import { computeQuadrant, couldBeValidNumber } from '../../util';
+import { ARC_TRANSFORM_VALUE } from '../../constant/polar';
 
 export interface IPieOpt {
   angleField: string;
 
   startAngle: number;
   endAngle: number;
+  minAngle: number;
 
   asStartAngle: string;
   asEndAngle: string;
@@ -33,6 +35,7 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     angleField,
     startAngle,
     endAngle,
+    minAngle,
     asStartAngle,
     asEndAngle,
     asMiddleAngle,
@@ -42,31 +45,69 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     asK
   } = op;
 
+  const appendArcInfo = (data: Datum, startAngle: number, angle: number) => {
+    data[asStartAngle] = startAngle;
+    data[asEndAngle] = startAngle + angle;
+    data[asMiddleAngle] = startAngle + angle / 2;
+    data[asRadian] = angle;
+    data[asQuadrant] = computeQuadrant(startAngle + angle / 2);
+  };
+
   let total = 0;
   let max = -Infinity;
   for (let index = 0; index < data.length; index++) {
     const angleFieldValue = transformInvalidValue(data[index][angleField]);
     total += angleFieldValue;
     max = Math.max(angleFieldValue, max);
+
+    data[index][ARC_TRANSFORM_VALUE] = angleFieldValue;
   }
 
-  const intervalAngle = endAngle - startAngle;
+  const angleRange = endAngle - startAngle;
   let lastAngle = startAngle;
+  let restAngle = angleRange;
+  let largeThanMinAngleTotal = 0;
+
   data.forEach(d => {
-    const angleFieldValue = transformInvalidValue(d[angleField]);
+    const angleFieldValue = d[ARC_TRANSFORM_VALUE];
     const ratio = total ? angleFieldValue / total : 0;
-    const radian = ratio * intervalAngle;
+    let radian = ratio * angleRange;
 
-    asRatio && (d[asRatio] = ratio);
-    asStartAngle && (d[asStartAngle] = lastAngle);
-    asEndAngle && (d[asEndAngle] = lastAngle + radian);
-    asMiddleAngle && (d[asMiddleAngle] = lastAngle + radian / 2);
-    asRadian && (d[asRadian] = radian);
-    asQuadrant && (d[asQuadrant] = computeQuadrant(lastAngle + radian / 2));
-    asK && (d[asK] = max ? angleFieldValue / max : 0);
+    if (radian < minAngle) {
+      radian = minAngle;
+      restAngle -= minAngle;
+    } else {
+      largeThanMinAngleTotal += angleFieldValue;
+    }
 
-    lastAngle = d[asEndAngle];
+    const dStartAngle = lastAngle;
+    const dEndAngle = lastAngle + radian;
+
+    d[asRatio] = ratio;
+    d[asK] = max ? angleFieldValue / max : 0;
+    appendArcInfo(d, dStartAngle, radian);
+
+    lastAngle = dEndAngle;
   });
+
+  if (restAngle < angleRange) {
+    if (restAngle <= 1e-3) {
+      const angle = angleRange / data.length;
+      data.forEach((d, index) => {
+        appendArcInfo(d, startAngle + index * angle, angle);
+      });
+    } else {
+      const unitRadian = restAngle / largeThanMinAngleTotal;
+      lastAngle = startAngle;
+      data.forEach(d => {
+        const angle = d[asRadian] === minAngle ? minAngle : d[ARC_TRANSFORM_VALUE] * unitRadian;
+        appendArcInfo(d, lastAngle, angle);
+
+        lastAngle += angle;
+      });
+    }
+  }
+
   if (total !== 0) {
     // 数据都为 0 时，起始角和结束角相同，不应该强制赋值
     // 防止一个扇区的角度会因为浮点数精度问题和传入的 endAngle 不相等

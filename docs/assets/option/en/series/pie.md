@@ -75,6 +75,10 @@ Sector end angle.
 
 Sector spacing angle.
 
+#${prefix} minAngle(number)
+
+Supported since version `1.4.0`, it is used to configure the minimum sector angle (0 ~ 360) to prevent a certain value from being too small, causing the sector to be too small and affecting interaction.
+
 #${prefix} pie(Object)
 
 Sector graphic style configuration.
