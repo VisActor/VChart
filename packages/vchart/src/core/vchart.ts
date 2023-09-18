@@ -963,6 +963,7 @@ export class VChart implements IVChart {
       if (index >= 0) {
         this._userEvents.splice(index, 1);
       }
+      this._event?.off(eType, handler);
     } else {
       this._userEvents.forEach(e => {
         if (e.eType === eType) {
