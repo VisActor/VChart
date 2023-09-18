@@ -2,7 +2,7 @@ import type { MaybeArray } from '../common';
 import type { TooltipPatternProperty, TooltipUpdateCallback } from './common';
 import type { TooltipActiveType } from './handler';
 import type { IToolTipLineActual, IToolTipLinePattern } from './line';
-import type { ITooltipPositionActual, TooltipPosition } from './position';
+import type { ITooltipPositionActual, TooltipPositionMode, TooltipPosition } from './position';
 import type { ITooltipShapePattern } from './shape';
 
 export interface ITooltipPattern extends ITooltipShapePattern {
@@ -10,6 +10,11 @@ export interface ITooltipPattern extends ITooltipShapePattern {
   title?: TooltipPatternProperty<IToolTipLinePattern>;
   content?: MaybeArray<TooltipPatternProperty<MaybeArray<IToolTipLinePattern>>>;
   position?: TooltipPatternProperty<TooltipPosition>;
+  /**
+   * 决定 `position` 相对固定于什么图形，如固定在鼠标指针周围或图元周围。该配置只有 `position` 设为字符串时生效。默认为 `'mark'`
+   * @since 1.4.0
+   */
+  positionMode?: TooltipPatternProperty<TooltipPositionMode>;
 
   updateTitle?: TooltipUpdateCallback<IToolTipLineActual>;
   updateContent?: TooltipUpdateCallback<IToolTipLineActual[]>;
