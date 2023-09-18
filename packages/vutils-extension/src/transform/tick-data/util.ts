@@ -5,7 +5,7 @@ import { AABBBounds, degreeToRadian, polarToCartesian } from '@visactor/vutils';
 import type { IGraphic, TextAlignType, TextBaselineType } from '@visactor/vrender';
 import { initTextMeasure } from '../../utils/text';
 import { angleLabelOrientAttribute } from '../../utils/polar';
-import type { ICartesianTickDataOpt, IPolarTickDataOpt, ITickData } from './interface';
+import type { ICartesianTickDataOpt, IOrientType, IPolarTickDataOpt, ITickData } from './interface';
 
 export const convertDomainToTickData = (domain: any[]): ITickData[] => {
   const ticks = domain.map((t: number, index: number) => {
@@ -61,7 +61,7 @@ export function hasOverlap<T>(items: ILabelItem<T>[], pad: number): boolean {
   return false;
 }
 
-const MIN_TICK_GAP = 12;
+export const MIN_TICK_GAP = 12;
 
 export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: ICartesianTickDataOpt): AABBBounds[] => {
   const { labelStyle, axisOrientType, labelFlush, labelFormatter, startAngle = 0 } = op;
@@ -158,4 +158,8 @@ export const getPolarAngleLabelBounds = (scale: IBaseScale, domain: any[], op: I
   });
 
   return labelBoundsList;
+};
+
+export const isAxisHorizontal = (axisOrientType: IOrientType) => {
+  return ['bottom', 'top'].includes(axisOrientType);
 };
