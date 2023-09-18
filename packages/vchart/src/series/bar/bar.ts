@@ -111,7 +111,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
   }
 
-  private _calculateRectPosition() {
+  private _calculateStackRectPosition(isVertical: boolean) {
     const region = this.getRegion();
 
     // @ts-ignore
@@ -125,7 +125,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     let startMethod: string;
     let endMethod: string;
     let axisHelper: string;
-    const isVertical = this.direction === Direction.vertical;
     if (isVertical) {
       start = RECT_Y1;
       end = RECT_Y;
@@ -202,6 +201,40 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     });
   }
 
+  private _calculateRectPosition(datum: Datum, isVertical: boolean) {
+    let startMethod: string;
+    let endMethod: string;
+    let axisHelper: string;
+    if (isVertical) {
+      startMethod = 'dataToPositionY1';
+      endMethod = 'dataToPositionY';
+      axisHelper = '_yAxisHelper';
+    } else {
+      startMethod = 'dataToPositionX1';
+      endMethod = 'dataToPositionX';
+      axisHelper = '_xAxisHelper';
+    }
+
+    const seriesScale = this[axisHelper].getScale?.(0);
+    const inverse = this[axisHelper].isInverse();
+    const barMinHeight = this._spec.barMinHeight;
+    const y1 = valueInScaleRange(this[startMethod](datum), seriesScale);
+    const y = valueInScaleRange(this[endMethod](datum), seriesScale);
+
+    let height = Math.abs(y1 - y);
+    if (height < barMinHeight) {
+      height = barMinHeight;
+    }
+
+    let flag = 1;
+    if (y < y1) {
+      flag = -1;
+    } else if (y === y1) {
+      flag = isVertical ? (inverse ? 1 : -1) : inverse ? -1 : 1;
+    }
+    return y1 + flag * height;
+  }
+
   initBandRectMarkStyle() {
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
@@ -213,16 +246,22 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         {
           x: (datum: Datum) => {
             if (this._stack) {
-              this._calculateRectPosition();
+              this._calculateStackRectPosition(false);
               return datum[RECT_X];
             }
+
+            if (this._spec.barMinHeight) {
+              return this._calculateRectPosition(datum, false);
+            }
+
             return valueInScaleRange(this.dataToPositionX(datum), xScale);
           },
           x1: (datum: Datum) => {
             if (this._stack) {
-              this._calculateRectPosition();
+              this._calculateStackRectPosition(false);
               return datum[RECT_X1];
             }
+
             return valueInScaleRange(this.dataToPositionX1(datum), xScale);
           },
           y: (datum: Datum) => this._getPosition(this.direction, datum),
@@ -238,15 +277,19 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           x: (datum: Datum) => this._getPosition(this.direction, datum),
           y: (datum: Datum, ctx, opt, dataView) => {
             if (this._stack) {
-              this._calculateRectPosition();
+              this._calculateStackRectPosition(true);
               return datum[RECT_Y];
+            }
+
+            if (this._spec.barMinHeight) {
+              return this._calculateRectPosition(datum, true);
             }
 
             return valueInScaleRange(this.dataToPositionY(datum), yScale);
           },
           y1: (datum: Datum) => {
             if (this._stack) {
-              this._calculateRectPosition();
+              this._calculateStackRectPosition(true);
               return datum[RECT_Y1];
             }
             return valueInScaleRange(this.dataToPositionY1(datum), yScale);
@@ -273,15 +316,19 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
           y: (datum: Datum, ctx, opt, dataView) => {
             if (this._stack) {
-              this._calculateRectPosition();
+              this._calculateStackRectPosition(true);
               return datum[RECT_Y];
+            }
+
+            if (this._spec.barMinHeight) {
+              return this._calculateRectPosition(datum, true);
             }
 
             return valueInScaleRange(this.dataToPositionY(datum), yScale);
           },
           y1: (datum: Datum) => {
             if (this._stack) {
-              this._calculateRectPosition();
+              this._calculateStackRectPosition(true);
               return datum[RECT_Y1];
             }
             return valueInScaleRange(this.dataToPositionY1(datum), yScale);
@@ -296,15 +343,20 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         {
           x: (datum: Datum) => {
             if (this._stack) {
-              this._calculateRectPosition();
+              this._calculateStackRectPosition(false);
 
               return datum[RECT_X];
             }
+
+            if (this._spec.barMinHeight) {
+              return this._calculateRectPosition(datum, false);
+            }
+
             return valueInScaleRange(this.dataToPositionX(datum), xScale);
           },
           x1: (datum: Datum) => {
             if (this._stack) {
-              this._calculateRectPosition();
+              this._calculateStackRectPosition(false);
               return datum[RECT_X1];
             }
             return valueInScaleRange(this.dataToPositionX1(datum), xScale);
