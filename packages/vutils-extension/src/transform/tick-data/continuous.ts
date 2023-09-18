@@ -1,7 +1,7 @@
 import type { LinearScale, ContinuousScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import { isValid, last } from '@visactor/vutils';
+import { isFunction, isValid, last } from '@visactor/vutils';
 import { DEFAULT_CONTINUOUS_TICK_COUNT } from './config';
 import type { ICartesianTickDataOpt, ITickData, ITickDataOpt } from './interface';
 import type { ILabelItem } from './util';
@@ -28,7 +28,7 @@ export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITick
     return convertDomainToTickData([scale.domain()[0]]);
   }
 
-  const { tickCount, forceTickCount, tickStep, noDecimals = false } = op;
+  const { tickCount, forceTickCount, tickStep, noDecimals = false, labelStyle } = op;
 
   let scaleTicks: number[];
   if (isValid(tickStep)) {
@@ -36,9 +36,11 @@ export const continuousTicks = (scale: ContinuousScale, op: ITickDataOpt): ITick
   } else if (isValid(forceTickCount)) {
     scaleTicks = (scale as LinearScale).forceTicks(forceTickCount);
   } else if (op.tickMode === 'd3') {
-    scaleTicks = (scale as LinearScale).d3Ticks(tickCount ?? DEFAULT_CONTINUOUS_TICK_COUNT, { noDecimals });
+    const count = isFunction(tickCount) ? tickCount({ axisLength: rangeSize, labelStyle }) : tickCount;
+    scaleTicks = (scale as LinearScale).d3Ticks(count ?? DEFAULT_CONTINUOUS_TICK_COUNT, { noDecimals });
   } else {
-    scaleTicks = (scale as LinearScale).ticks(tickCount ?? DEFAULT_CONTINUOUS_TICK_COUNT, { noDecimals });
+    const count = isFunction(tickCount) ? tickCount({ axisLength: rangeSize, labelStyle }) : tickCount;
+    scaleTicks = (scale as LinearScale).ticks(count ?? DEFAULT_CONTINUOUS_TICK_COUNT, { noDecimals });
   }
 
   if (op.sampling) {

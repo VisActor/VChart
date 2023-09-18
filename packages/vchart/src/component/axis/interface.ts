@@ -11,10 +11,10 @@ import type {
 import type { ICartesianAxisSpec } from './cartesian/interface';
 import type { IComponent } from '../interface';
 import type { IBaseScale } from '@visactor/vscale';
-import type { IModelSpec } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
 import type { IComponentSpec } from '../base/interface';
+import type { ITextGraphicAttribute } from '@visactor/vrender';
 
 export interface StatisticsDomain {
   domain: any[];
@@ -185,6 +185,11 @@ export interface IGrid extends IAxisItem<IRuleMarkSpec> {
   zIndex?: number;
 }
 
+export type ITickCallbackOption = {
+  axisLength?: number;
+  labelStyle?: ITextGraphicAttribute;
+};
+
 // 刻度线配置
 export interface ITick extends IAxisItem<IRuleMarkSpec> {
   /**
@@ -210,8 +215,9 @@ export interface ITick extends IAxisItem<IRuleMarkSpec> {
    * The desired number of ticks draw on linear axis.
    * @default 10
    * @description 建议的tick数量，并不保证结果一定是配置值
+   * @since 1.4.0 后支持函数回调。
    */
-  tickCount?: number;
+  tickCount?: number | ((option: ITickCallbackOption) => number);
   /**
    * 强制设置tick数量
    * The exact number of ticks draw on linear axis. Might lead to decimal step.
