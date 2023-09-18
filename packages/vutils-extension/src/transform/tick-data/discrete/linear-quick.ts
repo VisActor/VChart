@@ -175,6 +175,7 @@ const getStep = (
   do {
     if (step > minValidStep && !areAllBoundsSame) {
       if (!validateStep(step)) {
+        step++;
         continue;
       }
     }
