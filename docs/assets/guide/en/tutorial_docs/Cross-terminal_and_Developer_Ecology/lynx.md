@@ -36,7 +36,7 @@ Three canvases need to be declared, and pay attention to the order of declaratio
 - `bar_tooltip_canvas` is used to draw the canvas of the tooltip. The tooltip of the cross-end environment is drawn using the canvas.
 
 ```html
-<view class="chart-space">
+<view class="vchart">
   <!-- canvas order is important -->
   <canvas
     name="bar_hidden_canvas"
@@ -86,7 +86,7 @@ const chartInstance = new VChart(spec, {
 });
 ```
 
-2. Regarding events, users need to bind events to the canvas (canvas used for drawing) element themselves, and then manually dispatch events in the event listening function to trigger events inside ChartSpace.
+2. Regarding events, users need to bind events to the canvas (canvas used for drawing) element themselves, and then manually dispatch events in the event listening function to trigger events inside VChart.
 
 ```ts
 bindChartEvent(event) {
@@ -106,7 +106,7 @@ The following is the completed code related to index.js:
 
 ```ts
 import barSpec from './data/bar';
-import ChartSpace from '@visactor/vchart';
+import VChart from '@visactor/vchart';
 import mapJson from './data/map-data-china';
 
 Card({
@@ -120,8 +120,8 @@ Card({
     ]
   },
   onLoad: function () {
-    // If you need to use a map, you need to register the map first
-    ChartSpace.registerMap('china', mapJson, {
+    // 如果需要使用地图，需要先注册地图
+    VChart.registerMap('china', mapJson, {
       type: 'geojson'
     });
     this.init();
@@ -135,33 +135,25 @@ Card({
           method: 'boundingClientRect',
           success: domRef => {
             if (!domRef) {
-              console.error(`#${item.id} canvas not found`);
+              console.error(`未找到 #${item.id} 画布`);
               return;
             }
             domRef.id = item.id;
             const pixelRatio = SystemInfo.pixelRatio;
 
-            const chartInstance = new ChartSpace(
-              {
-                width: domRef.width, // Tip: Cross-end environment needs to manually pass in the width and height
-                height: domRef.height,
-                ...item.spec
+            const chartInstance = new VChart(item.spec, {
+              mode: 'lynx', //  Tip: 跨端环境需要手动传入 mode
+              // 跨端参数
+              modeParams: {
+                domref: domRef, // 图表绘制的 canvas 节点
+                force: true, // 是否强制使用 canvas 绘制
+                canvasIdLists: [`${item.id}_draw_canvas`, `${item.id}_tooltip_canvas`, `${item.id}_hidden_canvas`], // canvasId 列表
+                tooltipCanvasId: `${item.id}_tooltip_canvas`, // tooltip canvasId
+                freeCanvasIdx: 1 // 自由 canvas 索引
               },
-              {
-                mode: 'lynx', // Tip: Cross-end environment needs to manually pass in mode
-                // Cross-end parameters
-                modeParams: {
-                  domref: domRef, // Canvas node for chart drawing
-                  force: true, // Whether to force the use of canvas for drawing
-                  canvasIdLists: [`${item.id}_draw_canvas`, `${item.id}_tooltip_canvas`, `${item.id}_hidden_canvas`], // canvasId list
-                  tooltipCanvasId: `${item.id}_tooltip_canvas`, // tooltip canvasId
-                  freeCanvasIdx: 1 // Free canvas index
-                },
-                dpr: pixelRatio, // Tip: Cross-end environment needs to manually pass in dpr
-                renderCanvas: `${item.id}_draw_canvas` // Declare the canvasId used for drawing
-                // animation: false
-              }
-            );
+              dpr: pixelRatio, // Tip: 跨端环境需要手动传入 dpr
+              renderCanvas: `${item.id}_draw_canvas` // 声明用于绘制的 canvasId
+            });
             item.chart = chartInstance;
 
             if (item.events) {
@@ -184,7 +176,7 @@ Card({
     const targetChart = this.data.chartList.find(x => x.id === id);
     const chartInstance = targetChart?.chart;
     if (chartInstance) {
-      event.target = chartInstance.getCanvas(); // Tip: Must be set
+      event.target = chartInstance.getCanvas(); // Tip: 必须设置
       chartInstance.getStage().window.dispatchEvent(event);
     }
   }

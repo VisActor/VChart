@@ -36,7 +36,7 @@ Lynx 是字节内用 Web 技术栈快速构建 Native 视图的高性能跨端�
 - `bar_tooltip_canvas` 用于绘制 tooltip 的 canvas，跨端环境的 tooltip 使用 canvas 绘制。
 
 ```html
-<view class="chart-space">
+<view class="vchart">
   <!-- canvas顺序很重要 -->
   <canvas
     name="bar_hidden_canvas"
@@ -86,7 +86,7 @@ const chartInstance = new VChart(spec, {
 });
 ```
 
-2. 在事件上，需要用户自己在 canvas（用于绘制的 canvas） 元素上绑定事件，然后在事件监听函数中手动得分发事件来触发 ChartSpace 内部的事件。
+2. 在事件上，需要用户自己在 canvas（用于绘制的 canvas） 元素上绑定事件，然后在事件监听函数中手动得分发事件来触发 VChart 内部的事件。
 
 ```ts
 bindChartEvent(event) {
@@ -106,7 +106,7 @@ bindChartEvent(event) {
 
 ```ts
 import barSpec from './data/bar';
-import ChartSpace from '@visactor/vchart';
+import VChart from '@visactor/vchart';
 import mapJson from './data/map-data-china';
 
 Card({
@@ -121,7 +121,7 @@ Card({
   },
   onLoad: function () {
     // 如果需要使用地图，需要先注册地图
-    ChartSpace.registerMap('china', mapJson, {
+    VChart.registerMap('china', mapJson, {
       type: 'geojson'
     });
     this.init();
@@ -141,27 +141,19 @@ Card({
             domRef.id = item.id;
             const pixelRatio = SystemInfo.pixelRatio;
 
-            const chartInstance = new ChartSpace(
-              {
-                width: domRef.width, // Tip: 跨端环境需要手动传入宽高
-                height: domRef.height,
-                ...item.spec
+            const chartInstance = new VChart(item.spec, {
+              mode: 'lynx', //  Tip: 跨端环境需要手动传入 mode
+              // 跨端参数
+              modeParams: {
+                domref: domRef, // 图表绘制的 canvas 节点
+                force: true, // 是否强制使用 canvas 绘制
+                canvasIdLists: [`${item.id}_draw_canvas`, `${item.id}_tooltip_canvas`, `${item.id}_hidden_canvas`], // canvasId 列表
+                tooltipCanvasId: `${item.id}_tooltip_canvas`, // tooltip canvasId
+                freeCanvasIdx: 1 // 自由 canvas 索引
               },
-              {
-                mode: 'lynx', //  Tip: 跨端环境需要手动传入 mode
-                // 跨端参数
-                modeParams: {
-                  domref: domRef, // 图表绘制的 canvas 节点
-                  force: true, // 是否强制使用 canvas 绘制
-                  canvasIdLists: [`${item.id}_draw_canvas`, `${item.id}_tooltip_canvas`, `${item.id}_hidden_canvas`], // canvasId 列表
-                  tooltipCanvasId: `${item.id}_tooltip_canvas`, // tooltip canvasId
-                  freeCanvasIdx: 1 // 自由 canvas 索引
-                },
-                dpr: pixelRatio, // Tip: 跨端环境需要手动传入 dpr
-                renderCanvas: `${item.id}_draw_canvas` // 声明用于绘制的 canvasId
-                // animation: false
-              }
-            );
+              dpr: pixelRatio, // Tip: 跨端环境需要手动传入 dpr
+              renderCanvas: `${item.id}_draw_canvas` // 声明用于绘制的 canvasId
+            });
             item.chart = chartInstance;
 
             if (item.events) {
