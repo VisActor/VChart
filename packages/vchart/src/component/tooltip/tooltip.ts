@@ -344,6 +344,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     }
     this.event.emit(ChartEvent.tooltipHide, {
       ...params,
+      source: Event_Source_Type.chart, // 统一 event 的来源
       tooltip: this
     });
     if (this.tooltipHandler?.hideTooltip) {
