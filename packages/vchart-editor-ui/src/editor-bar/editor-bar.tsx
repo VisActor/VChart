@@ -1,24 +1,44 @@
 import { Divider } from '@douyinfe/semi-ui';
+import { IconHistogram } from '@douyinfe/semi-icons';
 import type { IEditorComponentProps } from '../typings/editor-bar';
-import { IconChevronDown, IconHistogram } from '@douyinfe/semi-icons';
+import { EditorBarChart } from './chart';
+import { EditorBarPalette } from './palette';
+import { EditorBarFill } from './fill';
+// import horizontalLineSVG from '../assets/horizontal-line.svg';
+
+const chartList = [
+  {
+    type: 'bar',
+    icon: <IconHistogram />,
+    label: '基础柱状图'
+  },
+  {
+    type: 'groupBar',
+    icon: <IconHistogram />,
+    label: '分组柱状图'
+  },
+  {
+    type: 'stackBar',
+    icon: <IconHistogram />,
+    label: '堆叠柱状图'
+  }
+];
+
+const paletteList = [
+  ['#2E62F1', '#4DC36A', '#FF8406', '#FFCC00', '#4F44CF', '#5AC8FA', '#003A8C', '#B08AE2'],
+  ['#4BC7A2', '#2E75D2', '#34B6FD', '#F5C040', '#98DD62', '#7272E1', '#87DBDD', '#FF8406']
+];
 
 export function EditorBar(props: IEditorComponentProps) {
   return (
-    <div
-      style={{
-        padding: '4px 8px',
-        border: '1px solid #DEE0E3',
-        borderRadius: 8,
-        boxShadow:
-          // eslint-disable-next-line
-          '0px 8px 24px 8px rgba(31, 35, 41, 0.04), 0px 6px 12px 0px rgba(31, 35, 41, 0.04), 0px 4px 8px -8px rgba(31, 35, 41, 0.06)'
-      }}
-    >
-      <span>
-        <IconHistogram />
-        <IconChevronDown />
-      </span>
-      <Divider layout="vertical" margin="12px" />
-    </div>
+    <>
+      <div className="vchart-editor-ui-editor-bar-container">
+        <EditorBarChart chart="bar" chartList={chartList} />
+        <Divider layout="vertical" margin="12px" />
+        <EditorBarPalette palette={paletteList[0]} paletteList={paletteList} />
+        <Divider layout="vertical" margin="12px" />
+        <EditorBarFill fillColor="#FFFFFF" fillOpacity={1} />
+      </div>
+    </>
   );
 }
