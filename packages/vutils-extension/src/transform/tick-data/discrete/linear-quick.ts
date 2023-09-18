@@ -211,6 +211,9 @@ const getStep = (
             resultStep = step; // 记录最均匀的 step
             resultDelCount = delCount;
           }
+          if (distance1 <= distance2) {
+            break;
+          }
         }
       }
     } else {
