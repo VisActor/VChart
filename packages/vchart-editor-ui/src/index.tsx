@@ -1,3 +1,5 @@
+import './style/index.css';
+
 // Panels
 export { Title } from './panels/title';
 
