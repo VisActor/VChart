@@ -1,4 +1,5 @@
 /* eslint-disable no-duplicate-imports */
+import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
@@ -21,6 +22,7 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
+import type { Dict } from '@visactor/vutils';
 import { array, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 
@@ -42,7 +44,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _bandPosition = 0;
   protected _rectMark!: IRectMark;
 
-  private _cachedRectPositions;
+  private _cachedRectPositions: Dict<any>;
 
   initMark(): void {
     const progressive = {
@@ -111,12 +113,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   private _calculateRectPosition() {
     if (!this._cachedRectPositions) {
       const isVertical = this.direction === Direction.vertical;
-      let start;
-      let end;
-      let startMethod;
-      let endMethod;
-      let scale;
-      let inverse;
+      let start: string;
+      let end: string;
+      let startMethod: string;
+      let endMethod: string;
+      let scale: IBaseScale;
+      let inverse: boolean;
       if (isVertical) {
         start = 'y1';
         end = 'y';
@@ -137,15 +139,15 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       const stackData = this.getStackData();
       const barMinHeight = this._spec.barMinHeight;
 
-      const calculatePosition = (data, cache) => {
+      const calculatePosition = (data: any, cache: Dict<any>) => {
         Object.keys(data.nodes).forEach(key => {
           if (data.nodes[key].nodes) {
             calculatePosition(data.nodes[key], cache);
           } else {
             const values = data.nodes[key].values;
 
-            let lastY;
-            values.forEach((obj, index) => {
+            let lastY: number;
+            values.forEach((obj: Datum, index: number) => {
               const y1 = valueInScaleRange(this[startMethod](obj), scale);
               let y = valueInScaleRange(this[endMethod](obj), scale);
 
