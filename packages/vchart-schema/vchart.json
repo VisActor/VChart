@@ -1259,6 +1259,133 @@
       },
       "type": "object"
     },
+    "ConvertToMarkStyleSpec<IArcMarkSpec>_2": {
+      "description": "style格式转换",
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "autoCapConical": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">"
+        },
+        "cap": {
+          "$ref": "#/definitions/VisualType<boolean|[boolean,boolean]>",
+          "description": "arc 的 roundCap 属性，即圆角是否伸出 startAngle 和 endAngle 之外"
+        },
+        "centerOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "arc的中心点偏移距离"
+        },
+        "cornerRadius": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>"
+        },
+        "endAngle": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框"
+        },
+        "innerRadius": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框"
+        },
+        "outerRadius": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "padAngle": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "startAngle": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>"
+        }
+      },
+      "type": "object"
+    },
     "ConvertToMarkStyleSpec<IAreaMarkSpec>": {
       "description": "style格式转换",
       "properties": {
@@ -24091,6 +24218,18 @@
           ],
           "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册"
         },
+        "tickMask": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<IMarkSpec<IArcMarkSpec>,\"state\">"
+            },
+            {
+              "$ref": "#/definitions/ITickMaskSpec"
+            }
+          ],
+          "description": "tick 模式显示",
+          "since": "1.4.0"
+        },
         "title": {
           "$ref": "#/definitions/ITitleSpec",
           "description": "图表标题配置"
@@ -24426,6 +24565,18 @@
           "description": "是否支持3d视角",
           "type": "boolean"
         },
+        "tickMask": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<IMarkSpec<IArcMarkSpec>,\"state\">"
+            },
+            {
+              "$ref": "#/definitions/ITickMaskSpec"
+            }
+          ],
+          "description": "tick 模式显示",
+          "since": "1.4.0"
+        },
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
@@ -24508,6 +24659,18 @@
         },
         "startAngle": {
           "type": "number"
+        },
+        "tickMask": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<IMarkTheme<IArcMarkSpec>,\"state\">"
+            },
+            {
+              "$ref": "#/definitions/ITickMaskSpec"
+            }
+          ],
+          "description": "tick 模式显示",
+          "since": "1.4.0"
         },
         "track": {
           "$ref": "#/definitions/Partial<IMarkTheme<IProgressArcMarkSpec>>"
@@ -30611,6 +30774,18 @@
           ],
           "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册"
         },
+        "tickMask": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<IMarkSpec<IArcMarkSpec>,\"state\">"
+            },
+            {
+              "$ref": "#/definitions/ITickMaskSpec"
+            }
+          ],
+          "description": "tick 模式显示",
+          "since": "1.4.0"
+        },
         "title": {
           "$ref": "#/definitions/ITitleSpec",
           "description": "图表标题配置"
@@ -30978,6 +31153,18 @@
           "description": "是否支持3d视角",
           "type": "boolean"
         },
+        "tickMask": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<IMarkSpec<IArcMarkSpec>,\"state\">"
+            },
+            {
+              "$ref": "#/definitions/ITickMaskSpec"
+            }
+          ],
+          "description": "tick 模式显示",
+          "since": "1.4.0"
+        },
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
@@ -31067,6 +31254,18 @@
         },
         "startAngle": {
           "type": "number"
+        },
+        "tickMask": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<IMarkTheme<IArcMarkSpec>,\"state\">"
+            },
+            {
+              "$ref": "#/definitions/ITickMaskSpec"
+            }
+          ],
+          "description": "tick 模式显示",
+          "since": "1.4.0"
         }
       },
       "type": "object"
@@ -31369,6 +31568,18 @@
           "description": "是否支持3d视角",
           "type": "boolean"
         },
+        "tickMask": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<IMarkSpec<IArcMarkSpec>,\"state\">"
+            },
+            {
+              "$ref": "#/definitions/ITickMaskSpec"
+            }
+          ],
+          "description": "tick 模式显示",
+          "since": "1.4.0"
+        },
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
@@ -31456,6 +31667,18 @@
         },
         "startAngle": {
           "type": "number"
+        },
+        "tickMask": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<IMarkTheme<IArcMarkSpec>,\"state\">"
+            },
+            {
+              "$ref": "#/definitions/ITickMaskSpec"
+            }
+          ],
+          "description": "tick 模式显示",
+          "since": "1.4.0"
         },
         "track": {
           "$ref": "#/definitions/Partial<IMarkTheme<IArcMarkSpec>>",
@@ -42275,7 +42498,8 @@
           "type": "array"
         },
         "endAngle": {
-          "description": "扇区结束角度",
+          "default": 270,
+          "description": "饼图的结束角度（0 ~ 360）",
           "type": "number"
         },
         "extensionMark": {
@@ -42348,6 +42572,12 @@
           ],
           "description": "图例配置"
         },
+        "minAngle": {
+          "default": 0,
+          "description": "最小的扇区角度（0 ~ 360），用于防止某个值过小导致扇区太小影响交互。",
+          "since": "1.4.0",
+          "type": "number"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -42358,7 +42588,7 @@
           "type": "number"
         },
         "padAngle": {
-          "description": "扇区间隔角度",
+          "description": "扇区之间的间隔角度",
           "type": "number"
         },
         "padding": {
@@ -42469,7 +42699,8 @@
           "type": "boolean"
         },
         "startAngle": {
-          "description": "扇区起始角度",
+          "default": -90,
+          "description": "饼图的起始角度（0 ~ 360）",
           "type": "number"
         },
         "support3d": {
@@ -42752,7 +42983,8 @@
           "type": "array"
         },
         "endAngle": {
-          "description": "扇区结束角度",
+          "default": 270,
+          "description": "饼图的结束角度（0 ~ 360）",
           "type": "number"
         },
         "extensionMark": {
@@ -42825,6 +43057,12 @@
           ],
           "description": "图例配置"
         },
+        "minAngle": {
+          "default": 0,
+          "description": "最小的扇区角度（0 ~ 360），用于防止某个值过小导致扇区太小影响交互。",
+          "since": "1.4.0",
+          "type": "number"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -42835,7 +43073,7 @@
           "type": "number"
         },
         "padAngle": {
-          "description": "扇区间隔角度",
+          "description": "扇区之间的间隔角度",
           "type": "number"
         },
         "padding": {
@@ -42946,7 +43184,8 @@
           "type": "boolean"
         },
         "startAngle": {
-          "description": "扇区起始角度",
+          "default": -90,
+          "description": "饼图的起始角度（0 ~ 360）",
           "type": "number"
         },
         "support3d": {
@@ -43135,7 +43374,8 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "endAngle": {
-          "description": "扇区结束角度",
+          "default": 270,
+          "description": "饼图的结束角度（0 ~ 360）",
           "type": "number"
         },
         "extensionMark": {
@@ -43180,6 +43420,12 @@
           "$ref": "#/definitions/IArcLabelSpec",
           "description": "标签配置"
         },
+        "minAngle": {
+          "default": 0,
+          "description": "最小的扇区角度（0 ~ 360），用于防止某个值过小导致扇区太小影响交互。",
+          "since": "1.4.0",
+          "type": "number"
+        },
         "morph": {
           "$ref": "#/definitions/IMorphSeriesSpec",
           "description": "morph 动画配置"
@@ -43194,7 +43440,7 @@
           "type": "number"
         },
         "padAngle": {
-          "description": "扇区间隔角度",
+          "description": "扇区之间的间隔角度",
           "type": "number"
         },
         "percent": {
@@ -43268,7 +43514,8 @@
           "type": "boolean"
         },
         "startAngle": {
-          "description": "扇区起始角度",
+          "default": -90,
+          "description": "饼图的起始角度（0 ~ 360）",
           "type": "number"
         },
         "support3d": {
@@ -56313,6 +56560,23 @@
       },
       "type": "object"
     },
+    "ITickMaskSpec": {
+      "properties": {
+        "angle": {
+          "description": "单个 tick 的默认宽度，角度值",
+          "type": "number"
+        },
+        "forceAlign": {
+          "description": "tick mask 下的图元是否强制和 tick 的边线对齐",
+          "type": "boolean"
+        },
+        "offsetAngle": {
+          "description": "单个 tick 的偏移角度，角度值",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
     "ITicker": {
       "properties": {
         "addTimeline": {
@@ -56869,14 +57133,34 @@
         "shapeColor": {
           "$ref": "#/definitions/TooltipContentProperty<string>"
         },
+        "shapeFill": {
+          "$ref": "#/definitions/TooltipContentProperty<string>",
+          "description": "形状填充颜色",
+          "since": "1.4.0"
+        },
         "shapeHollow": {
           "type": "boolean"
+        },
+        "shapeLineWidth": {
+          "$ref": "#/definitions/TooltipContentProperty<number>",
+          "description": "形状描边宽度",
+          "since": "1.4.0"
         },
         "shapeSize": {
           "$ref": "#/definitions/TooltipContentProperty<number>"
         },
+        "shapeStroke": {
+          "$ref": "#/definitions/TooltipContentProperty<string>",
+          "description": "形状描边颜色",
+          "since": "1.4.0"
+        },
         "shapeType": {
           "$ref": "#/definitions/TooltipContentProperty<string>"
+        },
+        "spaceRow": {
+          "$ref": "#/definitions/TooltipContentProperty<number>",
+          "description": "该行行间距",
+          "since": "1.4.0"
         },
         "value": {
           "$ref": "#/definitions/TooltipContentProperty<string>",
@@ -56919,11 +57203,26 @@
         "shapeColor": {
           "$ref": "#/definitions/TooltipContentProperty<string>"
         },
+        "shapeFill": {
+          "$ref": "#/definitions/TooltipContentProperty<string>",
+          "description": "形状填充颜色",
+          "since": "1.4.0"
+        },
         "shapeHollow": {
           "type": "boolean"
         },
+        "shapeLineWidth": {
+          "$ref": "#/definitions/TooltipContentProperty<number>",
+          "description": "形状描边宽度",
+          "since": "1.4.0"
+        },
         "shapeSize": {
           "$ref": "#/definitions/TooltipContentProperty<number>"
+        },
+        "shapeStroke": {
+          "$ref": "#/definitions/TooltipContentProperty<string>",
+          "description": "形状描边颜色",
+          "since": "1.4.0"
         },
         "shapeType": {
           "$ref": "#/definitions/TooltipContentProperty<string>"
@@ -60969,10 +61268,17 @@
         "animationAppear": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
+              "allOf": [
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             },
             {
               "type": "boolean"
@@ -60986,7 +61292,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -61000,7 +61306,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -61014,7 +61320,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -61037,7 +61343,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -61444,10 +61750,17 @@
         "animationAppear": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
+              "allOf": [
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             },
             {
               "type": "boolean"
@@ -61461,7 +61774,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -61475,7 +61788,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -61489,7 +61802,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -61512,7 +61825,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -61817,10 +62130,17 @@
         "animationAppear": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
+              "allOf": [
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             },
             {
               "type": "boolean"
@@ -61834,7 +62154,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -61848,7 +62168,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -61862,7 +62182,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -61885,7 +62205,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -62285,10 +62605,17 @@
         "animationAppear": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
+              "allOf": [
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             },
             {
               "type": "boolean"
@@ -62302,7 +62629,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -62316,7 +62643,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -62330,7 +62657,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -62353,7 +62680,7 @@
               "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<string>,\"preset\">"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -62777,7 +63104,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         },
         "size": {
@@ -62785,14 +63112,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12976",
+        "__@toStringTag@13206",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         },
         "size": {
@@ -62800,14 +63127,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12976",
+        "__@toStringTag@13206",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         },
         "size": {
@@ -62815,14 +63142,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12976",
+        "__@toStringTag@13206",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         },
         "size": {
@@ -62830,14 +63157,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12976",
+        "__@toStringTag@13206",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         },
         "size": {
@@ -62845,14 +63172,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12976",
+        "__@toStringTag@13206",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         },
         "size": {
@@ -62860,14 +63187,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12976",
+        "__@toStringTag@13206",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         },
         "size": {
@@ -62875,14 +63202,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12976",
+        "__@toStringTag@13206",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         },
         "size": {
@@ -62890,14 +63217,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12976",
+        "__@toStringTag@13206",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         },
         "size": {
@@ -62905,7 +63232,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12976",
+        "__@toStringTag@13206",
         "size"
       ],
       "type": "object"
@@ -64564,6 +64891,18 @@
           "description": "是否支持3d视角",
           "type": "boolean"
         },
+        "tickMask": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<IMarkSpec<IArcMarkSpec>,\"state\">"
+            },
+            {
+              "$ref": "#/definitions/ITickMaskSpec"
+            }
+          ],
+          "description": "tick 模式显示",
+          "since": "1.4.0"
+        },
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
@@ -65608,6 +65947,18 @@
           "description": "是否支持3d视角",
           "type": "boolean"
         },
+        "tickMask": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<IMarkSpec<IArcMarkSpec>,\"state\">"
+            },
+            {
+              "$ref": "#/definitions/ITickMaskSpec"
+            }
+          ],
+          "description": "tick 模式显示",
+          "since": "1.4.0"
+        },
         "tooltip": {
           "$ref": "#/definitions/ITooltipSpec",
           "description": "提示信息"
@@ -66021,6 +66372,67 @@
       },
       "type": "object"
     },
+    "Omit<IMarkSpec<IArcMarkSpec>,\"state\">": {
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "用户id"
+        },
+        "interactive": {
+          "description": "是否响应交互",
+          "type": "boolean"
+        },
+        "large": {
+          "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
+          "type": "boolean"
+        },
+        "largeThreshold": {
+          "description": "开启大数据渲染优化的阀值，对应的是data的长度;推荐 largeThreshold < progressiveThreshold",
+          "type": "number"
+        },
+        "progressiveStep": {
+          "description": "分片长度",
+          "type": "number"
+        },
+        "progressiveThreshold": {
+          "description": "开启分片渲染的阀值，对应的是单系列data的长度",
+          "type": "number"
+        },
+        "style": {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_2",
+          "description": "默认样式设置"
+        },
+        "support3d": {
+          "type": "boolean"
+        },
+        "visible": {
+          "description": "mark 层 是否显示配置",
+          "type": "boolean"
+        },
+        "zIndex": {
+          "description": "与其他mark元素的层级",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Omit<IMarkTheme<IArcMarkSpec>,\"state\">": {
+      "properties": {
+        "interactive": {
+          "description": "可交互的开关",
+          "type": "boolean"
+        },
+        "style": {
+          "$ref": "#/definitions/IArcMarkSpec",
+          "description": "默认样式设置"
+        },
+        "visible": {
+          "description": "mark 层 是否显示配置",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "Omit<IPieSeriesSpec,\"type\">": {
       "properties": {
         "angleField": {
@@ -66158,7 +66570,8 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "endAngle": {
-          "description": "扇区结束角度",
+          "default": 270,
+          "description": "饼图的结束角度（0 ~ 360）",
           "type": "number"
         },
         "extensionMark": {
@@ -66203,6 +66616,12 @@
           "$ref": "#/definitions/IArcLabelSpec",
           "description": "标签配置"
         },
+        "minAngle": {
+          "default": 0,
+          "description": "最小的扇区角度（0 ~ 360），用于防止某个值过小导致扇区太小影响交互。",
+          "since": "1.4.0",
+          "type": "number"
+        },
         "morph": {
           "$ref": "#/definitions/IMorphSeriesSpec",
           "description": "morph 动画配置"
@@ -66217,7 +66636,7 @@
           "type": "number"
         },
         "padAngle": {
-          "description": "扇区间隔角度",
+          "description": "扇区之间的间隔角度",
           "type": "number"
         },
         "percent": {
@@ -66291,7 +66710,8 @@
           "type": "boolean"
         },
         "startAngle": {
-          "description": "扇区起始角度",
+          "default": -90,
+          "description": "饼图的起始角度（0 ~ 360）",
           "type": "number"
         },
         "support3d": {
@@ -66634,6 +67054,27 @@
       "type": "object"
     },
     "Omit<IStateAnimateSpec<TreemapAppearPreset>,\"preset\">": {
+      "properties": {
+        "delay": {
+          "description": "动画延迟开始的时长",
+          "type": "number"
+        },
+        "duration": {
+          "description": "图表动画时长",
+          "type": "number"
+        },
+        "easing": {
+          "$ref": "#/definitions/EasingType",
+          "description": "动画缓动效果"
+        },
+        "oneByOne": {
+          "description": "是否轮流执行",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Omit<IStateAnimateSpec<WordcloudAppearPreset>,\"preset\">": {
       "properties": {
         "delay": {
           "description": "动画延迟开始的时长",
@@ -76546,34 +76987,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12976"
+        "__@toStringTag@13206"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12976"
+        "__@toStringTag@13206"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12976": {
+        "__@toStringTag@13206": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12976"
+        "__@toStringTag@13206"
       ],
       "type": "object"
     },
