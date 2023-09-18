@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: tooltip supports custom fixed position relative to the cursor, related #541",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
