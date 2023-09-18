@@ -1,22 +1,35 @@
 {{ target: series-bar-style }}
 
-#${prefix} barWidth(number)
+#${prefix} barWidth(number|string)
 
-The width of the bar, in px. If not configured, it will be adaptive by default.
+The width of the column can be set as an absolute pixel value or as a percentage (such as '10%'). If not configured, it will be adaptive by default.
 
-#${prefix} barMinWidth(number)
+- `number` type, representing pixel value
+- `string` type, percentage usage, such as '10%', this value is the proportion of bandWidth relative to scale
 
-The minimum width of the bar, in px.
+#${prefix} barMinWidth(number|string)
 
-#${prefix} barMaxWidth(number)
+The minimum width of the column, you can set an absolute pixel value, or you can use a percentage (such as '10%').
 
-The maximum width of the bar, in px.
+- `number` type, representing pixel value
+- `string` type, percentage usage, such as '10%', this value is the proportion of bandWidth relative to scale
+
+#${prefix} barMaxWidth(number|string)
+
+The maximum width of the column, you can set an absolute pixel value, or you can use a percentage (such as '10%').
+
+- `number` type, representing pixel value
+- `string` type, percentage usage, such as '10%', this value is the proportion of bandWidth relative to scale
 
 #${prefix} barGapInGroup(number|string)
 
-Supported since `1.2.0` version, it is used to adjust the column spacing in each group in the grouped column chart. You can set absolute pixel values or use percentages (such as '10%'). When there are multiple layers of grouping, arrays can be used to set the spacing of different levels, such as [10, '20%'], which means that the spacing of the first level grouping is 10px, and the spacing of the second level grouping is '20%'.
+Supported since `1.2.0` version, it is used to adjust the column spacing within each group in the grouped column chart. You can set the absolute pixel value or use a percentage (such as '10%'). When there are multiple layers of grouping, you can use an array to set the spacing of different levels, such as [10, '20%'], which means that the spacing of the first layer of grouping is 10px, and the spacing of the second layer of grouping is '20%'.
 
-If the number of arrays of `barGapInGroup` is less than the number of grouping layers, the last value will be used for the subsequent grouping gaps.
+If the number of arrays in `barGapInGroup` is less than the number of grouping levels, the last value will be used for subsequent grouping spacing.
 
-- `number` represents the pixel value
-- `string` percentage usage, such as '10%', the value corresponds to the bandWidth ratio of the scale corresponding to the last grouping field (because the columns are of equal width, the scale of the last layer grouping is used)
+- `number` type, representing pixel value
+- `string` type, percentage usage, such as '10%', this value is the bandWidth proportion of the scale corresponding to the last grouping field (because the columns are of equal width, the scale of the last layer of grouping is used)
+
+#${prefix} barMinHeight(number)
+
+Supported since `1.4.0` version, used to configure the minimum height of the bar, which can be used to prevent visual adjustments of a data item whose value is too small.
