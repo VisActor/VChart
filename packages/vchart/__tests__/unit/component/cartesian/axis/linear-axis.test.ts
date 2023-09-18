@@ -377,3 +377,55 @@ test('niceDomain should not work when user set min or max', () => {
   const scale = linearAxis.getScale();
   expect(scale.domain()).toEqual([300, 300]);
 });
+
+test('dynamic tickCount', () => {
+  const linearAxis = CartesianAxis.createAxis(
+    getAxisSpec({
+      orient: 'left',
+      tick: {
+        tickCount: (params: any) => {
+          const density = 1;
+          const fontSize = params.labelStyle.fontSize ?? 12;
+          const height = params.axisLength;
+          const count = ~~Math.max(Math.ceil(height / (fontSize * 1.5)) * (0.2 * density), 2);
+          return count;
+        }
+      }
+    }),
+    ctx
+  );
+
+  linearAxis.created();
+  linearAxis.init({});
+  // @ts-ignore
+  linearAxis.updateScaleDomain();
+  {
+    const scale = linearAxis.getScale();
+    scale.range([0, 500]);
+    // @ts-ignore
+    linearAxis.computeData();
+    // @ts-ignore
+    const tickCount = linearAxis.getTickData().getLatestData()?.length;
+    expect(tickCount).toEqual(6);
+  }
+
+  {
+    const scale = linearAxis.getScale();
+    scale.range([0, 1000]);
+    // @ts-ignore
+    linearAxis.computeData();
+    // @ts-ignore
+    const tickCount = linearAxis.getTickData().getLatestData()?.length;
+    expect(tickCount).toEqual(11);
+  }
+
+  {
+    const scale = linearAxis.getScale();
+    scale.range([0, 200]);
+    // @ts-ignore
+    linearAxis.computeData();
+    // @ts-ignore
+    const tickCount = linearAxis.getTickData().getLatestData()?.length;
+    expect(tickCount).toEqual(4);
+  }
+});

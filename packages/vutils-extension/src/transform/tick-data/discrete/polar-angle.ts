@@ -1,5 +1,5 @@
 import type { BandScale } from '@visactor/vscale';
-import { isValid } from '@visactor/vutils';
+import { isFunction, isValid } from '@visactor/vutils';
 import type { IPolarTickDataOpt, ITickData } from '../interface';
 import { convertDomainToTickData, getPolarAngleLabelBounds, labelOverlap } from '../util';
 import type { AABBBounds } from '@visactor/vutils';
@@ -15,7 +15,7 @@ import type { AABBBounds } from '@visactor/vutils';
  * @returns
  */
 export const polarAngleAxisDiscreteTicks = (scale: BandScale, op: IPolarTickDataOpt): ITickData[] => {
-  const { tickCount, forceTickCount, tickStep, getRadius, labelOffset, labelGap = 0 } = op;
+  const { tickCount, forceTickCount, tickStep, getRadius, labelOffset, labelGap = 0, labelStyle } = op;
   const radius = getRadius?.();
   if (!radius) {
     return convertDomainToTickData(scale.domain());
@@ -27,7 +27,10 @@ export const polarAngleAxisDiscreteTicks = (scale: BandScale, op: IPolarTickData
   } else if (isValid(forceTickCount)) {
     scaleTicks = scale.forceTicks(forceTickCount);
   } else if (isValid(tickCount)) {
-    scaleTicks = scale.ticks(tickCount);
+    const range = scale.range();
+    const rangeSize = Math.abs(range[range.length - 1] - range[0]);
+    const count = isFunction(tickCount) ? tickCount({ axisLength: rangeSize, labelStyle }) : tickCount;
+    scaleTicks = scale.ticks(count);
   } else if (op.sampling) {
     const domain = scale.domain();
     const range = scale.range();
