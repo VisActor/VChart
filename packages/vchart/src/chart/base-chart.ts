@@ -717,39 +717,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   getSeriesData(id: StringOrNumber | undefined, index: number | undefined): DataView | undefined {
-    if (!this._spec.data) {
-      // 没有数据，报错处理
-      this._option?.onError('no data in spec!');
-      return null;
-    }
-
-    // dataId 优先
-    if (typeof id === 'string') {
-      const metchData = (this._spec.data as DataView[]).filter((data: any) => {
-        return data.name === id;
-      });
-
-      if (metchData[0]) {
-        return metchData[0];
-      }
-
-      // id不匹配，报错处理
-      this._option?.onError(`no data matches dataId ${id}!`);
-      return null;
-    }
-
-    // 其次使用dataIndex
-    if (typeof index === 'number') {
-      if (this._spec.data[index]) {
-        return this._spec.data[index];
-      }
-      // index不匹配，报错处理
-      this._option?.onError(`no data matches dataIndex ${index}!`);
-      return null;
-    }
-
-    // 最后返回第一条数据
-    return this._spec.data[0];
+    return this._chartData.getSeriesData(id, index);
   }
 
   private _transformSpecScale() {
