@@ -100,9 +100,17 @@ If or not the tick is aligned with the label, the default is true, which means i
 
 tick Step length.
 
-##${prefix} tickCount(number) = 5
+##${prefix} tickCount(number|function) = 5
 
 The recommended number of ticks does not guarantee that the result will be the configured value.
+Since version` 1.4.0`, in **continuous axes**, tickCount supports being configured as a function, typically used to dynamically configure the number of ticks. The function definition is as follows:
+
+```ts
+tickCount?: (option: {
+  axisLength?: number;  // 坐标轴占据的画布大小。直角坐标系中为轴的宽度或高度，极坐标系中半径轴的长度。
+  labelStyle?: ITextGraphicAttribute; // 轴标签的样式
+}) => number;
+```
 
 ##${prefix} forceTickCount(number)
 
