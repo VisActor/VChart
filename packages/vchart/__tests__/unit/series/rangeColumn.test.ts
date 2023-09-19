@@ -1,11 +1,11 @@
 import { DataSet, csvParser, dataViewParser } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../../src/series/interface';
-import { seriesOption } from '../../util/context';
+import { initChartDataSet, seriesOption } from '../../util/context';
 import { RangeColumnSeries } from '../../../src';
 
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview', dataViewParser);
 let ctx: ISeriesOption;
 describe('[Domain-Series-RangeColumn] RangeColumn Series', () => {
   beforeEach(() => {

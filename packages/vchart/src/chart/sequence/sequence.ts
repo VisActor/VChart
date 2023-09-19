@@ -200,7 +200,8 @@ export class SequenceChart extends BaseChart {
             col: 2,
             row: rowNum
           });
-          const data = this.getSeriesData(seriesSpec.dataId, seriesSpec.dataIndex);
+          const data = this._chartData.getSeriesData(seriesSpec.dataId, seriesSpec.dataIndex);
+
           let ratio = 0;
           if (data.latestData.length && data.latestData.length > 0) {
             ratio = (seriesSpec?.height || defaultSeriesRowHeight) / (data.latestData.length * 30);
@@ -302,31 +303,7 @@ export class SequenceChart extends BaseChart {
     seriesSpec.forEach((spec, index) => {
       // 自动填充数据
       if (!spec.data) {
-        spec.data = this.getSeriesData(spec.dataId, spec.dataIndex);
-
-        // link series添加关联的dot series data
-        if (spec.type === SeriesTypeEnum.link) {
-          spec.dataDot = this.getSeriesData(
-            this._spec.series[spec.dotSeriesIndex].dataId,
-            this._spec.series[spec.dotSeriesIndex].dataIndex
-          );
-        }
-      } else {
-        // 保证数据最终是 DataView 实例
-        spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], {
-          onError: this._option?.onError
-        });
-        // link series添加关联的dot series data
-        if (spec.type === SeriesTypeEnum.link) {
-          spec.dataDot = dataToDataView(
-            this._spec.series[spec.dotSeriesIndex].data,
-            this._dataSet,
-            this._spec.data as DataView[],
-            {
-              onError: this._option?.onError
-            }
-          );
-        }
+        spec.data = this._chartData.getSeriesData(spec.dataId, spec.dataIndex);
       }
 
       if (spec.type === SeriesTypeEnum.link) {

@@ -6,6 +6,7 @@ import { ThemeManager } from '../../../src/theme';
 import { createCanvas, removeDom } from '../../util/dom';
 import type { ILineChartSpec } from '../../../src';
 import type { IColorSchemeStruct } from '../../../src/theme/color-scheme/interface';
+import { initChartDataSet } from '../../util/context';
 
 describe('theme switch test', () => {
   let canvasDom: HTMLCanvasElement;
@@ -26,8 +27,8 @@ describe('theme switch test', () => {
 
   it('theme switch', async () => {
     const dataSet = new DataSet();
+    initChartDataSet(dataSet);
     dataSet.registerParser('csv', csvParser);
-    dataSet.registerParser('dataview', dataViewParser);
     const dataView = new DataView(dataSet);
     const data = `x,type,y
     1,1,850
@@ -98,8 +99,8 @@ describe('theme switch test', () => {
 
   it('set theme in spec and theme is a string', async () => {
     const dataSet = new DataSet();
+    initChartDataSet(dataSet);
     dataSet.registerParser('csv', csvParser);
-    dataSet.registerParser('dataview', dataViewParser);
     const dataView = new DataView(dataSet);
     const data = `x,type,y
     1,1,850
@@ -142,8 +143,8 @@ describe('theme switch test', () => {
 
   it('set theme in spec and theme is an object', async () => {
     const dataSet = new DataSet();
+    initChartDataSet(dataSet);
     dataSet.registerParser('csv', csvParser);
-    dataSet.registerParser('dataview', dataViewParser);
     const dataView = new DataView(dataSet);
     const data = `x,type,y
     1,1,850

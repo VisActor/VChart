@@ -353,7 +353,7 @@ export class BaseChart extends CompilableBase implements IChart {
         specKey: 'series',
         getTheme: () => this._theme,
         globalScale: this._globalScale,
-        getSeriesData: this.getSeriesData.bind(this),
+        getSeriesData: this._chartData.getSeriesData.bind(this._chartData),
         sourceDataList: this._chartData.dataList
       });
 
@@ -677,6 +677,12 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   updateData(id: StringOrNumber, data: unknown, updateGlobalScale: boolean = true, options?: IParserOptions) {
+    const dv = this._dataSet.getDataView(id as string);
+    if (dv) {
+      dv.markRunning();
+      dv.parseNewData(data, options);
+    }
+
     this._chartData.updateData({ id: id, values: data as any }, false, true);
     if (updateGlobalScale) {
       this.updateGlobalScaleDomain();

@@ -11,11 +11,12 @@ import type { WordCloudSeries } from '../../../src/series/word-cloud/word-cloud'
 import { dataWordCloud } from '../../data/data-wordcloud';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
+import { initChartDataSet } from '../../util/context';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview', dataViewParser);
 
 const spec: IWordCloudChartSpec = {
   type: 'wordCloud',

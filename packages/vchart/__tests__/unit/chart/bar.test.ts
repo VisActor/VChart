@@ -9,9 +9,12 @@ import { ThemeManager } from '../../../src';
 import { BarChart } from '../../../src';
 import { DataSet } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
+import { initChartDataSet } from '../../util/context';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
+
 const data = [
   { y: '757', x: '0', y2: '0', type: 'A', type2: 'A', color: 'A' },
   { y: '642', x: '1', y2: '0', type: 'A', type2: 'A', color: 'A' },
