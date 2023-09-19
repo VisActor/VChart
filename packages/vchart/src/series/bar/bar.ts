@@ -122,11 +122,11 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const region = this.getRegion();
 
     // @ts-ignore
-    if (region._calculate) {
+    if (region._bar_series_position_calculated) {
       return;
     }
     // @ts-ignore
-    region._calculate = true; // 因为是 region 内堆叠矩形的计算，所以加一个 hack 标识位用于避免重复计算
+    region._bar_series_position_calculated = true; // 因为是 region 内堆叠矩形的计算，所以加一个 hack 标识位用于避免重复计算
     let start: string;
     let end: string;
     let startMethod: string;
@@ -478,7 +478,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     super.onLayoutEnd(ctx);
     const region = this.getRegion();
     // @ts-ignore
-    region._calculate = false;
+    region._bar_series_position_calculated = false;
   }
 
   /**
