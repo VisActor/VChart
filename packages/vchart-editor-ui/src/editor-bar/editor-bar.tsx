@@ -15,6 +15,7 @@ import { IconAddText } from '../svg/add-text';
 import { IconEditData } from '../svg/edit-data';
 import { IconComment } from '../svg/comment';
 import { EditorBarStroke } from './stroke';
+import { EditorBarTool } from './util';
 
 const chartList = [
   {
@@ -41,35 +42,51 @@ const paletteList = [
 
 export function EditorBar(props: IEditorComponentProps) {
   return (
-    <div className="vchart-editor-ui-editor-bar-container" style={{ ...(props.style ?? {}) }}>
+    <div
+      className="vchart-editor-ui-editor-bar-container"
+      style={{ display: 'flex', alignItems: 'center', padding: '4px 8px', height: 32, ...(props.style ?? {}) }}
+    >
       <EditorBarChart chart="bar" chartList={chartList} />
-      <Divider layout="vertical" margin="12px" />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
       <EditorBarPalette palette={paletteList[0]} paletteList={paletteList} />
-      <Divider layout="vertical" margin="12px" />
-      <IconHorizontalLine />
-      <Divider layout="vertical" margin="12px" />
-      <IconVerticalLine />
-      <Divider layout="vertical" margin="12px" />
-      <IconHorizontalRect />
-      <Divider layout="vertical" margin="12px" />
-      <IconVerticalRect />
-      <Divider layout="vertical" margin="12px" />
-      <IconCombineMark />
-      <Divider layout="vertical" margin="12px" />
-      <IconSumDiff />
-      <Divider layout="vertical" margin="12px" />
-      <IconHierarchyDiff />
-      <Divider layout="vertical" margin="12px" />
-      <IconAddText />
-      <Divider layout="vertical" margin="12px" />
-      <IconEditData />
-      <Divider layout="vertical" margin="12px" />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
+      <EditorBarTool icon={<IconHorizontalLine />} selected={false} />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
+      <EditorBarTool icon={<IconVerticalLine />} selected={false} />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
+      <EditorBarTool icon={<IconHorizontalRect />} selected={false} />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
+      <EditorBarTool icon={<IconVerticalRect />} selected={false} />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
+      <EditorBarTool icon={<IconCombineMark />} selected={false} />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
+      <EditorBarTool icon={<IconSumDiff />} selected={false} />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
+      <EditorBarTool icon={<IconHierarchyDiff />} selected={false} />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
+      <EditorBarTool icon={<IconAddText />} selected={false} />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
+      <EditorBarTool icon={<IconEditData />} selected={false} />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
       <EditorBarFill fillColor="#FFFFFF" fillOpacity={1} />
       <EditorBarStroke strokeStyle="disable" strokeColor="#000000" strokeWidth={1} strokeOpacity={1} />
-      <Divider layout="vertical" margin="12px" />
-      <IconComment />
-      <Divider layout="vertical" margin="12px" />
-      <IconMore />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
+      <EditorBarTool icon={<IconComment />} selected={false} />
+      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+
+      <EditorBarTool icon={<IconMore />} selected={false} />
     </div>
   );
 }

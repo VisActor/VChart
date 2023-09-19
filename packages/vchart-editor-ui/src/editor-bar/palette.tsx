@@ -21,7 +21,7 @@ export function EditorBarPalette(props: IEditorBarPaletteProps) {
     <Popover
       spacing={10}
       content={
-        <div className="vchart-editor-ui-editor-bar-container">
+        <div className="vchart-editor-ui-editor-bar-panel-container">
           {(props.paletteList ?? []).map((palette, paletteIndex) => (
             <div
               key={paletteIndex}
@@ -41,11 +41,11 @@ export function EditorBarPalette(props: IEditorBarPaletteProps) {
         </div>
       }
     >
-      <span>
+      <span className="vchart-editor-ui-editor-bar-tool">
         <span className="vchart-editor-ui-editor-bar-color-item" style={{ background: props.palette[0] }}></span>
         <span className="vchart-editor-ui-editor-bar-color-item" style={{ background: props.palette[1] }}></span>
         <span className="vchart-editor-ui-editor-bar-color-item" style={{ background: props.palette[2] }}></span>
-        <IconChevronDown />
+        <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>
   );

@@ -1,4 +1,4 @@
-import type { IColorItemProps } from '../typings/editor-bar';
+import type { IColorItemProps, IEditorBarToolProps } from '../typings/editor-bar';
 import { IconColorDisable, IconDisableRect } from '../svg/disable';
 import { IconStrokeText, IconText } from '../svg/text';
 
@@ -58,33 +58,6 @@ export function TextColorItem(props: IColorItemProps & { background?: string }) 
       )}
     </span>
   );
-  // return color.toLowerCase() === '#ffffff' ? (
-  //   <span
-  //     key={color}
-  //     className="vchart-editor-ui-editor-bar-color-item-text"
-  //     style={{
-  //       border: '1px solid #1F232926',
-  //       width: size,
-  //       height: size,
-  //       backgroundColor: props.background ?? 'transparent'
-  //     }}
-  //   >
-  //     <IconStrokeText />
-  //   </span>
-  // ) : (
-  //   <span
-  //     key={color}
-  //     className="vchart-editor-ui-editor-bar-color-item-text"
-  //     style={{
-  //       border: '1px solid #1F232926',
-  //       width: size,
-  //       height: size,
-  //       backgroundColor: props.background ?? 'transparent'
-  //     }}
-  //   >
-  //     <IconText fill={color} />
-  //   </span>
-  // );
 }
 
 export function TextBackgroundColorItem(props: IColorItemProps) {
@@ -106,5 +79,18 @@ export function TextBackgroundColorItem(props: IColorItemProps) {
       className="vchart-editor-ui-editor-bar-color-item-rect"
       style={{ background: color, width: size, height: size }}
     ></span>
+  );
+}
+
+export function EditorBarTool(props: IEditorBarToolProps) {
+  return (
+    <span
+      className={`vchart-editor-ui-editor-bar-tool ${
+        props.selected ? 'vchart-editor-ui-editor-bar-tool-selected' : ''
+      }`}
+      style={{ width: 20 }}
+    >
+      {props.icon}
+    </span>
   );
 }
