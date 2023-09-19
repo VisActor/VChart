@@ -15,7 +15,7 @@ import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam }
 import type { IChartSpec, StringOrNumber } from '../../typings';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
-import { isValid, isValidNumber, mixin } from '@visactor/vutils';
+import { isValid, mixin } from '@visactor/vutils';
 import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 
 export function projectionName(key: string, id: number) {
