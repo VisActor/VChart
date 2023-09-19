@@ -31,8 +31,8 @@ export function EditorBarFill(props: IEditorBarFillProps) {
     <Popover
       spacing={10}
       content={
-        <div className="vchart-editor-ui-editor-bar-panel-container" style={{ padding: 10 }}>
-          <div>填充</div>
+        <div className="vchart-editor-ui-editor-bar-panel-container" style={{ padding: '10px 12px' }}>
+          <div style={{ marginBottom: 2 }}>填充</div>
           {(paletteList ?? []).map((palette, paletteIndex) => (
             <div
               key={paletteIndex}
@@ -44,7 +44,7 @@ export function EditorBarFill(props: IEditorBarFillProps) {
               ))}
             </div>
           ))}
-          <div>
+          <div style={{ marginTop: 6 }}>
             透明度<span style={{ float: 'right' }}>{(opacity * 100).toFixed(0)}%</span>
           </div>
           <Slider
