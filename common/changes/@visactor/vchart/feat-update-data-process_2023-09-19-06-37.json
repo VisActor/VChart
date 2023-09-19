@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "fix: fix auto size in updateSpec\n\n",
+      "comment": "feat: fix issue about updateSpec not work with only data change, details in #912\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
