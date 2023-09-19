@@ -16,7 +16,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import type { LayoutItem } from '../../../model/layout-item';
 import { Factory } from '../../../core/factory';
-import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis } from './util';
+import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis, transformInverse } from './util';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
@@ -114,13 +114,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this._dataSet = options.dataSet;
   }
 
-  static transformInverse(spec: any, isHorizontal: boolean) {
-    if (isHorizontal && !isXAxis(spec.orient)) {
-      spec.inverse = isValid(spec.inverse) ? !spec.inverse : true;
-    }
-    return spec;
-  }
-
   static createAxis(spec: any, options: IComponentOption, isHorizontal: boolean = false): IAxis {
     const axisType = spec.type ?? autoAxisType(spec.orient, isHorizontal);
     const componentName = `${CartesianAxis.type}-${axisType}`;
@@ -133,7 +126,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       // if (isHorizontal && !isXAxis(spec.orient)) {
       //   inverse = isValid(spec.inverse) ? !spec.inverse : true;
       // }
-      CartesianAxis.transformInverse(spec, isHorizontal);
+      transformInverse(spec, isHorizontal);
       return new C(
         {
           ...spec,
@@ -825,6 +818,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   updateSpec(spec: any) {
     const chartSpec = this._option.getChart().getSpec();
-    return super.updateSpec(CartesianAxis.transformInverse(spec, chartSpec.direction === Direction.horizontal));
+    return super.updateSpec(transformInverse(spec, chartSpec.direction === Direction.horizontal));
   }
 }
