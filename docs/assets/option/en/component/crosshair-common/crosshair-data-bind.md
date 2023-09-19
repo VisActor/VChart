@@ -12,6 +12,6 @@ Declare the axis indices for crosshair binding. If not declared, it will bind to
 
 Declare the axis index for displaying data.
 
-##${prefix} datum(any)
+##${prefix} datum(string|number)
 
 Declare the data to be displayed.
