@@ -79,7 +79,7 @@ import type { IGlobalScale } from '../scale/interface';
 import { DimensionEventEnum } from '../event/events/dimension';
 import type { ITooltip } from '../component/tooltip/interface';
 import type { IRectMark } from '../mark/rect';
-import { calculateChartSize } from './util';
+import { calculateChartSize, mergeUpdateResult } from './util';
 import { isDiscrete } from '@visactor/vscale';
 
 export class BaseChart extends CompilableBase implements IChart {
@@ -812,7 +812,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   updateGlobalScale(result: IUpdateSpecResult) {
-    this._mergeUpdateResult(result, this._globalScale.updateSpec(this._transformSpecScale()));
+    mergeUpdateResult(result, this._globalScale.updateSpec(this._transformSpecScale()));
   }
 
   updateGlobalScaleTheme() {
@@ -888,12 +888,9 @@ export class BaseChart extends CompilableBase implements IChart {
   updateChartConfig(result: IUpdateSpecResult, oldSpec: IChartSpec) {
     // padding;
     this._paddingSpec = normalizeLayoutPaddingSpec(this._spec.padding ?? this._theme?.padding);
-    if (this._spec.width !== oldSpec.width || this._spec.height !== oldSpec.height) {
-      this._option.globalInstance.resize(this._spec.width, this._spec.height);
-    } else {
-      // re compute padding & layout
-      this._updateLayoutRect(this._viewBox);
-    }
+
+    // re compute padding & layout
+    this._updateLayoutRect(this._viewBox);
 
     // background need remake
     if (!isEqual(this._spec.background, oldSpec.background)) {
@@ -918,7 +915,7 @@ export class BaseChart extends CompilableBase implements IChart {
       return;
     }
     this._regions.forEach(r => {
-      this._mergeUpdateResult(result, r.updateSpec(this._spec.region[r.getSpecIndex()]));
+      mergeUpdateResult(result, r.updateSpec(this._spec.region[r.getSpecIndex()]));
       r.reInit();
     });
   }
@@ -940,9 +937,9 @@ export class BaseChart extends CompilableBase implements IChart {
           componentCount: 0
         };
         componentCache[c.specKey].componentCount++;
-        this._mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()], cmpSpec));
+        mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()], cmpSpec));
       } else {
-        this._mergeUpdateResult(result, c.updateSpec(cmpSpec));
+        mergeUpdateResult(result, c.updateSpec(cmpSpec));
       }
       c.reInit();
     });
@@ -965,7 +962,7 @@ export class BaseChart extends CompilableBase implements IChart {
     this._series.forEach(s => {
       const spec = this._spec.series[s.getSpecIndex()];
       const lastSpec = s.getSpec();
-      this._mergeUpdateResult(result, s.updateSpec(spec));
+      mergeUpdateResult(result, s.updateSpec(spec));
       s.reInit(null, lastSpec);
     });
   }
@@ -1011,14 +1008,6 @@ export class BaseChart extends CompilableBase implements IChart {
       seriesField: spec.seriesField
     };
     return series;
-  }
-
-  private _mergeUpdateResult(resultA: IUpdateSpecResult, resultB: IUpdateSpecResult) {
-    resultA.change = resultA.change || resultB.change;
-    resultA.reCompile = resultA.reCompile || resultB.reCompile;
-    resultA.reMake = resultA.reMake || resultB.reMake;
-    resultA.reRender = resultA.reRender || resultB.reRender;
-    resultA.reSize = resultA.reSize || resultB.reSize;
   }
 
   private _updateLayoutRect(viewBox: IBoundsLike) {
