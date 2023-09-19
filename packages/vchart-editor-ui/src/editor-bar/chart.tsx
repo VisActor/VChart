@@ -5,7 +5,8 @@ import { IconChart } from '../svg/chart';
 
 const selectedStyle = {
   width: 144,
-  height: 32
+  height: 32,
+  backgroundColor: 'rgba(117, 164, 255, 0.1)'
 };
 
 const unselectedStyle = {
@@ -14,10 +15,6 @@ const unselectedStyle = {
 };
 
 export function EditorBarChart(props: IEditorBarChartProps) {
-  const onChartSelected = (chart: string) => {
-    //
-  };
-
   return (
     <Popover
       spacing={10}
@@ -26,7 +23,7 @@ export function EditorBarChart(props: IEditorBarChartProps) {
           {(props.chartList ?? []).map(chart => (
             <div
               key={chart.type}
-              onClick={() => onChartSelected(chart.type)}
+              onClick={() => props.onChartChange?.(chart.type)}
               className="vchart-editor-ui-editor-bar-row"
               style={props.chart === chart.type ? selectedStyle : unselectedStyle}
             >

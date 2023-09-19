@@ -4,7 +4,8 @@ import { IconChevronDown } from '@douyinfe/semi-icons';
 
 const selectedStyle = {
   height: 24,
-  padding: '8px'
+  padding: '8px',
+  backgroundColor: 'rgba(117, 164, 255, 0.1)'
 };
 
 const unselectedStyle = {
@@ -13,10 +14,6 @@ const unselectedStyle = {
 };
 
 export function EditorBarPalette(props: IEditorBarPaletteProps) {
-  const onPaletteSelected = (chart: string[]) => {
-    //
-  };
-
   return (
     <Popover
       spacing={10}
@@ -25,7 +22,7 @@ export function EditorBarPalette(props: IEditorBarPaletteProps) {
           {(props.paletteList ?? []).map((palette, paletteIndex) => (
             <div
               key={paletteIndex}
-              onClick={() => onPaletteSelected(palette)}
+              onClick={() => props.onPaletteChange?.(palette)}
               className="vchart-editor-ui-editor-bar-row"
               style={props.palette === palette ? selectedStyle : unselectedStyle}
             >

@@ -1,6 +1,7 @@
+import React, { useState } from 'react';
 import { Divider } from '@douyinfe/semi-ui';
-import { IconHistogram, IconMore } from '@douyinfe/semi-icons';
-import type { IEditorComponentProps } from '../typings/editor-bar';
+import { IconMore } from '@douyinfe/semi-icons';
+import type { Fill, IEditorComponentProps, Stroke } from '../typings/editor-bar';
 import { EditorBarChart } from './chart';
 import { EditorBarPalette } from './palette';
 import { EditorBarFill } from './fill';
@@ -16,100 +17,97 @@ import { IconEditData } from '../svg/edit-data';
 import { IconComment } from '../svg/comment';
 import { EditorBarStroke } from './stroke';
 import { EditorBarTool } from './util';
-import {
-  IconBarChart,
-  IconBarLineChart,
-  IconGroupBarChart,
-  IconLineChart,
-  IconPercentageBarChart,
-  IconStackBarChart
-} from '../svg/chart';
+import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 
-const chartList = [
-  {
-    type: 'bar',
-    icon: <IconBarChart />,
-    label: '基础柱状图'
-  },
-  {
-    type: 'groupBar',
-    icon: <IconGroupBarChart />,
-    label: '分组柱状图'
-  },
-  {
-    type: 'stackBar',
-    icon: <IconStackBarChart />,
-    label: '堆叠柱状图'
-  },
-  {
-    type: 'percentageBar',
-    icon: <IconPercentageBarChart />,
-    label: '百分比堆叠图'
-  },
-  {
-    type: 'line',
-    icon: <IconLineChart />,
-    label: '折线图'
-  },
-  {
-    type: 'combine',
-    icon: <IconBarLineChart />,
-    label: '柱线组合图'
-  }
-];
+type EditorTool = {
+  key: string;
+  icon: React.ReactNode;
+};
 
-const paletteList = [
-  ['#2E62F1', '#4DC36A', '#FF8406', '#FFCC00', '#4F44CF', '#5AC8FA', '#003A8C', '#B08AE2'],
-  ['#4BC7A2', '#2E75D2', '#34B6FD', '#F5C040', '#98DD62', '#7272E1', '#87DBDD', '#FF8406']
+const editorTools: EditorTool[] = [
+  { key: 'horizontalLine', icon: <IconHorizontalLine /> },
+  { key: 'verticalLine', icon: <IconVerticalLine /> },
+  { key: 'horizontalRect', icon: <IconHorizontalRect /> },
+  { key: 'verticalRect', icon: <IconVerticalRect /> },
+  { key: 'combineMark', icon: <IconCombineMark /> },
+  { key: 'sumDiff', icon: <IconSumDiff /> },
+  { key: 'hierarchyDiff', icon: <IconHierarchyDiff /> },
+  { key: 'addText', icon: <IconAddText /> }
 ];
 
 export function EditorBar(props: IEditorComponentProps) {
+  const chartList = props.chartList ?? defaultEditorBarComponentConfig.chart.chartList;
+  const paletteList = props.paletteList ?? defaultEditorBarComponentConfig.palette.paletteList;
+
+  const [tool, setTool] = useState<string | null>(null);
+  const [chart, setChart] = useState<string | null>(chartList[0].type);
+  const [palette, setPalette] = useState<string[] | null>(paletteList[0]);
+  const [fill, setFill] = useState<Fill>(defaultEditorBarComponentConfig.fill.default);
+  const [stroke, setStroke] = useState<Stroke>(defaultEditorBarComponentConfig.stroke.default);
+
   return (
     <div
       className="vchart-editor-ui-editor-bar-container"
       style={{ display: 'flex', alignItems: 'center', padding: '4px 8px', height: 32, ...(props.style ?? {}) }}
     >
-      <EditorBarChart chart="bar" chartList={chartList} />
+      <EditorBarChart
+        chart={chart}
+        chartList={chartList}
+        onChartChange={chart => {
+          setChart(chart);
+          props.onChartChange?.(chart);
+        }}
+      />
       <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
 
-      <EditorBarPalette palette={paletteList[0]} paletteList={paletteList} />
+      <EditorBarPalette
+        palette={palette}
+        paletteList={paletteList}
+        onPaletteChange={palette => {
+          setPalette(palette);
+          props.onPaletteChange?.(palette);
+        }}
+      />
       <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
 
-      <EditorBarTool icon={<IconHorizontalLine />} selected={false} />
+      {editorTools.map(editorTool => (
+        <React.Fragment key={editorTool.key}>
+          <EditorBarTool
+            icon={editorTool.icon}
+            selected={tool === editorTool.key}
+            onClick={() => {
+              const nextTool = tool !== editorTool.key ? editorTool.key : null;
+              setTool(nextTool);
+              props.onToolChange?.(nextTool);
+            }}
+          />
+          <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
+        </React.Fragment>
+      ))}
+
+      <EditorBarTool icon={<IconEditData />} selected={false} onClick={() => props.onEditData?.()} />
       <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
 
-      <EditorBarTool icon={<IconVerticalLine />} selected={false} />
+      <EditorBarFill
+        fill={fill}
+        onFillChange={fill => {
+          setFill(fill);
+          props.onFillChange?.(fill);
+        }}
+      />
+      <EditorBarStroke
+        stroke={stroke}
+        onStrokeChange={stroke => {
+          setStroke(stroke);
+          props.onStrokeChange?.(stroke);
+        }}
+      />
       <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
 
-      <EditorBarTool icon={<IconHorizontalRect />} selected={false} />
+      <EditorBarTool icon={<IconComment />} selected={false} onClick={() => props.onComment?.()} />
       <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
 
-      <EditorBarTool icon={<IconVerticalRect />} selected={false} />
-      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
-
-      <EditorBarTool icon={<IconCombineMark />} selected={false} />
-      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
-
-      <EditorBarTool icon={<IconSumDiff />} selected={false} />
-      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
-
-      <EditorBarTool icon={<IconHierarchyDiff />} selected={false} />
-      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
-
-      <EditorBarTool icon={<IconAddText />} selected={false} />
-      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
-
-      <EditorBarTool icon={<IconEditData />} selected={false} />
-      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
-
-      <EditorBarFill fillColor="#FFFFFF" fillOpacity={1} />
-      <EditorBarStroke strokeStyle="disable" strokeColor="#000000" strokeWidth={1} strokeOpacity={1} />
-      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
-
-      <EditorBarTool icon={<IconComment />} selected={false} />
-      <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
-
-      <EditorBarTool icon={<IconMore />} selected={false} />
+      <EditorBarTool icon={<IconMore />} selected={false} onClick={() => props.onMore?.()} />
     </div>
   );
 }

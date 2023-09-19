@@ -6,16 +6,21 @@ import type React from 'react';
 export interface IColorItemProps {
   color: string;
   size?: number;
+  selected?: boolean;
+  onClick?: () => void;
 }
 
 export interface IEditorBarToolProps {
   icon: React.ReactNode;
   selected?: boolean;
+  onClick?: () => void;
 }
+
+export type ChartEntry = { type: string; icon: React.ReactNode; label: string };
 
 export interface IEditorBarChartProps {
   chart: string;
-  chartList: { type: string; icon: React.ReactNode; label: string }[];
+  chartList: ChartEntry[];
 
   onChartChange?: (chart: string) => void;
 }
@@ -24,34 +29,40 @@ export interface IEditorBarPaletteProps {
   palette: string[];
   paletteList: string[][];
 
-  onPaletteChange?: (chart: string) => void;
+  onPaletteChange?: (palette: string[]) => void;
 }
+
+export type Fill = {
+  color: string;
+  opacity: number;
+};
 
 export interface IEditorBarFillProps {
-  fillColor: string;
-  fillOpacity: number;
-  onFillColorChange?: (color: string) => void;
-  onFillOpacityChange?: (opacity: number) => void;
+  fill: Fill;
+  fillColorList?: string[];
+  onFillChange?: (fill: Fill) => void;
 }
 
-export type StrokeStyle = 'disable' | 'line' | 'dashedLine' | 'thinDashedLine';
+export interface Stroke {
+  color: string;
+  opacity: number;
+  lineWidth: number;
+  style: 'disable' | 'line' | 'dashedLine' | 'thinDashedLine';
+}
 
 export interface IEditorBarStrokeProps {
-  strokeStyle: StrokeStyle;
-  strokeWidth: number;
-  strokeColor: string;
-  strokeOpacity: number;
-  onStrokeStyleChange?: (style: StrokeStyle) => void;
-  onStrokeWidthChange?: (width: number) => void;
-  onStrokeColorChange?: (color: string) => void;
-  onStrokeOpacityChange?: (opacity: number) => void;
+  stroke: Stroke;
+  onStrokeChange?: (stroke: Stroke) => void;
 }
 
-export interface IEditorBarTextColorProps {
-  fillColor: string;
+export type TextColor = {
+  color: string;
   backgroundColor: string;
-  onFillColorChange?: (color: string) => void;
-  onBackgroundColorChange?: (color: string) => void;
+};
+
+export interface IEditorBarTextColorProps {
+  textColor: TextColor;
+  onTextColorChange?: (textColor: TextColor) => void;
 }
 
 export interface IEditorBarFontSizeProps {
@@ -61,7 +72,34 @@ export interface IEditorBarFontSizeProps {
 }
 
 // Editor Bar Component
-export interface IEditorComponentProps {
-  label?: string;
+
+export interface IBaseEditorComponentProps {
   style?: React.CSSProperties;
+  onToolChange?: (tool: string) => void;
+  onComment?: () => void;
+}
+export interface IEditorComponentProps extends IBaseEditorComponentProps {
+  chartList?: ChartEntry[];
+  paletteList?: string[][];
+  onEditData?: () => void;
+  onMore?: () => void;
+  onChartChange?: (chart: string) => void;
+  onPaletteChange?: (palette: string[]) => void;
+  onFillChange?: (fill: Fill) => void;
+  onStrokeChange?: (stroke: Stroke) => void;
+}
+
+export interface IColorEditorComponentProps extends IBaseEditorComponentProps {
+  onFillChange?: (fill: Fill) => void;
+  onStrokeChange?: (stroke: Stroke) => void;
+}
+
+export interface ILineEditorComponentProps extends IBaseEditorComponentProps {
+  onStrokeChange?: (stroke: Stroke) => void;
+}
+
+export interface ITextEditorComponentProps extends IBaseEditorComponentProps {
+  fontSizeList?: number[];
+  onTextColorChange?: (textColor: TextColor) => void;
+  onFontSizeChange?: (fontSize: number) => void;
 }

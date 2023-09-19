@@ -14,10 +14,6 @@ const unselectedStyle = {
 };
 
 export function EditorBarFontSize(props: IEditorBarFontSizeProps) {
-  const onFontSizeSelected = (fontSize: number) => {
-    //
-  };
-
   return (
     <Popover
       spacing={10}
@@ -26,7 +22,7 @@ export function EditorBarFontSize(props: IEditorBarFontSizeProps) {
           {(props.fontSizeList ?? []).map(fontSize => (
             <div
               key={fontSize}
-              onClick={() => onFontSizeSelected(fontSize)}
+              onClick={() => props.onFontSizeChange?.(fontSize)}
               className="vchart-editor-ui-editor-bar-row"
               style={props.fontSize === fontSize ? selectedStyle : unselectedStyle}
             >
@@ -37,7 +33,7 @@ export function EditorBarFontSize(props: IEditorBarFontSizeProps) {
       }
     >
       <span className="vchart-editor-ui-editor-bar-tool">
-        <span style={{ fontSize: '14px' }}>{props.fontSize}</span>
+        <span style={{ fontSize: '14px', width: 28, display: 'inline-block' }}>{props.fontSize}</span>
         <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>

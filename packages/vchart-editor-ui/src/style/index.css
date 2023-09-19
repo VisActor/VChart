@@ -80,6 +80,7 @@
   height: 22px;
   margin: 2px;
   display: inline-block;
+  cursor: pointer;
 }
 
 .vchart-editor-ui-editor-bar-color-item-text {
@@ -90,6 +91,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .vchart-editor-ui-editor-bar-box-item {
