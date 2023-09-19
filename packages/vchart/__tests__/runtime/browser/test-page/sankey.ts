@@ -5474,7 +5474,887 @@ const run = () => {
     hash: 'c39ef7cbc3392509bcc7845afa6f7d9c'
   };
 
-  const vChart = new VChart(spec1, {
+  const spec_992 = {
+    type: 'sankey',
+    nodeGap: 5,
+    nodeWidth: 12,
+    nodeAlign: 'justify',
+    iterations: 10,
+    padding: {
+      top: 0,
+      left: 2,
+      bottom: 0,
+      right: 2
+    },
+    categoryField: 'key',
+    nodeKey: d => d['key'],
+    valueField: 'value',
+    data: [
+      {
+        name: 'data',
+        values: [
+          {
+            nodes: [
+              {
+                '230919103714016': '当日',
+                color: '当日',
+                group: '230919103714016',
+                key: '230919103714016-当日',
+                name: '当日',
+                type: 'node',
+                outDegree: 3,
+                inDegree: 0,
+                children: [
+                  {
+                    '230919103714019': '消费者',
+                    color: '消费者',
+                    group: '230919103714019',
+                    key: '230919103714019-消费者',
+                    name: '消费者',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  },
+                  {
+                    '230919103714019': '公司',
+                    color: '公司',
+                    group: '230919103714019',
+                    key: '230919103714019-公司',
+                    name: '公司',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  },
+                  {
+                    '230919103714019': '小型企业',
+                    color: '小型企业',
+                    group: '230919103714019',
+                    key: '230919103714019-小型企业',
+                    name: '小型企业',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                '230919103714016': '二级',
+                color: '二级',
+                group: '230919103714016',
+                key: '230919103714016-二级',
+                name: '二级',
+                type: 'node',
+                outDegree: 3,
+                inDegree: 0,
+                children: [
+                  {
+                    '230919103714019': '小型企业',
+                    color: '小型企业',
+                    group: '230919103714019',
+                    key: '230919103714019-小型企业',
+                    name: '小型企业',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  },
+                  {
+                    '230919103714019': '公司',
+                    color: '公司',
+                    group: '230919103714019',
+                    key: '230919103714019-公司',
+                    name: '公司',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  },
+                  {
+                    '230919103714019': '消费者',
+                    color: '消费者',
+                    group: '230919103714019',
+                    key: '230919103714019-消费者',
+                    name: '消费者',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                '230919103714016': '一级',
+                color: '一级',
+                group: '230919103714016',
+                key: '230919103714016-一级',
+                name: '一级',
+                type: 'node',
+                outDegree: 3,
+                inDegree: 0,
+                children: [
+                  {
+                    '230919103714019': '小型企业',
+                    color: '小型企业',
+                    group: '230919103714019',
+                    key: '230919103714019-小型企业',
+                    name: '小型企业',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  },
+                  {
+                    '230919103714019': '消费者',
+                    color: '消费者',
+                    group: '230919103714019',
+                    key: '230919103714019-消费者',
+                    name: '消费者',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  },
+                  {
+                    '230919103714019': '公司',
+                    color: '公司',
+                    group: '230919103714019',
+                    key: '230919103714019-公司',
+                    name: '公司',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                '230919103714016': '标准级',
+                color: '标准级',
+                group: '230919103714016',
+                key: '230919103714016-标准级',
+                name: '标准级',
+                type: 'node',
+                outDegree: 3,
+                inDegree: 0,
+                children: [
+                  {
+                    '230919103714019': '消费者',
+                    color: '消费者',
+                    group: '230919103714019',
+                    key: '230919103714019-消费者',
+                    name: '消费者',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  },
+                  {
+                    '230919103714019': '小型企业',
+                    color: '小型企业',
+                    group: '230919103714019',
+                    key: '230919103714019-小型企业',
+                    name: '小型企业',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  },
+                  {
+                    '230919103714019': '公司',
+                    color: '公司',
+                    group: '230919103714019',
+                    key: '230919103714019-公司',
+                    name: '公司',
+                    type: 'node',
+                    outDegree: 4,
+                    inDegree: 4,
+                    children: [
+                      {
+                        '230919103714022': '二级',
+                        color: '二级',
+                        group: '230919103714022',
+                        key: '230919103714022-二级',
+                        name: '二级',
+                        type: 'node',
+                        value: 3498777.6997537613,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '标准级',
+                        color: '标准级',
+                        group: '230919103714022',
+                        key: '230919103714022-标准级',
+                        name: '标准级',
+                        type: 'node',
+                        value: 9339292.830370903,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '当日',
+                        color: '当日',
+                        group: '230919103714022',
+                        key: '230919103714022-当日',
+                        name: '当日',
+                        type: 'node',
+                        value: 827490.930524826,
+                        outDegree: 0,
+                        inDegree: 3
+                      },
+                      {
+                        '230919103714022': '一级',
+                        color: '一级',
+                        group: '230919103714022',
+                        key: '230919103714022-一级',
+                        name: '一级',
+                        type: 'node',
+                        value: 2403392.6722841263,
+                        outDegree: 0,
+                        inDegree: 3
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    legends: [
+      {
+        type: 'discrete',
+        item: {
+          label: {
+            style: {
+              fontSize: 12,
+              fill: '#6F6F6F'
+            }
+          },
+          focus: true,
+          focusIconStyle: {
+            size: 14
+          },
+          maxWidth: 400,
+          spaceRow: 0,
+          spaceCol: 0,
+          padding: {
+            top: 1,
+            bottom: 1,
+            left: 1,
+            right: 1
+          },
+          background: {
+            visible: false,
+            style: {
+              fillOpacity: 0.001
+            }
+          },
+          shape: {
+            style: {
+              lineWidth: 0,
+              symbolType: 'square'
+            }
+          }
+        },
+        id: 'legend',
+        orient: 'bottom',
+        position: 'middle',
+        layoutType: 'normal',
+        visible: true,
+        maxRow: 2,
+        title: {
+          textStyle: {
+            fontSize: 12,
+            fill: '#6F6F6F'
+          }
+        },
+        layoutLevel: 50,
+        pager: {
+          layout: 'horizontal',
+          padding: 0,
+          textStyle: {},
+          space: 0,
+          handler: {
+            preShape: 'triangleLeft',
+            nextShape: 'triangleRight',
+            style: {},
+            state: {
+              disable: {}
+            }
+          }
+        },
+        padding: {
+          top: 16,
+          bottom: 0,
+          left: 0,
+          right: 0
+        }
+      }
+    ],
+    tooltip: {
+      handler: {}
+    },
+    region: [
+      {
+        clip: true
+      }
+    ],
+    background: 'rgba(255, 255, 255, 0)',
+    hover: {
+      enable: true
+    },
+    select: {
+      enable: true
+    },
+    emphasis: {
+      enable: true,
+      effect: 'related'
+    },
+    link: {
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 0,
+          zIndex: 500
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1
+        },
+        blur: {
+          fillOpacity: 0.025
+        }
+      }
+    },
+    node: {
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 1,
+          zIndex: 500
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1
+        },
+        blur: {
+          fillOpacity: 0.1
+        }
+      }
+    },
+    animation: false,
+    hash: '71fea1bfaf872918422ee9e61d79eb03'
+  };
+
+  const vChart = new VChart(spec_992, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });

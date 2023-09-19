@@ -610,7 +610,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const highlightNodes: string[] = [nodeDatum.key];
 
     [this._linkMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+      const vGrammarMark = mark?.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -657,7 +657,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     });
 
     [this._nodeMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+      const vGrammarMark = mark?.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -675,7 +675,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     });
 
     [this._labelMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+      const vGrammarMark = mark?.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -698,7 +698,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
 
     [this._linkMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+      const vGrammarMark = mark?.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -751,7 +751,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     });
 
     [this._nodeMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+      const vGrammarMark = mark?.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -769,7 +769,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     });
 
     [this._labelMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+      const vGrammarMark = mark?.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -894,7 +894,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       [this._linkMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+        const vGrammarMark = mark?.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -912,7 +912,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       [this._nodeMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+        const vGrammarMark = mark?.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -930,7 +930,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       [this._labelMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+        const vGrammarMark = mark?.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -1033,7 +1033,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       [this._nodeMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+        const vGrammarMark = mark?.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -1051,7 +1051,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       [this._labelMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+        const vGrammarMark = mark?.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -1088,7 +1088,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const father = element.getDatum()?.parents ? 'parents' : 'source';
     if (father === 'source') {
       [this._linkMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+        const vGrammarMark = mark?.getProduct();
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
         }
@@ -1098,7 +1098,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         });
       });
       [this._nodeMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+        const vGrammarMark = mark?.getProduct();
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
         }
@@ -1108,7 +1108,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         });
       });
       [this._labelMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+        const vGrammarMark = mark?.getProduct();
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
         }
@@ -1229,7 +1229,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       [this._labelMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+        const vGrammarMark = mark?.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -1255,7 +1255,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   getNodeOrdinalColorScale(item: string) {
     const colorDomain = this._rawData.latestData[0]?.nodes
       ? this._rawData.latestData[0].nodes[0]?.children
-        ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes))
+        ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes, this._spec.categoryField))
         : this._rawData.latestData[0].nodes.map((datum: Datum, index: number) => {
             if (this._spec.nodeKey) {
               return datum[this._spec.categoryField];
@@ -1279,18 +1279,18 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     return ordinalScale.scale(item);
   }
 
-  extractNamesFromTree(tree: any) {
+  extractNamesFromTree(tree: any, categoryName: string) {
     // Set 用于存储唯一的 name 值
     const uniqueNames = new Set();
 
     // 遍历当前节点的子节点
     tree.forEach((node: any) => {
       // 将当前节点的 name 值添加到 Set 中
-      uniqueNames.add(node.name);
+      uniqueNames.add(node[categoryName]);
 
       // 如果当前节点还有子节点，则递归调用该函数继续遍历子节点
       if (node.children) {
-        const childNames = this.extractNamesFromTree(node.children);
+        const childNames = this.extractNamesFromTree(node.children, categoryName);
         childNames.forEach(name => uniqueNames.add(name));
       }
     });
@@ -1309,7 +1309,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   getSeriesKeys(): string[] {
     if (this._seriesField) {
       const keyArray: any[] = [];
-      this._nodesSeriesData?.getDataView().latestData.forEach((datum: { [x: string]: any }) => {
+      this._nodesSeriesData?.getDataView()?.latestData.forEach((datum: { [x: string]: any }) => {
         keyArray.push(datum[this._seriesField] ?? datum.datum[this._seriesField]);
       });
       return keyArray;
