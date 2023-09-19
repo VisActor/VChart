@@ -34,7 +34,7 @@ export function EditorBarFontSize(props: IEditorBarFontSizeProps) {
       }
     >
       <span>
-        <IconHistogram />
+        {props.fontSize}
         <IconChevronDown />
       </span>
     </Popover>
