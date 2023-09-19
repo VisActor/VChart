@@ -8,6 +8,11 @@ export interface IColorItemProps {
   size?: number;
 }
 
+export interface IEditorBarToolProps {
+  icon: React.ReactNode;
+  selected?: boolean;
+}
+
 export interface IEditorBarChartProps {
   chart: string;
   chartList: { type: string; icon: React.ReactNode; label: string }[];

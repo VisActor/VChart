@@ -31,7 +31,7 @@ export function EditorBarFill(props: IEditorBarFillProps) {
     <Popover
       spacing={10}
       content={
-        <div className="vchart-editor-ui-editor-bar-container" style={{ padding: 10 }}>
+        <div className="vchart-editor-ui-editor-bar-panel-container" style={{ padding: 10 }}>
           <div>填充</div>
           {(paletteList ?? []).map((palette, paletteIndex) => (
             <div
@@ -61,9 +61,9 @@ export function EditorBarFill(props: IEditorBarFillProps) {
         </div>
       }
     >
-      <span>
+      <span className="vchart-editor-ui-editor-bar-tool">
         <ColorItem color={props.fillColor} />
-        <IconChevronDown />
+        <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>
   );
