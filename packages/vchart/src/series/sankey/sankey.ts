@@ -530,22 +530,22 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (this._spec.emphasis?.enable && this._spec.emphasis?.effect === 'adjacency') {
       if (this._spec.emphasis?.trigger === 'hover') {
         // 浮动事件
-        this.event.on('pointerover', { level: Event_Bubble_Level.mark }, this._handleAdjacencyClick);
+        this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
       } else {
         // this._spec.emphasis?.trigger === 'click'
         // 点击事件
-        this.event.on('pointerdown', { level: Event_Bubble_Level.mark }, this._handleAdjacencyClick);
+        this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
       }
     }
 
     if (this._spec.emphasis?.enable && this._spec.emphasis?.effect === 'related') {
       if (this._spec.emphasis?.trigger === 'hover') {
         // 浮动事件
-        this.event.on('pointerover', { level: Event_Bubble_Level.mark }, this._handleRelatedClick);
+        this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
       } else {
         // this._spec.emphasis?.trigger === 'click'
         // 点击事件
-        this.event.on('pointerdown', { level: Event_Bubble_Level.mark }, this._handleRelatedClick);
+        this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
       }
     }
   }
