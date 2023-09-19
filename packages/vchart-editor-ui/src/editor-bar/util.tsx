@@ -1,12 +1,110 @@
-export function ColorItem(props: { color: string }) {
+import type { IColorItemProps } from '../typings/editor-bar';
+import { IconColorDisable, IconDisableRect } from '../svg/disable';
+import { IconStrokeText, IconText } from '../svg/text';
+
+export function ColorItem(props: IColorItemProps) {
   const color = props.color;
-  return color === 'disable' ? null : color.toLowerCase() === '#ffffff' ? (
+  const disableSize = (props.size ?? 18) + 3;
+  const whiteSize = (props.size ?? 18) - 2;
+  const size = props.size ?? 18;
+  return color === 'disable' ? (
+    <IconColorDisable style={{ width: disableSize, height: disableSize, margin: 1, marginRight: 2 }} />
+  ) : color.toLowerCase() === '#ffffff' ? (
     <span
       key={color}
       className="vchart-editor-ui-editor-bar-color-item"
-      style={{ background: color, border: '1px solid #1F232926', width: 16, height: 16 }}
+      style={{ background: color, border: '1px solid #1F232926', width: whiteSize, height: whiteSize }}
     ></span>
   ) : (
-    <span key={color} className="vchart-editor-ui-editor-bar-color-item" style={{ background: color }}></span>
+    <span
+      key={color}
+      className="vchart-editor-ui-editor-bar-color-item"
+      style={{ background: color, width: size, height: size }}
+    ></span>
+  );
+}
+
+export function TextColorItem(props: IColorItemProps & { background?: string }) {
+  const color = props.color;
+  const size = props.size ?? 16;
+  return (
+    <span style={{ display: 'inline-block' }}>
+      {color.toLowerCase() === '#ffffff' ? (
+        <span
+          key={color}
+          className="vchart-editor-ui-editor-bar-color-item-text"
+          style={{
+            border: '1px solid #1F232926',
+            width: size,
+            height: size,
+            backgroundColor: props.background ?? 'transparent'
+          }}
+        >
+          <IconStrokeText />
+        </span>
+      ) : (
+        <span
+          key={color}
+          className="vchart-editor-ui-editor-bar-color-item-text"
+          style={{
+            border: '1px solid #1F232926',
+            width: size,
+            height: size,
+            backgroundColor: props.background ?? 'transparent'
+          }}
+        >
+          <IconText fill={color} />
+        </span>
+      )}
+    </span>
+  );
+  // return color.toLowerCase() === '#ffffff' ? (
+  //   <span
+  //     key={color}
+  //     className="vchart-editor-ui-editor-bar-color-item-text"
+  //     style={{
+  //       border: '1px solid #1F232926',
+  //       width: size,
+  //       height: size,
+  //       backgroundColor: props.background ?? 'transparent'
+  //     }}
+  //   >
+  //     <IconStrokeText />
+  //   </span>
+  // ) : (
+  //   <span
+  //     key={color}
+  //     className="vchart-editor-ui-editor-bar-color-item-text"
+  //     style={{
+  //       border: '1px solid #1F232926',
+  //       width: size,
+  //       height: size,
+  //       backgroundColor: props.background ?? 'transparent'
+  //     }}
+  //   >
+  //     <IconText fill={color} />
+  //   </span>
+  // );
+}
+
+export function TextBackgroundColorItem(props: IColorItemProps) {
+  const color = props.color;
+  const disableSize = (props.size ?? 18) + 1;
+  const whiteSize = (props.size ?? 18) - 2;
+  const size = props.size ?? 18;
+  return color === 'disable' ? (
+    <IconDisableRect style={{ width: disableSize, height: disableSize, margin: 1, marginRight: 2 }} />
+  ) : color.toLowerCase() === '#ffffff' ? (
+    <span
+      key={color}
+      className="vchart-editor-ui-editor-bar-color-item-rect"
+      style={{ background: color, border: '1px solid #1F232926', width: whiteSize, height: whiteSize }}
+    ></span>
+  ) : (
+    <span
+      key={color}
+      className="vchart-editor-ui-editor-bar-color-item-rect"
+      style={{ background: color, width: size, height: size }}
+    ></span>
   );
 }

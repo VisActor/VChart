@@ -14,7 +14,7 @@ import { IconHierarchyDiff } from '../svg/hierarchy-diff';
 import { IconAddText } from '../svg/add-text';
 import { IconEditData } from '../svg/edit-data';
 import { IconComment } from '../svg/comment';
-// import horizontalLineSVG from '../assets/horizontal-line.svg';
+import { EditorBarStroke } from './stroke';
 
 const chartList = [
   {
@@ -41,36 +41,35 @@ const paletteList = [
 
 export function EditorBar(props: IEditorComponentProps) {
   return (
-    <>
-      <div className="vchart-editor-ui-editor-bar-container">
-        <EditorBarChart chart="bar" chartList={chartList} />
-        <Divider layout="vertical" margin="12px" />
-        <EditorBarPalette palette={paletteList[0]} paletteList={paletteList} />
-        <Divider layout="vertical" margin="12px" />
-        <IconHorizontalLine />
-        <Divider layout="vertical" margin="12px" />
-        <IconVerticalLine />
-        <Divider layout="vertical" margin="12px" />
-        <IconHorizontalRect />
-        <Divider layout="vertical" margin="12px" />
-        <IconVerticalRect />
-        <Divider layout="vertical" margin="12px" />
-        <IconCombineMark />
-        <Divider layout="vertical" margin="12px" />
-        <IconSumDiff />
-        <Divider layout="vertical" margin="12px" />
-        <IconHierarchyDiff />
-        <Divider layout="vertical" margin="12px" />
-        <IconAddText />
-        <Divider layout="vertical" margin="12px" />
-        <IconEditData />
-        <Divider layout="vertical" margin="12px" />
-        <EditorBarFill fillColor="#FFFFFF" fillOpacity={1} />
-        <Divider layout="vertical" margin="12px" />
-        <IconComment />
-        <Divider layout="vertical" margin="12px" />
-        <IconMore />
-      </div>
-    </>
+    <div className="vchart-editor-ui-editor-bar-container" style={{ ...(props.style ?? {}) }}>
+      <EditorBarChart chart="bar" chartList={chartList} />
+      <Divider layout="vertical" margin="12px" />
+      <EditorBarPalette palette={paletteList[0]} paletteList={paletteList} />
+      <Divider layout="vertical" margin="12px" />
+      <IconHorizontalLine />
+      <Divider layout="vertical" margin="12px" />
+      <IconVerticalLine />
+      <Divider layout="vertical" margin="12px" />
+      <IconHorizontalRect />
+      <Divider layout="vertical" margin="12px" />
+      <IconVerticalRect />
+      <Divider layout="vertical" margin="12px" />
+      <IconCombineMark />
+      <Divider layout="vertical" margin="12px" />
+      <IconSumDiff />
+      <Divider layout="vertical" margin="12px" />
+      <IconHierarchyDiff />
+      <Divider layout="vertical" margin="12px" />
+      <IconAddText />
+      <Divider layout="vertical" margin="12px" />
+      <IconEditData />
+      <Divider layout="vertical" margin="12px" />
+      <EditorBarFill fillColor="#FFFFFF" fillOpacity={1} />
+      <EditorBarStroke strokeStyle="disable" strokeColor="#000000" strokeWidth={1} strokeOpacity={1} />
+      <Divider layout="vertical" margin="12px" />
+      <IconComment />
+      <Divider layout="vertical" margin="12px" />
+      <IconMore />
+    </div>
   );
 }

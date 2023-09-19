@@ -1,11 +1,14 @@
 import './App.css';
-import { EditorBar, Title } from '../../../src';
+import { ColorEditorBar, EditorBar, LineEditorBar, TextEditorBar, Title } from '../../../src';
 
 function App() {
   return (
     <div>
       <p>VChart Editor UI</p>
-      <EditorBar />
+      <EditorBar style={{ marginBottom: 20 }} />
+      <ColorEditorBar style={{ marginBottom: 20 }} />
+      <LineEditorBar style={{ marginBottom: 20 }} />
+      <TextEditorBar style={{ marginBottom: 20 }} />
       <Title spec={{}} />
       {/* <Title spec={{}} entries={[{ key: 'fontSize' }]} /> */}
     </div>
