@@ -1,3 +1,4 @@
+import { ChartData } from './../../../src/chart/chart-meta/data';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { GlobalScale } from '../../../src/scale/global-scale';
@@ -31,6 +32,10 @@ import type { MaybeArray } from '../../../src/util';
 export class TestChart implements IChart {
   protected _spec: any;
 
+  protected _chartData: ChartData;
+  getChartData() {
+    return this._chartData;
+  }
   protected _regions: IRegion[] = [];
   protected _series: ISeries[] = [];
   protected _components: IComponent[] = [];
@@ -50,6 +55,8 @@ export class TestChart implements IChart {
     dataSet: DataSet;
   }) {
     this._spec = spec;
+    this._chartData = new ChartData(this._dataSet, null as any);
+    this._chartData.parseData(this._spec.data);
     this._dataSet = spec.dataSet ?? new DataSet();
     if (spec.regions) {
       this._regions = spec.regions.map(rSpec => {

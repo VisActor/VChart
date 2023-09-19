@@ -1,12 +1,12 @@
 import { DataSet, csvParser, dataViewParser } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../../src/series/interface';
-import { seriesOption } from '../../util/context';
+import { initChartDataSet, seriesOption } from '../../util/context';
 import { LinearProgressSeries } from '../../../src';
 import type { IGroupMark } from '../../../src/mark/group';
 
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview', dataViewParser);
 let ctx: ISeriesOption;
 describe('[Domain-Series-LinearProgress] LinearProgress Series', () => {
   beforeEach(() => {

@@ -5,10 +5,11 @@ import * as bt from '../../../src/vchart-all';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
 import { ThemeManager } from '../../../src';
+import { initChartDataSet } from '../../util/context';
 bt;
 
 const dataSet = new DataSet();
-dataSet.registerParser('dataview', dataViewParser);
+initChartDataSet(dataSet);
 describe('data fields test', () => {
   test('data fields filter', () => {
     const chart = new LineChart(

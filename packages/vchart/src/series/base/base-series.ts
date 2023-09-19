@@ -303,9 +303,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** data */
   protected initData(): void {
-    this._rawData = dataToDataView(this._spec.data, this._dataSet, this._option.sourceDataList, {
-      onError: this._option?.onError
-    });
+    if (this._spec.data) {
+      this._rawData = dataToDataView(this._spec.data, this._dataSet, this._option.sourceDataList, {
+        onError: this._option?.onError
+      });
+    }
     this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
     this._addDataIndexAndKey();
     // 初始化viewData

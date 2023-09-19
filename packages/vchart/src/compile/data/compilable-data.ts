@@ -78,6 +78,6 @@ export class CompilableData extends GrammarItem implements ICompilableData {
   }
 
   protected _lookupGrammar(id: string) {
-    return this.getCompiler().getVGrammarView()?.getDataById(id);
+    return this.getCompiler().getVGrammarView()?.getDataById?.(id);
   }
 }

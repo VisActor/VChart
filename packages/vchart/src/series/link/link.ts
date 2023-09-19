@@ -19,6 +19,7 @@ import { VChart } from '../../core/vchart';
 import { RuleMark } from '../../mark/rule';
 import { SymbolMark } from '../../mark/symbol';
 import { linkSeriesMark } from './constant';
+import { linkDotInfo } from '../../data/transforms/link-dot-info';
 
 VChart.useMark([RuleMark, SymbolMark]);
 
@@ -70,46 +71,34 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     }
   }
 
+  protected _getDotData() {
+    const dotSeries = this._option.getChart().getSeriesInIndex([this._spec.dotSeriesIndex])[0];
+    if (!dotSeries) {
+      return [];
+    }
+    return dotSeries.getViewData().latestData;
+  }
+
   initData() {
     super.initData();
-
-    /**
-     * @description 根据link数据以及对应的dot数据生成node name和node data的哈希表，并将node data的信息放进来
-     */
-    const linkDotInfo = (data: Array<DataView>, op: string) => {
-      const dataLinkObj = (this._spec.data as DataView).latestData;
-      const dataDotObj = this._spec.dataDot.latestData;
-      const dataLinkDotHash = {};
-
-      // 遍历dot数据，生成哈希表
-      dataDotObj.forEach((datum: any) => {
-        const dataCopy: any = {};
-        for (const key in datum) {
-          if (key !== op) {
-            dataCopy[key] = datum[key];
-          }
-        }
-        const dataOp = datum[op];
-        dataOp?.forEach((d: any) => {
-          dataLinkDotHash[d.node_name] = Object.assign({}, dataCopy, d);
-        });
-      });
-
-      // 将起始点的node data加入进来
-      dataLinkObj.forEach((datum: any) => {
-        datum[this._fromField + '_xField'] = dataLinkDotHash?.[datum[this._fromField]]?.[this._dotSeriesSpec.xField];
-        datum[this._fromField + '_yField'] = dataLinkDotHash?.[datum[this._fromField]]?.[this._dotSeriesSpec.yField];
-        datum[this._toField + '_xField'] = dataLinkDotHash?.[datum[this._toField]]?.[this._dotSeriesSpec.xField];
-        datum[this._toField + '_yField'] = dataLinkDotHash?.[datum[this._toField]]?.[this._dotSeriesSpec.yField];
-      });
-      return dataLinkObj;
-    };
 
     registerDataSetInstanceTransform(this._option.dataSet, 'linkDotInfo', linkDotInfo);
     this.getViewDataFilter()?.transform(
       {
         type: 'linkDotInfo',
-        options: 'dots'
+        options: {
+          infoKey: 'dots',
+          fields: () => {
+            return {
+              fromField: this._fromField,
+              toField: this._toField,
+              xField: this._dotSeriesSpec.xField,
+              yField: this._dotSeriesSpec.yField
+            };
+          },
+          linkData: () => this._rawData.latestData,
+          dotData: () => this._getDotData()
+        }
       },
       false
     );
