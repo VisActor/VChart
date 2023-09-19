@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `track` in spec is not working in circularProgress charts, related #600",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

@@ -15,7 +15,7 @@ import { VChart } from '../../../core/vchart';
 import { ArcMark } from '../../../mark/arc';
 import { ProgressArcMark } from '../../../mark/progress-arc';
 import { circularProgressSeriesMark } from './constant';
-import { STACK_FIELD_END, STACK_FIELD_START } from '../../../constant';
+import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../constant';
 
 VChart.useMark([ArcMark, ProgressArcMark]);
 
@@ -63,23 +63,28 @@ export class CircularProgressSeries<
   private _initProgressMarkStyle() {
     const progressMark = this._progressMark;
     if (progressMark) {
-      this.setMarkStyle(progressMark, {
-        x: () => this.angleAxisHelper.center().x,
-        y: () => this.angleAxisHelper.center().y,
-        startAngle: this._getAngleValueStart,
-        endAngle: this._getAngleValueEnd,
-        innerRadius: this._getRadiusValueStart,
-        outerRadius: this._getRadiusValueEnd,
-        cap: this._spec.roundCap ?? false,
-        boundsMode: 'imprecise',
-        cornerRadius: this._spec.cornerRadius,
-        fill: this.getColorAttribute(),
-        zIndex: 200,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        // forceShowCap 是内部属性，不在接口中暴露
-        forceShowCap: true
-      });
+      this.setMarkStyle(
+        progressMark,
+        {
+          x: () => this.angleAxisHelper.center().x,
+          y: () => this.angleAxisHelper.center().y,
+          startAngle: this._getAngleValueStart,
+          endAngle: this._getAngleValueEnd,
+          innerRadius: this._getRadiusValueStart,
+          outerRadius: this._getRadiusValueEnd,
+          cap: this._spec.roundCap ?? false,
+          boundsMode: 'imprecise',
+          cornerRadius: this._spec.cornerRadius,
+          fill: this.getColorAttribute(),
+          zIndex: 200,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          // forceShowCap 是内部属性，不在接口中暴露
+          forceShowCap: true
+        },
+        'normal',
+        AttributeLevel.Series
+      );
       this._trigger.registerMark(progressMark);
       this._tooltipHelper?.activeTriggerSet.mark.add(progressMark);
     }
@@ -95,33 +100,38 @@ export class CircularProgressSeries<
   private _initTrackMarkStyle() {
     const trackMark = this._trackMark;
     if (trackMark) {
-      this.setMarkStyle(trackMark, {
-        visible: (datum: Datum) => {
-          const scale = this.angleAxisHelper.getScale(0);
-          const range = scale.range();
-          const min = Math.min(range[0], range[range.length - 1]);
-          const startValue = this._getAngleValueStartWithoutMask(datum);
-          // 堆叠情况只显示第一组的背景
-          return Math.abs(startValue - min) <= 1e-14;
+      this.setMarkStyle(
+        trackMark,
+        {
+          visible: (datum: Datum) => {
+            const scale = this.angleAxisHelper.getScale(0);
+            const range = scale.range();
+            const min = Math.min(range[0], range[range.length - 1]);
+            const startValue = this._getAngleValueStartWithoutMask(datum);
+            // 堆叠情况只显示第一组的背景
+            return Math.abs(startValue - min) <= 1e-14;
+          },
+          x: () => this.angleAxisHelper.center().x,
+          y: () => this.angleAxisHelper.center().y,
+          startAngle: () => {
+            const scale = this.angleAxisHelper.getScale(0);
+            const domain = scale.domain();
+            return this._getAngleValueStart({ [STACK_FIELD_START]: domain[0] });
+          },
+          endAngle: () => {
+            const scale = this.angleAxisHelper.getScale(0);
+            const domain = scale.domain();
+            return this._getAngleValueEnd({ [STACK_FIELD_END]: domain[domain.length - 1] });
+          },
+          innerRadius: this._getRadiusValueStart,
+          outerRadius: this._getRadiusValueEnd,
+          cornerRadius: this._spec.cornerRadius,
+          fill: this.getColorAttribute(),
+          zIndex: 100
         },
-        x: () => this.angleAxisHelper.center().x,
-        y: () => this.angleAxisHelper.center().y,
-        startAngle: () => {
-          const scale = this.angleAxisHelper.getScale(0);
-          const domain = scale.domain();
-          return this._getAngleValueStart({ [STACK_FIELD_START]: domain[0] });
-        },
-        endAngle: () => {
-          const scale = this.angleAxisHelper.getScale(0);
-          const domain = scale.domain();
-          return this._getAngleValueEnd({ [STACK_FIELD_END]: domain[domain.length - 1] });
-        },
-        innerRadius: this._getRadiusValueStart,
-        outerRadius: this._getRadiusValueEnd,
-        cornerRadius: this._spec.cornerRadius,
-        fill: this.getColorAttribute(),
-        zIndex: 100
-      });
+        'normal',
+        AttributeLevel.Series
+      );
       this._trigger.registerMark(trackMark);
     }
   }

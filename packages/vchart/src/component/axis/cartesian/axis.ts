@@ -13,7 +13,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import type { LayoutItem } from '../../../model/layout-item';
 import { Factory } from '../../../core/factory';
-import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis } from './util';
+import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis, transformInverse } from './util';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
@@ -119,15 +119,15 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       // 这里处理下 direction === 'horizontal' 下的 Y 轴
       // 因为 Y 轴绘制的时候默认是从下至上绘制的，但是在 direction === 'horizontal' 场景下，图表应该是按照从上至下阅读的
       // 所以这里在这种场景下坐标轴会默认 inverse 已达到效果
-      let inverse = spec.inverse;
-      if (isHorizontal && !isXAxis(spec.orient)) {
-        inverse = isValid(spec.inverse) ? !spec.inverse : true;
-      }
+      // let inverse = spec.inverse;
+      // if (isHorizontal && !isXAxis(spec.orient)) {
+      //   inverse = isValid(spec.inverse) ? !spec.inverse : true;
+      // }
+      transformInverse(spec, isHorizontal);
       return new C(
         {
           ...spec,
-          type: axisType,
-          inverse
+          type: axisType
         },
         options
       ) as IAxis;
@@ -834,5 +834,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   onDataUpdate(): void {
     // clear layout cache
     this._clearLayoutCache();
+  }
+
+  updateSpec(spec: any) {
+    const chartSpec = this._option.getChart().getSpec();
+    return super.updateSpec(transformInverse(spec, chartSpec.direction === Direction.horizontal));
   }
 }
