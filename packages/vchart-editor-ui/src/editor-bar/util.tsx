@@ -8,7 +8,9 @@ export function ColorItem(props: IColorItemProps) {
   const whiteSize = (props.size ?? 18) - 2;
   const size = props.size ?? 18;
   return color === 'disable' ? (
-    <IconColorDisable style={{ width: disableSize, height: disableSize, margin: 1, marginRight: 2 }} />
+    <IconColorDisable
+      style={{ width: disableSize, height: disableSize, margin: 1, marginRight: 2, cursor: 'pointer' }}
+    />
   ) : color.toLowerCase() === '#ffffff' ? (
     <span
       key={color}
@@ -26,7 +28,7 @@ export function ColorItem(props: IColorItemProps) {
 
 export function TextColorItem(props: IColorItemProps & { background?: string }) {
   const color = props.color;
-  const size = props.size ?? 16;
+  const size = props.size ?? 20;
   return (
     <span style={{ display: 'inline-block' }}>
       {color.toLowerCase() === '#ffffff' ? (
@@ -62,9 +64,9 @@ export function TextColorItem(props: IColorItemProps & { background?: string }) 
 
 export function TextBackgroundColorItem(props: IColorItemProps) {
   const color = props.color;
-  const disableSize = (props.size ?? 18) + 1;
-  const whiteSize = (props.size ?? 18) - 2;
-  const size = props.size ?? 18;
+  const disableSize = (props.size ?? 22) + 1;
+  const whiteSize = (props.size ?? 22) - 2;
+  const size = props.size ?? 22;
   return color === 'disable' ? (
     <IconDisableRect style={{ width: disableSize, height: disableSize, margin: 1, marginRight: 2 }} />
   ) : color.toLowerCase() === '#ffffff' ? (
@@ -92,5 +94,17 @@ export function EditorBarTool(props: IEditorBarToolProps) {
     >
       {props.icon}
     </span>
+  );
+}
+
+export function EditorBarPanelTool(props: IEditorBarToolProps) {
+  return (
+    <div
+      className={`vchart-editor-ui-editor-bar-box-item ${
+        props.selected ? 'vchart-editor-ui-editor-bar-box-item-selected' : ''
+      }`}
+    >
+      {props.icon}
+    </div>
   );
 }

@@ -21,18 +21,24 @@ export function EditorBarTextColor(props: IEditorBarTextColorProps) {
     <Popover
       spacing={10}
       content={
-        <div className="vchart-editor-ui-editor-bar-panel-container" style={{ padding: 10 }}>
-          <div>文字颜色</div>
+        <div className="vchart-editor-ui-editor-bar-panel-container" style={{ padding: '10px 12px' }}>
+          <div style={{ marginBottom: 8 }}>文字颜色</div>
           {(textFillColorList ?? []).map((palette, paletteIndex) => (
-            <div key={paletteIndex}>
+            <div
+              key={paletteIndex}
+              style={{ display: 'flex', marginBottom: paletteIndex !== textFillColorList.length - 1 ? 8 : 0 }}
+            >
               {palette.map(color => (
                 <TextColorItem key={color} color={color} />
               ))}
             </div>
           ))}
-          <div>文字背景色</div>
+          <div style={{ marginTop: 12, marginBottom: 8 }}>文字背景色</div>
           {(textBackgroundColorList ?? []).map((palette, paletteIndex) => (
-            <div key={paletteIndex}>
+            <div
+              key={paletteIndex}
+              style={{ display: 'flex', marginBottom: paletteIndex !== textBackgroundColorList.length - 1 ? 8 : 0 }}
+            >
               {palette.map(color => (
                 <TextBackgroundColorItem key={color} color={color} />
               ))}

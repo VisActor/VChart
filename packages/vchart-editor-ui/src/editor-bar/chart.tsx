@@ -1,6 +1,7 @@
 import { Popover } from '@douyinfe/semi-ui';
 import type { IEditorBarChartProps } from '../typings/editor-bar';
-import { IconChevronDown, IconHistogram } from '@douyinfe/semi-icons';
+import { IconChevronDown } from '@douyinfe/semi-icons';
+import { IconChart } from '../svg/chart';
 
 const selectedStyle = {
   width: 144,
@@ -29,7 +30,7 @@ export function EditorBarChart(props: IEditorBarChartProps) {
               className="vchart-editor-ui-editor-bar-row"
               style={props.chart === chart.type ? selectedStyle : unselectedStyle}
             >
-              {chart.icon}
+              <span style={{ marginRight: 8 }}>{chart.icon}</span>
               {chart.label}
             </div>
           ))}
@@ -37,7 +38,7 @@ export function EditorBarChart(props: IEditorBarChartProps) {
       }
     >
       <span className="vchart-editor-ui-editor-bar-tool">
-        <IconHistogram />
+        <IconChart />
         <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>
