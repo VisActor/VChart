@@ -21,7 +21,7 @@ export function EditorBarChart(props: IEditorBarChartProps) {
     <Popover
       spacing={10}
       content={
-        <div className="vchart-editor-ui-editor-bar-container">
+        <div className="vchart-editor-ui-editor-bar-panel-container">
           {(props.chartList ?? []).map(chart => (
             <div
               key={chart.type}
@@ -36,9 +36,9 @@ export function EditorBarChart(props: IEditorBarChartProps) {
         </div>
       }
     >
-      <span>
+      <span className="vchart-editor-ui-editor-bar-tool">
         <IconHistogram />
-        <IconChevronDown />
+        <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>
   );

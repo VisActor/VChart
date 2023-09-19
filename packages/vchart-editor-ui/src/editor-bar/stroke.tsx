@@ -27,7 +27,7 @@ function StrokePanel(props: IEditorBarStrokeProps) {
   const [opacity, setOpacity] = useState<number>(props.strokeOpacity ?? 1);
 
   return (
-    <div className="vchart-editor-ui-editor-bar-container" style={{ padding: 10, position: 'relative' }}>
+    <div className="vchart-editor-ui-editor-bar-panel-container" style={{ padding: 10, position: 'relative' }}>
       <div style={{ marginBottom: 6 }}>描边/线条</div>
       <div style={{ borderRadius: 6, background: '#F5F6F7', padding: 2, display: 'flex', gap: 2, marginBottom: 8 }}>
         <div
@@ -129,9 +129,9 @@ function StrokePanel(props: IEditorBarStrokeProps) {
 export function EditorBarStroke(props: IEditorBarStrokeProps) {
   return (
     <Popover spacing={10} content={<StrokePanel {...props} />}>
-      <span>
+      <span className="vchart-editor-ui-editor-bar-tool">
         <IconStroke fill={props.strokeColor} />
-        <IconChevronDown />
+        <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>
   );
@@ -140,9 +140,9 @@ export function EditorBarStroke(props: IEditorBarStrokeProps) {
 export function EditorBarStrokeLine(props: IEditorBarStrokeProps) {
   return (
     <Popover spacing={10} content={<StrokePanel {...props} />}>
-      <span>
+      <span className="vchart-editor-ui-editor-bar-tool">
         <IconLine />
-        <IconChevronDown />
+        <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>
   );
