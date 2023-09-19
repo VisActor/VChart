@@ -111,6 +111,13 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
   }
 
+  private _shouldDoPreCalculate() {
+    const region = this.getRegion();
+    return (
+      this._stack && region.getSeries().filter(s => s.type === SeriesTypeEnum.bar && s.getSpec().barMinHeight).length
+    );
+  }
+
   private _calculateStackRectPosition(isVertical: boolean) {
     const region = this.getRegion();
 
@@ -167,7 +174,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
     Object.keys(groupedStackData).forEach(key => {
       const values = groupedStackData[key];
-      values.sort((a: Datum, b: Datum) => a[STACK_FIELD_START] - b[STACK_FIELD_START]);
+      // 保证堆叠顺序
+      values.sort((a: Datum, b: Datum) => Math.abs(a[STACK_FIELD_START]) - Math.abs(b[STACK_FIELD_START]));
 
       let lastY: number;
       values.forEach((obj: Datum, index: number) => {
@@ -245,7 +253,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         this._rectMark,
         {
           x: (datum: Datum) => {
-            if (this._stack) {
+            if (this._shouldDoPreCalculate()) {
               this._calculateStackRectPosition(false);
               return datum[RECT_X];
             }
@@ -257,7 +265,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             return valueInScaleRange(this.dataToPositionX(datum), xScale);
           },
           x1: (datum: Datum) => {
-            if (this._stack) {
+            if (this._shouldDoPreCalculate()) {
               this._calculateStackRectPosition(false);
               return datum[RECT_X1];
             }
@@ -276,7 +284,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         {
           x: (datum: Datum) => this._getPosition(this.direction, datum),
           y: (datum: Datum, ctx, opt, dataView) => {
-            if (this._stack) {
+            if (this._shouldDoPreCalculate()) {
               this._calculateStackRectPosition(true);
               return datum[RECT_Y];
             }
@@ -288,7 +296,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             return valueInScaleRange(this.dataToPositionY(datum), yScale);
           },
           y1: (datum: Datum) => {
-            if (this._stack) {
+            if (this._shouldDoPreCalculate()) {
               this._calculateStackRectPosition(true);
               return datum[RECT_Y1];
             }
@@ -315,7 +323,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
           x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
           y: (datum: Datum, ctx, opt, dataView) => {
-            if (this._stack) {
+            if (this._shouldDoPreCalculate()) {
               this._calculateStackRectPosition(true);
               return datum[RECT_Y];
             }
@@ -327,7 +335,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             return valueInScaleRange(this.dataToPositionY(datum), yScale);
           },
           y1: (datum: Datum) => {
-            if (this._stack) {
+            if (this._shouldDoPreCalculate()) {
               this._calculateStackRectPosition(true);
               return datum[RECT_Y1];
             }
@@ -342,7 +350,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         this._rectMark,
         {
           x: (datum: Datum) => {
-            if (this._stack) {
+            if (this._shouldDoPreCalculate()) {
               this._calculateStackRectPosition(false);
 
               return datum[RECT_X];
@@ -355,7 +363,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             return valueInScaleRange(this.dataToPositionX(datum), xScale);
           },
           x1: (datum: Datum) => {
-            if (this._stack) {
+            if (this._shouldDoPreCalculate()) {
               this._calculateStackRectPosition(false);
               return datum[RECT_X1];
             }
