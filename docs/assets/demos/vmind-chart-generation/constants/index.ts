@@ -192,7 +192,7 @@ export const mockUserInput6 = {
  */
 export const mockUserInput6Eng = {
   csv: `country,continent,GDP,year
-Japan,Asia,239270,1973
+China,Asia,239270,1973
 India,Asia,22960,1973
 South Korea,Asia,7870,1973
 Turkey,Asia,17240,1973
@@ -210,7 +210,7 @@ Finland,Europe,9930,1973
 Sweden,Europe,23020,1973
 Belgium,Europe,22280,1973
 Norway,Europe,14540,1973
-Japan,Asia,278390,1978
+China,Asia,278390,1978
 India,Asia,29220,1978
 South Korea,Asia,13120,1978
 Turkey,Asia,22620,1978
@@ -228,7 +228,7 @@ Finland,Europe,10800,1978
 Sweden,Europe,24650,1978
 Belgium,Europe,24970,1978
 Norway,Europe,18160,1978
-Japan,Asia,336520,1983
+China,Asia,336520,1983
 India,Asia,34790,1983
 South Korea,Asia,18480,1983
 Turkey,Asia,25000,1983
@@ -246,7 +246,7 @@ Finland,Europe,13130,1983
 Sweden,Europe,26980,1983
 Belgium,Europe,26860,1983
 Norway,Europe,20980,1983
-Japan,Asia,427650,1988
+China,Asia,427650,1988
 India,Asia,45400,1988
 South Korea,Asia,30960,1988
 Turkey,Asia,33340,1988
@@ -264,7 +264,7 @@ Finland,Europe,15720,1988
 Sweden,Europe,31270,1988
 Belgium,Europe,30520,1988
 Norway,Europe,24800,1988
-Japan,Asia,488020,1993
+China,Asia,488020,1993
 India,Asia,56680,1993
 South Korea,Asia,45790,1993
 Turkey,Asia,41600,1993
@@ -282,7 +282,7 @@ Finland,Europe,15040,1993
 Sweden,Europe,30950,1993
 Belgium,Europe,33350,1993
 Norway,Europe,28050,1993
-Japan,Asia,521740,1998
+China,Asia,521740,1998
 India,Asia,77270,1998
 South Korea,Asia,59600,1998
 Turkey,Asia,50560,1998
@@ -300,7 +300,7 @@ Finland,Europe,18940,1998
 Sweden,Europe,36510,1998
 Belgium,Europe,37790,1998
 Norway,Europe,34830,1998
-Japan,Asia,545920,2003
+China,Asia,545920,2003
 India,Asia,102500,2003
 South Korea,Asia,84420,2003
 Turkey,Asia,55060,2003
@@ -318,7 +318,7 @@ Finland,Europe,22260,2003
 Sweden,Europe,42290,2003
 Belgium,Europe,42160,2003
 Norway,Europe,38320,2003
-Japan,Asia,578410,2008
+China,Asia,578410,2008
 India,Asia,143180,2008
 South Korea,Asia,106280,2008
 Turkey,Asia,74660,2008
@@ -336,7 +336,7 @@ Finland,Europe,26270,2008
 Sweden,Europe,48920,2008
 Belgium,Europe,47720,2008
 Norway,Europe,43330,2008
-Japan,Asia,589420,2013
+China,Asia,589420,2013
 India,Asia,197840,2013
 South Korea,Asia,125320,2013
 Turkey,Asia,97510,2013
@@ -354,7 +354,7 @@ Finland,Europe,24970,2013
 Sweden,Europe,51470,2013
 Belgium,Europe,49500,2013
 Norway,Europe,44930,2013
-Japan,Asia,617030,2018
+China,Asia,617030,2018
 India,Asia,282220,2018
 South Korea,Asia,144970,2018
 Turkey,Asia,124050,2018
@@ -667,4 +667,266 @@ export const carSaleMockData = {
 2023年6月,广汽本田,65540
 2023年6月,一汽-大众奥迪,64037`,
   input: '帮我展示各品牌汽车销量排行的变化'
+};
+
+export const carSalesDataEng = {
+  csv: `Time,Manufacturer,Sales
+2022-01,SAIC Volkswagen,124491
+2022-01,Changan Automobile,123707
+2022-01,Geely Automobile,112325
+2022-01,Dongfeng Nissan,110996
+2022-01,FAW-Volkswagen,103462
+2022-01,GAC Toyota,99707
+2022-01,BYD,93363
+2022-01,BMW Brilliance,79087
+2022-01,GAC Honda,77377
+2022-01,Dongfeng Honda,76903
+2022-02,BYD,88093
+2022-02,SAIC Volkswagen,86076
+2022-02,FAW Toyota,75918
+2022-02,Dongfeng Nissan,74308
+2022-02,FAW-Volkswagen,70638
+2022-02,Dongfeng Honda,58954
+2022-02,GAC Honda,56734
+2022-02,Tesla China,56515
+2022-02,Geely Automobile,55357
+2022-02,Changan Automobile,53034
+2022-03,Changan Automobile,110015
+2022-03,SAIC Volkswagen,104200
+2022-03,BYD,103852
+2022-03,SAIC-GM-Wuling,102951
+2022-03,GAC Toyota,96984
+2022-03,FAW-Volkswagen,76586
+2022-03,GAC Honda,75858
+2022-03,Geely Automobile,75447
+2022-03,Dongfeng Honda,71074
+2022-03,FAW Toyota,69957
+2022-04,BYD,105475
+2022-04,GAC Toyota,68450
+2022-04,Geely Automobile,49137
+2022-04,Changan Automobile,47980
+2022-04,SAIC-GM-Wuling,44002
+2022-04,FAW-Volkswagen,39444
+2022-04,Dongfeng Nissan,37636
+2022-04,BMW Brilliance,31743
+2022-04,FAW Toyota,31443
+2022-04,Great Wall Motors,29125
+2022-05,BYD,114183
+2022-05,FAW-Volkswagen,89025
+2022-05,GAC Toyota,83730
+2022-05,SAIC Volkswagen,83502
+2022-05,SAIC-GM-Wuling,71493
+2022-05,Changan Automobile,66091
+2022-05,BMW Brilliance,62567
+2022-05,Geely Automobile,60197
+2022-05,FAW Toyota,57958
+2022-05,Dongfeng Nissan,52531
+2022-06,BYD,133762
+2022-06,FAW-Volkswagen,123358
+2022-06,SAIC Volkswagen,122100
+2022-06,FAW Toyota,102039
+2022-06,GAC Toyota,100794
+2022-06,Geely Automobile,91695
+2022-06,Changan Automobile,88010
+2022-06,SAIC-GM-Wuling,87462
+2022-06,Dongfeng Nissan,79570
+2022-06,Tesla China,78906
+2022-07,BYD,162214
+2022-07,SAIC Volkswagen,125450
+2022-07,SAIC-GM-Wuling,106483
+2022-07,FAW-Volkswagen,100160
+2022-07,Changan Automobile,96786
+2022-07,GAC Toyota,83940
+2022-07,Geely Automobile,83392
+2022-07,FAW Toyota,82697
+2022-07,Dongfeng Nissan,80439
+2022-07,Dongfeng Honda,78239
+2022-08,SAIC Volkswagen,180439
+2022-08,BYD,173977
+2022-08,GAC Toyota,108679
+2022-08,SAIC-GM-Wuling,96363
+2022-08,GAC Honda,96325
+2022-08,Chery Automobile,93720
+2022-08,FAW Toyota,93361
+2022-08,Geely Automobile,92525
+2022-08,FAW-Volkswagen Audi,82348
+2022-08,Tesla China,76965
+2022-09,BYD,200973
+2022-09,SAIC Volkswagen,125484
+2022-09,FAW-Volkswagen,114112
+2022-09,SAIC-GM-Wuling,105179
+2022-09,GAC Toyota,95951
+2022-09,Changan Automobile,92616
+2022-09,Chery Automobile,86915
+2022-09,FAW Toyota,84954
+2022-09,Tesla China,83135
+2022-09,Geely Automobile,82688
+2022-10,BYD,216593
+2022-10,SAIC Volkswagen,121973
+2022-10,Changan Automobile,109451
+2022-10,Geely Automobile,106877
+2022-10,SAIC-GM-Wuling,106458
+2022-10,FAW-Volkswagen,83332
+2022-10,GAC Toyota,80800
+2022-10,FAW Toyota,74924
+2022-10,Chery Automobile,72512
+2022-10,Dongfeng Nissan,71986
+2022-11,BYD,224576
+2022-11,SAIC-GM-Wuling,129039
+2022-11,SAIC Volkswagen,109343
+2022-11,Tesla China,100291
+2022-11,Geely Automobile,94638
+2022-11,Changan Automobile,85776
+2022-11,GAC Toyota,85169
+2022-11,FAW-Volkswagen,72423
+2022-11,FAW Toyota,65837
+2022-11,BMW Brilliance,58527
+2022-12,BYD,226492
+2022-12,SAIC-GM-Wuling,141821
+2022-12,Changan Automobile,124609
+2022-12,SAIC Volkswagen,118750
+2022-12,FAW-Volkswagen,93851
+2022-12,Geely Automobile,82623
+2022-12,GAC Toyota,74033
+2022-12,Dongfeng Honda,60922
+2022-12,BMW Brilliance,60117
+2022-12,FAW Toyota,59696
+2023-01,BYD,133317
+2023-01,Changan Automobile,90067
+2023-01,SAIC Volkswagen,78000
+2023-01,FAW-Volkswagen,70004
+2023-01,Geely Automobile,67479
+2023-01,GAC Toyota,61105
+2023-01,BMW Brilliance,56765
+2023-01,SAIC-GM-Wuling,46922
+2023-01,FAW Toyota,43787
+2023-01,Beijing Benz,42357
+2023-02,BYD,169337
+2023-02,Changan Automobile,72241
+2023-02,SAIC Volkswagen,71450
+2023-02,GAC Toyota,66936
+2023-02,SAIC-GM-Wuling,65513
+2023-02,Geely Automobile,65140
+2023-02,FAW-Volkswagen,60710
+2023-02,FAW Toyota,49959
+2023-02,Dongfeng Nissan,49553
+2023-02,BMW Brilliance,49340
+2023-03,BYD,181391
+2023-03,FAW-Volkswagen,81030
+2023-03,SAIC Volkswagen,81009
+2023-03,Tesla China,76663
+2023-03,Changan Automobile,67379
+2023-03,FAW Toyota,62347
+2023-03,Geely Automobile,61714
+2023-03,GAC Toyota,60498
+2023-03,BMW Brilliance,58320
+2023-03,SAIC-GM-Wuling,56440
+2023-04,BYD,183534
+2023-04,SAIC Volkswagen,96203
+2023-04,FAW-Volkswagen,78011
+2023-04,GAC Toyota,76925
+2023-04,Changan Automobile,76455
+2023-04,FAW Toyota,71383
+2023-04,GAC Honda,60462
+2023-04,Geely Automobile,59661
+2023-04,SAIC-GM-Wuling,58210
+2023-04,BMW Brilliance,53205
+2023-05,BYD,209730
+2023-05,SAIC Volkswagen,90193
+2023-05,FAW-Volkswagen,83610
+2023-05,Changan Automobile,81209
+2023-05,GAC Toyota,77513
+2023-05,FAW Toyota,70001
+2023-05,Geely Automobile,67100
+2023-05,SAIC-GM-Wuling,63292
+2023-05,Dongfeng Nissan,56511
+2023-05,FAW-Volkswagen Audi,52696
+2023-06,BYD,220600
+2023-06,FAW-Volkswagen,98052
+2023-06,SAIC Volkswagen,94018
+2023-06,GAC Toyota,86345
+2023-06,Changan Automobile,86189
+2023-06,Tesla China,74212
+2023-06,Geely Automobile,71726
+2023-06,FAW Toyota,70795
+2023-06,GAC Honda,65540
+2023-06,FAW-Volkswagen Audi,64037`,
+  input: 'show me the changes in sales rankings of various car brands'
+};
+
+export const acceptRatioData = {
+  csv: `Year,Number of Gaokao Candidates,Number of Gaokao Admissions,Gaokao Admission Rate,Number of Enrolling Universities
+1977,570,27.3,0.05 ,404
+1978,610,40.2,0.07 ,598
+1979,468,28,0.06 ,633
+1980,333,28,0.08 ,675
+1981,259,28,0.11 ,704
+1982,187,32,0.17 ,715
+1983,167,39,0.23 ,805
+1984,164,48,0.29 ,902
+1985,176,62,0.35 ,1016
+1986,191,57,0.30 ,1054
+1987,228,62,0.27 ,1063
+1988,272,67,0.25 ,1075
+1989,266,60,0.23 ,1079
+1990,283,61,0.22 ,1075
+1991,296,62,0.21 ,1075
+1992,303,75,0.25 ,1053
+1993,286,98,0.34 ,1065
+1994,251,90,0.36 ,1080
+1995,253,93,0.37 ,1054
+1996,241,97,0.40 ,1032
+1997,278,100,0.36 ,1020
+1998,320,108,0.34 ,1022
+1999,288,160,0.56 ,1071
+2000,375,221,0.59 ,1041
+2001,454,268,0.59 ,1225
+2002,510,320,0.63 ,1396
+2003,613,382,0.62 ,1552
+2004,729,447,0.61 ,1731
+2005,877,504,0.57 ,1792
+2006,950,546,0.57 ,1867
+2007,1010,566,0.56 ,1908
+2008,1050,599,0.57 ,2263
+2009,1020,629,0.62 ,2305
+2010,946,657,0.69 ,2385
+2011,933,675,0.72 ,2487
+2012,915,685,0.75 ,2442
+2013,912,684,0.75 ,2622
+2014,939,697,0.74 ,2529
+2015,942,700,0.74 ,2553
+2016,940,705,0.75 ,2595
+2017,940,700,0.74 ,2631
+2018,975,790.99,0.81 ,2663
+2019,1031,820,0.80 ,2688
+2020,1071,856,0.80 ,2956
+2021,1078,1001.32,0.93 ,2956
+2022,1193,1145.28,0.96 ,2956`,
+  input: 'show me the changes in the Gaokao Admission Rate over the years, for 10 seconds.'
+};
+
+export const mallSalesData = {
+  csv: `Shopping Center,Year,Sales Performance
+IFS (Chengdu), 2019, 64.9
+IFS (Chengdu), 2020, 70
+Denis David City, 2019, 61.5
+Denis David City, 2020, 70
+The Temple House (Chengdu), 2019, 68.7
+The Temple House (Chengdu), 2020, 73
+Golden Center (Shanghai), 2019, 90
+Golden Center (Shanghai), 2020, 100
+Hang Lung Plaza (Shanghai), 2019, 62.5
+Hang Lung Plaza (Shanghai), 2020, 100
+MixC (Shenzhen), 2019, 90
+MixC (Shenzhen), 2020, 100
+Hangzhou Tower (Hangzhou), 2019, 90
+Hangzhou Tower (Hangzhou), 2020, 100
+Deji Plaza (Nanjing), 2019, 122.4
+Deji Plaza (Nanjing), 2020, 150
+China World Mall (Beijing), 2019, 117
+China World Mall (Beijing), 2020, 160
+SKP (Beijing), 2019, 152.9
+SKP (Beijing), 2020, 177`,
+  input:
+    'Use a bar chart to display the sales performance of each shopping center, with Shopping Center as x-axis and year as color, 10s.'
 };

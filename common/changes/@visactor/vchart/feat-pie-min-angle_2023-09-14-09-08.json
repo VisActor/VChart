@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support `minAngle` for pie chart, relate #738",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

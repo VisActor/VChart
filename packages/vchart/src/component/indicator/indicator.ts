@@ -244,7 +244,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
 
   clear(): void {
     if (this._indicatorComponent) {
-      this._container.removeChild(this._indicatorComponent as unknown as INode);
+      this.getContainer()?.removeChild(this._indicatorComponent as unknown as INode);
       this._indicatorComponent = null;
     }
     this._cacheAttrs = null;
