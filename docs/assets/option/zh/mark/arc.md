@@ -32,8 +32,13 @@
 
 #${prefix} cap(boolean)
 
-圆角是否伸出startAngle 和 endAngle 之外。
+圆角是否伸出 startAngle 和 endAngle 之外。
 
 #${prefix} autoCapConical(boolean)
 
 圆弧在`cap = true`且应用环形渐变时是否对 cap 部分生效。
+
+{{ use: graphic-arc(
+  prefix = ${prefix},
+  markType = 'arc'
+) }}
