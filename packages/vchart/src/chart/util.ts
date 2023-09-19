@@ -4,6 +4,7 @@ import { Direction } from '../typings';
 import { array, isMiniAppLikeMode, isTrueBrowser, isValid, mergeSpec } from '../util';
 import type { ICartesianChartSpec } from './cartesian/interface';
 import type { IChartOption } from './interface/common';
+import type { IUpdateSpecResult } from '../model/interface';
 
 export function setDefaultCrosshairForCartesianChart(spec: ICartesianChartSpec) {
   spec.crosshair = array(spec.crosshair || {}).map(crosshairCfg => {
@@ -72,4 +73,13 @@ export function calculateChartSize(
     width,
     height
   };
+}
+
+export function mergeUpdateResult(resultA: IUpdateSpecResult, resultB: IUpdateSpecResult) {
+  resultA.change = resultA.change || resultB.change;
+  resultA.reCompile = resultA.reCompile || resultB.reCompile;
+  resultA.reMake = resultA.reMake || resultB.reMake;
+  resultA.reRender = resultA.reRender || resultB.reRender;
+  resultA.reSize = resultA.reSize || resultB.reSize;
+  return resultA;
 }
