@@ -113,7 +113,7 @@ export interface ICommonSpec {
   x?: number;
   y?: number;
   z?: number;
-  stroke?: string | IGradient | IColorKey | false;
+  stroke?: string | IGradient | IColorKey | false | (number | boolean)[];
   strokeOpacity?: number;
   opacity?: number;
   lineWidth?: number;
@@ -382,7 +382,7 @@ export interface ILinkPathMarkSpec extends IFillMarkSpec {
   direction?: 'horizontal' | 'vertical' | 'LR' | 'RL' | 'TB' | 'BL' | 'radial';
 }
 
-export interface IArcMarkSpec extends Omit<IFillMarkSpec, 'stroke'> {
+export interface IArcMarkSpec extends IFillMarkSpec {
   startAngle?: number;
   endAngle?: number;
   padAngle?: number;
@@ -390,13 +390,6 @@ export interface IArcMarkSpec extends Omit<IFillMarkSpec, 'stroke'> {
   outerRadius?: number;
   innerRadius?: number;
   cornerRadius?: number;
-
-  /**
-   * arc 描边配置
-   * 支持常规描边配置 string | IGradient | IColorKey | false;
-   * 支持分段描边配置，例如[false, 'white', 'white', 'white']，数组分别对应 arc 的 [外弧描边，终止边描边，内弧描边，起始边描边]，
-   * */
-  stroke?: ICommonSpec['stroke'] | [boolean | string, boolean | string, boolean | string, boolean | string];
 
   /** arc的中心点偏移距离 */
   centerOffset?: number;
