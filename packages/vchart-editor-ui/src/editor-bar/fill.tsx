@@ -1,31 +1,15 @@
 import { Popover, Slider } from '@douyinfe/semi-ui';
 import type { IEditorBarFillProps } from '../typings/editor-bar';
-import { IconChevronDown, IconHistogram } from '@douyinfe/semi-icons';
-import { useState } from 'react';
+import { IconChevronDown } from '@douyinfe/semi-icons';
 import { isArray } from '@visactor/vutils';
 import { ColorItem } from './util';
-
-const selectedStyle = {
-  width: 144,
-  height: 32
-};
-
-const unselectedStyle = {
-  width: 144,
-  height: 32
-};
-
-const paletteList = [
-  ['disable', '#FFFFFF', '#EFF0F1', '#EFE6FE', '#E0E9FF', '#D0F5CE', '#FFFCA3', '#FEE7CD', '#FEE3E2'],
-  ['#000000', '#646A73', '#BBBFC4', '#9F6FF1', '#5083FB', '#32A645', '#FFE928', '#ED6D0C', '#F54A45']
-];
+import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 
 export function EditorBarFill(props: IEditorBarFillProps) {
-  const onChartSelected = (chart: string) => {
-    //
-  };
+  const fillColor = props.fill?.color ?? defaultEditorBarComponentConfig.fill.default.color;
+  const fillOpacity = props.fill?.opacity ?? defaultEditorBarComponentConfig.fill.default.opacity;
 
-  const [opacity, setOpacity] = useState<number>(props.fillOpacity ?? 1);
+  const fillColorList = defaultEditorBarComponentConfig.fill.colorList;
 
   return (
     <Popover
@@ -33,36 +17,44 @@ export function EditorBarFill(props: IEditorBarFillProps) {
       content={
         <div className="vchart-editor-ui-editor-bar-panel-container" style={{ padding: '10px 12px' }}>
           <div style={{ marginBottom: 2 }}>填充</div>
-          {(paletteList ?? []).map((palette, paletteIndex) => (
-            <div
-              key={paletteIndex}
-              // onClick={() => onPaletteSelected(palette)}
-              // className="vchart-editor-ui-editor-bar-row"
-            >
+          {(fillColorList ?? []).map((palette, paletteIndex) => (
+            <div key={paletteIndex}>
               {palette.map(color => (
-                <ColorItem key={color} color={color} />
+                <ColorItem
+                  key={color}
+                  color={color}
+                  selected={fillColor === color}
+                  onClick={() => {
+                    props.onFillChange?.({
+                      color: color,
+                      opacity: fillOpacity
+                    });
+                  }}
+                />
               ))}
             </div>
           ))}
           <div style={{ marginTop: 6 }}>
-            透明度<span style={{ float: 'right' }}>{(opacity * 100).toFixed(0)}%</span>
+            透明度<span style={{ float: 'right' }}>{(fillOpacity * 100).toFixed(0)}%</span>
           </div>
           <Slider
-            defaultValue={opacity}
+            defaultValue={fillOpacity}
             min={0}
             max={1}
             step={0.01}
             onChange={value => {
-              const opacity = isArray(value) ? value[0] : value;
-              setOpacity(opacity);
-              props.onFillOpacityChange?.(opacity);
+              const nextOpacity = isArray(value) ? value[0] : value;
+              props.onFillChange?.({
+                color: fillColor,
+                opacity: nextOpacity
+              });
             }}
           ></Slider>
         </div>
       }
     >
       <span className="vchart-editor-ui-editor-bar-tool">
-        <ColorItem color={props.fillColor} />
+        <ColorItem color={fillColor} />
         <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>
