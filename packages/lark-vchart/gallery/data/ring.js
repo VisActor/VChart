@@ -23,7 +23,7 @@ export default {
   categoryField: 'type',
   pie: {
     style: {
-      cornerRadius: 10,
+      cornerRadius: 10
     },
     state: {
       hover: {
@@ -53,7 +53,7 @@ export default {
       style: {
         fontWeight: 'bolder',
         fontFamily: 'Times New Roman',
-        fill: '#888',
+        fill: '#888'
       }
     },
     content: [
@@ -64,7 +64,7 @@ export default {
           fontSize: 20,
           fill: 'orange',
           fontWeight: 'bolder',
-          fontFamily: 'Times New Roman',
+          fontFamily: 'Times New Roman'
         }
       },
       {
@@ -73,7 +73,7 @@ export default {
         style: {
           fontSize: 18,
           fill: 'orange',
-          fontFamily: 'Times New Roman',
+          fontFamily: 'Times New Roman'
         }
       }
     ]
@@ -88,16 +88,6 @@ export default {
           texture: datum => datum['texture']
         }
       }
-    }
-  },
-  tooltip: {
-    mark: {
-      content: [
-        {
-          key: datum => datum['type'],
-          value: datum => datum['value'] + '%'
-        }
-      ]
     }
   }
 };
