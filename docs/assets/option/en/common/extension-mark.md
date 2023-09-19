@@ -119,7 +119,8 @@ Required configuration to specify the graphical type
 ##${prefix} style(Object)
 
 {{ use: graphic-arc(
-  prefix = '###'
+  prefix = '###',
+  markType = 'arc'
 ) }}
 
 #${prefix} extensionMark.polygon(Object)

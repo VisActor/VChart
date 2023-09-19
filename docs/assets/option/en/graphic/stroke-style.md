@@ -1,7 +1,8 @@
 {{ target: graphic-stroke-style }}
 
 {{ use: graphic-partial-stroke-style(
-  prefix = ${prefix}
+prefix = ${prefix},
+markType = ${markType}
 ) }}
 
 #${prefix} outerBorder(Object)

@@ -1,7 +1,16 @@
 {{ target: graphic-partial-stroke-style }}
 
+{{ if: ${markType} === 'arc' }}
+#${prefix} stroke(number | [boolean | string, boolean | string, boolean | string, boolean | string] )
+
+Stroke color. Supports setting to a solid color using `'rgb (255, 255, 255)'`, `'rgba (255, 255, 255, 1)'`, `'#fff'`, etc., and also supports setting it to a gradient stroke color.
+
+Since version `1.4.0`, it supports configuration in array form. The array means: [outer arc stroke, end edge stroke, inner arc stroke, start edge stroke].
+
+{{ else }}
 #${prefix} stroke(string|Object)
 
+{{ /if }}
 Stroke color. Supports setting to a solid color using `'rgb (255, 255, 255)'`, `'rgba (255, 255, 255, 1)'`, `'#fff'`, etc., and also supports setting it to a gradient stroke color.
 
 - Gradient color usage
