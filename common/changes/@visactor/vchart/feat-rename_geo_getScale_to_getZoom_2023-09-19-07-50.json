@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: disable label animation as default in map series ",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
