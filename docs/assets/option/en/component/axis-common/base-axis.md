@@ -107,8 +107,8 @@ Since version` 1.4.0`, in **continuous axes**, tickCount supports being configur
 
 ```ts
 tickCount?: (option: {
-  axisLength?: number;  // 坐标轴占据的画布大小。直角坐标系中为轴的宽度或高度，极坐标系中半径轴的长度。
-  labelStyle?: ITextGraphicAttribute; // 轴标签的样式
+  axisLength?: number;  // The pixel size of the axis. In cartesian coordinate system, it refers to the width or height of the axis. In polar coordinates, it refers to the length of the radius axis.
+  labelStyle?: ITextGraphicAttribute; // The style of axis labels.
 }) => number;
 ```
 
