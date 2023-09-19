@@ -19,7 +19,7 @@ export function EditorBarFontSize(props: IEditorBarFontSizeProps) {
     <Popover
       spacing={10}
       content={
-        <div className="vchart-editor-ui-editor-bar-container">
+        <div className="vchart-editor-ui-editor-bar-panel-container">
           {(props.fontSizeList ?? []).map(fontSize => (
             <div
               key={fontSize}
@@ -33,9 +33,9 @@ export function EditorBarFontSize(props: IEditorBarFontSizeProps) {
         </div>
       }
     >
-      <span>
-        {props.fontSize}
-        <IconChevronDown />
+      <span className="vchart-editor-ui-editor-bar-tool">
+        <span style={{ fontSize: '14px' }}>{props.fontSize}</span>
+        <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>
   );
