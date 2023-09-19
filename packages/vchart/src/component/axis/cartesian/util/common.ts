@@ -1,7 +1,7 @@
 import type { IOrientType } from '../../../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../../typings';
-import { isValidOrient } from '../../../../util';
+import { isValid, isValidOrient } from '../../../../util';
 import type { ICartesianAxisCommonSpec } from '../interface';
 
 export function isXAxis(orient: IOrientType) {
@@ -35,4 +35,11 @@ export function getDirectionByOrient(orient: IOrientType) {
 
 export function isOrientInSameDirection(orient1: IOrientType, orient2: IOrientType) {
   return getDirectionByOrient(orient1) === getDirectionByOrient(orient2);
+}
+
+export function transformInverse(spec: ICartesianAxisCommonSpec, isHorizontal: boolean) {
+  if (isHorizontal && !isXAxis(spec.orient)) {
+    spec.inverse = isValid(spec.inverse) ? !spec.inverse : true;
+  }
+  return spec;
 }
