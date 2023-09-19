@@ -748,6 +748,7 @@ export class VChart implements IVChart {
       spec = specTransform(spec) as any;
       this._spec = spec;
       this._updateCurrentTheme();
+      this._chart?.setCurrentTheme(this._currentTheme, true);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
       return this._chart.updateSpec(spec, morphConfig);
     }, morphConfig);
