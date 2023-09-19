@@ -16,22 +16,45 @@ import { IconEditData } from '../svg/edit-data';
 import { IconComment } from '../svg/comment';
 import { EditorBarStroke } from './stroke';
 import { EditorBarTool } from './util';
+import {
+  IconBarChart,
+  IconBarLineChart,
+  IconGroupBarChart,
+  IconLineChart,
+  IconPercentageBarChart,
+  IconStackBarChart
+} from '../svg/chart';
 
 const chartList = [
   {
     type: 'bar',
-    icon: <IconHistogram />,
+    icon: <IconBarChart />,
     label: '基础柱状图'
   },
   {
     type: 'groupBar',
-    icon: <IconHistogram />,
+    icon: <IconGroupBarChart />,
     label: '分组柱状图'
   },
   {
     type: 'stackBar',
-    icon: <IconHistogram />,
+    icon: <IconStackBarChart />,
     label: '堆叠柱状图'
+  },
+  {
+    type: 'percentageBar',
+    icon: <IconPercentageBarChart />,
+    label: '百分比堆叠图'
+  },
+  {
+    type: 'line',
+    icon: <IconLineChart />,
+    label: '折线图'
+  },
+  {
+    type: 'combine',
+    icon: <IconBarLineChart />,
+    label: '柱线组合图'
   }
 ];
 
