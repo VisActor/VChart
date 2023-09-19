@@ -1,99 +1,124 @@
 import { Divider, Popover, Slider } from '@douyinfe/semi-ui';
-import type { IEditorBarStrokeProps } from '../typings/editor-bar';
+import type { IEditorBarStrokeProps, Stroke } from '../typings/editor-bar';
 import { IconChevronDown } from '@douyinfe/semi-icons';
-import { useState } from 'react';
 import { isArray } from '@visactor/vutils';
 import { ColorItem, EditorBarPanelTool } from './util';
 import { IconStroke } from '../svg/stroke';
 import { IconLineDisable } from '../svg/disable';
 import { IconDashedLine, IconLine, IconThinDashedLine } from '../svg/line';
+import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 
-const selectedStyle = {
-  backgroundColor: 'rgba(117, 164, 255, 0.10)'
-};
+const strokeStyleList = [
+  { icon: <IconLineDisable />, style: 'disable' },
+  { icon: <IconLine />, style: 'line' },
+  { icon: <IconDashedLine />, style: 'dashedLine' },
+  { icon: <IconThinDashedLine />, style: 'thinDashedLine' }
+];
 
-const unselectedStyle = {};
-
-const paletteList = [
-  ['#000000', '#646A73', '#BBBFC4', '#DEE0E3', '#EFF0F1', '#FFFFFF'],
-  ['#9F6FF1', '#5083FB', '#32A645', '#FFE928', '#ED6D0C', '#F54A45']
+const lineWidthList = [
+  { lineWidth: 1, size: 6 },
+  { lineWidth: 2, size: 8 },
+  { lineWidth: 3, size: 10 },
+  { lineWidth: 4, size: 12 }
 ];
 
 function StrokePanel(props: IEditorBarStrokeProps) {
-  const onChartSelected = (chart: string) => {
-    //
-  };
+  const strokeColor = props.stroke?.color ?? defaultEditorBarComponentConfig.stroke.default.color;
+  const strokeOpacity = props.stroke?.opacity ?? defaultEditorBarComponentConfig.stroke.default.opacity;
+  const strokeLineWidth = props.stroke?.lineWidth ?? defaultEditorBarComponentConfig.stroke.default.lineWidth;
+  const strokeStyle = props.stroke?.style ?? defaultEditorBarComponentConfig.stroke.default.style;
 
-  const [opacity, setOpacity] = useState<number>(props.strokeOpacity ?? 1);
+  const strokeColorList = defaultEditorBarComponentConfig.stroke.colorList;
 
   return (
     <div className="vchart-editor-ui-editor-bar-panel-container" style={{ padding: '10px 12px', position: 'relative' }}>
       <div style={{ marginBottom: 6 }}>描边/线条</div>
       <div style={{ borderRadius: 6, background: '#F5F6F7', padding: 2, display: 'flex', gap: 2, marginBottom: 8 }}>
-        <EditorBarPanelTool icon={<IconLineDisable />} selected={props.strokeStyle === 'disable'} />
-        <EditorBarPanelTool icon={<IconLine />} selected={props.strokeStyle === 'line'} />
-        <EditorBarPanelTool icon={<IconDashedLine />} selected={props.strokeStyle === 'dashedLine'} />
-        <EditorBarPanelTool icon={<IconThinDashedLine />} selected={props.strokeStyle === 'thinDashedLine'} />
+        {strokeStyleList.map(style => (
+          <EditorBarPanelTool
+            key={style.style}
+            icon={style.icon}
+            selected={strokeStyle === style.style}
+            onClick={() => {
+              props.onStrokeChange?.({
+                style: style.style as Stroke['style'],
+                color: strokeColor,
+                opacity: strokeOpacity,
+                lineWidth: strokeLineWidth
+              });
+            }}
+          />
+        ))}
       </div>
       <div style={{ borderRadius: 6, background: '#F5F6F7', padding: 2, display: 'flex', gap: 2, marginBottom: 8 }}>
-        <EditorBarPanelTool
-          icon={
-            <span
-              style={{ borderRadius: '50%', background: '#000000', display: 'inline-block', width: 6, height: 6 }}
-            ></span>
-          }
-          selected={props.strokeWidth === 1}
-        />
-        <EditorBarPanelTool
-          icon={
-            <span
-              style={{ borderRadius: '50%', background: '#000000', display: 'inline-block', width: 8, height: 8 }}
-            ></span>
-          }
-          selected={props.strokeWidth === 2}
-        />
-        <EditorBarPanelTool
-          icon={
-            <span
-              style={{ borderRadius: '50%', background: '#000000', display: 'inline-block', width: 10, height: 10 }}
-            ></span>
-          }
-          selected={props.strokeWidth === 3}
-        />
-        <EditorBarPanelTool
-          icon={
-            <span
-              style={{ borderRadius: '50%', background: '#000000', display: 'inline-block', width: 12, height: 12 }}
-            ></span>
-          }
-          selected={props.strokeWidth === 4}
-        />
+        {lineWidthList.map(lineWidth => (
+          <EditorBarPanelTool
+            key={lineWidth.lineWidth}
+            icon={
+              <span
+                style={{
+                  borderRadius: '50%',
+                  background: '#000000',
+                  display: 'inline-block',
+                  width: lineWidth.size,
+                  height: lineWidth.size
+                }}
+              ></span>
+            }
+            selected={strokeLineWidth === lineWidth.lineWidth}
+            onClick={() => {
+              props.onStrokeChange?.({
+                style: strokeStyle,
+                color: strokeColor,
+                opacity: strokeOpacity,
+                lineWidth: lineWidth.lineWidth
+              });
+            }}
+          />
+        ))}
       </div>
 
       <Divider layout="horizontal" margin="8px" style={{ marginLeft: -12, width: 'calc(100% + 24px)' }} />
 
-      {(paletteList ?? []).map((palette, paletteIndex) => (
+      {(strokeColorList ?? []).map((palette, paletteIndex) => (
         <div key={paletteIndex}>
           {palette.map(color => (
-            <ColorItem key={color} color={color} size={22} />
+            <ColorItem
+              key={color}
+              color={color}
+              size={22}
+              selected={color === strokeColor}
+              onClick={() => {
+                props.onStrokeChange?.({
+                  style: strokeStyle,
+                  color: color,
+                  opacity: strokeOpacity,
+                  lineWidth: strokeLineWidth
+                });
+              }}
+            />
           ))}
         </div>
       ))}
       <div style={{ marginTop: 6 }}>
-        透明度<span style={{ float: 'right' }}>{(opacity * 100).toFixed(0)}%</span>
+        透明度<span style={{ float: 'right' }}>{(strokeOpacity * 100).toFixed(0)}%</span>
       </div>
       <Slider
-        defaultValue={opacity}
+        defaultValue={strokeOpacity}
         min={0}
         max={1}
         step={0.01}
         onChange={value => {
           const opacity = isArray(value) ? value[0] : value;
-          setOpacity(opacity);
-          props.onStrokeOpacityChange?.(opacity);
+          props.onStrokeChange?.({
+            style: strokeStyle,
+            color: strokeColor,
+            opacity: opacity,
+            lineWidth: strokeLineWidth
+          });
         }}
       ></Slider>
-      {props.strokeStyle === 'disable' ? (
+      {strokeStyle === 'disable' ? (
         <div
           style={{
             left: 0,
@@ -113,7 +138,7 @@ export function EditorBarStroke(props: IEditorBarStrokeProps) {
   return (
     <Popover spacing={10} content={<StrokePanel {...props} />}>
       <span className="vchart-editor-ui-editor-bar-tool">
-        <IconStroke fill={props.strokeColor} />
+        <IconStroke fill={props.stroke?.color ?? defaultEditorBarComponentConfig.stroke.default.color} />
         <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>
