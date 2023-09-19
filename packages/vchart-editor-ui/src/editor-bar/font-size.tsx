@@ -1,12 +1,15 @@
 import { Popover } from '@douyinfe/semi-ui';
 import type { IEditorBarFontSizeProps } from '../typings/editor-bar';
-import { IconChevronDown, IconHistogram } from '@douyinfe/semi-icons';
+import { IconChevronDown } from '@douyinfe/semi-icons';
 
 const selectedStyle = {
-  height: 32
+  width: 32,
+  height: 32,
+  backgroundColor: 'rgba(117, 164, 255, 0.1)'
 };
 
 const unselectedStyle = {
+  width: 32,
   height: 32
 };
 
