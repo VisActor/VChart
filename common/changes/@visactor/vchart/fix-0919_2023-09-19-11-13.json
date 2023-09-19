@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: circularProgress chart may throw error when executing `updateSpec`, related #994",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
