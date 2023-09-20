@@ -402,9 +402,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       width: 0,
       height: 0
     };
-    const getDefaultPointValue = (defaultValue = 0): IPoint => ({ x: defaultValue, y: defaultValue });
-    let relativePosOffset = getDefaultPointValue();
-    let tooltipParentElementRect: IPoint | DOMRect = getDefaultPointValue();
+    let relativePosOffset = { x: 0, y: 0 };
+    let tooltipParentElementRect: IPoint | DOMRect = { x: 0, y: 0 };
     let chartElementScale = 1;
     let tooltipParentElementScale = 1;
 
@@ -536,14 +535,15 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     /* 三、确保tooltip在视区内 */
     const { width: containerWidth, height: containerHeight } = containerSize;
 
-    const isLeftOut = x * tooltipParentElementScale + tooltipParentElementRect.x < 0;
-    const isRightOut = (x + tooltipBoxWidth) * tooltipParentElementScale + tooltipParentElementRect.x > containerWidth;
-    const isTopOut = y * tooltipParentElementScale + tooltipParentElementRect.y < 0;
-    const isBottomOut =
+    const isLeftOut = () => x * tooltipParentElementScale + tooltipParentElementRect.x < 0;
+    const isRightOut = () =>
+      (x + tooltipBoxWidth) * tooltipParentElementScale + tooltipParentElementRect.x > containerWidth;
+    const isTopOut = () => y * tooltipParentElementScale + tooltipParentElementRect.y < 0;
+    const isBottomOut = () =>
       (y + tooltipBoxHeight) * tooltipParentElementScale + tooltipParentElementRect.y > containerHeight;
 
-    const leftDetectFirst = () => {
-      if (isLeftOut) {
+    const detectLeftFirst = () => {
+      if (isLeftOut()) {
         // 位置不超出视区左界
         if (isFixedPosition) {
           x = -tooltipParentElementRect.x / tooltipParentElementScale;
@@ -556,14 +556,14 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
         }
       }
     };
-    const leftDetectLast = () => {
-      if (isLeftOut) {
+    const detectLeftLast = () => {
+      if (isLeftOut()) {
         // 位置不超出视区左界
         x = -tooltipParentElementRect.x / tooltipParentElementScale;
       }
     };
-    const rightDetectFirst = () => {
-      if (isRightOut) {
+    const detectRightFirst = () => {
+      if (isRightOut()) {
         // 位置不超出视区右界
         if (isFixedPosition) {
           x = (containerWidth - tooltipParentElementRect.x) / tooltipParentElementScale - tooltipBoxWidth;
@@ -576,14 +576,14 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
         }
       }
     };
-    const rightDetectLast = () => {
-      if (isRightOut) {
+    const detectRightLast = () => {
+      if (isRightOut()) {
         // 位置不超出视区右界
         x = (containerWidth - tooltipParentElementRect.x) / tooltipParentElementScale - tooltipBoxWidth;
       }
     };
-    const topDetectFirst = () => {
-      if (isTopOut) {
+    const detectTopFirst = () => {
+      if (isTopOut()) {
         // 位置不超出视区上界
         if (isFixedPosition) {
           y = -tooltipParentElementRect.y / tooltipParentElementScale;
@@ -596,14 +596,14 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
         }
       }
     };
-    const topDetectLast = () => {
-      if (isTopOut) {
+    const detectTopLast = () => {
+      if (isTopOut()) {
         // 位置不超出视区上界
         y = 0 - tooltipParentElementRect.y / tooltipParentElementScale;
       }
     };
-    const bottomDetectFirst = () => {
-      if (isBottomOut) {
+    const detectBottomFirst = () => {
+      if (isBottomOut()) {
         // 位置不超出视区下界
         if (isFixedPosition) {
           y = (containerHeight - tooltipParentElementRect.y) / tooltipParentElementScale - tooltipBoxHeight;
@@ -616,8 +616,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
         }
       }
     };
-    const bottomDetectLast = () => {
-      if (isBottomOut) {
+    const detectBottomLast = () => {
+      if (isBottomOut()) {
         // 位置不超出视区下界
         y = (containerHeight - tooltipParentElementRect.y) / tooltipParentElementScale - tooltipBoxHeight;
       }
@@ -626,41 +626,41 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     // 处理左右
     switch (getHorizontalPositionType(position as TooltipFixedPosition, 'right')) {
       case 'middle':
-        if (isLeftOut) {
-          leftDetectFirst();
-          rightDetectLast();
+        if (isLeftOut()) {
+          detectLeftFirst();
+          detectRightLast();
         } else {
-          rightDetectFirst();
-          leftDetectLast();
+          detectRightFirst();
+          detectLeftLast();
         }
         break;
       case 'left':
-        leftDetectFirst();
-        rightDetectLast();
+        detectLeftFirst();
+        detectRightLast();
         break;
       case 'right':
-        rightDetectFirst();
-        leftDetectLast();
+        detectRightFirst();
+        detectLeftLast();
         break;
     }
     // 处理上下
     switch (getVerticalPositionType(position as TooltipFixedPosition, 'bottom')) {
       case 'middle':
-        if (isTopOut) {
-          topDetectFirst();
-          bottomDetectLast();
+        if (isTopOut()) {
+          detectTopFirst();
+          detectBottomLast();
         } else {
-          bottomDetectFirst();
-          topDetectLast();
+          detectBottomFirst();
+          detectTopLast();
         }
         break;
       case 'top':
-        topDetectFirst();
-        bottomDetectLast();
+        detectTopFirst();
+        detectBottomLast();
         break;
       case 'bottom':
-        bottomDetectFirst();
-        topDetectLast();
+        detectBottomFirst();
+        detectTopLast();
         break;
     }
 
