@@ -856,10 +856,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       result.reMake = true;
     }
 
-    if (this._rawData && spec.data && !(spec.data instanceof DataView)) {
-      updateDataViewInData(this._rawData, spec.data, true);
-    }
-
     // hover & selected
     if (!isEqual(this._spec.hover, originalSpec.hover) || !isEqual(this._spec.select, originalSpec.select)) {
       result.reMake = true;
@@ -898,6 +894,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return result;
   }
 
+  _updateSpecData() {
+    if (this._rawData && this._spec.data && !(this._spec.data instanceof DataView)) {
+      updateDataViewInData(this._rawData, this._spec.data, true);
+    }
+  }
+
   reInit(theme?: any, lastSpec?: any) {
     super.reInit(theme);
 
@@ -911,6 +913,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       mark.updateLayoutState(true);
     });
     this._updateExtensionMarkSpec(lastSpec);
+    this._updateSpecData();
   }
 
   // 首次布局完成后填充系列数据
