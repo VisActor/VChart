@@ -1,9 +1,9 @@
 import { Divider } from '@douyinfe/semi-ui';
 import type { Fill, IColorEditorComponentProps, Stroke } from '../typings/editor-bar';
 import { IconComment } from '../svg/comment';
-import { EditorBarStroke } from './stroke';
-import { EditorBarFill } from './fill';
-import { EditorBarTool } from './util';
+import { EditorBarStroke } from '../tools/stroke';
+import { EditorBarFill } from '../tools/fill';
+import { EditorBarEntry } from '../tools/util';
 import { useState } from 'react';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 
@@ -28,7 +28,7 @@ export function ColorEditorBar(props: IColorEditorComponentProps) {
         }}
       />
       <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
-      <EditorBarTool icon={<IconComment />} selected={false} />
+      <EditorBarEntry icon={<IconComment />} selected={false} />
     </div>
   );
 }

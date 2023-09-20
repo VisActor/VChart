@@ -1,8 +1,8 @@
 import { Divider } from '@douyinfe/semi-ui';
 import type { ILineEditorComponentProps, Stroke } from '../typings/editor-bar';
 import { IconComment } from '../svg/comment';
-import { EditorBarStrokeLine } from './stroke';
-import { EditorBarTool } from './util';
+import { EditorBarStrokeLine } from '../tools/stroke';
+import { EditorBarEntry } from '../tools/util';
 import { useState } from 'react';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 
@@ -19,7 +19,7 @@ export function LineEditorBar(props: ILineEditorComponentProps) {
         }}
       />
       <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
-      <EditorBarTool icon={<IconComment />} selected={false} />
+      <EditorBarEntry icon={<IconComment />} selected={false} />
     </div>
   );
 }
