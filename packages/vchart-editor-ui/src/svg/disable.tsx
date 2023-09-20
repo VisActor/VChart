@@ -28,6 +28,7 @@ export function IconColorDisable(props: IconBaseProps) {
       viewBox="0 0 26 26"
       fill="none"
       style={props.style ?? {}}
+      onClick={props.onClick}
     >
       <path
         fillRule="evenodd"
@@ -49,6 +50,7 @@ export function IconDisableRect(props: IconBaseProps) {
       viewBox="0 0 26 26"
       fill="none"
       style={props.style ?? {}}
+      onClick={props.onClick}
     >
       <g clipPath="url(#clip0_163_4121)">
         <rect x="2" y="2" width="22" height="22" rx="2" fill="white" />

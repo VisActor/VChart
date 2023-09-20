@@ -5,12 +5,26 @@ import { IconStrokeText, IconText } from '../svg/text';
 export function ColorItem(props: IColorItemProps) {
   const color = props.color;
   const disableSize = (props.size ?? 18) + 3;
+  const selectedDisableSize = (props.size ?? 18) + 3 - 4;
   const borderSize = (props.size ?? 18) - 2;
   const selectedSize = (props.size ?? 18) - 4;
   const size = props.size ?? 18;
   return color === 'disable' ? (
     <IconColorDisable
-      style={{ width: disableSize, height: disableSize, margin: 1, marginRight: 2, cursor: 'pointer' }}
+      onClick={() => props.onClick?.()}
+      style={
+        props.selected
+          ? {
+              width: selectedDisableSize,
+              height: selectedDisableSize,
+              margin: 1,
+              marginRight: 2,
+              cursor: 'pointer',
+              border: '2px solid #2570fa',
+              borderRadius: '50%'
+            }
+          : { width: disableSize, height: disableSize, margin: 1, marginRight: 2, cursor: 'pointer' }
+      }
     />
   ) : color.toLowerCase() === '#ffffff' ? (
     <span
@@ -77,13 +91,13 @@ export function TextColorItem(props: IColorItemProps & { background?: string }) 
                   border: '2px solid #2570fa',
                   width: selectedSize,
                   height: selectedSize,
-                  backgroundColor: props.background ?? 'transparent'
+                  backgroundColor: props.background && props.background !== 'disable' ? props.background : 'transparent'
                 }
               : {
                   border: '1px solid #1F232926',
                   width: size,
                   height: size,
-                  backgroundColor: props.background ?? 'transparent'
+                  backgroundColor: props.background && props.background !== 'disable' ? props.background : 'transparent'
                 }
           }
         >
@@ -97,12 +111,26 @@ export function TextColorItem(props: IColorItemProps & { background?: string }) 
 export function TextBackgroundColorItem(props: IColorItemProps) {
   const color = props.color;
   const disableSize = (props.size ?? 22) + 1;
+  const selectedDisableSize = (props.size ?? 22) + 1 - 4;
   const whiteSize = (props.size ?? 22) - 2;
   const selectedSize = (props.size ?? 22) - 4;
   const size = props.size ?? 22;
   return color === 'disable' ? (
     <IconDisableRect
-      style={{ width: disableSize, height: disableSize, margin: 1, marginRight: 2, cursor: 'pointer' }}
+      onClick={() => props.onClick?.()}
+      style={
+        props.selected
+          ? {
+              width: selectedDisableSize,
+              height: selectedDisableSize,
+              margin: 1,
+              marginRight: 2,
+              cursor: 'pointer',
+              border: '2px solid #2570fa',
+              borderRadius: 2
+            }
+          : { width: disableSize, height: disableSize, margin: 1, marginRight: 2, cursor: 'pointer' }
+      }
     />
   ) : color.toLowerCase() === '#ffffff' ? (
     <span
