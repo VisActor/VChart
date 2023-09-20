@@ -38,8 +38,12 @@ export function isOrientInSameDirection(orient1: IOrientType, orient2: IOrientTy
 }
 
 export function transformInverse(spec: ICartesianAxisCommonSpec, isHorizontal: boolean) {
+  // 这里处理下 direction === 'horizontal' 下的 Y 轴
+  // 因为 Y 轴绘制的时候默认是从下至上绘制的，但是在 direction === 'horizontal' 场景下，图表应该是按照从上至下阅读的
+  // 所以这里在这种场景下坐标轴会默认 inverse 已达到效果
+  let inverse = spec.inverse;
   if (isHorizontal && !isXAxis(spec.orient)) {
-    spec.inverse = isValid(spec.inverse) ? !spec.inverse : true;
+    inverse = isValid(spec.inverse) ? !spec.inverse : true;
   }
-  return spec;
+  return inverse;
 }

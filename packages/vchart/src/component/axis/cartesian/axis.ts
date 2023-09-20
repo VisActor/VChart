@@ -1,6 +1,3 @@
-/**
- * @todo vgrammar axis 支持 mode: '3d' 配置传入
- */
 import type { IBounds, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption, ILayoutRect } from '../../../model/interface';
@@ -126,11 +123,12 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       // if (isHorizontal && !isXAxis(spec.orient)) {
       //   inverse = isValid(spec.inverse) ? !spec.inverse : true;
       // }
-      transformInverse(spec, isHorizontal);
+
       return new C(
         {
           ...spec,
-          type: axisType
+          type: axisType,
+          inverse: transformInverse(spec, isHorizontal)
         },
         options
       ) as IAxis;
@@ -818,6 +816,9 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   updateSpec(spec: any) {
     const chartSpec = this._option.getChart().getSpec();
-    return super.updateSpec(transformInverse(spec, chartSpec.direction === Direction.horizontal));
+    return super.updateSpec({
+      ...spec,
+      inverse: transformInverse(spec, chartSpec.direction === Direction.horizontal)
+    });
   }
 }
