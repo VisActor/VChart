@@ -1,3 +1,5 @@
+// Base component config
+
 export interface IBaseComponentConfig {
   key: string;
   label?: string;
