@@ -256,11 +256,8 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
             });
           }
           const { width, height } = this.getLayoutRect();
-          const { x, y } = this.getLayoutStartPoint();
           return [
             createRect({
-              x,
-              y,
               width,
               height,
               fill: true
