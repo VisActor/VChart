@@ -70,6 +70,12 @@ export type ILegendCommonSpec = {
    * @default 'middle'
    */
   position?: 'start' | 'middle' | 'end';
+  /**
+   * 图例组件的布局配置，默认自动跟随显示位置进行调整。
+   * 1. `orient` 为 'top' 或者 'bottom' 时，默认为 'horizontal' 水平布局
+   * 2. `orient` 为 'left' 或者 'right' 时，默认为 'vertical' 垂直布局
+   */
+  layout?: 'horizontal' | 'vertical';
 
   /**
    * 是否进行数据筛选，默认为 true
