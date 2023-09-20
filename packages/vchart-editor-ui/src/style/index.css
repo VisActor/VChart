@@ -32,6 +32,8 @@
   align-items: center;
   justify-content: center;
   padding: 4px;
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 .vchart-editor-ui-editor-bar-tool:hover {
@@ -48,7 +50,6 @@
   /* width: 8px;
   height: 8px; */
   font-size: 8px !important;
-  margin-left: 2px;
 }
 
 .vchart-editor-ui-editor-bar-row {
