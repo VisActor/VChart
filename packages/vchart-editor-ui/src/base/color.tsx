@@ -10,8 +10,8 @@ export function Color(props: IBaseColorComponentProps) {
   const [color, setColor] = useState<string>(defaultColor);
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <p>{label}</p>
+    <div className="vchart-editor-ui-panel-base-container">
+      <p className="vchart-editor-ui-panel-base-label">{label}</p>
       <Popover
         content={
           <SketchPicker

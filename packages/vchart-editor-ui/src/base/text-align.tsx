@@ -16,8 +16,8 @@ export function TextAlign(props: IBaseTextAlignComponentProps) {
   const [textAlign, setTextAlign] = useState<string>(defaultTextAlign);
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <p>{label}</p>
+    <div className="vchart-editor-ui-panel-base-container">
+      <p className="vchart-editor-ui-panel-base-label">{label}</p>
       <ButtonGroup>
         <IconButton
           icon={<IconAlignLeft />}

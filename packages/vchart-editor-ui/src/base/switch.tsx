@@ -9,8 +9,8 @@ export function Switch(props: IBaseSwitchComponentProps) {
   const [value, setValue] = useState<boolean>(defaultValue);
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <p>{label}</p>
+    <div className="vchart-editor-ui-panel-base-container">
+      <p className="vchart-editor-ui-panel-base-label">{label}</p>
       <SemiSwitch
         defaultChecked={value}
         checked={value}

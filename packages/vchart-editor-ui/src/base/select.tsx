@@ -10,8 +10,8 @@ export function Select(props: IBaseSelectComponentProps) {
   const [value, setValue] = useState<string>(defaultValue);
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <p>{label}</p>
+    <div className="vchart-editor-ui-panel-base-container">
+      <p className="vchart-editor-ui-panel-base-label">{label}</p>
       <SemiSelect
         defaultValue={value}
         style={{ width: 180 }}
