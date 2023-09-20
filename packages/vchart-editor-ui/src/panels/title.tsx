@@ -130,8 +130,7 @@ function generateAlignEntries(
 
 export function Title(props: ITitleComponentProps) {
   const onChange = (section: string, key: string, value: any) => {
-    // console.log(section, key, value);
-    props.onChange?.();
+    props.onChange?.(section, key, value);
   };
 
   const label = props.label ?? titleDefaultProps.label;

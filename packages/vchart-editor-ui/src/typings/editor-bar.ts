@@ -10,7 +10,7 @@ export interface IColorItemProps {
   onClick?: () => void;
 }
 
-export interface IEditorBarToolProps {
+export interface IEditorBarEntryProps {
   icon: React.ReactNode;
   selected?: boolean;
   onClick?: () => void;
@@ -76,8 +76,8 @@ export interface IEditorBarFontSizeProps {
 export interface IBaseEditorComponentProps {
   style?: React.CSSProperties;
   onToolChange?: (tool: string) => void;
-  onComment?: () => void;
 }
+
 export interface IEditorComponentProps extends IBaseEditorComponentProps {
   chartList?: ChartEntry[];
   paletteList?: string[][];
@@ -87,19 +87,51 @@ export interface IEditorComponentProps extends IBaseEditorComponentProps {
   onPaletteChange?: (palette: string[]) => void;
   onFillChange?: (fill: Fill) => void;
   onStrokeChange?: (stroke: Stroke) => void;
+  onComment?: () => void;
 }
 
 export interface IColorEditorComponentProps extends IBaseEditorComponentProps {
   onFillChange?: (fill: Fill) => void;
   onStrokeChange?: (stroke: Stroke) => void;
+  onComment?: () => void;
 }
 
 export interface ILineEditorComponentProps extends IBaseEditorComponentProps {
   onStrokeChange?: (stroke: Stroke) => void;
+  onComment?: () => void;
 }
 
 export interface ITextEditorComponentProps extends IBaseEditorComponentProps {
   fontSizeList?: number[];
   onTextColorChange?: (textColor: TextColor) => void;
   onFontSizeChange?: (fontSize: number) => void;
+  onBoldChange?: (bold: boolean) => void;
+  onComment?: () => void;
+}
+
+export interface IEditorBarEntry {
+  key: string;
+  default?: any;
+  onChange?: (value?: any) => void;
+  divide?: boolean;
+}
+
+export interface IEditorBarChartEntry extends IEditorBarEntry {
+  default: string;
+  chartList: ChartEntry[];
+}
+
+export interface IEditorBarPaletteEntry extends IEditorBarEntry {
+  default: string[];
+  paletteList: string[][];
+}
+
+export interface IEditorBarFontSizeEntry extends IEditorBarEntry {
+  default: number;
+  fontSizeList: number[];
+}
+
+export interface ICustomEditorComponentProps extends IBaseEditorComponentProps {
+  entries: (IEditorBarEntry | IEditorBarChartEntry | IEditorBarPaletteEntry | IEditorBarFontSizeEntry)[];
+  onChange?: (key: string, value?: any) => void;
 }

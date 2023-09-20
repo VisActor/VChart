@@ -1,6 +1,17 @@
-import type { IColorItemProps, IEditorBarToolProps } from '../typings/editor-bar';
+import type { IColorItemProps, IEditorBarEntryProps } from '../typings/editor-bar';
 import { IconColorDisable, IconDisableRect } from '../svg/disable';
 import { IconStrokeText, IconText } from '../svg/text';
+import { IconHorizontalLine } from '../svg/horizontal-line';
+import { IconVerticalLine } from '../svg/vertical-line';
+import { IconHorizontalRect } from '../svg/horizontal-rect';
+import { IconVerticalRect } from '../svg/vertical-rect';
+import { IconCombineMark } from '../svg/combine-mark';
+import { IconSumDiff } from '../svg/sum-diff';
+import { IconHierarchyDiff } from '../svg/hierarchy-diff';
+import { IconAddText } from '../svg/add-text';
+import { IconComment } from '../svg/comment';
+import { IconBold, IconMore } from '@douyinfe/semi-icons';
+import { IconEditData } from '../svg/edit-data';
 
 export function ColorItem(props: IColorItemProps) {
   const color = props.color;
@@ -157,7 +168,7 @@ export function TextBackgroundColorItem(props: IColorItemProps) {
   );
 }
 
-export function EditorBarTool(props: IEditorBarToolProps) {
+export function EditorBarEntry(props: IEditorBarEntryProps) {
   return (
     <span
       className={`vchart-editor-ui-editor-bar-tool ${
@@ -171,7 +182,7 @@ export function EditorBarTool(props: IEditorBarToolProps) {
   );
 }
 
-export function EditorBarPanelTool(props: IEditorBarToolProps) {
+export function EditorBarPanelEntry(props: IEditorBarEntryProps) {
   return (
     <div
       className={`vchart-editor-ui-editor-bar-box-item ${
@@ -183,3 +194,20 @@ export function EditorBarPanelTool(props: IEditorBarToolProps) {
     </div>
   );
 }
+
+export const editorBarToolMap = {
+  horizontalLine: { icon: <IconHorizontalLine />, type: 'tool' },
+  verticalLine: { icon: <IconVerticalLine />, type: 'tool' },
+  horizontalRect: { icon: <IconHorizontalRect />, type: 'tool' },
+  verticalRect: { icon: <IconVerticalRect />, type: 'tool' },
+  combineMark: { icon: <IconCombineMark />, type: 'tool' },
+  sumDiff: { icon: <IconSumDiff />, type: 'tool' },
+  hierarchyDiff: { icon: <IconHierarchyDiff />, type: 'tool' },
+  addText: { icon: <IconAddText />, type: 'tool' },
+
+  editData: { icon: <IconEditData />, type: 'trigger' },
+  comment: { icon: <IconComment />, type: 'trigger' },
+  more: { icon: <IconMore />, type: 'trigger' },
+
+  bold: { icon: <IconBold />, type: 'switch' }
+};

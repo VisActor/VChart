@@ -16,7 +16,7 @@ export interface IPanelComponentSection {
 export interface IPanelComponentProps {
   spec: any;
   sections?: any;
-  onChange?: () => void;
+  onChange?: (section: string, key: string, value: any) => void;
 }
 
 // Title Component

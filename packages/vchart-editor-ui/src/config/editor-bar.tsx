@@ -76,5 +76,8 @@ export const defaultEditorBarComponentConfig = {
       ['disable', '#FFFFFF', '#EFF0F1', '#EFE6FE', '#E0E9FF', '#D0F5CE', '#FFFCA3', '#FEE7CD', '#FEE3E2'],
       ['#000000', '#646A73', '#BBBFC4', '#9F6FF1', '#5083FB', '#32A645', '#FFE928', '#ED6D0C', '#F54A45']
     ]
+  },
+  bold: {
+    default: false
   }
 };

@@ -2,7 +2,7 @@ import { Divider, Popover, Slider } from '@douyinfe/semi-ui';
 import type { IEditorBarStrokeProps, Stroke } from '../typings/editor-bar';
 import { IconChevronDown } from '@douyinfe/semi-icons';
 import { isArray } from '@visactor/vutils';
-import { ColorItem, EditorBarPanelTool } from './util';
+import { ColorItem, EditorBarPanelEntry } from './util';
 import { IconStroke } from '../svg/stroke';
 import { IconLineDisable } from '../svg/disable';
 import { IconDashedLine, IconLine, IconThinDashedLine } from '../svg/line';
@@ -35,7 +35,7 @@ function StrokePanel(props: IEditorBarStrokeProps) {
       <div style={{ marginBottom: 6 }}>描边/线条</div>
       <div style={{ borderRadius: 6, background: '#F5F6F7', padding: 2, display: 'flex', gap: 2, marginBottom: 8 }}>
         {strokeStyleList.map(style => (
-          <EditorBarPanelTool
+          <EditorBarPanelEntry
             key={style.style}
             icon={style.icon}
             selected={strokeStyle === style.style}
@@ -52,7 +52,7 @@ function StrokePanel(props: IEditorBarStrokeProps) {
       </div>
       <div style={{ borderRadius: 6, background: '#F5F6F7', padding: 2, display: 'flex', gap: 2, marginBottom: 8 }}>
         {lineWidthList.map(lineWidth => (
-          <EditorBarPanelTool
+          <EditorBarPanelEntry
             key={lineWidth.lineWidth}
             icon={
               <span

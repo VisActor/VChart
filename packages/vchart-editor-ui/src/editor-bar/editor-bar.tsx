@@ -2,38 +2,18 @@ import React, { useState } from 'react';
 import { Divider } from '@douyinfe/semi-ui';
 import { IconMore } from '@douyinfe/semi-icons';
 import type { Fill, IEditorComponentProps, Stroke } from '../typings/editor-bar';
-import { EditorBarChart } from './chart';
-import { EditorBarPalette } from './palette';
-import { EditorBarFill } from './fill';
-import { IconHorizontalLine } from '../svg/horizontal-line';
-import { IconVerticalLine } from '../svg/vertical-line';
-import { IconHorizontalRect } from '../svg/horizontal-rect';
-import { IconVerticalRect } from '../svg/vertical-rect';
-import { IconCombineMark } from '../svg/combine-mark';
-import { IconSumDiff } from '../svg/sum-diff';
-import { IconHierarchyDiff } from '../svg/hierarchy-diff';
-import { IconAddText } from '../svg/add-text';
+import { EditorBarChart } from '../tools/chart';
+import { EditorBarPalette } from '../tools/palette';
+import { EditorBarFill } from '../tools/fill';
 import { IconEditData } from '../svg/edit-data';
 import { IconComment } from '../svg/comment';
-import { EditorBarStroke } from './stroke';
-import { EditorBarTool } from './util';
+import { EditorBarStroke } from '../tools/stroke';
+import { EditorBarEntry, editorBarToolMap } from '../tools/util';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 
-type EditorTool = {
-  key: string;
-  icon: React.ReactNode;
-};
-
-const editorTools: EditorTool[] = [
-  { key: 'horizontalLine', icon: <IconHorizontalLine /> },
-  { key: 'verticalLine', icon: <IconVerticalLine /> },
-  { key: 'horizontalRect', icon: <IconHorizontalRect /> },
-  { key: 'verticalRect', icon: <IconVerticalRect /> },
-  { key: 'combineMark', icon: <IconCombineMark /> },
-  { key: 'sumDiff', icon: <IconSumDiff /> },
-  { key: 'hierarchyDiff', icon: <IconHierarchyDiff /> },
-  { key: 'addText', icon: <IconAddText /> }
-];
+const editorTools = Object.keys(editorBarToolMap)
+  .filter(key => editorBarToolMap[key].type === 'tool')
+  .map(key => ({ key, icon: editorBarToolMap[key].icon }));
 
 export function EditorBar(props: IEditorComponentProps) {
   const chartList = props.chartList ?? defaultEditorBarComponentConfig.chart.chartList;
@@ -72,7 +52,7 @@ export function EditorBar(props: IEditorComponentProps) {
 
       {editorTools.map(editorTool => (
         <React.Fragment key={editorTool.key}>
-          <EditorBarTool
+          <EditorBarEntry
             icon={editorTool.icon}
             selected={tool === editorTool.key}
             onClick={() => {
@@ -85,7 +65,7 @@ export function EditorBar(props: IEditorComponentProps) {
         </React.Fragment>
       ))}
 
-      <EditorBarTool icon={<IconEditData />} selected={false} onClick={() => props.onEditData?.()} />
+      <EditorBarEntry icon={<IconEditData />} selected={false} onClick={() => props.onEditData?.()} />
       <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
 
       <EditorBarFill
@@ -104,10 +84,10 @@ export function EditorBar(props: IEditorComponentProps) {
       />
       <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
 
-      <EditorBarTool icon={<IconComment />} selected={false} onClick={() => props.onComment?.()} />
+      <EditorBarEntry icon={<IconComment />} selected={false} onClick={() => props.onComment?.()} />
       <Divider layout="vertical" margin="8px" style={{ height: 10 }} />
 
-      <EditorBarTool icon={<IconMore />} selected={false} onClick={() => props.onMore?.()} />
+      <EditorBarEntry icon={<IconMore />} selected={false} onClick={() => props.onMore?.()} />
     </div>
   );
 }
