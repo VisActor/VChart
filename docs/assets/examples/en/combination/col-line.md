@@ -228,7 +228,7 @@ const spec = {
   ]
 };
 
-fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bytecharts/col-line-data.json').then(res => {
+fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/tutorials/col-line-data.json').then(res => {
   res.json().then(dataJson => {
     spec.series.forEach(s => {
       s.data.values = dataJson[s.data.id];
