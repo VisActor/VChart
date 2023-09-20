@@ -11,7 +11,7 @@ import { CompilableBase } from '../compile/compilable-base';
 export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends CompilableBase implements ILayoutItem {
   protected _spec: T;
   getSpec(): T {
-    return this._spec;
+    return this._spec || ({} as T);
   }
 
   layoutClip: boolean = false;

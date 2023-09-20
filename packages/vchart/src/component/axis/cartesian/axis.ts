@@ -116,18 +116,11 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     const componentName = `${CartesianAxis.type}-${axisType}`;
     const C = Factory.getComponentInKey(componentName);
     if (C) {
-      // 这里处理下 direction === 'horizontal' 下的 Y 轴
-      // 因为 Y 轴绘制的时候默认是从下至上绘制的，但是在 direction === 'horizontal' 场景下，图表应该是按照从上至下阅读的
-      // 所以这里在这种场景下坐标轴会默认 inverse 已达到效果
-      // let inverse = spec.inverse;
-      // if (isHorizontal && !isXAxis(spec.orient)) {
-      //   inverse = isValid(spec.inverse) ? !spec.inverse : true;
-      // }
-      transformInverse(spec, isHorizontal);
       return new C(
         {
           ...spec,
-          type: axisType
+          type: axisType,
+          inverse: transformInverse(spec, isHorizontal)
         },
         options
       ) as IAxis;
@@ -838,6 +831,9 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   updateSpec(spec: any) {
     const chartSpec = this._option.getChart().getSpec();
-    return super.updateSpec(transformInverse(spec, chartSpec.direction === Direction.horizontal));
+    return super.updateSpec({
+      ...spec,
+      inverse: transformInverse(spec, chartSpec.direction === Direction.horizontal)
+    });
   }
 }

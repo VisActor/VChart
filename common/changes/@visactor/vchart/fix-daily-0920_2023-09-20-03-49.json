@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the error triggered by chart updateSpec, fixed #988, #1002",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
