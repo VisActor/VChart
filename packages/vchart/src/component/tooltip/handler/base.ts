@@ -208,12 +208,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       actualTooltip = this._cacheActualTooltip;
     } else {
       actualTooltip = this._getActualTooltipContent(pattern, data!, params);
-      if (pattern.updateTitle) {
-        actualTooltip.title = pattern.updateTitle(actualTooltip.title, data, params);
-      }
-      if (pattern.updateContent) {
-        actualTooltip.content = pattern.updateContent(actualTooltip.content, data, params);
-      }
+      actualTooltip.title = pattern.updateTitle?.(actualTooltip.title, data, params) ?? actualTooltip.title;
+      actualTooltip.content = pattern.updateContent?.(actualTooltip.content, data, params) ?? actualTooltip.content;
     }
 
     // 判断 tooltip 是否为空

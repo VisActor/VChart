@@ -118,6 +118,15 @@ const spec = {
             value: 'A NEW LINE'
           })
     },
+    dimension: {
+      position: 'tl',
+      positionMode: 'pointer',
+      updateContent: prev =>
+        (prev ?? []).concat({
+          key: 'I AM',
+          value: 'A NEW LINE'
+        })
+    },
     style: {
       panel: {
         padding: {
