@@ -735,11 +735,6 @@ export class VChart implements IVChart {
       spec = JSON.parse(spec);
     }
 
-    // 没有配置变化 因为数据对象的原因，这里会报错
-    // if (specString == JSON.stringify(this._spec)) {
-    //   return;
-    // }
-
     if (forceMerge) {
       spec = mergeSpec({}, this._spec, spec);
     }

@@ -107,6 +107,7 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this.id = createID();
     this._originalSpec = spec;
     this._spec = cloneDeepSpec(spec);
+    this._transformSpec();
     this.userId = spec.id;
     this._specIndex = option.specIndex ?? 0;
     this.specKey = option.specKey ?? '';
@@ -187,8 +188,22 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   }
 
   updateSpec(spec: any) {
-    this._originalSpec = spec;
     this._spec = cloneDeepSpec(spec);
+    const result = this._compareSpec();
+    this._originalSpec = spec;
+    if (!result.reMake) {
+      this._transformSpec();
+      this.reInit();
+    }
+    return result;
+  }
+
+  protected _transformSpec() {
+    // do nothing
+    // change spec by default logic
+  }
+
+  protected _compareSpec() {
     const result = {
       change: false,
       reMake: false,

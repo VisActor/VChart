@@ -481,23 +481,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     region._bar_series_position_calculated = false;
   }
 
-  /**
-   * spec 更新
-   * @param spec
-   * @returns
-   */
-  updateSpec(spec: IBarSeriesSpec) {
-    // super updateSpec 会执行 setAttrFromSpec 所以先缓存比对值
-    const { direction } = this._spec;
-    const result = super.updateSpec(spec);
-    if (spec.direction !== direction) {
-      result.change = true;
-      result.reRender = true;
-      result.reMake = true;
-    }
-    return result;
-  }
-
   getDefaultShapeType(): string {
     return 'square';
   }
