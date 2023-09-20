@@ -844,18 +844,4 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   getDefaultShapeType(): string {
     return 'square';
   }
-
-  updateSpec(spec: IFunnelSeriesSpec) {
-    const originalSpec = this._originalSpec as IFunnelSeriesSpec;
-    const { data: _originalData, ...checkOriginal } = originalSpec;
-    const result = super.updateSpec(spec);
-    const { data: _specData, ...checkSpec } = originalSpec;
-    if (!isEqual(checkOriginal, checkSpec)) {
-      result.reCompile = true;
-      result.reMake = true;
-      result.reRender = true;
-      result.change = true;
-    }
-    return result;
-  }
 }
