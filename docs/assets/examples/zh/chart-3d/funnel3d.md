@@ -62,19 +62,9 @@ const spec = {
       ]
     }
   ],
-  funnel3d: {
-    style: {
-      // stroke: 'red',
-      // strokeWidth: 1,
-      face: [false, false, true, false, true, false]
-    }
-  },
   label: {
     visible: true,
     support3d: true
-    // style: {
-    //   stroke: false
-    // }
   },
   maxSize: 400,
   minSize: 50,
@@ -88,7 +78,11 @@ const vchart = new VChart(spec, {
   dom: CONTAINER_ID,
   disableDirtyBounds: true,
   options3d: {
-    enable: true
+    enable: true,
+    center: {
+      dx: 100,
+      dy: 100
+    }
   }
 });
 vchart.renderAsync();

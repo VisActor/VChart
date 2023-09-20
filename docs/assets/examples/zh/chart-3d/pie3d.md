@@ -55,7 +55,7 @@ const spec = {
     orient: 'left'
   },
   label: {
-    visible: true,
+    visible: false,
     position: 'inside',
     support3d: true,
     style: {
