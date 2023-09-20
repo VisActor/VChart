@@ -87,7 +87,12 @@ const run = () => {
     ],
     categoryField: 'name',
     valueField: 'value',
-
+    color: {
+      field: 'color',
+      type: 'ordinal',
+      domain: ['A', 'top', '00', '01', '02', 'middle', 'bottom', 'B', 'C'],
+      range: ['#fd7f6f', '#7eb0d5', '#b2e061', '#bd7ebe', '#ffb55a', '#ffee65', '#beb9db', '#fdcce5', '#8bd3c7']
+    },
     nodeAlign: 'left',
     nodeGap: 8,
     nodeWidth: 10,
@@ -6354,12 +6359,3719 @@ const run = () => {
     hash: '71fea1bfaf872918422ee9e61d79eb03'
   };
 
-  const vChart = new VChart(spec_992, {
+  const spec1_update = {
+    type: 'sankey',
+    nodeGap: 5,
+    nodeWidth: 12,
+    nodeAlign: 'justify',
+    iterations: 0,
+    padding: {
+      top: 0,
+      left: 2,
+      bottom: 0,
+      right: 2
+    },
+    minNodeHeight: 1,
+    categoryField: 'key',
+    nodeKey: d => d['key'],
+    valueField: 'value',
+    data: [
+      {
+        name: 'data',
+        values: [
+          {
+            nodes: [
+              {
+                '230919171022011': '技术',
+                color: '技术',
+                group: '230919171022011',
+                key: '230919171022011-技术',
+                name: '技术',
+                type: 'node',
+                value: 5469023.505149841,
+                '230919103714013': 5469023.505149841,
+                outDegree: 3,
+                inDegree: 0,
+                children: [
+                  {
+                    '230919202156019': '公司',
+                    color: '公司',
+                    group: '230919202156019',
+                    key: '230919202156019-公司',
+                    name: '公司',
+                    type: 'node',
+                    value: 1764574.614578247,
+                    '230919103714013': 5152793.296570778,
+                    outDegree: 3,
+                    inDegree: 3,
+                    children: [
+                      {
+                        '230919205000017': '公司',
+                        color: '公司',
+                        group: '230919205000017',
+                        key: '230919205000017-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 1764574.614578247,
+                        '230919103714013': 5152793.296570778,
+                        outDegree: 0,
+                        inDegree: 3,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230919202156019': '消费者',
+                    color: '消费者',
+                    group: '230919202156019',
+                    key: '230919202156019-消费者',
+                    name: '消费者',
+                    type: 'node',
+                    value: 2692828.4352111816,
+                    '230919103714013': 8025072.194172859,
+                    outDegree: 3,
+                    inDegree: 3,
+                    children: [
+                      {
+                        '230919205000017': '消费者',
+                        color: '消费者',
+                        group: '230919205000017',
+                        key: '230919205000017-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 2692828.4352111816,
+                        '230919103714013': 8025072.194172859,
+                        outDegree: 0,
+                        inDegree: 3,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230919202156019': '小型企业',
+                    color: '小型企业',
+                    group: '230919202156019',
+                    key: '230919202156019-小型企业',
+                    name: '小型企业',
+                    type: 'node',
+                    value: 1011620.4553604126,
+                    '230919103714013': 2891088.6421899796,
+                    outDegree: 3,
+                    inDegree: 3,
+                    children: [
+                      {
+                        '230919205000017': '小型企业',
+                        color: '小型企业',
+                        group: '230919205000017',
+                        key: '230919205000017-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 1011620.4553604126,
+                        '230919103714013': 2891088.6421899796,
+                        outDegree: 0,
+                        inDegree: 3,
+                        children: []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                '230919171022011': '办公用品',
+                color: '办公用品',
+                group: '230919171022011',
+                key: '230919171022011-办公用品',
+                name: '办公用品',
+                type: 'node',
+                value: 4865589.799788475,
+                '230919103714013': 4865589.799788475,
+                outDegree: 3,
+                inDegree: 0,
+                children: [
+                  {
+                    '230919202156019': '消费者',
+                    color: '消费者',
+                    group: '230919202156019',
+                    key: '230919202156019-消费者',
+                    name: '消费者',
+                    type: 'node',
+                    value: 2543529.3300714493,
+                    '230919103714013': 8025072.194172859,
+                    outDegree: 3,
+                    inDegree: 3,
+                    children: [
+                      {
+                        '230919205000017': '消费者',
+                        color: '消费者',
+                        group: '230919205000017',
+                        key: '230919205000017-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 2543529.3300714493,
+                        '230919103714013': 8025072.194172859,
+                        outDegree: 0,
+                        inDegree: 3,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230919202156019': '公司',
+                    color: '公司',
+                    group: '230919202156019',
+                    key: '230919202156019-公司',
+                    name: '公司',
+                    type: 'node',
+                    value: 1484595.9238786697,
+                    '230919103714013': 5152793.296570778,
+                    outDegree: 3,
+                    inDegree: 3,
+                    children: [
+                      {
+                        '230919205000017': '公司',
+                        color: '公司',
+                        group: '230919205000017',
+                        key: '230919205000017-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 1484595.9238786697,
+                        '230919103714013': 5152793.296570778,
+                        outDegree: 0,
+                        inDegree: 3,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230919202156019': '小型企业',
+                    color: '小型企业',
+                    group: '230919202156019',
+                    key: '230919202156019-小型企业',
+                    name: '小型企业',
+                    type: 'node',
+                    value: 837464.545838356,
+                    '230919103714013': 2891088.6421899796,
+                    outDegree: 3,
+                    inDegree: 3,
+                    children: [
+                      {
+                        '230919205000017': '小型企业',
+                        color: '小型企业',
+                        group: '230919205000017',
+                        key: '230919205000017-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 837464.545838356,
+                        '230919103714013': 2891088.6421899796,
+                        outDegree: 0,
+                        inDegree: 3,
+                        children: []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                '230919171022011': 'https://bing.com',
+                color: 'https://bing.com',
+                group: '230919171022011',
+                key: '230919171022011-https://bing.com',
+                name: 'https://bing.com',
+                type: 'node',
+                value: 5734340.8279953,
+                '230919103714013': 5734340.8279953,
+                outDegree: 3,
+                inDegree: 0,
+                children: [
+                  {
+                    '230919202156019': '消费者',
+                    color: '消费者',
+                    group: '230919202156019',
+                    key: '230919202156019-消费者',
+                    name: '消费者',
+                    type: 'node',
+                    value: 2788714.4288902283,
+                    '230919103714013': 8025072.194172859,
+                    outDegree: 3,
+                    inDegree: 3,
+                    children: [
+                      {
+                        '230919205000017': '消费者',
+                        color: '消费者',
+                        group: '230919205000017',
+                        key: '230919205000017-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 2788714.4288902283,
+                        '230919103714013': 8025072.194172859,
+                        outDegree: 0,
+                        inDegree: 3,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230919202156019': '公司',
+                    color: '公司',
+                    group: '230919202156019',
+                    key: '230919202156019-公司',
+                    name: '公司',
+                    type: 'node',
+                    value: 1903622.758113861,
+                    '230919103714013': 5152793.296570778,
+                    outDegree: 3,
+                    inDegree: 3,
+                    children: [
+                      {
+                        '230919205000017': '公司',
+                        color: '公司',
+                        group: '230919205000017',
+                        key: '230919205000017-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 1903622.758113861,
+                        '230919103714013': 5152793.296570778,
+                        outDegree: 0,
+                        inDegree: 3,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230919202156019': '小型企业',
+                    color: '小型企业',
+                    group: '230919202156019',
+                    key: '230919202156019-小型企业',
+                    name: '小型企业',
+                    type: 'node',
+                    value: 1042003.6409912109,
+                    '230919103714013': 2891088.6421899796,
+                    outDegree: 3,
+                    inDegree: 3,
+                    children: [
+                      {
+                        '230919205000017': '小型企业',
+                        color: '小型企业',
+                        group: '230919205000017',
+                        key: '230919205000017-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 1042003.6409912109,
+                        '230919103714013': 2891088.6421899796,
+                        outDegree: 0,
+                        inDegree: 3,
+                        children: []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    legends: [
+      {
+        type: 'discrete',
+        item: {
+          label: {
+            style: {
+              fontSize: 12,
+              fill: '#6F6F6F'
+            }
+          },
+          focus: true,
+          focusIconStyle: {
+            size: 14
+          },
+          maxWidth: 400,
+          spaceRow: 0,
+          spaceCol: 0,
+          padding: {
+            top: 1,
+            bottom: 1,
+            left: 1,
+            right: 1
+          },
+          background: {
+            visible: false,
+            style: {
+              fillOpacity: 0.001
+            }
+          },
+          shape: {
+            style: {
+              lineWidth: 0,
+              symbolType: 'square'
+            }
+          }
+        },
+        id: 'legend',
+        orient: 'bottom',
+        position: 'middle',
+        layoutType: 'normal',
+        visible: true,
+        maxRow: 2,
+        title: {
+          textStyle: {
+            fontSize: 12,
+            fill: '#6F6F6F'
+          }
+        },
+        layoutLevel: 50,
+        pager: {
+          layout: 'horizontal',
+          padding: 0,
+          textStyle: {},
+          space: 0,
+          handler: {
+            preShape: 'triangleLeft',
+            nextShape: 'triangleRight',
+            style: {},
+            state: {
+              disable: {}
+            }
+          }
+        },
+        padding: {
+          top: 16,
+          bottom: 0,
+          left: 0,
+          right: 0
+        }
+      }
+    ],
+    label: {
+      visible: false,
+      overlap: {
+        hideOnHit: true,
+        avoidBaseMark: false,
+        strategy: [
+          {
+            type: 'moveY',
+            offset: [
+              -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+              5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+            ]
+          },
+          {
+            type: 'moveX',
+            offset: [
+              -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+              5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+            ]
+          }
+        ]
+      },
+      style: {
+        fontSize: 16,
+        zIndex: 100,
+        fill: '#f7555d',
+        stroke: null,
+        strokeOpacity: 1
+      },
+      limit: 200,
+      interactive: false
+    },
+    tooltip: {
+      handler: {}
+    },
+    region: [
+      {
+        clip: true
+      }
+    ],
+    background: 'rgba(255, 255, 255, 0)',
+    hover: {
+      enable: true
+    },
+    select: {
+      enable: true
+    },
+    emphasis: {
+      enable: true,
+      effect: 'related'
+    },
+    link: {
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 0,
+          zIndex: 500
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1
+        },
+        blur: {
+          fillOpacity: 0.025
+        }
+      }
+    },
+    node: {
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 1,
+          zIndex: 500
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1
+        },
+        blur: {
+          fillOpacity: 0.1
+        }
+      }
+    },
+    animation: false,
+    hash: 'a0caad94135ce1882e7615e8119d4e92'
+  };
+
+  const spec2_update = {
+    type: 'sankey',
+    nodeGap: 5,
+    nodeWidth: 12,
+    nodeAlign: 'justify',
+    iterations: 0,
+    padding: {
+      top: 0,
+      left: 2,
+      bottom: 0,
+      right: 2
+    },
+    minNodeHeight: 1,
+    categoryField: 'key',
+    valueField: 'value',
+    nodeKey: d => d['key'],
+    data: [
+      {
+        name: 'data',
+        values: [
+          {
+            nodes: [
+              {
+                '230919171022011': '技术',
+                color: '技术',
+                group: '230919171022011',
+                key: '230919171022011-技术',
+                name: '技术',
+                type: 'node',
+                value: 5469023.505149841,
+                '230919103714013': 5469023.505149841,
+                outDegree: 3,
+                inDegree: 0,
+                children: [
+                  {
+                    '230919205000017': '公司',
+                    color: '公司',
+                    group: '230919205000017',
+                    key: '230919205000017-公司',
+                    name: '公司',
+                    type: 'node',
+                    value: 1764574.614578247,
+                    '230919103714013': 5152793.296570778,
+                    outDegree: 0,
+                    inDegree: 3,
+                    children: []
+                  },
+                  {
+                    '230919205000017': '消费者',
+                    color: '消费者',
+                    group: '230919205000017',
+                    key: '230919205000017-消费者',
+                    name: '消费者',
+                    type: 'node',
+                    value: 2692828.4352111816,
+                    '230919103714013': 8025072.194172859,
+                    outDegree: 0,
+                    inDegree: 3,
+                    children: []
+                  },
+                  {
+                    '230919205000017': '小型企业',
+                    color: '小型企业',
+                    group: '230919205000017',
+                    key: '230919205000017-小型企业',
+                    name: '小型企业',
+                    type: 'node',
+                    value: 1011620.4553604126,
+                    '230919103714013': 2891088.6421899796,
+                    outDegree: 0,
+                    inDegree: 3,
+                    children: []
+                  }
+                ]
+              },
+              {
+                '230919171022011': '办公用品',
+                color: '办公用品',
+                group: '230919171022011',
+                key: '230919171022011-办公用品',
+                name: '办公用品',
+                type: 'node',
+                value: 4865589.799788475,
+                '230919103714013': 4865589.799788475,
+                outDegree: 3,
+                inDegree: 0,
+                children: [
+                  {
+                    '230919205000017': '消费者',
+                    color: '消费者',
+                    group: '230919205000017',
+                    key: '230919205000017-消费者',
+                    name: '消费者',
+                    type: 'node',
+                    value: 2543529.3300714493,
+                    '230919103714013': 8025072.194172859,
+                    outDegree: 0,
+                    inDegree: 3,
+                    children: []
+                  },
+                  {
+                    '230919205000017': '公司',
+                    color: '公司',
+                    group: '230919205000017',
+                    key: '230919205000017-公司',
+                    name: '公司',
+                    type: 'node',
+                    value: 1484595.9238786697,
+                    '230919103714013': 5152793.296570778,
+                    outDegree: 0,
+                    inDegree: 3,
+                    children: []
+                  },
+                  {
+                    '230919205000017': '小型企业',
+                    color: '小型企业',
+                    group: '230919205000017',
+                    key: '230919205000017-小型企业',
+                    name: '小型企业',
+                    type: 'node',
+                    value: 837464.545838356,
+                    '230919103714013': 2891088.6421899796,
+                    outDegree: 0,
+                    inDegree: 3,
+                    children: []
+                  }
+                ]
+              },
+              {
+                '230919171022011': 'https://bing.com',
+                color: 'https://bing.com',
+                group: '230919171022011',
+                key: '230919171022011-https://bing.com',
+                name: 'https://bing.com',
+                type: 'node',
+                value: 5734340.8279953,
+                '230919103714013': 5734340.8279953,
+                outDegree: 3,
+                inDegree: 0,
+                children: [
+                  {
+                    '230919205000017': '消费者',
+                    color: '消费者',
+                    group: '230919205000017',
+                    key: '230919205000017-消费者',
+                    name: '消费者',
+                    type: 'node',
+                    value: 2788714.4288902283,
+                    '230919103714013': 8025072.194172859,
+                    outDegree: 0,
+                    inDegree: 3,
+                    children: []
+                  },
+                  {
+                    '230919205000017': '公司',
+                    color: '公司',
+                    group: '230919205000017',
+                    key: '230919205000017-公司',
+                    name: '公司',
+                    type: 'node',
+                    value: 1903622.758113861,
+                    '230919103714013': 5152793.296570778,
+                    outDegree: 0,
+                    inDegree: 3,
+                    children: []
+                  },
+                  {
+                    '230919205000017': '小型企业',
+                    color: '小型企业',
+                    group: '230919205000017',
+                    key: '230919205000017-小型企业',
+                    name: '小型企业',
+                    type: 'node',
+                    value: 1042003.6409912109,
+                    '230919103714013': 2891088.6421899796,
+                    outDegree: 0,
+                    inDegree: 3,
+                    children: []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    legends: [
+      {
+        type: 'discrete',
+        item: {
+          label: {
+            style: {
+              fontSize: 12,
+              fill: '#6F6F6F'
+            }
+          },
+          focus: true,
+          focusIconStyle: {
+            size: 14
+          },
+          maxWidth: 400,
+          spaceRow: 0,
+          spaceCol: 0,
+          padding: {
+            top: 1,
+            bottom: 1,
+            left: 1,
+            right: 1
+          },
+          background: {
+            visible: false,
+            style: {
+              fillOpacity: 0.001
+            }
+          },
+          shape: {
+            style: {
+              lineWidth: 0,
+              symbolType: 'square'
+            }
+          }
+        },
+        id: 'legend',
+        orient: 'bottom',
+        position: 'middle',
+        layoutType: 'normal',
+        visible: true,
+        maxRow: 2,
+        title: {
+          textStyle: {
+            fontSize: 12,
+            fill: '#6F6F6F'
+          }
+        },
+        layoutLevel: 50,
+        pager: {
+          layout: 'horizontal',
+          padding: 0,
+          textStyle: {},
+          space: 0,
+          handler: {
+            preShape: 'triangleLeft',
+            nextShape: 'triangleRight',
+            style: {},
+            state: {
+              disable: {}
+            }
+          }
+        },
+        padding: {
+          top: 16,
+          bottom: 0,
+          left: 0,
+          right: 0
+        }
+      }
+    ],
+    label: {
+      visible: true,
+      overlap: {
+        hideOnHit: true,
+        avoidBaseMark: false,
+        strategy: [
+          {
+            type: 'moveY',
+            offset: [
+              -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+              5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+            ]
+          },
+          {
+            type: 'moveX',
+            offset: [
+              -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+              5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+            ]
+          }
+        ]
+      },
+      style: {
+        fontSize: 16,
+        zIndex: 100,
+        fill: '#f7555d',
+        stroke: null,
+        strokeOpacity: 1
+      },
+      limit: 200,
+      interactive: false
+    },
+    tooltip: {
+      handler: {}
+    },
+    region: [
+      {
+        clip: true
+      }
+    ],
+    background: 'rgba(255, 255, 255, 0)',
+    hover: {
+      enable: true
+    },
+    select: {
+      enable: true
+    },
+    emphasis: {
+      enable: true,
+      effect: 'related'
+    },
+    link: {
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 0,
+          zIndex: 500
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1
+        },
+        blur: {
+          fillOpacity: 0.025
+        }
+      }
+    },
+    node: {
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 1,
+          zIndex: 500
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1
+        },
+        blur: {
+          fillOpacity: 0.1
+        }
+      }
+    },
+    animation: false,
+    hash: 'ed02f01497bb549cf3622a941932c75b'
+  };
+
+  const spec3_update = {
+    type: 'sankey',
+    nodeGap: 5,
+    nodeWidth: 12,
+    nodeAlign: 'justify',
+    iterations: 0,
+    padding: {
+      top: 0,
+      left: 2,
+      bottom: 0,
+      right: 2
+    },
+    categoryField: 'key',
+    valueField: 'value',
+    link: {
+      style: {
+        pathType: 'smooth'
+      },
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 0,
+          zIndex: 500
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1
+        },
+        blur: {
+          fillOpacity: 0.025
+        }
+      }
+    },
+    data: [
+      {
+        name: 'data',
+        values: [
+          {
+            nodes: [
+              {
+                '230920170354037': '中南',
+                color: '中南',
+                group: '230920170354037',
+                key: '230920170354037-中南',
+                name: '中南',
+                type: 'node',
+                value: 4137415.0951108932,
+                '230920170354034': 4137415.0951108932,
+                outDegree: 4,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 2309088.987888336,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 901351.8420200348,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 647170.607293129,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 279803.6579093933,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  }
+                ]
+              },
+              {
+                '230920170354037': '西南',
+                color: '西南',
+                group: '230920170354037',
+                key: '230920170354037-西南',
+                name: '西南',
+                type: 'node',
+                value: 1303124.5089645386,
+                '230920170354034': 1303124.5089645386,
+                outDegree: 4,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 766227.8120193481,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 292123.4119319916,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 214409.8048610687,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 30363.4801521301,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  }
+                ]
+              },
+              {
+                '230920170354037': '西北',
+                color: '西北',
+                group: '230920170354037',
+                key: '230920170354037-西北',
+                name: '西北',
+                type: 'node',
+                value: 815039.5979347229,
+                '230920170354034': 815039.5979347229,
+                outDegree: 4,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 62348.0195865631,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 462025.3692798615,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 259640.2487258911,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 31025.9603424072,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  }
+                ]
+              },
+              {
+                '230920170354037': '地区-dongbei',
+                color: '地区-dongbei',
+                group: '230920170354037',
+                key: '230920170354037-地区-dongbei',
+                name: '地区-dongbei',
+                type: 'node',
+                value: 2681567.4745378494,
+                '230920170354034': 2681567.4745378494,
+                outDegree: 4,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 1647264.992395401,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 598626.2052869797,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 81002.901506424,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 354673.3753490448,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  }
+                ]
+              },
+              {
+                '230920170354037': '华东',
+                color: '华东',
+                group: '230920170354037',
+                key: '230920170354037-华东',
+                name: '华东',
+                type: 'node',
+                value: 0,
+                '230920170354034': 0,
+                outDegree: 4,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  }
+                ]
+              },
+              {
+                '230920170354037': '华北',
+                color: '华北',
+                group: '230920170354037',
+                key: '230920170354037-华北',
+                name: '华北',
+                type: 'node',
+                value: 2447301.0141382217,
+                '230920170354034': 2447301.0141382217,
+                outDegree: 4,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 1464256.2496786118,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 542254.3649234772,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 318986.5354957581,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 121803.8640403748,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 0,
+                    inDegree: 6,
+                    children: []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    legends: [
+      {
+        type: 'discrete',
+        item: {
+          label: {
+            style: {
+              fontSize: 12,
+              fill: '#6F6F6F'
+            }
+          },
+          focus: true,
+          focusIconStyle: {
+            size: 14
+          },
+          maxWidth: 400,
+          spaceRow: 0,
+          spaceCol: 0,
+          padding: {
+            top: 1,
+            bottom: 1,
+            left: 1,
+            right: 1
+          },
+          background: {
+            visible: false,
+            style: {
+              fillOpacity: 0.001
+            }
+          },
+          shape: {
+            style: {
+              lineWidth: 0,
+              symbolType: 'square'
+            }
+          }
+        },
+        id: 'legend',
+        orient: 'bottom',
+        position: 'middle',
+        layoutType: 'normal',
+        visible: true,
+        maxRow: 2,
+        title: {
+          textStyle: {
+            fontSize: 12,
+            fill: '#6F6F6F'
+          }
+        },
+        layoutLevel: 50,
+        pager: {
+          layout: 'horizontal',
+          padding: 0,
+          textStyle: {},
+          space: 0,
+          handler: {
+            preShape: 'triangleLeft',
+            nextShape: 'triangleRight',
+            style: {},
+            state: {
+              disable: {}
+            }
+          }
+        },
+        padding: {
+          top: 16,
+          bottom: 0,
+          left: 0,
+          right: 0
+        }
+      }
+    ],
+    label: {
+      visible: true,
+      overlap: {
+        hideOnHit: true,
+        overlapPadding: 10,
+        avoidBaseMark: false,
+        strategy: [
+          {
+            type: 'moveY',
+            offset: [
+              -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+              5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+            ]
+          },
+          {
+            type: 'moveX',
+            offset: [
+              -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+              5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+            ]
+          }
+        ]
+      },
+      style: {
+        fontSize: 12,
+        zIndex: 100,
+        fill: '#363839',
+        stroke: 'rgba(255, 255, 255, 0.8)',
+        strokeOpacity: 1,
+        lineWidth: 2
+      },
+      limit: 200,
+      interactive: false
+    },
+    region: [
+      {
+        clip: false
+      }
+    ],
+    extensionMark: [
+      {
+        type: 'text',
+        dataId: 'data',
+        style: {
+          text: '中南',
+          fontSize: 12,
+          fill: 'red',
+          y: 0
+        }
+      },
+      {
+        type: 'text',
+        dataId: 'data',
+        style: {
+          text: '当日',
+          fontSize: 12,
+          fill: 'red',
+          y: 0
+        }
+      }
+    ],
+    tooltip: {
+      handler: {}
+    },
+    background: 'rgba(255, 255, 255, 0)',
+    hover: {
+      enable: true
+    },
+    select: {
+      enable: true
+    },
+    emphasis: {
+      enable: true,
+      effect: 'related'
+    },
+    node: {
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 1,
+          zIndex: 500
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1
+        },
+        blur: {
+          fillOpacity: 0.1
+        }
+      }
+    },
+    animation: false,
+    hash: 'd620b58401d072113f285aa7037c567a'
+  };
+
+  const spec4_update = {
+    type: 'sankey',
+    nodeGap: 5,
+    nodeWidth: 12,
+    nodeAlign: 'justify',
+    iterations: 0,
+    padding: {
+      top: 0,
+      left: 2,
+      bottom: 0,
+      right: 2
+    },
+    categoryField: 'key',
+    valueField: 'value',
+    link: {
+      style: {
+        pathType: 'smooth'
+      },
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 0,
+          zIndex: 500
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1
+        },
+        blur: {
+          fillOpacity: 0.025
+        }
+      }
+    },
+    data: [
+      {
+        name: 'data',
+        values: [
+          {
+            nodes: [
+              {
+                '230920170354037': '华北',
+                color: '华北',
+                group: '230920170354037',
+                key: '230920170354037-华北',
+                name: '华北',
+                type: 'node',
+                value: 2447301.0141382217,
+                '230920170354034': 2447301.0141382217,
+                outDegree: 12,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 161239.86883926392,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 161239.86883926392,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 20837.627975463867,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 20837.627975463867,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 237232.88373947144,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 237232.88373947144,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 61445.215839385986,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 61445.215839385986,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 163016.81268692017,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 163016.81268692017,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 315627.76114845276,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 315627.76114845276,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 544905.6529664993,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 544905.6529664993,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 39521.0202255249,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 39521.0202255249,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 57325.982006073,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 57325.982006073,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 63609.79108810425,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 63609.79108810425,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 682117.712972641,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 682117.712972641,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 100420.68465042114,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 100420.68465042114,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                '230920170354037': '西北',
+                color: '西北',
+                group: '230920170354037',
+                key: '230920170354037-西北',
+                name: '西北',
+                type: 'node',
+                value: 815039.5979347229,
+                '230920170354034': 815039.5979347229,
+                outDegree: 12,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 62002.78022766113,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 62002.78022766113,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 61836.431911468506,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 61836.431911468506,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 7096.600036621094,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 7096.600036621094,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 18803.26025390625,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 18803.26025390625,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 237356.98112678528,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 237356.98112678528,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 43739.58361244202,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 43739.58361244202,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 5126.100051879883,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 5126.100051879883,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 162831.95624160767,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 162831.95624160767,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 169864.94074249268,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 169864.94074249268,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 27772.527755737305,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 27772.527755737305,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 9820.187911987305,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 9820.187911987305,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 8788.248062133789,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 8788.248062133789,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                '230920170354037': '西南',
+                color: '西南',
+                group: '230920170354037',
+                key: '230920170354037-西南',
+                name: '西南',
+                type: 'node',
+                value: 1303124.5089645386,
+                '230920170354034': 1303124.5089645386,
+                outDegree: 12,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 48292.076080322266,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 48292.076080322266,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 137932.25577926636,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 137932.25577926636,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 27165.04006576538,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 27165.04006576538,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 110508.30136489868,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 110508.30136489868,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 2496.0599975585938,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 2496.0599975585938,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 14919.716171264648,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 14919.716171264648,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 479747.631729126,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 479747.631729126,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 76736.46343040466,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 76736.46343040466,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 12947.703983306885,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 12947.703983306885,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 78526.75593566895,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 78526.75593566895,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 105899.08007240295,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 105899.08007240295,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 207953.42435455322,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 207953.42435455322,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                '230920170354037': '地区-dongbei',
+                color: '地区-dongbei',
+                group: '230920170354037',
+                key: '230920170354037-地区-dongbei',
+                name: '地区-dongbei',
+                type: 'node',
+                value: 2681567.4745378494,
+                '230920170354034': 2681567.4745378494,
+                outDegree: 12,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 785608.566778183,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 785608.566778183,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 85133.94373703003,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 85133.94373703003,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 4617.591995239258,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 4617.591995239258,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 298002.60119628906,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 298002.60119628906,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 198293.94263839722,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 198293.94263839722,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 339639.0273742676,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 339639.0273742676,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 34304.80926513672,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 34304.80926513672,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 71245.48897361755,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 71245.48897361755,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 93348.47202587128,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 93348.47202587128,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 42080.50024604797,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 42080.50024604797,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 207275.13206481934,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 207275.13206481934,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 522017.39824295044,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 522017.39824295044,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                '230920170354037': '中南',
+                color: '中南',
+                group: '230920170354037',
+                key: '230920170354037-中南',
+                name: '中南',
+                type: 'node',
+                value: 4137415.0951108932,
+                '230920170354034': 4137415.0951108932,
+                outDegree: 12,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 433963.2788925171,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 433963.2788925171,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 717389.1995487213,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 717389.1995487213,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 96088.13107299805,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 96088.13107299805,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 29316.52554321289,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 29316.52554321289,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 433355.5802783966,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 433355.5802783966,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 344421.0977716446,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 344421.0977716446,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 283551.1897010803,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 283551.1897010803,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 1157736.5094470978,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 1157736.5094470978,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 206661.37844848633,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 206661.37844848633,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 128063.55743408203,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 128063.55743408203,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 184445.07204055786,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 184445.07204055786,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 122423.57493209839,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 122423.57493209839,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                '230920170354037': '华东',
+                color: '华东',
+                group: '230920170354037',
+                key: '230920170354037-华东',
+                name: '华东',
+                type: 'node',
+                value: 0,
+                '230920170354034': 0,
+                outDegree: 12,
+                inDegree: 0,
+                children: [
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '当日',
+                    color: '当日',
+                    group: '230920170354057',
+                    key: '230920170354057-当日',
+                    name: '当日',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 543999.8639507294,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '二级',
+                    color: '二级',
+                    group: '230920170354057',
+                    key: '230920170354057-二级',
+                    name: '二级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 2593996.0728883743,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '公司',
+                        color: '公司',
+                        group: '230920170354076',
+                        key: '230920170354076-公司',
+                        name: '公司',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 3698077.491681099,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '一级',
+                    color: '一级',
+                    group: '230920170354057',
+                    key: '230920170354057-一级',
+                    name: '一级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 1597588.3425855637,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '小型企业',
+                        color: '小型企业',
+                        group: '230920170354076',
+                        key: '230920170354076-小型企业',
+                        name: '小型企业',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 1948656.2699956894,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  },
+                  {
+                    '230920170354057': '标准级',
+                    color: '标准级',
+                    group: '230920170354057',
+                    key: '230920170354057-标准级',
+                    name: '标准级',
+                    type: 'node',
+                    value: 0,
+                    '230920170354034': 6648863.4112615585,
+                    outDegree: 18,
+                    inDegree: 18,
+                    children: [
+                      {
+                        '230920170354076': '消费者',
+                        color: '消费者',
+                        group: '230920170354076',
+                        key: '230920170354076-消费者',
+                        name: '消费者',
+                        type: 'node',
+                        value: 0,
+                        '230920170354034': 5737713.929009438,
+                        outDegree: 0,
+                        inDegree: 24,
+                        children: []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    legends: [
+      {
+        type: 'discrete',
+        item: {
+          label: {
+            style: {
+              fontSize: 12,
+              fill: '#6F6F6F'
+            }
+          },
+          focus: true,
+          focusIconStyle: {
+            size: 14
+          },
+          maxWidth: 400,
+          spaceRow: 0,
+          spaceCol: 0,
+          padding: {
+            top: 1,
+            bottom: 1,
+            left: 1,
+            right: 1
+          },
+          background: {
+            visible: false,
+            style: {
+              fillOpacity: 0.001
+            }
+          },
+          shape: {
+            style: {
+              lineWidth: 0,
+              symbolType: 'square'
+            }
+          }
+        },
+        id: 'legend',
+        orient: 'bottom',
+        position: 'middle',
+        layoutType: 'normal',
+        visible: true,
+        maxRow: 2,
+        title: {
+          textStyle: {
+            fontSize: 12,
+            fill: '#6F6F6F'
+          }
+        },
+        layoutLevel: 50,
+        pager: {
+          layout: 'horizontal',
+          padding: 0,
+          textStyle: {},
+          space: 0,
+          handler: {
+            preShape: 'triangleLeft',
+            nextShape: 'triangleRight',
+            style: {},
+            state: {
+              disable: {}
+            }
+          }
+        },
+        padding: {
+          top: 16,
+          bottom: 0,
+          left: 0,
+          right: 0
+        }
+      }
+    ],
+    label: {
+      visible: false,
+      overlap: {
+        hideOnHit: true,
+        overlapPadding: 10,
+        avoidBaseMark: false,
+        strategy: [
+          {
+            type: 'moveY',
+            offset: [
+              -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+              5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+            ]
+          },
+          {
+            type: 'moveX',
+            offset: [
+              -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+              5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+            ]
+          }
+        ]
+      },
+      style: {
+        fontSize: 12,
+        zIndex: 100,
+        fill: '#363839',
+        stroke: 'rgba(255, 255, 255, 0.8)',
+        strokeOpacity: 1,
+        lineWidth: 2
+      },
+      limit: 200,
+      interactive: false
+    },
+    region: [
+      {
+        clip: false
+      }
+    ],
+    extensionMark: [
+      {
+        type: 'text',
+        dataId: 'data',
+        style: {
+          text: '华北',
+          fontSize: 12,
+          fill: 'red',
+          y: 0
+        }
+      },
+      {
+        type: 'text',
+        dataId: 'data',
+        style: {
+          text: '一级',
+          fontSize: 12,
+          fill: 'red',
+          y: 0
+        }
+      },
+      {
+        type: 'text',
+        dataId: 'data',
+        style: {
+          text: '小型企业',
+          fontSize: 12,
+          fill: 'red',
+          y: 0
+        }
+      }
+    ],
+    tooltip: {
+      handler: {}
+    },
+    background: 'rgba(255, 255, 255, 0)',
+    hover: {
+      enable: true
+    },
+    select: {
+      enable: true
+    },
+    emphasis: {
+      enable: true,
+      effect: 'related'
+    },
+    node: {
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 1,
+          zIndex: 500
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1
+        },
+        blur: {
+          fillOpacity: 0.1
+        }
+      }
+    },
+    animation: false,
+    hash: 'bac9588b1df4b39ecd241109d133d496'
+  };
+
+  const vChart = new VChart(spec1, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
   vChart.renderAsync();
+  // vChart.renderAsync().then(() => {
+  //   setTimeout(() => {
+  //     console.log('updateSpec');
+  //     vChart.updateSpec(spec4_update);
+  //   }, 3000);
+  // });
   window['vchart'] = vChart;
+
   // 监听点击事件
   // vChart.on('click', { level: 'mark' }, ctx => {
   //   console.log('mark', ctx);

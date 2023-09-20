@@ -22,6 +22,8 @@ export class SankeyChart extends BaseChart {
       sourceField: spec.sourceField,
       targetField: spec.targetField,
 
+      color: spec.color,
+
       direction: spec.direction,
       nodeAlign: spec.nodeAlign,
       nodeGap: spec.nodeGap,

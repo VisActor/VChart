@@ -1255,24 +1255,27 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   getNodeOrdinalColorScale(item: string) {
-    const colorDomain = this._rawData.latestData[0]?.nodes
-      ? this._rawData.latestData[0].nodes[0]?.children
-        ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes, this._spec.categoryField))
-        : this._rawData.latestData[0].nodes.map((datum: Datum, index: number) => {
+    const colorDomain =
+      this._spec?.color?.domain ?? this._rawData.latestData[0]?.nodes
+        ? this._rawData.latestData[0].nodes[0]?.children
+          ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes, this._spec.categoryField))
+          : this._rawData.latestData[0].nodes.map((datum: Datum, index: number) => {
+              if (this._spec.nodeKey) {
+                return datum[this._spec.categoryField];
+              }
+              return index;
+            })
+        : this._rawData.latestData[0]?.values.map((datum: Datum, index: number) => {
             if (this._spec.nodeKey) {
               return datum[this._spec.categoryField];
             }
             return index;
-          })
-      : this._rawData.latestData[0]?.values.map((datum: Datum, index: number) => {
-          if (this._spec.nodeKey) {
-            return datum[this._spec.categoryField];
-          }
-          return index;
-        });
+          });
 
     const colorRange =
-      this._option.globalScale.color?.range() ?? getDataScheme(this._option.getTheme().colorScheme, this.type as any);
+      this._spec?.color?.range ??
+      this._option.globalScale.color?.range() ??
+      getDataScheme(this._option.getTheme().colorScheme, this.type as any);
 
     const ordinalScale = new ColorOrdinalScale();
 
