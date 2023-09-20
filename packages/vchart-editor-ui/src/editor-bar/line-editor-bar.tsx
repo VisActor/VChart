@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 
 export function LineEditorBar(props: ILineEditorComponentProps) {
-  const [stroke, setStroke] = useState<Stroke>(defaultEditorBarComponentConfig.stroke.default);
+  const [stroke, setStroke] = useState<Stroke>(props.defaultStroke ?? defaultEditorBarComponentConfig.stroke.default);
 
   return (
     <div className="vchart-editor-ui-editor-bar-container" style={{ ...(props.style ?? {}) }}>

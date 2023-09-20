@@ -79,8 +79,14 @@ export interface IBaseEditorComponentProps {
 }
 
 export interface IEditorComponentProps extends IBaseEditorComponentProps {
+  defaultChart?: string;
+  defaultPalette?: string[];
+  defaultFill?: Fill;
+  defaultStroke?: Stroke;
+
   chartList?: ChartEntry[];
   paletteList?: string[][];
+
   onEditData?: () => void;
   onMore?: () => void;
   onChartChange?: (chart: string) => void;
@@ -91,18 +97,28 @@ export interface IEditorComponentProps extends IBaseEditorComponentProps {
 }
 
 export interface IColorEditorComponentProps extends IBaseEditorComponentProps {
+  defaultFill?: Fill;
+  defaultStroke?: Stroke;
+
   onFillChange?: (fill: Fill) => void;
   onStrokeChange?: (stroke: Stroke) => void;
   onComment?: () => void;
 }
 
 export interface ILineEditorComponentProps extends IBaseEditorComponentProps {
+  defaultStroke?: Stroke;
+
   onStrokeChange?: (stroke: Stroke) => void;
   onComment?: () => void;
 }
 
 export interface ITextEditorComponentProps extends IBaseEditorComponentProps {
+  defaultFontSize?: number;
+  defaultTextColor?: TextColor;
+  defaultBold?: boolean;
+
   fontSizeList?: number[];
+
   onTextColorChange?: (textColor: TextColor) => void;
   onFontSizeChange?: (fontSize: number) => void;
   onBoldChange?: (bold: boolean) => void;

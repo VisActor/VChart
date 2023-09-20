@@ -20,10 +20,10 @@ export function EditorBar(props: IEditorComponentProps) {
   const paletteList = props.paletteList ?? defaultEditorBarComponentConfig.palette.paletteList;
 
   const [tool, setTool] = useState<string | null>(null);
-  const [chart, setChart] = useState<string | null>(chartList[0].type);
-  const [palette, setPalette] = useState<string[] | null>(paletteList[0]);
-  const [fill, setFill] = useState<Fill>(defaultEditorBarComponentConfig.fill.default);
-  const [stroke, setStroke] = useState<Stroke>(defaultEditorBarComponentConfig.stroke.default);
+  const [chart, setChart] = useState<string | null>(props.defaultChart ?? chartList[0].type);
+  const [palette, setPalette] = useState<string[] | null>(props.defaultPalette ?? paletteList[0]);
+  const [fill, setFill] = useState<Fill>(props.defaultFill ?? defaultEditorBarComponentConfig.fill.default);
+  const [stroke, setStroke] = useState<Stroke>(props.defaultStroke ?? defaultEditorBarComponentConfig.stroke.default);
 
   return (
     <div
