@@ -215,7 +215,8 @@ export class SequenceChart extends BaseChart {
             roam: false,
             filterMode: IFilterMode.axis,
             regionIndex: region.length - 1,
-            axisId: `axesLeftRow${rowNum}`
+            axisId: `axesLeftRow${rowNum}`,
+            ...array(spec?.scrollBar)[0]
           });
         }
 
