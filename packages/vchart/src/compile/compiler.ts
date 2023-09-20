@@ -257,7 +257,7 @@ export class Compiler {
     this._view.renderer.setViewBox(viewBox, reRender);
   }
 
-  resize(width: number, height: number, reRender: boolean = true) {
+  resize(width: number, height: number) {
     if (!this._view) {
       return Promise.reject();
     }
