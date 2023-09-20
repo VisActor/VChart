@@ -76,7 +76,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     if (!dotSeries) {
       return [];
     }
-    return dotSeries.getViewData().latestData;
+    return dotSeries.getRawData().latestData;
   }
 
   initData() {
