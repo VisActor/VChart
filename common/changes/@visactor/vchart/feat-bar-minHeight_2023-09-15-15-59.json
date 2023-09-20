@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix the issue of player component updateSpec, fixed #967",
+      "comment": "feat: support `barMinHeight` for bar series, relate #722",
       "type": "none"
     }
   ],

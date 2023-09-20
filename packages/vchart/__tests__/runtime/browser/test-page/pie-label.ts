@@ -934,7 +934,227 @@ const run = () => {
     hash: 'fe55e3cd90bd483d9cd25ee424d202a9'
   };
 
-  const cs = new VChart(spec_rose_inner, {
+  const spec_983 = {
+    type: 'pie',
+    categoryField: '20001',
+    valueField: '230918113555017',
+    seriesField: '20001',
+    padding: 0,
+    data: [
+      {
+        id: 'data',
+        values: [
+          {
+            '20001': '华东',
+            '230918113555014': '华东',
+            '230918113555017': '4684506.442247391'
+          },
+          {
+            '20001': '中南',
+            '230918113555014': '中南',
+            '230918113555017': '4137415.0951108932'
+          },
+          {
+            '20001': '地区-dongbei',
+            '230918113555014': '地区-dongbei',
+            '230918113555017': '2681567.4745378494'
+          },
+          {
+            '20001': '华北',
+            '230918113555014': '华北',
+            '230918113555017': '2447301.0141382217'
+          },
+          {
+            '20001': '西南',
+            '230918113555014': '西南',
+            '230918113555017': '1303124.5089645386'
+          },
+          {
+            '20001': '西北',
+            '230918113555014': '西北',
+            '230918113555017': '815039.5979347229'
+          }
+        ],
+        fields: {
+          '20001': {
+            alias: '图例项 ',
+            domain: ['华东', '中南', '地区-dongbei', '华北', '西南', '西北'],
+            sortIndex: 0
+          },
+          '230918113555014': {
+            alias: '地区'
+          },
+          '230918113555017': {
+            alias: '销售额'
+          }
+        }
+      }
+    ],
+    outerRadius: 0.9,
+    label: {
+      visible: true,
+      // overlap: {
+      //   hideOnHit: true,
+      //   avoidBaseMark: false,
+      //   strategy: [
+      //     {
+      //       type: 'moveY',
+      //       offset: [
+      //         -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+      //         5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+      //       ]
+      //     },
+      //     {
+      //       type: 'moveX',
+      //       offset: [
+      //         -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+      //         5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+      //       ]
+      //     }
+      //   ]
+      // },
+      style: {
+        fontSize: 12,
+        zIndex: 100,
+        fill: null,
+        strokeOpacity: 1,
+        angle: 0
+      },
+      // position: 'inside',
+      smartInvert: {
+        fillStrategy: 'invertBase',
+        strokeStrategy: 'similarBase'
+      },
+      interactive: false,
+      dataFilter: v => {
+        console.log('value', v);
+        return [v[0], v[1]];
+      }
+    },
+    color: {
+      field: '20001',
+      type: 'ordinal',
+      range: ['#2E62F1', '#4DC36A', '#FF8406', '#FFCC00', '#4F44CF', '#5AC8FA'],
+      specified: {},
+      domain: ['华东', '中南', '地区-dongbei', '华北', '西南', '西北']
+    },
+    legends: [
+      {
+        type: 'discrete',
+        id: 'legend',
+        orient: 'right',
+        position: 'start',
+        layoutType: 'normal',
+        visible: true,
+        maxCol: 1,
+        title: {
+          textStyle: {
+            fontSize: 12,
+            fill: '#6F6F6F'
+          }
+        },
+        layoutLevel: 60,
+        item: {
+          focus: true,
+          focusIconStyle: {
+            size: 14
+          },
+          maxWidth: 361,
+          spaceRow: 0,
+          spaceCol: 0,
+          padding: {
+            top: 1,
+            bottom: 2,
+            left: 3,
+            right: 2
+          },
+          background: {
+            visible: false,
+            style: {
+              fillOpacity: 0.001
+            }
+          },
+          label: {
+            style: {
+              fontSize: 12,
+              fill: '#6F6F6F'
+            }
+          },
+          shape: {
+            style: {
+              lineWidth: 0,
+              symbolType: 'square'
+            }
+          }
+        },
+        pager: {
+          layout: 'horizontal',
+          padding: {
+            left: -18
+          },
+          textStyle: {},
+          space: 0,
+          handler: {
+            preShape: 'triangleLeft',
+            nextShape: 'triangleRight',
+            style: {},
+            state: {
+              disable: {}
+            }
+          }
+        },
+        padding: {
+          top: 0,
+          bottom: 0,
+          left: 16,
+          right: 0
+        }
+      }
+    ],
+    hover: {
+      enable: true
+    },
+    select: {
+      enable: true
+    },
+    pie: {
+      state: {
+        hover: {
+          cursor: 'pointer',
+          fillOpacity: 0.8,
+          stroke: '#58595B',
+          lineWidth: 1,
+          zIndex: 500,
+          outerRadius: 0.9500000000000001
+        },
+        selected: {
+          cursor: 'pointer',
+          fillOpacity: 1,
+          stroke: '#58595B',
+          lineWidth: 1,
+          outerRadius: 0.9500000000000001
+        },
+        selected_reverse: {
+          fillOpacity: 0.3,
+          strokeWidth: 0.3
+        }
+      }
+    },
+    tooltip: {
+      handler: {}
+    },
+    rose: {},
+    region: [
+      {
+        clip: true
+      }
+    ],
+    background: 'rgba(255, 255, 255, 0)',
+    animation: false,
+    hash: '71691ed8529363540b58aa868da2aa7a'
+  };
+
+  const cs = new VChart(spec_983, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });

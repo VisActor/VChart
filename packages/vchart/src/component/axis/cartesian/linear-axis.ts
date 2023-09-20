@@ -53,7 +53,7 @@ export class CartesianLinearAxis<
       range[1] = this._domain.max;
     }
     this._scale.domain(range);
-    this.setScaleNice();
+    // this.setScaleNice();
   }
 
   protected computeDomain(data: { min: number; max: number; values: any[] }[]): number[] {

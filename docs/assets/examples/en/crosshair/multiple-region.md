@@ -318,7 +318,8 @@ const spec = {
         style: {
           opacity: 1,
           lineDash: [2, 2],
-          lineWidth: 1
+          lineWidth: 1,
+          stroke: '#000'
         }
       },
       label: {
@@ -334,7 +335,8 @@ const spec = {
         style: {
           opacity: 1,
           lineDash: [2, 2],
-          lineWidth: 1
+          lineWidth: 1,
+          stroke: '#000'
         }
       },
       label: {

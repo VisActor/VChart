@@ -1,8 +1,18 @@
 {{ target: graphic-partial-stroke-style }}
 
+{{ if: ${markType} === 'arc' }}
+#${prefix} stroke(number | [boolean | string, boolean | string, boolean | string, boolean | string] )
+
+圆弧描边。支持使用 `'rgb(255,255,255)'`，`'rgba(255,255,255,1)'`，`'#fff'` 等方式设置为纯色，也支持设置为渐变色描边。  
+在 `1.4.0` 版本后，支持配置为数组形式。数组含义为：[外弧描边，终止边描边，内弧描边，起始边描边]。
+
+{{ else }}
+
 #${prefix} stroke(string|Object)
 
 描边颜色。支持使用 `'rgb(255,255,255)'`，`'rgba(255,255,255,1)'`，`'#fff'` 等方式设置为纯色，也支持设置为渐变色描边。
+
+{{ /if }}
 
 - 渐变色使用
 

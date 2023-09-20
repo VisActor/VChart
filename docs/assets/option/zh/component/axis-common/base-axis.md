@@ -100,9 +100,17 @@ tick 是否与 label 对齐，默认为 true，即对齐，配置为 false 则�
 
 tick 步长。
 
-##${prefix} tickCount(number) = 5
+##${prefix} tickCount(number|function) = 5
 
 建议的 tick 数量，并不保证结果一定是配置值。
+`1.4.0` 版本后， **在连续轴中**，`tickCount` 支持配置为一个函数，通常用以动态配置 tick 数量。函数定义如下：
+
+```ts
+tickCount?: (option: {
+  axisLength?: number;  // 坐标轴占据的画布大小。直角坐标系中为轴的宽度或高度，极坐标系中半径轴的长度。
+  labelStyle?: ITextGraphicAttribute; // 轴标签的样式
+}) => number;
+```
 
 ##${prefix} forceTickCount(number)
 

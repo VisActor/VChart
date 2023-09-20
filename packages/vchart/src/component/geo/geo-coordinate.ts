@@ -57,7 +57,8 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   protected _centerCache: Map<StringOrNumber, { x: number; y: number }>;
 
   private _actualScale = 1;
-  getScale() {
+
+  getZoom() {
     return this._actualScale;
   }
 
@@ -103,6 +104,8 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     if (this._projectionSpec.zoom < this._spec.zoomLimit?.min) {
       this._projectionSpec.zoom = this._spec.zoomLimit.min;
     }
+
+    this._actualScale = this._projectionSpec.zoom ?? 1;
     this._longitudeField = this._spec.longitudeField;
     this._latitudeField = this._spec.latitudeField;
   }

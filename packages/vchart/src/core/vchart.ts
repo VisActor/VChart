@@ -1,4 +1,3 @@
-import type { IComponent } from './../component/interface/common';
 import type { ISeries } from '../series/interface/series';
 import { arrayParser } from '../data/parser/array';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
@@ -213,7 +212,7 @@ export class VChart implements IVChart {
     mode: RenderModeEnum['desktop-browser'],
     animation: true,
     onError: (msg: string) => {
-      // throw new Error(msg);
+      throw new Error(msg);
     }
   };
 
@@ -553,7 +552,6 @@ export class VChart implements IVChart {
     this._chart?.release();
     this._compiler?.release();
     this._eventDispatcher?.release();
-    this._userEvents.length = 0;
     this._unBindResizeEvent();
     // resetID(); // 为什么要重置ID呢？
 
@@ -759,6 +757,7 @@ export class VChart implements IVChart {
       spec = specTransform(spec) as any;
       this._spec = spec;
       this._updateCurrentTheme();
+      this._chart?.setCurrentTheme(this._currentTheme, true);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
       return this._chart.updateSpec(spec, morphConfig);
     }, morphConfig);

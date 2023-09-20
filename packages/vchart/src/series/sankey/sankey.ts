@@ -530,22 +530,22 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (this._spec.emphasis?.enable && this._spec.emphasis?.effect === 'adjacency') {
       if (this._spec.emphasis?.trigger === 'hover') {
         // 浮动事件
-        this.event.on('pointerover', { level: Event_Bubble_Level.mark }, this._handleAdjacencyClick);
+        this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
       } else {
         // this._spec.emphasis?.trigger === 'click'
         // 点击事件
-        this.event.on('pointerdown', { level: Event_Bubble_Level.mark }, this._handleAdjacencyClick);
+        this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
       }
     }
 
     if (this._spec.emphasis?.enable && this._spec.emphasis?.effect === 'related') {
       if (this._spec.emphasis?.trigger === 'hover') {
         // 浮动事件
-        this.event.on('pointerover', { level: Event_Bubble_Level.mark }, this._handleRelatedClick);
+        this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
       } else {
         // this._spec.emphasis?.trigger === 'click'
         // 点击事件
-        this.event.on('pointerdown', { level: Event_Bubble_Level.mark }, this._handleRelatedClick);
+        this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
       }
     }
   }
@@ -609,8 +609,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const nodeDatum = element.getDatum();
     const highlightNodes: string[] = [nodeDatum.key];
 
-    [this._linkMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+    if (this._linkMark) {
+      const vGrammarMark = this._linkMark.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -654,10 +654,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           linkEl.useStates(['blur']);
         }
       });
-    });
+    }
 
-    [this._nodeMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+    if (this._nodeMark) {
+      const vGrammarMark = this._nodeMark.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -672,10 +672,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           el.useStates(['blur']);
         }
       });
-    });
+    }
 
-    [this._labelMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+    if (this._labelMark) {
+      const vGrammarMark = this._labelMark.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -690,15 +690,15 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           el.useStates(['blur']);
         }
       });
-    });
+    }
   };
 
   protected _handleLinkAdjacencyClick = (element: IGlyphElement) => {
     const curLinkDatum = element.getDatum();
     const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
 
-    [this._linkMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+    if (this._linkMark) {
+      const vGrammarMark = this._linkMark.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -748,10 +748,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           linkEl.useStates(['blur']);
         }
       });
-    });
+    }
 
-    [this._nodeMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+    if (this._nodeMark) {
+      const vGrammarMark = this._nodeMark.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -766,10 +766,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           el.useStates(['blur']);
         }
       });
-    });
+    }
 
-    [this._labelMark].forEach(mark => {
-      const vGrammarMark = mark.getProduct();
+    if (this._labelMark) {
+      const vGrammarMark = this._labelMark.getProduct();
 
       if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
         return;
@@ -784,7 +784,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           el.useStates(['blur']);
         }
       });
-    });
+    }
   };
 
   protected _handleNodeRelatedClick = (element: IElement) => {
@@ -893,8 +893,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         }
       });
 
-      [this._linkMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+      if (this._linkMark) {
+        const vGrammarMark = this._linkMark.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -909,10 +909,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             linkEl.useStates(['blur']);
           }
         });
-      });
+      }
 
-      [this._nodeMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+      if (this._nodeMark) {
+        const vGrammarMark = this._nodeMark.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -927,10 +927,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             el.useStates(['blur']);
           }
         });
-      });
+      }
 
-      [this._labelMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+      if (this._labelMark) {
+        const vGrammarMark = this._labelMark.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -945,7 +945,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             el.useStates(['blur']);
           }
         });
-      });
+      }
     } else {
       // 层级型数据
       const highlightNodes: string[] = [nodeDatum.key];
@@ -1032,8 +1032,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         return;
       });
 
-      [this._nodeMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+      if (this._nodeMark) {
+        const vGrammarMark = this._nodeMark.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -1048,10 +1048,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             el.useStates(['blur']);
           }
         });
-      });
+      }
 
-      [this._labelMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+      if (this._labelMark) {
+        const vGrammarMark = this._labelMark.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -1066,7 +1066,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             el.useStates(['blur']);
           }
         });
-      });
+      }
     }
   };
 
@@ -1087,8 +1087,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     const father = element.getDatum()?.parents ? 'parents' : 'source';
     if (father === 'source') {
-      [this._linkMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+      if (this._linkMark) {
+        const vGrammarMark = this._linkMark.getProduct();
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
         }
@@ -1096,9 +1096,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         allLinkElements.forEach(linkEl => {
           linkEl.clearStates();
         });
-      });
-      [this._nodeMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+      }
+
+      if (this._nodeMark) {
+        const vGrammarMark = this._nodeMark.getProduct();
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
         }
@@ -1106,9 +1107,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         allNodeElements.forEach(el => {
           el.clearStates();
         });
-      });
-      [this._labelMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+      }
+
+      if (this._labelMark) {
+        const vGrammarMark = this._labelMark.getProduct();
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
         }
@@ -1116,7 +1118,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         allLabelElements.forEach(el => {
           el.clearStates();
         });
-      });
+      }
     } else {
       const curLinkDatum = element.getDatum();
       const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
@@ -1228,8 +1230,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         }
       });
 
-      [this._labelMark].forEach(mark => {
-        const vGrammarMark = mark.getProduct();
+      if (this._labelMark) {
+        const vGrammarMark = this._labelMark.getProduct();
 
         if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
           return;
@@ -1244,7 +1246,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             el.useStates(['blur']);
           }
         });
-      });
+      }
     }
   };
 
@@ -1255,7 +1257,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   getNodeOrdinalColorScale(item: string) {
     const colorDomain = this._rawData.latestData[0]?.nodes
       ? this._rawData.latestData[0].nodes[0]?.children
-        ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes))
+        ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes, this._spec.categoryField))
         : this._rawData.latestData[0].nodes.map((datum: Datum, index: number) => {
             if (this._spec.nodeKey) {
               return datum[this._spec.categoryField];
@@ -1279,18 +1281,18 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     return ordinalScale.scale(item);
   }
 
-  extractNamesFromTree(tree: any) {
+  extractNamesFromTree(tree: any, categoryName: string) {
     // Set 用于存储唯一的 name 值
     const uniqueNames = new Set();
 
     // 遍历当前节点的子节点
     tree.forEach((node: any) => {
       // 将当前节点的 name 值添加到 Set 中
-      uniqueNames.add(node.name);
+      uniqueNames.add(node[categoryName]);
 
       // 如果当前节点还有子节点，则递归调用该函数继续遍历子节点
       if (node.children) {
-        const childNames = this.extractNamesFromTree(node.children);
+        const childNames = this.extractNamesFromTree(node.children, categoryName);
         childNames.forEach(name => uniqueNames.add(name));
       }
     });
@@ -1309,7 +1311,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   getSeriesKeys(): string[] {
     if (this._seriesField) {
       const keyArray: any[] = [];
-      this._nodesSeriesData?.getDataView().latestData.forEach((datum: { [x: string]: any }) => {
+      this._nodesSeriesData?.getDataView()?.latestData.forEach((datum: { [x: string]: any }) => {
         keyArray.push(datum[this._seriesField] ?? datum.datum[this._seriesField]);
       });
       return keyArray;

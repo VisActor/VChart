@@ -10,7 +10,8 @@
 
 {{ if: !${noStroke} }}
 {{ use: graphic-stroke-style(
-  prefix = ${prefix}
+  prefix = ${prefix},
+  markType = ${markType}
 ) }}
 {{ /if }}
 
