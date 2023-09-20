@@ -859,20 +859,19 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       result.reMake = true;
     }
 
-    const currentKeys = Object.keys(this._spec).sort();
-    const nextKeys = Object.keys(originalSpec).sort();
+    const currentKeys = Object.keys(originalSpec)
+      .sort()
+      .filter(k => k !== 'data' && k !== this._rootMark.name);
+    const nextKeys = Object.keys(this._spec)
+      .sort()
+      .filter(k => k !== 'data' && k !== this._rootMark.name);
     if (JSON.stringify(currentKeys) !== JSON.stringify(nextKeys)) {
-      result.reMake = true;
-    }
-
-    // hover & selected
-    if (!isEqual(this._spec.hover, originalSpec.hover) || !isEqual(this._spec.select, originalSpec.select)) {
       result.reMake = true;
       return result;
     }
 
-    // exMark length
-    if (array(this._spec.extensionMark).length !== array(originalSpec.extensionMark).length) {
+    // hover & selected
+    if (!isEqual(this._spec.hover, originalSpec.hover) || !isEqual(this._spec.select, originalSpec.select)) {
       result.reMake = true;
       return result;
     }
@@ -883,7 +882,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
 
     if (
-      array(originalSpec.extensionMark).length !== array(this._spec.extensionMark).length ||
+      array(this._spec.extensionMark).length !== array(originalSpec.extensionMark).length ||
       originalSpec.extensionMark?.some(
         (mark, index) =>
           mark.type !== this._spec.extensionMark[index].type || mark.id !== this._spec.extensionMark[index].id
