@@ -35,6 +35,7 @@ option: commonChart#brush
 ```javascript livedemo
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/brush-data.json');
 const dataBrush = await response.json();
+
 const row = 4;
 const col = 4;
 const region = [];
@@ -58,13 +59,12 @@ for (let k = 0; k < row * col; k++) {
   });
 
   series.push({
+    id: `${k}_Region`,
     type: 'scatter',
     xField: 'x',
     yField: 'y',
     seriesField: 'type',
     data: { id: `${k}_Data`, values: dataBrush[k] },
-    // point: { style: { visible: false } },
-    // line: { style: { lineWidth: 2 } },
     regionId: `${k}_Region`,
     size: 5
   });
@@ -75,13 +75,6 @@ for (let k = 0; k < row * col; k++) {
     regionId: `${k}_Region`,
     seriesId: [`${k}_Region`],
     zero: false
-    // range: {
-    //   min: 0,
-    //   max: 100
-    // },
-    // tick: {
-    //   tickStep: 10
-    // }
   });
 
   layoutElements.push({
@@ -97,13 +90,6 @@ for (let k = 0; k < row * col; k++) {
     seriesId: [`${k}_Region`],
     type: 'linear',
     zero: false
-    // range: {
-    //   min: 0,
-    //   max: 20
-    // },
-    // tick: {
-    //   tickStep: 5
-    // }
   });
 
   layoutElements.push({
@@ -150,7 +136,7 @@ const spec = {
 const vchart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
 vchart.renderAsync();
 
-// Just for the convenience of console debugging, DO NOT COPY!
+// Just for the convenience of console debugging, do not copy
 window['vchart'] = vchart;
 ```
 
