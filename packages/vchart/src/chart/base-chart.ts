@@ -683,7 +683,6 @@ export class BaseChart extends CompilableBase implements IChart {
       dv.parseNewData(data, options);
     }
 
-    this._chartData.updateData({ id: id, values: data as any }, false, true);
     if (updateGlobalScale) {
       this.updateGlobalScaleDomain();
     }
