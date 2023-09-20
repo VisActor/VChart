@@ -212,9 +212,9 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   created() {
-    this.transformSpec(this._spec);
     // data
     this._chartData.parseData(this._spec.data);
+    this.transformSpec(this._spec);
     // scale
     this.createGlobalScale();
     // background
