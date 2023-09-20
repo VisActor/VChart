@@ -756,7 +756,6 @@ export class VChart implements IVChart {
         change: reSize,
         reMake: false,
         reCompile: false,
-        reMakeData: false,
         reSize
       });
     }, morphConfig);
@@ -798,7 +797,6 @@ export class VChart implements IVChart {
         change: reSize,
         reMake: false,
         reCompile: false,
-        reMakeData: false,
         reSize
       });
     }, morphConfig);
@@ -895,7 +893,7 @@ export class VChart implements IVChart {
     const modifyConfig = () => {
       const result = model.updateSpec(spec);
       model.reInit();
-      if (result.change || result.reCompile || result.reMake || result.reMakeData || result.reSize || result.reRender) {
+      if (result.change || result.reCompile || result.reMake || result.reSize || result.reRender) {
         this._chart.reDataFlow();
       }
       return result;
