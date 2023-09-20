@@ -4,12 +4,11 @@ import type { IGridLayoutSpec } from '../../layout/interface';
 import { BaseChart } from '../base-chart';
 import type { ISequenceChartSpec, ISequenceSeriesSpec } from './interface';
 import type { IRegion, IRegionSpec } from '../../region/interface';
-import { dataToDataView } from '../../data/initialize';
 import { Factory } from '../../core/factory';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface';
 import type { Datum } from '../../typings';
-import type { DataView } from '@visactor/vdataset';
+import { DataView } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../series/interface';
 import { VChart } from '../../core/vchart';
 import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
@@ -200,11 +199,10 @@ export class SequenceChart extends BaseChart {
             col: 2,
             row: rowNum
           });
-          const data = this._chartData.getSeriesData(seriesSpec.dataId, seriesSpec.dataIndex);
-
+          const dataLength = this._getSeriesDataLength(spec, seriesSpec);
           let ratio = 0;
-          if (data.latestData.length && data.latestData.length > 0) {
-            ratio = (seriesSpec?.height || defaultSeriesRowHeight) / (data.latestData.length * 30);
+          if (dataLength) {
+            ratio = (seriesSpec?.height || defaultSeriesRowHeight) / (dataLength * 30);
           }
           // scrollBar数组增加一个right scrollBar
           scrollBar.push({
@@ -345,5 +343,31 @@ export class SequenceChart extends BaseChart {
       componentSpec[attr] = value;
     }
     return componentSpec;
+  }
+
+  private _getSeriesDataLength(spec: any, seriesSpec: any) {
+    if (seriesSpec.data) {
+      const _d = array(seriesSpec.data)[0];
+      if (_d instanceof DataView) {
+        return _d.latestData?.length;
+      }
+      return _d.values?.length;
+    }
+    const dataTemp = array(spec.data).find((_d, index) => {
+      if (seriesSpec.dataId) {
+        if (_d instanceof DataView) {
+          return _d.name === seriesSpec.dataId;
+        }
+        return _d.id === seriesSpec.dataId;
+      }
+      return seriesSpec.dataIndex === index;
+    });
+    if (!dataTemp) {
+      return 0;
+    }
+    if (dataTemp instanceof DataView) {
+      return dataTemp.latestData.length;
+    }
+    return dataTemp.values.length;
   }
 }
