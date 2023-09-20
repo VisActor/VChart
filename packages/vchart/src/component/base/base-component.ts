@@ -111,7 +111,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
 
   protected getContainer() {
     if (!this._container) {
-      this._container = this._option.globalInstance.getStage().find(node => node.name === 'root', true);
+      this._container = this._option?.globalInstance.getStage().find(node => node.name === 'root', true);
     }
 
     return this._container;
