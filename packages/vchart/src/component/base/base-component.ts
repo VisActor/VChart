@@ -5,7 +5,7 @@ import type { ComponentTypeEnum, IComponent, IComponentOption } from '../interfa
 import type { BaseEventParams } from '../../event/interface';
 import { ComponentPluginService } from '../../plugin/components/plugin-service';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
-import { isArray, merge } from '@visactor/vutils';
+import { isEqual } from '@visactor/vutils';
 import { getComponentThemeFromGlobalTheme } from './util';
 import type { IGroupMark } from '@visactor/vgrammar-core';
 import { Event_Source_Type } from '../../constant';
@@ -124,21 +124,14 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   /**
    * updateSpec
    */
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec as {
-      regionId?: StringOrNumber;
-      regionIndex?: number;
-      seriesId?: StringOrNumber;
-      seriesIndex?: number;
-      visible?: boolean;
-    };
-    const result = super.updateSpec(spec);
+  _compareSpec() {
+    const result = super._compareSpec();
     if (!result.reMake) {
       result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
-        return JSON.stringify(originalSpec[k]) !== JSON.stringify(spec[k]);
+        return isEqual(this._originalSpec[k], this._spec[k]);
       });
     }
-    if (originalSpec.visible !== spec.visible) {
+    if (this._originalSpec.visible !== (<any>this._spec).visible) {
       result.reCompile = true;
     }
     return result;

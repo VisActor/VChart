@@ -227,23 +227,6 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._trigger = this._mapViewData = null as any;
   }
 
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec;
-    const { map, nameMap, valueField, nameProperty } = originalSpec;
-    const result = super.updateSpec(spec);
-    if (
-      spec?.map !== map ||
-      spec?.nameMap !== nameMap ||
-      spec?.valueField !== valueField ||
-      spec?.nameProperty !== nameProperty
-    ) {
-      result.change = true;
-      result.reRender = true;
-      result.reMake = true;
-    }
-    return result;
-  }
-
   handleZoom(e: ZoomEventParam) {
     const { scale, scaleCenter } = e;
     if (scale === 1) {

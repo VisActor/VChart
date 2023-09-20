@@ -447,15 +447,4 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     super.onLayoutEnd(ctx);
     this.compile();
   }
-
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec;
-    const result = super.updateSpec(spec);
-    if (!isEqual(originalSpec, spec)) {
-      result.reMake = true;
-      result.reCompile = true;
-      return result;
-    }
-    return result;
-  }
 }
