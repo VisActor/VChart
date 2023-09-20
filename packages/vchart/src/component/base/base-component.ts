@@ -125,7 +125,6 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
    * updateSpec
    */
   updateSpec(spec: any) {
-    this._mergeThemeToSpec;
     const originalSpec = this._originalSpec as {
       regionId?: StringOrNumber;
       regionIndex?: number;
