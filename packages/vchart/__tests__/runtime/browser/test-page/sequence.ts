@@ -435,7 +435,8 @@ const run = () => {
         xAxisIndex: 0,
         regionIndex: [1, 2, 3, 4],
         start: 0.1,
-        endValue: 1662351800,
+        end: 0.3,
+        filterMode: 'axis',
         startText: {
           formatMethod: text => Math.floor(text)
         },
@@ -445,6 +446,9 @@ const run = () => {
         ...dataZoomStyle
       }
     ],
+    scrollBar: {
+      roam: true
+    },
     axes: [
       {
         orient: 'top',
@@ -510,11 +514,11 @@ const run = () => {
       },
       {
         id: 'dataDotSeries',
-        values: dataEventDot
+        values: []
       },
       {
         id: 'dataLinkSeries',
-        values: dataEventLink
+        values: []
       }
     ]
   };
