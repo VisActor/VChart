@@ -192,7 +192,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     const result = {
       change: false,
       reMake: false,
-      reMakeData: false,
       reRender: false,
       reSize: false,
       reCompile: false
