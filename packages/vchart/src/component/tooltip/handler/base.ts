@@ -4,6 +4,8 @@ import type { Options } from './constants';
 import { DEFAULT_OPTIONS } from './constants';
 import type { Maybe, IPoint } from '../../../typings';
 // eslint-disable-next-line no-duplicate-imports
+import { TooltipPositionMode } from '../../../typings';
+// eslint-disable-next-line no-duplicate-imports
 import { isTrueBrowser, isValid, throttle, isNil } from '../../../util';
 import type {
   TooltipData,
@@ -16,14 +18,16 @@ import type {
   ITooltipPositionPattern
 } from '../../../typings/tooltip';
 // eslint-disable-next-line no-duplicate-imports
-import { TooltipFixedPosition } from '../../../typings/tooltip';
+import type { TooltipFixedPosition } from '../../../typings/tooltip';
 import type { BaseEventParams } from '../../../event/interface';
 import {
   getShowContent,
   getTooltipSpecForShow,
   getActualTooltipPositionValue,
   getTooltipPatternValue,
-  getScale
+  getScale,
+  getHorizontalPositionType,
+  getVerticalPositionType
 } from './utils';
 import type { Tooltip, TooltipActualTitleContent } from '../tooltip';
 import type { ISeries } from '../../../series/interface';
@@ -204,12 +208,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       actualTooltip = this._cacheActualTooltip;
     } else {
       actualTooltip = this._getActualTooltipContent(pattern, data!, params);
-      if (pattern.updateTitle) {
-        actualTooltip.title = pattern.updateTitle(actualTooltip.title, data, params);
-      }
-      if (pattern.updateContent) {
-        actualTooltip.content = pattern.updateContent(actualTooltip.content, data, params);
-      }
+      actualTooltip.title = pattern.updateTitle?.(actualTooltip.title, data, params) ?? actualTooltip.title;
+      actualTooltip.content = pattern.updateContent?.(actualTooltip.content, data, params) ?? actualTooltip.content;
     }
 
     // 判断 tooltip 是否为空
@@ -250,6 +250,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const position = this._getActualTooltipPosition(
       actualTooltip,
       getTooltipPatternValue(pattern.position, data, params),
+      getTooltipPatternValue(pattern.positionMode, data, params),
       params,
       this._getParentElement(spec),
       changePositionOnly
@@ -367,6 +368,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   protected _getActualTooltipPosition = (
     actualTooltip: IToolTipActual,
     position: TooltipPosition | undefined,
+    positionMode: TooltipPositionMode | undefined,
     params: TooltipHandlerParams,
     tooltipParentElement: HTMLElement,
     changePositionOnly: boolean
@@ -392,65 +394,12 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const canvasHeight = canvasRect?.height ?? DEFAULT_CHART_HEIGHT;
     let isFixedPosition = false;
 
-    /* 一、计算 left、top、right、bottom */
-    let left: number | undefined;
-    let top: number | undefined;
-    let right: number | undefined;
-    let bottom: number | undefined;
-    if (isObject(position)) {
-      const { left: posLeft, right: posRight, top: posTop, bottom: posBottom } = position as ITooltipPositionPattern;
-      left = getActualTooltipPositionValue(posLeft, event);
-      top = getActualTooltipPositionValue(posTop, event);
-      right = getActualTooltipPositionValue(posRight, event);
-      bottom = getActualTooltipPositionValue(posBottom, event);
-    } else if (isValid(position) && actualTooltip.activeType === 'mark') {
-      isFixedPosition = true;
-      const element = params.item as IElement;
-      const model = params.model as IModel;
-      const bounds = element?.getBounds() as AABBBounds;
-      const startPoint = model?.getLayoutStartPoint();
-      if (bounds && startPoint) {
-        let { x1, y1, x2, y2 } = bounds;
-        x1 += startPoint.x;
-        x2 += startPoint.x;
-        y1 += startPoint.y;
-        y2 += startPoint.y;
-        switch (position) {
-          case TooltipFixedPosition.left:
-            left = x1 - tooltipBoxWidth - offsetX;
-            top = (y1 + y2) / 2 - tooltipBoxHeight / 2;
-            break;
-          case TooltipFixedPosition.right:
-            left = x2 + offsetX;
-            top = (y1 + y2) / 2 - tooltipBoxHeight / 2;
-            break;
-          case TooltipFixedPosition.top:
-            left = (x1 + x2) / 2 - tooltipBoxWidth / 2;
-            top = y1 - tooltipBoxHeight - offsetY;
-            break;
-          case TooltipFixedPosition.bottom:
-            left = (x1 + x2) / 2 - tooltipBoxWidth / 2;
-            top = y2 + offsetY;
-            break;
-          case TooltipFixedPosition.inside:
-            left = (x1 + x2) / 2 - tooltipBoxWidth / 2;
-            top = (y1 + y2) / 2 - tooltipBoxHeight / 2;
-            break;
-        }
-      }
-    }
-
-    /* 二、换算成 x 和 y */
-    let x: number;
-    let y: number;
-
     const containerSize = {
       width: 0,
       height: 0
     };
-    const getDefaultPointValue = (defaultValue = 0): IPoint => ({ x: defaultValue, y: defaultValue });
-    let relativePosOffset = getDefaultPointValue();
-    let tooltipParentElementRect: IPoint | DOMRect = getDefaultPointValue();
+    let relativePosOffset = { x: 0, y: 0 };
+    let tooltipParentElementRect: IPoint | DOMRect = { x: 0, y: 0 };
     let chartElementScale = 1;
     let tooltipParentElementScale = 1;
 
@@ -474,21 +423,100 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       containerSize.width = canvasWidth;
       containerSize.height = canvasHeight;
     }
+    const tooltipSizeScale = tooltipParentElementScale / chartElementScale;
+
+    /* 一、计算 left、top、right、bottom */
+    let left: number | undefined;
+    let top: number | undefined;
+    let right: number | undefined;
+    let bottom: number | undefined;
+    if (isObject(position)) {
+      const { left: posLeft, right: posRight, top: posTop, bottom: posBottom } = position as ITooltipPositionPattern;
+      left = getActualTooltipPositionValue(posLeft, event);
+      top = getActualTooltipPositionValue(posTop, event);
+      right = getActualTooltipPositionValue(posRight, event);
+      bottom = getActualTooltipPositionValue(posBottom, event);
+    } else if (
+      isValid(position) &&
+      positionMode !== TooltipPositionMode.pointer &&
+      actualTooltip.activeType === 'mark'
+    ) {
+      isFixedPosition = true;
+      const element = params.item as IElement;
+      const model = params.model as IModel;
+      const bounds = element?.getBounds() as AABBBounds;
+      const startPoint = model?.getLayoutStartPoint();
+      if (bounds && startPoint) {
+        let { x1, y1, x2, y2 } = bounds;
+        x1 += startPoint.x;
+        x2 += startPoint.x;
+        y1 += startPoint.y;
+        y2 += startPoint.y;
+        switch (getHorizontalPositionType(position)) {
+          case 'left':
+            left = x1 - tooltipBoxWidth * tooltipSizeScale - offsetX;
+            break;
+          case 'right':
+            left = x2 + offsetX;
+            break;
+          case 'middle':
+            left = (x1 + x2) / 2 - (tooltipBoxWidth * tooltipSizeScale) / 2;
+            break;
+        }
+        switch (getVerticalPositionType(position)) {
+          case 'top':
+            top = y1 - tooltipBoxHeight * tooltipSizeScale - offsetY;
+            break;
+          case 'bottom':
+            top = y2 + offsetY;
+            break;
+          case 'middle':
+            top = (y1 + y2) / 2 - (tooltipBoxHeight * tooltipSizeScale) / 2;
+            break;
+        }
+      }
+    }
+
+    /* 二、换算成 x 和 y */
+    let x: number;
+    let y: number;
 
     const { canvasX, canvasY } = event as any;
     if (isValidNumber(left)) {
       x = left;
     } else if (isValidNumber(right)) {
-      x = canvasWidth - tooltipBoxWidth - right;
+      x = canvasWidth - tooltipBoxWidth * tooltipSizeScale - right;
     } else {
-      x = canvasX + offsetX;
+      const x0 = canvasX;
+      switch (getHorizontalPositionType(position as TooltipFixedPosition, 'right')) {
+        case 'middle':
+          x = x0 - (tooltipBoxWidth * tooltipSizeScale) / 2;
+          break;
+        case 'left':
+          x = x0 - tooltipBoxWidth * tooltipSizeScale - offsetX;
+          break;
+        case 'right':
+          x = x0 + offsetX;
+          break;
+      }
     }
     if (isValidNumber(top)) {
       y = top;
     } else if (isValidNumber(bottom)) {
-      y = canvasHeight - tooltipBoxHeight - bottom;
+      y = canvasHeight - tooltipBoxHeight * tooltipSizeScale - bottom;
     } else {
-      y = canvasY + offsetY;
+      const y0 = canvasY;
+      switch (getVerticalPositionType(position as TooltipFixedPosition, 'bottom')) {
+        case 'middle':
+          y = y0 - (tooltipBoxHeight * tooltipSizeScale) / 2;
+          break;
+        case 'top':
+          y = y0 - tooltipBoxHeight * tooltipSizeScale - offsetY;
+          break;
+        case 'bottom':
+          y = y0 + offsetY;
+          break;
+      }
     }
 
     x *= chartElementScale;
@@ -503,29 +531,133 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     /* 三、确保tooltip在视区内 */
     const { width: containerWidth, height: containerHeight } = containerSize;
 
-    if ((x + tooltipBoxWidth) * tooltipParentElementScale + tooltipParentElementRect.x > containerWidth) {
-      // 位置不超出视区右界
-      if (isFixedPosition) {
+    const isLeftOut = () => x * tooltipParentElementScale + tooltipParentElementRect.x < 0;
+    const isRightOut = () =>
+      (x + tooltipBoxWidth) * tooltipParentElementScale + tooltipParentElementRect.x > containerWidth;
+    const isTopOut = () => y * tooltipParentElementScale + tooltipParentElementRect.y < 0;
+    const isBottomOut = () =>
+      (y + tooltipBoxHeight) * tooltipParentElementScale + tooltipParentElementRect.y > containerHeight;
+
+    const detectLeftFirst = () => {
+      if (isLeftOut()) {
+        // 位置不超出视区左界
+        if (isFixedPosition) {
+          x = -tooltipParentElementRect.x / tooltipParentElementScale;
+        } else {
+          if (getHorizontalPositionType(position as TooltipFixedPosition, 'right') === 'middle') {
+            x += offsetX + tooltipBoxWidth / 2;
+          } else {
+            x += offsetX * 2 + tooltipBoxWidth;
+          }
+        }
+      }
+    };
+    const detectLeftLast = () => {
+      if (isLeftOut()) {
+        // 位置不超出视区左界
+        x = -tooltipParentElementRect.x / tooltipParentElementScale;
+      }
+    };
+    const detectRightFirst = () => {
+      if (isRightOut()) {
+        // 位置不超出视区右界
+        if (isFixedPosition) {
+          x = (containerWidth - tooltipParentElementRect.x) / tooltipParentElementScale - tooltipBoxWidth;
+        } else {
+          if (getHorizontalPositionType(position as TooltipFixedPosition, 'right') === 'middle') {
+            x -= offsetX + tooltipBoxWidth / 2;
+          } else {
+            x -= offsetX * 2 + tooltipBoxWidth;
+          }
+        }
+      }
+    };
+    const detectRightLast = () => {
+      if (isRightOut()) {
+        // 位置不超出视区右界
         x = (containerWidth - tooltipParentElementRect.x) / tooltipParentElementScale - tooltipBoxWidth;
-      } else {
-        x -= offsetX * 2 + tooltipBoxWidth;
       }
-    }
-    if ((y + tooltipBoxHeight) * tooltipParentElementScale + tooltipParentElementRect.y > containerHeight) {
-      // 位置不超出视区下界
-      if (isFixedPosition) {
+    };
+    const detectTopFirst = () => {
+      if (isTopOut()) {
+        // 位置不超出视区上界
+        if (isFixedPosition) {
+          y = -tooltipParentElementRect.y / tooltipParentElementScale;
+        } else {
+          if (getVerticalPositionType(position as TooltipFixedPosition, 'bottom') === 'middle') {
+            y += offsetY + tooltipBoxHeight / 2;
+          } else {
+            y += offsetY * 2 + tooltipBoxHeight;
+          }
+        }
+      }
+    };
+    const detectTopLast = () => {
+      if (isTopOut()) {
+        // 位置不超出视区上界
+        y = 0 - tooltipParentElementRect.y / tooltipParentElementScale;
+      }
+    };
+    const detectBottomFirst = () => {
+      if (isBottomOut()) {
+        // 位置不超出视区下界
+        if (isFixedPosition) {
+          y = (containerHeight - tooltipParentElementRect.y) / tooltipParentElementScale - tooltipBoxHeight;
+        } else {
+          if (getVerticalPositionType(position as TooltipFixedPosition, 'bottom') === 'middle') {
+            y -= offsetY + tooltipBoxHeight / 2;
+          } else {
+            y -= offsetY * 2 + tooltipBoxHeight;
+          }
+        }
+      }
+    };
+    const detectBottomLast = () => {
+      if (isBottomOut()) {
+        // 位置不超出视区下界
         y = (containerHeight - tooltipParentElementRect.y) / tooltipParentElementScale - tooltipBoxHeight;
-      } else {
-        y -= offsetY * 2 + tooltipBoxHeight;
       }
+    };
+
+    // 处理左右
+    switch (getHorizontalPositionType(position as TooltipFixedPosition, 'right')) {
+      case 'middle':
+        if (isLeftOut()) {
+          detectLeftFirst();
+          detectRightLast();
+        } else {
+          detectRightFirst();
+          detectLeftLast();
+        }
+        break;
+      case 'left':
+        detectLeftFirst();
+        detectRightLast();
+        break;
+      case 'right':
+        detectRightFirst();
+        detectLeftLast();
+        break;
     }
-    if (x * tooltipParentElementScale + tooltipParentElementRect.x < 0) {
-      // 位置不超出视区左界
-      x = 0 - tooltipParentElementRect.x / tooltipParentElementScale;
-    }
-    if (y * tooltipParentElementScale + tooltipParentElementRect.y < 0) {
-      // 位置不超出视区上界
-      y = 0 - tooltipParentElementRect.y / tooltipParentElementScale;
+    // 处理上下
+    switch (getVerticalPositionType(position as TooltipFixedPosition, 'bottom')) {
+      case 'middle':
+        if (isTopOut()) {
+          detectTopFirst();
+          detectBottomLast();
+        } else {
+          detectBottomFirst();
+          detectTopLast();
+        }
+        break;
+      case 'top':
+        detectTopFirst();
+        detectBottomLast();
+        break;
+      case 'bottom':
+        detectBottomFirst();
+        detectTopLast();
+        break;
     }
 
     return { x, y };
