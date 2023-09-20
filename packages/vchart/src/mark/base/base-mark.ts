@@ -9,8 +9,7 @@ import type {
   IVisualScale,
   IVisualSpecStyle,
   ICommonSpec,
-  FunctionType,
-  IThresholdStyle
+  FunctionType
 } from '../../typings';
 
 import { isBoolean, isFunction, isNil, isValid, mergeSpec, Color, createScaleWithSpec, isNumber } from '../../util';
@@ -25,7 +24,7 @@ import type {
   MarkInputStyle
 } from '../interface';
 import { AttributeLevel, GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant';
-import { isValidScaleType, ThresholdScale } from '@visactor/vscale';
+import { isValidScaleType } from '@visactor/vscale';
 import type { DataView } from '@visactor/vdataset';
 import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme/util';
 import type { ISeries, SeriesTypeEnum } from '../../series/interface';
@@ -347,11 +346,6 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       return this._computeBorderAttr(stateStyle.style, datum, opt);
     }
 
-    if (stateStyle.style.type === 'threshold') {
-      // 按阈值着色处理
-      return this._computeThresholdAttr(stateStyle.style);
-    }
-
     if (isValidScaleType(stateStyle.style.scale?.type)) {
       return stateStyle.style.scale.scale(datum[stateStyle.style.field]);
     }
@@ -498,10 +492,5 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       computeStyle.stroke = this._computeGradientAttr(mergedStyle.stroke, data, opt);
     }
     return computeStyle;
-  }
-
-  private _computeThresholdAttr(thresholdStyle: IThresholdStyle) {
-    const scale = new ThresholdScale().domain(thresholdStyle.domain).range(thresholdStyle.range);
-    return scale.scale(this.getDataView().latestData[0].value);
   }
 }
