@@ -862,9 +862,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return result;
     }
 
-    const { invalidType } = this._originalSpec;
+    const { invalidType } = originalSpec;
     if (spec.invalidType !== invalidType) {
-      result.reMake = true;
+      result.reCompile = true;
     }
 
     if (
