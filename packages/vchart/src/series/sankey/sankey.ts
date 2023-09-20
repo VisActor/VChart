@@ -1256,7 +1256,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   getNodeOrdinalColorScale(item: string) {
     const colorDomain =
-      this._spec?.color?.domain ?? this._rawData.latestData[0]?.nodes
+      this._option.globalScale.getScale('color')?.domain() ??
+      (this._rawData.latestData[0]?.nodes
         ? this._rawData.latestData[0].nodes[0]?.children
           ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes, this._spec.categoryField))
           : this._rawData.latestData[0].nodes.map((datum: Datum, index: number) => {
@@ -1270,11 +1271,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
               return datum[this._spec.categoryField];
             }
             return index;
-          });
+          }));
 
     const colorRange =
-      this._spec?.color?.range ??
-      this._option.globalScale.color?.range() ??
+      this._option.globalScale.getScale('color')?.range() ??
       getDataScheme(this._option.getTheme().colorScheme, this.type as any);
 
     const ordinalScale = new ColorOrdinalScale();
