@@ -12,8 +12,8 @@ export function SliderNumber(props: IBaseSliderNumberComponentProps) {
   const [value, setValue] = useState<number>(defaultValue);
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <p>{label}</p>
+    <div className="vchart-editor-ui-panel-base-container">
+      <p className="vchart-editor-ui-panel-base-label">{label}</p>
       <Slider
         value={value}
         min={min}

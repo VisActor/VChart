@@ -35,8 +35,8 @@ function generateTitleEntries(
           <Switch
             key={`${entry.key}-${index}`}
             label={entry.label}
-            value={false}
-            onChange={(value: number) => onChange(section, 'display', value)}
+            value={(entry as ISwitchComponentConfig).default}
+            onChange={(value: number) => onChange?.(section, 'display', value)}
             config={entry as ISwitchComponentConfig}
           />
         );
@@ -45,8 +45,8 @@ function generateTitleEntries(
           <Input
             key={`${entry.key}-${index}`}
             label={entry.label}
-            value={null}
-            onChange={(fontSize: number) => onChange(section, 'text', fontSize)}
+            value={(entry as IInputComponentConfig).default}
+            onChange={(fontSize: number) => onChange?.(section, 'text', fontSize)}
             config={entry as IInputComponentConfig}
           />
         );
@@ -55,8 +55,8 @@ function generateTitleEntries(
           <SliderNumber
             key={`${entry.key}-${index}`}
             label={entry.label}
-            value={10}
-            onChange={(fontSize: number) => onChange(section, 'fontSize', fontSize)}
+            value={(entry as ISliderNumberComponentConfig).default}
+            onChange={(fontSize: number) => onChange?.(section, 'fontSize', fontSize)}
             config={entry as ISliderNumberComponentConfig}
           />
         );
@@ -65,8 +65,8 @@ function generateTitleEntries(
           <FontFamily
             key={`${entry.key}-${index}`}
             label={entry.label}
-            fontFamily="PingFangSC-Regular"
-            onChange={(fontFamily: string) => onChange(section, 'fontFamily', fontFamily)}
+            fontFamily={(entry as IFontFamilyComponentConfig).default}
+            onChange={(fontFamily: string) => onChange?.(section, 'fontFamily', fontFamily)}
             config={entry as IFontFamilyComponentConfig}
           />
         );
@@ -75,10 +75,10 @@ function generateTitleEntries(
           <FontStyle
             key={`${entry.key}-${index}`}
             label={entry.label}
-            bolder={false}
-            underline={false}
-            italic={false}
-            onChange={(fontStyle: any) => onChange(section, 'fontStyle', fontStyle)}
+            bolder={(entry as IFontStyleComponentConfig).default?.bold}
+            underline={(entry as IFontStyleComponentConfig).default?.underline}
+            italic={(entry as IFontStyleComponentConfig).default?.italic}
+            onChange={(fontStyle: any) => onChange?.(section, 'fontStyle', fontStyle)}
             config={entry as IFontStyleComponentConfig}
           />
         );
@@ -87,8 +87,8 @@ function generateTitleEntries(
           <Color
             key={`${entry.key}-${index}`}
             label={entry.label}
-            color={'#aaaaaa'}
-            onChange={(color: string) => onChange(section, 'color', color)}
+            color={(entry as IColorComponentConfig).default}
+            onChange={(color: string) => onChange?.(section, 'color', color)}
             config={entry as IColorComponentConfig}
           />
         );
@@ -108,8 +108,8 @@ function generateAlignEntries(
           <Select
             key={`${entry.key}-${index}`}
             label={entry.label}
-            value={'center'}
-            onChange={(position: string) => onChange('align', 'position', position)}
+            value={(entry as ISelectComponentConfig).default}
+            onChange={(position: string) => onChange?.('align', 'position', position)}
             config={entry as ISelectComponentConfig}
           />
         );
@@ -118,8 +118,8 @@ function generateAlignEntries(
           <TextAlign
             key={`${entry.key}-${index}`}
             label={entry.label}
-            textAlign={'center'}
-            onChange={(textAlign: number) => onChange('align', 'textAlign', textAlign)}
+            textAlign={(entry as ITextAlignComponentConfig).default}
+            onChange={(textAlign: number) => onChange?.('align', 'textAlign', textAlign)}
             config={entry as ITextAlignComponentConfig}
           />
         );
@@ -129,40 +129,34 @@ function generateAlignEntries(
 }
 
 export function Title(props: ITitleComponentProps) {
-  const onChange = (section: string, key: string, value: any) => {
-    props.onChange?.(section, key, value);
-  };
-
   const label = props.label ?? titleDefaultProps.label;
   const entries = props.sections ?? titleDefaultProps.sections;
 
   const [collapsed, setCollapsed] = useState<boolean>(true);
 
   return (
-    <div>
+    <div className="vchart-editor-ui-panel-container">
       <EditorHeader label={label} collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)} />
-      {!collapsed ? (
-        <>
-          {entries.title ? (
-            <>
-              {!isNil(entries.title.label) ? <PanelTitle label={entries.title.label} /> : null}
-              {generateTitleEntries('title', entries.title.entries, onChange)}
-            </>
-          ) : null}
-          {entries.subTitle ? (
-            <>
-              {!isNil(entries.subTitle.label) ? <PanelTitle label={entries.subTitle.label} /> : null}
-              {generateTitleEntries('subTitle', entries.subTitle.entries, onChange)}
-            </>
-          ) : null}
-          {entries.align ? (
-            <>
-              {!isNil(entries.align.label) ? <PanelTitle label={entries.align.label} /> : null}
-              {generateAlignEntries(entries.align.entries, onChange)}
-            </>
-          ) : null}
-        </>
-      ) : null}
+      <div className="vchart-editor-ui-panel-collapse-container" style={{ height: collapsed ? 0 : 'auto' }}>
+        {entries.title ? (
+          <>
+            {!isNil(entries.title.label) ? <PanelTitle label={entries.title.label} /> : null}
+            {generateTitleEntries('title', entries.title.entries, props.onChange)}
+          </>
+        ) : null}
+        {entries.subTitle ? (
+          <>
+            {!isNil(entries.subTitle.label) ? <PanelTitle label={entries.subTitle.label} /> : null}
+            {generateTitleEntries('subTitle', entries.subTitle.entries, props.onChange)}
+          </>
+        ) : null}
+        {entries.align ? (
+          <>
+            {!isNil(entries.align.label) ? <PanelTitle label={entries.align.label} /> : null}
+            {generateAlignEntries(entries.align.entries, props.onChange)}
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }

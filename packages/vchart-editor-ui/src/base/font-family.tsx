@@ -10,8 +10,8 @@ export function FontFamily(props: IBaseFontFamilyComponentProps) {
   const [fontFamily, setFontFamily] = useState<string>(defaultFontFamily);
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <p>{label}</p>
+    <div className="vchart-editor-ui-panel-base-container">
+      <p className="vchart-editor-ui-panel-base-label">{label}</p>
       <Select
         defaultValue={fontFamily}
         style={{ width: 180 }}

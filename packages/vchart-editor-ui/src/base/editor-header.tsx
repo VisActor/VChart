@@ -11,7 +11,7 @@ export function EditorHeader(props: IEditorHeaderProps) {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Checkbox checked={checked} onChange={event => props?.onCheck?.()}>
+      <Checkbox checked={checked} onChange={event => props?.onCheck?.()} className="vchart-editor-ui-panel-title">
         {label}
       </Checkbox>
       {!collapsed ? (
@@ -19,7 +19,7 @@ export function EditorHeader(props: IEditorHeaderProps) {
       ) : (
         <IconTriangleDown onClick={() => props?.onCollapse?.()} style={{ cursor: 'pointer' }} />
       )}
-      <IconRefresh onClick={() => props?.onCollapse?.()} style={{ cursor: 'pointer' }} />
+      {/* <IconRefresh onClick={() => props?.onCollapse?.()} style={{ cursor: 'pointer', float: 'right' }} /> */}
     </div>
   );
 }

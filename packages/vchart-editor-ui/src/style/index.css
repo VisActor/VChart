@@ -1,3 +1,50 @@
+/* Panel Style */
+
+.vchart-editor-ui-panel-container {
+  border: 1px solid #dee0e3;
+  border-radius: 8px;
+  box-shadow: 0px 8px 24px 8px rgba(31, 35, 41, 0.04), 0px 6px 12px 0px rgba(31, 35, 41, 0.04),
+    0px 4px 8px -8px rgba(31, 35, 41, 0.06);
+  width: 320px;
+  padding: 16px 12px;
+}
+
+.vchart-editor-ui-panel-collapse-container {
+  overflow: hidden;
+  height: auto;
+  /* transition: height 1s; */
+}
+
+.vchart-editor-ui-panel-title {
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.vchart-editor-ui-panel-subTitle {
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.vchart-editor-ui-panel-base-container {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.vchart-editor-ui-panel-base-label {
+  width: 44px;
+  margin-right: 8px;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: -0.055px;
+}
+
 /* Editor Bar Style */
 
 .vchart-editor-ui-editor-bar-container {

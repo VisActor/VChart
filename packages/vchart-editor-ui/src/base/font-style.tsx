@@ -25,8 +25,8 @@ export function FontStyle(props: IBaseFontStyleComponentProps) {
   const [italic, setItalic] = useState<boolean>(defaultItalic);
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <p>{label}</p>
+    <div className="vchart-editor-ui-panel-base-container">
+      <p className="vchart-editor-ui-panel-base-label">{label}</p>
       <IconButton
         icon={<IconBold />}
         style={bolder ? selectedStyle : normalStyle}
