@@ -79,13 +79,6 @@ export default {
       }
     }
   ],
-  tooltip: {
-    mark: {
-      title: {
-        value: datum => datum.country
-      }
-    }
-  },
   data: {
     id: 'data',
     values: [
