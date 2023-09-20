@@ -59,8 +59,6 @@ export class ChartData {
 
   getSeriesData(id: StringOrNumber | undefined, index: number | undefined): DataView | undefined {
     if (!this._dataArr.length) {
-      // 没有数据，报错处理
-      this._onError?.('no data in spec!');
       return null;
     }
 
