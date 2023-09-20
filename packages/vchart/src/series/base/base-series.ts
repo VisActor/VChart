@@ -870,6 +870,20 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return result;
     }
 
+    if (
+      currentKeys.some(k => {
+        if (k === 'data') {
+          return false;
+        } else if (!isEqual(this._spec[k], originalSpec[k])) {
+          return true;
+        }
+        return false;
+      })
+    ) {
+      result.reMake = true;
+      return result;
+    }
+
     // hover & selected
     if (!isEqual(this._spec.hover, originalSpec.hover) || !isEqual(this._spec.select, originalSpec.select)) {
       result.reMake = true;
