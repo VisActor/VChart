@@ -8,8 +8,8 @@ import { useState } from 'react';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 
 export function ColorEditorBar(props: IColorEditorComponentProps) {
-  const [fill, setFill] = useState<Fill>(defaultEditorBarComponentConfig.fill.default);
-  const [stroke, setStroke] = useState<Stroke>(defaultEditorBarComponentConfig.stroke.default);
+  const [fill, setFill] = useState<Fill>(props.defaultFill ?? defaultEditorBarComponentConfig.fill.default);
+  const [stroke, setStroke] = useState<Stroke>(props.defaultStroke ?? defaultEditorBarComponentConfig.stroke.default);
 
   return (
     <div className="vchart-editor-ui-editor-bar-container" style={{ ...(props.style ?? {}) }}>
