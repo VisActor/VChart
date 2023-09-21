@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: label stroke should follow default color when stroke is set to null, detail see #985",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
