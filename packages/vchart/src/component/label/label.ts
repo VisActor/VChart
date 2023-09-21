@@ -4,7 +4,7 @@ import { ComponentTypeEnum } from '../interface';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
-import { ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
 import { eachSeries, mergeSpec } from '../../util';
 import type { ISeries } from '../../series/interface';
@@ -199,6 +199,9 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         const { labelMark, labelSpec, series } = info;
         this.initMarkStyleWithSpec(labelMark, labelSpec);
         series.initLabelMarkStyle?.(labelMark);
+        if (labelMark.stateStyle?.normal?.lineWidth) {
+          labelMark.setAttribute('stroke', series.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
+        }
       });
     });
   }
