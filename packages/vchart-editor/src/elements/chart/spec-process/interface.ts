@@ -1,10 +1,9 @@
 import type { ILayoutData } from '../layout/interface';
-import type { IChartSpec, ITheme } from '@visactor/vchart';
-import type { IChartTemp } from '../temp/interface';
+import type { ISpec, ITheme } from '@visactor/vchart';
 
 export interface IEditorSpec {
   theme: ITheme;
-  temp: IChartSpec;
+  temp: ISpec | unknown;
   layout: ILayoutData;
 }
 
@@ -16,7 +15,7 @@ export interface ISpecProcess {
   updateTemp: (temp: string) => void;
   updateLayout: (layout: ILayoutData) => void;
 
-  getVChartSpec: () => IChartSpec;
+  getVChartSpec: () => ISpec;
 
   clear: () => void;
 }
