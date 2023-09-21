@@ -1258,7 +1258,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   getNodeOrdinalColorScale(item: string) {
-    const colorDomain = !isNil(this._option.globalScale.getScale('color').domain()[0])
+    const colorDomain = !isNil(this._option.globalScale.getScale('color')?.domain()?.[0])
       ? this._option.globalScale.getScale('color').domain()
       : this.getNodeList();
 
@@ -1267,7 +1267,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       getDataScheme(this._option.getTheme().colorScheme, this.type as any);
 
     if (
-      this._option.globalScale.getScale('color').domain().length === 0 ||
+      this._option.globalScale.getScale('color')?.domain().length === 0 ||
       isNil(this._option.globalScale.getScale('color').domain()[0])
     ) {
       if (colorDomain.length > 10) {
