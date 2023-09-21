@@ -62,7 +62,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   setValueField(field: string) {
     if (isValid(field)) {
       this._valueField = field;
-      this.setFontSizeRange(DEFAULT_FONTSIZE_RANGE);
     }
   }
 
@@ -77,8 +76,10 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   protected _fontSizeRange?: [number, number] = [DEFAULT_MIN_FONT_SIZE, DEFAULT_MIN_FONT_SIZE];
   setFontSizeRange(fontSizeRange: [number, number]) {
-    if (isValid(fontSizeRange) && isValid(this._spec.valueField)) {
+    if (isValid(fontSizeRange)) {
       this._fontSizeRange = fontSizeRange;
+    } else {
+      this._fontSizeRange = DEFAULT_FONTSIZE_RANGE;
     }
   }
 
