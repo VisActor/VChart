@@ -48,6 +48,8 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   private _isFirstState: boolean = true;
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
 
+  private _needEnablePickable: boolean = true;
+
   static createComponent(spec: any, options: IComponentOption) {
     const brushSpec = spec.brush || options.defaultSpec;
     // brush不支持数组的形式配置
@@ -152,9 +154,11 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         // 下面的步骤是为了标记出第一次drawing状态的
         if (operateType === IOperateType.drawing) {
           this._needInitOutState = false;
+          this._needEnablePickable = true;
         }
         if (operateType === IOperateType.drawEnd) {
           this._needInitOutState = true;
+          this._needEnablePickable = false;
         }
 
         // 需要重置初始状态的情况：点击空白处clear所有状态
@@ -259,6 +263,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
           this._outOfBrushElementsMap[elementKey] = el;
           delete this._inBrushElementsMap[operateMask.name][elementKey];
         }
+        graphicItem.setAttribute('pickable', !this._needEnablePickable);
       });
     });
   }
@@ -305,6 +310,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
               graphicItem.addState('outOfBrush');
               this._linkedOutOfBrushElementsMap[elementKey] = el;
             }
+            graphicItem.setAttribute('pickable', !this._needEnablePickable);
           });
         });
       }
