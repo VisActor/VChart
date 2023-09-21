@@ -192,7 +192,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     const result = this._compareSpec();
     this._originalSpec = spec;
     if (!result.reMake) {
-      this._transformSpec();
       this.reInit();
     }
     return result;
@@ -215,6 +214,9 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   }
 
   reInit(theme?: any) {
+    // before reInit reset this._spec to original
+    this._spec = cloneDeepSpec(this._originalSpec);
+    this._transformSpec();
     this._initTheme(theme);
     this.setAttrFromSpec();
   }
