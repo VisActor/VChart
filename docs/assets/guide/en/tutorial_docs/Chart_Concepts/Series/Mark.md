@@ -218,7 +218,7 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 ```
 
-For the specific usage of scales, please refer to the documentation [scale](../../../option/barChart#scales).
+For the specific usage of scales, please refer to the documentation [scale](../../../../option/barChart#scales).
 
 ### Function Configuration
 
