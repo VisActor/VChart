@@ -31,7 +31,7 @@ export class ChartLayout implements IChartLayout {
 
   setVChart(vchart: IVChart) {
     this._vchart = vchart;
-    this._vchart.setLayout(this.layout);
+    this._vchart.setLayout(this.layout as any);
   }
 
   setLayoutData(d: ILayoutData) {
@@ -59,7 +59,7 @@ export class ChartLayout implements IChartLayout {
     const startPos = { x: this._layoutData.viewBox.x, y: this._layoutData.viewBox.y };
     const layoutData: LayoutMeta[] = [];
     const chart = this._vchart.getChart();
-    const items = chart.getAllRegions().concat(chart.getAllComponents());
+    const items = (<any[]>chart.getAllRegions()).concat(chart.getAllComponents() as any[]);
     items.forEach((item: any) => {
       if (item.type === 'tooltip' || item.type === 'crosshair') {
         return;
