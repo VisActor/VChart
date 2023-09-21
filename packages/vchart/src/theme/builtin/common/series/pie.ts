@@ -12,6 +12,7 @@ export const pie: IPieSeriesTheme = {
     position: 'outside',
     style: {
       fontWeight: 'normal',
+      stroke: 'white',
       fillOpacity: 1
     }
   }
