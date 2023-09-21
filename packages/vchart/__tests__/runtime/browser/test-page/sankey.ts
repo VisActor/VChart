@@ -10060,7 +10060,7 @@ const run = () => {
     hash: 'bac9588b1df4b39ecd241109d133d496'
   };
 
-  const vChart = new VChart(spec2, {
+  const vChart = new VChart(spec4, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
