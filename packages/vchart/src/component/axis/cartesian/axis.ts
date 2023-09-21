@@ -829,7 +829,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   protected _transformSpec() {
-    // do nothing
     // change spec by default logic
     const chartSpec = this._option.getChart().getSpec();
     this._spec.inverse = transformInverse(this._spec, chartSpec.direction === Direction.horizontal);
