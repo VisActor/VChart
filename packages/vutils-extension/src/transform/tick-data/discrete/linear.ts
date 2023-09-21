@@ -183,7 +183,12 @@ const getStep = (
     if (labelLastVisible) {
       const lastIndex = domain.length - 1;
       let delCount = 0;
-      let ptr = domain.length - (domain.length % step) + step;
+      let ptr;
+      if (domain.length % step > 0) {
+        ptr = domain.length - (domain.length % step) + step;
+      } else {
+        ptr = domain.length;
+      }
       do {
         ptr -= step; // 获取最后一个label位置
         if (ptr === lastIndex || boundsOverlap(labelBoundsList[ptr], labelBoundsList[lastIndex], labelGap)) {
