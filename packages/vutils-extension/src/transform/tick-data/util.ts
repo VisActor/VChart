@@ -161,5 +161,5 @@ export const getPolarAngleLabelBounds = (scale: IBaseScale, domain: any[], op: I
 };
 
 export const isAxisHorizontal = (axisOrientType: IOrientType) => {
-  return ['bottom', 'top'].includes(axisOrientType);
+  return (['bottom', 'top', 'z'] as IOrientType[]).includes(axisOrientType);
 };
