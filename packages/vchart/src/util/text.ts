@@ -4,7 +4,7 @@ import type { TextMeasure } from '@visactor/vutils';
 import type { AdaptiveSpec } from '../typings';
 import { THEME_CONSTANTS } from '../theme/builtin/common/constants';
 import { initTextMeasure as initTextMeasureFunc } from '@visactor/vutils-extension';
-import type { ITextGraphicAttribute } from '@visactor/vrender';
+import type { ITextGraphicAttribute } from '@visactor/vrender-core';
 
 export const initTextMeasure = (
   textSpec?: Partial<ITextGraphicAttribute>,

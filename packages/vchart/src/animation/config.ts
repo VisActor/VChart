@@ -1,7 +1,7 @@
 import type { WordcloudAppearPreset } from './../series/word-cloud/animation';
 import { wordcloudPresetAnimation } from './../series/word-cloud/animation';
 /* eslint-disable no-duplicate-imports */
-import { TagPointsUpdate } from '@visactor/vrender';
+import { TagPointsUpdate } from '@visactor/vrender-core';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { AreaAppearPreset, IAreaAnimationParams } from '../series/area/animation';
 import { areaPresetAnimation } from '../series/area/animation';
@@ -32,7 +32,7 @@ import type { RangeColumnAppearPreset } from '../series/range-column/animation';
 import { rangeColumnGrowIn, rangeColumnPresetAnimation } from '../series/range-column/animation';
 import type { IRangeColumnAnimationParams } from '../series/range-column/animation';
 import { rangeColumnGrowOut } from '../series/range-column/animation';
-import { ClipDirectionAnimate, GroupFadeOut } from '@visactor/vrender';
+import { ClipDirectionAnimate, GroupFadeOut } from '@visactor/vrender-core';
 import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
 import type { IWordcloud3dAnimationParams, IWordcloudAnimationParams } from '../series/word-cloud/animation';
 import { WordCloud3dAnimation } from '../series/word-cloud/animation';

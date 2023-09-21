@@ -35,7 +35,7 @@ import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipResult } from '../interface';
 import type { ITooltipPanelStyle, ITooltipStyle } from './interface';
-import type { IGroup } from '@visactor/vrender';
+import type { IGroup } from '@visactor/vrender-core';
 import { getTextAttributes } from './utils/style';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports

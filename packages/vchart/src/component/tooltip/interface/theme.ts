@@ -1,4 +1,4 @@
-import type { RichTextWordBreak } from '@visactor/vrender';
+import type { RichTextWordBreak } from '@visactor/vrender-core';
 import type { IPadding, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { IColorKey } from '../../../theme/color-scheme/interface';
 

@@ -14,7 +14,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
 import type { IComponentSpec } from '../base/interface';
-import type { ITextGraphicAttribute } from '@visactor/vrender';
+import type { ITextGraphicAttribute } from '@visactor/vrender-core';
 
 export interface StatisticsDomain {
   domain: any[];

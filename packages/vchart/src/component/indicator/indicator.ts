@@ -17,7 +17,7 @@ import { CompilableData } from '../../compile/data';
 import { Indicator as IndicatorComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IndicatorAttributes } from '@visactor/vrender-components';
-import type { IGraphic, INode } from '@visactor/vrender';
+import type { IGraphic, INode } from '@visactor/vrender-core';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {

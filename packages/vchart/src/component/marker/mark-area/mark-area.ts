@@ -17,7 +17,7 @@ import type { IOptionRegr } from '../../../data/transforms/regression';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
 import type { LayoutItem } from '../../../model/layout-item';
-import type { INode } from '@visactor/vrender';
+import type { INode } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
 

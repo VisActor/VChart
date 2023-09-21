@@ -1,4 +1,4 @@
-import type { ITextAttribute, IFillStyle, IRectGraphicAttribute, RichTextWordBreak } from '@visactor/vrender';
+import type { ITextAttribute, IFillStyle, IRectGraphicAttribute, RichTextWordBreak } from '@visactor/vrender-core';
 import type { IPadding } from '../../../../typings';
 
 export interface ITooltipTextStyle extends Partial<ITextAttribute & IFillStyle> {

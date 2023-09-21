@@ -1,4 +1,7 @@
 import { VChart } from './vchart-all';
+import { initAllEnv } from '@visactor/vrender-kits';
+
+initAllEnv();
 export default VChart;
 
 export * from './core';
@@ -18,4 +21,4 @@ export * from './typings/spec/index';
 export { ThemeManager } from './theme/index';
 
 // vrender
-export { vglobal } from '@visactor/vrender';
+export { vglobal } from '@visactor/vrender-core';

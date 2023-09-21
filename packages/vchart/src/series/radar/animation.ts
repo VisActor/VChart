@@ -1,6 +1,6 @@
 import type { Datum, IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import type { IPoint, Maybe } from '../../typings';
-import { ClipAngleAnimate } from '@visactor/vrender';
+import { ClipAngleAnimate } from '@visactor/vrender-core';
 import type { IPolarAxisHelper } from '../../component/axis';
 
 export interface IRadarAnimationParams {

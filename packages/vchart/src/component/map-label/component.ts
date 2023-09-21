@@ -15,9 +15,9 @@ import { CompilableData } from '../../compile/data';
 import { normalizeLayoutPaddingSpec } from '../../util/space';
 import type { LayoutItem } from '../../model/layout-item';
 import { MarkPoint } from '@visactor/vrender-components';
-import type { IGroup, INode, IRect as IRectGraphic } from '@visactor/vrender';
+import type { IGroup, INode, IRect as IRectGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import { createGroup, createRect, createSymbol, createText } from '@visactor/vrender';
+import { createGroup, createRect, createSymbol, createText } from '@visactor/vrender-core';
 import { transformToGraphic } from '../../util/style';
 import { isValid } from '@visactor/vutils';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';

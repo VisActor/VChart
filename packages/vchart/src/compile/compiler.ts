@@ -50,9 +50,9 @@ import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import type { VChart } from '../core/vchart';
-import type { IColor, Stage } from '@visactor/vrender';
+import type { IColor, Stage } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import { vglobal } from '@visactor/vrender';
+import { vglobal } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
 
