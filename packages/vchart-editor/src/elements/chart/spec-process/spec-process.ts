@@ -4,7 +4,7 @@ import type { ILayoutData } from '../layout/interface';
 import type { IChartTemp } from '../temp/interface';
 import type { IEditorSpec, ISpecProcess } from './interface';
 // @ts-ignore
-import type { IChartSpec, ITheme } from '@visactor/vchart';
+import type { ISpec, ITheme } from '@visactor/vchart';
 
 const DefaultEditorSpec: IEditorSpec = {
   theme: null,
@@ -17,7 +17,7 @@ export class SpecProcess implements ISpecProcess {
     ...DefaultEditorSpec
   };
   protected _onSpecReadyCall: () => void = null;
-  protected _vchartSpec: IChartSpec = {};
+  protected _vchartSpec: ISpec = {} as any;
   protected _specTemp: IChartTemp = null;
   protected _data: IData = null;
 
@@ -40,7 +40,7 @@ export class SpecProcess implements ISpecProcess {
       this.updateLayout(this._editorSpec.layout);
     }
     if (this._editorSpec.theme) {
-      this.updateLayout(this._editorSpec.theme);
+      this.updateTheme(this._editorSpec.theme);
     }
     if (this._editorSpec.temp) {
       this.updateTemp(this._editorSpec.temp);
@@ -88,6 +88,7 @@ export class SpecProcess implements ISpecProcess {
     if (this._specTemp.checkDataEnable(data, info)) {
       this.transformSpec();
     }
+    return true;
   }
 
   clear() {

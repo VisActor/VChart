@@ -1,10 +1,10 @@
-import type { ILayoutItem } from '@visactor/vchart';
 import type { ILayoutAttribute } from './../../typings/space';
 import type { IEditorElement } from './../../core/interface';
 import type { EditorChart } from './chart';
 import { EditorLayer } from '../../core/editor-layer';
 import { LayoutRectToRect } from '../../utils/space';
 import { getAxisLayoutInRegionRect, transformModelRect } from './utils/layout';
+import type { ILayoutItem } from './interface';
 export class ChartLayer extends EditorLayer {
   type: string = 'chart';
 
@@ -23,7 +23,7 @@ export class ChartLayer extends EditorLayer {
         return;
       }
       const items = chart.vchart.getChart().getAllRegions().concat(chart.vchart.getChart().getAllComponents());
-      const model = items.find((item: any) => item.userId === layoutMeta.id);
+      const model = items.find((item: ILayoutItem) => item.userId === layoutMeta.id);
 
       if (model.type.includes('Axis')) {
         return;
