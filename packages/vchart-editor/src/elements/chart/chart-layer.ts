@@ -22,8 +22,9 @@ export class ChartLayer extends EditorLayer {
       if (!layoutMeta) {
         return;
       }
-      const items = chart.vchart.getChart().getAllRegions().concat(chart.vchart.getChart().getAllComponents());
-      const model = items.find((item: ILayoutItem) => item.userId === layoutMeta.id);
+      const regions = chart.vchart.getChart().getAllRegions() as any[];
+      const items = regions.concat(chart.vchart.getChart().getAllComponents() as any[]);
+      const model = items.find((item: any) => item.userId === layoutMeta.id);
 
       if (model.type.includes('Axis')) {
         return;

@@ -2,7 +2,6 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { IPoint, IRect } from '../../typings/space';
 import type { IElementOption } from './../interface';
 import type { IParserValue } from './data/interface';
-import type { ILayoutRect } from './layout/interface';
 export interface IChartElementOption extends IElementOption {
   dataSource?: { type: string; value: IParserValue };
   temp?: string;
@@ -49,7 +48,7 @@ export interface ILayoutItem {
   layoutLevel: number;
 
   layoutZIndex: number;
-  chartLayoutRect: ILayoutRect;
+  chartLayoutRect: IRect;
 
   /** 是否可见 */
   getVisible: () => boolean;
@@ -63,11 +62,11 @@ export interface ILayoutItem {
   /**
    * 更新元素布局的 layoutRect 大小，用来更新指定布局空间
    */
-  setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRectLevel>) => void;
+  setLayoutRect: (rect: Partial<IRect>, levelMap?: Partial<ILayoutRectLevel>) => void;
   /**
    * 基于元素内部逻辑计算占位空间，rect表示可用空间
    */
-  computeBoundsInRect: (rect: ILayoutRect) => ILayoutRect;
+  computeBoundsInRect: (rect: IRect) => IRect;
   /**
    * 更新元素布局的起始点位置
    */

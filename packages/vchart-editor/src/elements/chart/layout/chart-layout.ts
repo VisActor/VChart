@@ -1,16 +1,17 @@
 import { DefaultLayout } from './default-layout';
 import type { ISpecProcess } from '../spec-process/interface';
 import type { ILayoutData, IChartLayout, LayoutMeta } from './interface';
-import type { IRect, ILayoutItem, IChart } from '@visactor/vchart';
+import type { IVChart } from '@visactor/vchart';
 import { merge, type IBoundsLike } from '@visactor/vutils';
-import type { IPoint } from '../../../typings/space';
+import type { IPoint, IRect } from '../../../typings/space';
 import { LayoutRectToRect, isPointInRect } from '../../../utils/space';
 import { transformModelPos } from '../utils/layout';
+import type { ILayoutItem } from '../interface';
 
 export class ChartLayout implements IChartLayout {
   protected _layoutData: ILayoutData = null;
   protected _specProcess: ISpecProcess;
-  protected _vchart: IChart;
+  protected _vchart: IVChart;
 
   // temp
   protected _defaultLayout = new DefaultLayout();
@@ -28,7 +29,7 @@ export class ChartLayout implements IChartLayout {
     this._specProcess = null;
   }
 
-  setVChart(vchart: IChart) {
+  setVChart(vchart: IVChart) {
     this._vchart = vchart;
     this._vchart.setLayout(this.layout);
   }
@@ -41,7 +42,7 @@ export class ChartLayout implements IChartLayout {
     return this._layoutData;
   }
 
-  layout = (chart: IChart, item: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike) => {
+  layout = (chart: IVChart, item: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike) => {
     // use vchart buildIn layout for demo test
     if (!this._layoutData?.data?.length) {
       this._defaultLayout.layoutItems(chart, item, chartLayoutRect, chartViewBox);
@@ -77,7 +78,7 @@ export class ChartLayout implements IChartLayout {
     this._specProcess.updateLayout(this._layoutData);
   }
 
-  layoutWithData(chart: IChart, item: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike) {
+  layoutWithData(chart: IVChart, item: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike) {
     item.forEach(i => {
       const data = this._layoutData.data.find(d => d.id === i.userId);
       if (!data) {
