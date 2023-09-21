@@ -142,7 +142,7 @@ export interface ILinearAxisSpec {
    * 如果配置为单个数字 d，则筛选区间为 [x0 - d, x0 + d]；如果配置为二元组 [d1, d2]，则筛选区间为 [x0 + d1, x0 + d2]
    * @since 1.4.0
    */
-  tooltipFilterRange: number | [number, number];
+  tooltipFilterRange?: number | [number, number];
 }
 
 export interface IBandAxisSpec {
