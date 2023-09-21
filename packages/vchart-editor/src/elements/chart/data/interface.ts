@@ -33,6 +33,7 @@ export interface IData {
 export interface IDataParser {
   type: string;
   getData: () => StandardData;
+  getDataInfo?: () => DataInfo;
   getSave: () => DataSave;
   updateValue: (value: IParserValue) => void;
   onDataUpdate: (call: DataUpdateCall) => void;

@@ -69,7 +69,7 @@ export class EditorController {
           if (hasChange) {
             return data;
           }
-          return undefined;
+          return false;
         },
         endHandler: data => {
           this._currentEditorElements.updateAttribute({ layout: data });

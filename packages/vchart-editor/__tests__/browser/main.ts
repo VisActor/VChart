@@ -1,8 +1,8 @@
 /**
  * !important: 本地调试应该修改 local 文件内容
  */
-// import './index.local';
-import { VChartEditor } from './../../src/core/vchart-editor';
+import './index.local';
+import { VChartEditor } from './../../src/index-all';
 import { BrowserData } from './browser-data';
 const editor = new VChartEditor({
   dom: 'chart',
@@ -28,30 +28,57 @@ AK,5 to 13 Years,85640
 AK,14 to 17 Years,22153`;
 
 editor.loadLasted();
-if (editor.layers.length === 0) {
-  editor.addElements('chart', {
-    attribute: {
-      data: {
-        type: 'clipBoard',
-        value: clipBoardData
-      },
-      temp: 'bar'
-    },
-    rect: {
-      x: 20,
-      y: 20,
-      width: 300,
-      height: 300
-    }
-  });
+// if (editor.layers.length === 0) {
+//   editor.addElements('chart', {
+//     attribute: {
+//       data: {
+//         type: 'clipBoard',
+//         value: clipBoardData
+//       },
+//       temp: 'bar'
+//     },
+//     rect: {
+//       x: 20,
+//       y: 20,
+//       width: 300,
+//       height: 300
+//     }
+//   });
 
+//   editor.addElements('chart', {
+//     attribute: {
+//       data: {
+//         type: 'clipBoard',
+//         value: clipBoardData
+//       },
+//       temp: 'line'
+//     },
+//     rect: {
+//       x: 120,
+//       y: 120,
+//       width: 400,
+//       height: 400
+//     }
+//   });
+// }
+
+const b = document.getElementById('addButton') as HTMLButtonElement;
+const url = document.getElementById('url') as HTMLInputElement;
+const rid = document.getElementById('rid') as HTMLInputElement;
+const hid = document.getElementById('hid') as HTMLInputElement;
+b.addEventListener('click', () => {
+  console.log(url.value, rid.value, hid.value);
   editor.addElements('chart', {
     attribute: {
       data: {
-        type: 'clipBoard',
-        value: clipBoardData
+        type: 'aeolus',
+        value: {
+          url: url.value,
+          rid: rid.value,
+          hid: hid.value
+        }
       },
-      temp: 'line'
+      temp: 'aeolus'
     },
     rect: {
       x: 120,
@@ -60,18 +87,4 @@ if (editor.layers.length === 0) {
       height: 400
     }
   });
-}
-
-// editor.addElements('chart', {
-//   dataSource: {
-//     type: 'clipBoard',
-//     value: clipBoardData
-//   },
-//   temp: 'bar',
-//   rect: {
-//     x: 200,
-//     y: 200,
-//     width: 300,
-//     height: 300
-//   }
-// });
+});

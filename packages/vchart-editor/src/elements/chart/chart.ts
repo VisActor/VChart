@@ -47,7 +47,7 @@ export class EditorChart extends BaseElement {
         this._layout.setLayoutData(this._opt.attribute.layout);
       }
       if (this._opt.attribute) {
-        this._specProcess.updateEditorSpec(this._opt.attribute);
+        this._specProcess.updateEditorSpec(this._opt.attribute as any);
       }
     }
   }

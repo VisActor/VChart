@@ -1,6 +1,6 @@
+import { EditorFactory } from './../../../core/factory';
 import { DataSet } from '@visactor/vdataset';
 import type { DataView } from '@visactor/vdataset';
-import { DataParser } from './parser/index';
 import type { DataInfo, DataUpdateCall, IData, IDataParser, IParserValue, StandardData } from './interface';
 
 export class Data implements IData {
@@ -15,12 +15,12 @@ export class Data implements IData {
     this._dataSet = new DataSet();
   }
   getDataInfo(): DataInfo {
-    return null;
+    return this._dataView?.getFields?.() ?? this._parser.getDataInfo?.();
   }
   changeDataSource(type: string, value: unknown) {
     if (this._parser) {
     }
-    const parserCreate = DataParser[type];
+    const parserCreate = EditorFactory.getParser(type);
     if (!parserCreate) {
       console.warn('invalid data source type:', type);
     }
