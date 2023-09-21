@@ -1,5 +1,6 @@
+import type { ILayoutRect } from './../layout/interface';
+import type { ILayoutItem } from './../interface';
 import type { IRect } from './../../../typings/space';
-import type { ILayoutItem } from '@visactor/vchart';
 import type { IPoint } from '../../../typings/space';
 
 export function transformModelPos(i: ILayoutItem, pos: IPoint) {
@@ -24,7 +25,7 @@ export function transformModelRect(i: ILayoutItem, rect: IRect) {
   return rect;
 }
 
-export function getAxisLayoutInRegionRect(axis: ILayoutItem, rect: IRect) {
+export function getAxisLayoutInRegionRect(axis: ILayoutItem, rect: IRect): ILayoutRect {
   if (axis.layoutOrient === 'left') {
     return {
       x: { offset: rect.x },
@@ -54,7 +55,11 @@ export function getAxisLayoutInRegionRect(axis: ILayoutItem, rect: IRect) {
       height: { offset: axis.getLayoutRect().height }
     };
   }
+  const axisRect = axis.getLayoutRect();
   return {
-    ...axis.getLayoutRect()
+    x: { offset: axisRect.x },
+    y: { offset: axisRect.y },
+    width: { offset: axisRect.width },
+    height: { offset: axisRect.height }
   };
 }

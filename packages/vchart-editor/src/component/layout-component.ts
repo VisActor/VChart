@@ -5,7 +5,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import { DragComponent } from './transform-drag';
 export class LayoutEditorComponent {
   protected _startHandler: () => void;
-  protected _updateHandler: (data: ILayoutAttribute) => Partial<ILayoutAttribute> | undefined;
+  protected _updateHandler: (data: ILayoutAttribute) => Partial<ILayoutAttribute> | false;
   protected _endHandler: (data: ILayoutAttribute) => void;
 
   protected _el: IEditorElement;
@@ -22,7 +22,7 @@ export class LayoutEditorComponent {
     opt: {
       container: HTMLElement;
       startHandler: () => void;
-      updateHandler: (data: ILayoutAttribute) => Partial<ILayoutAttribute> | undefined;
+      updateHandler: (data: ILayoutAttribute) => Partial<ILayoutAttribute> | false;
       endHandler: (data: ILayoutAttribute) => void;
       event: PointerEvent;
     }

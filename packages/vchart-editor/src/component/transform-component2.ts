@@ -73,7 +73,7 @@ export class TranformComponent2 extends AbstractComponent<Required<TransformAttr
   // 是否正在执行addChildUpdateBoundTag，避免循环调用
   runningAddChildUpdateBoundTag: boolean;
 
-  updateCbs: Array<(data: IUpateParams) => Partial<IUpateParams> | undefined>;
+  updateCbs: Array<(data: IUpateParams) => Partial<IUpateParams> | false>;
   editEndCbs: Array<() => void>;
   editStartCbs: Array<() => void>;
   unTransStartCbs: Array<(event: PointerEvent) => void>;
@@ -100,7 +100,7 @@ export class TranformComponent2 extends AbstractComponent<Required<TransformAttr
     }
   };
 
-  constructor(attributes: TransformAttributes, bounds: IAABBBoundsLike) {
+  constructor(attributes: Partial<TransformAttributes>, bounds: IAABBBoundsLike) {
     super(
       merge(
         {
@@ -506,7 +506,7 @@ export class TranformComponent2 extends AbstractComponent<Required<TransformAttr
     });
   }
 
-  onUpdate(cb: (data: IUpateParams) => Partial<IUpateParams> | undefined) {
+  onUpdate(cb: (data: IUpateParams) => Partial<IUpateParams> | false) {
     this.updateCbs.push(cb);
   }
 
