@@ -117,6 +117,9 @@ export class SequenceChart extends BaseChart {
           seriesSpec.type
         )
       ) {
+        // series height 默认值配置
+        seriesSpec.height = seriesSpec?.height ?? defaultSeriesRowHeight;
+
         // elements数组
         elements.push({
           modelId: `${seriesSpec.type}Row${rowNum}`,
@@ -137,7 +140,7 @@ export class SequenceChart extends BaseChart {
 
         rowHeight.push({
           index: rowNum,
-          size: seriesSpec?.height || defaultSeriesRowHeight
+          size: seriesSpec.height
         });
 
         // axes数组添加left axes（每个series都需要一个left axes）
@@ -203,7 +206,7 @@ export class SequenceChart extends BaseChart {
           const data = this.getSeriesData(seriesSpec.dataId, seriesSpec.dataIndex);
           let ratio = 0;
           if (data.latestData.length && data.latestData.length > 0) {
-            ratio = (seriesSpec?.height || defaultSeriesRowHeight) / (data.latestData.length * 30);
+            ratio = seriesSpec.height / (data.latestData.length * 30);
           }
           // scrollBar数组增加一个right scrollBar
           scrollBar.push({
