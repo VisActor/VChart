@@ -1,7 +1,9 @@
 ---
 category: demo
 group: axis
+title: 固定组宽并自动出现滚动条
 keywords: areaChart,axis,scrollBar
+order: 25-16
 cover: /vchart/preview/axis-band-size_1.4.0.png
 option: barChart#axes
 ---
