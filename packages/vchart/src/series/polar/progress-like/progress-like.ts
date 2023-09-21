@@ -1,10 +1,9 @@
 import type { Datum } from '@visactor/vgrammar-core';
-import { degreeToRadian, isValid, isValidNumber } from '@visactor/vutils';
+import { degreeToRadian, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import {
   AttributeLevel,
   POLAR_END_RADIAN,
   POLAR_START_RADIAN,
-  SEGMENT_FIELD_END,
   SEGMENT_FIELD_START,
   STACK_FIELD_END,
   STACK_FIELD_START
@@ -98,11 +97,11 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
     if (tickMask?.forceAlign && this._isTickMaskVisible(axis)) {
       const field = this._stack ? STACK_FIELD_START : SEGMENT_FIELD_START;
       const originValue = datum[field];
-      const scale = this.angleAxisHelper.getScale(0);
       const subTickData = this._getAngleAxisSubTickData(axis);
       const step = subTickData[1].value - subTickData[0].value;
       const offsetAngle = degreeToRadian(tickMask.offsetAngle);
 
+      let pos: number | undefined;
       if (isValid(originValue)) {
         // 找到第一个大于等于数据值的 tick
         const index = binaryFuzzySearch(subTickData, tick => tick.value - originValue);
@@ -111,16 +110,18 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
           originValue > subTickData[index].value - step / 2
             ? Math.min(index, subTickData.length - 1)
             : index > 0
-            ? 0
+            ? index - 1
             : undefined;
         if (targetIndex !== undefined) {
-          const pos = this.angleAxisHelper.dataToPosition([subTickData[targetIndex].value - step / 2]);
-          return pos + offsetAngle;
+          pos = this.angleAxisHelper.dataToPosition([
+            subTickData[targetIndex].value - step / 2 // 确保占满整个 tick mask
+          ]);
         }
       }
-      const pos = this.angleAxisHelper.dataToPosition([subTickData[0].value - step / 2]);
-      if (this._stack) {
-        return valueInScaleRange(pos, scale) + offsetAngle;
+      if (isNil(pos)) {
+        pos = this.angleAxisHelper.dataToPosition(
+          [subTickData[0].value - step / 2] // 确保空出整个 tick mask
+        );
       }
       return pos + offsetAngle;
     }
@@ -134,7 +135,6 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
     if (tickMask?.forceAlign && this._isTickMaskVisible(axis)) {
       const field = this._stack ? STACK_FIELD_END : this._angleField[0];
       const originValue = datum[field];
-      const scale = this.angleAxisHelper.getScale(0);
       const subTickData = this._getAngleAxisSubTickData(axis);
       const step = subTickData[1].value - subTickData[0].value;
       const offsetAngle = degreeToRadian(tickMask.offsetAngle);
@@ -146,15 +146,17 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
         originValue > subTickData[index].value - step / 2
           ? Math.min(index, subTickData.length - 1)
           : index > 0
-          ? 0
+          ? index - 1
           : undefined;
+      let pos: number;
       if (targetIndex !== undefined) {
-        const pos = this.angleAxisHelper.dataToPosition([subTickData[targetIndex].value + step / 2]);
-        return pos + offsetAngle;
-      }
-      const pos = this.angleAxisHelper.dataToPosition([subTickData[0].value - step / 2]);
-      if (this._stack) {
-        return valueInScaleRange(pos, scale) + offsetAngle;
+        pos = this.angleAxisHelper.dataToPosition([
+          subTickData[targetIndex].value + step / 2 // 确保占满整个 tick mask
+        ]);
+      } else {
+        pos = this.angleAxisHelper.dataToPosition([
+          subTickData[0].value - step / 2 // 确保空出整个 tick mask
+        ]);
       }
       return pos + offsetAngle;
     }
@@ -236,12 +238,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
               this.type as any
             );
             return subTickData.map(({ value }) => {
-              const pos =
-                this._getAngleValueEndWithoutMask({
-                  [STACK_FIELD_END]: value,
-                  [SEGMENT_FIELD_END]: value,
-                  [this._angleField[0]]: value
-                }) + degreeToRadian(offsetAngle);
+              const pos = this.angleAxisHelper.dataToPosition([value]) + degreeToRadian(offsetAngle);
               const angleUnit = degreeToRadian(angle) / 2;
               return createArc({
                 ...markStyle,
@@ -272,6 +269,9 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
   }
 
   protected _getAngleAxis() {
+    if (!this.angleAxisHelper) {
+      return undefined;
+    }
     const angleAxisId = this.angleAxisHelper.getAxisId();
     const angleAxis = this._option
       .getChart()
@@ -295,11 +295,11 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
     const tickData = this._getAngleAxisTickData(angleAxis);
     // TODO: 这块照搬了 vrender-components 的计算方法，需要抽出这块的公用逻辑
     const subTickData: IContinuousTickData[] = [];
-    const { subTick = {}, tick = {} } = angleAxis?.getSpec() as IPolarAxisSpec;
+    const { subTick = {}, tick = {} } = (angleAxis?.getSpec() ?? {}) as IPolarAxisSpec;
     const { tickCount: subTickCount = 4 } = subTick;
     const { alignWithLabel } = tick;
     // 刻度线的数量大于 2 时，才绘制子刻度
-    if (tickData.length >= 2) {
+    if (tickData?.length >= 2) {
       const tickSegment = tickData[1].value - tickData[0].value;
       for (let i = 0; i < tickData.length - 1; i++) {
         const pre = tickData[i];
