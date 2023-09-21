@@ -257,10 +257,11 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
           this._prepareSpecBeforeMergingTheme(originalSpec)
         );
 
-      if (isArray(this._originalSpec)) {
-        this._spec = this._originalSpec.map(spec => merge(spec)) as unknown as T;
+      const baseSpec = this._spec;
+      if (isArray(baseSpec)) {
+        this._spec = baseSpec.map(spec => merge(spec)) as unknown as T;
       } else {
-        this._spec = merge(this._originalSpec);
+        this._spec = merge(baseSpec);
       }
     }
     this._prepareSpecAfterMergingTheme();
