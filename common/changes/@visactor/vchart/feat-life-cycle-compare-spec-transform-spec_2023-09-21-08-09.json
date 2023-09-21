@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "feat: reset spec in reInit first\n\n",
+      "comment": "refactor: split the updateSpec of life cycle to spec transform & compare\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
