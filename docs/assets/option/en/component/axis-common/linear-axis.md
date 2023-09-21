@@ -58,3 +58,9 @@ Keep the 0 values of the 2 axes aligned
 ##${prefix} tickAlign(number)
 
 Make this axis' ticks proportionally aligned with the target axis
+
+#${prefix} tooltipFilterRange(number | [number, number])
+
+**Applies only when the axis is a linear axis**. Configure the dimension tooltip data filtering range on the linear axis. Supported since version 1.4.0.
+
+If configured as a single number such as `d`, the filtering interval is `[x0 - d, x0 + d]`. If configured as a binary tuple such as `[d1, d2]`, the filtering interval is `[x0 + d1, x0 + d2]`.
