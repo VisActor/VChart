@@ -248,8 +248,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         y: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
         fill: (datum: Datum) => {
-          const nodeName = datum?.datum ? datum?.datum[this._spec.categoryField] : datum[this._spec.categoryField];
-          return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(nodeName);
+          return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(this._getNodeNameFromData(datum));
         }
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
@@ -350,8 +349,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
               return datum.y1;
             },
             fill: (datum: Datum) => {
-              const nodeName = datum?.datum ? datum?.datum[this._spec.categoryField] : datum[this._spec.categoryField];
-              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(nodeName);
+              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(this._getNodeNameFromData(datum));
             },
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
@@ -420,8 +418,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             x: (datum: Datum) => datum.x0,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: (datum: Datum) => {
-              const nodeName = datum?.datum ? datum?.datum[this._spec.categoryField] : datum[this._spec.categoryField];
-              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(nodeName);
+              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(this._getNodeNameFromData(datum));
             },
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
@@ -438,8 +435,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             x: (datum: Datum) => datum.x1,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: (datum: Datum) => {
-              const nodeName = datum?.datum ? datum?.datum[this._spec.categoryField] : datum[this._spec.categoryField];
-              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(nodeName);
+              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(this._getNodeNameFromData(datum));
             },
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
@@ -461,8 +457,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             },
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: (datum: Datum) => {
-              const nodeName = datum?.datum ? datum?.datum[this._spec.categoryField] : datum[this._spec.categoryField];
-              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(nodeName);
+              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(this._getNodeNameFromData(datum));
             },
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
@@ -1263,8 +1258,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   getNodeOrdinalColorScale(item: string) {
-    const colorDomain = !isNil(this._option.globalScale.getScale('color')?.domain()[0])
-      ? this._option.globalScale.getScale('color')?.domain()
+    const colorDomain = !isNil(this._option.globalScale.getScale('color').domain()[0])
+      ? this._option.globalScale.getScale('color').domain()
       : this.getNodeList();
 
     let colorRange =
@@ -1272,8 +1267,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       getDataScheme(this._option.getTheme().colorScheme, this.type as any);
 
     if (
-      this._option.globalScale.getScale('color')?.domain().length === 0 ||
-      isNil(this._option.globalScale.getScale('color')?.domain()[0])
+      this._option.globalScale.getScale('color').domain().length === 0 ||
+      isNil(this._option.globalScale.getScale('color').domain()[0])
     ) {
       if (colorDomain.length > 10) {
         colorRange = (getDataScheme(this._option.getTheme().colorScheme, this.type as any)[1] as any)?.scheme;
@@ -1299,6 +1294,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         });
 
     return nodeList;
+  }
+
+  _getNodeNameFromData(datum: Datum) {
+    return datum?.datum ? datum?.datum[this._spec.categoryField] : datum[this._spec.categoryField];
   }
 
   extractNamesFromTree(tree: any, categoryName: string) {
