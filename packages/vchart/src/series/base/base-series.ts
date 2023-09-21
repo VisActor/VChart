@@ -42,7 +42,7 @@ import type {
   SeriesMarkMap,
   ISeriesMarkInfo
 } from '../interface';
-import { dataViewFromDataView } from '../../data/initialize';
+import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import {
   isNil,
   isValid,
@@ -303,7 +303,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** data */
   protected initData(): void {
-    this._rawData = this._spec.data as DataView;
+    if (this._spec.data) {
+      this._rawData = dataToDataView(this._spec.data, this._dataSet, this._option.sourceDataList, {
+        onError: this._option?.onError
+      });
+    }
     this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
     this._addDataIndexAndKey();
     // 初始化viewData
@@ -688,6 +692,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   protected _updateExtensionMarkSpec(lastSpec?: any) {
     this._spec.extensionMark?.forEach((spec, i) => {
       const mark = this._marks.getMarkWithInfo({ name: `${PREFIX}_series_${this.id}_extensionMark_${i}` });
+      if (!mark) {
+        return;
+      }
       if (lastSpec && isEqual(lastSpec.extensionMark?.[i], spec)) {
         return;
       }
@@ -852,13 +859,44 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       result.reMake = true;
     }
 
-    const { invalidType } = this._originalSpec;
-    if (spec.invalidType !== invalidType) {
+    const currentKeys = Object.keys(originalSpec)
+      .sort()
+      .filter(k => k !== 'data' && k !== this._rootMark.name);
+    const nextKeys = Object.keys(this._spec)
+      .sort()
+      .filter(k => k !== 'data' && k !== this._rootMark.name);
+    if (JSON.stringify(currentKeys) !== JSON.stringify(nextKeys)) {
       result.reMake = true;
+      return result;
     }
 
     if (
-      array(originalSpec.extensionMark).length !== array(this._spec.extensionMark).length ||
+      currentKeys.some(k => {
+        if (k === 'data') {
+          return false;
+        } else if (!isEqual(this._spec[k], originalSpec[k])) {
+          return true;
+        }
+        return false;
+      })
+    ) {
+      result.reMake = true;
+      return result;
+    }
+
+    // hover & selected
+    if (!isEqual(this._spec.hover, originalSpec.hover) || !isEqual(this._spec.select, originalSpec.select)) {
+      result.reMake = true;
+      return result;
+    }
+
+    const { invalidType } = originalSpec;
+    if (spec.invalidType !== invalidType) {
+      result.reCompile = true;
+    }
+
+    if (
+      array(this._spec.extensionMark).length !== array(originalSpec.extensionMark).length ||
       originalSpec.extensionMark?.some(
         (mark, index) =>
           mark.type !== this._spec.extensionMark[index].type || mark.id !== this._spec.extensionMark[index].id
@@ -884,6 +922,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return result;
   }
 
+  _updateSpecData() {
+    if (this._rawData && this._spec.data && !(this._spec.data instanceof DataView)) {
+      updateDataViewInData(this._rawData, this._spec.data, true);
+    }
+  }
+
   reInit(theme?: any, lastSpec?: any) {
     super.reInit(theme);
 
@@ -897,6 +941,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       mark.updateLayoutState(true);
     });
     this._updateExtensionMarkSpec(lastSpec);
+    this._updateSpecData();
   }
 
   // 首次布局完成后填充系列数据

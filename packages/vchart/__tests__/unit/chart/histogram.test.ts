@@ -8,11 +8,12 @@ import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
+import { initChartDataSet } from '../../util/context';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview', dataViewParser);
 const dataView = new DataView(dataSet);
 const data = `x,x1,y
 0,1,12`;

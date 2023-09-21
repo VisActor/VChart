@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: the theme in spec does not update correctly when executing `updateSpec`, related #996",
+      "comment": "fix: fix the issue of progress layout in multi-region",
       "type": "none"
     }
   ],

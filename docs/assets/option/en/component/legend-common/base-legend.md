@@ -14,6 +14,13 @@ Legend position, optional values: `'left'`, `'top'`, `'right'`, `'bottom'`, whic
 
 The alignment of the legend in the current row or column. Start | Middle | End.
 
+#${prefix} layout('horizontal' | 'vertical')
+
+The layout configuration of the legend component is automatically adjusted according to the display position by default.
+
+1. When `orient` is 'top' or 'bottom', the default is 'horizontal' horizontal layout
+2. When `orient` is 'left' or 'right', the default is 'vertical' vertical layout
+
 #${prefix} interactive(boolean) = true
 
 Whether to enable legend interaction, enabled by default.

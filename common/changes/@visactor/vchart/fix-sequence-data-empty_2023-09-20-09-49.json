@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: `track` in spec is not working in circularProgress charts, related #600",
+      "comment": "fix(sequence): render error when dot and link data is empty. fix #1019",
       "type": "none"
     }
   ],

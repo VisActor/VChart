@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix the error triggered by chart updateSpec, fixed #988, #1002",
+      "comment": "feat: tooltip supports custom fixed position relative to the cursor, related #541",
       "type": "none"
     }
   ],

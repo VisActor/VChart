@@ -14,6 +14,13 @@
 
 图例在当前行列的对齐方式，起始|居中|末尾。
 
+#${prefix} layout('horizontal' | 'vertical')
+
+图例组件的布局配置，默认自动跟随显示位置进行调整。
+
+1. `orient` 为 'top' 或者 'bottom' 时，默认为 'horizontal' 水平布局
+2. `orient` 为 'left' 或者 'right' 时，默认为 'vertical' 垂直布局
+
 #${prefix} interactive(boolean) = true
 
 是否开启图例的交互，默认开启。

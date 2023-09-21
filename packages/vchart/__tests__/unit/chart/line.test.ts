@@ -8,10 +8,11 @@ import { LineChart } from '../../../src/chart/line/line';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { ThemeManager } from '../../../src';
+import { initChartDataSet } from '../../util/context';
 
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview', dataViewParser);
 const dataView = new DataView(dataSet);
 const data = `x,type,y
 1,1,850

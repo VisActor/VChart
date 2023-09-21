@@ -98,6 +98,10 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
 
     // 将 theme merge 到 spec 中
     this._mergeThemeToSpec();
+  }
+
+  protected _mergeThemeToSpec() {
+    super._mergeThemeToSpec();
 
     // 默认忽略外侧 padding
     const { padding, noOuterPadding = true, orient } = this._spec;

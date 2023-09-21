@@ -836,7 +836,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -966,7 +966,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1093,7 +1093,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1220,7 +1220,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1347,7 +1347,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1456,7 +1456,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1571,7 +1571,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1701,7 +1701,7 @@
           "description": "最大最小值宽度"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1825,7 +1825,7 @@
           "description": "最大最小值宽度"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1932,7 +1932,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2042,7 +2042,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2158,7 +2158,7 @@
           "$ref": "#/definitions/VisualType<IRepeatType>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2277,7 +2277,7 @@
           "$ref": "#/definitions/VisualType<IRepeatType>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2398,7 +2398,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeBoundsBuffer": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2516,7 +2516,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeBoundsBuffer": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2634,7 +2634,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeBoundsBuffer": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2761,7 +2761,7 @@
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2900,7 +2900,7 @@
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3027,7 +3027,7 @@
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3139,7 +3139,7 @@
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3249,7 +3249,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3359,7 +3359,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3494,7 +3494,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3629,7 +3629,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3739,7 +3739,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3849,7 +3849,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3956,7 +3956,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4072,7 +4072,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4185,7 +4185,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4298,7 +4298,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4411,7 +4411,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4535,7 +4535,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeBoundsBuffer": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4659,7 +4659,7 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeBoundsBuffer": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4926,7 +4926,7 @@
           "$ref": "#/definitions/VisualType<number|number[]>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5046,7 +5046,7 @@
           "$ref": "#/definitions/VisualType<number|number[]>"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5195,7 +5195,7 @@
           "description": "poptip 相关配置"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5356,7 +5356,7 @@
           "description": "poptip 相关配置"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5517,7 +5517,7 @@
           "description": "poptip 相关配置"
         },
         "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
@@ -17011,6 +17011,15 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
+            },
+            {
               "const": false,
               "type": "boolean"
             },
@@ -17613,6 +17622,15 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
             },
             {
               "const": false,
@@ -18466,6 +18484,15 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
+            },
+            {
               "const": false,
               "type": "boolean"
             },
@@ -19199,6 +19226,11 @@
             "number"
           ]
         },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
+        },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "type": [
@@ -19902,6 +19934,11 @@
             "number"
           ]
         },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
+        },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "type": [
@@ -20562,6 +20599,11 @@
             "string",
             "number"
           ]
+        },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
         },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
@@ -21794,6 +21836,15 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
             },
             {
               "const": false,
@@ -26290,6 +26341,15 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
             },
             {
               "const": false,
@@ -34783,6 +34843,11 @@
             "number"
           ]
         },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
+        },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "type": [
@@ -35458,6 +35523,11 @@
             "string",
             "number"
           ]
+        },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
         },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
@@ -38579,6 +38649,15 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
             },
             {
               "const": false,
@@ -42215,6 +42294,15 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
+            },
+            {
               "const": false,
               "type": "boolean"
             },
@@ -44490,6 +44578,15 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
+            },
+            {
               "const": false,
               "type": "boolean"
             },
@@ -45215,6 +45312,15 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
+            },
+            {
               "const": false,
               "type": "boolean"
             },
@@ -45456,6 +45562,15 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
             },
             {
               "const": false,
@@ -47523,6 +47638,11 @@
             "number"
           ]
         },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
+        },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "type": [
@@ -48193,6 +48313,11 @@
             "number"
           ]
         },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
+        },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "type": [
@@ -48559,6 +48684,11 @@
             "string",
             "number"
           ]
+        },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
         },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
@@ -49230,6 +49360,11 @@
             "number"
           ]
         },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
+        },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
           "type": [
@@ -49646,6 +49781,15 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
+            },
+            {
               "const": false,
               "type": "boolean"
             },
@@ -49857,6 +50001,15 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
             },
             {
               "const": false,
@@ -51085,6 +51238,15 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
             },
             {
               "const": false,
@@ -56088,6 +56250,15 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
+            },
+            {
               "const": false,
               "type": "boolean"
             },
@@ -56330,6 +56501,15 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
+            },
+            {
               "const": false,
               "type": "boolean"
             },
@@ -56531,9 +56711,17 @@
           "description": "刻度线样式设置，支持回调"
         },
         "tickCount": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ],
           "default": 10,
           "description": "建议的tick数量，并不保证结果一定是配置值",
-          "type": "number"
+          "since": "1.4.0 后支持函数回调。"
         },
         "tickMode": {
           "default": "'average'",
@@ -59791,7 +59979,7 @@
       ],
       "type": "object"
     },
-    "IVisualSpecStyle<unknown,string|false|IColorKey|IGradient>": {
+    "IVisualSpecStyle<unknown,string|false|IColorKey|IGradient|(number|boolean)[]>": {
       "properties": {
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
@@ -59816,6 +60004,15 @@
               },
               {
                 "$ref": "#/definitions/IGradientConical"
+              },
+              {
+                "items": {
+                  "type": [
+                    "number",
+                    "boolean"
+                  ]
+                },
+                "type": "array"
               },
               {
                 "const": false,
@@ -60041,6 +60238,11 @@
             "string",
             "number"
           ]
+        },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
         },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
@@ -60731,6 +60933,11 @@
             "string",
             "number"
           ]
+        },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
         },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
@@ -63104,7 +63311,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         },
         "size": {
@@ -63112,14 +63319,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13206",
+        "__@toStringTag@13013",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         },
         "size": {
@@ -63127,14 +63334,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13206",
+        "__@toStringTag@13013",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         },
         "size": {
@@ -63142,14 +63349,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13206",
+        "__@toStringTag@13013",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         },
         "size": {
@@ -63157,14 +63364,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13206",
+        "__@toStringTag@13013",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         },
         "size": {
@@ -63172,14 +63379,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13206",
+        "__@toStringTag@13013",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         },
         "size": {
@@ -63187,14 +63394,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13206",
+        "__@toStringTag@13013",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         },
         "size": {
@@ -63202,14 +63409,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13206",
+        "__@toStringTag@13013",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         },
         "size": {
@@ -63217,14 +63424,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13206",
+        "__@toStringTag@13013",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         },
         "size": {
@@ -63232,7 +63439,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13206",
+        "__@toStringTag@13013",
         "size"
       ],
       "type": "object"
@@ -64083,6 +64290,11 @@
             "string",
             "number"
           ]
+        },
+        "barMinHeight": {
+          "description": "柱条最小高度，可用于防止某数据项的值过小的视觉调整。",
+          "since": "1.4.0",
+          "type": "number"
         },
         "barMinWidth": {
           "description": "柱体最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)",
@@ -72531,6 +72743,15 @@
               "$ref": "#/definitions/IGradientConical"
             },
             {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
+            },
+            {
               "const": false,
               "type": "boolean"
             },
@@ -73372,6 +73593,15 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
             },
             {
               "const": false,
@@ -74419,6 +74649,15 @@
             },
             {
               "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
             },
             {
               "const": false,
@@ -76987,34 +77226,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13206"
+        "__@toStringTag@13013"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13206"
+        "__@toStringTag@13013"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13206": {
+        "__@toStringTag@13013": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13206"
+        "__@toStringTag@13013"
       ],
       "type": "object"
     },
@@ -87597,7 +87836,7 @@
         }
       ]
     },
-    "VisualType<string|false|IColorKey|IGradient>": {
+    "VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>": {
       "anyOf": [
         {
           "$ref": "#/definitions/IColorKey"
@@ -87615,10 +87854,19 @@
           "$ref": "#/definitions/IVisualScale"
         },
         {
+          "items": {
+            "type": [
+              "number",
+              "boolean"
+            ]
+          },
+          "type": "array"
+        },
+        {
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,string|false|IColorKey|IGradient>"
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
         {
           "const": false,

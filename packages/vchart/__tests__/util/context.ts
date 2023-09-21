@@ -1,15 +1,19 @@
+import { copyDataView } from './../../src/data/transforms/copy-data-view';
+import { stackSplit } from './../../src/data/transforms/stack-split';
+import { arrayParser } from './../../src/data/parser/array';
 import { TestRegion } from './factory/region';
 import type { TestChart } from './factory/chart';
 import type { IComponentOption } from '../../src/component/interface';
 import type { ISeriesOption } from '../../src/series/interface';
 import { EventDispatcher } from '../../src/event/event-dispatcher';
-import { DataSet } from '@visactor/vdataset';
+import { DataSet, dataViewParser } from '@visactor/vdataset';
 import type { IModelOption } from '../../src/model/interface';
 import { ThemeManager } from '../../src/theme';
 import type { IEventDispatcher } from '../../src/event/interface';
 import { getTestCompiler } from './factory/compiler';
 import { GlobalScale } from '../../src/scale/global-scale';
 import type { IRegion } from '../../src/region/interface';
+import type { StringOrNumber } from '../../src/typings';
 
 export function modelOption(opt: Partial<IModelOption> = {}, chart?: TestChart): Partial<IModelOption> {
   return {
@@ -52,6 +56,10 @@ export function seriesOption(opt: Partial<IModelOption> = {}, chart?: TestChart)
   option.onError = msg => {
     console.log(msg);
   };
+  option.getSeriesData = (id?: StringOrNumber, index?: number) => {
+    return chart?.getChartData().getSeriesData(id, index);
+  };
+  option.sourceDataList = chart?.getChartData().dataList ?? [];
   return option;
 }
 
@@ -93,3 +101,10 @@ export const markContext: any = {
     getOption: () => seriesOption({})
   }
 };
+
+export function initChartDataSet(dataSet: DataSet) {
+  dataSet.registerParser('dataview', dataViewParser);
+  dataSet.registerParser('array', arrayParser);
+  dataSet.registerTransform('stackSplit', stackSplit);
+  dataSet.registerTransform('copyDataView', copyDataView);
+}

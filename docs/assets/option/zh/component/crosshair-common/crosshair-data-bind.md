@@ -12,6 +12,6 @@
 
 声明要显示数据的轴索引。
 
-##${prefix} datum(any)
+##${prefix} datum(string|number)
 
 声明显示的数据。

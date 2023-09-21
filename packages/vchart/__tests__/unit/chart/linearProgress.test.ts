@@ -7,11 +7,12 @@ import { ThemeManager } from '../../../src';
 import { LinearProgressChart } from '../../../src';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
+import { initChartDataSet } from '../../util/context';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview', dataViewParser);
 const spec = {
   type: 'linearProgress',
   data: [

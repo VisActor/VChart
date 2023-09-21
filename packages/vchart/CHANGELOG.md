@@ -1,6 +1,17 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 18 Sep 2023 03:27:40 GMT and should not be manually modified.
+This log was last generated on Wed, 20 Sep 2023 05:42:12 GMT and should not be manually modified.
+
+## 1.3.4
+Wed, 20 Sep 2023 05:42:12 GMT
+
+### Updates
+
+- fix: circularProgress chart may throw error when executing `updateSpec`, related #994
+- fix: the theme in spec does not update correctly when executing `updateSpec`, related #996
+- fix: `track` in spec is not working in circularProgress charts, related #600
+- fix: fix the error triggered by chart updateSpec, fixed #988, #1002
+- fix: fix the issue of player component updateSpec, fixed #967
 
 ## 1.3.3
 Mon, 18 Sep 2023 03:27:40 GMT
