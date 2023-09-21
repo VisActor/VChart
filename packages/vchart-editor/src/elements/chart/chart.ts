@@ -1,7 +1,7 @@
 import { ChartLayout } from './layout/chart-layout';
 import type { IBoundsLike } from '@visactor/vutils';
 import { VChart } from '@visactor/vchart';
-import type { IChart, IChartSpec } from '@visactor/vchart';
+import type { ISpec, IVChart } from '@visactor/vchart';
 import type { IRect, IPoint, ILayoutGuideLine } from '../../typings/space';
 import { BaseElement } from '../base-element';
 import type { IChartLayout } from './layout/interface';
@@ -23,7 +23,7 @@ export class EditorChart extends BaseElement {
   protected declare _opt: IChartElementOption;
   protected _container: HTMLElement;
 
-  protected _vchart: IChart;
+  protected _vchart: IVChart;
   get vchart() {
     return this._vchart;
   }
@@ -52,7 +52,7 @@ export class EditorChart extends BaseElement {
     }
   }
 
-  protected _initVChart(spec: IChartSpec) {
+  protected _initVChart(spec: ISpec) {
     spec.width = this._rect.width;
     spec.height = this._rect.height;
     spec.background = 'transparent';
