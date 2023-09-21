@@ -67,7 +67,7 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
   const { labelStyle, axisOrientType, labelFlush, labelFormatter, startAngle = 0 } = op;
   let labelAngle = labelStyle.angle ?? 0;
   if (labelStyle.direction === 'vertical') {
-    labelAngle += 90;
+    labelAngle += degreeToRadian(90);
   }
   const isHorizontal = ['bottom', 'top'].includes(axisOrientType);
   const isVertical = ['left', 'right'].includes(axisOrientType);
