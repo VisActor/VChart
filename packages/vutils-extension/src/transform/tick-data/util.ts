@@ -65,7 +65,10 @@ export const MIN_TICK_GAP = 12;
 
 export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: ICartesianTickDataOpt): AABBBounds[] => {
   const { labelStyle, axisOrientType, labelFlush, labelFormatter, startAngle = 0 } = op;
-  const labelAngle = labelStyle.angle ?? 0;
+  let labelAngle = labelStyle.angle ?? 0;
+  if (labelStyle.direction === 'vertical') {
+    labelAngle += 90;
+  }
   const isHorizontal = ['bottom', 'top'].includes(axisOrientType);
   const isVertical = ['left', 'right'].includes(axisOrientType);
   let orientAngle = startAngle;
