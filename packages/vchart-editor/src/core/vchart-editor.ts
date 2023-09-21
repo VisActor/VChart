@@ -7,8 +7,18 @@ import type { Include } from './../typings/commnt';
 import { ElementsMap } from './../elements/index';
 import type { IElementOption } from './../elements/interface';
 import { isString } from '@visactor/vutils';
+import type { IDataParserConstructor } from '../elements/chart/data/interface';
+import type { IChartTempConstructor } from '../elements/chart/temp/interface';
+import { EditorFactory } from './factory';
 
 export class VChartEditor {
+  static registerParser(key: string, parser: IDataParserConstructor) {
+    EditorFactory.registerParser(key, parser);
+  }
+  static registerTemp(key: string, temp: IChartTempConstructor) {
+    EditorFactory.registerTemp(key, temp);
+  }
+
   protected _option: IVChartEditorInitOption;
   get option() {
     return this._option;

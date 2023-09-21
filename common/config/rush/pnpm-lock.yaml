@@ -389,6 +389,7 @@ importers:
       '@visactor/vrender-components': 0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
       '@visactor/vutils-extension': workspace:0.0.1
+      axios: ^1.4.0
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -411,6 +412,7 @@ importers:
       '@visactor/vrender-components': 0.15.1
       '@visactor/vutils': 0.15.13-alpha.4
       '@visactor/vutils-extension': link:../vutils-extension
+      axios: 1.5.0
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config

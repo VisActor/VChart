@@ -1,6 +1,6 @@
+import { EditorFactory } from './../../../core/factory';
 import type { IData, StandardData } from '../data/interface';
 import type { ILayoutData } from '../layout/interface';
-import { getTemp } from '../temp';
 import type { IChartTemp } from '../temp/interface';
 import type { IEditorSpec, ISpecProcess } from './interface';
 // @ts-ignore
@@ -9,7 +9,7 @@ import type { IChartSpec, ITheme } from '@visactor/vchart';
 const DefaultEditorSpec: IEditorSpec = {
   theme: null,
   temp: null,
-  layout: { viewBox: { x1: 0, y1: 0, x2: 0, y2: 0 }, data: [] }
+  layout: { viewBox: { x: 0, y: 0, width: 0, height: 0 }, data: [] }
 };
 
 export class SpecProcess implements ISpecProcess {
@@ -51,7 +51,11 @@ export class SpecProcess implements ISpecProcess {
     this.transformSpec();
   }
   updateTemp(key: string) {
-    this._specTemp = getTemp(key);
+    const tCreate = EditorFactory.getTemp(key);
+    if (!tCreate) {
+      return;
+    }
+    this._specTemp = new tCreate();
     this._editorSpec.temp = key;
     this._checkSpecReady();
   }
@@ -67,19 +71,21 @@ export class SpecProcess implements ISpecProcess {
   };
   protected transformSpec() {
     const data = this._data.getData();
-    this._vchartSpec = this._specTemp.getSpec(data, data.getFields());
+    const info = this._data.getDataInfo();
+    this._vchartSpec = this._specTemp.getSpec(data, info);
     this._onSpecReadyCall();
   }
 
   protected _checkSpecReady() {
     const data = this._data.getData();
+    const info = this._data.getDataInfo();
     if (!data) {
       return false;
     }
     if (!this._specTemp) {
       return false;
     }
-    if (this._specTemp.checkDataEnable(data, data.getFields())) {
+    if (this._specTemp.checkDataEnable(data, info)) {
       this.transformSpec();
     }
   }
