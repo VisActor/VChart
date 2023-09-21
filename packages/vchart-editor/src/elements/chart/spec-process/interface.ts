@@ -3,7 +3,7 @@ import type { ISpec, ITheme } from '@visactor/vchart';
 
 export interface IEditorSpec {
   theme: ITheme;
-  temp: ISpec | unknown;
+  temp: ISpec | any;
   layout: ILayoutData;
 }
 
