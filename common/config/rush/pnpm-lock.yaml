@@ -17,7 +17,7 @@ importers:
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.3.4
       '@visactor/vgrammar': ~0.7.3
-      '@visactor/vmind': 1.0.6-alpha.2
+      '@visactor/vmind': 1.0.6-alpha.3
       '@visactor/vrender': ~0.15.3
       '@visactor/vutils': ~0.16.1
       '@vitejs/plugin-react': 3.1.0
@@ -43,7 +43,7 @@ importers:
       '@arco-design/web-react': 2.46.1_cccfvuyjnmee77bwg4wjyn6zre
       '@visactor/vchart': link:../packages/vchart
       '@visactor/vgrammar': 0.7.3
-      '@visactor/vmind': 1.0.6-alpha.2_7i2a3jlfudjwv4qjzxr3uxbiwi
+      '@visactor/vmind': 1.0.6-alpha.3_zek35pddvdjy2zglnyjcvmb6jq
       '@visactor/vrender': 0.15.3
       '@visactor/vutils': 0.16.1
       axios: 1.5.0
@@ -4532,16 +4532,19 @@ packages:
       '@visactor/vgrammar-core': 0.7.3
     dev: false
 
-  /@visactor/vmind/1.0.6-alpha.2_7i2a3jlfudjwv4qjzxr3uxbiwi:
-    resolution: {integrity: sha512-OtsdvIkNEbpIFkDgIC9/c8z4iCWgicr5cWqF7XqlOcv+Ntvhw0qkpT/qaDQq321yPoahK12UYVzaHJmLGZyetA==}
+  /@visactor/vmind/1.0.6-alpha.3_zek35pddvdjy2zglnyjcvmb6jq:
+    resolution: {integrity: sha512-3Bduh5hBMXOKzyyz3Jvs5ziby+8ZYpXfBpH2dhgV/HZpDd5FKrSZt+mCp/OJfTIPI53nZlhKi0SRndYkE11Rfw==}
     peerDependencies:
       '@arco-design/web-react': ^2.48.1
+      '@visactor/vchart': 1.3.1
     dependencies:
       '@arco-design/web-react': 2.46.1_cccfvuyjnmee77bwg4wjyn6zre
       '@ffmpeg/core': 0.11.0
       '@ffmpeg/ffmpeg': 0.11.6
+      '@visactor/vchart': link:../../packages/vchart
       axios: 1.5.0
       exceljs: 4.3.0
+      lodash: 4.17.21
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-router-dom: 6.16.0_sfoxds7t5ydpegc3knd667wn6m
@@ -20678,7 +20681,7 @@ packages:
       bs-logger: 0.2.6
       buffer-from: 1.1.2
       fast-json-stable-stringify: 2.1.0
-      jest: 26.6.3
+      jest: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
       jest-util: 26.6.2
       json5: 2.2.3
       lodash: 4.17.21
