@@ -180,5 +180,5 @@ Background color transparency.
 #${prefix} leftAppendPadding(number)
 Left margin of the dot series (mainly used to place title and subTitle).
 
-#${prefix} clipHeight(number)
+#${prefix} height(number)
 The visible height of the dot series, and the part beyond the visible height can be displayed by scrolling the mouse.

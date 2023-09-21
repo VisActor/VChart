@@ -59,7 +59,7 @@ type ILinkSeriesSpecFromDot = {
   /**
    * link 系列的可视高度
    */
-  clipHeight?: number;
+  height?: number;
 };
 
 export interface ILinkSeriesTheme extends ICartesianSeriesTheme {

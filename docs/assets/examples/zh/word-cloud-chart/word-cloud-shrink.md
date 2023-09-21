@@ -23,6 +23,8 @@ option: wordCloudChart
 ```javascript livedemo
 const dataWordCloud = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
 const spec = {
+  width: 500,
+  height: 500,
   type: 'wordCloud',
   nameField: 'challenge_name',
   valueField: 'sum_count',

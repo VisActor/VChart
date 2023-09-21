@@ -34,7 +34,7 @@ dot 系列配置:
 - `subTitle` 属性声明为 dot 系列的副标题字段, 标题位于标题下方
 - `dotTypeField` 属性声明为 dot 系列的事件点分组字段, 在相同的分组中事件点的颜色相同.
 - `highLightSeriesGroup` 属性声明为 dot 系列的高亮分组配置, 当配置`seriesGroupField`时, 可以指定高亮某个特定属性的分组
-- `clipHeight` 属性声明为 dot 系列的可视高度
+- `height` 属性声明为 dot 系列的可视高度
 
 link 系列配置:
 link 系列（link series）的数据依赖于事件（event series）系列
@@ -103,7 +103,6 @@ const spec = {
       titleField: 'player_name',
       highLightSeriesGroup: '',
       height: 500,
-      clipHeight: 800,
       title: {
         style: {
           fill: 'rgba(46, 47, 50)'

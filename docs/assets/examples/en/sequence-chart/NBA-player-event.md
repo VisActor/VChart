@@ -34,7 +34,7 @@ Dot series configuration:
 - `subTitle` The property is declared as a subtitle field of the dot series with the title below the title
 - `dotTypeField` The property is declared as an event point grouping field of the dot series, and the event points have the same color in the same grouping.
 - `highLightSeriesGroup` The property is declared as the highlighted grouping configuration of the dot series, when configuring`seriesGroupField`You can specify a grouping to highlight a particular property
-- `clipHeight` The property is declared as the viewable height of the dot series
+- `height` The property is declared as the viewable height of the dot series
 
 Link series configuration:
 The data of the link series depends on the event series
@@ -103,7 +103,6 @@ const spec = {
       titleField: 'player_name',
       highLightSeriesGroup: '',
       height: 500,
-      clipHeight: 800,
       title: {
         style: {
           fill: 'rgba(46, 47, 50)'

@@ -181,5 +181,5 @@ dot 图元样式配置。
 #${prefix} leftAppendPadding(number)
 dot 系列的左边距(主要用于放置title和subTitle)。
 
-#${prefix} clipHeight(number)
+#${prefix} height(number)
 dot 系列的可视高度，超出可视高度的部分可以通过鼠标滚动展示。

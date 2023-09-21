@@ -258,7 +258,6 @@ export class SequenceChart extends BaseChart {
         seriesSpec.regionIndex = spec.series[seriesSpec.dotSeriesIndex].regionIndex;
         (seriesSpec as any).leftAppendPadding = leftAppendPadding;
         (seriesSpec as any).height = (spec.series[seriesSpec.dotSeriesIndex] as any).height;
-        (seriesSpec as any).clipHeight = (spec.series[seriesSpec.dotSeriesIndex] as any).clipHeight;
       }
     });
 

@@ -49,7 +49,7 @@ Dot series configuration:
 - `subTitle` The property is declared as a subtitle field of the dot series with the title below the title
 - `dotTypeField` The property is declared as an event point grouping field of the dot series, and the event points have the same color in the same grouping.
 - `highLightSeriesGroup` The property is declared as the highlighted grouping configuration of the dot series, when configuring`seriesGroupField`You can specify a grouping to highlight a particular property
-- `clipHeight` The property is declared as the viewable height of the dot series
+- `height` The property is declared as the viewable height of the dot series
 
 Link series configuration:
 The data of the link series depends on the event series
@@ -226,7 +226,7 @@ const spec = {
       subTitleField: 'id',
       dotTypeField: 'action_type',
       highLightSeriesGroup: 'IP',
-      clipHeight: 1000,
+      height: 200,
       title: {
         style: {
           fill: 'rgba(46, 47, 50)'
@@ -358,9 +358,7 @@ const spec = {
   ],
   scrollBar: [
     {
-      visible: false,
-      start: 0,
-      end: 0.3,
+      visible: true,
       roam: true,
       filterMode: 'axis',
       regionIndex: 4,
@@ -3079,7 +3077,6 @@ vchart.renderAsync();
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
-
 ## Related Tutorials
 
 [histogram](link)

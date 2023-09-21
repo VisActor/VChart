@@ -65,7 +65,6 @@ export const pageChart1765ActorChart = (player: Player, actorMap: Record<string,
           titleField: 'player_name',
           highLightSeriesGroup: '',
           height: 500,
-          clipHeight: 800,
           title: {
             style: {
               fill: 'rgba(46, 47, 50)'

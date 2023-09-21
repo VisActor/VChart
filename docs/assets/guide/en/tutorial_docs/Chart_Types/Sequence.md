@@ -86,7 +86,6 @@ const spec = {
       titleField: 'player_name',
       highLightSeriesGroup: '',
       height: 500,
-      clipHeight: 800,
       title: {
         style: {
           fill: 'rgba(46, 47, 50)'
@@ -1109,7 +1108,7 @@ dot series configuration:
 - The `subTitle` attribute declares the subtitle field for the dot series; the subtitle is located below the title.
 - The `dotTypeField` attribute declares the event point grouping field for the dot series; event points in the same group have the same color.
 - The `highLightSeriesGroup` attribute declares the highlight group configuration for the dot series; when configuring the `seriesGroupField`, you can specify a specific attribute group to be highlighted.
-- The `clipHeight` attribute declares the visible height of the dot series.
+- The `height` attribute declares the visible height of the dot series.
 
 link series configuration:
 The link series data depends on the event series data.
@@ -1434,7 +1433,7 @@ const spec = {
       subTitleField: 'id',
       dotTypeField: 'action_type',
       highLightSeriesGroup: 'IP',
-      clipHeight: 1000,
+      height: 200,
       title: {
         style: {
           fill: 'rgba(46, 47, 50)'
@@ -1566,9 +1565,7 @@ const spec = {
   ],
   scrollBar: [
     {
-      visible: false,
-      start: 0,
-      end: 0.3,
+      visible: true,
       roam: true,
       filterMode: 'axis',
       regionIndex: 4,

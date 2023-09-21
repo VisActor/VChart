@@ -85,7 +85,7 @@ export interface IDotSeriesSpec extends ICartesianSeriesSpec {
   /**
    * dot 系列的可视高度
    */
-  clipHeight?: number;
+  height?: number;
 }
 
 export interface IDotSeriesTheme extends ICartesianSeriesTheme {
