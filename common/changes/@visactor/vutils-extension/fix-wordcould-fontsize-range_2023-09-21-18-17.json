@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vutils-extension",
+      "comment": "fix(wordcloud): fontsize renge not effect with no value field. fix #522",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vutils-extension"
+}
