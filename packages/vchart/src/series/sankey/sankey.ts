@@ -1276,7 +1276,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       isNil(this._option.globalScale.getScale('color')?.domain()[0])
     ) {
       if (colorDomain.length > 10) {
-        colorRange = getDataScheme(this._option.getTheme().colorScheme, this.type as any)[1]?.scheme;
+        colorRange = (getDataScheme(this._option.getTheme().colorScheme, this.type as any)[1] as any)?.scheme;
       }
     }
 
