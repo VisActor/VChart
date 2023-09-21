@@ -1,5 +1,5 @@
 import type { IPoint, IRect } from './../../../typings/space';
-import type { IChart } from '@visactor/chart';
+import type { IVChart } from '@visactor/chart';
 import type { ISpecProcess } from '../spec-process/interface';
 type ILayoutNumber = { percent?: number; offset: number };
 export type ILayoutRect = {
@@ -24,7 +24,7 @@ export interface IChartLayout {
   setLayoutData: (d: ILayoutData) => void;
   setModelLayoutData: (d: LayoutMeta) => void;
   getLayoutData: () => ILayoutData;
-  setVChart: (vchart: IChart) => void;
+  setVChart: (vchart: IVChart) => void;
   clear: () => void;
   getOverModel: (pos: IPoint) => LayoutMeta;
 }
