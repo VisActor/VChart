@@ -169,7 +169,7 @@ export interface ICrosshairDataBindSpec {
     /**
      * 声明显示的数据
      */
-    datum: any;
+    datum: StringOrNumber;
   };
 }
 
