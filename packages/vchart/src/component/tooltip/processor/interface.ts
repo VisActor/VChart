@@ -1,4 +1,4 @@
-import type { Datum } from '@visactor/vgrammar';
+import type { Datum } from '@visactor/vgrammar-core';
 import type { IMark } from '../../../mark/interface';
 import type { ISeries } from '../../../series/interface';
 import type { IDimensionInfo } from '../../../event/events/dimension/interface';

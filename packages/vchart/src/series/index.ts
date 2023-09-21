@@ -56,6 +56,8 @@ import type { IGaugePointerSeriesSpec, IGaugeSeriesSpec } from './gauge';
 import { GaugePointerSeries, GaugeSeries } from './gauge';
 import { HeatmapSeries } from './heatmap/heatmap';
 import type { IHeatmapSeriesSpec } from './heatmap/interface';
+import { CorrelationSeries } from './correlation/correlation';
+import type { ICorrelationSeriesSpec } from './correlation/interface';
 import { BaseSeries } from './base/base-series';
 import type { ICartesianSeriesSpec } from './cartesian';
 import { CartesianSeries } from './cartesian';
@@ -103,7 +105,8 @@ export {
   BaseSeries,
   CartesianSeries,
   PolarSeries,
-  ProgressLikeSeries
+  ProgressLikeSeries,
+  CorrelationSeries
 };
 
 export type {
@@ -141,5 +144,6 @@ export type {
   ITreemapSeriesSpec,
   IWaterfallSeriesSpec,
   IWordCloud3dSeriesSpec,
-  IWordCloudSeriesSpec
+  IWordCloudSeriesSpec,
+  ICorrelationSeriesSpec
 };

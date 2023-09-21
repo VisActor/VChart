@@ -1,7 +1,7 @@
 import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
 import type { ILayoutPaddingSpec } from '../../model/interface';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IElement, srIOption3DType } from '@visactor/vgrammar';
+import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
 import type {
   DataSet,
   DataView,

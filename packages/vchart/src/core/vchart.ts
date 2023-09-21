@@ -1,4 +1,3 @@
-import type { IComponent } from './../component/interface/common';
 import type { ISeries } from '../series/interface/series';
 import { arrayParser } from '../data/parser/array';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
@@ -89,7 +88,7 @@ import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './int
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
-import { calculateChartSize } from '../chart/util';
+import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 export class VChart implements IVChart {
   readonly id = createID();
 
@@ -196,7 +195,7 @@ export class VChart implements IVChart {
   private _userEvents: {
     eType: EventType;
     query: EventQuery | EventCallback<EventParamsDefinition[EventType]>;
-    callback?: EventCallback<EventParamsDefinition[EventType]>;
+    handler?: EventCallback<EventParamsDefinition[EventType]>;
   }[] = [];
   private _eventDispatcher: Maybe<IEventDispatcher>;
   private _dataSet!: Maybe<DataSet>;
@@ -213,7 +212,7 @@ export class VChart implements IVChart {
     mode: RenderModeEnum['desktop-browser'],
     animation: true,
     onError: (msg: string) => {
-      // throw new Error(msg);
+      throw new Error(msg);
     }
   };
 
@@ -297,32 +296,11 @@ export class VChart implements IVChart {
     this._spec = specTransform(isString(spec) ? JSON.parse(spec) : spec);
   }
 
-  private _initData() {
-    if (isNil(this._dataSet)) {
-      warn('dataSet is not initialized');
-      return;
-    }
-    const specData: (DataView | IDataValues)[] = array(this._spec.data);
-
-    const dataViewArr: DataView[] = [];
-    for (let i = 0; i < specData.length; i++) {
-      const curSpecData = specData[i];
-      dataViewArr.push(
-        dataToDataView(curSpecData, <DataSet>this._dataSet, dataViewArr, {
-          onError: this._option?.onError
-        })
-      );
-    }
-
-    this._spec.data = dataViewArr;
-  }
-
   private _initChart(spec: any) {
     if (!this._compiler) {
       this._option?.onError('compiler is not initialized');
       return;
     }
-    this._initData();
     // 放到这里而不是放到chart内的考虑
     // 用户spec更新，也许会有core上图表实例的内容存在
     // 如果要支持spec的类似Proxy监听，更新逻辑应当从这一层开始。如果在chart上做，就需要在再向上发送spec更新消息，不是很合理。
@@ -394,14 +372,17 @@ export class VChart implements IVChart {
     }
   }
 
-  private _onResize = debounce((...args: any[]) => {
+  private _getCurSize() {
     const { width: containerWidth, height: containerHeight } = getContainerSize(
       this._container!,
       DEFAULT_CHART_WIDTH,
       DEFAULT_CHART_HEIGHT
     );
-    const width = this._spec.width ?? containerWidth;
-    const height = this._spec.height ?? containerHeight;
+    return { width: this._spec.width ?? containerWidth, height: this._spec.height ?? containerHeight };
+  }
+
+  private _onResize = debounce((...args: any[]) => {
+    const { width, height } = this._getCurSize();
     if (this._curSize.width !== width || this._curSize.height !== height) {
       this.resize(width, height);
       this._curSize = { width, height };
@@ -445,7 +426,6 @@ export class VChart implements IVChart {
     if (!isValid(result)) {
       return this as unknown as IVChart;
     }
-
     this._reCompile(result);
     this.renderSync(morphConfig);
     return this as unknown as IVChart;
@@ -462,16 +442,26 @@ export class VChart implements IVChart {
       // chart 内部事件 模块自己必须删除
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
-      this._userEvents.forEach(e => this.on(e.eType, e.query as any, e.callback));
-    } else if (updateResult.reCompile) {
-      // recompile
-      // 清除之前的所有 compile 内容
-      this._compiler?.clear({ chart: this._chart, vChart: this });
-      // TODO: 释放事件？ vgrammar 的 view 应该不需要释放，响应的stage也没有释放，所以事件可以不绑定
-      // 重新绑定事件
-      // TODO: 释放XX？
-      // 重新compile
-      this._compiler?.compile({ chart: this._chart, vChart: this }, {});
+      this._userEvents.forEach(e => this._event?.on(e.eType as any, e.query as any, e.handler as any));
+      if (updateResult.reSize) {
+        this._onResize();
+      }
+    } else {
+      if (updateResult.reCompile) {
+        // recompile
+        // 清除之前的所有 compile 内容
+        this._compiler?.clear({ chart: this._chart, vChart: this });
+        // TODO: 释放事件？ vgrammar 的 view 应该不需要释放，响应的stage也没有释放，所以事件可以不绑定
+        // 重新绑定事件
+        // TODO: 释放XX？
+        // 重新compile
+        this._compiler?.compile({ chart: this._chart, vChart: this }, {});
+      }
+      if (updateResult.reSize) {
+        const { width, height } = this._getCurSize();
+        this._chart.onResize(width, height);
+        this._compiler.resize?.(width, height, false);
+      }
     }
   }
 
@@ -553,7 +543,6 @@ export class VChart implements IVChart {
     this._chart?.release();
     this._compiler?.release();
     this._eventDispatcher?.release();
-    this._userEvents.length = 0;
     this._unBindResizeEvent();
     // resetID(); // 为什么要重置ID呢？
 
@@ -614,13 +603,13 @@ export class VChart implements IVChart {
    * @param list 待更新的数据列表
    * @returns VChart 实例
    */
-  async updateDataInBatches(
-    list: { id: string; data: DataView | Datum[]; options?: IParserOptions }[]
-  ): Promise<IVChart> {
+  async updateDataInBatches(list: { id: string; data: Datum[]; options?: IParserOptions }[]): Promise<IVChart> {
     if (this._chart) {
-      list.forEach(({ id, data, options }) => {
-        this._chart.updateData(id, data, false, options);
-      });
+      this._chart.updateFullData(
+        list.map(({ id, data, options }) => {
+          return { id, values: data, parser: options };
+        })
+      );
       this._chart.updateGlobalScaleDomain();
       await this._compiler.renderAsync();
       return this as unknown as IVChart;
@@ -757,10 +746,18 @@ export class VChart implements IVChart {
 
     await this.updateCustomConfigAndRerender(() => {
       spec = specTransform(spec) as any;
+      const lastSpec = this._spec;
       this._spec = spec;
       this._updateCurrentTheme();
+      this._chart?.setCurrentTheme(this._currentTheme, true);
+      const reSize = this._updateChartConfiguration(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
-      return this._chart.updateSpec(spec, morphConfig);
+      return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
+        change: reSize,
+        reMake: false,
+        reCompile: false,
+        reSize
+      });
     }, morphConfig);
     return this as unknown as IVChart;
   }
@@ -792,10 +789,16 @@ export class VChart implements IVChart {
       spec = specTransform(spec) as any;
       // because of in data-init, data will be set as array;
       spec.data = spec.data ?? [];
+      const lastSpec = this._spec;
       this._spec = spec;
-      this._updateCurrentTheme();
+      const reSize = this._updateChartConfiguration(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
-      return this._chart.updateSpec(spec, morphConfig);
+      return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
+        change: reSize,
+        reMake: false,
+        reCompile: false,
+        reSize
+      });
     }, morphConfig);
     return this as unknown as IVChart;
   }
@@ -890,7 +893,7 @@ export class VChart implements IVChart {
     const modifyConfig = () => {
       const result = model.updateSpec(spec);
       model.reInit();
-      if (result.change || result.reCompile || result.reMake || result.reMakeData || result.reSize || result.reRender) {
+      if (result.change || result.reCompile || result.reMake || result.reSize || result.reRender) {
         this._chart.reDataFlow();
       }
       return result;
@@ -954,15 +957,24 @@ export class VChart implements IVChart {
   on(eType: EventType, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery | EventCallback<EventParams>, handler?: EventCallback<EventParams>): void {
-    this._userEvents.push({ eType, query, callback: handler });
+    this._userEvents.push({ eType, query, handler });
     this._event?.on(eType as any, query as any, handler as any);
   }
   off(eType: string, handler?: EventCallback<EventParams>): void {
-    const index = this._userEvents.findIndex(e => e.eType === eType && e.callback === handler);
-    if (index >= 0) {
-      this._userEvents.splice(index, 1);
+    if (handler) {
+      const index = this._userEvents.findIndex(e => e.eType === eType && e.handler === handler);
+      if (index >= 0) {
+        this._userEvents.splice(index, 1);
+        this._event?.off(eType, handler);
+      }
+    } else {
+      this._userEvents.forEach(e => {
+        if (e.eType === eType) {
+          this._event?.off(eType, e.handler);
+        }
+      });
+      this._userEvents = this._userEvents.filter(e => e.eType !== eType);
     }
-    this._event?.off(eType, handler);
   }
 
   // 状态相关方法
@@ -1056,6 +1068,20 @@ export class VChart implements IVChart {
     setPoptipTheme(preprocessSpecOrTheme('mark-theme', mergeSpec({}, this._currentTheme.component?.poptip)));
     // 设置背景色
     this._compiler?.setBackground(this._getBackground());
+  }
+
+  private _updateChartConfiguration(oldSpec: ISpec) {
+    let resize = false;
+    if (this._spec.width !== oldSpec.width || this._spec.height !== oldSpec.height) {
+      resize = true;
+    }
+    const lasAutoSize = this._autoSize;
+    this._autoSize = isTrueBrowser(this._option.mode) ? this._spec.autoFit ?? this._option.autoFit ?? true : false;
+    if (this._autoSize !== lasAutoSize) {
+      resize = true;
+    }
+    this._updateCurrentTheme();
+    return resize;
   }
 
   private _getBackground() {

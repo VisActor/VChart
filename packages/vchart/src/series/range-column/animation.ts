@@ -1,5 +1,5 @@
 import type { DirectionType } from '../../typings';
-import type { IAnimationTypeConfig } from '@visactor/vgrammar';
+import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 
 export interface IRangeColumnAnimationParams {
   direction: DirectionType;

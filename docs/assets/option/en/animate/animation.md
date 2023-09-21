@@ -13,6 +13,7 @@ Entrance animation configuration. Setting it to `false` disables the entrance an
   defaultPreset = ${defaultPreset},
   defaultDuration = 1000,
   defaultEasing = 'cubicOut',
+  seriesType = ${seriesType}
 ) }}
 
 #${prefix} animationEnter(boolean|object)

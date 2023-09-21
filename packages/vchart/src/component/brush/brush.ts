@@ -14,7 +14,7 @@ import type { IGraphic, INode, IPolygon, IRectGraphicAttribute } from '@visactor
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
-import type { IElement } from '@visactor/vgrammar';
+import type { IElement } from '@visactor/vgrammar-core';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
@@ -505,7 +505,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
 
   clear(): void {
     if (this._brushComponents) {
-      this._container.removeChild(this._brushComponents as unknown as INode);
+      this.getContainer()?.removeChild(this._brushComponents as unknown as INode);
       this._brushComponents.forEach(brush => {
         brush.releaseBrushEvents();
       });

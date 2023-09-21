@@ -1,5 +1,5 @@
 import { PolarSeries } from '../polar/polar';
-import { ICorrelationSeriesSpec } from './interface';
+import type { ICorrelationSeriesSpec } from './interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { correlationSeriesMark } from './constant';
@@ -8,9 +8,14 @@ import type { ITextMark } from '../../mark/text';
 import { registerDataSetInstanceTransform, registerDataSetInstanceParser } from '../../data/register';
 import { correlation } from '../../data/transforms/correlation';
 import type { IBounds, IBoundsLike } from '@visactor/vutils';
-import { isValidNumber, Bounds, Matrix, mixin } from '@visactor/vutils';
+import { isValidNumber, Bounds, Matrix, mixin, isValid } from '@visactor/vutils';
+import { VChart } from '../../core/vchart';
+import { SymbolMark } from '../../mark/symbol';
+import { TextMark } from '../../mark/text';
 
-export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSeriesSpec> extends PolarSeries<T> {
+VChart.useMark([SymbolMark, TextMark]);
+
+export class CorrelationSeries extends PolarSeries<any> {
   static readonly type: string = SeriesTypeEnum.correlation;
   type = SeriesTypeEnum.correlation;
 
@@ -19,9 +24,6 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
   private _pointMark: ISymbolMark;
   private _centerPointMark: ISymbolMark;
   private _centerLabelMark: ITextMark;
-
-  private _sizeField: ICorrelationSeriesSpec['sizeField'];
-  private _sizeRange: ICorrelationSeriesSpec['sizeRange'];
 
   private _viewBox: IBounds = new Bounds();
 
@@ -43,17 +45,48 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
     return this._valueField;
   }
 
-  setAttrFromSpec() {
-    super.setAttrFromSpec();
-    this.setCategoryField(this._spec.categoryField);
-    this.setValueField(this._spec.valueField);
-    this.setSeriesField(this._spec.seriesField ?? this._spec.categoryField);
-
-    this._sizeField = this._spec.sizeField;
-    this._sizeRange = this._spec.sizeRange;
+  protected _seriesField?: string;
+  getSeriesField() {
+    return this._seriesField;
+  }
+  setSeriesField(field: string) {
+    if (isValid(field)) {
+      this._seriesField = field;
+    }
   }
 
-  initData() {
+  protected _sizeField?: ICorrelationSeriesSpec['sizeField'];
+  getSizeField() {
+    return this._sizeField;
+  }
+  setSizeField(field: string) {
+    if (isValid(field)) {
+      this._sizeField = field;
+    }
+  }
+
+  protected _sizeRange?: ICorrelationSeriesSpec['sizeRange'];
+  getSizeRange() {
+    return this._sizeRange;
+  }
+  setSizeRange(range: number[]) {
+    if (isValid(range)) {
+      this._sizeRange = range;
+    }
+  }
+
+  setAttrFromSpec() {
+    super.setAttrFromSpec();
+
+    this.setCategoryField(this._spec.categoryField);
+    this.setValueField(this._spec.valueField);
+
+    this.setSeriesField(this._spec.seriesField);
+    this.setSizeField(this._spec.sizeField);
+    this.setSizeRange(this._spec.sizeRange);
+  }
+
+  protected initData() {
     super.initData();
 
     // console.log('this._dataSet', this._dataSet);
@@ -103,5 +136,21 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
       fill: 'red',
       size: 10
     });
+  }
+
+  getGroupFields(): string[] {
+    return [];
+  }
+  getStackGroupFields(): string[] {
+    return [];
+  }
+  getStackValueField(): string {
+    return '';
+  }
+  setValueFieldToStack(): void {
+    return;
+  }
+  setValueFieldToPercent(): void {
+    return;
   }
 }

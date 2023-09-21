@@ -1,6 +1,6 @@
 import type { SegmentAttributes, AxisLabelOverlap } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
-import type { IAxis, IDomainLine, ILabel, ITitle } from '../../interface';
+import type { IAxis, IDomainLine, ILabel, ITickCallbackOption, ITitle } from '../../interface';
 import type { Datum, StringOrNumber } from '../../../../typings';
 
 export type ICartesianDomainLineSpec = {
@@ -144,8 +144,9 @@ export interface ITimeLayerType {
    * The desired number of ticks draw on linear axis.
    * @default 10
    * @description 建议的tick数量，并不保证结果一定是配置值
+   * @since 1.4.0 后支持函数回调方式配置
    */
-  tickCount?: number;
+  tickCount?: number | ((option: ITickCallbackOption) => number);
   /**
    * 强制设置tick数量
    * The exact number of ticks draw on linear axis. Might lead to decimal step.

@@ -1,3 +1,5 @@
+import { DEFAULT_CONTINUOUS_TICK_COUNT } from './../../../../../vutils-extension/src/transform/tick-data/config';
+import { isValidNumber } from '@visactor/vutils';
 import type { LinearScale } from '@visactor/vscale';
 import { isNil, isValid, maxInArr, minInArr } from '../../../util';
 import { getLinearAxisSpecDomain } from '../util';
@@ -41,12 +43,16 @@ export class LinearAxisMixin {
 
   setLinearScaleNice() {
     let tickCount = this._spec.tick?.forceTickCount ?? this._spec.tick?.tickCount ?? 10;
+    if (!isValidNumber(tickCount)) {
+      // tickCount 为函数通常是为了通过图表大小动态自适应 tick 数量
+      // 这里在计算 nice 的时候可以相对粗略预估，不用精确值
+      tickCount = 10;
+    }
     // 如果配置了精度优先，那么最低是10
     // 否则就直接使用tickCount即可
     if (this._spec.niceType === 'accurateFirst') {
       tickCount = Math.max(10, tickCount);
     }
-
     if (isNil(this._domain?.min) && isNil(this._domain?.max)) {
       this._nice && this._scale.nice(tickCount);
     } else if (isValid(this._domain?.min) && isNil(this._domain?.max)) {
@@ -156,24 +162,6 @@ export class LinearAxisMixin {
     return domain;
   }
 
-  protected niceMinMax() {
-    if (this._nice) {
-      let tickCount = this._tick.forceTickCount ?? this._tick.tickCount ?? 10;
-      // 如果配置了精度优先，那么最低是10
-      // 否则就直接使用tickCount即可
-      if (this._spec.niceType === 'accurateFirst') {
-        tickCount = Math.max(10, tickCount);
-      }
-      if (isNil(this._domain?.min) && isNil(this._domain?.max)) {
-        this._scale.nice(tickCount);
-      } else if (isValid(this._domain?.min) && isNil(this._domain?.max)) {
-        this._scale.niceMax(tickCount);
-      } else if (isNil(this._domain?.min) && isValid(this._domain?.max)) {
-        this._scale.niceMin(tickCount);
-      }
-    }
-  }
-
   protected includeZero(domain: number[]): void {
     if (this._zero) {
       domain[0] = Math.min(domain[0], 0);
@@ -194,7 +182,7 @@ export class LinearAxisMixin {
     this.setDomainMinMax(domain);
     this.niceDomain(domain);
     this._scale.domain(domain, this._nice);
-    this.niceMinMax();
+    this.setScaleNice();
 
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any });
   }
@@ -260,7 +248,7 @@ export class LinearAxisMixin {
     this.niceDomain(domain);
     this._scale.domain(domain, this._nice);
     // 设置scale的nice-min-max
-    this.niceMinMax();
+    this.setScaleNice();
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any });
   }

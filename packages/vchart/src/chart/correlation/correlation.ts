@@ -1,18 +1,20 @@
 import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import { SeriesTypeEnum } from '../../series/interface';
-// eslint-disable-next-line no-duplicate-imports
-import type { ISeries } from '../../series/interface';
 import type { ICorrelationChartSpec } from './interface';
+import type { ICorrelationSeriesSpec } from '../../series/correlation/interface';
+import { VChart } from '../../core/vchart';
+import { CorrelationSeries } from '../../series/correlation/correlation';
+VChart.useSeries([CorrelationSeries]);
 
-export class correlation extends BaseChart {
+export class CorrelationChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.correlation;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.correlation;
   readonly seriesType: string = SeriesTypeEnum.correlation;
 
-  protected _getDefaultSeriesSpec(spec: ICorrelationChartSpec): any {
-    const series: any = {
+  protected getDefaultSeriesSpec(spec: ICorrelationChartSpec) {
+    const series: ICorrelationSeriesSpec = {
       ...super._getDefaultSeriesSpec(spec),
       categoryField: spec.categoryField,
       valueField: spec.valueField,
@@ -32,7 +34,7 @@ export class correlation extends BaseChart {
       point: spec.point,
       label: spec.label
     };
-    const seriesType = this.seriesType;
+    const seriesType = SeriesTypeEnum.correlation;
     if (seriesType) {
       series.type = seriesType;
       series[seriesType] = spec[seriesType];
@@ -41,7 +43,7 @@ export class correlation extends BaseChart {
     return series;
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: ICorrelationChartSpec): void {
     super.transformSpec(spec);
 
     /* 处理 series 配置 */
@@ -49,7 +51,7 @@ export class correlation extends BaseChart {
     if (!spec.series || spec.series.length === 0) {
       spec.series = [defaultSeriesSpec];
     } else {
-      spec.series.forEach((s: ISeries) => {
+      spec.series.forEach(s => {
         if (!this.isValidSeries(s.type)) {
           return;
         }

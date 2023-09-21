@@ -4,11 +4,12 @@ import type { RangeColumnSeries } from '../../../src/series/range-column/range-c
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
+import { initChartDataSet } from '../../util/context';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview', dataViewParser);
 const dataView = new DataView(dataSet);
 const data = `type,min,max
 '分类一', 76, 100

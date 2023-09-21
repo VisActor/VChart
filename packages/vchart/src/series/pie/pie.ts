@@ -44,7 +44,7 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { IAnimationTypeConfig } from '@visactor/vgrammar';
+import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
 import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
@@ -125,6 +125,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           angleField: this._angleField[0],
           startAngle: this._startAngle,
           endAngle: this._endAngle,
+          minAngle: isValid(this._spec?.minAngle) ? degreeToRadian(this._spec.minAngle) : 0,
           asStartAngle: ARC_START_ANGLE,
           asEndAngle: ARC_END_ANGLE,
           asRatio: ARC_RATIO,

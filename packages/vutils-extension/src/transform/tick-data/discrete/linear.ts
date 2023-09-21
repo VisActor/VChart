@@ -1,5 +1,5 @@
 import type { BandScale } from '@visactor/vscale';
-import { isValid } from '@visactor/vutils';
+import { isFunction, isValid } from '@visactor/vutils';
 import type { ICartesianTickDataOpt, ITickData } from '../interface';
 import { convertDomainToTickData, getCartesianLabelBounds, labelDistance, labelOverlap } from '../util';
 import type { AABBBounds } from '@visactor/vutils';
@@ -20,7 +20,7 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
   if (!domain.length) {
     return [];
   }
-  const { tickCount, forceTickCount, tickStep, labelGap = 4, axisOrientType } = op;
+  const { tickCount, forceTickCount, tickStep, labelGap = 4, axisOrientType, labelStyle } = op;
   const isHorizontal = ['bottom', 'top'].includes(axisOrientType);
   const range = scale.range();
 
@@ -39,7 +39,8 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
   } else if (isValid(forceTickCount)) {
     scaleTicks = scale.forceTicks(forceTickCount);
   } else if (isValid(tickCount)) {
-    scaleTicks = scale.ticks(tickCount);
+    const count = isFunction(tickCount) ? tickCount({ axisLength: rangeSize, labelStyle }) : tickCount;
+    scaleTicks = scale.ticks(count);
   } else if (op.sampling) {
     let labelBoundsList: AABBBounds[];
     const fontSize = (op.labelStyle.fontSize ?? 12) + 2;

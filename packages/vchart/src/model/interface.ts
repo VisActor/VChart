@@ -4,7 +4,7 @@ import type { IEvent, IEventDispatcher } from '../event/interface';
 import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { VChart } from '../vchart-all';
-import type { IData, IElement, IMark as IVGrammarMark } from '@visactor/vgrammar';
+import type { IData, IElement, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 import type {
   IOrientType,
   IPoint,
@@ -205,7 +205,6 @@ export type IMarkTree = IMarkTreeGroup | IMark | (IMarkTreeGroup | IMark)[];
 export interface IUpdateSpecResult {
   change: boolean;
   reMake: boolean;
-  reMakeData?: boolean;
   reRender?: boolean;
   reSize?: boolean;
   // TODO: compile 的判断应不应该出现在这里?

@@ -2,6 +2,42 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.3.4",
+      "tag": "@visactor/vchart_v1.3.4",
+      "date": "Wed, 20 Sep 2023 05:42:12 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: circularProgress chart may throw error when executing `updateSpec`, related #994"
+          },
+          {
+            "comment": "fix: the theme in spec does not update correctly when executing `updateSpec`, related #996"
+          },
+          {
+            "comment": "fix: `track` in spec is not working in circularProgress charts, related #600"
+          },
+          {
+            "comment": "fix: fix the error triggered by chart updateSpec, fixed #988, #1002"
+          },
+          {
+            "comment": "fix: fix the issue of player component updateSpec, fixed #967"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.3.3",
+      "tag": "@visactor/vchart_v1.3.3",
+      "date": "Mon, 18 Sep 2023 03:27:40 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix the issue of player component updateSpec, fixed #967"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.3.2",
       "tag": "@visactor/vchart_v1.3.2",
       "date": "Thu, 14 Sep 2023 12:36:21 GMT",

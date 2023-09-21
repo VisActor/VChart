@@ -29,7 +29,12 @@ import type { IAnimate } from '../../../src/animation/interface';
 import type { ITooltipHelper } from '../../../src/model/tooltip-helper';
 import type { StateValue, StateValueType } from '../../../src/compile/mark';
 import type { ModelStateManager } from '../../../src/model/model-state-manager';
-import type { IElement, IGroupMark as IVGRrammarGroupMark, IMark as IVGRrammarMark, IView } from '@visactor/vgrammar';
+import type {
+  IElement,
+  IGroupMark as IVGRrammarGroupMark,
+  IMark as IVGRrammarMark,
+  IView
+} from '@visactor/vgrammar-core';
 import type { Compiler } from '../../../src/compile/compiler';
 import type { ICompilableData } from '../../../src/compile/data';
 import type { IBoundsLike } from '@visactor/vutils';

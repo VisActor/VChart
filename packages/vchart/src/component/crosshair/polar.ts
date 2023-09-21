@@ -7,7 +7,7 @@ import type { IPolarCrosshairSpec } from './interface';
 import type { BandScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isDiscrete, isContinuous } from '@visactor/vscale';
-// import { registerComponent } from '@visactor/vgrammar';
+// import { registerComponent } from '@visactor/vgrammar-core';
 import { Tag } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { LineCrosshair, SectorCrosshair, CircleCrosshair, PolygonCrosshair } from '@visactor/vrender-components';
@@ -500,7 +500,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     [(this._radiusCrosshair, this._radiusLabelCrosshair, this._angleCrosshair, this._angleLabelCrosshair)].forEach(
       c => {
         if (c) {
-          this._container?.removeChild(c as unknown as INode);
+          this.getContainer()?.removeChild(c as unknown as INode);
           c = null;
         }
       }

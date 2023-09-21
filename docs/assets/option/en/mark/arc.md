@@ -37,3 +37,8 @@ Whether the rounded corners extend beyond the startAngle and endAngle.
 #${prefix} autoCapConical(boolean)
 
 Whether the cap part is effective when the arc has `cap = true` and applies a ring gradient.
+
+{{ use: graphic-arc(
+  prefix = ${prefix},
+  markType = 'arc'
+) }}

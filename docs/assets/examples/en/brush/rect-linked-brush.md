@@ -59,13 +59,12 @@ for (let k = 0; k < row * col; k++) {
   });
 
   series.push({
+    id: `${k}_Region`,
     type: 'scatter',
     xField: 'x',
     yField: 'y',
     seriesField: 'type',
     data: { id: `${k}_Data`, values: dataBrush[k] },
-    // point: { style: { visible: false } },
-    // line: { style: { lineWidth: 2 } },
     regionId: `${k}_Region`,
     size: 5
   });
@@ -76,13 +75,6 @@ for (let k = 0; k < row * col; k++) {
     regionId: `${k}_Region`,
     seriesId: [`${k}_Region`],
     zero: false
-    // range: {
-    //   min: 0,
-    //   max: 100
-    // },
-    // tick: {
-    //   tickStep: 10
-    // }
   });
 
   layoutElements.push({
@@ -98,13 +90,6 @@ for (let k = 0; k < row * col; k++) {
     seriesId: [`${k}_Region`],
     type: 'linear',
     zero: false
-    // range: {
-    //   min: 0,
-    //   max: 20
-    // },
-    // tick: {
-    //   tickStep: 5
-    // }
   });
 
   layoutElements.push({

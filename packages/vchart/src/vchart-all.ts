@@ -30,7 +30,8 @@ import {
   SankeyChart,
   GaugeChart,
   RangeAreaChart,
-  HeatmapChart
+  HeatmapChart,
+  CorrelationChart
 } from './chart';
 
 import {
@@ -99,7 +100,8 @@ VChart.useChart([
   SankeyChart,
   GaugeChart,
   RangeAreaChart,
-  HeatmapChart
+  HeatmapChart,
+  CorrelationChart
 ]);
 
 // components

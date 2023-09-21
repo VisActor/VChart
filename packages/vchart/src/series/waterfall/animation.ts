@@ -1,4 +1,4 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar';
+import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import type { IBarAnimationParams, BarAppearPreset } from '../bar/animation';
 import { barGrowIn } from '../bar/animation';
 

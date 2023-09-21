@@ -7,7 +7,7 @@ import { ComponentPluginService } from '../../plugin/components/plugin-service';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
 import { isArray, merge } from '@visactor/vutils';
 import { getComponentThemeFromGlobalTheme } from './util';
-import type { IGroupMark } from '@visactor/vgrammar';
+import type { IGroupMark } from '@visactor/vgrammar-core';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
@@ -98,6 +98,10 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
 
     // 将 theme merge 到 spec 中
     this._mergeThemeToSpec();
+  }
+
+  protected _mergeThemeToSpec() {
+    super._mergeThemeToSpec();
 
     // 默认忽略外侧 padding
     const { padding, noOuterPadding = true, orient } = this._spec;
@@ -111,7 +115,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
 
   protected getContainer() {
     if (!this._container) {
-      this._container = this._option.globalInstance.getStage().find(node => node.name === 'root', true);
+      this._container = this._option?.globalInstance.getStage().find(node => node.name === 'root', true);
     }
 
     return this._container;

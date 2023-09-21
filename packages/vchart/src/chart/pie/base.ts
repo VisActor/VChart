@@ -18,7 +18,8 @@ export class BasePieChart extends PolarChart {
 
       cornerRadius: spec.cornerRadius,
 
-      padAngle: spec.padAngle
+      padAngle: spec.padAngle,
+      minAngle: spec.minAngle
     };
   }
 }

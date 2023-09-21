@@ -21,6 +21,7 @@ import type { ISunburstSeriesTheme } from '../sunburst/interface';
 import type { IRangeColumnSeriesTheme } from '../range-column/interface';
 import type { ICirclePackingSeriesTheme } from '../circle-packing/interface';
 import type { IHeatmapSeriesTheme } from '../heatmap/interface';
+import type { ICorrelationSeriesTheme } from '../sankey/interface';
 import { SeriesTypeEnum } from './type';
 import type { SeriesMarkMap } from './common';
 import { bar3dSeriesMark, barSeriesMark } from '../bar/constant';
@@ -46,6 +47,7 @@ import { sunburstSeriesMark } from '../sunburst/constant';
 import { rangeColumnSeriesMark } from '../range-column/constant';
 import { circlePackingSeriesMark } from '../circle-packing/constant';
 import { heatmapSeriesMark } from '../heatmap/constant';
+import { correlationSeriesMark } from '../correlation/constant';
 
 export interface ISeriesTheme {
   [SeriesTypeEnum.bar]?: IBarSeriesTheme;
@@ -76,6 +78,7 @@ export interface ISeriesTheme {
   [SeriesTypeEnum.rangeColumn]?: IRangeColumnSeriesTheme;
   [SeriesTypeEnum.circlePacking]?: ICirclePackingSeriesTheme;
   [SeriesTypeEnum.heatmap]?: IHeatmapSeriesTheme;
+  [SeriesTypeEnum.correlation]?: ICorrelationSeriesTheme;
 }
 
 export const seriesMarkInfoMap: Record<keyof ISeriesTheme, SeriesMarkMap> = {
@@ -106,5 +109,6 @@ export const seriesMarkInfoMap: Record<keyof ISeriesTheme, SeriesMarkMap> = {
   [SeriesTypeEnum.sunburst]: sunburstSeriesMark,
   [SeriesTypeEnum.rangeColumn]: rangeColumnSeriesMark,
   [SeriesTypeEnum.circlePacking]: circlePackingSeriesMark,
-  [SeriesTypeEnum.heatmap]: heatmapSeriesMark
+  [SeriesTypeEnum.heatmap]: heatmapSeriesMark,
+  [SeriesTypeEnum.correlation]: correlationSeriesMark
 };

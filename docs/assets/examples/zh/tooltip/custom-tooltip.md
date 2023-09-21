@@ -119,6 +119,8 @@ const spec = {
           })
     },
     dimension: {
+      position: 'tl',
+      positionMode: 'pointer',
       updateContent: prev =>
         (prev ?? []).concat({
           key: 'I AM',

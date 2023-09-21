@@ -74,40 +74,50 @@ export class LinearProgressSeries<
         const leftPadding = this._spec.progress?.leftPadding ?? 0;
         const rightPadding = this._spec.progress?.rightPadding ?? 0;
 
-        this.setMarkStyle(progressMark, {
-          x: (datum: Datum) => {
-            return (
-              valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
-              this._spec.bandWidth / 2 +
-              leftPadding
-            );
+        this.setMarkStyle(
+          progressMark,
+          {
+            x: (datum: Datum) => {
+              return (
+                valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
+                this._spec.bandWidth / 2 +
+                leftPadding
+              );
+            },
+            y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)),
+            height: () => this._yAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition }),
+            width: this._spec.bandWidth - leftPadding - rightPadding,
+            cornerRadius: this._spec.cornerRadius,
+            fill: this.getColorAttribute()
           },
-          y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)),
-          height: () => this._yAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition }),
-          width: this._spec.bandWidth - leftPadding - rightPadding,
-          cornerRadius: this._spec.cornerRadius,
-          fill: this.getColorAttribute()
-        });
+          'normal',
+          AttributeLevel.Series
+        );
       } else {
         const topPadding = this._spec.progress?.topPadding ?? 0;
         const bottomPadding = this._spec.progress?.bottomPadding ?? 0;
 
-        this.setMarkStyle(progressMark, {
-          x: (datum: Datum) =>
-            valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
-            this._xAxisHelper.dataToPosition([1], { bandPosition: this._bandPosition }),
-          y: (datum: Datum) => {
-            return (
-              valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
-              this._spec.bandWidth / 2 +
-              topPadding
-            );
+        this.setMarkStyle(
+          progressMark,
+          {
+            x: (datum: Datum) =>
+              valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
+              this._xAxisHelper.dataToPosition([1], { bandPosition: this._bandPosition }),
+            y: (datum: Datum) => {
+              return (
+                valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
+                this._spec.bandWidth / 2 +
+                topPadding
+              );
+            },
+            height: this._spec.bandWidth - topPadding - bottomPadding,
+            width: () => this._xAxisHelper?.dataToPosition([1], { bandPosition: this._bandPosition }),
+            cornerRadius: this._spec.cornerRadius,
+            fill: this.getColorAttribute()
           },
-          height: this._spec.bandWidth - topPadding - bottomPadding,
-          width: () => this._xAxisHelper?.dataToPosition([1], { bandPosition: this._bandPosition }),
-          cornerRadius: this._spec.cornerRadius,
-          fill: this.getColorAttribute()
-        });
+          'normal',
+          AttributeLevel.Series
+        );
       }
       this._trigger.registerMark(progressMark);
       this._tooltipHelper?.activeTriggerSet.mark.add(progressMark);
@@ -125,33 +135,41 @@ export class LinearProgressSeries<
     const trackMark = this._trackMark;
     if (trackMark) {
       if (this._spec.direction === 'vertical') {
-        this.setMarkStyle(trackMark, {
-          x: (datum: any) => {
-            return (
-              valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
-              this._spec.bandWidth / 2
-            );
+        this.setMarkStyle(
+          trackMark,
+          {
+            x: (datum: any) => {
+              return (
+                valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
+                this._spec.bandWidth / 2
+              );
+            },
+            y: 0,
+            width: this._spec.bandWidth,
+            height: () => this._scaleY.range()[0],
+            cornerRadius: this._spec.cornerRadius
           },
-          y: 0,
-          width: this._spec.bandWidth,
-          height: () => this._scaleY.range()[0],
-          cornerRadius: this._spec.cornerRadius,
-          fill: this._spec.track?.style?.fill
-        });
+          'normal',
+          AttributeLevel.Series
+        );
       } else {
-        this.setMarkStyle(trackMark, {
-          x: 0,
-          y: (datum: any) => {
-            return (
-              valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
-              this._spec.bandWidth / 2
-            );
+        this.setMarkStyle(
+          trackMark,
+          {
+            x: 0,
+            y: (datum: any) => {
+              return (
+                valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
+                this._spec.bandWidth / 2
+              );
+            },
+            height: this._spec.bandWidth,
+            width: () => this._scaleX.range()[1],
+            cornerRadius: this._spec.cornerRadius
           },
-          height: this._spec.bandWidth,
-          width: () => this._scaleX.range()[1],
-          cornerRadius: this._spec.cornerRadius,
-          fill: this._spec.track?.style?.fill
-        });
+          'normal',
+          AttributeLevel.Series
+        );
       }
       this._trigger.registerMark(trackMark);
       this._tooltipHelper?.activeTriggerSet.mark.add(trackMark);

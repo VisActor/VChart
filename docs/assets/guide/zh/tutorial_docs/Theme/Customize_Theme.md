@@ -431,11 +431,15 @@ vchart.renderAsync().then(() => {
 </div>
 
 根据效果的设计，图表的样式分为「色板」、「图元样式」、「组件样式」这三个模块。
-- 「色板」的提炼来自于业务沉淀，在此开放出来以供大家参考: [https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/theme.json](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/theme.json)。
+- 「色板」的提炼来自于业务沉淀，在此开放出来以供大家参考: [https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/colors.json](https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/colors.json)。
 - 「图元样式」为渐变效果，通过[图元渐变配置](../../../option/barChart#bar.style.fill)实现。
 - 「组件样式」则通过各个组件的具体配置实现。
 
 最终将这些配置写入主题中，再通过主题的注册和切换即可实现不同场景下的图表样式效果。
+
+当然，VChart内部也内置了两套主题，用户无需注册就可以使用，它们的具体配置如下：
+- dark: [https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/dark.json](https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/dark.json)
+- light: [https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/color.json](https://github.com/VisActor/VChart/blob/develop/docs/assets/themes/color.json)
 
 下面这个示例展示了上述过程：
 
@@ -603,6 +607,15 @@ for (const colorKey in colorTheme) {
   option.text = colorName;
   select.appendChild(option);
 }
+// append select about vchart default theme
+const optionLight = document.createElement("option");
+optionLight.value = 'light';
+optionLight.text = 'light(VChart内置)';
+select.appendChild(optionLight);
+const optionDark = document.createElement("option");
+optionDark.value = 'dark';
+optionDark.text = 'dark(VChart内置)';
+select.appendChild(optionDark);
 // step2.4: init theme
 VChart.ThemeManager.setCurrentTheme("volcanoBlue");
 

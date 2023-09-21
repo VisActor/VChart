@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: tooltipHide event may be inavailable when the computer runs slow",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

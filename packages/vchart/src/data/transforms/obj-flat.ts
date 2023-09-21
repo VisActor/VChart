@@ -4,7 +4,7 @@ import type { DataView } from '@visactor/vdataset';
  */
 export const objFlat = (data: Array<DataView>, op: string) => {
   // 数据处理
-  const dataCollect = data[0].latestData ? data[0].latestData : data || [];
+  const dataCollect = data[0]?.latestData ? data[0].latestData : data || [];
   const result: any[] = [];
   dataCollect.forEach((datum: any) => {
     const dataKey: any = {};

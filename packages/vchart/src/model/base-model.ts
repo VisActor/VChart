@@ -20,7 +20,7 @@ import type { ITooltipHelper } from './tooltip-helper';
 import type { CompilableData } from '../compile/data/compilable-data';
 import { ModelStateManager } from './model-state-manager';
 import { PREFIX } from '../constant';
-import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar';
+import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 import { array, isArray, isEqual, isNil } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import type { SeriesTypeEnum } from '../series/interface';
@@ -192,7 +192,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     const result = {
       change: false,
       reMake: false,
-      reMakeData: false,
       reRender: false,
       reSize: false,
       reCompile: false

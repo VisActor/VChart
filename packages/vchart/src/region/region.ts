@@ -1,7 +1,13 @@
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEmpty } from '@visactor/vutils';
-import type { Element, IElement, IGroupMark as IVGrammarGroupMark, ILayoutOptions, IMark } from '@visactor/vgrammar';
+import type {
+  Element,
+  IElement,
+  IGroupMark as IVGrammarGroupMark,
+  ILayoutOptions,
+  IMark
+} from '@visactor/vgrammar-core';
 import { STATE_VALUE_ENUM_REVERSE } from '../compile/mark/interface';
 import { DimensionTrigger } from '../interaction/dimension-trigger';
 import { MarkTypeEnum } from '../mark/interface';
@@ -227,7 +233,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
     return this._series.filter(
       s =>
         (opt.name ? s?.name === opt.name : true) &&
-        (opt.userId && s.userId ? array(opt.userId).includes(s.userId) : true) &&
+        (opt.userId ? array(opt.userId).includes(s.userId) : true) &&
         (isValid(opt.specIndex) && s.getSpecIndex ? array(opt.specIndex).includes(s.getSpecIndex()) : true) &&
         (opt.id ? s.id === opt.id : true) &&
         (opt.type ? s.type === opt.type : true) &&

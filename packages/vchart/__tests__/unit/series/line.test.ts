@@ -3,13 +3,13 @@ import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset
 import type { ISeriesOption } from '../../../src/series/interface';
 import { LineSeries } from '../../../src/series/line/line';
 import { dimensionStatistics } from '../../../src/data/transforms/dimension-statistics';
-import { markContext, seriesOption } from '../../util/context';
+import { initChartDataSet, markContext, seriesOption } from '../../util/context';
 import * as bt from '../../../src/vchart-all';
 import { get } from '../../../src/util/object';
 bt;
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview', dataViewParser);
 dataSet.registerTransform('dimensionStatistics', dimensionStatistics);
 const dataView = new DataView(dataSet);
 const data = `x,type,y

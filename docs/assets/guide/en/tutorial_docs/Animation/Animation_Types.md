@@ -265,7 +265,7 @@ const scatterSpec = {
   ]
 };
 
-const specs = [barSpec, barSpec];
+const specs = [barSpec, scatterSpec];
 
 const vchart = new VChart(specs[0], { dom: CONTAINER_ID });
 

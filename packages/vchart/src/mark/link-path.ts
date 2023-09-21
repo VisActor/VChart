@@ -3,9 +3,9 @@ import type { ILinkPathMarkSpec } from '../typings/visual';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
-import { registerLinkPathGlyph } from '@visactor/vgrammar';
+import { registerLinkPathGlyph } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
-import type { IGroupMark } from '@visactor/vgrammar';
+import type { IGroupMark } from '@visactor/vgrammar-core';
 
 export type ILinkPathMark = IMarkRaw<ILinkPathMarkSpec>;
 

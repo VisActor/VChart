@@ -1,4 +1,4 @@
-import type { Datum } from '@visactor/vgrammar';
+import type { Datum } from '@visactor/vgrammar-core';
 import { degreeToRadian, isValid, isValidNumber } from '@visactor/vutils';
 import {
   AttributeLevel,
@@ -256,11 +256,8 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
             });
           }
           const { width, height } = this.getLayoutRect();
-          const { x, y } = this.getLayoutStartPoint();
           return [
             createRect({
-              x,
-              y,
               width,
               height,
               fill: true

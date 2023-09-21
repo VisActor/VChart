@@ -1,7 +1,7 @@
 import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../../src/series/interface';
 import { dimensionStatistics } from '../../../src/data/transforms/dimension-statistics';
-import { seriesOption } from '../../util/context';
+import { initChartDataSet, seriesOption } from '../../util/context';
 import { FunnelSeries } from '../../../src';
 import { registerDataSetInstanceTransform } from '../../../src/data/register';
 import { funnel } from '../../../src/data/transforms/funnel';
@@ -20,8 +20,8 @@ import {
 import { get } from '@visactor/vutils';
 import { DEFAULT_DATA_INDEX } from '../../../src/constant';
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview', dataViewParser);
 dataSet.registerTransform('dimensionStatistics', dimensionStatistics);
 const dataView = new DataView(dataSet);
 const data = `name,value

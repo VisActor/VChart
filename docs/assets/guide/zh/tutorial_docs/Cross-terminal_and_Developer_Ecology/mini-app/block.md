@@ -6,6 +6,21 @@
 
 Tip: **目前 VChart（@visactor/vchart）还未内置进飞书小组件，所以需要你在飞书小组件项目中手动引入。**
 
+## 如何获取 VChart
+
+目前小组件上需要 VChart 的 umd 打包产物，你可以通过如下渠道获取：
+
+1. 直接仓库中获取 [packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index.js) ，每次发包我们都会进行更新
+2. 从如下免费的 CDN 中获取
+
+```html
+<!-- unpkg -->
+<script src="https://unpkg.com/@visactor/vchart/build/index.min.js"></script>
+
+<!-- jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/@visactor/vchart/build/index.min.js"></script>
+```
+
 ## Demo 示例
 
 我们提供了一个完整的 demo 项目，可供开发时参考：[https://github.com/VisActor/VChart/tree/main/packages/block-vchart](https://github.com/VisActor/VChart/tree/main/packages/block-vchart)

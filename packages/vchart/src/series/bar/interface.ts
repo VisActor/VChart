@@ -71,6 +71,12 @@ export interface IBarSeriesSpec
    * @since 1.2.0
    */
   barGapInGroup?: number | string | (number | string)[];
+
+  /**
+   * 柱条最小高度，可用于防止某数据项的值过小的视觉调整。
+   * @since 1.4.0
+   */
+  barMinHeight?: number;
 }
 
 export interface IBarSeriesTheme extends ICartesianSeriesTheme {

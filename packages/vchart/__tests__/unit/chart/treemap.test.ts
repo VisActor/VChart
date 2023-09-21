@@ -12,11 +12,12 @@ import type { ITreemapChartSpec } from '../../../src/chart/treemap';
 import { TreemapChart } from '../../../src/chart/treemap';
 import type { TreemapSeries } from '../../../src/series/treemap/treemap';
 import { DEFAULT_HIERARCHY_DEPTH } from '../../../src/constant/hierarchy';
+import { initChartDataSet } from '../../util/context';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview', dataViewParser);
 
 const spec: ITreemapChartSpec = {
   type: 'treemap',

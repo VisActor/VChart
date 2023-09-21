@@ -48,12 +48,27 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
    * @default 0
    */
   cornerRadius?: number;
-  /** 扇区起始角度 */
+  /**
+   * 饼图的起始角度（0 ~ 360）
+   * @default -90
+   */
   startAngle?: number;
-  /** 扇区结束角度 */
+  /**
+   * 饼图的结束角度（0 ~ 360）
+   * @default 270
+   */
   endAngle?: number;
-  /** 扇区间隔角度 */
+  /**
+   * 扇区之间的间隔角度
+   */
   padAngle?: number;
+
+  /**
+   * 最小的扇区角度（0 ~ 360），用于防止某个值过小导致扇区太小影响交互。
+   * @default 0
+   * @since 1.4.0
+   */
+  minAngle?: number;
 
   /** 扇区样式 */
   [SeriesMarkNameEnum.pie]?: IMarkSpec<IArcMarkSpec>;
