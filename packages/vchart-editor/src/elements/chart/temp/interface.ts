@@ -1,9 +1,9 @@
 import type { StandardData, DataInfo } from './../data/interface';
-import type { IChartSpec } from '@visactor/vchart';
+import type { ISpec } from '@visactor/vchart';
 
 export interface IChartTemp {
   type: string;
-  getSpec: (data: StandardData, info: DataInfo, opt?: any) => IChartSpec | null;
+  getSpec: (data: StandardData, info: DataInfo, opt?: any) => ISpec | null;
   checkDataEnable: (data: StandardData, info: DataInfo, opt?: any) => boolean;
   clear: () => void;
 }
