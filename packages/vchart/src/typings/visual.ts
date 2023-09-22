@@ -287,6 +287,11 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    * poptip 相关配置
    */
   poptip?: PopTipAttributes;
+  /**
+   * 文本的排布方向，如果需要文本纵向排布，可以配置为 'vertical'
+   * @default 'horizontal'
+   */
+  direction?: 'horizontal' | 'vertical';
 }
 
 export type IPositionedTextMarkSpec = Omit<ITextMarkSpec, 'align' | 'textAlign' | 'baseline' | 'textBaseline'>;

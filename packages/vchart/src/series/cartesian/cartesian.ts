@@ -241,18 +241,6 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this.onMarkPositionUpdate();
   }
 
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec;
-    const { xField, yField } = originalSpec;
-    const result = super.updateSpec(spec);
-    if (!shallowCompare(spec.xField, xField) || !shallowCompare(spec.yField, yField)) {
-      result.change = true;
-      result.reRender = true;
-      result.reMake = true;
-    }
-    return result;
-  }
-
   setAttrFromSpec() {
     super.setAttrFromSpec();
     this.setFieldX(this._spec.xField);

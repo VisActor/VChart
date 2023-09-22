@@ -1403,6 +1403,13 @@
             "zh": "固定组宽并自动出现滚动条",
             "en": "Axis fixed bandSize and auto scroll bar"
           }
+        },
+        {
+          "path": "axis-vertical-label",
+          "title": {
+            "zh": "纵排轴标签",
+            "en": "Axis label with vertical direction"
+          }
         }
       ]
     },

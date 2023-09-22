@@ -56,6 +56,7 @@ export const tooltip: ITooltipTheme = {
     lineHeight: THEME_CONSTANTS.l4LineHeight,
     fontFamily: THEME_CONSTANTS.defaultFontFamily,
     fontColor: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
+    fontWeight: 'bold',
     textBaseline: 'middle',
     spacing: 0
   }

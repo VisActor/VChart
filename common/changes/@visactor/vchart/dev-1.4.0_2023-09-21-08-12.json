@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: linear axis support `tooltipFilterRange` to configure the relative data range of dimension tooltip, related #933",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

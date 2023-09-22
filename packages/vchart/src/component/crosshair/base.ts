@@ -121,12 +121,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   /**
    * updateSpec
    */
-  updateSpec(spec: any) {
-    const oldSpec = this._spec;
-    const result = super.updateSpec(spec);
-    // avoid unnecessary remake for cartesian chart default spec
-    this._mergeThemeToSpec();
-    if (!result.reMake && !isEqual(oldSpec, this._spec)) {
+  _compareSpec() {
+    const result = super._compareSpec();
+    if (!result.reMake && !isEqual(this._originalSpec, this._spec)) {
       result.reRender = true;
       result.reMake = true;
     }

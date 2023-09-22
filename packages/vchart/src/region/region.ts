@@ -1,6 +1,6 @@
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty } from '@visactor/vutils';
+import { isEmpty, isEqual } from '@visactor/vutils';
 import type {
   Element,
   IElement,
@@ -183,14 +183,11 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
     }
   }
 
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec;
-    const result = super.updateSpec(spec);
-    if ((originalSpec.style && !spec?.style) || (!originalSpec.style && spec?.style)) {
+  _compareSpec() {
+    const result = super._compareSpec();
+    if (!isEqual(this._originalSpec.style, this._spec.style)) {
       result.reMake = true;
-      return result;
     }
-
     return result;
   }
 

@@ -70,6 +70,10 @@ Enable underline.
 
 Enable strikethrough.
 
+#${prefix} direction('horizontal'|'vertical') = 'horizontal'
+
+The layout direction of the text. If you need the text to be arranged vertically, you can configure it to 'vertical'.
+
 #${prefix} keepDirIn3d(boolean)
 
 Whether to always maintain the direction facing the window in 3d mode (if set to false, it will rotate with the viewpoint, if set to true, the direction will always face the window)
