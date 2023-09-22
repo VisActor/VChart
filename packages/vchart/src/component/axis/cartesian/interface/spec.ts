@@ -107,7 +107,7 @@ export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec &
      */
     minBandSize?: number;
     /**
-     * 是否根据组宽自动计算 region 宽度或高度
+     * 是否根据组宽自动计算 region 宽度或高度，仅当 `bandSize` 或 `maxBandSize` 配置时生效
      * @since 1.4.0
      */
     autoRegionSize?: boolean;

@@ -50,3 +50,8 @@ Since the chart will display all the ticks in the container proportionally by de
 
 When `bandSize` is already configured, `minBandSize` will no longer take effect.
 
+#${prefix} autoRegionSize(boolean)
+
+**Only valid when the axis is a discrete axis**，configure whether to automatically calculate region width or height based on band size. Supported since version `1.4.0`.
+
+This configuration only takes effect when `bandSize` or `maxBandSize` has already been configured.
