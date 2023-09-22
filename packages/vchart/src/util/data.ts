@@ -1,6 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
 import type { StatisticOperations } from '../data/transforms/dimension-statistics';
-import type { IRegion } from '../region/interface';
 import {
   STACK_FIELD_END,
   STACK_FIELD_START_PERCENT,
@@ -82,7 +81,11 @@ export interface IStackCacheRoot {
   };
 }
 
-export function getRegionStackGroup(region: IRegion, setInitialValue: boolean, filter?: (s: any) => boolean) {
+export function getRegionStackGroup(
+  region: { getSeries: () => any[] },
+  setInitialValue: boolean,
+  filter?: (s: any) => boolean
+) {
   const stackValueGroup: { [key: string]: IStackCacheRoot } = {};
   // 分组
   region.getSeries().forEach(s => {
