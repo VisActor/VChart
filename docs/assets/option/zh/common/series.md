@@ -75,7 +75,7 @@
 
 #${prefix} stackValue(string|number)
 
-`stackValue` 相等的系列将堆积在一起
+从 `1.4.0` 版本开始支持，`stackValue` 相等的系列将堆积在一起
 
 #${prefix} percent(boolean)
 

@@ -75,7 +75,7 @@ Whether to stack the data.
 
 #${prefix} stackValue(string|number)
 
-Series with equal `stackValue` will be stacked together
+Supported since `1.4.0` version, Series with equal `stackValue` will be stacked together
 
 #${prefix} percent(boolean)
 

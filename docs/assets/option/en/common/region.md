@@ -86,4 +86,4 @@ Background style settings.
 
 ### stackInverse(boolean)
 
-Whether to reverse the order when stacking
+Supported since `1.4.0` version, Whether to reverse the order when stacking
