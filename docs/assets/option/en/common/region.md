@@ -14,6 +14,7 @@ Region configuration
 The id of the region, which can be used to reference this region in other modules.
 
 {{ var: defaultCoordinate = ${regionType} === 'geo' ? 'geo' : ${axisType} }}
+
 ### coordinate(string) = '${defaultCoordinate}'
 
 Coordinate system type
@@ -25,20 +26,27 @@ Available options:
 - `'geo'`: Geographical coordinate system
 
 {{ if: ${regionType} === 'geo' }}
+
 ### roam(boolean) = false
+
 Allow dragging and scaling
 
 ### longitudeField(string)
+
 The longitude field name in the data, typically used for specifying data fields in `common` chart non-map series combinations.
 
 ### latitudeField(string)
+
 The latitude field name in the data, typically used for specifying data fields in `common` chart non-map series combinations.
 
 ### projection(string)
+
 Geographical mapping configuration
 
 #### type(string) = 'mercator'
+
 Geographical mapping type. Built-in projection types are as follows:
+
 - `albers`: Albers projection, centered on the USA by default, with center at Hutchinson.
 - `albersUsa`: Composite projection, used to display the lower 48 in the United States, does not support rotation or centering operations.
 - `azimuthalEqualArea`: Azimuthal equal area projection, preserves the true relative size of features.
@@ -56,12 +64,15 @@ Geographical mapping type. Built-in projection types are as follows:
 - `transverseMercator`: Transverse Mercator projection, reduces deformation within the area of interest to the greatest extent possible.
 
 ### zoomLimit(object)
+
 Maximum and minimum scaling limits
 
 #### min(number)
+
 Minimum scaling limit, unlimited by default.
 
 #### max(number)
+
 Maximum scaling limit, unlimited by default.
 {{ /if}}
 
@@ -72,3 +83,7 @@ Background style settings.
 {{ use: graphic-rect(
   prefix = '###'
 ) }}
+
+### stackInverse(boolean)
+
+Whether to reverse the order when stacking
