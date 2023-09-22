@@ -16,6 +16,11 @@ export interface IRegion extends IModel, ILayoutItem {
   //stack
   getStackInverse: () => boolean;
 
+  getMaxWidth: () => number | undefined;
+  setMaxWidth: (value: number) => void;
+  getMaxHeight: () => number | undefined;
+  setMaxHeight: (value: number) => void;
+
   // 系列
   addSeries: (series: ISeries) => void;
   removeSeries: (series: ISeries) => void;

@@ -40,6 +40,22 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
 
   interaction: IInteraction = new Interaction();
 
+  protected _maxRegionWidth?: number;
+  getMaxWidth() {
+    return this._maxRegionWidth;
+  }
+  setMaxWidth(value: number) {
+    this._maxRegionWidth = value;
+  }
+
+  protected _maxRegionHeight?: number;
+  getMaxHeight() {
+    return this._maxRegionHeight;
+  }
+  setMaxHeight(value: number) {
+    this._maxRegionHeight = value;
+  }
+
   protected _groupMark!: IGroupMark;
   getGroupMark() {
     return this._groupMark;

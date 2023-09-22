@@ -106,6 +106,11 @@ export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec &
      * @since 1.4.0
      */
     minBandSize?: number;
+    /**
+     * 是否根据组宽自动计算 region 宽度或高度
+     * @since 1.4.0
+     */
+    autoRegionSize?: boolean;
   };
 
 export type ICartesianTimeAxisSpec = Omit<ICartesianAxisCommonSpec, 'inverse'> & {
