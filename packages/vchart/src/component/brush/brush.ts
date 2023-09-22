@@ -10,7 +10,7 @@ import type { IBounds, IPointLike } from '@visactor/vutils';
 import { array, polygonContainPoint, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type { IGraphic, INode, IPolygon, IRectGraphicAttribute } from '@visactor/vrender';
+import type { IGraphic, INode, IPolygon, IRectGraphicAttribute, ISymbolGraphicAttribute } from '@visactor/vrender';
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
@@ -350,11 +350,32 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     const y = item.globalTransMatrix.f;
 
     // brush与图表图元进行相交 或 包含判断
+    let itemBounds: { x: number; y: number }[] = [];
     if (item.type === 'symbol') {
-      return globalAABBBoundsOffset.contains(x, y) && polygonContainPoint(pointsCoord, x, y);
+      const { size: itemSize = 0 } = item?.attribute as ISymbolGraphicAttribute;
+      const size = array(itemSize)[0];
+      itemBounds = [
+        {
+          x: x - size,
+          y: y - size
+        },
+        {
+          x: x + size,
+          y: y - size
+        },
+        {
+          x: x + size,
+          y: y + size
+        },
+        {
+          x: x - size,
+          y: y + size
+        }
+      ];
+      return polygonIntersectPolygon(pointsCoord, itemBounds);
     } else if (item.type === 'rect') {
       const { width = 0, height = 0 } = item?.attribute as IRectGraphicAttribute;
-      const pointsRect = [
+      itemBounds = [
         {
           x: x,
           y: y
@@ -372,7 +393,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
           y: y + height
         }
       ];
-      return polygonIntersectPolygon(pointsCoord, pointsRect);
+      return polygonIntersectPolygon(pointsCoord, itemBounds);
     }
     return brushMask.globalAABBBounds.intersects(item.globalAABBBounds);
   }
