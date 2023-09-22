@@ -209,7 +209,7 @@ export interface IChartSpec {
   /**
    * 堆积时是否逆序
    * @default false
-   * @since 1.4.1
+   * @since 1.4.0
    */
   stackInverse?: boolean;
 }
@@ -375,7 +375,7 @@ export interface ISeriesSpec extends ITriggerSpec {
   /**
    * 堆叠时的分组值
    * stackValue 相等的系列将在一起堆积。没有配置的系列将在一组
-   * @since 1.4.1
+   * @since 1.4.0
    */
   stackValue?: StringOrNumber;
 

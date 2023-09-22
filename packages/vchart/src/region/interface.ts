@@ -53,7 +53,7 @@ export interface IRegionSpec extends ILayoutItemSpec {
   /**
    * 堆积时是否逆序
    * @default false
-   * @since 1.4.1
+   * @since 1.4.0
    */
   stackInverse?: boolean;
 }
