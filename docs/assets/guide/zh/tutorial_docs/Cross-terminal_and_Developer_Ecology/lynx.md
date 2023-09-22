@@ -100,8 +100,6 @@ bindChartEvent(event) {
 },
 ```
 
-3. 在跨端环境下，异步渲染方法 `renderAsync()` 有可能存在一些位置的问题，建议使用 VChart 的同步渲染方法 `renderSync()`。
-
 下面是 index.js 相关的完成代码：
 
 ```ts

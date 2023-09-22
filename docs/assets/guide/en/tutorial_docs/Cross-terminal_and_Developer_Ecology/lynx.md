@@ -100,8 +100,6 @@ bindChartEvent(event) {
 },
 ```
 
-3. In a cross-end environment, the asynchronous rendering method `renderAsync()` may have some position problems. It is recommended to use VChart's synchronous rendering method `renderSync()`.
-
 The following is the completed code related to index.js:
 
 ```ts
