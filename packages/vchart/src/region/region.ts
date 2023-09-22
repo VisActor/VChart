@@ -44,6 +44,9 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
   getGroupMark() {
     return this._groupMark;
   }
+  getStackInverse() {
+    return this._spec.stackInverse === true;
+  }
 
   protected _backgroundMark?: IRectMark;
   protected _foregroundMark?: IRectMark;

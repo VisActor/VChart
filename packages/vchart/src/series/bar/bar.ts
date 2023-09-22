@@ -1,12 +1,12 @@
-import { PREFIX, STACK_FIELD_START } from './../../constant/index';
+import { PREFIX } from './../../constant/index';
 /* eslint-disable no-duplicate-imports */
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel } from '../../constant';
-import type { Maybe, Datum, DirectionType, StringOrNumber } from '../../typings';
-import { mergeSpec, valueInScaleRange, getActualNumValue } from '../../util';
+import type { Maybe, Datum, DirectionType } from '../../typings';
+import { mergeSpec, valueInScaleRange, getActualNumValue, getRegionStackGroup } from '../../util';
 import type { BarAppearPreset, IBarAnimationParams } from './animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IBarSeriesSpec, IBarSeriesTheme } from './interface';
@@ -24,6 +24,7 @@ import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { array, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
+import { stackWithMinHeight } from '../util/stack';
 
 VChart.useMark([RectMark, TextMark]);
 
@@ -146,67 +147,22 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       axisHelper = '_xAxisHelper';
     }
 
-    const barSeriesArr = region.getSeries().filter(s => s.type === SeriesTypeEnum.bar && s.getStackData());
-    const groupedStackData = {};
+    // only reCompute bar
+    const stackValueGroup = getRegionStackGroup(region, false, s => s.type === SeriesTypeEnum.bar);
 
-    const iterateStackData = (data: any, preKey: string, seriesId: StringOrNumber) => {
-      Object.keys(data.nodes).forEach(key => {
-        const currentKey = preKey ? `${preKey}_${key}` : key;
-        if (data.nodes[key].nodes) {
-          iterateStackData(data.nodes[key], currentKey, seriesId);
-        } else {
-          if (!groupedStackData[currentKey]) {
-            groupedStackData[currentKey] = [];
-          }
-
-          data.nodes[key].values.forEach((obj: Datum) => {
-            obj.seriesId = seriesId;
-            groupedStackData[currentKey].push(obj);
-          });
-        }
-      });
-    };
-
-    barSeriesArr.forEach(s => {
-      const stackData = s.getStackData();
-      iterateStackData(stackData, '', s.id);
-    });
-
-    Object.keys(groupedStackData).forEach(key => {
-      const values = groupedStackData[key];
-      // 保证堆叠顺序
-      values.sort((a: Datum, b: Datum) => Math.abs(a[STACK_FIELD_START]) - Math.abs(b[STACK_FIELD_START]));
-
-      let lastY: number;
-      values.forEach((obj: Datum, index: number) => {
-        const series = barSeriesArr.find(s => s.id === obj.seriesId);
-        const barMinHeight = series.getSpec().barMinHeight;
-        const seriesScale = series[axisHelper].getScale?.(0);
-        const inverse = series[axisHelper].isInverse();
-        const y1 = valueInScaleRange(series[startMethod](obj), seriesScale);
-        let y = valueInScaleRange(series[endMethod](obj), seriesScale);
-
-        if (index === 0) {
-          lastY = y1;
-        }
-
-        let height = Math.abs(y1 - y);
-        if (height < barMinHeight) {
-          height = barMinHeight;
-        }
-
-        let flag = 1;
-        if (y < y1) {
-          flag = -1;
-        } else if (y === y1) {
-          flag = isVertical ? (inverse ? 1 : -1) : inverse ? -1 : 1;
-        }
-        y = lastY + flag * height;
-        obj[start] = lastY;
-        obj[end] = y;
-        lastY = y;
-      });
-    });
+    // 按照堆积逻辑 重新计算一次图形的堆积位置并设置到数据上
+    for (const stackValue in stackValueGroup) {
+      for (const key in stackValueGroup[stackValue].nodes) {
+        stackWithMinHeight(stackValueGroup[stackValue].nodes[key], region.getStackInverse(), {
+          isVertical,
+          start,
+          end,
+          startMethod,
+          endMethod,
+          axisHelper
+        });
+      }
+    }
   }
 
   private _calculateRectPosition(datum: Datum, isVertical: boolean) {

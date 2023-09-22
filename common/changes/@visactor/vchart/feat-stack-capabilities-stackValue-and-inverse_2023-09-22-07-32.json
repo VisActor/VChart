@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: increase chart stacking capabilities, provide stackInverse support for stacking in reverse order\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}
