@@ -1,3 +1,4 @@
+import type { IRegionSpec } from './../region/interface';
 import { ChartData } from './chart-meta/data';
 import type { ICrossHair } from '../component/crosshair/interface/spec';
 import type { IDimensionInfo } from '../event/events/dimension/interface';
@@ -234,6 +235,9 @@ export class BaseChart extends CompilableBase implements IChart {
     }
     if (!has(spec, 'tooltip')) {
       spec.tooltip = {};
+    }
+    if (isValid(spec.stackInverse)) {
+      spec.region.forEach((r: IRegionSpec) => !isValid(r.stackInverse) && (r.stackInverse = spec.stackInverse));
     }
   }
 
