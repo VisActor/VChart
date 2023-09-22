@@ -11,7 +11,7 @@ import type { IGroupMark } from '@visactor/vgrammar-core';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
-import type { Datum, StringOrNumber } from '../../typings';
+import type { Datum } from '../../typings';
 import { normalizeLayoutPaddingSpec } from '../../util';
 import type { IComponentSpec } from './interface';
 
@@ -104,7 +104,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
     super._mergeThemeToSpec();
 
     // 默认忽略外侧 padding
-    const { padding, noOuterPadding = true, orient } = this._spec;
+    const { padding, noOuterPadding = true, orient } = this.getSpec();
     if (noOuterPadding && padding && orient) {
       this._spec.padding = {
         ...normalizeLayoutPaddingSpec(padding),
@@ -128,10 +128,10 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
     const result = super._compareSpec();
     if (!result.reMake) {
       result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
-        return isEqual(this._originalSpec[k], this._spec[k]);
+        return isEqual(this._originalSpec[k], this.getSpec()[k]);
       });
     }
-    if (this._originalSpec.visible !== (<any>this._spec).visible) {
+    if (this._originalSpec.visible !== (<any>this.getSpec()).visible) {
       result.reCompile = true;
     }
     return result;
