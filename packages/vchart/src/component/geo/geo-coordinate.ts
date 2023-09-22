@@ -17,6 +17,7 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import { isValid, mixin } from '@visactor/vutils';
 import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
+import type { IGroup } from '@visactor/vrender';
 
 export function projectionName(key: string, id: number) {
   return `${PREFIX}_${id}_${key}`;
@@ -295,6 +296,10 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   // region
   changeRegions(regions: IRegion[]): void {
     // do nothing
+  }
+
+  getVRenderComponents(): IGroup[] {
+    return [];
   }
 
   // util

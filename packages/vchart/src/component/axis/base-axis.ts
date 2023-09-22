@@ -109,6 +109,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     this._visible = spec.visible ?? true;
   }
 
+  getVRenderComponents(): IGroup[] {
+    return [];
+  }
+
   created() {
     super.created();
     //series and regions

@@ -187,12 +187,12 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
     return this._titleComponent;
   }
 
+  getVRenderComponents(): IGroup[] {
+    return [this._titleComponent] as unknown as IGroup[];
+  }
+
   clear(): void {
-    if (this._titleComponent) {
-      this.getContainer()?.removeChild(this._titleComponent as unknown as IGroup);
-      this._titleComponent = null;
-    }
-    this._cacheAttrs = null;
     super.clear();
+    this._cacheAttrs = null;
   }
 }

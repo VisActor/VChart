@@ -288,13 +288,13 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     this.event.emit(ChartEvent.legendSelectedDataChange, { model: this });
   }
 
+  getVRenderComponents(): IGroup[] {
+    return [this._legendComponent] as unknown as IGroup[];
+  }
+
   clear(): void {
-    if (this._legendComponent) {
-      this.getContainer()?.removeChild(this._legendComponent);
-      this._legendComponent = null;
-    }
+    super.clear();
     this._cacheAttrs = null;
     this._preSelectedData = null;
-    super.clear();
   }
 }

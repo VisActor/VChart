@@ -10,7 +10,7 @@ import type { IBounds, IPointLike } from '@visactor/vutils';
 import { array, polygonContainPoint, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type { IGraphic, INode, IPolygon, IRectGraphicAttribute } from '@visactor/vrender';
+import type { IGraphic, IGroup, INode, IPolygon, IRectGraphicAttribute } from '@visactor/vrender';
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
@@ -465,6 +465,10 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   }
   changeRegions(regions: IRegion[]): void {
     // do nothing
+  }
+
+  getVRenderComponents(): IGroup[] {
+    return this._brushComponents as unknown as IGroup[];
   }
 
   /**
