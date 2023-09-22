@@ -1,7 +1,5 @@
 import { VChart } from './vchart-all';
-import { initAllEnv } from '@visactor/vrender-kits';
 
-initAllEnv();
 export default VChart;
 
 export * from './core';

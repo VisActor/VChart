@@ -33,7 +33,8 @@
     "@visactor/vchart": "workspace:1.3.4",
     "@visactor/vutils": "~0.16.1",
     "@visactor/vdataset": "~0.16.1",
-    "@visactor/vrender": "~0.15.3"
+    "@visactor/vrender-core": "~0.16.0-alpha.4",
+    "@visactor/vrender-kits": "~0.16.0-alpha.4"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",
