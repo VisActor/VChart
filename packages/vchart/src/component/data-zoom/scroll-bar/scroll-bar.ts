@@ -167,4 +167,12 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     }
     return attrs;
   }
+
+  clear(): void {
+    if (this._component) {
+      this.getContainer()?.removeChild(this._component as unknown as INode);
+      this._component = null;
+    }
+    super.clear();
+  }
 }

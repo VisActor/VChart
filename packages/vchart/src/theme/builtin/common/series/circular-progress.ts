@@ -12,5 +12,11 @@ export const circularProgress: ICircularProgressSeriesTheme = {
     style: {
       fillOpacity: 0.2
     }
+  },
+  tickMask: {
+    visible: false,
+    angle: 3,
+    offsetAngle: 0,
+    forceAlign: true
   }
 };

@@ -476,15 +476,14 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   /**
    * updateSpec
    */
-  updateSpec(spec: any) {
+  _compareSpec() {
     if (this._brushComponents) {
       this._relativeRegions.forEach((region: IRegion, index: number) => {
         this._updateBrushComponent(region, index);
       });
     }
-    const originalSpec = this._spec;
-    const result = super.updateSpec(spec);
-    if (!isEqual(originalSpec, this._spec)) {
+    const result = super._compareSpec();
+    if (!isEqual(this._originalSpec, this._spec)) {
       result.reRender = true;
       result.reMake = true;
     }

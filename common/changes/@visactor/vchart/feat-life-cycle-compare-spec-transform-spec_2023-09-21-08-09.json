@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "refactor: split the updateSpec of life cycle to spec transform & compare\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}

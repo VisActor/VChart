@@ -7,6 +7,7 @@ import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILabelSpec } from '../../component/label';
 
 export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimationSpec<SankeyMark, SankeyAppearPreset> {
+  nameKey: any;
   type: 'sankey';
 
   /**

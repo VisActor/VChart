@@ -19,7 +19,7 @@ import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
 import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { mixin, clamp, isNil } from '@visactor/vutils';
+import { mixin, clamp, isNil, isEqual } from '@visactor/vutils';
 import { IFilterMode } from './constant';
 import type { IDataFilterComponent, IDataFilterComponentSpec } from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
@@ -531,10 +531,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   /**
    * updateSpec
    */
-  updateSpec(spec: any) {
-    const result = super.updateSpec(spec);
-    result.reRender = true;
-    result.reMake = true;
+  _compareSpec() {
+    const result = super._compareSpec();
+    if (!result.reMake && !isEqual(this._originalSpec, this._spec)) {
+      result.reRender = true;
+      result.reMake = true;
+    }
 
     return result;
   }

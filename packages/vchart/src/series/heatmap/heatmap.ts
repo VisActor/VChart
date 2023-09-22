@@ -172,23 +172,6 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     return axisHelper.getBandwidth?.(0) ?? DefaultBandWidth;
   }
 
-  /**
-   * spec 更新
-   * @param spec
-   * @returns
-   */
-  updateSpec(spec: IHeatmapSeriesSpec) {
-    // super updateSpec 会执行 setAttrFromSpec 所以先缓存比对值
-    const { direction } = this._spec;
-    const result = super.updateSpec(spec);
-    if (spec.direction !== direction) {
-      result.change = true;
-      result.reRender = true;
-      result.reMake = true;
-    }
-    return result;
-  }
-
   protected initTooltip() {
     this._tooltipHelper = new HeatmapSeriesTooltipHelper(this);
   }

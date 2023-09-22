@@ -883,7 +883,6 @@ export class BaseChart extends CompilableBase implements IChart {
     }
     this._regions.forEach(r => {
       mergeUpdateResult(result, r.updateSpec(this._spec.region[r.getSpecIndex()]));
-      !result.reMake && r.reInit();
     });
   }
 
@@ -908,7 +907,6 @@ export class BaseChart extends CompilableBase implements IChart {
       } else {
         mergeUpdateResult(result, c.updateSpec(cmpSpec));
       }
-      !result.reMake && c.reInit();
     });
     for (const key in componentCache) {
       if (Object.prototype.hasOwnProperty.call(componentCache, key)) {
@@ -928,9 +926,7 @@ export class BaseChart extends CompilableBase implements IChart {
     }
     this._series.forEach(s => {
       const spec = this._spec.series[s.getSpecIndex()];
-      const lastSpec = s.getSpec();
       mergeUpdateResult(result, s.updateSpec(spec));
-      !result.reMake && s.reInit(null, lastSpec);
     });
   }
 
