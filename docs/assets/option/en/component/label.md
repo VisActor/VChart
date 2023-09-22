@@ -188,6 +188,43 @@ Custom contrast ratio threshold. When the color contrast between the label text 
 
 Customize alternative label colors. These colors will be added to the alternative color pool. Colors that satisfy text readability will be selected from the alternative color pool to replace the label color when the contrast does not meet the threshold. The default alternative color pool includes white `‘#ffffff’` and black `‘#000000’`.
 
+##${prefix} fillStrategy(string)
+
+Four strategies for label fill color in intelligent inversion:
+
+- `'base'` uses the color of the element where the label is located
+- `'invertBase'` uses the color calculated by smart inversion
+- `'similarBase'` uses the complementary color of the color after intelligent inversion calculation
+- `'null'` does not perform smart inversion and keeps the color set by `style.fill`
+
+The default setting is `'invertBase'`
+
+##${prefix} strokeStrategy(string)
+
+Four strategies for label stroke color in intelligent inversion:
+
+- `'base'` uses the color of the element where the label is located
+- `'invertBase'` uses the color calculated by smart inversion
+- `'similarBase'` uses the complementary color of the color after intelligent inversion calculation
+- `'null'` does not perform smart inversion and keeps the color set by `style.stroke`
+
+The default setting is `'base'`
+
+##${prefix} brightColor(string)
+
+similarSeries uses this color when the foreground color has contrast with the bright color.
+The default setting is '#ffffff'.
+
+##${prefix} brightColor(string)
+
+similarSeries uses this color when the foreground color has contrast with the dark color.
+The default setting is '#000000'.
+
+##${prefix} outsideEnable(boolean)
+
+If the label exceeds the mark range, mark will also be used as the background color for inversion.
+The default setting is `false`.
+
 {{ /if }}
 
 {{ if: !${ignoreCustom} }}
