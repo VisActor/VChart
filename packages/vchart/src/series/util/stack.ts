@@ -21,7 +21,7 @@ export function stackWithMinHeight(
     }
     // temp
     let lastY: number;
-    seriesInfo.forEach(({ s, values }) => {
+    seriesInfo.forEach(({ s, values }, sIndex) => {
       // stack info in series
       const barMinHeight = s.getSpec().barMinHeight;
       const seriesScale = s[context.axisHelper].getScale?.(0);
@@ -33,7 +33,7 @@ export function stackWithMinHeight(
         const y1 = valueInScaleRange(s[context.startMethod](obj), seriesScale);
         let y = valueInScaleRange(s[context.endMethod](obj), seriesScale);
 
-        if (index === 0) {
+        if (index === 0 && sIndex === 0) {
           lastY = y1;
         }
 
