@@ -384,6 +384,22 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this.state.compileState(this._product);
   }
 
+  /** 更新 mark 样式 */
+  updateEncode(key: string, state: string) {
+    if (!this._product) {
+      return;
+    }
+    const style = this.stateStyle[state]?.[key];
+    if (!style) {
+      return;
+    }
+    const encodeStyle = {
+      callback: this.compileCommonAttributeCallback(key, state),
+      dependency: [this.stateKeyToSignalName('markUpdateRank')]
+    };
+    this._product.encodeState(state === 'normal' ? 'update' : state, key, encodeStyle);
+  }
+
   compileAnimation() {
     if (this._animationConfig) {
       let stateSignal: any;
