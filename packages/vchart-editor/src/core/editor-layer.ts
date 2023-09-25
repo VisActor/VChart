@@ -94,7 +94,7 @@ export class EditorLayer implements IEditorLayer {
       canvas: this._canvas,
       width: this._canvas.clientWidth,
       height: this._canvas.clientHeight,
-      canvasControled: false,
+      canvasControled: true,
       autoRender: true,
       disableDirtyBounds: true
     });
