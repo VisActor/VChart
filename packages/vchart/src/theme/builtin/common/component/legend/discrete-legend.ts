@@ -36,11 +36,13 @@ export const discreteLegend: IDiscreteLegendTheme = {
       space: 6,
       style: {
         lineWidth: 0,
-        fillOpacity: 1
+        fillOpacity: 1,
+        opacity: 1 // 覆盖 vrender-components 里的默认值
       },
       state: {
         unSelected: {
-          fillOpacity: 0.5
+          fillOpacity: 0.2,
+          opacity: 1 // 覆盖 vrender-components 里的默认值
         }
       }
     },
@@ -50,11 +52,13 @@ export const discreteLegend: IDiscreteLegendTheme = {
         fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' },
         fontSize: THEME_CONSTANTS.l5FontSize,
         lineHeight: THEME_CONSTANTS.l5LineHeight,
-        fontFamily: THEME_CONSTANTS.defaultFontFamily
+        fontFamily: THEME_CONSTANTS.defaultFontFamily,
+        opacity: 1 // 覆盖 vrender-components 里的默认值
       },
       state: {
         unSelected: {
-          fill: { type: 'palette', key: 'disableFontColor' }
+          fill: { type: 'palette', key: 'disableFontColor' },
+          opacity: 1 // 覆盖 vrender-components 里的默认值
         }
       }
     }

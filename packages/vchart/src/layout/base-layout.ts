@@ -173,10 +173,18 @@ export class Layout implements IBaseLayout {
     regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
 
     // region 处理
+    const regionWidth = Math.min(
+      regionRelativeTotalWidth,
+      ...regionItems.map(region => region.getMaxWidth?.() ?? Number.MAX_VALUE)
+    );
+    const regionHeight = Math.min(
+      regionRelativeTotalHeight,
+      ...regionItems.map(region => region.getMaxHeight?.() ?? Number.MAX_VALUE)
+    );
     regionItems.forEach(region => {
       region.setLayoutRect({
-        width: regionRelativeTotalWidth,
-        height: regionRelativeTotalHeight
+        width: regionWidth,
+        height: regionHeight
       });
 
       region.setLayoutStartPosition({
@@ -198,6 +206,12 @@ export class Layout implements IBaseLayout {
         item.setLayoutStartPosition({
           y: relativeRegion.getLayoutStartPoint().y + item.layoutOffsetY + item.layoutPaddingTop
         });
+
+        if (item.layoutOrient === 'right') {
+          item.setLayoutStartPosition({
+            x: item.getLayoutStartPoint().x + regionWidth - regionRelativeTotalWidth
+          });
+        }
       } else if (['top', 'bottom'].includes(item.layoutOrient)) {
         const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
@@ -208,6 +222,12 @@ export class Layout implements IBaseLayout {
         item.setLayoutStartPosition({
           x: relativeRegion.getLayoutStartPoint().x + item.layoutOffsetX + item.layoutPaddingLeft
         });
+
+        if (item.layoutOrient === 'bottom') {
+          item.setLayoutStartPosition({
+            y: item.getLayoutStartPoint().y + regionHeight - regionRelativeTotalHeight
+          });
+        }
       }
     });
   }

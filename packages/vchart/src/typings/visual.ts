@@ -125,6 +125,16 @@ export interface ICommonSpec {
   angle?: number;
   anchor?: [number, number];
 
+  // 缩放属性
+  scaleX?: number;
+  scaleY?: number;
+  /**
+   * 图形缩放中心
+   * @since 1.4.0
+   * 可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心
+   * */
+  scaleCenter?: [number | string, number | string];
+
   // 3d旋转的属性
   beta?: number;
   alpha?: number;
@@ -360,9 +370,6 @@ export interface IOutlierMarkSpec {
 
 export interface IPathMarkSpec extends IFillMarkSpec {
   path?: string;
-  scaleX?: number;
-  scaleY?: number;
-  scaleCenter?: { x: number; y: number };
   // TODO: 该属性后续可能会删除，未定
   // 平滑缩放，不然会发生跳变，在地图交互场景需要配置为true；常规path缩放不需要
   smoothScale?: boolean;
