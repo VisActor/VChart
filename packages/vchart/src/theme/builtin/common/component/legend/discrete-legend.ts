@@ -41,7 +41,7 @@ export const discreteLegend: IDiscreteLegendTheme = {
       },
       state: {
         unSelected: {
-          fillOpacity: 0.5,
+          fillOpacity: 0.2,
           opacity: 1 // 覆盖 vrender-components 里的默认值
         }
       }
