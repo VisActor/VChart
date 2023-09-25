@@ -40,6 +40,10 @@ import { Event } from '../../event/event';
 import { AnimationStateEnum } from '../../animation/interface';
 import type { ILabelSpec } from '../../component/label';
 
+const keptInUpdateAttribute = {
+  defined: true
+};
+
 /** 可编译的 mark 对象，这个基类只存放编译相关的逻辑 */
 export abstract class CompilableMark extends GrammarItem implements ICompilableMark {
   readonly grammarType = GrammarType.mark;
@@ -345,6 +349,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
           callback: this.compileCommonAttributeCallback(key, 'normal'),
           dependency: [this.stateKeyToSignalName('markUpdateRank')]
         };
+      } else if (keptInUpdateAttribute[key]) {
+        updateStyles[key] = normalStyle[key].style;
       } else {
         enterStyles[key] = this.compileCommonAttributeCallback(key, 'normal');
       }
