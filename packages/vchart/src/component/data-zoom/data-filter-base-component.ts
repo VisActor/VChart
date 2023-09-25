@@ -715,7 +715,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         if (minBandSize) {
           scale.minBandwidth(minBandSize, true);
         }
-        scale.rescale(false);
+        scale.rescale();
       }
       let [start, end] = scale.rangeFactor() ?? [];
       if ((!start && !end) || !scale.isBandwidthFixed()) {
