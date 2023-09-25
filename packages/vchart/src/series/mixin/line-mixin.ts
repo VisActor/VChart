@@ -307,13 +307,13 @@ export class LineLikeSeriesMixin {
     }
     const statistics = this.getViewDataStatistics()?.latestData?.[this.getStackValueField()];
     if (this._invalidType === 'zero' || (statistics && statistics?.allValid)) {
-      if (mark.stateStyle.normal?.[attr].style === true) {
+      if (mark.stateStyle.normal?.[attr]?.style === true) {
         // no change
         return;
       }
       this.setMarkStyle(mark, { [attr]: true }, 'normal', AttributeLevel.Series);
     } else {
-      if (mark.stateStyle.normal?.[attr].style !== true) {
+      if (mark.stateStyle.normal?.[attr]?.style !== true) {
         // no change
         return;
       }
