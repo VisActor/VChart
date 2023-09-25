@@ -707,23 +707,23 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           scale.minBandwidth(minBandSize, true);
         }
         scale.rescale(false);
-        let [start, end] = scale.rangeFactor();
-        if ((!start && !end) || !scale.isBandwidthFixed()) {
-          start = 0;
-          end = 1;
+      }
+      let [start, end] = scale.rangeFactor() ?? [];
+      if ((!start && !end) || !scale.isBandwidthFixed()) {
+        start = 0;
+        end = 1;
+        this.hide();
+        isShown = false;
+      } else {
+        if (start === 0 && end === 1) {
           this.hide();
           isShown = false;
         } else {
-          if (start === 0 && end === 1) {
-            this.hide();
-            isShown = false;
-          } else {
-            this.show();
-          }
+          this.show();
         }
-        this._start = start;
-        this._end = end;
       }
+      this._start = start;
+      this._end = end;
     }
     this.setStartAndEnd(this._start, this._end);
     this._cacheVisibility = isShown;
