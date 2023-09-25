@@ -862,8 +862,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   _compareSpec(ignoreCheckKeys?: { [key: string]: true }) {
     const result = super._compareSpec();
 
-    const currentKeys = Object.keys(this._originalSpec).sort();
-    const nextKeys = Object.keys(this._spec).sort();
+    const currentKeys = Object.keys(this._originalSpec || {}).sort();
+    const nextKeys = Object.keys(this._spec || {}).sort();
     if (!isEqual(currentKeys, nextKeys)) {
       result.reMake = true;
       return result;

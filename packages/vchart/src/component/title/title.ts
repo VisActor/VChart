@@ -77,7 +77,7 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
    */
   _compareSpec() {
     const result = super._compareSpec();
-    if (this._originalSpec.orient !== this._spec.orient) {
+    if (this._originalSpec?.orient !== this._spec?.orient) {
       result.reMake = true;
     }
 

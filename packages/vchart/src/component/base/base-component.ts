@@ -129,10 +129,10 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
     const result = super._compareSpec();
     if (!result.reMake) {
       result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
-        return isEqual(this._originalSpec[k], this.getSpec()[k]);
+        return isEqual(this._originalSpec?.[k], this.getSpec()[k]);
       });
     }
-    if (this._originalSpec.visible !== (<any>this.getSpec()).visible) {
+    if (this._originalSpec?.visible !== (<any>this.getSpec()).visible) {
       result.reCompile = true;
     }
     return result;

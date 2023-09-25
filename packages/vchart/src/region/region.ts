@@ -188,7 +188,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
 
   _compareSpec() {
     const result = super._compareSpec();
-    if (!isEqual(this._originalSpec.style, this._spec.style)) {
+    if (!isEqual(this._originalSpec?.style, this._spec?.style)) {
       result.reMake = true;
     }
     return result;

@@ -124,7 +124,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   _compareSpec() {
     const result = super._compareSpec();
     result.reRender = true;
-    if (this._spec.orient !== this._originalSpec.orient) {
+    if (this._spec?.orient !== this._originalSpec?.orient) {
       result.reMake = true;
       return result;
     }
