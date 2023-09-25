@@ -112,7 +112,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
         const axisScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
         const axisSpec = (this._relatedAxisComponent as CartesianAxis<any>).getSpec() as ICartesianBandAxisSpec;
-        if (this._auto) {
+        if (this._auto && this._getAxisBandSize(axisSpec)) {
           // 提前更改 scale
           axisScale.range(this._stateScale?.range(), true);
         }
@@ -673,14 +673,23 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._component?.showAll();
   }
 
+  protected _getAxisBandSize(axisSpec?: ICartesianBandAxisSpec) {
+    const bandSize = axisSpec?.bandSize;
+    const maxBandSize = axisSpec?.maxBandSize;
+    const minBandSize = axisSpec?.minBandSize;
+    if (bandSize || minBandSize || maxBandSize) {
+      return { bandSize, maxBandSize, minBandSize };
+    }
+    return undefined;
+  }
+
   protected _autoUpdate(rect?: ILayoutRect): boolean {
     if (!this._auto) {
       return true;
     }
     const axisSpec = this._relatedAxisComponent?.getSpec() as ICartesianBandAxisSpec | undefined;
-    const bandSize = axisSpec?.bandSize;
-    const maxBandSize = axisSpec?.maxBandSize;
-    const minBandSize = axisSpec?.minBandSize;
+    const bandSizeResult = this._getAxisBandSize(axisSpec);
+    const { bandSize, maxBandSize, minBandSize } = bandSizeResult ?? {};
     if (
       rect?.height === this._cacheRect?.height &&
       rect?.width === this._cacheRect?.width &&
@@ -693,7 +702,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const scale = this._stateScale as BandScale;
     scale.range(this._isHorizontal ? [0, rect.width] : axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
     if (isDiscrete(scale.type)) {
-      if (bandSize || minBandSize || maxBandSize) {
+      if (bandSizeResult) {
         if (this._start || this._end) {
           scale.rangeFactor([this._start, this._end], true);
         }
