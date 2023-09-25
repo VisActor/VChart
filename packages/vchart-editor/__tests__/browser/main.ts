@@ -1,7 +1,7 @@
 /**
  * !important: 本地调试应该修改 local 文件内容
  */
-import './index.local';
+// import './index.local';
 import { VChartEditor } from './../../src/index-all';
 import { BrowserData } from './browser-data';
 const editor = new VChartEditor({
