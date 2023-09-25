@@ -89,3 +89,14 @@ y 方向的偏移。
 旋转角度。
 
 {{ /if }}
+
+#${prefix} scaleX(number) = 1
+x 方向缩放比例。
+
+#${prefix} scaleY(number) = 1
+y 方向缩放比例。
+
+#${prefix} scaleCenter([number|string, number|string])
+
+缩放中心。自 `1.4.0` 版本以后支持。  
+可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心。
