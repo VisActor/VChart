@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: unify the clear of component",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

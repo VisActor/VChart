@@ -1,19 +1,8 @@
-import {
-  STACK_FIELD_END,
-  STACK_FIELD_START_PERCENT,
-  STACK_FIELD_END_PERCENT,
-  ChartEvent,
-  STACK_FIELD_END_OffsetSilhouette,
-  STACK_FIELD_START_OffsetSilhouette,
-  STACK_FIELD_TOTAL,
-  STACK_FIELD_TOTAL_PERCENT,
-  STACK_FIELD_TOTAL_TOP
-} from '../constant/index';
-import type { ISeriesStackDataMeta } from '../series/interface';
+import { ChartEvent } from '../constant/index';
 import type { IRegion } from '../region/interface';
 import type { IChart } from './interface';
-import { STACK_FIELD_START } from '../constant';
-import { max, sum, toValidNumber } from '../util';
+import type { IStackCacheNode } from '../util';
+import { getRegionStackGroup, stack, stackOffsetSilhouette, stackTotal } from '../util';
 import type { EventCallback } from '../event/interface';
 
 // stack
@@ -46,130 +35,29 @@ export class Stack {
   }
 
   stackRegion = ({ model }: { model: IRegion }) => {
-    const stackCache: IStackCacheRoot = {
-      nodes: {}
-    };
-    // 分组
-    model.getSeries().forEach(s => {
-      const stackData = s.getStackData();
-      const stackValueField = s.getStackValueField(); // yField
-      if (stackData && stackValueField) {
-        this.stackGroup(stackData, stackCache as unknown as IStackCacheNode, stackValueField);
-      }
-    });
+    const stackValueGroup = getRegionStackGroup(model, true);
 
     // 计算堆积
-    for (const key in stackCache.nodes) {
-      this.stack(stackCache.nodes[key]);
+    for (const stackValue in stackValueGroup) {
+      for (const key in stackValueGroup[stackValue].nodes) {
+        stack(stackValueGroup[stackValue].nodes[key], model.getStackInverse());
+      }
     }
 
     // 围绕中心轴偏移轮廓
-    for (const key in stackCache.nodes) {
-      this.stackOffsetSilhouette(stackCache.nodes[key]);
+    for (const stackValue in stackValueGroup) {
+      for (const key in stackValueGroup[stackValue].nodes) {
+        stackOffsetSilhouette(stackValueGroup[stackValue].nodes[key]);
+      }
     }
+
     model.getSeries().forEach(s => {
       const stackData = s.getStackData();
+      const stackValue = s.getStackValue();
       const stackValueField = s.getStackValueField(); // yField
       if (stackData && stackValueField) {
-        this.stackTotal(stackCache as IStackCacheNode, stackValueField);
+        stackTotal(stackValueGroup[stackValue] as IStackCacheNode, stackValueField);
       }
     });
-  };
-
-  private stackTotal(stackData: IStackCacheNode, valueField: string) {
-    if ('values' in stackData && stackData.values.length) {
-      const total = sum(stackData.values, valueField);
-      const percent = max(stackData.values, STACK_FIELD_END_PERCENT);
-      stackData.values.forEach(v => {
-        v[STACK_FIELD_TOTAL] = total;
-        v[STACK_FIELD_TOTAL_PERCENT] = percent;
-        delete v[STACK_FIELD_TOTAL_TOP];
-      });
-      const maxNode = stackData.values.reduce((max, current) => {
-        return current[STACK_FIELD_END] > max[STACK_FIELD_END] ? current : max;
-      });
-      maxNode[STACK_FIELD_TOTAL_TOP] = true;
-      return;
-    }
-    for (const key in stackData.nodes) {
-      this.stackTotal(stackData.nodes[key], valueField);
-    }
-  }
-
-  private stackOffsetSilhouette(stackCache: IStackCacheNode) {
-    if (!stackCache.values.length) {
-      return;
-    }
-    const centerValue = stackCache.values[stackCache.values.length - 1][STACK_FIELD_END] / 2;
-    for (let j = 0; j < stackCache.values.length; j++) {
-      stackCache.values[j][STACK_FIELD_START_OffsetSilhouette] = stackCache.values[j][STACK_FIELD_START] - centerValue;
-      stackCache.values[j][STACK_FIELD_END_OffsetSilhouette] = stackCache.values[j][STACK_FIELD_END] - centerValue;
-    }
-  }
-
-  private stack(stackCache: IStackCacheNode) {
-    if (stackCache.values.length > 0) {
-      // 设置一个小数以保证 log 计算不会报错
-      let positiveStart = 0;
-      let negativeStart = 0;
-      // temp
-      let sign = 1;
-      let value = 0;
-
-      // stack
-      stackCache.values.forEach(v => {
-        value = v[STACK_FIELD_END];
-        if (value >= 0) {
-          v[STACK_FIELD_START] = positiveStart;
-          positiveStart += v[STACK_FIELD_END];
-          v[STACK_FIELD_END] = positiveStart;
-        } else {
-          v[STACK_FIELD_START] = negativeStart;
-          negativeStart += v[STACK_FIELD_END];
-          v[STACK_FIELD_END] = negativeStart;
-        }
-      });
-      // normalize
-      stackCache.values.forEach(v => {
-        value = v[STACK_FIELD_END];
-        const denominator = value >= 0 ? positiveStart : negativeStart;
-        sign = value >= 0 ? 1 : -1;
-        v[STACK_FIELD_START_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_START] / denominator) * sign;
-        v[STACK_FIELD_END_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_END] / denominator) * sign;
-      });
-    }
-
-    for (const key in stackCache.nodes) {
-      this.stack(stackCache.nodes[key]);
-    }
-  }
-
-  private stackGroup(stackData: ISeriesStackDataMeta, stackCache: IStackCacheNode, valueField: string) {
-    if ('values' in stackData) {
-      // 初值
-      stackData.values.forEach(v => (v[STACK_FIELD_END] = toValidNumber(v[valueField])));
-      stackCache.values.push(...stackData.values);
-      return;
-    }
-    for (const key in stackData.nodes) {
-      !stackCache.nodes[key] &&
-        (stackCache.nodes[key] = {
-          values: [],
-          nodes: {}
-        });
-      this.stackGroup(stackData.nodes[key], stackCache.nodes[key], valueField);
-    }
-  }
-}
-
-interface IStackCacheNode {
-  values: any[];
-  nodes: {
-    [key: string]: IStackCacheNode;
-  };
-}
-interface IStackCacheRoot {
-  nodes: {
-    [key: string]: IStackCacheNode;
   };
 }

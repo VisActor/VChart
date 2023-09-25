@@ -7,10 +7,17 @@ import { ComponentTypeEnum } from '../interface';
 import { Brush as BrushComponent, IOperateType } from '@visactor/vrender-components';
 import type { IBounds, IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, polygonContainPoint, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
+import { array, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type { IGraphic, INode, IPolygon, IRectGraphicAttribute, ISymbolGraphicAttribute } from '@visactor/vrender';
+import type {
+  IGraphic,
+  IGroup,
+  INode,
+  IPolygon,
+  IRectGraphicAttribute,
+  ISymbolGraphicAttribute
+} from '@visactor/vrender';
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
@@ -492,6 +499,10 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   }
   changeRegions(regions: IRegion[]): void {
     // do nothing
+  }
+
+  getVRenderComponents(): IGroup[] {
+    return this._brushComponents as unknown as IGroup[];
   }
 
   /**

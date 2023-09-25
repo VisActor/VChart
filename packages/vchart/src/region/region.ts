@@ -44,6 +44,9 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
   getGroupMark() {
     return this._groupMark;
   }
+  getStackInverse() {
+    return this._spec.stackInverse === true;
+  }
 
   protected _backgroundMark?: IRectMark;
   protected _foregroundMark?: IRectMark;
@@ -185,7 +188,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
 
   _compareSpec() {
     const result = super._compareSpec();
-    if (!isEqual(this._originalSpec.style, this._spec.style)) {
+    if (!isEqual(this._originalSpec?.style, this._spec?.style)) {
       result.reMake = true;
     }
     return result;

@@ -94,6 +94,8 @@ export interface ILayoutItem {
   /** 是否可见 */
   getVisible: () => boolean;
 
+  getSpec?: () => any;
+
   /** 是否自动缩进 */
   getAutoIndent: () => boolean;
   getLayoutStartPoint: () => ILayoutPoint;

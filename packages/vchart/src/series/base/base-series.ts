@@ -200,6 +200,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   getStack() {
     return this._stack;
   }
+
+  getStackValue() {
+    return this._spec.stackValue ?? `${PREFIX}_series_${this.type}`;
+  }
   protected _percent: boolean = false;
   getPercent() {
     return this._percent;
@@ -294,6 +298,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (isBoolean(this._spec.stackOffsetSilhouette)) {
       this._stackOffsetSilhouette = this._spec.stackOffsetSilhouette;
       this._stack = this._spec.stackOffsetSilhouette || this._stack; // this._stack is `true` in bar/area series
+    }
+    if (isValid(this._spec.stackValue)) {
+      this._stack = true;
     }
     if (isValid(this._spec.invalidType)) {
       this._invalidType = this._spec.invalidType;
@@ -855,8 +862,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   _compareSpec(ignoreCheckKeys?: { [key: string]: true }) {
     const result = super._compareSpec();
 
-    const currentKeys = Object.keys(this._originalSpec).sort();
-    const nextKeys = Object.keys(this._spec).sort();
+    const currentKeys = Object.keys(this._originalSpec || {}).sort();
+    const nextKeys = Object.keys(this._spec || {}).sort();
     if (!isEqual(currentKeys, nextKeys)) {
       result.reMake = true;
       return result;

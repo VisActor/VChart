@@ -17,7 +17,7 @@ import { CompilableData } from '../../compile/data';
 import { Indicator as IndicatorComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IndicatorAttributes } from '@visactor/vrender-components';
-import type { IGraphic, INode } from '@visactor/vrender';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
@@ -242,11 +242,11 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     return eachSeries(this._regions, s => model === s) || this._regions.includes(model as IRegion);
   }
 
+  getVRenderComponents(): IGroup[] {
+    return [this._indicatorComponent] as unknown as IGroup[];
+  }
+
   clear(): void {
-    if (this._indicatorComponent) {
-      this.getContainer()?.removeChild(this._indicatorComponent as unknown as INode);
-      this._indicatorComponent = null;
-    }
     this._cacheAttrs = null;
     super.clear();
   }

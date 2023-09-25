@@ -18,10 +18,10 @@ export class Layout3d extends Layout implements IBaseLayout {
   layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void {
     this._chartLayoutRect = chartLayoutRect;
     this._chartViewBox = chartViewBox;
-    this._leftCurrent = chartLayoutRect.x;
-    this._topCurrent = chartLayoutRect.y;
-    this._rightCurrent = chartLayoutRect.x + chartLayoutRect.width;
-    this._bottomCurrent = chartLayoutRect.height + chartLayoutRect.y;
+    this.leftCurrent = chartLayoutRect.x;
+    this.topCurrent = chartLayoutRect.y;
+    this.rightCurrent = chartLayoutRect.x + chartLayoutRect.width;
+    this.bottomCurrent = chartLayoutRect.height + chartLayoutRect.y;
 
     // 越大越先处理，进行排序调整，利用原地排序特性，排序会受 level 和传进来的数组顺序共同影响
     items.sort((a, b) => b.layoutLevel - a.layoutLevel);
@@ -29,10 +29,10 @@ export class Layout3d extends Layout implements IBaseLayout {
     this.layoutNormalItems(items.filter(x => x.layoutType === 'normal'));
 
     const layoutTemp = {
-      _leftCurrent: this._leftCurrent,
-      _topCurrent: this._topCurrent,
-      _rightCurrent: this._rightCurrent,
-      _bottomCurrent: this._bottomCurrent
+      leftCurrent: this.leftCurrent,
+      _topCurrent: this.topCurrent,
+      _rightCurrent: this.rightCurrent,
+      _bottomCurrent: this.bottomCurrent
     };
     const regionItems = items.filter(x => x.layoutType === 'region') as IRegion[];
     const relativeItems = items.filter(x => x.layoutType === 'region-relative');
@@ -48,10 +48,10 @@ export class Layout3d extends Layout implements IBaseLayout {
       const layoutRect = zItems[0].getLayoutRect();
       extraWH = layoutRect;
     }
-    this._leftCurrent += extraWH.width / 8;
-    this._rightCurrent -= extraWH.width / 8;
-    this._topCurrent += extraWH.height / 8;
-    this._bottomCurrent -= extraWH.height / 8;
+    this.leftCurrent += extraWH.width / 8;
+    this.rightCurrent -= extraWH.width / 8;
+    this.topCurrent += extraWH.height / 8;
+    this.bottomCurrent -= extraWH.height / 8;
     const offsetWH: IOffset = {
       offsetBottom: 0,
       offsetTop: 0,
@@ -69,10 +69,10 @@ export class Layout3d extends Layout implements IBaseLayout {
       // 如果出现了需要自动缩进的场景 则基于缩进再次布局
       if (top || bottom || left || right) {
         // set outer bounds to padding
-        this._topCurrent = layoutTemp._topCurrent + top;
-        this._bottomCurrent = layoutTemp._bottomCurrent - bottom;
-        this._leftCurrent = layoutTemp._leftCurrent + left;
-        this._rightCurrent = layoutTemp._rightCurrent - right;
+        this.topCurrent = layoutTemp._topCurrent + top;
+        this.bottomCurrent = layoutTemp._bottomCurrent - bottom;
+        this.leftCurrent = layoutTemp.leftCurrent + left;
+        this.rightCurrent = layoutTemp._rightCurrent - right;
         // reLayout
         this.layoutRegionItems(regionItems, relativeItems);
       }
@@ -135,8 +135,8 @@ export class Layout3d extends Layout implements IBaseLayout {
    *
    */
   protected layoutRegionItems(regionItems: IRegion[], regionRelativeItems: ILayoutItem[], extraOffset?: IOffset): void {
-    let regionRelativeTotalWidth = this._rightCurrent - this._leftCurrent;
-    let regionRelativeTotalHeight = this._bottomCurrent - this._topCurrent;
+    let regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
+    let regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
 
     if (!extraOffset) {
       extraOffset = { offsetLeft: 0, offsetRight: 0, offsetTop: 0, offsetBottom: 0 };
@@ -151,18 +151,18 @@ export class Layout3d extends Layout implements IBaseLayout {
         // 减少尺寸
         if (item.layoutOrient === 'left') {
           item.setLayoutStartPosition({
-            x: this._leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft + extraOffset.offsetLeft
+            x: this.leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft + extraOffset.offsetLeft
           });
-          this._leftCurrent += rect.width + item.layoutPaddingLeft + item.layoutPaddingRight + extraOffset.offsetLeft;
+          this.leftCurrent += rect.width + item.layoutPaddingLeft + item.layoutPaddingRight + extraOffset.offsetLeft;
         } else if (item.layoutOrient === 'right') {
-          this._rightCurrent -= rect.width + item.layoutPaddingLeft + item.layoutPaddingRight + extraOffset.offsetRight;
+          this.rightCurrent -= rect.width + item.layoutPaddingLeft + item.layoutPaddingRight + extraOffset.offsetRight;
           item.setLayoutStartPosition({
-            x: this._rightCurrent + item.layoutOffsetX + item.layoutPaddingLeft
+            x: this.rightCurrent + item.layoutOffsetX + item.layoutPaddingLeft
           });
         }
       });
 
-    regionRelativeTotalWidth = this._rightCurrent - this._leftCurrent;
+    regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
 
     regionRelativeItems
       .filter(x => x.layoutOrient === 'top' || x.layoutOrient === 'bottom')
@@ -174,19 +174,19 @@ export class Layout3d extends Layout implements IBaseLayout {
         // 减少尺寸
         if (item.layoutOrient === 'top') {
           item.setLayoutStartPosition({
-            y: this._topCurrent + item.layoutOffsetY + item.layoutPaddingTop + extraOffset.offsetTop
+            y: this.topCurrent + item.layoutOffsetY + item.layoutPaddingTop + extraOffset.offsetTop
           });
-          this._topCurrent += rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
+          this.topCurrent += rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
         } else if (item.layoutOrient === 'bottom') {
-          this._bottomCurrent -=
+          this.bottomCurrent -=
             rect.height + item.layoutPaddingTop + item.layoutPaddingBottom + extraOffset.offsetBottom;
           item.setLayoutStartPosition({
-            y: this._bottomCurrent + item.layoutOffsetY + item.layoutPaddingTop
+            y: this.bottomCurrent + item.layoutOffsetY + item.layoutPaddingTop
           });
         }
       });
     // 此时得到height
-    regionRelativeTotalHeight = this._bottomCurrent - this._topCurrent;
+    regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
 
     // region 处理
     regionItems.forEach(region => {
@@ -196,8 +196,8 @@ export class Layout3d extends Layout implements IBaseLayout {
       });
 
       region.setLayoutStartPosition({
-        x: this._leftCurrent + region.layoutOffsetX + region.layoutPaddingLeft,
-        y: this._topCurrent + region.layoutOffsetY + region.layoutPaddingTop
+        x: this.leftCurrent + region.layoutOffsetX + region.layoutPaddingLeft,
+        y: this.topCurrent + region.layoutOffsetY + region.layoutPaddingTop
       });
     });
 
@@ -232,20 +232,20 @@ export class Layout3d extends Layout implements IBaseLayout {
    * 工具方法 根据item属性获取给item提供的布局空间
    * @param item
    */
-  protected getItemComputeLayoutRect(item: ILayoutItem, extraOffset?: IOffset) {
+  getItemComputeLayoutRect(item: ILayoutItem, extraOffset?: IOffset) {
     if (!extraOffset) {
       extraOffset = { offsetLeft: 0, offsetRight: 0, offsetTop: 0, offsetBottom: 0 };
     }
     const result = {
       width:
-        this._rightCurrent -
-        this._leftCurrent -
+        this.rightCurrent -
+        this.leftCurrent -
         item.layoutPaddingLeft -
         item.layoutPaddingRight -
         (extraOffset.offsetLeft + extraOffset.offsetRight),
       height:
-        this._bottomCurrent -
-        this._topCurrent -
+        this.bottomCurrent -
+        this.topCurrent -
         item.layoutPaddingTop -
         item.layoutPaddingBottom -
         (extraOffset.offsetTop + extraOffset.offsetBottom)

@@ -1,4 +1,4 @@
-import type { IGraphic, IGroup } from '@visactor/vrender';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender';
 import { BaseModel } from '../../model/base-model';
 import type { IRegion } from '../../region/interface';
 import type { ComponentTypeEnum, IComponent, IComponentOption } from '../interface';
@@ -51,6 +51,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   abstract changeRegions(regions: IRegion[]): void;
+  abstract getVRenderComponents(): IGroup[];
 
   protected callPlugin(cb: (plugin: IComponentPlugin) => void) {
     if (this.pluginService) {
@@ -128,10 +129,10 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
     const result = super._compareSpec();
     if (!result.reMake) {
       result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
-        return isEqual(this._originalSpec[k], this.getSpec()[k]);
+        return isEqual(this._originalSpec?.[k], this.getSpec()[k]);
       });
     }
-    if (this._originalSpec.visible !== (<any>this.getSpec()).visible) {
+    if (this._originalSpec?.visible !== (<any>this.getSpec()).visible) {
       result.reCompile = true;
     }
     return result;
@@ -143,6 +144,15 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   clear() {
+    const components = this.getVRenderComponents();
+    if (components && components.length) {
+      components.forEach(c => {
+        if (c) {
+          this.getContainer()?.removeChild(c as unknown as INode);
+          c = null;
+        }
+      });
+    }
     this._container = null;
     this.pluginService?.disposeAll();
     this.pluginService = null;
