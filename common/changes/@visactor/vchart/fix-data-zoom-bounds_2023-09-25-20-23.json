@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(datazoom): fix bounds error when there is no preview chart. fix #1050",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
