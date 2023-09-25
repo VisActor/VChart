@@ -51,7 +51,7 @@ export class VChartEditor {
     if (dom) {
       this._container = isString(dom) ? document?.getElementById(dom) : dom;
     }
-    if (!this._container) {
+    if (this._container) {
       this._container.style.position = 'relative';
     }
     this._editorController = new EditorController(this._container, {

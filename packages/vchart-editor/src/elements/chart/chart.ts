@@ -56,9 +56,11 @@ export class EditorChart extends BaseElement {
     spec.width = this._rect.width;
     spec.height = this._rect.height;
     spec.background = 'transparent';
+
     this._vchart = new VChart(spec, {
       renderCanvas: this._opt.layer.getCanvas(),
-      stage: this._opt.layer.getStage()
+      stage: this._opt.layer.getStage(),
+      animation: false
     });
     this._layout.setVChart(this._vchart);
   }

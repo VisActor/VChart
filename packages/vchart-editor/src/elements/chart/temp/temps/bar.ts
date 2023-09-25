@@ -181,6 +181,40 @@ const spec = {
         // fill: 'red'
       }
     }
+  ],
+  markLine: [
+    {
+      interactive: true,
+      y: 'average',
+      endSymbol: {
+        visible: true,
+        size: 12,
+        refX: 6,
+        symbolType: 'triangleLeft',
+        autoRotate: false
+      },
+      label: {
+        visible: true,
+        autoRotate: false,
+        formatMethod: markData => {
+          return parseInt(markData[0].y, 10);
+        },
+        position: 'end',
+        labelBackground: {
+          visible: false
+        },
+        style: {
+          fill: '#000'
+        },
+        refX: 12,
+        refY: 0
+      },
+      line: {
+        style: {
+          stroke: '#000'
+        }
+      }
+    }
   ]
 };
 
