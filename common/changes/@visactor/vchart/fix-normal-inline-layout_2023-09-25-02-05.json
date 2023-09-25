@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: do the product of this._spec, fixed #1062",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
