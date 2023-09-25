@@ -1,6 +1,6 @@
 import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar';
+import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IComponent } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
@@ -61,8 +61,6 @@ export interface IChart extends ICompilable {
   getLayoutTag: () => boolean;
   setLayoutTag: (tag: boolean) => boolean;
 
-  // 使用parse后的数据结构，直接更新数据
-  updateParseData: (id: string, data: Datum[], options?: IParserOptions) => void;
   // 使用parse前的原始数据结构更新数据
   updateData: (id: StringOrNumber, data: unknown, updateGlobalScale?: boolean, options?: IParserOptions) => void;
   // 使用 IData 更新数据

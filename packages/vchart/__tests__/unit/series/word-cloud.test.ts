@@ -1,7 +1,7 @@
 import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../../src/series/interface';
 import { dimensionStatistics } from '../../../src/data/transforms/dimension-statistics';
-import { markContext, seriesOption } from '../../util/context';
+import { initChartDataSet, markContext, seriesOption } from '../../util/context';
 import * as bt from '../../../src/vchart-all';
 import { get } from '../../../src/util/object';
 import { WordCloudSeries } from '../../../src/series/word-cloud/word-cloud';
@@ -9,8 +9,8 @@ import { TextMark } from '../../../src/mark/text';
 import { getTestCompiler } from '../../util/factory/compiler';
 bt;
 const dataSet = new DataSet();
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview', dataViewParser);
 dataSet.registerTransform('dimensionStatistics', dimensionStatistics);
 const dataView = new DataView(dataSet);
 const data = `text,size,index

@@ -157,7 +157,15 @@ const spec = {
   direction: 'vertical',
   color: ['#62CDFF', '#9E4784'],
 
-  legends: [{ visible: true }],
+  legends: {
+    visible: true,
+    data: data => {
+      return data.map(obj => {
+        obj.shape.fill = obj.shape.stroke;
+        return obj;
+      });
+    }
+  },
 
   title: {
     visible: true,

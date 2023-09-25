@@ -29,16 +29,6 @@ export default {
   label: {
     visible: true
   },
-  tooltip: {
-    mark: {
-      content: [
-        {
-          key: datum => datum['type'],
-          value: datum => datum['value'] + '%'
-        }
-      ]
-    }
-  },
   pie: {
     state: {
       hover: {
@@ -46,4 +36,4 @@ export default {
       }
     }
   }
-}
+};

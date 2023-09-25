@@ -13,7 +13,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import type { LayoutItem } from '../../../model/layout-item';
 import { Factory } from '../../../core/factory';
-import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis } from './util';
+import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis, transformInverse } from './util';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
@@ -21,7 +21,7 @@ import type { IPoint, StringOrNumber } from '../../../typings';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
-import { HOOK_EVENT } from '@visactor/vgrammar';
+import { HOOK_EVENT } from '@visactor/vgrammar-core';
 import type { LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { isValidCartesianAxis } from '../util';
@@ -116,18 +116,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     const componentName = `${CartesianAxis.type}-${axisType}`;
     const C = Factory.getComponentInKey(componentName);
     if (C) {
-      // 这里处理下 direction === 'horizontal' 下的 Y 轴
-      // 因为 Y 轴绘制的时候默认是从下至上绘制的，但是在 direction === 'horizontal' 场景下，图表应该是按照从上至下阅读的
-      // 所以这里在这种场景下坐标轴会默认 inverse 已达到效果
-      let inverse = spec.inverse;
-      if (isHorizontal && !isXAxis(spec.orient)) {
-        inverse = isValid(spec.inverse) ? !spec.inverse : true;
-      }
       return new C(
         {
           ...spec,
-          type: axisType,
-          inverse
+          type: axisType
         },
         options
       ) as IAxis;
@@ -834,5 +826,11 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   onDataUpdate(): void {
     // clear layout cache
     this._clearLayoutCache();
+  }
+
+  protected _transformSpec() {
+    // change spec by default logic
+    const chartSpec = this._option.getChart().getSpec();
+    this._spec.inverse = transformInverse(this._spec, chartSpec.direction === Direction.horizontal);
   }
 }

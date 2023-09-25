@@ -5,13 +5,13 @@ import type { ComponentTypeEnum, IComponent, IComponentOption } from '../interfa
 import type { BaseEventParams } from '../../event/interface';
 import { ComponentPluginService } from '../../plugin/components/plugin-service';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
-import { isArray, merge } from '@visactor/vutils';
+import { isEqual } from '@visactor/vutils';
 import { getComponentThemeFromGlobalTheme } from './util';
-import type { IGroupMark } from '@visactor/vgrammar';
+import type { IGroupMark } from '@visactor/vgrammar-core';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
-import type { Datum, StringOrNumber } from '../../typings';
+import type { Datum } from '../../typings';
 import { normalizeLayoutPaddingSpec } from '../../util';
 import type { IComponentSpec } from './interface';
 
@@ -98,9 +98,13 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
 
     // 将 theme merge 到 spec 中
     this._mergeThemeToSpec();
+  }
+
+  protected _mergeThemeToSpec() {
+    super._mergeThemeToSpec();
 
     // 默认忽略外侧 padding
-    const { padding, noOuterPadding = true, orient } = this._spec;
+    const { padding, noOuterPadding = true, orient } = this.getSpec();
     if (noOuterPadding && padding && orient) {
       this._spec.padding = {
         ...normalizeLayoutPaddingSpec(padding),
@@ -111,7 +115,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
 
   protected getContainer() {
     if (!this._container) {
-      this._container = this._option.globalInstance.getStage().find(node => node.name === 'root', true);
+      this._container = this._option?.globalInstance.getStage().find(node => node.name === 'root', true);
     }
 
     return this._container;
@@ -120,21 +124,14 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   /**
    * updateSpec
    */
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec as {
-      regionId?: StringOrNumber;
-      regionIndex?: number;
-      seriesId?: StringOrNumber;
-      seriesIndex?: number;
-      visible?: boolean;
-    };
-    const result = super.updateSpec(spec);
+  _compareSpec() {
+    const result = super._compareSpec();
     if (!result.reMake) {
       result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
-        return JSON.stringify(originalSpec[k]) !== JSON.stringify(spec[k]);
+        return isEqual(this._originalSpec[k], this.getSpec()[k]);
       });
     }
-    if (originalSpec.visible !== spec.visible) {
+    if (this._originalSpec.visible !== (<any>this.getSpec()).visible) {
       result.reCompile = true;
     }
     return result;

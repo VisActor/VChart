@@ -1,5 +1,5 @@
 import type { IPoint } from '../../typings/coordinate';
-import type { ProjectionType } from '@visactor/vgrammar';
+import type { ProjectionType } from '@visactor/vgrammar-core';
 import type { IComponent } from '../interface';
 
 export interface IProjectionSpec {

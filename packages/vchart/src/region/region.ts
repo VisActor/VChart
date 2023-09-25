@@ -1,7 +1,13 @@
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty } from '@visactor/vutils';
-import type { Element, IElement, IGroupMark as IVGrammarGroupMark, ILayoutOptions, IMark } from '@visactor/vgrammar';
+import { isEmpty, isEqual } from '@visactor/vutils';
+import type {
+  Element,
+  IElement,
+  IGroupMark as IVGrammarGroupMark,
+  ILayoutOptions,
+  IMark
+} from '@visactor/vgrammar-core';
 import { STATE_VALUE_ENUM_REVERSE } from '../compile/mark/interface';
 import { DimensionTrigger } from '../interaction/dimension-trigger';
 import { MarkTypeEnum } from '../mark/interface';
@@ -19,7 +25,7 @@ import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
 import type { StringOrNumber } from '../typings';
-import type { IDataZoomSpec, IScrollBarSpec } from '../component/data-zoom';
+import { IFilterMode } from '../component/data-zoom/constant';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> implements IRegion {
   static type = 'region';
@@ -37,6 +43,9 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
   protected _groupMark!: IGroupMark;
   getGroupMark() {
     return this._groupMark;
+  }
+  getStackInverse() {
+    return this._spec.stackInverse === true;
   }
 
   protected _backgroundMark?: IRectMark;
@@ -61,8 +70,14 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
 
   protected _getClipDefaultValue() {
     const chartSpec = this._option.getChart().getSpec();
-    const hasDataZoom = (chartSpec as any).dataZoom?.some?.((entry: IDataZoomSpec) => entry.filterMode === 'axis');
-    const hasScrollBar = (chartSpec as any).scrollBar?.some?.((entry: IScrollBarSpec) => entry.filterMode === 'axis');
+    const hasDataZoom = (chartSpec as any).dataZoom?.some?.((entry: any) => {
+      const filterMode = entry.filterMode ?? IFilterMode.filter;
+      return filterMode === IFilterMode.axis;
+    });
+    const hasScrollBar = (chartSpec as any).scrollBar?.some?.((entry: any) => {
+      const filterMode = entry.filterMode ?? IFilterMode.axis;
+      return filterMode === IFilterMode.axis;
+    });
 
     return hasDataZoom || hasScrollBar ? true : this.layoutClip;
   }
@@ -171,14 +186,11 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
     }
   }
 
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec;
-    const result = super.updateSpec(spec);
-    if ((originalSpec.style && !spec?.style) || (!originalSpec.style && spec?.style)) {
+  _compareSpec() {
+    const result = super._compareSpec();
+    if (!isEqual(this._originalSpec.style, this._spec.style)) {
       result.reMake = true;
-      return result;
     }
-
     return result;
   }
 
@@ -221,7 +233,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
     return this._series.filter(
       s =>
         (opt.name ? s?.name === opt.name : true) &&
-        (opt.userId && s.userId ? array(opt.userId).includes(s.userId) : true) &&
+        (opt.userId ? array(opt.userId).includes(s.userId) : true) &&
         (isValid(opt.specIndex) && s.getSpecIndex ? array(opt.specIndex).includes(s.getSpecIndex()) : true) &&
         (opt.id ? s.id === opt.id : true) &&
         (opt.type ? s.type === opt.type : true) &&

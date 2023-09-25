@@ -44,7 +44,7 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { IAnimationTypeConfig } from '@visactor/vgrammar';
+import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
 import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
@@ -125,6 +125,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           angleField: this._angleField[0],
           startAngle: this._startAngle,
           endAngle: this._endAngle,
+          minAngle: isValid(this._spec?.minAngle) ? degreeToRadian(this._spec.minAngle) : 0,
           asStartAngle: ARC_START_ANGLE,
           asEndAngle: ARC_END_ANGLE,
           asRatio: ARC_RATIO,
@@ -351,22 +352,31 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     return this.computeLayoutRadius() * this.getRadius(state) + this._centerOffset;
   }
 
-  updateSpec(spec: any) {
-    // super updateSpec 会执行 setAttrFromSpec 所以先缓存比对值
-    const originalSpec = this._originalSpec;
+  _compareSpec(ignoreCheckKeys?: { [key: string]: true }) {
+    ignoreCheckKeys = ignoreCheckKeys ?? { data: true };
+    ignoreCheckKeys.centerX = true;
+    ignoreCheckKeys.centerX = true;
+    ignoreCheckKeys.centerY = true;
+    ignoreCheckKeys.centerOffset = true;
+    ignoreCheckKeys.radius = true;
+    ignoreCheckKeys.innerRadius = true;
+    ignoreCheckKeys.cornerRadius = true;
+    ignoreCheckKeys.startAngle = true;
+    ignoreCheckKeys.endAngle = true;
+    ignoreCheckKeys.padAngle = true;
     const { centerX, centerY, centerOffset, radius, innerRadius, cornerRadius, startAngle, endAngle, padAngle } =
-      originalSpec;
-    const result = super.updateSpec(spec);
+      this._originalSpec;
+    const result = super._compareSpec(ignoreCheckKeys);
     if (
-      spec?.centerX !== centerX ||
-      spec?.centerY !== centerY ||
-      spec?.centerOffset !== centerOffset ||
-      spec?.radius !== radius ||
-      spec?.innerRadius !== innerRadius ||
-      spec?.cornerRadius !== cornerRadius ||
-      spec?.startAngle !== startAngle ||
-      spec?.endAngle !== endAngle ||
-      spec?.padAngle !== padAngle
+      this._spec?.centerY !== centerY ||
+      this._spec?.centerX !== centerX ||
+      this._spec?.centerOffset !== centerOffset ||
+      this._spec?.radius !== radius ||
+      this._spec?.innerRadius !== innerRadius ||
+      this._spec?.cornerRadius !== cornerRadius ||
+      this._spec?.startAngle !== startAngle ||
+      this._spec?.endAngle !== endAngle ||
+      this._spec?.padAngle !== padAngle
     ) {
       result.reRender = true;
       result.change = true;

@@ -8,9 +8,9 @@ import type {
   MarkFunctionType,
   Nil,
   TransformSpec
-} from '@visactor/vgrammar';
+} from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
-import type { GrammarMarkType } from '@visactor/vgrammar';
+import type { GrammarMarkType } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';

@@ -66,9 +66,9 @@ export class TitleModel extends BaseTooltipModel {
       },
       {
         hasShape: title?.hasShape,
-        shapeType: title?.shapeType,
+        symbolType: title?.shapeType,
         size: tooltipStyle.shapeColumn.common?.width,
-        color: title?.shapeColor,
+        fill: title?.shapeColor,
         hollow: title?.shapeHollow
       }
     );
@@ -83,9 +83,9 @@ export class TitleModel extends BaseTooltipModel {
     this.init();
     this.shape?.setStyle(undefined, {
       hasShape: title?.hasShape,
-      shapeType: title?.shapeType,
+      symbolType: title?.shapeType,
       size: tooltipStyle.shapeColumn.common?.width,
-      color: title?.shapeColor,
+      fill: title?.shapeColor,
       hollow: title?.shapeHollow
     });
     this.textSpan?.setContent(title?.value, tooltipAttributes.title?.value?.multiLine);

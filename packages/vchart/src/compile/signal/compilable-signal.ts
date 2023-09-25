@@ -1,4 +1,4 @@
-import type { ISignal, SignalFunctionType } from '@visactor/vgrammar';
+import type { ISignal, SignalFunctionType } from '@visactor/vgrammar-core';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe } from '../../typings';
 import { isValid } from '../../util';

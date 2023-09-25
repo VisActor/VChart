@@ -6,6 +6,21 @@
 
 Tip: **Currently, VChart (@visactor/vchart) is not built into Lark Mini-Program Widget, so you need to manually import it into your Lark Mini-Program Widget project.**
 
+## How to get VChart
+
+At present, VChart's umd packaging products are required on the widget. You can get them through the following channels:
+
+1.  Get it directly from the warehouse. [Packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index.js) , we will update each code packet of the released version
+2.  Get it from the following free CDNs
+
+```html
+<!-- unpkg -->
+<script src="https://unpkg.com/@visactor/vchart/build/index.min.js"></script>
+
+<!-- jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/@visactor/vchart/build/index.min.js"></script>
+```
+
 ## Demo Example
 
 We provide a complete example project for reference during development: [https://github.com/VisActor/VChart/tree/main/packages/block-vchart](https://github.com/VisActor/VChart/tree/main/packages/block-vchart)

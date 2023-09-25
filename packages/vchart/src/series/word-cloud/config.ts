@@ -1,6 +1,6 @@
 export const DEFAULT_ROTATE_ANGLES: number[] = [0];
 export const DEFAULT_DRAW_OUT_OF_BOUND = 'hidden';
-export const DEFAULT_MIN_FONT_SIZE = 10;
+export const DEFAULT_MIN_FONT_SIZE = 20;
 export const DEFAULT_FONTSIZE_RANGE: [number, number] = [20, 40];
 export const DEFAULT_FONT_WEIGHT_RANGE: [number, number] = [200, 500];
 export const DEFAULT_MASK_SHAPE = 'circle';

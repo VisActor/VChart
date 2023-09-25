@@ -88,7 +88,8 @@ module.exports = {
       const packagesDestinations = [
         path.join(__dirname, '../block-vchart/block/vchart/index.js'),
         path.join(__dirname, '../tt-vchart/src/vchart/index.js'),
-        path.join(__dirname, '../lark-vchart/src/vchart/index.js')
+        path.join(__dirname, '../lark-vchart/src/vchart/index.js'),
+        path.join(__dirname, '../wx-vchart/miniprogram/src/vchart/index.js')
       ];
 
       copyStart(vchartSource, packagesDestinations);

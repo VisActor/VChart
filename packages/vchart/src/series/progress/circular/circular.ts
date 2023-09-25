@@ -15,6 +15,7 @@ import { VChart } from '../../../core/vchart';
 import { ArcMark } from '../../../mark/arc';
 import { ProgressArcMark } from '../../../mark/progress-arc';
 import { circularProgressSeriesMark } from './constant';
+import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../constant';
 
 VChart.useMark([ArcMark, ProgressArcMark]);
 
@@ -40,69 +41,102 @@ export class CircularProgressSeries<
   }
 
   initMark(): void {
-    this._trackMark = this._createMark(CircularProgressSeries.mark.track) as IArcMark;
-    this._progressMark = this._createMark(CircularProgressSeries.mark.progress, {
-      isSeriesMark: true
-    }) as IArcMark;
+    super.initMark();
+    this._initTrackMark();
+    this._initProgressMark();
   }
 
   initMarkStyle(): void {
-    this.initTrackMarkStyle();
-    this.initProgressMarkStyle();
+    super.initMarkStyle();
+    this._initTrackMarkStyle();
+    this._initProgressMarkStyle();
   }
 
-  private initProgressMarkStyle() {
+  private _initProgressMark() {
+    this._progressMark = this._createMark(CircularProgressSeries.mark.progress, {
+      parent: this._arcGroupMark,
+      isSeriesMark: true
+    }) as IArcMark;
+    return this._progressMark;
+  }
+
+  private _initProgressMarkStyle() {
     const progressMark = this._progressMark;
     if (progressMark) {
-      this.setMarkStyle(progressMark, {
-        x: () => this.angleAxisHelper.center().x,
-        y: () => this.angleAxisHelper.center().y,
-        startAngle: this._getAngleValueStart.bind(this),
-        endAngle: this._getAngleValueEnd.bind(this),
-        innerRadius: this._getRadiusValueStart.bind(this),
-        outerRadius: this._getRadiusValueEnd.bind(this),
-        cap: this._spec.roundCap ?? false,
-        boundsMode: 'imprecise',
-        cornerRadius: this._spec.cornerRadius,
-        fill: this.getColorAttribute(),
-        zIndex: 200,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        // forceShowCap 是内部属性，不在接口中暴露
-        forceShowCap: true
-      });
+      this.setMarkStyle(
+        progressMark,
+        {
+          x: () => this.angleAxisHelper.center().x,
+          y: () => this.angleAxisHelper.center().y,
+          startAngle: this._getAngleValueStart,
+          endAngle: this._getAngleValueEnd,
+          innerRadius: this._getRadiusValueStart,
+          outerRadius: this._getRadiusValueEnd,
+          cap: this._spec.roundCap ?? false,
+          boundsMode: 'imprecise',
+          cornerRadius: this._spec.cornerRadius,
+          fill: this.getColorAttribute(),
+          zIndex: 200,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          // forceShowCap 是内部属性，不在接口中暴露
+          forceShowCap: true
+        },
+        'normal',
+        AttributeLevel.Series
+      );
       this._trigger.registerMark(progressMark);
       this._tooltipHelper?.activeTriggerSet.mark.add(progressMark);
     }
   }
 
-  private initTrackMarkStyle() {
+  private _initTrackMark() {
+    this._trackMark = this._createMark(CircularProgressSeries.mark.track, {
+      parent: this._arcGroupMark
+    }) as IArcMark;
+    return this._trackMark;
+  }
+
+  private _initTrackMarkStyle() {
     const trackMark = this._trackMark;
     if (trackMark) {
-      this.setMarkStyle(trackMark, {
-        visible: (datum: Datum) => {
-          const scale = this.angleAxisHelper.getScale(0);
-          const range = scale.range();
-          const min = Math.min(range[0], range[range.length - 1]);
-          const startValue = this._getAngleValueStart(datum);
-          // 堆叠情况只显示第一组的背景
-          return Math.abs(startValue - min) <= 1e-14;
+      this.setMarkStyle(
+        trackMark,
+        {
+          visible: (datum: Datum) => {
+            const scale = this.angleAxisHelper.getScale(0);
+            const range = scale.range();
+            const min = Math.min(range[0], range[range.length - 1]);
+            const startValue = this._getAngleValueStartWithoutMask(datum);
+            // 堆叠情况只显示第一组的背景
+            return Math.abs(startValue - min) <= 1e-14;
+          },
+          x: () => this.angleAxisHelper.center().x,
+          y: () => this.angleAxisHelper.center().y,
+          startAngle: () => {
+            const scale = this.angleAxisHelper.getScale(0);
+            const domain = scale.domain();
+            return this._getAngleValueStart({ [STACK_FIELD_START]: domain[0] });
+          },
+          endAngle: () => {
+            const scale = this.angleAxisHelper.getScale(0);
+            const domain = scale.domain();
+            return this._getAngleValueEnd({ [STACK_FIELD_END]: domain[domain.length - 1] });
+          },
+          innerRadius: this._getRadiusValueStart,
+          outerRadius: this._getRadiusValueEnd,
+          cornerRadius: this._spec.cornerRadius,
+          fill: this.getColorAttribute(),
+          zIndex: 100
         },
-        x: () => this.angleAxisHelper.center().x,
-        y: () => this.angleAxisHelper.center().y,
-        startAngle: this._startAngle,
-        endAngle: this._endAngle,
-        innerRadius: this._getRadiusValueStart.bind(this),
-        outerRadius: this._getRadiusValueEnd.bind(this),
-        cornerRadius: this._spec.cornerRadius,
-        fill: this.getColorAttribute(),
-        zIndex: 100
-      });
+        'normal',
+        AttributeLevel.Series
+      );
       this._trigger.registerMark(trackMark);
     }
   }
 
-  protected _getRadiusValueStart(datum: Datum) {
+  protected _getRadiusValueStart = (datum: Datum) => {
     if (this.getGroupFields().length > 1) {
       const value = this.radiusAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields()));
       if (isValidNumber(value)) {
@@ -110,9 +144,9 @@ export class CircularProgressSeries<
       }
     }
     return this.radiusAxisHelper.dataToPosition([datum[this._radiusField[0]]]);
-  }
+  };
 
-  protected _getRadiusValueEnd(datum: Datum) {
+  protected _getRadiusValueEnd = (datum: Datum) => {
     if (this.getGroupFields().length > 1) {
       const value =
         this.radiusAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) +
@@ -125,7 +159,7 @@ export class CircularProgressSeries<
       this.radiusAxisHelper.dataToPosition([datum[this._radiusField[0]]]) +
       (this.radiusAxisHelper.getScale(0) as BandScale).step()
     );
-  }
+  };
 
   initAnimation() {
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<any>)?.preset;

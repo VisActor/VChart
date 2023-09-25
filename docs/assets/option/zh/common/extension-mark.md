@@ -119,7 +119,8 @@ extensionMark 是图表支持用户在图表系列上补充绘制任意内容的
 ##${prefix} style(Object)
 
 {{ use: graphic-arc(
-  prefix = '###'
+  prefix = '###',
+  markType = 'arc'
 ) }}
 
 #${prefix} extensionMark.polygon(Object)

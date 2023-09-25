@@ -134,10 +134,11 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
   }
 
   getStatisticFields() {
-    return [
-      { key: this._fieldY[0], operations: ['values'], customize: this._xDimensionStatisticsDomain },
-      { key: this._fieldX[0], operations: ['max', 'min'] }
-    ] as { key: string; operations: Array<'max' | 'min' | 'values'> }[];
+    return [{ key: this._fieldY[0], operations: ['values'], customize: this._xDimensionStatisticsDomain }] as {
+      key: string;
+      operations: Array<'max' | 'min' | 'values'>;
+      customize: any[];
+    }[];
   }
 
   /**
@@ -394,6 +395,19 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
       return this._gridBackground.fillOpacity;
     }
     return 0;
+  }
+
+  onLayoutEnd(ctx: any) {
+    super.onLayoutEnd(ctx);
+    const layoutOffsetX = this._spec?.leftAppendPadding ?? 0;
+    this.setMarkStyle(
+      this._clipMark,
+      {
+        width: this.getLayoutRect().width + layoutOffsetX //clip的数值只能在layoutEnd之后获得
+      },
+      'normal',
+      AttributeLevel.Series
+    );
   }
 
   /**

@@ -1,4 +1,4 @@
-import type { IGroupMark, IGrammarBase, IView } from '@visactor/vgrammar';
+import type { IGroupMark, IGrammarBase, IView } from '@visactor/vgrammar-core';
 import type { Compiler } from '../compiler';
 import type { Maybe, IPerformanceHook } from '../../typings';
 

@@ -86,10 +86,9 @@ export class CustomMark extends BaseComponent<any> {
   /**
    * updateSpec
    */
-  updateSpec(singleSpec: any, spec?: any) {
-    const originalSpec = this._originalSpec;
-    const result = super.updateSpec(spec);
-    if (!isEqual(originalSpec, spec)) {
+  _compareSpec() {
+    const result = super._compareSpec();
+    if (!isEqual(this._originalSpec, this._spec)) {
       result.reMake = true;
     }
 
@@ -97,6 +96,7 @@ export class CustomMark extends BaseComponent<any> {
     result.reRender = true;
     return result;
   }
+
   changeRegions(regions: IRegion[]): void {
     // do nothing;
   }

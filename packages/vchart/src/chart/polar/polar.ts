@@ -3,6 +3,7 @@ import type { IIndicatorSpec } from '../../component/indicator/interface';
 import type { ISeries } from '../../series/interface';
 import { BaseChart } from '../base-chart';
 import type { IDataZoomSpec } from '../../component/data-zoom';
+import { IFilterMode } from '../../component/data-zoom/constant';
 
 export class PolarChart extends BaseChart {
   readonly seriesType: string;
@@ -24,7 +25,8 @@ export class PolarChart extends BaseChart {
       innerRadius: spec.innerRadius,
 
       startAngle: spec.startAngle,
-      endAngle: spec.endAngle
+      endAngle: spec.endAngle,
+      sortDataByAxis: spec.sortDataByAxis
     };
     const seriesType = this.seriesType;
     if (seriesType) {
@@ -55,8 +57,8 @@ export class PolarChart extends BaseChart {
       spec.dataZoom.forEach((zoom: IDataZoomSpec) => {
         // 极坐标系下 datazoom 目前只支持数据过滤
         // 理想效果：角度轴不支持 axis， 径向轴均支持（通过 group.clip 自定义 clipPath 支持）
-        if (zoom.filterMode === 'axis') {
-          zoom.filterMode = 'filter';
+        if (zoom.filterMode === IFilterMode.axis) {
+          zoom.filterMode = IFilterMode.filter;
         }
       });
     }

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of `seriesId` does not work in legends, closed #910",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

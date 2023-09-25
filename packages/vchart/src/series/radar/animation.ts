@@ -1,4 +1,4 @@
-import type { Datum, IAnimationTypeConfig, IElement } from '@visactor/vgrammar';
+import type { Datum, IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import type { IPoint, Maybe } from '../../typings';
 import { ClipAngleAnimate } from '@visactor/vrender';
 import type { IPolarAxisHelper } from '../../component/axis';

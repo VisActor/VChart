@@ -210,6 +210,7 @@ Object.keys(easingFuncs).forEach((easingFuncName, index) => {
   });
 
   series.push({
+    id: `${easingFuncName}Series`,
     type: 'line',
     xField: 'x',
     yField: 'y',
@@ -242,7 +243,7 @@ Object.keys(easingFuncs).forEach((easingFuncName, index) => {
     visible: false,
     max: 1.5,
     regionId: easingFuncName,
-    seriesId: [easingFuncName]
+    seriesId: [`${easingFuncName}Series`]
   });
 
   layoutElements.push({
@@ -296,7 +297,7 @@ const spec = {
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 
-// Just for the convenience of console debugging, DO NOT COPY!
+// Just for the convenience of console debugging, do not copy
 window['vchart'] = vchart;
 ```
 

@@ -10,11 +10,11 @@ import type { IBounds, IPointLike } from '@visactor/vutils';
 import { array, polygonContainPoint, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type { IGraphic, INode, IPolygon, IRectGraphicAttribute } from '@visactor/vrender';
+import type { IGraphic, INode, IPolygon, IRectGraphicAttribute, ISymbolGraphicAttribute } from '@visactor/vrender';
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
-import type { IElement } from '@visactor/vgrammar';
+import type { IElement } from '@visactor/vgrammar-core';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
@@ -47,6 +47,8 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   private _needInitOutState: boolean = true;
   private _isFirstState: boolean = true;
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
+
+  private _needEnablePickable: boolean = true;
 
   static createComponent(spec: any, options: IComponentOption) {
     const brushSpec = spec.brush || options.defaultSpec;
@@ -152,9 +154,11 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         // 下面的步骤是为了标记出第一次drawing状态的
         if (operateType === IOperateType.drawing) {
           this._needInitOutState = false;
+          this._needEnablePickable = true;
         }
         if (operateType === IOperateType.drawEnd) {
           this._needInitOutState = true;
+          this._needEnablePickable = false;
         }
 
         // 需要重置初始状态的情况：点击空白处clear所有状态
@@ -259,6 +263,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
           this._outOfBrushElementsMap[elementKey] = el;
           delete this._inBrushElementsMap[operateMask.name][elementKey];
         }
+        graphicItem.setAttribute('pickable', !this._needEnablePickable);
       });
     });
   }
@@ -305,6 +310,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
               graphicItem.addState('outOfBrush');
               this._linkedOutOfBrushElementsMap[elementKey] = el;
             }
+            graphicItem.setAttribute('pickable', !this._needEnablePickable);
           });
         });
       }
@@ -344,11 +350,32 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     const y = item.globalTransMatrix.f;
 
     // brush与图表图元进行相交 或 包含判断
+    let itemBounds: { x: number; y: number }[] = [];
     if (item.type === 'symbol') {
-      return globalAABBBoundsOffset.contains(x, y) && polygonContainPoint(pointsCoord, x, y);
+      const { size: itemSize = 0 } = item?.attribute as ISymbolGraphicAttribute;
+      const size = array(itemSize)[0];
+      itemBounds = [
+        {
+          x: x - size,
+          y: y - size
+        },
+        {
+          x: x + size,
+          y: y - size
+        },
+        {
+          x: x + size,
+          y: y + size
+        },
+        {
+          x: x - size,
+          y: y + size
+        }
+      ];
+      return polygonIntersectPolygon(pointsCoord, itemBounds);
     } else if (item.type === 'rect') {
       const { width = 0, height = 0 } = item?.attribute as IRectGraphicAttribute;
-      const pointsRect = [
+      itemBounds = [
         {
           x: x,
           y: y
@@ -366,7 +393,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
           y: y + height
         }
       ];
-      return polygonIntersectPolygon(pointsCoord, pointsRect);
+      return polygonIntersectPolygon(pointsCoord, itemBounds);
     }
     return brushMask.globalAABBBounds.intersects(item.globalAABBBounds);
   }
@@ -470,15 +497,14 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   /**
    * updateSpec
    */
-  updateSpec(spec: any) {
+  _compareSpec() {
     if (this._brushComponents) {
       this._relativeRegions.forEach((region: IRegion, index: number) => {
         this._updateBrushComponent(region, index);
       });
     }
-    const originalSpec = this._spec;
-    const result = super.updateSpec(spec);
-    if (!isEqual(originalSpec, this._spec)) {
+    const result = super._compareSpec();
+    if (!isEqual(this._originalSpec, this._spec)) {
       result.reRender = true;
       result.reMake = true;
     }
@@ -505,7 +531,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
 
   clear(): void {
     if (this._brushComponents) {
-      this._container.removeChild(this._brushComponents as unknown as INode);
+      this.getContainer()?.removeChild(this._brushComponents as unknown as INode);
       this._brushComponents.forEach(brush => {
         brush.releaseBrushEvents();
       });

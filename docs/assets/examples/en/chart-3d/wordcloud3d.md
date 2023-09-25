@@ -26,7 +26,7 @@ The configuration of 3D word clouds mainly inherits the configuration of ordinar
 ```javascript livedemo
 const spec = {
   type: 'wordCloud3d',
-  maskShape: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/shape_bears.png`,
+  maskShape: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/log.jpeg`,
   nameField: 'challenge_name',
   valueField: 'sum_count',
   seriesField: 'challenge_name',

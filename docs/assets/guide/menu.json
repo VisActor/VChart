@@ -93,7 +93,7 @@
               "path": "Title",
               "title": {
                 "zh": "Title 标题",
-                "en": "Title 标题"
+                "en": "Title"
               }
             },
             {
@@ -629,8 +629,15 @@
             {
               "path": "python",
               "title": {
-                "zh": "python",
-                "en": "python"
+                "zh": "Python",
+                "en": "Python"
+              }
+            },
+            {
+              "path": "lynx",
+              "title": {
+                "zh": "Lynx",
+                "en": "Lynx"
               }
             },
             {

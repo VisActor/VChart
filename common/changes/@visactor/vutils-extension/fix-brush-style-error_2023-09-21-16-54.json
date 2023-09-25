@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vutils-extension",
+      "comment": "fix(brush): style not effect when set mark hover. fix #976",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vutils-extension"
+}

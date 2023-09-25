@@ -2,7 +2,7 @@ import VChart, { IData, IInitOption, ISpec } from '@visactor/vchart';
 import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
-import type { IView } from '@visactor/vgrammar';
+import type { IView } from '@visactor/vgrammar-core';
 import { isEqual, pickWithout } from '@visactor/vutils';
 import ViewContext from '../context/view';
 import { toArray } from '../util';

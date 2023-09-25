@@ -51,12 +51,12 @@ export class ProgressArcMark extends BaseArcMark<IProgressArcMarkSpec> implement
       );
     }
 
-    const innerPadding = style.innerPadding ?? stateStyle[state].innerPadding.style;
-    const outerPadding = style.outerPadding ?? stateStyle[state].outerPadding.style;
+    const innerPadding = style.innerPadding ?? stateStyle[state]?.innerPadding?.style;
+    const outerPadding = style.outerPadding ?? stateStyle[state]?.outerPadding?.style;
     const innerRadius =
-      style.innerRadius ?? this._cacheStateStyle[state].innerRadius.style ?? stateStyle[state].innerRadius.style;
+      style.innerRadius ?? this._cacheStateStyle[state]?.innerRadius?.style ?? stateStyle[state]?.innerRadius?.style;
     const outerRadius =
-      style.outerRadius ?? this._cacheStateStyle[state].outerRadius.style ?? stateStyle[state].outerRadius.style;
+      style.outerRadius ?? this._cacheStateStyle[state]?.outerRadius?.style ?? stateStyle[state]?.outerRadius?.style;
 
     if (innerRadius === 0 && outerRadius === 0) {
       return style;
@@ -76,15 +76,17 @@ export class ProgressArcMark extends BaseArcMark<IProgressArcMarkSpec> implement
       if (innerPadding && isValid(innerRadius)) {
         // 将 innerPadding 应用到 innerRadius
         if (isFunction(innerRadius)) {
-          newStyle.innerRadius = (item: any, ctx: any, opt: IAttributeOpt, source: DataView) => {
-            const result = innerRadius(item, ctx, opt, source);
-            const padding = isFunction(innerPadding) ? innerPadding(item, ctx, opt, source) : (innerPadding as number);
+          newStyle.innerRadius = (item: any, ctx: any, opt?: IAttributeOpt, source?: DataView) => {
+            const result = innerRadius(item, ctx, opt, source) as number;
+            const padding = isFunction(innerPadding)
+              ? (innerPadding(item, ctx, opt, source) as number)
+              : (innerPadding as number);
             return result + padding;
           };
         } else {
           if (isFunction(innerPadding)) {
-            newStyle.innerRadius = (item: any, ctx: any, opt: IAttributeOpt, source: DataView) => {
-              const padding = innerPadding(item, ctx, opt, source);
+            newStyle.innerRadius = (item: any, ctx: any, opt?: IAttributeOpt, source?: DataView) => {
+              const padding = innerPadding(item, ctx, opt, source) as number;
               return (innerRadius as number) + padding;
             };
           } else {
@@ -96,15 +98,17 @@ export class ProgressArcMark extends BaseArcMark<IProgressArcMarkSpec> implement
       if (outerPadding && isValid(outerRadius)) {
         // 将 outerPadding 应用到 outerRadius
         if (isFunction(outerRadius)) {
-          newStyle.outerRadius = (item: any, ctx: any, opt: IAttributeOpt, source: DataView) => {
-            const result = outerRadius(item, ctx, opt, source);
-            const padding = isFunction(outerPadding) ? outerPadding(item, ctx, opt, source) : (outerPadding as number);
+          newStyle.outerRadius = (item: any, ctx: any, opt?: IAttributeOpt, source?: DataView) => {
+            const result = outerRadius(item, ctx, opt, source) as number;
+            const padding = isFunction(outerPadding)
+              ? (outerPadding(item, ctx, opt, source) as number)
+              : (outerPadding as number);
             return result - padding;
           };
         } else {
           if (isFunction(outerPadding)) {
-            newStyle.outerRadius = (item: any, ctx: any, opt: IAttributeOpt, source: DataView) => {
-              const padding = outerPadding(item, ctx, opt, source);
+            newStyle.outerRadius = (item: any, ctx: any, opt?: IAttributeOpt, source?: DataView) => {
+              const padding = outerPadding(item, ctx, opt, source) as number;
               return (outerRadius as number) - padding;
             };
           } else {

@@ -20,7 +20,7 @@ import type { ITooltipHelper } from './tooltip-helper';
 import type { CompilableData } from '../compile/data/compilable-data';
 import { ModelStateManager } from './model-state-manager';
 import { PREFIX } from '../constant';
-import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar';
+import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 import { array, isArray, isEqual, isNil } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import type { SeriesTypeEnum } from '../series/interface';
@@ -107,6 +107,7 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this.id = createID();
     this._originalSpec = spec;
     this._spec = cloneDeepSpec(spec);
+    this._transformSpec();
     this.userId = spec.id;
     this._specIndex = option.specIndex ?? 0;
     this.specKey = option.specKey ?? '';
@@ -187,12 +188,24 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   }
 
   updateSpec(spec: any) {
-    this._originalSpec = spec;
     this._spec = cloneDeepSpec(spec);
+    const result = this._compareSpec();
+    this._originalSpec = spec;
+    if (!result.reMake) {
+      this.reInit();
+    }
+    return result;
+  }
+
+  protected _transformSpec() {
+    // do nothing
+    // change spec by default logic
+  }
+
+  protected _compareSpec() {
     const result = {
       change: false,
       reMake: false,
-      reMakeData: false,
       reRender: false,
       reSize: false,
       reCompile: false
@@ -201,6 +214,9 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   }
 
   reInit(theme?: any) {
+    // before reInit reset this._spec to original
+    this._spec = cloneDeepSpec(this._originalSpec);
+    this._transformSpec();
     this._initTheme(theme);
     this.setAttrFromSpec();
   }
@@ -243,10 +259,11 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
           this._prepareSpecBeforeMergingTheme(originalSpec)
         );
 
-      if (isArray(this._originalSpec)) {
-        this._spec = this._originalSpec.map(spec => merge(spec)) as unknown as T;
+      const baseSpec = this._spec;
+      if (isArray(baseSpec)) {
+        this._spec = baseSpec.map(spec => merge(spec)) as unknown as T;
       } else {
-        this._spec = merge(this._originalSpec);
+        this._spec = merge(baseSpec);
       }
     }
     this._prepareSpecAfterMergingTheme();

@@ -1,10 +1,13 @@
+/* eslint-disable max-depth */
 import type { ILayoutPoint } from '../../../../model/interface';
 import type { IChart } from '../../../../chart/interface';
 import type { IDimensionData, IDimensionInfo } from '../interface';
-import { isNil, array, isValid } from '../../../../util';
+import { isNil, array, isValid, isValidNumber } from '../../../../util';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
 import type { CoordinateType } from '../../../../typings';
 import { isDiscrete } from '@visactor/vscale';
+import type { ICartesianLinearAxisSpec } from '../../../../component';
+import type { Maybe } from '@visactor/vutils';
 
 const isInBound = (pos: ILayoutPoint, min: ILayoutPoint, max: ILayoutPoint): boolean =>
   pos.x >= min.x && pos.x <= max.x && pos.y >= min.y && pos.y <= max.y;
@@ -65,8 +68,9 @@ export const getDimensionData = (
               )
             });
           } else {
+            // 连续轴
             if (isValid(dimensionField[1])) {
-              // 根据范围取 datum
+              // 直方图情况，根据范围取 datum
               data.push({
                 series,
                 datum: viewData.filter((datum: any) => {
@@ -82,26 +86,41 @@ export const getDimensionData = (
                 })
               });
             } else {
-              // 根据最近距离取 datum
-              let minDelta = Infinity;
-              let minDatums: any[] = [];
-              let deltaSign = 0;
-              viewData.forEach((datum: any) => {
-                if (isValid(datum[dimensionField[0]])) {
-                  const delta = Math.abs(datum[dimensionField[0]] - value);
-                  const sign = Math.sign(datum[dimensionField[0]] - value);
-                  if (delta < minDelta) {
-                    minDelta = delta;
-                    minDatums = [datum];
-                    deltaSign = sign;
-                  } else if (delta === minDelta && sign === deltaSign) {
-                    minDatums.push(datum);
+              // 散点图情况，依据轴上的配置判断
+              const range = (axis.getSpec() as ICartesianLinearAxisSpec).tooltipFilterRange;
+              const rangeArr = (isValidNumber(range) ? [-range, range] : range) as Maybe<[number, number]>;
+              let datums: any[] = [];
+              if (rangeArr) {
+                // 根据范围取 datum
+                viewData.forEach((datum: any) => {
+                  if (isValid(datum[dimensionField[0]])) {
+                    const delta = datum[dimensionField[0]] - value;
+                    if (delta >= rangeArr[0] && delta <= rangeArr[1]) {
+                      datums.push(datum);
+                    }
                   }
-                }
-              });
+                });
+              } else {
+                // 根据最近距离取 datum
+                let minDelta = Infinity;
+                let deltaSign = 0;
+                viewData.forEach((datum: any) => {
+                  if (isValid(datum[dimensionField[0]])) {
+                    const delta = Math.abs(datum[dimensionField[0]] - value);
+                    const sign = Math.sign(datum[dimensionField[0]] - value);
+                    if (delta < minDelta) {
+                      minDelta = delta;
+                      datums = [datum];
+                      deltaSign = sign;
+                    } else if (delta === minDelta && sign === deltaSign) {
+                      datums.push(datum);
+                    }
+                  }
+                });
+              }
               data.push({
                 series,
-                datum: minDatums
+                datum: datums
               });
             }
           }

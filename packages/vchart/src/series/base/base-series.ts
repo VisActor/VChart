@@ -42,7 +42,7 @@ import type {
   SeriesMarkMap,
   ISeriesMarkInfo
 } from '../interface';
-import { dataViewFromDataView } from '../../data/initialize';
+import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import {
   isNil,
   isValid,
@@ -196,11 +196,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return this._groups;
   }
 
-  protected _stackValue!: string;
-
   protected _stack: boolean = false;
   getStack() {
     return this._stack;
+  }
+
+  getStackValue() {
+    return this._spec.stackValue ?? `${PREFIX}_series_${this.type}`;
   }
   protected _percent: boolean = false;
   getPercent() {
@@ -297,6 +299,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       this._stackOffsetSilhouette = this._spec.stackOffsetSilhouette;
       this._stack = this._spec.stackOffsetSilhouette || this._stack; // this._stack is `true` in bar/area series
     }
+    if (isValid(this._spec.stackValue)) {
+      this._stack = true;
+    }
     if (isValid(this._spec.invalidType)) {
       this._invalidType = this._spec.invalidType;
     }
@@ -305,7 +310,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** data */
   protected initData(): void {
-    this._rawData = this._spec.data as DataView;
+    if (this._spec.data) {
+      this._rawData = dataToDataView(this._spec.data, this._dataSet, this._option.sourceDataList, {
+        onError: this._option?.onError
+      });
+    }
     this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
     this._addDataIndexAndKey();
     // 初始化viewData
@@ -439,7 +448,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     );
 
     this._data.getDataView().target.removeListener('change', this._viewDataStatistics.reRunAllTransform);
-    if (this._stack || this._stackValue) {
+    if (this._stack) {
       this.createdStackData();
     }
   }
@@ -690,6 +699,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   protected _updateExtensionMarkSpec(lastSpec?: any) {
     this._spec.extensionMark?.forEach((spec, i) => {
       const mark = this._marks.getMarkWithInfo({ name: `${PREFIX}_series_${this.id}_extensionMark_${i}` });
+      if (!mark) {
+        return;
+      }
       if (lastSpec && isEqual(lastSpec.extensionMark?.[i], spec)) {
         return;
       }
@@ -847,21 +859,27 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   /** updateSpec */
-  updateSpec(spec: any) {
-    const originalSpec = this._spec;
-    const result = super.updateSpec(spec);
-    if (spec.type !== this.type) {
+  _compareSpec(ignoreCheckKeys?: { [key: string]: true }) {
+    const result = super._compareSpec();
+
+    const currentKeys = Object.keys(this._originalSpec).sort();
+    const nextKeys = Object.keys(this._spec).sort();
+    if (!isEqual(currentKeys, nextKeys)) {
       result.reMake = true;
+      return result;
     }
 
-    const { invalidType } = this._originalSpec;
-    if (spec.invalidType !== invalidType) {
-      result.reMake = true;
+    ignoreCheckKeys = ignoreCheckKeys ?? { data: true };
+
+    ignoreCheckKeys.invalidType = true;
+    if (this._spec.invalidType !== this._originalSpec.invalidType) {
+      result.reCompile = true;
     }
 
+    ignoreCheckKeys.extensionMark = true;
     if (
-      array(originalSpec.extensionMark).length !== array(this._spec.extensionMark).length ||
-      originalSpec.extensionMark?.some(
+      array(this._spec.extensionMark).length !== array(this._originalSpec.extensionMark).length ||
+      (<Array<any>>this._originalSpec.extensionMark)?.some(
         (mark, index) =>
           mark.type !== this._spec.extensionMark[index].type || mark.id !== this._spec.extensionMark[index].id
       )
@@ -874,16 +892,45 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
 
     // mark visible logic in compile
-    if (this._marks.getMarks().some(m => originalSpec[m.name]?.visible !== this._spec[m.name]?.visible)) {
+    if (
+      (<Array<any>>this._originalSpec.extensionMark)?.some(
+        (mark, index) => mark.visible !== this._spec.extensionMark[index].visible
+      )
+    ) {
       result.reCompile = true;
     }
 
     // mark visible logic in compile
-    if (originalSpec.extensionMark?.some((mark, index) => mark.visible !== this._spec.extensionMark[index].visible)) {
+    if (
+      this._marks.getMarks().some(m => {
+        ignoreCheckKeys[m.name] = true;
+        return this._originalSpec[m.name]?.visible !== this._spec[m.name]?.visible;
+      })
+    ) {
       result.reCompile = true;
     }
 
+    if (
+      currentKeys.some(k => {
+        if (ignoreCheckKeys[k]) {
+          return false;
+        } else if (!isEqual(this._spec[k], this._originalSpec[k])) {
+          return true;
+        }
+        return false;
+      })
+    ) {
+      result.reMake = true;
+      return result;
+    }
+
     return result;
+  }
+
+  _updateSpecData() {
+    if (this._rawData && this._spec.data && !(this._spec.data instanceof DataView)) {
+      updateDataViewInData(this._rawData, this._spec.data, true);
+    }
   }
 
   reInit(theme?: any, lastSpec?: any) {
@@ -899,6 +946,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       mark.updateLayoutState(true);
     });
     this._updateExtensionMarkSpec(lastSpec);
+    this._updateSpecData();
   }
 
   // 首次布局完成后填充系列数据

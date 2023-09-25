@@ -1,4 +1,4 @@
-import type { IElement, IAnimationTypeConfig } from '@visactor/vgrammar';
+import type { IElement, IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { AnimationStateEnum } from '../../../animation/interface';
 import type { Datum } from '../../../typings';
 

@@ -45,6 +45,7 @@ import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { VChart } from '../../core/vchart';
 import { TextMark } from '../../mark/text';
 import { wordCloudSeriesMark } from './constant';
+import type { IStateAnimateSpec } from '../../animation/spec';
 
 VChart.useMark([TextMark]);
 
@@ -61,7 +62,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   setValueField(field: string) {
     if (isValid(field)) {
       this._valueField = field;
-      this.setFontSizeRange(DEFAULT_FONTSIZE_RANGE);
     }
   }
 
@@ -76,8 +76,10 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   protected _fontSizeRange?: [number, number] = [DEFAULT_MIN_FONT_SIZE, DEFAULT_MIN_FONT_SIZE];
   setFontSizeRange(fontSizeRange: [number, number]) {
-    if (isValid(fontSizeRange) && isValid(this._spec.valueField)) {
+    if (isValid(fontSizeRange)) {
       this._fontSizeRange = fontSizeRange;
+    } else {
+      this._fontSizeRange = DEFAULT_FONTSIZE_RANGE;
     }
   }
 
@@ -205,11 +207,20 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   initAnimation() {
-    if (this._wordMark) {
-      this._wordMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.wordCloud(), userAnimationConfig(SeriesMarkNameEnum.word, this._spec))
-      );
-    }
+    [this._wordMark, this._fillingWordMark].forEach(mark => {
+      if (mark) {
+        const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<any>)?.preset;
+        const params = {
+          animationConfig: () => mark.getAnimationConfig()?.appear?.[0]
+        };
+        mark.setAnimationConfig(
+          animationConfig(
+            DEFAULT_MARK_ANIMATION.wordCloud(params, appearPreset),
+            userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
+          )
+        );
+      }
+    });
   }
 
   protected getWordOrdinalColorScale(field: string, isFillingWord: boolean) {
@@ -436,16 +447,5 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
     this.compile();
-  }
-
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec;
-    const result = super.updateSpec(spec);
-    if (!isEqual(originalSpec, spec)) {
-      result.reMake = true;
-      result.reCompile = true;
-      return result;
-    }
-    return result;
   }
 }

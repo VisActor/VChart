@@ -1,4 +1,4 @@
-import type { SignalFunctionType } from '@visactor/vgrammar';
+import type { SignalFunctionType } from '@visactor/vgrammar-core';
 import { CompilableSignal } from './compilable-signal';
 import { CompilableBase } from '../compilable-base';
 

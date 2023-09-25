@@ -1,8 +1,7 @@
 import { Matrix } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
-import { registerGrammar } from '@visactor/vgrammar';
-import type { FeatureData } from '@visactor/vgrammar-projection';
-import { Projection } from '@visactor/vgrammar-projection';
+import type { FeatureData } from '@visactor/vgrammar-core';
+import { registerProjection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
 import type { IPathMark } from '../../mark/path';
 import { geoSourceMap } from './geo-source';
@@ -31,7 +30,7 @@ import type { ILabelMark } from '../../mark/label';
 VChart.useMark([PathMark, TextMark]);
 
 // 注册语法元素
-registerGrammar('projection', Projection, 'projections');
+registerProjection();
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;
@@ -127,7 +126,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       skipBeforeLayouted: true,
       dataView: this._mapViewData.getDataView(),
       dataProductId: this._mapViewData.getProductId(),
-      label: mergeSpec({ animation: this._spec.animation }, this._spec.label)
+      label: mergeSpec({ animation: false }, this._spec.label) // 地图交互通过 vrender api，自身不支持动画，所以 label 也不支持动画
     }) as IPathMark;
   }
 
@@ -226,23 +225,6 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._areaCache.clear();
     this._nameMap = {};
     this._trigger = this._mapViewData = null as any;
-  }
-
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec;
-    const { map, nameMap, valueField, nameProperty } = originalSpec;
-    const result = super.updateSpec(spec);
-    if (
-      spec?.map !== map ||
-      spec?.nameMap !== nameMap ||
-      spec?.valueField !== valueField ||
-      spec?.nameProperty !== nameProperty
-    ) {
-      result.change = true;
-      result.reRender = true;
-      result.reMake = true;
-    }
-    return result;
   }
 
   handleZoom(e: ZoomEventParam) {

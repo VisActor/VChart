@@ -117,7 +117,10 @@ packages/vchart/series.js
 
 packages/taro-vchart/lib/
 packages/lark-vchart/index.js
+packages/wx-vchart/index.js
+packages/wx-vchart/miniprogram/miniprogram_npm/
 
 # generated documents
 docs/public/documents
 docs/public/vchart/preview/failedPreviewLists.json
+packages/vchart/__tests__/runtime/node/**.png

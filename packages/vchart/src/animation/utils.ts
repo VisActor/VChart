@@ -1,6 +1,11 @@
-import type { IAnimationConfig } from '@visactor/vgrammar';
+import type { IAnimationConfig } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
-import type { IElement, IAnimationTypeConfig, IStateAnimationConfig, IAnimationTimeline } from '@visactor/vgrammar';
+import type {
+  IElement,
+  IAnimationTypeConfig,
+  IStateAnimationConfig,
+  IAnimationTimeline
+} from '@visactor/vgrammar-core';
 import type { MarkAnimationSpec, IAnimationState } from './interface';
 import type { IStateAnimateSpec, IAnimationSpec, IMorphSeriesSpec } from './spec';
 import { isFunction, isValidNumber } from '../util/type';

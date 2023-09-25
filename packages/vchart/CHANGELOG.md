@@ -1,6 +1,57 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 05 Sep 2023 11:24:47 GMT and should not be manually modified.
+This log was last generated on Wed, 20 Sep 2023 05:42:12 GMT and should not be manually modified.
+
+## 1.3.4
+Wed, 20 Sep 2023 05:42:12 GMT
+
+### Updates
+
+- fix: circularProgress chart may throw error when executing `updateSpec`, related #994
+- fix: the theme in spec does not update correctly when executing `updateSpec`, related #996
+- fix: `track` in spec is not working in circularProgress charts, related #600
+- fix: fix the error triggered by chart updateSpec, fixed #988, #1002
+- fix: fix the issue of player component updateSpec, fixed #967
+
+## 1.3.3
+Mon, 18 Sep 2023 03:27:40 GMT
+
+### Updates
+
+- fix: fix the issue of player component updateSpec, fixed #967
+
+## 1.3.2
+Thu, 14 Sep 2023 12:36:21 GMT
+
+### Patches
+
+- fix: fix the issue of animation config not work in common chart, related #814
+
+### Updates
+
+- feat: the setDimensionIndex api supports deselecting ability by passing in null
+
+
+- feat: use precision calculations in waterfall charts to avoid unexpected values for labels, details in #721
+
+
+- fix(log-axis): log scale has no result about zero when bar stack has a zero baseline value. fix #634
+- fix: fix the user event listener becomes invalid after updateSpec
+
+
+- fix: fix bug of series mark static style are not updated when updateSpec
+
+
+- fix: fix bug data fields are not updated when updateSpec, details in #829
+
+
+- feat(scrollBar): interactive default config.
+- perf: optimize the performance of dimension-statistics
+
+
+- perf: only calculate dimensionTree when need
+
+
 
 ## 1.3.1
 Tue, 05 Sep 2023 11:24:47 GMT

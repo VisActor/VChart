@@ -958,7 +958,7 @@ const spec = {
       },
       tick: {
         inside: true,
-        tickStep: 20
+        tickStep: 10
       }
     }
   ],

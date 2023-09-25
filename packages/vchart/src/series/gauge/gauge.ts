@@ -7,7 +7,7 @@ import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import type { IProgressArcMark } from '../../mark/progress-arc';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { SEGMENT_FIELD_END, SEGMENT_FIELD_START } from '../../constant';
-import type { Datum } from '@visactor/vgrammar';
+import type { Datum } from '@visactor/vgrammar-core';
 import type { Maybe } from '../../typings';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -70,13 +70,18 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   }
 
   initMark(): void {
-    this._trackMark = this._createMark(GaugeSeries.mark.track) as IProgressArcMark;
+    super.initMark();
+    this._trackMark = this._createMark(GaugeSeries.mark.track, {
+      parent: this._arcGroupMark
+    }) as IProgressArcMark;
     this._segmentMark = this._createMark(GaugeSeries.mark.segment, {
+      parent: this._arcGroupMark,
       isSeriesMark: true
     }) as IProgressArcMark;
   }
 
   initMarkStyle(): void {
+    super.initMarkStyle();
     this.initTrackMarkStyle();
     this.initSegmentMarkStyle();
   }
@@ -122,14 +127,14 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     }
   }
 
-  protected _getAngleValueStart(datum: Datum) {
+  protected _getAngleValueStartWithoutMask(datum: Datum) {
     const angle = isValid(datum[SEGMENT_FIELD_START])
       ? this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_START]])
       : this._startAngle;
     return angle + (this._spec.padAngle ?? 0) / 2;
   }
 
-  protected _getAngleValueEnd(datum: Datum) {
+  protected _getAngleValueEndWithoutMask(datum: Datum) {
     const angle = this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_END]]);
     return angle - (this._spec.padAngle ?? 0) / 2;
   }

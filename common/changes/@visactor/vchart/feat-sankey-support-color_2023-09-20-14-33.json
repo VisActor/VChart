@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: sankey chart support color config'",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

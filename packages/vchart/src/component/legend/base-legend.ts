@@ -121,13 +121,15 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   }
 
   /** Update API **/
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec;
-    const result = super.updateSpec(spec);
+  _compareSpec() {
+    const result = super._compareSpec();
     result.reRender = true;
-    if (spec.orient !== originalSpec.orient) {
+    if (this._spec.orient !== this._originalSpec.orient) {
       result.reMake = true;
       return result;
+    }
+    if (!isEqual(this._originalSpec, this._spec)) {
+      result.reCompile = true;
     }
     return result;
   }
@@ -285,7 +287,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
 
   clear(): void {
     if (this._legendComponent) {
-      this._container.removeChild(this._legendComponent);
+      this.getContainer()?.removeChild(this._legendComponent);
       this._legendComponent = null;
     }
     this._cacheAttrs = null;

@@ -73,6 +73,10 @@ Series grouping field.
 
 Whether to stack the data.
 
+#${prefix} stackValue(string|number)
+
+Supported since `1.4.0` version, Series with equal `stackValue` will be stacked together
+
 #${prefix} percent(boolean)
 
 Whether to display the data as a percentage.
@@ -143,4 +147,5 @@ Data matching field, configurable for multiple data primitives.
   noPreset = ${noPreset},
   preset = ${preset},
   defaultPreset = ${defaultPreset},
+  seriesType = ${seriesType},
 ) }}
