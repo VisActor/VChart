@@ -307,9 +307,21 @@ export class LineLikeSeriesMixin {
     }
     const statistics = this.getViewDataStatistics()?.latestData?.[this.getStackValueField()];
     if (this._invalidType === 'zero' || (statistics && statistics?.allValid)) {
+      if (mark.stateStyle.normal?.[attr].style === true) {
+        // no change
+        return;
+      }
       this.setMarkStyle(mark, { [attr]: true }, 'normal', AttributeLevel.Series);
     } else {
+      if (mark.stateStyle.normal?.[attr].style !== true) {
+        // no change
+        return;
+      }
       this.setMarkStyle(mark, { [attr]: this._getInvalidDefined }, 'normal', AttributeLevel.Series);
+    }
+    // if has produce, reCompile encode to set attribute to product
+    if (mark.getProduct()) {
+      mark.compileEncode();
     }
   }
 }
