@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support `scaleCenter` attribute for mark, see #781",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
