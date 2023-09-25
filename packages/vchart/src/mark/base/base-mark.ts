@@ -268,7 +268,8 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       // mark的层级应该在mark层 不在encode属性层
       // zIndex: LayoutZIndex.Mark,
       x: 0,
-      y: 0
+      y: 0,
+      scaleCenter: ['50%', '50%']
     } as IMarkStyle<T>;
   }
 
