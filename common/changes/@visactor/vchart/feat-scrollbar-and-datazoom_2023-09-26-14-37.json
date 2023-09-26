@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: datazoom enhance zoomLock & span config. close #1082",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
