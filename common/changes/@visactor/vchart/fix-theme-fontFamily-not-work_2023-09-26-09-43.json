@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix `theme.fontFamily` can not work",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
