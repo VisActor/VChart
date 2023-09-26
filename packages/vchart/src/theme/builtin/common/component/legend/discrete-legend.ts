@@ -11,7 +11,7 @@ export const discreteLegend: IDiscreteLegendTheme = {
     textStyle: {
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
       fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
       fontWeight: 'normal'
     },
@@ -52,7 +52,7 @@ export const discreteLegend: IDiscreteLegendTheme = {
         fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' },
         fontSize: THEME_CONSTANTS.l5FontSize,
         lineHeight: THEME_CONSTANTS.l5LineHeight,
-        fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
         opacity: 1 // 覆盖 vrender-components 里的默认值
       },
       state: {
