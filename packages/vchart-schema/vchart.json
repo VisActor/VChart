@@ -832,6 +832,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "startAngle": {
           "$ref": "#/definitions/VisualType<number>"
         },
@@ -962,6 +973,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "startAngle": {
           "$ref": "#/definitions/VisualType<number>"
         },
@@ -1088,6 +1110,17 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "startAngle": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1216,6 +1249,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "startAngle": {
           "$ref": "#/definitions/VisualType<number>"
         },
@@ -1343,6 +1387,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "startAngle": {
           "$ref": "#/definitions/VisualType<number>"
         },
@@ -1454,6 +1509,17 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -1569,6 +1635,17 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -1687,6 +1764,17 @@
         },
         "q3": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "shaftFillOpacity": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1812,6 +1900,17 @@
         "q3": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_3"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "shaftFillOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "中轴线透明度，仅当shaftType=bar时生效"
@@ -1931,6 +2030,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
@@ -2040,6 +2150,17 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -2156,6 +2277,17 @@
         },
         "repeatY": {
           "$ref": "#/definitions/VisualType<IRepeatType>"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -2275,6 +2407,17 @@
         },
         "repeatY": {
           "$ref": "#/definitions/VisualType<IRepeatType>"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -2397,6 +2540,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
@@ -2515,6 +2669,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
@@ -2632,6 +2797,17 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -2756,6 +2932,17 @@
         "round": {
           "$ref": "#/definitions/VisualType<boolean>",
           "description": "round all the coordinates"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "startArrow": {
           "$ref": "#/definitions/VisualType<boolean>"
@@ -2896,6 +3083,17 @@
           "$ref": "#/definitions/VisualType<boolean>",
           "description": "round all the coordinates"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "startArrow": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
@@ -3015,7 +3213,9 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "scaleCenter": {
-          "$ref": "#/definitions/VisualType<{x:number;y:number;}>"
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
         },
         "scaleX": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3127,7 +3327,9 @@
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
         "scaleCenter": {
-          "$ref": "#/definitions/VisualType<{x:number;y:number;}>"
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
         },
         "scaleX": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3242,6 +3444,11 @@
         "points": {
           "$ref": "#/definitions/VisualType<IPoint[]>"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
         "scaleX": {
           "$ref": "#/definitions/VisualType<number>"
         },
@@ -3351,6 +3558,11 @@
         },
         "points": {
           "$ref": "#/definitions/VisualType<IPoint[]>"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
         },
         "scaleX": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3490,6 +3702,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "startAngle": {
           "$ref": "#/definitions/VisualType<number>"
         },
@@ -3625,6 +3848,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "startAngle": {
           "$ref": "#/definitions/VisualType<number>"
         },
@@ -3731,6 +3965,11 @@
         },
         "points": {
           "$ref": "#/definitions/VisualType<IPoint[]>"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
         },
         "scaleX": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3841,6 +4080,11 @@
         },
         "points": {
           "$ref": "#/definitions/VisualType<IPoint[]>"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
         },
         "scaleX": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3954,6 +4198,17 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -4071,6 +4326,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
@@ -4183,6 +4449,17 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -4297,6 +4574,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
@@ -4409,6 +4697,17 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -4534,6 +4833,17 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
         },
@@ -4657,6 +4967,17 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -4912,6 +5233,11 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
         "scaleX": {
           "$ref": "#/definitions/VisualType<number>"
         },
@@ -5032,6 +5358,11 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
         "scaleX": {
           "$ref": "#/definitions/VisualType<number>"
         },
@@ -5116,6 +5447,11 @@
         "cursor": {
           "$ref": "#/definitions/VisualType<Cursor>"
         },
+        "direction": {
+          "$ref": "#/definitions/VisualType<\"horizontal\"|\"vertical\">",
+          "default": "'horizontal'",
+          "description": "文本的排布方向，如果需要文本纵向排布，可以配置为 'vertical'"
+        },
         "dx": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "x 方向偏移"
@@ -5193,6 +5529,17 @@
         "poptip": {
           "$ref": "#/definitions/VisualType<PopTipAttributes>",
           "description": "poptip 相关配置"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -5277,6 +5624,11 @@
         "cursor": {
           "$ref": "#/definitions/VisualType<Cursor>"
         },
+        "direction": {
+          "$ref": "#/definitions/VisualType<\"horizontal\"|\"vertical\">",
+          "default": "'horizontal'",
+          "description": "文本的排布方向，如果需要文本纵向排布，可以配置为 'vertical'"
+        },
         "dx": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "x 方向偏移"
@@ -5354,6 +5706,17 @@
         "poptip": {
           "$ref": "#/definitions/VisualType<PopTipAttributes>",
           "description": "poptip 相关配置"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -5438,6 +5801,11 @@
         "cursor": {
           "$ref": "#/definitions/VisualType<Cursor>"
         },
+        "direction": {
+          "$ref": "#/definitions/VisualType<\"horizontal\"|\"vertical\">",
+          "default": "'horizontal'",
+          "description": "文本的排布方向，如果需要文本纵向排布，可以配置为 'vertical'"
+        },
         "dx": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "x 方向偏移"
@@ -5515,6 +5883,17 @@
         "poptip": {
           "$ref": "#/definitions/VisualType<PopTipAttributes>",
           "description": "poptip 相关配置"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
@@ -16993,6 +17372,33 @@
           ],
           "type": "string"
         },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
+        },
         "startAngle": {
           "type": "number"
         },
@@ -17605,6 +18011,33 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
         },
         "startAngle": {
           "type": "number"
@@ -18227,6 +18660,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -18468,6 +18907,33 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
         },
         "stroke": {
           "anyOf": [
@@ -18848,6 +19314,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -19676,6 +20147,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -20384,6 +20861,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -20755,6 +21238,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -21611,6 +22099,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -21810,6 +22304,33 @@
         },
         "q3": {
           "typeof": "function"
+        },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
         },
         "shaftFillOpacity": {
           "description": "中轴线透明度，仅当shaftType=bar时生效",
@@ -22133,6 +22654,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -23050,6 +23576,11 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -23494,6 +24025,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -23768,6 +24305,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -24246,6 +24788,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -24607,6 +25155,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "startAngle": {
           "description": "扇区起始角度",
@@ -25348,6 +25901,12 @@
             "$ref": "#/definitions/ISeriesStyleItem"
           },
           "type": "array"
+        },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
         },
         "theme": {
           "anyOf": [
@@ -26092,6 +26651,14 @@
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
+        },
+        "layout": {
+          "description": "图例组件的布局配置，默认自动跟随显示位置进行调整。\n1. `orient` 为 'top' 或者 'bottom' 时，默认为 'horizontal' 水平布局\n2. `orient` 为 'left' 或者 'right' 时，默认为 'vertical' 垂直布局",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "type": "string"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -27513,6 +28080,16 @@
     },
     "IDiscreteLegendTheme": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alignContent": {
           "enum": [
             "center",
@@ -27816,6 +28393,14 @@
         },
         "keepDirIn3d": {
           "type": "boolean"
+        },
+        "layout": {
+          "description": "图例组件的布局配置，默认自动跟随显示位置进行调整。\n1. `orient` 为 'top' 或者 'bottom' 时，默认为 'horizontal' 水平布局\n2. `orient` 为 'left' 或者 'right' 时，默认为 'vertical' 垂直布局",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "type": "string"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -28188,10 +28773,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -28514,6 +29105,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "subTitle": {
           "$ref": "#/definitions/ISequenceLabel",
@@ -29327,6 +29923,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -29806,6 +30408,12 @@
         },
         "stack": {
           "description": "是否对数据进行堆叠处理",
+          "type": "boolean"
+        },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
           "type": "boolean"
         },
         "stackOffsetSilhouette": {
@@ -30292,6 +30900,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -30811,9 +31424,20 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "startAngle": {
           "description": "扇区起始角度",
@@ -31204,6 +31828,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "startAngle": {
           "description": "扇区起始角度",
@@ -31619,6 +32248,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "startAngle": {
           "description": "扇区起始角度",
@@ -34224,6 +34858,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -34554,6 +35194,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -35293,6 +35938,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -35972,6 +36623,12 @@
         },
         "stack": {
           "description": "是否对数据进行堆叠处理",
+          "type": "boolean"
+        },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
           "type": "boolean"
         },
         "stackOffsetSilhouette": {
@@ -38392,6 +39049,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -38635,6 +39298,33 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
         },
         "stroke": {
           "anyOf": [
@@ -38954,6 +39644,11 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -39080,6 +39775,28 @@
         },
         "range": {
           "typeof": "function"
+        },
+        "tooltipFilterRange": {
+          "anyOf": [
+            {
+              "items": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "连续轴上的 dimension tooltip 数据筛选范围\n如果配置为单个数字 d，则筛选区间为 [x0 - d, x0 + d]；如果配置为二元组 [d1, d2]，则筛选区间为 [x0 + d1, x0 + d2]",
+          "since": "1.4.0"
         },
         "zero": {
           "default": true,
@@ -39450,6 +40167,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -39744,6 +40467,11 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -39968,6 +40696,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -40397,6 +41130,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -40707,6 +41446,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -42268,7 +43012,25 @@
           "type": "string"
         },
         "scaleCenter": {
-          "typeof": "function"
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
         },
         "scaleX": {
           "type": "number"
@@ -42782,6 +43544,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -43267,6 +44035,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -43600,6 +44374,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "startAngle": {
           "default": -90,
@@ -44557,6 +45336,27 @@
           },
           "type": "array"
         },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -44634,6 +45434,16 @@
     },
     "IPoptipTheme": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alignContent": {
           "enum": [
             "center",
@@ -44961,10 +45771,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -45294,6 +46110,33 @@
           ],
           "type": "string"
         },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
+        },
         "startAngle": {
           "type": "number"
         },
@@ -45541,6 +46384,27 @@
           "items": {
             "$ref": "#/definitions/IPoint_1"
           },
+          "type": "array"
+        },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
           "type": "array"
         },
         "scaleX": {
@@ -46038,6 +46902,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -46408,6 +47278,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "startAngle": {
           "description": "扇区起始角度",
@@ -47084,6 +47959,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -47429,6 +48310,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -48095,6 +48981,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -48475,6 +49367,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -49142,6 +50039,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -49523,6 +50426,11 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -49766,6 +50674,33 @@
           ],
           "type": "string"
         },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
+        },
         "stroke": {
           "anyOf": [
             {
@@ -49988,6 +50923,33 @@
           ],
           "type": "string"
         },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
+        },
         "stroke": {
           "anyOf": [
             {
@@ -50141,6 +51103,12 @@
         "right": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
         },
         "style": {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_2"
@@ -50677,6 +51645,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -51009,6 +51983,11 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
+        },
         "startAngle": {
           "description": "扇区起始角度",
           "type": "number"
@@ -51224,6 +52203,33 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
         },
         "stroke": {
           "anyOf": [
@@ -51579,6 +52585,7 @@
           "description": "系列名称",
           "type": "string"
         },
+        "nameKey": {},
         "node": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "节点配置"
@@ -51708,6 +52715,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -51760,6 +52773,7 @@
       },
       "required": [
         "categoryField",
+        "nameKey",
         "type",
         "valueField"
       ],
@@ -51960,6 +52974,7 @@
           "description": "系列名称",
           "type": "string"
         },
+        "nameKey": {},
         "node": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "节点配置"
@@ -52060,6 +53075,11 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -52089,6 +53109,7 @@
       },
       "required": [
         "categoryField",
+        "nameKey",
         "type",
         "valueField"
       ],
@@ -52686,6 +53707,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -53056,6 +54083,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -53755,6 +54787,12 @@
           },
           "type": "array"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "theme": {
           "anyOf": [
             {
@@ -53936,6 +54974,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -55620,6 +56663,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -55968,6 +57017,11 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
+        },
         "startAngle": {
           "default": -90,
           "description": "起始角度",
@@ -56212,6 +57266,27 @@
           ],
           "type": "string"
         },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -56368,6 +57443,15 @@
         "cursor": {
           "$ref": "#/definitions/Cursor_1"
         },
+        "direction": {
+          "default": "'horizontal'",
+          "description": "文本的排布方向，如果需要文本纵向排布，可以配置为 'vertical'",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "type": "string"
+        },
         "dx": {
           "description": "x 方向偏移",
           "type": "number"
@@ -56485,6 +57569,33 @@
         "poptip": {
           "$ref": "#/definitions/PopTipAttributes",
           "description": "poptip 相关配置"
+        },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
         },
         "stroke": {
           "anyOf": [
@@ -57384,6 +58495,11 @@
         "position": {
           "$ref": "#/definitions/TooltipPatternProperty<TooltipPosition>"
         },
+        "positionMode": {
+          "$ref": "#/definitions/TooltipPatternProperty<TooltipPositionMode>",
+          "description": "决定 `position` 相对固定于什么图形，如固定在鼠标指针周围或图元周围。该配置只有 `position` 设为字符串时生效。默认为 `'mark'`",
+          "since": "1.4.0"
+        },
         "seriesId": {
           "description": "该 pattern 属于哪个系列id（用户不需要设置）",
           "type": "number"
@@ -58218,9 +59334,20 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -58597,6 +59724,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -59609,6 +60741,54 @@
       ],
       "type": "object"
     },
+    "IVisualSpecStyle<unknown,[string|number,string|number]>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "items": [
+              {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              }
+            ],
+            "maxItems": 2,
+            "minItems": 2,
+            "type": "array"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
     "IVisualSpecStyle<unknown,boolean>": {
       "properties": {
         "domain": {
@@ -60057,38 +61237,6 @@
               "string",
               "number"
             ]
-          },
-          "type": "array"
-        },
-        "specified": {
-          "typeof": "function"
-        },
-        "type": {
-          "$ref": "#/definitions/ScaleType",
-          "description": "type of scale"
-        }
-      },
-      "required": [
-        "domain",
-        "range",
-        "type"
-      ],
-      "type": "object"
-    },
-    "IVisualSpecStyle<unknown,{x:number;y:number;}>": {
-      "properties": {
-        "domain": {
-          "description": "will set to scale.domain, it means input of scale",
-          "items": {},
-          "type": "array"
-        },
-        "field": {
-          "type": "string"
-        },
-        "range": {
-          "description": "will set to scale.range, it means output of scale",
-          "items": {
-            "typeof": "function"
           },
           "type": "array"
         },
@@ -60693,6 +61841,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackLabel": {
           "allOf": [
             {
@@ -61104,6 +62258,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -61876,6 +63035,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -62247,6 +63412,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -62731,6 +63901,12 @@
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
@@ -63096,6 +64272,11 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -63311,7 +64492,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         },
         "size": {
@@ -63319,14 +64500,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13013",
+        "__@toStringTag@13063",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         },
         "size": {
@@ -63334,14 +64515,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13013",
+        "__@toStringTag@13063",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         },
         "size": {
@@ -63349,14 +64530,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13013",
+        "__@toStringTag@13063",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         },
         "size": {
@@ -63364,14 +64545,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13013",
+        "__@toStringTag@13063",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         },
         "size": {
@@ -63379,14 +64560,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13013",
+        "__@toStringTag@13063",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         },
         "size": {
@@ -63394,14 +64575,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13013",
+        "__@toStringTag@13063",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         },
         "size": {
@@ -63409,14 +64590,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13013",
+        "__@toStringTag@13063",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         },
         "size": {
@@ -63424,14 +64605,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13013",
+        "__@toStringTag@13063",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         },
         "size": {
@@ -63439,7 +64620,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13013",
+        "__@toStringTag@13063",
         "size"
       ],
       "type": "object"
@@ -63748,6 +64929,16 @@
     },
     "Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"pager\"|\"item\">": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alignContent": {
           "enum": [
             "center",
@@ -64054,10 +65245,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -64446,6 +65643,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "support3d": {
           "description": "是否支持3d视角",
@@ -65094,6 +66296,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "startAngle": {
           "description": "扇区起始角度",
@@ -65833,6 +67040,11 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -66151,6 +67363,11 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
+        },
         "startAngle": {
           "description": "扇区起始角度",
           "type": "number"
@@ -66211,6 +67428,16 @@
     },
     "Omit<IGroupGraphicAttribute,\"background\">": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alignContent": {
           "enum": [
             "center",
@@ -66463,10 +67690,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -66920,6 +68153,11 @@
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
         },
         "startAngle": {
           "default": -90,
@@ -67525,6 +68763,16 @@
     },
     "Omit<Omit<PagerAttributes,\"total\">&{space?:number;animation?:boolean;animationDuration?:number;animationEasing?:EasingType;},\"textStyle\"|\"handler\">": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alignContent": {
           "enum": [
             "center",
@@ -67808,10 +69056,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -68192,6 +69446,16 @@
     },
     "Partial<IArcGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -68429,10 +69693,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -68538,6 +69808,16 @@
     },
     "Partial<IAreaGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -68763,10 +70043,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -68941,6 +70227,16 @@
     },
     "Partial<ICircleGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -69140,10 +70436,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -69249,6 +70551,16 @@
     },
     "Partial<IGlyphGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -69471,10 +70783,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -69580,6 +70898,16 @@
     },
     "Partial<IGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -69773,10 +71101,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -69879,6 +71213,16 @@
     },
     "Partial<IGroupGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alignContent": {
           "enum": [
             "center",
@@ -70147,10 +71491,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -70259,6 +71609,16 @@
     },
     "Partial<IImageGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -70487,10 +71847,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -71083,6 +72449,16 @@
     },
     "Partial<ILineGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -71311,10 +72687,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -71944,6 +73326,16 @@
     },
     "Partial<IPathGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -72150,10 +73542,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -72256,6 +73654,16 @@
     },
     "Partial<IPolygonGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -72471,10 +73879,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -72722,6 +74136,27 @@
           },
           "type": "array"
         },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
         "scaleX": {
           "type": "number"
         },
@@ -72799,6 +74234,16 @@
     },
     "Partial<IRect3dGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -73011,10 +74456,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -73120,6 +74571,16 @@
     },
     "Partial<IRectGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -73329,10 +74790,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -73580,6 +75047,33 @@
           ],
           "type": "string"
         },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
+        },
         "stroke": {
           "anyOf": [
             {
@@ -73755,6 +75249,16 @@
     },
     "Partial<ISymbolGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -73948,10 +75452,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -74077,6 +75587,16 @@
     },
     "Partial<ITextGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -74313,10 +75833,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -74433,6 +75959,9 @@
         "underline": {
           "type": "number"
         },
+        "verticalMode": {
+          "type": "number"
+        },
         "visible": {
           "type": "boolean"
         },
@@ -74517,6 +76046,15 @@
         },
         "cursor": {
           "$ref": "#/definitions/Cursor_1"
+        },
+        "direction": {
+          "default": "'horizontal'",
+          "description": "文本的排布方向，如果需要文本纵向排布，可以配置为 'vertical'",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "type": "string"
         },
         "dx": {
           "description": "x 方向偏移",
@@ -74635,6 +76173,33 @@
         "poptip": {
           "$ref": "#/definitions/PopTipAttributes",
           "description": "poptip 相关配置"
+        },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
         },
         "stroke": {
           "anyOf": [
@@ -74903,6 +76468,12 @@
           },
           "type": "array"
         },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
         "theme": {
           "anyOf": [
             {
@@ -74935,6 +76506,16 @@
     },
     "Partial<Omit<Partial<ITextGraphicAttribute>,\"fill\">>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -75168,10 +76749,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -75288,6 +76875,9 @@
         "underline": {
           "type": "number"
         },
+        "verticalMode": {
+          "type": "number"
+        },
         "visible": {
           "type": "boolean"
         },
@@ -75315,6 +76905,16 @@
     },
     "Partial<Omit<{visible:boolean;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;},\"shadowColor\"|\"fill\"|\"stroke\">>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -75521,10 +77121,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -75628,6 +77234,16 @@
     },
     "Partial<Partial<IGraphicAttribute>>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -75821,10 +77437,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -77226,34 +78848,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13013"
+        "__@toStringTag@13063"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13013"
+        "__@toStringTag@13063"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13013": {
+        "__@toStringTag@13063": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13013"
+        "__@toStringTag@13063"
       ],
       "type": "object"
     },
@@ -77337,6 +78959,16 @@
     },
     "Required<IArcGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -77574,10 +79206,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -77680,6 +79318,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -77751,6 +79390,16 @@
     },
     "Required<IAreaGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -77976,10 +79625,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -78085,6 +79740,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -78156,6 +79812,16 @@
     },
     "Required<ICircleGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -78355,10 +80021,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -78461,6 +80133,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -78526,6 +80199,16 @@
     },
     "Required<IGlyphGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -78748,10 +80431,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -78854,6 +80543,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -78921,6 +80611,16 @@
     },
     "Required<IGroupGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alignContent": {
           "enum": [
             "center",
@@ -79189,10 +80889,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -79298,6 +81004,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alignContent",
         "alignItems",
         "alpha",
@@ -79372,6 +81079,16 @@
     },
     "Required<IImageGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -79600,10 +81317,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -79706,6 +81429,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -79774,6 +81498,16 @@
     },
     "Required<ILineGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -80002,10 +81736,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -80111,6 +81851,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -80183,6 +81924,16 @@
     },
     "Required<IPathGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -80389,10 +82140,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -80492,6 +82249,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -80556,6 +82314,16 @@
     },
     "Required<IPolygonGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -80771,10 +82539,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -80874,6 +82648,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -80939,6 +82714,16 @@
     },
     "Required<IRect3dGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -81151,10 +82936,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -81257,6 +83048,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -81323,6 +83115,16 @@
     },
     "Required<IRectGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -81532,10 +83334,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -81638,6 +83446,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -81703,6 +83512,16 @@
     },
     "Required<IRichTextGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -81914,10 +83733,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -82041,6 +83866,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -82115,6 +83941,16 @@
     },
     "Required<IRichTextIconGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -82423,10 +84259,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -82535,6 +84377,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -82616,6 +84459,16 @@
     },
     "Required<ISymbolGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -82809,10 +84662,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -82935,6 +84794,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -82999,6 +84859,16 @@
     },
     "Required<ITextGraphicAttribute>": {
       "properties": {
+        "_debug_bounds": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
         "alpha": {
           "type": "number"
         },
@@ -83235,10 +85105,16 @@
         "scaleCenter": {
           "items": [
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             },
             {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
           "maxItems": 2,
@@ -83355,6 +85231,9 @@
         "underline": {
           "type": "number"
         },
+        "verticalMode": {
+          "type": "number"
+        },
         "visible": {
           "type": "boolean"
         },
@@ -83379,6 +85258,7 @@
         }
       },
       "required": [
+        "_debug_bounds",
         "alpha",
         "anchor",
         "anchor3d",
@@ -83447,6 +85327,7 @@
         "texturePadding",
         "textureSize",
         "underline",
+        "verticalMode",
         "visible",
         "wordBreak",
         "x",
@@ -86858,6 +88739,9 @@
           ],
           "type": "string"
         },
+        "outsideEnable": {
+          "type": "boolean"
+        },
         "strokeStrategy": {
           "enum": [
             "base",
@@ -87081,11 +88965,33 @@
         },
         {
           "enum": [
+            "bl",
             "bottom",
+            "br",
             "inside",
+            "lb",
             "left",
+            "lt",
+            "rb",
             "right",
-            "top"
+            "rt",
+            "tl",
+            "top",
+            "tr"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    "TooltipPatternProperty<TooltipPositionMode>": {
+      "anyOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "enum": [
+            "mark",
+            "pointer"
           ],
           "type": "string"
         }
@@ -87633,6 +89539,38 @@
         }
       ]
     },
+    "VisualType<[string|number,string|number]>": {
+      "anyOf": [
+        {
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,[string|number,string|number]>"
+        }
+      ]
+    },
     "VisualType<boolean>": {
       "anyOf": [
         {
@@ -87893,22 +89831,6 @@
             "string",
             "number"
           ]
-        }
-      ]
-    },
-    "VisualType<{x:number;y:number;}>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/IVisualScale"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,{x:number;y:number;}>"
         }
       ]
     },

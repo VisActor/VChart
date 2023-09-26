@@ -63,9 +63,11 @@ const getSpec = (): IAreaChartSpec => ({
       orient: 'bottom',
       type: 'band',
       minBandSize: 50,
-      maxBandSize: 100
+      maxBandSize: 100,
+      autoRegionSize: true
     },
-    { orient: 'left', type: 'linear' }
+    { orient: 'left', type: 'linear' },
+    { orient: 'right', type: 'linear' }
   ],
   scrollBar: [
     { orient: 'bottom', start: 0, filterMode: 'axis', axisIndex: 0, auto: true }

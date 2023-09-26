@@ -198,18 +198,6 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     }
   }
 
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec;
-    const { angleField, radiusField } = originalSpec;
-    const result = super.updateSpec(spec);
-    if (!shallowCompare(spec.angleField, angleField) || !shallowCompare(spec.radiusField, radiusField)) {
-      result.change = true;
-      result.reRender = true;
-      result.reMake = true;
-    }
-    return result;
-  }
-
   onRadiusAxisHelperUpdate(): void {
     this.onMarkPositionUpdate();
   }

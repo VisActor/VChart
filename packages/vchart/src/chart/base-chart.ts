@@ -1,3 +1,4 @@
+import type { IRegionSpec } from './../region/interface';
 import { ChartData } from './chart-meta/data';
 import type { ICrossHair } from '../component/crosshair/interface/spec';
 import type { IDimensionInfo } from '../event/events/dimension/interface';
@@ -81,6 +82,7 @@ import type { ITooltip } from '../component/tooltip/interface';
 import type { IRectMark } from '../mark/rect';
 import { calculateChartSize, mergeUpdateResult } from './util';
 import { isDiscrete } from '@visactor/vscale';
+import { updateDataViewInData } from '../data/initialize';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -234,6 +236,9 @@ export class BaseChart extends CompilableBase implements IChart {
     }
     if (!has(spec, 'tooltip')) {
       spec.tooltip = {};
+    }
+    if (isValid(spec.stackInverse)) {
+      spec.region.forEach((r: IRegionSpec) => !isValid(r.stackInverse) && (r.stackInverse = spec.stackInverse));
     }
   }
 
@@ -690,7 +695,18 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   updateFullData(data: IDataValues | IDataValues[], updateGlobalScale: boolean = true) {
-    this._chartData.updateData(data);
+    array(data).forEach(d => {
+      const dv = this._dataSet.getDataView(d.id);
+      if (dv) {
+        dv.markRunning();
+      }
+    });
+    array(data).forEach(d => {
+      const dv = this._dataSet.getDataView(d.id);
+      if (dv) {
+        updateDataViewInData(dv, d, true);
+      }
+    });
     if (updateGlobalScale) {
       this.updateGlobalScaleDomain();
     }
@@ -883,7 +899,6 @@ export class BaseChart extends CompilableBase implements IChart {
     }
     this._regions.forEach(r => {
       mergeUpdateResult(result, r.updateSpec(this._spec.region[r.getSpecIndex()]));
-      !result.reMake && r.reInit();
     });
   }
 
@@ -908,7 +923,6 @@ export class BaseChart extends CompilableBase implements IChart {
       } else {
         mergeUpdateResult(result, c.updateSpec(cmpSpec));
       }
-      !result.reMake && c.reInit();
     });
     for (const key in componentCache) {
       if (Object.prototype.hasOwnProperty.call(componentCache, key)) {
@@ -928,9 +942,7 @@ export class BaseChart extends CompilableBase implements IChart {
     }
     this._series.forEach(s => {
       const spec = this._spec.series[s.getSpecIndex()];
-      const lastSpec = s.getSpec();
       mergeUpdateResult(result, s.updateSpec(spec));
-      !result.reMake && s.reInit(null, lastSpec);
     });
   }
 

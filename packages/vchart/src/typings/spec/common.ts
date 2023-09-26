@@ -205,6 +205,13 @@ export interface IChartSpec {
   // TODO：后续开放，现在仍有问题
   // poptip?: PopTipAttributes;
   // TODO: 补充动画配置
+
+  /**
+   * 堆积时是否逆序
+   * @default false
+   * @since 1.4.0
+   */
+  stackInverse?: boolean;
 }
 
 export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {
@@ -365,6 +372,13 @@ export interface ISeriesSpec extends ITriggerSpec {
   /** 是否对数据进行堆叠处理 */
   stack?: boolean;
 
+  /**
+   * 堆叠时的分组值
+   * stackValue 相等的系列将在一起堆积。没有配置的系列将在一组
+   * @since 1.4.0
+   */
+  stackValue?: StringOrNumber;
+
   /** 堆叠汇总标签
    * @since 1.3.0
    */
@@ -422,7 +436,7 @@ export interface ISeriesSpec extends ITriggerSpec {
   // background?: IBackgroundSpec;
 }
 
-export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph'>;
+export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph' | 'stackValue'>;
 
 export type AdaptiveSpec<T, K extends keyof any> = {
   [key in Exclude<keyof T, K>]: T[key];

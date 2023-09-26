@@ -190,6 +190,43 @@ hover 状态样式配置。
 
 自定义备选 label 颜色。这些颜色将补充在备选颜色池中，当对比度不满足阈值时从备选颜色池中选择满足文本可读性的颜色对 label 颜色更换。备选颜色池中默认包含白色 `‘#ffffff’` 和 黑色 `‘#000000’`。
 
+##${prefix} fillStrategy(string)
+
+label 填充色在智能反色时的四种策略：
+
+- `'base'` 使用标签所在图元的颜色
+- `'invertBase'` 使用经过智能反色计算后的颜色
+- `'similarBase'` 使用经过智能反色计算后的颜色的互补色
+- `'null'` 不执行智能反色，保持`style.fill`设置的颜色
+
+默认设置为`'invertBase'`
+
+##${prefix} strokeStrategy(string)
+
+label 描边色在智能反色时的四种策略：
+
+- `'base'` 使用标签所在图元的颜色
+- `'invertBase'` 使用经过智能反色计算后的颜色
+- `'similarBase'` 使用经过智能反色计算后的颜色的互补色
+- `'null'` 不执行智能反色，保持`style.stroke`设置的颜色
+
+默认设置为`'base'`
+
+##${prefix} brightColor(string)
+
+前景色与亮色具有对比度时，similarSeries 使用该色。
+默认设置为'#ffffff'。
+
+##${prefix} brightColor(string)
+
+前景色与暗色具有对比度时，similarSeries 使用该色。
+默认设置为'#000000'。
+
+##${prefix} outsideEnable(boolean)
+
+label 超出 mark 范围，也以 mark 作为背景色进行反色。
+默认设置为`false`。
+
 {{ /if }}
 
 {{ if: !${ignoreCustom} }}

@@ -19,7 +19,7 @@ import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
 import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { mixin, clamp, isNil } from '@visactor/vutils';
+import { mixin, clamp, isNil, isEqual } from '@visactor/vutils';
 import { IFilterMode } from './constant';
 import type { IDataFilterComponent, IDataFilterComponentSpec } from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
@@ -112,7 +112,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
         const axisScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
         const axisSpec = (this._relatedAxisComponent as CartesianAxis<any>).getSpec() as ICartesianBandAxisSpec;
-        if (this._auto) {
+        if (this._auto && this._getAxisBandSize(axisSpec)) {
           // 提前更改 scale
           axisScale.range(this._stateScale?.range(), true);
         }
@@ -531,10 +531,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   /**
    * updateSpec
    */
-  updateSpec(spec: any) {
-    const result = super.updateSpec(spec);
-    result.reRender = true;
-    result.reMake = true;
+  _compareSpec() {
+    const result = super._compareSpec();
+    if (!result.reMake && !isEqual(this._originalSpec, this._spec)) {
+      result.reRender = true;
+      result.reMake = true;
+    }
 
     return result;
   }
@@ -671,14 +673,23 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._component?.showAll();
   }
 
+  protected _getAxisBandSize(axisSpec?: ICartesianBandAxisSpec) {
+    const bandSize = axisSpec?.bandSize;
+    const maxBandSize = axisSpec?.maxBandSize;
+    const minBandSize = axisSpec?.minBandSize;
+    if (bandSize || minBandSize || maxBandSize) {
+      return { bandSize, maxBandSize, minBandSize };
+    }
+    return undefined;
+  }
+
   protected _autoUpdate(rect?: ILayoutRect): boolean {
     if (!this._auto) {
       return true;
     }
     const axisSpec = this._relatedAxisComponent?.getSpec() as ICartesianBandAxisSpec | undefined;
-    const bandSize = axisSpec?.bandSize;
-    const maxBandSize = axisSpec?.maxBandSize;
-    const minBandSize = axisSpec?.minBandSize;
+    const bandSizeResult = this._getAxisBandSize(axisSpec);
+    const { bandSize, maxBandSize, minBandSize } = bandSizeResult ?? {};
     if (
       rect?.height === this._cacheRect?.height &&
       rect?.width === this._cacheRect?.width &&
@@ -691,7 +702,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const scale = this._stateScale as BandScale;
     scale.range(this._isHorizontal ? [0, rect.width] : axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
     if (isDiscrete(scale.type)) {
-      if (bandSize || minBandSize || maxBandSize) {
+      if (bandSizeResult) {
         if (this._start || this._end) {
           scale.rangeFactor([this._start, this._end], true);
         }
@@ -704,24 +715,24 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         if (minBandSize) {
           scale.minBandwidth(minBandSize, true);
         }
-        scale.rescale(false);
-        let [start, end] = scale.rangeFactor();
-        if ((!start && !end) || !scale.isBandwidthFixed()) {
-          start = 0;
-          end = 1;
+        scale.rescale();
+      }
+      let [start, end] = scale.rangeFactor() ?? [];
+      if ((!start && !end) || !scale.isBandwidthFixed()) {
+        start = 0;
+        end = 1;
+        this.hide();
+        isShown = false;
+      } else {
+        if (start === 0 && end === 1) {
           this.hide();
           isShown = false;
         } else {
-          if (start === 0 && end === 1) {
-            this.hide();
-            isShown = false;
-          } else {
-            this.show();
-          }
+          this.show();
         }
-        this._start = start;
-        this._end = end;
       }
+      this._start = start;
+      this._end = end;
     }
     this.setStartAndEnd(this._start, this._end);
     this._cacheVisibility = isShown;
