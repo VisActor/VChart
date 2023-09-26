@@ -26,6 +26,7 @@ Display text at random angles.
 const spec = {
   type: 'wordCloud',
   nameField: 'name',
+
   valueField: 'value',
   maskShape: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/shape_motuo_mini.png',
   rotateAngles: [0, 90],
@@ -239,10 +240,6 @@ const spec = {
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
-
-setTimeout(()=> {
-  vchart.updateSpec(spec)
-}, 200)
 
 // Just for the convenience of console debugging, do not copy
 window['vchart'] = vchart;
