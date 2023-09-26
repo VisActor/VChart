@@ -497,17 +497,13 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     limitTagInBounds(label, this._getLimitBounds());
   }
 
-  clear() {
-    [(this._radiusCrosshair, this._radiusLabelCrosshair, this._angleCrosshair, this._angleLabelCrosshair)].forEach(
-      c => {
-        if (c) {
-          this.getContainer()?.removeChild(c as unknown as INode);
-          c = null;
-        }
-      }
-    );
-
-    super.clear();
+  getVRenderComponents(): IGroup[] {
+    return [
+      this._radiusCrosshair,
+      this._radiusLabelCrosshair,
+      this._angleCrosshair,
+      this._angleLabelCrosshair
+    ] as unknown as IGroup[];
   }
 }
 

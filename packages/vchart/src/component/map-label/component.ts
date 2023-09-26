@@ -425,6 +425,10 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   changeRegions(/** regions: IRegion[] */): void {
     // do nothing
   }
+
+  getVRenderComponents(): IGroup[] {
+    return [];
+  }
 }
 
 export const registerMapLabel = () => {

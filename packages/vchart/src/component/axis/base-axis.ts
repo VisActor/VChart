@@ -110,6 +110,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     this._visible = spec.visible ?? true;
   }
 
+  getVRenderComponents(): IGroup[] {
+    return [];
+  }
+
   created() {
     super.created();
     //series and regions
@@ -308,7 +312,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   _compareSpec() {
     const result = super._compareSpec();
     result.reRender = true;
-    if (this._originalSpec.type !== this._spec.type) {
+    if (this._originalSpec?.type !== this._spec?.type) {
       result.reMake = true;
       return result;
     }

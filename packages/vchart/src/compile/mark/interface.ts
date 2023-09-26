@@ -67,6 +67,8 @@ export interface ICompilableMark extends IGrammarItem {
   updateState: (newState: Record<string, unknown>) => Promise<void>;
   /** 更新group | enter中的静态样式 */
   updateStaticEncode: () => void;
+  /** 更新 mark 样式 */
+  compileEncode: () => void;
   /** 更新encode中的样式 */
   updateLayoutState: (noRender?: boolean, recursion?: boolean) => Promise<void>;
   /** 更新某一个状态 */

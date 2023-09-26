@@ -7,7 +7,7 @@ import type { ScrollBarAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { ScrollBar as ScrollBarComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
-import type { IRectGraphicAttribute, INode } from '@visactor/vrender';
+import type { IRectGraphicAttribute, INode, IGroup } from '@visactor/vrender';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';
@@ -169,12 +169,8 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     return attrs;
   }
 
-  clear(): void {
-    if (this._component) {
-      this.getContainer()?.removeChild(this._component as unknown as INode);
-      this._component = null;
-    }
-    super.clear();
+  getVRenderComponents(): IGroup[] {
+    return [this._component] as unknown as IGroup[];
   }
 }
 

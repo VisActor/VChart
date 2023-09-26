@@ -49,3 +49,9 @@
 由于图表会在容器中默认等比例展示全部的 tick，那么当图表容器变小时，自动计算的组宽也会等比例变小。当自动计算的组宽小于 `minBandSize` 时，组宽将维持 `minBandSize` 的值。
 
 当已经配置 `bandSize` 时，`minBandSize` 将不再生效。
+
+#${prefix} autoRegionSize(boolean)
+
+**仅当轴为离散轴时生效**，是否根据组宽自动计算 region 宽度或高度。自 `1.4.0` 版本开始支持。
+
+该配置仅当 `bandSize` 或 `maxBandSize` 已经配置时生效。

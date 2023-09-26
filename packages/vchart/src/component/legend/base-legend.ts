@@ -124,7 +124,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   _compareSpec() {
     const result = super._compareSpec();
     result.reRender = true;
-    if (this._spec.orient !== this._originalSpec.orient) {
+    if (this._spec?.orient !== this._originalSpec?.orient) {
       result.reMake = true;
       return result;
     }
@@ -235,29 +235,32 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     const width = isFinite(this._legendComponent.AABBBounds.width()) ? this._legendComponent.AABBBounds.width() : 0;
     const height = isFinite(this._legendComponent.AABBBounds.height()) ? this._legendComponent.AABBBounds.height() : 0;
 
-    // 调整位置
-    const layout = this.layoutOrient === 'bottom' || this.layoutOrient === 'top' ? 'horizontal' : 'vertical';
-    const position = this._position;
-    const { width: rectWidth, height: rectHeight } = fullSpace;
-    let offsetX = 0;
-    let offsetY = 0;
-    if (layout === 'horizontal') {
-      if (position === 'middle') {
-        offsetX = (rectWidth - width) / 2;
-      } else if (position === 'end') {
-        offsetX = rectWidth - width;
+    if (this.layoutType !== 'normal-inline') {
+      // 调整位置
+      const layout = this.layoutOrient === 'bottom' || this.layoutOrient === 'top' ? 'horizontal' : 'vertical';
+      const position = this._position;
+      const { width: rectWidth, height: rectHeight } = fullSpace;
+      let offsetX = 0;
+      let offsetY = 0;
+      if (layout === 'horizontal') {
+        if (position === 'middle') {
+          offsetX = (rectWidth - width) / 2;
+        } else if (position === 'end') {
+          offsetX = rectWidth - width;
+        }
+      } else {
+        if (position === 'middle') {
+          offsetY = (rectHeight - height) / 2;
+        } else if (position === 'end') {
+          offsetY = rectHeight - height;
+        }
       }
-    } else {
-      if (position === 'middle') {
-        offsetY = (rectHeight - height) / 2;
-      } else if (position === 'end') {
-        offsetY = rectHeight - height;
-      }
+
+      this._legendComponent.setAttributes({
+        dx: offsetX,
+        dy: offsetY
+      });
     }
-    this._legendComponent.setAttributes({
-      dx: offsetX,
-      dy: offsetY
-    });
 
     result.x2 = result.x1 + width;
     result.y2 = result.y1 + height;
@@ -285,13 +288,13 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     this.event.emit(ChartEvent.legendSelectedDataChange, { model: this });
   }
 
+  getVRenderComponents(): IGroup[] {
+    return [this._legendComponent] as unknown as IGroup[];
+  }
+
   clear(): void {
-    if (this._legendComponent) {
-      this.getContainer()?.removeChild(this._legendComponent);
-      this._legendComponent = null;
-    }
+    super.clear();
     this._cacheAttrs = null;
     this._preSelectedData = null;
-    super.clear();
   }
 }

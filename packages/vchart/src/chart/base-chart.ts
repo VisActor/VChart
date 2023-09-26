@@ -82,6 +82,7 @@ import type { ITooltip } from '../component/tooltip/interface';
 import type { IRectMark } from '../mark/rect';
 import { calculateChartSize, mergeUpdateResult } from './util';
 import { isDiscrete } from '@visactor/vscale';
+import { updateDataViewInData } from '../data/initialize';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -694,7 +695,18 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   updateFullData(data: IDataValues | IDataValues[], updateGlobalScale: boolean = true) {
-    this._chartData.updateData(data);
+    array(data).forEach(d => {
+      const dv = this._dataSet.getDataView(d.id);
+      if (dv) {
+        dv.markRunning();
+      }
+    });
+    array(data).forEach(d => {
+      const dv = this._dataSet.getDataView(d.id);
+      if (dv) {
+        updateDataViewInData(dv, d, true);
+      }
+    });
     if (updateGlobalScale) {
       this.updateGlobalScaleDomain();
     }

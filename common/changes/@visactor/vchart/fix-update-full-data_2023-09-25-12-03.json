@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "feat: increase chart stacking capabilities, provide stackValue to support independent stacking of multiple series\n\n",
+      "comment": "fix: fix the problem that updateFullData cannot update data in series\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }

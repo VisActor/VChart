@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: label stroke should follow default color when stroke is set to null, detail see #985",
+      "comment": "fix(datazoom): fix bounds error when there is no preview chart. fix #1050",
       "type": "none"
     }
   ],

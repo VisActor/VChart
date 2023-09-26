@@ -222,51 +222,60 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this._updateLabelComponentAttribute(
       labelComponent.getProduct() as ILabel,
       labelInfo.map(({ baseMark }) => baseMark.getProduct()),
-      labelInfo[0]
+      labelInfo
     );
   }
 
   protected _updateSingleLabelAttribute(labelInfo: ILabelInfo, labelComponent: IComponentMark) {
     const { baseMark } = labelInfo;
-    this._updateLabelComponentAttribute(labelComponent.getProduct() as ILabel, baseMark.getProduct(), labelInfo);
+    this._updateLabelComponentAttribute(labelComponent.getProduct() as ILabel, baseMark.getProduct(), [labelInfo]);
   }
 
-  protected _updateLabelComponentAttribute(component: ILabel, target: IMark | IMark[], labelInfo: ILabelInfo) {
-    const { baseMark, labelSpec, series, labelMark } = labelInfo;
+  protected _updateLabelComponentAttribute(component: ILabel, target: IMark | IMark[], labelInfos: ILabelInfo[]) {
     const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
     component
       .target(target)
       .configure({ interactive: false })
       .depend(dependCmp.map(cmp => cmp.getMarks()[0].getProduct()))
-      .labelStyle(() => {
-        const rule = labelMark.getRule() || baseMark.type;
-        const configFunc = labelRuleMap[rule] ?? labelRuleMap.point;
-        const interactive = this._interactiveConfig(labelSpec);
-        const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
-        /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
-        const centerOffset = this._spec?.centerOffset ?? 0;
-        return mergeSpec(
-          {
-            textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
-            overlap: {
-              avoidMarks: this._option
-                .getAllComponents()
-                .filter(cmp => cmp.type === 'totalLabel')
-                .map(cmp => cmp.getMarks()[0].getProductId())
+      .labelStyle((mark: IMark, params: Record<string, any>) => {
+        const labelInfo = labelInfos[params.labelIndex];
+        if (labelInfo) {
+          const { baseMark, labelSpec, labelMark } = labelInfo;
+          const rule = labelMark.getRule() || baseMark.type;
+          const configFunc = labelRuleMap[rule] ?? labelRuleMap.point;
+          const interactive = this._interactiveConfig(labelSpec);
+          const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
+          /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
+          const centerOffset = this._spec?.centerOffset ?? 0;
+          return mergeSpec(
+            {
+              textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
+              overlap: {
+                avoidMarks: this._option
+                  .getAllComponents()
+                  .filter(cmp => cmp.type === 'totalLabel')
+                  .map(cmp => cmp.getMarks()[0].getProductId())
+              }
+            },
+            configFunc(labelInfo),
+            {
+              ...passiveLabelSpec,
+              ...interactive,
+              centerOffset
             }
-          },
-          configFunc(labelInfo),
-          {
-            ...passiveLabelSpec,
-            ...interactive,
-            centerOffset
-          }
-        );
+          );
+        }
       })
-      .encode(datum => {
-        return labelMark.skipEncode ? { data: datum } : textAttribute(labelInfo, datum, labelSpec.formatMethod);
+      .encode((datum, element, params: Record<string, any>) => {
+        const labelInfo = labelInfos[params.labelIndex];
+        if (labelInfo) {
+          const { labelSpec, labelMark } = labelInfos[params.labelIndex];
+          return labelMark.skipEncode
+            ? { data: datum }
+            : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod);
+        }
       })
-      .size(() => series.getRegion().getLayoutRect());
+      .size(() => labelInfos[0].series.getRegion().getLayoutRect());
   }
 
   compileMarks() {

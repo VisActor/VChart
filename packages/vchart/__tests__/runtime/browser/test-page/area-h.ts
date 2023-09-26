@@ -5,6 +5,7 @@ import { default as VChart } from '../../../../src/index';
 
 const getSpec = (): IAreaChartSpec => ({
   type: 'area',
+  direction: 'horizontal',
   data: {
     values: [
       { type: 'Nail polish', country: 'Africa', value: 4229 },
@@ -50,8 +51,8 @@ const getSpec = (): IAreaChartSpec => ({
     text: 'Stacked area chart of cosmetic products sales'
   },
   // stack: true,
-  xField: 'type',
-  yField: 'value',
+  yField: 'type',
+  xField: 'value',
   seriesField: 'country',
   legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
   crosshair: {
@@ -60,17 +61,17 @@ const getSpec = (): IAreaChartSpec => ({
   },
   axes: [
     {
-      orient: 'bottom',
+      orient: 'left',
       type: 'band',
       minBandSize: 50,
       maxBandSize: 100,
       autoRegionSize: true
     },
-    { orient: 'left', type: 'linear' },
-    { orient: 'right', type: 'linear' }
+    { orient: 'top', type: 'linear' },
+    { orient: 'bottom', type: 'linear' }
   ],
   scrollBar: [
-    { orient: 'bottom', start: 0, filterMode: 'axis', axisIndex: 0, auto: true }
+    { orient: 'right', start: 0, filterMode: 'axis', axisIndex: 0, auto: true }
     // { orient: 'bottom', start: 0, end: 0.5, roam: true, filterMode: 'axis' }
   ],
   tooltip: {

@@ -78,7 +78,7 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
    */
   _compareSpec() {
     const result = super._compareSpec();
-    if (this._originalSpec.orient !== this._spec.orient) {
+    if (this._originalSpec?.orient !== this._spec?.orient) {
       result.reMake = true;
     }
 
@@ -188,13 +188,13 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
     return this._titleComponent;
   }
 
+  getVRenderComponents(): IGroup[] {
+    return [this._titleComponent] as unknown as IGroup[];
+  }
+
   clear(): void {
-    if (this._titleComponent) {
-      this.getContainer()?.removeChild(this._titleComponent as unknown as IGroup);
-      this._titleComponent = null;
-    }
-    this._cacheAttrs = null;
     super.clear();
+    this._cacheAttrs = null;
   }
 }
 

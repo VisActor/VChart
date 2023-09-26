@@ -4,11 +4,11 @@
 
 #${prefix} dx(number)
 
-x方向偏移。
+x 方向偏移。
 
 #${prefix} dy(number)
 
-y方向偏移。
+y 方向偏移。
 
 #${prefix} size(number)
 
@@ -19,6 +19,7 @@ y方向偏移。
 形状。
 
 可选值：
+
 - `'circle'`
 - `'cross''diamond'`
 - `'square'`
@@ -36,11 +37,3 @@ y方向偏移。
 - `'star'`
 - `'wye'`
 - `'rect'`
-
-#${prefix} scaleX(number)
-
-X 方向缩放。
-
-#${prefix} scaleY(number)
-
-Y 方向缩放。
