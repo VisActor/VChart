@@ -227,6 +227,10 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this._mergeMarkTheme();
   }
 
+  setTheme(theme?: any) {
+    this._theme = theme;
+  }
+
   /** 将全局的 mark theme 合并进 model theme */
   protected _mergeMarkTheme() {
     const globalTheme = this._option.getTheme?.();

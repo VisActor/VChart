@@ -275,6 +275,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   updateViewBox(viewBox: IBoundsLike, reLayout: boolean) {
+    this._option.viewBox = viewBox;
     this._updateLayoutRect(viewBox);
     this.setLayoutTag(true, null, reLayout);
   }
@@ -1019,7 +1020,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   /** 设置当前全局主题 */
-  setCurrentTheme(theme: ITheme) {
+  setCurrentTheme(theme: ITheme, reInit: boolean = true) {
     this._theme = theme;
 
     // 需要重新布局
@@ -1030,26 +1031,26 @@ export class BaseChart extends CompilableBase implements IChart {
     // 设置色板，只设置 colorScale 的 range
     this.updateGlobalScaleTheme();
 
-    this.setRegionTheme();
-    this.setComponentTheme(theme);
-    this.setSeriesTheme(theme);
+    this.setRegionTheme(reInit);
+    this.setComponentTheme(theme, reInit);
+    this.setSeriesTheme(theme, reInit);
   }
 
-  protected setRegionTheme() {
+  protected setRegionTheme(reInit: boolean = true) {
     this._regions.forEach(r => {
-      r.reInit();
+      reInit ? r.reInit() : r.setTheme();
     });
   }
 
-  protected setComponentTheme(theme: ITheme) {
+  protected setComponentTheme(theme: ITheme, reInit: boolean = true) {
     this._components.forEach(c => {
-      c.setCurrentTheme(theme.series[c.type], true);
+      reInit ? c.setCurrentTheme(theme.component[c.type], true) : c.setTheme(theme.component[c.type]);
     });
   }
 
-  protected setSeriesTheme(theme: ITheme) {
+  protected setSeriesTheme(theme: ITheme, reInit: boolean = true) {
     this._series.forEach(async s => {
-      await s.setCurrentTheme(theme.series[s.type], true);
+      (await reInit) ? s.setCurrentTheme(theme.series[s.type], true) : s.setTheme(theme.series[s.type]);
     });
   }
 

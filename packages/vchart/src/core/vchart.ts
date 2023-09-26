@@ -82,7 +82,7 @@ import {
   Logger,
   merge as mergeOrigin,
   isFunction,
-  isObject
+  isEqual
 } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
@@ -743,8 +743,10 @@ export class VChart implements IVChart {
       spec = specTransform(spec) as any;
       const lastSpec = this._spec;
       this._spec = spec;
-      this._updateCurrentTheme();
-      this._chart?.setCurrentTheme(this._currentTheme, true);
+      if (!isEqual(lastSpec.theme, spec.theme)) {
+        this._updateCurrentTheme();
+        this._chart?.setCurrentTheme(this._currentTheme, false);
+      }
       const reSize = this._updateChartConfiguration(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
       return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
