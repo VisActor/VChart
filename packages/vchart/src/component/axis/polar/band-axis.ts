@@ -1,11 +1,11 @@
 import { BandScale } from '@visactor/vscale';
 import { ComponentTypeEnum } from '../../interface';
 import { PolarAxis } from './axis';
-import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING } from './config';
+import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING, DEFAULT_BAND_POSITION } from './config';
 import { mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
-import type { IPolarBandAxisSpec } from './interface';
+import type { IAxisLocationCfg, IPolarBandAxisSpec } from './interface';
 
 export interface PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec>
   extends Pick<
@@ -26,12 +26,14 @@ export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> ex
     return this.computeBandDomain(data);
   }
 
-  dataToPosition(values: any[]): number {
+  dataToPosition(values: any[], cfg: IAxisLocationCfg = {}): number {
     if (values.length === 0 || this._scales.length === 0) {
       return 0;
     }
-    const { position } = this.getPosition(values);
-    return position;
+    const { position, bandScale } = this.getPosition(values);
+    return (
+      position + bandScale.bandwidth() * (cfg.bandPosition ?? this.getSpec().bandPosition ?? DEFAULT_BAND_POSITION)
+    );
   }
 
   protected updateScaleRange() {

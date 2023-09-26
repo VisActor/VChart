@@ -279,7 +279,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         },
         showDetail: this._spec?.showDetail,
         brushSelect: this._spec?.brushSelect ?? false,
-        previewData: this._data.getLatestData(),
+        previewData: isNeedPreview && this._data.getLatestData(),
         previewCallbackX: isNeedPreview && this._dataToPositionX,
         previewCallbackY: isNeedPreview && this._dataToPositionY,
         ...(this._getComponentAttrs() as any)

@@ -64,11 +64,11 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
         y: () => this.angleAxisHelper.center().y,
         startAngle: (datum: Datum) =>
           this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) -
-          this.angleAxisHelper.getBandwidth(0) * 0.5,
+          this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5,
         endAngle: (datum: Datum) =>
           this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) +
           this.getRoseAngle() -
-          this.angleAxisHelper.getBandwidth(0) * 0.5,
+          this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5,
         fill: this.getColorAttribute(),
         outerRadius: (datum: Datum) =>
           valueInScaleRange(
