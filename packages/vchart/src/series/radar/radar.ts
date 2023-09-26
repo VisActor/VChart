@@ -20,7 +20,7 @@ import { AreaMark } from '../../mark/area';
 import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { radarSeriesMark } from './constant';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<

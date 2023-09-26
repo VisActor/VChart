@@ -10,7 +10,7 @@ import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../.
 import type { IGroupMark } from '../../mark/group';
 import type { MarkTypeEnum } from '../../mark/interface';
 import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class CustomMark extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;

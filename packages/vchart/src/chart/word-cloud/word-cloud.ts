@@ -5,7 +5,7 @@ import type { IWordCloudChartSpec } from './interface';
 import { BaseWordCloudChart } from './base';
 import { VChart } from '../../core/vchart';
 import { WordCloudSeries, registerWordCloudSeries } from '../../series/word-cloud/word-cloud';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 import { registerWordCloudTransforms } from '@visactor/vgrammar-wordcloud';
 
 export class WordCloudChart extends BaseWordCloudChart {

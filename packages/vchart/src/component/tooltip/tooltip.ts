@@ -39,7 +39,7 @@ import { isDimensionInfo, isMarkInfo, MarkTooltipProcessor, DimensionTooltipProc
 import { hasParentElement, isString } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;

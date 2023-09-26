@@ -15,7 +15,7 @@ import {
 } from '../../constant/word-cloud';
 import type { ICompilableMark } from '../../compile/mark';
 import { BaseWordCloudSeries } from './base';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class WordCloud3dSeries<
   T extends IWordCloud3dSeriesSpec = IWordCloud3dSeriesSpec

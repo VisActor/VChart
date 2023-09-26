@@ -15,7 +15,7 @@ import { BaseLabelComponent } from './base-label';
 import type { ITotalLabelSpec, ITotalLabelTheme } from './interface';
 import type { IModelInitOption } from '../../model/interface';
 import type { Datum } from '../../typings';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;

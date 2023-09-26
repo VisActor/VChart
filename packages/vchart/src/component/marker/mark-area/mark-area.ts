@@ -19,7 +19,7 @@ import type { LayoutItem } from '../../../model/layout-item';
 import type { INode } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
-import { Factory } from '../../../core';
+import { Factory } from '../../../core/factory';
 
 export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;

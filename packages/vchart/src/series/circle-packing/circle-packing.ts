@@ -4,7 +4,8 @@ import { isNil, mixin } from '@visactor/vutils';
 import type { ICirclePackingOpt } from '../../data/transforms/circle-packing';
 import type { ICirclePackingSeriesSpec } from './interface';
 
-import { Factory, type IMarkSpec } from '../..';
+import { type IMarkSpec } from '../..';
+import { Factory } from '../../core/factory';
 import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
 import type { SeriesMarkMap } from '../interface';

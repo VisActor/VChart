@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import type { IBar3dChartSpec } from './interface';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class Bar3dChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.bar3d;

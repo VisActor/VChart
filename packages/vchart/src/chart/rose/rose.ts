@@ -5,7 +5,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
 import { array, mergeSpec } from '../../util';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class RoseChart extends RoseLikeChart {
   static readonly type: string = ChartTypeEnum.rose;

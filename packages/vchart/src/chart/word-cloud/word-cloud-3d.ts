@@ -3,7 +3,7 @@ import { ChartTypeEnum } from '../interface';
 import type { IWordCloud3dChartSpec } from './interface';
 import { BaseWordCloudChart } from './base';
 import { registerWordCloud3dSeries } from '../../series/word-cloud/word-cloud-3d';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class WordCloud3dChart extends BaseWordCloudChart {
   static readonly type: string = ChartTypeEnum.wordCloud3d;

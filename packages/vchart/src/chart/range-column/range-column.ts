@@ -4,7 +4,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IRangeColumnChartSpec } from './interface';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 import { registerRangeColumnSeries } from '../../series/range-column/range-column';
 
 export class RangeColumnChart extends CartesianChart {

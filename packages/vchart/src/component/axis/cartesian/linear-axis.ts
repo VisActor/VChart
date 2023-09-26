@@ -7,7 +7,7 @@ import type { IAxisHelper, ICartesianLinearAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { mixin } from '@visactor/vutils';
-import { Factory } from '../../../core';
+import { Factory } from '../../../core/factory';
 import { ComponentMark } from '../../../mark';
 import { registerAxis } from '../base-axis';
 

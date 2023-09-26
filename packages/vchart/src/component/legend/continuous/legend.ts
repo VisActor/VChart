@@ -19,7 +19,7 @@ import { continuousLegendDataMake, continuousLegendFilter } from '../../../data/
 import { ContinuousLegendMap, getContinuousLegendAttributes, isContinuousLegend } from './util';
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
-import { Factory } from '../../../core';
+import { Factory } from '../../../core/factory';
 
 const SINGLE_SEQUENCE = ['#C4E7FF', '#98CAFF', '#75ACFF', '#518FF9', '#2775DC', '#005CBE', '#00429F', '#00287E'];
 const SIZE = [2, 10];

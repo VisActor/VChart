@@ -5,7 +5,7 @@ import { Direction } from '../../typings';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { VChart } from '../../core/vchart';
 import { RangeAreaSeries, registerRangeAreaSeries } from '../../series/range-area/range-area';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class RangeAreaChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.rangeArea;

@@ -37,7 +37,7 @@ import {
   registerGrid as registerVGrammarGrid
 } from '@visactor/vgrammar-core';
 import { ComponentMark, type IComponentMark } from '../../mark/component';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>

@@ -16,7 +16,7 @@ import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { ProgressArcMark } from '../../mark/progress-arc';
 import { gaugeSeriesMark } from './constant';
 import { degreeToRadian } from '@visactor/vutils';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;

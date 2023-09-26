@@ -25,7 +25,7 @@ import { PathMark } from '../../mark/path';
 import { TextMark } from '../../mark/text';
 import { mapSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 import { registerGeoCoordinate } from '../../component/geo';
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {

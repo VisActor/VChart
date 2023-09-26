@@ -49,7 +49,7 @@ import { centerOffsetConfig } from './animation/centerOffset';
 import { ArcMark } from '../../mark/arc';
 import { mergeSpec } from '../../util';
 import { pieSeriesMark } from './constant';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & { type: string };
 

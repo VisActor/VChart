@@ -21,7 +21,7 @@ import { Arc3dMark } from '../../mark/arc-3d';
 import { BasePieSeries } from './pie';
 import { pie3dSeriesMark } from './constant';
 import { radianToDegree } from '@visactor/vutils';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
   static readonly type: string = SeriesTypeEnum.pie3d;

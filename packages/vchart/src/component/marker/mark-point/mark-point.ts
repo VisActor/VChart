@@ -16,7 +16,7 @@ import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
 import type { LayoutItem } from '../../../model/layout-item';
 import type { INode } from '@visactor/vrender';
-import { Factory } from '../../../core';
+import { Factory } from '../../../core/factory';
 
 export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> implements IMarkPoint {
   static type = ComponentTypeEnum.markPoint;

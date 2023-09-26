@@ -1,3 +1,4 @@
+import { Factory } from './../../core/factory';
 import type { INode } from '@visactor/vrender';
 import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visactor/vrender-components';
 
@@ -13,7 +14,7 @@ import type { DirectionType, IPlayer } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent } from '../interface';
 import type { IPoint, IOrientType } from '../../typings';
-import { Factory, type IChartSpec, type IDataValues } from '../..';
+import { type IChartSpec, type IDataValues } from '../..';
 
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';

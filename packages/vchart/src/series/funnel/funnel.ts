@@ -43,7 +43,7 @@ import { RuleMark } from '../../mark/rule';
 import { funnelSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import type { LabelItem } from '@visactor/vrender-components';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   extends BaseSeries<T>

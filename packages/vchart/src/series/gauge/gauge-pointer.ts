@@ -15,7 +15,7 @@ import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { RectMark } from '../../mark/rect';
 import { gaugePointerSeriesMark } from './constant';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class GaugePointerSeries<
   T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec

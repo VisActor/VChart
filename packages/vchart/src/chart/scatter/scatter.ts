@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import type { IScatterChartSpec } from './interface';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class ScatterChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.scatter;

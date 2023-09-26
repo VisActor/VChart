@@ -5,7 +5,7 @@ import { ChartTypeEnum } from '../interface';
 import type { IWaterfallChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { registerWaterfullSeries } from '../../series/waterfall/waterfall';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class WaterfallChart extends BarChart {
   static readonly type: string = ChartTypeEnum.waterfall;

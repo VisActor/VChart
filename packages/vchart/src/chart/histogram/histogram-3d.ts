@@ -2,7 +2,7 @@ import { registerBar3dSeries } from '../../series/bar/bar-3d';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BaseHistogramChart } from './base';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class Histogram3dChart extends BaseHistogramChart {
   static readonly type: string = ChartTypeEnum.histogram3d;

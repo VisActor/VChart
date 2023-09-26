@@ -3,7 +3,7 @@ import { registerPieSeries } from '../../series/pie/pie';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BasePieChart } from './base';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class PieChart extends BasePieChart {
   static readonly type: string = ChartTypeEnum.pie;

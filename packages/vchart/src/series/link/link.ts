@@ -18,7 +18,7 @@ import { RuleMark } from '../../mark/rule';
 import { SymbolMark } from '../../mark/symbol';
 import { linkSeriesMark } from './constant';
 import { linkDotInfo } from '../../data/transforms/link-dot-info';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.link;

@@ -1,4 +1,4 @@
-import { VChart } from './vchart-simple';
+import { VChart } from './vchart-all';
 export default VChart;
 
 export * from './core';

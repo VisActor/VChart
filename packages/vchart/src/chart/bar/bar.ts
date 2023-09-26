@@ -4,7 +4,7 @@ import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBarChartSpec } from './interface';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class BarChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.bar;

@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { array, mergeSpec } from '../../util';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class RadarChart extends RoseLikeChart {
   static readonly type: string = ChartTypeEnum.radar;

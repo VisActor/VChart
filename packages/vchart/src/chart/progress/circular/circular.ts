@@ -2,7 +2,7 @@ import { SeriesTypeEnum } from '../../../series/interface/type';
 import { ChartTypeEnum } from '../../interface';
 import { ProgressLikeChart } from '../../polar/progress-like';
 import { registerCircularProgressSeries } from '../../../series/progress/circular';
-import { Factory } from '../../../core';
+import { Factory } from '../../../core/factory';
 
 export class CircularProgressChart extends ProgressLikeChart {
   static readonly type: string = ChartTypeEnum.circularProgress;

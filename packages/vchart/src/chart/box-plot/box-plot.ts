@@ -6,7 +6,7 @@ import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBoxPlotChartSpec } from './interface';
 import { VChart } from '../../core/vchart';
 import { BoxPlotSeries, registerBoxplotSeries } from '../../series/box-plot/box-plot';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class BoxPlotChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.boxPlot;

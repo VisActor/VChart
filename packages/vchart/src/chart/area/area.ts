@@ -1,10 +1,10 @@
-import { AreaSeries, registerAreaSeries } from '../../series/area/area';
+import { registerAreaSeries } from '../../series/area/area';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import type { IAreaChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class AreaChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.area;

@@ -7,7 +7,7 @@ import { Rect3dMark } from '../../mark/rect-3d';
 import type { IBar3dSeriesSpec } from './interface';
 import type { AdaptiveSpec } from '../../typings';
 import { bar3dSeriesMark } from './constant';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class Bar3dSeries<T extends IBar3dSeriesSpec = IBar3dSeriesSpec> extends BarSeries<AdaptiveSpec<T, 'type'>> {
   static readonly type: string = SeriesTypeEnum.bar3d;

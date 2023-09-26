@@ -10,8 +10,7 @@ import type { Datum } from '../../../typings';
 import { CompilableData } from '../../../compile/data';
 import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import type { ICartesianTimeAxisSpec } from './interface';
-import { Factory } from '../../../core';
-import { ComponentMark } from '../../../mark';
+import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>

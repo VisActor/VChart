@@ -14,7 +14,7 @@ import type { LineAppearPreset } from './animation';
 import { lineSeriesMark } from './constant';
 import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<

@@ -22,7 +22,7 @@ import { isArray, pickWithout } from '@visactor/vutils';
 import type { IGroup, IText } from '@visactor/vrender';
 import type { LabelItem } from '@visactor/vrender-components';
 import type { ILabelSpec } from './interface';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 import { LabelMark, type ILabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
 

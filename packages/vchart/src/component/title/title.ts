@@ -14,7 +14,7 @@ import type { IPoint, IOrientType } from '../../typings';
 import { isEqual } from '@visactor/vutils';
 import type { LayoutItem } from '../../model/layout-item';
 import { LayoutLevel, LayoutZIndex } from '../../constant';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class Title extends BaseComponent<ITitleSpec> implements ITitle {
   static type = ComponentTypeEnum.title;

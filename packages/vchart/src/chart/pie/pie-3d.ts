@@ -4,7 +4,7 @@ import type { ISeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BasePieChart } from './base';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class Pie3dChart extends BasePieChart {
   static readonly type: string = ChartTypeEnum.pie3d;

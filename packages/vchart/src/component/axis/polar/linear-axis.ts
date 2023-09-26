@@ -4,8 +4,7 @@ import { PolarAxis } from './axis';
 import type { IPolarLinearAxisSpec } from './interface/spec';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { mixin } from '@visactor/vutils';
-import { Factory } from '../../../core';
-import { ComponentMark } from '../../../mark';
+import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
 
 export interface PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSpec>

@@ -21,7 +21,7 @@ import type { IGroup, INode } from '@visactor/vrender';
 import { angleLabelOrientAttribute, radiusLabelOrientAttribute } from '../../util/math';
 import { limitTagInBounds } from './util';
 import { getAxisLabelOffset } from '../axis/util';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 interface ICrosshairInfo {
   x: number;

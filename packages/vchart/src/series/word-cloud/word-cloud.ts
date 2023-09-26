@@ -2,7 +2,7 @@
 import { SeriesTypeEnum } from '../interface';
 import type { IWordCloudSeriesSpec } from './interface';
 import { BaseWordCloudSeries } from './base';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 import { TextMark } from '../../mark';
 
 export class WordCloudSeries<T extends IWordCloudSeriesSpec = IWordCloudSeriesSpec> extends BaseWordCloudSeries<T> {

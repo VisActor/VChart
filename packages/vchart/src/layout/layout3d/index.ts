@@ -6,7 +6,7 @@ import type { IRegion } from '../../region/interface';
 import type { IBaseLayout } from '../interface';
 import { Layout } from '../base-layout';
 import { isXAxis, isYAxis } from '../../component/axis/cartesian/util';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 interface IOffset {
   offsetLeft: number;

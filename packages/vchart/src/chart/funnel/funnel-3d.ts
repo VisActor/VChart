@@ -2,7 +2,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BaseFunnelChart } from './base';
 import { registerFunnel3dSeries } from '../../series/funnel/funnel-3d';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class Funnel3dChart extends BaseFunnelChart {
   static readonly type: string = ChartTypeEnum.funnel3d;

@@ -35,7 +35,7 @@ import { Drillable } from '../../interaction/drill/drillable';
 import { ArcMark } from '../../mark/arc';
 import { TextMark } from '../../mark/text';
 import { sunburstSeriesMark } from './constant';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class SunburstSeries extends PolarSeries<any> {
   protected declare _spec: ISunburstSeriesSpec;

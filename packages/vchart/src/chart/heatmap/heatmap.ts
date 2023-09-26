@@ -2,7 +2,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { HeatmapSeries, registerHeatmapSeries } from '../../series/heatmap/heatmap';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class HeatmapChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.heatmap;

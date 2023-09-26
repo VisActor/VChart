@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BaseHistogramChart } from './base';
 import { setDefaultCrosshairForCartesianChart } from '../util';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class HistogramChart extends BaseHistogramChart {
   static readonly type: string = ChartTypeEnum.histogram;

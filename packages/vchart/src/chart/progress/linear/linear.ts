@@ -9,9 +9,8 @@ import type {
 import { isNil } from '../../../util';
 import type { ILinearProgressChartSpec } from './interface';
 import { getLinearAxisSpecDomain } from '../../../component/axis/util';
-import { VChart } from '../../../core/vchart';
-import { LinearProgressSeries, registerLinearProgressSeries } from '../../../series/progress/linear';
-import { Factory } from '../../../core';
+import { registerLinearProgressSeries } from '../../../series/progress/linear';
+import { Factory } from '../../../core/factory';
 
 export class LinearProgressChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.linearProgress;

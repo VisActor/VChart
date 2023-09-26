@@ -32,7 +32,7 @@ import { waterfallSeriesMark } from './constant';
 import { Group } from '../base/group';
 import type { ILabelMark } from '../../mark/label';
 import { LabelRule } from '../../component/label/util';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 import { RectMark } from '../../mark';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth

@@ -6,7 +6,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ICircularProgressSeriesSpec } from '../../series/progress/circular/interface';
 import { ChartTypeEnum } from '../interface';
 import { ProgressLikeChart } from '../polar/progress-like';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class GaugeChart extends ProgressLikeChart {
   static readonly type: string = ChartTypeEnum.gauge;

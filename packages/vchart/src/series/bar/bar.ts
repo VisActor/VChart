@@ -23,7 +23,7 @@ import { RectMark } from '../../mark/rect';
 import { array, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;

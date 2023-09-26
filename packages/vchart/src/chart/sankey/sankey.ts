@@ -6,7 +6,7 @@ import type { ISankeyChartSpec } from './interface';
 import type { ISeries } from '../../series/interface';
 import { VChart } from '../../core/vchart';
 import { SankeySeries, registerSankeySeries } from '../../series/sankey/sankey';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class SankeyChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sankey;

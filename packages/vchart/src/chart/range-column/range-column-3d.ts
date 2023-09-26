@@ -3,7 +3,7 @@ import { ChartTypeEnum } from '../interface';
 import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
 import type { IRangeColumn3dChartSpec } from './interface';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 import { registerRangeColumn3dSeries } from '../../series/range-column/range-column-3d';
 
 export class RangeColumn3dChart extends CartesianChart {

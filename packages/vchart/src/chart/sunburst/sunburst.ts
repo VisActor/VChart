@@ -6,7 +6,7 @@ import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import type { ISunburstChartSpec } from './interface';
 import { POLAR_START_ANGLE } from '../../constant';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class SunburstChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sunburst;

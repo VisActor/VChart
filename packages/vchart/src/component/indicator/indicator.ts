@@ -19,7 +19,7 @@ import { Indicator as IndicatorComponents } from '@visactor/vrender-components';
 import type { IndicatorAttributes } from '@visactor/vrender-components';
 import type { IGraphic, INode } from '@visactor/vrender';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static speckey = 'indicator';

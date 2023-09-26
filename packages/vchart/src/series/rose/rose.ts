@@ -13,7 +13,7 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
 import { ArcMark } from '../../mark/arc';
 import { roseSeriesMark } from './constant';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export const DefaultBandWidth = 0.5;
 

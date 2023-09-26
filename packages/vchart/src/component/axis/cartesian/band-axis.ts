@@ -6,7 +6,7 @@ import { ComponentTypeEnum } from '../../interface';
 import { mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
-import { Factory } from '../../../core';
+import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
 
 export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec>

@@ -5,7 +5,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
 import { RectMark, type IRectMark } from '../../mark/rect';
-import type { ITextMark } from '../../mark/text';
+import { TextMark, type ITextMark } from '../../mark/text';
 import { mergeSpec, valueInScaleRange } from '../../util';
 import { setRectLabelPos } from '../util/label-mark';
 import { AttributeLevel } from '../../constant';
@@ -265,5 +265,6 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 
 export const registerRangeColumnSeries = () => {
   Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerMark(TextMark.type, TextMark);
   Factory.registerSeries(RangeColumnSeries.type, RangeColumnSeries);
 };

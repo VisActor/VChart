@@ -28,7 +28,7 @@ import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
 import { scatterSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;

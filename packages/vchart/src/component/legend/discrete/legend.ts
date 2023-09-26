@@ -19,7 +19,7 @@ import type { ILegend } from '../interface';
 import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/transforms/legend-data/discrete';
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
-import { Factory } from '../../../core';
+import { Factory } from '../../../core/factory';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;

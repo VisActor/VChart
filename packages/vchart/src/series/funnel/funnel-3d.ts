@@ -15,7 +15,7 @@ import { RuleMark } from '../../mark/rule';
 import type { AdaptiveSpec } from '../../typings';
 import { funnel3dSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec> extends FunnelSeries<
   AdaptiveSpec<T, 'type'>

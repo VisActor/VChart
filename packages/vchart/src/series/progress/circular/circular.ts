@@ -11,12 +11,11 @@ import type { ICircularProgressSeriesSpec, ICircularProgressSeriesTheme } from '
 import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
 import type { IStateAnimateSpec } from '../../../animation/spec';
 import type { IProgressArcMark } from '../../../mark/progress-arc';
-import { VChart } from '../../../core/vchart';
 import { ArcMark } from '../../../mark/arc';
 import { ProgressArcMark } from '../../../mark/progress-arc';
 import { circularProgressSeriesMark } from './constant';
 import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../constant';
-import { Factory } from '../../../core';
+import { Factory } from '../../../core/factory';
 
 export class CircularProgressSeries<
   T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec

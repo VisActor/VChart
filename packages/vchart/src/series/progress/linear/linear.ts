@@ -13,11 +13,10 @@ import type { ILinearProgressAnimationParams, LinearProgressAppearPreset } from 
 import type { ILinearProgressSeriesSpec, ILinearProgressSeriesTheme } from './interface';
 import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
-import { VChart } from '../../../core/vchart';
 import { RectMark } from '../../../mark/rect';
 import { createRect } from '@visactor/vrender';
 import { linearProgressSeriesMark } from './constant';
-import { Factory } from '../../../core';
+import { Factory } from '../../../core/factory';
 
 export class LinearProgressSeries<
   T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec

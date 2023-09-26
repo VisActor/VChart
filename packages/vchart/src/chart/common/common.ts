@@ -2,7 +2,7 @@ import { isArray } from '@visactor/vutils';
 import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import type { ISeries } from '../../series';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class CommonChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.common;

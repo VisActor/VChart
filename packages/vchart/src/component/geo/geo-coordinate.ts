@@ -17,7 +17,7 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import { isValid, mixin } from '@visactor/vutils';
 import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export function projectionName(key: string, id: number) {
   return `${PREFIX}_${id}_${key}`;

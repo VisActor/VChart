@@ -29,7 +29,7 @@ import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
 import { RectMark } from '../../mark/rect';
 import { dotSeriesMark } from './constant';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.dot;

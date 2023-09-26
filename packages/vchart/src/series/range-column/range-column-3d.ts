@@ -6,7 +6,7 @@ import { Rect3dMark } from '../../mark/rect-3d';
 import type { AdaptiveSpec } from '../../typings';
 import type { IRangeColumn3dSeriesSpec } from './interface';
 import { rangeColumn3dSeriesMark } from './constant';
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
