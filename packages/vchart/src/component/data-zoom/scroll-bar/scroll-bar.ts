@@ -11,7 +11,6 @@ import type { IRectGraphicAttribute, INode, IGroup } from '@visactor/vrender';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';
-import type { IZoomable } from '../../../interaction/zoom/zoomable';
 import { IFilterMode } from '../constant';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
@@ -141,13 +140,6 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         const value = e.detail.value;
         this._handleChange(value[0], value[1]);
       });
-    }
-  }
-
-  protected _initCommonEvent() {
-    if (this._spec.roam) {
-      (this as unknown as IZoomable).initScrollEventOfRegions(this._regions, null, this._handleChartScroll);
-      (this as unknown as IZoomable).initDragEventOfRegions(this._regions, null, this._handleChartDrag);
     }
   }
 

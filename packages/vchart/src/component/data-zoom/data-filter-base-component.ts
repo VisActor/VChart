@@ -1,6 +1,6 @@
 import type { ICartesianSeries, IPolarSeries, ISeries } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { eachSeries, isValid, array } from '../../util';
+import { eachSeries, isValid, array, average } from '../../util';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseComponent } from '../base';
 import type { IEffect, IModelInitOption, ILayoutRect } from '../../model/interface';
@@ -19,9 +19,15 @@ import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
 import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { mixin, clamp, isNil, isEqual } from '@visactor/vutils';
+import { mixin, clamp, isNil, merge, isEqual } from '@visactor/vutils';
 import { IFilterMode } from './constant';
-import type { IDataFilterComponent, IDataFilterComponentSpec } from './interface';
+import type {
+  IDataFilterComponent,
+  IDataFilterComponentSpec,
+  IRoamDragSpec,
+  IRoamScrollSpec,
+  IRoamZoomSpec
+} from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../compile/data';
 import type { BaseEventParams } from '../../event/interface';
@@ -81,7 +87,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   // 结束值，百分比值，0 - 1
   protected _end!: number;
 
-  protected _field: string;
+  protected _field!: string | undefined;
   protected _stateField: string = 'x';
   protected _valueField?: string;
 
@@ -89,6 +95,23 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _height!: number;
 
   protected _filterMode!: IFilterMode;
+
+  protected _activeRoam: boolean = true;
+  protected _zoomAttr: IRoamZoomSpec = {
+    enable: true,
+    rate: 1,
+    focus: true
+  };
+  protected _dragAttr: IRoamDragSpec = {
+    enable: true,
+    rate: 1,
+    reverse: true
+  };
+  protected _scrollAttr: IRoamScrollSpec = {
+    enable: true,
+    rate: 1,
+    reverse: true
+  };
 
   /**
    * 外部可以通过此方法强制改变datazoom的start和end，达到聚焦定位的效果
@@ -99,6 +122,28 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   setStartAndEnd(start: number, end: number) {
     this._handleChange(start, end, true);
   }
+  enableInteraction() {
+    this._activeRoam = true;
+  }
+  disableInteraction() {
+    this._activeRoam = false;
+  }
+  zoomIn(location?: { x: number; y: number }) {
+    this._handleChartZoom({
+      zoomDelta: 1.2, // 经验值
+      zoomX: location?.x,
+      zoomY: location?.y
+    });
+  }
+
+  zoomOut(location?: { x: number; y: number }) {
+    this._handleChartZoom({
+      zoomDelta: 0.8, // 经验值
+      zoomX: location?.x,
+      zoomY: location?.y
+    });
+  }
+
   protected abstract _getComponentAttrs(): any;
   protected abstract _createOrUpdateComponent(): void;
   protected abstract _initEvent(): void;
@@ -116,12 +161,13 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           // 提前更改 scale
           axisScale.range(this._stateScale?.range(), true);
         }
+
         // 轴的range有时是相反的
         // 比如相同的region范围, 有的场景range为[0, 500], 有的场景range为[500, 0]
         // 而datazoom/scrollbar的range是根据布局强制转化为[0, 500]
         // 所以这里在转换时进行判断并做转置, 有待优化
+        // 轴在inverse时，也要做转置处理
 
-        // 轴在inverse时，也要做专置处理
         const newRangeFactor: [number, number] =
           axisScale.range()[0] < axisScale.range()[1] || axisSpec.inverse
             ? [this._start, this._end]
@@ -383,9 +429,29 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    if (this._spec.roam) {
+    // interaction相关
+    if (isValid(this._spec.roamZoom) && this._spec.roamZoom) {
+      this._zoomAttr = merge({}, this._zoomAttr, this._spec.roamZoom);
+    } else {
+      this._zoomAttr.enable = false;
+    }
+
+    if (isValid(this._spec.roamDrag) && this._spec.roamDrag) {
+      this._dragAttr = merge({}, this._dragAttr, this._spec.roamDrag);
+    } else {
+      this._dragAttr.enable = false;
+    }
+
+    if (isValid(this._spec.roamScroll) && this._spec.roamScroll) {
+      this._scrollAttr = merge({}, this._scrollAttr, this._spec.roamScroll);
+    } else {
+      this._scrollAttr.enable = false;
+    }
+
+    if (this._zoomAttr.enable || this._dragAttr.enable || this._scrollAttr.enable) {
       (this as unknown as IZoomable).initZoomable(this.event, this._option.mode);
     }
+
     // style相关
     this._field = this._spec.field;
     this._width = this._computeWidth();
@@ -581,55 +647,108 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return true;
   };
 
-  protected _handleChartScroll = (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => {
-    this._handleChartDrag([params.scrollX, params.scrollY], e);
-  };
+  protected _handleChartZoom = (params: { zoomDelta: number; zoomX?: number; zoomY?: number }) => {
+    if (!this._activeRoam) {
+      return;
+    }
 
-  protected _handleChartZoom = (
-    params: { zoomDelta: number; zoomX: number; zoomY: number },
-    e: BaseEventParams['event']
-  ) => {
-    const { zoomDelta } = params;
+    const { zoomDelta, zoomX, zoomY } = params;
+    const { x, y } = this._regions[0].getLayoutStartPoint();
+    const { width, height } = this._regions[0].getLayoutRect();
+
     const delta = Math.abs(this._start - this._end);
-    // FIXME: 后续开放配置控制灵敏度
-    const ZOOM_RATE = 0.15;
-
-    if (delta >= 1 && zoomDelta > 1) {
+    const zoomRate = (this._spec.roamZoom as IRoamZoomSpec)?.rate ?? 1;
+    // zoomDelta > 1表示放大, zoomDelta < 1表示缩小
+    if (delta >= 1 && zoomDelta < 1) {
       return;
     }
-
-    if (delta <= 0.01 && zoomDelta < 1) {
+    if (delta <= 0.01 && zoomDelta > 1) {
       return;
     }
-    const value = (delta * (zoomDelta - 1) * ZOOM_RATE) / 2;
-    const start = clamp(this._start - value, 0, 1);
-    const end = clamp(this._end + value, 0, 1);
+    const focusLoc = this._isHorizontal ? zoomX : zoomY;
+    const totalValue = delta * (zoomDelta - 1) * zoomRate;
+    let startValue = totalValue / 2;
+    let endValue = totalValue / 2;
+    if (focusLoc) {
+      const startLoc = this._isHorizontal ? x : y;
+      const endLoc = this._isHorizontal ? width : height;
+      startValue = (Math.abs(startLoc - focusLoc) / Math.abs(endLoc - startLoc)) * totalValue;
+      endValue = (Math.abs(endLoc - focusLoc) / Math.abs(endLoc - startLoc)) * totalValue;
+    }
+    const start = clamp(this._start + startValue, 0, 1);
+    const end = clamp(this._end - endValue, 0, 1);
 
     this._handleChange(Math.min(start, end), Math.max(start, end), true);
   };
 
+  protected _handleChartScroll = (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => {
+    if (!this._activeRoam) {
+      return;
+    }
+    const { scrollX, scrollY } = params;
+    let value = this._isHorizontal ? scrollX : scrollY;
+    if (!this._scrollAttr.reverse) {
+      value = -value;
+    }
+
+    this._handleChartMove(value, this._scrollAttr.rate ?? 1);
+  };
+
   protected _handleChartDrag = (delta: [number, number], e: BaseEventParams['event']) => {
+    if (!this._activeRoam) {
+      return;
+    }
     const [dx, dy] = delta;
-    const value = this._isHorizontal ? dx : dy;
+    let value = this._isHorizontal ? dx : dy;
+    if (this._dragAttr.reverse) {
+      value = -value;
+    }
+
+    this._handleChartMove(value, this._dragAttr.rate ?? 1);
+  };
+
+  protected _handleChartMove = (value: number, rate: number) => {
     const totalValue = this._isHorizontal ? this.getLayoutRect().width : this.getLayoutRect().height;
-    // FIXME: 经验值, 后续开放配置控制灵敏度
-    const SCROLL_RATE = 0.02;
     if (Math.abs(value) >= 1e-6) {
       if (value > 0 && this._end < 1) {
-        const moveDelta = Math.min(1 - this._end, value / totalValue) * SCROLL_RATE;
+        const moveDelta = Math.min(1 - this._end, value / totalValue) * rate;
         this._handleChange(this._start + moveDelta, this._end + moveDelta, true);
       } else if (value < 0 && this._start > 0) {
-        const moveDelta = Math.max(-this._start, value / totalValue) * SCROLL_RATE;
+        const moveDelta = Math.max(-this._start, value / totalValue) * rate;
         this._handleChange(this._start + moveDelta, this._end + moveDelta, true);
       }
     }
   };
 
   protected _initCommonEvent() {
-    if (this._spec.roam) {
-      (this as unknown as IZoomable).initZoomEventOfRegions(this._regions, null, this._handleChartZoom);
-      (this as unknown as IZoomable).initScrollEventOfRegions(this._regions, null, this._handleChartScroll);
-      (this as unknown as IZoomable).initDragEventOfRegions(this._regions, null, this._handleChartDrag);
+    const delayType = this._spec?.delayType ?? 'throttle';
+    const delayTime = this._spec?.delayTime ?? 0;
+    if (this._zoomAttr.enable) {
+      (this as unknown as IZoomable).initZoomEventOfRegions(
+        this._regions,
+        null,
+        this._handleChartZoom,
+        delayType,
+        delayTime
+      );
+    }
+    if (this._scrollAttr.enable) {
+      (this as unknown as IZoomable).initScrollEventOfRegions(
+        this._regions,
+        null,
+        this._handleChartScroll,
+        delayType,
+        delayTime
+      );
+    }
+    if (this._dragAttr.enable) {
+      (this as unknown as IZoomable).initDragEventOfRegions(
+        this._regions,
+        null,
+        this._handleChartDrag,
+        delayType,
+        delayTime
+      );
     }
   }
 

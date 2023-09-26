@@ -88,13 +88,40 @@ Start and end configuration modes: Only when the mode and configuration match do
 
 Whether to automatically indent.
 
-#${prefix} roam(boolean) = false
-
-Enable mouse zoom and pan roaming.
 
 #${prefix} auto(boolean) = false
 
 Whether it is in automatic mode. After opening, the component will not cause scaling of the axis, and configurations such as `end` and `roam` that may cause scaling will be ignored, and the component can automatically disappear. Supported since version `1.4.0`.
+
+#${prefix} roamZoom(boolean|object) = false
+Roaming mode - zoom (free interaction within the canvas), not enabled by default. Supported since version `1.5.0`.
+
+##${prefix} focus(boolean) = true
+Whether to enable focus zoom. When turned on, the default starts from the mouse position; when turned off, zooms from the center of the canvas.
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
+
+#${prefix} roamDrag(boolean|object) = false
+Roaming mode - dragging (free interaction within the canvas), not enabled by default. Supported since version `1.5.0`.
+
+##${prefix} reverse(boolean) = true
+Whether the drag direction is opposite to the scroll bar movement direction.
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
+
+#${prefix} roamScroll(boolean|object) = false
+Roaming mode - scrolling (free interaction within the canvas), not enabled by default. Supported since version `1.5.0`.
+
+##${prefix} reverse(boolean) = true
+Whether the scroll direction is opposite to the scroll bar movement direction.
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
 
 {{ use: common-layout-item(
   prefix = ${prefix},

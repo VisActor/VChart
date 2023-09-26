@@ -88,13 +88,39 @@
 
 是否进行自动缩进。
 
-#${prefix} roam(boolean) = false
-
-是否开启鼠标缩放和平移漫游。
-
 #${prefix} auto(boolean) = false
 
 是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失。自 `1.4.0` 版本开始支持。
+
+#${prefix} roamZoom(boolean|object) = false
+漫游模式 - 缩放（画布内自由交互）, 默认不开启。自 `1.5.0` 版本开始支持。
+
+##${prefix} focus(boolean) = true
+是否开启聚焦缩放。开启时, 默认以鼠标位置开始; 关闭时, 以画布中心缩放
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
+
+#${prefix} roamDrag(boolean|object) = false
+漫游模式 - 拖拽（画布内自由交互）, 默认不开启。自 `1.5.0` 版本开始支持。
+
+##${prefix} reverse(boolean) = true
+拖拽方向与滚动条移动方向是否相反。
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
+
+#${prefix} roamScroll(boolean|object) = false
+漫游模式 - 滚动（画布内自由交互）, 默认不开启。自 `1.5.0` 版本开始支持。
+
+##${prefix} reverse(boolean) = true
+滚动方向与滚动条移动方向是否相反。
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
 
 {{ use: common-layout-item(
   prefix = ${prefix},

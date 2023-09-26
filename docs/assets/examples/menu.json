@@ -1629,6 +1629,20 @@
             "zh": "纵向 scrollBar",
             "en": "Vertical scrollBar"
           }
+        },
+        {
+          "path": "roam-drag-zoom",
+          "title": {
+            "zh": "scrollBar支持画布缩放和拖拽",
+            "en": "ScrollBar Supports Zoom and Drag"
+          }
+        },
+        {
+          "path": "roam-scroll",
+          "title": {
+            "zh": "scrollBar支持画布滚动",
+            "en": "ScrollBar Supports Roam Scroll"
+          }
         }
       ]
     },

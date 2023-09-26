@@ -77,16 +77,71 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
    */
   autoIndent?: boolean;
   /**
-   * 是否开启鼠标缩放和平移漫游。默认不开启
-   */
-  roam?: boolean;
-  /**
    * 是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失
    * @since 1.4.0
    */
   auto?: boolean;
+  /**
+   * 漫游模式 - 缩放（画布内自由交互), 默认不开启
+   * @default false
+   * @since 1.5.0
+   */
+  roamZoom?: IRoamZoomSpec | boolean;
+  /**
+   * 漫游模式 - 拖拽（画布内自由交互), 默认不开启
+   * @since 1.5.0
+   */
+  roamDrag?: IRoamDragSpec | boolean;
+  /**
+   * 漫游模式 - 滚动（画布内自由交互), 默认不开启
+   * @since 1.5.0
+   */
+  roamScroll?: IRoamScrollSpec | boolean;
+}
+
+export interface IRoamDragSpec extends IRoamSpec {
+  /**
+   * 拖拽方向与滚动条移动方向是否相反
+   * @default true
+   */
+  reverse?: boolean;
+}
+
+export interface IRoamScrollSpec extends IRoamSpec {
+  /**
+   * 滚动方向与滚动条移动方向是否相反
+   * @default true
+   */
+  reverse?: boolean;
+}
+
+export interface IRoamZoomSpec extends IRoamSpec {
+  /**
+   * 是否开启聚焦缩放
+   * @default true
+   * 开启时, 默认以鼠标位置开始
+   * 关闭时, 以画布中心缩放
+   */
+  focus?: boolean;
+}
+
+export interface IRoamSpec {
+  /**
+   * 是否开启 缩放 / 拖拽 / 滚动
+   * @default true
+   */
+  enable?: boolean;
+  /**
+   * 缩放 / 拖拽 / 滚动速率, 范围: [0, 1]
+   * @default 1
+   */
+  rate?: number;
 }
 
 export interface IDataFilterComponent extends IComponent {
-  setStartAndEnd: (start: number, end: number) => any;
+  setStartAndEnd: (start: number, end: number) => void;
+  enableInteraction: () => void;
+  disableInteraction: () => void;
+  zoomIn: (location?: { x: number; y: number }) => void;
+  zoomOut: (location?: { x: number; y: number }) => void;
 }
