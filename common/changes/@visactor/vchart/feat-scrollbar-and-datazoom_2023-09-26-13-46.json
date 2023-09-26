@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: scrollbar enhance zoom & drag & scroll. close #965",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
