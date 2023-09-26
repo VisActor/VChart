@@ -1,3 +1,4 @@
+import type { IDelayType } from '@visactor/vrender-components';
 import type { IOrientType } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
@@ -81,6 +82,46 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
    * @since 1.4.0
    */
   auto?: boolean;
+  /**
+   * 是否锁定选择区域（或叫做数据窗口）的大小
+   * @default false
+   * @since 1.5.0
+   */
+  zoomLock?: boolean;
+  /**
+   * 用于限制窗口大小的最小值, [0, 1]
+   * @default 0
+   * @since 1.5.0
+   */
+  minSpan?: number;
+  /**
+   * 用于限制窗口大小的最大值, [0, 1]
+   * @default 1
+   * @since 1.5.0
+   */
+  maxSpan?: number;
+  /**
+   * 用于限制窗口大小的最小数据值, 仅在continous scale生效，优先级高于minSpan
+   * @since 1.5.0
+   */
+  minValueSpan?: number;
+  /**
+   * 用于限制窗口大小的最大数据值, 仅在continous scale生效，优先级高于maxSpan
+   * @since 1.5.0
+   */
+  maxValueSpan?: number;
+  /**
+   * 事件触发延迟类型
+   * @default 'throttle'
+   * @since 1.5.0
+   */
+  delayType?: IDelayType;
+  /**
+   * 事件触发延迟时长
+   * @default 0
+   * @since 1.5.0
+   */
+  delayTime?: number;
   /**
    * 漫游模式 - 缩放（画布内自由交互), 默认不开启
    * @default false

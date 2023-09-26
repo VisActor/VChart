@@ -86,6 +86,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _start!: number;
   // 结束值，百分比值，0 - 1
   protected _end!: number;
+  // 最小窗口范围
+  protected _minSpan!: number;
+  // 最大窗口范围
+  protected _maxSpan!: number;
 
   protected _field!: string | undefined;
   protected _stateField: string = 'x';
@@ -149,8 +153,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected abstract _initEvent(): void;
   protected abstract _computeWidth(): number;
   protected abstract _computeHeight(): number;
-  protected abstract _handleChange(start: number, end: number, updateComponent?: boolean): void;
   protected abstract _handleDataCollectionChange(): void;
+
+  protected _handleChange(start: number, end: number, updateComponent?: boolean) {
+    const zoomLock = this._spec.zoomLock ?? false;
+    if (zoomLock || end - start < this._minSpan || end - start > this._maxSpan) {
+      return;
+    }
+  }
 
   effect: IEffect = {
     onZoomChange: () => {
@@ -514,6 +524,16 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._endValue = this._statePointToData(end);
     this._start = start;
     this._end = end;
+    this._minSpan = this._spec.minSpan ?? 0;
+    this._maxSpan = this._spec.maxSpan ?? 1;
+    if (this._spec.minValueSpan && isContinuous(this._stateScale.type)) {
+      this._minSpan = this._spec.minValueSpan / (this._stateScale.domain()[1] - this._stateScale.domain()[0]);
+    }
+    if (this._spec.maxValueSpan && isContinuous(this._stateScale.type)) {
+      this._maxSpan = this._spec.maxValueSpan / (this._stateScale.domain()[1] - this._stateScale.domain()[0]);
+    }
+    this._minSpan = Math.max(0, this._minSpan);
+    this._maxSpan = Math.min(this._maxSpan, 1);
 
     // eslint-disable-next-line max-len
     if (
@@ -721,14 +741,34 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   };
 
   protected _initCommonEvent() {
+    const delayType = this._spec?.delayType ?? 'throttle';
+    const delayTime = this._spec?.delayTime ?? 0;
     if (this._zoomAttr.enable) {
-      (this as unknown as IZoomable).initZoomEventOfRegions(this._regions, null, this._handleChartZoom);
+      (this as unknown as IZoomable).initZoomEventOfRegions(
+        this._regions,
+        null,
+        this._handleChartZoom,
+        delayType,
+        delayTime
+      );
     }
     if (this._scrollAttr.enable) {
-      (this as unknown as IZoomable).initScrollEventOfRegions(this._regions, null, this._handleChartScroll);
+      (this as unknown as IZoomable).initScrollEventOfRegions(
+        this._regions,
+        null,
+        this._handleChartScroll,
+        delayType,
+        delayTime
+      );
     }
     if (this._dragAttr.enable) {
-      (this as unknown as IZoomable).initDragEventOfRegions(this._regions, null, this._handleChartDrag);
+      (this as unknown as IZoomable).initDragEventOfRegions(
+        this._regions,
+        null,
+        this._handleChartDrag,
+        delayType,
+        delayTime
+      );
     }
   }
 

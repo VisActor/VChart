@@ -93,6 +93,31 @@ Whether to automatically indent.
 
 Whether it is in automatic mode. After opening, the component will not cause scaling of the axis, and configurations such as `end` and `roam` that may cause scaling will be ignored, and the component can automatically disappear. Supported since version `1.4.0`.
 
+#${prefix} zoomLock(boolean) = false
+Whether to lock the size of the selection area (or data window). Supported since version `1.5.0`.
+
+#${prefix} minSpan(number) = 0
+Minimum value used to limit window size, [0, 1]. Supported since version `1.5.0`.
+
+#${prefix} maxSpan(number) = 1
+The maximum value used to limit the window size, [0, 1]. Supported since version `1.5.0`.
+
+#${prefix} minValueSpan(number)
+The minimum data value used to limit the window size, only takes effect in continous scale, and has a higher priority than minSpan. Supported since version `1.5.0`.
+
+#${prefix} maxValueSpan(number)
+The maximum data value used to limit the window size, only takes effect in continous scale, and has priority higher than maxSpan. Supported since version `1.5.0`.
+
+#${prefix} delayType(string) = 'throttle'
+Event trigger delay type. Supported since version `1.5.0`.
+
+Optional values:
+- `'throttle'`: throttling
+- `'debounce'`: anti-shake
+
+#${prefix} delayTime(number) = 0
+The event trigger delay time. Supported since version `1.5.0`.
+
 #${prefix} roamZoom(boolean|object) = false
 Roaming mode - zoom (free interaction within the canvas), not enabled by default. Supported since version `1.5.0`.
 

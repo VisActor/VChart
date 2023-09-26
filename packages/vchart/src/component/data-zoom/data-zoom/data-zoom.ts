@@ -77,7 +77,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
     }
-    if (isNil(this._originalSpec?.startHandler?.style?.size)) {
+    if (isNil(this._originalSpec?.endHandler?.style?.size)) {
       this._spec.endHandler.style.size = this._isHorizontal
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
@@ -279,16 +279,21 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         },
         showDetail: this._spec?.showDetail,
         brushSelect: this._spec?.brushSelect ?? false,
+        zoomLock: this._spec?.zoomLock ?? false,
+        minSpan: this._minSpan,
+        maxSpan: this._maxSpan,
+        delayType: this._spec?.delayType ?? 'throttle',
+        delayTime: this._spec?.delayTime ?? 0,
         previewData: this._data.getLatestData(),
-        previewCallbackX: isNeedPreview && this._dataToPositionX,
-        previewCallbackY: isNeedPreview && this._dataToPositionY,
+        previewPointsX: isNeedPreview && this._dataToPositionX,
+        previewPointsY: isNeedPreview && this._dataToPositionY,
         ...(this._getComponentAttrs() as any)
       });
 
       if (this._isHorizontal) {
-        isNeedPreview && this._component.setPreviewCallbackY1(this._dataToPositionY2);
+        isNeedPreview && this._component.setPreviewPointsY1(this._dataToPositionY2);
       } else {
-        isNeedPreview && this._component.setPreviewCallbackX1(this._dataToPositionX2);
+        isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
       }
       this._component.setStatePointToData((state: number) => this._statePointToData(state));
       this._component.setUpdateStateCallback((start: number, end: number) => {
@@ -302,6 +307,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   }
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
+    super._handleChange(start, end, updateComponent);
     if (updateComponent && this._component) {
       this._component.setStartAndEnd(start, end);
     }

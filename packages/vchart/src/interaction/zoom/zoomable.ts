@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import { isNil } from '@visactor/vutils';
+import { debounce, isNil, throttle } from '@visactor/vutils';
 import type { BaseEventParams, EventType, ExtendEventParam, IEvent } from '../../event/interface';
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec';
@@ -9,7 +9,12 @@ import type { IZoomTrigger } from '../../component/common/trigger/interface';
 import { isPointInRect } from '../../util';
 import type { ISeries } from '../../series/interface';
 import { Event_Bubble_Level, Event_Source_Type } from '../../constant';
+import type { IDelayType } from '@visactor/vrender-components';
 
+const delayMap = {
+  debounce: debounce,
+  throttle: throttle
+};
 export interface IZoomEventOptions {
   shouldZoom?: boolean;
   zoomCallback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void;
@@ -25,7 +30,9 @@ export interface IZoomable {
   initZoomEventOfRegions: (
     regions: IRegion[],
     filter?: (s: ISeries) => boolean,
-    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
+    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
+    delayType?: IDelayType,
+    delayTime?: number
   ) => void;
 
   initScrollEventOfSeries: (
@@ -35,14 +42,18 @@ export interface IZoomable {
   initScrollEventOfRegions: (
     regions: IRegion[],
     filter?: (s: ISeries) => boolean,
-    callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
+    callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void,
+    delayType?: IDelayType,
+    delayTime?: number
   ) => void;
 
   initDragEventOfSeries: (s: ISeries, callback?: (delta: [number, number], e: BaseEventParams['event']) => void) => any;
   initDragEventOfRegions: (
     regions: IRegion[],
     filter?: (s: ISeries) => boolean,
-    callback?: (delta: [number, number], e: BaseEventParams['event']) => void
+    callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
+    delayType?: IDelayType,
+    delayTime?: number
   ) => void;
 }
 
@@ -73,55 +84,61 @@ export class Zoomable implements IZoomable {
   private _bindZoomEventAsRegion(
     eventObj: IEvent,
     regionOrSeries: IRegion | ISeries,
-    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
+    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
+    delayType: IDelayType = 'throttle',
+    delayTime: number = 0
   ) {
     eventObj.on(this._getTriggerEvent('scrollEnd'), { level: Event_Bubble_Level.chart, consume: false }, params => {
       this._zoomableTrigger.clearZoom();
     });
-    eventObj.on(this._getTriggerEvent('scroll'), { level: Event_Bubble_Level.chart, consume: true }, params => {
-      if (!(params as BaseEventParams).event) {
-        return;
-      }
-      const event = (params as BaseEventParams).event.clone();
-      this._zoomableTrigger.parserZoomEvent(event);
-      // FIXME: event类型目前不全
-      const { zoomDelta, zoomX, zoomY } = event as any;
-      if (isNil(zoomDelta)) {
-        return;
-      }
-      if (
-        !isPointInRect(
-          {
-            x: zoomX,
-            y: zoomY
-          },
-          {
-            ...regionOrSeries.getLayoutRect(),
-            ...regionOrSeries.getLayoutStartPoint()
-          }
-        )
-      ) {
-        return;
-      }
-      this._clickEnable = false;
+    eventObj.on(
+      this._getTriggerEvent('scroll'),
+      { level: Event_Bubble_Level.chart, consume: true },
+      delayMap[delayType](params => {
+        if (!(params as BaseEventParams).event) {
+          return;
+        }
+        const event = (params as BaseEventParams).event.clone();
+        this._zoomableTrigger.parserZoomEvent(event);
+        // FIXME: event类型目前不全
+        const { zoomDelta, zoomX, zoomY } = event as any;
+        if (isNil(zoomDelta)) {
+          return;
+        }
+        if (
+          !isPointInRect(
+            {
+              x: zoomX,
+              y: zoomY
+            },
+            {
+              ...regionOrSeries.getLayoutRect(),
+              ...regionOrSeries.getLayoutStartPoint()
+            }
+          )
+        ) {
+          return;
+        }
+        this._clickEnable = false;
 
-      if (callback) {
-        // zoomDelta, zoomX, zoomY can be changed in the callback
-        callback({ zoomDelta, zoomX, zoomY }, event);
-      }
+        if (callback) {
+          // zoomDelta, zoomX, zoomY can be changed in the callback
+          callback({ zoomDelta, zoomX, zoomY }, event);
+        }
 
-      this._eventObj.emit('zoom', {
-        scale: event.zoomDelta,
-        scaleCenter: { x: event.zoomX, y: event.zoomY },
-        model: this
-      } as unknown as ExtendEventParam);
+        this._eventObj.emit('zoom', {
+          scale: event.zoomDelta,
+          scaleCenter: { x: event.zoomX, y: event.zoomY },
+          model: this
+        } as unknown as ExtendEventParam);
 
-      // this._eventObj.emit('scroll', {
-      //   scrollX: event.scrollX,
-      //   scrollY: event.scrollY,
-      //   model: this
-      // } as unknown as ExtendEventParam);
-    });
+        // this._eventObj.emit('scroll', {
+        //   scrollX: event.scrollX,
+        //   scrollY: event.scrollY,
+        //   model: this
+        // } as unknown as ExtendEventParam);
+      }, delayTime)
+    );
   }
 
   initZoomEventOfSeries(
@@ -136,18 +153,20 @@ export class Zoomable implements IZoomable {
   initZoomEventOfRegions(
     regions: IRegion[],
     filter?: (s: ISeries) => boolean,
-    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
+    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
+    delayType: IDelayType = 'throttle',
+    delayTime: number = 0
   ) {
     if (defaultTriggerEvent[this._renderMode]) {
       regions.forEach(r => {
         if (filter) {
           r.getSeries().forEach(s => {
             if (filter(s)) {
-              this._bindZoomEventAsRegion(s.event, s, callback);
+              this._bindZoomEventAsRegion(s.event, s, callback, delayType, delayTime);
             }
           });
         } else {
-          this._bindZoomEventAsRegion(this._eventObj, r, callback);
+          this._bindZoomEventAsRegion(this._eventObj, r, callback, delayType, delayTime);
         }
       });
     }
@@ -165,18 +184,20 @@ export class Zoomable implements IZoomable {
   initScrollEventOfRegions(
     regions: IRegion[],
     filter?: (s: ISeries) => boolean,
-    callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
+    callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void,
+    delayType: IDelayType = 'throttle',
+    delayTime: number = 0
   ) {
     if (defaultTriggerEvent[this._renderMode]) {
       regions.forEach(r => {
         if (filter) {
           r.getSeries().forEach(s => {
             if (filter(s)) {
-              this._bindScrollEventAsRegion(s.event, s, callback);
+              this._bindScrollEventAsRegion(s.event, s, callback, delayType, delayTime);
             }
           });
         } else {
-          this._bindScrollEventAsRegion(this._eventObj, r, callback);
+          this._bindScrollEventAsRegion(this._eventObj, r, callback, delayType, delayTime);
         }
       });
     }
@@ -185,24 +206,73 @@ export class Zoomable implements IZoomable {
   private _bindScrollEventAsRegion(
     eventObj: IEvent,
     regionOrSeries: IRegion | ISeries,
-    callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
+    callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void,
+    delayType: IDelayType = 'throttle',
+    delayTime: number = 0
   ) {
     eventObj.on(this._getTriggerEvent('scrollEnd'), { level: Event_Bubble_Level.chart, consume: false }, params => {
       this._zoomableTrigger.clearScroll();
     });
-    eventObj.on(this._getTriggerEvent('scroll'), { level: Event_Bubble_Level.chart, consume: true }, params => {
-      if (!(params as BaseEventParams).event) {
-        return;
-      }
-      const { event } = params as BaseEventParams;
-      this._zoomableTrigger.parserScrollEvent(event);
-      // FIXME: event类型目前不全
-      const { scrollX, scrollY } = event as any;
-      if (isNil(scrollX) && isNil(scrollY)) {
-        return;
-      }
-      if (
-        !isPointInRect(
+    eventObj.on(
+      this._getTriggerEvent('scroll'),
+      { level: Event_Bubble_Level.chart, consume: true },
+      delayMap[delayType](params => {
+        if (!(params as BaseEventParams).event) {
+          return;
+        }
+        const { event } = params as BaseEventParams;
+        this._zoomableTrigger.parserScrollEvent(event);
+        // FIXME: event类型目前不全
+        const { scrollX, scrollY } = event as any;
+        if (isNil(scrollX) && isNil(scrollY)) {
+          return;
+        }
+        if (
+          !isPointInRect(
+            {
+              x: event.canvasX,
+              y: event.canvasY
+            },
+            {
+              ...regionOrSeries.getLayoutRect(),
+              ...regionOrSeries.getLayoutStartPoint()
+            }
+          )
+        ) {
+          return;
+        }
+        this._clickEnable = false;
+
+        if (callback) {
+          callback({ scrollX, scrollY }, event);
+        }
+
+        this._eventObj.emit('scroll', {
+          scrollX,
+          scrollY,
+          model: this
+        } as unknown as ExtendEventParam);
+      }, delayTime)
+    );
+  }
+
+  private _bindDragEventAsRegion(
+    eventObj: IEvent,
+    regionOrSeries: IRegion | ISeries,
+    callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
+    delayType: IDelayType = 'throttle',
+    delayTime: number = 0
+  ) {
+    eventObj.on(
+      this._getTriggerEvent('start'),
+      { level: Event_Bubble_Level.chart },
+      delayMap[delayType](params => {
+        if (!(params as BaseEventParams).event) {
+          return;
+        }
+
+        const { event } = params as BaseEventParams;
+        const shouldTrigger = isPointInRect(
           {
             x: event.canvasX,
             y: event.canvasY
@@ -211,49 +281,12 @@ export class Zoomable implements IZoomable {
             ...regionOrSeries.getLayoutRect(),
             ...regionOrSeries.getLayoutStartPoint()
           }
-        )
-      ) {
-        return;
-      }
-      this._clickEnable = false;
-
-      if (callback) {
-        callback({ scrollX, scrollY }, event);
-      }
-
-      this._eventObj.emit('scroll', {
-        scrollX,
-        scrollY,
-        model: this
-      } as unknown as ExtendEventParam);
-    });
-  }
-
-  private _bindDragEventAsRegion(
-    eventObj: IEvent,
-    regionOrSeries: IRegion | ISeries,
-    callback?: (delta: [number, number], e: BaseEventParams['event']) => void
-  ) {
-    eventObj.on(this._getTriggerEvent('start'), { level: Event_Bubble_Level.chart }, params => {
-      if (!(params as BaseEventParams).event) {
-        return;
-      }
-
-      const { event } = params as BaseEventParams;
-      const shouldTrigger = isPointInRect(
-        {
-          x: event.canvasX,
-          y: event.canvasY
-        },
-        {
-          ...regionOrSeries.getLayoutRect(),
-          ...regionOrSeries.getLayoutStartPoint()
+        );
+        if (shouldTrigger) {
+          this._handleDrag(params, callback);
         }
-      );
-      if (shouldTrigger) {
-        this._handleDrag(params, callback);
-      }
-    });
+      }, delayTime)
+    );
     // click 事件需要在drag和zoom时被屏蔽
     // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
     eventObj.on('click', { level: Event_Bubble_Level.chart }, () => {
@@ -276,7 +309,9 @@ export class Zoomable implements IZoomable {
   initDragEventOfRegions(
     regions: IRegion[],
     filter?: (s: ISeries) => boolean,
-    callback?: (delta: [number, number], e: BaseEventParams['event']) => void
+    callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
+    delayType: IDelayType = 'throttle',
+    delayTime: number = 0
   ) {
     if (defaultTriggerEvent[this._renderMode]) {
       regions.forEach(r => {
@@ -303,7 +338,7 @@ export class Zoomable implements IZoomable {
             }
           });
         } else {
-          this._bindDragEventAsRegion(this._eventObj, r, callback);
+          this._bindDragEventAsRegion(this._eventObj, r, callback, delayType, delayTime);
         }
       });
     }

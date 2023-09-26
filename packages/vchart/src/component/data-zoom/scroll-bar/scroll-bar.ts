@@ -100,6 +100,8 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         height: this.getLayoutRect().height,
         range: [this._start, this._end],
         direction: this._isHorizontal ? 'horizontal' : 'vertical',
+        delayType: this._spec?.delayType ?? 'throttle',
+        delayTime: this._spec?.delayTime ?? 0,
         ...this._getComponentAttrs()
       });
 
@@ -108,6 +110,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   }
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
+    super._handleChange(start, end, updateComponent);
     if (updateComponent && this._component) {
       this._component.setAttribute('range', [start, end]);
     }

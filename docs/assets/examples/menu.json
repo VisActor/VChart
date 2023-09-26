@@ -1599,6 +1599,20 @@
             "zh": "缩略轴预览图表样式配置",
             "en": "Thumbnail Axis Preview Chart Style Configuration"
           }
+        },
+        {
+          "path": "data-zoom-lock",
+          "title": {
+            "zh": "缩略轴支持范围锁定",
+            "en": "Datazoom Supports ZoomLock"
+          }
+        },
+        {
+          "path": "data-zoom-span",
+          "title": {
+            "zh": "缩略轴支持窗口最大最小值配置",
+            "en": "datazoom supports config maximum and minimum range"
+          }
         }
       ]
     },
