@@ -3,10 +3,9 @@ import { ChartTypeEnum } from '../interface';
 import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
 import { setDefaultCrosshairForCartesianChart } from '../util';
-import { VChart } from '../../core/vchart';
 import type { IRangeColumnChartSpec } from './interface';
-import { RangeColumnSeries } from '../../series/range-column/range-column';
-VChart.useSeries([RangeColumnSeries]);
+import { Factory } from '../../core';
+import { registerRangeColumnSeries } from '../../series/range-column/range-column';
 
 export class RangeColumnChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.rangeColumn;
@@ -33,3 +32,8 @@ export class RangeColumnChart extends CartesianChart {
     setDefaultCrosshairForCartesianChart(spec);
   }
 }
+
+export const registerRangeColumnChart = () => {
+  registerRangeColumnSeries();
+  Factory.registerChart(RangeColumnChart.type, RangeColumnChart);
+};

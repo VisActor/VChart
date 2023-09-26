@@ -26,8 +26,7 @@ import { VChart } from '../../core/vchart';
 import { BoxPlotMark } from '../../mark/box-plot';
 import { SymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
-
-VChart.useMark([BoxPlotMark, SymbolMark]);
+import { Factory } from '../../core';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -403,3 +402,9 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     return 'square';
   }
 }
+
+export const registerBoxplotSeries = () => {
+  Factory.registerMark(BoxPlotMark.type, BoxPlotMark);
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerSeries(BoxPlotSeries.type, BoxPlotSeries);
+};

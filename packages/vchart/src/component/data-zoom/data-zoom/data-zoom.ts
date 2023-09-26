@@ -15,6 +15,7 @@ import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import type { IDataZoomSpec } from './interface';
 import { IFilterMode } from '../constant';
+import { Factory } from '../../../core';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -396,3 +397,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     super.clear();
   }
 }
+
+export const registerDataZoom = () => {
+  Factory.registerComponent(DataZoom.type, DataZoom);
+};

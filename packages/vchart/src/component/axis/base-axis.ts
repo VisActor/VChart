@@ -31,12 +31,13 @@ import { degreeToRadian, pickWithout, type LooseFunction } from '@visactor/vutil
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
-import { GridEnum, registerAxis, registerGrid } from '@visactor/vgrammar-core';
-import type { IComponentMark } from '../../mark/component';
-
-// call the register fucntion when register this component to VChart
-registerAxis();
-registerGrid();
+import {
+  GridEnum,
+  registerAxis as registerVGrammarAxis,
+  registerGrid as registerVGrammarGrid
+} from '@visactor/vgrammar-core';
+import { ComponentMark, type IComponentMark } from '../../mark/component';
+import { Factory } from '../../core';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -469,3 +470,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     this._tickData?.getDataView()?.transform(options, execute);
   }
 }
+
+export const registerAxis = () => {
+  registerVGrammarAxis();
+  registerVGrammarGrid();
+  Factory.registerMark(ComponentMark.type, ComponentMark);
+};

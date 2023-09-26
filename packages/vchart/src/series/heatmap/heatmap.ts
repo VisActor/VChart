@@ -19,8 +19,7 @@ import { VChart } from '../../core/vchart';
 import { CellMark } from '../../mark/cell';
 import { TextMark } from '../../mark/text';
 import { heatmapSeriesMark } from './constant';
-
-VChart.useMark([CellMark, TextMark]);
+import { Factory } from '../../core';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -188,3 +187,9 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     return this.getFieldValue();
   }
 }
+
+export const registerHeatmapSeries = () => {
+  Factory.registerMark(CellMark.type, CellMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(HeatmapSeries.type, HeatmapSeries);
+};

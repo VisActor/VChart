@@ -16,8 +16,7 @@ import { ArcMark } from '../../../mark/arc';
 import { ProgressArcMark } from '../../../mark/progress-arc';
 import { circularProgressSeriesMark } from './constant';
 import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../constant';
-
-VChart.useMark([ArcMark, ProgressArcMark]);
+import { Factory } from '../../../core';
 
 export class CircularProgressSeries<
   T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
@@ -184,3 +183,9 @@ export class CircularProgressSeries<
     );
   }
 }
+
+export const registerCircularProgressSeries = () => {
+  Factory.registerMark(ArcMark.type, ArcMark);
+  Factory.registerMark(ProgressArcMark.constructorType, ProgressArcMark);
+  Factory.registerSeries(CircularProgressSeries.type, CircularProgressSeries);
+};

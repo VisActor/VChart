@@ -27,14 +27,13 @@ import type { IModelEvaluateOption } from '../../model/interface';
 import type { Datum, Maybe } from '../../typings';
 import { Direction } from '../../typings';
 import type { IBarAnimationParams } from '../bar/animation';
-import { VChart } from '../../core/vchart';
 import { RuleMark } from '../../mark/rule';
 import { waterfallSeriesMark } from './constant';
 import { Group } from '../base/group';
 import type { ILabelMark } from '../../mark/label';
 import { LabelRule } from '../../component/label/util';
-
-VChart.useMark([RuleMark]);
+import { Factory } from '../../core';
+import { RectMark } from '../../mark';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -302,3 +301,9 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     }
   }
 }
+
+export const registerWaterfullSeries = () => {
+  Factory.registerMark(RuleMark.type, RuleMark);
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerSeries(WaterfallSeries.type, WaterfallSeries);
+};

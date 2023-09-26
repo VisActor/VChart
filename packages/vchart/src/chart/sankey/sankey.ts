@@ -5,8 +5,8 @@ import type { ISankeyChartSpec } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../series/interface';
 import { VChart } from '../../core/vchart';
-import { SankeySeries } from '../../series/sankey/sankey';
-VChart.useSeries([SankeySeries]);
+import { SankeySeries, registerSankeySeries } from '../../series/sankey/sankey';
+import { Factory } from '../../core';
 
 export class SankeyChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sankey;
@@ -72,3 +72,8 @@ export class SankeyChart extends BaseChart {
     }
   }
 }
+
+export const registerSankeyChart = () => {
+  registerSankeySeries();
+  Factory.registerChart(SankeyChart.type, SankeyChart);
+};

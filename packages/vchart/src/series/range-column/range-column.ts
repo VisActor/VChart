@@ -4,7 +4,7 @@ import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
-import type { IRectMark } from '../../mark/rect';
+import { RectMark, type IRectMark } from '../../mark/rect';
 import type { ITextMark } from '../../mark/text';
 import { mergeSpec, valueInScaleRange } from '../../util';
 import { setRectLabelPos } from '../util/label-mark';
@@ -19,6 +19,7 @@ import { PositionEnum } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { RangeColumnAppearPreset } from './animation';
 import { rangeColumnSeriesMark } from './constant';
+import { Factory } from '../../core';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -261,3 +262,8 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
     this._tooltipHelper = new RangeColumnSeriesTooltipHelper(this);
   }
 }
+
+export const registerRangeColumnSeries = () => {
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerSeries(RangeColumnSeries.type, RangeColumnSeries);
+};

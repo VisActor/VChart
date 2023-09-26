@@ -7,7 +7,7 @@ import { ComponentTypeEnum } from '../interface';
 import { Brush as BrushComponent, IOperateType } from '@visactor/vrender-components';
 import type { IBounds, IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, polygonContainPoint, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
+import { array, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IGraphic, INode, IPolygon, IRectGraphicAttribute, ISymbolGraphicAttribute } from '@visactor/vrender';
@@ -18,6 +18,7 @@ import type { IElement } from '@visactor/vgrammar-core';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
+import { Factory } from '../../core';
 
 export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   layoutType: LayoutItem['layoutType'] = 'absolute';
@@ -540,3 +541,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     super.clear();
   }
 }
+
+export const registerBrush = () => {
+  Factory.registerComponent(Brush.type, Brush);
+};

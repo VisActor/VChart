@@ -34,8 +34,7 @@ import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { treemapSeriesMark } from './constant';
-
-VChart.useMark([RectMark, TextMark]);
+import { Factory } from '../../core';
 
 export class TreemapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;
@@ -525,3 +524,8 @@ export class TreemapSeries extends CartesianSeries<any> {
 
 mixin(TreemapSeries, Zoomable);
 mixin(TreemapSeries, Drillable);
+
+export const registerTreemapSeries = () => {
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerSeries(TreemapSeries.type, TreemapSeries);
+};

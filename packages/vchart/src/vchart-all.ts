@@ -1,139 +1,126 @@
-import { VChart, Factory } from './core';
-import {
-  AreaChart,
-  LineChart,
-  BarChart,
-  Bar3dChart,
-  ScatterChart,
-  MapChart,
-  PieChart,
-  Pie3dChart,
-  RoseChart,
-  RadarChart,
-  CommonChart,
-  SequenceChart,
-  HistogramChart,
-  Histogram3dChart,
-  CircularProgressChart,
-  WordCloudChart,
-  WordCloud3dChart,
-  FunnelChart,
-  Funnel3dChart,
-  LinearProgressChart,
-  RangeColumnChart,
-  RangeColumn3dChart,
-  SunburstChart,
-  CirclePackingChart,
-  TreemapChart,
-  WaterfallChart,
-  BoxPlotChart,
-  SankeyChart,
-  GaugeChart,
-  RangeAreaChart,
-  HeatmapChart
-} from './chart';
+import { VChart } from './core';
 
+import { registerLineChart } from './chart/line';
+import { registerAreaChart } from './chart/area';
+import { registerBar3dChart, registerBarChart } from './chart/bar';
+import { registerScatterChart } from './chart/scatter';
+import { registerMapChart } from './chart/map';
+import { registerPie3dChart, registerPieChart } from './chart/pie';
+import { registerRoseChart } from './chart/rose';
+import { registerRadarChart } from './chart/radar';
+import { registerCommonChart } from './chart/common';
+import { registerSequenceChart } from './chart/sequence';
+import { registerHistogram3dChart, registerHistogramChart } from './chart/histogram';
+import { registerCircularProgressChart } from './chart/progress/circular';
+import { registerGaugeChart } from './chart/gauge';
+import { registerWordCloudChart } from './chart/word-cloud';
+import { registerFunnel3dChart, registerFunnelChart } from './chart/funnel';
+import { registerLinearProgressChart } from './chart/progress/linear';
+import { registerRangeColumn3dChart, registerRangeColumnChart } from './chart/range-column';
+import { registerSunburstChart } from './chart/sunburst';
+import { registerCirclePackingChart } from './chart/circle-packing';
+import { registerTreemapChart } from './chart/treemap';
+import { registerWaterfullChart } from './chart/waterfall';
+import { registerBoxplotChart } from './chart/box-plot';
+import { registerSankeyChart } from './chart/sankey';
+import { registerRangeAreaChart } from './chart/range-area';
+import { registerHeatmapChart } from './chart/heatmap';
 import {
-  CartesianLinearAxis,
-  CartesianBandAxis,
-  CartesianTimeAxis,
-  PolarBandAxis,
-  CartesianLogAxis,
-  CartesianSymlogAxis,
-  PolarLinearAxis,
-  DiscreteLegend,
-  ContinuousLegend,
-  Tooltip,
-  CartesianCrossHair,
-  PolarCrossHair,
-  DataZoom,
-  ScrollBar,
-  Indicator,
-  GeoCoordinate,
-  MarkLine,
-  Title,
-  MarkArea,
-  Player,
-  Label,
-  MarkPoint,
-  Brush,
-  CustomMark,
-  MapLabelComponent,
-  TotalLabel
-} from './component';
-import { GridLayout, Layout3d } from './layout';
-import { loadPoptip } from '@visactor/vrender-components';
-
-// 装载 poptip
-loadPoptip();
+  registerCartesianBandAxis,
+  registerCartesianLinearAxis,
+  registerCartesianLogAxis,
+  registerCartesianSymlogAxis,
+  registerCartesianTimeAxis
+} from './component/axis/cartesian';
+import { registerPolarBandAxis, registerPolarLinearAxis } from './component/axis/polar';
+import { registerContinuousLegend, registerDiscreteLegend } from './component/legend';
+import { registerTooltip } from './component/tooltip';
+import { registerCartesianCrossHair, registerPolarCrossHair } from './component/crosshair';
+import { registerDataZoom, registerScrollBar } from './component/data-zoom';
+import { registerIndicator } from './component/indicator';
+import { registerGeoCoordinate } from './component/geo';
+import { registerMarkLine } from './component/marker/mark-line';
+import { registerTitle } from './component/title';
+import { registerMarkArea } from './component/marker/mark-area';
+import { registerPlayer } from './component/player';
+import { registerLabel } from './component/label';
+import { registerTotalLabel } from './component/label/totalLabel';
+import { registerMarkPoint } from './component/marker/mark-point';
+import { registerBrush } from './component/brush';
+import { registerCustomMark } from './component/custom-mark';
+import { registerMapLabel } from './component/map-label';
+import { registerGridLayout } from './layout/grid-layout/grid-layout';
+import { registerLayout3d } from './layout/layout3d';
+import { registerPoptip } from './component/poptip';
 
 // charts
-VChart.useChart([
-  AreaChart,
-  LineChart,
-  BarChart,
-  Bar3dChart,
-  ScatterChart,
-  MapChart,
-  PieChart,
-  Pie3dChart,
-  RoseChart,
-  RadarChart,
-  CommonChart,
-  SequenceChart,
-  HistogramChart,
-  Histogram3dChart,
-  CircularProgressChart,
-  WordCloudChart,
-  WordCloud3dChart,
-  FunnelChart,
-  Funnel3dChart,
-  LinearProgressChart,
-  RangeColumnChart,
-  RangeColumn3dChart,
-  SunburstChart,
-  CirclePackingChart,
-  TreemapChart,
-  WaterfallChart,
-  BoxPlotChart,
-  SankeyChart,
-  GaugeChart,
-  RangeAreaChart,
-  HeatmapChart
-]);
+registerLineChart();
+registerAreaChart();
+registerBarChart();
+registerScatterChart();
+registerPieChart();
+registerRoseChart();
+registerRadarChart();
+registerHistogramChart();
+registerMapChart();
+registerGaugeChart();
+registerWordCloudChart();
+registerFunnelChart();
+registerWaterfullChart();
+registerBoxplotChart();
+registerCircularProgressChart();
+registerLinearProgressChart();
+registerRangeColumnChart();
+registerRangeAreaChart();
+registerSunburstChart();
+registerCirclePackingChart();
+registerTreemapChart();
+registerSankeyChart();
+registerHeatmapChart();
+registerSequenceChart();
+registerCommonChart();
+
+// 3d charts
+registerBar3dChart();
+registerPie3dChart();
+registerHistogram3dChart();
+registerFunnel3dChart();
+registerRangeColumn3dChart();
 
 // components
-VChart.useComponent([
-  CartesianLinearAxis,
-  CartesianBandAxis,
-  CartesianTimeAxis,
-  CartesianLogAxis,
-  CartesianSymlogAxis,
-  PolarBandAxis,
-  PolarLinearAxis,
-  DiscreteLegend,
-  ContinuousLegend,
-  Tooltip,
-  CartesianCrossHair,
-  PolarCrossHair,
-  DataZoom,
-  ScrollBar,
-  Indicator,
-  GeoCoordinate,
-  MarkLine,
-  Title,
-  MarkArea,
-  Player,
-  TotalLabel,
-  Label,
-  MarkPoint,
-  Brush,
-  CustomMark,
-  MapLabelComponent
-]);
+registerCartesianLinearAxis();
+registerCartesianBandAxis();
+registerCartesianTimeAxis();
+registerCartesianLogAxis();
+registerCartesianSymlogAxis();
+registerPolarBandAxis();
+registerPolarLinearAxis();
+
+registerDiscreteLegend();
+registerContinuousLegend();
+
+registerTooltip();
+registerCartesianCrossHair();
+registerPolarCrossHair();
+
+registerDataZoom();
+registerScrollBar();
+registerIndicator();
+registerGeoCoordinate();
+registerMarkPoint();
+registerMarkLine();
+registerMarkArea();
+registerTitle();
+registerPlayer();
+registerLabel();
+registerTotalLabel();
+registerBrush();
+registerCustomMark();
+registerMapLabel();
+registerPoptip();
 
 // layout
-Factory.registerLayout('grid', GridLayout as any);
-Factory.registerLayout('layout3d', Layout3d as any);
+registerGridLayout();
+registerLayout3d();
 
 export { VChart };

@@ -5,8 +5,8 @@ import { ChartTypeEnum } from '../interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBoxPlotChartSpec } from './interface';
 import { VChart } from '../../core/vchart';
-import { BoxPlotSeries } from '../../series/box-plot/box-plot';
-VChart.useSeries([BoxPlotSeries]);
+import { BoxPlotSeries, registerBoxplotSeries } from '../../series/box-plot/box-plot';
+import { Factory } from '../../core';
 
 export class BoxPlotChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.boxPlot;
@@ -48,3 +48,8 @@ export class BoxPlotChart extends CartesianChart {
     setDefaultCrosshairForCartesianChart(spec);
   }
 }
+
+export const registerBoxplotChart = () => {
+  registerBoxplotSeries();
+  Factory.registerChart(BoxPlotChart.type, BoxPlotChart);
+};

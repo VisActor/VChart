@@ -6,6 +6,9 @@ import { mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
 import type { IPolarBandAxisSpec } from './interface';
+import { Factory } from '../../../core';
+import { ComponentMark } from '../../../mark';
+import { registerAxis } from '../base-axis';
 
 export interface PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec>
   extends Pick<
@@ -59,3 +62,8 @@ export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> ex
   }
 }
 mixin(PolarBandAxis, BandAxisMixin);
+
+export const registerPolarBandAxis = () => {
+  registerAxis();
+  Factory.registerComponent(PolarBandAxis.type, PolarBandAxis);
+};

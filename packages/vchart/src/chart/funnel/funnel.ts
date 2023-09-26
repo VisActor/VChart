@@ -1,9 +1,8 @@
+import { registerFunnelSeries } from './../../series/funnel/funnel';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BaseFunnelChart } from './base';
-import { VChart } from '../../core/vchart';
-import { FunnelSeries } from '../../series/funnel/funnel';
-VChart.useSeries([FunnelSeries]);
+import { Factory } from '../../core';
 
 export class FunnelChart extends BaseFunnelChart {
   static readonly type: string = ChartTypeEnum.funnel;
@@ -11,3 +10,8 @@ export class FunnelChart extends BaseFunnelChart {
   readonly type: string = ChartTypeEnum.funnel;
   readonly seriesType: string = SeriesTypeEnum.funnel;
 }
+
+export const registerFunnelChart = () => {
+  registerFunnelSeries();
+  Factory.registerChart(FunnelChart.type, FunnelChart);
+};

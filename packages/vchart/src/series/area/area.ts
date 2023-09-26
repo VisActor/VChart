@@ -25,7 +25,7 @@ import { TextMark } from '../../mark/text';
 import { SymbolMark } from '../../mark/symbol';
 import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 import { areaSeriesMark } from './constant';
-VChart.useMark([LineMark, AreaMark, TextMark, SymbolMark]);
+import { Factory } from '../../core';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -259,3 +259,11 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 }
 
 mixin(AreaSeries, LineLikeSeriesMixin);
+
+export const registerAreaSeries = () => {
+  Factory.registerMark(LineMark.type, LineMark);
+  Factory.registerMark(AreaMark.type, AreaMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerSeries(AreaSeries.type, AreaSeries);
+};

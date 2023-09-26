@@ -2,10 +2,9 @@ import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
-import { VChart } from '../../core/vchart';
 import type { IRangeColumn3dChartSpec } from './interface';
-import { RangeColumn3dSeries } from '../../series/range-column/range-column-3d';
-VChart.useSeries([RangeColumn3dSeries]);
+import { Factory } from '../../core';
+import { registerRangeColumn3dSeries } from '../../series/range-column/range-column-3d';
 
 export class RangeColumn3dChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.rangeColumn3d;
@@ -27,3 +26,8 @@ export class RangeColumn3dChart extends CartesianChart {
     return series;
   }
 }
+
+export const registerRangeColumn3dChart = () => {
+  registerRangeColumn3dSeries();
+  Factory.registerChart(RangeColumn3dChart.type, RangeColumn3dChart);
+};

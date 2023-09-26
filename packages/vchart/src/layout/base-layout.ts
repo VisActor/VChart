@@ -8,6 +8,7 @@ import type { IRegion } from '../region/interface';
 import { error } from '../util/debug';
 
 export class Layout implements IBaseLayout {
+  static type = 'base';
   protected _leftCurrent: number = 0;
   protected _topCurrent: number = 0;
   protected _rightCurrent: number = 0;

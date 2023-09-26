@@ -16,14 +16,11 @@ import type { IRadarAnimationParams, RadarAppearPreset } from './animation';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAreaMark } from '../../mark/area';
-import { VChart } from '../../core/vchart';
 import { AreaMark } from '../../mark/area';
 import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
-import { TextMark } from '../../mark/text';
 import { radarSeriesMark } from './constant';
-
-VChart.useMark([AreaMark, LineMark, SymbolMark, TextMark]);
+import { Factory } from '../../core';
 
 export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<
@@ -185,3 +182,11 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 }
 
 mixin(RadarSeries, LineLikeSeriesMixin);
+
+export const registerRadarSeries = () => {
+  Factory.registerMark(AreaMark.type, AreaMark);
+  Factory.registerMark(LineMark.type, LineMark);
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+
+  Factory.registerSeries(RadarSeries.type, RadarSeries);
+};

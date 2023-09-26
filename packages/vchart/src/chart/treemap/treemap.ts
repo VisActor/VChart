@@ -5,9 +5,8 @@ import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import type { ITreemapChartSpec } from './interface';
 import { VChart } from '../../core/vchart';
-import { TreemapSeries } from '../../series/treemap/treemap';
-
-VChart.useSeries([TreemapSeries]);
+import { TreemapSeries, registerTreemapSeries } from '../../series/treemap/treemap';
+import { Factory } from '../../core';
 
 export class TreemapChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.treemap;
@@ -70,3 +69,8 @@ export class TreemapChart extends BaseChart {
     }
   }
 }
+
+export const registerTreemapChart = () => {
+  registerTreemapSeries();
+  Factory.registerChart(TreemapChart.type, TreemapChart);
+};

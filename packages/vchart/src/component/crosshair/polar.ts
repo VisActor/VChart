@@ -21,6 +21,7 @@ import type { IGroup, INode } from '@visactor/vrender';
 import { angleLabelOrientAttribute, radiusLabelOrientAttribute } from '../../util/math';
 import { limitTagInBounds } from './util';
 import { getAxisLabelOffset } from '../axis/util';
+import { Factory } from '../../core';
 
 interface ICrosshairInfo {
   x: number;
@@ -509,3 +510,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     super.clear();
   }
 }
+
+export const registerPolarCrossHair = () => {
+  Factory.registerComponent(PolarCrossHair.type, PolarCrossHair);
+};

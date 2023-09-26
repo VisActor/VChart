@@ -1,9 +1,8 @@
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
-import { VChart } from '../../core/vchart';
-import { HeatmapSeries } from '../../series/heatmap/heatmap';
-VChart.useSeries([HeatmapSeries]);
+import { HeatmapSeries, registerHeatmapSeries } from '../../series/heatmap/heatmap';
+import { Factory } from '../../core';
 
 export class HeatmapChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.heatmap;
@@ -20,3 +19,8 @@ export class HeatmapChart extends CartesianChart {
     };
   }
 }
+
+export const registerHeatmapChart = () => {
+  registerHeatmapSeries();
+  Factory.registerChart(HeatmapChart.type, HeatmapChart);
+};

@@ -13,13 +13,13 @@ import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
-import type { IOptionRegr } from '../../../data/transforms/regression';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
 import type { LayoutItem } from '../../../model/layout-item';
 import type { INode } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
+import { Factory } from '../../../core';
 
 export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;
@@ -180,3 +180,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
     this._markerData = data;
   }
 }
+
+export const registerMarkArea = () => {
+  Factory.registerComponent(MarkArea.type, MarkArea);
+};

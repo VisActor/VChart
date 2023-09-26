@@ -1,10 +1,9 @@
-import { RadarSeries } from '../../series/radar/radar';
+import { registerRadarSeries } from '../../series/radar/radar';
 import { SeriesTypeEnum } from '../../series/interface';
 import { array, mergeSpec } from '../../util';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
-import { VChart } from '../../core/vchart';
-VChart.useSeries([RadarSeries]);
+import { Factory } from '../../core';
 
 export class RadarChart extends RoseLikeChart {
   static readonly type: string = ChartTypeEnum.radar;
@@ -64,3 +63,8 @@ export class RadarChart extends RoseLikeChart {
     });
   }
 }
+
+export const registerRadarChart = () => {
+  registerRadarSeries();
+  Factory.registerChart(RadarChart.type, RadarChart);
+};

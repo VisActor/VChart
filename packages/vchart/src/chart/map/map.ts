@@ -1,4 +1,4 @@
-import { MapSeries } from '../../series/map/map';
+import { registerMapSeries } from '../../series/map/map';
 import { BaseChart } from '../base-chart';
 import type { IRegionSpec } from '../../region/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
@@ -6,8 +6,7 @@ import { ChartTypeEnum } from '../interface/type';
 import type { IMapChartSpec } from './interface';
 import type { IMapSeriesSpec } from '../../series/map/interface';
 import type { ISeriesSpec } from '../../typings/spec';
-import { VChart } from '../../core/vchart';
-VChart.useSeries([MapSeries]);
+import { Factory } from '../../core';
 
 export class MapChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.map;
@@ -65,3 +64,8 @@ export class MapChart extends BaseChart {
     }
   }
 }
+
+export const registerMapChart = () => {
+  registerMapSeries();
+  Factory.registerChart(MapChart.type, MapChart);
+};

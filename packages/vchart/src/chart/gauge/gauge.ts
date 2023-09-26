@@ -1,13 +1,12 @@
 import { isNil } from '@visactor/vutils';
 import type { IPolarAxisSpec, IPolarLinearAxisSpec } from '../../component/axis/polar/interface';
-import { type IGaugeSeriesSpec, GaugePointerSeries, GaugeSeries } from '../../series/gauge';
+import { type IGaugeSeriesSpec, registerGaugePointerSeries, registerGaugeSeries } from '../../series/gauge';
 import type { ISeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ICircularProgressSeriesSpec } from '../../series/progress/circular/interface';
 import { ChartTypeEnum } from '../interface';
 import { ProgressLikeChart } from '../polar/progress-like';
-import { VChart } from '../../core/vchart';
-VChart.useSeries([GaugePointerSeries, GaugeSeries]);
+import { Factory } from '../../core';
 
 export class GaugeChart extends ProgressLikeChart {
   static readonly type: string = ChartTypeEnum.gauge;
@@ -132,3 +131,9 @@ export class GaugeChart extends ProgressLikeChart {
     }
   }
 }
+
+export const registerGaugeChart = () => {
+  registerGaugePointerSeries();
+  registerGaugeSeries();
+  Factory.registerChart(GaugeChart.type, GaugeChart);
+};

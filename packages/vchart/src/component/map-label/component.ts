@@ -22,6 +22,7 @@ import { transformToGraphic } from '../../util/style';
 import { isValid } from '@visactor/vutils';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { IModel } from '../../model/interface';
+import { Factory } from '../../core';
 
 export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   static type = ComponentTypeEnum.mapLabel;
@@ -425,3 +426,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     // do nothing
   }
 }
+
+export const registerMapLabel = () => {
+  Factory.registerComponent(MapLabelComponent.type, MapLabelComponent);
+};

@@ -99,11 +99,19 @@ export class Factory {
     return Factory._components[name];
   }
 
-  static getLayout(name: string) {
+  static getLayout() {
+    return Object.values(Factory._layout);
+  }
+
+  static getLayoutInKey(name: string) {
     return Factory._layout[name];
   }
 
-  static getSeries(type: string) {
+  static getSeries() {
+    return Object.values(Factory._series);
+  }
+
+  static getSeriesInType(type: string) {
     return Factory._series[type];
   }
 }

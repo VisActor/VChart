@@ -4,8 +4,9 @@ import { ChartTypeEnum } from '../interface';
 import type { IWordCloudChartSpec } from './interface';
 import { BaseWordCloudChart } from './base';
 import { VChart } from '../../core/vchart';
-import { WordCloudSeries } from '../../series/word-cloud/word-cloud';
-VChart.useSeries([WordCloudSeries]);
+import { WordCloudSeries, registerWordCloudSeries } from '../../series/word-cloud/word-cloud';
+import { Factory } from '../../core';
+import { registerWordCloudTransforms } from '@visactor/vgrammar-wordcloud';
 
 export class WordCloudChart extends BaseWordCloudChart {
   static readonly type: string = ChartTypeEnum.wordCloud;
@@ -45,3 +46,10 @@ export class WordCloudChart extends BaseWordCloudChart {
     return series;
   }
 }
+
+export const registerWordCloudChart = () => {
+  // vgrammar transform
+  registerWordCloudTransforms();
+  registerWordCloudSeries();
+  Factory.registerChart(WordCloudChart.type, WordCloudChart);
+};

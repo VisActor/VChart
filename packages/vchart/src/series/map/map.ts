@@ -21,16 +21,12 @@ import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { TextMark } from '../../mark/text';
 import { mapSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
-
-VChart.useMark([PathMark, TextMark]);
-
-// 注册语法元素
-registerProjection();
+import { Factory } from '../../core';
+import { registerGeoCoordinate } from '../../component/geo';
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;
@@ -318,3 +314,11 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     return DEFAULT_DATA_INDEX;
   }
 }
+
+export const registerMapSeries = () => {
+  // 注册语法元素
+  registerProjection();
+  registerGeoCoordinate();
+  Factory.registerMark(PathMark.type, PathMark);
+  Factory.registerSeries(MapSeries.type, MapSeries);
+};

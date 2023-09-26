@@ -29,8 +29,7 @@ import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
 import { RectMark } from '../../mark/rect';
 import { dotSeriesMark } from './constant';
-
-VChart.useMark([SymbolMark, TextMark, RuleMark, RectMark]);
+import { Factory } from '../../core';
 
 export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.dot;
@@ -494,3 +493,12 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     return null;
   }
 }
+
+export const registerDotSeries = () => {
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerMark(RuleMark.type, RuleMark);
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerMark(TextMark.type, TextMark);
+
+  Factory.registerSeries(DotSeries.type, DotSeries);
+};

@@ -9,15 +9,13 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface/type';
 import { FunnelSeries } from './funnel';
 import type { IFunnel3dSeriesSpec, IFunnel3dSeriesTheme } from './interface';
-import { VChart } from '../../core/vchart';
 import { Pyramid3dMark } from '../../mark/polygon/pyramid-3d';
 import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
 import type { AdaptiveSpec } from '../../typings';
 import { funnel3dSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
-
-VChart.useMark([Pyramid3dMark, TextMark, RuleMark]);
+import { Factory } from '../../core';
 
 export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec> extends FunnelSeries<
   AdaptiveSpec<T, 'type'>
@@ -137,3 +135,10 @@ export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec>
     }
   }
 }
+
+export const registerFunnel3dSeries = () => {
+  Factory.registerMark(Pyramid3dMark.type, Pyramid3dMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerMark(RuleMark.type, RuleMark);
+  Factory.registerSeries(Funnel3dSeries.type, Funnel3dSeries);
+};

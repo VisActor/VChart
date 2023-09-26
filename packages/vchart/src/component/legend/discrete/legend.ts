@@ -19,6 +19,7 @@ import type { ILegend } from '../interface';
 import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/transforms/legend-data/discrete';
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
+import { Factory } from '../../../core';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;
@@ -225,3 +226,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       : originData;
   }
 }
+
+export const registerDiscreteLegend = () => {
+  Factory.registerComponent(DiscreteLegend.type, DiscreteLegend);
+};

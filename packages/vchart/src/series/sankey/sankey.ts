@@ -38,10 +38,7 @@ import { LinkPathMark } from '../../mark/link-path';
 import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
 import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
-
-VChart.useMark([RectMark, LinkPathMark, TextMark]);
-
-registerSankeyTransforms();
+import { Factory } from '../../core';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -1356,3 +1353,11 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     return undefined;
   }
 }
+
+export const registerSankeySeries = () => {
+  registerSankeyTransforms();
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerMark(LinkPathMark.type, LinkPathMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(SankeySeries.type, SankeySeries);
+};

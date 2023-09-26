@@ -1,10 +1,9 @@
-import { BarSeries } from '../../series/bar/bar';
+import { registerBarSeries } from '../../series/bar/bar';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BaseHistogramChart } from './base';
 import { setDefaultCrosshairForCartesianChart } from '../util';
-import { VChart } from '../../core/vchart';
-VChart.useSeries([BarSeries]);
+import { Factory } from '../../core';
 
 export class HistogramChart extends BaseHistogramChart {
   static readonly type: string = ChartTypeEnum.histogram;
@@ -17,3 +16,8 @@ export class HistogramChart extends BaseHistogramChart {
     setDefaultCrosshairForCartesianChart(spec);
   }
 }
+
+export const registerHistogramChart = () => {
+  registerBarSeries();
+  Factory.registerChart(HistogramChart.type, HistogramChart);
+};

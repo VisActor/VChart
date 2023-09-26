@@ -1,5 +1,3 @@
-// import type { GeoJsonFeatureSpec } from '@visactor/vgrammar-core';
-
 import { projection } from '@visactor/vgrammar-projection';
 import type { IProjectionSpec } from './interface';
 

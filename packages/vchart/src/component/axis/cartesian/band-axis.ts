@@ -6,6 +6,8 @@ import { ComponentTypeEnum } from '../../interface';
 import { mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
+import { Factory } from '../../../core';
+import { registerAxis } from '../base-axis';
 
 export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec>
   extends Pick<
@@ -87,3 +89,8 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
 }
 
 mixin(CartesianBandAxis, BandAxisMixin);
+
+export const registerCartesianBandAxis = () => {
+  registerAxis();
+  Factory.registerComponent(CartesianBandAxis.type, CartesianBandAxis);
+};

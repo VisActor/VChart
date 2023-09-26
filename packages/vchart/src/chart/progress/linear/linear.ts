@@ -10,8 +10,8 @@ import { isNil } from '../../../util';
 import type { ILinearProgressChartSpec } from './interface';
 import { getLinearAxisSpecDomain } from '../../../component/axis/util';
 import { VChart } from '../../../core/vchart';
-import { LinearProgressSeries } from '../../../series/progress/linear';
-VChart.useSeries([LinearProgressSeries]);
+import { LinearProgressSeries, registerLinearProgressSeries } from '../../../series/progress/linear';
+import { Factory } from '../../../core';
 
 export class LinearProgressChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.linearProgress;
@@ -130,3 +130,8 @@ export class LinearProgressChart extends CartesianChart {
     }
   }
 }
+
+export const registerLinearProgressChart = () => {
+  registerLinearProgressSeries();
+  Factory.registerChart(LinearProgressChart.type, LinearProgressChart);
+};

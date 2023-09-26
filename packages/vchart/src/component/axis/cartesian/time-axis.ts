@@ -10,6 +10,9 @@ import type { Datum } from '../../../typings';
 import { CompilableData } from '../../../compile/data';
 import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import type { ICartesianTimeAxisSpec } from './interface';
+import { Factory } from '../../../core';
+import { ComponentMark } from '../../../mark';
+import { registerAxis } from '../base-axis';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
@@ -156,3 +159,8 @@ export class CartesianTimeAxis<
     // do nothing
   }
 }
+
+export const registerCartesianTimeAxis = () => {
+  registerAxis();
+  Factory.registerComponent(CartesianTimeAxis.type, CartesianTimeAxis);
+};

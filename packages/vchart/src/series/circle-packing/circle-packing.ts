@@ -4,7 +4,7 @@ import { isNil, mixin } from '@visactor/vutils';
 import type { ICirclePackingOpt } from '../../data/transforms/circle-packing';
 import type { ICirclePackingSeriesSpec } from './interface';
 
-import type { IMarkSpec } from '../..';
+import { Factory, type IMarkSpec } from '../..';
 import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
 import type { SeriesMarkMap } from '../interface';
@@ -30,12 +30,9 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import type { CirclePackingAppearPreset } from './animation';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
 import { TextMark } from '../../mark/text';
 import { circlePackingSeriesMark } from './constant';
-
-VChart.useMark([ArcMark, TextMark]);
 
 export class CirclePackingSeries<
   T extends ICirclePackingSeriesSpec = ICirclePackingSeriesSpec
@@ -314,3 +311,9 @@ export class CirclePackingSeries<
 }
 
 mixin(CirclePackingSeries, Drillable);
+
+export const registerCirclePackingSeries = () => {
+  Factory.registerMark(ArcMark.type, ArcMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(CirclePackingSeries.type, CirclePackingSeries);
+};

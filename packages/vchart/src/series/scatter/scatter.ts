@@ -4,7 +4,6 @@ import type { IElement } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import type { Maybe, Datum, ScaleType, VisualType } from '../../typings';
 import type { ISymbolMark } from '../../mark/symbol';
-import type { ITextMark } from '../../mark/text';
 import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, mergeSpec } from '../../util';
@@ -29,8 +28,7 @@ import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
 import { scatterSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
-
-VChart.useMark([SymbolMark, TextMark]);
+import { Factory } from '../../core';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -396,3 +394,8 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     return 'circle';
   }
 }
+
+export const registerScatterSeries = () => {
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerSeries(ScatterSeries.type, ScatterSeries);
+};

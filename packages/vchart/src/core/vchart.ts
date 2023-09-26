@@ -82,13 +82,16 @@ import {
   Logger,
   merge as mergeOrigin,
   isFunction,
-  isObject
+  LoggerLevel
 } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
 import { calculateChartSize, mergeUpdateResult } from '../chart/util';
+import { Region } from '../region/region';
+import { Layout } from '../layout';
+import { GroupMark } from '../mark';
 export class VChart implements IVChart {
   readonly id = createID();
 
@@ -1566,3 +1569,14 @@ export class VChart implements IVChart {
     );
   }
 }
+
+export const registerVChartCore = () => {
+  // install region module
+  Factory.registerRegion('region', Region);
+  // install layout module
+  Factory.registerLayout('base', Layout);
+  Factory.registerMark(GroupMark.type, GroupMark);
+
+  // set default logger level to Level.error
+  Logger.getInstance(LoggerLevel.Error);
+};

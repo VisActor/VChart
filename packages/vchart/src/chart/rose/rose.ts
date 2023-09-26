@@ -1,12 +1,11 @@
-import { RoseSeries } from '../../series/rose/rose';
+import { registerRoseSeries } from '../../series/rose/rose';
 import type { IPolarAxis } from '../../component/axis/polar/interface';
 import { POLAR_DEFAULT_RADIUS } from '../../constant';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
-import { VChart } from '../../core/vchart';
 import { array, mergeSpec } from '../../util';
-VChart.useSeries([RoseSeries]);
+import { Factory } from '../../core';
 
 export class RoseChart extends RoseLikeChart {
   static readonly type: string = ChartTypeEnum.rose;
@@ -55,3 +54,8 @@ export class RoseChart extends RoseLikeChart {
     });
   }
 }
+
+export const registerRoseChart = () => {
+  registerRoseSeries();
+  Factory.registerChart(RoseChart.type, RoseChart);
+};

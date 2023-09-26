@@ -19,14 +19,11 @@ import { SeriesMarkNameEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../interface';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
-import { TextMark } from '../../mark/text';
 import { array, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
-
-VChart.useMark([RectMark, TextMark]);
+import { Factory } from '../../core';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;
@@ -441,3 +438,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     return 'square';
   }
 }
+
+export const registerBarSeries = () => {
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerSeries(BarSeries.type, BarSeries);
+};

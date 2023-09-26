@@ -46,14 +46,10 @@ import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
-import { VChart } from '../../core/vchart';
-import { PathMark } from '../../mark/path';
-import { TextMark } from '../../mark/text';
 import { ArcMark } from '../../mark/arc';
 import { mergeSpec } from '../../util';
 import { pieSeriesMark } from './constant';
-
-VChart.useMark([PathMark, TextMark, ArcMark]);
+import { Factory } from '../../core';
 
 type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & { type: string };
 
@@ -503,3 +499,8 @@ export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePi
   static readonly type: string = SeriesTypeEnum.pie;
   type = SeriesTypeEnum.pie;
 }
+
+export const registerPieSeries = () => {
+  Factory.registerMark(ArcMark.type, ArcMark);
+  Factory.registerSeries(PieSeries.type, PieSeries);
+};

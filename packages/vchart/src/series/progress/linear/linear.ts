@@ -17,8 +17,7 @@ import { VChart } from '../../../core/vchart';
 import { RectMark } from '../../../mark/rect';
 import { createRect } from '@visactor/vrender';
 import { linearProgressSeriesMark } from './constant';
-
-VChart.useMark([RectMark]);
+import { Factory } from '../../../core';
 
 export class LinearProgressSeries<
   T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec
@@ -267,3 +266,8 @@ export class LinearProgressSeries<
     this._tooltipHelper = new LinearProgressSeriesTooltipHelper(this);
   }
 }
+
+export const registerLinearProgressSeries = () => {
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerSeries(LinearProgressSeries.type, LinearProgressSeries);
+};

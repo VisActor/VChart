@@ -4,8 +4,8 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { Direction } from '../../typings';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { VChart } from '../../core/vchart';
-import { RangeAreaSeries } from '../../series/range-area/range-area';
-VChart.useSeries([RangeAreaSeries]);
+import { RangeAreaSeries, registerRangeAreaSeries } from '../../series/range-area/range-area';
+import { Factory } from '../../core';
 
 export class RangeAreaChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.rangeArea;
@@ -32,3 +32,8 @@ export class RangeAreaChart extends CartesianChart {
     setDefaultCrosshairForCartesianChart(spec);
   }
 }
+
+export const registerRangeAreaChart = () => {
+  registerRangeAreaSeries();
+  Factory.registerChart(RangeAreaChart.type, RangeAreaChart);
+};

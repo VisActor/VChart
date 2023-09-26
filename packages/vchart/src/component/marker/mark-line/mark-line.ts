@@ -23,6 +23,7 @@ import type { IOptionRegr } from '../../../data/transforms/regression';
 import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant';
 import { getInsertPoints, getTextOffset } from './util';
+import { Factory } from '../../../core';
 
 export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
@@ -293,3 +294,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     this._markerData = data;
   }
 }
+
+export const registerMarkLine = () => {
+  Factory.registerComponent(MarkLine.type, MarkLine);
+};

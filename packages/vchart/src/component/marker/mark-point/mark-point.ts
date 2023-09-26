@@ -16,6 +16,7 @@ import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
 import type { LayoutItem } from '../../../model/layout-item';
 import type { INode } from '@visactor/vrender';
+import { Factory } from '../../../core';
 
 export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> implements IMarkPoint {
   static type = ComponentTypeEnum.markPoint;
@@ -156,3 +157,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
     this._markerData = data;
   }
 }
+
+export const registerMarkPoint = () => {
+  Factory.registerComponent(MarkPoint.type, MarkPoint);
+};

@@ -15,8 +15,7 @@ import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { RectMark } from '../../mark/rect';
 import { gaugePointerSeriesMark } from './constant';
-
-VChart.useMark([PathMark, RectMark]);
+import { Factory } from '../../core';
 
 export class GaugePointerSeries<
   T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec
@@ -192,3 +191,9 @@ export class GaugePointerSeries<
     return 'circle';
   }
 }
+
+export const registerGaugePointerSeries = () => {
+  Factory.registerMark(PathMark.type, PathMark);
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerSeries(GaugePointerSeries.type, GaugePointerSeries);
+};

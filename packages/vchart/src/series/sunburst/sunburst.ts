@@ -32,12 +32,10 @@ import { SunburstTooltipHelper } from './tooltip-helper';
 import type { animationInfo } from './animation/interface';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
 import { TextMark } from '../../mark/text';
 import { sunburstSeriesMark } from './constant';
-
-VChart.useMark([ArcMark, TextMark]);
+import { Factory } from '../../core';
 
 export class SunburstSeries extends PolarSeries<any> {
   protected declare _spec: ISunburstSeriesSpec;
@@ -427,3 +425,9 @@ export class SunburstSeries extends PolarSeries<any> {
 }
 
 mixin(SunburstSeries, Drillable);
+
+export const registerSunBurstSeries = () => {
+  Factory.registerMark(ArcMark.type, ArcMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(SunburstSeries.type, SunburstSeries);
+};

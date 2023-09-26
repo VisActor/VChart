@@ -32,20 +32,18 @@ import { field, calcLayoutNumber, isNumber } from '../../util';
 import type { FunnelAppearPreset, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
 import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
-import { isEqual, isFunction, isValid, merge } from '@visactor/vutils';
+import { isFunction, isValid, merge } from '@visactor/vutils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { VChart } from '../../core/vchart';
 import { PolygonMark } from '../../mark/polygon/polygon';
 import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
 import { funnelSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import type { LabelItem } from '@visactor/vrender-components';
-
-VChart.useMark([PolygonMark, TextMark, RuleMark]);
+import { Factory } from '../../core';
 
 export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   extends BaseSeries<T>
@@ -845,3 +843,10 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     return 'square';
   }
 }
+
+export const registerFunnelSeries = () => {
+  Factory.registerMark(PolygonMark.type, PolygonMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerMark(RuleMark.type, RuleMark);
+  Factory.registerSeries(FunnelSeries.type, FunnelSeries);
+};
