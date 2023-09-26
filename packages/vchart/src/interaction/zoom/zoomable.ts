@@ -266,12 +266,12 @@ export class Zoomable implements IZoomable {
     eventObj.on(
       this._getTriggerEvent('start'),
       { level: Event_Bubble_Level.chart },
-      delayMap[delayType](params => {
-        if (!(params as BaseEventParams).event) {
+      delayMap[delayType]((params: BaseEventParams) => {
+        if (!params.event) {
           return;
         }
 
-        const { event } = params as BaseEventParams;
+        const { event } = params;
         const shouldTrigger = isPointInRect(
           {
             x: event.canvasX,
