@@ -21,7 +21,8 @@ option: wordCloudChart
 ## 代码演示
 
 ```javascript livedemo
-const dataWordCloud = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
 const spec = {
   type: 'wordCloud',
   nameField: 'challenge_name',
