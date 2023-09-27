@@ -384,8 +384,8 @@ export class VChart implements IVChart {
   private _onResize = debounce((...args: any[]) => {
     const { width, height } = this._getCurSize();
     if (this._curSize.width !== width || this._curSize.height !== height) {
-      this.resize(width, height);
       this._curSize = { width, height };
+      this.resize(width, height);
     }
   }, 100);
 
@@ -920,7 +920,8 @@ export class VChart implements IVChart {
     this._chart.onResize(width, height);
     this._option.performanceHook?.afterResizeWithUpdate?.();
     await this._compiler.resize?.(width, height);
-
+    // emit resize event
+    this._event.emit(ChartEvent.afterResize, { chart: this._chart });
     return this as unknown as IVChart;
   }
 
@@ -954,7 +955,11 @@ export class VChart implements IVChart {
   on(eType: EventType, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery | EventCallback<EventParams>, handler?: EventCallback<EventParams>): void {
-    this._userEvents.push({ eType, query, handler });
+    this._userEvents.push({
+      eType,
+      query: typeof query === 'function' ? null : query,
+      handler: typeof query === 'function' ? query : handler
+    });
     this._event?.on(eType as any, query as any, handler as any);
   }
   off(eType: string, handler?: EventCallback<EventParams>): void {
