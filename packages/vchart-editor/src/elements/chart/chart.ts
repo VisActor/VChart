@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { LayoutEditorElement } from './editor-elements/layout-editor';
 import { ChartLayout } from './layout/chart-layout';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -77,6 +78,13 @@ export class EditorChart extends BaseElement {
 
     // editor init with vchart
     this._layoutEditor.initWithVChart();
+
+    this._vchart.on('click', (...args: any[]) => {
+      console.log('_vchart click', args);
+    });
+    this._vchart.on('pointerdown', (...args: any[]) => {
+      console.log('pointerdown', args);
+    });
   }
 
   setTemp(key: string) {
