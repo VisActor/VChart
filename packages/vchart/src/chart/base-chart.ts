@@ -1050,7 +1050,7 @@ export class BaseChart extends CompilableBase implements IChart {
 
   protected setSeriesTheme(theme: ITheme, reInit: boolean = true) {
     this._series.forEach(async s => {
-      (await reInit) ? s.setCurrentTheme(theme.series[s.type], true) : s.setTheme(theme.series[s.type]);
+      reInit ? await s.setCurrentTheme(theme.series[s.type], true) : s.setTheme(theme.series[s.type]);
     });
   }
 
