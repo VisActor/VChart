@@ -43,3 +43,13 @@ export interface IFontStyleComponentConfig extends IBaseComponentConfig {
 export interface ITextAlignComponentConfig extends IBaseComponentConfig {
   default?: 'left' | 'center' | 'right';
 }
+
+export type ComponentConfig =
+  | IInputComponentConfig
+  | ISelectComponentConfig
+  | ISwitchComponentConfig
+  | ISliderNumberComponentConfig
+  | IColorComponentConfig
+  | IFontFamilyComponentConfig
+  | IFontStyleComponentConfig
+  | ITextAlignComponentConfig;

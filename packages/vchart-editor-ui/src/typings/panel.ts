@@ -1,4 +1,5 @@
 import type {
+  ComponentConfig,
   IBaseComponentConfig,
   IFontFamilyComponentConfig,
   IFontStyleComponentConfig,
@@ -8,12 +9,13 @@ import type {
   ITextAlignComponentConfig
 } from './config';
 
-export interface IPanelComponentSection {
+export interface IPanelComponentSection<T extends IBaseComponentConfig> {
   label?: string;
-  entries?: IBaseComponentConfig[];
+  entries?: T[];
 }
 
 export interface IPanelComponentProps {
+  label?: string;
   sections?: any;
   onChange?: (section: string, key: string, value: any) => void;
 }
@@ -21,26 +23,19 @@ export interface IPanelComponentProps {
 // Title Component
 
 export interface ITitleComponentEntries {
-  title?: {
-    label?: string;
-    entries?: (ISliderNumberComponentConfig | IFontFamilyComponentConfig | IFontStyleComponentConfig)[];
-  };
-  subTitle?: {
-    label?: string;
-    entries?: (
-      | ISwitchComponentConfig
-      | ISliderNumberComponentConfig
-      | IFontFamilyComponentConfig
-      | IFontStyleComponentConfig
-    )[];
-  };
-  align?: {
-    label?: string;
-    entries?: (ISelectComponentConfig | ITextAlignComponentConfig)[];
-  };
+  title?: IPanelComponentSection<ISliderNumberComponentConfig | IFontFamilyComponentConfig | IFontStyleComponentConfig>;
+  subTitle?: IPanelComponentSection<
+    ISwitchComponentConfig | ISliderNumberComponentConfig | IFontFamilyComponentConfig | IFontStyleComponentConfig
+  >;
+  align?: IPanelComponentSection<ISelectComponentConfig | ITextAlignComponentConfig>;
 }
 
 export interface ITitleComponentProps extends IPanelComponentProps {
-  label?: string;
   sections?: ITitleComponentEntries;
+}
+
+// Custom Component
+
+export interface ICustomComponentProps extends IPanelComponentProps {
+  sections?: Record<string, IPanelComponentSection<ComponentConfig>>;
 }
