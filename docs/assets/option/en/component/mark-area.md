@@ -75,6 +75,7 @@ The label style of the annotation line.
 The label position of the annotation area (relative position of the label to the area).
 
 Optional values:
+
 - `'left'`: outside the area on the left
 - `'right'`: outside the area on the right
 - `'top'`: outside the area on the top
@@ -86,5 +87,6 @@ Optional values:
 - `'insideBottom'`: inside the area on the bottom
 
 {{ use: component-marker-label(
-  prefix = '###'
+  prefix = '###',
+  noMarkerRef = true
 ) }}

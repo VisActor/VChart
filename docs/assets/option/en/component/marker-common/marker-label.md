@@ -8,9 +8,11 @@ Label visibility.
 
 Label as a whole - whether to auto-rotate.
 
+{{ if: !${noMarkerRef} }}
 {{ use: component-marker-ref(
   prefix = ${prefix}
 ) }}
+{{ /if }}
 
 #${prefix} minWidth(number) = 30
 
@@ -83,3 +85,11 @@ Style of the preceding graphic element.
 #${prefix} space(number)
 
 Label text - spacing between the text and the preceding graphic element.
+
+#${prefix}dx(number)
+
+The horizontal offset of the text.
+
+#${prefix}dy(number)
+
+The vertical offset of the text.
