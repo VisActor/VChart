@@ -1,4 +1,4 @@
-import type { IGroup, IStage } from '@visactor/vrender';
+import type { IGraphic, IGroup, IStage } from '@visactor/vrender';
 import type { IElement, IElementData } from './../elements/interface';
 import type { IRect } from '../typings/space';
 export interface ILayerData {
@@ -43,8 +43,31 @@ export interface IEditorElement {
     move: boolean;
     rotate: boolean;
     resize: boolean | ([boolean, ...boolean[]] & { length: 8 });
+    // bar
+    // legend=>
+    // board: {
+    //   //...
+    //   spec: ILegendSpec;
+    // }
   };
   updateAttribute: (attr: { [key: string]: unknown }) => false | { [key: string]: unknown };
+  editorFinish: () => void;
 }
 
 export type EditorHandlerFunc = (el: IEditorElement) => void;
+
+export interface IEditorController {
+  container: HTMLElement;
+  setEditorElements: (el: IEditorElement, event: PointerEvent) => void;
+  editorEnd: () => void;
+
+  addStartHandler: (handler: EditorHandlerFunc) => void;
+  removeStartHandler: (handler: EditorHandlerFunc) => void;
+  addEndHandler: (handler: EditorHandlerFunc) => void;
+  removeEndHandler: (handler: EditorHandlerFunc) => void;
+
+  // over border
+  setOverGraphic: (graphic: IGraphic, id: string | number, event: PointerEvent) => void;
+
+  release: () => void;
+}

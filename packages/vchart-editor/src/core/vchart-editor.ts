@@ -8,7 +8,7 @@ import { ElementsMap } from './../elements/index';
 import type { IElementOption } from './../elements/interface';
 import { isString } from '@visactor/vutils';
 import type { IDataParserConstructor } from '../elements/chart/data/interface';
-import type { IChartTempConstructor } from '../elements/chart/temp/interface';
+import type { IChartTempConstructor } from '../elements/chart/template/interface';
 import { EditorFactory } from './factory';
 
 export class VChartEditor {
@@ -85,6 +85,7 @@ export class VChartEditor {
     }
     this.addLayer(layer);
     option.layer = layer;
+    option.controller = this._editorController;
     const el = new ElementsMap[type](option);
     if (!el) {
       return;
@@ -128,7 +129,8 @@ export class VChartEditor {
             rect: e.rect,
             id: e.id,
             type: e.type,
-            attribute: e.attribute
+            attribute: e.attribute,
+            controller: this._editorController
           });
           if (!el) {
             return;

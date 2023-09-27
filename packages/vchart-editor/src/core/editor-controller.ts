@@ -1,16 +1,11 @@
 /* eslint-disable no-console */
-import { LayoutEditorComponent } from './../component/layout-component';
-import type { IRect } from './../typings/space';
-import { createRect } from '@visactor/vrender';
-import type { IRect as IRenderRect } from '@visactor/vrender';
-import type { IEditorElement, EditorHandlerFunc, IEditorLayer } from './interface';
-import { isPointInRect } from '../utils/space';
-import { MinSize } from './const';
-export class EditorController {
+import type { IGraphic } from '@visactor/vrender';
+import type { IEditorElement, EditorHandlerFunc, IEditorLayer, IEditorController } from './interface';
+
+export class EditorController implements IEditorController {
   protected _currentEditorElements: IEditorElement = null;
-  protected _currentEditorBox: LayoutEditorComponent = null;
-  protected _currentOverEl: IEditorElement = null;
-  protected _currentOverBorder: IRenderRect = null;
+  protected _currentOverGraphic: IGraphic = null;
+  protected _currentOverGraphicId: string | number = null;
 
   protected _startHandler: EditorHandlerFunc[] = [];
   protected _endHandler: EditorHandlerFunc[] = [];
@@ -28,57 +23,27 @@ export class EditorController {
     this._opt = opt;
   }
 
-  setEditorElements(el: IEditorElement, event: PointerEvent) {
+  //
+  setEditorElements(el: IEditorElement, _event: PointerEvent) {
+    console.log('setEditorElements', el.id, el.layer.id);
     if (this._currentEditorElements?.id === el?.id && this._currentEditorElements?.layer === el?.layer) {
       return;
     }
-    if (this._currentEditorBox?.isEditor) {
-      return;
-    }
-    if (this._currentEditorBox) {
-      this._currentEditorBox.release();
-      this._currentEditorBox = null;
-      this._currentEditorElements = null;
+    if (this._currentEditorElements) {
+      this.removeEditorElements();
     }
 
     if (el) {
+      console.log('add new editor box', el.id, el.layer.id);
       this._currentEditorElements = el;
-      // layout editor
-      this._currentEditorBox = new LayoutEditorComponent(el, {
-        container: this.container,
-        startHandler: () => {
-          // do thing
-          console.log('editor start');
-          this._startHandler.forEach(h => h(this._currentOverEl));
-        },
-        updateHandler: data => {
-          // TODO: 吸附
-          console.log('editor update');
-          let hasChange = false;
-          if (data.width < MinSize) {
-            data.width = MinSize;
-            hasChange = true;
-          }
-          if (data.height < MinSize) {
-            data.height = MinSize;
-            hasChange = true;
-          }
-          if (this._currentOverBorder) {
-            this._currentOverBorder.setAttributes(data);
-          }
-          if (hasChange) {
-            return data;
-          }
-          return false;
-        },
-        endHandler: data => {
-          this._currentEditorElements.updateAttribute({ layout: data });
-          this._endHandler.forEach(h => h(this._currentEditorElements));
-          console.log('editor end');
-        },
-        event: event
-      });
-      this._startHandler.forEach(h => h(this._currentOverEl));
+      this._startHandler.forEach(h => h(this._currentEditorElements));
+    }
+  }
+
+  removeEditorElements() {
+    if (this._currentEditorElements) {
+      this._currentEditorElements.editorFinish();
+      this._currentEditorElements = null;
     }
   }
 
@@ -101,62 +66,55 @@ export class EditorController {
     }
   }
 
+  editorEnd() {
+    this._endHandler.forEach(h => h(this._currentEditorElements));
+  }
+
   // over border
-  setOverElement(el: IEditorElement | null, event: PointerEvent) {
-    if (this._currentOverEl?.id === el?.id) {
+  setOverGraphic(graphic: IGraphic, id: string | number, event: PointerEvent) {
+    if (this._currentOverGraphicId === id) {
       return;
     }
-    if (el) {
-      this._addOverBorder(el.rect);
-      this._currentOverEl = el;
+    if (graphic) {
+      this._addOverGraphic(graphic);
+      this._currentOverGraphicId = id;
       return;
-    } else if (this._currentOverBorder) {
+    } else if (this._currentOverGraphic) {
       const rect = (<HTMLElement>event.target).getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
-      if (isPointInRect({ x, y }, this._currentOverEl.rect)) {
+      if (this._currentOverGraphic.containsPoint(x, y)) {
         return;
       }
     }
-    this._removeOverBorder();
+    this._removeOverGraphic();
   }
 
-  _addOverBorder(rect: IRect) {
-    if (this._currentOverBorder) {
-      this._removeOverBorder();
+  _addOverGraphic(g: IGraphic) {
+    if (this._currentOverGraphic) {
+      this._removeOverGraphic();
     }
     const layer = this._currentEditorElements?.layer ?? this._opt.getTopLayer();
     if (!layer) {
       return;
     }
-    this._currentOverBorder = createRect({
-      ...rect,
-      fill: false,
-      stroke: 'blue',
-      lineWidth: 2,
-      // shadowBlur: 4,
-      // shadowColor: 'blue',
-      pickable: false
-    });
-    layer.editorGroup.add(this._currentOverBorder);
-    console.log('add over border');
+    this._currentOverGraphic = g;
+    layer.editorGroup.add(this._currentOverGraphic);
   }
 
-  _removeOverBorder() {
-    if (!this._currentOverBorder) {
+  _removeOverGraphic() {
+    if (!this._currentOverGraphic) {
       return;
     }
-    this._currentOverBorder.setAttributes({
+    this._currentOverGraphic.setAttributes({
       stroke: 'red'
     });
-    this._currentOverBorder.parent.removeChild(this._currentOverBorder);
-    this._currentOverBorder = null;
-    this._currentOverEl = null;
-    console.log('remove over border');
+    this._currentOverGraphic.parent.removeChild(this._currentOverGraphic);
+    this._currentOverGraphic = null;
+    this._currentOverGraphicId = null;
   }
 
   release() {
-    this._currentEditorBox?.release();
     this._startHandler = null;
     this._endHandler = null;
   }

@@ -10,6 +10,9 @@ export class LayoutEditorComponent {
 
   protected _el: IEditorElement;
   protected _editorBox: TranformComponent2;
+  get editorBox() {
+    return this._editorBox;
+  }
 
   protected _dragger: DragComponent;
 
@@ -38,11 +41,11 @@ export class LayoutEditorComponent {
   }
 
   addEditorBox() {
-    const group = this._el.layer.editorGroup;
-    if (!group) {
-      this.release();
-      return;
-    }
+    // const group = this._el.layer.editorGroup;
+    // if (!group) {
+    //   this.release();
+    //   return;
+    // }
     const bounds: IBoundsLike = {
       x1: this._el.rect.x,
       y1: this._el.rect.y,
@@ -63,7 +66,7 @@ export class LayoutEditorComponent {
       return this._updateHandler(data);
     });
     this._editorBox.onEditorEnd(this._editorEnd);
-    group.add(this._editorBox as any);
+    // group.add(this._editorBox as any);
   }
 
   addDrag(container: HTMLElement, event: PointerEvent) {
@@ -86,6 +89,7 @@ export class LayoutEditorComponent {
 
   release() {
     this._editorBox.release();
+    this._dragger.release();
     this._dragger.release();
     this._endHandler = this._startHandler = this._updateHandler = this._el = this._editorBox = this._dragger = null;
   }

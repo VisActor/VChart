@@ -1,5 +1,3 @@
-import type { IPoint } from '../typings/space';
-
 export class DragComponent {
   protected _state: 'startDrag' | 'dragging' | 'stopDrag' | 'none' = 'none';
   get state() {
@@ -55,5 +53,7 @@ export class DragComponent {
   release() {
     window.removeEventListener('pointermove', this.pointerMove);
     window.removeEventListener('pointerup', this.stopDrag);
+    this._dragHandler = null;
+    this._dragEndHandler = null;
   }
 }
