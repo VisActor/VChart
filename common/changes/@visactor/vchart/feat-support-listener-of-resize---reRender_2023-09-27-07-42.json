@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: compatible with the case where chart does not exist in compile\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}
