@@ -397,7 +397,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     if (this._funnelOuterLabelMark?.line) {
       this._funnelOuterLabelMark.line.setAnimationConfig(
         animationConfig(
-          Factory.getAnimationInKey('scaleInOut')?.(),
+          Factory.getAnimationInKey('fadeInOut')?.(),
           userAnimationConfig(SeriesMarkNameEnum.outerLabelLine, this._spec)
         )
       );
