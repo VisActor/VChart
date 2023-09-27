@@ -4101,8 +4101,8 @@ packages:
       '@types/react': 18.2.23
     dev: true
 
-  /@types/react-is/17.0.4:
-    resolution: {integrity: sha512-FLzd0K9pnaEvKz4D1vYxK9JmgQPiGk1lu23o1kqGsLeT0iPbRSF7b76+S5T9fD8aRa0B8bY7I/3DebEj+1ysBA==}
+  /@types/react-is/17.0.5:
+    resolution: {integrity: sha512-mTTgVYfA8fLtyyuppoO7hQJWLV5TNivNKle5vBryoOwlA5158/4UgcZFOx59po/zC0K2ZBEv/IRATlxdVJRVQA==}
     dependencies:
       '@types/react': 17.0.66
     dev: true
@@ -4554,7 +4554,7 @@ packages:
     dev: false
 
   /@visactor/vrender-components/0.15.5-alpha.0:
-    resolution: {integrity: sha512-5xbG98Tj/7Yn/0i/KsGkNuMK4TXXLNmntlaCqjZihE3z7yJx/RXxbY92z9Z3UPenVi6tejIqoecAkrl7VNO2TA==}
+    resolution: {integrity: sha512-UTJQhudXVvBXoVq21g/e0zEHgQxAJFiM3AGtH35iRVVuFlICdUvVQG1atXl8xYzBGhvM1yGDV7QXjZjRVotCfA==}
     dependencies:
       '@visactor/vrender': 0.15.5-alpha.0
       '@visactor/vscale': 0.16.1
@@ -4563,7 +4563,7 @@ packages:
     dev: false
 
   /@visactor/vrender/0.15.5-alpha.0:
-    resolution: {integrity: sha512-isJyYyNaameaOWKXJi9aorWIpAgee5+af1GXZ6qo5iVrDODQKokQ3F1ng2Y26x3W+f2FrirWvQ29eDOydVyyUA==}
+    resolution: {integrity: sha512-QzKEf3u/BCc45B5n9ZEZdTyEXMG1emLY/i33cWt7SsxjDLVKI6TYBjPXlWXfDj8MD86V//zVZjI6rJC6xeZzKw==}
     dependencies:
       '@visactor/vutils': 0.16.1
       color-convert: 2.0.1
