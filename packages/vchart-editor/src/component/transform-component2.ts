@@ -552,5 +552,6 @@ export class TranformComponent2 extends AbstractComponent<Required<TransformAttr
     this.updateCbs = null;
     this.editEndCbs = null;
     this.unTransStartCbs = null;
+    super.release();
   }
 }

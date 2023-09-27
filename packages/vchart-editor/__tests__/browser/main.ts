@@ -4,6 +4,7 @@
 // import './index.local';
 import { VChartEditor } from './../../src/index-all';
 import { BrowserData } from './browser-data';
+import { initCustomParser } from './index.local';
 const editor = new VChartEditor({
   dom: 'chart',
   data: new BrowserData(),
@@ -44,47 +45,23 @@ if (editor.layers.length === 0) {
       height: 300
     }
   });
-
-  // editor.addElements('chart', {
-  //   attribute: {
-  //     data: {
-  //       type: 'clipBoard',
-  //       value: clipBoardData
-  //     },
-  //     temp: 'line'
-  //   },
-  //   rect: {
-  //     x: 120,
-  //     y: 120,
-  //     width: 400,
-  //     height: 400
-  //   }
-  // });
+  editor.addElements('chart', {
+    attribute: {
+      data: {
+        type: 'clipBoard',
+        value: clipBoardData
+      },
+      temp: 'line'
+    },
+    rect: {
+      x: 120,
+      y: 120,
+      width: 400,
+      height: 400
+    }
+  });
 }
 
-// const b = document.getElementById('addButton') as HTMLButtonElement;
-// const url = document.getElementById('url') as HTMLInputElement;
-// const rid = document.getElementById('rid') as HTMLInputElement;
-// const hid = document.getElementById('hid') as HTMLInputElement;
-// b.addEventListener('click', () => {
-//   console.log(url.value, rid.value, hid.value);
-//   editor.addElements('chart', {
-//     attribute: {
-//       data: {
-//         type: 'aeolus',
-//         value: {
-//           url: url.value,
-//           rid: rid.value,
-//           hid: hid.value
-//         }
-//       },
-//       temp: 'aeolus'
-//     },
-//     rect: {
-//       x: 120,
-//       y: 120,
-//       width: 400,
-//       height: 400
-//     }
-//   });
+// initCustomParser(editor, () => {
+//   editor.loadLasted();
 // });

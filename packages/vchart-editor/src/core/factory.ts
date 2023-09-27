@@ -1,5 +1,5 @@
 import type { IDataParserConstructor } from '../elements/chart/data/interface';
-import type { IChartTempConstructor } from '../elements/chart/temp/interface';
+import type { IChartTempConstructor } from '../elements/chart/template/interface';
 
 export class EditorFactory {
   static DataParser: { [key: string]: IDataParserConstructor } = {};
