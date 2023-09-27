@@ -92,6 +92,9 @@ import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
 import { Layout } from '../layout';
 import { GroupMark } from '../mark';
+import { registerGrammarAnimation } from '../animation/config';
+import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
+
 export class VChart implements IVChart {
   readonly id = createID();
 
@@ -1577,6 +1580,10 @@ export const registerVChartCore = () => {
   Factory.registerLayout('base', Layout);
   // install essential marks
   Factory.registerMark(GroupMark.type, GroupMark);
+  // install essential vgrammar transform
+  View.useRegisters([registerFilterTransform, registerMapTransform]);
+  // install animation
+  registerGrammarAnimation();
   // set default logger level to Level.error
   Logger.getInstance(LoggerLevel.Error);
 };

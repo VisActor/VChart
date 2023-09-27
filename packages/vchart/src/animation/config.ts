@@ -6,6 +6,36 @@ import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
 import { ClipDirectionAnimate } from '@visactor/vrender';
 import { Factory } from '../core/factory';
+import {
+  View,
+  registerScaleInAnimation,
+  registerScaleOutAnimation,
+  registerFadeInAnimation,
+  registerFadeOutAnimation,
+  registerClipInAnimation,
+  registerClipOutAnimation,
+  registerGrowAngleInAnimation,
+  registerGrowAngleOutAnimation,
+  registerGrowCenterInAnimation,
+  registerGrowCenterOutAnimation,
+  registerGrowHeightInAnimation,
+  registerGrowHeightOutAnimation,
+  registerGrowPointsInAnimation,
+  registerGrowPointsOutAnimation,
+  registerGrowPointsXInAnimation,
+  registerGrowPointsXOutAnimation,
+  registerGrowPointsYInAnimation,
+  registerGrowPointsYOutAnimation,
+  registerGrowRadiusInAnimation,
+  registerGrowRadiusOutAnimation,
+  registerGrowWidthInAnimation,
+  registerGrowWidthOutAnimation,
+  registerMoveInAnimation,
+  registerMoveOutAnimation,
+  registerRotateInAnimation,
+  registerRotateOutAnimation,
+  registerUpdateAnimation
+} from '@visactor/vgrammar-core';
 
 export const DEFAULT_ANIMATION_CONFIG = {
   appear: {
@@ -86,11 +116,6 @@ export const registerCartesianGroupClipAnimation = () => {
   });
 };
 
-// TODO: 只保留 scaleInOut
-export const registerSymbolAnimation = () => {
-  Factory.registerAnimation('symbol', () => ScaleInOutAnimation);
-};
-
 export const registerLineAnimation = () => {
   Factory.registerAnimation('line', (params: ILineAnimationParams, preset: LineAppearPreset) => {
     return {
@@ -111,4 +136,36 @@ export const registerLineAnimation = () => {
       disappear: { type: 'clipOut' }
     } as MarkAnimationSpec;
   });
+};
+
+export const registerGrammarAnimation = () => {
+  View.useRegisters([
+    registerClipInAnimation,
+    registerClipOutAnimation,
+    registerScaleInAnimation,
+    registerScaleOutAnimation,
+    registerFadeInAnimation,
+    registerFadeOutAnimation,
+    registerGrowAngleInAnimation,
+    registerGrowAngleOutAnimation,
+    registerGrowCenterInAnimation,
+    registerGrowCenterOutAnimation,
+    registerGrowHeightInAnimation,
+    registerGrowHeightOutAnimation,
+    registerGrowPointsInAnimation,
+    registerGrowPointsOutAnimation,
+    registerGrowPointsXInAnimation,
+    registerGrowPointsXOutAnimation,
+    registerGrowPointsYInAnimation,
+    registerGrowPointsYOutAnimation,
+    registerGrowRadiusInAnimation,
+    registerGrowRadiusOutAnimation,
+    registerGrowWidthInAnimation,
+    registerGrowWidthOutAnimation,
+    registerMoveInAnimation,
+    registerMoveOutAnimation,
+    registerRotateInAnimation,
+    registerRotateOutAnimation,
+    registerUpdateAnimation
+  ]);
 };

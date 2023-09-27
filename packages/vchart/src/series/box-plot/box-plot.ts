@@ -20,7 +20,7 @@ import { BoxPlotSeriesTooltipHelper } from './tooltip-helper';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { registerScaleInOutAnimation, registerSymbolAnimation } from '../../animation/config';
+import { registerScaleInOutAnimation } from '../../animation/config';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { BoxPlotMark } from '../../mark/box-plot';
 import { SymbolMark } from '../../mark/symbol';
@@ -371,7 +371,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         update: (this._spec.animationUpdate as IMarkAnimateSpec<string>)?.symbol
       };
       this._outlierMark.setAnimationConfig(
-        animationConfig(Factory.getAnimationInKey('symbol')?.(), outlierMarkUserAnimation, {
+        animationConfig(Factory.getAnimationInKey('scaleInOut')?.(), outlierMarkUserAnimation, {
           dataIndex
         })
       );
@@ -407,5 +407,4 @@ export const registerBoxplotSeries = () => {
   Factory.registerMark(SymbolMark.type, SymbolMark);
   Factory.registerSeries(BoxPlotSeries.type, BoxPlotSeries);
   registerScaleInOutAnimation();
-  registerSymbolAnimation();
 };

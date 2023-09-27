@@ -1,37 +1,6 @@
 import type { IElement, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
-import {
-  View,
-  registerFilterTransform,
-  registerMapTransform,
-  registerClipInAnimation,
-  registerClipOutAnimation,
-  registerFadeInAnimation,
-  registerFadeOutAnimation,
-  registerGrowAngleInAnimation,
-  registerGrowAngleOutAnimation,
-  registerGrowCenterInAnimation,
-  registerGrowCenterOutAnimation,
-  registerGrowHeightInAnimation,
-  registerGrowHeightOutAnimation,
-  registerGrowPointsInAnimation,
-  registerGrowPointsOutAnimation,
-  registerGrowPointsXInAnimation,
-  registerGrowPointsXOutAnimation,
-  registerGrowPointsYInAnimation,
-  registerGrowPointsYOutAnimation,
-  registerGrowRadiusInAnimation,
-  registerGrowRadiusOutAnimation,
-  registerGrowWidthInAnimation,
-  registerGrowWidthOutAnimation,
-  registerMoveInAnimation,
-  registerMoveOutAnimation,
-  registerRotateInAnimation,
-  registerRotateOutAnimation,
-  registerScaleInAnimation,
-  registerScaleOutAnimation,
-  registerUpdateAnimation
-} from '@visactor/vgrammar-core';
+import { View } from '@visactor/vgrammar-core';
 import type {
   CompilerListenerParameters,
   CompilerModel,
@@ -59,38 +28,6 @@ type EventListener = {
   callback: (...args: any[]) => void;
 };
 
-// TODO: bundle for side effect bundling, do not remove this line.
-View.useRegisters([
-  registerFilterTransform,
-  registerMapTransform,
-  registerClipInAnimation,
-  registerClipOutAnimation,
-  registerFadeInAnimation,
-  registerFadeOutAnimation,
-  registerGrowAngleInAnimation,
-  registerGrowAngleOutAnimation,
-  registerGrowCenterInAnimation,
-  registerGrowCenterOutAnimation,
-  registerGrowHeightInAnimation,
-  registerGrowHeightOutAnimation,
-  registerGrowPointsInAnimation,
-  registerGrowPointsOutAnimation,
-  registerGrowPointsXInAnimation,
-  registerGrowPointsXOutAnimation,
-  registerGrowPointsYInAnimation,
-  registerGrowPointsYOutAnimation,
-  registerGrowRadiusInAnimation,
-  registerGrowRadiusOutAnimation,
-  registerGrowWidthInAnimation,
-  registerGrowWidthOutAnimation,
-  registerMoveInAnimation,
-  registerMoveOutAnimation,
-  registerRotateInAnimation,
-  registerRotateOutAnimation,
-  registerScaleInAnimation,
-  registerScaleOutAnimation,
-  registerUpdateAnimation
-]);
 export class Compiler {
   protected _view: IView;
   /**

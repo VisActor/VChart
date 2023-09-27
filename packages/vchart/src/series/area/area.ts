@@ -238,7 +238,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     if (this._symbolMark) {
       this._symbolMark.setAnimationConfig(
         animationConfig(
-          Factory.getAnimationInKey('symbol')?.(),
+          Factory.getAnimationInKey('scaleInOut')?.(),
           userAnimationConfig(SeriesMarkNameEnum.point, this._spec)
         )
       );
