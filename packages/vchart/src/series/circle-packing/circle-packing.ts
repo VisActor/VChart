@@ -26,9 +26,9 @@ import type { ITextMark } from '../../mark/text';
 import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerScaleInOutAnimation } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { CirclePackingAppearPreset } from './animation';
+import { registerCirclePackingAnimation, type CirclePackingAppearPreset } from './animation';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
 import { ArcMark } from '../../mark/arc';
@@ -280,7 +280,7 @@ export class CirclePackingSeries<
     this.getMarksInType(MarkTypeEnum.arc).forEach(mark => {
       mark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.circlePacking({}, appearPreset),
+          Factory.getAnimationInKey('circlePacking')?.(undefined, appearPreset),
           userAnimationConfig(mark.name, this._spec)
         )
       );
@@ -288,7 +288,7 @@ export class CirclePackingSeries<
 
     this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(Factory.getAnimationInKey('scaleInOut')?.(), userAnimationConfig(mark.name, this._spec))
       );
     });
   }
@@ -317,4 +317,6 @@ export const registerCirclePackingSeries = () => {
   Factory.registerMark(ArcMark.type, ArcMark);
   Factory.registerMark(TextMark.type, TextMark);
   Factory.registerSeries(CirclePackingSeries.type, CirclePackingSeries);
+  registerScaleInOutAnimation();
+  registerCirclePackingAnimation();
 };

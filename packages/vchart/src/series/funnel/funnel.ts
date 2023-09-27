@@ -33,7 +33,11 @@ import type { FunnelAppearPreset, IFunnelSeriesSpec, IFunnelSeriesTheme } from '
 import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
 import { isFunction, isValid, merge } from '@visactor/vutils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import {
+  FadeInOutAnimation,
+  registerCartesianGroupClipAnimation,
+  registerFadeInOutAnimation
+} from '../../animation/config';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
@@ -357,7 +361,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       if (this._rootMark) {
         this._rootMark.setAnimationConfig(
           animationConfig(
-            DEFAULT_MARK_ANIMATION.cartesianGroup(
+            Factory.getAnimationInKey('cartesianGroupClip')?.(
               {
                 direction: () => (this._isHorizontal() ? 'x' : 'y'),
                 width: () => this.getLayoutRect().width,
@@ -373,14 +377,19 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     }
     [this._funnelOuterLabelMark?.label].forEach(m => {
       if (m) {
-        m.setAnimationConfig(animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(m.name, this._spec)));
+        m.setAnimationConfig(
+          animationConfig(Factory.getAnimationInKey('fadeInOut')(), userAnimationConfig(m.name, this._spec))
+        );
       }
     });
 
     [this._funnelMark, this._funnelTransformMark].forEach(m => {
       if (m) {
         m.setAnimationConfig(
-          animationConfig(DEFAULT_MARK_ANIMATION.funnel({}, appearPreset), userAnimationConfig(m.name, this._spec))
+          animationConfig(
+            Factory.getAnimationInKey('funnel')({}, appearPreset),
+            userAnimationConfig(m.name, this._spec)
+          )
         );
       }
     });
@@ -388,7 +397,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     if (this._funnelOuterLabelMark?.line) {
       this._funnelOuterLabelMark.line.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.label(),
+          Factory.getAnimationInKey('scaleInOut')?.(),
           userAnimationConfig(SeriesMarkNameEnum.outerLabelLine, this._spec)
         )
       );
@@ -849,4 +858,10 @@ export const registerFunnelSeries = () => {
   Factory.registerMark(TextMark.type, TextMark);
   Factory.registerMark(RuleMark.type, RuleMark);
   Factory.registerSeries(FunnelSeries.type, FunnelSeries);
+  Factory.registerAnimation('funnel', (params: any, preset: FunnelAppearPreset) => ({
+    appear: preset === 'clipIn' ? undefined : { type: 'fadeIn' },
+    ...FadeInOutAnimation
+  }));
+  registerCartesianGroupClipAnimation();
+  registerFadeInOutAnimation();
 };

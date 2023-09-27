@@ -7,7 +7,7 @@ import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
 import type { Datum, Maybe } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerLineAnimation, registerSymbolAnimation } from '../../animation/config';
 import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
@@ -61,14 +61,17 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<LineAppearPreset>)?.preset;
     this._lineMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.line(animationParams, appearPreset),
+        Factory.getAnimationInKey('line')?.(animationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.line, this._spec)
       )
     );
 
     if (this._symbolMark) {
       this._symbolMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.symbol(), userAnimationConfig(SeriesMarkNameEnum.point, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('symbol')?.(),
+          userAnimationConfig(SeriesMarkNameEnum.point, this._spec)
+        )
       );
     }
   }
@@ -95,4 +98,6 @@ export const registerLineSeries = () => {
   Factory.registerMark(LineMark.type, LineMark);
   Factory.registerMark(SymbolMark.type, SymbolMark);
   Factory.registerSeries(LineSeries.type, LineSeries);
+  registerLineAnimation();
+  registerSymbolAnimation();
 };

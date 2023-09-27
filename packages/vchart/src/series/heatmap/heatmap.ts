@@ -3,19 +3,17 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum } from '../../typings';
 import { array, mergeSpec } from '../../util';
-import type { HeatmapAppearPreset } from './animation';
+import { registerHeatmapAnimation, type HeatmapAppearPreset } from './animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ICellMark } from '../../mark/cell';
 import { normalizePadding } from '@visactor/vutils';
 import { HeatmapSeriesTooltipHelper } from './tooltip-helper';
-import { VChart } from '../../core/vchart';
 import { CellMark } from '../../mark/cell';
 import { TextMark } from '../../mark/text';
 import { heatmapSeriesMark } from './constant';
@@ -158,7 +156,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
 
     this._cellMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.heatmap(appearPreset),
+        Factory.getAnimationInKey('heatmap')?.(appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.cell, this._spec),
         {
           dataIndex
@@ -192,4 +190,5 @@ export const registerHeatmapSeries = () => {
   Factory.registerMark(CellMark.type, CellMark);
   Factory.registerMark(TextMark.type, TextMark);
   Factory.registerSeries(HeatmapSeries.type, HeatmapSeries);
+  registerHeatmapAnimation();
 };

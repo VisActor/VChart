@@ -1,7 +1,10 @@
-import type { Datum, IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
+import type { Datum, IAnimationTypeConfig, IElement, MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { IPoint, Maybe } from '../../typings';
 import { ClipAngleAnimate } from '@visactor/vrender';
 import type { IPolarAxisHelper } from '../../component/axis';
+import { Factory } from '../../core/factory';
+import { PolarPointUpdate, PolarTagPointsUpdate } from '../polar/animation';
+import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 
 export interface IRadarAnimationParams {
   center: () => Maybe<IPoint>;
@@ -92,4 +95,55 @@ export const radarGroupClipAnimation = (
       };
     }
   };
+};
+
+export const registerRadarAnimation = () => {
+  Factory.registerAnimation('radar', (params: IRadarAnimationParams, preset: RadarAppearPreset) => {
+    return {
+      appear: preset === 'clipIn' ? undefined : radarPresetAnimation(params, preset, 'in'),
+      enter: radarPresetAnimation(params, preset, 'in'),
+      exit: radarPresetAnimation(params, preset, 'out'),
+      disappear: preset === 'clipIn' ? undefined : radarPresetAnimation(params, preset, 'out'),
+      update: [
+        {
+          options: { excludeChannels: 'points' }
+        },
+        {
+          channel: ['points'],
+          custom: PolarTagPointsUpdate,
+          customParameters: params,
+          duration: DEFAULT_ANIMATION_CONFIG.update.duration,
+          easing: DEFAULT_ANIMATION_CONFIG.update.easing
+        }
+      ]
+    } as MarkAnimationSpec;
+  });
+  Factory.registerAnimation(
+    'radarSymbol',
+    (params: IRadarAnimationParams, preset: RadarAppearPreset) =>
+      ({
+        appear: preset === 'clipIn' ? undefined : radarSymbolPresetAnimation(params, preset, 'in'),
+        enter: { type: 'scaleIn' },
+        exit: { type: 'scaleOut' },
+        disappear: preset === 'clipIn' ? undefined : radarSymbolPresetAnimation(params, preset, 'out'),
+        update: [
+          {
+            options: { excludeChannels: ['x', 'y'] }
+          },
+          {
+            channel: ['x', 'y'],
+            custom: PolarPointUpdate,
+            customParameters: params,
+            duration: DEFAULT_ANIMATION_CONFIG.update.duration,
+            easing: DEFAULT_ANIMATION_CONFIG.update.easing
+          }
+        ]
+      } as MarkAnimationSpec)
+  );
+  Factory.registerAnimation('radarGroup', (params: IRadarAnimationParams, preset: RadarAppearPreset) => {
+    return {
+      appear: radarGroupClipAnimation(params, 'in'),
+      disappear: radarGroupClipAnimation(params, 'out')
+    };
+  });
 };

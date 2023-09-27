@@ -26,7 +26,6 @@ import {
 import type { ISeries } from '../../series/interface';
 import { ChartEvent, LayoutZIndex } from '../../constant';
 import { animationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { degreeToRadian, pickWithout, type LooseFunction } from '@visactor/vutils';
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
@@ -38,6 +37,8 @@ import {
 } from '@visactor/vgrammar-core';
 import { ComponentMark, type IComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
+import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
+import { GroupFadeOut } from '@visactor/vrender';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -166,7 +167,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         get(this._option.getChart().getSpec(), 'animation') !== false &&
         this._spec.animation === true
       ) {
-        const axisAnimateConfig = animationConfig(DEFAULT_MARK_ANIMATION.axis(), {
+        const axisAnimateConfig = animationConfig(Factory.getAnimationInKey('axis')?.(), {
           appear:
             this._spec.animationAppear ??
             get(this._option.getChart().getSpec(), 'animationAppear.axis') ??
@@ -479,4 +480,15 @@ export const registerAxis = () => {
   registerVGrammarAxis();
   registerVGrammarGrid();
   Factory.registerMark(ComponentMark.type, ComponentMark);
+  Factory.registerAnimation('axis', () => ({
+    appear: {
+      custom: GroupFadeIn
+    },
+    update: {
+      custom: GroupTransition
+    },
+    exit: {
+      custom: GroupFadeOut
+    }
+  }));
 };

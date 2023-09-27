@@ -20,9 +20,8 @@ import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerFadeInOutAnimation } from '../../animation/config';
 import { PathMark } from '../../mark/path';
-import { TextMark } from '../../mark/text';
 import { mapSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
@@ -183,7 +182,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
   initAnimation() {
     this._pathMark.setAnimationConfig(
-      animationConfig(DEFAULT_MARK_ANIMATION.path(), userAnimationConfig(SeriesMarkNameEnum.area, this._spec))
+      animationConfig(
+        Factory.getAnimationInKey('fadeInOut')?.(),
+        userAnimationConfig(SeriesMarkNameEnum.area, this._spec)
+      )
     );
   }
 
@@ -321,4 +323,5 @@ export const registerMapSeries = () => {
   registerGeoCoordinate();
   Factory.registerMark(PathMark.type, PathMark);
   Factory.registerSeries(MapSeries.type, MapSeries);
+  registerFadeInOutAnimation();
 };

@@ -10,6 +10,7 @@ import type { Transform, Parser } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { fields, filter, simplify, fold, csvParser, dsvParser, tsvParser } from '@visactor/vdataset';
 import type { ILayoutConstructor } from '../layout/interface';
+import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
 
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};
@@ -17,6 +18,8 @@ export class Factory {
   private static _components: { [key: string]: IComponentConstructor } = {};
   private static _marks: { [key: string]: MarkConstructor } = {};
   private static _regions: { [key: string]: IRegionConstructor } = {};
+  private static _animations: { [key: string]: (params?: any, preset?: any) => MarkAnimationSpec } = {};
+
   static transforms: { [key: string]: Transform } = {
     // buildIn transforms
     simplify: simplify,
@@ -52,6 +55,9 @@ export class Factory {
   }
   static registerLayout(key: string, layout: ILayoutConstructor) {
     Factory._layout[key] = layout;
+  }
+  static registerAnimation(key: string, animation: (params?: any, preset?: any) => MarkAnimationSpec) {
+    Factory._animations[key] = animation;
   }
 
   static createChart(chartType: string, spec: any, options: IChartOption): IChart | null {
@@ -113,5 +119,9 @@ export class Factory {
 
   static getSeriesInType(type: string) {
     return Factory._series[type];
+  }
+
+  static getAnimationInKey(key: string) {
+    return Factory._animations[key];
   }
 }

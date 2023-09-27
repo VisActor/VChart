@@ -1,4 +1,6 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
+import { Factory } from '../../core/factory';
+import { ScaleInOutAnimation } from '../../animation/config';
 
 export type ScatterMarks = 'point' | 'label';
 
@@ -29,4 +31,11 @@ export const scatterPresetAnimation = (
       };
     }
   }
+};
+
+export const registerScatterAnimation = () => {
+  Factory.registerAnimation('scatter', (params: IScatterAnimationParams, preset: ScatterAppearPreset) => ({
+    appear: scatterPresetAnimation(params, preset),
+    ...ScaleInOutAnimation
+  }));
 };

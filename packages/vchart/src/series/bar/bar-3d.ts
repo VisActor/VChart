@@ -8,6 +8,7 @@ import type { IBar3dSeriesSpec } from './interface';
 import type { AdaptiveSpec } from '../../typings';
 import { bar3dSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { registerBar3dAnimation } from './animation';
 
 export class Bar3dSeries<T extends IBar3dSeriesSpec = IBar3dSeriesSpec> extends BarSeries<AdaptiveSpec<T, 'type'>> {
   static readonly type: string = SeriesTypeEnum.bar3d;
@@ -22,4 +23,5 @@ export class Bar3dSeries<T extends IBar3dSeriesSpec = IBar3dSeriesSpec> extends 
 export const registerBar3dSeries = () => {
   Factory.registerMark(Rect3dMark.type, Rect3dMark);
   Factory.registerSeries(Bar3dSeries.type, Bar3dSeries);
+  registerBar3dAnimation();
 };

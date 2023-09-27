@@ -22,6 +22,7 @@ import { BasePieSeries } from './pie';
 import { pie3dSeriesMark } from './constant';
 import { radianToDegree } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
+import { registerPie3dAnimation } from './animation/animation';
 
 export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
   static readonly type: string = SeriesTypeEnum.pie3d;
@@ -141,4 +142,5 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
 export const registerPie3dSeries = () => {
   Factory.registerMark(Arc3dMark.type, Arc3dMark);
   Factory.registerSeries(Pie3dSeries.type, Pie3dSeries);
+  registerPie3dAnimation();
 };

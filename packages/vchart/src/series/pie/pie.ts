@@ -37,10 +37,9 @@ import type { IPieOpt } from '../../data/transforms/pie';
 // eslint-disable-next-line no-duplicate-imports
 import { pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import type { IPieAnimationParams, PieAppearPreset } from './animation/animation';
+import { registerPieAnimation, type IPieAnimationParams, type PieAppearPreset } from './animation/animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
@@ -447,7 +446,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
     if (this._pieMark) {
       const pieAnimationConfig = animationConfig(
-        DEFAULT_MARK_ANIMATION.pie(animationParams, appearPreset),
+        Factory.getAnimationInKey('pie')?.(animationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.pie, this._spec)
       );
 
@@ -503,4 +502,5 @@ export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePi
 export const registerPieSeries = () => {
   Factory.registerMark(ArcMark.type, ArcMark);
   Factory.registerSeries(PieSeries.type, PieSeries);
+  registerPieAnimation();
 };

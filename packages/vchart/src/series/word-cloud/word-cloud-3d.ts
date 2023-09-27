@@ -3,7 +3,6 @@ import { TextMark, type ITextMark } from '../../mark/text';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IWordCloud3dSeriesSpec } from './interface';
 import type { Datum } from '../../typings';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { LinearScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar-util';
@@ -16,6 +15,7 @@ import {
 import type { ICompilableMark } from '../../compile/mark';
 import { BaseWordCloudSeries } from './base';
 import { Factory } from '../../core/factory';
+import { registerWordCloud3dAnimation } from './animation';
 
 export class WordCloud3dSeries<
   T extends IWordCloud3dSeriesSpec = IWordCloud3dSeriesSpec
@@ -230,16 +230,16 @@ export class WordCloud3dSeries<
     if (this._wordMark) {
       this._wordMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.wordCloud3d(() => {
+          Factory.getAnimationInKey('wordCloud3d')?.(() => {
             const srView = this.getCompiler().getVGrammarView();
             const width = srView.width() - this._padding?.left || 0 - this._padding?.right || 0;
             const height = srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0;
             const r = Math.max(width, height) / 2;
             return {
-              center: { x: r, y: r, z: (this._spec as any).depth_3d ?? r },
+              center: { x: r, y: r, z: this._spec.depth_3d ?? r },
               r
             };
-          }) as any,
+          }),
           userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
         )
       );
@@ -247,16 +247,16 @@ export class WordCloud3dSeries<
     if (this._fillingWordMark) {
       this._fillingWordMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.wordCloud3d(() => {
+          Factory.getAnimationInKey('wordCloud3d')?.(() => {
             const srView = this.getCompiler().getVGrammarView();
             const width = srView.width() - this._padding?.left || 0 - this._padding?.right || 0;
             const height = srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0;
             const r = Math.max(width, height) / 2;
             return {
-              center: { x: r, y: r, z: (this._spec as any).depth_3d ?? r },
+              center: { x: r, y: r, z: this._spec.depth_3d ?? r },
               r
             };
-          }) as any,
+          }),
           userAnimationConfig(SeriesMarkNameEnum.fillingWord, this._spec)
         )
       );
@@ -267,4 +267,5 @@ export class WordCloud3dSeries<
 export const registerWordCloud3dSeries = () => {
   Factory.registerMark(TextMark.type, TextMark);
   Factory.registerSeries(WordCloud3dSeries.type, WordCloud3dSeries);
+  registerWordCloud3dAnimation();
 };

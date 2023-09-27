@@ -11,8 +11,7 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { degreeToRadian, mixin } from '@visactor/vutils';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import type { IRadarAnimationParams, RadarAppearPreset } from './animation';
+import { registerRadarAnimation, type IRadarAnimationParams, type RadarAppearPreset } from './animation';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAreaMark } from '../../mark/area';
@@ -152,14 +151,15 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
       if (this._rootMark) {
         this._rootMark.setAnimationConfig(
           animationConfig(
-            DEFAULT_MARK_ANIMATION.radarGroup(animationParams, appearPreset),
+            Factory.getAnimationInKey('radarGroup')?.(animationParams, appearPreset),
             userAnimationConfig(SeriesMarkNameEnum.group, this._spec)
           )
         );
       }
     }
 
-    const markAnimationMap: [IMark, keyof typeof DEFAULT_MARK_ANIMATION][] = [
+    // TODO: animationType
+    const markAnimationMap: [IMark, string][] = [
       [this._areaMark, 'radar'],
       [this._lineMark, 'radar'],
       [this._symbolMark, 'radarSymbol']
@@ -168,9 +168,9 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
     // 为 mark 添加动画
     markAnimationMap.forEach(([mark, animation]) => {
       if (isValid(mark)) {
-        const getAnimation = DEFAULT_MARK_ANIMATION[animation];
+        const getAnimation = Factory.getAnimationInKey(animation);
         mark.setAnimationConfig(
-          animationConfig(getAnimation(animationParams, appearPreset), userAnimationConfig(mark.name, this._spec))
+          animationConfig(getAnimation?.(animationParams, appearPreset), userAnimationConfig(mark.name, this._spec))
         );
       }
     });
@@ -189,4 +189,5 @@ export const registerRadarSeries = () => {
   Factory.registerMark(SymbolMark.type, SymbolMark);
 
   Factory.registerSeries(RadarSeries.type, RadarSeries);
+  registerRadarAnimation();
 };

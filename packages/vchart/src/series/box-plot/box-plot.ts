@@ -20,9 +20,8 @@ import { BoxPlotSeriesTooltipHelper } from './tooltip-helper';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerScaleInOutAnimation, registerSymbolAnimation } from '../../animation/config';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { VChart } from '../../core/vchart';
 import { BoxPlotMark } from '../../mark/box-plot';
 import { SymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
@@ -335,7 +334,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     this._autoBoxWidth = null;
   }
 
-  private _initAnimationSpec(config: any) {
+  private _initAnimationSpec(config: any = {}) {
     //将spec中的animation的type替换为箱型图的type
     const newConfig = Object.assign({}, config);
     ['appear', 'enter', 'update', 'exit', 'disappear'].forEach(state => {
@@ -358,7 +357,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       return xIndex || 0;
     };
     if (this._boxPlotMark) {
-      const newDefaultConfig = this._initAnimationSpec(DEFAULT_MARK_ANIMATION.boxPlot());
+      const newDefaultConfig = this._initAnimationSpec(Factory.getAnimationInKey('scaleInOut')?.());
       const newConfig = this._initAnimationSpec(userAnimationConfig(SeriesMarkNameEnum.boxPlot, this._spec));
       this._boxPlotMark.setAnimationConfig(animationConfig(newDefaultConfig, newConfig, { dataIndex }));
     }
@@ -372,7 +371,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         update: (this._spec.animationUpdate as IMarkAnimateSpec<string>)?.symbol
       };
       this._outlierMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.symbol(), outlierMarkUserAnimation, {
+        animationConfig(Factory.getAnimationInKey('symbol')?.(), outlierMarkUserAnimation, {
           dataIndex
         })
       );
@@ -407,4 +406,6 @@ export const registerBoxplotSeries = () => {
   Factory.registerMark(BoxPlotMark.type, BoxPlotMark);
   Factory.registerMark(SymbolMark.type, SymbolMark);
   Factory.registerSeries(BoxPlotSeries.type, BoxPlotSeries);
+  registerScaleInOutAnimation();
+  registerSymbolAnimation();
 };

@@ -26,7 +26,6 @@ import type {
   WordCloudShapeType
 } from './interface';
 import type { Datum, IPoint } from '../../typings';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { LinearScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar-util';
@@ -42,6 +41,7 @@ import { BaseSeries } from '../base/base-series';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { wordCloudSeriesMark } from './constant';
 import type { IStateAnimateSpec } from '../../animation/spec';
+import { Factory } from '../../core/factory';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -206,7 +206,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         };
         mark.setAnimationConfig(
           animationConfig(
-            DEFAULT_MARK_ANIMATION.wordCloud(params, appearPreset),
+            Factory.getAnimationInKey('wordCloud')(params, appearPreset),
             userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
           )
         );

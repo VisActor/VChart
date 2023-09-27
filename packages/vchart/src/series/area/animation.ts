@@ -1,3 +1,5 @@
+import { registerLineAnimation, registerScaleInOutAnimation } from '../../animation/config';
+import { Factory } from '../../core/factory';
 import { Direction } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import type { DirectionType } from '../../typings';
@@ -42,3 +44,16 @@ export function areaPresetAnimation(
       return Appear_ClipIn;
   }
 }
+
+export const registerAreaAnimation = () => {
+  Factory.registerAnimation('area', (params: IAreaAnimationParams, preset: AreaAppearPreset) => {
+    return {
+      appear: areaPresetAnimation(params, preset),
+      enter: { type: 'fadeIn' },
+      exit: { type: 'fadeOut' },
+      disappear: { type: 'clipOut' }
+    };
+  });
+  registerLineAnimation();
+  registerScaleInOutAnimation();
+};

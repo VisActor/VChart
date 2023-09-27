@@ -1575,8 +1575,8 @@ export const registerVChartCore = () => {
   Factory.registerRegion('region', Region);
   // install layout module
   Factory.registerLayout('base', Layout);
+  // install essential marks
   Factory.registerMark(GroupMark.type, GroupMark);
-
   // set default logger level to Level.error
   Logger.getInstance(LoggerLevel.Error);
 };

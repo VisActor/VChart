@@ -4,7 +4,7 @@ import { BarChart } from '../bar';
 import { ChartTypeEnum } from '../interface';
 import type { IWaterfallChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
-import { registerWaterfullSeries } from '../../series/waterfall/waterfall';
+import { registerWaterfallSeries } from '../../series/waterfall/waterfall';
 import { Factory } from '../../core/factory';
 
 export class WaterfallChart extends BarChart {
@@ -37,7 +37,7 @@ export class WaterfallChart extends BarChart {
   }
 }
 
-export const registerWaterfullChart = () => {
-  registerWaterfullSeries();
+export const registerWaterfallChart = () => {
+  registerWaterfallSeries();
   Factory.registerChart(WaterfallChart.type, WaterfallChart);
 };

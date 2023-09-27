@@ -20,7 +20,7 @@ import { registerRangeColumn3dChart, registerRangeColumnChart } from './chart/ra
 import { registerSunburstChart } from './chart/sunburst';
 import { registerCirclePackingChart } from './chart/circle-packing';
 import { registerTreemapChart } from './chart/treemap';
-import { registerWaterfullChart } from './chart/waterfall';
+import { registerWaterfallChart } from './chart/waterfall';
 import { registerBoxplotChart } from './chart/box-plot';
 import { registerSankeyChart } from './chart/sankey';
 import { registerRangeAreaChart } from './chart/range-area';
@@ -66,7 +66,7 @@ registerMapChart();
 registerGaugeChart();
 registerWordCloudChart();
 registerFunnelChart();
-registerWaterfullChart();
+registerWaterfallChart();
 registerBoxplotChart();
 registerCircularProgressChart();
 registerLinearProgressChart();
