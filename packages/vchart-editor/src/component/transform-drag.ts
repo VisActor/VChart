@@ -10,8 +10,8 @@ export class DragComponent {
 
   constructor(container: HTMLElement) {
     this._container = container;
-    window.addEventListener('pointermove', this.pointerMove);
-    window.addEventListener('pointerup', this.stopDrag);
+    window.addEventListener('pointermove', this.pointerMove, true);
+    window.addEventListener('pointerup', this.stopDrag, true);
   }
 
   protected _dragHandler: (moveX: number, moveY: number) => void;
@@ -51,8 +51,8 @@ export class DragComponent {
   };
 
   release() {
-    window.removeEventListener('pointermove', this.pointerMove);
-    window.removeEventListener('pointerup', this.stopDrag);
+    window.removeEventListener('pointermove', this.pointerMove, true);
+    window.removeEventListener('pointerup', this.stopDrag, true);
     this._dragHandler = null;
     this._dragEndHandler = null;
   }

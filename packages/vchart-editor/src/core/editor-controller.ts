@@ -25,7 +25,6 @@ export class EditorController implements IEditorController {
 
   //
   setEditorElements(el: IEditorElement, _event: PointerEvent) {
-    console.log('setEditorElements', el.id, el.layer.id);
     if (this._currentEditorElements?.id === el?.id && this._currentEditorElements?.layer === el?.layer) {
       return;
     }
@@ -34,7 +33,6 @@ export class EditorController implements IEditorController {
     }
 
     if (el) {
-      console.log('add new editor box', el.id, el.layer.id);
       this._currentEditorElements = el;
       this._startHandler.forEach(h => h(this._currentEditorElements));
     }
