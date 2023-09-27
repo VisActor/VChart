@@ -158,7 +158,7 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@types/react': 18.2.23
       '@types/react-dom': 18.2.8
-      '@types/react-is': 17.0.4
+      '@types/react-is': 17.0.5
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
       eslint: 8.18.0
       eslint-config-prettier: 8.5.0_eslint@8.18.0
@@ -4101,8 +4101,8 @@ packages:
       '@types/react': 18.2.23
     dev: true
 
-  /@types/react-is/17.0.4:
-    resolution: {integrity: sha512-FLzd0K9pnaEvKz4D1vYxK9JmgQPiGk1lu23o1kqGsLeT0iPbRSF7b76+S5T9fD8aRa0B8bY7I/3DebEj+1ysBA==}
+  /@types/react-is/17.0.5:
+    resolution: {integrity: sha512-mTTgVYfA8fLtyyuppoO7hQJWLV5TNivNKle5vBryoOwlA5158/4UgcZFOx59po/zC0K2ZBEv/IRATlxdVJRVQA==}
     dependencies:
       '@types/react': 17.0.66
     dev: true
@@ -15287,7 +15287,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.8
+      minimist: 1.2.5
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -17686,7 +17686,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.8
+      minimist: 1.2.5
       strip-json-comments: 2.0.1
     dev: true
 
