@@ -32146,6 +32146,10 @@
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
           "description": "null，undefined等非法数据点连接方式。"
         },
+        "label": {
+          "$ref": "#/definitions/ILabelSpec",
+          "description": "标签样式"
+        },
         "morph": {
           "$ref": "#/definitions/IMorphSeriesSpec",
           "description": "morph 动画配置"
@@ -32328,6 +32332,10 @@
         },
         "innerRadius": {
           "type": "number"
+        },
+        "label": {
+          "$ref": "#/definitions/ILabelSpec",
+          "description": "标签样式"
         },
         "outerRadius": {
           "type": "number"
@@ -67256,6 +67264,10 @@
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
           "description": "null，undefined等非法数据点连接方式。"
+        },
+        "label": {
+          "$ref": "#/definitions/ILabelSpec",
+          "description": "标签样式"
         },
         "morph": {
           "$ref": "#/definitions/IMorphSeriesSpec",

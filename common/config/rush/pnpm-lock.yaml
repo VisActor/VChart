@@ -287,7 +287,7 @@ importers:
       '@visactor/vrender-components': ~0.15.5-alpha.0
       '@visactor/vscale': ~0.16.1
       '@visactor/vutils': ~0.16.1
-      '@visactor/vutils-extension': workspace:0.0.2
+      '@visactor/vutils-extension': workspace:1.4.1-alpha.0
       canvas: 2.11.2
       d3-array: ^1.2.4
       d3-dsv: ^3.0.1

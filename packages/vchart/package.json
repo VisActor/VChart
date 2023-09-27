@@ -118,7 +118,7 @@
     "@visactor/vgrammar-util": "~0.7.6",
     "@visactor/vrender": "~0.15.5-alpha.0",
     "@visactor/vrender-components": "~0.15.5-alpha.0",
-    "@visactor/vutils-extension": "workspace:0.0.2"
+    "@visactor/vutils-extension": "workspace:1.4.1-alpha.0"
   },
   "publishConfig": {
     "access": "public",
