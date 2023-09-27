@@ -193,7 +193,7 @@ export class Compiler {
 
     // emit afterRender event
     this._view.renderer.stage().hooks.afterRender.tap('chart-event', () => {
-      this._compileChart.getEvent().emit(ChartEvent.afterRender, { chart: this._compileChart });
+      this._compileChart?.getEvent()?.emit(ChartEvent.afterRender, { chart: this._compileChart });
     });
 
     const interactive = this._option.interactive;
