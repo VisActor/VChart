@@ -4,7 +4,7 @@ group: gauge
 title: tick模式仪表图
 keywords: gauge,comparison,circle
 order: 15-5
-cover: /vchart/preview/gauge-progress-tick_1.4.0.png
+cover: /vchart/preview/gauge-progress-tick_1.4.2.png
 option: gaugeChart
 ---
 

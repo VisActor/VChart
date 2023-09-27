@@ -55,6 +55,14 @@ rose 图元样式配置。
 
 - `'outside'`
 - `'inside'`
+- `'inside-outer'`
+- `'inside-inner'`
+
+##${prefix} offsetRadius(number)
+
+自`1.4.2`版本开始支持，标签距离外半径或内半径的径向偏移值。
+
+如果 `posision` 设为 `'inside-outer'`，则相对于外半径，如果 `posision` 设为 `'inside-inner'`，则相对于内半径。
 
 ##${prefix} coverEnable(boolean)
 

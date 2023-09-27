@@ -55,6 +55,14 @@ Optional values:
 
 - `'outside'`
 - `'inside'`
+- `'inside-outer'`
+- `'inside-inner'`
+
+##${prefix} offsetRadius(number)
+
+Supported since version 1.4.2. The radial offset value of the label from the outer or inner radius.
+
+If `position` is set to `'inside-outer'`, it is relative to the outer radius; if `position` is set to `'inside-inner'`, it is relative to the inner radius.
 
 ##${prefix} coverEnable(boolean)
 
