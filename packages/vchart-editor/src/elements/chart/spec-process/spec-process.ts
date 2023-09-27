@@ -1,7 +1,7 @@
 import { EditorFactory } from './../../../core/factory';
 import type { IData, StandardData } from '../data/interface';
 import type { ILayoutData } from '../layout/interface';
-import type { IChartTemp } from '../temp/interface';
+import type { IChartTemp } from '../template/interface';
 import type { IEditorSpec, ISpecProcess } from './interface';
 // @ts-ignore
 import type { ISpec, ITheme } from '@visactor/vchart';
@@ -29,6 +29,7 @@ export class SpecProcess implements ISpecProcess {
   getEditorSpec() {
     return this._editorSpec;
   }
+
   updateEditorSpec(spec: IEditorSpec) {
     this._editorSpec = spec;
     if (!this._editorSpec) {

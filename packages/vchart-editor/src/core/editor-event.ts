@@ -37,11 +37,6 @@ export class EditorEvent {
       if (this._triggerLayer.isInActive) {
         hasActive = true;
         hasTrigger = true;
-        if (TriggerEvent[e.type]) {
-          this.setActiveElement(this._triggerLayer.activeElement, e as PointerEvent);
-        } else {
-          this.setOverElement(this._triggerLayer.activeElement, e as PointerEvent);
-        }
       }
     }
     if (!hasActive) {
@@ -56,8 +51,6 @@ export class EditorEvent {
           if (TriggerEvent[e.type]) {
             hasTrigger = true;
             this.changeTriggerLayer(layer, e as PointerEvent);
-          } else {
-            this.setOverElement(layer.activeElement, e as PointerEvent);
           }
           break;
         }
@@ -67,7 +60,7 @@ export class EditorEvent {
       this.changeTriggerLayer(null, e as PointerEvent);
     }
     if (!hasActive) {
-      this.setOverElement(null, e as PointerEvent);
+      this._editor.editorController.setOverGraphic(null, null, e as PointerEvent);
     }
   }
 
@@ -83,23 +76,10 @@ export class EditorEvent {
     if (this._triggerLayer) {
       this._triggerLayer.getCanvas().style.zIndex = '10000';
     }
-    this.setActiveElement(this._triggerLayer?.activeElement, event);
-    // TODO: remove log before release mvp
-    // eslint-disable-next-line no-console
-    console.log(this._triggerLayer);
-  }
 
-  setActiveElement(el: IEditorElement | IEditorElement[], event: PointerEvent) {
-    const e = this._parseActiveElement(el);
-    this._editor.editorController.setEditorElements(e, event);
-  }
-  setOverElement(el: IEditorElement | IEditorElement[], event: PointerEvent) {
-    if (isArray(el)) {
-      // @ts-ignore TODO: remove after debug
-      // console.log('over group');
-      return;
+    if (this._triggerLayer === null) {
+      this._editor.editorController.removeEditorElements();
     }
-    this._editor.editorController.setOverElement(el, event);
   }
 
   _parseActiveElement(el: IEditorElement | IEditorElement[]): IEditorElement {
@@ -129,6 +109,9 @@ export class EditorEvent {
         move: true,
         rotate: false,
         resize: false
+      },
+      editorFinish: () => {
+        // nothing
       },
       updateAttribute: attr => {
         const layoutData = attr.layout as ILayoutAttribute;

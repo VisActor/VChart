@@ -1,3 +1,4 @@
+import { LayoutEditorElement } from './editor-elements/layout-editor';
 import { ChartLayout } from './layout/chart-layout';
 import type { IBoundsLike } from '@visactor/vutils';
 import { VChart } from '@visactor/vchart';
@@ -23,6 +24,8 @@ export class EditorChart extends BaseElement {
   protected declare _opt: IChartElementOption;
   protected _container: HTMLElement;
 
+  protected _layoutEditor: LayoutEditorElement;
+
   protected _vchart: IVChart;
   get vchart() {
     return this._vchart;
@@ -34,6 +37,14 @@ export class EditorChart extends BaseElement {
     this._data = new Data();
     this._specProcess = new SpecProcess(this._data, this.onSpecReady);
     this._layout = new ChartLayout(this._specProcess);
+    this.initEditors();
+  }
+
+  /**
+   * init editors
+   */
+  initEditors() {
+    this._layoutEditor = new LayoutEditorElement(this._opt.controller, this, this._opt.layer);
   }
 
   initWithOption(): void {
@@ -63,6 +74,9 @@ export class EditorChart extends BaseElement {
       animation: false
     });
     this._layout.setVChart(this._vchart);
+
+    // editor init with vchart
+    this._layoutEditor.initWithVChart();
   }
 
   setTemp(key: string) {
