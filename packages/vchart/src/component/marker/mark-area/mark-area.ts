@@ -11,9 +11,9 @@ import { xLayout, yLayout, coordinateLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isValid } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
-import type { IOptionRegr } from '../../../data/transforms/regression';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
 import type { LayoutItem } from '../../../model/layout-item';

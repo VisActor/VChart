@@ -8,9 +8,11 @@
 
 标签整体 - 是否自动旋转。
 
+{{ if: !${noMarkerRef} }}
 {{ use: component-marker-ref(
   prefix = ${prefix}
 ) }}
+{{ /if }}
 
 #${prefix} minWidth(number) = 30
 
@@ -68,7 +70,6 @@
 
 标签文本 - 文本前图元。
 
-
 ##${prefix} visible(boolean)
 
 文本前图元可见性。
@@ -85,12 +86,10 @@
 
 标签文本 - 文本同文本前图元之间的间距。
 
+#${prefix} dx(number)
 
+文本水平方向的偏移。
 
+#${prefix} dy(number)
 
-
-
-
-
-
-
+文本垂直方向的偏移。
