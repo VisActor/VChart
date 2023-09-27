@@ -57,6 +57,7 @@ export interface ICompilableMark extends IGrammarItem {
 
   // 标签
   getLabelSpec: () => ILabelSpec[];
+  setLabelSpec: (label: ILabelSpec | ILabelSpec[]) => void;
   addLabelSpec: (label: ILabelSpec) => void;
 
   // 状态
