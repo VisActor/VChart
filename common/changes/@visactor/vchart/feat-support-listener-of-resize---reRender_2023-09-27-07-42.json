@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "feat: compatible with the case where chart does not exist in compile\n\n",
+      "comment": "feat: supports afterResize and afterRender events\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
