@@ -10074,6 +10074,7 @@ const run = () => {
     },
     categoryField: 'key',
     valueField: 'value',
+    nodeKey: datum => datum.key,
     link: {
       style: {
         pathType: 'smooth'
