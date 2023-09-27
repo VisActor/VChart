@@ -5,10 +5,11 @@ import type { IBaseSliderNumberComponentProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
 
 export function SliderNumber(props: IBaseSliderNumberComponentProps) {
-  const label = props.label ?? defaultBaseComponentConfig.fontFamily.label;
+  const label = props.label ?? defaultBaseComponentConfig.sliderNumber.label;
   const defaultValue = props.value ?? defaultBaseComponentConfig.sliderNumber.default;
   const min = props.config?.min ?? defaultBaseComponentConfig.sliderNumber.min;
   const max = props.config?.max ?? defaultBaseComponentConfig.sliderNumber.max;
+  const unit = props.config?.unit ?? defaultBaseComponentConfig.sliderNumber.unit;
   const [value, setValue] = useState<number>(defaultValue);
 
   return (
@@ -33,6 +34,16 @@ export function SliderNumber(props: IBaseSliderNumberComponentProps) {
           const finalValue = isArray(value) ? value[0] : value;
           setValue(finalValue);
           props.onChange?.(finalValue);
+        }}
+        formatter={value => `${value}${unit ?? ''}`}
+        parser={value => {
+          if (unit) {
+            const match = value.match(`${unit}$`);
+            if (match) {
+              return value.slice(0, match.index);
+            }
+          }
+          return value;
         }}
       />
     </div>

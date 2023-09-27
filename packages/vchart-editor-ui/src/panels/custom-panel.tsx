@@ -1,8 +1,8 @@
 import type {
   ComponentConfig,
-  IBaseComponentConfig,
   IColorComponentConfig,
   IFontFamilyComponentConfig,
+  IFontSizeComponentConfig,
   IFontStyleComponentConfig,
   IInputComponentConfig,
   ISelectComponentConfig,
@@ -10,7 +10,7 @@ import type {
   ISwitchComponentConfig,
   ITextAlignComponentConfig
 } from '../typings/config';
-import type { ICustomComponentProps, IPanelComponentSection } from '../typings/panel';
+import type { ICustomPanelProps, IPanelSection } from '../typings/panel';
 import { isNil } from '@visactor/vutils';
 import { Color } from '../base/color';
 import { FontFamily } from '../base/font-family';
@@ -21,8 +21,9 @@ import { SliderNumber } from '../base/slider-number';
 import { Switch } from '../base/switch';
 import { TextAlign } from '../base/text-align';
 import { PanelTitle } from '../base/panel-title';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { EditorHeader } from '../base/editor-header';
+import { FontSize } from '../base/font-size';
 
 export function generateEntry(
   section: string,
@@ -93,6 +94,16 @@ export function generateEntry(
           config={entry as IFontFamilyComponentConfig}
         />
       );
+    case 'fontSize':
+      return (
+        <FontSize
+          key={`${entry.key}-${postKey ?? 0}`}
+          label={entry.label}
+          fontSize={(entry as IFontSizeComponentConfig).default}
+          onChange={value => onChange?.(section, entry.key, value)}
+          config={entry as IFontSizeComponentConfig}
+        />
+      );
     case 'fontStyle':
       return (
         <FontStyle
@@ -135,7 +146,7 @@ export function generateEntries(
 }
 
 export function generateSection(
-  section: IPanelComponentSection<IBaseComponentConfig>,
+  section: IPanelSection,
   sectionKey: string,
   onChange: (entryType: string, key: string, value: any) => void,
   componentMap?: Record<string, string>
@@ -148,7 +159,7 @@ export function generateSection(
   ) : null;
 }
 
-export function CustomPanel(props: ICustomComponentProps) {
+export function CustomPanel(props: ICustomPanelProps) {
   const label = props.label ?? '';
   const sections = props.sections ?? {};
 
@@ -159,7 +170,11 @@ export function CustomPanel(props: ICustomComponentProps) {
       <EditorHeader label={label} collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)} />
       <div className="vchart-editor-ui-panel-collapse-container" style={{ height: collapsed ? 0 : 'auto' }}>
         {Object.keys(sections).map(section => {
-          return generateSection(sections[section], section, props.onChange);
+          return (
+            <React.Fragment key={section}>
+              {generateSection(sections[section], section, props.onChange, props.componentMap)}
+            </React.Fragment>
+          );
         })}
       </div>
     </div>
