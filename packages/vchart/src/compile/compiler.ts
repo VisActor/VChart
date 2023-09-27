@@ -192,7 +192,7 @@ export class Compiler {
     this._setCanvasStyle();
 
     // emit afterRender event
-    this._view.renderer.stage().hooks.afterRender.tap('chart-event', () => {
+    this.getStage().hooks.afterRender.tap('chart-event', () => {
       this._compileChart?.getEvent()?.emit(ChartEvent.afterRender, { chart: this._compileChart });
     });
 
