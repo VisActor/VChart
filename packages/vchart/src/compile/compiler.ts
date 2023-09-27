@@ -1,3 +1,4 @@
+import { ChartEvent } from './../constant/event';
 import type { IElement, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import {
@@ -189,6 +190,11 @@ export class Compiler {
       logLevel: logger.level()
     });
     this._setCanvasStyle();
+
+    // emit afterRender event
+    this._view.renderer.stage().hooks.afterRender.tap('chart-event', () => {
+      this._compileChart.getEvent().emit(ChartEvent.afterRender, { chart: this._compileChart });
+    });
 
     const interactive = this._option.interactive;
     if (interactive !== false) {
