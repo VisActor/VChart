@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "fix: fix the problem that updateFullData cannot update data in series\n\n",
+      "comment": "feat: supports afterResize and afterRender events\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
