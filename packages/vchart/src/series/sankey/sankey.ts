@@ -1258,8 +1258,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   getNodeOrdinalColorScale(item: string) {
-    if (!isNil(this._option.globalScale.getScale('color')?._specified)) {
-      const specified = this._option.globalScale.getScale('color')._specified;
+    if (!isNil((this._option.globalScale.getScale('color') as any)?._specified)) {
+      const specified = (this._option.globalScale.getScale('color') as any)._specified;
       const colorDomain: string[] = [];
       const colorRange: string[] = [];
 
