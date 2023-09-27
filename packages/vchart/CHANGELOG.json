@@ -2,6 +2,33 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.4.1",
+      "tag": "@visactor/vchart_v1.4.1",
+      "date": "Wed, 27 Sep 2023 07:53:38 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix updateViewBox api will fail after resize\n\n"
+          },
+          {
+            "comment": "feat: optimize updateSpec to avoid additional theme updates\n\n"
+          },
+          {
+            "comment": "fix(datazoom): fix bounds error when there is no preview chart. fix #1050"
+          },
+          {
+            "comment": "fix: the rose chart's first sector's startAngle should start from polar coordinate's startAngle, fix #900"
+          },
+          {
+            "comment": "fix: fix `theme.fontFamily` can not work"
+          },
+          {
+            "comment": "fix: fix the problem that updateFullData cannot update data in series\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.4.0",
       "tag": "@visactor/vchart_v1.4.0",
       "date": "Mon, 25 Sep 2023 10:49:42 GMT",
