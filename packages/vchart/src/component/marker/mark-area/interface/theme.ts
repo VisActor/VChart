@@ -1,6 +1,6 @@
 import type { IMarkAreaLabelPosition } from '@visactor/vrender-components';
 import type { IPolygonMarkSpec } from '../../../../typings';
-import type { IMarkerLabelSpec } from '../../interface';
+import type { IMarkerLabelWithoutRefSpec } from '../../interface';
 
 export interface IMarkAreaTheme {
   area?: {
@@ -12,5 +12,5 @@ export interface IMarkAreaTheme {
      * label整体 - 相对line的位置
      */
     position?: IMarkAreaLabelPosition;
-  } & IMarkerLabelSpec;
+  } & IMarkerLabelWithoutRefSpec;
 }

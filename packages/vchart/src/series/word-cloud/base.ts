@@ -169,6 +169,14 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         'normal',
         AttributeLevel.Series
       );
+      this.setMarkStyle(
+        wordMark,
+        {
+          fontFamily: this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily
+        },
+        'normal',
+        AttributeLevel.User_Mark
+      );
     }
     if (fillingWordMark) {
       this.setMarkStyle(
@@ -189,6 +197,15 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         },
         'normal',
         AttributeLevel.Series
+      );
+
+      this.setMarkStyle(
+        fillingWordMark,
+        {
+          fontFamily: this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily
+        },
+        'normal',
+        AttributeLevel.User_Mark
       );
     }
     this._trigger.registerMark(wordMark);
@@ -320,7 +337,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         fontSizeRange: this._fontSizeRange,
         padding: this._fontPadding,
         rotate: { field: WORD_CLOUD_ANGLE },
-        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily,
+        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
 
@@ -350,11 +367,14 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         fontSizeRange: this._fontSizeRange,
         padding: this._fontPadding,
         rotateList: rotateAngles,
-        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily,
+        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
 
-        fillingFontFamily: this._wordCloudShapeConfig?.fillingFontFamilyField ?? this._spec.word?.style?.fontFamily,
+        fillingFontFamily:
+          this._wordCloudShapeConfig?.fillingFontFamilyField ??
+          this._spec.word?.style?.fontFamily ??
+          this._option?.getTheme()?.fontFamily,
         fillingPadding: this._fillingFontPadding,
         fillingFontStyle: this._wordCloudShapeConfig?.fillingFontStyleField ?? this._spec.word?.style?.fontStyle,
         fillingFontWeight: this._wordCloudShapeConfig?.fillingFontWeightField ?? this._spec.word?.style?.fontWeight, // 填充词fontWeight默认不跟随valueField

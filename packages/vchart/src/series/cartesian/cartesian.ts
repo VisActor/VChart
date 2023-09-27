@@ -16,7 +16,7 @@ import type { DirectionType } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { Datum, StringOrNumber } from '../../typings';
-import { array, shallowCompare, isValid } from '../../util';
+import { array, isValid } from '../../util';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';

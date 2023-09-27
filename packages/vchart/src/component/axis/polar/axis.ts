@@ -27,8 +27,9 @@ import { PointService, degreeToRadian, isValid } from '@visactor/vutils';
 import type { IEffect } from '../../../model/interface';
 import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
-import type { ITick } from '../interface';
+import type { IBandAxisSpec, ITick } from '../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
+import { DEFAULT_BAND_POSITION } from './config';
 
 export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommonSpec>
   extends AxisComponent<T>
@@ -368,12 +369,14 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       //极坐标轴需要手动取模，超出range时默认会截断
       const range = this._scale.range();
       const rangeValue = range[range.length - 1] - range[0];
+      const bandPosition = (this.getSpec() as IBandAxisSpec).bandPosition ?? DEFAULT_BAND_POSITION;
+      const offset = bandPosition === 0.5 ? 0 : (this._scale as BandScale).bandwidth() / 2;
       if (range[0] < 0) {
-        const angle = coord.angle + (this._scale as BandScale).bandwidth() / 2;
+        const angle = coord.angle + offset;
         const transformedAngle = ((angle + Math.abs(range[0])) % rangeValue) - Math.abs(range[0]);
         return this._scale.invert(transformedAngle);
       }
-      return this._scale.invert((coord.angle + (this._scale as BandScale).bandwidth() / 2) % rangeValue);
+      return this._scale.invert((coord.angle + offset) % rangeValue);
     }
 
     return this._scale.invert(coord.angle);

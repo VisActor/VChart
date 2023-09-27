@@ -16,8 +16,7 @@ export const treemap: ITreemapSeriesTheme = {
       textBaseline: 'middle',
       textAlign: 'center',
       fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily
+      lineHeight: THEME_CONSTANTS.l5LineHeight
     }
   },
   nonLeafLabel: {
@@ -28,7 +27,6 @@ export const treemap: ITreemapSeriesTheme = {
       lineWidth: 2,
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
       textBaseline: 'middle',
       textAlign: 'center'
     }
