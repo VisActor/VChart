@@ -18,9 +18,13 @@ export class EditorEvent {
 
   initEvent() {
     MouseEvents.forEach(eventType => {
-      this._editor.container.addEventListener(eventType, e => {
-        this._handlerEvent(eventType, e);
-      });
+      document.addEventListener(
+        eventType,
+        e => {
+          this._handlerEvent(eventType, e);
+        },
+        true
+      );
     });
   }
 
@@ -28,6 +32,7 @@ export class EditorEvent {
     if (e.target !== this._editor.container) {
       return;
     }
+    e.stopImmediatePropagation();
 
     let hasTrigger = false;
     let hasActive = false;
