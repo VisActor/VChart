@@ -72,7 +72,7 @@ export class VChartEditor {
     return this._layers;
   };
 
-  addElements(type: string, option: Include<Omit<IElementOption, 'layer'>>) {
+  addElements(type: string, option: Include<Omit<IElementOption, 'layer' | 'controller'>>) {
     if (!ElementsMap[type]) {
       return;
     }
