@@ -116,8 +116,8 @@
     "@visactor/vgrammar-hierarchy": "~0.7.6",
     "@visactor/vgrammar-sankey": "~0.7.6",
     "@visactor/vgrammar-util": "~0.7.6",
-    "@visactor/vrender": "0.15.5-alpha.0",
-    "@visactor/vrender-components": "0.15.5-alpha.0",
+    "@visactor/vrender": "~0.15.5",
+    "@visactor/vrender-components": "~0.15.5",
     "@visactor/vutils-extension": "workspace:1.4.1-alpha.1"
   },
   "publishConfig": {
