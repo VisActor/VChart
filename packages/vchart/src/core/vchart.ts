@@ -166,7 +166,8 @@ export class VChart implements IVChart {
    * @param option 地图数据配置
    */
   static registerMap(key: string, source: GeoSourceType, option?: GeoSourceOption) {
-    registerMapSource(key, source, option);
+    const impl = Factory.getImplementInKey('registerMap');
+    impl && impl(key, source, option);
   }
 
   /**
@@ -174,7 +175,8 @@ export class VChart implements IVChart {
    * @param key 地图名称
    */
   static unregisterMap(key: string) {
-    unregisterMapSource(key);
+    const impl = Factory.getImplementInKey('unregisterMap');
+    impl && impl(key);
   }
 
   /**

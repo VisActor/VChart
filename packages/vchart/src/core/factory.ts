@@ -19,6 +19,7 @@ export class Factory {
   private static _marks: { [key: string]: MarkConstructor } = {};
   private static _regions: { [key: string]: IRegionConstructor } = {};
   private static _animations: { [key: string]: (params?: any, preset?: any) => MarkAnimationSpec } = {};
+  private static _implements: { [key: string]: (...args: any) => void } = {};
 
   static transforms: { [key: string]: Transform } = {
     // buildIn transforms
@@ -58,6 +59,9 @@ export class Factory {
   }
   static registerAnimation(key: string, animation: (params?: any, preset?: any) => MarkAnimationSpec) {
     Factory._animations[key] = animation;
+  }
+  static registerImplement(key: string, implement: (...args: any) => void) {
+    Factory._implements[key] = implement;
   }
 
   static createChart(chartType: string, spec: any, options: IChartOption): IChart | null {
@@ -123,5 +127,9 @@ export class Factory {
 
   static getAnimationInKey(key: string) {
     return Factory._animations[key];
+  }
+
+  static getImplementInKey(key: string) {
+    return Factory._implements[key];
   }
 }

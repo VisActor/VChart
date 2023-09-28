@@ -4,7 +4,7 @@ import type { FeatureData } from '@visactor/vgrammar-core';
 import { registerProjection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
 import type { IPathMark } from '../../mark/path';
-import { geoSourceMap } from './geo-source';
+import { geoSourceMap, registerMapSource, unregisterMapSource } from './geo-source';
 import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import { isValid, isValidNumber, mergeSpec } from '../../util';
@@ -323,5 +323,7 @@ export const registerMapSeries = () => {
   registerGeoCoordinate();
   Factory.registerMark(PathMark.type, PathMark);
   Factory.registerSeries(MapSeries.type, MapSeries);
+  Factory.registerImplement('registerMap', registerMapSource);
+  Factory.registerImplement('unregisterMap', unregisterMapSource);
   registerFadeInOutAnimation();
 };
