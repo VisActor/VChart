@@ -24,6 +24,7 @@ export interface ISeriesSeriesInfo {
 export interface ISeriesOption extends IModelOption {
   mode: RenderMode;
   region: IRegion;
+  sourceDataList: DataView[];
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
 }
 

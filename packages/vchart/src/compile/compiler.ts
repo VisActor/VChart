@@ -257,7 +257,7 @@ export class Compiler {
     this._view.renderer.setViewBox(viewBox, reRender);
   }
 
-  resize(width: number, height: number) {
+  resize(width: number, height: number, reRender: boolean = true) {
     if (!this._view) {
       return Promise.reject();
     }
@@ -265,7 +265,7 @@ export class Compiler {
     this._height = height;
 
     this._view.resize(width, height);
-    return this.renderAsync({ morph: false });
+    return reRender ? this.renderAsync({ morph: false }) : this;
   }
 
   setBackground(color: IColor) {

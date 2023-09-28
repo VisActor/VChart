@@ -1,4 +1,4 @@
-import type { INode } from '@visactor/vrender-core';
+import type { INode, IGroup } from '@visactor/vrender-core';
 import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visactor/vrender-components';
 
 // eslint-disable-next-line no-duplicate-imports
@@ -120,12 +120,8 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     // do nothing
   }
 
-  clear(): void {
-    super.clear();
-    if (this._playerComponent) {
-      this.getContainer()?.removeChild(this._playerComponent as unknown as INode);
-    }
-    this._playerComponent = null;
+  getVRenderComponents(): IGroup[] {
+    return [this._playerComponent] as unknown as IGroup[];
   }
 
   /**

@@ -39,6 +39,7 @@ import { isDimensionInfo, isMarkInfo, MarkTooltipProcessor, DimensionTooltipProc
 import { hasParentElement, isString } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
+import type { IGroup } from '@visactor/vrender';
 
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
@@ -94,6 +95,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   changeRegions(regions: IRegion[]) {
     /* do nothing */
+  }
+  getVRenderComponents(): IGroup[] {
+    return [];
   }
   protected _registerEvent() {
     /* do nothing */

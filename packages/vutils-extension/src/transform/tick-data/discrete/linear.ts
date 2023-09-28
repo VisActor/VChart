@@ -1,8 +1,42 @@
-import type { BandScale } from '@visactor/vscale';
+import type { BandScale, IBaseScale } from '@visactor/vscale';
 import { isFunction, isValid } from '@visactor/vutils';
 import type { ICartesianTickDataOpt, ITickData } from '../interface';
-import { convertDomainToTickData, getCartesianLabelBounds, labelDistance, labelOverlap } from '../util';
-import type { AABBBounds } from '@visactor/vutils';
+import { convertDomainToTickData, getCartesianLabelBounds, isAxisHorizontal } from '../util';
+import { binaryFuzzySearchInNumberRange } from '../../../algorithm';
+
+/** x1, x2, length */
+type OneDimensionalBounds = [number, number, number];
+
+const getOneDimensionalLabelBounds = (
+  scale: IBaseScale,
+  domain: any[],
+  op: ICartesianTickDataOpt,
+  isHorizontal: boolean
+): OneDimensionalBounds[] => {
+  const labelBoundsList = getCartesianLabelBounds(scale, domain, op);
+  return labelBoundsList.map(bounds => {
+    if (isHorizontal) {
+      return [bounds.x1, bounds.x2, bounds.width()];
+    } else {
+      return [bounds.y1, bounds.y2, bounds.height()];
+    }
+  });
+};
+
+/** 判断两个 bounds 是否有重叠情况 */
+const boundsOverlap = (prevBounds: OneDimensionalBounds, nextBounds: OneDimensionalBounds, gap = 0): boolean => {
+  return Math.max(prevBounds[0], nextBounds[0]) - gap / 2 <= Math.min(prevBounds[1], nextBounds[1]) + gap / 2;
+};
+
+/** 判断两个不相交的 bounds 相隔的距离 */
+export const boundsDistance = (prevBounds: OneDimensionalBounds, nextBounds: OneDimensionalBounds): number => {
+  if (prevBounds[1] < nextBounds[0]) {
+    return nextBounds[0] - prevBounds[1];
+  } else if (nextBounds[1] < prevBounds[0]) {
+    return prevBounds[0] - nextBounds[1];
+  }
+  return 0;
+};
 
 /**
  * 对于离散轴：
@@ -21,7 +55,7 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
     return [];
   }
   const { tickCount, forceTickCount, tickStep, labelGap = 4, axisOrientType, labelStyle } = op;
-  const isHorizontal = ['bottom', 'top'].includes(axisOrientType);
+  const isHorizontal = isAxisHorizontal(axisOrientType);
   const range = scale.range();
 
   // if range is so small
@@ -42,15 +76,19 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
     const count = isFunction(tickCount) ? tickCount({ axisLength: rangeSize, labelStyle }) : tickCount;
     scaleTicks = scale.ticks(count);
   } else if (op.sampling) {
-    let labelBoundsList: AABBBounds[];
+    let labelBoundsList: OneDimensionalBounds[];
+    let minBoundsLength = Number.MAX_VALUE;
+    let areAllBoundsSame = false;
+
     const fontSize = (op.labelStyle.fontSize ?? 12) + 2;
     if (domain.length <= rangeSize / fontSize) {
-      labelBoundsList = getCartesianLabelBounds(scale, domain, op);
+      labelBoundsList = getOneDimensionalLabelBounds(scale, domain, op, isHorizontal);
+      minBoundsLength = Math.min(...labelBoundsList.map(bounds => bounds[2]));
     } else {
       // only check first middle last, use the max size to sampling
       const tempDomain = [domain[0], domain[Math.floor(domain.length / 2)], domain[domain.length - 1]];
-      const tempList = getCartesianLabelBounds(scale, tempDomain, op);
-      let maxBounds: AABBBounds = null;
+      const tempList = getOneDimensionalLabelBounds(scale, tempDomain, op, isHorizontal);
+      let maxBounds: OneDimensionalBounds = null;
       let maxBoundsIndex = 0;
       tempList.forEach((current, index) => {
         if (!maxBounds) {
@@ -58,12 +96,7 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
           maxBoundsIndex = index;
           return;
         }
-        if (isHorizontal) {
-          if (maxBounds.width() < current.width()) {
-            maxBounds = current;
-            maxBoundsIndex = index;
-          }
-        } else if (maxBounds.height() < current.height()) {
+        if (maxBounds[2] < current[2]) {
           maxBounds = current;
           maxBoundsIndex = index;
         }
@@ -74,19 +107,13 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
       labelBoundsList = new Array(domain.length);
       // set bounds to each pos
       for (let i = 0; i < labelBoundsList.length; i++) {
-        labelBoundsList[i] = maxBounds.clone();
         const currentPos = scale.scale(domain[i]);
-        if (isHorizontal) {
-          labelBoundsList[i].translate(currentPos - maxBoundsPos, 0);
-        } else {
-          labelBoundsList[i].translate(0, currentPos - maxBoundsPos);
-        }
+        const delta = currentPos - maxBoundsPos;
+        labelBoundsList[i] = [maxBounds[0] + delta, maxBounds[1] + delta, maxBounds[2]];
       }
+      minBoundsLength = maxBounds[2];
+      areAllBoundsSame = true;
     }
-
-    const domainLengthList = labelBoundsList.map(b => {
-      return isHorizontal ? b.width() : b.height();
-    });
 
     const rangeStart = Math.min(...range);
     const rangeEnd = Math.max(...range);
@@ -96,8 +123,8 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
       labelBoundsList,
       labelGap,
       op.labelLastVisible,
-      isHorizontal,
-      Math.floor(Math.min(...domainLengthList) / incrementUnit) // 给step赋上合适的初值，有效改善外层循环次数
+      Math.floor(minBoundsLength / incrementUnit), // 给step赋上合适的初值，有效改善外层循环次数
+      areAllBoundsSame
     );
 
     scaleTicks = (scale as BandScale).stepTicks(result.step);
@@ -115,73 +142,92 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
 /** 计算合适的step */
 const getStep = (
   domain: any[],
-  labelBoundsList: AABBBounds[],
+  labelBoundsList: OneDimensionalBounds[],
   labelGap: number,
   labelLastVisible: boolean,
-  isHorizontal: boolean,
-  defaultStep: number
+  defaultStep: number,
+  areAllBoundsSame: boolean
 ) => {
-  let step = defaultStep;
-  let delCount = 0;
   let resultDelCount = 0;
   let resultStep = 0;
   let resultTickCount = -1;
   let minDiff = Number.MAX_VALUE;
-  // 通过循环来寻找最小的step，使：如果在这个step下采样，轴标签互不遮挡
-  do {
+
+  /** 验证在当前 step 下是否会产生重叠 */
+  const validateStep = (step: number) => {
     let success = true;
-    step++;
     let ptr = 0;
     do {
-      if (ptr + step < domain.length && labelOverlap(labelBoundsList[ptr], labelBoundsList[ptr + step], labelGap)) {
+      if (ptr + step < domain.length && boundsOverlap(labelBoundsList[ptr], labelBoundsList[ptr + step], labelGap)) {
         success = false;
       }
       ptr += step;
     } while (success && ptr < domain.length);
+    return success;
+  };
 
-    if (success) {
-      if (labelLastVisible) {
-        const lastIndex = domain.length - 1;
-        delCount = 0;
-        do {
-          ptr -= step; // 获取最后一个label位置
-          if (ptr === lastIndex || labelOverlap(labelBoundsList[ptr], labelBoundsList[lastIndex], labelGap)) {
-            delCount++;
-          } else {
-            break;
-          }
-        } while (ptr > 0);
-        if (ptr === lastIndex) {
-          // 采到的最后的一个 label 刚好是最后一项，直接退出
-          resultStep = step;
-          resultDelCount = delCount;
-          break;
-        } else {
-          // 尝试获取最均匀的结果，防止倒数第二项和最后一项有大的空档
-          const tickCount = Math.floor(domain.length / step) - delCount + 1;
-          if (tickCount < resultTickCount) {
-            break;
-          } else {
-            resultTickCount = tickCount;
-            const distanceIndex = isHorizontal ? 0 : 1;
-            const distance1 = labelDistance(labelBoundsList[ptr], labelBoundsList[lastIndex])[distanceIndex]; // 倒数第2项和最后一项的距离
-            const distance2 =
-              ptr - step >= 0
-                ? labelDistance(labelBoundsList[ptr - step], labelBoundsList[ptr])[distanceIndex]
-                : distance1; // 倒数第3项和倒数第2项的距离
-            const diff = Math.abs(distance1 - distance2);
-            if (diff < minDiff) {
-              minDiff = diff;
-              resultStep = step; // 记录最均匀的 step
-              resultDelCount = delCount;
-            }
-          }
-        }
-      } else {
-        resultStep = step;
-        break;
+  // 通过二分来寻找最小的step，使：如果在这个step下采样，轴标签互不遮挡
+  const minValidStep = binaryFuzzySearchInNumberRange(defaultStep, domain.length, step =>
+    validateStep(step) ? 1 : -1
+  );
+
+  // 对 step 进行微调
+  let step = minValidStep;
+  do {
+    if (step > minValidStep && !areAllBoundsSame) {
+      if (!validateStep(step)) {
+        step++;
+        continue;
       }
     }
+    if (labelLastVisible) {
+      const lastIndex = domain.length - 1;
+      let delCount = 0;
+      let ptr;
+      if (domain.length % step > 0) {
+        ptr = domain.length - (domain.length % step) + step;
+      } else {
+        ptr = domain.length;
+      }
+      do {
+        ptr -= step; // 获取最后一个label位置
+        if (ptr === lastIndex || boundsOverlap(labelBoundsList[ptr], labelBoundsList[lastIndex], labelGap)) {
+          delCount++;
+        } else {
+          break;
+        }
+      } while (ptr > 0);
+      if (ptr === lastIndex) {
+        // 采到的最后的一个 label 刚好是最后一项，直接退出
+        resultStep = step;
+        resultDelCount = delCount;
+        break;
+      } else {
+        // 尝试获取最均匀的结果，防止倒数第二项和最后一项有大的空档
+        const tickCount = Math.floor(domain.length / step) - delCount + 1;
+        if (tickCount < resultTickCount) {
+          break;
+        } else {
+          resultTickCount = tickCount;
+          const distance1 = boundsDistance(labelBoundsList[ptr], labelBoundsList[lastIndex]); // 倒数第2项和最后一项的距离
+          const distance2 =
+            ptr - step >= 0 ? boundsDistance(labelBoundsList[ptr - step], labelBoundsList[ptr]) : distance1; // 倒数第3项和倒数第2项的距离
+          const diff = Math.abs(distance1 - distance2);
+          if (diff < minDiff) {
+            minDiff = diff;
+            resultStep = step; // 记录最均匀的 step
+            resultDelCount = delCount;
+          }
+          if (distance1 <= distance2) {
+            break;
+          }
+        }
+      }
+    } else {
+      resultStep = step;
+      break;
+    }
+    step++;
   } while (step <= domain.length);
 
   return {

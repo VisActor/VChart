@@ -1,11 +1,12 @@
 import { BandScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
-import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING } from './config';
+import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING, DEFAULT_BAND_POSITION } from './config';
 import type { IAxisLocationCfg, ICartesianBandAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface';
 import { mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
+import { scaleWholeRangeSize } from './util';
 
 export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec>
   extends Pick<
@@ -64,7 +65,9 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
     }
     const { position, bandScale } = this.getPosition(values);
 
-    return position + bandScale.bandwidth() * (cfg.bandPosition ?? 0.5);
+    return (
+      position + bandScale.bandwidth() * (cfg.bandPosition ?? this.getSpec().bandPosition ?? DEFAULT_BAND_POSITION)
+    );
   }
 
   transformScaleDomain() {
@@ -81,6 +84,24 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
       }
       if (this._spec.minBandSize) {
         this._scale.minBandwidth(this._spec.minBandSize);
+      }
+      // 更改 region 最大大小
+      if (
+        this._scale.isBandwidthFixed() &&
+        this._spec.autoRegionSize &&
+        (this._spec.bandSize || this._spec.maxBandSize)
+      ) {
+        const rangeSize = scaleWholeRangeSize(
+          this._scale.domain().length,
+          this._spec.bandSize ?? this._spec.maxBandSize,
+          this._scale.paddingInner(),
+          this._scale.paddingOuter()
+        );
+        if (['bottom', 'top'].includes(this._orient)) {
+          this._regions.forEach(region => region.setMaxWidth(rangeSize));
+        } else if (['left', 'right'].includes(this._orient)) {
+          this._regions.forEach(region => region.setMaxHeight(rangeSize));
+        }
       }
     }
   }

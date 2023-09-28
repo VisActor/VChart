@@ -13,6 +13,14 @@ export interface IRegion extends IModel, ILayoutItem {
   animate?: IAnimate;
   interaction: IInteraction;
 
+  //stack
+  getStackInverse: () => boolean;
+
+  getMaxWidth: () => number | undefined;
+  setMaxWidth: (value: number) => void;
+  getMaxHeight: () => number | undefined;
+  setMaxHeight: (value: number) => void;
+
   // 系列
   addSeries: (series: ISeries) => void;
   removeSeries: (series: ISeries) => void;
@@ -47,6 +55,12 @@ export interface IRegionSpec extends ILayoutItemSpec {
   id?: StringOrNumber;
   coordinate?: CoordinateType;
   style?: ConvertToMarkStyleSpec<IRectMarkSpec>;
+  /**
+   * 堆积时是否逆序
+   * @default false
+   * @since 1.4.0
+   */
+  stackInverse?: boolean;
 }
 
 export interface IGeoRegionSpec extends IRegionSpec {

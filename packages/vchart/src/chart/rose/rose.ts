@@ -1,11 +1,11 @@
 import { RoseSeries } from '../../series/rose/rose';
-import type { IPolarAxis } from '../../component/axis/polar/interface';
+import type { IPolarAxisSpec, IPolarBandAxisSpec } from '../../component/axis/polar/interface';
 import { POLAR_DEFAULT_RADIUS } from '../../constant';
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
 import { VChart } from '../../core/vchart';
-import { array, mergeSpec } from '../../util';
+import { array, isNil, mergeSpec } from '../../util';
 VChart.useSeries([RoseSeries]);
 
 export class RoseChart extends RoseLikeChart {
@@ -30,12 +30,16 @@ export class RoseChart extends RoseLikeChart {
   transformSpec(spec: any) {
     super.transformSpec(spec);
     //默认不显示轴
-    (spec.axes ?? []).forEach((axis: IPolarAxis) => {
+    (spec.axes ?? []).forEach((axis: IPolarAxisSpec) => {
       ['domainLine', 'grid', 'label', 'tick'].forEach(configName => {
         if (!axis[configName]) {
           axis[configName] = { visible: false };
         }
       });
+      if (axis.orient === 'angle' && isNil((axis as IPolarBandAxisSpec).bandPosition)) {
+        // 玫瑰图的中心点应该是带宽的中心，保证第一个扇形是从坐标系的 startAngle 开始的
+        (axis as IPolarBandAxisSpec).bandPosition = 0.5;
+      }
     });
 
     // set default config for crosshair

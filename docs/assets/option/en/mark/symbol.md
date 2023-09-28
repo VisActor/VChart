@@ -19,6 +19,7 @@ Size.
 Shape.
 
 Optional values:
+
 - `'circle'`
 - `'cross'`
 - `'diamond'`
@@ -37,11 +38,3 @@ Optional values:
 - `'star'`
 - `'wye'`
 - `'rect'`
-
-#${prefix} scaleX(number)
-
-Scale in the X direction.
-
-#${prefix} scaleY(number)
-
-Scale in the Y direction.

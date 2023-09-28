@@ -89,3 +89,15 @@ When the chart is enabled for 3d mode, whether this graphic element supports (en
 Rotation angle.
 
 {{ /if }}
+
+#${prefix} scaleX(number) = 1
+Scale ratio in the x direction.
+
+#${prefix} scaleY(number) = 1
+Scale ratio in the y direction.
+
+#${prefix} scaleCenter([number|string, number|string])
+
+Scale Center. Supported since version `1.4.0`.
+
+Can be configured with fixed coordinates, such as [100, 100], or percentage coordinates, such as ['50%', '50%'], which represents scaling around the center of the graphic element.

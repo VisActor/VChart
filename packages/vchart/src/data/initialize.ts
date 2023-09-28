@@ -120,3 +120,13 @@ export function dataToDataView(
 
   return dataView;
 }
+
+export function updateDataViewInData(dataView: DataView, data: IDataValues, forceMerge: boolean) {
+  if (!dataView) {
+    return;
+  }
+  if (data.fields) {
+    dataView.setFields(data.fields as any, forceMerge);
+  }
+  dataView.parseNewData(data.values, data.parser as any);
+}

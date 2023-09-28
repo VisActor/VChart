@@ -5,7 +5,7 @@ import { AABBBounds, degreeToRadian, polarToCartesian } from '@visactor/vutils';
 import type { IGraphic, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
 import { initTextMeasure } from '../../utils/text';
 import { angleLabelOrientAttribute } from '../../utils/polar';
-import type { ICartesianTickDataOpt, IPolarTickDataOpt, ITickData } from './interface';
+import type { ICartesianTickDataOpt, IOrientType, IPolarTickDataOpt, ITickData } from './interface';
 
 export const convertDomainToTickData = (domain: any[]): ITickData[] => {
   const ticks = domain.map((t: number, index: number) => {
@@ -61,11 +61,14 @@ export function hasOverlap<T>(items: ILabelItem<T>[], pad: number): boolean {
   return false;
 }
 
-const MIN_TICK_GAP = 12;
+export const MIN_TICK_GAP = 12;
 
 export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: ICartesianTickDataOpt): AABBBounds[] => {
   const { labelStyle, axisOrientType, labelFlush, labelFormatter, startAngle = 0 } = op;
-  const labelAngle = labelStyle.angle ?? 0;
+  let labelAngle = labelStyle.angle ?? 0;
+  if (labelStyle.direction === 'vertical') {
+    labelAngle += degreeToRadian(90);
+  }
   const isHorizontal = ['bottom', 'top'].includes(axisOrientType);
   const isVertical = ['left', 'right'].includes(axisOrientType);
   let orientAngle = startAngle;
@@ -86,8 +89,10 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
 
     // 估算文本位置
     const pos = scale.scale(v);
-    let textX = Math.cos(orientAngle) * pos;
-    let textY = -Math.sin(orientAngle) * pos;
+    const scaleX = Math.cos(orientAngle) * pos;
+    const scaleY = -Math.sin(orientAngle) * pos;
+    let textX = scaleX;
+    let textY = scaleY;
 
     let align: TextAlignType;
     if (labelFlush && isHorizontal && i === 0) {
@@ -120,7 +125,7 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
     // 计算 label 包围盒
     const bounds = new AABBBounds()
       .set(textX, textY, textX + textWidth, textY + textHeight)
-      .rotate(labelAngle, textX + textWidth / 2, textY + textHeight / 2);
+      .rotate(labelAngle, scaleX, scaleY);
     return bounds;
   });
 
@@ -158,4 +163,8 @@ export const getPolarAngleLabelBounds = (scale: IBaseScale, domain: any[], op: I
   });
 
   return labelBoundsList;
+};
+
+export const isAxisHorizontal = (axisOrientType: IOrientType) => {
+  return (['bottom', 'top', 'z'] as IOrientType[]).includes(axisOrientType);
 };

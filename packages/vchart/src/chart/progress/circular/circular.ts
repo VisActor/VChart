@@ -20,7 +20,9 @@ export class CircularProgressChart extends ProgressLikeChart {
       roundCap: spec.roundCap ?? false,
 
       progress: spec.progress,
-      track: spec.track
+      track: spec.track,
+
+      tickMask: spec.tickMask
     };
   }
 

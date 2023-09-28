@@ -10,7 +10,7 @@ import type { StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base';
 import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
 import type { IRegressType } from './mark-area/interface';
-import type { IGraphic, INode } from '@visactor/vrender-core';
+import type { IGraphic, INode, IGroup } from '@visactor/vrender-core';
 
 export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extends BaseComponent<T> {
   layoutType: LayoutItem['layoutType'] = 'absolute';
@@ -191,11 +191,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
     return null;
   }
 
-  clear(): void {
-    if (this._markerComponent) {
-      this.getContainer()?.removeChild(this._markerComponent as unknown as INode);
-      this._markerComponent = null;
-    }
-    super.clear();
+  getVRenderComponents(): IGroup[] {
+    return [this._markerComponent] as unknown as IGroup[];
   }
 }

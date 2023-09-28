@@ -1,3 +1,5 @@
+import type { IRegionSpec } from './../region/interface';
+import { ChartData } from './chart-meta/data';
 import type { ICrossHair } from '../component/crosshair/interface/spec';
 import type { IDimensionInfo } from '../event/events/dimension/interface';
 import type {
@@ -40,7 +42,7 @@ import { ComponentTypeEnum } from '../component/interface';
 import type { IComponent } from '../component/interface';
 import { MarkTypeEnum, type IMark } from '../mark/interface';
 import type { IEvent } from '../event/interface';
-import type { DataView, IFields } from '@visactor/vdataset';
+import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset/es/data-set';
 import { Factory } from '../core/factory';
 import { Event } from '../event/event';
@@ -58,11 +60,10 @@ import { BaseModel } from '../model/base-model';
 import { BaseMark } from '../mark/base/base-mark';
 import type { ITheme } from '../theme/interface';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../constant/base';
-import { dataToDataView } from '../data/initialize';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { has, isFunction, isEmpty, isNil, isString } from '@visactor/vutils';
+import { has, isFunction, isEmpty, isNil, isString, isEqual } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
 import type {
   IGroupMark,
@@ -79,8 +80,9 @@ import type { IGlobalScale } from '../scale/interface';
 import { DimensionEventEnum } from '../event/events/dimension';
 import type { ITooltip } from '../component/tooltip/interface';
 import type { IRectMark } from '../mark/rect';
-import { calculateChartSize } from './util';
+import { calculateChartSize, mergeUpdateResult } from './util';
 import { isDiscrete } from '@visactor/vscale';
+import { updateDataViewInData } from '../data/initialize';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -136,6 +138,19 @@ export class BaseChart extends CompilableBase implements IChart {
     y2: DEFAULT_CHART_HEIGHT
   };
 
+  protected _layoutTag: boolean = true;
+  getLayoutTag() {
+    return this._layoutTag;
+  }
+  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, reLayout: boolean = true): boolean {
+    this._layoutTag = tag;
+    if (this.getCompiler()?.getVGrammarView()) {
+      this.getCompiler().getVGrammarView().updateLayoutTag();
+      tag && reLayout && this.getCompiler().renderAsync(morphConfig);
+    }
+    return this._layoutTag;
+  }
+
   // 模块参数
   protected _modelOption: IModelOption;
 
@@ -150,21 +165,15 @@ export class BaseChart extends CompilableBase implements IChart {
   getEvent() {
     return this._event;
   }
-  protected _dataSet: DataSet;
-  protected declare _option: IChartOption;
 
-  protected _layoutTag: boolean = true;
-  getLayoutTag() {
-    return this._layoutTag;
+  // data
+  protected _dataSet: DataSet;
+  protected _chartData: ChartData;
+  get chartData() {
+    return this._chartData;
   }
-  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, reLayout: boolean = true): boolean {
-    this._layoutTag = tag;
-    if (this.getCompiler()?.getVGrammarView()) {
-      this.getCompiler().getVGrammarView().updateLayoutTag();
-      tag && reLayout && this.getCompiler().renderAsync(morphConfig);
-    }
-    return this._layoutTag;
-  }
+
+  protected declare _option: IChartOption;
 
   // 模块内的需要动态影像图表的属性
   readonly state: ILayoutModelState = {
@@ -184,12 +193,12 @@ export class BaseChart extends CompilableBase implements IChart {
 
   constructor(spec: any, option: IChartOption) {
     super(option);
-
     this._theme = option.getTheme();
     this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? this._theme?.padding);
 
     this._event = new Event(option.eventDispatcher, option.mode);
     this._dataSet = option.dataSet;
+    this._chartData = new ChartData(this._dataSet, this._option?.onError);
     this._modelOption = {
       ...option,
       mode: this._option.mode,
@@ -206,6 +215,9 @@ export class BaseChart extends CompilableBase implements IChart {
 
   created() {
     this.transformSpec(this._spec);
+    // data
+    this._chartData.parseData(this._spec.data);
+    // scale
     this.createGlobalScale();
     // background
     this.createBackground(this._spec.background);
@@ -217,12 +229,16 @@ export class BaseChart extends CompilableBase implements IChart {
     this.createSeries(this._spec.series);
     this.createComponent(this._spec);
   }
+
   transformSpec(spec: any): void {
     if (!spec.region || spec.region.length === 0) {
       spec.region = [{}];
     }
     if (!has(spec, 'tooltip')) {
       spec.tooltip = {};
+    }
+    if (isValid(spec.stackInverse)) {
+      spec.region.forEach((r: IRegionSpec) => !isValid(r.stackInverse) && (r.stackInverse = spec.stackInverse));
     }
   }
 
@@ -259,6 +275,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   updateViewBox(viewBox: IBoundsLike, reLayout: boolean) {
+    this._option.viewBox = viewBox;
     this._updateLayoutRect(viewBox);
     this.setLayoutTag(true, null, reLayout);
   }
@@ -314,12 +331,7 @@ export class BaseChart extends CompilableBase implements IChart {
     seriesSpec.forEach((spec, index) => {
       // 自动填充数据
       if (!spec.data) {
-        spec.data = this.getSeriesData(spec.dataId, spec.dataIndex);
-      } else {
-        // 保证数据最终是 DataView 实例
-        spec.data = dataToDataView(spec.data, this._dataSet, this._spec.data as DataView[], {
-          onError: this._option?.onError
-        });
+        spec.data = this._chartData.getSeriesData(spec.dataId, spec.dataIndex);
       }
 
       // 如果用户在 vchart 构造函数参数中关闭了 animation, 则已该配置为准
@@ -347,7 +359,8 @@ export class BaseChart extends CompilableBase implements IChart {
         specKey: 'series',
         getTheme: () => this._theme,
         globalScale: this._globalScale,
-        getSeriesData: this.getSeriesData.bind(this)
+        getSeriesData: this._chartData.getSeriesData.bind(this._chartData),
+        sourceDataList: this._chartData.dataList
       });
 
       if (series) {
@@ -669,18 +682,13 @@ export class BaseChart extends CompilableBase implements IChart {
     return undefined;
   }
 
-  updateParseData(id: string, data: Datum[], options?: IParserOptions) {
-    const dv = this._dataSet.getDataView(id);
-    if (dv) {
-      dv.updateRawData(data);
-    }
-  }
-
   updateData(id: StringOrNumber, data: unknown, updateGlobalScale: boolean = true, options?: IParserOptions) {
     const dv = this._dataSet.getDataView(id as string);
     if (dv) {
+      dv.markRunning();
       dv.parseNewData(data, options);
     }
+
     if (updateGlobalScale) {
       this.updateGlobalScaleDomain();
     }
@@ -688,17 +696,17 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   updateFullData(data: IDataValues | IDataValues[], updateGlobalScale: boolean = true) {
-    const dvs: { d: IDataValues; dv: DataView }[] = [];
     array(data).forEach(d => {
-      const dv = this._dataSet.getDataView(d.id as string);
+      const dv = this._dataSet.getDataView(d.id);
       if (dv) {
-        dvs.push({ d, dv });
         dv.markRunning();
       }
     });
-    dvs.forEach(({ d, dv }) => {
-      dv.setFields(d.fields as IFields);
-      dv.parseNewData(d.values, d.parser as IParserOptions);
+    array(data).forEach(d => {
+      const dv = this._dataSet.getDataView(d.id);
+      if (dv) {
+        updateDataViewInData(dv, d, true);
+      }
     });
     if (updateGlobalScale) {
       this.updateGlobalScaleDomain();
@@ -725,39 +733,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   getSeriesData(id: StringOrNumber | undefined, index: number | undefined): DataView | undefined {
-    if (!this._spec.data) {
-      // 没有数据，报错处理
-      this._option?.onError('no data in spec!');
-      return null;
-    }
-
-    // dataId 优先
-    if (typeof id === 'string') {
-      const metchData = (this._spec.data as DataView[]).filter((data: any) => {
-        return data.name === id;
-      });
-
-      if (metchData[0]) {
-        return metchData[0];
-      }
-
-      // id不匹配，报错处理
-      this._option?.onError(`no data matches dataId ${id}!`);
-      return null;
-    }
-
-    // 其次使用dataIndex
-    if (typeof index === 'number') {
-      if (this._spec.data[index]) {
-        return this._spec.data[index];
-      }
-      // index不匹配，报错处理
-      this._option?.onError(`no data matches dataIndex ${index}!`);
-      return null;
-    }
-
-    // 最后返回第一条数据
-    return this._spec.data[0];
+    return this._chartData.getSeriesData(id, index);
   }
 
   private _transformSpecScale() {
@@ -820,7 +796,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   updateGlobalScale(result: IUpdateSpecResult) {
-    this._mergeUpdateResult(result, this._globalScale.updateSpec(this._transformSpecScale()));
+    mergeUpdateResult(result, this._globalScale.updateSpec(this._transformSpecScale()));
   }
 
   updateGlobalScaleTheme() {
@@ -859,7 +835,14 @@ export class BaseChart extends CompilableBase implements IChart {
       result.reMake = true;
       return result;
     }
+    const oldSpec = this._spec;
     this._spec = spec;
+    // update chart config
+    this.updateChartConfig(result, oldSpec);
+    if (result.reMake) {
+      return result;
+    }
+
     this.updateGlobalScale(result);
     if (result.reMake) {
       return result;
@@ -886,27 +869,24 @@ export class BaseChart extends CompilableBase implements IChart {
     return result;
   }
 
+  updateChartConfig(result: IUpdateSpecResult, oldSpec: IChartSpec) {
+    // padding;
+    this._paddingSpec = normalizeLayoutPaddingSpec(this._spec.padding ?? this._theme?.padding);
+
+    // re compute padding & layout
+    this._updateLayoutRect(this._viewBox);
+
+    // background need remake
+    if (!isEqual(this._spec.background, oldSpec.background)) {
+      result.reMake = true;
+    }
+  }
+
   updateDataSpec(result: IUpdateSpecResult) {
     if (!this._spec.data) {
       return;
     }
-    array(this._spec.data).forEach((d, i) => {
-      const dataView = this._dataSet.getDataView(d.id);
-      if (dataView) {
-        if (d.fields) {
-          dataView.setFields(d.fields);
-        }
-
-        if (d.values) {
-          // d is not dataview
-          dataView.parseNewData(d.values, d.parser);
-        } else if (!d.latestData) {
-          dataView.updateRawData([]);
-        }
-      } else {
-        result.reMakeData = true;
-      }
-    });
+    this._chartData.updateData(this._spec.data, false, true);
   }
 
   updateRegionSpec(result: IUpdateSpecResult) {
@@ -919,8 +899,7 @@ export class BaseChart extends CompilableBase implements IChart {
       return;
     }
     this._regions.forEach(r => {
-      this._mergeUpdateResult(result, r.updateSpec(this._spec.region[r.getSpecIndex()]));
-      r.reInit();
+      mergeUpdateResult(result, r.updateSpec(this._spec.region[r.getSpecIndex()]));
     });
   }
 
@@ -941,11 +920,10 @@ export class BaseChart extends CompilableBase implements IChart {
           componentCount: 0
         };
         componentCache[c.specKey].componentCount++;
-        this._mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()], cmpSpec));
+        mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()], cmpSpec));
       } else {
-        this._mergeUpdateResult(result, c.updateSpec(cmpSpec));
+        mergeUpdateResult(result, c.updateSpec(cmpSpec));
       }
-      c.reInit();
     });
     for (const key in componentCache) {
       if (Object.prototype.hasOwnProperty.call(componentCache, key)) {
@@ -965,18 +943,7 @@ export class BaseChart extends CompilableBase implements IChart {
     }
     this._series.forEach(s => {
       const spec = this._spec.series[s.getSpecIndex()];
-      if (result.reMakeData) {
-        let values;
-        if (!spec.data) {
-          values = this.getSeriesData(spec.dataId, spec.dataIndex)?.latestData;
-        } else {
-          values = spec.data.values;
-        }
-        s.updateRawData(values);
-      }
-      const lastSpec = s.getSpec();
-      this._mergeUpdateResult(result, s.updateSpec(spec));
-      s.reInit(null, lastSpec);
+      mergeUpdateResult(result, s.updateSpec(spec));
     });
   }
 
@@ -990,7 +957,6 @@ export class BaseChart extends CompilableBase implements IChart {
 
   protected _getDefaultSeriesSpec(spec: any) {
     const series: any = {
-      data: spec.data?.[0],
       dataKey: spec.dataKey,
 
       hover: spec.hover,
@@ -1024,14 +990,6 @@ export class BaseChart extends CompilableBase implements IChart {
     return series;
   }
 
-  private _mergeUpdateResult(resultA: IUpdateSpecResult, resultB: IUpdateSpecResult) {
-    resultA.change = resultA.change || resultB.change;
-    resultA.reCompile = resultA.reCompile || resultB.reCompile;
-    resultA.reMake = resultA.reMake || resultB.reMake;
-    resultA.reRender = resultA.reRender || resultB.reRender;
-    resultA.reSize = resultA.reSize || resultB.reSize;
-  }
-
   private _updateLayoutRect(viewBox: IBoundsLike) {
     const canvasRect = this.getCanvasRect();
     let viewRect = canvasRect;
@@ -1062,7 +1020,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   /** 设置当前全局主题 */
-  setCurrentTheme(theme: ITheme) {
+  setCurrentTheme(theme: ITheme, reInit: boolean = true) {
     this._theme = theme;
 
     // 需要重新布局
@@ -1073,26 +1031,26 @@ export class BaseChart extends CompilableBase implements IChart {
     // 设置色板，只设置 colorScale 的 range
     this.updateGlobalScaleTheme();
 
-    this.setRegionTheme();
-    this.setComponentTheme(theme);
-    this.setSeriesTheme(theme);
+    this.setRegionTheme(reInit);
+    this.setComponentTheme(theme, reInit);
+    this.setSeriesTheme(theme, reInit);
   }
 
-  protected setRegionTheme() {
+  protected setRegionTheme(reInit: boolean = true) {
     this._regions.forEach(r => {
-      r.reInit();
+      reInit ? r.reInit() : r.setTheme();
     });
   }
 
-  protected setComponentTheme(theme: ITheme) {
+  protected setComponentTheme(theme: ITheme, reInit: boolean = true) {
     this._components.forEach(c => {
-      c.setCurrentTheme(theme.series[c.type], true);
+      reInit ? c.setCurrentTheme(theme.component[c.type], true) : c.setTheme(theme.component[c.type]);
     });
   }
 
-  protected setSeriesTheme(theme: ITheme) {
+  protected setSeriesTheme(theme: ITheme, reInit: boolean = true) {
     this._series.forEach(async s => {
-      await s.setCurrentTheme(theme.series[s.type], true);
+      reInit ? await s.setCurrentTheme(theme.series[s.type], true) : s.setTheme(theme.series[s.type]);
     });
   }
 

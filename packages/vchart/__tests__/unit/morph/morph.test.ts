@@ -4,9 +4,10 @@ import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
+import { initChartDataSet } from '../../util/context';
 
 const dataSet = new DataSet();
-dataSet.registerParser('dataview', dataViewParser);
+initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
 
 const data = [

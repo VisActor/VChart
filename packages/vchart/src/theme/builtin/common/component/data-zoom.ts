@@ -94,7 +94,7 @@ export const dataZoom: IDataZoomTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
     }
   },
@@ -103,7 +103,7 @@ export const dataZoom: IDataZoomTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
     }
   },

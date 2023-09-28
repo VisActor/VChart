@@ -136,6 +136,13 @@ export interface ILinearAxisSpec {
     min?: number;
     max?: number;
   };
+
+  /**
+   * 连续轴上的 dimension tooltip 数据筛选范围
+   * 如果配置为单个数字 d，则筛选区间为 [x0 - d, x0 + d]；如果配置为二元组 [d1, d2]，则筛选区间为 [x0 + d1, x0 + d2]
+   * @since 1.4.0
+   */
+  tooltipFilterRange?: number | [number, number];
 }
 
 export interface IBandAxisSpec {
@@ -161,6 +168,12 @@ export interface IBandAxisSpec {
    * @since 1.1.0
    */
   domain?: StringOrNumber[];
+  /**
+   * `bandPosition` 是一个可选参数，用于指定数据点在 band 轴上的位置。它的含义是确定数据点在 band 轴上的位置偏移量，相对于 band 轴的起始位置。
+   * `bandPosition` 的取值范围是从 0 到 1，其中 0 表示数据点位于 band 轴的起始位置，1 表示数据点位于 band 轴的结束位置。
+   * @default 0.5
+   */
+  bandPosition?: number;
 }
 // Grid 配置项
 export interface IGrid extends IAxisItem<IRuleMarkSpec> {

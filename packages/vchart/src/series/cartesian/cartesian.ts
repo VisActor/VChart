@@ -16,7 +16,7 @@ import type { DirectionType } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { Datum, StringOrNumber } from '../../typings';
-import { array, shallowCompare, isValid } from '../../util';
+import { array, isValid } from '../../util';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
@@ -239,18 +239,6 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
 
   onZAxisHelperUpdate(): void {
     this.onMarkPositionUpdate();
-  }
-
-  updateSpec(spec: any) {
-    const originalSpec = this._originalSpec;
-    const { xField, yField } = originalSpec;
-    const result = super.updateSpec(spec);
-    if (!shallowCompare(spec.xField, xField) || !shallowCompare(spec.yField, yField)) {
-      result.change = true;
-      result.reRender = true;
-      result.reMake = true;
-    }
-    return result;
   }
 
   setAttrFromSpec() {

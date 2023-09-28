@@ -94,6 +94,8 @@ export interface ILayoutItem {
   /** 是否可见 */
   getVisible: () => boolean;
 
+  getSpec?: () => any;
+
   /** 是否自动缩进 */
   getAutoIndent: () => boolean;
   getLayoutStartPoint: () => ILayoutPoint;
@@ -205,7 +207,6 @@ export type IMarkTree = IMarkTreeGroup | IMark | (IMarkTreeGroup | IMark)[];
 export interface IUpdateSpecResult {
   change: boolean;
   reMake: boolean;
-  reMakeData?: boolean;
   reRender?: boolean;
   reSize?: boolean;
   // TODO: compile 的判断应不应该出现在这里?
@@ -259,6 +260,8 @@ export interface IModel extends ICompilable, ILayoutItem {
   init: (option: IModelInitOption) => void;
   // updateSpec 或者切换主题后，根据新 spec 执行的初始化过程
   reInit: (theme?: any, lastSpec?: any) => void;
+  // theme
+  setTheme: (theme?: any) => void;
 
   onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
   onLayoutEnd: (ctx: IModelLayoutOption) => void;

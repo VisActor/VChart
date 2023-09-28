@@ -11,21 +11,21 @@ export const markLine: IMarkLineTheme = {
   startSymbol: {
     visible: false,
     symbolType: 'triangle',
+    size: 10,
     style: {
       stroke: null,
       lineWidth: 0,
-      fill: 'rgba(46, 47, 50)',
-      size: 10
+      fill: 'rgba(46, 47, 50)'
     }
   },
   endSymbol: {
     visible: true,
     symbolType: 'triangle',
+    size: 10,
     style: {
       stroke: null,
       lineWidth: 0,
-      fill: 'rgba(46, 47, 50)',
-      size: 10
+      fill: 'rgba(46, 47, 50)'
     }
   },
   label: {
@@ -33,7 +33,7 @@ export const markLine: IMarkLineTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,
       // lineHeight: THEME_CONSTANTS.l4LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
       fontWeight: 'normal',
       fontStyle: 'normal',
       fill: { type: 'palette', key: 'labelReverseFontColor' },

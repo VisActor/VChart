@@ -1,6 +1,115 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 20 Sep 2023 05:42:12 GMT and should not be manually modified.
+This log was last generated on Wed, 27 Sep 2023 07:53:38 GMT and should not be manually modified.
+
+## 1.4.1
+Wed, 27 Sep 2023 07:53:38 GMT
+
+### Updates
+
+- fix: fix updateViewBox api will fail after resize
+
+
+- feat: optimize updateSpec to avoid additional theme updates
+
+
+- fix(datazoom): fix bounds error when there is no preview chart. fix #1050
+- fix: the rose chart's first sector's startAngle should start from polar coordinate's startAngle, fix #900
+- fix: fix `theme.fontFamily` can not work
+- fix: fix the problem that updateFullData cannot update data in series
+
+
+
+## 1.4.0
+Mon, 25 Sep 2023 10:49:42 GMT
+
+### Patches
+
+- feat: access label in map series
+- fix: fix the issue of reading onError of null option in #915
+
+### Updates
+
+- feat(sequence): add scrollbar layout spec to sequence. close #792
+- feat: linear axis support `tooltipFilterRange` to configure the relative data range of dimension tooltip, related #933
+- feat: add vchart to context in params of mark function style
+
+
+- feat: add default dark theme for scrollBar
+- feat: add configure items `bandSize`, `maxBandSize`, `minBandSize` to the spec of band axis, related #263
+- feat: support `barMinHeight` for bar series, relate #722
+- fix: when stack is false and no `fieldX2` or `fieldY2`, `dataToPositionX1` and `dataToPositionY1` should use 0, close #647
+- feat: enhance default wordcloud appear animation, details in #675
+- feat: tick mask support for polar progress-like charts, related #596
+- fix: label stroke should follow default color when stroke is set to null, detail see #985
+- feat: pie label line support smooth
+- refactor: split the updateSpec of life cycle to spec transform & compare
+
+
+- feat(axis): support custom callback for tickCount, see #951
+- feat: support `label.confine` for markLine and markPoint to auto adjust label's position, relate https://github.com/VisActor/VChart/issues/699
+- fix: `offsetX` and `offsetY` can not work in mark component
+- feat: support `minAngle` for pie chart, relate #738
+- feat: disable label animation as default in map series 
+- fix: sankey chart support color config'
+- feat: increase chart stacking capabilities, provide stackValue to support independent stacking of multiple series
+
+
+- feat: increase chart stacking capabilities, provide stackInverse support for stacking in reverse order
+
+
+- feat: support `scaleCenter` attribute for mark, see #781
+- feat: provide updateModelSpec api, so that users can update the configuration of a chart module individually
+
+
+- feat: supports deleting all events of the corresponding type without passing through the handler when calling off
+
+
+- feat: tooltip supports custom shape type, related #496
+- feat: tooltip supports custom `spaceRow` for each line, related #949
+- feat: tooltip supports custom fixed position relative to the cursor, related #541
+- feat: fix issue about updateSpec not work with only data change, details in #912
+
+
+- refactor: remove unused code, and transform ticks transform to vutils-extension
+- feat: support wx env
+- fix(brush): style not effect when set mark hover. fix #976
+- fix: tooltipHide event may be inavailable when the computer runs slow
+- fix: chart pass-through serDataByAxis config to series
+
+
+- fix: when call updateSpec, the prev scrollbar had not been clear, relate #1044
+- fix: add protect for this._spec, fixed #1045
+- fix: fix the issue of `seriesId` does not work in legends, closed #910
+- fix(datazoom): state scale domain error when domain is locked. fix #629
+- fix: fix unoff event when passing through handler
+
+
+- fix: fix userEvent is added multiple times
+
+
+- fix: line and area mark should set closePath default, fix #654
+- fix: fix the issue of radar area's invalidType not work, fixed #867
+- fix: fix invalidType not working after invoking updataDataSync, details in #1057
+
+
+- fix(marker): marker don not render after updateData. fix #882
+- fix: fix the issue of markLine symbol.size not work
+- fix: optimize the layout of normal-inline, fixed #989
+- refactor: unify the clear of component
+- fix: do the product of this._spec, fixed #1062
+- fix: fix the issue of progress layout in multi-region
+- fix(sequence): render error when dot and link data is empty. fix #1019
+- feat: remove compatibility code of threshold
+
+
+- fix(wordcloud): fontsize renge not effect with no value field. fix #522
+- refactor: seperate grid from axis for better layer control
+- fix: lock crosshair label to uninteractive, because it will affect axis label's event pick
+- refactor: use @visctor/vgrammar-core to replace @visctor/vgrammar
+
+
+- feat: support wx env
 
 ## 1.3.4
 Wed, 20 Sep 2023 05:42:12 GMT

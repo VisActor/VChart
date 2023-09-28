@@ -76,14 +76,14 @@ export interface IVChart {
    * @param options 数据参数
    * @returns VChart 实例
    */
-  updateData: (id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions) => Promise<IVChart>;
+  updateData: (id: StringOrNumber, data: Datum[] | string, options?: IParserOptions) => Promise<IVChart>;
 
   /**
    * **异步**批量更新数据。
    * @param list 待更新的数据列表
    * @returns VChart 实例
    */
-  updateDataInBatches: (list: { id: string; data: DataView | Datum[]; options?: IParserOptions }[]) => Promise<IVChart>;
+  updateDataInBatches: (list: { id: string; data: Datum[]; options?: IParserOptions }[]) => Promise<IVChart>;
 
   /**
    * **同步**更新数据。
@@ -92,7 +92,7 @@ export interface IVChart {
    * @param options 数据参数
    * @returns VChart 实例
    */
-  updateDataSync: (id: StringOrNumber, data: DataView | Datum[], options?: IParserOptions) => IVChart;
+  updateDataSync: (id: StringOrNumber, data: Datum[], options?: IParserOptions) => IVChart;
 
   /**
    * **异步**spec 更新。

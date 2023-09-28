@@ -10,6 +10,7 @@ import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../.
 import type { IGroupMark } from '../../mark/group';
 import type { MarkTypeEnum } from '../../mark/interface';
 import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
+import type { IGroup } from '@visactor/vrender';
 
 export class CustomMark extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;
@@ -86,10 +87,9 @@ export class CustomMark extends BaseComponent<any> {
   /**
    * updateSpec
    */
-  updateSpec(singleSpec: any, spec?: any) {
-    const originalSpec = this._originalSpec;
-    const result = super.updateSpec(spec);
-    if (!isEqual(originalSpec, spec)) {
+  _compareSpec() {
+    const result = super._compareSpec();
+    if (!isEqual(this._originalSpec, this._spec)) {
       result.reMake = true;
     }
 
@@ -97,9 +97,15 @@ export class CustomMark extends BaseComponent<any> {
     result.reRender = true;
     return result;
   }
+
   changeRegions(regions: IRegion[]): void {
     // do nothing;
   }
+
+  getVRenderComponents(): IGroup[] {
+    return [];
+  }
+
   onRender(ctx: IModelRenderOption): void {
     // do nothing;
   }

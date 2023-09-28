@@ -1,8 +1,8 @@
 import { ITextGraphicAttribute } from '@visactor/vrender-core';
 
-type CoordinateType = 'cartesian' | 'polar' | 'geo' | 'none';
-type IOrientType = 'left' | 'top' | 'right' | 'bottom' | 'z';
-type IPolarOrientType = 'radius' | 'angle';
+export type CoordinateType = 'cartesian' | 'polar' | 'geo' | 'none';
+export type IOrientType = 'left' | 'top' | 'right' | 'bottom' | 'z';
+export type IPolarOrientType = 'radius' | 'angle';
 
 export interface ITickDataOpt {
   /**

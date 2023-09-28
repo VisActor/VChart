@@ -1,6 +1,6 @@
 import type { Dict, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { throttle, PointService } from '@visactor/vutils';
+import { throttle, PointService, isEqual } from '@visactor/vutils';
 
 import { RenderModeEnum } from '../../typings/spec/common';
 import type { BaseEventParams, EventType } from '../../event/interface';
@@ -121,10 +121,12 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   /**
    * updateSpec
    */
-  updateSpec(spec: any) {
-    const result = super.updateSpec(spec);
-    result.reRender = true;
-    result.reMake = true;
+  _compareSpec() {
+    const result = super._compareSpec();
+    if (!result.reMake && !isEqual(this._originalSpec, this._spec)) {
+      result.reRender = true;
+      result.reMake = true;
+    }
     return result;
   }
 

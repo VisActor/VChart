@@ -13,7 +13,7 @@ export const totalLabel: ITotalLabelTheme = {
   style: {
     fontSize: THEME_CONSTANTS.l4FontSize,
     // lineHeight: THEME_CONSTANTS.l4LineHeight,
-    fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
     fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
   }
 };

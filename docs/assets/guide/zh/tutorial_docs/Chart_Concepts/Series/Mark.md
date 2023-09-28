@@ -218,7 +218,7 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 ```
 
-scale 的具体用法，可以参照文档 [scale](../../../option/barChart#scales)。
+scale 的具体用法，可以参照文档 [scale](../../../../option/barChart#scales)。
 
 ### 函数配置
 

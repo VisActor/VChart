@@ -14,6 +14,7 @@ region 配置
 region 的 id，可以在其他功能模块中使用这个 id 来索引这个 region。
 
 {{ var: defaultCoordinate = ${regionType} === 'geo' ? 'geo' : ${axisType} }}
+
 ### coordinate(string) = '${defaultCoordinate}'
 
 坐标系类型
@@ -25,22 +26,29 @@ region 的 id，可以在其他功能模块中使用这个 id 来索引这个 re
 - `'geo'`: 地理坐标系
 
 {{ if: ${regionType} === 'geo' }}
+
 ### roam(boolean) = false
+
 是否可以拖拽和缩放
 
 ### longitudeField(string)
+
 数据中的经度字段名，通常用于 `common` 图表中非地图系列组合时的数据字段制定。
 
 ### latitudeField(string)
+
 数据中的纬度字段名，通常用于 `common` 图表中非地图系列组合时的数据字段制定。
 
 ### projection(string)
+
 地理相关映射配置
 
 #### type(string) = 'mercator'
+
 地理映射类型。内置投影类型如下：
-- `albers`：埃尔伯投影，默认以美国为中心，中心在Hutchinson。
-- `albersUsa`：复合投影，用来显示美国下部48，不支持旋转或居中操作。
+
+- `albers`：埃尔伯投影，默认以美国为中心，中心在 Hutchinson。
+- `albersUsa`：复合投影，用来显示美国下部 48，不支持旋转或居中操作。
 - `azimuthalEqualArea`：方位角等面积投影，保持要素的真实相对大小。
 - `azimuthalEquidistant`：方位角等距投影，保留了精确的中心点距离和方向。
 - `conicConformal`：等角二次曲线投影，属于锥型投影，适用于中纬度地区。
@@ -56,12 +64,15 @@ region 的 id，可以在其他功能模块中使用这个 id 来索引这个 re
 - `transverseMercator`：横轴墨卡托投影，可最大程度内减少感兴趣区的变形。
 
 ### zoomLimit(object)
+
 缩放最大最小倍数限制
 
 #### min(number)
+
 缩放最小倍数限制，默认无限制。
 
 #### max(number)
+
 缩放最大倍数限制，默认无限制。
 {{ /if}}
 
@@ -72,3 +83,7 @@ region 的 id，可以在其他功能模块中使用这个 id 来索引这个 re
 {{ use: graphic-rect(
   prefix = '###'
 ) }}
+
+### stackInverse(boolean)
+
+从 `1.4.0` 版本开始支持，是否在堆积时逆序。

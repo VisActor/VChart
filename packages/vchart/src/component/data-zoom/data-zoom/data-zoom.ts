@@ -7,7 +7,7 @@ import { DataFilterBaseComponent } from '../data-filter-base-component';
 // eslint-disable-next-line no-duplicate-imports
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
-import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute } from '@visactor/vrender-core';
+import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup } from '@visactor/vrender-core';
 import type { Datum } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -279,7 +279,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         },
         showDetail: this._spec?.showDetail,
         brushSelect: this._spec?.brushSelect ?? false,
-        previewData: this._data.getLatestData(),
+        previewData: isNeedPreview && this._data.getLatestData(),
         previewCallbackX: isNeedPreview && this._dataToPositionX,
         previewCallbackY: isNeedPreview && this._dataToPositionY,
         ...(this._getComponentAttrs() as any)
@@ -388,11 +388,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     };
   }
 
-  clear(): void {
-    if (this._component) {
-      this.getContainer()?.removeChild(this._component as unknown as INode);
-      this._component = null;
-    }
-    super.clear();
+  getVRenderComponents(): IGroup[] {
+    return [this._component] as unknown as IGroup[];
   }
 }

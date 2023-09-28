@@ -15,33 +15,30 @@ const run = () => {
           },
           {
             type: 'Business Companies',
-            value: 0.25,
-            text: '25%'
+            value: 0.5,
+            text: '50%'
           },
           {
             type: 'Customer-facing Companies',
-            value: 0.065,
-            text: '6.5%'
+            value: 0.25,
+            text: '25%'
           }
         ]
       }
     ],
+    color: ['rgb(255, 222, 0)', 'rgb(171, 205, 5)', 'rgb(0, 154, 68)'],
     valueField: 'value',
     categoryField: 'type',
     seriesField: 'type',
     radius: 0.8,
-    innerRadius: 0.5,
-    roundCap: true,
-    cornerRadius: 20,
-    progress: {
+    innerRadius: 0.4,
+    tickMask: {
+      visible: true,
+      angle: 10,
+      offsetAngle: 0,
+      forceAlign: true,
       style: {
-        innerPadding: 5,
-        outerPadding: 5
-      }
-    },
-    track: {
-      style: {
-        fill: '#666'
+        cornerRadius: 15
       }
     },
     axes: [
@@ -81,7 +78,7 @@ const run = () => {
     },
     legends: {
       visible: true,
-      orient: 'right',
+      orient: 'bottom',
       title: {
         visible: false
       }

@@ -73,6 +73,10 @@
 
 是否对数据进行堆叠处理。
 
+#${prefix} stackValue(string|number)
+
+从 `1.4.0` 版本开始支持，`stackValue` 相等的系列将堆积在一起
+
 #${prefix} percent(boolean)
 
 否对数据进行百分比处理。

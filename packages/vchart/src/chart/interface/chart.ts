@@ -61,8 +61,6 @@ export interface IChart extends ICompilable {
   getLayoutTag: () => boolean;
   setLayoutTag: (tag: boolean) => boolean;
 
-  // 使用parse后的数据结构，直接更新数据
-  updateParseData: (id: string, data: Datum[], options?: IParserOptions) => void;
   // 使用parse前的原始数据结构更新数据
   updateData: (id: StringOrNumber, data: unknown, updateGlobalScale?: boolean, options?: IParserOptions) => void;
   // 使用 IData 更新数据
@@ -160,7 +158,7 @@ export interface IChart extends ICompilable {
 
   getCurrentTheme: () => ITheme;
 
-  setCurrentTheme: (theme: ITheme, noRender?: boolean) => void;
+  setCurrentTheme: (theme: ITheme, reInit?: boolean) => void;
 
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
   // setDimensionIndex

@@ -9,7 +9,7 @@ export const indicator: IIndicatorTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l1FontSize,
       // lineHeight: THEME_CONSTANTS.l1LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
       fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
       fontWeight: 'normal',
       fillOpacity: 1,
@@ -22,7 +22,7 @@ export const indicator: IIndicatorTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l2FontSize,
       // lineHeight: THEME_CONSTANTS.l2LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
       fill: { type: 'palette', key: 'secondaryFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1,

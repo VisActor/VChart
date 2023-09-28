@@ -68,11 +68,15 @@
 
 #${prefix} lineThrough(boolean)
 
+是否开启删除线。
+
+#${prefix} direction('horizontal'|'vertical') = 'horizontal'
+
+文本的排布方向，如果需要文本纵向排布，可以配置为 'vertical'。
+
 #${prefix} keepDirIn3d(boolean)
 
 是否在 3d 模式中始终保持方向朝向窗口（配置为 false 则会随着视角旋转而旋转，配置为 true，那么方向始终朝向窗口）
-
-是否开启删除线。
 
 {{ use: graphic-attribute(
   prefix = ${prefix},

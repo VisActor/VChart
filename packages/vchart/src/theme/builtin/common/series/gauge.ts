@@ -8,5 +8,11 @@ export const gauge: IGaugeSeriesTheme = {
     style: {
       fillOpacity: 1
     }
+  },
+  tickMask: {
+    visible: false,
+    angle: 3,
+    offsetAngle: 0,
+    forceAlign: true
   }
 };

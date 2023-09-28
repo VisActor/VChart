@@ -13,9 +13,8 @@ const getLabelSpec = (): ICrosshairLabelSpec => ({
   style: {
     fontWeight: 'normal',
     fill: { type: 'palette', key: 'labelReverseFontColor' },
-    fontSize: THEME_CONSTANTS.l5FontSize,
+    fontSize: THEME_CONSTANTS.l5FontSize
     //lineHeight: THEME_CONSTANTS.l5LineHeight,
-    fontFamily: THEME_CONSTANTS.defaultFontFamily
   },
   labelBackground: {
     padding: {
