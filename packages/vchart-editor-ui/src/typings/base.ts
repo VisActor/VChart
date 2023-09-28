@@ -19,8 +19,8 @@ export interface IEditorHeaderProps {
   label: string;
   checked?: boolean;
   collapsed?: boolean;
-  onCheck?: () => void;
-  onCollapse?: () => void;
+  onCheck?: (checked?: boolean) => void;
+  onCollapse?: (collapsed?: boolean) => void;
   onRefresh?: () => void;
 }
 

@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { ComponentConfig } from './config';
 
 export interface IPanelSection {
@@ -6,6 +7,7 @@ export interface IPanelSection {
 }
 
 export interface IPanelProps {
+  style?: React.CSSProperties;
   label?: string;
   sections?: any;
   onChange?: (section: string, key: string, value: any) => void;
@@ -68,6 +70,6 @@ export interface ITitlePanelProps extends IPanelProps {
 // Custom Panel
 
 export interface ICustomPanelProps extends IPanelProps {
-  sections?: Record<string, IPanelSection>;
-  componentMap?: Record<string, string>;
+  sections: Record<string, IPanelSection>;
+  sectionComponentMaps?: Record<string, Record<string, string>>;
 }

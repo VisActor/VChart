@@ -48,6 +48,7 @@ function App() {
         ]}
       />
       <TitlePanel
+        style={{ marginBottom: 20 }}
         sections={{
           title: {
             label: '主标题',
@@ -87,15 +88,18 @@ function App() {
           }
         }}
       />
-      <AxisPanel />
-      <DataFormatPanel />
-      <LabelPanel />
+      <AxisPanel style={{ marginBottom: 20 }} />
+      <DataFormatPanel style={{ marginBottom: 20 }} />
+      <LabelPanel style={{ marginBottom: 20 }} />
       <CustomPanel
+        style={{ marginBottom: 20 }}
         label="图形样式"
-        componentMap={{
-          count: 'sliderNumber',
-          interval: 'sliderNumber',
-          borderRadius: 'sliderNumber'
+        sectionComponentMaps={{
+          style: {
+            count: 'sliderNumber',
+            interval: 'sliderNumber',
+            borderRadius: 'sliderNumber'
+          }
         }}
         sections={{
           bar: {
@@ -108,6 +112,7 @@ function App() {
         }}
       />
       <CustomPanel
+        style={{ marginBottom: 20 }}
         label="时间标注"
         sections={{
           time: {
