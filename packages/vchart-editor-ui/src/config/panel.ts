@@ -1,4 +1,10 @@
-import type { IAxisPanelProps, IDataFormatPanelProps, ILabelPanelProps, ITitlePanelProps } from '../typings/panel';
+import type {
+  IAxisPanelProps,
+  IDataFormatPanelProps,
+  ILabelPanelProps,
+  ILegendPanelProps,
+  ITitlePanelProps
+} from '../typings/panel';
 
 export const axisDefaultProps: IAxisPanelProps = {
   label: '轴',
@@ -40,6 +46,36 @@ export const labelDefaultProps: ILabelPanelProps = {
   label: '数值标签',
   sections: {
     label: {
+      entries: [
+        { key: 'fontFamily', label: '字体' },
+        { key: 'fontSize', label: '字号' },
+        { key: 'fontStyle', label: '样式' },
+        { key: 'color', label: '颜色' }
+      ]
+    }
+  }
+};
+
+export const legendDefaultProps: ILegendPanelProps = {
+  label: '图例',
+  sections: {
+    align: {
+      label: '排列',
+      entries: [
+        {
+          key: 'position',
+          label: '显示位置',
+          options: [
+            { value: 'left', label: '居左' },
+            { value: 'center', label: '居中' },
+            { value: 'right', label: '居右' }
+          ]
+        },
+        { key: 'textAlign', label: '对齐方式' }
+      ]
+    },
+    label: {
+      label: '图例标签',
       entries: [
         { key: 'fontFamily', label: '字体' },
         { key: 'fontSize', label: '字号' },

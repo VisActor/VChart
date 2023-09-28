@@ -42,6 +42,17 @@ export interface ILabelPanelProps extends IPanelProps {
   sections?: ILabelPanelEntries;
 }
 
+// Legend Panel
+
+export interface ILegendPanelEntries {
+  align?: IPanelSection;
+  label?: IPanelSection;
+}
+
+export interface ILegendPanelProps extends IPanelProps {
+  sections?: ILegendPanelEntries;
+}
+
 // Title Panel
 
 export interface ITitlePanelEntries {
