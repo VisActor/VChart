@@ -27,7 +27,7 @@ const spec = {
   type: 'wordCloud',
   nameField: 'name',
   valueField: 'value',
-  maskShape: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/shape_motuo.jpeg',
+  maskShape: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/shape_motuo_mini.png',
   rotateAngles: [0, 90],
   data: [
     {
@@ -242,6 +242,7 @@ vchart.renderAsync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
+
 ```
 
 ## 相关教程

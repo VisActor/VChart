@@ -8,14 +8,14 @@ export const poptip: IPoptipTheme = {
   titleStyle: {
     fontSize: THEME_CONSTANTS.l5FontSize,
     // lineHeight: THEME_CONSTANTS.l5LineHeight, // FIXME: vrender 支持行高字符串后取消注释
-    fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
     fontWeight: 'bold',
     fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
   },
   contentStyle: {
     fontSize: THEME_CONSTANTS.l5FontSize,
     // lineHeight: THEME_CONSTANTS.l5LineHeight, // FIXME: vrender 支持行高字符串后取消注释
-    fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
     fill: { type: 'palette', key: 'secondaryFontColor' }
   },
   panel: {

@@ -23,7 +23,7 @@ export type IMarkerPositionsSpec = {
   positions: IPointLike[];
 };
 
-export type IMarkerLabelSpec = {
+export type IMarkerLabelWithoutRefSpec = {
   visible?: boolean;
   /**
    * label整体 - 是否自动旋转
@@ -86,7 +86,17 @@ export type IMarkerLabelSpec = {
    * @since 1.4.0
    */
   confine?: boolean;
-} & IMarkerRef;
+  /**
+   * 水平方向的偏移
+   */
+  dx?: number;
+  /**
+   * 垂直方向的偏移
+   */
+  dy?: number;
+};
+
+export type IMarkerLabelSpec = IMarkerLabelWithoutRefSpec & IMarkerRef;
 
 export interface IMarkerRef {
   /**

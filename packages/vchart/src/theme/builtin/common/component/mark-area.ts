@@ -11,7 +11,7 @@ export const markArea: IMarkAreaTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,
       // lineHeight: THEME_CONSTANTS.l4LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
       fontWeight: 'normal',
       fontStyle: 'normal',
       fill: { type: 'palette', key: 'labelReverseFontColor' },

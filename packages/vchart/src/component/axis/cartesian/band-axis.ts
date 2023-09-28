@@ -1,6 +1,6 @@
 import { BandScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
-import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING } from './config';
+import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING, DEFAULT_BAND_POSITION } from './config';
 import type { IAxisLocationCfg, ICartesianBandAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface';
 import { mixin } from '@visactor/vutils';
@@ -65,7 +65,9 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
     }
     const { position, bandScale } = this.getPosition(values);
 
-    return position + bandScale.bandwidth() * (cfg.bandPosition ?? 0.5);
+    return (
+      position + bandScale.bandwidth() * (cfg.bandPosition ?? this.getSpec().bandPosition ?? DEFAULT_BAND_POSITION)
+    );
   }
 
   transformScaleDomain() {

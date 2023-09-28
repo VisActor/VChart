@@ -260,6 +260,8 @@ export interface IModel extends ICompilable, ILayoutItem {
   init: (option: IModelInitOption) => void;
   // updateSpec 或者切换主题后，根据新 spec 执行的初始化过程
   reInit: (theme?: any, lastSpec?: any) => void;
+  // theme
+  setTheme: (theme?: any) => void;
 
   onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
   onLayoutEnd: (ctx: IModelLayoutOption) => void;

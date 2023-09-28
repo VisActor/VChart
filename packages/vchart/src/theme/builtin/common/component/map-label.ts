@@ -12,9 +12,8 @@ export const mapLabel: IMapLabelTheme = {
       textBaseline: 'middle',
       textAlign: 'left',
       fill: 'black',
-      fontSize: THEME_CONSTANTS.l6FontSize,
+      fontSize: THEME_CONSTANTS.l6FontSize
       // lineHeight: THEME_CONSTANTS.l6LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily
     }
   },
   valueLabel: {
@@ -23,9 +22,8 @@ export const mapLabel: IMapLabelTheme = {
       textBaseline: 'middle',
       textAlign: 'left',
       fill: 'black',
-      fontSize: THEME_CONSTANTS.l6FontSize,
+      fontSize: THEME_CONSTANTS.l6FontSize
       // lineHeight: THEME_CONSTANTS.l6LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily
     }
   },
   background: {
