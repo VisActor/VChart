@@ -53,74 +53,76 @@ import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
 
-// charts
-registerLineChart();
-registerAreaChart();
-registerBarChart();
-registerScatterChart();
-registerPieChart();
-registerRoseChart();
-registerRadarChart();
-registerHistogramChart();
-registerMapChart();
-registerGaugeChart();
-registerWordCloudChart();
-registerFunnelChart();
-registerWaterfallChart();
-registerBoxplotChart();
-registerCircularProgressChart();
-registerLinearProgressChart();
-registerRangeColumnChart();
-registerRangeAreaChart();
-registerSunburstChart();
-registerCirclePackingChart();
-registerTreemapChart();
-registerSankeyChart();
-registerHeatmapChart();
-registerSequenceChart();
-registerCommonChart();
+VChart.useRegisters([
+  // charts
+  registerLineChart,
+  registerAreaChart,
+  registerBarChart,
+  registerScatterChart,
+  registerPieChart,
+  registerRoseChart,
+  registerRadarChart,
+  registerHistogramChart,
+  registerMapChart,
+  registerGaugeChart,
+  registerWordCloudChart,
+  registerFunnelChart,
+  registerWaterfallChart,
+  registerBoxplotChart,
+  registerCircularProgressChart,
+  registerLinearProgressChart,
+  registerRangeColumnChart,
+  registerRangeAreaChart,
+  registerSunburstChart,
+  registerCirclePackingChart,
+  registerTreemapChart,
+  registerSankeyChart,
+  registerHeatmapChart,
+  registerSequenceChart,
+  registerCommonChart,
 
-// 3d charts
-registerBar3dChart();
-registerPie3dChart();
-registerHistogram3dChart();
-registerFunnel3dChart();
-registerRangeColumn3dChart();
+  // 3d charts
+  registerBar3dChart,
+  registerPie3dChart,
+  registerHistogram3dChart,
+  registerFunnel3dChart,
+  registerRangeColumn3dChart,
 
-// components
-registerCartesianLinearAxis();
-registerCartesianBandAxis();
-registerCartesianTimeAxis();
-registerCartesianLogAxis();
-registerCartesianSymlogAxis();
-registerPolarBandAxis();
-registerPolarLinearAxis();
+  // components
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerCartesianTimeAxis,
+  registerCartesianLogAxis,
+  registerCartesianSymlogAxis,
+  registerPolarBandAxis,
+  registerPolarLinearAxis,
 
-registerDiscreteLegend();
-registerContinuousLegend();
+  registerDiscreteLegend,
+  registerContinuousLegend,
 
-registerTooltip();
-registerCartesianCrossHair();
-registerPolarCrossHair();
+  registerTooltip,
+  registerCartesianCrossHair,
+  registerPolarCrossHair,
 
-registerDataZoom();
-registerScrollBar();
-registerIndicator();
-registerGeoCoordinate();
-registerMarkPoint();
-registerMarkLine();
-registerMarkArea();
-registerTitle();
-registerPlayer();
-registerLabel();
-registerTotalLabel();
-registerBrush();
-registerCustomMark();
-registerMapLabel();
-registerPoptip();
+  registerDataZoom,
+  registerScrollBar,
+  registerIndicator,
+  registerGeoCoordinate,
+  registerMarkPoint,
+  registerMarkLine,
+  registerMarkArea,
+  registerTitle,
+  registerPlayer,
+  registerLabel,
+  registerTotalLabel,
+  registerBrush,
+  registerCustomMark,
+  registerMapLabel,
+  registerPoptip,
 
-// layout
-registerGridLayout();
-registerLayout3d();
+  // layout
+  registerGridLayout,
+  registerLayout3d
+]);
 
 export { VChart };

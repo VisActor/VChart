@@ -13,18 +13,20 @@ import { registerLineChart } from './chart/line';
 import { registerBarChart } from './chart/bar';
 import { registerPieChart } from './chart/pie';
 
-// charts
-registerLineChart();
-registerBarChart();
-registerPieChart();
+VChart.useRegisters([
+  // charts
+  registerLineChart,
+  registerBarChart,
+  registerPieChart,
 
-// components
-registerCartesianLinearAxis();
-registerCartesianBandAxis();
-registerCartesianTimeAxis();
-registerDiscreteLegend();
-registerTooltip();
-registerCartesianCrossHair();
-registerLabel();
+  // components
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerCartesianTimeAxis,
+  registerDiscreteLegend,
+  registerTooltip,
+  registerCartesianCrossHair,
+  registerLabel
+]);
 
 export { VChart };

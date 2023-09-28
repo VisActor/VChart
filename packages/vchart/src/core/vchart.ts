@@ -100,8 +100,20 @@ export class VChart implements IVChart {
   readonly id = createID();
 
   /**
+   *  注册图表组件
+   * @param comps
+   * @since 1.5.0
+   */
+  static useRegisters(comps: (() => void)[]) {
+    comps.forEach((fn: () => void) => {
+      fn();
+    });
+  }
+
+  /**
    * 注册图表
    * @param charts 图表类
+   * @deprecated
    */
   static useChart(charts: IChartConstructor[]) {
     charts.forEach(c => Factory.registerChart(c.type, c));
@@ -109,6 +121,7 @@ export class VChart implements IVChart {
   /**
    * 注册系列
    * @param series 系列类
+   * @deprecated
    */
   static useSeries(series: ISeriesConstructor[]) {
     series.forEach(s => Factory.registerSeries(s.type, s));
@@ -116,6 +129,7 @@ export class VChart implements IVChart {
   /**
    * 注册组件
    * @param components 组件类
+   * @deprecated
    */
   static useComponent(components: IComponentConstructor[]) {
     components.forEach(c => Factory.registerComponent(c.type, c));
@@ -123,6 +137,7 @@ export class VChart implements IVChart {
   /**
    * 注册 Mark
    * @param marks Mark 图元类
+   * @deprecated
    */
   static useMark(marks: MarkConstructor[]) {
     marks.forEach(m => Factory.registerMark(m.constructorType ?? m.type, m));
@@ -130,6 +145,7 @@ export class VChart implements IVChart {
   /**
    * 注册布局
    * @param layouts 布局类
+   * @deprecated
    */
   static useLayout(layouts: ILayoutConstructor[]) {
     layouts.forEach(l => Factory.registerLayout(l.type, l));
@@ -1590,3 +1606,5 @@ export const registerVChartCore = () => {
   // set default logger level to Level.error
   Logger.getInstance(LoggerLevel.Error);
 };
+
+registerVChartCore();
