@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add static tools in `VChart.Utils`",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
