@@ -5,7 +5,7 @@ import type { ILayoutItem, IModel, IModelOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
 import type { StringOrNumber } from '../../typings';
-import type { IGroup } from '@visactor/vrender';
+import type { IGroup } from '@visactor/vrender-core';
 /**
  * 组件作为图表辅助阅读等功能的模块，除了model提供的能力之外，还有以下功能特点
  * 支持对多region的绑定。
