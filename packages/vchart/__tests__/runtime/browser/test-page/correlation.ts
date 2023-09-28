@@ -7,7 +7,6 @@ const run = () => {
     type: 'correlation',
     data: [
       {
-        id: 'correlation',
         values: [
           { word: '输入法哪个好用', pv: 15952, ratio: 94, sim: 3932 },
           { word: '谷歌拼音输入法', pv: 11032, ratio: 97, sim: 2799 },
@@ -47,7 +46,9 @@ const run = () => {
     valueField: 'sim',
 
     sizeField: 'pv',
-    sizeRange: [12, 30]
+    sizeRange: [12, 30],
+
+    innerRadius: '20%'
   };
 
   const cs = new VChart(spec, {

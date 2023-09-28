@@ -2,8 +2,14 @@ import type { ISeriesSpec, DirectionType, IMarkTheme, IMarkSpec } from '../../ty
 import type { ILabelSpec } from '../../component/label';
 import type { ISymbolMarkSpec, ITextMarkSpec, IRippleMarkSpec } from '../../typings';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
+import type { IAnimationSpec } from '../../animation/spec';
+// import type { CorrelationAppearPreset } from './animation';
 
-export interface ICorrelationSeriesSpec extends ISeriesSpec {
+type CorrelationMarks = 'point' | 'ripplePoint' | 'centerPoint' | 'centerLabel';
+
+export interface ICorrelationSeriesSpec extends Omit<IPolarSeriesSpec, 'innerRadius' | 'outerRadius'> {
+  // IAnimationSpec<CorrelationMarks, CorrelationAppearPreset>
   /**
    * 系列类型
    */
@@ -26,8 +32,10 @@ export interface ICorrelationSeriesSpec extends ISeriesSpec {
   /**
    * layout & position
    */
-  /** 图表中心点位置 */
-  center?: [string | number, string | number];
+  /** 图表中心点位置X坐标 */
+  centerX?: number;
+  /** 图表中心点位置Y坐标 */
+  centerY?: number;
   /** 节点分布内半径 */
   innerRadius?: string | number;
   /** 节点分布外半径 */
@@ -69,4 +77,11 @@ export interface ICorrelationSeriesSpec extends ISeriesSpec {
       | 'bottom-left'
       | 'center';
   };
+}
+
+export interface ICorrelationSeriesTheme {
+  [SeriesMarkNameEnum.point]?: IMarkTheme<ISymbolMarkSpec>;
+  [SeriesMarkNameEnum.ripplePoint]?: IMarkTheme<IRippleMarkSpec>;
+  [SeriesMarkNameEnum.centerPoint]?: IMarkTheme<ISymbolMarkSpec>;
+  [SeriesMarkNameEnum.centerLabel]?: IMarkTheme<ITextMarkSpec>;
 }

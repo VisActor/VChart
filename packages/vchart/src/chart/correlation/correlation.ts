@@ -13,7 +13,7 @@ export class CorrelationChart extends BaseChart {
   readonly type: string = ChartTypeEnum.correlation;
   readonly seriesType: string = SeriesTypeEnum.correlation;
 
-  protected getDefaultSeriesSpec(spec: ICorrelationChartSpec) {
+  protected _getDefaultSeriesSpec(spec: ICorrelationChartSpec): any {
     const series: ICorrelationSeriesSpec = {
       ...super._getDefaultSeriesSpec(spec),
       categoryField: spec.categoryField,
@@ -22,7 +22,8 @@ export class CorrelationChart extends BaseChart {
       sizeField: spec.sizeField,
       sizeRange: spec.sizeRange,
 
-      center: spec.center,
+      centerX: spec.centerX,
+      centerY: spec.centerY,
       innerRadius: spec.innerRadius,
       outerRadius: spec.outerRadius,
       startAngle: spec.startAngle,

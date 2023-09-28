@@ -21,7 +21,7 @@ import type { ISunburstSeriesTheme } from '../sunburst/interface';
 import type { IRangeColumnSeriesTheme } from '../range-column/interface';
 import type { ICirclePackingSeriesTheme } from '../circle-packing/interface';
 import type { IHeatmapSeriesTheme } from '../heatmap/interface';
-import type { ICorrelationSeriesTheme } from '../sankey/interface';
+import type { ICorrelationSeriesTheme } from '../correlation/interface';
 import { SeriesTypeEnum } from './type';
 import type { SeriesMarkMap } from './common';
 import { bar3dSeriesMark, barSeriesMark } from '../bar/constant';
