@@ -1126,6 +1126,14 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   release() {
+    /* release 前的处理 */
+    this.getComponents().forEach(component => {
+      if (component.type === ComponentTypeEnum.tooltip) {
+        (component as any).triggerReleaseEvent(); // 触发 release 事件
+      }
+    });
+
+    /* 开始 release */
     super.release();
     // clear event , temporary function of  chart items
     this.clear();
