@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `tooltipRelease` event may be invalid when being released by VTable",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
