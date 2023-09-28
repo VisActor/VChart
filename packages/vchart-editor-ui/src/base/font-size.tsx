@@ -19,7 +19,7 @@ export function FontSize(props: IBaseFontSizeComponentProps) {
           const finalValue = isArray(value) ? value[0] : value;
           props.onChange?.(finalValue);
         }}
-        style={{ width: 200 }}
+        style={{ width: 180 }}
       ></Slider>
       <InputNumber
         value={props.fontSize}

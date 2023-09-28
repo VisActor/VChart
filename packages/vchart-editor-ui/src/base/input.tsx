@@ -6,14 +6,15 @@ export function Input(props: IBaseInputComponentProps) {
   const placeholder = props.config?.placeholder ?? defaultBaseComponentConfig.input.placeholder;
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div className="vchart-editor-ui-panel-base-container">
       <TextArea
         defaultValue={props.value}
         placeholder={placeholder}
-        style={{ width: 200, height: 50 }}
         onChange={value => {
           props.onChange?.(value);
         }}
+        rows={2}
+        style={{ width: '100%' }}
       />
     </div>
   );
