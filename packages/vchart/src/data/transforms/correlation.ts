@@ -97,7 +97,7 @@ export const correlation = (data: any, options: any) => {
       y = center[1] + radius * Math.sin(angle);
 
       if (
-        hasOverlap({ x, y, radius: size }, res) ||
+        hasOverlap({ x, y, size }, res) ||
         x - size < viewBox.x0 ||
         x + size > viewBox.x1 ||
         y - size < viewBox.y0 ||
@@ -170,6 +170,6 @@ const hasOverlap = (item: Omit<CircularRelationItem, 'datum'>, arr: CircularRela
   }
 
   return arr.some(entry => {
-    return Math.pow(item.x - entry.x, 2) + Math.pow(item.y - entry.y, 2) < Math.pow(item.radius + entry.radius, 2);
+    return Math.pow(item.x - entry.x, 2) + Math.pow(item.y - entry.y, 2) < Math.pow(item.size + entry.size, 2);
   });
 };
