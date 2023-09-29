@@ -50,7 +50,7 @@ const plugins = bundle_analyze_mode
  */
 module.exports = {
   name: 'VChart',
-  formats: ['umd'],
+  formats: ['es', 'cjs', 'umd'],
   outputDir: {
     es: 'esm',
     cjs: 'cjs',
