@@ -50,8 +50,16 @@ export class LayoutEditorComponent {
     this._opt.stage.addEventListener('pointerdown', this._dragStartCheck);
   }
 
+  updateBounds(bounds: IBoundsLike) {
+    this.editorBox.updateSubBounds(bounds);
+  }
+
   _dragStartCheck = e => {
     if (this.editorBox.containsPoint(e.x, e.y, IContainPointMode.GLOBAL)) {
+      // editor box
+      if (e.target?.parent === this._editorBox) {
+        return;
+      }
       if (this._el.editProperties.move) {
         this._dragger.startDrag(e);
       }
