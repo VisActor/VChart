@@ -60,6 +60,7 @@
     "magic-string": "^0.25.7",
     "prettier": "2.6.1",
     "react-device-detect": "^2.2.2",
+    "rollup-plugin-postcss": "4.0.2",
     "ts-jest": "^26.0.0",
     "ts-loader": "8.0.2",
     "ts-node": "10.9.0",
