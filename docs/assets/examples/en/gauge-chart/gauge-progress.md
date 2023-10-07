@@ -15,7 +15,7 @@ option: gaugeChart
 - `categoryField`,`valueField` Properties are used to specify data categories and pointer angle fields, respectively
 - `innerRadius`,`outerRadius` Property is used to specify the inner and outer radii of the dashboard
 - `startAngle`,`endAngle` Properties are used to specify the start and end angles of the dashboard
-- `gauge`Properties can be configured[Background panel series for instrument diagram](../../option/gaugeChart#gauge)
+- `gauge`Properties can be configured[Background panel series for gauge chart](../../option/gaugeChart#gauge)
 
 ## Demo source
 
@@ -83,4 +83,4 @@ window['vchart'] = vchart;
 
 ## Related Tutorials
 
-[Instrument diagram](link)
+[Gauge chart](link)

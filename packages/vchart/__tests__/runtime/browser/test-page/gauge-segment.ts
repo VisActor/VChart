@@ -6,11 +6,11 @@ const run = () => {
   // 公共参数，和spec配置相同
   const valueField = 'value';
   const minValue = 0;
-  const maxValue = 0.8;
+  const maxValue = 1;
   const outerRadius = 0.8;
   const innerRadius = 0.5;
-  const startAngle = -180;
-  const endAngle = 0;
+  const startAngle = -210;
+  const endAngle = 30;
   const tickSize = 6;
   const gaugeDataIndex = 1;
 
@@ -216,16 +216,19 @@ const run = () => {
         id: 'segment',
         values: [
           {
-            type: 'level1',
-            value: 0.4
+            type: 'Level 1',
+            color: '#07A35A',
+            value: 0.3
           },
           {
-            type: 'level2',
-            value: 0.6
+            type: 'Level 2',
+            color: '#FFC528',
+            value: 0.5
           },
           {
-            type: 'level3',
-            value: 0.8
+            type: 'Level 3',
+            color: '#E33232',
+            value: 1
           }
         ]
       }
@@ -238,7 +241,15 @@ const run = () => {
       seriesField: 'type',
       segment: {
         style: {
-          cornerRadius: 10
+          fill: datum => datum['color']
+        }
+      },
+      label: {
+        visible: true,
+        position: 'inside-outer',
+        offsetRadius: 15,
+        style: {
+          text: datum => datum['type']
         }
       }
     },
@@ -253,7 +264,7 @@ const run = () => {
     innerRadius,
     startAngle,
     endAngle,
-    axes: [{ type: 'linear', orient: 'angle', grid: { visible: false } }],
+    axes: [{ type: 'linear', orient: 'angle', label: { visible: false } }],
     extensionMark: [
       // 添加区间 tick
       ...getTicks({
@@ -264,7 +275,7 @@ const run = () => {
       ...getLabels({}),
       // 添加目标值高亮组
       ...getTargetMarks(
-        0.2,
+        0.38,
         {
           stroke: 'red',
           lineWidth: 2
