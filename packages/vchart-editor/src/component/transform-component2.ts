@@ -9,7 +9,7 @@ import {
   type IRectGraphicAttribute,
   type ILineGraphicAttribute,
   createRect
-} from '@visactor/vrender';
+} from '@visactor/vrender-core';
 import type { IAABBBounds, IAABBBoundsLike } from '@visactor/vutils';
 import { AABBBounds, Matrix, merge, normalizePadding, pi } from '@visactor/vutils';
 import { AbstractComponent } from '@visactor/vrender-components';
