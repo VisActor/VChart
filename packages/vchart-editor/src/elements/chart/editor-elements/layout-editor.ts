@@ -116,13 +116,14 @@ export class LayoutEditorElement extends BaseEditorElement {
       updateAttribute: attr => {
         if (attr.layout) {
           const layoutData = attr.layout as Partial<ILayoutAttribute>;
+          const rect = model.computeBoundsInRect(layoutData);
           chart.layout.setModelLayoutData({
             id: layoutMeta.id,
             layout: {
               x: { offset: layoutData.x as number },
               y: { offset: layoutData.y as number },
-              width: { offset: layoutData.width as number },
-              height: { offset: layoutData.height as number }
+              width: { offset: rect.width as number },
+              height: { offset: rect.height as number }
             }
           });
           if (model.type === 'region' && model.coordinate === 'cartesian') {
@@ -135,6 +136,14 @@ export class LayoutEditorElement extends BaseEditorElement {
                 id: _a.userId,
                 layout: getAxisLayoutInRegionRect(_a, { ..._a.getLayoutRect(), ...layoutData })
               });
+            });
+          }
+          if (rect.width !== layoutData.width || rect.height !== layoutData.height) {
+            this._layoutComponent.updateBounds({
+              x1: layoutData.x,
+              x2: layoutData.x + rect.width,
+              y1: layoutData.y,
+              y2: layoutData.y + rect.height
             });
           }
           chart.vchart.getChart().setLayoutTag(true);
