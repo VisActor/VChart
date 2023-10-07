@@ -1,4 +1,4 @@
-import './style/index.css';
+import './style/index.less';
 
 // Panels
 export { AxisPanel } from './panels/axis-panel';

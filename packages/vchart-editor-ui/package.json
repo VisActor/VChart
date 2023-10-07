@@ -14,8 +14,8 @@
   "scripts": {
     "compile": "tsc --noEmit",
     "eslint": "eslint --debug --fix src/",
-    "build": "bundle --clean",
-    "dev": "bundle --clean -f es -w",
+    "build": "bundle --clean --less",
+    "dev": "bundle --clean -f es -w --less",
     "start": "vite ./__tests__/browser",
     "prepublishOnly": "npm run build",
     "clear": "rm -rf build es cjs dist",
