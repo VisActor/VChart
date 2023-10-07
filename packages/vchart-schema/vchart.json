@@ -5028,76 +5028,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
-          "description": "style格式转换"
-        }
-      ],
-      "description": "style格式转换"
-    },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -5112,23 +5043,11 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5144,11 +5063,23 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>_1",
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5164,7 +5095,76 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+          "description": "style格式转换"
+        }
+      ],
+      "description": "style格式转换"
+    },
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
           "description": "style格式转换"
         }
       ],
@@ -25806,15 +25806,6 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IBarSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IBar3dSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IWaterfallSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IFunnelSeriesSpec"
               },
               {
@@ -25830,19 +25821,31 @@
                 "$ref": "#/definitions/IDotSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IGaugePointerSeriesSpec"
+                "$ref": "#/definitions/IBarSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IGaugeSeriesSpec"
+                "$ref": "#/definitions/IBar3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IBoxPlotSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ITreemapSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ISunburstSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ICirclePackingSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ILineSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ILinearProgressSeriesSpec"
+                "$ref": "#/definitions/IRangeColumnChartSpec"
               },
               {
-                "$ref": "#/definitions/ILinkSeriesSpec"
+                "$ref": "#/definitions/IRangeAreaChartSpec"
               },
               {
                 "$ref": "#/definitions/IMapSeriesSpec"
@@ -25854,7 +25857,13 @@
                 "$ref": "#/definitions/IPie3dSeriesSpec"
               },
               {
+                "$ref": "#/definitions/ILinkSeriesSpec"
+              },
+              {
                 "$ref": "#/definitions/IRadarSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IRoseSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IScatterSeriesSpec"
@@ -25866,31 +25875,22 @@
                 "$ref": "#/definitions/IWordCloud3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ITreemapSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ISunburstSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IBoxPlotSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ICirclePackingSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRangeColumnChartSpec"
-              },
-              {
-                "$ref": "#/definitions/IRangeAreaChartSpec"
-              },
-              {
-                "$ref": "#/definitions/IRoseSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IHeatmapSeriesSpec"
               },
               {
+                "$ref": "#/definitions/ILinearProgressSeriesSpec"
+              },
+              {
                 "$ref": "#/definitions/ISankeySeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IGaugePointerSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IWaterfallSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IGaugeSeriesSpec"
               }
             ]
           },
@@ -27364,11 +27364,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -29440,11 +29440,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -31963,7 +31963,7 @@
           "description": "图钉背景样式"
         },
         "pointer": {
-          "$ref": "#/definitions/Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>",
+          "$ref": "#/definitions/Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>",
           "description": "指针样式"
         },
         "radius": {
@@ -64622,7 +64622,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         },
         "size": {
@@ -64630,14 +64630,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13132",
+        "__@toStringTag@13133",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         },
         "size": {
@@ -64645,14 +64645,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13132",
+        "__@toStringTag@13133",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         },
         "size": {
@@ -64660,14 +64660,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13132",
+        "__@toStringTag@13133",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         },
         "size": {
@@ -64675,14 +64675,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13132",
+        "__@toStringTag@13133",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         },
         "size": {
@@ -64690,14 +64690,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13132",
+        "__@toStringTag@13133",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         },
         "size": {
@@ -64705,14 +64705,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13132",
+        "__@toStringTag@13133",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         },
         "size": {
@@ -64720,14 +64720,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13132",
+        "__@toStringTag@13133",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         },
         "size": {
@@ -64735,14 +64735,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13132",
+        "__@toStringTag@13133",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         },
         "size": {
@@ -64750,7 +64750,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13132",
+        "__@toStringTag@13133",
         "size"
       ],
       "type": "object"
@@ -73576,71 +73576,6 @@
       },
       "type": "object"
     },
-    "Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>": {
-      "properties": {
-        "center": {
-          "description": "中心点坐标（0~1）",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "height": {
-          "description": "指针长度比例（0~1）（为空则挂载 radius）",
-          "type": "number"
-        },
-        "innerPadding": {
-          "description": "指针靠近圆心的一端离圆心的距离",
-          "type": "number"
-        },
-        "interactive": {
-          "description": "可交互的开关",
-          "type": "boolean"
-        },
-        "outerPadding": {
-          "description": "指针靠近边缘的一端离边缘的距离",
-          "type": "number"
-        },
-        "state": {
-          "$ref": "#/definitions/Record<string,IPathMarkSpec|IRectMarkSpec>",
-          "description": "不同状态下的样式配置"
-        },
-        "style": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IPathMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IRectMarkSpec"
-            }
-          ],
-          "description": "默认样式设置"
-        },
-        "type": {
-          "enum": [
-            "path",
-            "rect"
-          ],
-          "type": "string"
-        },
-        "visible": {
-          "description": "mark 层 是否显示配置",
-          "type": "boolean"
-        },
-        "width": {
-          "description": "指针宽度比例（0~1）",
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
     "Partial<IMarkTheme<IPolygonMarkSpec>>": {
       "properties": {
         "interactive": {
@@ -73742,6 +73677,71 @@
         "visible": {
           "description": "mark 层 是否显示配置",
           "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>": {
+      "properties": {
+        "center": {
+          "description": "中心点坐标（0~1）",
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "height": {
+          "description": "指针长度比例（0~1）（为空则挂载 radius）",
+          "type": "number"
+        },
+        "innerPadding": {
+          "description": "指针靠近圆心的一端离圆心的距离",
+          "type": "number"
+        },
+        "interactive": {
+          "description": "可交互的开关",
+          "type": "boolean"
+        },
+        "outerPadding": {
+          "description": "指针靠近边缘的一端离边缘的距离",
+          "type": "number"
+        },
+        "state": {
+          "$ref": "#/definitions/Record<string,IRectMarkSpec|IPathMarkSpec>",
+          "description": "不同状态下的样式配置"
+        },
+        "style": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRectMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IPathMarkSpec"
+            }
+          ],
+          "description": "默认样式设置"
+        },
+        "type": {
+          "enum": [
+            "path",
+            "rect"
+          ],
+          "type": "string"
+        },
+        "visible": {
+          "description": "mark 层 是否显示配置",
+          "type": "boolean"
+        },
+        "width": {
+          "description": "指针宽度比例（0~1）",
+          "type": "number"
         }
       },
       "type": "object"
@@ -79865,34 +79865,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13132"
+        "__@toStringTag@13133"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13132"
+        "__@toStringTag@13133"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13132": {
+        "__@toStringTag@13133": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13132"
+        "__@toStringTag@13133"
       ],
       "type": "object"
     },
@@ -79902,10 +79902,10 @@
     "Record<string,ConvertToMarkStyleSpec<ILineMarkSpec>|IMarkStateSpec<ILineMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IArcMarkSpec|IAreaMarkSpec|IPathMarkSpec|IArc3dMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>": {
@@ -79932,9 +79932,6 @@
     "Record<string,IPathMarkSpec>": {
       "type": "object"
     },
-    "Record<string,IPathMarkSpec|IRectMarkSpec>": {
-      "type": "object"
-    },
     "Record<string,IPolygonMarkSpec>": {
       "type": "object"
     },
@@ -79948,6 +79945,9 @@
       "type": "object"
     },
     "Record<string,IRectMarkSpec>": {
+      "type": "object"
+    },
+    "Record<string,IRectMarkSpec|IPathMarkSpec>": {
       "type": "object"
     },
     "Record<string,IRuleMarkSpec>": {
