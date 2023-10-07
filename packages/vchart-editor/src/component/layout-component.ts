@@ -1,6 +1,6 @@
 import type { ILayoutAttribute } from './../typings/space';
 import type { IEditorElement } from './../core/interface';
-import { TranformComponent2 } from './transform-component2';
+import { TransformComponent2 } from './transform-component2';
 import type { IBoundsLike } from '@visactor/vutils';
 import { DragComponent } from './transform-drag';
 export class LayoutEditorComponent {
@@ -9,7 +9,7 @@ export class LayoutEditorComponent {
   protected _endHandler: (data: ILayoutAttribute) => void;
 
   protected _el: IEditorElement;
-  protected _editorBox: TranformComponent2;
+  protected _editorBox: TransformComponent2;
   get editorBox() {
     return this._editorBox;
   }
@@ -52,7 +52,14 @@ export class LayoutEditorComponent {
       x2: this._el.rect.x + this._el.rect.width,
       y2: this._el.rect.y + this._el.rect.height
     };
-    this._editorBox = new TranformComponent2({}, bounds);
+    this._editorBox = new TransformComponent2(
+      {
+        childrenPickable: true,
+        pickable: false,
+        rotate: false
+      },
+      bounds
+    );
 
     this._editorBox.onEditorStart(() => {
       this._startHandler();
