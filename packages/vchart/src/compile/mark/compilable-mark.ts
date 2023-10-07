@@ -14,7 +14,7 @@ import type { GrammarMarkType } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { isNil, isValid } from '../../util';
+import { array, isNil, isValid } from '../../util';
 import { LayoutZIndex, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
@@ -210,6 +210,9 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   protected _label?: ILabelSpec[];
   getLabelSpec() {
     return this._label;
+  }
+  setLabelSpec(label: ILabelSpec | ILabelSpec[]) {
+    this._label = array(label);
   }
   addLabelSpec(label: ILabelSpec) {
     if (!this._label) {

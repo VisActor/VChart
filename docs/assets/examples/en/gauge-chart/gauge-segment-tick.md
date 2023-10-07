@@ -4,7 +4,7 @@ group: gauge
 title: Segmented Gauge Chart with Tick Mask
 keywords: gauge,comparison,circle
 order: 15-6
-cover: /vchart/preview/gauge-segment-tick_1.4.0.png
+cover: /vchart/preview/gauge-segment-tick_1.4.2.png
 option: gaugeChart
 ---
 

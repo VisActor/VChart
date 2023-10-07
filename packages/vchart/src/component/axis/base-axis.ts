@@ -435,7 +435,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           text: transformStateStyle(spec.title.state),
           shape: transformStateStyle(spec.title.shape?.state),
           background: transformStateStyle(spec.title.background?.state)
-        }
+        },
+        pickable: spec.title.style?.pickable !== false,
+        childrenPickable: spec.title.style?.pickable !== false
       },
       panel: {
         visible: spec.background?.visible,

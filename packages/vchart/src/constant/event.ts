@@ -106,7 +106,10 @@ export enum ChartEvent {
   // tooltip
   tooltipShow = 'tooltipShow',
   tooltipHide = 'tooltipHide',
-  tooltipRelease = 'tooltipRelease'
+  tooltipRelease = 'tooltipRelease',
+  // resize
+  afterResize = 'afterResize',
+  afterRender = 'afterRender'
 }
 
 export enum Event_Source_Type {

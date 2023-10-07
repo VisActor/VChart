@@ -4,7 +4,7 @@ group: gauge
 title: 使用gauge系列声明仪表图
 keywords: gauge,comparison,circle
 order: 15-4
-cover: /vchart/preview/gauge-segment_1.4.0.png
+cover: /vchart/preview/gauge-segment_1.4.2.png
 option: gaugeChart
 ---
 
@@ -36,15 +36,18 @@ const spec = {
       id: 'segment',
       values: [
         {
-          type: 'level1',
+          type: 'Level 1',
+          color: '#07A35A',
           value: 0.4
         },
         {
-          type: 'level2',
+          type: 'Level 2',
+          color: '#FFC528',
           value: 0.6
         },
         {
-          type: 'level3',
+          type: 'Level 3',
+          color: '#E33232',
           value: 0.8
         }
       ]
@@ -58,7 +61,16 @@ const spec = {
     seriesField: 'type',
     segment: {
       style: {
-        cornerRadius: 10
+        cornerRadius: 10,
+        fill: datum => datum['color']
+      }
+    },
+    label: {
+      visible: true,
+      position: 'inside-outer',
+      offsetRadius: 10,
+      style: {
+        text: datum => datum['type']
       }
     }
   },
@@ -69,11 +81,20 @@ const spec = {
   },
   categoryField: 'type',
   valueField: 'value',
-  outerRadius: 0.8,
-  innerRadius: 0.5,
+  outerRadius: 0.9,
+  innerRadius: 0.6,
   startAngle: -180,
   endAngle: 0,
-  axes: [{ type: 'linear', orient: 'angle', grid: { visible: false } }]
+  axes: [
+    {
+      type: 'linear',
+      orient: 'angle',
+      inside: true,
+      outerRadius: 0.9,
+      innerRadius: 0.6,
+      grid: { visible: false }
+    }
+  ]
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
