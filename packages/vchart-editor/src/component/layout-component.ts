@@ -1,3 +1,4 @@
+import { IContainPointMode, type IStage } from '@visactor/vrender';
 import type { ILayoutAttribute } from './../typings/space';
 import type { IEditorElement } from './../core/interface';
 import { TransformComponent2 } from './transform-component2';
@@ -20,6 +21,8 @@ export class LayoutEditorComponent {
     return this._editorBox.isEditor;
   }
 
+  private _opt;
+
   constructor(
     el: IEditorElement,
     opt: {
@@ -28,17 +31,32 @@ export class LayoutEditorComponent {
       updateHandler: (data: ILayoutAttribute) => Partial<ILayoutAttribute> | false;
       endHandler: (data: ILayoutAttribute) => void;
       event: PointerEvent;
+      stage: IStage;
     }
   ) {
     this._el = el;
+    this._opt = opt;
     this._startHandler = opt.startHandler;
     this._updateHandler = opt.updateHandler;
     this._endHandler = opt.endHandler;
 
     this.addDrag(opt.container, opt.event);
     this.addEditorBox();
+    this.initEvent();
     this._startHandler();
   }
+
+  initEvent() {
+    this._opt.stage.addEventListener('pointerdown', this._dragStartCheck);
+  }
+
+  _dragStartCheck = e => {
+    if (this.editorBox.containsPoint(e.x, e.y, IContainPointMode.GLOBAL)) {
+      if (this._el.editProperties.move) {
+        this._dragger.startDrag(e);
+      }
+    }
+  };
 
   addEditorBox() {
     // const group = this._el.layer.editorGroup;
@@ -56,7 +74,9 @@ export class LayoutEditorComponent {
       {
         childrenPickable: true,
         pickable: false,
-        rotate: false
+        move: this._el.editProperties.move,
+        rotate: this._el.editProperties.rotate,
+        resize: this._el.editProperties.resize
       },
       bounds
     );
@@ -98,6 +118,7 @@ export class LayoutEditorComponent {
     this._editorBox.release();
     this._dragger.release();
     this._dragger.release();
+    this._opt.stage.removeEventListener('pointerdown', this._dragStartCheck);
     this._endHandler = this._startHandler = this._updateHandler = this._el = this._editorBox = this._dragger = null;
   }
 }
