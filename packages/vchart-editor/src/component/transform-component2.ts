@@ -1,55 +1,30 @@
+import { isBoolean, isArray } from '@visactor/vutils';
 /**
  * @description PopTip组件
  */
 import {
-  createGroup,
-  INode,
-  matrixAllocate,
   type IGraphic,
-  type IGroup,
   type IGroupGraphicAttribute,
   type IRect,
   type IRectGraphicAttribute,
-  type ISymbol,
-  type ISymbolGraphicAttribute,
-  type IText,
-  type ITextGraphicAttribute,
-  type TextAlignType,
-  type TextBaselineType,
   type ILineGraphicAttribute,
   createRect
 } from '@visactor/vrender';
 import type { IAABBBounds, IAABBBoundsLike } from '@visactor/vutils';
-import {
-  AABBBounds,
-  Bounds,
-  IMatrix,
-  Matrix,
-  getRectIntersect,
-  isArray,
-  isBoolean,
-  isEmpty,
-  isValid,
-  max,
-  merge,
-  normalTransform,
-  normalizePadding,
-  pi,
-  rectInsideAnotherRect
-} from '@visactor/vutils';
+import { AABBBounds, Matrix, merge, normalizePadding, pi } from '@visactor/vutils';
 import { AbstractComponent } from '@visactor/vrender-components';
+
+type ResizeType = [boolean, ...boolean[]] & { length: 8 };
 
 type TransformAttributes = {
   padding: number | [number, number, number, number];
   bbox: Partial<IRectGraphicAttribute>;
   cornerRect: Partial<IRectGraphicAttribute>;
   handlerLine: Partial<ILineGraphicAttribute> & { size: number };
+  move?: boolean;
+  rotate?: boolean;
+  resize?: boolean | ResizeType;
 } & IGroupGraphicAttribute;
-
-const defaultAttribute = {};
-
-const _matrix = new Matrix();
-const _matrix2 = new Matrix();
 
 type IUpateParams = {
   x: number;
@@ -60,7 +35,7 @@ type IUpateParams = {
   anchor: [number | string, number | string];
 };
 
-export class TranformComponent2 extends AbstractComponent<Required<TransformAttributes>> {
+export class TransformComponent2 extends AbstractComponent<Required<TransformAttributes>> {
   name = 'transform';
   rectB: IAABBBounds;
   dragOffsetX: number;
@@ -70,6 +45,7 @@ export class TranformComponent2 extends AbstractComponent<Required<TransformAttr
   verticalResizble: number;
   rotatable: number;
   rect: IRect;
+  editBorder: IRect;
   // 是否正在执行addChildUpdateBoundTag，避免循环调用
   runningAddChildUpdateBoundTag: boolean;
 
@@ -79,6 +55,12 @@ export class TranformComponent2 extends AbstractComponent<Required<TransformAttr
   unTransStartCbs: Array<(event: PointerEvent) => void>;
 
   isEditor: boolean = false;
+
+  _editorConfig: {
+    move: boolean;
+    rotate: boolean;
+    resize: ResizeType;
+  };
 
   static defaultAttributes: Partial<TransformAttributes> = {
     padding: 2,
@@ -106,12 +88,17 @@ export class TranformComponent2 extends AbstractComponent<Required<TransformAttr
         {
           shadowRootIdx: 1
         },
-        TranformComponent2.defaultAttributes,
+        TransformComponent2.defaultAttributes,
         attributes
       )
     );
-    this.attachShadow();
-    this.initEvent();
+    this._editorConfig = {
+      move: attributes.move !== false,
+      rotate: attributes.rotate !== false,
+      resize: (isArray(attributes.resize)
+        ? attributes.resize
+        : new Array(8).fill(attributes.resize !== false)) as ResizeType
+    };
     this.rectB = new AABBBounds();
     this.dragOffsetX = 0;
     this.dragOffsetY = 0;
@@ -121,15 +108,24 @@ export class TranformComponent2 extends AbstractComponent<Required<TransformAttr
     this.rotatable = 0;
     this.runningAddChildUpdateBoundTag = false;
     this.rect = createRect({
-      fill: 'transparent',
+      fill: false,
+      stroke: false,
+      pickable: false
+    });
+    // this.rect.attachShadow();
+    this.editBorder = createRect({
+      fill: false,
       stroke: false
     });
+    this.editBorder.attachShadow();
     this.add(this.rect);
+    this.add(this.editBorder);
     this.updateSubBounds(bounds);
     this.editStartCbs = [];
     this.unTransStartCbs = [];
     this.updateCbs = [];
     this.editEndCbs = [];
+    this.initEvent();
   }
 
   updateSubBounds(bounds: IAABBBoundsLike) {
@@ -143,7 +139,7 @@ export class TranformComponent2 extends AbstractComponent<Required<TransformAttr
 
   protected initEvent() {
     // curser
-    this.addEventListener('pointermove', this.handleMouseMove);
+    this.editBorder.addEventListener('mousemove', this.handleMouseMove);
     this.addEventListener('pointerout', this.handleMouseOut);
 
     // drag
@@ -407,7 +403,7 @@ export class TranformComponent2 extends AbstractComponent<Required<TransformAttr
   protected render() {
     const { bbox, padding, cornerRect, handlerLine } = this.attribute as TransformAttributes;
 
-    const root = this.shadowRoot;
+    const root = this.editBorder.shadowRoot;
     if (!root || this.count === 1) {
       return;
     }
@@ -433,44 +429,48 @@ export class TranformComponent2 extends AbstractComponent<Required<TransformAttr
       'rect'
     );
 
-    // 添加顶部
-    root.createOrUpdateChild(
-      'top-handler-line',
-      {
-        x: minX + width / 2,
-        y: minY,
-        points: [
-          { x: 0, y: 0 },
-          { x: 0, y: -handlerLine.size }
-        ],
-        ...handlerLine
-      },
-      'line'
-    );
-
-    root.createOrUpdateChild(
-      `rotate-all`,
-      {
-        x: minX + width / 2 - cornerRect.width! / 2,
-        y: minY - handlerLine.size - cornerRect.height! / 2,
-        cursor: 'crosshair',
-        ...cornerRect
-      },
-      'rect'
-    );
-
-    // 添加8个角
-    TranformComponent2.cornerRect.forEach((item, i) => {
+    if (this._editorConfig.rotate) {
+      // 添加顶部
       root.createOrUpdateChild(
-        `scale-${item[2]}`,
+        'top-handler-line',
         {
-          x: minX + item[0] * width - cornerRect.width! / 2,
-          y: minY + item[1] * height - cornerRect.height! / 2,
-          cursor: TranformComponent2.cursor[i] as any,
+          x: minX + width / 2,
+          y: minY,
+          points: [
+            { x: 0, y: 0 },
+            { x: 0, y: -handlerLine.size }
+          ],
+          ...handlerLine
+        },
+        'line'
+      );
+
+      root.createOrUpdateChild(
+        `rotate-all`,
+        {
+          x: minX + width / 2 - cornerRect.width! / 2,
+          y: minY - handlerLine.size - cornerRect.height! / 2,
+          cursor: 'crosshair',
           ...cornerRect
         },
         'rect'
       );
+    }
+
+    // 添加8个角
+    TransformComponent2.cornerRect.forEach((item, i) => {
+      if (this._editorConfig.resize[i]) {
+        root.createOrUpdateChild(
+          `scale-${item[2]}`,
+          {
+            x: minX + item[0] * width - cornerRect.width! / 2,
+            y: minY + item[1] * height - cornerRect.height! / 2,
+            cursor: TransformComponent2.cursor[i] as any,
+            ...cornerRect
+          },
+          'rect'
+        );
+      }
     });
   }
 
