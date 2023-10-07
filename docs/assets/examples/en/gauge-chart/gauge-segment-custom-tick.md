@@ -10,14 +10,14 @@ option: gaugeChart
 
 # Gauge Chart with Segment Ticks and Target Value
 
-## 关键配置
+## Key option
 
 - `categoryField`,`valueField` Properties are used to specify data categories and pointer angle fields, respectively
 - `innerRadius`,`outerRadius` Property is used to specify the inner and outer radii of the dashboard
 - `startAngle`,`endAngle` Properties are used to specify the start and end angles of the dashboard
 - `gauge`Properties can be configured[Background panel series for gauge chart](../../option/gaugeChart#gauge)
 
-## 代码演示
+## Demo source
 
 ```javascript livedemo
 // common parameters, same as spec configuration
