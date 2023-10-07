@@ -1,4 +1,4 @@
-import { createRect, type IGraphic } from '@visactor/vrender';
+import { createRect, type IGraphic } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement } from './base-editor-element';
 import { getAxisLayoutInRegionRect, transformModelRect } from '../utils/layout';

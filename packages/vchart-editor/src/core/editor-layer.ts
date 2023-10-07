@@ -1,6 +1,6 @@
 import type { IEditorElement, IEditorLayer } from './interface';
-import type { IStage, IGroup } from '@visactor/vrender';
-import { createGroup, createStage } from '@visactor/vrender';
+import type { IStage, IGroup } from '@visactor/vrender-core';
+import { createGroup, createStage } from '@visactor/vrender-core';
 import { CreateID } from '../utils/common';
 import { TriggerEvent } from './const';
 import type { BaseElement } from '../elements/base-element';

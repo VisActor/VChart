@@ -1,4 +1,4 @@
-import { IContainPointMode, type IStage } from '@visactor/vrender';
+import { IContainPointMode, type IStage } from '@visactor/vrender-core';
 import type { ILayoutAttribute } from './../typings/space';
 import type { IEditorElement } from './../core/interface';
 import { TransformComponent2 } from './transform-component2';
