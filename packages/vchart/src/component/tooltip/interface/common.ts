@@ -28,5 +28,4 @@ export enum TooltipResult {
 export interface ITooltip extends IComponent {
   getVisible: () => boolean;
   showTooltip: (datum: Datum, options: IShowTooltipOption) => void;
-  triggerReleaseEvent: () => void;
 }
