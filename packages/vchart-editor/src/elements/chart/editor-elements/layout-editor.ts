@@ -35,6 +35,7 @@ export class LayoutEditorElement extends BaseEditorElement {
   protected _createEditorGraphic(el: IEditorElement, e: any): IGraphic {
     this._layoutComponent = new LayoutEditorComponent(el, {
       container: this._controller.container,
+      stage: this._layer.getStage(),
       startHandler: () => {
         // do nothing
       },
@@ -105,7 +106,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       editProperties: {
         move: true,
         rotate: false,
-        resize: false
+        resize: true
       },
       editorFinish: () => {
         if (this._currentEl === element) {
