@@ -43,6 +43,8 @@ import type { CirclePackingAppearPreset, ICirclePackingAnimationParams } from '.
 import { circlePackingPresetAnimation } from '../series/circle-packing/animation';
 import type { HeatmapAppearPreset } from '../series/heatmap/animation';
 import { heatmapPresetAnimation } from '../series/heatmap/animation';
+import type { ICorrelationAnimationParams, CorrelationAppearPreset } from '../series/correlation/animation';
+import { correlationPresetAnimation } from '../series/correlation/animation';
 
 export const DEFAULT_ANIMATION_CONFIG = {
   appear: {
@@ -332,6 +334,12 @@ export const DEFAULT_MARK_ANIMATION: Record<string, (params?: any, preset?: any)
       disappear: { type: 'fadeOut' }
     };
   },
+  correlation: (params: ICorrelationAnimationParams, preset: CorrelationAppearPreset) => ({
+    appear: correlationPresetAnimation(params, preset),
+    enter: { type: 'scaleIn' },
+    exit: { type: 'scaleOut' },
+    disappear: { type: 'scaleOut' }
+  }),
   axis: () => ({
     appear: {
       custom: GroupFadeIn

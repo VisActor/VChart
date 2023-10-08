@@ -84,6 +84,7 @@ export enum SeriesMarkNameEnum {
   stackLabel = 'stackLabel',
   word = 'word',
   fillingWord = 'fillingWord',
+  nodePoint = 'nodePoint',
   ripplePoint = 'ripplePoint',
   centerPoint = 'centerPoint',
   centerLabel = 'centerLabel'

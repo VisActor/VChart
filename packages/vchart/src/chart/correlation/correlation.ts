@@ -32,7 +32,7 @@ export class CorrelationChart extends BaseChart {
       ripplePoint: spec.ripplePoint,
       centerPoint: spec.centerPoint,
       centerLabel: spec.centerLabel,
-      point: spec.point,
+      nodePoint: spec.nodePoint,
       label: spec.label
     };
     const seriesType = SeriesTypeEnum.correlation;

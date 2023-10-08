@@ -48,7 +48,32 @@ const run = () => {
     sizeField: 'pv',
     sizeRange: [12, 30],
 
-    innerRadius: '20%'
+    innerRadius: '20%',
+    outerRadius: '95%',
+    nodePoint: {
+      state: {
+        hover: {
+          lineWidth: 8,
+          strokeOpacity: 0.2
+        }
+      }
+    },
+
+    centerPoint: {
+      state: {
+        hover: {
+          lineWidth: 8,
+          strokeOpacity: 0.2
+        }
+      }
+    },
+
+    label: {
+      visible: true,
+      style: {
+        fill: 'black'
+      }
+    }
   };
 
   const cs = new VChart(spec, {
@@ -61,7 +86,7 @@ const run = () => {
   });
   window['vchart'] = cs;
   console.log(cs);
-  cs.on('click', event => {
+  cs.on('hover', event => {
     console.log(event);
   });
 };

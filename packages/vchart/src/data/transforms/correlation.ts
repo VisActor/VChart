@@ -2,6 +2,7 @@ import { isArray } from '@visactor/vutils';
 import { registerCircularRelationTransform } from '@visactor/vgrammar-core';
 import { isNil, isString, isNumber } from '@visactor/vutils';
 import { field as getFieldAccessor, extent, parseViewBox, toPercent } from '@visactor/vgrammar-util';
+import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant';
 
 export interface ICorrelationOpt {
   field: string;
@@ -118,7 +119,7 @@ export const correlation = (data: any, options: any) => {
       }
     }
 
-    res.push({ x, y, size, ...datum });
+    res.push({ [CORRELATION_X]: x, [CORRELATION_Y]: y, [CORRELATION_SIZE]: size, ...datum });
   });
   return res;
 };

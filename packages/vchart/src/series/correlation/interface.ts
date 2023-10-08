@@ -6,7 +6,7 @@ import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 // import type { CorrelationAppearPreset } from './animation';
 
-type CorrelationMarks = 'point' | 'ripplePoint' | 'centerPoint' | 'centerLabel';
+type CorrelationMarks = 'nodePoint' | 'ripplePoint' | 'centerPoint' | 'centerLabel';
 
 export interface ICorrelationSeriesSpec extends Omit<IPolarSeriesSpec, 'innerRadius' | 'outerRadius'> {
   // IAnimationSpec<CorrelationMarks, CorrelationAppearPreset>
@@ -61,7 +61,7 @@ export interface ICorrelationSeriesSpec extends Omit<IPolarSeriesSpec, 'innerRad
   /** 中心点label属性 **/
   centerLabel?: IMarkSpec<ITextMarkSpec>;
   /** 节点图元属性 **/
-  [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;
+  [SeriesMarkNameEnum.nodePoint]?: IMarkSpec<ISymbolMarkSpec>;
 
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: ILabelSpec & {
@@ -80,7 +80,7 @@ export interface ICorrelationSeriesSpec extends Omit<IPolarSeriesSpec, 'innerRad
 }
 
 export interface ICorrelationSeriesTheme {
-  [SeriesMarkNameEnum.point]?: IMarkTheme<ISymbolMarkSpec>;
+  [SeriesMarkNameEnum.nodePoint]?: IMarkTheme<ISymbolMarkSpec>;
   [SeriesMarkNameEnum.ripplePoint]?: IMarkTheme<IRippleMarkSpec>;
   [SeriesMarkNameEnum.centerPoint]?: IMarkTheme<ISymbolMarkSpec>;
   [SeriesMarkNameEnum.centerLabel]?: IMarkTheme<ITextMarkSpec>;

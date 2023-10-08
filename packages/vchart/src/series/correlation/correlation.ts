@@ -7,29 +7,25 @@ import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import { registerDataSetInstanceTransform, registerDataSetInstanceParser } from '../../data/register';
 import { correlation } from '../../data/transforms/correlation';
+import { correlationCenter } from '../../data/transforms/correlation-center';
 import type { ICorrelationOpt } from '../../data/transforms/correlation';
-import type { IBounds, IBoundsLike } from '@visactor/vutils';
-import { isValidNumber, Bounds, Matrix, mixin, isValid } from '@visactor/vutils';
+import type { IBounds } from '@visactor/vutils';
+import { Bounds, isValid } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
 import { SeriesData } from '../base/series-data';
-import type {
-  Maybe,
-  IPoint,
-  Datum,
-  StateValueType,
-  ISymbolMarkSpec,
-  IRippleMarkSpec,
-  ITextMarkSpec
-} from '../../typings';
+import type { Maybe, Datum, ISymbolMarkSpec, IRippleMarkSpec, ITextMarkSpec } from '../../typings';
 import { ICorrelationSeriesTheme } from './interface';
-import { AttributeLevel, PREFIX, DEFAULT_DATA_INDEX } from '../../constant';
+import { AttributeLevel, DEFAULT_DATA_INDEX, LayoutZIndex } from '../../constant';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
-import { addVChartProperty } from '../../data/transforms/add-property';
 import { mergeSpec } from '../../util';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { IRippleMark, RippleMark } from '../../mark/ripple';
+import type { ILabelMark } from '../../mark/label';
+import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant';
+import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 
 VChart.useMark([SymbolMark, TextMark, RippleMark]);
 
@@ -41,9 +37,9 @@ export class CorrelationSeries extends PolarSeries<any> {
 
   protected declare _theme: Maybe<ICorrelationSeriesTheme>;
 
-  protected _viewDataLabel!: SeriesData;
+  protected _centerSeriesData: SeriesData;
 
-  private _pointMark: ISymbolMark;
+  private _nodePointMark: ISymbolMark;
   private _ripplePointMark: IRippleMark;
   private _centerPointMark: ISymbolMark;
   private _centerLabelMark: ITextMark;
@@ -98,14 +94,6 @@ export class CorrelationSeries extends PolarSeries<any> {
     }
   }
 
-  // protected _center!: IPoint | null;
-  // public get center(): IPoint {
-  //   return {
-  //     x: this._spec?.centerX ?? this._region.getLayoutRect().width / 2,
-  //     y: this._spec?.centerY ?? this._region.getLayoutRect().height / 2
-  //   };
-  // }
-
   protected _viewDataTransform!: SeriesData;
 
   setAttrFromSpec() {
@@ -128,13 +116,18 @@ export class CorrelationSeries extends PolarSeries<any> {
 
     registerDataSetInstanceTransform(this._dataSet, 'correlation', correlation);
 
-    const viewDataTransform = new DataView(this._dataSet);
-    viewDataTransform.parse([this.getViewData()], {
+    const centerDataSet = new DataSet();
+    registerDataSetInstanceParser(centerDataSet, 'dataview', dataViewParser);
+    registerDataSetInstanceTransform(centerDataSet, 'correlationCenter', correlationCenter);
+    const centerDataView = new DataView(centerDataSet);
+    centerDataView.parse([this.getViewData()], {
       type: 'dataview'
     });
-    viewDataTransform.name = `${PREFIX}_series_${this.id}_viewDataTransform`;
+    centerDataView.transform({
+      type: 'correlationCenter'
+    });
 
-    this._viewDataTransform = new SeriesData(this._option, viewDataTransform);
+    this._centerSeriesData = new SeriesData(this._option, centerDataView);
   }
 
   protected _statisticViewData(): void {
@@ -158,78 +151,82 @@ export class CorrelationSeries extends PolarSeries<any> {
         outerRadius: this._spec.outerRadius,
         startAngle: this._spec.startAngle,
         endAngle: this._spec.endAngle
-        // innerRadius: this._spec.innerRadius ?? '20%',
-        // outerRadius: this._spec.outerRadius ?? '200%',
-        // startAngle: this._spec.startAngle ?? -Math.PI / 2,
-        // endAngle: this._spec.endAngle ?? 0
       } as ICorrelationOpt
     });
   }
 
   initMark(): void {
-    const pointMark = this._createMark(CorrelationSeries.mark.point, {
+    const nodePointMark = this._createMark(CorrelationSeries.mark.nodePoint, {
       groupKey: this._seriesField,
       label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
-      isSeriesMark: true
+      isSeriesMark: true,
+      key: DEFAULT_DATA_INDEX
     }) as ISymbolMark;
-    if (pointMark) {
-      this._pointMark = pointMark;
+    if (nodePointMark) {
+      nodePointMark.setZIndex(LayoutZIndex.Node);
+      this._nodePointMark = nodePointMark;
     }
 
     const ripplePointMark = this._createMark(CorrelationSeries.mark.ripplePoint, {
-      key: DEFAULT_DATA_INDEX
+      key: DEFAULT_DATA_INDEX,
+      dataView: this._centerSeriesData.getDataView(),
+      dataProductId: this._centerSeriesData.getProductId()
     }) as IRippleMark;
     if (ripplePointMark) {
       this._ripplePointMark = ripplePointMark;
     }
 
     const centerPointMark = this._createMark(CorrelationSeries.mark.centerPoint, {
-      key: DEFAULT_DATA_INDEX
+      key: DEFAULT_DATA_INDEX,
+      dataView: this._centerSeriesData.getDataView(),
+      dataProductId: this._centerSeriesData.getProductId()
     }) as ISymbolMark;
     if (centerPointMark) {
+      centerPointMark.setZIndex(LayoutZIndex.Node);
       this._centerPointMark = centerPointMark;
     }
 
     const centerLabelMark = this._createMark(CorrelationSeries.mark.centerLabel, {
-      key: DEFAULT_DATA_INDEX
+      key: DEFAULT_DATA_INDEX,
+      dataView: this._centerSeriesData.getDataView(),
+      dataProductId: this._centerSeriesData.getProductId()
     }) as ITextMark;
     if (centerLabelMark) {
+      centerLabelMark.setZIndex(LayoutZIndex.Label);
       this._centerLabelMark = centerLabelMark;
     }
   }
 
   initMarkStyle(): void {
-    this._initPointMarkStyle();
+    this._initNodePointMarkStyle();
     this._initRipplePointMarkStyle();
     this._initCenterPointMarkStyle();
     this._initCenterLabelMarkStyle();
   }
 
-  protected _initPointMarkStyle() {
-    const pointMark = this._pointMark;
-    if (!pointMark) {
+  protected _initNodePointMarkStyle() {
+    const nodePointMark = this._nodePointMark;
+    if (!nodePointMark) {
       return;
     }
 
     this.setMarkStyle<ISymbolMarkSpec>(
-      pointMark,
+      nodePointMark,
       {
-        x: (datum: Datum) => {
-          // console.log('datum-x', datum);
-          return datum.x;
-        },
-        y: (datum: Datum) => datum.y,
-        // size: 50,
-        size: (datum: Datum) => {
-          // console.log('datum-radius', datum);
-          return datum.size;
-        },
-        fill: this.getColorAttribute(),
-        shape: 'circle'
+        x: (datum: Datum) => datum[CORRELATION_X],
+        y: (datum: Datum) => datum[CORRELATION_Y],
+        size: (datum: Datum) => datum[CORRELATION_SIZE],
+        fill: this._spec?.nodePoint?.style?.fill ?? this.getColorAttribute(),
+        fillOpacity: this._spec?.nodePoint?.style?.fillOpacity ?? 1,
+        lineWidth: 0
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
+
+    this._trigger.registerMark(nodePointMark);
+
+    this._tooltipHelper?.activeTriggerSet.mark.add(nodePointMark);
   }
 
   protected _initRipplePointMarkStyle() {
@@ -250,12 +247,12 @@ export class CorrelationSeries extends PolarSeries<any> {
         size: () => {
           return Math.max(this._viewBox.x2 - this._viewBox.x1, this._viewBox.y2 - this._viewBox.y1) / 2;
         },
-        fill: this._spec?.ripplePoint?.style?.fill ?? '#6690F2',
-        opacity: this._spec?.ripplePoint?.style?.fillOpacity ?? 0.01,
+        fill: this._spec?.ripplePoint?.style?.fill ?? this.getColorAttribute(),
+        opacity: this._spec?.ripplePoint?.style?.fillOpacity ?? 0.2,
         ripple: this._spec?.ripplePoint?.style?.ripple ?? 0
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
-      AttributeLevel.Chart
+      AttributeLevel.Series
     );
   }
 
@@ -277,12 +274,16 @@ export class CorrelationSeries extends PolarSeries<any> {
         size: () => {
           return (0.2 * Math.max(this._viewBox.x2 - this._viewBox.x1, this._viewBox.y2 - this._viewBox.y1)) / 2;
         },
-        fill: this._spec?.centerPoint?.style?.fill ?? '#6690F2',
+        fill: this._spec?.centerPoint?.style?.fill ?? this.getColorAttribute(),
         fillOpacity: this._spec?.centerPoint?.style?.fillOpacity ?? 1
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
+
+    this._trigger.registerMark(centerPointMark);
+
+    this._tooltipHelper?.activeTriggerSet.mark.add(centerPointMark);
   }
 
   protected _initCenterLabelMarkStyle() {
@@ -312,6 +313,36 @@ export class CorrelationSeries extends PolarSeries<any> {
     );
   }
 
+  initLabelMarkStyle(labelMark?: ILabelMark): void {
+    if (!labelMark) {
+      return;
+    }
+    this._labelMark = labelMark;
+    this.setMarkStyle(
+      labelMark,
+      {
+        fill: this._spec?.label?.style?.fill ?? this.getColorAttribute(),
+        text: (datum: Datum) => {
+          return datum[this._categoryField];
+        },
+        z: this.dataToPositionZ.bind(this)
+      },
+      STATE_VALUE_ENUM.STATE_NORMAL,
+      AttributeLevel.Series
+    );
+  }
+
+  initAnimation() {
+    if (this._nodePointMark) {
+      this._nodePointMark.setAnimationConfig(
+        animationConfig(
+          DEFAULT_MARK_ANIMATION.correlation(),
+          userAnimationConfig(SeriesMarkNameEnum.nodePoint, this._spec)
+        )
+      );
+    }
+  }
+
   getGroupFields(): string[] {
     return [];
   }
@@ -326,6 +357,15 @@ export class CorrelationSeries extends PolarSeries<any> {
   }
   setValueFieldToPercent(): void {
     return;
+  }
+
+  /** 获取维度field */
+  getDimensionField(): string[] {
+    return [this._categoryField];
+  }
+  /** 获取指标field */
+  getMeasureField(): string[] {
+    return [this._valueField];
   }
 
   onLayoutEnd(ctx: any): void {
