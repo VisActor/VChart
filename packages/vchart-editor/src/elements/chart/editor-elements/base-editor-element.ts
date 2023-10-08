@@ -1,6 +1,6 @@
 import type { IEditorController, IEditorElement, IEditorLayer } from './../../../core/interface';
 import type { EditorChart } from '../chart';
-import type { IGraphic } from '@visactor/vrender';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export abstract class BaseEditorElement {
   protected _chart: EditorChart;
