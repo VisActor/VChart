@@ -17,9 +17,25 @@ export class LayoutEditorElement extends BaseEditorElement {
       this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
     });
     this._chart.vchart.on('pointerdown', (e: any) => {
+      if (!this._checkEventEnable(e)) {
+        return;
+      }
       const el = this._getEditorElement(e.event);
-      this.startEditor(el, e);
+      if (e) {
+        this.startEditor(el, e);
+      }
     });
+  }
+
+  private _checkEventEnable(e: any) {
+    if (!e.mark) {
+      return true;
+    }
+    if (e.mark.type === 'rect' && e.mark.name === 'regionBackground') {
+      return true;
+    }
+
+    return false;
   }
 
   protected startEditor(el: IEditorElement, e?: PointerEvent): boolean {
