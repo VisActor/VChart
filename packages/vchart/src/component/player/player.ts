@@ -1,4 +1,4 @@
-import type { IGroup, INode } from '@visactor/vrender';
+import type { INode, IGroup } from '@visactor/vrender-core';
 import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visactor/vrender-components';
 
 // eslint-disable-next-line no-duplicate-imports

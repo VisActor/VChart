@@ -15,7 +15,7 @@ import type { IPointLike } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
-import type { INode } from '@visactor/vrender';
+import type { INode } from '@visactor/vrender-core';
 import type { LayoutItem } from '../../../model/layout-item';
 import type { IDataPos } from '../interface';
 import type { IOptionRegr } from '../../../data/transforms/regression';

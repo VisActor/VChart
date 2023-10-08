@@ -99,9 +99,8 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     super._buildMarkAttributeContext();
     // position
     this._markAttributeContext.valueToPosition = this.valueToPosition.bind(this);
-    this._markAttributeContext.getCenter = () => {
-      return this.angleAxisHelper.center();
-    };
+    this._markAttributeContext.getCenter = () => this.angleAxisHelper.center();
+    this._markAttributeContext.getLayoutRadius = () => this._computeLayoutRadius();
   }
 
   valueToPosition(angleValue: StringOrNumber | StringOrNumber[], radiusValue: StringOrNumber | StringOrNumber[]) {

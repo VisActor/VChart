@@ -22,7 +22,7 @@ import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
-import type { Stage } from '@visactor/vrender';
+import type { Stage } from '@visactor/vrender-core';
 import {
   isString,
   isValid,
@@ -89,6 +89,8 @@ import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
 import { calculateChartSize, mergeUpdateResult } from '../chart/util';
+import { VCHART_UTILS } from './util';
+
 export class VChart implements IVChart {
   readonly id = createID();
 
@@ -185,6 +187,9 @@ export class VChart implements IVChart {
   static globalConfig: IGlobalConfig = {
     uniqueTooltip: true
   };
+
+  /** 工具方法 */
+  static readonly Utils = VCHART_UTILS;
 
   protected _spec: any;
 
@@ -384,8 +389,8 @@ export class VChart implements IVChart {
   private _onResize = debounce((...args: any[]) => {
     const { width, height } = this._getCurSize();
     if (this._curSize.width !== width || this._curSize.height !== height) {
-      this.resize(width, height);
       this._curSize = { width, height };
+      this.resize(width, height);
     }
   }, 100);
 
@@ -920,7 +925,8 @@ export class VChart implements IVChart {
     this._chart.onResize(width, height);
     this._option.performanceHook?.afterResizeWithUpdate?.();
     await this._compiler.resize?.(width, height);
-
+    // emit resize event
+    this._event.emit(ChartEvent.afterResize, { chart: this._chart });
     return this as unknown as IVChart;
   }
 
@@ -954,7 +960,11 @@ export class VChart implements IVChart {
   on(eType: EventType, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery | EventCallback<EventParams>, handler?: EventCallback<EventParams>): void {
-    this._userEvents.push({ eType, query, handler });
+    this._userEvents.push({
+      eType,
+      query: typeof query === 'function' ? null : query,
+      handler: typeof query === 'function' ? query : handler
+    });
     this._event?.on(eType as any, query as any, handler as any);
   }
   off(eType: string, handler?: EventCallback<EventParams>): void {

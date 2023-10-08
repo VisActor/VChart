@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: gauge series supports label component, related #1039",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

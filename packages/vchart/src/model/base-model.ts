@@ -175,6 +175,10 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     // do nothing
   }
 
+  beforeRelease() {
+    // do nothing
+  }
+
   release() {
     this._releaseEvent();
     this._originalSpec = {};

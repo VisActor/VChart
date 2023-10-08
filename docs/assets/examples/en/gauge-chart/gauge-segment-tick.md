@@ -4,7 +4,7 @@ group: gauge
 title: Segmented Gauge Chart with Tick Mask
 keywords: gauge,comparison,circle
 order: 15-6
-cover: /vchart/preview/gauge-segment-tick_1.4.0.png
+cover: /vchart/preview/gauge-segment-tick_1.4.2.png
 option: gaugeChart
 ---
 
@@ -15,7 +15,7 @@ option: gaugeChart
 - `categoryField`,`valueField` Properties are used to specify data categories and pointer angle fields, respectively
 - `innerRadius`,`outerRadius` Property is used to specify the inner and outer radii of the dashboard
 - `startAngle`,`endAngle` Properties are used to specify the start and end angles of the dashboard
-- `gauge` Property can be configured[Background panel series for instrument diagram](../../option/gaugeChart#gauge)
+- `gauge` Property can be configured[Background panel series for gauge chart](../../option/gaugeChart#gauge)
 - `tickMask` Property can be used to configure the tick mask on the chart background
 
 ## Demo source
@@ -90,4 +90,4 @@ window['vchart'] = vchart;
 
 ## Related Tutorials
 
-[Instrument diagram](link)
+[Gauge chart](link)

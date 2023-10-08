@@ -1,3 +1,4 @@
+import { ChartEvent } from './../constant/event';
 import type { IElement, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import {
@@ -50,9 +51,9 @@ import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import type { VChart } from '../core/vchart';
-import type { IColor, Stage } from '@visactor/vrender';
+import type { IColor, Stage } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import { vglobal } from '@visactor/vrender';
+import { vglobal } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
 
@@ -162,7 +163,7 @@ export class Compiler {
     const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);
     if (this._option?.onError) {
       logger.addErrorHandler((...args) => {
-        this._option.onError(...args);
+        this._option?.onError?.(...args);
       });
     }
     this._view = new View({
@@ -189,6 +190,11 @@ export class Compiler {
       logLevel: logger.level()
     });
     this._setCanvasStyle();
+
+    // emit afterRender event
+    this.getStage().hooks.afterRender.tap('chart-event', () => {
+      this._compileChart?.getEvent()?.emit(ChartEvent.afterRender, { chart: this._compileChart });
+    });
 
     const interactive = this._option.interactive;
     if (interactive !== false) {

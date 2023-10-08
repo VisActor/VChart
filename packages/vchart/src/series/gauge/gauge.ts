@@ -1,8 +1,8 @@
-import { isValid } from '../../util';
+import { isValid, mergeSpec } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
+import type { IGaugeLabelSpec, IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import type { IProgressArcMark } from '../../mark/progress-arc';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -76,7 +76,8 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     }) as IProgressArcMark;
     this._segmentMark = this._createMark(GaugeSeries.mark.segment, {
       parent: this._arcGroupMark,
-      isSeriesMark: true
+      isSeriesMark: true,
+      label: this._preprocessLabelSpec()
     }) as IProgressArcMark;
   }
 
@@ -107,6 +108,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         // forceShowCap 是内部属性，不在接口中暴露
         forceShowCap: true
       });
+      segmentMark.setLabelSpec(this._preprocessLabelSpec());
       this._trigger.registerMark(segmentMark);
       this._tooltipHelper?.activeTriggerSet.mark.add(segmentMark);
     }
@@ -137,6 +139,11 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   protected _getAngleValueEndWithoutMask(datum: Datum) {
     const angle = this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_END]]);
     return angle - (this._spec.padAngle ?? 0) / 2;
+  }
+
+  protected _preprocessLabelSpec() {
+    const labelSpec: IGaugeLabelSpec = mergeSpec({ animation: this._spec.animation }, this._spec.label);
+    return labelSpec;
   }
 
   initAnimation() {

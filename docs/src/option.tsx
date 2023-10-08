@@ -22,12 +22,12 @@ export function Option() {
       const response = await fetch(`/documents/${assetDirectory}/${language}/outline.json`);
       const json = await response.json();
       return parseOutline(json, {}, [
-        { from: 'Chart.axes', to: 'Chart-axes' },
-        { from: 'Chart.legends', to: 'Chart-legends' },
-        { from: 'Chart.extensionMark', to: 'Chart-extensionMark' },
-        { from: 'Chart.customMark', to: 'Chart-customMark' },
-        { from: 'Chart.series', to: 'Chart-series' },
-        { from: 'Chart.total', to: 'Chart-total' }
+        { from: 'Chart.axes$', to: 'Chart-axes' },
+        { from: 'Chart.legends$', to: 'Chart-legends' },
+        { from: 'Chart.extensionMark$', to: 'Chart-extensionMark' },
+        { from: 'Chart.customMark$', to: 'Chart-customMark' },
+        { from: 'Chart.series$', to: 'Chart-series' },
+        { from: 'Chart.total$', to: 'Chart-total' }
       ]);
     } catch (e) {
       console.log(e);

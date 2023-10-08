@@ -15,7 +15,7 @@ import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
 import { VChart } from '../../../core/vchart';
 import { RectMark } from '../../../mark/rect';
-import { createRect } from '@visactor/vrender';
+import { createRect } from '@visactor/vrender-core';
 import { linearProgressSeriesMark } from './constant';
 
 VChart.useMark([RectMark]);

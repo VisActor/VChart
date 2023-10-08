@@ -64,6 +64,7 @@ import {
 } from './component';
 import { GridLayout, Layout3d } from './layout';
 import { loadPoptip } from '@visactor/vrender-components';
+import { initAllEnv } from '@visactor/vgrammar-core';
 
 // 装载 poptip
 loadPoptip();
@@ -137,5 +138,7 @@ VChart.useComponent([
 // layout
 Factory.registerLayout('grid', GridLayout as any);
 Factory.registerLayout('layout3d', Layout3d as any);
+
+initAllEnv();
 
 export { VChart };

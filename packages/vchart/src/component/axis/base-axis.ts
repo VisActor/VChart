@@ -1,7 +1,7 @@
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import type { IGroup, IGraphic } from '@visactor/vrender';
+import type { IGroup, IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
 import type { IOrientType, IPolarOrientType, Datum, StringOrNumber, IGroup as ISeriesGroup } from '../../typings';
@@ -435,7 +435,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           text: transformStateStyle(spec.title.state),
           shape: transformStateStyle(spec.title.shape?.state),
           background: transformStateStyle(spec.title.background?.state)
-        }
+        },
+        pickable: spec.title.style?.pickable !== false,
+        childrenPickable: spec.title.style?.pickable !== false
       },
       panel: {
         visible: spec.background?.visible,
