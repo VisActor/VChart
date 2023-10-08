@@ -16,6 +16,12 @@ export class Interaction implements IInteraction {
     return !isEmpty(mark.stateStyle[state]);
   }
 
+  private _disableActiveEffect: boolean = false;
+
+  setDisableActiveEffect(disable: boolean) {
+    this._disableActiveEffect = disable;
+  }
+
   registerMark(state: StateValue, mark: IMark): void {
     if (!this._stateMarks.has(state)) {
       this._stateMarks.set(state, []);
@@ -40,6 +46,9 @@ export class Interaction implements IInteraction {
   }
 
   exchangeEventElement(stateValue: StateValue, element: IElement) {
+    if (this._disableActiveEffect) {
+      return;
+    }
     // reverse
     const reState = stateToReverse(stateValue);
     this._stateElements.get(stateValue)?.forEach(e => {
@@ -58,6 +67,9 @@ export class Interaction implements IInteraction {
   }
 
   removeEventElement(stateValue: StateValue, element: IElement) {
+    if (this._disableActiveEffect) {
+      return;
+    }
     element.removeState(stateValue);
     const list = this._stateElements.get(stateValue)?.filter(e => e !== element) ?? [];
     this._stateElements.set(stateValue, list);
@@ -75,6 +87,9 @@ export class Interaction implements IInteraction {
   }
 
   addEventElement(stateValue: StateValue, element: IElement) {
+    if (this._disableActiveEffect) {
+      return;
+    }
     if (!element.getStates().includes(stateValue)) {
       element.addState(stateValue);
     }
@@ -84,6 +99,9 @@ export class Interaction implements IInteraction {
   }
 
   clearEventElement(stateValue: StateValue, clearReverse: boolean) {
+    if (this._disableActiveEffect) {
+      return;
+    }
     this._stateElements.get(stateValue)?.forEach(e => {
       e.removeState(stateValue);
     });
@@ -105,6 +123,9 @@ export class Interaction implements IInteraction {
    * @returns
    */
   reverseEventElement(stateValue: StateValue) {
+    if (this._disableActiveEffect) {
+      return;
+    }
     // TODO:直接加默认后缀？or再增加一个map？
     const state = stateToReverse(stateValue);
     if (!state) {
