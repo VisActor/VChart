@@ -1,4 +1,4 @@
-import type { IGraphic, IGroup, IStage } from '@visactor/vrender';
+import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
 import type { IRect } from '../typings/space';
 export interface ILayerData {
