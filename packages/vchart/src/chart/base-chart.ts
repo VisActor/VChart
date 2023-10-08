@@ -506,6 +506,7 @@ export class BaseChart extends CompilableBase implements IChart {
       this.onLayoutStart(params);
       const elements = this.getLayoutElements();
       this._layoutFunc(this, elements, this._layoutRect, this._viewBox);
+      this._event.emit(ChartEvent.afterLayout, { elements });
       this.setLayoutTag(false);
       this.onLayoutEnd(params);
 
