@@ -7,6 +7,8 @@ export interface ILayerData {
   elements: IElementData[];
 }
 
+export type EditorModel = 'view' | 'editor';
+
 export interface IEditorLayer {
   id: string | number;
   type: string;
@@ -31,6 +33,7 @@ export interface IVChartEditorInitOption {
   id: string | number;
   dom: string | HTMLElement;
   data: IEditorData;
+  model: EditorModel;
 }
 
 export interface IEditorElement {

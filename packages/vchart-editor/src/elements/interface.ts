@@ -1,10 +1,11 @@
-import type { IEditorController, IEditorLayer } from './../core/interface';
+import type { EditorModel, IEditorController, IEditorLayer } from './../core/interface';
 import type { IRect, IPoint } from '../typings/space';
 
 export interface IElementOption extends Partial<IElementData> {
   layer: IEditorLayer;
   id?: string | number;
   controller: IEditorController;
+  model: EditorModel;
 }
 
 export interface IElementData {
