@@ -12,20 +12,25 @@ export class LayoutEditorElement extends BaseEditorElement {
   protected _layoutComponent: LayoutEditorComponent;
 
   initWithVChart(): void {
-    this._chart.vchart.on('pointermove', (e: any) => {
-      const el = this._getEditorElement(e.event);
-      this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
-    });
-    this._chart.vchart.on('pointerdown', (e: any) => {
-      if (!this._checkEventEnable(e)) {
-        return;
-      }
-      const el = this._getEditorElement(e.event);
-      if (e) {
-        this.startEditor(el, e);
-      }
-    });
+    this._chart.vchart.on('pointermove', this._overEvent);
+    this._chart.vchart.on('pointerdown', this._downEvent);
   }
+
+  private _overEvent = e => {
+    const el = this._getEditorElement(e.event);
+    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
+  };
+
+  private _downEvent = e => {
+    if (!this._checkEventEnable(e)) {
+      this._releaseLast();
+      return;
+    }
+    const el = this._getEditorElement(e.event);
+    if (e) {
+      this.startEditor(el, e);
+    }
+  };
 
   private _checkEventEnable(e: any) {
     if (!e.mark) {
@@ -173,5 +178,11 @@ export class LayoutEditorElement extends BaseEditorElement {
     super._releaseLast();
     this._layoutComponent?.release();
     this._layoutComponent = null;
+  }
+
+  release(): void {
+    this._chart.vchart.off('pointermove', this._overEvent);
+    this._chart.vchart.off('pointerdown', this._downEvent);
+    super.release();
   }
 }

@@ -77,7 +77,7 @@ export class EditorController implements IEditorController {
       this._addOverGraphic(graphic);
       this._currentOverGraphicId = id;
       return;
-    } else if (this._currentOverGraphic) {
+    } else if (this._currentOverGraphic && event) {
       const rect = (<HTMLElement>event.target).getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;

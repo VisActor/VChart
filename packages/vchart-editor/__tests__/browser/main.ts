@@ -8,7 +8,8 @@ import { initCustomParser } from './index.local';
 const editor = new VChartEditor({
   dom: 'chart',
   data: new BrowserData(),
-  id: 'editor-demo'
+  id: 'editor-demo',
+  model: 'editor'
 });
 window.editor = editor;
 const clipBoardData = `State,Age,Population
