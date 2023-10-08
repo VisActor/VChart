@@ -3,8 +3,8 @@
   "version": "0.0.2-beta.7",
   "description": "The VChart editor ui component.",
   "sideEffects": false,
-  "main": "cjs/index.js",
-  "module": "es/index.js",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
   "types": "es/index.d.ts",
   "files": [
     "cjs",
@@ -14,8 +14,8 @@
   "scripts": {
     "compile": "tsc --noEmit",
     "eslint": "eslint --debug --fix src/",
-    "build": "bundle --clean",
-    "dev": "bundle --clean -f es -w",
+    "build": "bundle --clean --less",
+    "dev": "bundle --clean -f es -w --less",
     "start": "vite ./__tests__/browser",
     "prepublishOnly": "npm run build",
     "clear": "rm -rf build es cjs dist",

@@ -1,5 +1,16 @@
 import './App.css';
-import { ColorEditorBar, CustomEditorBar, EditorBar, LineEditorBar, TextEditorBar, Title } from '../../../src';
+import {
+  AxisPanel,
+  ColorEditorBar,
+  CustomEditorBar,
+  CustomPanel,
+  DataFormatPanel,
+  EditorBar,
+  LabelPanel,
+  LineEditorBar,
+  TextEditorBar,
+  TitlePanel
+} from '../../../src';
 
 function App() {
   return (
@@ -36,7 +47,8 @@ function App() {
           { key: 'more', divide: false }
         ]}
       />
-      <Title
+      <TitlePanel
+        style={{ marginBottom: 20 }}
         sections={{
           title: {
             label: '主标题',
@@ -76,7 +88,56 @@ function App() {
           }
         }}
       />
-      {/* <Title spec={{}} entries={[{ key: 'fontSize' }]} /> */}
+      <AxisPanel style={{ marginBottom: 20 }} />
+      <DataFormatPanel style={{ marginBottom: 20 }} />
+      <LabelPanel style={{ marginBottom: 20 }} />
+      <CustomPanel
+        style={{ marginBottom: 20 }}
+        label="图形样式"
+        sectionComponentMaps={{
+          style: {
+            count: 'sliderNumber',
+            interval: 'sliderNumber',
+            borderRadius: 'sliderNumber'
+          }
+        }}
+        sections={{
+          bar: {
+            entries: [
+              { key: 'count', label: '柱体个数' },
+              { key: 'interval', label: '柱间距', unit: '%', default: 50, min: 0, max: 100 },
+              { key: 'borderRadius', label: '柱体圆角', unit: '%', default: 50, min: 0, max: 100 }
+            ]
+          }
+        }}
+      />
+      <CustomPanel
+        style={{ marginBottom: 20 }}
+        label="时间标注"
+        sections={{
+          time: {
+            label: '当前时间',
+            entries: [
+              { key: 'switch', label: '显示当前时间' },
+              { key: 'fontFamily', label: '字体' },
+              { key: 'fontSize', label: '字号' },
+              { key: 'fontStyle', label: '样式' },
+              { key: 'color', label: '颜色' }
+            ]
+          },
+          sum: {
+            label: '总计',
+            entries: [
+              { key: 'switch', label: '显示总计' },
+              { key: 'fontFamily', label: '字体' },
+              { key: 'fontSize', label: '字号' },
+              { key: 'fontStyle', label: '样式' },
+              { key: 'color', label: '颜色' },
+              { key: 'textAlign', label: '对齐方式' }
+            ]
+          }
+        }}
+      />
     </div>
   );
 }

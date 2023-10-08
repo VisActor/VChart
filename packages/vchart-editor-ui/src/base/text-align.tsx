@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { ButtonGroup, IconButton } from '@douyinfe/semi-ui';
 import type { IBaseTextAlignComponentProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
@@ -12,8 +11,6 @@ const selectedStyle = {
 
 export function TextAlign(props: IBaseTextAlignComponentProps) {
   const label = props.label ?? defaultBaseComponentConfig.textAlign.label;
-  const defaultTextAlign = props.textAlign ?? defaultBaseComponentConfig.textAlign.default;
-  const [textAlign, setTextAlign] = useState<string>(defaultTextAlign);
 
   return (
     <div className="vchart-editor-ui-panel-base-container">
@@ -21,30 +18,27 @@ export function TextAlign(props: IBaseTextAlignComponentProps) {
       <ButtonGroup>
         <IconButton
           icon={<IconAlignLeft />}
-          style={textAlign === 'left' ? selectedStyle : normalStyle}
+          style={props.textAlign === 'left' ? selectedStyle : normalStyle}
           onClick={() => {
-            if (textAlign !== 'left') {
-              setTextAlign('left');
+            if (props.textAlign !== 'left') {
               props.onChange?.('left');
             }
           }}
         />
         <IconButton
           icon={<IconAlignCenter />}
-          style={textAlign === 'center' ? selectedStyle : normalStyle}
+          style={props.textAlign === 'center' ? selectedStyle : normalStyle}
           onClick={() => {
-            if (textAlign !== 'center') {
-              setTextAlign('center');
+            if (props.textAlign !== 'center') {
               props.onChange?.('center');
             }
           }}
         />
         <IconButton
           icon={<IconAlignRight />}
-          style={textAlign === 'right' ? selectedStyle : normalStyle}
+          style={props.textAlign === 'right' ? selectedStyle : normalStyle}
           onClick={() => {
-            if (textAlign !== 'right') {
-              setTextAlign('right');
+            if (props.textAlign !== 'right') {
               props.onChange?.('right');
             }
           }}
