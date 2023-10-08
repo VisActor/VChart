@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(scrollbar): auto visible with linear axis. fix #1118",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
