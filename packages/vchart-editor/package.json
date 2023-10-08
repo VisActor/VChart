@@ -2,7 +2,7 @@
   "name": "@visactor/vchart-editor",
   "version": "0.0.2-beta.7",
   "description": "The VChart editor component.",
-  "sideEffects": false,
+  "sideEffects": true,
   "main": "cjs/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",
