@@ -14,24 +14,22 @@ export class LayoutEditorElement extends BaseEditorElement {
   initWithVChart(): void {
     this._chart.vchart.on('pointermove', (e: any) => {
       const el = this._getEditorElement(e.event);
-      if (el) {
-        this._controller.setOverGraphic(this._getOverGraphic(el), el.id + `${this._layer.id}`, e);
-      }
+      this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
     });
     this._chart.vchart.on('pointerdown', (e: any) => {
       const el = this._getEditorElement(e.event);
-      if (!el) {
-        return;
-      }
-      if (el.id === this._currentEl?.id) {
-        return;
-      }
-      this._releaseLast();
-      this._currentEl = el;
-      this._createEditorGraphic(el, e);
-      this._controller.setEditorElements(el, e);
+      this.startEditor(el, e);
     });
   }
+
+  protected startEditor(el: IEditorElement, e?: PointerEvent): boolean {
+    if (!super.startEditor(el, e)) {
+      return false;
+    }
+    this._createEditorGraphic(el, e);
+    return true;
+  }
+
   protected _createEditorGraphic(el: IEditorElement, e: any): IGraphic {
     this._layoutComponent = new LayoutEditorComponent(el, {
       container: this._controller.container,
@@ -70,7 +68,7 @@ export class LayoutEditorElement extends BaseEditorElement {
   }
 
   protected _getOverGraphic(el: IEditorElement): IGraphic {
-    this._overGraphic = createRect({
+    return createRect({
       ...el.rect,
       fill: false,
       stroke: 'blue',
@@ -79,7 +77,6 @@ export class LayoutEditorElement extends BaseEditorElement {
       // shadowColor: 'blue',
       pickable: false
     });
-    return this._overGraphic;
   }
   protected _getEditorElement(e: PointerEvent): IEditorElement {
     // @ts-ignore
@@ -157,8 +154,8 @@ export class LayoutEditorElement extends BaseEditorElement {
   }
 
   protected _releaseLast() {
+    super._releaseLast();
     this._layoutComponent?.release();
     this._layoutComponent = null;
-    this._currentEl = null;
   }
 }

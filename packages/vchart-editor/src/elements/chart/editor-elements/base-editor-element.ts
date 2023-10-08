@@ -16,8 +16,36 @@ export abstract class BaseEditorElement {
     this._layer = layer;
   }
 
+  protected showOverGraphic(el: IEditorElement, id: string, e?: PointerEvent) {
+    if (!el) {
+      return;
+    }
+    this._overGraphic = this._getOverGraphic(el);
+    this._controller.setOverGraphic(this._getOverGraphic(el), id, e);
+  }
+  protected startEditor(el: IEditorElement, e?: PointerEvent): boolean {
+    if (!el) {
+      return false;
+    }
+    if (el.id === this._currentEl?.id) {
+      return false;
+    }
+    this._releaseLast();
+    this._currentEl = el;
+    this._controller.setEditorElements(el, e);
+    return true;
+  }
+  protected _releaseLast() {
+    this._currentEl = null;
+    this._overGraphic = null;
+  }
+
+  release() {
+    this._releaseLast();
+    this._controller = this._chart = this._layer = null;
+  }
+
   abstract initWithVChart(): void;
-  protected abstract _createEditorGraphic(el: IEditorElement, e?: PointerEvent): IGraphic;
   protected abstract _getOverGraphic(el: IEditorElement, e?: PointerEvent): IGraphic;
   protected abstract _getEditorElement(e?: PointerEvent): IEditorElement;
 }
