@@ -225,7 +225,9 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
       container.add(legend);
 
       // 绑定事件
-      this._initEvent();
+      if (!this._option.disableActiveEffect) {
+        this._initEvent();
+      }
 
       // 代理 legend 上的事件
       legend.on('*', (event: any, type: string) => this._delegateEvent(this._legendComponent, event, type));
