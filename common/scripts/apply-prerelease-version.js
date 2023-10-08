@@ -6,13 +6,13 @@ const parseVersion = require('./parse-version');
 function run() {
   const preReleaseName = process.argv.slice(2)[0];
   const nextVersionOrNextBump = process.argv.slice(2)[1];
-  const nextBump = checkAndUpdateNextBump(versionOrNextBump);
+  const nextBump = checkAndUpdateNextBump(nextVersionOrNextBump);
   const parsedNextVersion = nextVersionOrNextBump ? parseVersion(nextVersionOrNextBump) : null;
   const nextVersion = parsedNextVersion ? `${parsedNextVersion.major}.${parsedNextVersion.minor}.${parsedNextVersion.patch}`: null;
 
   console.log('[apply prerelease version]: ', preReleaseName, nextBump, nextVersion);
 
-  writePrereleaseVersion(nextBump, preReleaseName, nextVersion);  
+  writePrereleaseVersion(nextBump, preReleaseName, nextVersion);
 }
 
 run()
