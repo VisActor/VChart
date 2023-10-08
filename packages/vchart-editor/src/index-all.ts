@@ -2,6 +2,8 @@ export const version = __VERSION__;
 
 export { VChartEditor } from './core/vchart-editor';
 
+export * from './core/interface';
+
 import { EditorFactory } from './core/factory';
 import { ClipBoardParser } from './elements/chart/data/parser/clipboard';
 import { BarTemp } from './elements/chart/template/templates/bar';
