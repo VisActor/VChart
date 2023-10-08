@@ -2,6 +2,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { IRect, IPoint, ILayoutGuideLine } from '../typings/space';
 import type { IElementData, IElementOption } from './interface';
 import { CreateID } from '../utils/common';
+import type { EditorModel } from '../core/interface';
 export abstract class BaseElement {
   type: string = 'base';
   protected _rect: IRect;
@@ -9,10 +10,12 @@ export abstract class BaseElement {
   protected _opt: IElementOption;
 
   protected _id: string | number;
+  protected _model: EditorModel = 'view';
 
   constructor(opt: IElementOption) {
     this._opt = opt;
     this._id = opt.id ?? CreateID();
+    this._model = opt.model;
   }
 
   initWithOption() {
@@ -48,4 +51,14 @@ export abstract class BaseElement {
   abstract getLayoutGuideLine(): ILayoutGuideLine[];
 
   abstract release(): void;
+
+  setModel(model: EditorModel) {
+    if (model === this._model) {
+      return;
+    }
+    this._model = model;
+    this._changeModel();
+  }
+
+  protected abstract _changeModel(): void;
 }

@@ -1,5 +1,5 @@
 import { EditorController } from './editor-controller';
-import type { IEditorData, IVChartEditorInitOption } from './interface';
+import type { EditorModel, IEditorData, IVChartEditorInitOption } from './interface';
 import { EditorEvent } from './editor-event';
 import { ChartLayer } from '../elements/chart/chart-layer';
 import { EditorLayer } from './editor-layer';
@@ -42,9 +42,12 @@ export class VChartEditor {
     return this._editorController;
   }
 
+  protected _model: EditorModel = 'view';
+
   constructor(option: IVChartEditorInitOption) {
     this._option = option;
-    const { dom } = this._option;
+    const { dom, model } = this._option;
+    this._model = model;
 
     this._option.data.setLayers(this.getLayers);
     this._option.data.setDataKey(`_vchart_editor_${this._option.id}`);
@@ -72,7 +75,7 @@ export class VChartEditor {
     return this._layers;
   };
 
-  addElements(type: string, option: Include<Omit<IElementOption, 'layer' | 'controller'>>) {
+  addElements(type: string, option: Include<Omit<IElementOption, 'layer' | 'controller' | 'model'>>) {
     if (!ElementsMap[type]) {
       return;
     }
@@ -86,6 +89,7 @@ export class VChartEditor {
     this.addLayer(layer);
     option.layer = layer;
     option.controller = this._editorController;
+    option.model = this._model;
     const el = new ElementsMap[type](option);
     if (!el) {
       return;
@@ -130,7 +134,8 @@ export class VChartEditor {
             id: e.id,
             type: e.type,
             attribute: e.attribute,
-            controller: this._editorController
+            controller: this._editorController,
+            model: this._model
           });
           if (!el) {
             return;
@@ -140,6 +145,24 @@ export class VChartEditor {
         });
       }
     });
+  }
+
+  setModel(model: EditorModel) {
+    if (model === this._model) {
+      return;
+    }
+    this._model = model;
+    this._layers.forEach(l => {
+      l.elements.forEach(e => {
+        e.setModel(this._model);
+      });
+    });
+    // clean overGraphic
+    if (model === 'view') {
+      this._editorController.setOverGraphic(null, null, null);
+    }
+    // rerender to clean editor graphic
+    this._layers.forEach(l => l.getStage().render());
   }
 
   release() {

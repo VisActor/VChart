@@ -38,7 +38,9 @@ export class EditorChart extends BaseElement {
     this._data = new Data();
     this._specProcess = new SpecProcess(this._data, this.onSpecReady);
     this._layout = new ChartLayout(this._specProcess);
-    this.initEditors();
+    if (this._model === 'editor') {
+      this.initEditors();
+    }
   }
 
   /**
@@ -46,6 +48,11 @@ export class EditorChart extends BaseElement {
    */
   initEditors() {
     this._layoutEditor = new LayoutEditorElement(this._opt.controller, this, this._opt.layer);
+  }
+
+  bindEditors() {
+    // editors maybe null
+    this._layoutEditor?.initWithVChart();
   }
 
   releaseEditors() {
@@ -81,7 +88,9 @@ export class EditorChart extends BaseElement {
     this._layout.setVChart(this._vchart);
 
     // editor init with vchart
-    this._layoutEditor.initWithVChart();
+    if (this._model === 'editor') {
+      this.bindEditors();
+    }
   }
 
   setTemp(key: string) {
@@ -130,5 +139,16 @@ export class EditorChart extends BaseElement {
     data.attribute = { ...this._specProcess.getEditorSpec() };
     data.attribute.data = this._data.getSave();
     return data;
+  }
+
+  _changeModel() {
+    if (this._model === 'editor') {
+      this.initEditors();
+      if (this._vchart) {
+        this.bindEditors();
+      }
+    } else {
+      this.releaseEditors();
+    }
   }
 }
