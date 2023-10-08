@@ -548,6 +548,9 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
 
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
+    if (this._option.disableActiveEffect) {
+      return;
+    }
     const brushVisible = this._spec.visible ?? true;
     if (brushVisible) {
       // 创建或更新marker组件

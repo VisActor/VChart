@@ -82,6 +82,9 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
 
   // event
   protected initEvent() {
+    if (this._option.disableActiveEffect) {
+      return;
+    }
     const trigger = this._spec.trigger;
     if (trigger === 'none') {
       return;

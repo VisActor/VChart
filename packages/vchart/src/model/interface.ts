@@ -324,6 +324,11 @@ export interface IModelOption extends ICompilableInitOption {
    * 错误消息回调函数
    */
   onError: (...args: any[]) => void;
+
+  /**
+   * 是否关闭交互效果
+   */
+  disableActiveEffect?: boolean;
 }
 
 export interface IModelConstructor {
