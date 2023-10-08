@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Stage } from '@visactor/vrender';
+import type { Stage } from '@visactor/vrender-core';
 
 const StageContext = React.createContext<Stage>(null);
 StageContext.displayName = 'StageContext';

@@ -1,4 +1,5 @@
-import type { IGraphic } from '@visactor/vrender';
+import type { ILayoutItem } from './../model/interface';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { IChart } from '../chart/interface';
 import type { IModel } from '../model/interface';
@@ -201,6 +202,10 @@ export type ExtendEventParam = EventParams & {
   itemMap?: Map<string, any>;
 };
 
+export type LayoutEventParam = {
+  elements: (ILayoutItem & { type: string })[];
+} & Partial<BaseEventParams>;
+
 export type PanEventParam = ExtendEventParam & {
   // x/y方向上的偏移值
   delta: [number, number];
@@ -269,6 +274,7 @@ export type EventParamsDefinition = {
   tooltipShow: TooltipEventParams;
   tooltipHide: TooltipEventParams;
   tooltipRelease: TooltipEventParams;
+  afterLayout: LayoutEventParam;
 
   // 扩展事件参数
   [key: string]: ExtendEventParam;

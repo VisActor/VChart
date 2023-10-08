@@ -1,4 +1,4 @@
-import type { TextAlignType, TextBaselineType } from '@visactor/vrender';
+import type { TextAlignType, TextBaselineType } from '@visactor/vrender-core';
 
 /**
  * 角度标准化处理

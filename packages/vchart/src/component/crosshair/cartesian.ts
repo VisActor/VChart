@@ -9,7 +9,7 @@ import { LineCrosshair, RectCrosshair, Tag } from '@visactor/vrender-components'
 import type { IHair } from './base';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseCrossHair } from './base';
-import type { IGroup, INode } from '@visactor/vrender';
+import type { IGroup, INode } from '@visactor/vrender-core';
 import { getDatumByValue, limitTagInBounds } from './util';
 import { getAxisLabelOffset } from '../axis/util';
 import type { IAxis } from '../axis/interface';

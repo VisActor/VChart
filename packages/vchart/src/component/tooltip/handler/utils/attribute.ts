@@ -8,9 +8,9 @@ import type { IToolTipActual, MaybeArray } from '../../../../typings';
 import type { ITooltipStyle, ITooltipTextStyle } from '../interface';
 import { isValid } from '@visactor/vutils';
 import { initTextMeasure, mergeSpec } from '../../../../util';
-import type { IRichTextParagraphCharacter } from '@visactor/vrender';
+import type { IRichTextParagraphCharacter } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import { builtinSymbolsMap, getRichTextBounds } from '@visactor/vrender';
+import { builtinSymbolsMap, getRichTextBounds } from '@visactor/vrender-core';
 import { getTextAttributes } from './style';
 
 export const getTooltipAttributes = (

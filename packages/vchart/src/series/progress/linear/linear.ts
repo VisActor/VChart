@@ -17,7 +17,7 @@ import type { ILinearProgressSeriesSpec, ILinearProgressSeriesTheme } from './in
 import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
 import { RectMark } from '../../../mark/rect';
-import { createRect } from '@visactor/vrender';
+import { createRect } from '@visactor/vrender-core';
 import { linearProgressSeriesMark } from './constant';
 import { Factory } from '../../../core/factory';
 import { registerFadeInOutAnimation } from '../../../animation/config';

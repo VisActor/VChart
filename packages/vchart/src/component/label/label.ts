@@ -19,7 +19,7 @@ import { ComponentMark, type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction } from '@visactor/vutils';
 import { isArray, pickWithout } from '@visactor/vutils';
-import type { IGroup, IText } from '@visactor/vrender';
+import type { IGroup, IText } from '@visactor/vrender-core';
 import type { LabelItem } from '@visactor/vrender-components';
 import type { ILabelSpec } from './interface';
 import { Factory } from '../../core/factory';

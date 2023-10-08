@@ -1257,6 +1257,21 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   getNodeOrdinalColorScale(item: string) {
+    if (!isNil((this._option?.globalScale?.getScale('color') as any)?._specified)) {
+      const specified = (this._option.globalScale.getScale('color') as any)._specified;
+      const colorDomain: string[] = [];
+      const colorRange: string[] = [];
+
+      for (const key in specified) {
+        colorDomain.push(key);
+        colorRange.push(specified[key]);
+      }
+      const ordinalScale = new ColorOrdinalScale();
+
+      ordinalScale.domain(colorDomain).range?.(colorRange);
+
+      return ordinalScale.scale(item);
+    }
     const colorDomain = !isNil(this._option.globalScale.getScale('color')?.domain()?.[0])
       ? this._option.globalScale.getScale('color').domain()
       : this.getNodeList();

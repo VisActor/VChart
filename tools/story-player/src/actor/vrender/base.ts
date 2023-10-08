@@ -1,4 +1,4 @@
-import type { IGraphic, IGraphicAttribute } from '@visactor/vrender';
+import type { IGraphic, IGraphicAttribute } from '@visactor/vrender-core';
 import { BaseActor } from '../base';
 import type { IActorActionContext } from '../interface';
 import { LayerType } from '../../layer/interface';

@@ -7,7 +7,7 @@ import { DataFilterBaseComponent } from '../data-filter-base-component';
 // eslint-disable-next-line no-duplicate-imports
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
-import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup } from '@visactor/vrender';
+import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup } from '@visactor/vrender-core';
 import type { Datum } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports

@@ -9,7 +9,7 @@ import type { ILayoutRect } from '../../model/interface';
 import { Title as TitleComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { TitleAttrs } from '@visactor/vrender-components';
-import type { IGraphic, IGroup, INode } from '@visactor/vrender';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import type { IPoint, IOrientType } from '../../typings';
 import { isEqual } from '@visactor/vutils';
 import type { LayoutItem } from '../../model/layout-item';

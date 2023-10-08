@@ -2,11 +2,22 @@
 import { PREFIX } from '../../constant/base';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
-import type { Maybe, Datum, ScaleType, VisualType } from '../../typings';
+import type { Maybe, Datum, ScaleType, VisualType, IScatterInvalidType } from '../../typings';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
-import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, mergeSpec } from '../../util';
+import {
+  isNil,
+  isValid,
+  isObject,
+  isFunction,
+  isString,
+  isArray,
+  isNumber,
+  isNumeric,
+  mergeSpec,
+  couldBeValidNumber
+} from '../../util';
 import { AttributeLevel } from '../../constant';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
@@ -42,6 +53,10 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   private _sizeField: string;
   private _shape: IScatterSeriesSpec['shape'];
   private _shapeField: string;
+
+  protected _invalidType: IScatterInvalidType = 'zero';
+  protected _getInvalidDefined = (datum: Datum) =>
+    couldBeValidNumber(datum[this.getStackValueField()]) && couldBeValidNumber(datum[this.getDimensionField()[0]]);
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
@@ -291,10 +306,9 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
 
   viewDataStatisticsUpdate(d: DataView) {
     super.viewDataStatisticsUpdate(d);
-    if (
-      this._invalidType === 'zero' ||
-      this.getViewDataStatistics()?.latestData?.[this.getStackValueField()]?.allValid
-    ) {
+    const fields = [this.getDimensionField()[0], this.getStackValueField()];
+    const allValid = fields.every(field => field && this.getViewDataStatistics()?.latestData?.[field]?.allValid);
+    if (this._invalidType === 'zero' || allValid) {
       this.setMarkStyle(this._symbolMark, { visible: true }, 'normal', AttributeLevel.Series);
     } else {
       this.setMarkStyle(this._symbolMark, { visible: this._getInvalidDefined }, 'normal', AttributeLevel.Series);
