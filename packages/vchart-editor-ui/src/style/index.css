@@ -29,6 +29,12 @@
   line-height: 16px;
 }
 
+.vchart-editor-ui-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .vchart-editor-ui-panel-base-container {
   margin-bottom: 16px;
   display: flex;
@@ -36,7 +42,8 @@
 }
 
 .vchart-editor-ui-panel-base-label {
-  width: 44px;
+  /* width: 44px; */
+  min-width: 44px;
   margin-right: 8px;
   font-size: 11px;
   font-style: normal;
