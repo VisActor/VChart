@@ -48,6 +48,10 @@ export class EditorChart extends BaseElement {
     this._layoutEditor = new LayoutEditorElement(this._opt.controller, this, this._opt.layer);
   }
 
+  releaseEditors() {
+    this._layoutEditor.release();
+  }
+
   initWithOption(): void {
     super.initWithOption();
     this._layout.setViewBox(this._opt.rect);
@@ -98,8 +102,9 @@ export class EditorChart extends BaseElement {
   };
 
   release() {
-    this._vchart.release();
+    this.releaseEditors();
 
+    this._vchart.release();
     this._data.clear();
     this._specProcess.clear();
     this._layout.clear();

@@ -34,22 +34,20 @@ export interface IVChartEditorInitOption {
 }
 
 export interface IEditorElement {
+  //
   type: 'chart' | 'group' | 'graphics';
   layer: IEditorLayer;
   id: string | number;
-  rect: IRect;
+  rect?: IRect;
   part?: string;
-  editProperties: {
-    move: boolean;
-    rotate: boolean;
-    resize: boolean | ([boolean, ...boolean[]] & { length: 8 });
-    // bar
-    // legend=>
-    // board: {
-    //   //...
-    //   spec: ILegendSpec;
-    // }
-  };
+  editProperties?: {
+    // layout
+    move?: boolean;
+    rotate?: boolean;
+    resize?: boolean | ([boolean, ...boolean[]] & { length: 8 });
+    //
+    // style
+  } & { [key: string]: unknown };
   updateAttribute: (attr: { [key: string]: unknown }) => false | { [key: string]: unknown };
   editorFinish: () => void;
 }
