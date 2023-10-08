@@ -1,3 +1,4 @@
+const postcss = require('rollup-plugin-postcss');
 /**
  * @type {import('@internal/bundler').Config}
  */
@@ -10,5 +11,12 @@ module.exports = {
     umd: 'build'
   },
   umdOutputFilename: 'index',
-  noEmitOnError: false
+  noEmitOnError: false,
+  rollupOptions: {
+    plugins: [
+      postcss({
+        extensions: ['.css']
+      })
+    ]
+  }
 };

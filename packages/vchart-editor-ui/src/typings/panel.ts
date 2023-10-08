@@ -1,46 +1,75 @@
-import type {
-  IBaseComponentConfig,
-  IFontFamilyComponentConfig,
-  IFontStyleComponentConfig,
-  ISelectComponentConfig,
-  ISliderNumberComponentConfig,
-  ISwitchComponentConfig,
-  ITextAlignComponentConfig
-} from './config';
+import type React from 'react';
+import type { ComponentConfig } from './config';
 
-export interface IPanelComponentSection {
+export interface IPanelSection {
   label?: string;
-  entries?: IBaseComponentConfig[];
+  entries?: ComponentConfig[];
 }
 
-export interface IPanelComponentProps {
+export interface IPanelProps {
+  style?: React.CSSProperties;
+  label?: string;
   sections?: any;
   onChange?: (section: string, key: string, value: any) => void;
 }
 
-// Title Component
+// Axis Panel
 
-export interface ITitleComponentEntries {
-  title?: {
-    label?: string;
-    entries?: (ISliderNumberComponentConfig | IFontFamilyComponentConfig | IFontStyleComponentConfig)[];
-  };
-  subTitle?: {
-    label?: string;
-    entries?: (
-      | ISwitchComponentConfig
-      | ISliderNumberComponentConfig
-      | IFontFamilyComponentConfig
-      | IFontStyleComponentConfig
-    )[];
-  };
-  align?: {
-    label?: string;
-    entries?: (ISelectComponentConfig | ITextAlignComponentConfig)[];
-  };
+export interface IAxisPanelEntries {
+  label?: IPanelSection;
+  domain?: IPanelSection;
 }
 
-export interface ITitleComponentProps extends IPanelComponentProps {
-  label?: string;
-  sections?: ITitleComponentEntries;
+export interface IAxisPanelProps extends IPanelProps {
+  sections?: IAxisPanelEntries;
+}
+
+// Data format Panel
+
+export interface IDataFormatPanelEntries {
+  format?: IPanelSection;
+}
+
+export interface IDataFormatPanelProps extends IPanelProps {
+  sections?: IDataFormatPanelEntries;
+}
+
+// Label Panel
+
+export interface ILabelPanelEntries {
+  label?: IPanelSection;
+}
+
+export interface ILabelPanelProps extends IPanelProps {
+  sections?: ILabelPanelEntries;
+}
+
+// Legend Panel
+
+export interface ILegendPanelEntries {
+  align?: IPanelSection;
+  label?: IPanelSection;
+}
+
+export interface ILegendPanelProps extends IPanelProps {
+  sections?: ILegendPanelEntries;
+}
+
+// Title Panel
+
+export interface ITitlePanelEntries {
+  title?: IPanelSection;
+  subTitle?: IPanelSection;
+  align?: IPanelSection;
+}
+
+export interface ITitlePanelProps extends IPanelProps {
+  sections?: ITitlePanelEntries;
+}
+
+// Custom Panel
+
+export interface ICustomPanelProps extends IPanelProps {
+  sections: Record<string, IPanelSection>;
+  sectionComponentMaps?: Record<string, Record<string, string>>;
 }

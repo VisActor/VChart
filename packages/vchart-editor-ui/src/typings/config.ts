@@ -25,6 +25,7 @@ export interface ISliderNumberComponentConfig extends IBaseComponentConfig {
   default?: number;
   min?: number;
   max?: number;
+  unit?: string;
 }
 
 export interface IColorComponentConfig extends IBaseComponentConfig {
@@ -36,6 +37,12 @@ export interface IFontFamilyComponentConfig extends IBaseComponentConfig {
   options?: { value: string; label: string }[];
 }
 
+export interface IFontSizeComponentConfig extends IBaseComponentConfig {
+  default?: number;
+  min?: number;
+  max?: number;
+}
+
 export interface IFontStyleComponentConfig extends IBaseComponentConfig {
   default?: { bold: boolean; underline: boolean; italic: boolean };
 }
@@ -43,3 +50,13 @@ export interface IFontStyleComponentConfig extends IBaseComponentConfig {
 export interface ITextAlignComponentConfig extends IBaseComponentConfig {
   default?: 'left' | 'center' | 'right';
 }
+
+export type ComponentConfig =
+  | IInputComponentConfig
+  | ISelectComponentConfig
+  | ISwitchComponentConfig
+  | ISliderNumberComponentConfig
+  | IColorComponentConfig
+  | IFontFamilyComponentConfig
+  | IFontStyleComponentConfig
+  | ITextAlignComponentConfig;

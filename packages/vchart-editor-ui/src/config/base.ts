@@ -1,6 +1,7 @@
 import type {
   IColorComponentConfig,
   IFontFamilyComponentConfig,
+  IFontSizeComponentConfig,
   IFontStyleComponentConfig,
   IInputComponentConfig,
   ISelectComponentConfig,
@@ -26,9 +27,10 @@ export const defaultBaseComponentConfig = {
   } as Omit<ISwitchComponentConfig, 'key'>,
   sliderNumber: {
     label: '数值',
-    default: 10,
+    default: 0,
     min: 1,
-    max: 20
+    max: 10,
+    unit: null
   } as Omit<ISliderNumberComponentConfig, 'key'>,
   color: {
     label: '颜色',
@@ -42,6 +44,12 @@ export const defaultBaseComponentConfig = {
       { value: 'Microsoft YaHei', label: '微软雅黑(Microsoft YaHei)' }
     ]
   } as Omit<IFontFamilyComponentConfig, 'key'>,
+  fontSize: {
+    label: '字号',
+    default: 10,
+    min: 0,
+    max: 20
+  } as Omit<IFontSizeComponentConfig, 'key'>,
   fontStyle: {
     label: '样式',
     default: { bold: false, underline: false, italic: false }

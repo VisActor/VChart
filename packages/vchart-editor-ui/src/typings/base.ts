@@ -2,6 +2,7 @@ import type {
   IBaseComponentConfig,
   IColorComponentConfig,
   IFontFamilyComponentConfig,
+  IFontSizeComponentConfig,
   IFontStyleComponentConfig,
   IInputComponentConfig,
   ISelectComponentConfig,
@@ -18,8 +19,8 @@ export interface IEditorHeaderProps {
   label: string;
   checked?: boolean;
   collapsed?: boolean;
-  onCheck?: () => void;
-  onCollapse?: () => void;
+  onCheck?: (checked?: boolean) => void;
+  onCollapse?: (collapsed?: boolean) => void;
   onRefresh?: () => void;
 }
 
@@ -51,6 +52,10 @@ export interface IBaseColorComponentProps extends IBaseComponentProps<IColorComp
 
 export interface IBaseFontFamilyComponentProps extends IBaseComponentProps<IFontFamilyComponentConfig> {
   fontFamily: string;
+}
+
+export interface IBaseFontSizeComponentProps extends IBaseComponentProps<IFontSizeComponentConfig> {
+  fontSize: number;
 }
 
 export interface IBaseFontStyleComponentProps extends IBaseComponentProps<IFontStyleComponentConfig> {

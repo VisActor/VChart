@@ -1,7 +1,11 @@
 import './style/index.css';
 
 // Panels
-export { Title } from './panels/title';
+export { AxisPanel } from './panels/axis-panel';
+export { DataFormatPanel } from './panels/data-format-panel';
+export { LabelPanel } from './panels/label-panel';
+export { TitlePanel } from './panels/title-panel';
+export { CustomPanel } from './panels/custom-panel';
 
 // Editor bar
 export { EditorBar } from './editor-bar/editor-bar';
