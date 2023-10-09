@@ -1057,15 +1057,3 @@ convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isR
   ((value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries, isRelativeToCanvas?: boolean) =>
     IPoint | null);
 ```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
