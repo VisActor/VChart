@@ -272,7 +272,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     }
   }
 
-  protected getDatumCenter(datum: any): [number, number] {
+  getDatumCenter(datum: any): [number, number] {
     if (this._centroidProperty && datum.properties?.[this._centroidProperty]) {
       return datum.properties?.[this._centroidProperty];
     }
