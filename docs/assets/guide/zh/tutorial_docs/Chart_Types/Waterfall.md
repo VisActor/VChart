@@ -1,4 +1,5 @@
 # 瀑布图
+[\[配置项\]](../../../option/waterfallChart)
 
 ## 简介
 

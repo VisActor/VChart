@@ -10,7 +10,7 @@ One common example is to use a heatmap to represent the correlation between diff
 
 In VChart, you can use the [Heatmap Configuration](../../../option/heatmapChart) to display the correlation between different variables. As shown in the following figure, this example shows the data of listed companies in 2016 by exploring the correlation between various indicators of listed companies through heatmap:
 
-![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f30.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/45df54929d214e7453e228f30.png)
 
 In the [Heatmap Example](../../../demo/heatmap-chart/basic-heatmap) shown above, you need the following key configurations:
 

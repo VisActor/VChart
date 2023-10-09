@@ -7,7 +7,7 @@
 A bar chart is a statistical chart with a variable based on the length of a rectangle. Bar charts are used to compare two or more values (different times or different conditions), with only one variable, and are often used for smaller data set analysis.
 
 In VChart, you can display data values for multiple groups through the [Bar Chart Configuration](../../../option/barChart). As shown in the following figure:
-![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f27.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/45df54929d214e7453e228f27.png)
 In the [example](../../../demo/bar-chart/group-stack-column) shown above, you need the following key configurations:
 
 - Set the mapping field for the x-axis and the **grouping field** on the `xField` property.
@@ -17,7 +17,7 @@ In the [example](../../../demo/bar-chart/group-stack-column) shown above, you ne
 
 A bar graph is a bar chart with a transpose of the x and y axes. The configuration is basically consistent with the bar chart, except for the need to swap the x and y axis configurations and add the `direction` property configuration set to `'horizontal'`.
 
-![](https://temp.domain/obj/bit-cloud/350c0511133d336e62252321d.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e62252321d.png)
 
 To achieve a [Population Pyramid Chart](../../../demo/bar-chart/population-pyramid) as shown above, you need to use a combination of chart + bar series + layout with the following configurations:
 

@@ -4,11 +4,11 @@
 
 The majority of configuration options for 3D bar charts are inherited from 2D area charts. They are enabled by changing the series or chart type from `bar` to `bar3d`.
 
-![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f27.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/45df54929d214e7453e228f27.png)
 
 Column charts are based on bar charts with the x-axis and y-axis transposed. The configuration is almost the same as bar charts, except that the x-axis and y-axis configurations need to be swapped, and the `direction` attribute should be configured as `'horizontal'`.
 
-![](https://temp.domain/obj/bit-cloud/350c0511133d336e62252321d.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e62252321d.png)
 
 ## Chart Composition
 

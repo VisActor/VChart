@@ -1,4 +1,5 @@
 # 区间面积图
+[\[配置项\]](../../../option/rangeAreaChart)
 
 ## 简介
 
