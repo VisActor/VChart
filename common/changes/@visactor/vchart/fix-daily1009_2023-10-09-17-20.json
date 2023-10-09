@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: optimize the default performance of the long tooltip title, related #688",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
