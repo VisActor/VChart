@@ -68,6 +68,12 @@ const run = () => {
       }
     },
 
+    centerLabel: {
+      style: {
+        text: '输入法'
+      }
+    },
+
     label: {
       visible: true,
       style: {

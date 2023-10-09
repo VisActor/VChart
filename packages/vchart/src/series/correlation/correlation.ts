@@ -124,7 +124,11 @@ export class CorrelationSeries extends PolarSeries<any> {
       type: 'dataview'
     });
     centerDataView.transform({
-      type: 'correlationCenter'
+      type: 'correlationCenter',
+      options: {
+        keyword: this._spec?.centerLabel?.style?.text ?? '关键词',
+        categoryField: this._spec.categoryField
+      }
     });
 
     this._centerSeriesData = new SeriesData(this._option, centerDataView);
@@ -306,7 +310,7 @@ export class CorrelationSeries extends PolarSeries<any> {
         fontSize: this._spec?.centerLabel?.style?.fontSize ?? 20,
         textAlign: this._spec?.centerLabel?.style?.textAlign ?? 'center',
         textBaseline: this._spec?.centerLabel?.style?.textBaseline ?? 'middle',
-        text: this._spec?.centerLabel?.style?.text ?? '输入法'
+        text: this._spec?.centerLabel?.style?.text ?? '关键词'
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
