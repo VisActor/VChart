@@ -53,66 +53,19 @@ export const getTooltipAttributes = (
 
   const { title = {}, content = [] } = actualTooltip;
 
-  let maxWidth = 0;
+  let containerWidth = padding.left + padding.right;
   let containerHeight = padding.top + padding.bottom;
 
-  // calculate title
-  let titleMaxHeight = 0;
-  const {
-    visible: titleVisible = true,
-    value: titleValue = '',
-    valueStyle: titleValueStyle,
-    hasShape: titleHasShape,
-    shapeType: titleShapeType = '',
-    shapeHollow: titleShapeHollow,
-    shapeColor: titleShapeColor,
-    spaceRow: titleSpaceRow
-  } = title;
-  attribute.title.visible = titleVisible;
-  attribute.title.spaceRow = titleSpaceRow ?? commonSpaceRow;
-  if (titleVisible) {
-    const lineTitleStyle = mergeSpec({}, titleStyle, getTextAttributes(titleValueStyle, undefined, {}));
-    const { text, width, height } = measureTooltipText(titleValue, lineTitleStyle);
-    attribute.title.value = {
-      width,
-      height,
-      ...lineTitleStyle,
-      text
-    };
-    maxWidth = width;
-    titleMaxHeight = height;
-
-    if (titleHasShape && builtinSymbolsMap[titleShapeType]) {
-      const titleShapeAttrs: TooltipSymbolAttrs = {
-        symbolType: titleShapeType
-      };
-      if (titleShapeHollow) {
-        titleShapeAttrs.stroke = titleShapeColor;
-      } else {
-        titleShapeAttrs.fill = titleShapeColor;
-      }
-      attribute.title.shape = titleShapeAttrs;
-      maxWidth += shapeStyle.size + shapeStyle.spacing;
-      titleMaxHeight = Math.max(shapeStyle.size, titleMaxHeight);
-    }
-
-    attribute.title.width = maxWidth;
-    attribute.title.height = titleMaxHeight;
-
-    containerHeight += titleMaxHeight;
-  }
-
   // calculate content
+  let hasContent = false;
+  let contentMaxWidth = 0;
   if (content.length) {
     // filter content
     const filteredContent = content.filter(item => {
       return (item.key || item.value) && item.visible !== false;
     });
     if (filteredContent.length) {
-      if (titleVisible) {
-        containerHeight += attribute.title.spaceRow; // title 与 content 之前的间隔
-      }
-
+      hasContent = true;
       const keyWidths: number[] = [];
       const adaptiveKeyWidths: number[] = [];
       const valueWidths: number[] = [];
@@ -121,64 +74,67 @@ export const getTooltipAttributes = (
       attribute.content = filteredContent.map((item, i) => {
         let itemHeight = 0;
         const {
-          hasShape,
-          key,
-          shapeColor,
-          shapeHollow,
-          shapeType = '',
-          shapeFill,
-          shapeStroke,
-          shapeLineWidth,
-          shapeSize,
-          value,
-          isKeyAdaptive,
-          spaceRow: lineSpaceRow
+          hasShape: actualHasShape,
+          key: actualKey,
+          shapeType: actualShapeType = '',
+          shapeFill: actualShapeFill,
+          shapeStroke: actualShapeStroke,
+          shapeLineWidth: actualShapeLineWidth,
+          shapeSize: actualShapeSize,
+          value: actualValue,
+          isKeyAdaptive: actualIsKeyAdaptive,
+          spaceRow: actualSpaceRow,
+          keyStyle: actualKeyStyle,
+          valueStyle: actualValueStyle,
+          // 弃用的属性，做下兼容
+          shapeColor: actualShapeColor,
+          shapeHollow: actualShapeHollow
         } = item;
-        const itemAttrs: TooltipRowAttrs = { height: 0, spaceRow: lineSpaceRow ?? commonSpaceRow };
-        if (isValid(key)) {
-          const lineKeyStyle = mergeSpec({}, keyStyle, getTextAttributes(item.keyStyle, undefined, {}));
-          const { width, height, text } = measureTooltipText(key, lineKeyStyle);
+        const itemAttrs: TooltipRowAttrs = { height: 0, spaceRow: actualSpaceRow ?? commonSpaceRow };
+        if (isValid(actualKey)) {
+          const itemKeyStyle = mergeSpec({}, keyStyle, getTextAttributes(actualKeyStyle, undefined, {}));
+          const { width, height, text } = measureTooltipText(actualKey, itemKeyStyle);
           itemAttrs.key = {
             width,
             height,
-            ...lineKeyStyle,
+            ...itemKeyStyle,
             text
           };
-          if (!isKeyAdaptive) {
+          if (!actualIsKeyAdaptive) {
             keyWidths.push(width);
           } else {
             adaptiveKeyWidths.push(width);
           }
           itemHeight = Math.max(itemHeight, height);
         }
-        if (isValid(value)) {
-          const lineValueStyle = mergeSpec({}, valueStyle, getTextAttributes(item.valueStyle, undefined, {}));
-          const { width, height, text } = measureTooltipText(value, lineValueStyle);
+        if (isValid(actualValue)) {
+          const itemValueStyle = mergeSpec({}, valueStyle, getTextAttributes(actualValueStyle, undefined, {}));
+          const { width, height, text } = measureTooltipText(actualValue, itemValueStyle);
           itemAttrs.value = {
             width,
             height,
-            ...lineValueStyle,
+            ...itemValueStyle,
             text
           };
           valueWidths.push(width);
           itemHeight = Math.max(itemHeight, height);
         }
-        if (hasShape) {
+        if (actualHasShape) {
           const shape: TooltipSymbolAttrs = {
             visible: true,
-            symbolType: shapeType
+            symbolType: actualShapeType
           };
-          const adaptiveShapeFill = shapeFill ?? shapeColor;
-          if (shapeHollow) {
+          const adaptiveShapeFill = actualShapeFill ?? actualShapeColor;
+          if (actualShapeHollow) {
             shape.stroke = adaptiveShapeFill;
           } else {
             shape.fill = adaptiveShapeFill;
           }
-          shape.stroke = shapeStroke ?? adaptiveShapeFill;
-          shape.lineWidth = shapeLineWidth;
+          shape.stroke = actualShapeStroke ?? adaptiveShapeFill;
+          shape.lineWidth = actualShapeLineWidth;
           itemAttrs.shape = shape;
 
-          const shapeWidth = shapeSize ?? shapeStyle.size;
+          const shapeWidth = actualShapeSize ?? shapeStyle.size;
           itemHeight = Math.max(shapeWidth, itemHeight);
           shapeWidths.push(shapeWidth);
         } else {
@@ -198,10 +154,10 @@ export const getTooltipAttributes = (
       const maxAdaptiveKeyWidth = adaptiveKeyWidths.length ? Math.max(...adaptiveKeyWidths) : 0;
       const maxValueWidth = valueWidths.length ? Math.max(...valueWidths) : 0; // value 需要对齐
       const shapeWidth = shapeWidths.length ? Math.max(...shapeWidths) + shapeStyle.spacing : 0; // shape 列宽度
-      maxWidth = Math.max(
-        maxKeyWidth + maxValueWidth + keyStyle.spacing + valueStyle.spacing + shapeWidth,
-        maxAdaptiveKeyWidth + shapeWidth,
-        maxWidth
+      contentMaxWidth = Math.max(
+        shapeWidth + maxKeyWidth + keyStyle.spacing + maxValueWidth + valueStyle.spacing,
+        shapeWidth + maxAdaptiveKeyWidth,
+        contentMaxWidth
       );
       attribute.hasContentShape = !!shapeWidths.length;
       attribute.keyWidth = maxKeyWidth;
@@ -209,8 +165,67 @@ export const getTooltipAttributes = (
     }
   }
 
+  // calculate title
+  let titleMaxWidth = 0;
+  let titleMaxHeight = 0;
+  const {
+    visible: actualTitleVisible = true,
+    value: actualTitleValue = '',
+    valueStyle: actualTitleValueStyle,
+    hasShape: actualTitleHasShape,
+    shapeType: actualTitleShapeType = '',
+    spaceRow: actualTitleSpaceRow,
+    // 弃用的属性，做下兼容
+    shapeHollow: actualTitleShapeHollow,
+    shapeColor: actualTitleShapeColor
+  } = title;
+  attribute.title.visible = actualTitleVisible;
+  attribute.title.spaceRow = actualTitleSpaceRow ?? commonSpaceRow;
+  if (actualTitleVisible) {
+    const titleValueStyle = mergeSpec(
+      {
+        multiLine: true, // 标题默认支持多行显示
+        maxWidth: hasContent ? Math.ceil(contentMaxWidth) : undefined
+      } as ITooltipTextStyle,
+      titleStyle,
+      getTextAttributes(actualTitleValueStyle, undefined, {})
+    );
+    const { text, width, height } = measureTooltipText(actualTitleValue, titleValueStyle);
+    attribute.title.value = {
+      width,
+      height,
+      ...titleValueStyle,
+      text
+    };
+    titleMaxWidth = width;
+    titleMaxHeight = height;
+
+    if (actualTitleHasShape && builtinSymbolsMap[actualTitleShapeType]) {
+      const titleShapeAttrs: TooltipSymbolAttrs = {
+        symbolType: actualTitleShapeType
+      };
+      if (actualTitleShapeHollow) {
+        titleShapeAttrs.stroke = actualTitleShapeColor;
+      } else {
+        titleShapeAttrs.fill = actualTitleShapeColor;
+      }
+      attribute.title.shape = titleShapeAttrs;
+      titleMaxWidth += shapeStyle.size + shapeStyle.spacing;
+      titleMaxHeight = Math.max(shapeStyle.size, titleMaxHeight);
+    }
+
+    attribute.title.width = titleMaxWidth;
+    attribute.title.height = titleMaxHeight;
+
+    containerHeight += titleMaxHeight;
+    if (hasContent) {
+      containerHeight += attribute.title.spaceRow; // title 与 content 之前的间隔
+    }
+  }
+
+  containerWidth += contentMaxWidth ? contentMaxWidth : titleMaxWidth;
   const containerSize: IContainerSize = {
-    width: maxWidth + padding.left + padding.right,
+    width: containerWidth,
     height: containerHeight
   };
 
