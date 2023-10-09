@@ -1,6 +1,7 @@
 import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
 import type { IRect } from '../typings/space';
+import { IModel } from '@visactor/vchart/esm/model/interface';
 export interface ILayerData {
   id: string | number;
   type: 'chart' | string;
@@ -37,12 +38,15 @@ export interface IVChartEditorInitOption {
 }
 
 export interface IEditorElement {
-  //
   type: 'chart' | 'group' | 'graphics';
   layer: IEditorLayer;
   id: string | number;
   rect?: IRect;
   part?: string;
+  /**
+   * vchart 模型实例
+   */
+  model: IModel;
   editProperties?: {
     // layout
     move?: boolean;

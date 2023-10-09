@@ -12,6 +12,8 @@ import type { ISpecProcess } from './spec-process/interface';
 import { Data } from './data/data';
 import type { IData } from './data/interface';
 import type { IChartElementOption } from './interface';
+import { MarkLineEditor } from './editor-elements/mark-line';
+import { MarkAreaEditor } from './editor-elements/mark-area';
 
 export class EditorChart extends BaseElement {
   type = 'chart';
@@ -26,6 +28,8 @@ export class EditorChart extends BaseElement {
   protected _container: HTMLElement;
 
   protected _layoutEditor: LayoutEditorElement;
+  protected _markLineEditor: MarkLineEditor;
+  protected _markAreaEditor: MarkAreaEditor;
 
   protected _vchart: IVChart;
   get vchart() {
@@ -48,15 +52,21 @@ export class EditorChart extends BaseElement {
    */
   initEditors() {
     this._layoutEditor = new LayoutEditorElement(this._opt.controller, this, this._opt.layer);
+    this._markLineEditor = new MarkLineEditor(this._opt.controller, this, this._opt.layer);
+    this._markAreaEditor = new MarkAreaEditor(this._opt.controller, this, this._opt.layer);
   }
 
   bindEditors() {
     // editors maybe null
     this._layoutEditor?.initWithVChart();
+    this._markLineEditor?.initWithVChart();
+    this._markAreaEditor?.initWithVChart();
   }
 
   releaseEditors() {
-    this._layoutEditor.release();
+    this._layoutEditor?.release();
+    this._markLineEditor?.release();
+    this._markAreaEditor?.release();
   }
 
   initWithOption(): void {

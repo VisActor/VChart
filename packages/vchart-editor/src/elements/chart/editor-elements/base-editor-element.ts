@@ -1,6 +1,7 @@
 import type { IEditorController, IEditorElement, IEditorLayer } from './../../../core/interface';
 import type { EditorChart } from '../chart';
 import type { IGraphic } from '@visactor/vrender-core';
+import { EventParams } from '@visactor/vchart';
 
 export abstract class BaseEditorElement {
   protected _chart: EditorChart;
@@ -21,8 +22,9 @@ export abstract class BaseEditorElement {
       return;
     }
     this._overGraphic = this._getOverGraphic(el);
-    this._controller.setOverGraphic(this._getOverGraphic(el), id, e);
+    this._controller.setOverGraphic(this._overGraphic, id, e);
   }
+
   protected startEditor(el: IEditorElement, e?: PointerEvent): boolean {
     if (!el) {
       return false;
@@ -47,5 +49,5 @@ export abstract class BaseEditorElement {
 
   abstract initWithVChart(): void;
   protected abstract _getOverGraphic(el: IEditorElement, e?: PointerEvent): IGraphic;
-  protected abstract _getEditorElement(e?: PointerEvent): IEditorElement;
+  protected abstract _getEditorElement(e?: EventParams): IEditorElement;
 }

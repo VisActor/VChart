@@ -7,6 +7,7 @@ import type { ILayoutAttribute } from '../../../typings/space';
 import type { ILayoutItem } from '../interface';
 import { MinSize } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
+import { EventParams } from '@visactor/vchart';
 
 export class LayoutEditorElement extends BaseEditorElement {
   protected _layoutComponent: LayoutEditorComponent;
@@ -17,7 +18,7 @@ export class LayoutEditorElement extends BaseEditorElement {
   }
 
   private _overEvent = e => {
-    const el = this._getEditorElement(e.event);
+    const el = this._getEditorElement(e);
     this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
   };
 
@@ -26,7 +27,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       this._releaseLast();
       return;
     }
-    const el = this._getEditorElement(e.event);
+    const el = this._getEditorElement(e);
     if (e) {
       this.startEditor(el, e);
     }
@@ -99,7 +100,8 @@ export class LayoutEditorElement extends BaseEditorElement {
       pickable: false
     });
   }
-  protected _getEditorElement(e: PointerEvent): IEditorElement {
+  protected _getEditorElement(eventParams: EventParams): IEditorElement {
+    const e = eventParams.event;
     // @ts-ignore
     const point = { x: e.x, y: e.y };
     const chart = this._chart;
@@ -114,13 +116,13 @@ export class LayoutEditorElement extends BaseEditorElement {
     if (model.type.includes('Axis')) {
       return null;
     }
-
     const element: IEditorElement = {
       type: 'chart',
       layer: this._layer,
       id: layoutMeta.id,
       rect: transformModelRect(model, LayoutRectToRect(layoutMeta.layout)),
       part: model.type,
+      model,
       editProperties: {
         move: true,
         rotate: false,

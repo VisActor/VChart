@@ -182,6 +182,8 @@ const spec = {
       }
     }
   ],
+
+  // TODO: 变成默认的配置
   markLine: [
     {
       interactive: true,
@@ -214,8 +216,89 @@ const spec = {
           stroke: '#000'
         }
       }
+    },
+    {
+      interactive: true,
+      x: 'VT',
+      endSymbol: {
+        visible: true,
+        size: 12,
+        refX: 6,
+        symbolType: 'triangleDown',
+        autoRotate: false
+      },
+      label: {
+        visible: true,
+        autoRotate: false,
+        text: 'VT',
+        position: 'end',
+        labelBackground: {
+          visible: false
+        },
+        style: {
+          fill: '#000',
+          textAlign: 'center',
+          textBaseline: 'bottom'
+        },
+        refX: 12,
+        refY: 0
+      },
+      line: {
+        style: {
+          stroke: '#000'
+        }
+      }
     }
-  ]
+  ],
+  markArea: [
+    {
+      x: 'WY',
+      x1: 'DC',
+      zIndex: 500,
+      interactive: true,
+      area: {
+        style: {
+          fill: '#005DFF',
+          fillOpacity: '0.1'
+        }
+      },
+      label: {
+        position: 'top',
+        text: 'insert some text',
+        labelBackground: {
+          visible: false
+        },
+        style: {
+          fill: '#000'
+        }
+      }
+    },
+    {
+      y: 40000,
+      y1: 50000,
+      zIndex: 500,
+      interactive: true,
+      area: {
+        style: {
+          fill: '#005DFF',
+          fillOpacity: '0.1'
+        }
+      },
+      label: {
+        position: 'right',
+        text: 'insert some text',
+        labelBackground: {
+          visible: false
+        },
+        style: {
+          fill: '#000'
+        }
+      }
+    }
+  ],
+  tooltip: {
+    visible: false
+  }
 };
 
 export class BarTemp extends BaseTemp {
