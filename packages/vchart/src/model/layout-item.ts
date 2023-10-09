@@ -332,4 +332,13 @@ export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends Com
   compile(): void {
     // do nothing
   }
+
+  getGraphicBounds(): IBoundsLike {
+    return {
+      x1: this._layoutStartPoint.x,
+      y1: this._layoutStartPoint.y,
+      x2: this._layoutStartPoint.x + this._layoutRect.width,
+      y2: this._layoutStartPoint.y + this._layoutRect.height
+    };
+  }
 }

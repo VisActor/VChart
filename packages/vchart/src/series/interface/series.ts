@@ -270,6 +270,7 @@ export interface IGeoSeries extends ISeries {
   setCoordinateHelper: (helper: IGeoCoordinateHelper) => void;
 
   valueToPosition: (value1: any, value2: any) => IPoint;
+  getDatumCenter: (datum: any) => [number, number];
 }
 
 // 收拢扇区标签形式依赖的 api

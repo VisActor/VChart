@@ -98,9 +98,11 @@ export interface ILayoutItem {
 
   /** 是否自动缩进 */
   getAutoIndent: () => boolean;
+
   getLayoutStartPoint: () => ILayoutPoint;
   getLayoutRect: () => ILayoutRect;
   getLastComputeOutBounds: () => IBoundsLike;
+  getGraphicBounds: () => IBoundsLike;
 
   /**
    * 更新元素布局的 layoutRect 大小，用来更新指定布局空间
