@@ -109,9 +109,9 @@ export class LayoutEditorElement extends BaseEditorElement {
     }
     const regions = chart.vchart.getChart().getAllRegions() as any[];
     const items = regions.concat(chart.vchart.getChart().getAllComponents() as any[]);
-    const model = items.find((item: any) => item.userId === layoutMeta.id);
+    const mode = items.find((item: any) => item.userId === layoutMeta.id);
 
-    if (model.type.includes('Axis')) {
+    if (mode.type.includes('Axis')) {
       return null;
     }
 
@@ -119,13 +119,14 @@ export class LayoutEditorElement extends BaseEditorElement {
       type: 'chart',
       layer: this._layer,
       id: layoutMeta.id,
-      rect: transformModelRect(model, LayoutRectToRect(layoutMeta.layout)),
-      part: model.type,
+      rect: transformModelRect(mode, LayoutRectToRect(layoutMeta.layout)),
+      part: mode.type,
       editProperties: {
         move: true,
         rotate: false,
         resize: true
       },
+      originSpec: mode.getSpec(),
       editorFinish: () => {
         if (this._currentEl === element) {
           this._releaseLast();
@@ -134,7 +135,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       updateAttribute: attr => {
         if (attr.layout) {
           const layoutData = attr.layout as Partial<ILayoutAttribute>;
-          const rect = model.computeBoundsInRect(layoutData);
+          const rect = mode.computeBoundsInRect(layoutData);
           chart.layout.setModelLayoutData({
             id: layoutMeta.id,
             layout: {
@@ -144,10 +145,10 @@ export class LayoutEditorElement extends BaseEditorElement {
               height: { offset: rect.height as number }
             }
           });
-          if (model.type === 'region' && model.coordinate === 'cartesian') {
+          if (mode.type === 'region' && mode.coordinate === 'cartesian') {
             const axes = items.filter(
               (_i: ILayoutItem) =>
-                _i.layoutBindRegionID && _i.layoutBindRegionID[0] === model.id && _i.type.includes('Axis')
+                _i.layoutBindRegionID && _i.layoutBindRegionID[0] === mode.id && _i.type.includes('Axis')
             );
             axes.forEach((_a: ILayoutItem) => {
               chart.layout.setModelLayoutData({

@@ -10,7 +10,7 @@ export interface IEditorSpec {
 export interface ISpecProcess {
   getEditorSpec: () => {};
   updateEditorSpec: (spec: IEditorSpec) => void;
-  // for each model
+  // for each mode
   updateTheme: (theme: ITheme) => void;
   updateTemp: (temp: string) => void;
   updateLayout: (layout: ILayoutData) => void;
