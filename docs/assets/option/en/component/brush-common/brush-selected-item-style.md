@@ -16,10 +16,7 @@ Color of the graphic element.
 
 Opacity of the graphic element, range `[0, 1]`.
 
-#${prefix} style(Object)
-
-Other style properties of the graphic element.
 
 {{ use: graphic-polygon(
-  prefix = '#' + ${prefix}
+  prefix = ${prefix}
 ) }}
