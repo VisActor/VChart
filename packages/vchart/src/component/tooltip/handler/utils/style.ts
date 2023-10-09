@@ -3,10 +3,9 @@ import { THEME_CONSTANTS } from '../../../../theme/builtin/common/constants';
 import type { ITooltipTextTheme } from '../../interface';
 import type { ITooltipTextStyle } from '../interface';
 
-const defaultTextAttributes: Partial<ITooltipTextStyle> = {
+const DEFAULT_TEXT_ATTRIBUTES: Partial<ITooltipTextStyle> = {
   fontFamily: THEME_CONSTANTS.defaultFontFamily,
   spacing: 10,
-  multiLine: false,
   wordBreak: 'break-word'
 };
 
@@ -16,7 +15,7 @@ export function getTextAttributes(
   defaultAttributes?: Partial<ITooltipTextStyle>
 ): ITooltipTextStyle {
   const attrs: ITooltipTextStyle = {
-    ...(defaultAttributes ?? defaultTextAttributes),
+    ...(defaultAttributes ?? DEFAULT_TEXT_ATTRIBUTES),
     fill: (style.fill ?? style.fontColor) as string,
     textAlign: style.textAlign,
     textBaseline: style.textBaseline,
