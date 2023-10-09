@@ -128,6 +128,7 @@ export class LayoutEditorElement extends BaseEditorElement {
         rotate: false,
         resize: true
       },
+      originSpec: model.getSpec(),
       editorFinish: () => {
         if (this._currentEl === element) {
           this._releaseLast();

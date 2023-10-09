@@ -8,7 +8,7 @@ export interface ILayerData {
   elements: IElementData[];
 }
 
-export type EditorModel = 'view' | 'editor';
+export type EditorMode = 'view' | 'editor';
 
 export interface IEditorLayer {
   id: string | number;
@@ -34,7 +34,7 @@ export interface IVChartEditorInitOption {
   id: string | number;
   dom: string | HTMLElement;
   data: IEditorData;
-  model: EditorModel;
+  mode: EditorMode;
 }
 
 export interface IEditorElement {
@@ -53,8 +53,8 @@ export interface IEditorElement {
     rotate?: boolean;
     resize?: boolean | ([boolean, ...boolean[]] & { length: 8 });
     //
-    // style
   } & { [key: string]: unknown };
+  originSpec?: any;
   updateAttribute: (attr: { [key: string]: unknown }) => false | { [key: string]: unknown };
   editorFinish: () => void;
 }

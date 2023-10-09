@@ -42,7 +42,7 @@ export class EditorChart extends BaseElement {
     this._data = new Data();
     this._specProcess = new SpecProcess(this._data, this.onSpecReady);
     this._layout = new ChartLayout(this._specProcess);
-    if (this._model === 'editor') {
+    if (this._mode === 'editor') {
       this.initEditors();
     }
   }
@@ -98,7 +98,7 @@ export class EditorChart extends BaseElement {
     this._layout.setVChart(this._vchart);
 
     // editor init with vchart
-    if (this._model === 'editor') {
+    if (this._mode === 'editor') {
       this.bindEditors();
     }
   }
@@ -152,7 +152,7 @@ export class EditorChart extends BaseElement {
   }
 
   _changeModel() {
-    if (this._model === 'editor') {
+    if (this._mode === 'editor') {
       this.initEditors();
       if (this._vchart) {
         this.bindEditors();
