@@ -105,7 +105,28 @@ Used to register DataSet data methods, often used for on-demand loading.
 registerMap: (key: string, source: GeoSourceType, option?: GeoSourceOption) => void;
 ```
 
-Used to register map data, often used for on-demand loading.
+Used to register map data.
+
+```ts
+export interface GeoSourceOption {
+  type: 'geojson';
+  /** Calculate center point */
+  /** @default true */
+  centroid?: boolean;
+  /** Map simplification */
+  /** @default false */
+  simplify?: boolean;
+  /** Reverse winding of outer rings of (Multi)LineString or (Multi)Polygon, and clockwise for inner rings. */
+  /** @default false */
+  rewind?:
+    | boolean
+    | {
+        /** Enable reverse winding */
+        /** @default false */
+        reverse?: boolean;
+      };
+}
+```
 
 ### unregisterMap
 
@@ -1035,6 +1056,10 @@ convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isR
   number | null) &
   ((value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries, isRelativeToCanvas?: boolean) =>
     IPoint | null);
+```
+
+```
+
 ```
 
 ```

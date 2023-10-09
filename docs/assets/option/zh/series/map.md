@@ -52,6 +52,18 @@ vChart.registerMap('china', chinaGeojson);
 
 地图默认填充色。当图表数据中没有对应地理名称的数据时，使用该颜色填充地图。
 
+#${prefix} centroidProperty(string)
+
+从 1.5.1 版本开始支持。  
+地图数据中的地理区域中心经纬度坐标字段。默认中心坐标在注册地图数据(registerMap)时自动生成。  
+例如，地图数据中有如下 `centroid` 字段，则可在地图系列中配置 `centroidProperty: 'centroid'`
+
+```json
+"properties":{
+  "centroid": [117.35675, 39.282806]
+}
+```
+
 #${prefix} area(Object)
 
 地图图元样式设置。

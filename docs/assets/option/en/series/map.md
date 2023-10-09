@@ -52,6 +52,18 @@ For example: The geographic name in the map data is `广东省`, and the name in
 
 Default map fill color. When there is no corresponding geographic name data in the chart data, use this color to fill the map.
 
+#${prefix} centroidProperty(string)
+
+Supported since version `1.5.1`.  
+Center longitude and latitude coordinates fields in the geography area of map data. The default center coordinate is automatically generated when registering map data (registerMap).  
+For example, if the centroid field is present in the map data, you can configure `centroidProperty: 'centroid'` in the map series.
+
+```json
+"properties":{
+  "centroid": [117.35675, 39.282806]
+}
+```
+
 #${prefix} area(Object)
 
 Map graphic style settings.
