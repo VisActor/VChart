@@ -1,5 +1,5 @@
 import { EditorController } from './editor-controller';
-import type { EditorModel, IEditorData, IVChartEditorInitOption } from './interface';
+import type { EditorHandlerFunc, EditorModel, IEditorData, IVChartEditorInitOption } from './interface';
 import { EditorEvent } from './editor-event';
 import { ChartLayer } from '../elements/chart/chart-layer';
 import { EditorLayer } from './editor-layer';
@@ -169,5 +169,12 @@ export class VChartEditor {
     this._editorController.release();
     this._layers.forEach(l => l.release());
     this._layers = [];
+  }
+
+  addEditorStartHandler(h: EditorHandlerFunc) {
+    this._editorController.addStartHandler(h);
+  }
+  addEditorEndHandler(h: EditorHandlerFunc) {
+    this._editorController.addEndHandler(h);
   }
 }
