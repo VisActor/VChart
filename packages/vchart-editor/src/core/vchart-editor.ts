@@ -1,5 +1,5 @@
 import { EditorController } from './editor-controller';
-import type { EditorHandlerFunc, EditorModel, IEditorData, IVChartEditorInitOption } from './interface';
+import type { EditorHandlerFunc, EditorMode, IEditorData, IVChartEditorInitOption } from './interface';
 import { EditorEvent } from './editor-event';
 import { ChartLayer } from '../elements/chart/chart-layer';
 import { EditorLayer } from './editor-layer';
@@ -42,12 +42,12 @@ export class VChartEditor {
     return this._editorController;
   }
 
-  protected _model: EditorModel = 'view';
+  protected _mode: EditorMode = 'view';
 
   constructor(option: IVChartEditorInitOption) {
     this._option = option;
-    const { dom, model } = this._option;
-    this._model = model;
+    const { dom, mode } = this._option;
+    this._mode = mode;
 
     this._option.data.setLayers(this.getLayers);
     this._option.data.setDataKey(`_vchart_editor_${this._option.id}`);
@@ -75,7 +75,7 @@ export class VChartEditor {
     return this._layers;
   };
 
-  addElements(type: string, option: Include<Omit<IElementOption, 'layer' | 'controller' | 'model'>>) {
+  addElements(type: string, option: Include<Omit<IElementOption, 'layer' | 'controller' | 'mode'>>) {
     if (!ElementsMap[type]) {
       return;
     }
@@ -89,7 +89,7 @@ export class VChartEditor {
     this.addLayer(layer);
     option.layer = layer;
     option.controller = this._editorController;
-    option.model = this._model;
+    option.mode = this._mode;
     const el = new ElementsMap[type](option);
     if (!el) {
       return;
@@ -135,7 +135,7 @@ export class VChartEditor {
             type: e.type,
             attribute: e.attribute,
             controller: this._editorController,
-            model: this._model
+            mode: this._mode
           });
           if (!el) {
             return;
@@ -147,18 +147,18 @@ export class VChartEditor {
     });
   }
 
-  setModel(model: EditorModel) {
-    if (model === this._model) {
+  setModel(mode: EditorMode) {
+    if (mode === this._mode) {
       return;
     }
-    this._model = model;
+    this._mode = mode;
     this._layers.forEach(l => {
       l.elements.forEach(e => {
-        e.setModel(this._model);
+        e.setModel(this._mode);
       });
     });
     // clean overGraphic
-    if (model === 'view') {
+    if (mode === 'view') {
       this._editorController.setOverGraphic(null, null, null);
     }
     // rerender to clean editor graphic
@@ -169,12 +169,5 @@ export class VChartEditor {
     this._editorController.release();
     this._layers.forEach(l => l.release());
     this._layers = [];
-  }
-
-  addEditorStartHandler(h: EditorHandlerFunc) {
-    this._editorController.addStartHandler(h);
-  }
-  addEditorEndHandler(h: EditorHandlerFunc) {
-    this._editorController.addEndHandler(h);
   }
 }

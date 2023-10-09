@@ -9,7 +9,7 @@ const editor = new VChartEditor({
   dom: 'chart',
   data: new BrowserData(),
   id: 'editor-demo',
-  model: 'editor'
+  mode: 'editor'
 });
 window.editor = editor;
 const clipBoardData = `State,Age,Population
