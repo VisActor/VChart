@@ -91,6 +91,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   }
 
   protected _component: Tooltip;
+  protected _attributes?: TooltipAttributes | null = null;
 
   protected _chartContainer: Maybe<HTMLElement>;
   protected _compiler: Compiler;
@@ -98,12 +99,12 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   private _cacheViewSpec: ITooltipSpec | undefined;
   private _cacheActualTooltip: IToolTipActual | undefined;
 
-  protected _attributeCache?: TooltipAttributes | null = null;
-
   protected _style: Partial<ITooltipStyle>;
 
   // tooltip 容器
   protected _container!: Maybe<IGroup | HTMLElement>;
+
+  protected _isReleased: boolean = false;
 
   /**
    * Create the tooltip handler.
@@ -151,7 +152,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     data?: TooltipData
   ) => {
     const tooltipSpec = this._component.getSpec() as ITooltipSpec;
-    if (!tooltipSpec) {
+    if (this._isReleased || !tooltipSpec) {
       return TooltipResult.failed;
     }
 
@@ -233,6 +234,10 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     data: TooltipData,
     params: TooltipHandlerParams
   ) => {
+    if (this._isReleased) {
+      return TooltipResult.failed;
+    }
+
     const event = params.event as MouseEvent;
 
     /** 用户自定义逻辑 */
@@ -298,6 +303,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
     /** 默认逻辑 */
     this._removeTooltip();
+
+    this._isReleased = true;
   }
 
   /* -----需要子类继承的方法开始----- */
@@ -665,12 +672,12 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
   // 计算 tooltip 内容区域的宽高，并缓存结果
   protected _getTooltipBoxSize(actualTooltip: IToolTipActual, changePositionOnly: boolean): IContainerSize | undefined {
-    if (!changePositionOnly || isNil(this._attributeCache)) {
-      this._attributeCache = getTooltipAttributes(actualTooltip, this._style);
+    if (!changePositionOnly || isNil(this._attributes)) {
+      this._attributes = getTooltipAttributes(actualTooltip, this._style);
     }
     return {
-      width: this._attributeCache?.panel?.width,
-      height: this._attributeCache?.panel?.height
+      width: this._attributes?.panel?.width,
+      height: this._attributes?.panel?.height
     };
   }
 
