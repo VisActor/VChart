@@ -27,6 +27,12 @@ export interface IMapSeriesSpec extends ISeriesSpec, IAnimationSpec<LineMarks, '
    */
   nameProperty?: string;
   /**
+   * 中心坐标映射字段
+   * @default  undefined
+   * @since 1.5.1
+   */
+  centroidProperty?: string;
+  /**
    *  名称映射表
    */
   nameMap?: { [key: string]: string };
