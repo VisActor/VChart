@@ -71,6 +71,8 @@ export type ComponentType =
   | 'legend'
   | 'mapLabel'
   | 'markLine'
+  | 'markArea'
+  | 'markPoint'
   | 'tooltip'
   | 'title'
   | 'label';

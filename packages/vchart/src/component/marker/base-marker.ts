@@ -18,6 +18,9 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
   protected _startRelativeSeries!: ICartesianSeries;
   protected _endRelativeSeries!: ICartesianSeries;
   protected _relativeSeries!: ICartesianSeries;
+  getRelativeSeries() {
+    return this._relativeSeries;
+  }
 
   // marker 组件数据
   protected _markerData!: DataView;
