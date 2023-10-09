@@ -190,4 +190,8 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
       'model'
     );
   };
+
+  getGraphicBounds() {
+    return this.getVRenderComponents()?.[0]?.AABBBounds ?? super.getGraphicBounds();
+  }
 }
