@@ -321,7 +321,6 @@ export class CorrelationSeries extends PolarSeries<any> {
     if (!labelMark) {
       return;
     }
-    this._labelMark = labelMark;
     this.setMarkStyle(
       labelMark,
       {
