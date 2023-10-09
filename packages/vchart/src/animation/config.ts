@@ -137,7 +137,7 @@ export const registerLineAnimation = () => {
   });
 };
 
-export const registerGrammarAnimation = () => {
+export const registerVGrammarAnimation = () => {
   View.useRegisters([
     registerClipInAnimation,
     registerClipOutAnimation,

@@ -93,7 +93,7 @@ import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
 import { Layout } from '../layout';
 import { GroupMark } from '../mark';
-import { registerGrammarAnimation } from '../animation/config';
+import { registerVGrammarAnimation } from '../animation/config';
 import { View, initAllEnv, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 
@@ -1613,7 +1613,7 @@ export const registerVChartCore = () => {
   // install essential vgrammar transform
   View.useRegisters([registerFilterTransform, registerMapTransform]);
   // install animation
-  registerGrammarAnimation();
+  registerVGrammarAnimation();
   //init env
   initAllEnv();
   // set default logger level to Level.error
