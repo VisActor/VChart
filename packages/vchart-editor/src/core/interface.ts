@@ -53,8 +53,8 @@ export interface IEditorElement {
     rotate?: boolean;
     resize?: boolean | ([boolean, ...boolean[]] & { length: 8 });
     //
-    // style
   } & { [key: string]: unknown };
+  originSpec?: any;
   updateAttribute: (attr: { [key: string]: unknown }) => false | { [key: string]: unknown };
   editorFinish: () => void;
 }

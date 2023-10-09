@@ -41,6 +41,7 @@ export class EditorController implements IEditorController {
   removeEditorElements() {
     if (this._currentEditorElements) {
       this._currentEditorElements.editorFinish();
+      this._endHandler.forEach(h => h(this._currentEditorElements));
       this._currentEditorElements = null;
     }
   }
