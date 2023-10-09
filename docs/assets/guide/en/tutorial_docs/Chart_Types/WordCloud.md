@@ -16,7 +16,7 @@ When `wordCloudChart.maskShape` is configured or set to a built-in shape, it is 
 
 The word cloud consists of text elements, tooltips, and other components.
 
-![](https://temp.domain/obj/bit-cloud/dfd203ff5e337abea49411b07.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/dfd203ff5e337abea49411b07.png)
 
 Text elements are the basic elements of a word cloud, and the following settings are essential:
 
@@ -318,7 +318,7 @@ const dataWordCloudShape = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj
 const spec = {
   type: 'wordCloud',
   // 待申请新外网可访问的存储空间后更换
-  maskShape: `http://temp.domain/obj/bytecharts/shape_bears.png`,
+  maskShape: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/log.jpeg`,
   nameField: 'challenge_name',
   valueField: 'sum_count',
   seriesField: 'challenge_name',
@@ -345,7 +345,7 @@ The random color arrays of core words and filling words can be specified in `wor
 const spec = {
   type: 'wordCloud',
   // 待申请新外网可访问的存储空间后更换
-  maskShape: `http://temp.domain/obj/bytecharts/shape_logo.png`,
+  maskShape: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/shape_logo.png`,
   colorList: ['#325AB4'],
   wordCloudShapeConfig: {
     fillingColorList: ['#5BB5BF', '#92C8C6']

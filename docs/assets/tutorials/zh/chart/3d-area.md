@@ -21,9 +21,9 @@
 
 坐标轴、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
 
-- `areaChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../../option/areaChart#axes)
-- `areaChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/areaChart#tooltip)
-- 更多组件配置见[VChart areaChart 配置](../../../option/areaChart)
+- `areaChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../option/areaChart#axes)
+- `areaChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../option/areaChart#tooltip)
+- 更多组件配置见[VChart areaChart 配置](../../option/areaChart)
 
 作为 3d 图表，3d 面积图需要开启 3d 视图，需要在 vChart 的初始化参数中配置 3d 视角:
 

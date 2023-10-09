@@ -1,4 +1,5 @@
 # 直方图
+[\[配置项\]](../../../option/histogramChart)
 
 ## 简介
 
