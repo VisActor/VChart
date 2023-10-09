@@ -19,7 +19,6 @@ importers:
       '@visactor/vgrammar': ~0.7.7-alpha.2
       '@visactor/vmind': 1.0.6-alpha.3
       '@visactor/vrender': ~0.16.0
-      '@visactor/vrender-core': ~0.16.0
       '@visactor/vrender-kits': ~0.16.0
       '@visactor/vutils': ~0.16.1
       '@vitejs/plugin-react': 3.1.0
@@ -47,11 +46,10 @@ importers:
       '@visactor/vgrammar': 0.7.7-alpha.2
       '@visactor/vmind': 1.0.6-alpha.3_zek35pddvdjy2zglnyjcvmb6jq
       '@visactor/vrender': 0.16.0
-      '@visactor/vrender-core': 0.16.0
       '@visactor/vrender-kits': 0.16.0
       '@visactor/vutils': 0.16.1
       axios: 1.5.1
-      highlight.js: 11.8.0
+      highlight.js: 11.9.0
       markdown-it: 13.0.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -10807,7 +10805,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       flatted: 3.2.9
-      keyv: 4.5.3
+      keyv: 4.5.4
       rimraf: 3.0.2
 
   /flat/5.0.2:
@@ -11864,8 +11862,8 @@ packages:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
     dev: true
 
-  /highlight.js/11.8.0:
-    resolution: {integrity: sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==}
+  /highlight.js/11.9.0:
+    resolution: {integrity: sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==}
     engines: {node: '>=12.0.0'}
     dev: false
 
@@ -13410,7 +13408,7 @@ packages:
       jest: ^24.0.0
     dependencies:
       electron: 11.5.0
-      jest: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
+      jest: 26.6.3_ts-node@10.9.0
       jest-haste-map: 24.9.0
       jest-message-util: 24.9.0
       jest-mock: 24.9.0
@@ -14610,8 +14608,8 @@ packages:
       json-buffer: 3.0.0
     dev: true
 
-  /keyv/4.5.3:
-    resolution: {integrity: sha512-QCiSav9WaX1PgETJ+SpNnx2PRRapJ/oRSXM4VO5OGYGSjrxbKPVFVhB3l2OCbLCk329N8qyAtsJjSjvVBWzEug==}
+  /keyv/4.5.4:
+    resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
     dependencies:
       json-buffer: 3.0.1
 
