@@ -9,7 +9,7 @@ Pie chart, also known as a pie chart, is a circular statistical chart divided in
 A donut chart is formed by adding the `innerRadius` and `outerRadius` attributes to the base of the pie chart to adjust the inner and outer radii of the specified sectors.
 
 In VChart, you can display the relative relationships of multiple data through the [Pie/Donut Chart Configuration](../../../option/pieChart). The following chart shows the distribution of the U.S. population by age in 2021 using a combination of a pie chart and donut chart:
-![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f2b.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/45df54929d214e7453e228f2b.png)
 In the [Nested Pie Chart Example](../../../demo/pie-chart/nested-pie) shown above, you need the following key configurations:
 
 - The `categoryField` and `valueField` attributes are used to specify the pie chart category and sector angle fields, respectively
@@ -19,7 +19,7 @@ In the [Nested Pie Chart Example](../../../demo/pie-chart/nested-pie) shown abov
 
 Pie charts are made up of sector primitives, labels, and legends, among other components.
 
-![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523220.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e622523220.png)
 
 Sector primitives are the basic elements of pie/donut charts, and related drawing configurations are essential:
 

@@ -3,7 +3,7 @@
 ## 简介
 
 3d 折线图大部分配置项继承于 2d 折线图，其是对 2d 折线图增加 zField 映射以及 z 轴而得到
-![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523215.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e622523215.png)
 
 ## 图表构成
 

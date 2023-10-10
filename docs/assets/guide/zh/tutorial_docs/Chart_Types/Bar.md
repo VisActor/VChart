@@ -1,14 +1,15 @@
 # 柱状图/条形图
+[\[配置项\]](../../../option/barChart)
 
 ## 简介
 
 柱状图是一种以长方形的长度为变量的统计图表。柱状图用来比较两个或以上的价值（不同时间或者不同条件），只有一个变量，通常利用于较小的数据集分析。
 
-![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f27.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/45df54929d214e7453e228f27.png)
 
 条形图是在柱状图的基础上，做了 x 轴和 y 轴的转置，在配置上和柱状图基本一致，只是 x 轴和 y 轴的配置需要对调，同时需要加上 `direction` 属性配置为 `'horizontal'`。
 
-![](https://temp.domain/obj/bit-cloud/350c0511133d336e62252321d.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e62252321d.png)
 
 ## 图表构成
 

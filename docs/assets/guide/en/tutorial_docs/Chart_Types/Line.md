@@ -7,7 +7,7 @@
 A line chart is constructed by connecting a series of data points to reveal trends. Line charts are used to analyze the trends of things changing over time or sequential categories. If there is more than one group of data, a line chart can be used to analyze the interaction and impact of multiple data groups changing over time or categorical sequences. The direction of the line chart indicates positive/negative changes, and the slope of the line chart indicates the degree of change.
 
 In VChart, you can display the data trends of different categories through [Line Chart Configuration](../../../option/lineChart). As shown in the example below, it displays the changing trend of cigarette consumption in developed countries:
-![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523215.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e622523215.png)
 
 In the [Line Chart Example](../../../demo/line-chart/multi-line) shown above, you need to use the following key configurations:
 
