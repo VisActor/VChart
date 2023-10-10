@@ -80,7 +80,6 @@ export class LayoutEditorElement extends BaseEditorElement {
       },
       endHandler: data => {
         this._currentEl.updateAttribute({ layout: data });
-        this._controller.editorEnd();
       },
       event: e.event
     });
@@ -174,8 +173,7 @@ export class LayoutEditorElement extends BaseEditorElement {
           }
           chart.vchart.getChart().setLayoutTag(true);
         }
-        if (attr.ani) {
-        }
+        this.updateCommonAttribute(element, attr);
         return false;
       }
     };

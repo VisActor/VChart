@@ -19,6 +19,9 @@ export class EditorChart extends BaseElement {
   type = 'chart';
   protected _data: IData;
   protected _specProcess: ISpecProcess;
+  get specProcess() {
+    return this._specProcess;
+  }
   protected _layout: IChartLayout;
   get layout() {
     return this._layout;
@@ -161,5 +164,12 @@ export class EditorChart extends BaseElement {
     } else {
       this.releaseEditors();
     }
+  }
+
+  reRenderWithUpdateSpec() {
+    if (!this._vchart) {
+      return;
+    }
+    this.onSpecReady();
   }
 }
