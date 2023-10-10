@@ -4,11 +4,6 @@
   "description": "Provide the type declarations of VChart.",
   "sideEffects": false,
   "main": "index.d.ts",
-  "scripts": {
-    "test": "jest",
-    "test-live": "npm run test-watch __tests__",
-    "test-watch": "DEBUG_MODE=1 jest --watch"
-  },
   "dependencies": {},
   "devDependencies": {
     "@internal/eslint-config": "workspace:*",

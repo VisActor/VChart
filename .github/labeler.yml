@@ -26,6 +26,14 @@ tt-vchart:
 vchart-schema:
   - packages/vchart-schema/**
 
+# Add 'vchart-types' label to any change within the 'vchart-types' package
+vchart-types:
+  - packages/vchart-types/**
+
+# Add 'vchart-theme' label to any change within the 'vchart-theme' package
+vchart-theme:
+  - packages/vchart-theme/**
+
 # Add 'test' label to any change to packages/*/__tests__/* files within the source dir
 test:
   - packages/*/__tests__/*
