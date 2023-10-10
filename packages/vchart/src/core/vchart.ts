@@ -101,9 +101,9 @@ export class VChart implements IVChart {
   readonly id = createID();
 
   /**
-   *  注册图表组件
+   *  按需注册图表和组件
    * @param comps
-   * @since 1.5.0
+   * @since 1.5.1
    */
   static useRegisters(comps: (() => void)[]) {
     comps.forEach((fn: () => void) => {
@@ -112,41 +112,39 @@ export class VChart implements IVChart {
   }
 
   /**
-   * 注册图表
+   * 注册自定义图表
    * @param charts 图表类
-   * @deprecated
+   * @description 若用于按需加载，1.5.1版本后，请统一使用 `useRegisters` API，例如:`VChart.useRegisters([registerLineChart])`。
    */
   static useChart(charts: IChartConstructor[]) {
     charts.forEach(c => Factory.registerChart(c.type, c));
   }
   /**
-   * 注册系列
+   * 注册自定义系列
    * @param series 系列类
-   * @deprecated
+   * @description  若用于按需加载，1.5.1版本后，统一使用 `useRegisters` API，例如 `VChart.useRegisters([registerLineSeries])`。
    */
   static useSeries(series: ISeriesConstructor[]) {
     series.forEach(s => Factory.registerSeries(s.type, s));
   }
   /**
-   * 注册组件
+   * 注册自定义组件
    * @param components 组件类
-   * @deprecated
+   * @description 若用于按需加载，1.5.1版本后，统一使用 `useRegisters` API，例如 `VChart.useRegisters([registerCartesianLinearAxis])`。
    */
   static useComponent(components: IComponentConstructor[]) {
     components.forEach(c => Factory.registerComponent(c.type, c));
   }
   /**
-   * 注册 Mark
+   * 注册自定义 Mark
    * @param marks Mark 图元类
-   * @deprecated
    */
   static useMark(marks: MarkConstructor[]) {
     marks.forEach(m => Factory.registerMark(m.constructorType ?? m.type, m));
   }
   /**
-   * 注册布局
+   * 注册自定义布局
    * @param layouts 布局类
-   * @deprecated
    */
   static useLayout(layouts: ILayoutConstructor[]) {
     layouts.forEach(l => Factory.registerLayout(l.type, l));
