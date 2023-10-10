@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "feat: initialization parameter provides the disableActiveEffect configuration to support the interactive effect of the user closing the chart\n\n",
+      "comment": "feat: initialization parameter provides the disableTriggerEvent configuration to support the interactive effect of the user closing the chart\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
