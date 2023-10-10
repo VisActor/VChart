@@ -99,7 +99,12 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
       point = spec.position;
     }
 
-    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+    const seriesData = this._relativeSeries.getViewData().latestData;
+    const dataPoints = data
+      ? data.latestData[0].latestData
+        ? data.latestData[0].latestData
+        : data.latestData
+      : seriesData;
 
     let limitRect;
     if (spec.clip) {
@@ -119,7 +124,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
         textStyle: {
           ...this._markerComponent?.attribute?.itemContent?.textStyle,
           text: this._spec.itemContent.text?.formatMethod
-            ? this._spec.itemContent.text.formatMethod(dataPoints, this._relativeSeries.getViewData().latestData)
+            ? this._spec.itemContent.text.formatMethod(dataPoints, seriesData)
             : this._markerComponent?.attribute?.itemContent?.textStyle?.text
         }
       },
