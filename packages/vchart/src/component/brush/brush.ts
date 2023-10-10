@@ -25,6 +25,7 @@ import type { IElement } from '@visactor/vgrammar-core';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
+import { defaultTriggerEvent } from '../common/trigger/config';
 
 export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   layoutType: LayoutItem['layoutType'] = 'absolute';
@@ -158,9 +159,9 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         // 需要重置初始状态的情况：点击空白处clear所有状态
         // 是否点击到空白处由图表的事件监听判断
         this._option
-          .getChart()
-          .getEvent()
-          .on('click', p => {
+          ?.getChart()
+          ?.getEvent()
+          ?.on('click', p => {
             if (!p.mark && operateTypeCache === IOperateType.brushClear) {
               this._initMarkBrushState(componentIndex, '');
               this._needInitOutState = true;
