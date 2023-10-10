@@ -5,6 +5,7 @@
 进度图是一种用于表达任务或活动的进度和状态的可视化图表。它通常以直观易懂的方式展示一个任务在完成过程中的百分比。为了满足不同场景下的可视化需求，VChart 向用户提供条形进度图和环形进度图两种图表形式。
 
 ## 条形进度图
+[\[配置项\]](../../../option/linearProgressChart)
 
 条形进度图是一种长条形的进度图，通常包括一个背景框和一个内部填充块，用来表示任务的进度和状态。在操作过程中，填充块会随着任务的完成而逐渐增加，直到到达百分之百的进度，以此来向用户展示任务的进度和完成情况。
 
@@ -262,6 +263,7 @@ window.vchart = vchart;
 ```
 
 ## 环形进度图
+[\[配置项\]](../../../option/circularProgressChart)
 
 环形进度图是一种圆形的进度图，通常包括一个背景圆环和一个内部填充弧形块，用来表示任务的进度和状态。在操作过程中，填充弧形块会随着任务的完成而逐渐增加，直到到达百分之百的进度，以此来向用户展示任务的进度和完成情况。
 
@@ -272,15 +274,15 @@ window.vchart = vchart;
 环形进度图由表示进度的弧形图元、表示背景的弧形图元、提示信息及其他组件构成。  
 ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a07.png)
 
-- `circleProgressChart.type`: 图表类型，环形进度图的类型为`'circleProgress'`
-- `circleProgressChart.data`: 图表绘制的数据源
-- `circleProgressChart.radiusField`: 分类字段，映射不同进度条，即进度条的数量由类别数量决定
-- `circleProgressChart.valueField`: 数值字段，映射表示进度的弧形图元弧度范围
+- `circularProgressChart.type`: 图表类型，环形进度图的类型为`'circularProgress'`
+- `circularProgressChart.data`: 图表绘制的数据源
+- `circularProgressChart.radiusField`: 分类字段，映射不同进度条，即进度条的数量由类别数量决定
+- `circularProgressChart.valueField`: 数值字段，映射表示进度的弧形图元弧度范围
 
 提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
 
-- `circleProgressChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/circleProgressChart#tooltip)
-- 更多组件配置见[VChart circleProgressChart 配置](../../../option/circleProgressChart)
+- `circularProgressChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/circularProgressChart#tooltip)
+- 更多组件配置见[VChart circularProgressChart 配置](../../../option/circularProgressChart)
 
 ### 快速上手
 

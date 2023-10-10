@@ -16,12 +16,8 @@
 
 图元的透明度，范围`[0, 1]`。
 
-#${prefix} style(Object)
-
-图元的其他样式。
-
 {{ use: graphic-polygon(
-  prefix = '#' + ${prefix}
+  prefix = ${prefix}
 ) }}
 
 

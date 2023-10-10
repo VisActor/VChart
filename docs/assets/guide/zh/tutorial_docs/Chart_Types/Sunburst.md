@@ -1,4 +1,5 @@
 # 旭日图
+[\[配置项\]](../../../option/sunburstChart)
 
 ## 简介
 

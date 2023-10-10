@@ -4,11 +4,11 @@
 
 3d 柱状图大部分配置项继承于 2d 面积图，其是 series 或者 chart 类型由`bar`变成`bar3d`来启用
 
-![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f27.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/45df54929d214e7453e228f27.png)
 
 条形图是在柱状图的基础上，做了 x 轴和 y 轴的转置，在配置上和柱状图基本一致，只是 x 轴和 y 轴的配置需要对调，同时需要加上 `direction` 属性配置为 `'horizontal'`。
 
-![](https://temp.domain/obj/bit-cloud/350c0511133d336e62252321d.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e62252321d.png)
 
 ## 图表构成
 

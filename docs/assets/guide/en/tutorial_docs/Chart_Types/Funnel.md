@@ -10,7 +10,7 @@ Funnel chart, shaped like a "funnel", is used for single-process analysis. It co
 
 Funnel chart consists of basic elements and other components such as hierarchical polygon elements (default is trapezoid, but can also be rectangle, depending on user configuration), transformation layers, labels, etc.
 
-![](https://temp.domain/obj/bit-cloud/4d877ccaf041cff1618de3405.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/4d877ccaf041cff1618de3405.png)
 
 Polygon elements are the basic elements of the funnel chart, and related drawing configurations are essential:
 
