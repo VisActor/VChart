@@ -506,6 +506,7 @@ export class BaseChart extends CompilableBase implements IChart {
       this.onLayoutStart(params);
       const elements = this.getLayoutElements();
       this._layoutFunc(this, elements, this._layoutRect, this._viewBox);
+      this._event.emit(ChartEvent.afterLayout, { elements });
       this.setLayoutTag(false);
       this.onLayoutEnd(params);
 
@@ -1127,6 +1128,12 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   release() {
+    /* release 前的处理 */
+    [...this._components, ...this._regions, ...this._series].forEach(m => {
+      m.beforeRelease();
+    });
+
+    /* 开始 release */
     super.release();
     // clear event , temporary function of  chart items
     this.clear();

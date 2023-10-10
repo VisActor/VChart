@@ -98,9 +98,11 @@ export interface ILayoutItem {
 
   /** 是否自动缩进 */
   getAutoIndent: () => boolean;
+
   getLayoutStartPoint: () => ILayoutPoint;
   getLayoutRect: () => ILayoutRect;
   getLastComputeOutBounds: () => IBoundsLike;
+  getGraphicBounds: () => IBoundsLike;
 
   /**
    * 更新元素布局的 layoutRect 大小，用来更新指定布局空间
@@ -260,8 +262,7 @@ export interface IModel extends ICompilable, ILayoutItem {
   init: (option: IModelInitOption) => void;
   // updateSpec 或者切换主题后，根据新 spec 执行的初始化过程
   reInit: (theme?: any, lastSpec?: any) => void;
-  // theme
-  setTheme: (theme?: any) => void;
+  beforeRelease: () => void;
 
   onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
   onLayoutEnd: (ctx: IModelLayoutOption) => void;
@@ -273,6 +274,8 @@ export interface IModel extends ICompilable, ILayoutItem {
   getSpec?: () => any;
   getSpecIndex: () => number;
 
+  // theme
+  setTheme: (theme?: any) => void;
   setCurrentTheme: (theme: any, noRender?: boolean) => void;
 
   setMarkStyle: <T extends ICommonSpec>(

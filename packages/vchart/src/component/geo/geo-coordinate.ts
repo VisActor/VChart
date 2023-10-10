@@ -387,9 +387,9 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
           const mapData = (s as IGeoSeries).getMapViewData()?.latestData ?? [];
           mapData.forEach((feature: any = {}) => {
             const key = feature[s.getDimensionField()[0]] || feature[DEFAULT_MAP_LOOK_UP_KEY];
-            const { centroidX, centroidY } = feature;
-            if (key && isValid(centroidX * centroidY)) {
-              this._centerCache.set(key, { x: centroidX, y: centroidY });
+            const center = (s as IGeoSeries).getDatumCenter(feature);
+            if (key && isValid(center)) {
+              this._centerCache.set(key, { x: center[0], y: center[1] });
             }
           });
         }

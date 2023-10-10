@@ -109,7 +109,9 @@ export enum ChartEvent {
   tooltipRelease = 'tooltipRelease',
   // resize
   afterResize = 'afterResize',
-  afterRender = 'afterRender'
+  afterRender = 'afterRender',
+  // layout
+  afterLayout = 'afterLayout'
 }
 
 export enum Event_Source_Type {

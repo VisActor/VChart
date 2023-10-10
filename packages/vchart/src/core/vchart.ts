@@ -89,6 +89,8 @@ import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
 import { calculateChartSize, mergeUpdateResult } from '../chart/util';
+import { VCHART_UTILS } from './util';
+
 export class VChart implements IVChart {
   readonly id = createID();
 
@@ -185,6 +187,9 @@ export class VChart implements IVChart {
   static globalConfig: IGlobalConfig = {
     uniqueTooltip: true
   };
+
+  /** 工具方法 */
+  static readonly Utils = VCHART_UTILS;
 
   protected _spec: any;
 
