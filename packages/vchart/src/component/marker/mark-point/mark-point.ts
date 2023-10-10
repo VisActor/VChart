@@ -1,6 +1,6 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkPoint, IMarkPointSpec, IMarkPointTheme } from './interface';
-import { isNil, isArray } from '../../../util';
+import { isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
@@ -10,7 +10,7 @@ import { coordinateLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
-import { isValid } from '@visactor/vutils';
+import { isEmpty, isValid } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
@@ -33,7 +33,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
 
   static createComponent(spec: any, options: IComponentOption) {
     const markPointSpec = spec.markPoint || options.defaultSpec;
-    if (isNil(markPointSpec)) {
+    if (isEmpty(markPointSpec)) {
       return undefined;
     }
     if (!isArray(markPointSpec) && markPointSpec.visible !== false) {
