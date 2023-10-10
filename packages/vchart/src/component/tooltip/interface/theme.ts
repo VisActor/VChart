@@ -1,6 +1,7 @@
 import type { RichTextWordBreak } from '@visactor/vrender';
-import type { IPadding, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
+import type { StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { IColorKey } from '../../../theme/color-scheme/interface';
+import type { Padding } from '@visactor/vrender-components/es/core/type';
 
 export interface ITooltipTextTheme {
   /** 字体 */
@@ -38,7 +39,7 @@ export interface ITooltipTheme {
   /** 容器样式配置 */
   panel?: {
     /** tooltip 容器内边距 */
-    padding?: IPadding;
+    padding?: Padding;
     /** 背景色 */
     backgroundColor?: string | IColorKey;
     /** tooltip边框 */

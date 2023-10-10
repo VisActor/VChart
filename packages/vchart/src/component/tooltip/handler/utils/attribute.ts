@@ -7,10 +7,10 @@ import type {
   TooltipSymbolAttrs,
   TooltipTextAttrs
 } from '@visactor/vrender-components';
-import type { IToolTipActual } from '../../../../typings';
+import type { IPadding, IToolTipActual } from '../../../../typings';
 import type { ITooltipTextStyle } from '../interface';
-import { has, isValid } from '@visactor/vutils';
-import { mergeSpec } from '../../../../util';
+import { isValid, normalizePadding } from '@visactor/vutils';
+import { mergeSpec, normalizeLayoutPaddingSpec } from '../../../../util';
 import type { ITooltipSpec } from '../../interface/spec';
 import type { ITheme } from '../../../../theme';
 import type { ITooltipTextTheme, ITooltipTheme } from '../../interface/theme';
@@ -79,7 +79,8 @@ export const getTooltipAttributes = (
 ): TooltipAttributes => {
   const { style = {}, enterable, transitionDuration } = spec;
   const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow } = style;
-  const { padding } = panel;
+  const padding = normalizePadding(panel.padding);
+  const paddingSpec = normalizeLayoutPaddingSpec(panel.padding) as IPadding;
 
   const titleStyle = getTextAttributes(titleLabel, globalTheme);
   const keyStyle = getTextAttributes(keyLabel, globalTheme);
@@ -117,8 +118,8 @@ export const getTooltipAttributes = (
 
   const { title = {}, content = [] } = actualTooltip;
 
-  let containerWidth = padding.left + padding.right;
-  let containerHeight = padding.top + padding.bottom;
+  let containerWidth = paddingSpec.left + paddingSpec.right;
+  let containerHeight = paddingSpec.top + paddingSpec.bottom;
 
   // calculate content
   let contentMaxWidth = 0;
@@ -274,6 +275,8 @@ export const getTooltipAttributes = (
 
     containerHeight += titleMaxHeight + (hasContent ? attributes.title.spaceRow : 0);
   }
+  attributes.title.width = titleMaxWidth;
+  attributes.title.height = titleMaxHeight;
 
   if (isAutoWidthMode()) {
     containerWidth += contentMaxWidth ? contentMaxWidth : titleMaxWidth;
@@ -289,8 +292,8 @@ export const getTooltipAttributes = (
       if (value.autoWidth ?? true) {
         value.width =
           containerWidth -
-          padding.left -
-          padding.right -
+          paddingSpec.left -
+          paddingSpec.right -
           maxShapeWidth -
           maxKeyWidth -
           keyStyle.spacing -
@@ -299,16 +302,13 @@ export const getTooltipAttributes = (
         if (!value.maxWidth) {
           value.maxWidth = Math.ceil(value.width);
         }
+        attributes.valueWidth = Math.max(attributes.valueWidth, value.width);
       }
     });
   }
 
-  const containerSize: IContainerSize = {
-    width: containerWidth,
-    height: containerHeight
-  };
+  attributes.panel.width = containerWidth;
+  attributes.panel.height = containerHeight;
 
-  attributes.panel.width = containerSize.width;
-  attributes.panel.height = containerSize.height;
   return attributes;
 };
