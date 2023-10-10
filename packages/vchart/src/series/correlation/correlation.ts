@@ -243,10 +243,10 @@ export class CorrelationSeries extends PolarSeries<any> {
       ripplePointMark,
       {
         x: () => {
-          return (this._viewBox.x1 + this._viewBox.x2) / 2;
+          return this._spec?.centerX ?? (this._viewBox.x1 + this._viewBox.x2) / 2;
         },
         y: () => {
-          return (this._viewBox.y1 + this._viewBox.y2) / 2;
+          return this._spec?.centerY ?? (this._viewBox.y1 + this._viewBox.y2) / 2;
         },
         size: () => {
           return Math.max(this._viewBox.x2 - this._viewBox.x1, this._viewBox.y2 - this._viewBox.y1) / 2;
@@ -270,10 +270,10 @@ export class CorrelationSeries extends PolarSeries<any> {
       centerPointMark,
       {
         x: () => {
-          return (this._viewBox.x1 + this._viewBox.x2) / 2;
+          return this._spec?.centerX ?? (this._viewBox.x1 + this._viewBox.x2) / 2;
         },
         y: () => {
-          return (this._viewBox.y1 + this._viewBox.y2) / 2;
+          return this._spec?.centerY ?? (this._viewBox.y1 + this._viewBox.y2) / 2;
         },
         size: () => {
           return (0.2 * Math.max(this._viewBox.x2 - this._viewBox.x1, this._viewBox.y2 - this._viewBox.y1)) / 2;
@@ -300,10 +300,10 @@ export class CorrelationSeries extends PolarSeries<any> {
       centerLabelMark,
       {
         x: () => {
-          return (this._viewBox.x1 + this._viewBox.x2) / 2;
+          return this._spec?.centerX ?? (this._viewBox.x1 + this._viewBox.x2) / 2;
         },
         y: () => {
-          return (this._viewBox.y1 + this._viewBox.y2) / 2;
+          return this._spec?.centerY ?? (this._viewBox.y1 + this._viewBox.y2) / 2;
         },
 
         fill: this._spec?.centerLabel?.style?.fill ?? '#fff',

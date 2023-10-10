@@ -50,6 +50,9 @@ const run = () => {
 
     innerRadius: '20%',
     outerRadius: '95%',
+
+    centerX: 300,
+    centerY: 50,
     nodePoint: {
       state: {
         hover: {

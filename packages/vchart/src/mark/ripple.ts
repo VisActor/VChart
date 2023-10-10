@@ -17,7 +17,8 @@ export class RippleMark extends BaseMark<IRippleMarkSpec> implements IRippleMark
     const defaultStyle: IMarkStyle<IRippleMarkSpec> = {
       ...super._getDefaultStyle(),
       x: 0,
-      y: 0
+      y: 0,
+      ripple: 0
     };
     return defaultStyle;
   }
