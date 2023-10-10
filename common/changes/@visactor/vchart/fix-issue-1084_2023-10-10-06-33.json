@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue when use `positions` to create marker component, fixed #1084",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

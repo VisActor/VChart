@@ -4,7 +4,7 @@ import type { FeatureData } from '@visactor/vgrammar-core';
 import { registerProjection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
 import type { IPathMark } from '../../mark/path';
-import { geoSourceMap } from './geo-source';
+import { geoSourceMap, registerMapSource, unregisterMapSource } from './geo-source';
 import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import { isValid, isValidNumber, mergeSpec } from '../../util';
@@ -20,17 +20,12 @@ import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import { VChart } from '../../core/vchart';
+import { registerFadeInOutAnimation } from '../../animation/config';
 import { PathMark } from '../../mark/path';
-import { TextMark } from '../../mark/text';
 import { mapSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
-
-VChart.useMark([PathMark, TextMark]);
-
-// 注册语法元素
-registerProjection();
+import { Factory } from '../../core/factory';
+import { registerGeoCoordinate } from '../../component/geo';
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;
@@ -189,7 +184,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
   initAnimation() {
     this._pathMark.setAnimationConfig(
-      animationConfig(DEFAULT_MARK_ANIMATION.path(), userAnimationConfig(SeriesMarkNameEnum.area, this._spec))
+      animationConfig(
+        Factory.getAnimationInKey('fadeInOut')?.(),
+        userAnimationConfig(SeriesMarkNameEnum.area, this._spec)
+      )
     );
   }
 
@@ -324,3 +322,14 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     return DEFAULT_DATA_INDEX;
   }
 }
+
+export const registerMapSeries = () => {
+  // 注册语法元素
+  registerProjection();
+  registerGeoCoordinate();
+  Factory.registerMark(PathMark.type, PathMark);
+  Factory.registerSeries(MapSeries.type, MapSeries);
+  Factory.registerImplement('registerMap', registerMapSource);
+  Factory.registerImplement('unregisterMap', unregisterMapSource);
+  registerFadeInOutAnimation();
+};

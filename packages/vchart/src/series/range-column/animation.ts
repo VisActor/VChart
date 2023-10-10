@@ -1,3 +1,4 @@
+import { Factory } from '../../core/factory';
 import type { DirectionType } from '../../typings';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 
@@ -41,3 +42,12 @@ export function rangeColumnPresetAnimation(
       return rangeColumnGrowIn(params);
   }
 }
+
+export const registerRangeColumnAnimation = () => {
+  Factory.registerAnimation('rangeColumn', (params: IRangeColumnAnimationParams, preset: RangeColumnAppearPreset) => ({
+    appear: rangeColumnPresetAnimation(params, preset),
+    enter: rangeColumnGrowIn(params),
+    exit: rangeColumnGrowOut(params),
+    disappear: rangeColumnGrowOut(params)
+  }));
+};

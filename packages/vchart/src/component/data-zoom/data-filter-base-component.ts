@@ -687,21 +687,22 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (!this._auto) {
       return true;
     }
+
     const axisSpec = this._relatedAxisComponent?.getSpec() as ICartesianBandAxisSpec | undefined;
     const bandSizeResult = this._getAxisBandSize(axisSpec);
     const { bandSize, maxBandSize, minBandSize } = bandSizeResult ?? {};
-    if (
-      rect?.height === this._cacheRect?.height &&
-      rect?.width === this._cacheRect?.width &&
-      this._fixedBandSize === bandSize
-    ) {
-      return this._cacheVisibility;
-    }
-    this._cacheRect = rect;
     let isShown = true;
     const scale = this._stateScale as BandScale;
     scale.range(this._isHorizontal ? [0, rect.width] : axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
     if (isDiscrete(scale.type)) {
+      if (
+        rect?.height === this._cacheRect?.height &&
+        rect?.width === this._cacheRect?.width &&
+        this._fixedBandSize === bandSize
+      ) {
+        return this._cacheVisibility;
+      }
+      this._cacheRect = rect;
       if (bandSizeResult) {
         if (this._start || this._end) {
           scale.rangeFactor([this._start, this._end], true);
@@ -733,6 +734,15 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       }
       this._start = start;
       this._end = end;
+    } else {
+      const [start, end] = scale.rangeFactor() ?? [this._start, this._end];
+      if (start === 0 && end === 1) {
+        this.hide();
+        isShown = false;
+      } else {
+        this.show();
+        isShown = true;
+      }
     }
     this.setStartAndEnd(this._start, this._end);
     this._cacheVisibility = isShown;

@@ -25,9 +25,9 @@ import { IRippleMark, RippleMark } from '../../mark/ripple';
 import type { ILabelMark } from '../../mark/label';
 import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-
-VChart.useMark([SymbolMark, TextMark, RippleMark]);
+import { Factory } from '../../core/factory';
+import { registerCorrelationAnimation, type CorrelationAppearPreset } from './animation';
+import type { IStateAnimateSpec } from '../../animation/spec';
 
 export class CorrelationSeries extends PolarSeries<any> {
   static readonly type: string = SeriesTypeEnum.correlation;
@@ -336,14 +336,14 @@ export class CorrelationSeries extends PolarSeries<any> {
   }
 
   initAnimation() {
-    if (this._nodePointMark) {
-      this._nodePointMark.setAnimationConfig(
-        animationConfig(
-          DEFAULT_MARK_ANIMATION.correlation(),
-          userAnimationConfig(SeriesMarkNameEnum.nodePoint, this._spec)
-        )
-      );
-    }
+    const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<CorrelationAppearPreset>)?.preset;
+
+    this._nodePointMark.setAnimationConfig(
+      animationConfig(
+        Factory.getAnimationInKey('correlation')?.({}, appearPreset),
+        userAnimationConfig(SeriesMarkNameEnum.nodePoint, this._spec)
+      )
+    );
   }
 
   getGroupFields(): string[] {
@@ -378,3 +378,11 @@ export class CorrelationSeries extends PolarSeries<any> {
     this.getViewData().reRunAllTransform();
   }
 }
+
+export const registerCorrelationSeries = () => {
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerMark(RippleMark.type, RippleMark);
+  Factory.registerSeries(CorrelationSeries.type, CorrelationSeries);
+  registerCorrelationAnimation();
+};

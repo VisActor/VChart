@@ -1,4 +1,6 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
+import { Factory } from '../../core/factory';
+import { ScaleInOutAnimation } from '../../animation/config';
 
 export type CorrelationMarks = 'point' | 'label';
 
@@ -29,4 +31,11 @@ export const correlationPresetAnimation = (
       };
     }
   }
+};
+
+export const registerCorrelationAnimation = () => {
+  Factory.registerAnimation('correlation', (params: ICorrelationAnimationParams, preset: CorrelationAppearPreset) => ({
+    appear: correlationPresetAnimation(params, preset),
+    ...ScaleInOutAnimation
+  }));
 };

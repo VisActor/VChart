@@ -6,7 +6,6 @@ import { isValid } from '../../util';
 import type { IRuleMark } from '../../mark/rule';
 import type { IMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { DataView } from '@visactor/vdataset';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { ShapeTypeEnum } from '../../typings';
 import type { ISymbolMark } from '../../mark/symbol';
@@ -15,13 +14,11 @@ import type { IGroupMark } from '../../mark/group';
 import { LinkSeriesTooltipHelper } from './tooltip-helper';
 import type { ILinkSeriesSpec, ILinkSeriesTheme } from './interface';
 import type { SeriesMarkMap } from '../interface';
-import { VChart } from '../../core/vchart';
 import { RuleMark } from '../../mark/rule';
 import { SymbolMark } from '../../mark/symbol';
 import { linkSeriesMark } from './constant';
 import { linkDotInfo } from '../../data/transforms/link-dot-info';
-
-VChart.useMark([RuleMark, SymbolMark]);
+import { Factory } from '../../core/factory';
 
 export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.link;
@@ -355,3 +352,9 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     return (this._linkMark ?? this._arrowMark)?.getData();
   }
 }
+
+export const registerLinkSeries = () => {
+  Factory.registerMark(RuleMark.type, RuleMark);
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerSeries(LinkSeries.type, LinkSeries);
+};

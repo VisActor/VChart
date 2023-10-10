@@ -3,9 +3,8 @@ import { SeriesTypeEnum } from '../../series/interface';
 import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import type { ICirclePackingChartSpec } from './interface';
-import { VChart } from '../../core/vchart';
-import { CirclePackingSeries } from '../../series/circle-packing/circle-packing';
-VChart.useSeries([CirclePackingSeries]);
+import { registerCirclePackingSeries } from '../../series/circle-packing/circle-packing';
+import { Factory } from '../../core/factory';
 
 export class CirclePackingChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.circlePacking;
@@ -55,3 +54,8 @@ export class CirclePackingChart extends BaseChart {
     }
   }
 }
+
+export const registerCirclePackingChart = () => {
+  registerCirclePackingSeries();
+  Factory.registerChart(CirclePackingChart.type, CirclePackingChart);
+};

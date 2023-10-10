@@ -15,6 +15,7 @@ import { getAxisLabelOffset } from '../axis/util';
 import type { IAxis } from '../axis/interface';
 import type { IOrientType, StringOrNumber } from '../../typings';
 import { isXAxis } from '../axis/cartesian/util';
+import { Factory } from '../../core/factory';
 
 interface ICrosshairInfoX {
   height: number;
@@ -652,3 +653,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     ] as unknown as IGroup[];
   }
 }
+
+export const registerCartesianCrossHair = () => {
+  Factory.registerComponent(CartesianCrossHair.type, CartesianCrossHair);
+};

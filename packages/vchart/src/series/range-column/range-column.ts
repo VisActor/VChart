@@ -4,21 +4,22 @@ import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
-import type { IRectMark } from '../../mark/rect';
-import type { ITextMark } from '../../mark/text';
+import { RectMark, type IRectMark } from '../../mark/rect';
+import { TextMark, type ITextMark } from '../../mark/text';
 import { mergeSpec, valueInScaleRange } from '../../util';
 import { setRectLabelPos } from '../util/label-mark';
 import { AttributeLevel } from '../../constant';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { RangeColumnSeriesTooltipHelper } from './tooltip-helper';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerFadeInOutAnimation } from '../../animation/config';
 import type { Datum } from '../../typings';
 import type { IRangeColumnSeriesSpec } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PositionEnum } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { RangeColumnAppearPreset } from './animation';
+import { registerRangeColumnAnimation, type RangeColumnAppearPreset } from './animation';
 import { rangeColumnSeriesMark } from './constant';
+import { Factory } from '../../core/factory';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -234,7 +235,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<RangeColumnAppearPreset>)?.preset;
     this._rectMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.rangeColumn({ direction: this.direction }, appearPreset),
+        Factory.getAnimationInKey('rangeColumn')?.({ direction: this.direction }, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.bar, this._spec),
         { dataIndex }
       )
@@ -242,17 +243,21 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 
     if (this._minLabelMark) {
       this._minLabelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec), {
-          dataIndex
-        })
+        animationConfig(
+          Factory.getAnimationInKey('fadeInOut')?.(),
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec),
+          { dataIndex }
+        )
       );
     }
 
     if (this._maxLabelMark) {
       this._maxLabelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec), {
-          dataIndex
-        })
+        animationConfig(
+          Factory.getAnimationInKey('fadeInOut')?.(),
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec),
+          { dataIndex }
+        )
       );
     }
   }
@@ -261,3 +266,11 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
     this._tooltipHelper = new RangeColumnSeriesTooltipHelper(this);
   }
 }
+
+export const registerRangeColumnSeries = () => {
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(RangeColumnSeries.type, RangeColumnSeries);
+  registerRangeColumnAnimation();
+  registerFadeInOutAnimation();
+};

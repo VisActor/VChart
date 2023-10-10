@@ -8,7 +8,7 @@ import type { ITextMark } from '../../mark/text';
 import { registerSankeyTransforms } from '@visactor/vgrammar-sankey';
 import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, ITextMarkSpec } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerFadeInOutAnimation } from '../../animation/config';
 import { registerDataSetInstanceTransform, registerDataSetInstanceParser } from '../../data/register';
 import type { ISankeyOpt } from '../../data/transforms/sankey';
 import { sankey } from '../../data/transforms/sankey';
@@ -24,7 +24,7 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds } from '@visactor/vutils';
-import type { ISankeyAnimationParams } from './animation';
+import { registerSankeyAnimation, type ISankeyAnimationParams } from './animation';
 import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement } from '@visactor/vgrammar-core';
@@ -38,10 +38,7 @@ import { LinkPathMark } from '../../mark/link-path';
 import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
 import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
-
-VChart.useMark([RectMark, LinkPathMark, TextMark]);
-
-registerSankeyTransforms();
+import { Factory } from '../../core/factory';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -500,11 +497,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           : this._yAxisHelper?.getScale(0).scale(0)
     };
     const appearPreset = (this._spec?.animationAppear as IMarkAnimateSpec<string>)?.preset;
-
     if (this._nodeMark) {
       this._nodeMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.sankeyNode(animationParams, appearPreset),
+          Factory.getAnimationInKey('sankeyNode')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.node, this._spec)
         )
       );
@@ -512,14 +508,17 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (this._linkMark) {
       this._linkMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.sankeyLinkPath(),
+          Factory.getAnimationInKey('sankeyLinkPath')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.link, this._spec)
         )
       );
     }
     if (this._labelMark) {
       this._labelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('fadeInOut')?.(),
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec)
+        )
       );
     }
   }
@@ -1371,3 +1370,13 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     return undefined;
   }
 }
+
+export const registerSankeySeries = () => {
+  registerSankeyTransforms();
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerMark(LinkPathMark.type, LinkPathMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(SankeySeries.type, SankeySeries);
+  registerSankeyAnimation();
+  registerFadeInOutAnimation();
+};

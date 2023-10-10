@@ -1,10 +1,9 @@
-import { ScatterSeries } from '../../series/scatter/scatter';
+import { registerScatterSeries } from '../../series/scatter/scatter';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import type { IScatterChartSpec } from './interface';
-import { VChart } from '../../core/vchart';
-VChart.useSeries([ScatterSeries]);
+import { Factory } from '../../core/factory';
 
 export class ScatterChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.scatter;
@@ -23,3 +22,8 @@ export class ScatterChart extends CartesianChart {
     };
   }
 }
+
+export const registerScatterChart = () => {
+  registerScatterSeries();
+  Factory.registerChart(ScatterChart.type, ScatterChart);
+};

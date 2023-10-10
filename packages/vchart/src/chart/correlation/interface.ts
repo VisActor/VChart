@@ -1,4 +1,3 @@
-// import type { ICorrelationSeriesSpec } from '../../series/correlation/interface';
 import type { ICorrelationSeriesSpec } from '../../series/correlation/interface';
 import type { IChartExtendsSeriesSpec, IChartSpec } from '../../typings/spec/common';
 

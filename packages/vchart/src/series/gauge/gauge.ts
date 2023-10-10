@@ -11,14 +11,12 @@ import type { Datum } from '@visactor/vgrammar-core';
 import type { Maybe } from '../../typings';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import { VChart } from '../../core/vchart';
 // eslint-disable-next-line no-duplicate-imports
 import { ProgressArcMark } from '../../mark/progress-arc';
 import { gaugeSeriesMark } from './constant';
 import { degreeToRadian } from '@visactor/vutils';
-
-VChart.useMark([ProgressArcMark]);
+import { Factory } from '../../core/factory';
+import { registerCircularProgressAnimation } from '../polar/progress-like';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
@@ -151,7 +149,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 
     this._segmentMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.circularProgress(
+        Factory.getAnimationInKey('circularProgress')?.(
           {
             startAngle: this._startAngle
           },
@@ -166,3 +164,9 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     return 'circle';
   }
 }
+
+export const registerGaugeSeries = () => {
+  Factory.registerMark(ProgressArcMark.constructorType, ProgressArcMark);
+  Factory.registerSeries(GaugeSeries.type, GaugeSeries);
+  registerCircularProgressAnimation();
+};

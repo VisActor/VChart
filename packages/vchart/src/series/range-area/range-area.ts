@@ -3,15 +3,15 @@ import { AreaSeries } from '../area/area';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface';
-import type { IAreaMark } from '../../mark/area';
+import { AreaMark, type IAreaMark } from '../../mark/area';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import { Direction } from '../../typings/space';
 import type { Datum } from '../../typings';
-import { couldBeValidNumber } from '../../util';
 import { AttributeLevel } from '../../constant';
 import { RangeAreaSeriesTooltipHelper } from './tooltip-helper';
 import type { IAreaSeriesSpec } from '../area/interface';
 import { rangeAreaSeriesMark } from './constant';
+import { Factory } from '../../core/factory';
 
 export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends AreaSeries<T> {
   static readonly type: string = SeriesTypeEnum.rangeArea;
@@ -124,3 +124,8 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
     this.encodeDefined(this._areaMark, 'defined');
   }
 }
+
+export const registerRangeAreaSeries = () => {
+  Factory.registerMark(AreaMark.type, AreaMark);
+  Factory.registerSeries(RangeAreaSeries.type, RangeAreaSeries);
+};

@@ -1,5 +1,5 @@
-import { LinkSeries } from '../../series/link/link';
-import { DotSeries } from '../../series/dot/dot';
+import { LinkSeries, registerLinkSeries } from '../../series/link/link';
+import { DotSeries, registerDotSeries } from '../../series/dot/dot';
 import type { IGridLayoutSpec } from '../../layout/interface';
 import { BaseChart } from '../base-chart';
 import type { ISequenceChartSpec, ISequenceSeriesSpec } from './interface';
@@ -10,13 +10,11 @@ import { ChartTypeEnum } from '../interface';
 import type { Datum } from '../../typings';
 import { DataView } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../series/interface';
-import { VChart } from '../../core/vchart';
 import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../constant/scroll-bar';
 import { array } from '@visactor/vutils';
 import { normalizeLayoutPaddingSpec } from '../../util';
 import { IFilterMode } from '../../component/data-zoom/constant';
-VChart.useSeries([DotSeries, LinkSeries]);
 
 export class SequenceChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sequence;
@@ -371,3 +369,9 @@ export class SequenceChart extends BaseChart {
     return dataTemp.values.length;
   }
 }
+
+export const registerSequenceChart = () => {
+  registerDotSeries();
+  registerLinkSeries();
+  Factory.registerChart(SequenceChart.type, SequenceChart);
+};

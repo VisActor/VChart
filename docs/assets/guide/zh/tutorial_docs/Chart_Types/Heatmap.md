@@ -1,4 +1,5 @@
 # 热力图
+[\[配置项\]](../../../option/heatmapChart)
 
 ## 简介
 
@@ -6,7 +7,7 @@
 
 一种常见的示例是使用热力图来表现统计变量之间的相关系数，根据热力图中不同方块颜色对应的相关系数的大小，可以判断出变量之间相关性的大小。
 
-![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f30.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/45df54929d214e7453e228f30.png)
 
 ## 图表构成
 

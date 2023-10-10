@@ -24,7 +24,7 @@ import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key'
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { TreemapTooltipHelper } from './tooltip-helper';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerFadeInOutAnimation } from '../../animation/config';
 import type { TransformSpec } from '@visactor/vgrammar-core';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
@@ -34,8 +34,8 @@ import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { treemapSeriesMark } from './constant';
-
-VChart.useMark([RectMark, TextMark]);
+import { Factory } from '../../core/factory';
+import { registerTreemapAnimation } from './animation';
 
 export class TreemapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;
@@ -408,13 +408,13 @@ export class TreemapSeries extends CartesianSeries<any> {
   initAnimation(): void {
     this.getMarksInType(MarkTypeEnum.rect).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.treemap(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(Factory.getAnimationInKey('treemap')?.(), userAnimationConfig(mark.name, this._spec))
       );
     });
 
     this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(Factory.getAnimationInKey('fadeInOut')?.(), userAnimationConfig(mark.name, this._spec))
       );
     });
   }
@@ -525,3 +525,11 @@ export class TreemapSeries extends CartesianSeries<any> {
 
 mixin(TreemapSeries, Zoomable);
 mixin(TreemapSeries, Drillable);
+
+export const registerTreemapSeries = () => {
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(TreemapSeries.type, TreemapSeries);
+  registerTreemapAnimation();
+  registerFadeInOutAnimation();
+};

@@ -8,17 +8,19 @@ import { valueInScaleRange } from '../../../util';
 import { AttributeLevel } from '../../../constant';
 import type { Datum, Maybe } from '../../../typings';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../../animation/config';
-import type { ILinearProgressAnimationParams, LinearProgressAppearPreset } from './animation';
+import {
+  registerLinearProgressAnimation,
+  type ILinearProgressAnimationParams,
+  type LinearProgressAppearPreset
+} from './animation';
 import type { ILinearProgressSeriesSpec, ILinearProgressSeriesTheme } from './interface';
 import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
-import { VChart } from '../../../core/vchart';
 import { RectMark } from '../../../mark/rect';
 import { createRect } from '@visactor/vrender-core';
 import { linearProgressSeriesMark } from './constant';
-
-VChart.useMark([RectMark]);
+import { Factory } from '../../../core/factory';
+import { registerFadeInOutAnimation } from '../../../animation/config';
 
 export class LinearProgressSeries<
   T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec
@@ -250,14 +252,14 @@ export class LinearProgressSeries<
 
     this._progressMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.linearProgress(animationParams, appearPreset),
+        Factory.getAnimationInKey('linearProgress')?.(animationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.progress, this._spec)
       )
     );
 
     this._trackMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.progressBackground(),
+        Factory.getAnimationInKey('fadeInOut')?.(),
         userAnimationConfig(SeriesMarkNameEnum.track, this._spec)
       )
     );
@@ -267,3 +269,10 @@ export class LinearProgressSeries<
     this._tooltipHelper = new LinearProgressSeriesTooltipHelper(this);
   }
 }
+
+export const registerLinearProgressSeries = () => {
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerSeries(LinearProgressSeries.type, LinearProgressSeries);
+  registerLinearProgressAnimation();
+  registerFadeInOutAnimation();
+};

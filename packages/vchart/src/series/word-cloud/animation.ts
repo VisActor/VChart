@@ -1,6 +1,7 @@
 import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import { RotateBySphereAnimate } from '@visactor/vrender-core';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
+import { Factory } from '../../core/factory';
 
 export interface IWordcloud3dAnimationParams {
   radius: number;
@@ -67,3 +68,18 @@ export function wordcloudPresetAnimation(
       return WordCloudScaleInAnimation(params);
   }
 }
+
+export const registerWordCloudAnimation = () => {
+  Factory.registerAnimation('wordCloud', (params: IWordcloudAnimationParams, preset: WordcloudAppearPreset) => ({
+    appear: wordcloudPresetAnimation(params, preset),
+    enter: { type: 'fadeIn' },
+    exit: { type: 'fadeOut' },
+    disappear: { type: 'fadeOut' }
+  }));
+};
+
+export const registerWordCloud3dAnimation = () => {
+  Factory.registerAnimation('wordCloud3d', (params: IWordcloud3dAnimationParams) => ({
+    appear: WordCloud3dAnimation(params)
+  }));
+};

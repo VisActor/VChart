@@ -4,12 +4,11 @@ import type { ISymbolMarkSpec, ITextMarkSpec, IRippleMarkSpec } from '../../typi
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { IAnimationSpec } from '../../animation/spec';
-// import type { CorrelationAppearPreset } from './animation';
+import type { CorrelationAppearPreset, CorrelationMarks } from './animation';
 
-type CorrelationMarks = 'nodePoint' | 'ripplePoint' | 'centerPoint' | 'centerLabel';
-
-export interface ICorrelationSeriesSpec extends Omit<IPolarSeriesSpec, 'innerRadius' | 'outerRadius'> {
-  // IAnimationSpec<CorrelationMarks, CorrelationAppearPreset>
+export interface ICorrelationSeriesSpec
+  extends Omit<IPolarSeriesSpec, 'innerRadius' | 'outerRadius'>,
+    IAnimationSpec<CorrelationMarks, CorrelationAppearPreset> {
   /**
    * 系列类型
    */

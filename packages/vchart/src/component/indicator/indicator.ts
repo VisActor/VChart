@@ -19,6 +19,7 @@ import { Indicator as IndicatorComponents } from '@visactor/vrender-components';
 import type { IndicatorAttributes } from '@visactor/vrender-components';
 import type { IGraphic, INode, IGroup } from '@visactor/vrender-core';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
+import { Factory } from '../../core/factory';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static speckey = 'indicator';
@@ -251,3 +252,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     super.clear();
   }
 }
+
+export const registerIndicator = () => {
+  Factory.registerComponent(Indicator.type, Indicator);
+};

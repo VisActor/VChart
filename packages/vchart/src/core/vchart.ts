@@ -82,6 +82,7 @@ import {
   Logger,
   merge as mergeOrigin,
   isFunction,
+  LoggerLevel,
   isEqual
 } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
@@ -89,41 +90,60 @@ import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
 import { calculateChartSize, mergeUpdateResult } from '../chart/util';
+import { Region } from '../region/region';
+import { Layout } from '../layout';
+import { GroupMark } from '../mark';
+import { registerVGrammarAnimation } from '../animation/config';
+import { View, initAllEnv, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 
 export class VChart implements IVChart {
   readonly id = createID();
 
   /**
-   * 注册图表
+   *  按需注册图表和组件
+   * @param comps
+   * @since 1.5.1
+   */
+  static useRegisters(comps: (() => void)[]) {
+    comps.forEach((fn: () => void) => {
+      fn();
+    });
+  }
+
+  /**
+   * 注册自定义图表
    * @param charts 图表类
+   * @description 若用于按需加载，1.5.1版本后，请统一使用 `useRegisters` API，例如:`VChart.useRegisters([registerLineChart])`。
    */
   static useChart(charts: IChartConstructor[]) {
     charts.forEach(c => Factory.registerChart(c.type, c));
   }
   /**
-   * 注册系列
+   * 注册自定义系列
    * @param series 系列类
+   * @description  若用于按需加载，1.5.1版本后，统一使用 `useRegisters` API，例如 `VChart.useRegisters([registerLineSeries])`。
    */
   static useSeries(series: ISeriesConstructor[]) {
     series.forEach(s => Factory.registerSeries(s.type, s));
   }
   /**
-   * 注册组件
+   * 注册自定义组件
    * @param components 组件类
+   * @description 若用于按需加载，1.5.1版本后，统一使用 `useRegisters` API，例如 `VChart.useRegisters([registerCartesianLinearAxis])`。
    */
   static useComponent(components: IComponentConstructor[]) {
     components.forEach(c => Factory.registerComponent(c.type, c));
   }
   /**
-   * 注册 Mark
+   * 注册自定义 Mark
    * @param marks Mark 图元类
    */
   static useMark(marks: MarkConstructor[]) {
     marks.forEach(m => Factory.registerMark(m.constructorType ?? m.type, m));
   }
   /**
-   * 注册布局
+   * 注册自定义布局
    * @param layouts 布局类
    */
   static useLayout(layouts: ILayoutConstructor[]) {
@@ -145,7 +165,8 @@ export class VChart implements IVChart {
    * @param option 地图数据配置
    */
   static registerMap(key: string, source: GeoSourceType, option?: GeoSourceOption) {
-    registerMapSource(key, source, option);
+    const impl = Factory.getImplementInKey('registerMap');
+    impl && impl(key, source, option);
   }
 
   /**
@@ -153,7 +174,8 @@ export class VChart implements IVChart {
    * @param key 地图名称
    */
   static unregisterMap(key: string) {
-    unregisterMapSource(key);
+    const impl = Factory.getImplementInKey('unregisterMap');
+    impl && impl(key);
   }
 
   /**
@@ -1578,3 +1600,22 @@ export class VChart implements IVChart {
     );
   }
 }
+
+export const registerVChartCore = () => {
+  // install region module
+  Factory.registerRegion('region', Region);
+  // install layout module
+  Factory.registerLayout('base', Layout);
+  // install essential marks
+  Factory.registerMark(GroupMark.type, GroupMark);
+  // install essential vgrammar transform
+  View.useRegisters([registerFilterTransform, registerMapTransform]);
+  // install animation
+  registerVGrammarAnimation();
+  //init env
+  initAllEnv();
+  // set default logger level to Level.error
+  Logger.getInstance(LoggerLevel.Error);
+};
+
+registerVChartCore();

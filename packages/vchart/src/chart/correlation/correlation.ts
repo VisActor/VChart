@@ -1,3 +1,4 @@
+import { registerCorrelationSeries } from '../../series/correlation/correlation';
 import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import { SeriesTypeEnum } from '../../series/interface';
@@ -5,7 +6,7 @@ import type { ICorrelationChartSpec } from './interface';
 import type { ICorrelationSeriesSpec } from '../../series/correlation/interface';
 import { VChart } from '../../core/vchart';
 import { CorrelationSeries } from '../../series/correlation/correlation';
-VChart.useSeries([CorrelationSeries]);
+import { Factory } from '../../core/factory';
 
 export class CorrelationChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.correlation;
@@ -65,3 +66,8 @@ export class CorrelationChart extends BaseChart {
     }
   }
 }
+
+export const registerCorrelationChart = () => {
+  registerCorrelationSeries();
+  Factory.registerChart(CorrelationChart.type, CorrelationChart);
+};

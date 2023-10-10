@@ -3,10 +3,8 @@ import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { ILineChartSpec } from './interface';
-import { VChart } from '../../core/vchart';
-import { LineSeries } from '../../series/line/line';
-
-VChart.useSeries([LineSeries]);
+import { registerLineSeries } from '../../series/line/line';
+import { Factory } from '../../core/factory';
 
 export class LineChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.line;
@@ -28,3 +26,8 @@ export class LineChart extends CartesianChart {
     setDefaultCrosshairForCartesianChart(spec);
   }
 }
+
+export const registerLineChart = () => {
+  registerLineSeries();
+  Factory.registerChart(LineChart.type, LineChart);
+};
