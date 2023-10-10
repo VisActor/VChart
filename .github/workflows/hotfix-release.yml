@@ -39,7 +39,7 @@ jobs:
           semver_pattern: '^hotfix/(.*)$' # ^v?(.*)$ by default
 
       - name: Apply prereleaseName
-        run: node common/scripts/apply-prerelease-version.js ${{ steps.semver_parser.outputs.pre_release_name }} ${{ steps.semver_parser.outputs.main }} ${{ steps.semver_parser.outputs.build }}
+        run: node common/scripts/apply-prerelease-version.js '' ${{ steps.semver_parser.outputs.main }} ${{ steps.semver_parser.outputs.build }}
 
       - name: Build packages
         run: node common/scripts/install-run-rush.js build --only tag:package
