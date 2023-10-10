@@ -112,6 +112,7 @@ export class SpecProcess implements ISpecProcess {
     if (this._editorSpec.color) {
       this._vchartSpec.color = this._editorSpec.color;
     }
+    // 模块样式
     if (this._editorSpec.modelSpec) {
       this._editorSpec.modelSpec.forEach(s => {
         const chartSpec = this.findChartSpec(s, this._vchartSpec);
