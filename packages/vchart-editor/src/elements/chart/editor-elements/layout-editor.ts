@@ -7,7 +7,7 @@ import type { ILayoutAttribute } from '../../../typings/space';
 import type { ILayoutItem } from '../interface';
 import { MinSize } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
-import { EventParams } from '@visactor/vchart';
+import type { EventParams } from '@visactor/vchart';
 
 export class LayoutEditorElement extends BaseEditorElement {
   protected _layoutComponent: LayoutEditorComponent;
@@ -137,7 +137,12 @@ export class LayoutEditorElement extends BaseEditorElement {
       updateAttribute: attr => {
         if (attr.layout) {
           const layoutData = attr.layout as Partial<ILayoutAttribute>;
-          const rect = model.computeBoundsInRect(layoutData);
+          const rect = { ...model.computeBoundsInRect(layoutData) };
+          const bounds = model.getGraphicBounds?.();
+          if (bounds) {
+            rect.width = Math.max(rect.width, bounds.x2 - bounds.x1);
+            rect.height = Math.max(rect.height, bounds.y2 - bounds.y1);
+          }
           chart.layout.setModelLayoutData({
             id: layoutMeta.id,
             layout: {
