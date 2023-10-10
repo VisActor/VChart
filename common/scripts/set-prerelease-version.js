@@ -5,7 +5,7 @@ const parseVersion = require('./parse-version');
 const setJsonFileByKey = require('./set-json-file');
 
 
-function writePrereleaseVersion(nextBump, preReleaseName) {
+function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildName) {
   const rushJson = getPackageJson(path.join(__dirname, '../../rush.json'));
   const projects = rushJson.projects;
   const mainPackage = projects.find((project) => project.packageName === '@visactor/vchart');
@@ -38,7 +38,16 @@ function writePrereleaseVersion(nextBump, preReleaseName) {
     }
   }
 
-  const nextVersion = `${version.major}.${version.minor}.${version.patch}-${preReleaseName}`;
+  let nextVersion = nextVersionStr ? nextVersionStr : `${curVersion.major}.${curVersion.minor}.${curVersion.patch}`;
+
+  if (preReleaseName) {
+    nextVersion = `${nextVersion}-${preReleaseName}`;
+  }
+
+  if (buildName) {
+    nextVersion = `${nextVersion}+${buildName}`;
+  }
+
   const published = projects.filter(project => project.shouldPublish).map(project => project.packageName);
 
   console.log(`next version is ${nextVersion}`);
