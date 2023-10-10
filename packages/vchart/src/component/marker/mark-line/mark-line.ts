@@ -1,6 +1,6 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkLine, IMarkLineSpec, IMarkLineTheme, IStepMarkLineSpec } from './interface';
-import { isNil, isArray } from '../../../util';
+import { isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
@@ -12,7 +12,7 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isValid } from '@visactor/vutils';
+import { isEmpty, isValid } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import type { INode } from '@visactor/vrender';
@@ -39,7 +39,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
 
   static createComponent(spec: any, options: IComponentOption) {
     const markLineSpec = spec.markLine || options.defaultSpec;
-    if (isNil(markLineSpec)) {
+    if (isEmpty(markLineSpec)) {
       return undefined;
     }
     if (!isArray(markLineSpec) && markLineSpec.visible !== false) {
