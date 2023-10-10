@@ -99,7 +99,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   }
 
   protected _initStyle() {
-    this._domStyle = getDomStyles(this._style, this._attributes);
+    this._domStyle = getDomStyles(this._attributes);
   }
 
   protected _getParentElement(spec: ITooltipSpec): HTMLElement {

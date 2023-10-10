@@ -27,6 +27,11 @@ export interface ITooltipTextTheme {
   maxWidth?: number;
   /** 换行模式，默认为'break-word' */
   wordBreak?: RichTextWordBreak;
+  /**
+   * 是否开启自动宽度
+   * @since 1.4.2
+   */
+  autoWidth?: boolean;
 }
 
 export interface ITooltipTheme {
