@@ -953,6 +953,13 @@
           }
         },
         {
+          "path": "linear-progress-with-multi-label",
+          "title": {
+            "zh": "带多种标签的条形进度图",
+            "en": "Linear Progress Chart with Multiple Labels"
+          }
+        },
+        {
           "path": "circular-progress",
           "title": {
             "zh": "环形进度图",
