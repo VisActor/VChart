@@ -111,7 +111,12 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       points = spec.positions;
     }
 
-    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+    const seriesData = this._relativeSeries.getViewData().latestData;
+    const dataPoints = data
+      ? data.latestData[0].latestData
+        ? data.latestData[0].latestData
+        : data.latestData
+      : seriesData;
 
     let limitRect;
     if (spec.clip || spec.label?.confine) {
@@ -133,7 +138,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       label: {
         ...this._markerComponent?.attribute?.label,
         text: this._spec.label.formatMethod
-          ? this._spec.label.formatMethod(dataPoints, this._relativeSeries.getViewData().latestData)
+          ? this._spec.label.formatMethod(dataPoints, seriesData)
           : this._markerComponent?.attribute?.label?.text
       },
       limitRect,

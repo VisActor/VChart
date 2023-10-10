@@ -128,9 +128,12 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     } else if (isPositionLayout) {
       points = spec.positions;
     }
-
-    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
     const seriesData = this._relativeSeries.getViewData().latestData;
+    const dataPoints = data
+      ? data.latestData[0].latestData
+        ? data.latestData[0].latestData
+        : data.latestData
+      : seriesData;
 
     let limitRect;
     if (spec.clip || spec.label?.confine) {
