@@ -215,7 +215,7 @@ export function CustomEditorBar(props: ICustomEditorComponentProps) {
 
   return (
     <div
-      className="vchart-editor-ui-editor-bar-container"
+      className={`vchart-editor-ui-editor-bar-container ${props.className ?? ''}`}
       style={{ display: 'flex', alignItems: 'center', padding: '4px 8px', height: 32, ...(props.style ?? {}) }}
     >
       {props.entries.map(entry => {

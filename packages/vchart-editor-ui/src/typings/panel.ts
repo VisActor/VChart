@@ -7,10 +7,12 @@ export interface IPanelSection {
 }
 
 export interface IPanelProps {
+  className?: string;
   style?: React.CSSProperties;
   label?: string;
   sections?: any;
   onChange?: (section: string, key: string, value: any) => void;
+  onRefresh?: (values: any) => void;
 }
 
 // Axis Panel

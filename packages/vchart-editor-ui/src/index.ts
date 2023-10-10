@@ -1,9 +1,10 @@
-import './style/index.css';
+import './style/index.less';
 
 // Panels
 export { AxisPanel } from './panels/axis-panel';
 export { DataFormatPanel } from './panels/data-format-panel';
 export { LabelPanel } from './panels/label-panel';
+export { LegendPanel } from './panels/legend-panel';
 export { TitlePanel } from './panels/title-panel';
 export { CustomPanel } from './panels/custom-panel';
 
