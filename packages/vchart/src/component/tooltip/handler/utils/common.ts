@@ -1,8 +1,11 @@
 import type { Datum } from '@visactor/vgrammar-core';
 import type { MaybeArray, TooltipContentProperty, TooltipData, TooltipPatternProperty } from '../../../../typings';
-import { isFunction, isObject, isString, isNil, isArray, isValid } from '../../../../util';
+import { isFunction, isObject, isString, isNil, isArray, isValid, initTextMeasure } from '../../../../util';
 import type { TooltipHandlerParams } from '../../interface';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension';
+import type { IRichTextParagraphCharacter } from '@visactor/vrender';
+import { getRichTextBounds } from '@visactor/vrender';
+import type { ITooltipTextStyle } from '../interface/style';
 
 interface IGradientColor {
   [key: string]: any;
@@ -121,4 +124,57 @@ export const getScale = (element: HTMLElement, boundingClientRect?: DOMRect) => 
     return boundingClientRect.width / element.offsetWidth;
   }
   return boundingClientRect.height / element.offsetHeight;
+};
+
+interface ITooltipTextInfo {
+  width: number;
+  height: number;
+  text: MaybeArray<number> | MaybeArray<string>;
+}
+
+/** 测量 tooltip 标签文本 */
+export const measureTooltipText = (text: string, style: ITooltipTextStyle): ITooltipTextInfo => {
+  text = (text ?? '').toString();
+  const measure = initTextMeasure(style as any);
+  if (!style.multiLine) {
+    // 单行文本
+    const { width, height } = measure.fullMeasure(text);
+    return {
+      width,
+      height,
+      text
+    };
+  }
+  // 多行文本
+  let textLines = text.split('\n');
+  textLines = textLines.map((line, i) => (i < textLines.length - 1 ? line + '\n' : line));
+  const { width, height } = measure.fullMeasure(textLines);
+
+  if (style.maxWidth && style.maxWidth <= width) {
+    // 允许自动换行的情况，改用 richText 测量
+    const bound = getRichTextBounds({
+      wordBreak: style.wordBreak ?? 'break-word',
+      maxWidth: style.maxWidth,
+      width: 0,
+      height: 0,
+      textConfig: textLines.map(
+        (line, i) =>
+          ({
+            ...style,
+            text: line
+          } as unknown as IRichTextParagraphCharacter)
+      )
+    });
+    return {
+      width: bound.width(),
+      height: bound.height(),
+      text: textLines
+    };
+  }
+
+  return {
+    width,
+    height,
+    text: textLines
+  };
 };
