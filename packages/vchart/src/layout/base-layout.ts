@@ -9,6 +9,8 @@ import { error } from '../util/debug';
 import { layoutBottomInlineItems, layoutLeftInlineItems, layoutRightInlineItems, layoutTopInlineItems } from './util';
 
 export class Layout implements IBaseLayout {
+  static type = 'base';
+
   leftCurrent: number = 0;
   topCurrent: number = 0;
   rightCurrent: number = 0;

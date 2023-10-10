@@ -1,4 +1,4 @@
-import type { ILabelMark } from './../../mark/label';
+import { LabelMark, type ILabelMark } from './../../mark/label';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
@@ -9,11 +9,13 @@ import { MarkTypeEnum, type IMark } from '../../mark/interface';
 import { getSeries, mergeSpec } from '../../util';
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar-core';
+import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { textAttribute } from './util';
 import { BaseLabelComponent } from './base-label';
 import type { ITotalLabelSpec, ITotalLabelTheme } from './interface';
 import type { IModelInitOption } from '../../model/interface';
 import type { Datum } from '../../typings';
+import { Factory } from '../../core/factory';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;
@@ -158,3 +160,9 @@ export function totalLabelPosition(series: ISeries, type: MarkType) {
   }
   return position;
 }
+
+export const registerTotalLabel = () => {
+  registerVGrammarLabel();
+  Factory.registerMark(LabelMark.constructorType, LabelMark);
+  Factory.registerComponent(TotalLabel.type, TotalLabel);
+};

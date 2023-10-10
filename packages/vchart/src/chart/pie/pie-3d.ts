@@ -1,11 +1,10 @@
-import { Pie3dSeries } from '../../series/pie/pie-3d';
+import { registerPie3dSeries } from '../../series/pie/pie-3d';
 import type { ISeries } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BasePieChart } from './base';
-import { VChart } from '../../core/vchart';
-VChart.useSeries([Pie3dSeries]);
+import { Factory } from '../../core/factory';
 
 export class Pie3dChart extends BasePieChart {
   static readonly type: string = ChartTypeEnum.pie3d;
@@ -22,3 +21,7 @@ export class Pie3dChart extends BasePieChart {
     });
   }
 }
+export const registerPie3dChart = () => {
+  registerPie3dSeries();
+  Factory.registerChart(Pie3dChart.type, Pie3dChart);
+};

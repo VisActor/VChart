@@ -7,16 +7,13 @@ import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme } from './interf
 import type { Datum, Maybe } from '../../typings';
 import type { IPathMark } from '../../mark/path';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import { ProgressLikeSeries } from '../polar/progress-like';
+import { ProgressLikeSeries, registerCircularProgressAnimation } from '../polar/progress-like';
 import type { IRectMark } from '../../mark/rect';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { VChart } from '../../core/vchart';
 import { PathMark } from '../../mark/path';
 import { RectMark } from '../../mark/rect';
 import { gaugePointerSeriesMark } from './constant';
-
-VChart.useMark([PathMark, RectMark]);
+import { Factory } from '../../core/factory';
 
 export class GaugePointerSeries<
   T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec
@@ -177,7 +174,7 @@ export class GaugePointerSeries<
 
     this._pointerMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.circularProgress(
+        Factory.getAnimationInKey('circularProgress')?.(
           {
             startAngle: this._startAngle
           },
@@ -192,3 +189,10 @@ export class GaugePointerSeries<
     return 'circle';
   }
 }
+
+export const registerGaugePointerSeries = () => {
+  Factory.registerMark(PathMark.type, PathMark);
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerSeries(GaugePointerSeries.type, GaugePointerSeries);
+  registerCircularProgressAnimation();
+};

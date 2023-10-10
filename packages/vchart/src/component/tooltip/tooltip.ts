@@ -39,6 +39,7 @@ import { isDimensionInfo, isMarkInfo, MarkTooltipProcessor, DimensionTooltipProc
 import { hasParentElement, isString } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
+import { Factory } from '../../core/factory';
 import type { IGroup } from '@visactor/vrender-core';
 
 export type TooltipActualTitleContent = {
@@ -539,3 +540,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     return this._spec.visible === true;
   }
 }
+
+export const registerTooltip = () => {
+  Factory.registerComponent(Tooltip.type, Tooltip);
+};

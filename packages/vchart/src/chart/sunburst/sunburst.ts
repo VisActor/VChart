@@ -1,3 +1,4 @@
+import { registerSunBurstSeries } from './../../series/sunburst/sunburst';
 import { isValid, radianToDegree } from '@visactor/vutils';
 import { SeriesTypeEnum } from '../../series/interface';
 import type { ISunburstSeriesSpec } from '../../series/sunburst/interface';
@@ -5,9 +6,7 @@ import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface';
 import type { ISunburstChartSpec } from './interface';
 import { POLAR_START_ANGLE } from '../../constant';
-import { VChart } from '../../core/vchart';
-import { SunburstSeries } from '../../series/sunburst/sunburst';
-VChart.useSeries([SunburstSeries]);
+import { Factory } from '../../core/factory';
 
 export class SunburstChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.sunburst;
@@ -74,3 +73,8 @@ export class SunburstChart extends BaseChart {
     }
   }
 }
+
+export const registerSunburstChart = () => {
+  registerSunBurstSeries();
+  Factory.registerChart(SunburstChart.type, SunburstChart);
+};

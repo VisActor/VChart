@@ -1,4 +1,5 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
+import { Factory } from '../../../core/factory';
 
 export type ProgressLikeAppearPreset = 'grow' | 'fadeIn';
 
@@ -25,3 +26,14 @@ export function progressLikePresetAnimation(params: IProgressLikeAnimationParams
       return Appear_Grow(params);
   }
 }
+
+export const registerCircularProgressAnimation = () => {
+  Factory.registerAnimation(
+    'circularProgress',
+    (params: IProgressLikeAnimationParams, preset: ProgressLikeAppearPreset) => ({
+      appear: progressLikePresetAnimation(params, preset),
+      enter: { type: 'growAngleIn' },
+      disappear: { type: 'growAngleOut' }
+    })
+  );
+};

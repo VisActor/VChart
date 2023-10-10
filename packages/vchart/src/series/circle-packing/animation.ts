@@ -1,17 +1,11 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
+import { Factory } from '../../core/factory';
 
 export type CirclePackingMark = 'leaf' | 'nonLeaf' | 'label' | 'nonLeafLabel';
 
 export type CirclePackingAppearPreset = 'growIn' | 'fadeIn';
 
-export interface ICirclePackingAnimationParams {
-  [key: string]: object;
-}
-
-export const circlePackingPresetAnimation = (
-  _params: ICirclePackingAnimationParams, // 此处仅为保持结构统一
-  preset: CirclePackingAppearPreset
-): IAnimationTypeConfig => {
+export const circlePackingPresetAnimation = (preset: CirclePackingAppearPreset): IAnimationTypeConfig => {
   switch (preset) {
     case 'fadeIn': {
       return {
@@ -25,4 +19,13 @@ export const circlePackingPresetAnimation = (
       };
     }
   }
+};
+
+export const registerCirclePackingAnimation = () => {
+  Factory.registerAnimation('circlePacking', (parmas: unknown, preset: CirclePackingAppearPreset) => ({
+    appear: circlePackingPresetAnimation(preset),
+    enter: { type: 'growRadiusIn' },
+    exit: { type: 'growRadiusOut' },
+    disappear: { type: 'growRadiusOut' }
+  }));
 };

@@ -4,9 +4,8 @@ import { BarChart } from '../bar';
 import { ChartTypeEnum } from '../interface';
 import type { IWaterfallChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
-import { VChart } from '../../core/vchart';
-import { WaterfallSeries } from '../../series/waterfall/waterfall';
-VChart.useSeries([WaterfallSeries]);
+import { registerWaterfallSeries } from '../../series/waterfall/waterfall';
+import { Factory } from '../../core/factory';
 
 export class WaterfallChart extends BarChart {
   static readonly type: string = ChartTypeEnum.waterfall;
@@ -37,3 +36,8 @@ export class WaterfallChart extends BarChart {
     };
   }
 }
+
+export const registerWaterfallChart = () => {
+  registerWaterfallSeries();
+  Factory.registerChart(WaterfallChart.type, WaterfallChart);
+};

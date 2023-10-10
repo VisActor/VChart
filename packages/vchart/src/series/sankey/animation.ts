@@ -2,6 +2,8 @@ import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import type { DirectionType } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings';
+import { Factory } from '../../core/factory';
+import { FadeInOutAnimation } from '../../animation/config';
 
 export type SankeyMark = 'node' | 'link' | 'label';
 
@@ -65,4 +67,17 @@ export const sankeyLinkPresetAnimation = (preset: SankeyAppearPreset): IAnimatio
       return { type: 'linkPathGrowIn' };
     }
   }
+};
+
+export const registerSankeyAnimation = () => {
+  Factory.registerAnimation('sankeyNode', (params: ISankeyAnimationParams, preset: SankeyAppearPreset) => ({
+    appear: sankeyNodePresetAnimation(params, preset),
+    ...FadeInOutAnimation
+  }));
+  Factory.registerAnimation('sankeyLinkPath', (params: unknown, preset: SankeyAppearPreset) => ({
+    appear: sankeyLinkPresetAnimation(preset),
+    enter: { type: 'linkPathGrowIn' },
+    exit: { type: 'linkPathGrowOut' },
+    disappear: { type: 'linkPathGrowOut' }
+  }));
 };

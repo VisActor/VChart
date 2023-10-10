@@ -13,19 +13,17 @@ import { SeriesMarkNameEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../interface';
 import { mixin } from '@visactor/vutils';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-
-import { VChart } from '../../core/vchart';
 import { LineMark } from '../../mark/line';
 import { AreaMark } from '../../mark/area';
 import { TextMark } from '../../mark/text';
 import { SymbolMark } from '../../mark/symbol';
 import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 import { areaSeriesMark } from './constant';
-VChart.useMark([LineMark, AreaMark, TextMark, SymbolMark]);
+import { Factory } from '../../core/factory';
+import { registerAreaAnimation } from './animation';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -222,7 +220,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     if (this._lineMark) {
       this._lineMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.line(animationParams, appearPreset),
+          Factory.getAnimationInKey('line')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.line, this._spec)
         )
       );
@@ -231,7 +229,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     if (this._areaMark) {
       this._areaMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.area(animationParams, appearPreset),
+          Factory.getAnimationInKey('area')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.area, this._spec)
         )
       );
@@ -239,7 +237,10 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
     if (this._symbolMark) {
       this._symbolMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.symbol(), userAnimationConfig(SeriesMarkNameEnum.point, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('scaleInOut')?.(),
+          userAnimationConfig(SeriesMarkNameEnum.point, this._spec)
+        )
       );
     }
   }
@@ -259,3 +260,12 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 }
 
 mixin(AreaSeries, LineLikeSeriesMixin);
+
+export const registerAreaSeries = () => {
+  Factory.registerMark(LineMark.type, LineMark);
+  Factory.registerMark(AreaMark.type, AreaMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerSeries(AreaSeries.type, AreaSeries);
+  registerAreaAnimation();
+};

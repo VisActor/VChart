@@ -6,6 +6,7 @@ import type { IRegion } from '../../region/interface';
 import type { IBaseLayout } from '../interface';
 import { Layout } from '../base-layout';
 import { isXAxis, isYAxis } from '../../component/axis/cartesian/util';
+import { Factory } from '../../core/factory';
 
 interface IOffset {
   offsetLeft: number;
@@ -15,6 +16,8 @@ interface IOffset {
 }
 
 export class Layout3d extends Layout implements IBaseLayout {
+  static type = 'layout3d';
+
   layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void {
     this._chartLayoutRect = chartLayoutRect;
     this._chartViewBox = chartViewBox;
@@ -253,3 +256,7 @@ export class Layout3d extends Layout implements IBaseLayout {
     return result;
   }
 }
+
+export const registerLayout3d = () => {
+  Factory.registerLayout(Layout3d.type, Layout3d);
+};

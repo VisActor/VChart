@@ -1,3 +1,4 @@
+import { Factory } from './../../core/factory';
 import type { INode, IGroup } from '@visactor/vrender-core';
 import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visactor/vrender-components';
 
@@ -13,7 +14,7 @@ import type { DirectionType, IPlayer } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent } from '../interface';
 import type { IPoint, IOrientType } from '../../typings';
-import type { IChartSpec, IDataValues } from '../..';
+import { type IChartSpec, type IDataValues } from '../..';
 
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
@@ -404,3 +405,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     });
   };
 }
+
+export const registerPlayer = () => {
+  Factory.registerComponent(Player.type, Player);
+};

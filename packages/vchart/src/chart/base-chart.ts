@@ -488,7 +488,7 @@ export class BaseChart extends CompilableBase implements IChart {
       if (this._spec.zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
         use3dLayout = true;
       }
-      const layout = new (Factory.getLayout(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
+      const layout = new (Factory.getLayoutInKey(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
         this._spec.layout,
         {
           onError: this._option?.onError

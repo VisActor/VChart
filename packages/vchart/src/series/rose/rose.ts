@@ -5,18 +5,14 @@ import { valueInScaleRange, mergeSpec } from '../../util';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IRoseAnimationParams, RoseAppearPreset } from './animation';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerRoseAnimation, type IRoseAnimationParams, type RoseAppearPreset } from './animation';
 import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
-import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
-import { TextMark } from '../../mark/text';
 import { roseSeriesMark } from './constant';
-
-VChart.useMark([ArcMark, TextMark]);
+import { Factory } from '../../core/factory';
 
 export const DefaultBandWidth = 0.5;
 
@@ -118,7 +114,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       };
       this._roseMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.rose(animationParams, appearPreset),
+          Factory.getAnimationInKey('rose')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.rose, this._spec)
         )
       );
@@ -129,3 +125,9 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
     return 'circle';
   }
 }
+
+export const registerRoseSeries = () => {
+  Factory.registerMark(ArcMark.type, ArcMark);
+  Factory.registerSeries(RoseSeries.type, RoseSeries);
+  registerRoseAnimation();
+};
