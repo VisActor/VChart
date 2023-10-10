@@ -93,7 +93,8 @@ export class EditorChart extends BaseElement {
     this._vchart = new VChart(spec, {
       renderCanvas: this._opt.layer.getCanvas(),
       stage: this._opt.layer.getStage(),
-      animation: false
+      animation: false,
+      disableTriggerEvent: this._mode === 'editor'
     });
     this._layout.setVChart(this._vchart);
 

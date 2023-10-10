@@ -131,7 +131,7 @@ export class Zoomable implements IZoomable {
     s: ISeries,
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     if (defaultTriggerEvent[this._renderMode]) {
@@ -144,7 +144,7 @@ export class Zoomable implements IZoomable {
     filter?: (s: ISeries) => boolean,
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     if (defaultTriggerEvent[this._renderMode]) {
@@ -166,7 +166,7 @@ export class Zoomable implements IZoomable {
     s: ISeries,
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     if (defaultTriggerEvent[this._renderMode]) {
@@ -179,7 +179,7 @@ export class Zoomable implements IZoomable {
     filter?: (s: ISeries) => boolean,
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     if (defaultTriggerEvent[this._renderMode]) {
@@ -277,7 +277,7 @@ export class Zoomable implements IZoomable {
   }
 
   initDragEventOfSeries(s: ISeries, callback?: (delta: [number, number], e: BaseEventParams['event']) => void) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     if (defaultTriggerEvent[this._renderMode]) {
@@ -296,7 +296,7 @@ export class Zoomable implements IZoomable {
     filter?: (s: ISeries) => boolean,
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     if (defaultTriggerEvent[this._renderMode]) {
@@ -334,7 +334,7 @@ export class Zoomable implements IZoomable {
     params: ExtendEventParam,
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     this._clickEnable = true;
