@@ -1,0 +1,32 @@
+import { BaseComponent } from '../base';
+import { ComponentTypeEnum } from '../interface';
+import type { IComponentOption } from '../interface';
+import type { IRegion } from '../../region/interface';
+import type { IModelRenderOption } from '../../model/interface';
+import type { LayoutItem } from '../../model/layout-item';
+import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
+import type { MarkTypeEnum } from '../../mark/interface';
+import type { IGroup } from '@visactor/vrender-core';
+export declare class CustomMark extends BaseComponent<any> {
+  static type: ComponentTypeEnum;
+  type: ComponentTypeEnum;
+  layoutType: LayoutItem['layoutType'];
+  layoutZIndex: LayoutItem['layoutZIndex'];
+  layoutLevel: number;
+  protected _spec: (ICustomMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | ICustomMarkGroupSpec)[];
+  static createComponent(spec: any, options: IComponentOption): CustomMark[];
+  created(): void;
+  protected initMarks(): void;
+  private _createExtensionMark;
+  initEvent(): void;
+  _compareSpec(): {
+    change: boolean;
+    reMake: boolean;
+    reRender: boolean;
+    reSize: boolean;
+    reCompile: boolean;
+  };
+  changeRegions(regions: IRegion[]): void;
+  getVRenderComponents(): IGroup[];
+  onRender(ctx: IModelRenderOption): void;
+}
