@@ -225,19 +225,24 @@ export function CustomPanel(props: ICustomPanelProps) {
   const label = props.label ?? '';
   const sections = props.sections ?? {};
 
-  const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [collapsed, setCollapsed] = useState<boolean>(true);
   const [disabled, setDisabled] = useState<boolean>(false);
 
   const [panelValue, setPanelValue] = useState<any>(generateInitialPanelValue(sections, props.sectionComponentMaps));
 
+  const onRefresh = () => {
+    props.onRefresh?.(panelValue);
+    setPanelValue(generateInitialPanelValue(sections, props.sectionComponentMaps));
+  };
+
   return (
-    <div className="vchart-editor-ui-panel-container" style={props.style ?? {}}>
+    <div className={`vchart-editor-ui-panel-container ${props.className ?? ''}`} style={props.style ?? {}}>
       <EditorHeader
         label={label}
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
         onCheck={() => setDisabled(!disabled)}
-        onRefresh={() => setPanelValue(generateInitialPanelValue(sections, props.sectionComponentMaps))}
+        onRefresh={onRefresh}
       />
       <div className="vchart-editor-ui-panel-collapse-container" style={{ height: !collapsed ? 0 : 'auto' }}>
         {Object.keys(sections).map(section => {
