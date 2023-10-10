@@ -25,7 +25,10 @@ export function AxisPanel(props: IAxisPanelProps) {
       label={label}
       sections={sections as any}
       sectionComponentMaps={sectionComponentMaps}
+      className={props.className}
       style={props.style}
+      onChange={props.onChange}
+      onRefresh={props.onRefresh}
     />
   );
 }

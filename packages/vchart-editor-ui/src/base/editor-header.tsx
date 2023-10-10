@@ -7,7 +7,7 @@ export function EditorHeader(props: IEditorHeaderProps) {
   const label = props.label ?? defaultBaseComponentConfig.switch.label;
 
   const checked = props.checked ?? true;
-  const collapsed = props.collapsed ?? false;
+  const collapsed = props.collapsed ?? true;
 
   return (
     <div className="vchart-editor-ui-panel-header">

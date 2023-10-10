@@ -1,10 +1,5 @@
 lockfileVersion: 5.4
 
-overrides:
-  '@visactor/vrender-core': 0.16.2-alpha.0
-  '@visactor/vrender-kits': 0.16.2-alpha.0
-  '@visactor/vrender-components': 0.16.2-alpha.0
-
 importers:
 
   .:

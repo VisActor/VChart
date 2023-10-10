@@ -10,7 +10,10 @@ export function LineEditorBar(props: ILineEditorComponentProps) {
   const [stroke, setStroke] = useState<Stroke>(props.defaultStroke ?? defaultEditorBarComponentConfig.stroke.default);
 
   return (
-    <div className="vchart-editor-ui-editor-bar-container" style={{ ...(props.style ?? {}) }}>
+    <div
+      className={`vchart-editor-ui-editor-bar-container ${props.className ?? ''}`}
+      style={{ ...(props.style ?? {}) }}
+    >
       <EditorBarStrokeLine
         stroke={stroke}
         onStrokeChange={stroke => {

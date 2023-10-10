@@ -137,6 +137,9 @@ function App() {
             ]
           }
         }}
+        onChange={(section, key, value) => {
+          console.log(section, key, value);
+        }}
       />
     </div>
   );

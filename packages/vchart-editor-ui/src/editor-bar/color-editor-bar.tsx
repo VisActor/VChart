@@ -12,7 +12,10 @@ export function ColorEditorBar(props: IColorEditorComponentProps) {
   const [stroke, setStroke] = useState<Stroke>(props.defaultStroke ?? defaultEditorBarComponentConfig.stroke.default);
 
   return (
-    <div className="vchart-editor-ui-editor-bar-container" style={{ ...(props.style ?? {}) }}>
+    <div
+      className={`vchart-editor-ui-editor-bar-container ${props.className ?? ''}`}
+      style={{ ...(props.style ?? {}) }}
+    >
       <EditorBarFill
         fill={fill}
         onFillChange={fill => {

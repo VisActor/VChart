@@ -123,57 +123,57 @@ const spec = {
     id: 'legend-discrete',
     visible: true
   },
-  title: {
-    id: 'title',
-    visible: true,
-    align: 'left',
-    verticalAlign: 'top',
-    orient: 'top',
-    textStyle: {
-      character: [
-        {
-          text: 'Bar Editor Test',
-          fontSize: 30,
-          textAlign: 'center',
-          textDecoration: 'underline',
-          stroke: '#0f51b5'
-        }
-      ]
-    },
-    subtextStyle: {
-      character: [
-        {
-          text: 'Mapbox',
-          fontWeight: 'bold',
-          fontSize: 30,
-          fill: '#3f51b5'
-        },
-        {
-          text: '',
-          fill: '#000'
-        },
-        {
-          text: 'alternative solution',
-          fontStyle: 'italic',
-          fill: '#3f51b5'
-        },
-        {
-          text: 'sub Title!',
-          fill: '#000'
-        },
-        {
-          text: 'Map',
-          textDecoration: 'line-through',
-          fill: '#000'
-        },
-        {
-          text: '[1]',
-          script: 'super',
-          fill: '#000'
-        }
-      ]
-    }
-  },
+  // title: {
+  //   id: 'title',
+  //   visible: true,
+  //   align: 'left',
+  //   verticalAlign: 'top',
+  //   orient: 'top',
+  //   textStyle: {
+  //     character: [
+  //       {
+  //         text: 'Bar Editor Test',
+  //         fontSize: 30,
+  //         textAlign: 'center',
+  //         textDecoration: 'underline',
+  //         stroke: '#0f51b5'
+  //       }
+  //     ]
+  //   },
+  //   subtextStyle: {
+  //     character: [
+  //       {
+  //         text: 'Mapbox',
+  //         fontWeight: 'bold',
+  //         fontSize: 30,
+  //         fill: '#3f51b5'
+  //       },
+  //       {
+  //         text: '',
+  //         fill: '#000'
+  //       },
+  //       {
+  //         text: 'alternative solution',
+  //         fontStyle: 'italic',
+  //         fill: '#3f51b5'
+  //       },
+  //       {
+  //         text: 'sub Title!',
+  //         fill: '#000'
+  //       },
+  //       {
+  //         text: 'Map',
+  //         textDecoration: 'line-through',
+  //         fill: '#000'
+  //       },
+  //       {
+  //         text: '[1]',
+  //         script: 'super',
+  //         fill: '#000'
+  //       }
+  //     ]
+  //   }
+  // },
   region: [
     {
       id: 'region-0',
@@ -182,120 +182,123 @@ const spec = {
       }
     }
   ],
-
+  label: {
+    visible: false,
+    style: {}
+  },
   // TODO: 变成默认的配置
-  markLine: [
-    {
-      interactive: true,
-      y: 'average',
-      endSymbol: {
-        visible: true,
-        size: 12,
-        refX: 6,
-        symbolType: 'triangleLeft',
-        autoRotate: false
-      },
-      label: {
-        visible: true,
-        autoRotate: false,
-        formatMethod: markData => {
-          return parseInt(markData[0].y, 10);
-        },
-        position: 'end',
-        labelBackground: {
-          visible: false
-        },
-        style: {
-          fill: '#000'
-        },
-        refX: 12,
-        refY: 0
-      },
-      line: {
-        style: {
-          stroke: '#000'
-        }
-      }
-    },
-    {
-      interactive: true,
-      x: 'VT',
-      endSymbol: {
-        visible: true,
-        size: 12,
-        refX: 6,
-        symbolType: 'triangleDown',
-        autoRotate: false
-      },
-      label: {
-        visible: true,
-        autoRotate: false,
-        text: 'VT',
-        position: 'end',
-        labelBackground: {
-          visible: false
-        },
-        style: {
-          fill: '#000',
-          textAlign: 'center',
-          textBaseline: 'bottom'
-        },
-        refX: 12,
-        refY: 0
-      },
-      line: {
-        style: {
-          stroke: '#000'
-        }
-      }
-    }
-  ],
-  markArea: [
-    {
-      x: 'WY',
-      x1: 'DC',
-      zIndex: 500,
-      interactive: true,
-      area: {
-        style: {
-          fill: '#005DFF',
-          fillOpacity: '0.1'
-        }
-      },
-      label: {
-        position: 'top',
-        text: 'insert some text',
-        labelBackground: {
-          visible: false
-        },
-        style: {
-          fill: '#000'
-        }
-      }
-    },
-    {
-      y: 40000,
-      y1: 50000,
-      zIndex: 500,
-      interactive: true,
-      area: {
-        style: {
-          fill: '#005DFF',
-          fillOpacity: '0.1'
-        }
-      },
-      label: {
-        position: 'right',
-        text: 'insert some text',
-        labelBackground: {
-          visible: false
-        },
-        style: {
-          fill: '#000'
-        }
-      }
-    }
-  ],
+  // markLine: [
+  //   {
+  //     interactive: true,
+  //     y: 'average',
+  //     endSymbol: {
+  //       visible: true,
+  //       size: 12,
+  //       refX: 6,
+  //       symbolType: 'triangleLeft',
+  //       autoRotate: false
+  //     },
+  //     label: {
+  //       visible: true,
+  //       autoRotate: false,
+  //       formatMethod: markData => {
+  //         return parseInt(markData[0].y, 10);
+  //       },
+  //       position: 'end',
+  //       labelBackground: {
+  //         visible: false
+  //       },
+  //       style: {
+  //         fill: '#000'
+  //       },
+  //       refX: 12,
+  //       refY: 0
+  //     },
+  //     line: {
+  //       style: {
+  //         stroke: '#000'
+  //       }
+  //     }
+  //   },
+  //   {
+  //     interactive: true,
+  //     x: 'VT',
+  //     endSymbol: {
+  //       visible: true,
+  //       size: 12,
+  //       refX: 6,
+  //       symbolType: 'triangleDown',
+  //       autoRotate: false
+  //     },
+  //     label: {
+  //       visible: true,
+  //       autoRotate: false,
+  //       text: 'VT',
+  //       position: 'end',
+  //       labelBackground: {
+  //         visible: false
+  //       },
+  //       style: {
+  //         fill: '#000',
+  //         textAlign: 'center',
+  //         textBaseline: 'bottom'
+  //       },
+  //       refX: 12,
+  //       refY: 0
+  //     },
+  //     line: {
+  //       style: {
+  //         stroke: '#000'
+  //       }
+  //     }
+  //   }
+  // ],
+  // markArea: [
+  //   {
+  //     x: 'WY',
+  //     x1: 'DC',
+  //     zIndex: 500,
+  //     interactive: true,
+  //     area: {
+  //       style: {
+  //         fill: '#005DFF',
+  //         fillOpacity: '0.1'
+  //       }
+  //     },
+  //     label: {
+  //       position: 'top',
+  //       text: 'insert some text',
+  //       labelBackground: {
+  //         visible: false
+  //       },
+  //       style: {
+  //         fill: '#000'
+  //       }
+  //     }
+  //   },
+  //   {
+  //     y: 40000,
+  //     y1: 50000,
+  //     zIndex: 500,
+  //     interactive: true,
+  //     area: {
+  //       style: {
+  //         fill: '#005DFF',
+  //         fillOpacity: '0.1'
+  //       }
+  //     },
+  //     label: {
+  //       position: 'right',
+  //       text: 'insert some text',
+  //       labelBackground: {
+  //         visible: false
+  //       },
+  //       style: {
+  //         fill: '#000'
+  //       }
+  //     }
+  //   }
+  // ],
   tooltip: {
     visible: true
   }

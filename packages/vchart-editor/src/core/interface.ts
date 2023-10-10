@@ -33,8 +33,8 @@ export interface IEditorLayer {
 export interface IEditorData {
   setDataKey: (key: string) => void;
   setLayers: (getLayers: () => IEditorLayer[]) => void;
-  save: () => void;
-  load: () => ILayerData[];
+  save: () => Promise<void>;
+  load: () => Promise<ILayerData[]>;
   data: ILayerData[];
 }
 

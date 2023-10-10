@@ -20,7 +20,10 @@ export function TextEditorBar(props: ITextEditorComponentProps) {
   const [bold, setBold] = useState<boolean>(props.defaultBold ?? defaultEditorBarComponentConfig.bold.default);
 
   return (
-    <div className="vchart-editor-ui-editor-bar-container" style={{ ...(props.style ?? {}) }}>
+    <div
+      className={`vchart-editor-ui-editor-bar-container ${props.className ?? ''}`}
+      style={{ ...(props.style ?? {}) }}
+    >
       <EditorBarEntry
         icon={<IconBold />}
         selected={bold}

@@ -17,7 +17,7 @@ export class BrowserData implements IEditorData {
     this._dataKey = key;
   }
 
-  save() {
+  async save() {
     if (!this._getLayers) {
       return;
     }
@@ -33,7 +33,7 @@ export class BrowserData implements IEditorData {
     localStorage.setItem(this._dataKey, JSON.stringify(saveData));
   }
 
-  load() {
+  async load() {
     const saveValue = localStorage.getItem(this._dataKey);
     this._data = saveValue ? JSON.parse(saveValue) : [];
     return this._data;

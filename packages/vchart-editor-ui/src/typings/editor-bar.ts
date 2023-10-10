@@ -74,6 +74,7 @@ export interface IEditorBarFontSizeProps {
 // Editor Bar Component
 
 export interface IBaseEditorComponentProps {
+  className?: string;
   style?: React.CSSProperties;
   onToolChange?: (tool: string) => void;
 }
