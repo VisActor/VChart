@@ -324,7 +324,7 @@ export interface IModelOption extends ICompilableInitOption {
   /**
    * 是否关闭交互效果
    */
-  disableActiveEffect?: boolean;
+  disableTriggerEvent?: boolean;
 }
 
 export interface IModelConstructor {

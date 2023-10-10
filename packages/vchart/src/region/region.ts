@@ -83,7 +83,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
       this.layoutZIndex = spec.zIndex;
     }
 
-    this.interaction.setDisableActiveEffect(this._option.disableActiveEffect);
+    this.interaction.setDisableActiveEffect(this._option.disableTriggerEvent);
   }
 
   protected _getClipDefaultValue() {
