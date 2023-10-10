@@ -10,7 +10,10 @@ function parseVersion(version) {
       minor: +res[2],
       patch: +res[3],
       preReleaseName: res[4],
-      preReleaseType: res[4] && res[4].includes('.') ? res[4].split('.')[0] : res[4]
+      preReleaseType: res[4] && res[4].includes('.') ? res[4].split('.')[0] : res[4],
+      buildName: res[5],
+      buildType: res[5] && res[5].includes('.') ? res[5].split('.')[0] : res[5],
+      
     };
   }
 
