@@ -1,7 +1,8 @@
+import type { ILayoutData } from './../elements/chart/layout/interface';
 import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
-import type { IRect } from '../typings/space';
-import { IModel } from '@visactor/vchart/esm/model/interface';
+import type { ILayoutAttribute, IRect } from '../typings/space';
+import type { IModel } from '@visactor/vchart/esm/model/interface';
 export interface ILayerData {
   id: string | number;
   type: 'chart' | string;
@@ -37,6 +38,23 @@ export interface IVChartEditorInitOption {
   mode: EditorMode;
 }
 
+export interface IUpdateAttributeParam {
+  // 布局
+  layout?: Partial<ILayoutAttribute>;
+  // 模块spec更新
+  spec?: {};
+  // 色板
+  color?: string[];
+
+  // 添加line标注
+  markLine?: {};
+  // 添加area标注
+  markArea?: {};
+
+  // 更改图表类型
+  chartType?: {};
+}
+
 export interface IEditorElement {
   type: 'chart' | 'group' | 'graphics';
   layer: IEditorLayer;
@@ -55,7 +73,7 @@ export interface IEditorElement {
     //
   } & { [key: string]: unknown };
   originSpec?: any;
-  updateAttribute: (attr: { [key: string]: unknown }) => false | { [key: string]: unknown };
+  updateAttribute: (attr: IUpdateAttributeParam) => false | { [key: string]: unknown };
   editorFinish: () => void;
 }
 

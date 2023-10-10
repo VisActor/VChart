@@ -1,14 +1,18 @@
+import { merge, isArray, isObject } from '@visactor/vutils';
+import type { IEditorElement, IUpdateAttributeParam } from './../../../core/interface';
 import { EditorFactory } from './../../../core/factory';
 import type { IData, StandardData } from '../data/interface';
 import type { ILayoutData } from '../layout/interface';
 import type { IChartTemp } from '../template/interface';
-import type { IEditorSpec, ISpecProcess } from './interface';
+import type { IEditorSpec, IModelSpec, ISpecProcess } from './interface';
 // @ts-ignore
 import type { ISpec, ITheme } from '@visactor/vchart';
 
 const DefaultEditorSpec: IEditorSpec = {
   theme: null,
   temp: null,
+  color: null,
+  modelSpec: null,
   layout: { viewBox: { x: 0, y: 0, width: 0, height: 0 }, data: [] }
 };
 
@@ -74,6 +78,7 @@ export class SpecProcess implements ISpecProcess {
     const data = this._data.getData();
     const info = this._data.getDataInfo();
     this._vchartSpec = this._specTemp.getSpec(data, info);
+    this._mergeEditorSpec();
     this._onSpecReadyCall();
   }
 
@@ -99,5 +104,90 @@ export class SpecProcess implements ISpecProcess {
     this._editorSpec = null;
     this._vchartSpec = null;
     this._data = null;
+  }
+
+  private _mergeEditorSpec() {
+    this._vchartSpec;
+    // 色板
+    if (this._editorSpec.color) {
+      this._vchartSpec.color = this._editorSpec.color;
+    }
+    if (this._editorSpec.modelSpec) {
+      this._editorSpec.modelSpec.forEach(s => {
+        const chartSpec = this.findChartSpec(s, this._vchartSpec);
+        if (!chartSpec) {
+          return;
+        }
+        merge(chartSpec, s.spec);
+      });
+    }
+  }
+
+  private findChartSpec(s: IModelSpec, vchartSpec: ISpec) {
+    const chartSpec = this._vchartSpec[s.specKey];
+    if (!chartSpec) {
+      return null;
+    }
+    if (isArray(chartSpec)) {
+      return chartSpec.find((_s, index) => {
+        if (s.id) {
+          if (_s.id === s.id) {
+            return true;
+          }
+          return false;
+        } else if (s.index === index) {
+          return true;
+        }
+        return false;
+      });
+    } else if (isObject(chartSpec)) {
+      if (s.id) {
+        if (chartSpec.id === s.id) {
+          return chartSpec;
+        }
+        return null;
+      } else if (s.index === 0) {
+        return chartSpec;
+      }
+    }
+    return null;
+  }
+
+  private getModelSpecEditorSpec(model: { userId: string; _specIndex: number; specKey: string }): IModelSpec {
+    if (!this._editorSpec.modelSpec) {
+      return null;
+    }
+    return this._editorSpec.modelSpec.find(
+      s => (s.id && s.id === model.userId) || (s.specKey === model.specKey && s.index === model._specIndex)
+    );
+  }
+
+  private mergeModelEditorSpec(model: { userId: string; _specIndex: number; specKey: string }, spec: any) {
+    let s = this.getModelSpecEditorSpec(model);
+    if (!s) {
+      s = {
+        specKey: model.specKey,
+        id: model.userId,
+        index: model._specIndex,
+        spec: merge({}, spec)
+      };
+      this._editorSpec.modelSpec = this._editorSpec.modelSpec || [];
+      this._editorSpec.modelSpec.push(s);
+    }
+    s.spec = merge(s.spec, spec);
+  }
+
+  updateElementAttribute(el: IEditorElement, attr: IUpdateAttributeParam) {
+    let hasChange = false;
+    if (attr.color) {
+      hasChange = true;
+      this._editorSpec.color = attr.color;
+    }
+    if (attr.spec) {
+      hasChange = true;
+      this.mergeModelEditorSpec(el.model, attr.spec);
+    }
+    this._mergeEditorSpec();
+    return hasChange;
   }
 }

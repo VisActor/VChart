@@ -75,11 +75,11 @@ export class EditorEvent {
     }
     if (this._triggerLayer) {
       this._triggerLayer.getCanvas().style.zIndex =
-        200 + this._editor.layers.findIndex(l => l === this._triggerLayer) + '';
+        20 + this._editor.layers.findIndex(l => l === this._triggerLayer) + '';
     }
     this._triggerLayer = l;
     if (this._triggerLayer) {
-      this._triggerLayer.getCanvas().style.zIndex = '10000';
+      this._triggerLayer.getCanvas().style.zIndex = '100';
     }
 
     if (this._triggerLayer === null) {
