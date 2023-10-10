@@ -1,7 +1,7 @@
-import type { IEditorController, IEditorElement, IEditorLayer } from './../../../core/interface';
+import type { IEditorController, IEditorElement, IEditorLayer, IUpdateAttributeParam } from './../../../core/interface';
 import type { EditorChart } from '../chart';
 import type { IGraphic } from '@visactor/vrender-core';
-import { EventParams } from '@visactor/vchart';
+import type { EventParams } from '@visactor/vchart';
 
 export abstract class BaseEditorElement {
   protected _chart: EditorChart;
@@ -50,4 +50,12 @@ export abstract class BaseEditorElement {
   abstract initWithVChart(): void;
   protected abstract _getOverGraphic(el: IEditorElement, e?: PointerEvent): IGraphic;
   protected abstract _getEditorElement(e?: EventParams): IEditorElement;
+
+  updateCommonAttribute(el: IEditorElement, attr: IUpdateAttributeParam, reRender: boolean = false) {
+    if (this._chart.specProcess.updateElementAttribute(el, attr) || reRender) {
+      this._chart.reRenderWithUpdateSpec();
+      this._releaseLast();
+    }
+    this._controller.editorEnd();
+  }
 }
