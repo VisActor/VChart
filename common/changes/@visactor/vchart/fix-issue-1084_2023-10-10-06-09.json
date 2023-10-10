@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: if `markLine` is empty like `{}` or `[]`, it should not create marker component",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
