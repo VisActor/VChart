@@ -1,0 +1,23 @@
+import type { IColorSchemeStruct } from '../interface';
+export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
+  backgroundColor: string;
+  borderColor: string;
+  shadowColor: string;
+  primaryFontColor: string;
+  secondaryFontColor: string;
+  axisFontColor: string;
+  disableFontColor: string;
+  labelReverseFontColor: string;
+  axisGridColor: string;
+  axisDomainColor: string;
+  axisLabelFontColor: string;
+  dataZoomHandlerStrokeColor: string;
+  dataZoomHandlerFillColor: string;
+  dataZoomBackgroundColor: string;
+  dataZoomChartColor: string;
+  dataZoomSelectedColor: string;
+  scrollBarSliderColor: string;
+  tooltipBackgroundColor: string;
+  titleFontColor: string;
+  labelFontColor: string;
+};

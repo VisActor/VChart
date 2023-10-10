@@ -6,19 +6,29 @@ import path from 'path';
 import { themes } from '../src/theme/builtin';
 
 const VCHART_PROJECT_ROOT = process.cwd();
-const targetPath = `${VCHART_PROJECT_ROOT}/../../docs/assets/themes`;
+const targetPaths = [
+  path.resolve(VCHART_PROJECT_ROOT, '/../vchart-theme/public'),
+  path.resolve(VCHART_PROJECT_ROOT, '/../../docs/assets/themes')
+];
 
 const result: string[] = [];
 themes.forEach((value, key) => {
-  try {
-    const fileName = path.resolve(targetPath, `${key}.json`);
-    const themeJson = JSON.stringify(value);
-    if (fs.existsSync(fileName)) {
-      fs.unlinkSync(fileName);
+  let success = true;
+  targetPaths.forEach(targetPath => {
+    try {
+      const fileName = path.resolve(targetPath, `${key}.json`);
+      const themeJson = JSON.stringify(value);
+      if (fs.existsSync(fileName)) {
+        fs.unlinkSync(fileName);
+      }
+      fs.writeFileSync(path.resolve(targetPath, `${key}.json`), themeJson);
+    } catch {
+      success = false;
     }
-    fs.writeFileSync(path.resolve(targetPath, `${key}.json`), themeJson);
+  });
+  if (success) {
     result.push(key);
-  } catch {}
+  }
 });
 
 console.warn(`\x1B[33m

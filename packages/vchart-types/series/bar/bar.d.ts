@@ -1,0 +1,37 @@
+import { CartesianSeries } from '../cartesian/cartesian';
+import { MarkTypeEnum } from '../../mark/interface';
+import type { Maybe, Datum, DirectionType } from '../../typings';
+import type { IBarSeriesSpec, IBarSeriesTheme } from './interface';
+import type { IAxisHelper } from '../../component/axis/cartesian/interface';
+import type { IRectMark } from '../../mark/rect';
+import type { IModelInitOption } from '../../model/interface';
+import type { ITextMark } from '../../mark/text';
+import type { SeriesMarkMap } from '../interface';
+import { SeriesMarkNameEnum } from '../interface/type';
+import { SeriesTypeEnum } from '../interface';
+export declare const DefaultBandWidth = 6;
+export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends CartesianSeries<T> {
+  static readonly type: string;
+  type: SeriesTypeEnum;
+  protected _barMarkName: SeriesMarkNameEnum;
+  protected _barMarkType: MarkTypeEnum;
+  static readonly mark: SeriesMarkMap;
+  protected _theme: Maybe<IBarSeriesTheme>;
+  protected _stack: boolean;
+  protected _bandPosition: number;
+  protected _rectMark: IRectMark;
+  initMark(): void;
+  initMarkStyle(): void;
+  initLabelMarkStyle(textMark: ITextMark): void;
+  init(option: IModelInitOption): void;
+  private _shouldDoPreCalculate;
+  private _calculateStackRectPosition;
+  private _calculateRectPosition;
+  initBandRectMarkStyle(): void;
+  initLinearRectMarkStyle(): void;
+  initAnimation(): void;
+  protected _getBarWidth(axisHelper: IAxisHelper): number;
+  protected _getPosition(direction: DirectionType, datum: Datum): number;
+  onLayoutEnd(ctx: any): void;
+  getDefaultShapeType(): string;
+}

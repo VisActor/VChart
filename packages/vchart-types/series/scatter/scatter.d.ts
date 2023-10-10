@@ -1,0 +1,34 @@
+import type { DataView } from '@visactor/vdataset';
+import type { Maybe, Datum, IScatterInvalidType } from '../../typings';
+import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
+import { CartesianSeries } from '../cartesian/cartesian';
+import type { SeriesMarkMap } from '../interface';
+import { SeriesTypeEnum } from '../interface/type';
+import type { ILabelMark } from '../../mark/label';
+export declare class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
+  static readonly type: string;
+  type: SeriesTypeEnum;
+  static readonly mark: SeriesMarkMap;
+  protected _theme: Maybe<IScatterSeriesTheme>;
+  private _symbolMark;
+  private _labelMark;
+  private _size;
+  private _sizeField;
+  private _shape;
+  private _shapeField;
+  protected _invalidType: IScatterInvalidType;
+  protected _getInvalidDefined: (datum: Datum) => boolean;
+  setAttrFromSpec(): void;
+  private _getSeriesAttribute;
+  private getSizeAttribute;
+  private getShapeAttribute;
+  initMark(): void;
+  initMarkStyle(): void;
+  initAnimation(): void;
+  private initSymbolMarkStyle;
+  viewDataStatisticsUpdate(d: DataView): void;
+  initLabelMarkStyle(labelMark?: ILabelMark): void;
+  handleZoom(e: any): void;
+  handlePan(e: any): void;
+  getDefaultShapeType(): string;
+}
