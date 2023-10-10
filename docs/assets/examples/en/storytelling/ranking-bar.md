@@ -205,11 +205,11 @@ const spec = {
         fontFamily: 'PingFang SC',
         fontWeight: 600,
         text: datum => datum.year,
-        x: () => {
-          return vchart.getChart().getCanvasRect()?.width - 50;
+        x: (datum, ctx) => {
+          return ctx.vchart.getChart().getCanvasRect()?.width - 50;
         },
-        y: () => {
-          return vchart.getChart().getCanvasRect()?.height - 50;
+        y: (datum, ctx) => {
+          return ctx.vchart.getChart().getCanvasRect()?.height - 50;
         },
         fill: 'grey',
         fillOpacity: 0.5

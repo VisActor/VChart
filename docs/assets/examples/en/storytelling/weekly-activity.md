@@ -132,8 +132,8 @@ const spec = {
       dataId: 'date',
       style: {
         text: datum => datum.value,
-        x: datum => {
-          const region = vchart.getChart().getRegionsInIndex([datum.value - 1])[0];
+        x: (datum, ctx) => {
+          const region = ctx.vchart.getChart().getRegionsInIndex([datum.value - 1])[0];
           return region.getLayoutStartPoint().x + region.getLayoutRect().width / 2;
         },
         y: () => 84,
