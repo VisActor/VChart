@@ -51,7 +51,15 @@ export class CustomMark extends BaseComponent<any> {
     namePrefix: string,
     index: number
   ) {
-    const mark = this._createMark({ type: spec.type, name: `${PREFIX}_${index}` }) as IGroupMark;
+    const mark = this._createMark(
+      {
+        type: spec.type,
+        name: `${PREFIX}_${index}`
+      },
+      {
+        attributeContext: this._getMarkAttributeContext()
+      }
+    ) as IGroupMark;
     if (!mark) {
       return;
     }
@@ -108,5 +116,13 @@ export class CustomMark extends BaseComponent<any> {
 
   onRender(ctx: IModelRenderOption): void {
     // do nothing;
+  }
+  private _getMarkAttributeContext() {
+    return {
+      vchart: this._option.globalInstance,
+      globalScale: (key: string, value: string | number) => {
+        return this._option.globalScale.getScale(key)?.scale(value);
+      }
+    };
   }
 }
