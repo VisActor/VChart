@@ -297,7 +297,7 @@ const spec = {
     }
   ],
   tooltip: {
-    visible: false
+    visible: true
   }
 };
 
