@@ -33,7 +33,7 @@ export interface IChartOption
   /**
    * 是否关闭交互效果
    */
-  disableActiveEffect?: boolean;
+  disableTriggerEvent?: boolean;
 }
 
 // TODO: interface definition

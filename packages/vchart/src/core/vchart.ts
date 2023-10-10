@@ -354,7 +354,7 @@ export class VChart implements IVChart {
       }),
       layout: this._option.layout,
       onError: this._onError,
-      disableActiveEffect: this._option.disableActiveEffect === true
+      disableTriggerEvent: this._option.disableTriggerEvent === true
     });
     if (!chart) {
       this._option?.onError('init chart fail');

@@ -205,7 +205,7 @@ export class BaseChart extends CompilableBase implements IChart {
       getChart: () => this,
       globalScale: this._globalScale,
       onError: this._option?.onError,
-      disableActiveEffect: this._option?.disableActiveEffect === true
+      disableTriggerEvent: this._option?.disableTriggerEvent === true
     };
     this._stack = new Stack(this);
     this._spec = spec;

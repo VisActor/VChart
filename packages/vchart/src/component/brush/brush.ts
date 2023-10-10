@@ -166,7 +166,8 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
       zIndex: this.layoutZIndex,
       brushStyle: transformToGraphic(this._spec?.style),
       ...interactiveAttr,
-      ...this._spec
+      ...this._spec,
+      disableTriggerEvent: this._option.disableTriggerEvent
     });
     brush.id = this._spec.id ?? `brush-${this.id}`;
     this.getContainer().add(brush as unknown as INode);
@@ -548,7 +549,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
 
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     const brushVisible = this._spec.visible ?? true;

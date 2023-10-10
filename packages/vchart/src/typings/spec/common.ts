@@ -117,7 +117,7 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * @since 1.5.0
    * @default false
    */
-  disableActiveEffect?: boolean;
+  disableTriggerEvent?: boolean;
 }
 
 export enum RenderModeEnum {

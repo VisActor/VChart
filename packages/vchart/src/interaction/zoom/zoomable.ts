@@ -168,7 +168,7 @@ export class Zoomable implements IZoomable {
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
@@ -182,7 +182,7 @@ export class Zoomable implements IZoomable {
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
@@ -205,7 +205,7 @@ export class Zoomable implements IZoomable {
     regionOrSeries: IRegion | ISeries,
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
   ) {
-    if (!params.event) {
+    if (!params.event || this._option.disableTriggerEvent) {
       return;
     }
     const { event } = params;
@@ -286,7 +286,7 @@ export class Zoomable implements IZoomable {
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
@@ -362,7 +362,7 @@ export class Zoomable implements IZoomable {
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
@@ -401,7 +401,7 @@ export class Zoomable implements IZoomable {
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     this._clickEnable = true;

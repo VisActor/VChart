@@ -140,10 +140,18 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     };
     // 离散类型Attrs
     if (type === 'discrete') {
-      return { ...transformDiscreteSpecToAttrs(this._spec, this._specs), ...layoutAttrs };
+      return {
+        ...transformDiscreteSpecToAttrs(this._spec, this._specs),
+        ...layoutAttrs,
+        disableTriggerEvent: this._option.disableTriggerEvent
+      };
     }
     // 连续类型Attrs
-    return { ...transformContinuousSpecToAttrs(this._spec, this._specs), ...layoutAttrs };
+    return {
+      ...transformContinuousSpecToAttrs(this._spec, this._specs),
+      ...layoutAttrs,
+      disableTriggerEvent: this._option.disableTriggerEvent
+    };
   };
 
   /**
@@ -303,7 +311,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
    * 事件
    */
   private _initEvent = () => {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     // 自动播放

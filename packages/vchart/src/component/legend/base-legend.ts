@@ -204,6 +204,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     }
     const result = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };
     const attrs = this._getLegendAttributes(rect);
+    attrs.disableTriggerEvent = this._option.disableTriggerEvent;
     if (this._legendComponent) {
       if (!isEqual(attrs, this._cacheAttrs)) {
         this._legendComponent.setAttributes(
@@ -225,7 +226,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
       container.add(legend);
 
       // 绑定事件
-      if (!this._option.disableActiveEffect) {
+      if (!this._option.disableTriggerEvent) {
         this._initEvent();
       }
 

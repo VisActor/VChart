@@ -167,7 +167,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   }
 
   protected _initEvent() {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     const trigger = this._spec.trigger ?? 'hover';
