@@ -10,7 +10,7 @@ In social media, behavior monitoring, and other scenarios, it is often necessary
 
 The sequence chart is essentially a combination of specific series and components.
 
-![](https://temp.domain/obj/bit-cloud/dfd203ff5e337abea49411b06.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/dfd203ff5e337abea49411b06.png)
 
 The sequence chart is a chart type used to display time series data, which can show the changes in data over time.
 In a sequence chart, we recommend configuring at least one pair of event link series, while the bar series can be configured with 0 or several as needed:

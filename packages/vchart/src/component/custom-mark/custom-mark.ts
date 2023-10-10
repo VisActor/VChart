@@ -25,11 +25,11 @@ export class CustomMark extends BaseComponent<any> {
   protected declare _spec: (ICustomMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | ICustomMarkGroupSpec)[];
 
   static createComponent(spec: any, options: IComponentOption) {
-    const titleSpec = spec.customMark;
-    if (!titleSpec) {
+    const customMarkSpec = spec.customMark;
+    if (!customMarkSpec) {
       return null;
     }
-    return [new CustomMark(spec.customMark, { ...options, specIndex: 0, specKey: 'customMark' })];
+    return [new CustomMark(customMarkSpec, { ...options, specIndex: 0, specKey: 'customMark' })];
   }
 
   created() {
@@ -53,7 +53,15 @@ export class CustomMark extends BaseComponent<any> {
     namePrefix: string,
     index: number
   ) {
-    const mark = this._createMark({ type: spec.type, name: `${PREFIX}_${index}` }) as IGroupMark;
+    const mark = this._createMark(
+      {
+        type: spec.type,
+        name: `${PREFIX}_${index}`
+      },
+      {
+        attributeContext: this._getMarkAttributeContext()
+      }
+    ) as IGroupMark;
     if (!mark) {
       return;
     }
@@ -110,6 +118,14 @@ export class CustomMark extends BaseComponent<any> {
 
   onRender(ctx: IModelRenderOption): void {
     // do nothing;
+  }
+  private _getMarkAttributeContext() {
+    return {
+      vchart: this._option.globalInstance,
+      globalScale: (key: string, value: string | number) => {
+        return this._option.globalScale.getScale(key)?.scale(value);
+      }
+    };
   }
 }
 

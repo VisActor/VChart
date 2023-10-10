@@ -1,4 +1,5 @@
 # 饼/环图
+[\[配置项\]](../../../option/pieChart)
 
 ## 简介
 
@@ -7,13 +8,13 @@
 环图是在饼图的基础上，增设`innerRadius`、`outerRadius` 属性来调整指定扇区的内外半径，从而形成环图。
 
 下图通过饼图和环图嵌套的方式展示了 2021 年美国人口按年龄分布图
-![](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f2b.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/45df54929d214e7453e228f2b.png)
 
 ## 图表构成
 
 饼图由扇区图元、标签及图例等其他组件构成。
 
-![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523220.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e622523220.png)
 
 扇区图元为饼/环图的基本要素，相关的绘制配置必不可少:
 

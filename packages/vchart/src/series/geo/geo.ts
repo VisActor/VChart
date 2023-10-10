@@ -41,6 +41,11 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     return this._nameProperty;
   }
 
+  protected _centroidProperty?: string;
+  getCentroidProperty() {
+    return this._centroidProperty;
+  }
+
   _coordinateHelper!: IGeoCoordinateHelper;
   getCoordinateHelper() {
     return this._coordinateHelper;
@@ -94,7 +99,7 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     }
 
     const { dataToPosition } = this._coordinateHelper;
-    const center = this._getDatumCenter(mapData);
+    const center = this.getDatumCenter(mapData);
 
     const pos = dataToPosition?.(center);
     if (isNil(pos) || isNaN(pos.x) || isNaN(pos.y)) {
@@ -103,7 +108,7 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     return pos;
   }
 
-  protected abstract _getDatumCenter(datum: any): [number, number];
+  abstract getDatumCenter(datum: any): [number, number];
   protected abstract _getDatumName(datum: any): string;
 
   dataToLatitude(latValue: number) {

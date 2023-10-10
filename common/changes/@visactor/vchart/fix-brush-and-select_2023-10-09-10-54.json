@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(brush): select error when setting brush. fix #1129",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

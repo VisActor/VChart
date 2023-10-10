@@ -54,6 +54,8 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._nameField = this._spec.nameField;
     this._valueField = this._spec.valueField;
     this._spec.nameProperty && (this._nameProperty = this._spec.nameProperty);
+    this._spec.centroidProperty && (this._centroidProperty = this._spec.centroidProperty);
+
     if (!this.map) {
       this._option?.onError(`map type '${this.map}' is not specified !`);
     }
@@ -268,7 +270,11 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     }
   }
 
-  protected _getDatumCenter(datum: any): [number, number] {
+  getDatumCenter(datum: any): [number, number] {
+    if (this._centroidProperty && datum.properties?.[this._centroidProperty]) {
+      return datum.properties?.[this._centroidProperty];
+    }
+
     if (isValidNumber(datum.centroidX * datum.centroidY)) {
       return [datum.centroidX, datum.centroidY];
     }

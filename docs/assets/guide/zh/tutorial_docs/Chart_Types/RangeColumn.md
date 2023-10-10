@@ -1,4 +1,5 @@
 # 区间柱状图
+[\[配置项\]](../../../option/rangeColumnChart)
 
 ## 简介
 

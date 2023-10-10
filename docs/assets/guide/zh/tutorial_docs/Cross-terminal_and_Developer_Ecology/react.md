@@ -92,7 +92,7 @@ export default App;
 在这个示例中，我们创建了一个简单的柱状图，使用了一些基本的组件和配置。
 
 <div style="text-align: center;">
-  <img src="https://temp.domain/obj/bit-cloud/350c0511133d336e622523213.png" alt="柱状图示例">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e622523213.png" alt="柱状图示例">
 </div>
 
 ## 组件选择
