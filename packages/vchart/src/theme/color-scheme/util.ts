@@ -31,7 +31,7 @@ export function getDataScheme(
   const scheme = getColorSchemeBySeries(colorScheme, seriesSpec);
   if (!scheme || isArray(scheme)) {
     // 不带语义色板，直接输出
-    return scheme ?? [];
+    return (scheme as Array<ColorSchemeItem> | ProgressiveDataScheme<ColorSchemeItem>) ?? [];
   } else if (isObject(scheme)) {
     // 带语义色板，转换颜色后输出
     const { dataScheme } = scheme as IColorSchemeStruct;
