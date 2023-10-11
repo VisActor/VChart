@@ -459,7 +459,6 @@ importers:
       '@types/react-color': ~3.0.6
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.5.1-alpha.0
-      '@visactor/vchart-editor': workspace:0.0.2-beta.7
       '@visactor/vutils': ~0.16.1
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
@@ -497,7 +496,6 @@ importers:
       '@types/react': 18.2.27
       '@types/react-color': 3.0.7
       '@types/react-dom': 18.2.12
-      '@visactor/vchart-editor': link:../vchart-editor
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
       eslint: 8.18.0
       husky: 7.0.4
