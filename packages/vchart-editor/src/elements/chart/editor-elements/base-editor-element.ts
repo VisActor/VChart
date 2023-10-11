@@ -8,6 +8,7 @@ import type { IRect } from '../../../typings/space';
 import { LayoutRectToRect } from '../../../utils/space';
 import { merge } from '@visactor/vutils';
 import { transformModelRect } from '../utils/layout';
+import type { IModelSpec } from '../spec-process/interface';
 
 export abstract class BaseEditorElement {
   protected _chart: EditorChart;
@@ -90,6 +91,7 @@ export class CommonChartEditorElement implements IEditorElement {
     resize?: boolean | ([boolean, ...boolean[]] & { length: 8 });
   } & { [key: string]: unknown };
   originSpec?: any;
+  allModelSpec?: IModelSpec[];
 
   protected _updateCall: UpdateAttributeCall;
   protected _finishCall: () => void;
@@ -112,6 +114,7 @@ export class CommonChartEditorElement implements IEditorElement {
     this._updateCall = updateCall;
     this._finishCall = finishCall;
     this.model = model;
+    this._finishCall;
     const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };
     this.layer = this._context.layer;
     this.id = id ?? model.userId;
@@ -128,6 +131,37 @@ export class CommonChartEditorElement implements IEditorElement {
     );
 
     this.originSpec = model.getSpec();
+    //
+    if (model.type === 'region') {
+      this.allModelSpec = [];
+      // series
+      this._context.chart.vchart
+        .getChart()
+        .getAllSeries()
+        .forEach((s: IChartModel) => {
+          this.allModelSpec.push({
+            id: s.userId,
+            specKey: s.specKey,
+            specIndex: s.getSpecIndex(),
+            spec: s.getSpec()
+          });
+        });
+      // component
+      this._context.chart.vchart
+        .getChart()
+        .getAllComponents()
+        .forEach((c: IChartModel) => {
+          if (c.type === 'tooltip') {
+            return;
+          }
+          this.allModelSpec.push({
+            id: c.userId,
+            specKey: c.specKey,
+            specIndex: c.getSpecIndex(),
+            spec: c.getSpec()
+          });
+        });
+    }
   }
 
   updateAttribute = (attr: IUpdateAttributeParam): false | { [key: string]: unknown } => {
