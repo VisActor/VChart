@@ -9,7 +9,7 @@ import type { IZoomTrigger } from '../../component/common/trigger/interface';
 import { isPointInRect } from '../../util';
 import type { ISeries } from '../../series/interface';
 import { Event_Bubble_Level, Event_Source_Type } from '../../constant';
-import type { IDelayType } from '@visactor/vrender-components';
+import type { IDelayType } from '../../typings/event';
 
 const delayMap = {
   debounce: debounce,

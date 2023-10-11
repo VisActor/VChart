@@ -211,7 +211,6 @@ export class SequenceChart extends BaseChart {
             id: `scrollBarRightRow${rowNum}`,
             start: 0,
             end: Math.min(ratio, 1),
-            roam: false,
             filterMode: IFilterMode.axis,
             regionIndex: region.length - 1,
             axisId: `axesLeftRow${rowNum}`,

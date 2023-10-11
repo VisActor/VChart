@@ -1,5 +1,5 @@
-import type { IDelayType } from '@visactor/vrender-components';
 import type { IOrientType } from '../../typings';
+import type { IDelayType } from '../../typings/event';
 import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
 
