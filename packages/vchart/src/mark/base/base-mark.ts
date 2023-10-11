@@ -29,7 +29,7 @@ import { AttributeLevel, GradientType, DEFAULT_GRADIENT_CONFIG } from '../../con
 import { isValidScaleType } from '@visactor/vscale';
 import type { DataView } from '@visactor/vdataset';
 import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme/util';
-import type { ISeries, SeriesTypeEnum } from '../../series/interface';
+import type { ISeries } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
 import { degreeToRadian, isBoolean, isFunction, isNil, isValid, isNumber } from '@visactor/vutils';
