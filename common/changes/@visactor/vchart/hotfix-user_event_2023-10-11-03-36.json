@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix userEvent is added multiple times",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
