@@ -142,7 +142,7 @@ export class Zoomable implements IZoomable {
           this._zoomEventDispatch(params, regionOrSeries, callback);
         }
         this._zoomableTrigger.clearZoom();
-      }, delayTime)
+      }, delayTime) as any
     );
 
     eventObj.on(
@@ -158,7 +158,7 @@ export class Zoomable implements IZoomable {
           scaleCenter: { x: event.zoomX, y: event.zoomY },
           model: this
         } as unknown as ExtendEventParam);
-      }, delayTime)
+      }, delayTime) as any
     );
   }
 
@@ -423,8 +423,8 @@ export class Zoomable implements IZoomable {
         model: this
       } as unknown as BaseEventParams);
       this._zoomableTrigger.pointerId = null;
-      this._eventObj.off(move, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mousemove);
-      this._eventObj.off(end, { level: Event_Bubble_Level.chart, source: Event_Source_Type.window }, mouseup);
+      this._eventObj.off(move, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mousemove as any);
+      this._eventObj.off(end, { level: Event_Bubble_Level.chart, source: Event_Source_Type.window }, mouseup as any);
     }, delayTime);
     const mousemove = delayMap[delayType]((params: BaseEventParams) => {
       if (!this._zoomableTrigger.parserDragEvent(params.event)) {
@@ -448,7 +448,7 @@ export class Zoomable implements IZoomable {
       } as unknown as ExtendEventParam);
     }, delayTime);
 
-    this._eventObj.on(move, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mousemove);
-    this._eventObj.on(end, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mouseup);
+    this._eventObj.on(move, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mousemove as any);
+    this._eventObj.on(end, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mouseup as any);
   }
 }
