@@ -14,3 +14,10 @@ export { ColorEditorBar } from './editor-bar/color-editor-bar';
 export { LineEditorBar } from './editor-bar/line-editor-bar';
 export { TextEditorBar } from './editor-bar/text-editor-bar';
 export { CustomEditorBar } from './editor-bar/custom-editor-bar';
+
+// interface
+export * from './typings/base';
+export * from './typings/config';
+export * from './typings/editor-bar';
+export * from './typings/panel';
+export * from './typings/svg';
