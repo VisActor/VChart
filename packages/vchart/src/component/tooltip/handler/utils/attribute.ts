@@ -289,7 +289,7 @@ export const getTooltipAttributes = (
     attributes.content.forEach(item => {
       const value = item.value as ITooltipTextStyle & TooltipTextAttrs;
       // 最后一列默认自适应宽度
-      if (value.autoWidth ?? true) {
+      if (value && (value.autoWidth ?? true)) {
         value.width =
           containerWidth -
           paddingSpec.left -
