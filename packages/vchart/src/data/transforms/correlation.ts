@@ -1,7 +1,6 @@
 import { isArray } from '@visactor/vutils';
-import { registerCircularRelationTransform } from '@visactor/vgrammar-core';
-import { isNil, isString, isNumber } from '@visactor/vutils';
-import { field as getFieldAccessor, extent, parseViewBox, toPercent } from '@visactor/vgrammar-util';
+import { isNil, isNumber, degreeToRadian } from '@visactor/vutils';
+import { field as getFieldAccessor, extent, toPercent } from '@visactor/vgrammar-util';
 import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant';
 
 export interface ICorrelationOpt {
@@ -40,10 +39,8 @@ export const correlation = (data: any, options: any) => {
     return data;
   }
 
-  // registerCircularRelationTransform();
-
-  const startAngle = options.startAngle ?? 0;
-  const endAngle = options.endAngle ?? Math.PI * 2;
+  const startAngle = degreeToRadian(options.startAngle ?? -90);
+  const endAngle = degreeToRadian(options.endAngle ?? 270);
   const maxRadius = Math.max((viewBox.x1 - viewBox.x0) / 2, (viewBox.y1 - viewBox.y0) / 2);
   const innerRadius = toPercent(options.innerRadius ?? 0, maxRadius);
   const outerRadius = toPercent(options.outerRadius, maxRadius);

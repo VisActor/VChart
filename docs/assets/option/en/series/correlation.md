@@ -16,47 +16,47 @@
 
 #${prefix} categoryField(string)
 
-节点名称字段配置。
+Node name field configuration.
 
 #${prefix} valueField(string)
 
-相关性数据字段配置。
+Correlation data field configuration.
 
 #${prefix} sizeField(string)
 
-节点尺寸数据字段配置。
+Node size data field configuration.
 
 #${prefix} sizeRange(Array)
 
-节点尺寸映射范围。
+Node size mapping range.
 
 #${prefix} centerX(number)
 
-图表中心点位置 X 坐标。
+The X coordinate of the center point of the chart.
 
 #${prefix} centerY(number)
 
-图表中心点位置 Y 坐标。
+The Y coordinate of the center point of the chart.
 
 #${prefix} innerRadius(string | number)
 
-节点分布内半径。支持像素值和百分比两种格式。
+The inner radius of node distribution. Supports both pixel value and percentage formats.
 
 #${prefix} outerRadius(string | number)
 
-节点分布外半径。支持像素值和百分比两种格式。
+Node distribution outer radius. Supports both pixel value and percentage formats.
 
 #${prefix} startAngle(number) = -90
 
-图表起始角度。使用角度制。
+Chart starting angle. Use the angle system.
 
 #${prefix} endAngle(number) = 270
 
-图表终止角度。使用角度制。
+Chart end angle. Use the angle system.
 
 #${prefix} centerPoint(Object)
 
-中心点图元属性配置。
+Center point element attribute configuration.
 
 {{ use: common-mark(
   prefix = '#' + ${prefix}
@@ -78,7 +78,7 @@
 
 #${prefix} ripplePoint(Object)
 
-水波纹图元属性配置。
+Water ripple primitive attribute configuration.
 
 {{ use: common-mark(
   prefix = '#' + ${prefix}
@@ -100,11 +100,11 @@
 
 #${prefix} centerLabel(Object)
 
-中心点 label 属性配置。
+Center point label attribute configuration.
 
 ##${prefix} position(string) = 'center'
 
-标签位置，可选值为：
+Label position, optional values ​​are:
 
 - `'top'`
 - `'bottom'`
@@ -126,7 +126,7 @@
 
 #${prefix} nodePoint(Object)
 
-节点图元属性配置。
+Node primitive attribute configuration.
 
 {{ use: common-mark(
   prefix = '#' + ${prefix}
@@ -148,11 +148,11 @@
 
 #${prefix} label(Object)
 
-标签配置。
+Label configuration.
 
 ##${prefix} position(string) = 'bottom'
 
-标签位置，可选值为：
+Label position, optional values ​​are:
 
 - `'top'`
 - `'bottom'`

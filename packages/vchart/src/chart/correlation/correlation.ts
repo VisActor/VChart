@@ -37,10 +37,8 @@ export class CorrelationChart extends BaseChart {
       label: spec.label
     };
     const seriesType = SeriesTypeEnum.correlation;
-    if (seriesType) {
-      series.type = seriesType;
-      series[seriesType] = spec[seriesType];
-    }
+    series.type = seriesType;
+    series[seriesType] = spec[seriesType];
 
     return series;
   }

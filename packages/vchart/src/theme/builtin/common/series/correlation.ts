@@ -1,9 +1,19 @@
 import type { ICorrelationSeriesTheme } from '../../../../series/correlation/interface';
 
 export const correlation: ICorrelationSeriesTheme = {
-  centerPoint: {
+  centerLabel: {
+    visible: true,
+    position: 'center',
     style: {
-      text: '关键词'
+      fill: '#fff',
+      text: ''
+    }
+  },
+  label: {
+    visible: true,
+    position: 'bottom',
+    style: {
+      fill: '#000'
     }
   }
 };

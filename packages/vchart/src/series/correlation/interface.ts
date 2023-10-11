@@ -10,6 +10,7 @@ export interface ICorrelationSeriesSpec
   extends Omit<IPolarSeriesSpec, 'innerRadius' | 'outerRadius'>,
     IAnimationSpec<CorrelationMarks, CorrelationAppearPreset> {
   /**
+   * @SInCE 1.5.1
    * 系列类型
    */
   type: 'correlation';
@@ -48,14 +49,26 @@ export interface ICorrelationSeriesSpec
    * 图元配置
    */
   /** 中心点图元属性 **/
-  centerPoint?: IMarkSpec<ISymbolMarkSpec>;
+  [SeriesMarkNameEnum.centerPoint]?: IMarkSpec<ISymbolMarkSpec>;
   /** 水波纹图元属性 **/
-  ripplePoint?: IMarkSpec<IRippleMarkSpec>;
+  [SeriesMarkNameEnum.ripplePoint]?: IMarkSpec<IRippleMarkSpec>;
   /** 中心点label属性 **/
-  centerLabel?: IMarkSpec<ITextMarkSpec>;
+  [SeriesMarkNameEnum.centerLabel]?: ILabelSpec & {
+    /** 标签位置 */
+    position?:
+      | 'top'
+      | 'bottom'
+      | 'left'
+      | 'right'
+      | 'top-right'
+      | 'top-left'
+      | 'bottom-right'
+      | 'bottom-left'
+      | 'center';
+  };
+
   /** 节点图元属性 **/
   [SeriesMarkNameEnum.nodePoint]?: IMarkSpec<ISymbolMarkSpec>;
-
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: ILabelSpec & {
     /** 标签位置 */
@@ -76,5 +89,6 @@ export interface ICorrelationSeriesTheme {
   [SeriesMarkNameEnum.nodePoint]?: IMarkTheme<ISymbolMarkSpec>;
   [SeriesMarkNameEnum.ripplePoint]?: IMarkTheme<IRippleMarkSpec>;
   [SeriesMarkNameEnum.centerPoint]?: IMarkTheme<ISymbolMarkSpec>;
-  [SeriesMarkNameEnum.centerLabel]?: IMarkTheme<ITextMarkSpec>;
+  [SeriesMarkNameEnum.centerLabel]?: ILabelSpec;
+  [SeriesMarkNameEnum.label]?: ILabelSpec;
 }

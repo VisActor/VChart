@@ -4,18 +4,15 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { correlationSeriesMark } from './constant';
 import type { ISymbolMark } from '../../mark/symbol';
-import type { ITextMark } from '../../mark/text';
 import { registerDataSetInstanceTransform, registerDataSetInstanceParser } from '../../data/register';
 import { correlation } from '../../data/transforms/correlation';
 import { correlationCenter } from '../../data/transforms/correlation-center';
 import type { ICorrelationOpt } from '../../data/transforms/correlation';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds, isValid } from '@visactor/vutils';
-import { VChart } from '../../core/vchart';
 import { SymbolMark } from '../../mark/symbol';
-import { TextMark } from '../../mark/text';
 import { SeriesData } from '../base/series-data';
-import type { Maybe, Datum, ISymbolMarkSpec, IRippleMarkSpec, ITextMarkSpec } from '../../typings';
+import type { Maybe, Datum, ISymbolMarkSpec, IRippleMarkSpec } from '../../typings';
 import { ICorrelationSeriesTheme } from './interface';
 import { AttributeLevel, DEFAULT_DATA_INDEX, LayoutZIndex } from '../../constant';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
@@ -42,7 +39,6 @@ export class CorrelationSeries extends PolarSeries<any> {
   private _nodePointMark: ISymbolMark;
   private _ripplePointMark: IRippleMark;
   private _centerPointMark: ISymbolMark;
-  private _centerLabelMark: ITextMark;
 
   private _viewBox: IBounds = new Bounds();
 
@@ -126,7 +122,7 @@ export class CorrelationSeries extends PolarSeries<any> {
     centerDataView.transform({
       type: 'correlationCenter',
       options: {
-        keyword: this._spec?.centerLabel?.style?.text ?? '关键词',
+        keyword: this._spec?.centerLabel?.style?.text ?? '',
         categoryField: this._spec.categoryField
       }
     });
@@ -181,6 +177,7 @@ export class CorrelationSeries extends PolarSeries<any> {
     }
 
     const centerPointMark = this._createMark(CorrelationSeries.mark.centerPoint, {
+      label: mergeSpec({ animation: this._spec.animation }, this._spec.centerLabel),
       key: DEFAULT_DATA_INDEX,
       dataView: this._centerSeriesData.getDataView(),
       dataProductId: this._centerSeriesData.getProductId()
@@ -189,23 +186,12 @@ export class CorrelationSeries extends PolarSeries<any> {
       centerPointMark.setZIndex(LayoutZIndex.Node);
       this._centerPointMark = centerPointMark;
     }
-
-    const centerLabelMark = this._createMark(CorrelationSeries.mark.centerLabel, {
-      key: DEFAULT_DATA_INDEX,
-      dataView: this._centerSeriesData.getDataView(),
-      dataProductId: this._centerSeriesData.getProductId()
-    }) as ITextMark;
-    if (centerLabelMark) {
-      centerLabelMark.setZIndex(LayoutZIndex.Label);
-      this._centerLabelMark = centerLabelMark;
-    }
   }
 
   initMarkStyle(): void {
     this._initNodePointMarkStyle();
     this._initRipplePointMarkStyle();
     this._initCenterPointMarkStyle();
-    this._initCenterLabelMarkStyle();
   }
 
   protected _initNodePointMarkStyle() {
@@ -286,35 +272,6 @@ export class CorrelationSeries extends PolarSeries<any> {
     );
 
     this._trigger.registerMark(centerPointMark);
-
-    this._tooltipHelper?.activeTriggerSet.mark.add(centerPointMark);
-  }
-
-  protected _initCenterLabelMarkStyle() {
-    const centerLabelMark = this._centerLabelMark;
-    if (!centerLabelMark) {
-      return;
-    }
-
-    this.setMarkStyle<ITextMarkSpec>(
-      centerLabelMark,
-      {
-        x: () => {
-          return this._spec?.centerX ?? (this._viewBox.x1 + this._viewBox.x2) / 2;
-        },
-        y: () => {
-          return this._spec?.centerY ?? (this._viewBox.y1 + this._viewBox.y2) / 2;
-        },
-
-        fill: this._spec?.centerLabel?.style?.fill ?? '#fff',
-        fontSize: this._spec?.centerLabel?.style?.fontSize ?? 20,
-        textAlign: this._spec?.centerLabel?.style?.textAlign ?? 'center',
-        textBaseline: this._spec?.centerLabel?.style?.textBaseline ?? 'middle',
-        text: this._spec?.centerLabel?.style?.text ?? '关键词'
-      },
-      STATE_VALUE_ENUM.STATE_NORMAL,
-      AttributeLevel.Series
-    );
   }
 
   initLabelMarkStyle(labelMark?: ILabelMark): void {
@@ -324,7 +281,7 @@ export class CorrelationSeries extends PolarSeries<any> {
     this.setMarkStyle(
       labelMark,
       {
-        fill: this._spec?.label?.style?.fill ?? this.getColorAttribute(),
+        fill: this.getColorAttribute(),
         text: (datum: Datum) => {
           return datum[this._categoryField];
         },
@@ -381,7 +338,6 @@ export class CorrelationSeries extends PolarSeries<any> {
 
 export const registerCorrelationSeries = () => {
   Factory.registerMark(SymbolMark.type, SymbolMark);
-  Factory.registerMark(TextMark.type, TextMark);
   Factory.registerMark(RippleMark.type, RippleMark);
   Factory.registerSeries(CorrelationSeries.type, CorrelationSeries);
   registerCorrelationAnimation();

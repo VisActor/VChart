@@ -75,8 +75,9 @@ const spec = {
   sizeField: 'pv',
   sizeRange: [12, 30],
 
-  innerRadius: '20%',
+  innerRadius: '25%',
   outerRadius: '95%',
+
   nodePoint: {
     state: {
       hover: {
@@ -96,13 +97,17 @@ const spec = {
   },
 
   centerLabel: {
+    visible: true,
+    position: 'center',
     style: {
+      fill: 'white',
       text: '输入法'
     }
   },
 
   label: {
     visible: true,
+    position: 'bottom',
     style: {
       fill: 'black'
     }
