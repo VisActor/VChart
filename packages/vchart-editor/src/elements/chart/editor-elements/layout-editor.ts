@@ -1,6 +1,7 @@
+import type { IChartModel } from './../interface';
 import { createRect, type IGraphic } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../core/interface';
-import { BaseEditorElement } from './base-editor-element';
+import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
 import { getAxisLayoutInRegionRect, transformModelRect } from '../utils/layout';
 import { LayoutRectToRect } from '../../../utils/space';
 import type { ILayoutAttribute } from '../../../typings/space';
@@ -24,7 +25,7 @@ export class LayoutEditorElement extends BaseEditorElement {
 
   private _downEvent = e => {
     if (!this._checkEventEnable(e)) {
-      this._releaseLast();
+      this.releaseLast();
       return;
     }
     const el = this._getEditorElement(e);
@@ -40,7 +41,6 @@ export class LayoutEditorElement extends BaseEditorElement {
     if (e.mark.type === 'rect' && e.mark.name === 'regionBackground') {
       return true;
     }
-
     return false;
   }
 
@@ -112,28 +112,22 @@ export class LayoutEditorElement extends BaseEditorElement {
     const items = regions.concat(chart.vchart.getChart().getAllComponents() as any[]);
     const model = items.find((item: any) => item.userId === layoutMeta.id);
 
-    if (model.type.includes('Axis')) {
+    if (model.type.includes('tooltip')) {
       return null;
     }
-    const element: IEditorElement = {
-      type: 'chart',
-      layer: this._layer,
-      id: layoutMeta.id,
-      rect: transformModelRect(model, LayoutRectToRect(layoutMeta.layout)),
-      part: model.type,
+
+    const editProperties = {
+      move: true,
+      rotate: false,
+      resize: true
+    };
+    if (model.type.includes('Axis')) {
+      editProperties.move = false;
+      editProperties.resize = false;
+    }
+    const element = new CommonChartEditorElement(this, {
       model,
-      editProperties: {
-        move: true,
-        rotate: false,
-        resize: true
-      },
-      originSpec: model.getSpec(),
-      editorFinish: () => {
-        if (this._currentEl === element) {
-          this._releaseLast();
-        }
-      },
-      updateAttribute: attr => {
+      updateCall: attr => {
         if (attr.layout) {
           const layoutData = attr.layout as Partial<ILayoutAttribute>;
           const rect = { ...model.computeBoundsInRect(layoutData) };
@@ -144,6 +138,8 @@ export class LayoutEditorElement extends BaseEditorElement {
           }
           chart.layout.setModelLayoutData({
             id: layoutMeta.id,
+            specKey: layoutMeta.specKey,
+            specIndex: layoutMeta.specIndex,
             layout: {
               x: { offset: layoutData.x as number },
               y: { offset: layoutData.y as number },
@@ -153,12 +149,14 @@ export class LayoutEditorElement extends BaseEditorElement {
           });
           if (model.type === 'region' && model.coordinate === 'cartesian') {
             const axes = items.filter(
-              (_i: ILayoutItem) =>
+              (_i: IChartModel) =>
                 _i.layoutBindRegionID && _i.layoutBindRegionID[0] === model.id && _i.type.includes('Axis')
             );
-            axes.forEach((_a: ILayoutItem) => {
+            axes.forEach((_a: IChartModel) => {
               chart.layout.setModelLayoutData({
                 id: _a.userId,
+                specKey: _a.specKey,
+                specIndex: _a.getSpecIndex(),
                 layout: getAxisLayoutInRegionRect(_a, { ..._a.getLayoutRect(), ...layoutData })
               });
             });
@@ -173,15 +171,15 @@ export class LayoutEditorElement extends BaseEditorElement {
           }
           chart.vchart.getChart().setLayoutTag(true);
         }
-        this.updateCommonAttribute(element, attr);
         return false;
-      }
-    };
+      },
+      editProperties: editProperties
+    });
     return element;
   }
 
-  protected _releaseLast() {
-    super._releaseLast();
+  releaseLast() {
+    super.releaseLast();
     this._layoutComponent?.release();
     this._layoutComponent = null;
   }

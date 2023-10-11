@@ -1,3 +1,4 @@
+import type { IChartModel } from './../interface';
 import { merge, isArray, isObject } from '@visactor/vutils';
 import type { IEditorElement, IUpdateAttributeParam } from './../../../core/interface';
 import { EditorFactory } from './../../../core/factory';
@@ -7,6 +8,7 @@ import type { IChartTemp } from '../template/interface';
 import type { IEditorSpec, IModelSpec, ISpecProcess } from './interface';
 // @ts-ignore
 import type { ISpec, ITheme } from '@visactor/vchart';
+import { isModelInfoMatchSpec, isModelMatchModelInfo } from '../../../utils/spec';
 
 const DefaultEditorSpec: IEditorSpec = {
   theme: null,
@@ -131,45 +133,28 @@ export class SpecProcess implements ISpecProcess {
     }
     if (isArray(chartSpec)) {
       return chartSpec.find((_s, index) => {
-        if (s.id) {
-          if (_s.id === s.id) {
-            return true;
-          }
-          return false;
-        } else if (s.index === index) {
-          return true;
-        }
-        return false;
+        return isModelInfoMatchSpec(s, _s, s.specKey, index);
       });
     } else if (isObject(chartSpec)) {
-      if (s.id) {
-        if (chartSpec.id === s.id) {
-          return chartSpec;
-        }
-        return null;
-      } else if (s.index === 0) {
-        return chartSpec;
-      }
+      return isModelInfoMatchSpec(s, chartSpec as { id: string | number }, s.specKey, 0) ? chartSpec : null;
     }
     return null;
   }
 
-  private getModelSpecEditorSpec(model: { userId: string; _specIndex: number; specKey: string }): IModelSpec {
+  private getModelSpecEditorSpec(model: IChartModel): IModelSpec {
     if (!this._editorSpec.modelSpec) {
       return null;
     }
-    return this._editorSpec.modelSpec.find(
-      s => (s.id && s.id === model.userId) || (s.specKey === model.specKey && s.index === model._specIndex)
-    );
+    return this._editorSpec.modelSpec.find(s => isModelMatchModelInfo(model, s));
   }
 
-  private mergeModelEditorSpec(model: { userId: string; _specIndex: number; specKey: string }, spec: any) {
+  private mergeModelEditorSpec(model: IChartModel, spec: any) {
     let s = this.getModelSpecEditorSpec(model);
     if (!s) {
       s = {
-        specKey: model.specKey,
         id: model.userId,
-        index: model._specIndex,
+        specKey: model.specKey,
+        specIndex: model.getSpecIndex(),
         spec: merge({}, spec)
       };
       this._editorSpec.modelSpec = this._editorSpec.modelSpec || [];
@@ -178,7 +163,7 @@ export class SpecProcess implements ISpecProcess {
     s.spec = merge(s.spec, spec);
   }
 
-  updateElementAttribute(el: IEditorElement, attr: IUpdateAttributeParam) {
+  updateElementAttribute(model: IChartModel, attr: IUpdateAttributeParam) {
     let hasChange = false;
     if (attr.color) {
       hasChange = true;
@@ -186,7 +171,7 @@ export class SpecProcess implements ISpecProcess {
     }
     if (attr.spec) {
       hasChange = true;
-      this.mergeModelEditorSpec(el.model, attr.spec);
+      this.mergeModelEditorSpec(model, attr.spec);
     }
     this._mergeEditorSpec();
     return hasChange;
