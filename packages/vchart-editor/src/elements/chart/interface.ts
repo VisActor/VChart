@@ -21,12 +21,19 @@ export interface ILayoutRectLevel {
   width: number;
   height: number;
 }
+
+export interface IChartModel extends ILayoutItem {
+  userId: string | number;
+  type: string;
+  specKey: string;
+  getSpecIndex: () => number;
+  getSpec: () => any;
+}
+
 /**
  * 因为这些元素都会继承到各个模块，所以这里统一有前缀避免语意冲突
  */
 export interface ILayoutItem {
-  userId: string | number;
-  type: string;
   /**
    * 标记这个布局Item的方向（left->right, right->left, top->bottom, bottom->top）
    */

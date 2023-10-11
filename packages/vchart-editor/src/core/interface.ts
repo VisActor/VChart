@@ -1,4 +1,3 @@
-import type { ILayoutData } from './../elements/chart/layout/interface';
 import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
 import type { ILayoutAttribute, IRect } from '../typings/space';
@@ -8,6 +7,14 @@ export interface ILayerData {
   type: 'chart' | string;
   elements: IElementData[];
 }
+
+export type IModelInfoSpecKey = {
+  specKey: string;
+  specIndex: number;
+};
+export type IModelInfo = IModelInfoSpecKey & {
+  id?: string | number; // id in spec, model.userId
+};
 
 export type EditorMode = 'view' | 'editor';
 

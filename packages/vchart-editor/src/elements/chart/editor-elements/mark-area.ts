@@ -1,3 +1,4 @@
+import { CommonChartEditorElement } from './base-editor-element';
 /**
  * @description 区域标注交互
  * TODO: 保存位置 & 更新 spec
@@ -82,27 +83,10 @@ export class MarkAreaEditor extends BaseEditorElement {
 
   protected _getEditorElement(eventParams: EventParams): IEditorElement {
     const model = eventParams.model;
-    const element: IEditorElement = {
-      type: 'chart',
-      layer: this._layer,
-      id: this._chart.vchart.id + '-markArea-' + model.id,
-      // rect: transformModelRect(model, LayoutRectToRect(layoutMeta.layout)),
-      part: model.type,
-      editProperties: {
-        // move: true,
-        // rotate: false,
-        // resize: true
-      },
-      editorFinish: () => {
-        if (this._currentEl === element) {
-          this._releaseLast();
-        }
-      },
-      updateAttribute: attr => {
-        return false;
-      },
-      model
-    };
+    const element: IEditorElement = new CommonChartEditorElement(this, {
+      model,
+      id: this._chart.vchart.id + '-markArea-' + model.id
+    });
     return element;
   }
 
@@ -262,8 +246,8 @@ export class MarkAreaEditor extends BaseEditorElement {
     return this._editComponent;
   }
 
-  protected _releaseLast() {
-    super._releaseLast();
+  releaseLast() {
+    super.releaseLast();
 
     if (this._editComponent) {
       this._layer.editorGroup.removeChild(this._editComponent as unknown as IGraphic);

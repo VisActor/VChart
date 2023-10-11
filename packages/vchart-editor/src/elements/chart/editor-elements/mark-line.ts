@@ -2,14 +2,16 @@
  * @description 均值线
  * TODO: 保存位置 & 更新 spec
  */
-import { createRect, IGroup, type IGraphic, createGroup, vglobal, INode } from '@visactor/vrender-core';
+import type { IGroup, INode } from '@visactor/vrender-core';
+import { createRect, type IGraphic, createGroup, vglobal } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../core/interface';
-import { BaseEditorElement } from './base-editor-element';
-import { IBoundsLike, merge } from '@visactor/vutils';
-import { MarkLine as MarkLineComponent, Segment } from '@visactor/vrender-components';
-import { EventParams, MarkLine } from '@visactor/vchart';
-import { IComponent } from '@visactor/vchart/esm/component/interface';
-import { Point } from '@visactor/vrender-components/es/core/type';
+import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
+import { merge } from '@visactor/vutils';
+import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
+import { Segment } from '@visactor/vrender-components';
+import type { EventParams, MarkLine } from '@visactor/vchart';
+import type { IComponent } from '@visactor/vchart/esm/component/interface';
+import type { Point } from '@visactor/vrender-components/es/core/type';
 
 export class MarkLineEditor extends BaseEditorElement {
   private _model: MarkLine;
@@ -140,27 +142,10 @@ export class MarkLineEditor extends BaseEditorElement {
 
   protected _getEditorElement(eventParams: EventParams): IEditorElement {
     const model = eventParams.model;
-    const element: IEditorElement = {
-      type: 'chart',
-      layer: this._layer,
-      id: this._chart.vchart.id + '-markLine-' + model.id + (this._selected ? '-selected' : ''),
-      // rect: transformModelRect(model, LayoutRectToRect(layoutMeta.layout)),
-      part: model.type,
-      editProperties: {
-        // move: true,
-        // rotate: false,
-        // resize: true
-      },
-      editorFinish: () => {
-        if (this._currentEl === element) {
-          this._releaseLast();
-        }
-      },
-      updateAttribute: attr => {
-        return false;
-      },
-      model
-    };
+    const element: IEditorElement = new CommonChartEditorElement(this, {
+      model,
+      id: this._chart.vchart.id + '-markLine-' + model.id + (this._selected ? '-selected' : '')
+    });
     return element;
   }
 
@@ -224,8 +209,8 @@ export class MarkLineEditor extends BaseEditorElement {
     return this._editComponent as unknown as IGraphic;
   }
 
-  protected _releaseLast() {
-    super._releaseLast();
+  releaseLast() {
+    super.releaseLast();
     if (this._editComponent) {
       this._layer.editorGroup.removeChild(this._editComponent as unknown as IGraphic);
       this._editComponent = null;
