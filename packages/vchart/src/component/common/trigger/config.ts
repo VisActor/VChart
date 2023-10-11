@@ -10,7 +10,7 @@ export const defaultTriggerEvent = {
     zoom: 'wheel',
     zoomEnd: 'pointerup',
     scroll: 'wheel',
-    // scrollEnd: 'pointerup',
+    scrollEnd: 'pointerup',
     trigger: DeskTopTrigger
   },
   [RenderModeEnum['desktop-miniApp']]: {
@@ -20,7 +20,7 @@ export const defaultTriggerEvent = {
     zoom: 'wheel',
     zoomEnd: 'pointerup',
     scroll: 'wheel',
-    // scrollEnd: 'pointerup',
+    scrollEnd: 'pointerup',
     trigger: DeskTopTrigger
   },
   [RenderModeEnum['mobile-browser']]: {

@@ -138,6 +138,12 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
    * @since 1.5.0
    */
   roamScroll?: IRoamScrollSpec | boolean;
+  /**
+   * 是否在操作时动态更新视图
+   * @since 1.5.0
+   * @default true
+   */
+  realTime?: boolean;
 }
 
 export interface IRoamDragSpec extends IRoamSpec {

@@ -743,32 +743,27 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _initCommonEvent() {
     const delayType = this._spec?.delayType ?? 'throttle';
     const delayTime = this._spec?.delayTime ?? 0;
+    const realTime = this._spec?.realTime ?? false;
     if (this._zoomAttr.enable) {
-      (this as unknown as IZoomable).initZoomEventOfRegions(
-        this._regions,
-        null,
-        this._handleChartZoom,
+      (this as unknown as IZoomable).initZoomEventOfRegions(this._regions, null, this._handleChartZoom, {
         delayType,
-        delayTime
-      );
+        delayTime,
+        realTime
+      });
     }
     if (this._scrollAttr.enable) {
-      (this as unknown as IZoomable).initScrollEventOfRegions(
-        this._regions,
-        null,
-        this._handleChartScroll,
+      (this as unknown as IZoomable).initScrollEventOfRegions(this._regions, null, this._handleChartScroll, {
         delayType,
-        delayTime
-      );
+        delayTime,
+        realTime
+      });
     }
     if (this._dragAttr.enable) {
-      (this as unknown as IZoomable).initDragEventOfRegions(
-        this._regions,
-        null,
-        this._handleChartDrag,
+      (this as unknown as IZoomable).initDragEventOfRegions(this._regions, null, this._handleChartDrag, {
         delayType,
-        delayTime
-      );
+        delayTime,
+        realTime
+      });
     }
   }
 
