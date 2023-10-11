@@ -36,6 +36,7 @@ export class BrowserData implements IEditorData {
   async load() {
     const saveValue = localStorage.getItem(this._dataKey);
     this._data = saveValue ? JSON.parse(saveValue) : [];
+    console.log('debug', this._data);
     return this._data;
   }
 }

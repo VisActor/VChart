@@ -4,6 +4,7 @@ import type { ICustomPanelProps, IPanelSection } from '../typings/panel';
 import type {
   ComponentConfig,
   IColorComponentConfig,
+  ICustomBaseComponentConfig,
   IFontFamilyComponentConfig,
   IFontSizeComponentConfig,
   IFontStyleComponentConfig,
@@ -52,6 +53,7 @@ function generateEntry(
   componentKey: string,
   postKey?: string | number
 ) {
+  const CustomComponent = (entry as ICustomBaseComponentConfig).component;
   switch (componentKey) {
     case 'input':
       return (
@@ -180,6 +182,20 @@ function generateEntry(
             onChange?.(section, entry.key, value);
           }}
           config={entry as ITextAlignComponentConfig}
+        />
+      );
+    case 'custom':
+      return (
+        <CustomComponent
+          key={`${entry.key}-${postKey ?? 0}`}
+          label={entry.label}
+          value={panelValue[section][entry.key]}
+          onChange={value => {
+            const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
+            setPanelValue(newPanelValue);
+            onChange?.(section, entry.key, value);
+          }}
+          config={entry as ICustomBaseComponentConfig}
         />
       );
   }
