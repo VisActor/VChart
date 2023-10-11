@@ -119,6 +119,10 @@ export class VChartEditor {
     if (!this._option.data) {
       return;
     }
+    // remove last
+    this._layers.forEach(l => l.release());
+    this._layers = [];
+
     const layerData = await this._option.data.load();
     if (!layerData) {
       return;

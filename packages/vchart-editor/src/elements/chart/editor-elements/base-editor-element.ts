@@ -130,7 +130,7 @@ export class CommonChartEditorElement implements IEditorElement {
     this.originSpec = model.getSpec();
   }
 
-  updateAttribute(attr: IUpdateAttributeParam): false | { [key: string]: unknown } {
+  updateAttribute = (attr: IUpdateAttributeParam): false | { [key: string]: unknown } => {
     console.log(this);
     const result = this._updateCall?.(attr) ?? false;
     const reRender = this._context.chart.specProcess.updateElementAttribute(this.model, attr);
@@ -139,11 +139,11 @@ export class CommonChartEditorElement implements IEditorElement {
       this._context.releaseLast();
     }
     return result;
-  }
+  };
 
-  editorFinish() {
+  editorFinish = () => {
     if (this._context.currentEditorElement === this) {
       this._context.releaseLast();
     }
-  }
+  };
 }
