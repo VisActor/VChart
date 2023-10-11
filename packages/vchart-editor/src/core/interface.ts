@@ -2,6 +2,7 @@ import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
 import type { ILayoutAttribute, IRect } from '../typings/space';
 import type { IModel } from '@visactor/vchart/esm/model/interface';
+import type { IModelSpec } from '../elements/chart/spec-process/interface';
 export interface ILayerData {
   id: string | number;
   type: 'chart' | string;
@@ -52,6 +53,8 @@ export interface IUpdateAttributeParam {
   spec?: {};
   // 色板
   color?: string[];
+  // 当打开图表完整配置时，图表某几个模块spec更新
+  modelSpec?: IModelSpec[];
 
   // 添加line标注
   markLine?: {};
@@ -80,6 +83,7 @@ export interface IEditorElement {
     //
   } & { [key: string]: unknown };
   originSpec?: any;
+  allModel?: IModelSpec[];
   updateAttribute: (attr: IUpdateAttributeParam) => false | { [key: string]: unknown };
   editorFinish: () => void;
 }

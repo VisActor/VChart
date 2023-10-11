@@ -1,6 +1,6 @@
 import type { IChartModel } from './../interface';
 import { merge, isArray, isObject } from '@visactor/vutils';
-import type { IEditorElement, IUpdateAttributeParam } from './../../../core/interface';
+import type { IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
 import { EditorFactory } from './../../../core/factory';
 import type { IData, StandardData } from '../data/interface';
 import type { ILayoutData } from '../layout/interface';
@@ -8,7 +8,7 @@ import type { IChartTemp } from '../template/interface';
 import type { IEditorSpec, IModelSpec, ISpecProcess } from './interface';
 // @ts-ignore
 import type { ISpec, ITheme } from '@visactor/vchart';
-import { isModelInfoMatchSpec, isModelMatchModelInfo } from '../../../utils/spec';
+import { isModelInfoMatchSpec, isSameModelInfo } from '../../../utils/spec';
 
 const DefaultEditorSpec: IEditorSpec = {
   theme: null,
@@ -141,20 +141,20 @@ export class SpecProcess implements ISpecProcess {
     return null;
   }
 
-  private getModelSpecEditorSpec(model: IChartModel): IModelSpec {
+  private getModelSpecEditorSpec(model: IModelInfo): IModelSpec {
     if (!this._editorSpec.modelSpec) {
       return null;
     }
-    return this._editorSpec.modelSpec.find(s => isModelMatchModelInfo(model, s));
+    return this._editorSpec.modelSpec.find(s => isSameModelInfo(model, s));
   }
 
-  private mergeModelEditorSpec(model: IChartModel, spec: any) {
+  private mergeModelEditorSpec(model: IModelInfo, spec: any) {
     let s = this.getModelSpecEditorSpec(model);
     if (!s) {
       s = {
-        id: model.userId,
+        id: model.id,
         specKey: model.specKey,
-        specIndex: model.getSpecIndex(),
+        specIndex: model.specIndex,
         spec: merge({}, spec)
       };
       this._editorSpec.modelSpec = this._editorSpec.modelSpec || [];
@@ -171,7 +171,15 @@ export class SpecProcess implements ISpecProcess {
     }
     if (attr.spec) {
       hasChange = true;
-      this.mergeModelEditorSpec(model, attr.spec);
+      this.mergeModelEditorSpec(
+        { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() },
+        attr.spec
+      );
+    }
+    if (attr.modelSpec) {
+      attr.modelSpec.forEach(mSpec => {
+        this.mergeModelEditorSpec(mSpec, mSpec.spec);
+      });
     }
     this._mergeEditorSpec();
     return hasChange;
