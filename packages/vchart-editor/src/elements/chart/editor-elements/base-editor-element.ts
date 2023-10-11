@@ -78,7 +78,7 @@ export abstract class BaseEditorElement {
 export type UpdateAttributeCall = (attr: IUpdateAttributeParam) => false | { [key: string]: unknown };
 
 export class CommonChartEditorElement implements IEditorElement {
-  type: 'chart';
+  type: 'chart' = 'chart';
   layer: IEditorLayer;
   id: string | number;
   rect?: IRect;
