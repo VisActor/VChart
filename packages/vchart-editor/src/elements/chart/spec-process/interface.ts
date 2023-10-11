@@ -1,14 +1,12 @@
-import type { IEditorElement } from './../../../core/interface';
+import type { IModelInfo } from './../../../core/interface';
 import type { ILayoutData } from '../layout/interface';
 import type { ISpec, ITheme } from '@visactor/vchart';
 import type { IUpdateAttributeParam } from '../../../core/interface';
+import type { IChartModel } from '../interface';
 
-export interface IModelSpec {
-  specKey: string;
-  id: string;
-  index: number;
+export type IModelSpec = IModelInfo & {
   spec: any;
-}
+};
 
 export interface IEditorSpec {
   theme: ITheme;
@@ -21,7 +19,7 @@ export interface IEditorSpec {
 export interface ISpecProcess {
   getEditorSpec: () => {};
   updateEditorSpec: (spec: IEditorSpec) => void;
-  updateElementAttribute: (el: IEditorElement, attr: IUpdateAttributeParam) => boolean;
+  updateElementAttribute: (model: IChartModel, attr: IUpdateAttributeParam) => boolean;
   // for each mode
   updateTheme: (theme: ITheme) => void;
   updateTemp: (temp: string) => void;
