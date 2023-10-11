@@ -284,6 +284,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         maxSpan: this._maxSpan,
         delayType: this._spec?.delayType ?? 'throttle',
         delayTime: this._spec?.delayTime ?? 0,
+        realTime: this._spec?.realTime ?? true,
         previewData: isNeedPreview && this._data.getLatestData(),
         previewPointsX: isNeedPreview && this._dataToPositionX,
         previewPointsY: isNeedPreview && this._dataToPositionY,

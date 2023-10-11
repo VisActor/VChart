@@ -102,6 +102,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         direction: this._isHorizontal ? 'horizontal' : 'vertical',
         delayType: this._spec?.delayType ?? 'throttle',
         delayTime: this._spec?.delayTime ?? 0,
+        realTime: this._spec?.realTime ?? true,
         ...this._getComponentAttrs()
       });
 

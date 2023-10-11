@@ -4468,7 +4468,7 @@ const run = () => {
         end: 0.4,
         realTime: false,
         visible: true,
-        delayTime: 500,
+        // delayTime: 500,
         roamDrag: {
           rate: 0.01,
           reverse: true
