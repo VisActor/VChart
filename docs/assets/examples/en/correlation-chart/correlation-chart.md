@@ -4,7 +4,7 @@ group: correlation chart
 title: correlation chart
 keywords: distribution,circle
 order: 43-0
-cover: /vchart/preview/correlation-chart_1.5.0.png
+cover: /vchart/preview/correlation-chart_1.5.1.png
 option: correlationChart
 ---
 
@@ -21,11 +21,8 @@ The center point consists of three parts: the center point primitive (`centerPoi
 - `valueField` Property declaration for correlation data field configuration
 - `sizeField` Property declaration for node size data field configuration
 - `sizeRange` Property declared as node size mapping range
-- `nodePoint` Properties are declared as node graph meta properties
-- `label` Property declared as node label property
-- `centerPoint` Attributes are declared as center point primitive attributes
-- `ripplePoint` The property is declared as a water ripple primitive property
-- `centerLabel` Property declared as center point label property
+- `correlationChart.innerRadius`: Node distribution inner radius
+- `correlationChart.outerRadius`: Node distribution outer radius
 
 ## Code Demo
 

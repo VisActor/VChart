@@ -4,7 +4,7 @@ group: correlation chart
 title: 散点相关性图
 keywords: distribution,circle
 order: 43-0
-cover: /vchart/preview/correlation-chart_1.5.0.png
+cover: /vchart/preview/correlation-chart_1.5.1.png
 option: correlationChart
 ---
 
@@ -21,11 +21,8 @@ option: correlationChart
 - `valueField` 属性声明为相关性数据字段配置
 - `sizeField` 属性声明为节点尺寸数据字段配置
 - `sizeRange` 属性声明为节点尺寸映射范围
-- `nodePoint` 属性声明为节点图元属性
-- `label` 属性声明为节点标签属性
-- `centerPoint` 属性声明为中心点图元属性
-- `ripplePoint` 属性声明为水波纹图元属性
-- `centerLabel` 属性声明为中心点 label 属性
+- `correlationChart.innerRadius`: 节点分布内半径
+- `correlationChart.outerRadius`: 节点分布外半径
 
 ## 代码演示
 
