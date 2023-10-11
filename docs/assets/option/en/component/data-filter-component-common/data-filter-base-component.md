@@ -148,6 +148,9 @@ Whether the scroll direction is opposite to the scroll bar movement direction.
 prefix = '#' + ${prefix}
 ) }}
 
+#${prefix} realTime(boolean) = true
+Whether to update the view in real time during interaction, enabled by default. Supported since version `1.5.0`.
+
 {{ use: common-layout-item(
   prefix = ${prefix},
   defaultLayoutType = 'region-relative',

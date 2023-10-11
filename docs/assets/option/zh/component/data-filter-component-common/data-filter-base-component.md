@@ -143,6 +143,9 @@ prefix = '#' + ${prefix}
 ##${prefix} reverse(boolean) = true
 滚动方向与滚动条移动方向是否相反。
 
+#${prefix} realTime(boolean) = true
+是否在交互时实时更新视图, 默认开启。自 `1.5.0` 版本开始支持。
+
 {{ use: roam-spec(
 prefix = '#' + ${prefix}
 ) }}
