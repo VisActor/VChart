@@ -1,5 +1,8 @@
 // Base component config
 
+import type React from 'react';
+import type { ICustomComponentProps } from './base';
+
 export interface IBaseComponentConfig {
   key: string;
   label?: string;
@@ -51,6 +54,11 @@ export interface ITextAlignComponentConfig extends IBaseComponentConfig {
   default?: 'left' | 'center' | 'right';
 }
 
+export interface ICustomBaseComponentConfig extends IBaseComponentConfig {
+  default?: any;
+  component: React.ComponentType<ICustomComponentProps>;
+}
+
 export type ComponentConfig =
   | IInputComponentConfig
   | ISelectComponentConfig
@@ -59,4 +67,5 @@ export type ComponentConfig =
   | IColorComponentConfig
   | IFontFamilyComponentConfig
   | IFontStyleComponentConfig
-  | ITextAlignComponentConfig;
+  | ITextAlignComponentConfig
+  | ICustomBaseComponentConfig;

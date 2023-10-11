@@ -30,6 +30,10 @@ export interface IBaseComponentProps<Config extends IBaseComponentConfig> {
   onChange?: (value: any) => void;
 }
 
+export interface ICustomComponentProps extends IBaseComponentProps<any> {
+  value: any;
+}
+
 export interface IBaseInputComponentProps extends IBaseComponentProps<IInputComponentConfig> {
   value: string;
 }
