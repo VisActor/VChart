@@ -61,4 +61,41 @@ export type ColorScheme = Array<string> | ProgressiveDataScheme<string> | IColor
 export type IThemeColorScheme = {
   /** 必选 */
   default: ColorScheme;
-} & Partial<Record<SeriesTypeEnum, ColorScheme>>;
+} & Partial<Record<SeriesTypeEnum, ColorScheme>> &
+  Partial<Record<SeriesTypeForThemeEnum, ColorScheme>>;
+
+/** 带有方向信息的系列类型 */
+export enum SeriesTypeForThemeEnum {
+  area_horizontal = 'area_horizontal',
+  area_vertical = 'area_vertical',
+
+  line_horizontal = 'line_horizontal',
+  line_vertical = 'line_vertical',
+
+  bar_horizontal = 'bar_horizontal',
+  bar_vertical = 'bar_vertical',
+
+  bar3d_horizontal = 'bar3d_horizontal',
+  bar3d_vertical = 'bar3d_vertical',
+
+  rangeColumn_horizontal = 'rangeColumn_horizontal',
+  rangeColumn_vertical = 'rangeColumn_vertical',
+
+  rangeColumn3d_horizontal = 'rangeColumn3d_horizontal',
+  rangeColumn3d_vertical = 'rangeColumn3d_vertical',
+
+  rangeArea_horizontal = 'rangeArea_horizontal',
+  rangeArea_vertical = 'rangeArea_vertical',
+
+  linearProgress_horizontal = 'linearProgress_horizontal',
+  linearProgress_vertical = 'linearProgress_vertical',
+
+  boxPlot_horizontal = 'boxPlot_horizontal',
+  boxPlot_vertical = 'boxPlot_vertical',
+
+  sankey_horizontal = 'sankey_horizontal',
+  sankey_vertical = 'sankey_vertical',
+
+  waterfall_horizontal = 'waterfall_horizontal',
+  waterfall_vertical = 'waterfall_vertical'
+}
