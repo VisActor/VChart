@@ -9,7 +9,15 @@
 自定义动画属性插值函数主要是提供设定动画执行前后的视觉通道，来实现一些动画效果。`effect.custom` 可以配置为一个自定义插值函数：
 
 ```ts
-export type IAnimationChannelInterpolator = (ratio: number, from: any, to: any, nextAttributes: any, datum: any, element: IElement, parameters: IAnimationParameters) => boolean | void;
+export type IAnimationChannelInterpolator = (
+  ratio: number,
+  from: any,
+  to: any,
+  nextAttributes: any,
+  datum: any,
+  element: IElement,
+  parameters: IAnimationParameters
+) => boolean | void;
 ```
 
 您需要创建一个实现 `IAnimationChannelInterpolator` 类型的动画函数，函数参数如下：
@@ -170,7 +178,7 @@ const spec = {
       stack: true,
       outerRadius: 0.78,
       innerRadius: 0.6,
-      padAngle: 0.04,
+      padAngle: 2.29,
       segment: {
         style: {
           cornerRadius: 4,
@@ -378,8 +386,7 @@ window['vchart'] = vchart;
 
 ## 自定义动画类
 
-
-在 VChart 中，自定义动画是通过实现 `ICAnimate` 接口来完成的。以下是 `ICustomAnimate` 接的定义：
+在 VChart 中，自定义动画是通过实现 `ICustomAnimate` 接口来完成的。以下是 `ICustomAnimate` 接口的定义：
 
 ```ts
 export interface ICustomAnimate {
@@ -400,11 +407,12 @@ export interface ICustomAnimate {
   MergedEndProps: () => Record<string, any> | void;
 }
 ```
+
 接口中定义了一些动的基本属性和生命周期函数，可以用于自定义动画的创建、更新和销毁等。详细文档可以参考[VRender 自定义动画](TODO)。
 
 下面的例子使用了 `VRender` 内置 `StreamLight` 的自定义动画类，来实现的柱状图流光特效：
 
-``` javascript livedemo
+```javascript livedemo
 import { StreamLight } from '@visactor/vrender';
 
 const spec = {
@@ -456,4 +464,3 @@ const spec = {
 const vchart = new VChart(spec, { dom： CONTAINER_ID });
 vchart.renderAsync();
 ```
-

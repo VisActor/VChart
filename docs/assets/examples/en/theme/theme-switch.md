@@ -441,7 +441,7 @@ const getNewTheme = () => {
         }
       }
     },
-    gauge: { outerRadius: 0.8, innerRadius: 0.6, padAngle: 0.02 },
+    gauge: { outerRadius: 0.8, innerRadius: 0.6, padAngle: 1.146 },
     gaugePointer: {
       pointer: {
         type: 'path',

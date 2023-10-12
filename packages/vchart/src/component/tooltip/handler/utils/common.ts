@@ -4,6 +4,7 @@ import { isFunction, isObject, isString, isNil, isArray, isValid, initTextMeasur
 import type { TooltipHandlerParams } from '../../interface';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension';
 import type { IRichTextParagraphCharacter } from '@visactor/vrender-core';
+// eslint-disable-next-line no-duplicate-imports
 import { getRichTextBounds } from '@visactor/vrender-core';
 import type { ITooltipTextStyle } from '../interface/style';
 

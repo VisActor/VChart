@@ -42,6 +42,8 @@ jobs:
         run: node common/scripts/apply-prerelease-version.js '' ${{ steps.semver_parser.outputs.main }} ${{ steps.semver_parser.outputs.build }}
 
       - name: Build packages
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only tag:package
 
       - name: Build lark-vchart
