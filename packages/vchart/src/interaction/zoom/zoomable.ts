@@ -132,15 +132,12 @@ export class Zoomable implements IZoomable {
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    const { delayType = 'throttle', delayTime = 0, realTime = false } = option;
+    const { delayType = 'throttle', delayTime = 0 } = option;
 
     eventObj.on(
       this._getTriggerEvent('scrollEnd'),
       { level: Event_Bubble_Level.chart, consume: false },
       delayMap[delayType]((params: BaseEventParams) => {
-        if (!realTime) {
-          this._zoomEventDispatch(params, regionOrSeries, callback);
-        }
         this._zoomableTrigger.clearZoom();
       }, delayTime) as any
     );
@@ -149,9 +146,9 @@ export class Zoomable implements IZoomable {
       this._getTriggerEvent('scroll'),
       { level: Event_Bubble_Level.chart, consume: true },
       delayMap[delayType]((params: BaseEventParams) => {
-        if (realTime) {
-          this._zoomEventDispatch(params, regionOrSeries, callback);
-        }
+        // if (realTime) {
+        this._zoomEventDispatch(params, regionOrSeries, callback);
+        // }
         const event = (params as BaseEventParams).event.clone();
         this._eventObj.emit('zoom', {
           scale: event.zoomDelta,
@@ -235,20 +232,12 @@ export class Zoomable implements IZoomable {
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    const { delayType = 'throttle', delayTime = 0, realTime = false } = option;
+    const { delayType = 'throttle', delayTime = 0 } = option;
 
     eventObj.on(
       this._getTriggerEvent('scrollEnd'),
       { level: Event_Bubble_Level.chart, consume: false },
       delayMap[delayType]((params: any) => {
-        if (!realTime) {
-          this._scrollEventDispatch(params, regionOrSeries, callback);
-        }
-        this._eventObj.emit('scrollEnd', {
-          scrollX,
-          scrollY,
-          model: this
-        } as unknown as ExtendEventParam);
         this._zoomableTrigger.clearScroll();
       }, delayTime)
     );
@@ -257,9 +246,9 @@ export class Zoomable implements IZoomable {
       this._getTriggerEvent('scroll'),
       { level: Event_Bubble_Level.chart, consume: true },
       delayMap[delayType]((params: any) => {
-        if (realTime) {
-          this._scrollEventDispatch(params, regionOrSeries, callback);
-        }
+        // if (realTime) {
+        this._scrollEventDispatch(params, regionOrSeries, callback);
+        // }
         this._eventObj.emit('scroll', {
           scrollX,
           scrollY,
