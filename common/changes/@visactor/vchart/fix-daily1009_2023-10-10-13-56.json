@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add new config `autoWidth` to the tooltip label style, related #688",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
