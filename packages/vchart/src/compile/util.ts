@@ -2,6 +2,7 @@ import type { RenderMode } from '../typings/spec';
 // eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../typings/spec';
 
+// TODO: feishu => lark
 export function toRenderMode(mode: RenderMode): any {
   switch (mode) {
     case RenderModeEnum['desktop-browser']:
