@@ -709,43 +709,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
       allLinkElements.forEach(linkEl => {
         linkEl.clearStates();
-        const linkDatum = linkEl.getDatum();
-        const father = linkDatum?.parents ? 'parents' : 'source';
-        if (
-          linkDatum.source === curLinkDatum.target ||
-          (array(linkDatum[father]).includes(curLinkDatum.source) &&
-            array(linkDatum[father]).includes(curLinkDatum.target))
-        ) {
-          // 下游link
-          if (!highlightNodes.includes(linkDatum.source)) {
-            highlightNodes.push(linkDatum.source);
-          }
 
-          if (!highlightNodes.includes(linkDatum.target)) {
-            highlightNodes.push(linkDatum.target);
-          }
-
-          let ratio;
-          if (father === 'parents') {
-            const originalDatum = linkDatum.datum;
-            const val = originalDatum
-              ? originalDatum
-                  .filter((entry: any) =>
-                    entry.parents.some(
-                      (par: any, index: number) =>
-                        par.key === curLinkDatum.source && entry.parents[index + 1]?.key === curLinkDatum.target
-                    )
-                  )
-                  .reduce((sum: number, d: any) => {
-                    return (sum += d.value);
-                  }, 0)
-              : 0;
-            ratio = val / linkDatum.value;
-          }
-
-          linkEl.addState('selected', { ratio });
-        } else if (linkEl === element) {
-          // linkEl.addState('selected', { ratio: 1 });
+        if (linkEl === element) {
+          linkEl.addState('selected', { ratio: 1 });
         } else {
           linkEl.useStates(['blur']);
         }
