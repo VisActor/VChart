@@ -45,7 +45,7 @@
 - `'break-word'`: Wrap at the end of a word
 - `'break-all'`: Wrap at any position
 
-{{ if: ${labelType}==='title' }}
+{{ if: ${labelType} === 'title' }}
 
 #${prefix} autoWidth(boolean) = false
 
@@ -55,7 +55,7 @@
 
 {{ /if }}
 
-{{ if: ${labelType}==='value' }}
+{{ if: ${labelType} === 'value' }}
 
 #${prefix} autoWidth(boolean) = true
 
