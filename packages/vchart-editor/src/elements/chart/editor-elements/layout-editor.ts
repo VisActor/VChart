@@ -2,7 +2,7 @@ import type { IChartModel } from './../interface';
 import { createRect, type IGraphic } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
-import { getAxisLayoutInRegionRect } from '../utils/layout';
+import { getAxisLayoutInRegionRect, transformModelRect } from '../utils/layout';
 import type { ILayoutAttribute } from '../../../typings/space';
 import { MinSize } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
@@ -167,6 +167,10 @@ export class LayoutEditorElement extends BaseEditorElement {
               y2: layoutData.y + rect.height
             });
           }
+          // updateElement rect
+          element.rect = layoutMeta
+            ? transformModelRect(model, { x: layoutData.x, y: layoutData.y, width: rect.width, height: rect.height })
+            : null;
           chart.vchart.getChart().setLayoutTag(true);
         }
         return false;
