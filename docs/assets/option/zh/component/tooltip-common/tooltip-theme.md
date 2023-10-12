@@ -76,6 +76,7 @@
 {{ use: component-tooltip-text-theme(
   prefix = '#' + ${prefix},
   componentName = 'tooltip 标题行',
+  labelType = 'title',
   spacing = false
 ) }}
 
@@ -86,6 +87,7 @@
 {{ use: component-tooltip-text-theme(
   prefix = '#' + ${prefix},
   componentName = 'tooltip 内容行 key 列',
+  labelType = 'key',
   spacing = true
 ) }}
 
@@ -96,6 +98,7 @@
 {{ use: component-tooltip-text-theme(
   prefix = '#' + ${prefix},
   componentName = 'tooltip 内容行 value 列',
+  labelType = 'value',
   spacing = true
 ) }}
 
