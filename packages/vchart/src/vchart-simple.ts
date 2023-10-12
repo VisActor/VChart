@@ -12,6 +12,7 @@ import { VChart } from './core';
 import { registerLineChart } from './chart/line';
 import { registerBarChart } from './chart/bar';
 import { registerPieChart } from './chart/pie';
+import { registerAllEnv } from './util/env';
 
 VChart.useRegisters([
   // charts
@@ -28,5 +29,8 @@ VChart.useRegisters([
   registerCartesianCrossHair,
   registerLabel
 ]);
+
+// load env code
+VChart.useRegisters([registerAllEnv]);
 
 export { VChart };
