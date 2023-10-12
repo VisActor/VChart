@@ -45,7 +45,7 @@
 - `'break-word'`: 在单词结尾换行
 - `'break-all'`: 在任意位置换行
 
-{{ if: ${labelType}==='title' }}
+{{ if: ${labelType} === 'title' }}
 
 #${prefix} autoWidth(boolean) = false
 
@@ -55,13 +55,13 @@
 
 {{ /if }}
 
-{{ if: ${labelType}==='value' }}
+{{ if: ${labelType} === 'value' }}
 
 #${prefix} autoWidth(boolean) = true
 
 **可选** 配置${componentName}是否自适应宽度。自 1.4.2 版本开始支持。
 
-`autoWidth` 默认为 `true`。如果配置为 `true`，则 tooltip value 标签会自动占满 tooltip 整体宽度的剩余部分
+`autoWidth` 默认为 `true`。如果配置为 `true`，则 tooltip value 标签会自动占满 tooltip 整体宽度的剩余部分。
 
 {{ /if }}
 
