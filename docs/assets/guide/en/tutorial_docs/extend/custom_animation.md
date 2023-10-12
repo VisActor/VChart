@@ -9,7 +9,15 @@ This chapter will introduce how to customize animations in VChart, including cus
 Custom animation attribute interpolation functions are mainly used to provide visual channels before and after the animation is executed to achieve some animation effects. `effect.custom` can be configured as a custom interpolation function:
 
 ```ts
-export type IAnimationChannelInterpolator = (ratio: number, from: any, to: any, nextAttributes: any, datum: any, element: IElement, parameters: IAnimationParameters) => boolean | void;
+export type IAnimationChannelInterpolator = (
+  ratio: number,
+  from: any,
+  to: any,
+  nextAttributes: any,
+  datum: any,
+  element: IElement,
+  parameters: IAnimationParameters
+) => boolean | void;
 ```
 
 You need to create an animation function that implements the `IAnimationChannelInterpolator` type, with the following function parameters:
@@ -170,7 +178,7 @@ const spec = {
       stack: true,
       outerRadius: 0.78,
       innerRadius: 0.6,
-      padAngle: 0.04,
+      padAngle: 2.29,
       segment: {
         style: {
           cornerRadius: 4,
@@ -399,6 +407,7 @@ export interface ICustomAnimate {
   MergedEndProps: () => Record<string, any> | void;
 }
 ```
+
 The interface defines some basic animation properties and lifecycle functions that can be used to create, update, and destroy custom animations. Detailed documentation can be found in [VRender Custom Animation](../../../../vrender/guide/asd/Basic_Tutorial/Events_and_Animation).
 
 The following example uses the built-in `StreamLight` custom animation class from `VRender` to implement the bar chart streamer effect:

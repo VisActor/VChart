@@ -1,4 +1,5 @@
 # 仪表图
+
 [\[配置项\]](../../../option/gaugeChart)
 
 ## 简介
@@ -235,7 +236,7 @@ const spec = {
       stack: true,
       outerRadius: 0.78,
       innerRadius: 0.6,
-      padAngle: 0.04,
+      padAngle: 2.29,
       segment: {
         style: {
           cornerRadius: 4,
