@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(scrollbar): auto visible with linear axis. fix #1118",
+      "comment": "refactor: add register function for chart/series/component to collect side effect code",
       "type": "none"
     }
   ],

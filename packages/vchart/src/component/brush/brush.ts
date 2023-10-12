@@ -25,7 +25,7 @@ import type { IElement } from '@visactor/vgrammar-core';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
-import { defaultTriggerEvent } from '../common/trigger/config';
+import { Factory } from '../../core/factory';
 
 export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   layoutType: LayoutItem['layoutType'] = 'absolute';
@@ -555,3 +555,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     super.clear();
   }
 }
+
+export const registerBrush = () => {
+  Factory.registerComponent(Brush.type, Brush);
+};

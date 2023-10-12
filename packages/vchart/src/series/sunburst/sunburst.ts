@@ -8,7 +8,7 @@ import type { ITextMark } from '../../mark/text';
 import type { IArcMark } from '../../mark/arc';
 import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
-import type { ISunburstAnimationParams, SunburstAppearPreset } from './animation';
+import { registerSunburstAnimation, type ISunburstAnimationParams, type SunburstAppearPreset } from './animation';
 import type { ISunburstSeriesSpec, LabelAutoVisibleType } from './interface';
 import type { ISunburstOpt } from '../../data/transforms/sunburst';
 
@@ -22,7 +22,7 @@ import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerFadeInOutAnimation } from '../../animation/config';
 import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -32,12 +32,10 @@ import { SunburstTooltipHelper } from './tooltip-helper';
 import type { animationInfo } from './animation/interface';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
 import { TextMark } from '../../mark/text';
 import { sunburstSeriesMark } from './constant';
-
-VChart.useMark([ArcMark, TextMark]);
+import { Factory } from '../../core/factory';
 
 export class SunburstSeries extends PolarSeries<any> {
   protected declare _spec: ISunburstSeriesSpec;
@@ -350,7 +348,7 @@ export class SunburstSeries extends PolarSeries<any> {
     this.getMarksInType(MarkTypeEnum.arc).forEach(mark => {
       mark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.sunburst(animationParams, appearPreset),
+          Factory.getAnimationInKey('sunburst')?.(animationParams, appearPreset),
           userAnimationConfig(mark.name, this._spec)
         )
       );
@@ -358,7 +356,7 @@ export class SunburstSeries extends PolarSeries<any> {
 
     this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(Factory.getAnimationInKey('fadeInOut')?.(), userAnimationConfig(mark.name, this._spec))
       );
     });
   }
@@ -427,3 +425,11 @@ export class SunburstSeries extends PolarSeries<any> {
 }
 
 mixin(SunburstSeries, Drillable);
+
+export const registerSunBurstSeries = () => {
+  Factory.registerMark(ArcMark.type, ArcMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(SunburstSeries.type, SunburstSeries);
+  registerFadeInOutAnimation();
+  registerSunburstAnimation();
+};

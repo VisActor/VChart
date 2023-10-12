@@ -31,16 +31,12 @@ import {
   SCATTER_DEFAULT_SIZE_SCALE_TYPE
 } from '../../constant/scatter';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { ScatterAppearPreset } from './animation';
-import { VChart } from '../../core/vchart';
+import { registerScatterAnimation, type ScatterAppearPreset } from './animation';
 import { SymbolMark } from '../../mark/symbol';
-import { TextMark } from '../../mark/text';
 import { scatterSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
-
-VChart.useMark([SymbolMark, TextMark]);
+import { Factory } from '../../core/factory';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -246,7 +242,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<ScatterAppearPreset>)?.preset;
     this._symbolMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.scatter({}, appearPreset),
+        Factory.getAnimationInKey('scatter')?.({}, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.point, this._spec)
       )
     );
@@ -409,3 +405,9 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     return 'circle';
   }
 }
+
+export const registerScatterSeries = () => {
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerSeries(ScatterSeries.type, ScatterSeries);
+  registerScatterAnimation();
+};

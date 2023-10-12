@@ -13,6 +13,7 @@ import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';
 import type { IZoomable } from '../../../interaction/zoom/zoomable';
 import { IFilterMode } from '../constant';
+import { Factory } from '../../../core/factory';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
@@ -172,3 +173,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     return [this._component] as unknown as IGroup[];
   }
 }
+
+export const registerScrollBar = () => {
+  Factory.registerComponent(ScrollBar.type, ScrollBar);
+};

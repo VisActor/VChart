@@ -4,6 +4,9 @@ import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { SymlogScale } from '@visactor/vscale';
 import { mixin } from '@visactor/vutils';
 import type { ICartesianSymlogAxisSpec } from './interface';
+import { Factory } from '../../../core/factory';
+import { ComponentMark } from '../../../mark';
+import { registerAxis } from '../base-axis';
 
 export interface CartesianSymlogAxis<T extends ICartesianSymlogAxisSpec = ICartesianSymlogAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
@@ -34,3 +37,8 @@ export class CartesianSymlogAxis<
 }
 
 mixin(CartesianSymlogAxis, LinearAxisMixin);
+
+export const registerCartesianSymlogAxis = () => {
+  registerAxis();
+  Factory.registerComponent(CartesianSymlogAxis.type, CartesianSymlogAxis);
+};

@@ -14,11 +14,5 @@ module.exports = {
   envs: {
     __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production'),
   },
-  external: [
-    '@visactor/vchart',
-    '@visactor/vrender-core',
-    '@visactor/vrender-core',
-    '@visactor/vrender-kits',
-    '@visactor/vutils',
-  ],
+  external: ['@visactor/vchart', '@visactor/vrender-core', '@visactor/vrender-kits', '@visactor/vutils'],
 };

@@ -1,38 +1,7 @@
 import { ChartEvent } from './../constant/event';
 import type { IElement, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
-import {
-  View,
-  registerFilterTransform,
-  registerMapTransform,
-  registerClipInAnimation,
-  registerClipOutAnimation,
-  registerFadeInAnimation,
-  registerFadeOutAnimation,
-  registerGrowAngleInAnimation,
-  registerGrowAngleOutAnimation,
-  registerGrowCenterInAnimation,
-  registerGrowCenterOutAnimation,
-  registerGrowHeightInAnimation,
-  registerGrowHeightOutAnimation,
-  registerGrowPointsInAnimation,
-  registerGrowPointsOutAnimation,
-  registerGrowPointsXInAnimation,
-  registerGrowPointsXOutAnimation,
-  registerGrowPointsYInAnimation,
-  registerGrowPointsYOutAnimation,
-  registerGrowRadiusInAnimation,
-  registerGrowRadiusOutAnimation,
-  registerGrowWidthInAnimation,
-  registerGrowWidthOutAnimation,
-  registerMoveInAnimation,
-  registerMoveOutAnimation,
-  registerRotateInAnimation,
-  registerRotateOutAnimation,
-  registerScaleInAnimation,
-  registerScaleOutAnimation,
-  registerUpdateAnimation
-} from '@visactor/vgrammar-core';
+import { View } from '@visactor/vgrammar-core';
 import type {
   CompilerListenerParameters,
   CompilerModel,
@@ -52,8 +21,6 @@ import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import type { VChart } from '../core/vchart';
 import type { IColor, Stage } from '@visactor/vrender-core';
-// eslint-disable-next-line no-duplicate-imports
-import { vglobal } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
 
@@ -62,38 +29,6 @@ type EventListener = {
   callback: (...args: any[]) => void;
 };
 
-// for side effect bundling, do not remove this line.
-View.useRegisters([
-  registerFilterTransform,
-  registerMapTransform,
-  registerClipInAnimation,
-  registerClipOutAnimation,
-  registerFadeInAnimation,
-  registerFadeOutAnimation,
-  registerGrowAngleInAnimation,
-  registerGrowAngleOutAnimation,
-  registerGrowCenterInAnimation,
-  registerGrowCenterOutAnimation,
-  registerGrowHeightInAnimation,
-  registerGrowHeightOutAnimation,
-  registerGrowPointsInAnimation,
-  registerGrowPointsOutAnimation,
-  registerGrowPointsXInAnimation,
-  registerGrowPointsXOutAnimation,
-  registerGrowPointsYInAnimation,
-  registerGrowPointsYOutAnimation,
-  registerGrowRadiusInAnimation,
-  registerGrowRadiusOutAnimation,
-  registerGrowWidthInAnimation,
-  registerGrowWidthOutAnimation,
-  registerMoveInAnimation,
-  registerMoveOutAnimation,
-  registerRotateInAnimation,
-  registerRotateOutAnimation,
-  registerScaleInAnimation,
-  registerScaleOutAnimation,
-  registerUpdateAnimation
-]);
 export class Compiler {
   protected _view: IView;
   /**
@@ -126,7 +61,6 @@ export class Compiler {
   }
 
   private _compileChart: IChart = null;
-  private _rafId: number;
 
   constructor(container: IRenderContainer, option: IRenderOption) {
     this._container = container;
@@ -412,7 +346,6 @@ export class Compiler {
     this._view?.release();
     this._view = null;
     this.isInited = false;
-    this._rafId = null;
     this.isReleased = true;
   }
 

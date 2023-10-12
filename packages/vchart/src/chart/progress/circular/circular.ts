@@ -1,9 +1,8 @@
 import { SeriesTypeEnum } from '../../../series/interface/type';
 import { ChartTypeEnum } from '../../interface';
 import { ProgressLikeChart } from '../../polar/progress-like';
-import { VChart } from '../../../core/vchart';
-import { CircularProgressSeries } from '../../../series/progress/circular';
-VChart.useSeries([CircularProgressSeries]);
+import { registerCircularProgressSeries } from '../../../series/progress/circular';
+import { Factory } from '../../../core/factory';
 
 export class CircularProgressChart extends ProgressLikeChart {
   static readonly type: string = ChartTypeEnum.circularProgress;
@@ -41,3 +40,8 @@ export class CircularProgressChart extends ProgressLikeChart {
     );
   }
 }
+
+export const registerCircularProgressChart = () => {
+  registerCircularProgressSeries();
+  Factory.registerChart(CircularProgressChart.type, CircularProgressChart);
+};

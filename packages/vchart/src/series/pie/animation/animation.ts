@@ -1,6 +1,7 @@
 import type { IElement, IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { AnimationStateEnum } from '../../../animation/interface';
 import type { Datum } from '../../../typings';
+import { Factory } from '../../../core/factory';
 
 export interface IPieAnimationParams {
   growField?: 'angle' | 'radius';
@@ -88,3 +89,25 @@ export function piePresetAnimation(params: IPieAnimationParams, preset: PieAppea
       });
   }
 }
+
+export const registerPieAnimation = () => {
+  Factory.registerAnimation('pie', (params: IPieAnimationParams, preset: PieAppearPreset) => {
+    return {
+      appear: piePresetAnimation(params, preset),
+      enter: pieEnter(params),
+      exit: pieExit(params),
+      disappear: pieDisappear(params)
+    };
+  });
+};
+
+export const registerPie3dAnimation = () => {
+  Factory.registerAnimation('pie3d', (params: IPieAnimationParams, preset: PieAppearPreset) => {
+    return {
+      appear: piePresetAnimation(params, preset),
+      enter: pieEnter(params),
+      exit: pieExit(params),
+      disappear: pieDisappear(params)
+    };
+  });
+};

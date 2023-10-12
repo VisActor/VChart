@@ -2,6 +2,7 @@ import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import type { DirectionType } from '../../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings';
+import { Factory } from '../../../core/factory';
 
 export interface ILinearProgressAnimationParams {
   direction: DirectionType;
@@ -54,3 +55,16 @@ export function linearProgressPresetAnimation(
       return Appear_Grow(params);
   }
 }
+
+export const registerLinearProgressAnimation = () => {
+  Factory.registerAnimation(
+    'linearProgress',
+    (params: ILinearProgressAnimationParams, preset: LinearProgressAppearPreset) => {
+      return {
+        appear: linearProgressPresetAnimation(params, preset),
+        enter: { type: 'grow' },
+        disappear: linearProgressDisappear(params)
+      };
+    }
+  );
+};

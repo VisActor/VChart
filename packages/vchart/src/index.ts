@@ -10,6 +10,8 @@ export * from './series';
 export * from './mark';
 export * from './component';
 export * from './layout';
+export * from './env';
+
 /**
  * spec
  */

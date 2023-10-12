@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import type { IPadding } from '@visactor/vutils';
-import { isEqual, isValidNumber } from '@visactor/vutils';
+import { isValidNumber } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import type { ITextMark } from '../../mark/text';
@@ -25,10 +25,7 @@ import type {
   WordCloudShapeConfigType,
   WordCloudShapeType
 } from './interface';
-import { registerWordCloudTransforms } from '@visactor/vgrammar-wordcloud';
-import { registerWordCloudShapeTransforms } from '@visactor/vgrammar-wordcloud-shape';
 import type { Datum, IPoint } from '../../typings';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { LinearScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar-util';
@@ -42,15 +39,9 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import type { ICompilableMark } from '../../compile/mark';
 import { BaseSeries } from '../base/base-series';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { VChart } from '../../core/vchart';
-import { TextMark } from '../../mark/text';
 import { wordCloudSeriesMark } from './constant';
 import type { IStateAnimateSpec } from '../../animation/spec';
-
-VChart.useMark([TextMark]);
-
-registerWordCloudTransforms();
-registerWordCloudShapeTransforms();
+import { Factory } from '../../core/factory';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -232,7 +223,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         };
         mark.setAnimationConfig(
           animationConfig(
-            DEFAULT_MARK_ANIMATION.wordCloud(params, appearPreset),
+            Factory.getAnimationInKey('wordCloud')(params, appearPreset),
             userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
           )
         );

@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: gauge series supports label component, related #1039",
+      "comment": "feat: support load environment code on demand",
       "type": "none"
     }
   ],

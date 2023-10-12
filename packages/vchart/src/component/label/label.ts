@@ -8,16 +8,21 @@ import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '.
 import { MarkTypeEnum } from '../../mark/interface';
 import { eachSeries, mergeSpec } from '../../util';
 import type { ISeries } from '../../series/interface';
-import { registerLabel, type IGroupMark, type ILabel, type IMark } from '@visactor/vgrammar-core';
+import {
+  registerLabel as registerVGrammarLabel,
+  type IGroupMark,
+  type ILabel,
+  type IMark
+} from '@visactor/vgrammar-core';
 import { labelRuleMap, textAttribute } from './util';
-import type { IComponentMark } from '../../mark/component';
+import { ComponentMark, type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction } from '@visactor/vutils';
 import { isArray, pickWithout } from '@visactor/vutils';
 import type { IGroup, IText } from '@visactor/vrender-core';
 import type { LabelItem } from '@visactor/vrender-components';
 import type { ILabelSpec } from './interface';
-import { VChart } from '../../core';
+import { Factory } from '../../core/factory';
 import { LabelMark, type ILabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
 
@@ -32,10 +37,6 @@ export interface ILabelComponentContext {
   region: IRegion;
   labelInfo: ILabelInfo[];
 }
-
-// call the register fucntion when register this component to VChart
-registerLabel();
-VChart.useMark([LabelMark]);
 
 export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent<T> {
   static type = ComponentTypeEnum.label;
@@ -296,3 +297,10 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     });
   }
 }
+
+export const registerLabel = () => {
+  registerVGrammarLabel();
+  Factory.registerMark(LabelMark.constructorType, LabelMark);
+  Factory.registerMark(ComponentMark.type, ComponentMark);
+  Factory.registerComponent(Label.type, Label);
+};

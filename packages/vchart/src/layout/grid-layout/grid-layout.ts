@@ -6,6 +6,7 @@ import type { ILayoutItem } from '../../model/interface';
 import type { IBaseLayout, IGridLayoutSpec, ElementSpec } from '../interface';
 import { isFunction, isValid, isValidNumber } from '../../util';
 import type { IRect } from '../../typings/space';
+import { Factory } from '../../core/factory';
 
 type GridSize = {
   value: number;
@@ -14,7 +15,7 @@ type GridSize = {
 };
 
 export class GridLayout implements IBaseLayout {
-  static type: 'grid';
+  static type = 'grid';
   private _chartLayoutRect: IRect = { x: 0, y: 0, width: 1, height: 1 };
   private _chartViewBox: IBoundsLike;
 
@@ -367,3 +368,7 @@ export class GridLayout implements IBaseLayout {
 function isColItem(item: ILayoutItem) {
   return item.layoutOrient === 'left' || item.layoutOrient === 'right';
 }
+
+export const registerGridLayout = () => {
+  Factory.registerLayout(GridLayout.type, GridLayout);
+};

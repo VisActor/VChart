@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: add static tools in `VChart.Utils`",
+      "comment": "refactor: add register function for animation",
       "type": "none"
     }
   ],

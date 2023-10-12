@@ -1,10 +1,9 @@
-import { PieSeries } from '../../series/pie/pie';
+import { registerPieSeries } from '../../series/pie/pie';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../../series/interface';
 import { ChartTypeEnum } from '../interface';
 import { BasePieChart } from './base';
-import { VChart } from '../../core/vchart';
-VChart.useSeries([PieSeries]);
+import { Factory } from '../../core/factory';
 
 export class PieChart extends BasePieChart {
   static readonly type: string = ChartTypeEnum.pie;
@@ -12,3 +11,8 @@ export class PieChart extends BasePieChart {
   readonly type: string = ChartTypeEnum.pie;
   readonly seriesType: string = SeriesTypeEnum.pie;
 }
+
+export const registerPieChart = () => {
+  registerPieSeries();
+  Factory.registerChart(PieChart.type, PieChart);
+};

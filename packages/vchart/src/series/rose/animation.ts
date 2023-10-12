@@ -1,5 +1,6 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import type { Datum } from '../../typings';
+import { Factory } from '../../core/factory';
 
 export interface IRoseAnimationParams {
   innerRadius: () => number;
@@ -67,3 +68,14 @@ export function rosePresetAnimation(
       });
   }
 }
+
+export const registerRoseAnimation = () => {
+  Factory.registerAnimation('rose', (params: IRoseAnimationParams, preset: RoseAppearPreset) => {
+    return {
+      appear: rosePresetAnimation(params, preset),
+      enter: roseEnter(params),
+      exit: roseExit(params),
+      disappear: roseDisappear(params)
+    };
+  });
+};

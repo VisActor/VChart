@@ -1,11 +1,10 @@
-import { AreaSeries } from '../../series/area/area';
+import { registerAreaSeries } from '../../series/area/area';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import type { IAreaChartSpec } from './interface';
-import { VChart } from '../../core/vchart';
 import { setDefaultCrosshairForCartesianChart } from '../util';
-VChart.useSeries([AreaSeries]);
+import { Factory } from '../../core/factory';
 
 export class AreaChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.area;
@@ -29,3 +28,8 @@ export class AreaChart extends CartesianChart {
     setDefaultCrosshairForCartesianChart(spec);
   }
 }
+
+export const registerAreaChart = () => {
+  registerAreaSeries();
+  Factory.registerChart(AreaChart.type, AreaChart);
+};
