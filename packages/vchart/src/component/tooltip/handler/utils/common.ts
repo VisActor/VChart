@@ -3,9 +3,10 @@ import type { MaybeArray, TooltipContentProperty, TooltipData, TooltipPatternPro
 import { isFunction, isObject, isString, isNil, isArray, isValid, initTextMeasure } from '../../../../util';
 import type { TooltipHandlerParams } from '../../interface';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension';
-import type { ITooltipTextStyle } from '../interface/style';
 import type { IRichTextParagraphCharacter } from '@visactor/vrender-core';
+// eslint-disable-next-line no-duplicate-imports
 import { getRichTextBounds } from '@visactor/vrender-core';
+import type { ITooltipTextStyle } from '../interface/style';
 
 interface IGradientColor {
   [key: string]: any;

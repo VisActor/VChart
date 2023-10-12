@@ -128,15 +128,25 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   }
 
   protected _getAngleValueStartWithoutMask(datum: Datum) {
-    const angle = isValid(datum[SEGMENT_FIELD_START])
-      ? this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_START]])
-      : this._startAngle;
-    return angle + (this._spec.padAngle ?? 0) / 2;
+    const startAngle = this._getAngleValueStartWithoutPadAngle(datum);
+    const endAngle = this._getAngleValueEndWithoutPadAngle(datum);
+    return Math.min(startAngle + this._padAngle / 2, (startAngle + endAngle) / 2);
   }
 
   protected _getAngleValueEndWithoutMask(datum: Datum) {
-    const angle = this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_END]]);
-    return angle - (this._spec.padAngle ?? 0) / 2;
+    const startAngle = this._getAngleValueStartWithoutPadAngle(datum);
+    const endAngle = this._getAngleValueEndWithoutPadAngle(datum);
+    return Math.max(endAngle - this._padAngle / 2, (startAngle + endAngle) / 2);
+  }
+
+  protected _getAngleValueStartWithoutPadAngle(datum: Datum) {
+    return isValid(datum[SEGMENT_FIELD_START])
+      ? this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_START]])
+      : this._startAngle;
+  }
+
+  protected _getAngleValueEndWithoutPadAngle(datum: Datum) {
+    return this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_END]]);
   }
 
   protected _preprocessLabelSpec() {
