@@ -76,6 +76,7 @@ Configure tooltip background frame style.
 {{ use: component-tooltip-text-theme(
   prefix = '#' + ${prefix},
   componentName = 'tooltip title row',
+  labelType = 'title',
   spacing = false
 ) }}
 
@@ -86,6 +87,7 @@ Configure tooltip background frame style.
 {{ use: component-tooltip-text-theme(
   prefix = '#' + ${prefix},
   componentName = 'tooltip content row key column',
+  labelType = 'key',
   spacing = true
 ) }}
 
@@ -96,6 +98,7 @@ Configure tooltip background frame style.
 {{ use: component-tooltip-text-theme(
   prefix = '#' + ${prefix},
   componentName = 'tooltip content row value column',
+  labelType = 'value',
   spacing = true
 ) }}
 
