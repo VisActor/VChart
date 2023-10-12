@@ -45,15 +45,25 @@
 - `'break-word'`: Wrap at the end of a word
 - `'break-all'`: Wrap at any position
 
-#${prefix} autoWidth(boolean)
+{{ if: ${labelType}==='title' }}
+
+#${prefix} autoWidth(boolean) = false
 
 **Optional** Configure whether ${componentName} is adaptive to width. Supported since version 1.4.2.
 
-The effects can be divided into the following situations:
+`autoWidth` defaults to `false`. If configured as `true`, the tooltip title will maintain the same width as the tooltip content.
 
-- Tooltip title: `autoWidth` defaults to `false`. If configured as `true`, the tooltip title will maintain the same width as the tooltip content
-- Tooltip key label: `autoWidth` not applicable
-- Tooltip value label: `autoWidth` defaults to 'true'. If configured as `true`, the tooltip value label will automatically fill the remaining portion of the overall width of the tooltip
+{{ /if }}
+
+{{ if: ${labelType}==='value' }}
+
+#${prefix} autoWidth(boolean) = true
+
+**Optional** Configure whether ${componentName} is adaptive to width. Supported since version 1.4.2.
+
+`autoWidth` defaults to 'true'. If configured as `true`, the tooltip value label will automatically fill the remaining portion of the overall width of the tooltip.
+
+{{ /if }}
 
 {{ if: ${spacing} }}
 

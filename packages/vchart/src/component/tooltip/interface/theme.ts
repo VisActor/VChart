@@ -29,7 +29,10 @@ export interface ITooltipTextTheme {
   /** 换行模式，默认为'break-word' */
   wordBreak?: RichTextWordBreak;
   /**
-   * 是否开启自动宽度
+   * 是否开启自动宽度。效果分为以下几种情况：
+   * - tooltip 标题：`autoWidth` 默认为 `false`。如果配置为 `true`，则 tooltip 标题会保持和 tooltip 内容一致的宽度
+   * - tooltip key 标签：`autoWidth` 不适用
+   * - tooltip value 标签：`autoWidth` 默认为 `true`。如果配置为 `true`，则 tooltip value 标签会自动占满 tooltip 整体宽度的剩余部分
    * @since 1.4.2
    */
   autoWidth?: boolean;
@@ -67,7 +70,7 @@ export interface ITooltipTheme {
   /** tooltip标题 */
   titleLabel?: ITooltipTextTheme;
   /** tooltip内容，key字段 */
-  keyLabel?: ITooltipTextTheme;
+  keyLabel?: Omit<ITooltipTextTheme, 'autoWidth'>;
   /** tooltip内容，value字段 */
   valueLabel?: ITooltipTextTheme;
   /** 内容项行间距 */
