@@ -386,7 +386,7 @@ window['vchart'] = vchart;
 
 ## Custom Animation Class
 
-In VChart, custom animations are accomplished by implementing the `ICAnimate` interface. The following is the definition of the `ICustomAnimate` interface:
+In VChart, custom animations are accomplished by implementing the `ICustomAnimate` interface. The following is the definition of the `ICustomAnimate` interface:
 
 ```ts
 export interface ICustomAnimate {

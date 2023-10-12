@@ -386,7 +386,7 @@ window['vchart'] = vchart;
 
 ## 自定义动画类
 
-在 VChart 中，自定义动画是通过实现 `ICAnimate` 接口来完成的。以下是 `ICustomAnimate` 接的定义：
+在 VChart 中，自定义动画是通过实现 `ICustomAnimate` 接口来完成的。以下是 `ICustomAnimate` 接口的定义：
 
 ```ts
 export interface ICustomAnimate {
