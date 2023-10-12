@@ -12,7 +12,7 @@ import { VChart } from './core';
 import { registerLineChart } from './chart/line';
 import { registerBarChart } from './chart/bar';
 import { registerPieChart } from './chart/pie';
-import { registerAllEnv } from './util/env';
+import { registerAllEnv } from './env';
 
 VChart.useRegisters([
   // charts
