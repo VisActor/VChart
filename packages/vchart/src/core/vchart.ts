@@ -46,7 +46,7 @@ import { EventDispatcher } from '../event/event-dispatcher';
 import type { GeoSourceType } from '../typings/geo';
 import type { GeoSourceOption } from '../series/map/geo-source';
 // eslint-disable-next-line no-duplicate-imports
-import { registerMapSource, getMapSource, unregisterMapSource } from '../series/map/geo-source';
+import { getMapSource } from '../series/map/geo-source';
 import type { IMark, MarkConstructor } from '../mark/interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
 import { dataToDataView } from '../data/initialize';
@@ -94,7 +94,7 @@ import { Region } from '../region/region';
 import { Layout } from '../layout';
 import { GroupMark } from '../mark';
 import { registerVGrammarAnimation } from '../animation/config';
-import { View, initAllEnv, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
+import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 
 export class VChart implements IVChart {
@@ -1612,8 +1612,6 @@ export const registerVChartCore = () => {
   View.useRegisters([registerFilterTransform, registerMapTransform]);
   // install animation
   registerVGrammarAnimation();
-  //init env
-  initAllEnv();
   // set default logger level to Level.error
   Logger.getInstance(LoggerLevel.Error);
 };
