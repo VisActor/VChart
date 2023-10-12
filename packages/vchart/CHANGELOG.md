@@ -1,6 +1,24 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 27 Sep 2023 07:53:38 GMT and should not be manually modified.
+This log was last generated on Thu, 12 Oct 2023 11:39:35 GMT and should not be manually modified.
+
+## 1.4.2
+Thu, 12 Oct 2023 11:39:35 GMT
+
+### Updates
+
+- feat: gauge series supports label component, related #1039
+- feat: add static tools in `VChart.Utils`
+- fix: `tooltipRelease` event may be invalid when being released by VTable
+- feat: supports afterResize and afterRender events
+
+
+- fix(brush): select error when setting brush. fix #1129
+- fix: optimize the default performance of the long tooltip title, related #688
+- feat: add new config `autoWidth` to the tooltip label style, related #688
+- fix: if `markLine` is empty like `{}` or `[]`, it should not create marker component
+- fix: fix the issue when use `positions` to create marker component, fixed #1084
+- fix(scrollbar): auto visible with linear axis. fix #1118
 
 ## 1.4.1
 Wed, 27 Sep 2023 07:53:38 GMT
