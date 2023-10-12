@@ -16,7 +16,7 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.5.1-alpha.0
-      '@visactor/vgrammar': ~0.7.7-alpha.2
+      '@visactor/vgrammar': 0.7.7-alpha.2
       '@visactor/vmind': 1.0.6-alpha.3
       '@visactor/vrender': ~0.16.2
       '@visactor/vrender-kits': ~0.16.2
@@ -124,7 +124,7 @@ importers:
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.5.1-alpha.0
-      '@visactor/vgrammar-core': ~0.7.7-alpha.2
+      '@visactor/vgrammar-core': 0.7.7-alpha.2
       '@visactor/vrender-core': ~0.16.2
       '@visactor/vrender-kits': ~0.16.2
       '@visactor/vutils': ~0.16.1
@@ -280,13 +280,13 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vdataset': ~0.16.1
-      '@visactor/vgrammar-core': ~0.7.7-alpha.2
-      '@visactor/vgrammar-hierarchy': ~0.7.7-alpha.2
-      '@visactor/vgrammar-projection': ~0.7.7-alpha.2
-      '@visactor/vgrammar-sankey': ~0.7.7-alpha.2
-      '@visactor/vgrammar-util': ~0.7.7-alpha.2
-      '@visactor/vgrammar-wordcloud': ~0.7.7-alpha.2
-      '@visactor/vgrammar-wordcloud-shape': ~0.7.7-alpha.2
+      '@visactor/vgrammar-core': 0.7.7-alpha.2
+      '@visactor/vgrammar-hierarchy': 0.7.7-alpha.2
+      '@visactor/vgrammar-projection': 0.7.7-alpha.2
+      '@visactor/vgrammar-sankey': 0.7.7-alpha.2
+      '@visactor/vgrammar-util': 0.7.7-alpha.2
+      '@visactor/vgrammar-wordcloud': 0.7.7-alpha.2
+      '@visactor/vgrammar-wordcloud-shape': 0.7.7-alpha.2
       '@visactor/vrender-components': ~0.16.2
       '@visactor/vrender-core': ~0.16.2
       '@visactor/vrender-kits': ~0.16.2

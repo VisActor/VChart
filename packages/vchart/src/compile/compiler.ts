@@ -61,7 +61,6 @@ export class Compiler {
   }
 
   private _compileChart: IChart = null;
-  private _rafId: number;
 
   constructor(container: IRenderContainer, option: IRenderOption) {
     this._container = container;
@@ -347,7 +346,6 @@ export class Compiler {
     this._view?.release();
     this._view = null;
     this.isInited = false;
-    this._rafId = null;
     this.isReleased = true;
   }
 
