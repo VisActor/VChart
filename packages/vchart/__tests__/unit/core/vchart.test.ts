@@ -694,7 +694,7 @@ describe('VChart', () => {
         .getVGrammarView()
         .getMarksByType('arc')[0]
         .elements.filter(ele => ele.groupKey === 'sodium')[0]
-        .getGraphicItem() as IArc;
+        .getGraphicItem() as unknown as any;
 
       const markCoord = polarToCartesian(
         { x: mark.attribute.x as number, y: mark.attribute.y as number },

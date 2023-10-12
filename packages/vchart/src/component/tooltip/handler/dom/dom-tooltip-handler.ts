@@ -61,7 +61,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
           valueToHtml: this._option.sanitize,
           getTooltipStyle: () => this._domStyle,
           getTooltipActual: () => this._tooltipActual,
-          getTooltipAttributes: () => this._attributeCache
+          getTooltipAttributes: () => this._attributes
         },
         [tooltipSpec.className],
         this.id
@@ -99,7 +99,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   }
 
   protected _initStyle() {
-    this._domStyle = getDomStyles(this._style, this._attributeCache);
+    this._domStyle = getDomStyles(this._attributes);
   }
 
   protected _getParentElement(spec: ITooltipSpec): HTMLElement {
