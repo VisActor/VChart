@@ -391,6 +391,7 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vchart': workspace:1.5.1-alpha.0
       '@visactor/vdataset': ~0.16.1
+      '@visactor/vrender-components': ~0.16.2
       '@visactor/vrender-core': ~0.16.2
       '@visactor/vrender-kits': ~0.16.2
       '@visactor/vutils': ~0.16.1
@@ -412,6 +413,7 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vdataset': 0.16.1
+      '@visactor/vrender-components': 0.16.2
       '@visactor/vrender-core': 0.16.2
       '@visactor/vrender-kits': 0.16.2
       '@visactor/vutils': 0.16.1
