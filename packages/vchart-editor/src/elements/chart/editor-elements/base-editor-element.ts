@@ -139,11 +139,12 @@ export class CommonChartEditorElement implements IEditorElement {
         .getChart()
         .getAllSeries()
         .forEach((s: IChartModel) => {
+          const { data, ...spec } = s.getSpec();
           this.allModelSpec.push({
             id: s.userId,
             specKey: s.specKey,
             specIndex: s.getSpecIndex(),
-            spec: s.getSpec()
+            spec
           });
         });
       // component
@@ -154,11 +155,12 @@ export class CommonChartEditorElement implements IEditorElement {
           if (c.type === 'tooltip') {
             return;
           }
+          const { data, ...spec } = c.getSpec();
           this.allModelSpec.push({
             id: c.userId,
             specKey: c.specKey,
             specIndex: c.getSpecIndex(),
-            spec: c.getSpec()
+            spec
           });
         });
     }
