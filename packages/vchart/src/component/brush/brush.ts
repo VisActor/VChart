@@ -55,6 +55,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   private _needInitOutState: boolean = true;
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
 
+  private _isFirstState: boolean = true;
   private _needEnablePickable: boolean = false;
 
   static createComponent(spec: any, options: IComponentOption) {
@@ -152,7 +153,10 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         // 需要重置out状态的情况：
         // 1. _isFirstState 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加 _isFirstState 来识别
         // 2. _needInitOutState：框选模式为'single' 且 开始后的第一次drawing时（这里不选择drawStart而选择第一次触发drawing的时机是因为点击空白处也会触发drawStart）, 需要重置图元状态
-        if (this._needInitOutState && brushMode === 'single' && operateType === IOperateType.drawing) {
+        if (
+          this._isFirstState ||
+          (this._needInitOutState && brushMode === 'single' && operateType === IOperateType.drawing)
+        ) {
           this._initMarkBrushState(componentIndex, 'outOfBrush');
         }
 
@@ -493,6 +497,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         });
       });
     });
+    this._isFirstState = false;
   }
 
   protected initEvent() {
