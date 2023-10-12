@@ -35,6 +35,7 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 // eslint-disable-next-line no-duplicate-imports
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { AbstractComponent } from '@visactor/vrender-components';
+import type { IDelayType } from '../../typings/event';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
@@ -741,29 +742,18 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   };
 
   protected _initCommonEvent() {
-    const delayType = this._spec?.delayType ?? 'throttle';
+    const delayType: IDelayType = this._spec?.delayType ?? 'throttle';
     const delayTime = this._spec?.delayTime ?? 0;
     const realTime = this._spec?.realTime ?? false;
+    const option = { delayType, delayTime, realTime };
     if (this._zoomAttr.enable) {
-      (this as unknown as IZoomable).initZoomEventOfRegions(this._regions, null, this._handleChartZoom, {
-        delayType,
-        delayTime,
-        realTime
-      });
+      (this as unknown as IZoomable).initZoomEventOfRegions(this._regions, null, this._handleChartZoom, option);
     }
     if (this._scrollAttr.enable) {
-      (this as unknown as IZoomable).initScrollEventOfRegions(this._regions, null, this._handleChartScroll, {
-        delayType,
-        delayTime,
-        realTime
-      });
+      (this as unknown as IZoomable).initScrollEventOfRegions(this._regions, null, this._handleChartScroll, option);
     }
     if (this._dragAttr.enable) {
-      (this as unknown as IZoomable).initDragEventOfRegions(this._regions, null, this._handleChartDrag, {
-        delayType,
-        delayTime,
-        realTime
-      });
+      (this as unknown as IZoomable).initDragEventOfRegions(this._regions, null, this._handleChartDrag, option);
     }
   }
 
