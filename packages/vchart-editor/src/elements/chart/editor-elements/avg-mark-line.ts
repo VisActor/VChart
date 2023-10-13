@@ -1,6 +1,7 @@
 /**
  * @description 均值线
- * TODO: 保存位置 & 更新 spec
+ * 1. 保存位置 & 更新 spec
+ * 2. 双击出现编辑框
  */
 import type { IGroup, INode } from '@visactor/vrender-core';
 import { createRect, type IGraphic, createGroup, vglobal } from '@visactor/vrender-core';
@@ -13,7 +14,7 @@ import type { EventParams, MarkLine } from '@visactor/vchart';
 import type { IComponent } from '@visactor/vchart/esm/component/interface';
 import type { Point } from '@visactor/vrender-components/es/core/type';
 
-export class MarkLineEditor extends BaseEditorElement {
+export class AvgMarkLineEditor extends BaseEditorElement {
   private _model: MarkLine;
   private _element: MarkLineComponent;
   private _orient: string;
@@ -29,12 +30,23 @@ export class MarkLineEditor extends BaseEditorElement {
     vchart.on('pointerdown', { level: 'model', type: 'markLine', consume: true }, this._onDragStart);
   }
 
+  private _checkEventEnable(e) {
+    const markerComponent = e.model.getVRenderComponents()[0];
+    return markerComponent?.name?.startsWith('avgMarkLine');
+  }
+
   private _onHover = (e: any) => {
+    if (!this._checkEventEnable(e)) {
+      return;
+    }
     const el = this._getEditorElement(e);
     this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
   };
 
   private _onDragStart = (e: any) => {
+    if (!this._checkEventEnable(e)) {
+      return;
+    }
     this._element = e.model.getVRenderComponents()[0];
     this._model = e.model;
     // TODO: hack
@@ -57,7 +69,6 @@ export class MarkLineEditor extends BaseEditorElement {
 
   private _onDrag = (e: any) => {
     e.stopPropagation();
-    this._dragging = true;
 
     this._editComponent.showAll();
     let currentPos;
@@ -77,7 +88,6 @@ export class MarkLineEditor extends BaseEditorElement {
 
   private _onDragEnd = (e: any) => {
     e.preventDefault();
-    this._dragging = false;
     this._editComponent.hideAll();
 
     const offset = (this._editComponent.attribute[this._orient === 'horizontal' ? 'dy' : 'dx'] ?? 0) - this._preOffset;
@@ -101,7 +111,16 @@ export class MarkLineEditor extends BaseEditorElement {
       newText = series.positionToDataX(convertPosition);
     }
 
-    // TODO: 计算新的 label 值，同时释放事件
+    // 更新 markLine
+    // 1. 生成新的 markLine spec，用于存储
+    // TODO: 如果是对应离散轴的话需要变成坐标，或者加上 dx/dy 属性
+    const newSpec = merge({}, this._model.getSpec(), {
+      [this._orient === 'vertical' ? 'x' : 'y']: newText
+    });
+
+    // console.log(newSpec);
+
+    // 2. 计算新的 label 值，同时释放事件
     this._element.setAttributes({
       points: newPoints as Point[],
       label: {
@@ -132,7 +151,9 @@ export class MarkLineEditor extends BaseEditorElement {
           }
         },
         pickable: false,
-        childrenPickable: false
+        childrenPickable: false,
+        dx: model.getSpec().offsetX ?? 0,
+        dy: model.getSpec().offsetY ?? 0
       })
     );
     overlayLine.name = 'overlay-mark-line-line';

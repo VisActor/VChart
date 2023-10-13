@@ -101,7 +101,7 @@ export class ChartLayout implements IChartLayout {
     return this._layoutData.data.find(d => {
       const model = getChartModelWithModelInfo(this._vchart, d);
       // marker pick with event not pos;
-      if (model.specKey.startsWith('mark')) {
+      if (model?.specKey.startsWith('mark')) {
         return false;
       }
       return isPointInRect(pos, transformModelRect(model, LayoutRectToRect(d.layout)));
