@@ -17,6 +17,7 @@ import { VChart } from '../../core/vchart';
 import { ProgressArcMark } from '../../mark/progress-arc';
 import { gaugeSeriesMark } from './constant';
 import { degreeToRadian } from '@visactor/vutils';
+import type { IMark } from '../../mark/interface';
 
 VChart.useMark([ProgressArcMark]);
 
@@ -164,5 +165,9 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 
   getDefaultShapeType() {
     return 'circle';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [];
   }
 }

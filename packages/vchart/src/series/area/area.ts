@@ -25,6 +25,7 @@ import { TextMark } from '../../mark/text';
 import { SymbolMark } from '../../mark/symbol';
 import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 import { areaSeriesMark } from './constant';
+import type { IMark } from '../../mark/interface';
 VChart.useMark([LineMark, AreaMark, TextMark, SymbolMark]);
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
@@ -255,6 +256,10 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   getDefaultShapeType() {
     return 'square';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._areaMark, this._symbolMark, this._lineMark];
   }
 }
 

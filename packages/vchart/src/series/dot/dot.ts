@@ -493,4 +493,8 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
   getStackValueField(): string {
     return null;
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._dotMark];
+  }
 }

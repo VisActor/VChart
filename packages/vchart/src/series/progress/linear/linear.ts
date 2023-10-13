@@ -17,6 +17,7 @@ import { VChart } from '../../../core/vchart';
 import { RectMark } from '../../../mark/rect';
 import { createRect } from '@visactor/vrender';
 import { linearProgressSeriesMark } from './constant';
+import type { IMark } from '../../../mark/interface';
 
 VChart.useMark([RectMark]);
 
@@ -265,5 +266,9 @@ export class LinearProgressSeries<
 
   protected initTooltip() {
     this._tooltipHelper = new LinearProgressSeriesTooltipHelper(this);
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._progressMark];
   }
 }

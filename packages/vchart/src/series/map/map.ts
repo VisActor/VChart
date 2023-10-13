@@ -26,6 +26,7 @@ import { PathMark } from '../../mark/path';
 import { TextMark } from '../../mark/text';
 import { mapSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
+import type { IMark } from '../../mark/interface';
 
 VChart.useMark([PathMark, TextMark]);
 
@@ -316,5 +317,9 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
   protected _getDataIdKey() {
     return DEFAULT_DATA_INDEX;
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._pathMark];
   }
 }

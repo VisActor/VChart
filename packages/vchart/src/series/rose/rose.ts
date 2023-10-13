@@ -15,6 +15,7 @@ import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
 import { TextMark } from '../../mark/text';
 import { roseSeriesMark } from './constant';
+import type { IMark } from '../../mark/interface';
 
 VChart.useMark([ArcMark, TextMark]);
 
@@ -127,5 +128,9 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
 
   getDefaultShapeType() {
     return 'circle';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._roseMark];
   }
 }

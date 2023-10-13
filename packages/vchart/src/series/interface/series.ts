@@ -98,6 +98,7 @@ export interface ISeries extends IModel, ILayoutItem {
   getMarkInId: (id: number) => IMark | undefined;
 
   getRootMark: () => IGroupMark;
+  getActiveMarks: () => IMark[];
 
   // tooltip
   tooltipHelper: ISeriesTooltipHelper;

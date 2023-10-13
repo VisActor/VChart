@@ -29,6 +29,7 @@ import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
 import { scatterSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
+import type { IMark } from '../../mark/interface';
 
 VChart.useMark([SymbolMark, TextMark]);
 
@@ -394,5 +395,9 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
 
   getDefaultShapeType() {
     return 'circle';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._symbolMark];
   }
 }

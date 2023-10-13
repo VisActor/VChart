@@ -497,6 +497,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _noAnimationDataKey(datum: Datum, index: number) {
     return index;
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._pieMark];
+  }
 }
 
 export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePieSeries<T> implements IArcSeries {

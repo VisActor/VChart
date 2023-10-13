@@ -182,6 +182,10 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
   getDefaultShapeType() {
     return 'square';
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._areaMark, this._symbolMark, this._lineMark];
+  }
 }
 
 mixin(RadarSeries, LineLikeSeriesMixin);

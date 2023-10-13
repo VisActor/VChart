@@ -16,6 +16,7 @@ import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
 import { lineSeriesMark } from './constant';
+import type { IMark } from '../../mark/interface';
 
 VChart.useMark([LineMark, SymbolMark, TextMark]);
 
@@ -89,6 +90,10 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
 
   getDefaultShapeType() {
     return 'circle';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._lineMark, this._symbolMark];
   }
 }
 

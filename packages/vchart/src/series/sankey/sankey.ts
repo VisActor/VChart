@@ -38,6 +38,7 @@ import { LinkPathMark } from '../../mark/link-path';
 import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
 import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
+import type { IMark } from '../../mark/interface';
 
 VChart.useMark([RectMark, LinkPathMark, TextMark]);
 
@@ -1369,5 +1370,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   // make sure this function fast
   protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
     return undefined;
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._nodeMark, this._linkMark];
   }
 }

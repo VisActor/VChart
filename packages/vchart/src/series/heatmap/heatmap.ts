@@ -19,6 +19,7 @@ import { VChart } from '../../core/vchart';
 import { CellMark } from '../../mark/cell';
 import { TextMark } from '../../mark/text';
 import { heatmapSeriesMark } from './constant';
+import type { IMark } from '../../mark/interface';
 
 VChart.useMark([CellMark, TextMark]);
 
@@ -186,5 +187,9 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
 
   getMeasureField(): string[] {
     return this.getFieldValue();
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._cellMark];
   }
 }

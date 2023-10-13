@@ -1,6 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { AttributeLevel, DEFAULT_DATA_KEY, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IRectMark } from '../../mark/rect';
 import type { ITextMark } from '../../mark/text';
@@ -520,6 +521,10 @@ export class TreemapSeries extends CartesianSeries<any> {
 
   getDefaultShapeType(): string {
     return 'square';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._nonLeafMark, this._leafMark];
   }
 }
 

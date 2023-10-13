@@ -354,4 +354,8 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
   getDotInfoData() {
     return (this._linkMark ?? this._arrowMark)?.getData();
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._linkMark, this._arrowMark];
+  }
 }

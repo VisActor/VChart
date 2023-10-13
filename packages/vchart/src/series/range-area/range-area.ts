@@ -12,6 +12,7 @@ import { AttributeLevel } from '../../constant';
 import { RangeAreaSeriesTooltipHelper } from './tooltip-helper';
 import type { IAreaSeriesSpec } from '../area/interface';
 import { rangeAreaSeriesMark } from './constant';
+import type { IMark } from '../../mark/interface';
 
 export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends AreaSeries<T> {
   static readonly type: string = SeriesTypeEnum.rangeArea;

@@ -46,6 +46,7 @@ import { VChart } from '../../core/vchart';
 import { TextMark } from '../../mark/text';
 import { wordCloudSeriesMark } from './constant';
 import type { IStateAnimateSpec } from '../../animation/spec';
+import type { IMark } from '../../mark/interface';
 
 VChart.useMark([TextMark]);
 
@@ -467,5 +468,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
     this.compile();
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._wordMark, this._fillingWordMark];
   }
 }
