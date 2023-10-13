@@ -841,7 +841,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** updateSpec */
   updateSpec(spec: any) {
-    const originalSpec = this._spec;
+    const { data: originalData, ...originalSpec } = this._originalSpec;
+    const { data: currentData, ...currentSpec } = spec;
     const result = super.updateSpec(spec);
     if (spec.type !== this.type) {
       result.reMake = true;
@@ -855,7 +856,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (
       array(originalSpec.extensionMark).length !== array(this._spec.extensionMark).length ||
       originalSpec.extensionMark?.some(
-        (mark, index) =>
+        (mark: any, index: number) =>
           mark.type !== this._spec.extensionMark[index].type || mark.id !== this._spec.extensionMark[index].id
       )
     ) {
@@ -865,7 +866,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (result.reMake) {
       return result;
     }
-
+    if (!isEqual(originalSpec, currentSpec)) {
+      result.reMake = true;
+      return result;
+    }
     // mark visible logic in compile
     if (this._marks.getMarks().some(m => originalSpec[m.name]?.visible !== this._spec[m.name]?.visible)) {
       result.reCompile = true;

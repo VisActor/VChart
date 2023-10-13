@@ -909,7 +909,12 @@ export class BaseChart extends CompilableBase implements IChart {
           componentCount: 0
         };
         componentCache[c.specKey].componentCount++;
-        this._mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()], cmpSpec));
+        const cSpec = cmpSpec[c.getSpecIndex()];
+        if (cSpec) {
+          this._mergeUpdateResult(result, c.updateSpec(cSpec, cmpSpec));
+        } else {
+          result.reMake = true;
+        }
       } else {
         this._mergeUpdateResult(result, c.updateSpec(cmpSpec));
       }

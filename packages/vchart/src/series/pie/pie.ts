@@ -359,9 +359,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     const { centerX, centerY, centerOffset, radius, innerRadius, cornerRadius, startAngle, endAngle, padAngle } =
       originalSpec;
     const result = super.updateSpec(spec);
-    if (!isEqual(originalSpec, currentSpec)) {
-      result.reMake = true;
-    } else if (
+    if (
       spec?.centerX !== centerX ||
       spec?.centerY !== centerY ||
       spec?.centerOffset !== centerOffset ||
