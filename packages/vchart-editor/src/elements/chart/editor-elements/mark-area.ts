@@ -1,7 +1,10 @@
 import { CommonChartEditorElement } from './base-editor-element';
 /**
  * @description 区域标注交互
- * TODO: 保存位置 & 更新 spec
+ * TODO:
+ * 1. 保存位置 & 更新 spec
+ * 2. 双击出现编辑框
+ * 3. 存在多个 area 时交互会有冲突
  */
 import type { IGroup, IGraphic, IPolygon, IRect, FederatedPointerEvent } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
@@ -335,8 +338,8 @@ export class MarkAreaEditor extends BaseEditorElement {
 
     const overlayArea = this._overlayArea;
     const points = overlayArea.attribute.points;
-    this._slientEditComponent();
     this._overlayLabel.setAttribute('visible', false);
+    this._slientEditComponent();
 
     // 更新真正的图形
     const areaShape = (this._element as unknown as MarkAreaComponent).getArea();
@@ -363,6 +366,7 @@ export class MarkAreaEditor extends BaseEditorElement {
   private _onAreaDragStart = (e: any) => {
     e.stopPropagation();
     this._prePos = this._orient === 'vertical' ? e.clientX : e.clientY;
+    // TODO: 或许换成监听操作图形自身的交互会更好
     vglobal.addEventListener('pointermove', this._onAreaDrag);
     vglobal.addEventListener('pointerup', this._onAreaDragEnd);
   };
@@ -420,7 +424,11 @@ export class MarkAreaEditor extends BaseEditorElement {
 
     const overlayArea = this._overlayArea;
     const points = overlayArea.attribute.points;
-    this._overlayLabel.setAttribute('visible', false);
+    this._editComponent.setAttribute('pickable', false);
+    this._overlayLabel.setAttributes({
+      visible: false,
+      pickable: false
+    });
 
     // 更新真正的图形
     const areaShape = (this._element as unknown as MarkAreaComponent).getArea();

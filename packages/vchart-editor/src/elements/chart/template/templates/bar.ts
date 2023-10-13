@@ -123,57 +123,6 @@ const spec = {
     id: 'legend-discrete',
     visible: true
   },
-  // title: {
-  //   id: 'title',
-  //   visible: true,
-  //   align: 'left',
-  //   verticalAlign: 'top',
-  //   orient: 'top',
-  //   textStyle: {
-  //     character: [
-  //       {
-  //         text: 'Bar Editor Test',
-  //         fontSize: 30,
-  //         textAlign: 'center',
-  //         textDecoration: 'underline',
-  //         stroke: '#0f51b5'
-  //       }
-  //     ]
-  //   },
-  //   subtextStyle: {
-  //     character: [
-  //       {
-  //         text: 'Mapbox',
-  //         fontWeight: 'bold',
-  //         fontSize: 30,
-  //         fill: '#3f51b5'
-  //       },
-  //       {
-  //         text: '',
-  //         fill: '#000'
-  //       },
-  //       {
-  //         text: 'alternative solution',
-  //         fontStyle: 'italic',
-  //         fill: '#3f51b5'
-  //       },
-  //       {
-  //         text: 'sub Title!',
-  //         fill: '#000'
-  //       },
-  //       {
-  //         text: 'Map',
-  //         textDecoration: 'line-through',
-  //         fill: '#000'
-  //       },
-  //       {
-  //         text: '[1]',
-  //         script: 'super',
-  //         fill: '#000'
-  //       }
-  //     ]
-  //   }
-  // },
   region: [
     {
       id: 'region-0',
@@ -182,13 +131,15 @@ const spec = {
       }
     }
   ],
-  label: {
-    visible: false,
-    style: {}
+  tooltip: {
+    visible: true
   },
+
   // TODO: 变成默认的配置
+  // 均值线
   // markLine: [
   //   {
+  //     name: 'avgMarkLineVertical',
   //     interactive: true,
   //     y: 'average',
   //     endSymbol: {
@@ -221,6 +172,7 @@ const spec = {
   //     }
   //   },
   //   {
+  //     name: 'avgMarkLineHorizontal',
   //     interactive: true,
   //     x: 'VT',
   //     endSymbol: {
@@ -252,9 +204,11 @@ const spec = {
   //       }
   //     }
   //   }
-  // ],
+  // ]
+  // 区域标注
   // markArea: [
   //   {
+  //     name: 'markAreaVertical',
   //     x: 'WY',
   //     x1: 'DC',
   //     zIndex: 500,
@@ -277,6 +231,7 @@ const spec = {
   //     }
   //   },
   //   {
+  //     name: 'markAreaHorizontal',
   //     y: 40000,
   //     y1: 50000,
   //     zIndex: 500,
@@ -299,8 +254,52 @@ const spec = {
   //     }
   //   }
   // ],
-  tooltip: {
-    visible: true
+
+  // 复合增长箭头，默认为第一维度和最后一个维度的值差异，TODO：需要根据图表的spec 来获取初始 coordinates
+  markLine: {
+    coordinates: [
+      {
+        State: 'WY',
+        Age: 'Under 5 Years',
+        Population: 25635
+      },
+      {
+        State: 'AK',
+        Age: '14 to 17 Years',
+        // Population: 22153 + 85640 + 72083
+        Population: 22153
+      }
+    ],
+    line: {
+      style: {
+        lineDash: [0],
+        lineWidth: 2,
+        stroke: '#000'
+      }
+    },
+    label: {
+      position: 'middle',
+      text: (((22153 + 85640 + 72083 - 25635 + 1890 + 9314) / (25635 + 1890 + 9314)) * 100).toFixed(0) + '%',
+      labelBackground: {
+        style: {
+          fill: '#fff',
+          fillOpacity: 1,
+          stroke: '#000',
+          lineWidth: 1,
+          cornerRadius: 4
+        }
+      },
+      style: {
+        fill: '#000'
+      }
+    },
+    endSymbol: {
+      size: 12,
+      refX: -6
+    },
+    offsetY: -30,
+    interactive: true,
+    name: 'growthMarkLine'
   }
 };
 

@@ -12,8 +12,9 @@ import type { ISpecProcess } from './spec-process/interface';
 import { Data } from './data/data';
 import type { IData } from './data/interface';
 import type { IChartElementOption } from './interface';
-import { MarkLineEditor } from './editor-elements/mark-line';
+import { AvgMarkLineEditor } from './editor-elements/avg-mark-line';
 import { MarkAreaEditor } from './editor-elements/mark-area';
+import { GrowthMarkLineEditor } from './editor-elements/growth-mark-line';
 
 export class EditorChart extends BaseElement {
   type = 'chart';
@@ -31,8 +32,9 @@ export class EditorChart extends BaseElement {
   protected _container: HTMLElement;
 
   protected _layoutEditor: LayoutEditorElement;
-  protected _markLineEditor: MarkLineEditor;
+  protected _avgMarkLineEditor: AvgMarkLineEditor;
   protected _markAreaEditor: MarkAreaEditor;
+  protected _growthMarkLineEditor: GrowthMarkLineEditor;
 
   protected _vchart: IVChart;
   get vchart() {
@@ -55,21 +57,24 @@ export class EditorChart extends BaseElement {
    */
   initEditors() {
     this._layoutEditor = new LayoutEditorElement(this._opt.controller, this, this._opt.layer);
-    this._markLineEditor = new MarkLineEditor(this._opt.controller, this, this._opt.layer);
+    this._avgMarkLineEditor = new AvgMarkLineEditor(this._opt.controller, this, this._opt.layer);
     this._markAreaEditor = new MarkAreaEditor(this._opt.controller, this, this._opt.layer);
+    this._growthMarkLineEditor = new GrowthMarkLineEditor(this._opt.controller, this, this._opt.layer);
   }
 
   bindEditors() {
     // editors maybe null
     this._layoutEditor?.initWithVChart();
-    this._markLineEditor?.initWithVChart();
+    this._avgMarkLineEditor?.initWithVChart();
     this._markAreaEditor?.initWithVChart();
+    this._growthMarkLineEditor?.initWithVChart();
   }
 
   releaseEditors() {
     this._layoutEditor?.release();
-    this._markLineEditor?.release();
+    this._avgMarkLineEditor?.release();
     this._markAreaEditor?.release();
+    this._growthMarkLineEditor?.release();
   }
 
   initWithOption(): void {
