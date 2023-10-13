@@ -1,3 +1,4 @@
+import { isEqual } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { isValid } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
@@ -353,11 +354,14 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   updateSpec(spec: any) {
     // super updateSpec 会执行 setAttrFromSpec 所以先缓存比对值
-    const originalSpec = this._originalSpec;
+    const { data: originalData, ...originalSpec } = this._originalSpec;
+    const { data: currentData, ...currentSpec } = spec;
     const { centerX, centerY, centerOffset, radius, innerRadius, cornerRadius, startAngle, endAngle, padAngle } =
       originalSpec;
     const result = super.updateSpec(spec);
-    if (
+    if (!isEqual(originalSpec, currentSpec)) {
+      result.reMake = true;
+    } else if (
       spec?.centerX !== centerX ||
       spec?.centerY !== centerY ||
       spec?.centerOffset !== centerOffset ||
