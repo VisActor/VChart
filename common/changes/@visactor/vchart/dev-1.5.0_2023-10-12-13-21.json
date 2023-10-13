@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: optimized the display of `padAngle` in the gauge series and changed the unit of `padAngle` to angle, related #1215",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
