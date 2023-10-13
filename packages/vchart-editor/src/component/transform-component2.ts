@@ -38,6 +38,7 @@ type IUpateParams = {
 export class TransformComponent2 extends AbstractComponent<Required<TransformAttributes>> {
   name = 'transform';
   rectB: IAABBBounds;
+  isDragging: boolean = false;
   dragOffsetX: number;
   dragOffsetY: number;
   activeGraphic: IGraphic | null;
@@ -143,8 +144,11 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     this.addEventListener('pointerout', this.handleMouseOut);
 
     // drag
-    this.addEventListener('pointerdown', this.handleMouseDown);
+    this.addEventListener('pointerdown', this.handleDragMouseDown);
     // this.addEventListener('drag', this.onDrag);
+
+    this.addEventListener('pointermove', this.handleDragMouseMove);
+    this.addEventListener('pointerup', this.handleDragMouseUp);
   }
 
   protected handleMouseMove = (e: any) => {
@@ -158,6 +162,58 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
 
   protected handleMouseOut = (e: any) => {
     this.setCursor();
+  };
+
+  protected handleDragMouseDown = (e: any) => {
+    this.isEditor = true;
+    this.editStartCbs.forEach(cb => cb());
+    this.dragOffsetX = e.offset.x;
+    this.dragOffsetY = e.offset.y;
+
+    // 开启move
+    if (e.pickParams && this.stage) {
+      const { shadowTarget } = e.pickParams || {};
+      this.setActiveGraphic(shadowTarget);
+      this.isDragging = true;
+    } else {
+      this.unTransStartCbs.forEach(cb => cb(e));
+    }
+  };
+
+  protected handleDragMouseMove = (e: any) => {
+    if (!this.isDragging) {
+      return;
+    }
+
+    const dx = e.offset.x - this.dragOffsetX;
+    const dy = e.offset.y - this.dragOffsetY;
+
+    if (dx === 0 && dy === 0) {
+      return;
+    }
+
+    if (this.rotatable) {
+      this.handleRotate(dx, dy);
+      this.dispatchUpdate();
+    } else {
+      this.handleScale(dx, dy);
+      this.dispatchUpdate();
+    }
+
+    this.dragOffsetX = e.offset.x;
+    this.dragOffsetY = e.offset.y;
+  };
+
+  protected handleDragMouseUp = (e: any) => {
+    if (!this.isDragging) {
+      return;
+    }
+    this.dragOffsetX = 0;
+    this.dragOffsetY = 0;
+    this.setActiveGraphic(null);
+    this.editEndCbs.forEach(cb => cb());
+    this.isEditor = false;
+    this.isDragging = false;
   };
 
   protected setCursor(c?: string) {
@@ -325,59 +381,6 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     const m = this.transMatrix;
     return Math.atan2(m.b, m.a);
   }
-
-  protected handleMouseDown = (e: any) => {
-    this.isEditor = true;
-    this.editStartCbs.forEach(cb => cb());
-    this.dragOffsetX = e.offset.x;
-    this.dragOffsetY = e.offset.y;
-    const _handleMouseMove = (e: any, cb: (e: any, dx: number, dy: number) => void) => {
-      const dx = e.offset.x - this.dragOffsetX;
-      const dy = e.offset.y - this.dragOffsetY;
-
-      if (dx === 0 && dy === 0) {
-        return;
-      }
-
-      cb(e, dx, dy);
-
-      this.dragOffsetX = e.offset.x;
-      this.dragOffsetY = e.offset.y;
-    };
-
-    // 开启move
-    if (e.pickParams && this.stage) {
-      const { shadowTarget } = e.pickParams || {};
-      this.setActiveGraphic(shadowTarget);
-      const handleMouseMove = (e: any) => {
-        _handleMouseMove(e, (e, dx, dy) => {
-          if (this.rotatable) {
-            this.handleRotate(dx, dy);
-            this.dispatchUpdate();
-          } else {
-            this.handleScale(dx, dy);
-            this.dispatchUpdate();
-          }
-        });
-      };
-      const handleMouseup = () => {
-        this.dragOffsetX = 0;
-        this.dragOffsetY = 0;
-        this.setActiveGraphic(null);
-        this.stage && this.stage.removeEventListener('pointermove', handleMouseMove);
-        this.editEndCbs.forEach(cb => cb());
-        this.isEditor = false;
-      };
-      this.stage.addEventListener('pointermove', handleMouseMove);
-      this.stage.addEventListener('pointerup', handleMouseup, { once: true });
-    } else {
-      this.unTransStartCbs.forEach(cb => cb(e));
-    }
-  };
-
-  protected onMouseUp = (e: any) => {
-    // do thing
-  };
 
   static cornerRect: Array<[number, number, string]> = [
     [0, 0, 'left-top'],
