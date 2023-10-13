@@ -8,6 +8,7 @@ export function SliderNumber(props: IBaseSliderNumberComponentProps) {
   const min = props.config?.min ?? defaultBaseComponentConfig.sliderNumber.min;
   const max = props.config?.max ?? defaultBaseComponentConfig.sliderNumber.max;
   const unit = props.config?.unit ?? defaultBaseComponentConfig.sliderNumber.unit;
+  const step = props.config?.step ?? defaultBaseComponentConfig.sliderNumber.step;
 
   return (
     <div className="vchart-editor-ui-panel-base-container">
@@ -16,16 +17,18 @@ export function SliderNumber(props: IBaseSliderNumberComponentProps) {
         value={props.value}
         min={min}
         max={max}
+        step={step}
         onChange={value => {
           const finalValue = isArray(value) ? value[0] : value;
           props.onChange?.(finalValue);
         }}
-        style={{ width: 200 }}
+        style={{ width: 160 }}
       ></Slider>
       <InputNumber
         value={props.value}
         min={min}
         max={max}
+        step={step}
         onChange={value => {
           const finalValue = isArray(value) ? value[0] : value;
           props.onChange?.(finalValue);
