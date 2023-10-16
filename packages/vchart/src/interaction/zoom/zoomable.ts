@@ -134,6 +134,7 @@ export class Zoomable implements IZoomable {
   ) {
     const { delayType = 'throttle', delayTime = 0 } = option;
 
+    // pc端没有scrollEnd事件，所以漫游模式下scroll仅支持realTime
     eventObj.on(
       this._getTriggerEvent('scrollEnd'),
       { level: Event_Bubble_Level.chart, consume: false },
@@ -234,6 +235,7 @@ export class Zoomable implements IZoomable {
   ) {
     const { delayType = 'throttle', delayTime = 0 } = option;
 
+    // pc端没有scrollEnd事件，所以漫游模式下scroll仅支持realTime
     eventObj.on(
       this._getTriggerEvent('scrollEnd'),
       { level: Event_Bubble_Level.chart, consume: false },
