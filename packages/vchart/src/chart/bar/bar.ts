@@ -1,4 +1,4 @@
-import { BarSeries, registerBarSeries } from '../../series/bar/bar';
+import { registerBarSeries } from '../../series/bar/bar';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';

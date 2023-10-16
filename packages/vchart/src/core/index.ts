@@ -17,4 +17,5 @@ export type { IVChart } from './interface';
 export * from '../event/interface';
 export * from '../typings/spec/common';
 export * from '../theme/interface';
+export * from '../constant';
 export type { IStateSpec, StateValueType } from '../compile/mark';

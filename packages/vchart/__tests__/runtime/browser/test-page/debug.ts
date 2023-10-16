@@ -3,104 +3,113 @@ const CONTAINER_ID = 'chart';
 
 const run = () => {
   const spec = {
-    type: 'bar',
-    data: [
-      {
-        id: 'barData',
-        values: [
-          {
-            State: 'WY',
-            Age: 'Under 5 Years',
-            Population: 25635
-          },
-          {
-            State: 'WY',
-            Age: '5 to 13 Years',
-            Population: 1890
-          },
-          {
-            State: 'WY',
-            Age: '14 to 17 Years',
-            Population: 9314
-          },
-          {
-            State: 'DC',
-            Age: 'Under 5 Years',
-            Population: 30352
-          },
-          {
-            State: 'DC',
-            Age: '5 to 13 Years',
-            Population: 20439
-          },
-          {
-            State: 'DC',
-            Age: '14 to 17 Years',
-            Population: 10225
-          },
-          {
-            State: 'VT',
-            Age: 'Under 5 Years',
-            Population: 38253
-          },
-          {
-            State: 'VT',
-            Age: '5 to 13 Years',
-            Population: 42538
-          },
-          {
-            State: 'VT',
-            Age: '14 to 17 Years',
-            Population: 15757
-          },
-          {
-            State: 'ND',
-            Age: 'Under 5 Years',
-            Population: 51896
-          },
-          {
-            State: 'ND',
-            Age: '5 to 13 Years',
-            Population: 67358
-          },
-          {
-            State: 'ND',
-            Age: '14 to 17 Years',
-            Population: 18794
-          },
-          {
-            State: 'AK',
-            Age: 'Under 5 Years',
-            Population: 72083
-          },
-          {
-            State: 'AK',
-            Age: '5 to 13 Years',
-            Population: 85640
-          },
-          {
-            State: 'AK',
-            Age: '14 to 17 Years',
-            Population: 22153
-          }
-        ]
-      }
-    ],
-    xField: 'State',
-    yField: 'Population',
-    seriesField: 'Age',
-    stack: true,
-    legends: {
-      visible: true
+    type: 'pie',
+    data: {
+      values: [
+        {
+          业务: 'Lark Global',
+          需求数量: '1'
+        },
+        {
+          业务: 'Admin',
+          需求数量: '12'
+        },
+        {
+          业务: '专项',
+          需求数量: '6'
+        },
+        {
+          业务: 'Lark Messenger 基础技术',
+          需求数量: '5'
+        },
+        {
+          业务: 'Meego',
+          需求数量: '1'
+        },
+        {
+          业务: 'People',
+          需求数量: '5'
+        },
+        {
+          业务: 'Security and Compliance',
+          需求数量: '27'
+        },
+        {
+          业务: '开放平台',
+          需求数量: '4'
+        },
+        {
+          业务: 'Trust and Safety',
+          需求数量: '3'
+        },
+        {
+          业务: 'KA',
+          需求数量: '1'
+        },
+        {
+          业务: 'Lark Middle Platform',
+          需求数量: '1'
+        },
+        {
+          业务: 'UX',
+          需求数量: '1'
+        },
+        {
+          业务: 'Mail',
+          需求数量: '5'
+        },
+        {
+          业务: 'Calendar',
+          需求数量: '4'
+        },
+        {
+          业务: 'Lingo & Search',
+          需求数量: '15'
+        },
+        {
+          业务: 'CCM',
+          需求数量: '11'
+        },
+        {
+          业务: 'IM',
+          需求数量: '73'
+        },
+        {
+          业务: 'Base',
+          需求数量: '2'
+        },
+        {
+          业务: 'VC',
+          需求数量: '4'
+        }
+      ]
     },
-    bar: {
-      // The state style of bar
-      state: {
-        hover: {
-          stroke: '#000',
-          lineWidth: 1
+    categoryField: '业务',
+    valueField: '需求数量',
+    axes: [
+      {
+        label: {
+          autoHide: true,
+          autoRotate: true
+        },
+        orient: 'bottom',
+        sampling: true
+      },
+      {
+        orient: 'left',
+        title: {
+          text: '单位（万）',
+          visible: true
         }
       }
+    ],
+    line: {
+      style: {
+        curveType: 'monotone'
+      }
+    },
+    point: {
+      visible: false
     }
   };
 
