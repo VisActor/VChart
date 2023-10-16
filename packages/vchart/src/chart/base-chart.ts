@@ -243,7 +243,6 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   init(options: any = {}) {
-    this.initComponent();
     // 元素创建完毕后再执行各元素的初始化 方便各元素能获取到其他模块
     this.initRegion();
 
