@@ -81,8 +81,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
       clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markPoint;
-    this._markerComponent.name = 'markPoint';
-    this._markerComponent.id = this._spec.id ?? `markPoint-${this.id}`;
+    this._markerComponent.name = this._spec.name ?? this.type;
+    this._markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
     this.getContainer().add(this._markerComponent as unknown as INode);
   }
 

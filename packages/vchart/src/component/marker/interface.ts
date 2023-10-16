@@ -18,6 +18,28 @@ export type IDataPointSpec = {
    */
   refRelativeSeriesIndex?: number;
   refRelativeSeriesId?: StringOrNumber;
+  /**
+   * 指定使用 xField 上的那个维度索引，因为 xField 字段有可能会包含多个维度，比如分组场景
+   * @default 0
+   * @since 1.5.1
+   */
+  xFieldIndex?: number;
+  /**
+   * 指定使用 xField 上的维度名称，因为 xField 字段有可能会包含多个维度，比如分组场景。
+   * `xFieldIndex` 和 `xFieldDim` 声明一个即可，同时声明则 `xFieldDim` 优先级更高
+   */
+  xFieldDim?: string;
+  /**
+   * 指定使用 yField 上的那个维度索引，因为 yField 字段有可能会包含多个维度，比如分组场景
+   * @default 0
+   * @since 1.5.1
+   */
+  yFieldIndex?: number;
+  /**
+   * 指定使用 yField 上的维度名称，因为 yField 字段有可能会包含多个维度，比如分组场景。
+   * `yFieldIndex` 和 `yFieldDim` 声明一个即可，同时声明则 `yFieldDim` 优先级更高
+   */
+  yFieldDim?: string;
 };
 export type IMarkerPositionsSpec = {
   positions: IPointLike[];
@@ -155,6 +177,12 @@ export interface IMarkerSpec extends IComponentSpec {
    * @since 1.3.0
    */
   clip?: boolean;
+
+  /**
+   * 标注组件的名称标识
+   * @since 1.6.0
+   */
+  name?: string;
 }
 
 export interface IMarkerSymbol extends IMarkerRef {

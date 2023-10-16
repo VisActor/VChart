@@ -3,6 +3,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isValid, isNumber } from '@visactor/vutils';
+import { StringOrNumber } from '../../typings';
 
 export function xLayout(
   data: DataView,
@@ -93,8 +94,8 @@ export function coordinateLayout(data: DataView, relativeSeries: ICartesianSerie
   const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
   dataPoints.forEach(
     (datum: {
-      x: string | number | null;
-      y: string | number | null;
+      x: StringOrNumber[] | null;
+      y: StringOrNumber[] | null;
       getRefRelativeSeries?: () => ICartesianSeries;
     }) => {
       const refRelativeSeries = datum?.getRefRelativeSeries ? datum.getRefRelativeSeries() : relativeSeries;
@@ -102,16 +103,18 @@ export function coordinateLayout(data: DataView, relativeSeries: ICartesianSerie
       const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
       const xDomain = refRelativeSeries.getXAxisHelper().getScale(0).domain();
       const yDomain = refRelativeSeries.getYAxisHelper().getScale(0).domain();
-      isNumber(datum.x) &&
-        isNeedExtendDomain(xDomain, datum.x, autoRange) &&
-        refRelativeSeries.getXAxisHelper()?.setExtendDomain?.('marker_xAxis_extend', datum.x as number);
+      datum.x.length === 1 &&
+        isNumber(datum.x[0]) &&
+        isNeedExtendDomain(xDomain, datum.x[0], autoRange) &&
+        refRelativeSeries.getXAxisHelper()?.setExtendDomain?.('marker_xAxis_extend', datum.x[0] as number);
 
-      isNumber(datum.y) &&
-        isNeedExtendDomain(yDomain, datum.y, autoRange) &&
-        refRelativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y as number);
+      datum.y.length === 1 &&
+        isNumber(datum.y[0]) &&
+        isNeedExtendDomain(yDomain, datum.y[0], autoRange) &&
+        refRelativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y[0] as number);
       points.push({
-        x: refRelativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x,
-        y: refRelativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y
+        x: refRelativeSeries.getXAxisHelper().dataToPosition(datum.x) + regionStartLayoutStartPoint.x,
+        y: refRelativeSeries.getYAxisHelper().dataToPosition(datum.y) + regionStartLayoutStartPoint.y
       });
     }
   );

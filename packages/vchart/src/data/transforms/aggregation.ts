@@ -2,8 +2,8 @@ import type { DataView } from '@visactor/vdataset';
 import type { IAggrType } from '../../component/marker/interface';
 import type { ICartesianSeries } from '../../series/interface';
 
-import { variance, average, sum, standardDeviation, median, isValid, isFunction, min, max } from '../../util';
-import type { Datum } from '../../typings';
+import { variance, average, min, max, sum, standardDeviation, median, isValid, isFunction, isArray } from '../../util';
+import type { StringOrNumber } from '../../typings';
 
 export type IOption = {
   field: string;
@@ -14,7 +14,7 @@ export type IOptionAggrField = {
   aggrType: IAggrType;
 };
 
-export type IOptionPos = IOptionAggrField | string | number;
+export type IOptionPos = IOptionAggrField | StringOrNumber[];
 
 export type IOptionSeries = {
   getRelativeSeries: () => ICartesianSeries;
@@ -85,14 +85,14 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
     median: markerMedian
   };
   const results: {
-    x: string | number | null;
-    y: string | number | null;
+    x: StringOrNumber[] | null;
+    y: StringOrNumber[] | null;
   }[] = [];
 
   options.forEach(option => {
     const result: {
-      x: string | number | null;
-      y: string | number | null;
+      x: StringOrNumber[] | null;
+      y: StringOrNumber[] | null;
       getRefRelativeSeries?: () => ICartesianSeries;
     } = { x: null, y: null };
 
@@ -105,11 +105,11 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
       if (isFunction(x)) {
         x = x(relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData);
       }
-      if (typeof x === 'string' || typeof x === 'number') {
+      if (isArray(x)) {
         result.x = x;
       } else {
         const { aggrType, field } = x;
-        result.x = aggrMap[aggrType](_data, { field: field });
+        result.x = [aggrMap[aggrType](_data, { field: field })];
       }
     }
     if (isValid(option.y)) {
@@ -117,11 +117,11 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
       if (isFunction(y)) {
         y = y(relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData);
       }
-      if (typeof y === 'string' || typeof y === 'number') {
+      if (isArray(y)) {
         result.y = y;
       } else {
         const { aggrType, field } = y;
-        result.y = aggrMap[aggrType](_data, { field: field });
+        result.y = [aggrMap[aggrType](_data, { field: field })];
       }
     }
     if (option.getRefRelativeSeries) {

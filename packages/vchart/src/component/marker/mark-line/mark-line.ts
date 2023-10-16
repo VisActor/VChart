@@ -97,8 +97,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
       clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markLine;
-    this._markerComponent.name = 'markLine';
-    this._markerComponent.id = this._spec.id ?? `markLine-${this.id}`;
+    this._markerComponent.name = this._spec.name ?? this.type;
+    this._markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
     this.getContainer().add(this._markerComponent as unknown as INode);
   }
 
@@ -179,7 +179,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
           position: 'start',
           autoRotate: false,
           ...getTextOffset(points[0], points[1], connectDirection, expandDistance),
-          efX: 0,
+          refX: 0,
           refY: 0
         };
       }
