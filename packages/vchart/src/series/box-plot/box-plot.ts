@@ -26,6 +26,7 @@ import { VChart } from '../../core/vchart';
 import { BoxPlotMark } from '../../mark/box-plot';
 import { SymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
+import type { IMark } from '../../mark/interface';
 
 VChart.useMark([BoxPlotMark, SymbolMark]);
 
@@ -401,5 +402,9 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   getDefaultShapeType(): string {
     return 'square';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._boxPlotMark];
   }
 }
