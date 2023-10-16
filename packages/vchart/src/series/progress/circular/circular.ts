@@ -16,6 +16,7 @@ import { ArcMark } from '../../../mark/arc';
 import { ProgressArcMark } from '../../../mark/progress-arc';
 import { circularProgressSeriesMark } from './constant';
 import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../constant';
+import type { IMark } from '../../../mark/interface';
 
 VChart.useMark([ArcMark, ProgressArcMark]);
 
@@ -182,5 +183,9 @@ export class CircularProgressSeries<
         userAnimationConfig(SeriesMarkNameEnum.track, this._spec)
       )
     );
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._progressMark];
   }
 }
