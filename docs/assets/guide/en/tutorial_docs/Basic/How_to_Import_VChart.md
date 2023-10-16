@@ -125,3 +125,63 @@ const vchart = new VChart(spec, {
 // Call the rendering method to draw the chart
 vchart.renderAsync();
 ```
+
+## Import on demand
+
+`@visactor/vchart` provides all VChart functionality by default. If your project has strong requirements for code size, you can also import the relevant charts and components on demand. Let's take a bar chart as an example to demonstrate how to import on demand:
+
+```ts
+// Import the VChart core module
+import { VChart } from '@visactor/vchart/esm/core';
+// Import bar chart register
+import { registerBarChart } from '@visactor/vchart/esm/chart';
+// Import Cartesian axes, Tooltip, CrossHair components' registers
+import {
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerTooltip,
+  registerCartesianCrossHair
+} from '@visactor/vchart/esm/component';
+// Import cross-environment code, here we only load code for browser
+import { registerBrowserEnv } from '@visactor/vchart/esm/env';
+
+// 注册
+VChart.useRegisters([
+  registerBarChart,
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerTooltip,
+  registerCartesianCrossHair,
+  registerBrowserEnv
+]);
+```
+
+注意如果你的项目使用的是 cjs(commonJS) 的话，请从 `@visactor/vchart/cjs` 目录下引用，如下：
+
+```js
+// Import the VChart core module
+const { VChart } = require('@visactor/vchart/cjs/core');
+// Import bar chart register
+const { registerBarChart } = require('@visactor/vchart/cjs/chart');
+// Import Cartesian axes, Tooltip, CrossHair components' registers
+const {
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerTooltip,
+  registerCartesianCrossHair
+} = require('@visactor/vchart/cjs/component');
+// Import cross-environment code, here we only load code for browser
+const { registerBrowserEnv } = require('@visactor/vchart/esm/env');
+
+// 注册
+VChart.useRegisters([
+  registerBarChart,
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerTooltip,
+  registerCartesianCrossHair,
+  registerBrowserEnv
+]);
+```
+
+具体可以查看代码示例：[按需引入柱状图](https://codesandbox.io/s/the-example-of-visactor-vcharts-shrinking-bundle-size-4gsdfn)
