@@ -21,36 +21,36 @@ const run = () => {
     xField: 'month',
     yField: 'sales',
     markLine: [
-      {
-        type: 'type-step',
-        coordinates: [
-          { month: 'Monday', sales: 22 },
-          { month: 'Wednesday', sales: 25 }
-        ],
-        connectDirection: 'top',
-        expandDistance: 50,
-        label: {
-          formatMethod: (a, b) => {
-            console.log(a, b);
-            return 'sss';
-          },
-          labelBackground: {
-            visible: true,
-            style: {
-              fillOpacity: 1
-            }
-          },
-          style: {
-            fill: '#000'
-          }
-        },
-        line: {
-          style: {
-            lineDash: [0],
-            lineWidth: 2
-          }
-        }
-      },
+      // {
+      //   type: 'type-step',
+      //   coordinates: [
+      //     { month: 'Monday', sales: 22 },
+      //     { month: 'Wednesday', sales: 25 }
+      //   ],
+      //   connectDirection: 'top',
+      //   expandDistance: 50,
+      //   label: {
+      //     formatMethod: (a, b) => {
+      //       console.log(a, b);
+      //       return 'sss';
+      //     },
+      //     labelBackground: {
+      //       visible: true,
+      //       style: {
+      //         fillOpacity: 1
+      //       }
+      //     },
+      //     style: {
+      //       fill: '#000'
+      //     }
+      //   },
+      //   line: {
+      //     style: {
+      //       lineDash: [0],
+      //       lineWidth: 2
+      //     }
+      //   }
+      // },
       {
         type: 'type-step',
         coordinates: [
@@ -60,10 +60,7 @@ const run = () => {
         connectDirection: 'right',
         expandDistance: 80,
         label: {
-          formatMethod: (a, b) => {
-            console.log(a, b);
-            return 'sss';
-          },
+          text: 'text',
           labelBackground: {
             visible: true,
             padding: 6,
