@@ -1,4 +1,5 @@
 /* eslint-disable no-duplicate-imports */
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
@@ -190,5 +191,9 @@ export class GaugePointerSeries<
 
   getDefaultShapeType() {
     return 'circle';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [];
   }
 }
