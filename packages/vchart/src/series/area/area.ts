@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { isValid } from '@visactor/vutils';
+import { isValid, isArray } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
@@ -255,6 +255,21 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   getDefaultShapeType() {
     return 'square';
+  }
+
+  getSeriesStyle(datum: Datum) {
+    const isLineAsSeriesMark = this._spec?.seriesMark !== 'point'; // 加判空防止某些特殊时刻（如 updateSpec 时）鼠标滑过图表导致报错
+    return (attribute: string) => {
+      if (isLineAsSeriesMark) {
+        // 增加一个标识位，用于是否替换，因为图例获取颜色的时候是不需要替换的
+        attribute === 'fill' && (attribute = 'stroke');
+      }
+      const result = this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
+      if (attribute === 'stroke' && isArray(result)) {
+        return result[0];
+      }
+      return result;
+    };
   }
 }
 
