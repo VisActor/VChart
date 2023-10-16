@@ -249,6 +249,7 @@ export class BaseChart extends CompilableBase implements IChart {
 
     this.initSeries();
     // component
+    this.initComponent();
 
     // event
     this.initEvent();
