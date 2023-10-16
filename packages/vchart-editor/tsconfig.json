@@ -14,5 +14,10 @@
       "module": "commonjs"
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../vchart"
+    }
+  ]
 }
