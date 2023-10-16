@@ -80,8 +80,8 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markArea;
-    this._markerComponent.name = 'markArea';
-    this._markerComponent.id = this._spec.id ?? `markArea-${this.id}`;
+    this._markerComponent.name = this._spec.name ?? this.type;
+    this._markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
     this.getContainer().add(this._markerComponent as unknown as INode);
   }
 
