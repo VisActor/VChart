@@ -145,7 +145,7 @@ import {
 // Import cross-environment code, here we only load code for browser
 import { registerBrowserEnv } from '@visactor/vchart/esm/env';
 
-// 注册
+// Register
 VChart.useRegisters([
   registerBarChart,
   registerCartesianLinearAxis,
@@ -156,7 +156,7 @@ VChart.useRegisters([
 ]);
 ```
 
-注意如果你的项目使用的是 cjs(commonJS) 的话，请从 `@visactor/vchart/cjs` 目录下引用，如下：
+Note that if your project uses cjs (commonJS), please import from the `@visactor/vchart/cjs` directory as follows:
 
 ```js
 // Import the VChart core module
@@ -173,7 +173,7 @@ const {
 // Import cross-environment code, here we only load code for browser
 const { registerBrowserEnv } = require('@visactor/vchart/esm/env');
 
-// 注册
+// Register
 VChart.useRegisters([
   registerBarChart,
   registerCartesianLinearAxis,
@@ -184,4 +184,4 @@ VChart.useRegisters([
 ]);
 ```
 
-具体可以查看代码示例：[按需引入柱状图](https://codesandbox.io/s/the-example-of-visactor-vcharts-shrinking-bundle-size-4gsdfn)
+You can specifically view the code example: [On-demand import of bar chart](https://codesandbox.io/s/the-example-of-visactor-vcharts-shrinking-bundle-size-4gsdfn)
