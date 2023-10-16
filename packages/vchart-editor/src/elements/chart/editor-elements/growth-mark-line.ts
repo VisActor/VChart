@@ -7,7 +7,8 @@ import type { IGroup, ILine, ISymbol } from '@visactor/vrender-core';
 import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
-import { IPointLike, array, has, last, merge } from '@visactor/vutils';
+import type { IPointLike } from '@visactor/vutils';
+import { array, has, last, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine } from '@visactor/vchart';
@@ -16,16 +17,10 @@ import type { Point } from '@visactor/vrender-components/es/core/type';
 import { findClosestPoint } from '../utils/math';
 import { getInsertPoints, getTextOffset } from '../utils/marker';
 // TODO： 类型导出
-import { IStepMarkLineSpec } from '@visactor/vchart/src/component/marker/mark-line';
-import { ICartesianSeries } from '@visactor/vchart/src/series/interface';
-import { IComponent } from '@visactor/vchart/src/component/interface';
-
-type DataPoint = {
-  x: number;
-  y: number;
-  data: any;
-  length: number;
-};
+import type { IStepMarkLineSpec } from '@visactor/vchart/src/component/marker/mark-line';
+import type { ICartesianSeries } from '@visactor/vchart/src/series/interface';
+import type { IComponent } from '@visactor/vchart/src/component/interface';
+import type { DataPoint } from './types';
 
 const START_LINK_HANDLER = 'overlay-growth-mark-line-start-handler';
 const END_LINK_HANDLER = 'overlay-growth-mark-line-end-handler';
@@ -130,7 +125,6 @@ export class GrowthMarkLineEditor extends BaseEditorElement {
     if (this._editComponent) {
       return this._editComponent;
     }
-    const model = el.model;
     const dataPoints = this._getAllDataPoints();
     const lineShape = this._element.getLine();
 

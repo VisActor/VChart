@@ -15,6 +15,7 @@ import type { IChartElementOption } from './interface';
 import { AvgMarkLineEditor } from './editor-elements/avg-mark-line';
 import { MarkAreaEditor } from './editor-elements/mark-area';
 import { GrowthMarkLineEditor } from './editor-elements/growth-mark-line';
+import { HierarchicalDiffMarkLineEditor } from './editor-elements/hierarchical-diff-mark-line';
 
 export class EditorChart extends BaseElement {
   type = 'chart';
@@ -35,6 +36,7 @@ export class EditorChart extends BaseElement {
   protected _avgMarkLineEditor: AvgMarkLineEditor;
   protected _markAreaEditor: MarkAreaEditor;
   protected _growthMarkLineEditor: GrowthMarkLineEditor;
+  protected _hirarchicalDiffMarkLineEditor: HierarchicalDiffMarkLineEditor;
 
   protected _vchart: IVChart;
   get vchart() {
@@ -60,6 +62,11 @@ export class EditorChart extends BaseElement {
     this._avgMarkLineEditor = new AvgMarkLineEditor(this._opt.controller, this, this._opt.layer);
     this._markAreaEditor = new MarkAreaEditor(this._opt.controller, this, this._opt.layer);
     this._growthMarkLineEditor = new GrowthMarkLineEditor(this._opt.controller, this, this._opt.layer);
+    this._hirarchicalDiffMarkLineEditor = new HierarchicalDiffMarkLineEditor(
+      this._opt.controller,
+      this,
+      this._opt.layer
+    );
   }
 
   bindEditors() {
@@ -68,6 +75,7 @@ export class EditorChart extends BaseElement {
     this._avgMarkLineEditor?.initWithVChart();
     this._markAreaEditor?.initWithVChart();
     this._growthMarkLineEditor?.initWithVChart();
+    this._hirarchicalDiffMarkLineEditor?.initWithVChart();
   }
 
   releaseEditors() {
@@ -75,6 +83,7 @@ export class EditorChart extends BaseElement {
     this._avgMarkLineEditor?.release();
     this._markAreaEditor?.release();
     this._growthMarkLineEditor?.release();
+    this._hirarchicalDiffMarkLineEditor?.release();
   }
 
   initWithOption(): void {

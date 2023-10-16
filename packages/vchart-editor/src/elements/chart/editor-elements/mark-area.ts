@@ -12,7 +12,7 @@ import { createRect, createGroup, vglobal, createPolygon, point } from '@visacto
 import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement } from './base-editor-element';
 // eslint-disable-next-line no-duplicate-imports
-import { cloneDeep, merge } from '@visactor/vutils';
+import { merge } from '@visactor/vutils';
 import type { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { EventParams, MarkArea } from '@visactor/vchart';
 import type { IComponent } from '@visactor/vchart/esm/component/interface';

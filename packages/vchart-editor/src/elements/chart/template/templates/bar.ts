@@ -6,12 +6,17 @@ import { BaseTemp } from './baseTemp';
 const spec = {
   type: 'common',
   // background: 'transparent',
+  direction: 'horizontal',
   series: [
     {
       id: 'bar-0',
       type: 'bar',
-      xField: 'State',
-      yField: 'Population',
+      // xField: 'State',
+      // yField: 'Population',
+      yField: 'State',
+      xField: 'Population',
+      direction: 'horizontal',
+
       seriesField: 'Age',
       stack: true,
       bar: {
@@ -22,6 +27,9 @@ const spec = {
             lineWidth: 1
           }
         }
+      },
+      label: {
+        visible: true
       }
     }
   ],
@@ -29,12 +37,14 @@ const spec = {
     {
       orient: 'left',
       id: 'axis-left',
-      type: 'linear'
+      // type: 'linear'
+      type: 'band'
     },
     {
       orient: 'bottom',
       id: 'axis-bottom',
-      type: 'band'
+      // type: 'band',
+      type: 'linear'
     }
   ],
   data: [
@@ -250,6 +260,114 @@ const spec = {
     //   name: 'growthMarkLine'
     // },
     // 总计差异
+    // {
+    //   type: 'type-step',
+    //   coordinates: [
+    //     {
+    //       State: 'WY',
+    //       Age: 'Under 5 Years',
+    //       Population: 25635
+    //     },
+    //     {
+    //       State: 'AK',
+    //       Age: 'Under 5 Years',
+    //       Population: 72083
+    //     }
+    //   ],
+    //   connectDirection: 'top',
+    //   expandDistance: 30,
+    //   line: {
+    //     style: {
+    //       lineDash: [0],
+    //       lineWidth: 2,
+    //       stroke: '#000',
+    //       cornerRadius: 4
+    //     }
+    //   },
+    //   label: {
+    //     position: 'middle',
+    //     text: 'ssss',
+    //     labelBackground: {
+    //       style: {
+    //         fill: '#fff',
+    //         fillOpacity: 1,
+    //         stroke: '#000',
+    //         lineWidth: 1,
+    //         cornerRadius: 4
+    //       }
+    //     },
+    //     style: {
+    //       fill: '#000'
+    //     }
+    //   },
+    //   endSymbol: {
+    //     size: 12,
+    //     refX: -6
+    //   },
+    //   interactive: true,
+    //   name: 'totalDiffMarkLine'
+    // }
+    // 层级差异(vertical)
+    // {
+    //   type: 'type-step',
+    //   coordinates: [
+    //     {
+    //       State: 'WY',
+    //       Age: 'Under 5 Years',
+    //       Population: 25635
+    //     },
+    //     {
+    //       State: 'ND',
+    //       Age: 'Under 5 Years',
+    //       Population: 51896
+    //     }
+    //   ],
+    //   connectDirection: 'top',
+    //   expandDistance: 150,
+    //   label: {
+    //     position: 'middle',
+    //     text: 'text',
+    //     labelBackground: {
+    //       style: {
+    //         fill: '#fff',
+    //         fillOpacity: 1,
+    //         stroke: '#000',
+    //         lineWidth: 1,
+    //         cornerRadius: 4
+    //       }
+    //     },
+    //     style: {
+    //       fill: '#000'
+    //     }
+    //   },
+    //   line: {
+    //     multiSegment: true,
+    //     mainSegmentIndex: 1,
+    //     style: [
+    //       {
+    //         lineDash: [2, 2],
+    //         stroke: '#000',
+    //         lineWidth: 2
+    //       },
+    //       {
+    //         stroke: '#000',
+    //         lineWidth: 2
+    //       },
+    //       {
+    //         lineDash: [2, 2],
+    //         stroke: '#000',
+    //         lineWidth: 2
+    //       }
+    //     ]
+    //   },
+    //   endSymbol: {
+    //     size: 12,
+    //     refX: -6
+    //   },
+    //   interactive: true,
+    //   name: 'hierarchicalDiffMarkLine'
+    // }
+    // 层级差异(horizontal)
     {
       type: 'type-step',
       coordinates: [
@@ -259,24 +377,16 @@ const spec = {
           Population: 25635
         },
         {
-          State: 'AK',
+          State: 'ND',
           Age: 'Under 5 Years',
-          Population: 72083
+          Population: 51896
         }
       ],
-      connectDirection: 'top',
-      expandDistance: 30,
-      line: {
-        style: {
-          lineDash: [0],
-          lineWidth: 2,
-          stroke: '#000',
-          cornerRadius: 4
-        }
-      },
+      connectDirection: 'bottom',
+      expandDistance: 150,
       label: {
         position: 'middle',
-        text: 'ssss',
+        text: 'text',
         labelBackground: {
           style: {
             fill: '#fff',
@@ -290,108 +400,32 @@ const spec = {
           fill: '#000'
         }
       },
-      endSymbol: {
-        size: 12,
-        refX: -6
-      },
-      interactive: true,
-      name: 'totalDiffMarkLine'
-    },
-    {
       line: {
-        style: {
-          lineDash: [0],
-          stroke: '#000',
-          lineWidth: 2,
-          cornerRadius: 4
-        }
-      },
-      startSymbol: {
-        visible: false,
-        symbolType: 'triangle',
-        size: 10,
-        style: {
-          stroke: null,
-          lineWidth: 0,
-          fill: 'rgba(46, 47, 50)'
-        }
+        multiSegment: true,
+        mainSegmentIndex: 1,
+        style: [
+          {
+            lineDash: [2, 2],
+            stroke: '#000',
+            lineWidth: 2
+          },
+          {
+            stroke: '#000',
+            lineWidth: 2
+          },
+          {
+            lineDash: [2, 2],
+            stroke: '#000',
+            lineWidth: 2
+          }
+        ]
       },
       endSymbol: {
-        visible: true,
-        symbolType: 'triangle',
         size: 12,
-        style: {
-          stroke: null,
-          lineWidth: 0,
-          fill: 'rgba(46, 47, 50)'
-        },
         refX: -6
       },
-      label: {
-        refY: 5,
-        style: {
-          fontSize: 14,
-          fontWeight: 'normal',
-          fontStyle: 'normal',
-          fill: '#000',
-          stroke: '#ffffff',
-          lineWidth: 0
-        },
-        labelBackground: {
-          padding: {
-            top: 2,
-            bottom: 2,
-            right: 4,
-            left: 4
-          },
-          style: {
-            cornerRadius: 4,
-            fill: '#fff',
-            fillOpacity: 1,
-            stroke: '#000',
-            lineWidth: 1
-          }
-        },
-        position: 'middle',
-        text: '-93%'
-      },
-      type: 'type-step',
-      coordinates: [
-        {
-          State: 'WY',
-          Age: 'Under 5 Years',
-          Population: 25635,
-          __VCHART_DEFAULT_DATA_INDEX: 0,
-          __VCHART_DEFAULT_DATA_KEY: 0,
-          __VCHART_STACK_END: 25635,
-          __VCHART_STACK_START: 0,
-          __VCHART_STACK_START_PERCENT: 0,
-          __VCHART_STACK_END_PERCENT: 1,
-          __VCHART_STACK_TOTAL: 25635,
-          __VCHART_STACK_TOTAL_PERCENT: 1,
-          __VCHART_STACK_TOTAL_TOP: true,
-          VGRAMMAR_DATA_ID_KEY_17: 0
-        },
-        {
-          State: 'WY',
-          Age: '5 to 13 Years',
-          Population: 1890,
-          __VCHART_DEFAULT_DATA_INDEX: 1,
-          __VCHART_DEFAULT_DATA_KEY: 1,
-          __VCHART_STACK_END: 1890,
-          __VCHART_STACK_START: 0,
-          __VCHART_STACK_START_PERCENT: 0,
-          __VCHART_STACK_END_PERCENT: 1,
-          __VCHART_STACK_TOTAL: 1890,
-          __VCHART_STACK_TOTAL_PERCENT: 1,
-          __VCHART_STACK_TOTAL_TOP: true,
-          VGRAMMAR_DATA_ID_KEY_17: 1
-        }
-      ],
-      connectDirection: 'top',
-      expandDistance: 30,
       interactive: true,
-      name: 'totalDiffMarkLine'
+      name: 'hierarchicalDiffMarkLine'
     }
   ]
   // 区域标注
@@ -464,22 +498,22 @@ export class BarTemp extends BaseTemp {
   }
   getSpec(data: StandardData, info: DataInfo, opt?: any) {
     const tempSpec = cloneDeep(spec);
-    tempSpec.data = [data];
-    const xField: string[] = [];
-    const yField: string[] = [];
-    Object.keys(info).forEach(key => {
-      if (info[key].type === 'linear') {
-        yField.length === 0 && yField.push(key);
-      } else if (info[key].type === 'ordinal') {
-        xField.push(key);
-      }
-    });
-    if (xField.length === 0 || yField.length === 0) {
-      return null;
-    }
-    tempSpec.series[0].xField = xField;
-    tempSpec.series[0].yField = yField;
-    tempSpec.series[0].dataId = data.name;
+    // tempSpec.data = [data];
+    // const xField: string[] = [];
+    // const yField: string[] = [];
+    // Object.keys(info).forEach(key => {
+    //   if (info[key].type === 'linear') {
+    //     yField.length === 0 && yField.push(key);
+    //   } else if (info[key].type === 'ordinal') {
+    //     xField.push(key);
+    //   }
+    // });
+    // if (xField.length === 0 || yField.length === 0) {
+    //   return null;
+    // }
+    // tempSpec.series[0].xField = xField;
+    // tempSpec.series[0].yField = yField;
+    // tempSpec.series[0].dataId = data.name;
     return tempSpec;
   }
 }
