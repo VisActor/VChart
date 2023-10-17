@@ -94,11 +94,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   /** for layout diff */
   protected _lastLayoutRect: ILayoutRect = null;
 
-  protected _tooltipHelper: ITooltipHelper | undefined;
-  get tooltipHelper() {
-    return this._tooltipHelper;
-  }
-
   // TODO: 有些hack,这个tag是为了避免布局逻辑中，轴的数据变化，又由数据变化触发重新布局
   protected _isLayout: boolean = true;
 

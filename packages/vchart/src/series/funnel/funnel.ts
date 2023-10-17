@@ -228,6 +228,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
   protected initTooltip() {
     this._tooltipHelper = new FunnelSeriesTooltipHelper(this);
+    this._funnelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._funnelMark);
+    this._funnelTransformMark && this._tooltipHelper.activeTriggerSet.mark.add(this._funnelTransformMark);
   }
 
   getDimensionField(): string[] {
@@ -255,7 +257,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         AttributeLevel.Series
       );
       this._trigger.registerMark(funnelMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(funnelMark);
     }
 
     const funnelTransformMark = this._funnelTransformMark;
@@ -267,7 +268,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         AttributeLevel.Series
       );
       this._trigger.registerMark(funnelTransformMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(funnelTransformMark);
     }
 
     const outerLabelMark = this._funnelOuterLabelMark.label;

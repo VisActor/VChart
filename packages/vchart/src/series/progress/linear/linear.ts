@@ -123,7 +123,6 @@ export class LinearProgressSeries<
         );
       }
       this._trigger.registerMark(progressMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(progressMark);
     }
   }
 
@@ -175,7 +174,6 @@ export class LinearProgressSeries<
         );
       }
       this._trigger.registerMark(trackMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(trackMark);
     }
   }
 
@@ -268,6 +266,8 @@ export class LinearProgressSeries<
 
   protected initTooltip() {
     this._tooltipHelper = new LinearProgressSeriesTooltipHelper(this);
+    this._progressMark && this._tooltipHelper.activeTriggerSet.mark.add(this._progressMark);
+    this._trackMark && this._tooltipHelper.activeTriggerSet.mark.add(this._trackMark);
   }
 
   getActiveMarks(): IMark[] {

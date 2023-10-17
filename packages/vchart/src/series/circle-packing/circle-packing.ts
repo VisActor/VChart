@@ -190,7 +190,6 @@ export class CirclePackingSeries<
 
     this._circlePackingMark = circlePacking;
     this._trigger.registerMark(circlePacking);
-    this._tooltipHelper?.activeTriggerSet.mark.add(circlePacking);
   }
 
   private _initCirclePackingMarkStyle() {
@@ -226,7 +225,6 @@ export class CirclePackingSeries<
 
     this._labelMark = labelMark;
     this._trigger.registerMark(labelMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(labelMark);
   }
 
   private _initLabelMarkStyle() {
@@ -273,6 +271,9 @@ export class CirclePackingSeries<
 
   protected initTooltip() {
     this._tooltipHelper = new CirclePackingTooltipHelper(this);
+    this._tooltipHelper.updateTooltipSpec();
+    this._circlePackingMark && this._tooltipHelper.activeTriggerSet.mark.add(this._circlePackingMark);
+    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }
 
   initAnimation(): void {

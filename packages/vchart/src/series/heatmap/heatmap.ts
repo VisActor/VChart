@@ -106,7 +106,6 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     );
 
     this._trigger.registerMark(this._cellMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(this._cellMark);
   }
 
   initCellBackgroundMarkStyle() {
@@ -172,6 +171,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
 
   protected initTooltip() {
     this._tooltipHelper = new HeatmapSeriesTooltipHelper(this);
+    this._cellMark && this._tooltipHelper.activeTriggerSet.mark.add(this._cellMark);
   }
 
   getDefaultShapeType(): string {

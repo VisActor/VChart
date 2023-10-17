@@ -252,7 +252,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       AttributeLevel.Mark
     );
     this._trigger.registerMark(nodeMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(nodeMark);
   }
 
   protected _initLinkMarkStyle() {
@@ -281,7 +280,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       AttributeLevel.Series
     );
     this._trigger.registerMark(linkMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(linkMark);
   }
 
   protected _initLabelMarkStyle() {
@@ -474,7 +472,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     this._labelMark.setZIndex(this._labelLayoutZIndex);
     this._trigger.registerMark(this._labelMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(this._labelMark);
   }
 
   private _createText(datum: Datum) {
@@ -1220,6 +1217,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   protected initTooltip() {
     this._tooltipHelper = new SankeySeriesTooltipHelper(this);
+    this._nodeMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nodeMark);
+    this._linkMark && this._tooltipHelper.activeTriggerSet.mark.add(this._linkMark);
+    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }
 
   getNodeOrdinalColorScale(item: string) {

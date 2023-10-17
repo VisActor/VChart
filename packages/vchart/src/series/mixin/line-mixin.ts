@@ -140,7 +140,6 @@ export class LineLikeSeriesMixin {
         AttributeLevel.Series
       );
       this._trigger.registerMark(lineMark);
-      this._tooltipHelper?.activeTriggerSet.dimension.add(lineMark);
     }
     return lineMark;
   }
@@ -246,7 +245,6 @@ export class LineLikeSeriesMixin {
       AttributeLevel.Series
     );
     this._trigger.registerMark(symbolMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
 
     // setStyle to active point
     if (this._symbolActiveMark && this._symbolMark.stateStyle.dimension_hover) {

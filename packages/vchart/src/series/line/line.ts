@@ -52,6 +52,12 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
+  protected initTooltip() {
+    super.initTooltip();
+    this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._symbolMark);
+  }
+
   initMarkStyle(): void {
     this.initLineMarkStyle(this._direction);
     this.initSymbolMarkStyle();

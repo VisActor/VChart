@@ -287,9 +287,6 @@ export interface IModel extends ICompilable, ILayoutItem {
 
   initMarkStyleWithSpec: (mark?: IMark, spec?: any, key?: string) => void;
 
-  // tooltip
-  tooltipHelper: ITooltipHelper;
-
   /** 绑定场景结点 */
   bindSceneNode: (node: IElement) => void;
   /** 获取场景结点 */

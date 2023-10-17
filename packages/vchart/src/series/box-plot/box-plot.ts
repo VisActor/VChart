@@ -173,7 +173,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       this.setMarkStyle(boxPlotMark, boxPlotMarkStyles, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Series);
 
       this._trigger.registerMark(boxPlotMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(boxPlotMark);
     }
 
     const outlierMark = this._outlierMark;
@@ -189,7 +188,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         AttributeLevel.Series
       );
       this._trigger.registerMark(outlierMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(outlierMark);
     }
   }
 
@@ -381,6 +379,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   protected initTooltip() {
     this._tooltipHelper = new BoxPlotSeriesTooltipHelper(this);
+    this._boxPlotMark && this._tooltipHelper.activeTriggerSet.mark.add(this._boxPlotMark);
+    this._outlierMark && this._tooltipHelper.activeTriggerSet.mark.add(this._outlierMark);
   }
 
   getStatisticFields() {
