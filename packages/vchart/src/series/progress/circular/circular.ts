@@ -17,6 +17,7 @@ import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../con
 import { Factory } from '../../../core/factory';
 import { registerCircularProgressAnimation } from '../../polar/progress-like';
 import { registerFadeInOutAnimation } from '../../../animation/config';
+import type { IMark } from '../../../mark/interface';
 
 export class CircularProgressSeries<
   T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
@@ -176,6 +177,10 @@ export class CircularProgressSeries<
         userAnimationConfig(SeriesMarkNameEnum.track, this._spec)
       )
     );
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._progressMark];
   }
 }
 

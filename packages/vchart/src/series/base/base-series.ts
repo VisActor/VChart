@@ -643,6 +643,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   abstract setValueFieldToPercent(): void;
   abstract setValueFieldToStackOffsetSilhouette(): void;
 
+  /** 获取系列中可以被操作的mark(brush需要通过在图元spec中内置state的方式实现框选样式，所以需要获取可被框选的mark) */
+  abstract getActiveMarks(): IMark[];
+
   initRootMark() {
     this._rootMark = this._createMark(
       { type: MarkTypeEnum.group, name: `seriesGroup_${this.type}_${this.id}` },
@@ -1001,7 +1004,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   getSeriesStyle(datum: Datum) {
-    return (attribute: string) => this._seriesMark?.getAttribute(attribute as any, datum) ?? null;
+    return (attribute: string) => this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
   }
 
   protected _getSeriesInfo(field: string, keys: string[]) {

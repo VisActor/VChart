@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { isValid } from '@visactor/vutils';
+import { isValid, isArray } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
@@ -24,6 +24,7 @@ import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 import { areaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerAreaAnimation } from './animation';
+import type { IMark } from '../../mark/interface';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -256,6 +257,24 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   getDefaultShapeType() {
     return 'square';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._areaMark, this._symbolMark, this._lineMark];
+  }
+
+  getSeriesStyle(datum: Datum) {
+    return (attribute: string) => {
+      let result = this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
+      if (attribute === 'fill' && !result) {
+        attribute = 'stroke';
+        result = this._seriesMark?.getAttribute(attribute, datum) ?? undefined;
+      }
+      if (attribute === 'stroke' && isArray(result)) {
+        return result[0];
+      }
+      return result;
+    };
   }
 }
 
