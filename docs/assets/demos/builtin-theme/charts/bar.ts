@@ -36,9 +36,16 @@ export default {
     yField: ['year', 'type'],
     xField: 'value',
     seriesField: 'type',
+    label: {
+      visible: true
+    },
     legends: {
       visible: true,
       orient: 'right'
+    },
+    scrollBar: {
+      start: 0,
+      end: 0.5
     }
   } as IBarChartSpec
 } as IChartInfo;

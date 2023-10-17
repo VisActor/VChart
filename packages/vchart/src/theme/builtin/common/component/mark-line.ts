@@ -5,7 +5,7 @@ export const markLine: IMarkLineTheme = {
   line: {
     style: {
       lineDash: [3, 3],
-      stroke: 'rgba(46, 47, 50)'
+      stroke: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
     }
   },
   startSymbol: {
@@ -15,7 +15,7 @@ export const markLine: IMarkLineTheme = {
     style: {
       stroke: null,
       lineWidth: 0,
-      fill: 'rgba(46, 47, 50)'
+      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
     }
   },
   endSymbol: {
@@ -25,7 +25,7 @@ export const markLine: IMarkLineTheme = {
     style: {
       stroke: null,
       lineWidth: 0,
-      fill: 'rgba(46, 47, 50)'
+      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
     }
   },
   label: {
@@ -33,12 +33,9 @@ export const markLine: IMarkLineTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,
       // lineHeight: THEME_CONSTANTS.l4LineHeight,
-
       fontWeight: 'normal',
       fontStyle: 'normal',
-      fill: { type: 'palette', key: 'labelReverseFontColor' },
-      stroke: { type: 'palette', key: 'labelReverseFontColor' },
-      lineWidth: 0
+      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
     },
     labelBackground: {
       padding: {
@@ -48,8 +45,8 @@ export const markLine: IMarkLineTheme = {
         left: 4
       },
       style: {
-        cornerRadius: 0,
-        fill: 'rgb(48, 115, 242)'
+        cornerRadius: 3,
+        fill: { type: 'palette', key: 'markLabelBackgroundColor' }
       }
     }
   }

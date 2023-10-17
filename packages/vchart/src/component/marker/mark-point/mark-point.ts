@@ -10,6 +10,7 @@ import { coordinateLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';

@@ -27,12 +27,10 @@ export const colorScheme: IThemeColorScheme = {
       /** 轴网格线颜色 */
       axisGridColor: '#f1f2f5',
       /** 轴线颜色 */
-      axisDomainColor: '#D9DDE4',
-      /** 轴标签颜色 */
-      axisLabelFontColor: '#89909d',
+      axisDomainColor: '#d9dde4',
 
       /** 缩略轴滑块描边颜色 */
-      dataZoomHandlerStrokeColor: '#AEB5BE',
+      dataZoomHandlerStrokeColor: '#aeb5be',
       /** 缩略轴滑块填充颜色 */
       dataZoomHandlerFillColor: '#ffffff',
       /** 缩略轴背景区域颜色 */
@@ -47,6 +45,9 @@ export const colorScheme: IThemeColorScheme = {
 
       /** 提示信息背景区域颜色 */
       tooltipBackgroundColor: '#ffffff',
+
+      /** 标注标签背景颜色 */
+      markLabelBackgroundColor: '#ffc528',
 
       // 已弃用的语义色值
       /** @deprecated 图表标题颜色 */

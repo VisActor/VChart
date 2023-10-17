@@ -6,7 +6,7 @@ export const area: IAreaSeriesTheme = {
     offset: 5,
     position: 'top',
     style: {
-      stroke: 'white',
+      stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 2
     }
   },

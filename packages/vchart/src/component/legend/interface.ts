@@ -10,6 +10,8 @@ import type {
 } from '../../typings';
 import type { IComponent } from '../interface';
 import type { IComponentSpec } from '../base/interface';
+import type { IDiscreteLegendSpec } from './discrete';
+import type { IColorLegendSpec, ISizeLegendSpec } from './continuous';
 
 export type ILegend = IComponent & {
   getLegendData: () => Datum[];
@@ -105,3 +107,5 @@ export type ILegendCommonSpec = {
     style?: Omit<NoVisibleMarkStyle<IRectMarkSpec>, 'visible' | 'width' | 'height'>;
   };
 } & Omit<IComponentSpec, 'orient'>;
+
+export type ILegendSpec = IDiscreteLegendSpec | IColorLegendSpec | ISizeLegendSpec;
