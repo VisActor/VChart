@@ -1,4 +1,4 @@
-import type { IModelInfo } from './../../../core/interface';
+import type { IEditorLayer, IModelInfo } from './../../../core/interface';
 import type { IPoint, IRect } from './../../../typings/space';
 import type { IVChart } from '@visactor/vchart';
 import type { ISpecProcess } from '../spec-process/interface';
@@ -27,7 +27,7 @@ export interface IChartLayout {
   getLayoutData: () => ILayoutData;
   setVChart: (vchart: IVChart) => void;
   clear: () => void;
-  getOverModel: (pos: IPoint) => LayoutMeta;
+  getOverModel: (pos: IPoint, layer: IEditorLayer) => LayoutMeta;
 }
 
 export interface IChartLayoutConstructor {
