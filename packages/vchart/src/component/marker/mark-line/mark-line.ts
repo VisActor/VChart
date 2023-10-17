@@ -239,11 +239,11 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);
 
     if (isXProcess) {
-      options = [this._processSpecX(spec.x as unknown as IDataPos)];
+      options = [this._processSpecX(spec.x as unknown as IDataPos)] as unknown as any;
       processData = relativeSeries.getViewData();
       needAgggr = true;
     } else if (isYProcess) {
-      options = [this._processSpecY(spec.y as unknown as IDataPos)];
+      options = [this._processSpecY(spec.y as unknown as IDataPos)] as unknown as any;
       processData = relativeSeries.getViewData();
       needAgggr = true;
     } else if (isCoordinateProcess) {
@@ -258,11 +258,11 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
           options
         });
       if (spec.process && 'x' in spec.process) {
-        options = [this._processSpecX(spec.process.x as unknown as IDataPos)];
+        options = [this._processSpecX(spec.process.x as unknown as IDataPos)] as unknown as any;
         needAgggr = true;
       }
       if (spec.process && 'y' in spec.process) {
-        options = [this._processSpecY(spec.process.y as unknown as IDataPos)];
+        options = [this._processSpecY(spec.process.y as unknown as IDataPos)] as unknown as any;
         needAgggr = true;
       }
       if (spec.process && 'xy' in spec.process) {

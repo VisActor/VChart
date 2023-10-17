@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { array, isValid } from '@visactor/vutils';
+import { array, isFunction, isValid } from '@visactor/vutils';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IOptionAggr } from '../../data/transforms/aggregation';
 import type { IModelRenderOption } from '../../model/interface';
@@ -60,7 +60,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         ...this._getAllRelativeSeries()
       };
     }
-    return { x: [specX], ...this._getAllRelativeSeries() };
+    return { x: isFunction(specX) ? specX : [specX], ...this._getAllRelativeSeries() };
   }
 
   protected _processSpecY(specY: IDataPos | IDataPosCallback) {
@@ -76,7 +76,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         ...this._getAllRelativeSeries()
       };
     }
-    return { y: [specY], ...this._getAllRelativeSeries() };
+    return { y: isFunction(specY) ? specY : [specY], ...this._getAllRelativeSeries() };
   }
 
   protected _processSpecCoo(spec: any) {
