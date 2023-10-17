@@ -21,4 +21,6 @@ export interface IElementData {
 export interface IElement {
   getData: () => IElementData;
   release: () => void;
+  onAfterRender: (callBack: () => void) => void;
+  readonly isRendered: boolean;
 }

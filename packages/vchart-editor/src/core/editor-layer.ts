@@ -1,3 +1,4 @@
+import { Bounds } from '@visactor/vutils';
 import type { IEditorElement, IEditorLayer } from './interface';
 import type { IStage, IGroup } from '@visactor/vrender-core';
 import { createGroup, createStage } from '@visactor/vrender-core';
@@ -54,6 +55,13 @@ export class EditorLayer implements IEditorLayer {
     return this._activeElement;
   }
 
+  protected _elementReadyCallBack: () => void = null;
+
+  protected _isElementReady: boolean = true;
+  get isElementReady() {
+    return this._isElementReady;
+  }
+
   constructor(container: HTMLElement, id?: string | number) {
     this._id = id ?? CreateID();
     this._container = container;
@@ -61,12 +69,41 @@ export class EditorLayer implements IEditorLayer {
     this.initEvent();
     this.initEditorGroup();
   }
+  moveTo(x: number, y: number) {
+    this._stage.defaultLayer.setAttributes({
+      x,
+      y
+    });
+  }
+  scaleTo(s: number) {
+    this._stage.defaultLayer.setAttributes({
+      scaleX: s,
+      scaleY: s
+    });
+  }
+
+  resizeLayer(width: number, height: number, x: number, y: number, scale: number) {
+    this._stage.defaultLayer.setAttributes({
+      x,
+      y,
+      scaleX: scale,
+      scaleY: scale
+    });
+    this._canvas.style.width = width + 'px';
+    this._canvas.style.height = height + 'px';
+    this._canvas.width = width;
+    this._canvas.height = height;
+
+    this._container.style.width = width + 'px';
+    this._container.style.height = height + 'px';
+  }
 
   release() {
     this._stage.release();
     this._elements.forEach(el => el.release());
     this._elements = null;
     this._editorGroup = null;
+    this._elementReadyCallBack = null;
   }
 
   initEditorGroup() {
@@ -145,17 +182,44 @@ export class EditorLayer implements IEditorLayer {
       cancelable: true
     });
     this._canvas.dispatchEvent(event);
-    //
+  }
+
+  getAABBBounds() {
+    const b = new Bounds();
+    this._getAABBBounds(this._stage.defaultLayer, b, 0, 0);
+    return b;
+  }
+
+  private _getAABBBounds(node: IGroup, b: Bounds, x: number, y: number) {
+    node.getChildren?.().forEach(c => {
+      if (c.type === 'group') {
+        this._getAABBBounds(<IGroup>c, b, x + ((<IGroup>c).attribute.x ?? 0), y + ((<IGroup>c).attribute.y ?? 0));
+      } else if ('AABBBounds' in c) {
+        b.union((c.AABBBounds as Bounds).clone().translate(x, y));
+      }
+    });
   }
 
   addElements(el: BaseElement) {
     this._elements.push(el);
+    el.onAfterRender(this._checkElementReady);
   }
 
   delElements(el: BaseElement) {
     const index = this._elements.findIndex(_el => el === _el);
     if (index >= 0) {
       this._elements.splice(index, 1);
+      el.release();
     }
   }
+
+  onElementReady(callBack: () => void) {
+    this._elementReadyCallBack = callBack;
+  }
+
+  protected _checkElementReady = () => {
+    if (this._elements.every(el => el.isRendered)) {
+      this._elementReadyCallBack?.();
+    }
+  };
 }
