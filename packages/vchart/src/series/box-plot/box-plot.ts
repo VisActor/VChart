@@ -26,6 +26,7 @@ import { BoxPlotMark } from '../../mark/box-plot';
 import { SymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -399,6 +400,10 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   getDefaultShapeType(): string {
     return 'square';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._boxPlotMark];
   }
 }
 

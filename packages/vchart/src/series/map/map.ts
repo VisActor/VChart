@@ -26,6 +26,7 @@ import { mapSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import { registerGeoCoordinate } from '../../component/geo';
+import type { IMark } from '../../mark/interface';
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;
@@ -320,6 +321,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
   protected _getDataIdKey() {
     return DEFAULT_DATA_INDEX;
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._pathMark];
   }
 }
 

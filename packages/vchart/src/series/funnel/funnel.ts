@@ -8,6 +8,7 @@ import { BaseSeries } from '../base/base-series';
 import { AttributeLevel, PREFIX } from '../../constant';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { DataView } from '@visactor/vdataset';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IFunnelOpt } from '../../data/transforms/funnel';
 import { funnel, funnelTransform } from '../../data/transforms/funnel';
@@ -850,6 +851,10 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
   getDefaultShapeType(): string {
     return 'square';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._funnelMark];
   }
 }
 
