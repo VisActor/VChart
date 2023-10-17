@@ -1,3 +1,4 @@
+import type { ILayoutLine } from './../../../core/interface';
 import type { IChartModel } from './../interface';
 import { createRect, type IGraphic } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../core/interface';
@@ -7,6 +8,7 @@ import type { ILayoutAttribute } from '../../../typings/space';
 import { MinSize } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
 import type { EventParams } from '@visactor/vchart';
+import { isSameModelInfo } from '../../../utils/spec';
 
 export class LayoutEditorElement extends BaseEditorElement {
   protected _layoutComponent: LayoutEditorComponent;
@@ -51,14 +53,34 @@ export class LayoutEditorElement extends BaseEditorElement {
   }
 
   protected _createEditorGraphic(el: IEditorElement, e: any): IGraphic {
+    const allLayers = this._chart.option.getAllLayers();
+    const layoutLines = allLayers.reduce((pre, l) => {
+      const tempLine = l.getLayoutLineInLayer();
+      if (l === this._layer) {
+        tempLine.forEach(line => {
+          // @ts-ignore
+          if (isSameModelInfo(line, el)) {
+            return;
+          }
+          if (this._currentEl.model.type === 'region' && line.specKey.includes('axes')) {
+            return;
+          }
+          pre.push(line);
+        });
+      } else {
+        pre.push(...tempLine);
+      }
+      return pre;
+    }, []) as ILayoutLine[];
     this._layoutComponent = new LayoutEditorComponent(el, {
       container: this._controller.container,
+      layoutLines,
+      editorGroup: this._layer.editorGroup,
       stage: this._layer.getStage(),
       startHandler: () => {
         // do nothing
       },
       updateHandler: data => {
-        // TODO: 吸附
         let hasChange = false;
         if (data.width < MinSize) {
           data.width = MinSize;

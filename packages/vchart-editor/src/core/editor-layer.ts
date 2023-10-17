@@ -1,5 +1,5 @@
 import { Bounds } from '@visactor/vutils';
-import type { EditorMode, IEditorElement, IEditorLayer } from './interface';
+import type { EditorMode, IEditorElement, IEditorLayer, ILayoutLine } from './interface';
 import type { IStage, IGroup } from '@visactor/vrender-core';
 import { createGroup, createStage } from '@visactor/vrender-core';
 import { CreateID } from '../utils/common';
@@ -263,4 +263,8 @@ export class EditorLayer implements IEditorLayer {
       this._elementReadyCallBack?.();
     }
   };
+
+  getLayoutLineInLayer(): ILayoutLine[] {
+    return [];
+  }
 }

@@ -8,6 +8,9 @@ export abstract class BaseElement {
   protected _rect: IRect;
   protected _anchor: IPoint;
   protected _opt: IElementOption;
+  get option() {
+    return this._opt;
+  }
 
   protected _id: string | number;
   protected _mode: EditorMode = 'view';

@@ -6,6 +6,7 @@ export interface IElementOption extends Partial<IElementData> {
   id?: string | number;
   controller: IEditorController;
   mode: EditorMode;
+  getAllLayers?: () => IEditorLayer[];
 }
 
 export interface IElementData {

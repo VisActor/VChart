@@ -39,6 +39,8 @@ export interface IEditorLayer {
 
   transformPosInLayer: (pos: IPoint) => IPoint;
 
+  getLayoutLineInLayer: () => ILayoutLine[];
+
   release: () => void;
 }
 
@@ -115,4 +117,11 @@ export interface IEditorController {
   setOverGraphic: (graphic: IGraphic, id: string | number, event: PointerEvent) => void;
 
   release: () => void;
+}
+
+export interface ILayoutLine extends Partial<IModelInfo> {
+  orient: 'x' | 'y';
+  value: number;
+  start: number;
+  end: number;
 }

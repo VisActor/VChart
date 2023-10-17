@@ -18,6 +18,9 @@ export class DragComponent {
   protected _dragEndHandler: () => void;
 
   pointerMove = (event: PointerEvent) => {
+    if (event.target !== this._container) {
+      return;
+    }
     if (!(this._state === 'startDrag' || this._state === 'dragging')) {
       return;
     }
