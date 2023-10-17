@@ -951,6 +951,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     });
     this._updateExtensionMarkSpec(lastSpec);
     this._updateSpecData();
+
+    if (this._tooltipHelper) {
+      this._tooltipHelper.updateTooltipSpec();
+    }
   }
 
   // 首次布局完成后填充系列数据
