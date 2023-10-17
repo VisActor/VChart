@@ -2,6 +2,21 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.4.3",
+      "tag": "@visactor/vchart_v1.4.3",
+      "date": "Tue, 17 Oct 2023 04:00:20 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: brush state proxy to state spec"
+          },
+          {
+            "comment": "fix: fix when the legend item only has stroke it cannot be consistent with the graphic color, details in #1147\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.4.2",
       "tag": "@visactor/vchart_v1.4.2",
       "date": "Thu, 12 Oct 2023 11:39:35 GMT",
