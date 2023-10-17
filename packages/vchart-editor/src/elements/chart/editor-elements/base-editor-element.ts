@@ -167,7 +167,6 @@ export class CommonChartEditorElement implements IEditorElement {
   }
 
   updateAttribute = (attr: IUpdateAttributeParam): false | { [key: string]: unknown } => {
-    console.log(this);
     const result = this._updateCall?.(attr) ?? false;
     const reRender = this._context.chart.specProcess.updateElementAttribute(this.model, attr);
     if (reRender) {

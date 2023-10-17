@@ -1,10 +1,11 @@
 import { Bounds } from '@visactor/vutils';
-import type { IEditorElement, IEditorLayer } from './interface';
+import type { EditorMode, IEditorElement, IEditorLayer } from './interface';
 import type { IStage, IGroup } from '@visactor/vrender-core';
 import { createGroup, createStage } from '@visactor/vrender-core';
 import { CreateID } from '../utils/common';
 import { TriggerEvent } from './const';
 import type { BaseElement } from '../elements/base-element';
+import type { IPoint } from '../typings/space';
 
 export class EditorLayer implements IEditorLayer {
   type: string = 'default';
@@ -62,20 +63,46 @@ export class EditorLayer implements IEditorLayer {
     return this._isElementReady;
   }
 
-  constructor(container: HTMLElement, id?: string | number) {
+  protected _mode: EditorMode = 'view';
+
+  protected _offsetX: number = 0;
+  get offsetY() {
+    return this._offsetX;
+  }
+  protected _offsetY: number = 0;
+  get offsetX() {
+    return this._offsetY;
+  }
+  protected _scale: number = 1;
+  get scale() {
+    return this._scale;
+  }
+
+  constructor(container: HTMLElement, mode: EditorMode, id?: string | number) {
     this._id = id ?? CreateID();
     this._container = container;
+    this._mode = mode;
     this.initCanvas();
     this.initEvent();
     this.initEditorGroup();
   }
+
   moveTo(x: number, y: number) {
+    if (this._mode !== 'editor') {
+      return;
+    }
+    this._offsetX = x;
+    this._offsetY = y;
     this._stage.defaultLayer.setAttributes({
       x,
       y
     });
   }
   scaleTo(s: number) {
+    if (this._mode !== 'editor') {
+      return;
+    }
+    this._scale = s;
     this._stage.defaultLayer.setAttributes({
       scaleX: s,
       scaleY: s
@@ -83,6 +110,9 @@ export class EditorLayer implements IEditorLayer {
   }
 
   resizeLayer(width: number, height: number, x: number, y: number, scale: number) {
+    this._offsetX = x;
+    this._offsetY = y;
+    this._scale = scale;
     this._stage.defaultLayer.setAttributes({
       x,
       y,
@@ -96,6 +126,15 @@ export class EditorLayer implements IEditorLayer {
 
     this._container.style.width = width + 'px';
     this._container.style.height = height + 'px';
+  }
+
+  transformPosInLayer(pos: IPoint) {
+    // pos in layer
+    const inLayer = { x: pos.x - this._offsetX, y: pos.y - this._offsetY };
+    return {
+      x: inLayer.x / this._scale,
+      y: inLayer.y / this._scale
+    };
   }
 
   release() {
@@ -201,6 +240,7 @@ export class EditorLayer implements IEditorLayer {
   }
 
   addElements(el: BaseElement) {
+    this._isElementReady = false;
     this._elements.push(el);
     el.onAfterRender(this._checkElementReady);
   }
@@ -219,6 +259,7 @@ export class EditorLayer implements IEditorLayer {
 
   protected _checkElementReady = () => {
     if (this._elements.every(el => el.isRendered)) {
+      this._isElementReady = true;
       this._elementReadyCallBack?.();
     }
   };

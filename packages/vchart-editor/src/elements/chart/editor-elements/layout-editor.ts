@@ -102,7 +102,7 @@ export class LayoutEditorElement extends BaseEditorElement {
     // @ts-ignore
     const point = { x: e.x, y: e.y };
     const chart = this._chart;
-    const layoutMeta = chart.layout.getOverModel(point);
+    const layoutMeta = chart.layout.getOverModel(point, this._layer);
     if (!layoutMeta) {
       return null;
     }

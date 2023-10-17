@@ -1,7 +1,7 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
-import type { ILayoutAttribute, IRect } from '../typings/space';
+import type { ILayoutAttribute, IPoint, IRect } from '../typings/space';
 import type { IModel } from '@visactor/vchart/esm/model/interface';
 import type { IModelSpec } from '../elements/chart/spec-process/interface';
 export interface ILayerData {
@@ -36,6 +36,8 @@ export interface IEditorLayer {
   resizeLayer: (width: number, height: number, x: number, y: number, scale: number) => void;
 
   onElementReady: (callBack: () => void) => void;
+
+  transformPosInLayer: (pos: IPoint) => IPoint;
 
   release: () => void;
 }

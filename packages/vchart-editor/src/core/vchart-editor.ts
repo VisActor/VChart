@@ -85,10 +85,10 @@ export class VChartEditor {
     }
     let layer;
     if (type === 'chart') {
-      layer = new ChartLayer(this._container);
+      layer = new ChartLayer(this._container, this._mode);
       option.renderCanvas = layer.getCanvas();
     } else {
-      layer = new EditorLayer(this._container);
+      layer = new EditorLayer(this._container, this._mode);
     }
     this.addLayer(layer);
     option.layer = layer;
@@ -148,7 +148,7 @@ export class VChartEditor {
     }
     layerData.forEach(l => {
       if (l.type === 'chart') {
-        const layer = new ChartLayer(this._container);
+        const layer = new ChartLayer(this._container, this._mode);
         this.addLayer(layer);
         l.elements.forEach(e => {
           const el = new ElementsMap[e.type]({
@@ -171,8 +171,9 @@ export class VChartEditor {
     if (width && height) {
       this._width = width;
       this._height = height;
-      if (this._checkLayerReady()) {
+      if (this._mode === 'view') {
         this._needResize = true;
+        this._checkLayerReady();
       }
     }
   }
@@ -211,7 +212,10 @@ export class VChartEditor {
     if (this._layers.length === 0) {
       return;
     }
-    this._layers.forEach(l => b.union(l.getAABBBounds()));
+    this._needResize = false;
+    this._layers.forEach(l => {
+      b.union(l.getAABBBounds());
+    });
     const contentWidth = b.width();
     const contentHeight = b.height();
     if (contentWidth === 0 || contentWidth === Infinity || contentHeight === 0 || contentHeight === Infinity) {
@@ -220,8 +224,8 @@ export class VChartEditor {
     const scale = Math.min(width / b.width(), height / b.height(), 1);
     const finalWidth = contentWidth * scale;
     const finalHeight = contentHeight * scale;
-    const posX = (width - finalWidth) * 0.5 - b.x1;
-    const posY = (height - finalHeight) * 0.5 - b.y1;
+    const posX = (width - finalWidth) * 0.5 - b.x1 * scale;
+    const posY = (height - finalHeight) * 0.5 - b.y1 * scale;
     this._layers.forEach(l => {
       l.resizeLayer(width, height, posX, posY, scale);
     });
