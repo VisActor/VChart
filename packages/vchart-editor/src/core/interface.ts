@@ -70,7 +70,10 @@ export interface IUpdateAttributeParam {
   modelSpec?: IModelSpec[];
 
   // 添加line标注
-  markLine?: {};
+  markLine?: {
+    type: 'average';
+    enable: boolean;
+  };
   // 添加area标注
   markArea?: {};
 

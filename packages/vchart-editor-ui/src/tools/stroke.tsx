@@ -9,10 +9,10 @@ import { IconDashedLine, IconLine, IconThinDashedLine } from '../svg/line';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 
 const strokeStyleList = [
-  { icon: <IconLineDisable />, style: 'disable' },
-  { icon: <IconLine />, style: 'line' },
-  { icon: <IconDashedLine />, style: 'dashedLine' },
-  { icon: <IconThinDashedLine />, style: 'thinDashedLine' }
+  { icon: IconLineDisable, style: 'disable' },
+  { icon: IconLine, style: 'line' },
+  { icon: IconDashedLine, style: 'dashedLine' },
+  { icon: IconThinDashedLine, style: 'thinDashedLine' }
 ];
 
 const lineWidthList = [
@@ -34,21 +34,24 @@ function StrokePanel(props: IEditorBarStrokeProps) {
     <div className="vchart-editor-ui-editor-bar-panel-container" style={{ padding: '10px 12px', position: 'relative' }}>
       <div style={{ marginBottom: 6 }}>描边/线条</div>
       <div style={{ borderRadius: 6, background: '#F5F6F7', padding: 2, display: 'flex', gap: 2, marginBottom: 8 }}>
-        {strokeStyleList.map(style => (
-          <EditorBarPanelEntry
-            key={style.style}
-            icon={style.icon}
-            selected={strokeStyle === style.style}
-            onClick={() => {
-              props.onStrokeChange?.({
-                style: style.style as Stroke['style'],
-                color: strokeColor,
-                opacity: strokeOpacity,
-                lineWidth: strokeLineWidth
-              });
-            }}
-          />
-        ))}
+        {strokeStyleList.map(style => {
+          const Icon = style.icon;
+          return (
+            <EditorBarPanelEntry
+              key={style.style}
+              icon={<Icon />}
+              selected={strokeStyle === style.style}
+              onClick={() => {
+                props.onStrokeChange?.({
+                  style: style.style as Stroke['style'],
+                  color: strokeColor,
+                  opacity: strokeOpacity,
+                  lineWidth: strokeLineWidth
+                });
+              }}
+            />
+          );
+        })}
       </div>
       <div style={{ borderRadius: 6, background: '#F5F6F7', padding: 2, display: 'flex', gap: 2, marginBottom: 8 }}>
         {lineWidthList.map(lineWidth => (
@@ -146,10 +149,11 @@ export function EditorBarStroke(props: IEditorBarStrokeProps) {
 }
 
 export function EditorBarStrokeLine(props: IEditorBarStrokeProps) {
+  const Icon = strokeStyleList.find(style => style.style === (props.stroke.style ?? 'line'))?.icon;
   return (
     <Popover spacing={10} content={<StrokePanel {...props} />}>
       <span className="vchart-editor-ui-editor-bar-tool">
-        <IconLine />
+        <Icon fill={props.stroke.color} style={{ width: 24 }} />
         <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>
