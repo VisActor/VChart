@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@arco-design/web-react": "2.46.1",
-    "@visactor/vchart": "workspace:1.4.2-alpha.0",
+    "@visactor/vchart": "workspace:1.4.2",
     "@visactor/vutils": "~0.16.1",
     "@visactor/vgrammar": "~0.7.6",
-    "@visactor/vrender": "~0.15.5",
+    "@visactor/vrender": "~0.15.6",
     "markdown-it": "^13.0.0",
     "highlight.js": "^11.8.0",
     "axios": "^1.4.0",

@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "feat: supports afterResize and afterRender events\n\n",
+      "comment": "fix: fix when the legend item only has stroke it cannot be consistent with the graphic color, details in #1147\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }

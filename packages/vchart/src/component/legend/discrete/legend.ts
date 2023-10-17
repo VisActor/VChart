@@ -24,7 +24,6 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
-
   protected declare _theme: IDiscreteLegendTheme;
 
   static createComponent(spec: any, options: IComponentOption) {
@@ -190,33 +189,29 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
 
   private _getLegendItems() {
     const originData = (this._legendData.getLatestData() || []).map((datum: any) => {
-      const fill = datum.style('fill') || datum.style('stroke');
-      const stroke = datum.style('stroke');
-      const lineWidth = datum.style('lineWidth');
-      const symbolType = datum.style('symbolType');
       const fillOpacity = datum.style('fillOpacity');
       const strokeOpacity = datum.style('strokeOpacity');
       const opacity = datum.style('opacity');
       const texture = datum.style('texture');
-      const textureColor = datum.style('textureColor');
-      const outerBorder = datum.style('outerBorder');
-      const innerBorder = datum.style('innerBorder');
 
       return {
         label: datum.key,
         shape: {
-          fill,
-          symbolType: symbolType ?? datum.shapeType ?? 'circle',
-          stroke: lineWidth === 0 || fill === stroke ? null : stroke,
+          symbolType: datum.style('symbolType') ?? datum.shapeType ?? 'circle',
           fillOpacity: isValidNumber(fillOpacity) ? fillOpacity : 1,
           strokeOpacity: isValidNumber(strokeOpacity) ? strokeOpacity : 1,
           opacity: isValidNumber(opacity) ? opacity : 1,
-          texture: texture,
           texturePadding: texture ? 1 : null,
           textureSize: texture ? 4 : null,
-          textureColor,
-          innerBorder,
-          outerBorder
+          texture,
+          fill: datum.style('fill'),
+          stroke: datum.style('stroke'),
+          textureColor: datum.style('textureColor'),
+          innerBorder: datum.style('innerBorder'),
+          outerBorder: datum.style('outerBorder'),
+          lineDash: datum.style('lineDash'),
+          lineDashOffset: datum.style('lineDashOffset'),
+          lineWidth: datum.style('lineWidth')
         }
       };
     });

@@ -1004,7 +1004,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   getSeriesStyle(datum: Datum) {
-    return (attribute: string) => this._seriesMark?.getAttribute(attribute as any, datum) ?? null;
+    return (attribute: string) => this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
   }
 
   protected _getSeriesInfo(field: string, keys: string[]) {

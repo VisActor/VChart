@@ -58710,6 +58710,11 @@
     },
     "ITooltipTextTheme": {
       "properties": {
+        "autoWidth": {
+          "description": "是否开启自动宽度。效果分为以下几种情况：\n- tooltip 标题：`autoWidth` 默认为 `false`。如果配置为 `true`，则 tooltip 标题会保持和 tooltip 内容一致的宽度\n- tooltip key 标签：`autoWidth` 不适用\n- tooltip value 标签：`autoWidth` 默认为 `true`。如果配置为 `true`，则 tooltip value 标签会自动占满 tooltip 整体宽度的剩余部分",
+          "since": "1.4.2",
+          "type": "boolean"
+        },
         "fill": {
           "anyOf": [
             {
@@ -58780,7 +58785,7 @@
     "ITooltipTheme": {
       "properties": {
         "keyLabel": {
-          "$ref": "#/definitions/ITooltipTextTheme",
+          "$ref": "#/definitions/Omit<ITooltipTextTheme,\"autoWidth\">",
           "description": "tooltip内容，key字段"
         },
         "offset": {
@@ -64502,7 +64507,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         },
         "size": {
@@ -64510,14 +64515,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13070",
+        "__@toStringTag@13375",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         },
         "size": {
@@ -64525,14 +64530,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13070",
+        "__@toStringTag@13375",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         },
         "size": {
@@ -64540,14 +64545,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13070",
+        "__@toStringTag@13375",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         },
         "size": {
@@ -64555,14 +64560,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13070",
+        "__@toStringTag@13375",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         },
         "size": {
@@ -64570,14 +64575,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13070",
+        "__@toStringTag@13375",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         },
         "size": {
@@ -64585,14 +64590,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13070",
+        "__@toStringTag@13375",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         },
         "size": {
@@ -64600,14 +64605,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13070",
+        "__@toStringTag@13375",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         },
         "size": {
@@ -64615,14 +64620,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13070",
+        "__@toStringTag@13375",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         },
         "size": {
@@ -64630,7 +64635,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13070",
+        "__@toStringTag@13375",
         "size"
       ],
       "type": "object"
@@ -68637,10 +68642,79 @@
       },
       "type": "object"
     },
+    "Omit<ITooltipTextTheme,\"autoWidth\">": {
+      "properties": {
+        "fill": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IColorKey"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "字体颜色"
+        },
+        "fontColor": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IColorKey"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "fontFamily": {
+          "description": "字体",
+          "type": "string"
+        },
+        "fontSize": {
+          "description": "字体大小",
+          "type": "number"
+        },
+        "fontWeight": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "字重"
+        },
+        "lineHeight": {
+          "description": "行高",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "maxWidth": {
+          "description": "最大宽度",
+          "type": "number"
+        },
+        "multiLine": {
+          "description": "是否支持换行",
+          "type": "boolean"
+        },
+        "spacing": {
+          "description": "与相邻元素的水平间距",
+          "type": "number"
+        },
+        "textAlign": {
+          "$ref": "#/definitions/TextAlign",
+          "description": "对齐方式"
+        },
+        "textBaseline": {
+          "$ref": "#/definitions/TextBaseLine",
+          "description": "字体基线"
+        },
+        "wordBreak": {
+          "$ref": "#/definitions/RichTextWordBreak",
+          "description": "换行模式，默认为'break-word'"
+        }
+      },
+      "type": "object"
+    },
     "Omit<ITooltipTheme,\"offset\">": {
       "properties": {
         "keyLabel": {
-          "$ref": "#/definitions/ITooltipTextTheme",
+          "$ref": "#/definitions/Omit<ITooltipTextTheme,\"autoWidth\">",
           "description": "tooltip内容，key字段"
         },
         "panel": {
@@ -78862,34 +78936,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13070"
+        "__@toStringTag@13375"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13070"
+        "__@toStringTag@13375"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13070": {
+        "__@toStringTag@13375": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13070"
+        "__@toStringTag@13375"
       ],
       "type": "object"
     },
@@ -90167,4 +90241,3 @@
     }
   }
 }
-

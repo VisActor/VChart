@@ -2,6 +2,45 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.4.2",
+      "tag": "@visactor/vchart_v1.4.2",
+      "date": "Thu, 12 Oct 2023 11:39:35 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: gauge series supports label component, related #1039"
+          },
+          {
+            "comment": "feat: add static tools in `VChart.Utils`"
+          },
+          {
+            "comment": "fix: `tooltipRelease` event may be invalid when being released by VTable"
+          },
+          {
+            "comment": "feat: supports afterResize and afterRender events\n\n"
+          },
+          {
+            "comment": "fix(brush): select error when setting brush. fix #1129"
+          },
+          {
+            "comment": "fix: optimize the default performance of the long tooltip title, related #688"
+          },
+          {
+            "comment": "feat: add new config `autoWidth` to the tooltip label style, related #688"
+          },
+          {
+            "comment": "fix: if `markLine` is empty like `{}` or `[]`, it should not create marker component"
+          },
+          {
+            "comment": "fix: fix the issue when use `positions` to create marker component, fixed #1084"
+          },
+          {
+            "comment": "fix(scrollbar): auto visible with linear axis. fix #1118"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.4.1",
       "tag": "@visactor/vchart_v1.4.1",
       "date": "Wed, 27 Sep 2023 07:53:38 GMT",
