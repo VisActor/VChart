@@ -4,7 +4,7 @@ import { THEME_CONSTANTS } from '../constants';
 export const markArea: IMarkAreaTheme = {
   area: {
     style: {
-      fill: 'rgba(46, 47, 50, 0.1)'
+      fill: { type: 'palette', key: 'axisDomainColor', a: 0.25 }
     }
   },
   label: {
@@ -14,9 +14,7 @@ export const markArea: IMarkAreaTheme = {
 
       fontWeight: 'normal',
       fontStyle: 'normal',
-      fill: { type: 'palette', key: 'labelReverseFontColor' },
-      stroke: { type: 'palette', key: 'labelReverseFontColor' },
-      lineWidth: 0
+      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
     },
     labelBackground: {
       padding: {
@@ -26,8 +24,8 @@ export const markArea: IMarkAreaTheme = {
         left: 4
       },
       style: {
-        cornerRadius: 0,
-        fill: '#F68484'
+        cornerRadius: 3,
+        fill: { type: 'palette', key: 'markLabelBackgroundColor' }
       }
     }
   }

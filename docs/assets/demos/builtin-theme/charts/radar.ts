@@ -195,6 +195,7 @@ export default {
     valueField: 'value',
     seriesField: 'type',
     stack: true,
+    outerRadius: 0.8,
     area: {
       visible: true
     },

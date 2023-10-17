@@ -23,8 +23,6 @@ export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
   axisGridColor: string;
   /** 轴线颜色 */
   axisDomainColor: string;
-  /** 轴标签颜色 */
-  axisLabelFontColor: string;
 
   /** 缩略轴滑块描边颜色 */
   dataZoomHandlerStrokeColor: string;
@@ -42,6 +40,9 @@ export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
 
   /** 提示信息背景区域颜色 */
   tooltipBackgroundColor: string;
+
+  /** 标注标签背景颜色 */
+  markLabelBackgroundColor: string;
 
   // 已弃用的语义色值
   /** @deprecated 图表标题颜色 */

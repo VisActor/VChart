@@ -4,7 +4,7 @@ import { THEME_CONSTANTS } from '../constants';
 export const funnel: IFunnelSeriesTheme = {
   transform: {
     style: {
-      fill: '#f5f5f5'
+      fill: { type: 'palette', key: 'axisGridColor' }
     }
   },
   label: {
@@ -19,7 +19,7 @@ export const funnel: IFunnelSeriesTheme = {
       fontSize: THEME_CONSTANTS.l4FontSize,
       lineHeight: THEME_CONSTANTS.l4LineHeight,
 
-      fill: '#707070'
+      fill: { type: 'palette', key: 'secondaryFontColor' }
     },
     line: {
       style: {
@@ -32,7 +32,7 @@ export const funnel: IFunnelSeriesTheme = {
       fontSize: THEME_CONSTANTS.l4FontSize,
       lineHeight: THEME_CONSTANTS.l4LineHeight,
 
-      fill: '#707070',
+      fill: { type: 'palette', key: 'secondaryFontColor' },
       textBaseline: 'middle'
     }
   }

@@ -18,7 +18,7 @@ export const map: IMapSeriesTheme = {
       lineHeight: THEME_CONSTANTS.l6LineHeight,
       textBaseline: 'middle',
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' },
-      stroke: 'white'
+      stroke: { type: 'palette', key: 'backgroundColor' }
     }
   }
 };

@@ -6,7 +6,7 @@ export const radar: IRadarSeriesTheme = {
     offset: 5,
     style: {
       lineWidth: 2,
-      stroke: 'white'
+      stroke: { type: 'palette', key: 'backgroundColor' }
     }
   },
   point: {

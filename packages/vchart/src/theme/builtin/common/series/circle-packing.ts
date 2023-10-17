@@ -15,7 +15,7 @@ export const circlePacking: ICirclePackingSeriesTheme = {
     style: {
       cursor: 'pointer',
       fill: 'black',
-      stroke: 'white',
+      stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 2,
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight

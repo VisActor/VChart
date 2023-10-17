@@ -8,7 +8,8 @@ export const rose: IRoseSeriesTheme = {
   },
   label: {
     style: {
-      stroke: 'white',
+      lineWidth: 2,
+      stroke: { type: 'palette', key: 'backgroundColor' },
       textAlign: 'center',
       textBaseline: 'middle'
     }
