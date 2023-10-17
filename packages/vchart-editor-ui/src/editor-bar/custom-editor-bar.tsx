@@ -173,6 +173,7 @@ function generateEditorEntry(
         toolNode = (
           <EditorBarTextColor
             textColor={panelValue[entry.key]}
+            background={entry.background ?? true}
             onTextColorChange={textColor => {
               setPanelValue(Object.assign({}, panelValue, { [entry.key]: textColor }));
               entry.onChange?.(textColor);

@@ -37,27 +37,31 @@ export function EditorBarTextColor(props: IEditorBarTextColorProps) {
               ))}
             </div>
           ))}
-          <div style={{ marginTop: 12, marginBottom: 8 }}>文字背景色</div>
-          {(textBackgroundColorList ?? []).map((palette, paletteIndex) => (
-            <div
-              key={paletteIndex}
-              style={{ display: 'flex', marginBottom: paletteIndex !== textBackgroundColorList.length - 1 ? 8 : 0 }}
-            >
-              {palette.map(color => (
-                <TextBackgroundColorItem
-                  key={color}
-                  color={color}
-                  selected={color === textBackgroundColor}
-                  onClick={() => {
-                    props.onTextColorChange?.({
-                      color: textColor,
-                      backgroundColor: color
-                    });
-                  }}
-                />
+          {props.background ? (
+            <>
+              <div style={{ marginTop: 12, marginBottom: 8 }}>文字背景色</div>
+              {(textBackgroundColorList ?? []).map((palette, paletteIndex) => (
+                <div
+                  key={paletteIndex}
+                  style={{ display: 'flex', marginBottom: paletteIndex !== textBackgroundColorList.length - 1 ? 8 : 0 }}
+                >
+                  {palette.map(color => (
+                    <TextBackgroundColorItem
+                      key={color}
+                      color={color}
+                      selected={color === textBackgroundColor}
+                      onClick={() => {
+                        props.onTextColorChange?.({
+                          color: textColor,
+                          backgroundColor: color
+                        });
+                      }}
+                    />
+                  ))}
+                </div>
               ))}
-            </div>
-          ))}
+            </>
+          ) : null}
         </div>
       }
     >

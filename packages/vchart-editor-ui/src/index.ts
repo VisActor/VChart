@@ -21,3 +21,29 @@ export * from './typings/config';
 export * from './typings/editor-bar';
 export * from './typings/panel';
 export * from './typings/svg';
+
+// svg
+export { IconAddText } from './svg/add-text';
+export {
+  IconChart,
+  IconBarChart,
+  IconGroupBarChart,
+  IconStackBarChart,
+  IconPercentageBarChart,
+  IconLineChart,
+  IconBarLineChart
+} from './svg/chart';
+export { IconCombineMark } from './svg/combine-mark';
+export { IconComment } from './svg/comment';
+export { IconColorDisable, IconLineDisable, IconDisableRect } from './svg/disable';
+export { IconEditData } from './svg/edit-data';
+export { IconGleam } from './svg/gleam';
+export { IconHierarchyDiff } from './svg/hierarchy-diff';
+export { IconHorizontalLine } from './svg/horizontal-line';
+export { IconHorizontalRect } from './svg/horizontal-rect';
+export { IconLine, IconDashedLine, IconThinDashedLine } from './svg/line';
+export { IconStroke } from './svg/stroke';
+export { IconSumDiff } from './svg/sum-diff';
+export { IconText, IconStrokeText } from './svg/text';
+export { IconVerticalLine } from './svg/vertical-line';
+export { IconVerticalRect } from './svg/vertical-rect';
