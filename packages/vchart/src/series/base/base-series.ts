@@ -216,6 +216,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected declare _tooltipHelper: ISeriesTooltipHelper | undefined;
   get tooltipHelper() {
+    if (!this._tooltipHelper) {
+      this.initTooltip();
+    }
+
     return this._tooltipHelper;
   }
 
@@ -250,8 +254,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this.event.emit(ChartEvent.afterInitData, { model: this });
     // trigger
     this.initTrigger();
-    // tooltip
-    this.initTooltip();
     // mark
     this.initRootMark();
     this.initMark();
@@ -305,7 +307,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (isValid(this._spec.invalidType)) {
       this._invalidType = this._spec.invalidType;
     }
-    this._tooltipHelper?.updateTooltipSpec();
   }
 
   /** data */

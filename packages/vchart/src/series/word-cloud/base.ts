@@ -210,9 +210,14 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       );
     }
     this._trigger.registerMark(wordMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(wordMark);
     this._trigger.registerMark(fillingWordMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(fillingWordMark);
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._wordMark && this._tooltipHelper.activeTriggerSet.mark.add(this._wordMark);
+    this._fillingWordMark && this._tooltipHelper.activeTriggerSet.mark.add(this._fillingWordMark);
   }
 
   initAnimation() {

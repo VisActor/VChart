@@ -184,7 +184,6 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
         AttributeLevel.Series
       );
       this._trigger.registerMark(linkMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(linkMark);
     }
 
     const arrowMark = this._arrowMark;
@@ -206,7 +205,6 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
         AttributeLevel.Series
       );
       this._trigger.registerMark(arrowMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(arrowMark);
     }
   }
 
@@ -336,6 +334,8 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 
   protected initTooltip() {
     this._tooltipHelper = new LinkSeriesTooltipHelper(this);
+    this._linkMark && this._tooltipHelper.activeTriggerSet.mark.add(this._linkMark);
+    this._arrowMark && this._tooltipHelper.activeTriggerSet.mark.add(this._arrowMark);
   }
 
   protected onMarkTreePositionUpdate(marks: IMark[]): void {

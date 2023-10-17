@@ -164,7 +164,6 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
         AttributeLevel.Built_In
       );
       this._trigger.registerMark(pathMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(pathMark);
     }
   }
 
@@ -194,6 +193,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
   protected initTooltip() {
     this._tooltipHelper = new MapSeriesTooltipHelper(this);
+    this._pathMark && this._tooltipHelper.activeTriggerSet.mark.add(this._pathMark);
   }
 
   protected getPath(datum: any) {

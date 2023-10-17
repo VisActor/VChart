@@ -187,8 +187,13 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       );
 
       this._trigger.registerMark(pieMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(pieMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._pieMark && this._tooltipHelper.activeTriggerSet.mark.add(this._pieMark);
   }
 
   initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void {

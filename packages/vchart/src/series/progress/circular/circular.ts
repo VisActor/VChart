@@ -86,8 +86,13 @@ export class CircularProgressSeries<
         AttributeLevel.Series
       );
       this._trigger.registerMark(progressMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(progressMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._progressMark && this._tooltipHelper.activeTriggerSet.mark.add(this._progressMark);
   }
 
   private _initTrackMark() {

@@ -301,8 +301,12 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     }
 
     this._trigger.registerMark(symbolMark);
+  }
 
-    this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
   }
 
   viewDataStatisticsUpdate(d: DataView) {

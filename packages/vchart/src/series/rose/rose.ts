@@ -86,8 +86,13 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
         }
       });
       this._trigger.registerMark(roseMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(roseMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._roseMark && this._tooltipHelper.activeTriggerSet.mark.add(this._roseMark);
   }
 
   initLabelMarkStyle(textMark: ITextMark) {

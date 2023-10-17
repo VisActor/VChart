@@ -83,7 +83,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       );
 
       this._trigger.registerMark(rectMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(rectMark);
     }
   }
 
@@ -98,6 +97,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       },
       z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._rectMark && this._tooltipHelper.activeTriggerSet.mark.add(this._rectMark);
   }
 
   init(option: IModelInitOption): void {

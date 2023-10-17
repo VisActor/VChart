@@ -129,8 +129,15 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         this.encodeDefined(areaMark, 'defined');
       });
       this._trigger.registerMark(areaMark);
-      this._tooltipHelper?.activeTriggerSet.dimension.add(areaMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._symbolMark);
+    this._areaMark && this._tooltipHelper.activeTriggerSet.mark.add(this._areaMark);
   }
 
   initAnimation() {

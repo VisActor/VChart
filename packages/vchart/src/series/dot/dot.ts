@@ -284,7 +284,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         AttributeLevel.Series
       );
       this._trigger.registerMark(dotMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(dotMark);
     }
 
     const titleMark = this._titleMark;
@@ -461,6 +460,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
 
   protected initTooltip() {
     this._tooltipHelper = new DotSeriesTooltipHelper(this);
+    this._dotMark && this._tooltipHelper.activeTriggerSet.mark.add(this._dotMark);
   }
 
   /**

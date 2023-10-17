@@ -100,8 +100,13 @@ export class GaugePointerSeries<
         });
       }
       this._trigger.registerMark(pointerMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(pointerMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._pointerMark && this._tooltipHelper.activeTriggerSet.mark.add(this._pointerMark);
   }
 
   protected _getPointerWidth() {

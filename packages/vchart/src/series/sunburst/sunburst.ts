@@ -258,7 +258,6 @@ export class SunburstSeries extends PolarSeries<any> {
     }) as IArcMark;
     this._sunburstMark = sunburstMark;
     this._trigger.registerMark(this._sunburstMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(this._sunburstMark);
   }
 
   private _initArcMarkStyle() {
@@ -292,7 +291,6 @@ export class SunburstSeries extends PolarSeries<any> {
     this._labelMark = labelMark;
 
     this._trigger.registerMark(labelMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(labelMark);
   }
 
   private _initLabelMarkStyle() {
@@ -329,6 +327,8 @@ export class SunburstSeries extends PolarSeries<any> {
 
   protected initTooltip() {
     this._tooltipHelper = new SunburstTooltipHelper(this);
+    this._sunburstMark && this._tooltipHelper.activeTriggerSet.mark.add(this._sunburstMark);
+    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }
 
   initAnimation() {

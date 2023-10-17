@@ -193,7 +193,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
         AttributeLevel.Built_In
       );
       this._trigger.registerMark(areaMark);
-      this._tooltipHelper.activeTriggerSet.dimension.add(areaMark);
 
       // change stroke to area stoke = [lineStroke,false,false,false]
       Object.keys(areaMark.stateStyle).forEach(state => {
@@ -248,6 +247,9 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   protected initTooltip() {
     this._tooltipHelper = new AreaSeriesTooltipHelper(this);
+    this._areaMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._areaMark);
+    this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._symbolMark);
   }
 
   viewDataStatisticsUpdate(d: DataView) {
