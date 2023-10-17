@@ -65,22 +65,24 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     // 写入mark state, 便于后续state管理
     this._option.getAllSeries().forEach((s: ISeries) => {
       s.getActiveMarks().forEach((m: IMark) => {
-        s.setMarkStyle(
-          m,
-          {
-            ...inBrushMarkAttr
-          },
-          IN_BRUSH_STATE,
-          AttributeLevel.Series
-        );
-        s.setMarkStyle(
-          m,
-          {
-            ...outOfBrushMarkAttr
-          },
-          OUT_BRUSH_STATE,
-          AttributeLevel.Series
-        );
+        if (m) {
+          s.setMarkStyle(
+            m,
+            {
+              ...inBrushMarkAttr
+            },
+            IN_BRUSH_STATE,
+            AttributeLevel.Series
+          );
+          s.setMarkStyle(
+            m,
+            {
+              ...outOfBrushMarkAttr
+            },
+            OUT_BRUSH_STATE,
+            AttributeLevel.Series
+          );
+        }
       });
     });
   }
