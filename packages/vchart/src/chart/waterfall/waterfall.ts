@@ -16,7 +16,7 @@ export class WaterfallChart extends BarChart {
   transformSpec(spec: IWaterfallChartSpec): void {
     super.transformSpec(spec);
     if (spec.legends) {
-      array(spec.legends).forEach(l => {
+      array(spec.legends).forEach((l: any) => {
         l.select = false;
         l.hover = false;
         l.filter = false;
