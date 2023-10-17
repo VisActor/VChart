@@ -196,14 +196,14 @@ export function EditorBarPanelEntry(props: IEditorBarEntryProps) {
 }
 
 export const editorBarToolMap = {
-  horizontalLine: { icon: <IconHorizontalLine />, type: 'tool' },
-  verticalLine: { icon: <IconVerticalLine />, type: 'tool' },
-  horizontalRect: { icon: <IconHorizontalRect />, type: 'tool' },
-  verticalRect: { icon: <IconVerticalRect />, type: 'tool' },
-  combineMark: { icon: <IconCombineMark />, type: 'tool' },
-  sumDiff: { icon: <IconSumDiff />, type: 'tool' },
-  hierarchyDiff: { icon: <IconHierarchyDiff />, type: 'tool' },
-  addText: { icon: <IconAddText />, type: 'tool' },
+  horizontalLine: { icon: <IconHorizontalLine />, type: 'switch' },
+  verticalLine: { icon: <IconVerticalLine />, type: 'switch' },
+  horizontalRect: { icon: <IconHorizontalRect />, type: 'switch' },
+  verticalRect: { icon: <IconVerticalRect />, type: 'switch' },
+  combineMark: { icon: <IconCombineMark />, type: 'switch' },
+  sumDiff: { icon: <IconSumDiff />, type: 'switch' },
+  hierarchyDiff: { icon: <IconHierarchyDiff />, type: 'switch' },
+  addText: { icon: <IconAddText />, type: 'switch' },
 
   editData: { icon: <IconEditData />, type: 'trigger' },
   comment: { icon: <IconComment />, type: 'trigger' },
