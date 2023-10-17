@@ -5,7 +5,7 @@ import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
-export type IDataPos = string | number | IAggrType;
+export type IDataPos = StringOrNumber | IAggrType;
 export type IDataPosCallback = (
   relativeSeriesData: any,
   startRelativeSeriesData: any,
