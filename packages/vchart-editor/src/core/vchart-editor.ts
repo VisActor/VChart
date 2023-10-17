@@ -94,6 +94,7 @@ export class VChartEditor {
     option.layer = layer;
     option.controller = this._editorController;
     option.mode = this._mode;
+    option.getAllLayers = () => this._layers;
     const el = new ElementsMap[type](option);
     if (!el) {
       return;
@@ -158,7 +159,8 @@ export class VChartEditor {
             type: e.type,
             attribute: e.attribute,
             controller: this._editorController,
-            mode: this._mode
+            mode: this._mode,
+            getAllLayers: () => this._layers
           });
           if (!el) {
             return;
