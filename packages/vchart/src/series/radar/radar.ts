@@ -8,7 +8,7 @@ import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
 import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { degreeToRadian, mixin } from '@visactor/vutils';
+import { degreeToRadian, isArray, mixin } from '@visactor/vutils';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
@@ -190,7 +190,11 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         // 增加一个标识位，用于是否替换，因为图例获取颜色的时候是不需要替换的
         attribute === 'fill' && (attribute = 'stroke');
       }
-      return this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
+      const result = this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
+      if (attribute === 'stroke' && isArray(result)) {
+        return result[0];
+      }
+      return result;
     };
   }
 }
