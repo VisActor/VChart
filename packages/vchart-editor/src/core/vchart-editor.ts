@@ -6,7 +6,7 @@ import { EditorLayer } from './editor-layer';
 import type { Include } from './../typings/commnt';
 import { ElementsMap } from './../elements/index';
 import type { IElementOption } from './../elements/interface';
-import { isString } from '@visactor/vutils';
+import { isString, Bounds, isValidNumber } from '@visactor/vutils';
 import type { IDataParserConstructor } from '../elements/chart/data/interface';
 import type { IChartTempConstructor } from '../elements/chart/template/interface';
 import { EditorFactory } from './factory';
@@ -43,6 +43,10 @@ export class VChartEditor {
   }
 
   protected _mode: EditorMode = 'view';
+
+  protected _width: number;
+  protected _height: number;
+  protected _needResize: boolean = false;
 
   constructor(option: IVChartEditorInitOption) {
     this._option = option;
@@ -112,10 +116,25 @@ export class VChartEditor {
 
   addLayer(l: EditorLayer) {
     l.getCanvas().style.zIndex = 200 + this._layers.length + '';
+    l.onElementReady(this._checkLayerReady);
     this._layers.push(l);
   }
 
-  async loadLasted() {
+  protected _checkLayerReady = () => {
+    if (this._layers.every(l => l.isElementReady)) {
+      this._afterAllLayerReady();
+      return true;
+    }
+    return false;
+  };
+
+  protected _afterAllLayerReady() {
+    if (this._needResize && this._width && this._height) {
+      this.resize(this._width, this._height);
+    }
+  }
+
+  async loadLasted(width?: number, height?: number) {
     if (!this._option.data) {
       return;
     }
@@ -149,6 +168,13 @@ export class VChartEditor {
         });
       }
     });
+    if (width && height) {
+      this._width = width;
+      this._height = height;
+      if (this._checkLayerReady()) {
+        this._needResize = true;
+      }
+    }
   }
 
   setModel(mode: EditorMode) {
@@ -173,5 +199,31 @@ export class VChartEditor {
     this._editorController.release();
     this._layers.forEach(l => l.release());
     this._layers = [];
+  }
+
+  resize(width: number, height: number) {
+    if (!isValidNumber(width) || !isValidNumber(height)) {
+      return;
+    }
+    this._width = width;
+    this._height = height;
+    const b = new Bounds();
+    if (this._layers.length === 0) {
+      return;
+    }
+    this._layers.forEach(l => b.union(l.getAABBBounds()));
+    const contentWidth = b.width();
+    const contentHeight = b.height();
+    if (contentWidth === 0 || contentWidth === Infinity || contentHeight === 0 || contentHeight === Infinity) {
+      return;
+    }
+    const scale = Math.min(width / b.width(), height / b.height(), 1);
+    const finalWidth = contentWidth * scale;
+    const finalHeight = contentHeight * scale;
+    const posX = (width - finalWidth) * 0.5 - b.x1;
+    const posY = (height - finalHeight) * 0.5 - b.y1;
+    this._layers.forEach(l => {
+      l.resizeLayer(width, height, posX, posY, scale);
+    });
   }
 }

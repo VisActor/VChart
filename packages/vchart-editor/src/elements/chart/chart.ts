@@ -112,7 +112,7 @@ export class EditorChart extends BaseElement {
       stage: this._opt.layer.getStage(),
       animation: false,
       disableTriggerEvent: this._mode === 'editor'
-    });
+    }) as any;
     this._layout.setVChart(this._vchart);
 
     // editor init with vchart
@@ -132,13 +132,21 @@ export class EditorChart extends BaseElement {
   onSpecReady = () => {
     if (!this._vchart) {
       this._initVChart(this._specProcess.getVChartSpec());
-      this._vchart.renderAsync();
+      // eslint-disable-next-line promise/catch-or-return
+      this._vchart.renderAsync().then(() => {
+        this._afterRender();
+      });
     } else {
-      this._vchart.updateSpec(this._specProcess.getVChartSpec());
+      this._isRendered = false;
+      // eslint-disable-next-line promise/catch-or-return
+      this._vchart.updateSpec(this._specProcess.getVChartSpec()).then(() => {
+        this._afterRender();
+      });
     }
   };
 
   release() {
+    super.release();
     this.releaseEditors();
 
     this._vchart.release();

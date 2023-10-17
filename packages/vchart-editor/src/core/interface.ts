@@ -1,3 +1,4 @@
+import type { IBoundsLike } from '@visactor/vutils';
 import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
 import type { ILayoutAttribute, IRect } from '../typings/space';
@@ -25,9 +26,17 @@ export interface IEditorLayer {
   elements: IElement[];
   editorGroup: IGroup;
   activeElement: IEditorElement | IEditorElement[];
+  readonly isElementReady: boolean;
 
   getStage: () => IStage;
   getCanvas: () => HTMLCanvasElement;
+  getAABBBounds: () => IBoundsLike;
+  moveTo: (x: number, y: number) => void;
+  scaleTo: (s: number) => void;
+  resizeLayer: (width: number, height: number, x: number, y: number, scale: number) => void;
+
+  onElementReady: (callBack: () => void) => void;
+
   release: () => void;
 }
 
