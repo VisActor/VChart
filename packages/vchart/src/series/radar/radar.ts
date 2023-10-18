@@ -136,8 +136,8 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
     super.initTooltip();
 
     this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
-    this._symbolMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._symbolMark);
-    this._areaMark && this._tooltipHelper.activeTriggerSet.mark.add(this._areaMark);
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
+    this._areaMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._areaMark);
   }
 
   initAnimation() {

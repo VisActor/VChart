@@ -249,7 +249,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     this._tooltipHelper = new AreaSeriesTooltipHelper(this);
     this._areaMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._areaMark);
     this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
-    this._symbolMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._symbolMark);
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
   }
 
   viewDataStatisticsUpdate(d: DataView) {
