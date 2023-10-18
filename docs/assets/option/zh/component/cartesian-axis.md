@@ -10,8 +10,8 @@
 - 线性轴：`type: 'linear'`
 - 离散轴：`type: 'band'`
 - 时间轴：`type: 'time'`
-- log轴：`type: 'log'`
-- symlog轴：`type: 'symlog'`
+- log 轴：`type: 'log'`
+- symlog 轴：`type: 'symlog'`
 
 注：直方图不支持离散轴，因为直方图用于统计数据区间内的频率分布，主轴必须以数值区间的形式传入，离散轴不支持该功能。
 
@@ -21,8 +21,6 @@
 - 极坐标系下，半径轴默认为 'linear'，角度轴默认为 'band'。
 
 **如果需要在一个图表中绘制多个坐标轴，需要使用数组配置。**
-
-TODO: 补充图示。
 
 ## axes.linear(Object)
 
@@ -39,6 +37,7 @@ TODO: 补充图示。
 ) }}
 
 {{ if: !${noBandAxis} }}
+
 ## axes.band(Object)
 
 离散轴配置。
@@ -70,11 +69,11 @@ TODO: 补充图示。
 
 ## axes.log(Object)
 
-自`1.2.0`版本开始支持，log轴配置。
+自`1.2.0`版本开始支持，log 轴配置。
 
 ### type(string) = 'log'
 
-声明log轴。
+声明 log 轴。
 
 {{ use: component-base-axis(
   prefix = '##',
@@ -84,11 +83,11 @@ TODO: 补充图示。
 
 ## axes.symlog(Object)
 
-自`1.3.0`版本开始支持，symlog轴配置。
+自`1.3.0`版本开始支持，symlog 轴配置。
 
 ### type(string) = 'symlog'
 
-声明symlog轴。
+声明 symlog 轴。
 
 {{ use: component-base-axis(
   prefix = '##',
