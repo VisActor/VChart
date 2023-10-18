@@ -525,7 +525,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     // do nothing
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return this._brushComponents as unknown as IGroup[];
   }
 

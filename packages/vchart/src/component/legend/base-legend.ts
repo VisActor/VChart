@@ -11,7 +11,7 @@ import { isValid, mergeSpec, isValidOrient, array, eachSeries, isValidNumber } f
 import { CompilableData } from '../../compile/data';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILegend, ILegendCommonSpec } from './interface';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic, IGroup } from '@visactor/vrender-core';
 
 export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseComponent<T> implements ILegend {
   layoutType: LayoutItem['layoutType'] = 'normal';
@@ -288,7 +288,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     this.event.emit(ChartEvent.legendSelectedDataChange, { model: this });
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [this._legendComponent] as unknown as IGroup[];
   }
 
