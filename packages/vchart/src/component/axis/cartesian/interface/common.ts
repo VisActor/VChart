@@ -1,7 +1,7 @@
 import type { SegmentAttributes, AxisLabelOverlap } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IAxis, IDomainLine, ILabel, ITickCallbackOption, ITitle } from '../../interface';
-import type { Datum, StringOrNumber } from '../../../../typings';
+import type { Datum, ITextMarkSpec, StringOrNumber } from '../../../../typings';
 
 export type ICartesianDomainLineSpec = {
   startSymbol?: SegmentAttributes['startSymbol'];
@@ -155,3 +155,19 @@ export interface ITimeLayerType {
    */
   forceTickCount?: number;
 }
+
+export type ICartesianAxisUnit = {
+  /**
+   * 是否显示坐标轴单位
+   */
+  visible: boolean;
+
+  /**
+   * 轴单位名称
+   */
+  text?: string | number | number[] | string[];
+  /**
+   * 单位样式
+   */
+  style?: ITextMarkSpec;
+};

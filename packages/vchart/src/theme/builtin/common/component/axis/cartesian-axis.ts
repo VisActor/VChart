@@ -1,4 +1,5 @@
 import type { ICartesianAxisCommonTheme } from '../../../../../component/axis/cartesian/interface';
+import { THEME_CONSTANTS } from '../../constants';
 
 export const axisX: ICartesianAxisCommonTheme = {
   label: {
@@ -7,7 +8,16 @@ export const axisX: ICartesianAxisCommonTheme = {
   title: {
     space: 8
   },
-  maxHeight: '30%'
+  maxHeight: '30%',
+  unit: {
+    visible: false,
+    style: {
+      fontSize: THEME_CONSTANTS.l5FontSize,
+      fill: { type: 'palette', key: 'axisFontColor' },
+      fontWeight: 'normal',
+      fillOpacity: 1
+    }
+  }
 };
 
 export const axisY: ICartesianAxisCommonTheme = {
@@ -19,5 +29,14 @@ export const axisY: ICartesianAxisCommonTheme = {
     space: 12,
     autoRotate: true
   },
-  maxWidth: '30%'
+  maxWidth: '30%',
+  unit: {
+    visible: false,
+    style: {
+      fontSize: THEME_CONSTANTS.l5FontSize,
+      fill: { type: 'palette', key: 'axisFontColor' },
+      fontWeight: 'normal',
+      fillOpacity: 1
+    }
+  }
 };

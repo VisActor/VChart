@@ -111,7 +111,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     this._visible = spec.visible ?? true;
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [];
   }
 
