@@ -55,7 +55,7 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
   protected initTooltip() {
     super.initTooltip();
     this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
-    this._symbolMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._symbolMark);
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
   }
 
   initMarkStyle(): void {
