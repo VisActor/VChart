@@ -255,6 +255,32 @@ export class Layout3d extends Layout implements IBaseLayout {
     };
     return result;
   }
+
+  protected _checkAutoIndent(items: ILayoutItem[]) {
+    const result = {
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0
+    };
+    const rightCurrent = this._chartViewBox.x2 - this._chartViewBox.x1 - this.rightCurrent;
+    const bottomCurrent = this._chartViewBox.y2 - this._chartViewBox.y1 - this.bottomCurrent;
+    items.forEach(i => {
+      if (!i.getVisible() || !i.getAutoIndent()) {
+        return;
+      }
+      const vOrH = i.layoutOrient === 'left' || i.layoutOrient === 'right';
+      const outer = i.getLastComputeOutBounds();
+      if (vOrH) {
+        result.top = Math.max(result.top, outer.y1 - this.topCurrent);
+        result.bottom = Math.max(result.bottom, outer.y2 - bottomCurrent);
+      } else {
+        result.left = Math.max(result.left, outer.x1 - this.leftCurrent);
+        result.right = Math.max(result.right, outer.x2 - rightCurrent);
+      }
+    });
+    return result;
+  }
 }
 
 export const registerLayout3d = () => {
