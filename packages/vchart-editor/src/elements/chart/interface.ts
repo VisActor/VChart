@@ -23,11 +23,11 @@ export interface ILayoutRectLevel {
 }
 
 export interface IChartModel extends ILayoutItem {
-  userId: string | number;
+  userId?: string | number;
   type: string;
   specKey: string;
   getSpecIndex: () => number;
-  getSpec: () => any;
+  getSpec?: () => any;
 }
 
 /**

@@ -1,8 +1,8 @@
+import type { IChartModel } from './../elements/chart/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
 import type { ILayoutAttribute, IPoint, IRect } from '../typings/space';
-import type { IModel } from '@visactor/vchart/esm/model/interface';
 import type { IModelSpec } from '../elements/chart/spec-process/interface';
 export interface ILayerData {
   id: string | number;
@@ -90,7 +90,7 @@ export interface IEditorElement {
   /**
    * vchart 模型实例
    */
-  model: IModel;
+  model: IChartModel;
   editProperties?: {
     // layout
     move?: boolean;
@@ -127,4 +127,5 @@ export interface ILayoutLine extends Partial<IModelInfo> {
   value: number;
   start: number;
   end: number;
+  rect: IRect;
 }

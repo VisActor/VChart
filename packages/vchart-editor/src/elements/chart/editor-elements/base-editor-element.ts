@@ -49,6 +49,7 @@ export abstract class BaseEditorElement {
       return false;
     }
     this.releaseLast();
+    console.log('set current el');
     this._currentEl = el;
     this._controller.setEditorElements(el, e);
     return true;

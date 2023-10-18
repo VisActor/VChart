@@ -3,12 +3,19 @@ import type { IChartModel } from './../interface';
 import { createRect, type IGraphic } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
-import { getAxisLayoutInRegionRect, transformModelRect } from '../utils/layout';
-import type { ILayoutAttribute } from '../../../typings/space';
+import { getAxisLayoutInRegionRect, transformModelRect, transformModelRectRevert } from '../utils/layout';
+import type { ILayoutAttribute, IRect } from '../../../typings/space';
 import { MinSize } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
 import type { EventParams } from '@visactor/vchart';
 import { isSameModelInfo } from '../../../utils/spec';
+
+const CartesianAxisResize = {
+  left: [false, false, false, true, false, false, false, false],
+  right: [false, false, false, false, true, false, false, false],
+  top: [false, true, false, false, false, false, false, false],
+  bottom: [false, false, false, false, false, false, true, false]
+};
 
 export class LayoutEditorElement extends BaseEditorElement {
   protected _layoutComponent: LayoutEditorComponent;
@@ -62,7 +69,7 @@ export class LayoutEditorElement extends BaseEditorElement {
           if (isSameModelInfo(line, el)) {
             return;
           }
-          if (this._currentEl.model.type === 'region' && line.specKey.includes('axes')) {
+          if (this._currentEl?.model?.type === 'region' && line.specKey.includes('axes')) {
             return;
           }
           pre.push(line);
@@ -136,7 +143,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       return null;
     }
 
-    const editProperties = {
+    const editProperties: IEditorElement['editProperties'] = {
       move: true,
       rotate: false,
       resize: true
@@ -144,6 +151,9 @@ export class LayoutEditorElement extends BaseEditorElement {
     if (model.type.includes('Axis')) {
       editProperties.move = false;
       editProperties.resize = false;
+      if (model.type.includes('cartesian')) {
+        editProperties.resize = CartesianAxisResize[model.layoutOrient];
+      }
     }
     const element = new CommonChartEditorElement(this, {
       model,
@@ -156,13 +166,16 @@ export class LayoutEditorElement extends BaseEditorElement {
             rect.width = Math.max(rect.width, bounds.x2 - bounds.x1);
             rect.height = Math.max(rect.height, bounds.y2 - bounds.y1);
           }
+          rect.x = layoutData.x;
+          rect.y = layoutData.y;
+          transformModelRectRevert(model, layoutData as IRect, rect);
           chart.layout.setModelLayoutData({
             id: layoutMeta.id,
             specKey: layoutMeta.specKey,
             specIndex: layoutMeta.specIndex,
             layout: {
-              x: { offset: layoutData.x as number },
-              y: { offset: layoutData.y as number },
+              x: { offset: rect.x as number },
+              y: { offset: rect.y as number },
               width: { offset: rect.width as number },
               height: { offset: rect.height as number }
             }
