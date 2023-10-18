@@ -248,7 +248,7 @@ export function CustomPanel(props: ICustomPanelProps) {
 
   const onRefresh = () => {
     props.onRefresh?.(panelValue);
-    setPanelValue(generateInitialPanelValue(sections, props.sectionComponentMaps));
+    setPanelValue(generateInitialPanelValue(props.initialSections ?? sections, props.sectionComponentMaps));
   };
 
   return (
