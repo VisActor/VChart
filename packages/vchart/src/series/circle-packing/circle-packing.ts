@@ -14,6 +14,7 @@ import { SeriesTypeEnum } from '../interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { circlePackingLayout } from '../../data/transforms/circle-packing';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IArcMark } from '../../mark/arc';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
@@ -308,6 +309,10 @@ export class CirclePackingSeries<
   // make sure this function fast
   protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
     return undefined;
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._circlePackingMark];
   }
 }
 

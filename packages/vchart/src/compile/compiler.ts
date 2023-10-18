@@ -103,13 +103,9 @@ export class Compiler {
     this._view = new View({
       width: this._width,
       height: this._height,
-      // 禁用默认交互，防止干扰数据流
-      hover: false,
-      select: false,
       container: this._container.dom ?? null,
       renderCanvas: this._container.canvas ?? null,
       hooks: (this._option as any).performanceHook, // vgrammar 事件改造后，性能回调函数放在了hooks中实现
-      cursor: false,
       ...this._option,
       mode: toRenderMode(this._option.mode),
       autoFit: false,

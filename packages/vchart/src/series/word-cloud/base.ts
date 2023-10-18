@@ -42,6 +42,7 @@ import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { wordCloudSeriesMark } from './constant';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -458,5 +459,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
     this.compile();
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._wordMark, this._fillingWordMark];
   }
 }
