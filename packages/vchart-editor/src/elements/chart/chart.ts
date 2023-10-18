@@ -130,13 +130,16 @@ export class EditorChart extends BaseElement {
   }
 
   onSpecReady = () => {
+    console.log('onSpecReady !');
     if (!this._vchart) {
+      console.log('onSpecReady init chart');
       this._initVChart(this._specProcess.getVChartSpec());
       // eslint-disable-next-line promise/catch-or-return
       this._vchart.renderAsync().then(() => {
         this._afterRender();
       });
     } else {
+      console.log('onSpecReady update spec');
       this._isRendered = false;
       // eslint-disable-next-line promise/catch-or-return
       this._vchart.updateSpec(this._specProcess.getVChartSpec()).then(() => {

@@ -55,18 +55,20 @@ export abstract class BaseEditorElement {
     return true;
   }
   releaseLast() {
-    this._currentEl = null;
-    this._overGraphic = null;
+    console.log(1);
+    // @ts-ignore
+    this._currentEl = this._overGraphic = null;
   }
 
   release() {
     this.releaseLast();
+    // @ts-ignore
     this._controller = this._chart = this._layer = null;
   }
 
   abstract initWithVChart(): void;
   protected abstract _getOverGraphic(el: IEditorElement, e?: PointerEvent): IGraphic;
-  protected abstract _getEditorElement(e?: EventParams): IEditorElement;
+  protected abstract _getEditorElement(e?: EventParams): IEditorElement | null;
 
   updateCommonAttribute(el: IEditorElement, attr: IUpdateAttributeParam, reRender: boolean = false) {
     if (this._chart.specProcess.updateElementAttribute(el, attr) || reRender) {
@@ -168,6 +170,14 @@ export class CommonChartEditorElement implements IEditorElement {
   }
 
   updateAttribute = (attr: IUpdateAttributeParam): false | { [key: string]: unknown } => {
+    if (attr.chartType) {
+      this.editorFinish();
+      this._context.chart.layout.setLayoutData({
+        viewBox: this._context.chart.layout.getLayoutData().viewBox,
+        data: []
+      });
+      this._context.chart.specProcess.updateTemp(attr.chartType);
+    }
     const result = this._updateCall?.(attr) ?? false;
     const reRender = this._context.chart.specProcess.updateElementAttribute(this.model, attr);
     if (reRender) {

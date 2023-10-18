@@ -3,7 +3,12 @@ import type { IChartModel } from './../interface';
 import { createRect, type IGraphic } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
-import { getAxisLayoutInRegionRect, transformModelRect, transformModelRectRevert } from '../utils/layout';
+import {
+  getAxisLayoutInRegionRect,
+  IgnoreModelTypeInLayout,
+  transformModelRect,
+  transformModelRectRevert
+} from '../utils/layout';
 import type { ILayoutAttribute, IRect } from '../../../typings/space';
 import { MinSize } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
@@ -111,7 +116,6 @@ export class LayoutEditorElement extends BaseEditorElement {
       event: e.event
     });
 
-    this._layer.editorGroup.add(this._layoutComponent.editorBox as unknown as IGraphic);
     return this._layoutComponent.editorBox as unknown as IGraphic;
   }
 
@@ -126,7 +130,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       pickable: false
     });
   }
-  protected _getEditorElement(eventParams: EventParams): IEditorElement {
+  protected _getEditorElement(eventParams: EventParams): IEditorElement | null {
     const e = eventParams.event;
     // @ts-ignore
     const point = { x: e.x, y: e.y };
@@ -139,7 +143,7 @@ export class LayoutEditorElement extends BaseEditorElement {
     const items = regions.concat(chart.vchart.getChart().getAllComponents() as any[]);
     const model = items.find((item: any) => item.userId === layoutMeta.id);
 
-    if (model.type.includes('tooltip')) {
+    if (IgnoreModelTypeInLayout[model.type]) {
       return null;
     }
 

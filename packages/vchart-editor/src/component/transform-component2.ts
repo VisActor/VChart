@@ -1,4 +1,4 @@
-import { isBoolean, isArray } from '@visactor/vutils';
+import { isArray } from '@visactor/vutils';
 /**
  * @description PopTip组件
  */
@@ -11,7 +11,7 @@ import {
   createRect
 } from '@visactor/vrender-core';
 import type { IAABBBounds, IAABBBoundsLike } from '@visactor/vutils';
-import { AABBBounds, Matrix, merge, normalizePadding, pi } from '@visactor/vutils';
+import { AABBBounds, merge, normalizePadding, pi } from '@visactor/vutils';
 import { AbstractComponent } from '@visactor/vrender-components';
 
 type ResizeType = [boolean, ...boolean[]] & { length: 8 };
@@ -126,7 +126,6 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     this.unTransStartCbs = [];
     this.updateCbs = [];
     this.editEndCbs = [];
-    this.initEvent();
   }
 
   updateSubBounds(bounds: IAABBBoundsLike) {
@@ -138,7 +137,7 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     });
   }
 
-  protected initEvent() {
+  initEvent() {
     // curser
     this.editBorder.addEventListener('mousemove', this.handleMouseMove);
     this.addEventListener('pointerout', this.handleMouseOut);
@@ -147,7 +146,7 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     this.addEventListener('pointerdown', this.handleDragMouseDown);
     // this.addEventListener('drag', this.onDrag);
 
-    this.addEventListener('pointermove', this.handleDragMouseMove);
+    this.stage.addEventListener('pointermove', this.handleDragMouseMove);
     this.addEventListener('pointerup', this.handleDragMouseUp);
   }
 
@@ -551,7 +550,15 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
   }
 
   release(): void {
+    // event
+    this.editBorder.removeEventListener('mousemove', this.handleMouseMove);
+    this.stage.removeEventListener('pointermove', this.handleDragMouseMove);
+    this.removeEventListener('pointerout', this.handleMouseOut);
+    this.removeEventListener('pointerdown', this.handleDragMouseDown);
+    this.removeEventListener('pointerup', this.handleDragMouseUp);
+
     this.parent.removeChild(this);
+    this.editBorder = null;
     this.updateCbs = null;
     this.editEndCbs = null;
     this.unTransStartCbs = null;

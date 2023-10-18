@@ -78,7 +78,7 @@ export interface IUpdateAttributeParam {
   markArea?: {};
 
   // 更改图表类型
-  chartType?: {};
+  chartType?: string;
 }
 
 export interface IEditorElement {

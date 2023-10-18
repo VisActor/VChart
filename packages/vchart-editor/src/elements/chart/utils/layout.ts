@@ -98,3 +98,10 @@ export function getChartModelWithModelInfo(vchart: VChart, info: IModelInfo) {
     .getAllComponents()
     .find(c => isModelMatchModelInfo(c as unknown as IChartModel, info));
 }
+
+export const IgnoreModelTypeInLayout = {
+  tooltip: true,
+  label: true,
+  layout: true,
+  markLine: true
+};

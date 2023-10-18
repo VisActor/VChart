@@ -1,4 +1,4 @@
-import type { IGroup, IStage, ILine, IRect } from '@visactor/vrender-core';
+import type { IGroup, IStage, ILine, IRect, IGraphic } from '@visactor/vrender-core';
 import { IContainPointMode, createLine, createRect } from '@visactor/vrender-core';
 import type { ILayoutAttribute } from './../typings/space';
 import type { IEditorElement, ILayoutLine } from './../core/interface';
@@ -67,6 +67,8 @@ export class LayoutEditorComponent {
       this._snapTargetLineX = opt.layoutLines.filter(l => l.orient === 'x');
       this._snapTargetLineY = opt.layoutLines.filter(l => l.orient === 'y');
     }
+    this._opt.editorGroup.add(this._editorBox as unknown as IGraphic);
+    this._editorBox.initEvent();
   }
 
   initEvent() {
