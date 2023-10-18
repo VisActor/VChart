@@ -276,6 +276,7 @@ importers:
       '@internal/ts-config': workspace:*
       '@internal/typescript-json-schema': workspace:*
       '@rushstack/eslint-patch': ~1.1.4
+      '@size-limit/file': 9.0.0
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
@@ -315,6 +316,7 @@ importers:
       rollup-plugin-node-polyfills: 0.2.1
       rollup-plugin-sizes: 1.0.5
       rollup-plugin-visualizer: 5.9.2
+      size-limit: 9.0.0
       ts-jest: ^26.0.0
       ts-loader: 8.0.2
       ts-node: 10.9.0
@@ -345,6 +347,7 @@ importers:
       '@internal/ts-config': link:../../share/ts-config
       '@internal/typescript-json-schema': link:../../tools/typescript-json-schema
       '@rushstack/eslint-patch': 1.1.4
+      '@size-limit/file': 9.0.0_size-limit@9.0.0
       '@types/jest': 26.0.24
       '@types/node': 20.8.6
       '@types/offscreencanvas': 2019.6.4
@@ -370,6 +373,7 @@ importers:
       rollup-plugin-node-polyfills: 0.2.1
       rollup-plugin-sizes: 1.0.5_rollup@3.20.5
       rollup-plugin-visualizer: 5.9.2_rollup@3.20.5
+      size-limit: 9.0.0
       ts-jest: 26.5.6_xuote2qreek47x2di7kesslrai
       ts-loader: 8.0.2_typescript@4.9.5
       ts-node: 10.9.0_e23dlexogmr3ebwoytalnm43ja
@@ -3373,6 +3377,16 @@ packages:
     resolution: {integrity: sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==}
     dependencies:
       '@sinonjs/commons': 1.8.6
+    dev: true
+
+  /@size-limit/file/9.0.0_size-limit@9.0.0:
+    resolution: {integrity: sha512-oM2UaH2FRq4q22k+R+P6xCpzET10T94LFdSjb9svVu/vOD7NaB9LGcG6se8TW1BExXiyXO4GEhLsBt3uMKM3qA==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      size-limit: 9.0.0
+    dependencies:
+      semver: 7.5.4
+      size-limit: 9.0.0
     dev: true
 
   /@stencil/core/2.9.0:
@@ -6885,6 +6899,11 @@ packages:
 
   /builtin-status-codes/3.0.0:
     resolution: {integrity: sha512-HpGFw18DgFWlncDfjTa2rcQ4W88O1mC8e8yZ2AvQY5KDaktSTwo+KRf6nHK6FRI5FyRyb/5T6+TSxfP7QyGsmQ==}
+    dev: true
+
+  /bytes-iec/3.1.1:
+    resolution: {integrity: sha512-fey6+4jDK7TFtFg/klGSvNKJctyU7n2aQdnM+CO0ruLPbqqMOM8Tio0Pc+deqUeVKX1tL5DQep1zQ7+37aTAsA==}
+    engines: {node: '>= 0.8'}
     dev: true
 
   /bytes/3.0.0:
@@ -14800,6 +14819,11 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /lilconfig/2.1.0:
+    resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
+    engines: {node: '>=10'}
+    dev: true
+
   /lines-and-columns/1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
@@ -15981,6 +16005,12 @@ packages:
       regex-not: 1.0.2
       snapdragon: 0.8.2
       to-regex: 3.0.2
+
+  /nanospinner/1.1.0:
+    resolution: {integrity: sha512-yFvNYMig4AthKYfHFl1sLj7B2nkHL4lzdig4osvl9/LdGbXwrdFRoqBS98gsEsOakr0yH+r5NZ/1Y9gdVB8trA==}
+    dependencies:
+      picocolors: 1.0.0
+    dev: true
 
   /native-request/1.1.0:
     resolution: {integrity: sha512-uZ5rQaeRn15XmpgE0xoPL8YWqcX90VtCFglYwAgkvKM5e8fog+vePLAhHxuuv/gRkrQxIeh5U3q9sMNUrENqWw==}
@@ -19366,6 +19396,19 @@ packages:
 
   /sisteransi/1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
+    dev: true
+
+  /size-limit/9.0.0:
+    resolution: {integrity: sha512-DrA7o2DeRN3s+vwCA9nn7Ck9Y4pn9t0GNUwQRpKqBtBmNkl6LA2s/NlNCdtKHrEkRTeYA1ZQ65mnYveo9rUqgA==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+    dependencies:
+      bytes-iec: 3.1.1
+      chokidar: 3.5.3
+      globby: 11.1.0
+      lilconfig: 2.1.0
+      nanospinner: 1.1.0
+      picocolors: 1.0.0
     dev: true
 
   /slash/1.0.0:
