@@ -12,7 +12,7 @@ import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
 import type { Datum } from '../../typings';
-import { normalizeLayoutPaddingSpec } from '../../util';
+import { normalizeLayoutPaddingSpec, preprocessSpecOrTheme } from '../../util';
 import type { IComponentSpec } from './interface';
 
 export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
@@ -66,39 +66,12 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
     };
   }
 
-  async setCurrentTheme(theme: any, noRender?: boolean) {
-    const modifyConfig = () => {
-      // 重新初始化
-      this.reInit(theme);
-
-      return { change: true, reMake: false };
-    };
-
-    if (noRender) {
-      modifyConfig();
-    } else {
-      await this._option.globalInstance.updateCustomConfigAndRerender(modifyConfig);
-    }
-  }
-
-  protected _initTheme(theme?: any) {
-    const globalTheme = this._option.getTheme();
-
-    if (theme) {
-      super._initTheme(theme);
-    } else {
-      super._initTheme(
-        getComponentThemeFromGlobalTheme(
-          this.type as ComponentTypeEnum,
-          globalTheme,
-          this._originalSpec,
-          this._option.getChart()
-        )
-      );
-    }
-
-    // 将 theme merge 到 spec 中
-    this._mergeThemeToSpec();
+  protected _getTheme() {
+    return preprocessSpecOrTheme(
+      'theme',
+      getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option, this._originalSpec),
+      this.getColorScheme()
+    );
   }
 
   protected _mergeThemeToSpec() {
