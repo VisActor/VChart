@@ -26,6 +26,7 @@ import { Factory } from '../core/factory';
 import type { SeriesTypeEnum } from '../series/interface';
 import { MarkSet } from '../mark/mark-set';
 import { getThemeFromOption } from '../theme/util';
+import { defaultChartLevelTheme } from '../theme';
 
 export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> implements IModel {
   readonly type: string = 'null';
@@ -430,10 +431,10 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   }
 
   getColorScheme() {
-    return this._option.getThemeConfig?.().chartLevelTheme?.colorScheme;
+    return (this._option.getThemeConfig?.().chartLevelTheme ?? defaultChartLevelTheme).colorScheme;
   }
 
   protected _getChartLevelTheme() {
-    return this._option.getThemeConfig?.().chartLevelTheme;
+    return this._option.getThemeConfig?.().chartLevelTheme ?? defaultChartLevelTheme;
   }
 }

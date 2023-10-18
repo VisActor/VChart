@@ -45,6 +45,8 @@ import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-compon
 import { getTooltipAttributes } from './utils/attribute';
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { IChartOption } from '../../../chart/interface';
+import type { IChartLevelTheme } from '../../../core/interface';
+import { defaultChartLevelTheme } from '../../../theme';
 
 type ChangeTooltipFunc = (
   visible: boolean,
@@ -669,8 +671,12 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   // 计算 tooltip 内容区域的宽高，并缓存结果
   protected _getTooltipBoxSize(actualTooltip: IToolTipActual, changePositionOnly: boolean): IContainerSize | undefined {
     if (!changePositionOnly || isNil(this._attributes)) {
-      const { chartLevelTheme } = this._chartOption.getThemeConfig?.() ?? {};
-      this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), chartLevelTheme);
+      const { chartLevelTheme = defaultChartLevelTheme } = this._chartOption.getThemeConfig?.() ?? {};
+      this._attributes = getTooltipAttributes(
+        actualTooltip,
+        this._component.getSpec(),
+        chartLevelTheme as IChartLevelTheme
+      );
     }
     return {
       width: this._attributes?.panel?.width,

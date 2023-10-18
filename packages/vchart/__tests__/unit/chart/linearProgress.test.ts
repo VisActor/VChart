@@ -1,8 +1,6 @@
-import { DataSet, csvParser, dataViewParser } from '@visactor/vdataset';
+import { DataSet, csvParser } from '@visactor/vdataset';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { LinearProgressSeries } from '../../../src';
-// eslint-disable-next-line no-duplicate-imports
-import { ThemeManager } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearProgressChart } from '../../../src';
 import { getTestCompiler } from '../../util/factory/compiler';
@@ -52,7 +50,6 @@ describe('linearProgress chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(),
       animation: false
     } as any);
     chart.created();

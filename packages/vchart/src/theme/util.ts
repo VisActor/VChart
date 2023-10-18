@@ -5,6 +5,7 @@ import { mergeSpec, transformColorSchemeToMerge, transformSeriesThemeToMerge } f
 import { getActualColor } from './color-scheme/util';
 import type { IThemeColorScheme } from './color-scheme/interface';
 import type { IModelOption } from '../model/interface';
+import { defaultChartLevelTheme, defaultThemeName } from './builtin';
 
 /**
  * 性能优化过的主题合并，只合并需要取用的主题部分
@@ -79,6 +80,11 @@ const getMergedValue = (...sources: any[]) => {
 };
 
 export const getThemeFromOption = (path: string, option: Partial<IModelOption>) => {
-  const { globalTheme, optionTheme, specTheme, chartLevelTheme } = option.getThemeConfig?.() ?? {};
+  const {
+    globalTheme = defaultThemeName,
+    optionTheme,
+    specTheme,
+    chartLevelTheme = defaultChartLevelTheme
+  } = option.getThemeConfig?.() ?? {};
   return mergeThemeAndGet(path, globalTheme, optionTheme, specTheme, chartLevelTheme?.colorScheme);
 };

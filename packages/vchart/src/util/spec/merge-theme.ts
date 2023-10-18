@@ -58,7 +58,7 @@ export function transformSeriesThemeToMerge(
 ): any {
   const newTheme: any = {};
   Object.values<ISeriesMarkInfo>(seriesMarkInfoMap[seriesType]).forEach(({ type, name }) => {
-    newTheme[name] = mergeSpec({}, markByType?.[array(type)[0]] ?? {}, markByName?.[name] ?? {}, seriesTheme[name]);
+    newTheme[name] = mergeSpec({}, markByType?.[array(type)[0]], markByName?.[name], seriesTheme?.[name]);
   });
   return {
     ...seriesTheme,

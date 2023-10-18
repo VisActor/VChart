@@ -148,7 +148,7 @@ export function isColorKey(obj: any): obj is IColorKey {
 }
 
 export function isProgressiveDataColorScheme<T>(obj: any): obj is ProgressiveDataScheme<T> {
-  if (!isArray(obj)) {
+  if (!isArray(obj) || obj.length === 0) {
     return false;
   }
   return obj.every(item => {
