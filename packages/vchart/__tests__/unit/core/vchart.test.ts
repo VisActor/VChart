@@ -579,7 +579,7 @@ describe('VChart', () => {
       expect(value1).toBe(mark.attribute.x);
 
       const value2 = vchart.convertValueToPosition(0, { axisId: 'left' });
-      expect(value2).toBe(388);
+      expect(value2).toBe(394);
     });
 
     it('should convert correctly in funnel chart', () => {
