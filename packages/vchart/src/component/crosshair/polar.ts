@@ -17,7 +17,7 @@ import type { IHair } from './base';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseCrossHair } from './base';
 import { polarToCartesian, getIntersectPoint, PointService, getAngleByPoint } from '@visactor/vutils';
-import type { IGroup, INode } from '@visactor/vrender-core';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import { angleLabelOrientAttribute, radiusLabelOrientAttribute } from '../../util/math';
 import { limitTagInBounds } from './util';
 import { getAxisLabelOffset } from '../axis/util';
@@ -497,7 +497,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     limitTagInBounds(label, this._getLimitBounds());
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [
       this._radiusCrosshair,
       this._radiusLabelCrosshair,

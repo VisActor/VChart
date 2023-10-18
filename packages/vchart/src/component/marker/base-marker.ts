@@ -191,7 +191,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
     return null;
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [this._markerComponent] as unknown as IGroup[];
   }
 }

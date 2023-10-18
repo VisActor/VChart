@@ -7,7 +7,7 @@ import { DataFilterBaseComponent } from '../data-filter-base-component';
 // eslint-disable-next-line no-duplicate-imports
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
-import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup } from '@visactor/vrender-core';
+import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
 import type { Datum } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -389,7 +389,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     };
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];
   }
 }
