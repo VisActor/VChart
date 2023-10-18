@@ -1,5 +1,4 @@
 import type {
-  IContainerSize,
   TooltipAttributes,
   TooltipPanelAttrs,
   TooltipRowAttrs,
@@ -12,10 +11,10 @@ import type { ITooltipTextStyle } from '../interface';
 import { isValid, normalizePadding } from '@visactor/vutils';
 import { mergeSpec, normalizeLayoutPaddingSpec } from '../../../../util';
 import type { ITooltipSpec } from '../../interface/spec';
-import type { ITheme } from '../../../../theme';
 import type { ITooltipTextTheme, ITooltipTheme } from '../../interface/theme';
 import { THEME_CONSTANTS } from '../../../../theme/builtin/common/constants';
 import { measureTooltipText } from './common';
+import type { IChartLevelTheme } from '../../../../core/interface';
 
 const DEFAULT_TEXT_ATTRIBUTES: Partial<ITooltipTextStyle> = {
   fontFamily: THEME_CONSTANTS.defaultFontFamily,
@@ -25,7 +24,7 @@ const DEFAULT_TEXT_ATTRIBUTES: Partial<ITooltipTextStyle> = {
 
 export function getTextAttributes(
   style: ITooltipTextTheme = {},
-  globalTheme?: ITheme,
+  globalTheme?: IChartLevelTheme,
   defaultAttributes?: Partial<ITooltipTextStyle>
 ): ITooltipTextStyle {
   const attrs: ITooltipTextStyle = {
@@ -75,7 +74,7 @@ export const getPanelAttributes = (style: ITooltipTheme['panel']): TooltipPanelA
 export const getTooltipAttributes = (
   actualTooltip: IToolTipActual,
   spec: ITooltipSpec,
-  globalTheme: ITheme
+  globalTheme: IChartLevelTheme
 ): TooltipAttributes => {
   const { style = {}, enterable, transitionDuration } = spec;
   const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow } = style;

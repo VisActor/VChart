@@ -139,7 +139,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
   getColorAttribute() {
     return {
       // TODO: 为热力图实现默认线性颜色 scale
-      scale: this._option.globalScale.getScale('color') ?? this.getDefaultColorScale(),
+      scale: this._option.globalScale.getScale('color') ?? this._getDefaultColorScale(),
       field: this.getFieldValue[0]
     };
   }

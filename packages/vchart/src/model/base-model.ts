@@ -25,6 +25,7 @@ import { array, isArray, isEqual, isNil } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import type { SeriesTypeEnum } from '../series/interface';
 import { MarkSet } from '../mark/mark-set';
+import { getThemeFromOption } from '../theme/util';
 
 export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> implements IModel {
   readonly type: string = 'null';
@@ -221,23 +222,28 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   }
 
   protected _initTheme(theme?: any) {
-    this._theme = theme;
-
+    if (theme) {
+      this._theme = theme;
+    } else {
+      this._theme = this._getTheme();
+    }
     this._mergeMarkTheme();
+    this._mergeThemeToSpec();
   }
 
-  setTheme(theme?: any) {
-    this._theme = theme;
+  protected _getTheme(): any {
+    return undefined;
   }
 
   /** 将全局的 mark theme 合并进 model theme */
   protected _mergeMarkTheme() {
-    const globalTheme = this._option.getTheme?.();
-    if (isNil(globalTheme) || isNil(this._theme)) {
+    const config = this._option.getThemeConfig?.();
+    if (isNil(config) || isNil(this._theme)) {
       return;
     }
 
-    const { mark: markThemeByType, markByName: markThemeByName } = globalTheme;
+    const markThemeByType = getThemeFromOption('mark', this._option);
+    const markThemeByName = getThemeFromOption('markByName', this._option);
     this.getMarkInfoList().forEach(({ type, name }) => {
       this._theme[name] = mergeSpec(
         {},
@@ -297,7 +303,7 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     const newObj = preprocessSpecOrTheme(
       'spec',
       obj,
-      this._option.getTheme?.()?.colorScheme,
+      this.getColorScheme(),
       this.modelType === 'series' ? (this.type as SeriesTypeEnum) : undefined
     );
 
@@ -307,8 +313,19 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     return newObj;
   }
 
-  setCurrentTheme(theme: any, noRender?: boolean) {
-    // do nothing
+  async setCurrentTheme(noRender?: boolean) {
+    const modifyConfig = () => {
+      // 重新初始化
+      this.reInit(this._getTheme());
+
+      return { change: true, reMake: false };
+    };
+
+    if (noRender) {
+      modifyConfig();
+    } else {
+      await this._option.globalInstance.updateCustomConfigAndRerender(modifyConfig);
+    }
   }
 
   updateLayoutAttribute() {
@@ -410,5 +427,13 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
    */
   protected _getDataIdKey(): string | ((datum: Datum) => string) | undefined {
     return undefined;
+  }
+
+  getColorScheme() {
+    return this._option.getThemeConfig?.().chartLevelTheme?.colorScheme;
+  }
+
+  protected _getChartLevelTheme() {
+    return this._option.getThemeConfig?.().chartLevelTheme;
   }
 }

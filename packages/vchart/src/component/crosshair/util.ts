@@ -2,12 +2,14 @@ import type { Tag } from '@visactor/vrender-components';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { Datum, IOrientType } from '../../typings';
 import type { IChart } from '../../chart/interface';
-import type { ITheme } from '../../theme';
 import type { ICrosshairTheme } from './interface';
 import { isValid, mergeSpec } from '../../util';
 import { isXAxis, isYAxis } from '../axis/cartesian/util';
 import { isDiscrete } from '@visactor/vscale';
 import type { IAxis } from '../axis';
+import type { IModelOption } from '../../model/interface';
+import { getComponentThemeFromOption } from '../util';
+import { ComponentTypeEnum } from '../interface';
 
 export function limitTagInBounds(shape: Tag, bounds: IBoundsLike) {
   const { x1: regionMinX, y1: regionMinY, x2: regionMaxX, y2: regionMaxY } = bounds;
@@ -65,9 +67,10 @@ export function getDatumByValue(data: Datum[], value: number, startField: string
   return null;
 }
 
-export const getCartesianCrosshairTheme = (theme: ITheme, chart: IChart): ICrosshairTheme => {
+export const getCartesianCrosshairTheme = (option: Partial<IModelOption>, chart: IChart): ICrosshairTheme => {
   const axes = chart.getAllComponents().filter(component => component.type.includes('Axis')) as IAxis[];
-  const { bandField, linearField, xField, yField } = theme.component.crosshair ?? {};
+  const { bandField, linearField, xField, yField } =
+    getComponentThemeFromOption(ComponentTypeEnum.crosshair, option) ?? {};
 
   const xAxis = axes.find(axis => isXAxis(axis.getOrient() as IOrientType));
   let newXField;
@@ -91,9 +94,10 @@ export const getCartesianCrosshairTheme = (theme: ITheme, chart: IChart): ICross
   };
 };
 
-export const getPolarCrosshairTheme = (theme: ITheme, chart: IChart): ICrosshairTheme => {
+export const getPolarCrosshairTheme = (option: Partial<IModelOption>, chart: IChart): ICrosshairTheme => {
   const axes = chart.getAllComponents().filter(component => component.type.includes('Axis')) as IAxis[];
-  const { bandField, linearField, categoryField, valueField } = theme.component.crosshair ?? {};
+  const { bandField, linearField, categoryField, valueField } =
+    getComponentThemeFromOption(ComponentTypeEnum.crosshair, option) ?? {};
 
   const angleAxis = axes.find(axis => axis.getOrient() === 'angle');
   let newAngleField;

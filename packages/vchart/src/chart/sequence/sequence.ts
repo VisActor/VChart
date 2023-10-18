@@ -321,7 +321,6 @@ export class SequenceChart extends BaseChart {
         region,
         specIndex: index,
         specKey: 'series',
-        getTheme: () => this._theme,
         globalScale: this._globalScale
       } as ISeriesOption);
 

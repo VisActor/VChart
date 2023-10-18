@@ -231,12 +231,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
             const subTickData = this._getAngleAxisSubTickData(axis);
             const { x, y } = this.angleAxisHelper.center();
             const radius = this._computeLayoutRadius();
-            const markStyle = preprocessSpecOrTheme(
-              'mark-spec',
-              style,
-              this._option.getTheme()?.colorScheme,
-              this.type as any
-            );
+            const markStyle = preprocessSpecOrTheme('mark-spec', style, this.getColorScheme(), this.type as any);
             return subTickData.map(({ value }) => {
               const pos = this.angleAxisHelper.dataToPosition([value]) + degreeToRadian(offsetAngle);
               const angleUnit = degreeToRadian(angle) / 2;

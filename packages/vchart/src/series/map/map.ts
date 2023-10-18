@@ -136,7 +136,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
         {
           fill: (datum: any) => {
             if (isValid(datum[this._seriesField ?? DEFAULT_DATA_SERIES_FIELD])) {
-              return (this._option.globalScale.getScale('color') ?? this.getDefaultColorScale()).scale(
+              return (this._option.globalScale.getScale('color') ?? this._getDefaultColorScale()).scale(
                 datum[this._seriesField ?? DEFAULT_DATA_SERIES_FIELD]
               );
             }

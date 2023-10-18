@@ -28,6 +28,7 @@ import type {
   IDataValues
 } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
+import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
@@ -156,9 +157,8 @@ export interface IChart extends ICompilable {
   // 获取实际渲染的 canvas
   getCanvas: () => HTMLCanvasElement | undefined;
 
-  getCurrentTheme: () => ITheme;
-
-  setCurrentTheme: (theme: ITheme, reInit?: boolean) => void;
+  setCurrentTheme: (reInit?: boolean) => void;
+  getColorScheme: () => IThemeColorScheme | undefined;
 
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
   // setDimensionIndex

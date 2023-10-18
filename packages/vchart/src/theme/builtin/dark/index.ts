@@ -5,14 +5,18 @@
  * 2. 原则上来讲，默认值尽量都放主题中，但是也可根据情况自行判断
  * 3. 目前主题只到系列，不到系列的 mark，对于这个分界没有太清楚，后续根据需求再做开放
  */
+import { mergeSpec } from '../../../util';
 import type { ITheme } from '../../interface';
+import { lightTheme } from '../light';
 import { colorScheme } from './color-scheme';
 
 export const darkTheme: ITheme = {
+  ...lightTheme,
   name: 'dark',
   colorScheme,
   component: {
-    dataZoom: {
+    ...lightTheme.component,
+    dataZoom: mergeSpec({}, lightTheme.component.dataZoom, {
       selectedBackground: {
         style: {
           fillOpacity: 0.4,
@@ -21,6 +25,6 @@ export const darkTheme: ITheme = {
           }
         }
       }
-    }
+    })
   }
 };

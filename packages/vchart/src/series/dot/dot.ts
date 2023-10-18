@@ -17,7 +17,6 @@ import { DotSeriesTooltipHelper } from './tooltip-helper';
 import type { IRectMark } from '../../mark/rect';
 import type { FunctionType, IFillMarkSpec, VisualType } from '../../typings/visual';
 import type { IDotSeriesSpec, IDotSeriesTheme } from './interface';
-import { getDataScheme } from '../../theme/color-scheme/util';
 import { copyDataView } from '../../data/transforms/copy-data-view';
 import { objFlat } from '../../data/transforms/obj-flat';
 import { DEFAULT_GRID_BACKGROUND } from './config';
@@ -426,7 +425,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
   // 通用的默认颜色映射 用户设置优先级比这个高，会在setStyle中处理
   getColorAttribute() {
     return {
-      scale: this._option.globalScale.getScale('color') ?? this.getDefaultColorScale(),
+      scale: this._option.globalScale.getScale('color') ?? this._getDefaultColorScale(),
       field: this._seriesGroupField ?? this._seriesField ?? DEFAULT_DATA_SERIES_FIELD
     };
   }
@@ -443,7 +442,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
       : this._seriesField
       ? this._viewDataStatistics?.latestData[this._seriesField].values
       : [];
-    const colorRange = getDataScheme(this._option.getTheme().colorScheme, this.type);
+    const colorRange = this._getDataScheme();
     return new ColorOrdinalScale().domain(colorDomain).range(colorRange);
   }
 

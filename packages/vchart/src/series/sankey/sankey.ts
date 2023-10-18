@@ -20,7 +20,6 @@ import { DEFAULT_DATA_INDEX, LayoutZIndex, AttributeLevel, Event_Bubble_Level, C
 import { SeriesData } from '../base/series-data';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
-import { getDataScheme } from '../../theme/color-scheme/util';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds } from '@visactor/vutils';
@@ -1242,16 +1241,14 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       ? this._option.globalScale.getScale('color').domain()
       : this.getNodeList();
 
-    let colorRange =
-      this._option.globalScale.getScale('color')?.range() ??
-      getDataScheme(this._option.getTheme().colorScheme, this.type as any);
+    let colorRange = this._option.globalScale.getScale('color')?.range() ?? this._getDataScheme();
 
     if (
       this._option.globalScale.getScale('color')?.domain().length === 0 ||
       isNil(this._option.globalScale.getScale('color').domain()[0])
     ) {
       if (colorDomain.length > 10) {
-        colorRange = (getDataScheme(this._option.getTheme().colorScheme, this.type as any)[1] as any)?.scheme;
+        colorRange = (this._getDataScheme()[1] as any)?.scheme;
       }
     }
 

@@ -327,7 +327,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
   // 通用的默认颜色映射 用户设置优先级比这个高，会在setStyle中处理
   getColorAttribute() {
     return {
-      scale: this._option.globalScale.getScale('color') ?? this.getDefaultColorScale(),
+      scale: this._option.globalScale.getScale('color') ?? this._getDefaultColorScale(),
       field: this._dotTypeField ?? this._seriesField ?? DEFAULT_DATA_SERIES_FIELD
     };
   }
