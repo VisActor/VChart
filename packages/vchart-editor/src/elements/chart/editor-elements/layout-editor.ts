@@ -196,7 +196,7 @@ export class LayoutEditorElement extends BaseEditorElement {
           chart.vchart.getChart().setLayoutTag(true);
         }
         if (attr.markLine) {
-          const spec = this._chart.specProcess.getVChartSpec();
+          const spec: any = this._chart.specProcess.getVChartSpec();
           if (!spec.markLine) {
             spec.markLine = [];
           }
