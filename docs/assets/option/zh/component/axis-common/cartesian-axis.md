@@ -216,3 +216,25 @@ export type CustomMethod = (items: IText[], separation: number) => IText[];
 
 #${prefix} mode('3d' | '2d')
 轴组件是否是 3d 模式的轴组件，3d 模式的轴组件相比于 2d 轴会有一些变化，比如 3d 轴的 tick 线会朝向窗口（注意这个和 support3d 配置是有区别的，support3d 配置的是图元是否在 3d 模式中应用 3d 变换，其自身的形态是不会变化的，而轴的 mode 切换，会使轴形态直接发生变化）
+
+#${prefix} unit(Object)
+
+自 `1.5.1` 版本开始支持。轴单位配置，仅适用于直角坐标系下的坐标轴。
+
+##${prefix} visible(boolean) = false
+
+是否显示轴单位。
+
+##${prefix} text(string|number)
+
+轴单位文字。
+
+##${prefix} style(Object)
+
+轴单位文字样式配置。
+
+Axis title style settings.
+
+{{ use: graphic-text(
+  prefix = '##' + ${prefix}
+) }}
