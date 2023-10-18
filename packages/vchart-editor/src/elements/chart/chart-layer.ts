@@ -4,7 +4,7 @@ import { EditorLayer } from '../../core/editor-layer';
 import type { ILayoutLine } from '../../core/interface';
 import { LayoutRectToRect } from '../../utils/space';
 import type { EditorChart } from './chart';
-import { getChartModelWithModelInfo, transformModelRect } from './utils/layout';
+import { getChartModelWithModelInfo, transformModelRect, IgnoreModelTypeInLayout } from './utils/layout';
 
 export class ChartLayer extends EditorLayer {
   type: string = 'chart';
@@ -20,6 +20,9 @@ export class ChartLayer extends EditorLayer {
       const layoutData = chart.layout.getLayoutData();
       layoutData.data.forEach(d => {
         const model = getChartModelWithModelInfo(chart.vchart as IChart, d);
+        if (IgnoreModelTypeInLayout[model.type]) {
+          return;
+        }
         const rect = transformModelRect(model as unknown as IChartModel, LayoutRectToRect(d.layout));
         const commonInY: Omit<ILayoutLine, 'value'> = {
           orient: 'y',
