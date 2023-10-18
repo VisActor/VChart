@@ -1,0 +1,68 @@
+{
+  "menu": "api",
+  "children": [
+    {
+      "path": "74-How to configure the colors of different line segments in a line chart",
+      "title": {
+        "zh": "74.折线图如何配置分段颜色？",
+        "en": "74.How to configure the colors of different line segments in a line chart?"
+      }
+    },
+    {
+      "path": "75-How to configure it to ignore part of the display content",
+      "title": {
+        "zh": "75.x 轴数据过于密集，如何配置忽略一部分显示内容？",
+        "en": "75.How to configure it to ignore part of the display content?"
+      }
+    },
+    {
+      "path": "76-How to customize the display text content of the funnel chart",
+      "title": {
+        "zh": "76.漏斗图如何自定义显示文字内容？",
+        "en": "76.How to customize the display text content of the funnel chart?"
+      }
+    },
+    {
+      "path": "77-How to customize the colors of bars based on values in a bar chart",
+      "title": {
+        "zh": "77.柱状图如何根据不同的数值自定义柱子的颜色？",
+        "en": "77.How to customize the colors of bars based on values in a bar chart?"
+      }
+    },
+    {
+      "path": "78-How to listen to the click event of the histogram to customize the style of the column",
+      "title": {
+        "zh": "78.如何监听柱状图的点击事件来自定义柱子的样式？",
+        "en": "78.How to listen to the click event of the histogram to customize the style of the column?"
+      }
+    },
+    {
+      "path": "79-How to change the hover display content when the mouse is moved into the chart area",
+      "title": {
+        "zh": "79.鼠标移入图表区域，hover 显示内容怎么更换？",
+        "en": "79.How to change the hover display content when the mouse is moved into the chart area ?"
+      }
+    },
+    {
+      "path": "80-How to customize the length of the pie chart guide line",
+      "title": {
+        "zh": "80.如何自定义饼图引导线的长度？",
+        "en": "80.How to customize the length of the pie chart guide line?"
+      }
+    },
+    {
+      "path": "81-How to modify the text color of the percentage of the funnel chart",
+      "title": {
+        "zh": "81.漏斗图百分比文字颜色如何修改？",
+        "en": "81.How to modify the text color of the percentage of the funnel chart?"
+      }
+    },
+    {
+      "path": "82-How to configure the transform width of the funnel chart",
+      "title": {
+        "zh": "82.如何配置漏斗图的转化宽度？",
+        "en": "82.How to configure the transform width of the funnel chart?"
+      }
+    }
+  ]
+}
