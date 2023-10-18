@@ -1,15 +1,14 @@
 import type { ILineChartSpec } from '../../../src/chart/line/interface';
 import { GlobalScale } from '../../../src/scale/global-scale';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import type { LineSeries } from '../../../src/series/line/line';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import { LineChart } from '../../../src/chart/line/line';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../util/factory/compiler';
-import { ThemeManager } from '../../../src';
 import { initChartDataSet } from '../../util/context';
+import VChart from '../../../src';
 
+const VChartClass = VChart; // 确保引用 vchart 以确保注册所需的图表
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
@@ -48,7 +47,6 @@ describe('line chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(),
       onError: () => {}
     } as any);
     chart.created();
@@ -120,8 +118,7 @@ describe('line chart test', () => {
         container: null,
         mode: 'mobile-browser',
         getCompiler: getTestCompiler,
-        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => ThemeManager.getCurrentTheme()
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any)
       } as any
     );
     chart.created();

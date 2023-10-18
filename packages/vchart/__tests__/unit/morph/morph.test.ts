@@ -1,5 +1,5 @@
-import { BarChart, CommonChart, ThemeManager } from '../../../src';
-import { DataSet, dataViewParser, DataView, csvParser } from '@visactor/vdataset';
+import { BarChart, CommonChart } from '../../../src';
+import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
@@ -126,7 +126,6 @@ describe('Bar chart test', () => {
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
       animation: true,
-      getTheme: () => ThemeManager.getCurrentTheme(),
       onError: () => {}
     } as any);
     scatterChart.created();
@@ -147,7 +146,6 @@ describe('Bar chart test', () => {
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
       animation: true,
-      getTheme: () => ThemeManager.getCurrentTheme(),
       onError: () => {}
     } as any);
     barChart.created();
@@ -184,7 +182,6 @@ describe('Bar chart test', () => {
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         animation: true,
-        getTheme: () => ThemeManager.getCurrentTheme(),
         onError: () => {}
       } as any
     );

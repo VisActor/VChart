@@ -83,6 +83,7 @@ import { calculateChartSize, mergeUpdateResult } from './util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../data/initialize';
 import { getThemeFromOption } from '../theme/util';
+import { defaultChartLevelTheme } from '../theme';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -484,13 +485,13 @@ export class BaseChart extends CompilableBase implements IChart {
       if (this._spec.zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
         use3dLayout = true;
       }
-      const layout = new (Factory.getLayoutInKey(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
-        this._spec.layout,
-        {
+      const constructor = Factory.getLayoutInKey(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base'));
+      if (constructor) {
+        const layout = new constructor(this._spec.layout, {
           onError: this._option?.onError
-        }
-      );
-      this._layoutFunc = layout.layoutItems.bind(layout);
+        });
+        this._layoutFunc = layout.layoutItems.bind(layout);
+      }
     }
   }
 
@@ -1401,6 +1402,6 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   getColorScheme() {
-    return this._option.getThemeConfig?.().chartLevelTheme?.colorScheme;
+    return (this._option.getThemeConfig?.().chartLevelTheme ?? defaultChartLevelTheme).colorScheme;
   }
 }
