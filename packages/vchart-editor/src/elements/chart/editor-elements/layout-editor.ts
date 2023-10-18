@@ -195,6 +195,55 @@ export class LayoutEditorElement extends BaseEditorElement {
             : null;
           chart.vchart.getChart().setLayoutTag(true);
         }
+        if (attr.markLine) {
+          const spec: any = this._chart.specProcess.getVChartSpec();
+          if (!spec.markLine) {
+            spec.markLine = [];
+          }
+          const lastMarkLine = spec.markLine.find(markLine => markLine.y === 'average');
+          if (attr.markLine.enable) {
+            if (!lastMarkLine) {
+              const defaultMarkLineSpec = {
+                interactive: true,
+                y: 'average',
+                endSymbol: {
+                  visible: true,
+                  size: 12,
+                  refX: 6,
+                  symbolType: 'triangleLeft',
+                  autoRotate: false
+                },
+                label: {
+                  visible: true,
+                  autoRotate: false,
+                  formatMethod: markData => {
+                    return parseInt(markData[0].y, 10);
+                  },
+                  position: 'end',
+                  labelBackground: {
+                    visible: false
+                  },
+                  style: {
+                    fill: '#000'
+                  },
+                  refX: 12,
+                  refY: 0
+                },
+                line: {
+                  style: {
+                    stroke: '#000'
+                  }
+                }
+              };
+              spec.markLine.push(defaultMarkLineSpec);
+            }
+          } else {
+            if (lastMarkLine) {
+              spec.markLine.splice(spec.markLine.indexOf(lastMarkLine), 1);
+            }
+          }
+          this._chart.reRenderWithUpdateSpec();
+        }
         return false;
       },
       editProperties: editProperties

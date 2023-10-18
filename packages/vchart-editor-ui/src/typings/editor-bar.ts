@@ -62,6 +62,7 @@ export type TextColor = {
 
 export interface IEditorBarTextColorProps {
   textColor: TextColor;
+  background?: boolean;
   onTextColorChange?: (textColor: TextColor) => void;
 }
 
@@ -131,6 +132,7 @@ export interface IEditorBarEntry {
   default?: any;
   onChange?: (value?: any) => void;
   divide?: boolean;
+  [key: string]: any;
 }
 
 export interface IEditorBarChartEntry extends IEditorBarEntry {

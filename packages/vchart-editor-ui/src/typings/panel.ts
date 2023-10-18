@@ -11,6 +11,7 @@ export interface IPanelProps {
   style?: React.CSSProperties;
   label?: string;
   sections?: any;
+  initialSections?: any;
   onChange?: (section: string, key: string, value: any) => void;
   onRefresh?: (values: any) => void;
 }

@@ -29,6 +29,7 @@ export interface ISliderNumberComponentConfig extends IBaseComponentConfig {
   min?: number;
   max?: number;
   unit?: string;
+  step?: number;
 }
 
 export interface IColorComponentConfig extends IBaseComponentConfig {
