@@ -28,6 +28,19 @@ export function transformModelRect(i: IChartModel, rect: IRect) {
   return rect;
 }
 
+export function transformModelRectRevert(i: IChartModel, rect: IRect, boundsRect: IRect) {
+  if (i.type.startsWith('cartesianAxis')) {
+    if (i.layoutOrient === 'left') {
+      boundsRect.x = rect.x + rect.width;
+      rect.x = boundsRect.x - boundsRect.width;
+    } else if (i.layoutOrient === 'top') {
+      boundsRect.y = rect.y + rect.height;
+      rect.y = boundsRect.y - boundsRect.height;
+    }
+  }
+  return rect;
+}
+
 export function getAxisLayoutInRegionRect(axis: ILayoutItem, rect: IRect): ILayoutRect {
   if (axis.layoutOrient === 'left') {
     return {
@@ -72,16 +85,16 @@ export function getChartModelWithModelInfo(vchart: VChart, info: IModelInfo) {
     return vchart
       .getChart()
       .getAllSeries()
-      .find((c: IChartModel) => isModelMatchModelInfo(c, info));
+      .find(c => isModelMatchModelInfo(c as unknown as IChartModel, info));
   }
   if (info.specKey === 'region') {
     return vchart
       .getChart()
       .getAllRegions()
-      .find((c: IChartModel) => isModelMatchModelInfo(c, info));
+      .find(c => isModelMatchModelInfo(c as unknown as IChartModel, info));
   }
   return vchart
     .getChart()
     .getAllComponents()
-    .find((c: IChartModel) => isModelMatchModelInfo(c, info));
+    .find(c => isModelMatchModelInfo(c as unknown as IChartModel, info));
 }

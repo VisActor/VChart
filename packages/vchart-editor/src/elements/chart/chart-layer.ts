@@ -27,7 +27,8 @@ export class ChartLayer extends EditorLayer {
           specKey: d.specKey,
           specIndex: d.specIndex,
           start: rect.x,
-          end: rect.x + rect.width
+          end: rect.x + rect.width,
+          rect
         };
         // top
         result.push({
@@ -51,7 +52,8 @@ export class ChartLayer extends EditorLayer {
           specKey: d.specKey,
           specIndex: d.specIndex,
           start: rect.y,
-          end: rect.y + rect.height
+          end: rect.y + rect.height,
+          rect
         };
         // left
         result.push({

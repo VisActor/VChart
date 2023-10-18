@@ -1,5 +1,5 @@
-import type { IGroup, IStage, ILine } from '@visactor/vrender-core';
-import { IContainPointMode, createLine } from '@visactor/vrender-core';
+import type { IGroup, IStage, ILine, IRect } from '@visactor/vrender-core';
+import { IContainPointMode, createLine, createRect } from '@visactor/vrender-core';
 import type { ILayoutAttribute } from './../typings/space';
 import type { IEditorElement, ILayoutLine } from './../core/interface';
 import { TransformComponent2 } from './transform-component2';
@@ -30,11 +30,13 @@ export class LayoutEditorComponent {
   // graphic
   private _snapLineX: ILine;
   private _snapLineY: ILine;
+  private _snapTargetBoxX: IRect;
+  private _snapTargetBoxY: IRect;
 
   private _snapTempX: number = Infinity;
-  private _snapMatchResultX: { source: ILayoutLine; target: ILayoutLine; dis: number } = null;
+  protected _snapMatchResultX: { source: ILayoutLine; target: ILayoutLine; dis: number } = null;
   private _snapTempY: number = Infinity;
-  private _snapMatchResultY: { source: ILayoutLine; target: ILayoutLine; dis: number } = null;
+  protected _snapMatchResultY: { source: ILayoutLine; target: ILayoutLine; dis: number } = null;
 
   constructor(
     el: IEditorElement,
@@ -145,7 +147,8 @@ export class LayoutEditorComponent {
     const commonInX: Omit<ILayoutLine, 'value'> = {
       orient: 'x',
       start: bounds.y1,
-      end: bounds.y2
+      end: bounds.y2,
+      rect: { x: bounds.x1, y: bounds.y1, width: bounds.x2 - bounds.x1, height: bounds.y2 - bounds.y1 }
     };
     // left
     result.x.push({
@@ -166,7 +169,8 @@ export class LayoutEditorComponent {
     const commonInY: Omit<ILayoutLine, 'value'> = {
       orient: 'y',
       start: bounds.x1,
-      end: bounds.x2
+      end: bounds.x2,
+      rect: { x: bounds.x1, y: bounds.y1, width: bounds.x2 - bounds.x1, height: bounds.y2 - bounds.y1 }
     };
     // top
     result.y.push({
@@ -223,6 +227,7 @@ export class LayoutEditorComponent {
   private _snapCheck(move: number, key: 'x' | 'y', source: ILayoutLine[], target: ILayoutLine[]) {
     const snapTempKey = `_snapTemp${key.toUpperCase()}`;
     const snapLineKey = `_snapLine${key.toUpperCase()}`;
+    const snapTargetBoxKey = `_snapTargetBox${key.toUpperCase()}`;
     const revertKey = key === 'x' ? 'y' : 'x';
     const lastMatchResultKey = `_snapMatchResult${key.toUpperCase()}`;
     const lastMatchResult = this[lastMatchResultKey];
@@ -258,10 +263,17 @@ export class LayoutEditorComponent {
         ],
         visible: true
       });
+      this[snapTargetBoxKey].setAttributes({
+        ...match.target.rect,
+        visible: true
+      });
     } else {
       move += temp;
       this[snapTempKey] = Infinity;
       this[snapLineKey].setAttributes({
+        visible: false
+      });
+      this[snapTargetBoxKey].setAttributes({
         visible: false
       });
     }
@@ -273,25 +285,36 @@ export class LayoutEditorComponent {
     this._editorBox.isEditor = false;
     this._snapLineX.setAttributes({ visible: false });
     this._snapLineY.setAttributes({ visible: false });
+
+    this._snapTargetBoxX.setAttributes({ visible: false });
+    this._snapTargetBoxY.setAttributes({ visible: false });
   };
 
   _initMatchLine() {
-    this._snapLineX = createLine({
+    const commonAttribute = {
       stroke: 'blue',
       pickable: false,
       lineWidth: 2,
-      strokeOpacity: 0.7
-      // visible: false
+      strokeOpacity: 0.4,
+      visible: false
+    };
+    this._snapLineX = createLine({
+      ...commonAttribute
     });
     this._opt.editorGroup.add(this._snapLineX);
+    this._snapTargetBoxX = createRect({
+      ...commonAttribute
+    });
+    this._opt.editorGroup.add(this._snapTargetBoxX);
+
     this._snapLineY = createLine({
-      stroke: 'blue',
-      pickable: false,
-      lineWidth: 2,
-      strokeOpacity: 0.7
-      // visible: false
+      ...commonAttribute
     });
     this._opt.editorGroup.add(this._snapLineY);
+    this._snapTargetBoxY = createRect({
+      ...commonAttribute
+    });
+    this._opt.editorGroup.add(this._snapTargetBoxY);
   }
 
   release() {
@@ -303,5 +326,7 @@ export class LayoutEditorComponent {
 
     this._opt.editorGroup.removeChild(this._snapLineX);
     this._opt.editorGroup.removeChild(this._snapLineY);
+    this._opt.editorGroup.removeChild(this._snapTargetBoxX);
+    this._opt.editorGroup.removeChild(this._snapTargetBoxY);
   }
 }
