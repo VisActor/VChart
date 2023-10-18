@@ -35,4 +35,4 @@ jobs:
       - name: Size Limit
         run: |
           cd packages/vchart
-          rushx size
+          npm run size
