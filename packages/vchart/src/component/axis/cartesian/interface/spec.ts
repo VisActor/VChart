@@ -1,6 +1,13 @@
-import type { IOrientType, IRectMarkSpec, StringOrNumber } from '../../../../typings';
-import type { IBandAxisSpec, ILinearAxisSpec, IGrid, ICommonAxisSpec } from '../../interface';
-import type { ICartesianDomainLine, ICartesianLabel, ITimeLayerType, ICartesianTitle } from './common';
+import type { ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { IOrientType, IPadding, IRectMarkSpec, ITextMarkSpec, StringOrNumber } from '../../../../typings';
+import type { IBandAxisSpec, ILinearAxisSpec, IGrid, ICommonAxisSpec, IAxisItem } from '../../interface';
+import type {
+  ICartesianDomainLine,
+  ICartesianLabel,
+  ITimeLayerType,
+  ICartesianTitle,
+  ICartesianAxisUnit
+} from './common';
 import type { AxisItemStateStyle } from '@visactor/vrender-components';
 
 /** spec */
@@ -65,6 +72,11 @@ export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
    * 轴的z方向深度
    */
   depth?: number;
+  /**
+   * 轴单位配置，仅支持直角坐标系下的坐标轴
+   * @since 1.5.1
+   */
+  unit?: ICartesianAxisUnit;
 };
 
 export interface ILinearAxisSync {
