@@ -12,7 +12,6 @@ import {
   median,
   isValid,
   isFunction,
-  isObject,
   isPlainObject
 } from '../../util';
 import type { StringOrNumber } from '../../typings';
@@ -97,14 +96,14 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
     median: markerMedian
   };
   const results: {
-    x: string | number | null;
-    y: string | number | null;
+    x: StringOrNumber[] | StringOrNumber | null;
+    y: StringOrNumber[] | StringOrNumber | null;
   }[] = [];
 
   options.forEach(option => {
     const result: {
-      x: string | number | null;
-      y: string | number | null;
+      x: StringOrNumber[] | StringOrNumber | null;
+      y: StringOrNumber[] | StringOrNumber | null;
       getRefRelativeSeries?: () => ICartesianSeries;
     } = { x: null, y: null };
 

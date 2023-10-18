@@ -60,7 +60,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         ...this._getAllRelativeSeries()
       };
     }
-    return { x: specX, ...this._getAllRelativeSeries() };
+    return { x: isFunction(specX) ? specX : [specX], ...this._getAllRelativeSeries() };
   }
 
   protected _processSpecY(specY: IDataPos | IDataPosCallback) {
@@ -76,7 +76,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         ...this._getAllRelativeSeries()
       };
     }
-    return { y: specY, ...this._getAllRelativeSeries() };
+    return { y: isFunction(specY) ? specY : [specY], ...this._getAllRelativeSeries() };
   }
 
   protected _processSpecCoo(spec: any) {
