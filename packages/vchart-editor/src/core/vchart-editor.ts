@@ -6,7 +6,7 @@ import { EditorLayer } from './editor-layer';
 import type { Include } from './../typings/commnt';
 import { ElementsMap } from './../elements/index';
 import type { IElementOption } from './../elements/interface';
-import { isString } from '@visactor/vutils';
+import { isString, Bounds, isValidNumber } from '@visactor/vutils';
 import type { IDataParserConstructor } from '../elements/chart/data/interface';
 import type { IChartTempConstructor } from '../elements/chart/template/interface';
 import { EditorFactory } from './factory';
@@ -43,6 +43,10 @@ export class VChartEditor {
   }
 
   protected _mode: EditorMode = 'view';
+
+  protected _width: number;
+  protected _height: number;
+  protected _needResize: boolean = false;
 
   constructor(option: IVChartEditorInitOption) {
     this._option = option;
@@ -81,15 +85,16 @@ export class VChartEditor {
     }
     let layer;
     if (type === 'chart') {
-      layer = new ChartLayer(this._container);
+      layer = new ChartLayer(this._container, this._mode);
       option.renderCanvas = layer.getCanvas();
     } else {
-      layer = new EditorLayer(this._container);
+      layer = new EditorLayer(this._container, this._mode);
     }
     this.addLayer(layer);
     option.layer = layer;
     option.controller = this._editorController;
     option.mode = this._mode;
+    option.getAllLayers = () => this._layers;
     const el = new ElementsMap[type](option);
     if (!el) {
       return;
@@ -112,10 +117,25 @@ export class VChartEditor {
 
   addLayer(l: EditorLayer) {
     l.getCanvas().style.zIndex = 200 + this._layers.length + '';
+    l.onElementReady(this._checkLayerReady);
     this._layers.push(l);
   }
 
-  async loadLasted() {
+  protected _checkLayerReady = () => {
+    if (this._layers.every(l => l.isElementReady)) {
+      this._afterAllLayerReady();
+      return true;
+    }
+    return false;
+  };
+
+  protected _afterAllLayerReady() {
+    if (this._needResize && this._width && this._height) {
+      this.resize(this._width, this._height);
+    }
+  }
+
+  async loadLasted(width?: number, height?: number) {
     if (!this._option.data) {
       return;
     }
@@ -129,7 +149,7 @@ export class VChartEditor {
     }
     layerData.forEach(l => {
       if (l.type === 'chart') {
-        const layer = new ChartLayer(this._container);
+        const layer = new ChartLayer(this._container, this._mode);
         this.addLayer(layer);
         l.elements.forEach(e => {
           const el = new ElementsMap[e.type]({
@@ -139,7 +159,8 @@ export class VChartEditor {
             type: e.type,
             attribute: e.attribute,
             controller: this._editorController,
-            mode: this._mode
+            mode: this._mode,
+            getAllLayers: () => this._layers
           });
           if (!el) {
             return;
@@ -149,6 +170,14 @@ export class VChartEditor {
         });
       }
     });
+    if (width && height) {
+      this._width = width;
+      this._height = height;
+      if (this._mode === 'view') {
+        this._needResize = true;
+        this._checkLayerReady();
+      }
+    }
   }
 
   setModel(mode: EditorMode) {
@@ -173,5 +202,34 @@ export class VChartEditor {
     this._editorController.release();
     this._layers.forEach(l => l.release());
     this._layers = [];
+  }
+
+  resize(width: number, height: number) {
+    if (!isValidNumber(width) || !isValidNumber(height)) {
+      return;
+    }
+    this._width = width;
+    this._height = height;
+    const b = new Bounds();
+    if (this._layers.length === 0) {
+      return;
+    }
+    this._needResize = false;
+    this._layers.forEach(l => {
+      b.union(l.getAABBBounds());
+    });
+    const contentWidth = b.width();
+    const contentHeight = b.height();
+    if (contentWidth === 0 || contentWidth === Infinity || contentHeight === 0 || contentHeight === Infinity) {
+      return;
+    }
+    const scale = Math.min(width / b.width(), height / b.height(), 1);
+    const finalWidth = contentWidth * scale;
+    const finalHeight = contentHeight * scale;
+    const posX = (width - finalWidth) * 0.5 - b.x1 * scale;
+    const posY = (height - finalHeight) * 0.5 - b.y1 * scale;
+    this._layers.forEach(l => {
+      l.resizeLayer(width, height, posX, posY, scale);
+    });
   }
 }

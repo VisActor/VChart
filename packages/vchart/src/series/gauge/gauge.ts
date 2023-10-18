@@ -17,6 +17,7 @@ import { gaugeSeriesMark } from './constant';
 import { degreeToRadian } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { registerCircularProgressAnimation } from '../polar/progress-like';
+import type { IMark } from '../../mark/interface';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
@@ -172,6 +173,10 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 
   getDefaultShapeType() {
     return 'circle';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [];
   }
 }
 

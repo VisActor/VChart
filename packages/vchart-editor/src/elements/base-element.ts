@@ -8,9 +8,18 @@ export abstract class BaseElement {
   protected _rect: IRect;
   protected _anchor: IPoint;
   protected _opt: IElementOption;
+  get option() {
+    return this._opt;
+  }
 
   protected _id: string | number;
   protected _mode: EditorMode = 'view';
+
+  protected _afterRenderCallBack: () => void = null;
+  protected _isRendered: boolean = false;
+  get isRendered() {
+    return this._isRendered;
+  }
 
   constructor(opt: IElementOption) {
     this._opt = opt;
@@ -50,7 +59,9 @@ export abstract class BaseElement {
 
   abstract getLayoutGuideLine(): ILayoutGuideLine[];
 
-  abstract release(): void;
+  release() {
+    this._afterRenderCallBack = null;
+  }
 
   setModel(mode: EditorMode) {
     if (mode === this._mode) {
@@ -61,4 +72,13 @@ export abstract class BaseElement {
   }
 
   protected abstract _changeModel(): void;
+
+  onAfterRender(callBack: () => void) {
+    this._afterRenderCallBack = callBack;
+  }
+
+  protected _afterRender() {
+    this._isRendered = true;
+    this._afterRenderCallBack?.();
+  }
 }

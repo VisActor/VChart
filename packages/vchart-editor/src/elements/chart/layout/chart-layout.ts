@@ -1,4 +1,4 @@
-import type { IModelInfo } from './../../../core/interface';
+import type { IEditorLayer, IModelInfo } from './../../../core/interface';
 import type { IChartModel } from './../interface';
 import { DefaultLayout } from './default-layout';
 import type { ISpecProcess } from '../spec-process/interface';
@@ -97,14 +97,17 @@ export class ChartLayout implements IChartLayout {
     });
   }
 
-  getOverModel(pos: IPoint) {
+  getOverModel(pos: IPoint, layer: IEditorLayer) {
     return this._layoutData.data.find(d => {
       const model = getChartModelWithModelInfo(this._vchart, d);
       // marker pick with event not pos;
       if (model?.specKey.startsWith('mark')) {
         return false;
       }
-      return isPointInRect(pos, transformModelRect(model, LayoutRectToRect(d.layout)));
+      return isPointInRect(
+        layer.transformPosInLayer(pos),
+        transformModelRect(model as any, LayoutRectToRect(d.layout))
+      );
     });
   }
   setModelLayoutData(d: LayoutMeta) {

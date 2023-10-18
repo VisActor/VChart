@@ -1,6 +1,7 @@
+import type { IBoundsLike } from '@visactor/vutils';
 import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
-import type { ILayoutAttribute, IRect } from '../typings/space';
+import type { ILayoutAttribute, IPoint, IRect } from '../typings/space';
 import type { IModel } from '@visactor/vchart/esm/model/interface';
 import type { IModelSpec } from '../elements/chart/spec-process/interface';
 export interface ILayerData {
@@ -25,9 +26,21 @@ export interface IEditorLayer {
   elements: IElement[];
   editorGroup: IGroup;
   activeElement: IEditorElement | IEditorElement[];
+  readonly isElementReady: boolean;
 
   getStage: () => IStage;
   getCanvas: () => HTMLCanvasElement;
+  getAABBBounds: () => IBoundsLike;
+  moveTo: (x: number, y: number) => void;
+  scaleTo: (s: number) => void;
+  resizeLayer: (width: number, height: number, x: number, y: number, scale: number) => void;
+
+  onElementReady: (callBack: () => void) => void;
+
+  transformPosInLayer: (pos: IPoint) => IPoint;
+
+  getLayoutLineInLayer: () => ILayoutLine[];
+
   release: () => void;
 }
 
@@ -104,4 +117,11 @@ export interface IEditorController {
   setOverGraphic: (graphic: IGraphic, id: string | number, event: PointerEvent) => void;
 
   release: () => void;
+}
+
+export interface ILayoutLine extends Partial<IModelInfo> {
+  orient: 'x' | 'y';
+  value: number;
+  start: number;
+  end: number;
 }

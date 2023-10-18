@@ -18,6 +18,7 @@ import { CellMark } from '../../mark/cell';
 import { TextMark } from '../../mark/text';
 import { heatmapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -183,6 +184,10 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
 
   getMeasureField(): string[] {
     return this.getFieldValue();
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._cellMark];
   }
 }
 
