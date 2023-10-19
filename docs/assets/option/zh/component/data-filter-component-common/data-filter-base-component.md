@@ -107,14 +107,14 @@
 #${prefix} maxValueSpan(number)
 用于限制窗口大小的最大数据值, 仅在continous scale生效，优先级高于maxSpan。自 `1.5.1` 版本开始支持。
 
-#${prefix} delayType(string) = 'throttle'
-事件触发延迟类型。自 `1.5.1` 版本开始支持。
+#${prefix} delayType(string)
+事件触发延迟类型, 不配置视作不开启。自 `1.5.1` 版本开始支持。
 
 可选值：
 - `'throttle'`: 节流
 - `'debounce'`: 防抖
 
-#${prefix} delayTime(number) = 0
+#${prefix} delayTime(number) = 30
 事件触发延迟时长。自 `1.5.1` 版本开始支持。
 
 #${prefix} roamZoom(boolean|object) = false

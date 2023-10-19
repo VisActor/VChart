@@ -108,14 +108,14 @@ The minimum data value used to limit the window size, only takes effect in conti
 #${prefix} maxValueSpan(number)
 The maximum data value used to limit the window size, only takes effect in continous scale, and has priority higher than maxSpan. Supported since version `1.5.1`.
 
-#${prefix} delayType(string) = 'throttle'
-Event trigger delay type. Supported since version `1.5.1`.
+#${prefix} delayType(string)
+Event trigger delay type, if not configured, it will be regarded as not enabled. Supported since version `1.5.1`.
 
 Optional values:
 - `'throttle'`: throttling
 - `'debounce'`: anti-shake
 
-#${prefix} delayTime(number) = 0
+#${prefix} delayTime(number) = 30
 The event trigger delay time. Supported since version `1.5.1`.
 
 #${prefix} roamZoom(boolean|object) = false
