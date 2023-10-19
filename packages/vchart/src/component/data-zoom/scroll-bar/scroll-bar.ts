@@ -1,4 +1,4 @@
-import { isArray, isEmpty, isNil, isNumber } from '@visactor/vutils';
+import { debounce, isArray, isEmpty, isNil, isNumber } from '@visactor/vutils';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
@@ -104,7 +104,14 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         direction: this._isHorizontal ? 'horizontal' : 'vertical',
         ...this._getComponentAttrs()
       });
-
+      // 绑定事件，防抖，防止频繁触发
+      this._component.addEventListener(
+        'scroll',
+        debounce((e: any) => {
+          const value = e.detail.value;
+          this._handleChange(value[0], value[1]);
+        }, 30)
+      );
       container.add(this._component as unknown as INode);
     }
   }
@@ -134,15 +141,6 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
   protected _handleDataCollectionChange() {
     // do nothing
-  }
-
-  protected _initEvent() {
-    if (this._component) {
-      this._component.on('scroll', (e: any) => {
-        const value = e.detail.value;
-        this._handleChange(value[0], value[1]);
-      });
-    }
   }
 
   protected _initCommonEvent() {
