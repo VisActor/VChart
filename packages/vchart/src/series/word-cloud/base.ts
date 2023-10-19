@@ -42,6 +42,7 @@ import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { wordCloudSeriesMark } from './constant';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -209,9 +210,14 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       );
     }
     this._trigger.registerMark(wordMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(wordMark);
     this._trigger.registerMark(fillingWordMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(fillingWordMark);
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._wordMark && this._tooltipHelper.activeTriggerSet.mark.add(this._wordMark);
+    this._fillingWordMark && this._tooltipHelper.activeTriggerSet.mark.add(this._fillingWordMark);
   }
 
   initAnimation() {
@@ -458,5 +464,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
     this.compile();
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._wordMark, this._fillingWordMark];
   }
 }

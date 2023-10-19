@@ -216,6 +216,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected declare _tooltipHelper: ISeriesTooltipHelper | undefined;
   get tooltipHelper() {
+    if (!this._tooltipHelper) {
+      this.initTooltip();
+    }
+
     return this._tooltipHelper;
   }
 
@@ -250,8 +254,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this.event.emit(ChartEvent.afterInitData, { model: this });
     // trigger
     this.initTrigger();
-    // tooltip
-    this.initTooltip();
     // mark
     this.initRootMark();
     this.initMark();
@@ -305,7 +307,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (isValid(this._spec.invalidType)) {
       this._invalidType = this._spec.invalidType;
     }
-    this._tooltipHelper?.updateTooltipSpec();
   }
 
   /** data */
@@ -643,6 +644,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   abstract setValueFieldToPercent(): void;
   abstract setValueFieldToStackOffsetSilhouette(): void;
 
+  /** 获取系列中可以被操作的mark(brush需要通过在图元spec中内置state的方式实现框选样式，所以需要获取可被框选的mark) */
+  abstract getActiveMarks(): IMark[];
+
   initRootMark() {
     this._rootMark = this._createMark(
       { type: MarkTypeEnum.group, name: `seriesGroup_${this.type}_${this.id}` },
@@ -947,6 +951,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     });
     this._updateExtensionMarkSpec(lastSpec);
     this._updateSpecData();
+
+    if (this._tooltipHelper) {
+      this._tooltipHelper.updateTooltipSpec();
+    }
   }
 
   // 首次布局完成后填充系列数据
@@ -1001,7 +1009,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   getSeriesStyle(datum: Datum) {
-    return (attribute: string) => this._seriesMark?.getAttribute(attribute as any, datum) ?? null;
+    return (attribute: string) => this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
   }
 
   protected _getSeriesInfo(field: string, keys: string[]) {

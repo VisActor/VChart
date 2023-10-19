@@ -14,6 +14,7 @@ import { SeriesTypeEnum } from '../interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { circlePackingLayout } from '../../data/transforms/circle-packing';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IArcMark } from '../../mark/arc';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
@@ -189,7 +190,6 @@ export class CirclePackingSeries<
 
     this._circlePackingMark = circlePacking;
     this._trigger.registerMark(circlePacking);
-    this._tooltipHelper?.activeTriggerSet.mark.add(circlePacking);
   }
 
   private _initCirclePackingMarkStyle() {
@@ -225,7 +225,6 @@ export class CirclePackingSeries<
 
     this._labelMark = labelMark;
     this._trigger.registerMark(labelMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(labelMark);
   }
 
   private _initLabelMarkStyle() {
@@ -272,6 +271,9 @@ export class CirclePackingSeries<
 
   protected initTooltip() {
     this._tooltipHelper = new CirclePackingTooltipHelper(this);
+    this._tooltipHelper.updateTooltipSpec();
+    this._circlePackingMark && this._tooltipHelper.activeTriggerSet.mark.add(this._circlePackingMark);
+    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }
 
   initAnimation(): void {
@@ -308,6 +310,10 @@ export class CirclePackingSeries<
   // make sure this function fast
   protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
     return undefined;
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._circlePackingMark];
   }
 }
 

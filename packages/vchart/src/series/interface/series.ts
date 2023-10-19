@@ -25,6 +25,9 @@ export interface ISeries extends IModel, ILayoutItem {
   readonly type: string;
   readonly name?: string;
 
+  // tooltip
+  tooltipHelper: ISeriesTooltipHelper;
+
   // 配置
   getSpec: () => any;
 
@@ -98,9 +101,7 @@ export interface ISeries extends IModel, ILayoutItem {
   getMarkInId: (id: number) => IMark | undefined;
 
   getRootMark: () => IGroupMark;
-
-  // tooltip
-  tooltipHelper: ISeriesTooltipHelper;
+  getActiveMarks: () => IMark[];
 
   // example
   /**

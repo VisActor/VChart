@@ -36,6 +36,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
   protected _stack: boolean = false;
   private _minLabelMark?: ITextMark;
   private _maxLabelMark?: ITextMark;
+  private _labelMark?: ITextMark;
 
   initMark(): void {
     const labelPosition = this._spec.label?.position;
@@ -101,7 +102,6 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         },
         () => this._direction
       );
-      this._tooltipHelper?.ignoreTriggerSet.mark.add(minLabelMark);
     }
 
     const maxLabelMark = this._maxLabelMark;
@@ -141,7 +141,6 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         },
         () => this._direction
       );
-      this._tooltipHelper?.ignoreTriggerSet.mark.add(maxLabelMark);
     }
   }
 
@@ -164,7 +163,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       },
       z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });
-    this._tooltipHelper?.ignoreTriggerSet.mark.add(labelMark);
+    this._labelMark = labelMark;
   }
 
   initBandRectMarkStyle() {
@@ -264,6 +263,9 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 
   protected initTooltip() {
     this._tooltipHelper = new RangeColumnSeriesTooltipHelper(this);
+    this._minLabelMark && this._tooltipHelper.ignoreTriggerSet.mark.add(this._minLabelMark);
+    this._maxLabelMark && this._tooltipHelper.ignoreTriggerSet.mark.add(this._maxLabelMark);
+    this._labelMark && this._tooltipHelper.ignoreTriggerSet.mark.add(this._labelMark);
   }
 }
 

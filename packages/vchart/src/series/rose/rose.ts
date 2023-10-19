@@ -13,6 +13,7 @@ import type { ITextMark } from '../../mark/text';
 import { ArcMark } from '../../mark/arc';
 import { roseSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export const DefaultBandWidth = 0.5;
 
@@ -85,8 +86,13 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
         }
       });
       this._trigger.registerMark(roseMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(roseMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._roseMark && this._tooltipHelper.activeTriggerSet.mark.add(this._roseMark);
   }
 
   initLabelMarkStyle(textMark: ITextMark) {
@@ -123,6 +129,10 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
 
   getDefaultShapeType() {
     return 'circle';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._roseMark];
   }
 }
 

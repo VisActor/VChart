@@ -31,7 +31,6 @@ import type { IElement, IGlyphElement } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { array, isNil } from '../../util';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { LinkPathMark } from '../../mark/link-path';
@@ -39,6 +38,7 @@ import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
 import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
 import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -252,7 +252,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       AttributeLevel.Mark
     );
     this._trigger.registerMark(nodeMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(nodeMark);
   }
 
   protected _initLinkMarkStyle() {
@@ -281,7 +280,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       AttributeLevel.Series
     );
     this._trigger.registerMark(linkMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(linkMark);
   }
 
   protected _initLabelMarkStyle() {
@@ -474,7 +472,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     this._labelMark.setZIndex(this._labelLayoutZIndex);
     this._trigger.registerMark(this._labelMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(this._labelMark);
   }
 
   private _createText(datum: Datum) {
@@ -1220,6 +1217,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   protected initTooltip() {
     this._tooltipHelper = new SankeySeriesTooltipHelper(this);
+    this._nodeMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nodeMark);
+    this._linkMark && this._tooltipHelper.activeTriggerSet.mark.add(this._linkMark);
+    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }
 
   getNodeOrdinalColorScale(item: string) {
@@ -1334,6 +1334,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   // make sure this function fast
   protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
     return undefined;
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._nodeMark, this._linkMark];
   }
 }
 

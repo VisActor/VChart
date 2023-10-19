@@ -18,6 +18,7 @@ import { sunburstLayout } from '../../data/transforms/sunburst';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface';
 
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
@@ -257,7 +258,6 @@ export class SunburstSeries extends PolarSeries<any> {
     }) as IArcMark;
     this._sunburstMark = sunburstMark;
     this._trigger.registerMark(this._sunburstMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(this._sunburstMark);
   }
 
   private _initArcMarkStyle() {
@@ -291,7 +291,6 @@ export class SunburstSeries extends PolarSeries<any> {
     this._labelMark = labelMark;
 
     this._trigger.registerMark(labelMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(labelMark);
   }
 
   private _initLabelMarkStyle() {
@@ -328,6 +327,8 @@ export class SunburstSeries extends PolarSeries<any> {
 
   protected initTooltip() {
     this._tooltipHelper = new SunburstTooltipHelper(this);
+    this._sunburstMark && this._tooltipHelper.activeTriggerSet.mark.add(this._sunburstMark);
+    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }
 
   initAnimation() {
@@ -421,6 +422,10 @@ export class SunburstSeries extends PolarSeries<any> {
   // make sure this function fast
   protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
     return undefined;
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._sunburstMark];
   }
 }
 

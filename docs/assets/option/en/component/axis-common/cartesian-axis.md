@@ -216,3 +216,25 @@ Subgrid line configuration.
 
 #${prefix} mode('3d' | '2d')
 Whether the axis component is a 3d mode axis component or not, the 3d mode axis component will have some changes compared to the 2d axis, for example, the tick line of the 3d axis will be oriented towards the window （note that there is a difference between this and the support3d configuration, which configures whether or not the 3d transform is applied to the graphic element in 3d mode, and its own shape will not change, whereas mode switching of the axes will make the (while switching the mode of an axis will cause the shape of the axis to change directly)
+
+#${prefix} unit(Object)
+
+Supported since version `1.5.1`. Axis unit configuration is only applicable to coordinate axes in the Cartesian coordinate system.
+
+##${prefix} visible(boolean) = false
+
+Whether to display axis units.
+
+##${prefix} text(string|number)
+
+Axis unit text.
+
+##${prefix} style(Object)
+
+Axis unit text style configuration.
+
+Axis title style settings.
+
+{{ use: graphic-text(
+   prefix = '##' + ${prefix}
+) }}

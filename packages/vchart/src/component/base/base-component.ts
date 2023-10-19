@@ -51,7 +51,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   abstract changeRegions(regions: IRegion[]): void;
-  abstract getVRenderComponents(): IGroup[];
+  abstract getVRenderComponents(): IGraphic[];
 
   protected callPlugin(cb: (plugin: IComponentPlugin) => void) {
     if (this.pluginService) {

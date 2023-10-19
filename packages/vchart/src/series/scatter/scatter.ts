@@ -37,6 +37,7 @@ import { SymbolMark } from '../../mark/symbol';
 import { scatterSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -300,8 +301,12 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     }
 
     this._trigger.registerMark(symbolMark);
+  }
 
-    this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
   }
 
   viewDataStatisticsUpdate(d: DataView) {
@@ -403,6 +408,10 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
 
   getDefaultShapeType() {
     return 'circle';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._symbolMark];
   }
 }
 

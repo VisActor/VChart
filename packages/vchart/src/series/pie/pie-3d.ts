@@ -71,7 +71,6 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
       }
 
       this._trigger.registerMark(pieMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(pieMark);
     }
 
     const labelMark = this._labelMark;

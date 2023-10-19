@@ -8,6 +8,7 @@ import type { SeriesData } from '../base/series-data';
 import type { DataView } from '@visactor/vdataset';
 import { PREFIX } from '../../constant';
 import type { IGeoSeriesSpec } from './interface';
+import type { IMark } from '../../mark/interface';
 
 export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> extends BaseSeries<T> implements IGeoSeries {
   type = SeriesTypeEnum.geo;
@@ -220,5 +221,9 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     super.fillData();
     this._mapViewData.getDataView()?.reRunAllTransform();
     this._mapViewDataStatistics?.reRunAllTransform();
+  }
+
+  getActiveMarks(): IMark[] {
+    return [];
   }
 }

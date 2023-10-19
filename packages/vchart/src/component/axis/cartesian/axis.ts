@@ -36,6 +36,8 @@ import type { DataSet } from '@visactor/vdataset';
 import { DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../../compile/data';
 import { AxisComponent } from '../base-axis';
+import type { IGraphic, IText } from '@visactor/vrender-core';
+import { createText } from '@visactor/vrender-core';
 
 const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
 
@@ -91,6 +93,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   private _axisStyle: Partial<LineAxisAttributes>;
   private _latestBounds: IBounds;
   private _verticalLimitSize: number;
+  private _unitText: IText;
 
   protected _layoutCache: {
     width: number;
@@ -360,8 +363,23 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
               this.pluginService && plugin.onDidLayoutVertical && plugin.onDidLayoutVertical(this.pluginService, this);
             });
           }
-
           this._delegateAxisContainerEvent(product.getGroupGraphicItem());
+
+          // 更新单位的显示位置
+          if (this._unitText) {
+            const bounds = product.graphicItem.AABBBounds;
+            const pos = isXAxis(this._orient)
+              ? {
+                  x: bounds.x2,
+                  y: this.getLayoutStartPoint().y
+                }
+              : {
+                  x: this.getLayoutStartPoint().x,
+                  y: bounds.y1
+                };
+
+            this._unitText.setAttributes(pos);
+          }
         }
       });
     }
@@ -540,20 +558,16 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this.setLayoutRect(rect);
     this.updateScaleRange();
     this.computeData();
-    const isX = isXAxis(this.getOrient());
     const context = { skipLayout: false };
-
-    if (isX) {
-      // 钩子直接传 vchart 的 component 实例
-      this.pluginService &&
-        this.callPlugin(plugin => {
-          plugin.onWillLayoutHorizontal && plugin.onWillLayoutHorizontal(this.pluginService, context, this);
-        });
-    } else {
-      this.pluginService &&
-        this.callPlugin(plugin => {
-          plugin.onWillLayoutVertical && plugin.onWillLayoutVertical(this.pluginService, context, this);
-        });
+    const isX = isXAxis(this.getOrient());
+    if (this.pluginService) {
+      isX
+        ? this.callPlugin(plugin => {
+            plugin.onWillLayoutHorizontal && plugin.onWillLayoutHorizontal(this.pluginService, context, this);
+          })
+        : this.callPlugin(plugin => {
+            plugin.onWillLayoutVertical && plugin.onWillLayoutVertical(this.pluginService, context, this);
+          });
     }
     const product = this._axisMark.getProduct();
     this._latestBounds = product.getBounds();
@@ -564,7 +578,9 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs)
       );
       if (isFinite(updateBounds.width())) {
-        result = updateBounds;
+        // 因为轴单位在某些区域显示的时候，是不参与轴某个方向的包围盒计算的，
+        // 所以不太合适放在轴组件内支持，所以就在 VChart 层的轴组件上通过添加 text 图元支持
+        result = this._appendAxisUnit(updateBounds, isX);
         this._latestBounds = updateBounds;
       }
     }
@@ -832,5 +848,63 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     // change spec by default logic
     const chartSpec = this._option.getChart().getSpec();
     this._spec.inverse = transformInverse(this._spec, chartSpec.direction === Direction.horizontal);
+  }
+
+  private _appendAxisUnit(bounds: IBounds, isX: boolean) {
+    if (this._spec.unit && this._spec.unit.visible) {
+      const { text, style } = this._spec.unit;
+      let pos;
+      let unitTextStyle: any;
+      if (isX) {
+        pos = {
+          x: bounds.x2,
+          y: this.getLayoutStartPoint().y
+        };
+        unitTextStyle = {
+          textAlign: 'left',
+          textBaseline: 'middle'
+        };
+      } else {
+        pos = {
+          x: this.getLayoutStartPoint().x,
+          y: bounds.y1
+        };
+        unitTextStyle = {
+          textAlign: this._orient === 'left' ? 'left' : 'right',
+          textBaseline: 'bottom'
+        };
+      }
+
+      unitTextStyle = {
+        ...unitTextStyle,
+        ...style,
+        x: pos.x,
+        y: pos.y,
+        text
+      };
+      if (this._unitText) {
+        this._unitText.setAttributes(unitTextStyle);
+      } else {
+        this._unitText = createText(unitTextStyle);
+        this._unitText.name = 'axis-unit';
+        this.getContainer()?.add(this._unitText);
+      }
+
+      // 左轴
+      const textBounds = this._unitText.AABBBounds;
+      if (!isX) {
+        bounds.x1 += textBounds.x1 < bounds.x1 ? textBounds.x1 - bounds.x1 : 0;
+        bounds.y1 += textBounds.y1 < bounds.y1 ? textBounds.y1 - bounds.y1 : 0;
+      } else {
+        bounds.x2 += textBounds.x2 > bounds.x2 ? textBounds.x2 - bounds.x2 : 0;
+        bounds.y2 += textBounds.y2 > bounds.y2 ? textBounds.y2 - bounds.y2 : 0;
+      }
+    }
+
+    return bounds;
+  }
+
+  getVRenderComponents(): IGraphic[] {
+    return this._unitText ? [this._unitText] : [];
   }
 }

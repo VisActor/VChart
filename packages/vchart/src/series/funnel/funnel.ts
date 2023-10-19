@@ -8,6 +8,7 @@ import { BaseSeries } from '../base/base-series';
 import { AttributeLevel, PREFIX } from '../../constant';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { DataView } from '@visactor/vdataset';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IFunnelOpt } from '../../data/transforms/funnel';
 import { funnel, funnelTransform } from '../../data/transforms/funnel';
@@ -227,6 +228,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
   protected initTooltip() {
     this._tooltipHelper = new FunnelSeriesTooltipHelper(this);
+    this._funnelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._funnelMark);
+    this._funnelTransformMark && this._tooltipHelper.activeTriggerSet.mark.add(this._funnelTransformMark);
   }
 
   getDimensionField(): string[] {
@@ -254,7 +257,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         AttributeLevel.Series
       );
       this._trigger.registerMark(funnelMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(funnelMark);
     }
 
     const funnelTransformMark = this._funnelTransformMark;
@@ -266,7 +268,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         AttributeLevel.Series
       );
       this._trigger.registerMark(funnelTransformMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(funnelTransformMark);
     }
 
     const outerLabelMark = this._funnelOuterLabelMark.label;
@@ -850,6 +851,10 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
   getDefaultShapeType(): string {
     return 'square';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._funnelMark];
   }
 }
 

@@ -17,6 +17,7 @@ import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../con
 import { Factory } from '../../../core/factory';
 import { registerCircularProgressAnimation } from '../../polar/progress-like';
 import { registerFadeInOutAnimation } from '../../../animation/config';
+import type { IMark } from '../../../mark/interface';
 
 export class CircularProgressSeries<
   T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
@@ -85,8 +86,13 @@ export class CircularProgressSeries<
         AttributeLevel.Series
       );
       this._trigger.registerMark(progressMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(progressMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._progressMark && this._tooltipHelper.activeTriggerSet.mark.add(this._progressMark);
   }
 
   private _initTrackMark() {
@@ -176,6 +182,10 @@ export class CircularProgressSeries<
         userAnimationConfig(SeriesMarkNameEnum.track, this._spec)
       )
     );
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._progressMark];
   }
 }
 

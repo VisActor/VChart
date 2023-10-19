@@ -1,4 +1,5 @@
 /* eslint-disable no-duplicate-imports */
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
@@ -99,8 +100,13 @@ export class GaugePointerSeries<
         });
       }
       this._trigger.registerMark(pointerMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(pointerMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._pointerMark && this._tooltipHelper.activeTriggerSet.mark.add(this._pointerMark);
   }
 
   protected _getPointerWidth() {
@@ -187,6 +193,10 @@ export class GaugePointerSeries<
 
   getDefaultShapeType() {
     return 'circle';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [];
   }
 }
 
