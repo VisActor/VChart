@@ -4502,10 +4502,10 @@ const run = () => {
         // zoomLock: true,
         minSpan: 0.2,
         maxSpan: 0.8,
-        roam: true,
+        roam: false,
         roamDrag: {
           rate: 1,
-          reverse: true
+          focus: true
         },
         roamZoom: {
           rate: 0.1,

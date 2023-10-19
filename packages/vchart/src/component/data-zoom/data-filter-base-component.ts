@@ -445,19 +445,19 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     super.setAttrFromSpec();
 
     // interaction相关
-    if (isValid(this._spec.roamZoom) && this._spec.roamZoom) {
+    if (this._spec.roamZoom === true || this._spec.roamZoom) {
       this._zoomAttr = merge({}, this._zoomAttr, this._spec.roamZoom);
     } else {
       this._zoomAttr.enable = false;
     }
 
-    if (isValid(this._spec.roamDrag) && this._spec.roamDrag) {
+    if (this._spec.roamDrag === true || this._spec.roamDrag) {
       this._dragAttr = merge({}, this._dragAttr, this._spec.roamDrag);
     } else {
       this._dragAttr.enable = false;
     }
 
-    if (isValid(this._spec.roamScroll) && this._spec.roamScroll) {
+    if (this._spec.roamScroll === true || this._spec.roamScroll) {
       this._scrollAttr = merge({}, this._scrollAttr, this._spec.roamScroll);
     } else {
       this._scrollAttr.enable = false;

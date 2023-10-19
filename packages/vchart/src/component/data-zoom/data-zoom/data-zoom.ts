@@ -1,4 +1,4 @@
-import { isArray, isNil, isNumber, isValid, uniqArray } from '@visactor/vutils';
+import { isArray, isBoolean, isNil, isNumber, isValid, uniqArray } from '@visactor/vutils';
 import { mergeSpec } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -68,17 +68,10 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    // roam兼容逻辑
-    if (isValid((this._spec as any).roam)) {
-      if ((this._spec as any).roam) {
-        this._zoomAttr.enable = true;
-        this._dragAttr.enable = true;
-        this._scrollAttr.enable = true;
-      } else {
-        this._zoomAttr.enable = false;
-        this._dragAttr.enable = false;
-        this._scrollAttr.enable = false;
-      }
+    if (isBoolean((this._spec as any).roam)) {
+      this._zoomAttr.enable = (this._spec as any).roam;
+      this._dragAttr.enable = (this._spec as any).roam;
+      this._scrollAttr.enable = (this._spec as any).roam;
     }
 
     if (this._zoomAttr.enable || this._dragAttr.enable || this._scrollAttr.enable) {
