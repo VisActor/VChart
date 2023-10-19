@@ -2,6 +2,7 @@ import { isNil } from '@visactor/vutils';
 import type { IPolarAxisSpec, IPolarBandAxisSpec, IPolarLinearAxisSpec } from '../../component/axis/polar/interface';
 import { getLinearAxisSpecDomain } from '../../component/axis/util';
 import { PolarChart } from './polar';
+import { mergeSpec } from '../../util';
 
 export class ProgressLikeChart extends PolarChart {
   protected needAxes(): boolean {
@@ -31,7 +32,9 @@ export class ProgressLikeChart extends PolarChart {
   protected _transformProgressAxisSpec(
     spec: any,
     angleAxisDefaultSpec: IPolarAxisSpec,
-    radiusAxisDefaultSpec: IPolarAxisSpec
+    radiusAxisDefaultSpec: IPolarAxisSpec,
+    angleAxisAppendSpec?: Partial<IPolarAxisSpec>,
+    radiusAxisAppendSpec?: Partial<IPolarAxisSpec>
   ): void {
     if (!spec.axes) {
       spec.axes = [];
@@ -71,6 +74,14 @@ export class ProgressLikeChart extends PolarChart {
     }
     if (isNil(axesPtr.angle.max)) {
       axesPtr.angle.max = domain.max;
+    }
+    if (angleAxisAppendSpec) {
+      const newSpec = mergeSpec({}, angleAxisAppendSpec, axesPtr.angle);
+      Object.assign(axesPtr.angle, newSpec);
+    }
+    if (radiusAxisAppendSpec) {
+      const newSpec = mergeSpec({}, radiusAxisAppendSpec, axesPtr.radius);
+      Object.assign(axesPtr.radius, newSpec);
     }
   }
 }

@@ -90,7 +90,20 @@ const run = () => {
         fill: '#ddd'
       }
     },
-    axes: [{ type: 'linear', orient: 'angle', tick: { visible: true }, subTick: { visible: true } }]
+    axes: [
+      {
+        type: 'linear',
+        orient: 'angle',
+        inside: true,
+        tick: { visible: true },
+        subTick: { visible: true },
+        label: {
+          visible: true,
+          formatMethod: () => '啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊饿饿饿饿饿饿饿饿饿'
+        }
+        //zIndex: 500
+      }
+    ]
   };
 
   // VChart.ThemeManager.setCurrentTheme('dark');
