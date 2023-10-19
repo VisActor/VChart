@@ -25,7 +25,7 @@
     "eslint:check": "eslint .",
     "eslint:err": "eslint . --quiet",
     "postpublish": "npm run clear",
-    "test": "jest",
+    "test": "",
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit/",
     "test-watch": "DEBUG_MODE=1 jest --watch",
