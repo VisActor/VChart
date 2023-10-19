@@ -54,4 +54,6 @@
 
 {{import: chart-rose}}
 
+{{import: chart-correlation}}
+
 {{import: chart-common}}

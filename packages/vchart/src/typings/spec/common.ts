@@ -36,6 +36,7 @@ import type {
   IRectMarkSpec,
   IRuleMarkSpec,
   ISymbolMarkSpec,
+  IRippleMarkSpec,
   ITextMarkSpec,
   IVisualSpecScale
 } from '../visual';
@@ -608,6 +609,7 @@ export type IBuildinMarkSpec = {
   [MarkTypeEnum.boxPlot]: IBoxPlotMarkSpec;
   [MarkTypeEnum.linkPath]: ILinkPathMarkSpec;
   [MarkTypeEnum.progressArc]: IProgressArcMarkSpec;
+  [MarkTypeEnum.ripple]: IRippleMarkSpec;
 };
 export type EnableMarkType = keyof IBuildinMarkSpec;
 export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {

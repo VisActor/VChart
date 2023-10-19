@@ -25,6 +25,7 @@ import { registerBoxplotChart } from './chart/box-plot';
 import { registerSankeyChart } from './chart/sankey';
 import { registerRangeAreaChart } from './chart/range-area';
 import { registerHeatmapChart } from './chart/heatmap';
+import { registerCorrelationChart } from './chart/correlation';
 import {
   registerCartesianBandAxis,
   registerCartesianLinearAxis,
@@ -80,6 +81,7 @@ VChart.useRegisters([
   registerSankeyChart,
   registerHeatmapChart,
   registerSequenceChart,
+  registerCorrelationChart,
   registerCommonChart,
 
   // 3d charts

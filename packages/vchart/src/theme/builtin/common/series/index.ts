@@ -27,6 +27,7 @@ import { heatmap } from './heatmap';
 import { sankey } from './sankey';
 import { rose } from './rose';
 import { boxPlot } from './box-plot';
+import { correlation } from './correlation';
 
 export const series: ISeriesTheme = {
   scatter,
@@ -56,5 +57,6 @@ export const series: ISeriesTheme = {
   heatmap,
   sankey,
   rose,
-  boxPlot
+  boxPlot,
+  correlation
 };

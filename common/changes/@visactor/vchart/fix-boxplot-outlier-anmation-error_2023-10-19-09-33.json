@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of boxplot outlier animation will throw error",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

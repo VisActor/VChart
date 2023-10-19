@@ -1119,6 +1119,22 @@
       ]
     },
     {
+      "path": "correlation-chart",
+      "title": {
+        "zh": "correlation-chart",
+        "en": "correlation-chart"
+      },
+      "children": [
+        {
+          "path": "correlation-chart",
+          "title": {
+            "zh": "散点相关性图",
+            "en": "Correlation Chart"
+          }
+        }
+      ]
+    },
+    {
       "path": "combination",
       "title": {
         "zh": "combination",
