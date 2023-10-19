@@ -1,4 +1,4 @@
-import type { ILayer, INode, Stage } from '@visactor/vrender';
+import type { ILayer, INode, Stage } from '@visactor/vrender-core';
 import type { IToolTipActual } from '../../../../typings/tooltip';
 import type { TooltipHandlerParams } from '../../interface';
 import { BaseTooltipHandler } from '../base';
@@ -55,7 +55,7 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
       this._layer.removeAllChild();
       // this._layer.render();
     }
-    this._attributeCache = null;
+    this._attributes = null;
   }
 
   protected _updateTooltip(visible: boolean, params: TooltipHandlerParams, actualTooltip: IToolTipActual) {
@@ -83,7 +83,7 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
     const pos = actualTooltip?.position;
     if (!params.changePositionOnly) {
       this._tooltipComponent.setAttributes({
-        ...this._attributeCache,
+        ...this._attributes,
         ...pos
       });
     } else if (isValid(pos)) {

@@ -23,7 +23,7 @@ import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
 import type { IChart } from '../chart/interface';
-import type { Stage } from '@visactor/vrender';
+import type { Stage } from '@visactor/vrender-core';
 
 export type DataLinkSeries = {
   /**

@@ -8,22 +8,18 @@ import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
 import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { degreeToRadian, mixin } from '@visactor/vutils';
+import { degreeToRadian, isArray, mixin } from '@visactor/vutils';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import type { IRadarAnimationParams, RadarAppearPreset } from './animation';
+import { registerRadarAnimation, type IRadarAnimationParams, type RadarAppearPreset } from './animation';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAreaMark } from '../../mark/area';
-import { VChart } from '../../core/vchart';
 import { AreaMark } from '../../mark/area';
 import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
-import { TextMark } from '../../mark/text';
 import { radarSeriesMark } from './constant';
-
-VChart.useMark([AreaMark, LineMark, SymbolMark, TextMark]);
+import { Factory } from '../../core/factory';
 
 export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<
@@ -133,8 +129,15 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         this.encodeDefined(areaMark, 'defined');
       });
       this._trigger.registerMark(areaMark);
-      this._tooltipHelper?.activeTriggerSet.dimension.add(areaMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
+    this._areaMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._areaMark);
   }
 
   initAnimation() {
@@ -155,14 +158,15 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
       if (this._rootMark) {
         this._rootMark.setAnimationConfig(
           animationConfig(
-            DEFAULT_MARK_ANIMATION.radarGroup(animationParams, appearPreset),
+            Factory.getAnimationInKey('radarGroup')?.(animationParams, appearPreset),
             userAnimationConfig(SeriesMarkNameEnum.group, this._spec)
           )
         );
       }
     }
 
-    const markAnimationMap: [IMark, keyof typeof DEFAULT_MARK_ANIMATION][] = [
+    // TODO: animationType
+    const markAnimationMap: [IMark, string][] = [
       [this._areaMark, 'radar'],
       [this._lineMark, 'radar'],
       [this._symbolMark, 'radarSymbol']
@@ -171,9 +175,9 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
     // 为 mark 添加动画
     markAnimationMap.forEach(([mark, animation]) => {
       if (isValid(mark)) {
-        const getAnimation = DEFAULT_MARK_ANIMATION[animation];
+        const getAnimation = Factory.getAnimationInKey(animation);
         mark.setAnimationConfig(
-          animationConfig(getAnimation(animationParams, appearPreset), userAnimationConfig(mark.name, this._spec))
+          animationConfig(getAnimation?.(animationParams, appearPreset), userAnimationConfig(mark.name, this._spec))
         );
       }
     });
@@ -182,6 +186,33 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
   getDefaultShapeType() {
     return 'square';
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._areaMark, this._symbolMark, this._lineMark];
+  }
+
+  getSeriesStyle(datum: Datum) {
+    return (attribute: string) => {
+      let result = this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
+      if (attribute === 'fill' && !result) {
+        attribute = 'stroke';
+        result = this._seriesMark?.getAttribute(attribute, datum) ?? undefined;
+      }
+      if (attribute === 'stroke' && isArray(result)) {
+        return result[0];
+      }
+      return result;
+    };
+  }
 }
 
 mixin(RadarSeries, LineLikeSeriesMixin);
+
+export const registerRadarSeries = () => {
+  Factory.registerMark(AreaMark.type, AreaMark);
+  Factory.registerMark(LineMark.type, LineMark);
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+
+  Factory.registerSeries(RadarSeries.type, RadarSeries);
+  registerRadarAnimation();
+};

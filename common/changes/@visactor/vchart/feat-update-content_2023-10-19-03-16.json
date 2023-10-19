@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(datazoom): fix bounds error when there is no preview chart. fix #1050",
+      "comment": "feat: provide datum in the params of `updateContent` callback of tooltip, related #1244",
       "type": "none"
     }
   ],

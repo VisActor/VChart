@@ -5,18 +5,15 @@ import { valueInScaleRange, mergeSpec } from '../../util';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IRoseAnimationParams, RoseAppearPreset } from './animation';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerRoseAnimation, type IRoseAnimationParams, type RoseAppearPreset } from './animation';
 import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
-import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
-import { TextMark } from '../../mark/text';
 import { roseSeriesMark } from './constant';
-
-VChart.useMark([ArcMark, TextMark]);
+import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export const DefaultBandWidth = 0.5;
 
@@ -64,11 +61,11 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
         y: () => this.angleAxisHelper.center().y,
         startAngle: (datum: Datum) =>
           this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) -
-          this.angleAxisHelper.getBandwidth(0) * 0.5,
+          this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5,
         endAngle: (datum: Datum) =>
           this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) +
           this.getRoseAngle() -
-          this.angleAxisHelper.getBandwidth(0) * 0.5,
+          this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5,
         fill: this.getColorAttribute(),
         outerRadius: (datum: Datum) =>
           valueInScaleRange(
@@ -89,8 +86,13 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
         }
       });
       this._trigger.registerMark(roseMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(roseMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._roseMark && this._tooltipHelper.activeTriggerSet.mark.add(this._roseMark);
   }
 
   initLabelMarkStyle(textMark: ITextMark) {
@@ -118,7 +120,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       };
       this._roseMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.rose(animationParams, appearPreset),
+          Factory.getAnimationInKey('rose')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.rose, this._spec)
         )
       );
@@ -128,4 +130,14 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
   getDefaultShapeType() {
     return 'circle';
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._roseMark];
+  }
 }
+
+export const registerRoseSeries = () => {
+  Factory.registerMark(ArcMark.type, ArcMark);
+  Factory.registerSeries(RoseSeries.type, RoseSeries);
+  registerRoseAnimation();
+};

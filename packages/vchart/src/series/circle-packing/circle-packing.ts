@@ -4,7 +4,8 @@ import { isNil, mixin } from '@visactor/vutils';
 import type { ICirclePackingOpt } from '../../data/transforms/circle-packing';
 import type { ICirclePackingSeriesSpec } from './interface';
 
-import type { IMarkSpec } from '../..';
+import { type IMarkSpec } from '../..';
+import { Factory } from '../../core/factory';
 import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
 import type { SeriesMarkMap } from '../interface';
@@ -13,6 +14,7 @@ import { SeriesTypeEnum } from '../interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { circlePackingLayout } from '../../data/transforms/circle-packing';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IArcMark } from '../../mark/arc';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
@@ -25,17 +27,14 @@ import type { ITextMark } from '../../mark/text';
 import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerScaleInOutAnimation } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { CirclePackingAppearPreset } from './animation';
+import { registerCirclePackingAnimation, type CirclePackingAppearPreset } from './animation';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { VChart } from '../../core/vchart';
 import { ArcMark } from '../../mark/arc';
 import { TextMark } from '../../mark/text';
 import { circlePackingSeriesMark } from './constant';
-
-VChart.useMark([ArcMark, TextMark]);
 
 export class CirclePackingSeries<
   T extends ICirclePackingSeriesSpec = ICirclePackingSeriesSpec
@@ -191,7 +190,6 @@ export class CirclePackingSeries<
 
     this._circlePackingMark = circlePacking;
     this._trigger.registerMark(circlePacking);
-    this._tooltipHelper?.activeTriggerSet.mark.add(circlePacking);
   }
 
   private _initCirclePackingMarkStyle() {
@@ -227,7 +225,6 @@ export class CirclePackingSeries<
 
     this._labelMark = labelMark;
     this._trigger.registerMark(labelMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(labelMark);
   }
 
   private _initLabelMarkStyle() {
@@ -274,6 +271,9 @@ export class CirclePackingSeries<
 
   protected initTooltip() {
     this._tooltipHelper = new CirclePackingTooltipHelper(this);
+    this._tooltipHelper.updateTooltipSpec();
+    this._circlePackingMark && this._tooltipHelper.activeTriggerSet.mark.add(this._circlePackingMark);
+    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }
 
   initAnimation(): void {
@@ -282,7 +282,7 @@ export class CirclePackingSeries<
     this.getMarksInType(MarkTypeEnum.arc).forEach(mark => {
       mark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.circlePacking({}, appearPreset),
+          Factory.getAnimationInKey('circlePacking')?.(undefined, appearPreset),
           userAnimationConfig(mark.name, this._spec)
         )
       );
@@ -290,7 +290,7 @@ export class CirclePackingSeries<
 
     this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(Factory.getAnimationInKey('scaleInOut')?.(), userAnimationConfig(mark.name, this._spec))
       );
     });
   }
@@ -311,6 +311,18 @@ export class CirclePackingSeries<
   protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
     return undefined;
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._circlePackingMark];
+  }
 }
 
 mixin(CirclePackingSeries, Drillable);
+
+export const registerCirclePackingSeries = () => {
+  Factory.registerMark(ArcMark.type, ArcMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(CirclePackingSeries.type, CirclePackingSeries);
+  registerScaleInOutAnimation();
+  registerCirclePackingAnimation();
+};

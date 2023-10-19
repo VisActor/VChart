@@ -1,6 +1,6 @@
-import type { IGradientColor, ILinearGradient } from '@visactor/vrender';
+import type { IGradientColor, ILinearGradient } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import { Symbol } from '@visactor/vrender';
+import { Symbol } from '@visactor/vrender-core';
 
 import { isObject, isString } from '../../../../../util';
 import type { ShapeType } from '../../../../../typings';

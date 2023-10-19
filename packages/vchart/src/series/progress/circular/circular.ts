@@ -6,18 +6,18 @@ import { isValidNumber } from '../../../util';
 import type { SeriesMarkMap } from '../../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../../animation/config';
 import type { ICircularProgressSeriesSpec, ICircularProgressSeriesTheme } from './interface';
 import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
 import type { IStateAnimateSpec } from '../../../animation/spec';
 import type { IProgressArcMark } from '../../../mark/progress-arc';
-import { VChart } from '../../../core/vchart';
 import { ArcMark } from '../../../mark/arc';
 import { ProgressArcMark } from '../../../mark/progress-arc';
 import { circularProgressSeriesMark } from './constant';
 import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../constant';
-
-VChart.useMark([ArcMark, ProgressArcMark]);
+import { Factory } from '../../../core/factory';
+import { registerCircularProgressAnimation } from '../../polar/progress-like';
+import { registerFadeInOutAnimation } from '../../../animation/config';
+import type { IMark } from '../../../mark/interface';
 
 export class CircularProgressSeries<
   T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
@@ -86,8 +86,13 @@ export class CircularProgressSeries<
         AttributeLevel.Series
       );
       this._trigger.registerMark(progressMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(progressMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._progressMark && this._tooltipHelper.activeTriggerSet.mark.add(this._progressMark);
   }
 
   private _initTrackMark() {
@@ -166,21 +171,28 @@ export class CircularProgressSeries<
 
     this._progressMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.circularProgress(
-          {
-            startAngle: this._startAngle
-          },
-          appearPreset
-        ),
+        Factory.getAnimationInKey('circularProgress')?.({ startAngle: this._startAngle }, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.progress, this._spec)
       )
     );
 
     this._trackMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.progressBackground(),
+        Factory.getAnimationInKey('fadeInOut')?.(),
         userAnimationConfig(SeriesMarkNameEnum.track, this._spec)
       )
     );
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._progressMark];
+  }
 }
+
+export const registerCircularProgressSeries = () => {
+  Factory.registerMark(ArcMark.type, ArcMark);
+  Factory.registerMark(ProgressArcMark.constructorType, ProgressArcMark);
+  Factory.registerSeries(CircularProgressSeries.type, CircularProgressSeries);
+  registerCircularProgressAnimation();
+  registerFadeInOutAnimation();
+};

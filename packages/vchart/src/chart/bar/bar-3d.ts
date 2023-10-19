@@ -1,10 +1,9 @@
-import { Bar3dSeries } from '../../series/bar/bar-3d';
+import { Bar3dSeries, registerBar3dSeries } from '../../series/bar/bar-3d';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
-import { VChart } from '../../core/vchart';
 import type { IBar3dChartSpec } from './interface';
-VChart.useSeries([Bar3dSeries]);
+import { Factory } from '../../core/factory';
 
 export class Bar3dChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.bar3d;
@@ -22,3 +21,8 @@ export class Bar3dChart extends CartesianChart {
     };
   }
 }
+
+export const registerBar3dChart = () => {
+  registerBar3dSeries();
+  Factory.registerChart(Bar3dChart.type, Bar3dChart);
+};

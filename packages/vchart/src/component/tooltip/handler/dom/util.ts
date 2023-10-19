@@ -1,8 +1,8 @@
 import type { Maybe } from '@visactor/vutils';
 import type { FontWeight, TextAlign } from '../../../../typings';
-import { isValid, mergeSpec, isArray } from '../../../../util';
+import { isValid, mergeSpec, isArray, normalizeLayoutPaddingSpec } from '../../../../util';
 import type { ITooltipTheme } from '../../interface';
-import type { ITooltipTextStyle, ITooltipStyle } from '../interface';
+import type { ITooltipTextStyle } from '../interface';
 import type { ILabelStyle, IShapeStyle, IDomTooltipStyle } from './interface';
 import type { TooltipAttributes } from '@visactor/vrender-components';
 
@@ -34,54 +34,51 @@ export const pixelPropertyStrToNumber = (str: string): number | number[] => {
   return numArr;
 };
 
-export function getDomStyles(
-  style: Partial<ITooltipStyle>,
-  attributeCache?: Maybe<TooltipAttributes>
-): IDomTooltipStyle {
+export function getDomStyles(attributes?: Maybe<TooltipAttributes>): IDomTooltipStyle {
   const {
-    panel: {
-      fill: fillColor,
-      shadow,
-      shadowBlur,
-      shadowColor,
-      shadowOffsetX,
-      shadowOffsetY,
-      shadowSpread,
-      cornerRadius,
-      stroke: strokeColor,
-      lineWidth = 0
-    },
-    padding,
-    key,
-    value,
-    title,
-    shape,
-    enterable,
-    transitionDuration
-  } = style;
-
-  const {
-    panel: panelAttribute,
+    panel = {},
     title: titleAttribute,
     content: contentAttribute,
+    titleStyle = {},
+    contentStyle = {},
+    padding,
     keyWidth,
-    valueWidth
-  } = attributeCache ?? {};
+    valueWidth,
+    enterable,
+    transitionDuration
+  } = attributes ?? {};
 
-  const backgroundColor = fillColor as string;
+  const {
+    fill: backgroundColor,
+    shadow,
+    shadowBlur,
+    shadowColor,
+    shadowOffsetX,
+    shadowOffsetY,
+    shadowSpread,
+    cornerRadius,
+    stroke: strokeColor,
+    lineWidth = 0,
+    width = 0,
+    height = 0
+  } = panel;
+
+  const { value: title = {} } = titleStyle;
+  const { shape = {}, key = {}, value = {} } = contentStyle;
 
   const shapeStyle = getShapeStyle(shape);
   const keyStyle = getLabelStyle(key);
   const valueStyle = getLabelStyle(value);
+  const { bottom, left, right, top } = normalizeLayoutPaddingSpec(padding);
 
   const styles: IDomTooltipStyle = {
     panel: {
-      width: getPixelPropertyStr((panelAttribute?.width ?? 0) + lineWidth * 2),
-      minHeight: getPixelPropertyStr((panelAttribute?.height ?? 0) + lineWidth * 2),
-      paddingBottom: getPixelPropertyStr(padding.bottom),
-      paddingLeft: getPixelPropertyStr(padding.left),
-      paddingRight: getPixelPropertyStr(padding.right),
-      paddingTop: getPixelPropertyStr(padding.top),
+      width: getPixelPropertyStr(width + lineWidth * 2),
+      minHeight: getPixelPropertyStr(height + lineWidth * 2),
+      paddingBottom: getPixelPropertyStr(bottom as number),
+      paddingLeft: getPixelPropertyStr(left as number),
+      paddingRight: getPixelPropertyStr(right as number),
+      paddingTop: getPixelPropertyStr(top as number),
       borderColor: strokeColor as string,
       borderWidth: getPixelPropertyStr(lineWidth),
       borderRadius: getPixelPropertyStr(cornerRadius),
@@ -117,7 +114,7 @@ export function getDomStyles(
             ...keyStyle,
             ...getLabelStyle(key as ITooltipTextStyle),
             ...(key?.multiLine ? { width: getPixelPropertyStr(Math.ceil(key.width)) } : undefined) // 对多行文本使用定宽
-          } as ILabelStyle)
+          }) as ILabelStyle
       ),
       width: getPixelPropertyStr(keyWidth),
       marginRight: getPixelPropertyStr(key.spacing ?? DEFAULT_KEY_SPACING)
@@ -132,7 +129,7 @@ export function getDomStyles(
             ...valueStyle,
             ...getLabelStyle(value as ITooltipTextStyle),
             ...(value?.multiLine ? { width: getPixelPropertyStr(Math.ceil(value.width)) } : undefined) // 对多行文本使用定宽
-          } as ILabelStyle)
+          }) as ILabelStyle
       ),
       width: getPixelPropertyStr(valueWidth),
       marginRight: getPixelPropertyStr(value.spacing ?? DEFAULT_VALUE_SPACING)

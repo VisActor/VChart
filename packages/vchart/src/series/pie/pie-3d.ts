@@ -17,15 +17,12 @@ import type { IArcSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPie3dSeriesSpec } from './interface';
-import { VChart } from '../../core/vchart';
-import { PathMark } from '../../mark/path';
-import { TextMark } from '../../mark/text';
 import { Arc3dMark } from '../../mark/arc-3d';
 import { BasePieSeries } from './pie';
 import { pie3dSeriesMark } from './constant';
 import { radianToDegree } from '@visactor/vutils';
-
-VChart.useMark([PathMark, TextMark, Arc3dMark]);
+import { Factory } from '../../core/factory';
+import { registerPie3dAnimation } from './animation/animation';
 
 export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
   static readonly type: string = SeriesTypeEnum.pie3d;
@@ -74,7 +71,6 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
       }
 
       this._trigger.registerMark(pieMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(pieMark);
     }
 
     const labelMark = this._labelMark;
@@ -141,3 +137,9 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
     }
   }
 }
+
+export const registerPie3dSeries = () => {
+  Factory.registerMark(Arc3dMark.type, Arc3dMark);
+  Factory.registerSeries(Pie3dSeries.type, Pie3dSeries);
+  registerPie3dAnimation();
+};

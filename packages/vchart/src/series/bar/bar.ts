@@ -3,11 +3,12 @@ import { PREFIX } from './../../constant/index';
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum, DirectionType } from '../../typings';
 import { mergeSpec, valueInScaleRange, getActualNumValue, getRegionStackGroup } from '../../util';
-import type { BarAppearPreset, IBarAnimationParams } from './animation';
+import { registerBarAnimation, type BarAppearPreset, type IBarAnimationParams } from './animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IBarSeriesSpec, IBarSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
@@ -17,16 +18,12 @@ import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../interface';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
-import { TextMark } from '../../mark/text';
 import { array, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
-
-VChart.useMark([RectMark, TextMark]);
+import { Factory } from '../../core/factory';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;
@@ -86,7 +83,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       );
 
       this._trigger.registerMark(rectMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(rectMark);
     }
   }
 
@@ -101,6 +97,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       },
       z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._rectMark && this._tooltipHelper.activeTriggerSet.mark.add(this._rectMark);
   }
 
   init(option: IModelInitOption): void {
@@ -357,7 +359,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
     this._rectMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.bar(animationParams, appearPreset),
+        Factory.getAnimationInKey('bar')?.(animationParams, appearPreset),
         userAnimationConfig(this._barMarkName, this._spec),
         { dataIndex }
       )
@@ -440,4 +442,14 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   getDefaultShapeType(): string {
     return 'square';
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._rectMark];
+  }
 }
+
+export const registerBarSeries = () => {
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerSeries(BarSeries.type, BarSeries);
+  registerBarAnimation();
+};

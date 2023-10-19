@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "fix: fix the problem that updateFullData cannot update data in series\n\n",
+      "comment": "feat: optimize the autoindent logic in layout to ensure padding effect is correct\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }

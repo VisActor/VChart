@@ -4,7 +4,7 @@ import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
 import { isString } from '@visactor/vutils';
-import { createText } from '@visactor/vrender';
+import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 
 export const labelRuleMap = {

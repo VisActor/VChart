@@ -1,11 +1,13 @@
 import { BandScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
-import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING } from './config';
+import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING, DEFAULT_BAND_POSITION } from './config';
 import type { IAxisLocationCfg, ICartesianBandAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface';
 import { mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
+import { Factory } from '../../../core/factory';
+import { registerAxis } from '../base-axis';
 import { scaleWholeRangeSize } from './util';
 
 export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec>
@@ -65,7 +67,9 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
     }
     const { position, bandScale } = this.getPosition(values);
 
-    return position + bandScale.bandwidth() * (cfg.bandPosition ?? 0.5);
+    return (
+      position + bandScale.bandwidth() * (cfg.bandPosition ?? this.getSpec().bandPosition ?? DEFAULT_BAND_POSITION)
+    );
   }
 
   transformScaleDomain() {
@@ -106,3 +110,8 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
 }
 
 mixin(CartesianBandAxis, BandAxisMixin);
+
+export const registerCartesianBandAxis = () => {
+  registerAxis();
+  Factory.registerComponent(CartesianBandAxis.type, CartesianBandAxis);
+};

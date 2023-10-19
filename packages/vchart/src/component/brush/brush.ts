@@ -1,4 +1,4 @@
-import { ChartEvent, LayoutZIndex } from '../../constant';
+import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
 import type { LayoutItem } from '../../model/layout-item';
 import { BaseComponent } from '../base';
 import type { IComponentOption } from '../interface';
@@ -17,7 +17,7 @@ import type {
   IPolygon,
   IRectGraphicAttribute,
   ISymbolGraphicAttribute
-} from '@visactor/vrender';
+} from '@visactor/vrender-core';
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
@@ -25,6 +25,10 @@ import type { IElement } from '@visactor/vgrammar-core';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
+import { Factory } from '../../core/factory';
+
+const IN_BRUSH_STATE = 'inBrush';
+const OUT_BRUSH_STATE = 'outOfBrush';
 
 export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   layoutType: LayoutItem['layoutType'] = 'absolute';
@@ -34,7 +38,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
 
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Brush;
 
-  static speckey = 'inBrush';
+  static speckey = 'brush';
 
   // brush组件
   protected _brushComponents!: BrushComponent[];
@@ -52,10 +56,37 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   protected _linkedOutOfBrushElementsMap: { [elementKey: string]: IElement } = {};
 
   private _needInitOutState: boolean = true;
-  private _isFirstState: boolean = true;
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
 
   private _needEnablePickable: boolean = true;
+
+  init() {
+    const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec?.inBrush);
+    const outOfBrushMarkAttr = this._transformBrushedMarkAttr(this._spec?.outOfBrush);
+    // 写入mark state, 便于后续state管理
+    this._option.getAllSeries().forEach((s: ISeries) => {
+      s.getActiveMarks().forEach((m: IMark) => {
+        if (m) {
+          s.setMarkStyle(
+            m,
+            {
+              ...inBrushMarkAttr
+            },
+            IN_BRUSH_STATE,
+            AttributeLevel.Series
+          );
+          s.setMarkStyle(
+            m,
+            {
+              ...outOfBrushMarkAttr
+            },
+            OUT_BRUSH_STATE,
+            AttributeLevel.Series
+          );
+        }
+      });
+    });
+  }
 
   static createComponent(spec: any, options: IComponentOption) {
     const brushSpec = spec.brush || options.defaultSpec;
@@ -63,11 +94,13 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     if (isNil(brushSpec) || brushSpec.visible === false) {
       return undefined;
     }
+
     return [new Brush(brushSpec, { ...options, specKey: Brush.speckey })];
   }
 
   created() {
     super.created();
+
     // event
     this.initEvent();
     this._bindRegions();
@@ -147,16 +180,26 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         operatedMaskAABBBounds: { [name: string]: IBounds };
       }) => {
         const { operateType, operateMask } = operateParams;
+        let operateTypeCache = operateType;
 
         // 需要重置out状态的情况：
-        // 1. _isFirstState 组件第一次创建时, 前提是有 VGrammarMark, 目前只找到这个时机, 为了标记是否执行过, 添加 _isFirstState 来识别
-        // 2. _needInitOutState：框选模式为'single' 且 开始后的第一次drawing时（这里不选择drawStart而选择第一次触发drawing的时机是因为点击空白处也会触发drawStart）, 需要重置图元状态
-        if (
-          this._isFirstState ||
-          (this._needInitOutState && brushMode === 'single' && operateType === IOperateType.drawing)
-        ) {
-          this._initMarkBrushState(componentIndex, 'outOfBrush');
+        // _needInitOutState：框选模式为'single' 且 开始后的第一次drawing时（这里不选择drawStart而选择第一次触发drawing的时机是因为点击空白处也会触发drawStart）, 需要重置图元状态
+        if (this._needInitOutState && brushMode === 'single' && operateType === IOperateType.drawing) {
+          this._initMarkBrushState(componentIndex, OUT_BRUSH_STATE);
         }
+
+        // 需要重置初始状态的情况：点击空白处clear所有状态
+        // 是否点击到空白处由图表的事件监听判断
+        this._option
+          ?.getChart()
+          ?.getEvent()
+          ?.on('click', p => {
+            if (!p.mark && operateTypeCache === IOperateType.brushClear) {
+              this._initMarkBrushState(componentIndex, '');
+              this._needInitOutState = true;
+              operateTypeCache = null;
+            }
+          });
 
         // 下面的步骤是为了标记出第一次drawing状态的
         if (operateType === IOperateType.drawing) {
@@ -166,12 +209,6 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         if (operateType === IOperateType.drawEnd) {
           this._needInitOutState = true;
           this._needEnablePickable = false;
-        }
-
-        // 需要重置初始状态的情况：点击空白处clear所有状态
-        if (operateType === IOperateType.brushClear) {
-          this._initMarkBrushState(componentIndex, '');
-          this._needInitOutState = true;
         }
 
         this._reconfigItem(operateMask, region);
@@ -255,7 +292,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         // before: 在当前brush 的 in brush element map中, 即在当前brush中
         // now: 不在当前brush中
         if (this._outOfBrushElementsMap?.[elementKey] && this._isBrushContainItem(operateMask, graphicItem)) {
-          graphicItem.addState('inBrush');
+          el.addState(IN_BRUSH_STATE);
           if (!this._inBrushElementsMap[operateMask?.name]) {
             this._inBrushElementsMap[operateMask?.name] = {};
           }
@@ -265,8 +302,8 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
           this._inBrushElementsMap?.[operateMask?.name]?.[elementKey] &&
           !this._isBrushContainItem(operateMask, graphicItem)
         ) {
-          graphicItem.removeState('inBrush');
-          graphicItem.addState('outOfBrush');
+          el.removeState(IN_BRUSH_STATE);
+          el.addState(OUT_BRUSH_STATE);
           this._outOfBrushElementsMap[elementKey] = el;
           delete this._inBrushElementsMap[operateMask.name][elementKey];
         }
@@ -303,7 +340,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
               this._linkedOutOfBrushElementsMap?.[elementKey] &&
               this._isBrushContainItem(operateMask, graphicItem, { dx: regionOffsetX, dy: regionOffsetY })
             ) {
-              graphicItem.addState('inBrush');
+              el.addState(IN_BRUSH_STATE);
               if (!this._linkedInBrushElementsMap[operateMask?.name]) {
                 this._linkedInBrushElementsMap[operateMask?.name] = {};
               }
@@ -313,8 +350,8 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
               this._linkedInBrushElementsMap?.[operateMask?.name]?.[elementKey] &&
               !this._isBrushContainItem(operateMask, graphicItem, { dx: regionOffsetX, dy: regionOffsetY })
             ) {
-              graphicItem.removeState('inBrush');
-              graphicItem.addState('outOfBrush');
+              el.removeState(IN_BRUSH_STATE);
+              el.addState(OUT_BRUSH_STATE);
               this._linkedOutOfBrushElementsMap[elementKey] = el;
             }
             graphicItem.setAttribute('pickable', !this._needEnablePickable);
@@ -459,8 +496,6 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     this._linkedInBrushElementsMap = {};
     this._linkedOutOfBrushElementsMap = {};
 
-    const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec?.inBrush);
-    const outOfBrushMarkAttr = this._transformBrushedMarkAttr(this._spec?.outOfBrush);
     this._option.getAllSeries().forEach((s: ISeries) => {
       s.getMarksWithoutRoot().forEach((mark: IMark) => {
         const grammarMark = mark.getProduct();
@@ -469,26 +504,15 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
         }
         const elements = grammarMark.elements;
         elements.forEach((el: IElement) => {
-          const graphicItem = el.getGraphicItem();
           const elementKey = mark.id + '_' + el.key;
-          // 注册状态
-          graphicItem.stateProxy = (stateName: string) => {
-            if (stateName === 'inBrush') {
-              return inBrushMarkAttr;
-            }
-            if (stateName === 'outOfBrush') {
-              return outOfBrushMarkAttr;
-            }
-            return;
-          };
-          // 所有图元置为out brush状态
-          graphicItem.addState(stateName);
+          el.removeState(IN_BRUSH_STATE);
+          el.removeState(OUT_BRUSH_STATE);
+          el.addState(stateName);
           this._outOfBrushElementsMap[elementKey] = el;
           this._linkedOutOfBrushElementsMap[elementKey] = el;
         });
       });
     });
-    this._isFirstState = false;
   }
 
   protected initEvent() {
@@ -501,7 +525,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     // do nothing
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return this._brushComponents as unknown as IGroup[];
   }
 
@@ -551,3 +575,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     super.clear();
   }
 }
+
+export const registerBrush = () => {
+  Factory.registerComponent(Brush.type, Brush);
+};

@@ -1,5 +1,7 @@
 # 仪表图
 
+[\[配置项\]](../../../option/gaugeChart)
+
 ## 简介
 
 仪表图是一种拟物化的图表，就像汽车的速度表一样，刻度表示度量，指针角度表示当前数值。
@@ -234,7 +236,7 @@ const spec = {
       stack: true,
       outerRadius: 0.78,
       innerRadius: 0.6,
-      padAngle: 0.04,
+      padAngle: 2.29,
       segment: {
         style: {
           cornerRadius: 4,

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: supply the attributeContext params for customMark's attribute callback",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

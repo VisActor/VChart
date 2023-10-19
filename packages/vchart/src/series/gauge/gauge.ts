@@ -1,8 +1,8 @@
-import { isValid } from '../../util';
+import { isValid, mergeSpec } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
+import type { IGaugeLabelSpec, IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import type { IProgressArcMark } from '../../mark/progress-arc';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -11,14 +11,13 @@ import type { Datum } from '@visactor/vgrammar-core';
 import type { Maybe } from '../../typings';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
-import { VChart } from '../../core/vchart';
 // eslint-disable-next-line no-duplicate-imports
 import { ProgressArcMark } from '../../mark/progress-arc';
 import { gaugeSeriesMark } from './constant';
 import { degreeToRadian } from '@visactor/vutils';
-
-VChart.useMark([ProgressArcMark]);
+import { Factory } from '../../core/factory';
+import { registerCircularProgressAnimation } from '../polar/progress-like';
+import type { IMark } from '../../mark/interface';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
@@ -76,7 +75,8 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     }) as IProgressArcMark;
     this._segmentMark = this._createMark(GaugeSeries.mark.segment, {
       parent: this._arcGroupMark,
-      isSeriesMark: true
+      isSeriesMark: true,
+      label: this._preprocessLabelSpec()
     }) as IProgressArcMark;
   }
 
@@ -107,9 +107,15 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         // forceShowCap 是内部属性，不在接口中暴露
         forceShowCap: true
       });
+      segmentMark.setLabelSpec(this._preprocessLabelSpec());
       this._trigger.registerMark(segmentMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(segmentMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._segmentMark && this._tooltipHelper.activeTriggerSet.mark.add(this._segmentMark);
   }
 
   private initTrackMarkStyle() {
@@ -128,15 +134,30 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   }
 
   protected _getAngleValueStartWithoutMask(datum: Datum) {
-    const angle = isValid(datum[SEGMENT_FIELD_START])
-      ? this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_START]])
-      : this._startAngle;
-    return angle + (this._spec.padAngle ?? 0) / 2;
+    const startAngle = this._getAngleValueStartWithoutPadAngle(datum);
+    const endAngle = this._getAngleValueEndWithoutPadAngle(datum);
+    return Math.min(startAngle + this._padAngle / 2, (startAngle + endAngle) / 2);
   }
 
   protected _getAngleValueEndWithoutMask(datum: Datum) {
-    const angle = this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_END]]);
-    return angle - (this._spec.padAngle ?? 0) / 2;
+    const startAngle = this._getAngleValueStartWithoutPadAngle(datum);
+    const endAngle = this._getAngleValueEndWithoutPadAngle(datum);
+    return Math.max(endAngle - this._padAngle / 2, (startAngle + endAngle) / 2);
+  }
+
+  protected _getAngleValueStartWithoutPadAngle(datum: Datum) {
+    return isValid(datum[SEGMENT_FIELD_START])
+      ? this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_START]])
+      : this._startAngle;
+  }
+
+  protected _getAngleValueEndWithoutPadAngle(datum: Datum) {
+    return this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_END]]);
+  }
+
+  protected _preprocessLabelSpec() {
+    const labelSpec: IGaugeLabelSpec = mergeSpec({ animation: this._spec.animation }, this._spec.label);
+    return labelSpec;
   }
 
   initAnimation() {
@@ -144,7 +165,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 
     this._segmentMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.circularProgress(
+        Factory.getAnimationInKey('circularProgress')?.(
           {
             startAngle: this._startAngle
           },
@@ -158,4 +179,14 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   getDefaultShapeType() {
     return 'circle';
   }
+
+  getActiveMarks(): IMark[] {
+    return [];
+  }
 }
+
+export const registerGaugeSeries = () => {
+  Factory.registerMark(ProgressArcMark.constructorType, ProgressArcMark);
+  Factory.registerSeries(GaugeSeries.type, GaugeSeries);
+  registerCircularProgressAnimation();
+};

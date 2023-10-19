@@ -8,17 +8,20 @@ import { valueInScaleRange } from '../../../util';
 import { AttributeLevel } from '../../../constant';
 import type { Datum, Maybe } from '../../../typings';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../../animation/config';
-import type { ILinearProgressAnimationParams, LinearProgressAppearPreset } from './animation';
+import {
+  registerLinearProgressAnimation,
+  type ILinearProgressAnimationParams,
+  type LinearProgressAppearPreset
+} from './animation';
 import type { ILinearProgressSeriesSpec, ILinearProgressSeriesTheme } from './interface';
 import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
-import { VChart } from '../../../core/vchart';
 import { RectMark } from '../../../mark/rect';
-import { createRect } from '@visactor/vrender';
+import { createRect } from '@visactor/vrender-core';
 import { linearProgressSeriesMark } from './constant';
-
-VChart.useMark([RectMark]);
+import { Factory } from '../../../core/factory';
+import { registerFadeInOutAnimation } from '../../../animation/config';
+import type { IMark } from '../../../mark/interface';
 
 export class LinearProgressSeries<
   T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec
@@ -120,7 +123,6 @@ export class LinearProgressSeries<
         );
       }
       this._trigger.registerMark(progressMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(progressMark);
     }
   }
 
@@ -172,7 +174,6 @@ export class LinearProgressSeries<
         );
       }
       this._trigger.registerMark(trackMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(trackMark);
     }
   }
 
@@ -250,14 +251,14 @@ export class LinearProgressSeries<
 
     this._progressMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.linearProgress(animationParams, appearPreset),
+        Factory.getAnimationInKey('linearProgress')?.(animationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.progress, this._spec)
       )
     );
 
     this._trackMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.progressBackground(),
+        Factory.getAnimationInKey('fadeInOut')?.(),
         userAnimationConfig(SeriesMarkNameEnum.track, this._spec)
       )
     );
@@ -265,5 +266,18 @@ export class LinearProgressSeries<
 
   protected initTooltip() {
     this._tooltipHelper = new LinearProgressSeriesTooltipHelper(this);
+    this._progressMark && this._tooltipHelper.activeTriggerSet.mark.add(this._progressMark);
+    this._trackMark && this._tooltipHelper.activeTriggerSet.mark.add(this._trackMark);
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._progressMark];
   }
 }
+
+export const registerLinearProgressSeries = () => {
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerSeries(LinearProgressSeries.type, LinearProgressSeries);
+  registerLinearProgressAnimation();
+  registerFadeInOutAnimation();
+};

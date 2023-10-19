@@ -34,9 +34,7 @@ import type { ISeries } from '../../../series/interface';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipResult } from '../interface';
-import type { ITooltipPanelStyle, ITooltipStyle } from './interface';
-import type { IGroup } from '@visactor/vrender';
-import { getTextAttributes } from './utils/style';
+import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isNumber, isObject, isValidNumber } from '@visactor/vutils';
@@ -91,6 +89,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   }
 
   protected _component: Tooltip;
+  protected _attributes?: TooltipAttributes | null = null;
 
   protected _chartContainer: Maybe<HTMLElement>;
   protected _compiler: Compiler;
@@ -98,12 +97,10 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   private _cacheViewSpec: ITooltipSpec | undefined;
   private _cacheActualTooltip: IToolTipActual | undefined;
 
-  protected _attributeCache?: TooltipAttributes | null = null;
-
-  protected _style: Partial<ITooltipStyle>;
-
   // tooltip 容器
   protected _container!: Maybe<IGroup | HTMLElement>;
+
+  protected _isReleased: boolean = false;
 
   /**
    * Create the tooltip handler.
@@ -151,7 +148,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     data?: TooltipData
   ) => {
     const tooltipSpec = this._component.getSpec() as ITooltipSpec;
-    if (!tooltipSpec) {
+    if (this._isReleased || !tooltipSpec) {
       return TooltipResult.failed;
     }
 
@@ -233,6 +230,10 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     data: TooltipData,
     params: TooltipHandlerParams
   ) => {
+    if (this._isReleased) {
+      return TooltipResult.failed;
+    }
+
     const event = params.event as MouseEvent;
 
     /** 用户自定义逻辑 */
@@ -298,6 +299,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
     /** 默认逻辑 */
     this._removeTooltip();
+
+    this._isReleased = true;
   }
 
   /* -----需要子类继承的方法开始----- */
@@ -665,62 +668,13 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
   // 计算 tooltip 内容区域的宽高，并缓存结果
   protected _getTooltipBoxSize(actualTooltip: IToolTipActual, changePositionOnly: boolean): IContainerSize | undefined {
-    if (!changePositionOnly || isNil(this._attributeCache)) {
-      this._attributeCache = getTooltipAttributes(actualTooltip, this._style);
+    if (!changePositionOnly || isNil(this._attributes)) {
+      const globalTheme = this._chartOption.getTheme?.();
+      this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), globalTheme);
     }
     return {
-      width: this._attributeCache?.panel?.width,
-      height: this._attributeCache?.panel?.height
-    };
-  }
-
-  protected _getStyle(): Partial<ITooltipStyle> {
-    const tooltipSpec = this._component.getSpec();
-    const { style = {}, enterable, transitionDuration } = tooltipSpec as ITooltipSpec;
-
-    const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow } = style;
-    const { backgroundColor, border, shadow, padding } = panel;
-
-    // tooltip background style
-    const panelStyle: ITooltipPanelStyle = {
-      lineWidth: border?.width ?? 0,
-      shadow: !!shadow
-    };
-    if (border?.color) {
-      panelStyle.stroke = border.color as string;
-    }
-    if (backgroundColor) {
-      panelStyle.fill = backgroundColor as string;
-    }
-
-    if (shadow) {
-      panelStyle.shadowColor = shadow.color as string;
-      panelStyle.shadowBlur = shadow.blur;
-      panelStyle.shadowOffsetX = shadow.x;
-      panelStyle.shadowOffsetY = shadow.y;
-      panelStyle.shadowSpread = shadow.spread;
-    }
-    const { radius } = border ?? {};
-    if (isValid(radius)) {
-      panelStyle.cornerRadius = [radius, radius, radius, radius];
-    }
-
-    const globalTheme = this._chartOption.getTheme?.();
-
-    return {
-      panel: panelStyle,
-      title: getTextAttributes(titleLabel, globalTheme),
-      shape: {
-        fill: true,
-        size: shape?.size ?? 8,
-        spacing: shape?.spacing ?? 6
-      },
-      key: getTextAttributes(keyLabel, globalTheme),
-      value: getTextAttributes(valueLabel, globalTheme),
-      padding,
-      spaceRow,
-      enterable,
-      transitionDuration
+      width: this._attributes?.panel?.width,
+      height: this._attributes?.panel?.height
     };
   }
 
@@ -734,7 +688,6 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
   protected _initFromSpec() {
     this._option = this._getDefaultOption();
-    this._style = this._getStyle();
     // 为方法加防抖
     this.changeTooltip = this._throttle(this._changeTooltip) as any;
     this.changeTooltipPosition = this._throttle(this._changeTooltipPosition) as any;

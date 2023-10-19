@@ -7,7 +7,7 @@ import { DataFilterBaseComponent } from '../data-filter-base-component';
 // eslint-disable-next-line no-duplicate-imports
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
-import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup } from '@visactor/vrender';
+import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
 import type { Datum } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -15,6 +15,7 @@ import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import type { IDataZoomSpec } from './interface';
 import { IFilterMode } from '../constant';
+import { Factory } from '../../../core/factory';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -345,10 +346,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     }
   }
 
-  protected _initEvent() {
-    // do nothing
-  }
-
   protected _getComponentAttrs() {
     return {
       backgroundStyle: transformToGraphic(this._spec.background?.style) as unknown as IRectGraphicAttribute,
@@ -395,7 +392,11 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     };
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];
   }
 }
+
+export const registerDataZoom = () => {
+  Factory.registerComponent(DataZoom.type, DataZoom);
+};

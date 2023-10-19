@@ -2,12 +2,22 @@
 import { PREFIX } from '../../constant/base';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
-import type { Maybe, Datum, ScaleType, VisualType } from '../../typings';
+import type { Maybe, Datum, ScaleType, VisualType, IScatterInvalidType } from '../../typings';
 import type { ISymbolMark } from '../../mark/symbol';
-import type { ITextMark } from '../../mark/text';
 import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
-import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, mergeSpec } from '../../util';
+import {
+  isNil,
+  isValid,
+  isObject,
+  isFunction,
+  isString,
+  isArray,
+  isNumber,
+  isNumeric,
+  mergeSpec,
+  couldBeValidNumber
+} from '../../util';
 import { AttributeLevel } from '../../constant';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
@@ -21,16 +31,13 @@ import {
   SCATTER_DEFAULT_SIZE_SCALE_TYPE
 } from '../../constant/scatter';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { ScatterAppearPreset } from './animation';
-import { VChart } from '../../core/vchart';
+import { registerScatterAnimation, type ScatterAppearPreset } from './animation';
 import { SymbolMark } from '../../mark/symbol';
-import { TextMark } from '../../mark/text';
 import { scatterSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
-
-VChart.useMark([SymbolMark, TextMark]);
+import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -47,6 +54,10 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   private _sizeField: string;
   private _shape: IScatterSeriesSpec['shape'];
   private _shapeField: string;
+
+  protected _invalidType: IScatterInvalidType = 'zero';
+  protected _getInvalidDefined = (datum: Datum) =>
+    couldBeValidNumber(datum[this.getStackValueField()]) && couldBeValidNumber(datum[this.getDimensionField()[0]]);
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
@@ -232,7 +243,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<ScatterAppearPreset>)?.preset;
     this._symbolMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.scatter({}, appearPreset),
+        Factory.getAnimationInKey('scatter')?.({}, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.point, this._spec)
       )
     );
@@ -290,16 +301,19 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     }
 
     this._trigger.registerMark(symbolMark);
+  }
 
-    this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
   }
 
   viewDataStatisticsUpdate(d: DataView) {
     super.viewDataStatisticsUpdate(d);
-    if (
-      this._invalidType === 'zero' ||
-      this.getViewDataStatistics()?.latestData?.[this.getStackValueField()]?.allValid
-    ) {
+    const fields = [this.getDimensionField()[0], this.getStackValueField()];
+    const allValid = fields.every(field => field && this.getViewDataStatistics()?.latestData?.[field]?.allValid);
+    if (this._invalidType === 'zero' || allValid) {
       this.setMarkStyle(this._symbolMark, { visible: true }, 'normal', AttributeLevel.Series);
     } else {
       this.setMarkStyle(this._symbolMark, { visible: this._getInvalidDefined }, 'normal', AttributeLevel.Series);
@@ -395,4 +409,14 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   getDefaultShapeType() {
     return 'circle';
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._symbolMark];
+  }
 }
+
+export const registerScatterSeries = () => {
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerSeries(ScatterSeries.type, ScatterSeries);
+  registerScatterAnimation();
+};

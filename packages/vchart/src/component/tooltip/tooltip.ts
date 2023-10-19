@@ -39,7 +39,8 @@ import { isDimensionInfo, isMarkInfo, MarkTooltipProcessor, DimensionTooltipProc
 import { hasParentElement, isString } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
-import type { IGroup } from '@visactor/vrender';
+import { Factory } from '../../core/factory';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
@@ -96,7 +97,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   changeRegions(regions: IRegion[]) {
     /* do nothing */
   }
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [];
   }
   protected _registerEvent() {
@@ -123,13 +124,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   }
 
   release() {
-    this.event.emit(ChartEvent.tooltipHide, {
-      tooltip: this
-    } as unknown as TooltipEventParams);
-    this.event.emit(ChartEvent.tooltipRelease, {
-      tooltip: this
-    } as unknown as TooltipEventParams);
-
     super.release();
 
     this._eventList.forEach(({ eventType, handler }) => {
@@ -138,6 +132,16 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     this._eventList = [];
     this.tooltipHandler?.release?.();
     this._isTooltipShown = false;
+  }
+
+  beforeRelease() {
+    // 触发事件
+    this.event.emit(ChartEvent.tooltipHide, {
+      tooltip: this
+    } as unknown as TooltipEventParams);
+    this.event.emit(ChartEvent.tooltipRelease, {
+      tooltip: this
+    } as unknown as TooltipEventParams);
   }
 
   protected _initHandler() {
@@ -536,3 +540,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     return this._spec.visible === true;
   }
 }
+
+export const registerTooltip = () => {
+  Factory.registerComponent(Tooltip.type, Tooltip);
+};

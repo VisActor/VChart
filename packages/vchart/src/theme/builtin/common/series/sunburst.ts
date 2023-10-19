@@ -26,8 +26,7 @@ export const sunburst: ISunburstSeriesTheme = {
       cursor: 'pointer',
       fill: { type: 'palette', key: 'primaryFontColor' },
       fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily
+      lineHeight: THEME_CONSTANTS.l5LineHeight
     }
   }
 };

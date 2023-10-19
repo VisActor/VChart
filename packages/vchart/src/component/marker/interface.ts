@@ -1,5 +1,5 @@
 import type { IPadding, IPointLike } from '@visactor/vutils';
-import type { SymbolType } from '@visactor/vrender';
+import type { SymbolType } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
@@ -23,7 +23,7 @@ export type IMarkerPositionsSpec = {
   positions: IPointLike[];
 };
 
-export type IMarkerLabelSpec = {
+export type IMarkerLabelWithoutRefSpec = {
   visible?: boolean;
   /**
    * label整体 - 是否自动旋转
@@ -86,7 +86,17 @@ export type IMarkerLabelSpec = {
    * @since 1.4.0
    */
   confine?: boolean;
-} & IMarkerRef;
+  /**
+   * 水平方向的偏移
+   */
+  dx?: number;
+  /**
+   * 垂直方向的偏移
+   */
+  dy?: number;
+};
+
+export type IMarkerLabelSpec = IMarkerLabelWithoutRefSpec & IMarkerRef;
 
 export interface IMarkerRef {
   /**

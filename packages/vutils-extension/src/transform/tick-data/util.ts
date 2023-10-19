@@ -2,7 +2,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { AABBBounds, degreeToRadian, polarToCartesian } from '@visactor/vutils';
-import type { IGraphic, TextAlignType, TextBaselineType } from '@visactor/vrender';
+import type { IGraphic, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
 import { initTextMeasure } from '../../utils/text';
 import { angleLabelOrientAttribute } from '../../utils/polar';
 import type { ICartesianTickDataOpt, IOrientType, IPolarTickDataOpt, ITickData } from './interface';

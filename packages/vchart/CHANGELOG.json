@@ -2,6 +2,87 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.4.3",
+      "tag": "@visactor/vchart_v1.4.3",
+      "date": "Tue, 17 Oct 2023 04:00:20 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: brush state proxy to state spec"
+          },
+          {
+            "comment": "fix: fix when the legend item only has stroke it cannot be consistent with the graphic color, details in #1147\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.4.2",
+      "tag": "@visactor/vchart_v1.4.2",
+      "date": "Thu, 12 Oct 2023 11:39:35 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: gauge series supports label component, related #1039"
+          },
+          {
+            "comment": "feat: add static tools in `VChart.Utils`"
+          },
+          {
+            "comment": "fix: `tooltipRelease` event may be invalid when being released by VTable"
+          },
+          {
+            "comment": "feat: supports afterResize and afterRender events\n\n"
+          },
+          {
+            "comment": "fix(brush): select error when setting brush. fix #1129"
+          },
+          {
+            "comment": "fix: optimize the default performance of the long tooltip title, related #688"
+          },
+          {
+            "comment": "feat: add new config `autoWidth` to the tooltip label style, related #688"
+          },
+          {
+            "comment": "fix: if `markLine` is empty like `{}` or `[]`, it should not create marker component"
+          },
+          {
+            "comment": "fix: fix the issue when use `positions` to create marker component, fixed #1084"
+          },
+          {
+            "comment": "fix(scrollbar): auto visible with linear axis. fix #1118"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.4.1",
+      "tag": "@visactor/vchart_v1.4.1",
+      "date": "Wed, 27 Sep 2023 07:53:38 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix updateViewBox api will fail after resize\n\n"
+          },
+          {
+            "comment": "feat: optimize updateSpec to avoid additional theme updates\n\n"
+          },
+          {
+            "comment": "fix(datazoom): fix bounds error when there is no preview chart. fix #1050"
+          },
+          {
+            "comment": "fix: the rose chart's first sector's startAngle should start from polar coordinate's startAngle, fix #900"
+          },
+          {
+            "comment": "fix: fix `theme.fontFamily` can not work"
+          },
+          {
+            "comment": "fix: fix the problem that updateFullData cannot update data in series\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.4.0",
       "tag": "@visactor/vchart_v1.4.0",
       "date": "Mon, 25 Sep 2023 10:49:42 GMT",

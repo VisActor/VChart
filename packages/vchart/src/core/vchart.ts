@@ -22,7 +22,7 @@ import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
-import type { Stage } from '@visactor/vrender';
+import type { Stage } from '@visactor/vrender-core';
 import {
   isString,
   isValid,
@@ -46,7 +46,7 @@ import { EventDispatcher } from '../event/event-dispatcher';
 import type { GeoSourceType } from '../typings/geo';
 import type { GeoSourceOption } from '../series/map/geo-source';
 // eslint-disable-next-line no-duplicate-imports
-import { registerMapSource, getMapSource, unregisterMapSource } from '../series/map/geo-source';
+import { getMapSource } from '../series/map/geo-source';
 import type { IMark, MarkConstructor } from '../mark/interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
 import { dataToDataView } from '../data/initialize';
@@ -82,46 +82,68 @@ import {
   Logger,
   merge as mergeOrigin,
   isFunction,
-  isObject
+  LoggerLevel,
+  isEqual
 } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
 import { calculateChartSize, mergeUpdateResult } from '../chart/util';
+import { Region } from '../region/region';
+import { Layout } from '../layout';
+import { GroupMark } from '../mark';
+import { registerVGrammarAnimation } from '../animation/config';
+import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
+import { VCHART_UTILS } from './util';
+
 export class VChart implements IVChart {
   readonly id = createID();
 
   /**
-   * 注册图表
+   *  按需注册图表和组件
+   * @param comps
+   * @since 1.5.1
+   */
+  static useRegisters(comps: (() => void)[]) {
+    comps.forEach((fn: () => void) => {
+      fn();
+    });
+  }
+
+  /**
+   * 注册自定义图表
    * @param charts 图表类
+   * @description 若用于按需加载，1.5.1版本后，请统一使用 `useRegisters` API，例如:`VChart.useRegisters([registerLineChart])`。
    */
   static useChart(charts: IChartConstructor[]) {
     charts.forEach(c => Factory.registerChart(c.type, c));
   }
   /**
-   * 注册系列
+   * 注册自定义系列
    * @param series 系列类
+   * @description  若用于按需加载，1.5.1版本后，统一使用 `useRegisters` API，例如 `VChart.useRegisters([registerLineSeries])`。
    */
   static useSeries(series: ISeriesConstructor[]) {
     series.forEach(s => Factory.registerSeries(s.type, s));
   }
   /**
-   * 注册组件
+   * 注册自定义组件
    * @param components 组件类
+   * @description 若用于按需加载，1.5.1版本后，统一使用 `useRegisters` API，例如 `VChart.useRegisters([registerCartesianLinearAxis])`。
    */
   static useComponent(components: IComponentConstructor[]) {
     components.forEach(c => Factory.registerComponent(c.type, c));
   }
   /**
-   * 注册 Mark
+   * 注册自定义 Mark
    * @param marks Mark 图元类
    */
   static useMark(marks: MarkConstructor[]) {
     marks.forEach(m => Factory.registerMark(m.constructorType ?? m.type, m));
   }
   /**
-   * 注册布局
+   * 注册自定义布局
    * @param layouts 布局类
    */
   static useLayout(layouts: ILayoutConstructor[]) {
@@ -143,7 +165,8 @@ export class VChart implements IVChart {
    * @param option 地图数据配置
    */
   static registerMap(key: string, source: GeoSourceType, option?: GeoSourceOption) {
-    registerMapSource(key, source, option);
+    const impl = Factory.getImplementInKey('registerMap');
+    impl && impl(key, source, option);
   }
 
   /**
@@ -151,7 +174,8 @@ export class VChart implements IVChart {
    * @param key 地图名称
    */
   static unregisterMap(key: string) {
-    unregisterMapSource(key);
+    const impl = Factory.getImplementInKey('unregisterMap');
+    impl && impl(key);
   }
 
   /**
@@ -185,6 +209,9 @@ export class VChart implements IVChart {
   static globalConfig: IGlobalConfig = {
     uniqueTooltip: true
   };
+
+  /** 工具方法 */
+  static readonly Utils = VCHART_UTILS;
 
   protected _spec: any;
 
@@ -384,8 +411,8 @@ export class VChart implements IVChart {
   private _onResize = debounce((...args: any[]) => {
     const { width, height } = this._getCurSize();
     if (this._curSize.width !== width || this._curSize.height !== height) {
-      this.resize(width, height);
       this._curSize = { width, height };
+      this.resize(width, height);
     }
   }, 100);
 
@@ -743,8 +770,10 @@ export class VChart implements IVChart {
       spec = specTransform(spec) as any;
       const lastSpec = this._spec;
       this._spec = spec;
-      this._updateCurrentTheme();
-      this._chart?.setCurrentTheme(this._currentTheme, true);
+      if (!isEqual(lastSpec.theme, spec.theme)) {
+        this._updateCurrentTheme();
+        this._chart?.setCurrentTheme(this._currentTheme, false);
+      }
       const reSize = this._updateChartConfiguration(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
       return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
@@ -918,7 +947,8 @@ export class VChart implements IVChart {
     this._chart.onResize(width, height);
     this._option.performanceHook?.afterResizeWithUpdate?.();
     await this._compiler.resize?.(width, height);
-
+    // emit resize event
+    this._event.emit(ChartEvent.afterResize, { chart: this._chart });
     return this as unknown as IVChart;
   }
 
@@ -952,7 +982,11 @@ export class VChart implements IVChart {
   on(eType: EventType, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery | EventCallback<EventParams>, handler?: EventCallback<EventParams>): void {
-    this._userEvents.push({ eType, query, handler });
+    this._userEvents.push({
+      eType,
+      query: typeof query === 'function' ? null : query,
+      handler: typeof query === 'function' ? query : handler
+    });
     this._event?.on(eType as any, query as any, handler as any);
   }
   off(eType: string, handler?: EventCallback<EventParams>): void {
@@ -1566,3 +1600,20 @@ export class VChart implements IVChart {
     );
   }
 }
+
+export const registerVChartCore = () => {
+  // install region module
+  Factory.registerRegion('region', Region);
+  // install layout module
+  Factory.registerLayout('base', Layout);
+  // install essential marks
+  Factory.registerMark(GroupMark.type, GroupMark);
+  // install essential vgrammar transform
+  View.useRegisters([registerFilterTransform, registerMapTransform]);
+  // install animation
+  registerVGrammarAnimation();
+  // set default logger level to Level.error
+  Logger.getInstance(LoggerLevel.Error);
+};
+
+registerVChartCore();

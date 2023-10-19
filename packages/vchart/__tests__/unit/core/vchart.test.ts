@@ -1,4 +1,4 @@
-import type { Group, IArc, Text } from '@visactor/vrender';
+import type { Group, IArc, Text } from '@visactor/vrender-core';
 import type { IBarChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
 import { createDiv, createCanvas, removeDom } from '../../util/dom';
@@ -275,8 +275,8 @@ describe('VChart', () => {
 
       const rootGroup = vchart.getStage().defaultLayer.find(node => node.name === 'root', false) as unknown as Group;
 
-      const leftAxisLabelGroup = rootGroup.children.find(child =>
-        child.name?.includes('axis-left')
+      const leftAxisLabelGroup = rootGroup.children.find(
+        child => child.name?.includes('axis-left')
       ) as unknown as Group;
       const labels = leftAxisLabelGroup.find(
         node => node.name === 'axis-label-container-layer-0',
@@ -579,7 +579,7 @@ describe('VChart', () => {
       expect(value1).toBe(mark.attribute.x);
 
       const value2 = vchart.convertValueToPosition(0, { axisId: 'left' });
-      expect(value2).toBe(400);
+      expect(value2).toBe(394);
     });
 
     it('should convert correctly in funnel chart', () => {
@@ -694,7 +694,7 @@ describe('VChart', () => {
         .getVGrammarView()
         .getMarksByType('arc')[0]
         .elements.filter(ele => ele.groupKey === 'sodium')[0]
-        .getGraphicItem() as IArc;
+        .getGraphicItem() as unknown as any;
 
       const markCoord = polarToCartesian(
         { x: mark.attribute.x as number, y: mark.attribute.y as number },

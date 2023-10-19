@@ -1,4 +1,5 @@
 # 组合图
+[\[配置项\]](../../../option/commonChart)
 
 ## 简介
 
@@ -6,7 +7,7 @@
 
 组合图的优势在于可以同时呈现来自多个数据集的信息，从而更全面地展示整体趋势和方向。通过将不同的数据类型、单位和度量组合在一起，可以为复杂的数据提供更深入和全面的洞察力。组合图广泛用于商业、科学、医疗等各种领域，以有效地分析和比较各种复杂数据。
 
-![image](https://temp.domain/obj/bit-cloud/45df54929d214e7453e228f1d.png)
+![image](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/45df54929d214e7453e228f1d.png)
 
 ## 图表构成
 

@@ -1,3 +1,4 @@
+import { Factory } from '../../core/factory';
 import { Direction } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import type { Datum, DirectionType } from '../../typings';
@@ -76,3 +77,25 @@ export function barPresetAnimation(
       return barGrowIn(params);
   }
 }
+
+export const registerBarAnimation = () => {
+  Factory.registerAnimation('bar', (params: IBarAnimationParams, preset: BarAppearPreset) => {
+    return {
+      appear: barPresetAnimation(params, preset),
+      enter: barGrowIn(params, false),
+      exit: barGrowOut(params, false),
+      disappear: barGrowOut(params)
+    };
+  });
+};
+
+export const registerBar3dAnimation = () => {
+  Factory.registerAnimation('bar3d', (params: IBarAnimationParams, preset: BarAppearPreset) => {
+    return {
+      appear: barPresetAnimation(params, preset),
+      enter: barGrowIn(params, false),
+      exit: barGrowOut(params, false),
+      disappear: barGrowOut(params)
+    };
+  });
+};

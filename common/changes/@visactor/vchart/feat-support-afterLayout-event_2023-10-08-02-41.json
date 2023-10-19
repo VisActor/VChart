@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: provide afterLayout event to support users to modify layout effects\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}

@@ -1,11 +1,10 @@
-import { BarSeries } from '../../series/bar/bar';
+import { BarSeries, registerBarSeries } from '../../series/bar/bar';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
-import { VChart } from '../../core/vchart';
 import type { IBarChartSpec } from './interface';
-VChart.useSeries([BarSeries]);
+import { Factory } from '../../core/factory';
 
 export class BarChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.bar;
@@ -29,3 +28,8 @@ export class BarChart extends CartesianChart {
     setDefaultCrosshairForCartesianChart(spec);
   }
 }
+
+export const registerBarChart = () => {
+  registerBarSeries();
+  Factory.registerChart(BarChart.type, BarChart);
+};

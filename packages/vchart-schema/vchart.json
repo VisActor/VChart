@@ -5028,7 +5028,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
@@ -5043,31 +5043,7 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5075,11 +5051,35 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5091,13 +5091,13 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
           "description": "style格式转换"
         }
       ],
       "description": "style格式转换"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -5112,31 +5112,11 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5144,11 +5124,35 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>_1",
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5160,11 +5164,7 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
           "description": "style格式转换"
         }
       ],
@@ -19524,6 +19524,11 @@
           ],
           "description": "同时设置轴的 paddingInner 和 paddingOuter\n**因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 bandPadding 配置**"
         },
+        "bandPosition": {
+          "default": 0.5,
+          "description": "`bandPosition` 是一个可选参数，用于指定数据点在 band 轴上的位置。它的含义是确定数据点在 band 轴上的位置偏移量，相对于 band 轴的起始位置。\n`bandPosition` 的取值范围是从 0 到 1，其中 0 表示数据点位于 band 轴的起始位置，1 表示数据点位于 band 轴的结束位置。",
+          "type": "number"
+        },
         "domain": {
           "description": "配置离散轴的数值范围",
           "items": {
@@ -24416,10 +24421,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24430,10 +24435,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24444,10 +24449,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24467,10 +24472,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24911,10 +24916,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24925,10 +24930,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24939,10 +24944,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24962,10 +24967,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -25807,37 +25812,31 @@
                 "$ref": "#/definitions/IBar3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWaterfallSeriesSpec"
+                "$ref": "#/definitions/IBoxPlotSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IFunnelSeriesSpec"
+                "$ref": "#/definitions/ITreemapSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IFunnel3dSeriesSpec"
+                "$ref": "#/definitions/ISunburstSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IAreaSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ICircularProgressSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IDotSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IGaugePointerSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IGaugeSeriesSpec"
+                "$ref": "#/definitions/ICirclePackingSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ILineSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ILinearProgressSeriesSpec"
+                "$ref": "#/definitions/IRangeColumnChartSpec"
               },
               {
-                "$ref": "#/definitions/ILinkSeriesSpec"
+                "$ref": "#/definitions/IAreaSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IRangeAreaChartSpec"
+              },
+              {
+                "$ref": "#/definitions/IDotSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IMapSeriesSpec"
@@ -25849,7 +25848,13 @@
                 "$ref": "#/definitions/IPie3dSeriesSpec"
               },
               {
+                "$ref": "#/definitions/ILinkSeriesSpec"
+              },
+              {
                 "$ref": "#/definitions/IRadarSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IRoseSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IScatterSeriesSpec"
@@ -25861,31 +25866,31 @@
                 "$ref": "#/definitions/IWordCloud3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ITreemapSeriesSpec"
+                "$ref": "#/definitions/IGaugePointerSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ISunburstSeriesSpec"
+                "$ref": "#/definitions/IGaugeSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IBoxPlotSeriesSpec"
+                "$ref": "#/definitions/IFunnelSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ICirclePackingSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRangeColumnChartSpec"
-              },
-              {
-                "$ref": "#/definitions/IRangeAreaChartSpec"
-              },
-              {
-                "$ref": "#/definitions/IRoseSeriesSpec"
+                "$ref": "#/definitions/IFunnel3dSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IHeatmapSeriesSpec"
               },
               {
+                "$ref": "#/definitions/ICircularProgressSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ILinearProgressSeriesSpec"
+              },
+              {
                 "$ref": "#/definitions/ISankeySeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IWaterfallSeriesSpec"
               }
             ]
           },
@@ -26455,7 +26460,7 @@
         "setLineDash": {
           "typeof": "function"
         },
-        "setShadowStyle": {
+        "setShadowBlendStyle": {
           "typeof": "function"
         },
         "setStrokeStyle": {
@@ -27359,11 +27364,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -28291,6 +28296,9 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "disableTriggerEvent": {
+          "type": "boolean"
+        },
         "display": {
           "enum": [
             "flex",
@@ -28336,6 +28344,41 @@
             "wrap"
           ],
           "type": "string"
+        },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
         },
         "height": {
           "anyOf": [
@@ -28527,6 +28570,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "padding": {
           "anyOf": [
@@ -29391,11 +29443,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -31007,10 +31059,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -31021,10 +31073,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -31035,10 +31087,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -31058,10 +31110,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -31550,10 +31602,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -31564,10 +31616,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -31578,10 +31630,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -31601,10 +31653,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -31914,7 +31966,7 @@
           "description": "图钉背景样式"
         },
         "pointer": {
-          "$ref": "#/definitions/Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>",
+          "$ref": "#/definitions/Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>",
           "description": "指针样式"
         },
         "radius": {
@@ -32141,6 +32193,10 @@
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
           "description": "null，undefined等非法数据点连接方式。"
         },
+        "label": {
+          "$ref": "#/definitions/ILabelSpec",
+          "description": "标签样式"
+        },
         "morph": {
           "$ref": "#/definitions/IMorphSeriesSpec",
           "description": "morph 动画配置"
@@ -32323,6 +32379,10 @@
         },
         "innerRadius": {
           "type": "number"
+        },
+        "label": {
+          "$ref": "#/definitions/ILabelSpec",
+          "description": "标签样式"
         },
         "outerRadius": {
           "type": "number"
@@ -37914,6 +37974,9 @@
         "layer": {
           "$ref": "#/definitions/ILayer"
         },
+        "layerMode": {
+          "$ref": "#/definitions/LayerMode"
+        },
         "main": {
           "type": "boolean"
         },
@@ -38034,6 +38097,9 @@
         },
         "render": {
           "typeof": "function"
+        },
+        "renderCount": {
+          "type": "number"
         },
         "resize": {
           "typeof": "function"
@@ -38167,9 +38233,6 @@
         "viewWidth": {
           "type": "number"
         },
-        "virtual": {
-          "type": "boolean"
-        },
         "width": {
           "type": "number"
         }
@@ -38253,6 +38316,7 @@
         "isParentOf",
         "isValid",
         "lastChild",
+        "layerMode",
         "main",
         "off",
         "offscreen",
@@ -38273,6 +38337,7 @@
         "removeEventListener",
         "removeState",
         "render",
+        "renderCount",
         "resize",
         "resizeView",
         "rotate",
@@ -38308,7 +38373,6 @@
         "valid",
         "viewHeight",
         "viewWidth",
-        "virtual",
         "width"
       ],
       "type": "object"
@@ -38324,6 +38388,9 @@
         "layerCount": {
           "typeof": "function"
         },
+        "prepareStageLayer": {
+          "typeof": "function"
+        },
         "releaseLayer": {
           "typeof": "function"
         },
@@ -38335,6 +38402,7 @@
         "createLayer",
         "getStageLayer",
         "layerCount",
+        "prepareStageLayer",
         "releaseLayer",
         "restLayerCount"
       ],
@@ -40898,6 +40966,12 @@
           "$ref": "#/definitions/IBrushSpec",
           "description": "框选配置"
         },
+        "centroidProperty": {
+          "default": "undefined",
+          "description": "中心坐标映射字段",
+          "since": "1.5.1",
+          "type": "string"
+        },
         "color": {
           "anyOf": [
             {
@@ -41313,6 +41387,12 @@
           "$ref": "#/definitions/IMarkSpec<Omit<IPathMarkSpec,\"smoothScale\">>",
           "description": "图元配置"
         },
+        "centroidProperty": {
+          "default": "undefined",
+          "description": "中心坐标映射字段",
+          "since": "1.5.1",
+          "type": "string"
+        },
         "data": {
           "$ref": "#/definitions/IDataType",
           "description": "系列可以配置自身的数据，也可以从chart.data中获取数据"
@@ -41563,9 +41643,6 @@
             },
             {
               "typeof": "function"
-            },
-            {
-              "$ref": "#/definitions/IMarkerRef"
             }
           ]
         }
@@ -45658,6 +45735,41 @@
           ],
           "type": "string"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -45716,6 +45828,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "padding": {
           "$ref": "#/definitions/Padding"
@@ -51184,7 +51305,23 @@
     "IRenderServiceDrawParams": {
       "properties": {
         "clear": {
-          "$ref": "#/definitions/IColor"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
+              "type": [
+                "string",
+                "boolean"
+              ]
+            }
+          ]
         },
         "context": {
           "$ref": "#/definitions/IContext2d"
@@ -58700,6 +58837,11 @@
     },
     "ITooltipTextTheme": {
       "properties": {
+        "autoWidth": {
+          "description": "是否开启自动宽度。效果分为以下几种情况：\n- tooltip 标题：`autoWidth` 默认为 `false`。如果配置为 `true`，则 tooltip 标题会保持和 tooltip 内容一致的宽度\n- tooltip key 标签：`autoWidth` 不适用\n- tooltip value 标签：`autoWidth` 默认为 `true`。如果配置为 `true`，则 tooltip value 标签会自动占满 tooltip 整体宽度的剩余部分",
+          "since": "1.4.2",
+          "type": "boolean"
+        },
         "fill": {
           "anyOf": [
             {
@@ -58770,7 +58912,7 @@
     "ITooltipTheme": {
       "properties": {
         "keyLabel": {
-          "$ref": "#/definitions/ITooltipTextTheme",
+          "$ref": "#/definitions/Omit<ITooltipTextTheme,\"autoWidth\">",
           "description": "tooltip内容，key字段"
         },
         "offset": {
@@ -64416,6 +64558,14 @@
       ],
       "type": "string"
     },
+    "LayerMode": {
+      "enum": [
+        "dynamic",
+        "static",
+        "virtual"
+      ],
+      "type": "string"
+    },
     "LineStrokeCap": {
       "enum": [
         "butt",
@@ -64492,7 +64642,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         },
         "size": {
@@ -64500,14 +64650,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13063",
+        "__@toStringTag@13373",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         },
         "size": {
@@ -64515,14 +64665,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13063",
+        "__@toStringTag@13373",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         },
         "size": {
@@ -64530,14 +64680,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13063",
+        "__@toStringTag@13373",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         },
         "size": {
@@ -64545,14 +64695,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13063",
+        "__@toStringTag@13373",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         },
         "size": {
@@ -64560,14 +64710,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13063",
+        "__@toStringTag@13373",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         },
         "size": {
@@ -64575,14 +64725,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13063",
+        "__@toStringTag@13373",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         },
         "size": {
@@ -64590,14 +64740,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13063",
+        "__@toStringTag@13373",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         },
         "size": {
@@ -64605,14 +64755,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13063",
+        "__@toStringTag@13373",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         },
         "size": {
@@ -64620,7 +64770,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13063",
+        "__@toStringTag@13373",
         "size"
       ],
       "type": "object"
@@ -65111,6 +65261,9 @@
           },
           "type": "array"
         },
+        "disableTriggerEvent": {
+          "type": "boolean"
+        },
         "display": {
           "enum": [
             "flex",
@@ -65148,6 +65301,41 @@
             "wrap"
           ],
           "type": "string"
+        },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
         },
         "height": {
           "type": "number"
@@ -65215,6 +65403,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "padding": {
           "$ref": "#/definitions/Padding"
@@ -66056,10 +66253,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -66070,10 +66267,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -66084,10 +66281,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -66107,10 +66304,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -67255,6 +67452,10 @@
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
           "description": "null，undefined等非法数据点连接方式。"
         },
+        "label": {
+          "$ref": "#/definitions/ILabelSpec",
+          "description": "标签样式"
+        },
         "morph": {
           "$ref": "#/definitions/IMorphSeriesSpec",
           "description": "morph 动画配置"
@@ -67617,6 +67818,41 @@
           ],
           "type": "string"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -67666,6 +67902,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "path": {
           "items": {
@@ -68623,10 +68868,79 @@
       },
       "type": "object"
     },
+    "Omit<ITooltipTextTheme,\"autoWidth\">": {
+      "properties": {
+        "fill": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IColorKey"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "字体颜色"
+        },
+        "fontColor": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IColorKey"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "fontFamily": {
+          "description": "字体",
+          "type": "string"
+        },
+        "fontSize": {
+          "description": "字体大小",
+          "type": "number"
+        },
+        "fontWeight": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "字重"
+        },
+        "lineHeight": {
+          "description": "行高",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "maxWidth": {
+          "description": "最大宽度",
+          "type": "number"
+        },
+        "multiLine": {
+          "description": "是否支持换行",
+          "type": "boolean"
+        },
+        "spacing": {
+          "description": "与相邻元素的水平间距",
+          "type": "number"
+        },
+        "textAlign": {
+          "$ref": "#/definitions/TextAlign",
+          "description": "对齐方式"
+        },
+        "textBaseline": {
+          "$ref": "#/definitions/TextBaseLine",
+          "description": "字体基线"
+        },
+        "wordBreak": {
+          "$ref": "#/definitions/RichTextWordBreak",
+          "description": "换行模式，默认为'break-word'"
+        }
+      },
+      "type": "object"
+    },
     "Omit<ITooltipTheme,\"offset\">": {
       "properties": {
         "keyLabel": {
-          "$ref": "#/definitions/ITooltipTextTheme",
+          "$ref": "#/definitions/Omit<ITooltipTextTheme,\"autoWidth\">",
           "description": "tooltip内容，key字段"
         },
         "panel": {
@@ -68942,6 +69256,9 @@
         "defaultCurrent": {
           "type": "number"
         },
+        "disableTriggerEvent": {
+          "type": "boolean"
+        },
         "display": {
           "enum": [
             "flex",
@@ -68979,6 +69296,41 @@
             "wrap"
           ],
           "type": "string"
+        },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
         },
         "height": {
           "type": "number"
@@ -69029,6 +69381,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "padding": {
           "$ref": "#/definitions/Padding"
@@ -69627,6 +69988,41 @@
         "forceShowCap": {
           "type": "boolean"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -69669,6 +70065,15 @@
         },
         "outerRadius": {
           "type": "number"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "padAngle": {
           "type": "number"
@@ -69983,6 +70388,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -70019,6 +70459,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -70379,6 +70828,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -70415,6 +70899,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -70716,6 +71209,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -70755,6 +71283,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "path": {
           "anyOf": [
@@ -71047,6 +71584,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -71083,6 +71655,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -71418,6 +71999,41 @@
           ],
           "type": "string"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -71467,6 +72083,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "path": {
           "items": {
@@ -71771,6 +72396,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -71823,6 +72483,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -72627,6 +73296,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -72663,6 +73367,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -72958,71 +73671,6 @@
       },
       "type": "object"
     },
-    "Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>": {
-      "properties": {
-        "center": {
-          "description": "中心点坐标（0~1）",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "height": {
-          "description": "指针长度比例（0~1）（为空则挂载 radius）",
-          "type": "number"
-        },
-        "innerPadding": {
-          "description": "指针靠近圆心的一端离圆心的距离",
-          "type": "number"
-        },
-        "interactive": {
-          "description": "可交互的开关",
-          "type": "boolean"
-        },
-        "outerPadding": {
-          "description": "指针靠近边缘的一端离边缘的距离",
-          "type": "number"
-        },
-        "state": {
-          "$ref": "#/definitions/Record<string,IPathMarkSpec|IRectMarkSpec>",
-          "description": "不同状态下的样式配置"
-        },
-        "style": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IPathMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IRectMarkSpec"
-            }
-          ],
-          "description": "默认样式设置"
-        },
-        "type": {
-          "enum": [
-            "path",
-            "rect"
-          ],
-          "type": "string"
-        },
-        "visible": {
-          "description": "mark 层 是否显示配置",
-          "type": "boolean"
-        },
-        "width": {
-          "description": "指针宽度比例（0~1）",
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
     "Partial<IMarkTheme<IPolygonMarkSpec>>": {
       "properties": {
         "interactive": {
@@ -73124,6 +73772,71 @@
         "visible": {
           "description": "mark 层 是否显示配置",
           "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>": {
+      "properties": {
+        "center": {
+          "description": "中心点坐标（0~1）",
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "height": {
+          "description": "指针长度比例（0~1）（为空则挂载 radius）",
+          "type": "number"
+        },
+        "innerPadding": {
+          "description": "指针靠近圆心的一端离圆心的距离",
+          "type": "number"
+        },
+        "interactive": {
+          "description": "可交互的开关",
+          "type": "boolean"
+        },
+        "outerPadding": {
+          "description": "指针靠近边缘的一端离边缘的距离",
+          "type": "number"
+        },
+        "state": {
+          "$ref": "#/definitions/Record<string,IRectMarkSpec|IPathMarkSpec>",
+          "description": "不同状态下的样式配置"
+        },
+        "style": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRectMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IPathMarkSpec"
+            }
+          ],
+          "description": "默认样式设置"
+        },
+        "type": {
+          "enum": [
+            "path",
+            "rect"
+          ],
+          "type": "string"
+        },
+        "visible": {
+          "description": "mark 层 是否显示配置",
+          "type": "boolean"
+        },
+        "width": {
+          "description": "指针宽度比例（0~1）",
+          "type": "number"
         }
       },
       "type": "object"
@@ -73478,6 +74191,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -73514,6 +74262,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "path": {
           "anyOf": [
@@ -73819,6 +74576,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -73855,6 +74647,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -74396,6 +75197,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -74438,6 +75274,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -74733,6 +75578,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -74772,6 +75652,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -75211,6 +76100,9 @@
         "enableLayout": {
           "type": "boolean"
         },
+        "enableScroll": {
+          "type": "boolean"
+        },
         "height": {
           "type": "number"
         },
@@ -75398,6 +76290,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -75434,6 +76361,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -75767,6 +76703,41 @@
             "number"
           ]
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -75815,6 +76786,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -76683,6 +77663,41 @@
             "number"
           ]
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -76731,6 +77746,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -77064,6 +78088,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -77103,6 +78162,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -77383,6 +78451,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -77419,6 +78522,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -78848,34 +79960,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13063"
+        "__@toStringTag@13373"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13063"
+        "__@toStringTag@13373"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13063": {
+        "__@toStringTag@13373": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13063"
+        "__@toStringTag@13373"
       ],
       "type": "object"
     },
@@ -78885,10 +79997,10 @@
     "Record<string,ConvertToMarkStyleSpec<ILineMarkSpec>|IMarkStateSpec<ILineMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IPathMarkSpec|IRectMarkSpec|IArcMarkSpec|IProgressArcMarkSpec|IImageMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IGroupMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>": {
@@ -78915,9 +80027,6 @@
     "Record<string,IPathMarkSpec>": {
       "type": "object"
     },
-    "Record<string,IPathMarkSpec|IRectMarkSpec>": {
-      "type": "object"
-    },
     "Record<string,IPolygonMarkSpec>": {
       "type": "object"
     },
@@ -78931,6 +80040,9 @@
       "type": "object"
     },
     "Record<string,IRectMarkSpec>": {
+      "type": "object"
+    },
+    "Record<string,IRectMarkSpec|IPathMarkSpec>": {
       "type": "object"
     },
     "Record<string,IRuleMarkSpec>": {
@@ -79140,6 +80252,41 @@
         "forceShowCap": {
           "type": "boolean"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -79182,6 +80329,15 @@
         },
         "outerRadius": {
           "type": "number"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "padAngle": {
           "type": "number"
@@ -79341,6 +80497,8 @@
         "fill",
         "fillOpacity",
         "forceShowCap",
+        "globalCompositeOperation",
+        "globalZIndex",
         "html",
         "innerBorder",
         "innerRadius",
@@ -79355,6 +80513,7 @@
         "opacity",
         "outerBorder",
         "outerRadius",
+        "overflow",
         "padAngle",
         "padRadius",
         "pickMode",
@@ -79565,6 +80724,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -79601,6 +80795,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -79766,6 +80969,8 @@
         "dz",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "html",
         "innerBorder",
         "keepDirIn3d",
@@ -79778,6 +80983,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "pickMode",
         "pickable",
         "points",
@@ -79964,6 +81170,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -80000,6 +81241,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -80153,6 +81403,8 @@
         "endAngle",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "html",
         "innerBorder",
         "keepDirIn3d",
@@ -80165,6 +81417,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "pickMode",
         "pickable",
         "postMatrix",
@@ -80364,6 +81617,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -80403,6 +81691,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "path": {
           "anyOf": [
@@ -80564,6 +81861,8 @@
         "dz",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "height",
         "html",
         "innerBorder",
@@ -80577,6 +81876,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "path",
         "pickMode",
         "pickable",
@@ -80816,6 +82116,41 @@
           ],
           "type": "string"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -80865,6 +82200,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "path": {
           "items": {
@@ -81030,6 +82374,8 @@
         "fillOpacity",
         "flexDirection",
         "flexWrap",
+        "globalCompositeOperation",
+        "globalZIndex",
         "height",
         "html",
         "innerBorder",
@@ -81044,6 +82390,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "path",
         "pickMode",
         "pickable",
@@ -81241,6 +82588,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -81293,6 +82675,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -81449,6 +82840,8 @@
         "dz",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "height",
         "html",
         "image",
@@ -81463,6 +82856,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "pickMode",
         "pickable",
         "postMatrix",
@@ -81676,6 +83070,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -81712,6 +83141,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -81878,6 +83316,8 @@
         "dz",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "html",
         "innerBorder",
         "keepDirIn3d",
@@ -81890,6 +83330,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "pickMode",
         "pickable",
         "points",
@@ -82076,6 +83517,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -82112,6 +83588,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "path": {
           "anyOf": [
@@ -82269,6 +83754,8 @@
         "dz",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "html",
         "innerBorder",
         "keepDirIn3d",
@@ -82281,6 +83768,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "path",
         "pickMode",
         "pickable",
@@ -82479,6 +83967,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -82515,6 +84038,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -82669,6 +84201,8 @@
         "dz",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "html",
         "innerBorder",
         "keepDirIn3d",
@@ -82681,6 +84215,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "pickMode",
         "pickable",
         "points",
@@ -82876,6 +84411,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -82918,6 +84488,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -83068,6 +84647,8 @@
         "dz",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "height",
         "html",
         "innerBorder",
@@ -83082,6 +84663,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "pickMode",
         "pickable",
         "postMatrix",
@@ -83277,6 +84859,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -83316,6 +84933,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -83466,6 +85092,8 @@
         "dz",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "height",
         "html",
         "innerBorder",
@@ -83479,6 +85107,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "pickMode",
         "pickable",
         "postMatrix",
@@ -83667,6 +85296,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -83715,6 +85379,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -83886,6 +85559,8 @@
         "ellipsis",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "height",
         "html",
         "innerBorder",
@@ -83902,6 +85577,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "pickMode",
         "pickable",
         "postMatrix",
@@ -84167,6 +85843,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "height": {
           "type": "number"
         },
@@ -84235,6 +85946,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -84406,6 +86126,8 @@
         "dz",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "height",
         "html",
         "id",
@@ -84422,6 +86144,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "pickMode",
         "pickable",
         "postMatrix",
@@ -84608,6 +86331,41 @@
         "fillOpacity": {
           "type": "number"
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -84644,6 +86402,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -84813,6 +86580,8 @@
         "dz",
         "fill",
         "fillOpacity",
+        "globalCompositeOperation",
+        "globalZIndex",
         "html",
         "innerBorder",
         "keepDirIn3d",
@@ -84825,6 +86594,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "pickMode",
         "pickable",
         "postMatrix",
@@ -85039,6 +86809,41 @@
             "number"
           ]
         },
+        "globalCompositeOperation": {
+          "enum": [
+            "",
+            "color",
+            "color-burn",
+            "color-dodge",
+            "copy",
+            "darken",
+            "destination-atop",
+            "destination-in",
+            "destination-out",
+            "destination-over",
+            "difference",
+            "exclusion",
+            "hard-light",
+            "hue",
+            "lighten",
+            "lighter",
+            "luminosity",
+            "multiply",
+            "overlay",
+            "saturation",
+            "screen",
+            "soft-light",
+            "source-atop",
+            "source-in",
+            "source-out",
+            "source-over",
+            "xor"
+          ],
+          "type": "string"
+        },
+        "globalZIndex": {
+          "type": "number"
+        },
         "html": {
           "typeof": "function"
         },
@@ -85087,6 +86892,15 @@
         },
         "outerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
+        },
+        "overflow": {
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "type": "string"
         },
         "pickMode": {
           "enum": [
@@ -85284,6 +87098,8 @@
         "fontStyle",
         "fontVariant",
         "fontWeight",
+        "globalCompositeOperation",
+        "globalZIndex",
         "html",
         "ignoreBuf",
         "innerBorder",
@@ -85300,6 +87116,7 @@
         "miterLimit",
         "opacity",
         "outerBorder",
+        "overflow",
         "pickMode",
         "pickable",
         "postMatrix",

@@ -8,7 +8,7 @@ import type { ITextMark } from '../../mark/text';
 import { registerSankeyTransforms } from '@visactor/vgrammar-sankey';
 import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, ITextMarkSpec } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerFadeInOutAnimation } from '../../animation/config';
 import { registerDataSetInstanceTransform, registerDataSetInstanceParser } from '../../data/register';
 import type { ISankeyOpt } from '../../data/transforms/sankey';
 import { sankey } from '../../data/transforms/sankey';
@@ -24,24 +24,21 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds } from '@visactor/vutils';
-import type { ISankeyAnimationParams } from './animation';
+import { registerSankeyAnimation, type ISankeyAnimationParams } from './animation';
 import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { array, isNil } from '../../util';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { LinkPathMark } from '../../mark/link-path';
 import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
 import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
-
-VChart.useMark([RectMark, LinkPathMark, TextMark]);
-
-registerSankeyTransforms();
+import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -255,7 +252,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       AttributeLevel.Mark
     );
     this._trigger.registerMark(nodeMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(nodeMark);
   }
 
   protected _initLinkMarkStyle() {
@@ -284,7 +280,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       AttributeLevel.Series
     );
     this._trigger.registerMark(linkMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(linkMark);
   }
 
   protected _initLabelMarkStyle() {
@@ -477,7 +472,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     this._labelMark.setZIndex(this._labelLayoutZIndex);
     this._trigger.registerMark(this._labelMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(this._labelMark);
   }
 
   private _createText(datum: Datum) {
@@ -500,11 +494,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           : this._yAxisHelper?.getScale(0).scale(0)
     };
     const appearPreset = (this._spec?.animationAppear as IMarkAnimateSpec<string>)?.preset;
-
     if (this._nodeMark) {
       this._nodeMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.sankeyNode(animationParams, appearPreset),
+          Factory.getAnimationInKey('sankeyNode')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.node, this._spec)
         )
       );
@@ -512,14 +505,17 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (this._linkMark) {
       this._linkMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.sankeyLinkPath(),
+          Factory.getAnimationInKey('sankeyLinkPath')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.link, this._spec)
         )
       );
     }
     if (this._labelMark) {
       this._labelMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(SeriesMarkNameEnum.label, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('fadeInOut')?.(),
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec)
+        )
       );
     }
   }
@@ -710,43 +706,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
       allLinkElements.forEach(linkEl => {
         linkEl.clearStates();
-        const linkDatum = linkEl.getDatum();
-        const father = linkDatum?.parents ? 'parents' : 'source';
-        if (
-          linkDatum.source === curLinkDatum.target ||
-          (array(linkDatum[father]).includes(curLinkDatum.source) &&
-            array(linkDatum[father]).includes(curLinkDatum.target))
-        ) {
-          // 下游link
-          if (!highlightNodes.includes(linkDatum.source)) {
-            highlightNodes.push(linkDatum.source);
-          }
 
-          if (!highlightNodes.includes(linkDatum.target)) {
-            highlightNodes.push(linkDatum.target);
-          }
-
-          let ratio;
-          if (father === 'parents') {
-            const originalDatum = linkDatum.datum;
-            const val = originalDatum
-              ? originalDatum
-                  .filter((entry: any) =>
-                    entry.parents.some(
-                      (par: any, index: number) =>
-                        par.key === curLinkDatum.source && entry.parents[index + 1]?.key === curLinkDatum.target
-                    )
-                  )
-                  .reduce((sum: number, d: any) => {
-                    return (sum += d.value);
-                  }, 0)
-              : 0;
-            ratio = val / linkDatum.value;
-          }
-
-          linkEl.addState('selected', { ratio });
-        } else if (linkEl === element) {
-          // linkEl.addState('selected', { ratio: 1 });
+        if (linkEl === element) {
+          linkEl.addState('selected', { ratio: 1 });
         } else {
           linkEl.useStates(['blur']);
         }
@@ -1255,9 +1217,27 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   protected initTooltip() {
     this._tooltipHelper = new SankeySeriesTooltipHelper(this);
+    this._nodeMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nodeMark);
+    this._linkMark && this._tooltipHelper.activeTriggerSet.mark.add(this._linkMark);
+    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }
 
   getNodeOrdinalColorScale(item: string) {
+    if (!isNil((this._option?.globalScale?.getScale('color') as any)?._specified)) {
+      const specified = (this._option.globalScale.getScale('color') as any)._specified;
+      const colorDomain: string[] = [];
+      const colorRange: string[] = [];
+
+      for (const key in specified) {
+        colorDomain.push(key);
+        colorRange.push(specified[key]);
+      }
+      const ordinalScale = new ColorOrdinalScale();
+
+      ordinalScale.domain(colorDomain).range?.(colorRange);
+
+      return ordinalScale.scale(item);
+    }
     const colorDomain = !isNil(this._option.globalScale.getScale('color')?.domain()?.[0])
       ? this._option.globalScale.getScale('color').domain()
       : this.getNodeList();
@@ -1355,4 +1335,18 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
     return undefined;
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._nodeMark, this._linkMark];
+  }
 }
+
+export const registerSankeySeries = () => {
+  registerSankeyTransforms();
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerMark(LinkPathMark.type, LinkPathMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(SankeySeries.type, SankeySeries);
+  registerSankeyAnimation();
+  registerFadeInOutAnimation();
+};

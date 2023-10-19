@@ -8,6 +8,7 @@ import type { SeriesData } from '../base/series-data';
 import type { DataView } from '@visactor/vdataset';
 import { PREFIX } from '../../constant';
 import type { IGeoSeriesSpec } from './interface';
+import type { IMark } from '../../mark/interface';
 
 export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> extends BaseSeries<T> implements IGeoSeries {
   type = SeriesTypeEnum.geo;
@@ -39,6 +40,11 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
   protected _nameProperty: string = 'name';
   getNameProperty() {
     return this._nameProperty;
+  }
+
+  protected _centroidProperty?: string;
+  getCentroidProperty() {
+    return this._centroidProperty;
   }
 
   _coordinateHelper!: IGeoCoordinateHelper;
@@ -94,7 +100,7 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     }
 
     const { dataToPosition } = this._coordinateHelper;
-    const center = this._getDatumCenter(mapData);
+    const center = this.getDatumCenter(mapData);
 
     const pos = dataToPosition?.(center);
     if (isNil(pos) || isNaN(pos.x) || isNaN(pos.y)) {
@@ -103,7 +109,7 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     return pos;
   }
 
-  protected abstract _getDatumCenter(datum: any): [number, number];
+  abstract getDatumCenter(datum: any): [number, number];
   protected abstract _getDatumName(datum: any): string;
 
   dataToLatitude(latValue: number) {
@@ -215,5 +221,9 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     super.fillData();
     this._mapViewData.getDataView()?.reRunAllTransform();
     this._mapViewDataStatistics?.reRunAllTransform();
+  }
+
+  getActiveMarks(): IMark[] {
+    return [];
   }
 }

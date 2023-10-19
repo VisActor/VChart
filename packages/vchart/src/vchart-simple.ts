@@ -1,30 +1,36 @@
-import { Label } from './component/label/label';
-import { CartesianCrossHair } from './component/crosshair/cartesian';
-import { Tooltip } from './component/tooltip/tooltip';
-import { DiscreteLegend } from './component/legend/discrete/legend';
-import { CartesianTimeAxis } from './component/axis/cartesian/time-axis';
-import { CartesianBandAxis } from './component/axis/cartesian/band-axis';
-import { CartesianLinearAxis } from './component/axis/cartesian/linear-axis';
+import { registerLabel } from './component/label/label';
+import { registerCartesianCrossHair } from './component/crosshair/cartesian';
+import { registerTooltip } from './component/tooltip/tooltip';
+import { registerDiscreteLegend } from './component/legend/discrete/legend';
+import { registerCartesianTimeAxis } from './component/axis/cartesian/time-axis';
+import { registerCartesianBandAxis } from './component/axis/cartesian/band-axis';
+import { registerCartesianLinearAxis } from './component/axis/cartesian/linear-axis';
 /**
  * @description 包含基础的折柱饼图，提供坐标轴、离散图例以及 tooltip、crosshair、label 组件
  */
 import { VChart } from './core';
-import { LineChart } from './chart/line';
-import { PieChart } from './chart/pie';
-import { BarChart } from './chart/bar';
+import { registerLineChart } from './chart/line';
+import { registerBarChart } from './chart/bar';
+import { registerPieChart } from './chart/pie';
+import { registerAllEnv } from './env';
 
-// charts
-VChart.useChart([LineChart, BarChart, PieChart]);
+VChart.useRegisters([
+  // charts
+  registerLineChart,
+  registerBarChart,
+  registerPieChart,
 
-// components
-VChart.useComponent([
-  CartesianLinearAxis,
-  CartesianBandAxis,
-  CartesianTimeAxis,
-  DiscreteLegend,
-  Tooltip,
-  CartesianCrossHair,
-  Label
+  // components
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerCartesianTimeAxis,
+  registerDiscreteLegend,
+  registerTooltip,
+  registerCartesianCrossHair,
+  registerLabel
 ]);
+
+// load env code
+VChart.useRegisters([registerAllEnv]);
 
 export { VChart };

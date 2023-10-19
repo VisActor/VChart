@@ -94,11 +94,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   /** for layout diff */
   protected _lastLayoutRect: ILayoutRect = null;
 
-  protected _tooltipHelper: ITooltipHelper | undefined;
-  get tooltipHelper() {
-    return this._tooltipHelper;
-  }
-
   // TODO: 有些hack,这个tag是为了避免布局逻辑中，轴的数据变化，又由数据变化触发重新布局
   protected _isLayout: boolean = true;
 
@@ -175,6 +170,10 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     // do nothing
   }
 
+  beforeRelease() {
+    // do nothing
+  }
+
   release() {
     this._releaseEvent();
     this._originalSpec = {};
@@ -225,6 +224,10 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this._theme = theme;
 
     this._mergeMarkTheme();
+  }
+
+  setTheme(theme?: any) {
+    this._theme = theme;
   }
 
   /** 将全局的 mark theme 合并进 model theme */

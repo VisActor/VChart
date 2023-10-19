@@ -158,7 +158,7 @@ export interface IChart extends ICompilable {
 
   getCurrentTheme: () => ITheme;
 
-  setCurrentTheme: (theme: ITheme, noRender?: boolean) => void;
+  setCurrentTheme: (theme: ITheme, reInit?: boolean) => void;
 
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
   // setDimensionIndex

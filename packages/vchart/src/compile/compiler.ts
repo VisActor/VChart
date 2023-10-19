@@ -1,37 +1,7 @@
+import { ChartEvent } from './../constant/event';
 import type { IElement, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
-import {
-  View,
-  registerFilterTransform,
-  registerMapTransform,
-  registerClipInAnimation,
-  registerClipOutAnimation,
-  registerFadeInAnimation,
-  registerFadeOutAnimation,
-  registerGrowAngleInAnimation,
-  registerGrowAngleOutAnimation,
-  registerGrowCenterInAnimation,
-  registerGrowCenterOutAnimation,
-  registerGrowHeightInAnimation,
-  registerGrowHeightOutAnimation,
-  registerGrowPointsInAnimation,
-  registerGrowPointsOutAnimation,
-  registerGrowPointsXInAnimation,
-  registerGrowPointsXOutAnimation,
-  registerGrowPointsYInAnimation,
-  registerGrowPointsYOutAnimation,
-  registerGrowRadiusInAnimation,
-  registerGrowRadiusOutAnimation,
-  registerGrowWidthInAnimation,
-  registerGrowWidthOutAnimation,
-  registerMoveInAnimation,
-  registerMoveOutAnimation,
-  registerRotateInAnimation,
-  registerRotateOutAnimation,
-  registerScaleInAnimation,
-  registerScaleOutAnimation,
-  registerUpdateAnimation
-} from '@visactor/vgrammar-core';
+import { View } from '@visactor/vgrammar-core';
 import type {
   CompilerListenerParameters,
   CompilerModel,
@@ -50,9 +20,7 @@ import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import type { VChart } from '../core/vchart';
-import type { IColor, Stage } from '@visactor/vrender';
-// eslint-disable-next-line no-duplicate-imports
-import { vglobal } from '@visactor/vrender';
+import type { IColor, Stage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
 
@@ -61,38 +29,6 @@ type EventListener = {
   callback: (...args: any[]) => void;
 };
 
-// for side effect bundling, do not remove this line.
-View.useRegisters([
-  registerFilterTransform,
-  registerMapTransform,
-  registerClipInAnimation,
-  registerClipOutAnimation,
-  registerFadeInAnimation,
-  registerFadeOutAnimation,
-  registerGrowAngleInAnimation,
-  registerGrowAngleOutAnimation,
-  registerGrowCenterInAnimation,
-  registerGrowCenterOutAnimation,
-  registerGrowHeightInAnimation,
-  registerGrowHeightOutAnimation,
-  registerGrowPointsInAnimation,
-  registerGrowPointsOutAnimation,
-  registerGrowPointsXInAnimation,
-  registerGrowPointsXOutAnimation,
-  registerGrowPointsYInAnimation,
-  registerGrowPointsYOutAnimation,
-  registerGrowRadiusInAnimation,
-  registerGrowRadiusOutAnimation,
-  registerGrowWidthInAnimation,
-  registerGrowWidthOutAnimation,
-  registerMoveInAnimation,
-  registerMoveOutAnimation,
-  registerRotateInAnimation,
-  registerRotateOutAnimation,
-  registerScaleInAnimation,
-  registerScaleOutAnimation,
-  registerUpdateAnimation
-]);
 export class Compiler {
   protected _view: IView;
   /**
@@ -125,7 +61,6 @@ export class Compiler {
   }
 
   private _compileChart: IChart = null;
-  private _rafId: number;
 
   constructor(container: IRenderContainer, option: IRenderOption) {
     this._container = container;
@@ -162,19 +97,15 @@ export class Compiler {
     const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);
     if (this._option?.onError) {
       logger.addErrorHandler((...args) => {
-        this._option.onError(...args);
+        this._option?.onError?.(...args);
       });
     }
     this._view = new View({
       width: this._width,
       height: this._height,
-      // 禁用默认交互，防止干扰数据流
-      hover: false,
-      select: false,
       container: this._container.dom ?? null,
       renderCanvas: this._container.canvas ?? null,
       hooks: (this._option as any).performanceHook, // vgrammar 事件改造后，性能回调函数放在了hooks中实现
-      cursor: false,
       ...this._option,
       mode: toRenderMode(this._option.mode),
       autoFit: false,
@@ -189,6 +120,11 @@ export class Compiler {
       logLevel: logger.level()
     });
     this._setCanvasStyle();
+
+    // emit afterRender event
+    this.getStage().hooks.afterRender.tap('chart-event', () => {
+      this._compileChart?.getEvent()?.emit(ChartEvent.afterRender, { chart: this._compileChart });
+    });
 
     const interactive = this._option.interactive;
     if (interactive !== false) {
@@ -406,7 +342,6 @@ export class Compiler {
     this._view?.release();
     this._view = null;
     this.isInited = false;
-    this._rafId = null;
     this.isReleased = true;
   }
 

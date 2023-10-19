@@ -29,8 +29,7 @@ import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
 import { RectMark } from '../../mark/rect';
 import { dotSeriesMark } from './constant';
-
-VChart.useMark([SymbolMark, TextMark, RuleMark, RectMark]);
+import { Factory } from '../../core/factory';
 
 export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.dot;
@@ -285,7 +284,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         AttributeLevel.Series
       );
       this._trigger.registerMark(dotMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(dotMark);
     }
 
     const titleMark = this._titleMark;
@@ -462,6 +460,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
 
   protected initTooltip() {
     this._tooltipHelper = new DotSeriesTooltipHelper(this);
+    this._dotMark && this._tooltipHelper.activeTriggerSet.mark.add(this._dotMark);
   }
 
   /**
@@ -493,4 +492,17 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
   getStackValueField(): string {
     return null;
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._dotMark];
+  }
 }
+
+export const registerDotSeries = () => {
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerMark(RuleMark.type, RuleMark);
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerMark(TextMark.type, TextMark);
+
+  Factory.registerSeries(DotSeries.type, DotSeries);
+};

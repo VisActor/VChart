@@ -17,7 +17,8 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import { isValid, mixin } from '@visactor/vutils';
 import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
-import type { IGroup } from '@visactor/vrender';
+import { Factory } from '../../core/factory';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export function projectionName(key: string, id: number) {
   return `${PREFIX}_${id}_${key}`;
@@ -298,7 +299,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     // do nothing
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [];
   }
 
@@ -387,9 +388,9 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
           const mapData = (s as IGeoSeries).getMapViewData()?.latestData ?? [];
           mapData.forEach((feature: any = {}) => {
             const key = feature[s.getDimensionField()[0]] || feature[DEFAULT_MAP_LOOK_UP_KEY];
-            const { centroidX, centroidY } = feature;
-            if (key && isValid(centroidX * centroidY)) {
-              this._centerCache.set(key, { x: centroidX, y: centroidY });
+            const center = (s as IGeoSeries).getDatumCenter(feature);
+            if (key && isValid(center)) {
+              this._centerCache.set(key, { x: center[0], y: center[1] });
             }
           });
         }
@@ -405,3 +406,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
 }
 
 mixin(GeoCoordinate, Zoomable);
+
+export const registerGeoCoordinate = () => {
+  Factory.registerComponent(GeoCoordinate.type, GeoCoordinate);
+};

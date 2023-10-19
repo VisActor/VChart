@@ -914,6 +914,13 @@
             "zh": "tick模式分段仪表图",
             "en": "Segmented Gauge Chart with Tick Mask"
           }
+        },
+        {
+          "path": "gauge-segment-custom-tick",
+          "title": {
+            "zh": "仪表图自定义区间tick和目标值",
+            "en": "Gauge Chart with Segment Ticks and Target Value"
+          }
         }
       ]
     },
@@ -946,6 +953,13 @@
           }
         },
         {
+          "path": "linear-progress-with-multi-label",
+          "title": {
+            "zh": "带多种标签的条形进度图",
+            "en": "Linear Progress Chart with Multiple Labels"
+          }
+        },
+        {
           "path": "circular-progress",
           "title": {
             "zh": "环形进度图",
@@ -957,6 +971,13 @@
           "title": {
             "zh": "带文本标注的环形进度图",
             "en": "Circular Progress Chart with text"
+          }
+        },
+        {
+          "path": "circular-progress-tick",
+          "title": {
+            "zh": "tick模式环形进度图",
+            "en": "Circular Progress Chart with Tick Mask"
           }
         }
       ]

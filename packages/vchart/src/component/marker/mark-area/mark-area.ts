@@ -1,6 +1,6 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkArea, IMarkAreaSpec, IMarkAreaTheme } from './interface';
-import { isNil, isArray } from '../../../util';
+import { isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
@@ -11,15 +11,16 @@ import { xLayout, yLayout, coordinateLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
-import { isValid } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
+import { isEmpty, isValid } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
-import type { IOptionRegr } from '../../../data/transforms/regression';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
 import type { LayoutItem } from '../../../model/layout-item';
-import type { INode } from '@visactor/vrender';
+import type { INode } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
+import { Factory } from '../../../core/factory';
 
 export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;
@@ -37,7 +38,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
 
   static createComponent(spec: any, options: IComponentOption) {
     const markAreaSpec = spec.markArea || options.defaultSpec;
-    if (isNil(markAreaSpec)) {
+    if (isEmpty(markAreaSpec)) {
       return undefined;
     }
     if (!isArray(markAreaSpec) && markAreaSpec.visible !== false) {
@@ -111,7 +112,12 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       points = spec.positions;
     }
 
-    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+    const seriesData = this._relativeSeries.getViewData().latestData;
+    const dataPoints = data
+      ? data.latestData[0].latestData
+        ? data.latestData[0].latestData
+        : data.latestData
+      : seriesData;
 
     let limitRect;
     if (spec.clip || spec.label?.confine) {
@@ -133,7 +139,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       label: {
         ...this._markerComponent?.attribute?.label,
         text: this._spec.label.formatMethod
-          ? this._spec.label.formatMethod(dataPoints, this._relativeSeries.getViewData().latestData)
+          ? this._spec.label.formatMethod(dataPoints, seriesData)
           : this._markerComponent?.attribute?.label?.text
       },
       limitRect,
@@ -180,3 +186,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
     this._markerData = data;
   }
 }
+
+export const registerMarkArea = () => {
+  Factory.registerComponent(MarkArea.type, MarkArea);
+};

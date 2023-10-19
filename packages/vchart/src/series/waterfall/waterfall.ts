@@ -11,12 +11,12 @@ import {
 import { waterfall, waterfallFillTotal } from '../../data/transforms/waterfall';
 import { BarSeries } from '../bar/bar';
 import { valueInScaleRange } from '../../util';
-import type { WaterfallAppearPreset } from './animation';
+import { registerWaterfallAnimation, type WaterfallAppearPreset } from './animation';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { IWaterfallSeriesSpec, IWaterfallSeriesTheme } from './interface';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerFadeInOutAnimation } from '../../animation/config';
 import type { ITransformOptions, DataView } from '@visactor/vdataset';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { SeriesData } from '../base/series-data';
@@ -27,14 +27,13 @@ import type { IModelEvaluateOption } from '../../model/interface';
 import type { Datum, Maybe } from '../../typings';
 import { Direction } from '../../typings';
 import type { IBarAnimationParams } from '../bar/animation';
-import { VChart } from '../../core/vchart';
 import { RuleMark } from '../../mark/rule';
 import { waterfallSeriesMark } from './constant';
 import { Group } from '../base/group';
 import type { ILabelMark } from '../../mark/label';
 import { LabelRule } from '../../component/label/util';
-
-VChart.useMark([RuleMark]);
+import { Factory } from '../../core/factory';
+import { RectMark } from '../../mark';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -157,11 +156,20 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 
     this._rectMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.waterfall(animationParams, appearPreset),
+        Factory.getAnimationInKey('waterfall')?.(animationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.bar, this._spec),
         { dataIndex }
       )
     );
+
+    if (this._leaderLineMark) {
+      this._leaderLineMark.setAnimationConfig(
+        animationConfig(
+          Factory.getAnimationInKey('fadeInOut')?.(),
+          userAnimationConfig(SeriesMarkNameEnum.leaderLine, this._spec)
+        )
+      );
+    }
   }
 
   viewDataUpdate(d: DataView): void {
@@ -302,3 +310,11 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     }
   }
 }
+
+export const registerWaterfallSeries = () => {
+  Factory.registerMark(RuleMark.type, RuleMark);
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerSeries(WaterfallSeries.type, WaterfallSeries);
+  registerWaterfallAnimation();
+  registerFadeInOutAnimation();
+};

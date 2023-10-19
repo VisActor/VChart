@@ -18,7 +18,7 @@ import { mergeSpec } from '../util/spec';
 export const AnimationStates = ['appear', 'enter', 'update', 'exit', 'disappear', 'normal'];
 
 export function animationConfig<Preset extends string>(
-  defaultConfig: MarkAnimationSpec,
+  defaultConfig: MarkAnimationSpec = {},
   userConfig?: Partial<
     Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>
   >,

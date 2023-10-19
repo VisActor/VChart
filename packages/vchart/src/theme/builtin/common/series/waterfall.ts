@@ -21,8 +21,7 @@ export const waterfall: IWaterfallSeriesTheme = {
     style: {
       fill: 'black',
       fontSize: THEME_CONSTANTS.l4FontSize,
-      lineHeight: THEME_CONSTANTS.l4LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily
+      lineHeight: THEME_CONSTANTS.l4LineHeight
     }
   },
   label: {

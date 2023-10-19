@@ -3,7 +3,7 @@ import { GlobalScale } from '../../../src/scale/global-scale';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import type { LineSeries } from '../../../src/series/line/line';
-import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
+import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import { LineChart } from '../../../src/chart/line/line';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../util/factory/compiler';

@@ -9,7 +9,7 @@ import { LayoutZIndex } from '../../constant';
 import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { isEqual } from '@visactor/vutils';
-import type { IGroup } from '@visactor/vrender';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
@@ -63,7 +63,7 @@ export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> exte
   changeRegions(regions: IRegion[]): void {
     // do nothing
   }
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [];
   }
 }

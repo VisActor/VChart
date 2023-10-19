@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import type { IPadding } from '@visactor/vutils';
-import { isEqual, isValidNumber } from '@visactor/vutils';
+import { isValidNumber } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import type { ITextMark } from '../../mark/text';
@@ -25,10 +25,7 @@ import type {
   WordCloudShapeConfigType,
   WordCloudShapeType
 } from './interface';
-import { registerWordCloudTransforms } from '@visactor/vgrammar-wordcloud';
-import { registerWordCloudShapeTransforms } from '@visactor/vgrammar-wordcloud-shape';
 import type { Datum, IPoint } from '../../typings';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { LinearScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar-util';
@@ -42,15 +39,10 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import type { ICompilableMark } from '../../compile/mark';
 import { BaseSeries } from '../base/base-series';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { VChart } from '../../core/vchart';
-import { TextMark } from '../../mark/text';
 import { wordCloudSeriesMark } from './constant';
 import type { IStateAnimateSpec } from '../../animation/spec';
-
-VChart.useMark([TextMark]);
-
-registerWordCloudTransforms();
-registerWordCloudShapeTransforms();
+import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -178,6 +170,14 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         'normal',
         AttributeLevel.Series
       );
+      this.setMarkStyle(
+        wordMark,
+        {
+          fontFamily: this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily
+        },
+        'normal',
+        AttributeLevel.User_Mark
+      );
     }
     if (fillingWordMark) {
       this.setMarkStyle(
@@ -199,11 +199,25 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         'normal',
         AttributeLevel.Series
       );
+
+      this.setMarkStyle(
+        fillingWordMark,
+        {
+          fontFamily: this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily
+        },
+        'normal',
+        AttributeLevel.User_Mark
+      );
     }
     this._trigger.registerMark(wordMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(wordMark);
     this._trigger.registerMark(fillingWordMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(fillingWordMark);
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._wordMark && this._tooltipHelper.activeTriggerSet.mark.add(this._wordMark);
+    this._fillingWordMark && this._tooltipHelper.activeTriggerSet.mark.add(this._fillingWordMark);
   }
 
   initAnimation() {
@@ -215,7 +229,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         };
         mark.setAnimationConfig(
           animationConfig(
-            DEFAULT_MARK_ANIMATION.wordCloud(params, appearPreset),
+            Factory.getAnimationInKey('wordCloud')(params, appearPreset),
             userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
           )
         );
@@ -329,7 +343,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         fontSizeRange: this._fontSizeRange,
         padding: this._fontPadding,
         rotate: { field: WORD_CLOUD_ANGLE },
-        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily,
+        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
 
@@ -359,11 +373,14 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         fontSizeRange: this._fontSizeRange,
         padding: this._fontPadding,
         rotateList: rotateAngles,
-        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily,
+        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
 
-        fillingFontFamily: this._wordCloudShapeConfig?.fillingFontFamilyField ?? this._spec.word?.style?.fontFamily,
+        fillingFontFamily:
+          this._wordCloudShapeConfig?.fillingFontFamilyField ??
+          this._spec.word?.style?.fontFamily ??
+          this._option?.getTheme()?.fontFamily,
         fillingPadding: this._fillingFontPadding,
         fillingFontStyle: this._wordCloudShapeConfig?.fillingFontStyleField ?? this._spec.word?.style?.fontStyle,
         fillingFontWeight: this._wordCloudShapeConfig?.fillingFontWeightField ?? this._spec.word?.style?.fontWeight, // 填充词fontWeight默认不跟随valueField
@@ -447,5 +464,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
     this.compile();
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._wordMark, this._fillingWordMark];
   }
 }

@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { isValid } from '@visactor/vutils';
+import { isValid, isArray } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
@@ -13,19 +13,18 @@ import { SeriesMarkNameEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../interface';
 import { mixin } from '@visactor/vutils';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-
-import { VChart } from '../../core/vchart';
 import { LineMark } from '../../mark/line';
 import { AreaMark } from '../../mark/area';
 import { TextMark } from '../../mark/text';
 import { SymbolMark } from '../../mark/symbol';
 import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 import { areaSeriesMark } from './constant';
-VChart.useMark([LineMark, AreaMark, TextMark, SymbolMark]);
+import { Factory } from '../../core/factory';
+import { registerAreaAnimation } from './animation';
+import type { IMark } from '../../mark/interface';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -194,7 +193,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
         AttributeLevel.Built_In
       );
       this._trigger.registerMark(areaMark);
-      this._tooltipHelper.activeTriggerSet.dimension.add(areaMark);
 
       // change stroke to area stoke = [lineStroke,false,false,false]
       Object.keys(areaMark.stateStyle).forEach(state => {
@@ -222,7 +220,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     if (this._lineMark) {
       this._lineMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.line(animationParams, appearPreset),
+          Factory.getAnimationInKey('line')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.line, this._spec)
         )
       );
@@ -231,7 +229,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     if (this._areaMark) {
       this._areaMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.area(animationParams, appearPreset),
+          Factory.getAnimationInKey('area')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.area, this._spec)
         )
       );
@@ -239,13 +237,19 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
     if (this._symbolMark) {
       this._symbolMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.symbol(), userAnimationConfig(SeriesMarkNameEnum.point, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('scaleInOut')?.(),
+          userAnimationConfig(SeriesMarkNameEnum.point, this._spec)
+        )
       );
     }
   }
 
   protected initTooltip() {
     this._tooltipHelper = new AreaSeriesTooltipHelper(this);
+    this._areaMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._areaMark);
+    this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
   }
 
   viewDataStatisticsUpdate(d: DataView) {
@@ -256,6 +260,33 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   getDefaultShapeType() {
     return 'square';
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._areaMark, this._symbolMark, this._lineMark];
+  }
+
+  getSeriesStyle(datum: Datum) {
+    return (attribute: string) => {
+      let result = this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
+      if (attribute === 'fill' && !result) {
+        attribute = 'stroke';
+        result = this._seriesMark?.getAttribute(attribute, datum) ?? undefined;
+      }
+      if (attribute === 'stroke' && isArray(result)) {
+        return result[0];
+      }
+      return result;
+    };
+  }
 }
 
 mixin(AreaSeries, LineLikeSeriesMixin);
+
+export const registerAreaSeries = () => {
+  Factory.registerMark(LineMark.type, LineMark);
+  Factory.registerMark(AreaMark.type, AreaMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerSeries(AreaSeries.type, AreaSeries);
+  registerAreaAnimation();
+};

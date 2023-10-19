@@ -8,7 +8,7 @@ Area charts visually display quantitative data. It is based on line charts. Area
 
 In VChart, you can use the [area chart configuration](../../../option/areaChart) to display the changing trends of both data components and total data simultaneously. As shown below, this example shows the trend of sales of different cosmetics:
 
-![](https://temp.domain/obj/bit-cloud/350c0511133d336e622523219.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e622523219.png)
 
 In the [area chart example](../../../demo/area-chart/stacked-area) shown above, you need to use the following key configurations:
 

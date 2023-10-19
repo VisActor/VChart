@@ -7,17 +7,15 @@ import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
 import type { Datum, Maybe } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerLineAnimation, registerScaleInOutAnimation } from '../../animation/config';
 import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
-import { VChart } from '../../core/vchart';
+import { lineSeriesMark } from './constant';
 import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
-import { TextMark } from '../../mark/text';
-import { lineSeriesMark } from './constant';
-
-VChart.useMark([LineMark, SymbolMark, TextMark]);
+import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -54,6 +52,12 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
+  protected initTooltip() {
+    super.initTooltip();
+    this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
+  }
+
   initMarkStyle(): void {
     this.initLineMarkStyle(this._direction);
     this.initSymbolMarkStyle();
@@ -64,14 +68,17 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<LineAppearPreset>)?.preset;
     this._lineMark.setAnimationConfig(
       animationConfig(
-        DEFAULT_MARK_ANIMATION.line(animationParams, appearPreset),
+        Factory.getAnimationInKey('line')?.(animationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.line, this._spec)
       )
     );
 
     if (this._symbolMark) {
       this._symbolMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.symbol(), userAnimationConfig(SeriesMarkNameEnum.point, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('scaleInOut')?.(),
+          userAnimationConfig(SeriesMarkNameEnum.point, this._spec)
+        )
       );
     }
   }
@@ -83,13 +90,25 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
         // 增加一个标识位，用于是否替换，因为图例获取颜色的时候是不需要替换的
         attribute === 'fill' && (attribute = 'stroke');
       }
-      return this._seriesMark?.getAttribute(attribute as any, datum) ?? null;
+      return this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
     };
   }
 
   getDefaultShapeType() {
     return 'circle';
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._lineMark, this._symbolMark];
+  }
 }
 
 mixin(LineSeries, LineLikeSeriesMixin);
+
+export const registerLineSeries = () => {
+  Factory.registerMark(LineMark.type, LineMark);
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerSeries(LineSeries.type, LineSeries);
+  registerLineAnimation();
+  registerScaleInOutAnimation();
+};

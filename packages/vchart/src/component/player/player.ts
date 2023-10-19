@@ -1,4 +1,5 @@
-import type { IGroup, INode } from '@visactor/vrender';
+import { Factory } from './../../core/factory';
+import type { INode, IGroup, IGraphic } from '@visactor/vrender-core';
 import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visactor/vrender-components';
 
 // eslint-disable-next-line no-duplicate-imports
@@ -13,7 +14,7 @@ import type { DirectionType, IPlayer } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent } from '../interface';
 import type { IPoint, IOrientType } from '../../typings';
-import type { IChartSpec, IDataValues } from '../..';
+import { type IChartSpec, type IDataValues } from '../..';
 
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface';
@@ -120,7 +121,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     // do nothing
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [this._playerComponent] as unknown as IGroup[];
   }
 
@@ -404,3 +405,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     });
   };
 }
+
+export const registerPlayer = () => {
+  Factory.registerComponent(Player.type, Player);
+};

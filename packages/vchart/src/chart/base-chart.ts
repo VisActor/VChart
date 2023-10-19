@@ -245,9 +245,11 @@ export class BaseChart extends CompilableBase implements IChart {
   init(options: any = {}) {
     // 元素创建完毕后再执行各元素的初始化 方便各元素能获取到其他模块
     this.initRegion();
+
     this.initSeries();
     // component
     this.initComponent();
+
     // event
     this.initEvent();
 
@@ -275,6 +277,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   updateViewBox(viewBox: IBoundsLike, reLayout: boolean) {
+    this._option.viewBox = viewBox;
     this._updateLayoutRect(viewBox);
     this.setLayoutTag(true, null, reLayout);
   }
@@ -487,7 +490,7 @@ export class BaseChart extends CompilableBase implements IChart {
       if (this._spec.zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
         use3dLayout = true;
       }
-      const layout = new (Factory.getLayout(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
+      const layout = new (Factory.getLayoutInKey(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
         this._spec.layout,
         {
           onError: this._option?.onError
@@ -505,6 +508,7 @@ export class BaseChart extends CompilableBase implements IChart {
       this.onLayoutStart(params);
       const elements = this.getLayoutElements();
       this._layoutFunc(this, elements, this._layoutRect, this._viewBox);
+      this._event.emit(ChartEvent.afterLayout, { elements });
       this.setLayoutTag(false);
       this.onLayoutEnd(params);
 
@@ -1019,7 +1023,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   /** 设置当前全局主题 */
-  setCurrentTheme(theme: ITheme) {
+  setCurrentTheme(theme: ITheme, reInit: boolean = true) {
     this._theme = theme;
 
     // 需要重新布局
@@ -1030,26 +1034,26 @@ export class BaseChart extends CompilableBase implements IChart {
     // 设置色板，只设置 colorScale 的 range
     this.updateGlobalScaleTheme();
 
-    this.setRegionTheme();
-    this.setComponentTheme(theme);
-    this.setSeriesTheme(theme);
+    this.setRegionTheme(reInit);
+    this.setComponentTheme(theme, reInit);
+    this.setSeriesTheme(theme, reInit);
   }
 
-  protected setRegionTheme() {
+  protected setRegionTheme(reInit: boolean = true) {
     this._regions.forEach(r => {
-      r.reInit();
+      reInit ? r.reInit() : r.setTheme();
     });
   }
 
-  protected setComponentTheme(theme: ITheme) {
+  protected setComponentTheme(theme: ITheme, reInit: boolean = true) {
     this._components.forEach(c => {
-      c.setCurrentTheme(theme.series[c.type], true);
+      reInit ? c.setCurrentTheme(theme.component[c.type], true) : c.setTheme(theme.component[c.type]);
     });
   }
 
-  protected setSeriesTheme(theme: ITheme) {
+  protected setSeriesTheme(theme: ITheme, reInit: boolean = true) {
     this._series.forEach(async s => {
-      await s.setCurrentTheme(theme.series[s.type], true);
+      reInit ? await s.setCurrentTheme(theme.series[s.type], true) : s.setTheme(theme.series[s.type]);
     });
   }
 
@@ -1125,6 +1129,12 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   release() {
+    /* release 前的处理 */
+    [...this._components, ...this._regions, ...this._series].forEach(m => {
+      m.beforeRelease();
+    });
+
+    /* 开始 release */
     super.release();
     // clear event , temporary function of  chart items
     this.clear();

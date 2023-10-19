@@ -1,6 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { AttributeLevel, DEFAULT_DATA_KEY, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IRectMark } from '../../mark/rect';
 import type { ITextMark } from '../../mark/text';
@@ -24,7 +25,7 @@ import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key'
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { TreemapTooltipHelper } from './tooltip-helper';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerFadeInOutAnimation } from '../../animation/config';
 import type { TransformSpec } from '@visactor/vgrammar-core';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
@@ -34,8 +35,8 @@ import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { treemapSeriesMark } from './constant';
-
-VChart.useMark([RectMark, TextMark]);
+import { Factory } from '../../core/factory';
+import { registerTreemapAnimation } from './animation';
 
 export class TreemapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;
@@ -243,7 +244,6 @@ export class TreemapSeries extends CartesianSeries<any> {
       ]);
       this._trigger.registerMark(nonLeafMark);
       this._nonLeafMark = nonLeafMark;
-      this._tooltipHelper?.activeTriggerSet.mark.add(nonLeafMark);
     }
 
     const leafMark = this._createMark(TreemapSeries.mark.leaf, { isSeriesMark: true });
@@ -258,7 +258,6 @@ export class TreemapSeries extends CartesianSeries<any> {
       ]);
       this._leafMark = leafMark;
       this._trigger.registerMark(leafMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(leafMark);
     }
 
     if (this._spec.label?.visible) {
@@ -276,7 +275,6 @@ export class TreemapSeries extends CartesianSeries<any> {
         ]);
         this._labelMark = textMark;
         this._trigger.registerMark(textMark);
-        this._tooltipHelper?.activeTriggerSet.mark.add(textMark);
       }
     }
 
@@ -293,7 +291,6 @@ export class TreemapSeries extends CartesianSeries<any> {
         ]);
         this._nonLeafLabelMark = textMark;
         this._trigger.registerMark(textMark);
-        this._tooltipHelper?.activeTriggerSet.mark.add(textMark);
       }
     }
   }
@@ -408,13 +405,13 @@ export class TreemapSeries extends CartesianSeries<any> {
   initAnimation(): void {
     this.getMarksInType(MarkTypeEnum.rect).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.treemap(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(Factory.getAnimationInKey('treemap')?.(), userAnimationConfig(mark.name, this._spec))
       );
     });
 
     this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.label(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(Factory.getAnimationInKey('fadeInOut')?.(), userAnimationConfig(mark.name, this._spec))
       );
     });
   }
@@ -446,6 +443,10 @@ export class TreemapSeries extends CartesianSeries<any> {
 
   protected initTooltip() {
     this._tooltipHelper = new TreemapTooltipHelper(this);
+    this._nonLeafLabelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nonLeafMark);
+    this._leafMark && this._tooltipHelper.activeTriggerSet.mark.add(this._leafMark);
+    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
+    this._nonLeafLabelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nonLeafLabelMark);
   }
 
   private _shouldFilterElement(datum: TreemapNodeElement, nodeType: 'leaf' | 'nonLeaf') {
@@ -521,7 +522,19 @@ export class TreemapSeries extends CartesianSeries<any> {
   getDefaultShapeType(): string {
     return 'square';
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._nonLeafMark, this._leafMark];
+  }
 }
 
 mixin(TreemapSeries, Zoomable);
 mixin(TreemapSeries, Drillable);
+
+export const registerTreemapSeries = () => {
+  Factory.registerMark(RectMark.type, RectMark);
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(TreemapSeries.type, TreemapSeries);
+  registerTreemapAnimation();
+  registerFadeInOutAnimation();
+};

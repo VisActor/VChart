@@ -5,7 +5,7 @@ import type { ILayoutItem, IModel, IModelOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
 import type { StringOrNumber } from '../../typings';
-import type { IGroup } from '@visactor/vrender';
+import type { IGraphic } from '@visactor/vrender-core';
 /**
  * 组件作为图表辅助阅读等功能的模块，除了model提供的能力之外，还有以下功能特点
  * 支持对多region的绑定。
@@ -40,7 +40,7 @@ export interface IComponent extends IModel, ILayoutItem {
   getRegions: () => IRegion[];
   getBindSeriesFilter?: () => ISeriesFilter;
   changeRegions: (regions: IRegion[]) => void;
-  getVRenderComponents: () => IGroup[];
+  getVRenderComponents: () => IGraphic[];
 
   // 清空，用于更新等场景
   clear: () => void;

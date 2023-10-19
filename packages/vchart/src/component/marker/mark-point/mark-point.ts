@@ -1,6 +1,6 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkPoint, IMarkPointSpec, IMarkPointTheme } from './interface';
-import { isNil, isArray } from '../../../util';
+import { isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
@@ -10,12 +10,13 @@ import { coordinateLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
-import { isValid } from '@visactor/vutils';
+import { isEmpty, isValid } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
 import type { LayoutItem } from '../../../model/layout-item';
-import type { INode } from '@visactor/vrender';
+import { Factory } from '../../../core/factory';
+import type { INode } from '@visactor/vrender-core';
 
 export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> implements IMarkPoint {
   static type = ComponentTypeEnum.markPoint;
@@ -33,7 +34,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
 
   static createComponent(spec: any, options: IComponentOption) {
     const markPointSpec = spec.markPoint || options.defaultSpec;
-    if (isNil(markPointSpec)) {
+    if (isEmpty(markPointSpec)) {
       return undefined;
     }
     if (!isArray(markPointSpec) && markPointSpec.visible !== false) {
@@ -99,7 +100,12 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
       point = spec.position;
     }
 
-    const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+    const seriesData = this._relativeSeries.getViewData().latestData;
+    const dataPoints = data
+      ? data.latestData[0].latestData
+        ? data.latestData[0].latestData
+        : data.latestData
+      : seriesData;
 
     let limitRect;
     if (spec.clip) {
@@ -119,7 +125,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
         textStyle: {
           ...this._markerComponent?.attribute?.itemContent?.textStyle,
           text: this._spec.itemContent.text?.formatMethod
-            ? this._spec.itemContent.text.formatMethod(dataPoints, this._relativeSeries.getViewData().latestData)
+            ? this._spec.itemContent.text.formatMethod(dataPoints, seriesData)
             : this._markerComponent?.attribute?.itemContent?.textStyle?.text
         }
       },
@@ -156,3 +162,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
     this._markerData = data;
   }
 }
+
+export const registerMarkPoint = () => {
+  Factory.registerComponent(MarkPoint.type, MarkPoint);
+};

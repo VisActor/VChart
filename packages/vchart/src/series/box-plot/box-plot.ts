@@ -20,14 +20,13 @@ import { BoxPlotSeriesTooltipHelper } from './tooltip-helper';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
+import { registerScaleInOutAnimation } from '../../animation/config';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { VChart } from '../../core/vchart';
 import { BoxPlotMark } from '../../mark/box-plot';
 import { SymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
-
-VChart.useMark([BoxPlotMark, SymbolMark]);
+import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -174,7 +173,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       this.setMarkStyle(boxPlotMark, boxPlotMarkStyles, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Series);
 
       this._trigger.registerMark(boxPlotMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(boxPlotMark);
     }
 
     const outlierMark = this._outlierMark;
@@ -190,7 +188,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         AttributeLevel.Series
       );
       this._trigger.registerMark(outlierMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(outlierMark);
     }
   }
 
@@ -336,7 +333,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     this._autoBoxWidth = null;
   }
 
-  private _initAnimationSpec(config: any) {
+  private _initAnimationSpec(config: any = {}) {
     //将spec中的animation的type替换为箱型图的type
     const newConfig = Object.assign({}, config);
     ['appear', 'enter', 'update', 'exit', 'disappear'].forEach(state => {
@@ -359,7 +356,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       return xIndex || 0;
     };
     if (this._boxPlotMark) {
-      const newDefaultConfig = this._initAnimationSpec(DEFAULT_MARK_ANIMATION.boxPlot());
+      const newDefaultConfig = this._initAnimationSpec(Factory.getAnimationInKey('scaleInOut')?.());
       const newConfig = this._initAnimationSpec(userAnimationConfig(SeriesMarkNameEnum.boxPlot, this._spec));
       this._boxPlotMark.setAnimationConfig(animationConfig(newDefaultConfig, newConfig, { dataIndex }));
     }
@@ -373,7 +370,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         update: (this._spec.animationUpdate as IMarkAnimateSpec<string>)?.symbol
       };
       this._outlierMark.setAnimationConfig(
-        animationConfig(DEFAULT_MARK_ANIMATION.symbol(), outlierMarkUserAnimation, {
+        animationConfig(Factory.getAnimationInKey('scaleInOut')?.(), outlierMarkUserAnimation, {
           dataIndex
         })
       );
@@ -382,6 +379,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   protected initTooltip() {
     this._tooltipHelper = new BoxPlotSeriesTooltipHelper(this);
+    this._boxPlotMark && this._tooltipHelper.activeTriggerSet.mark.add(this._boxPlotMark);
+    this._outlierMark && this._tooltipHelper.activeTriggerSet.mark.add(this._outlierMark);
   }
 
   getStatisticFields() {
@@ -402,4 +401,15 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
   getDefaultShapeType(): string {
     return 'square';
   }
+
+  getActiveMarks(): IMark[] {
+    return [this._boxPlotMark];
+  }
 }
+
+export const registerBoxplotSeries = () => {
+  Factory.registerMark(BoxPlotMark.type, BoxPlotMark);
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  Factory.registerSeries(BoxPlotSeries.type, BoxPlotSeries);
+  registerScaleInOutAnimation();
+};

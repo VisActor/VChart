@@ -1,9 +1,8 @@
 import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
-import type { ITextMark } from '../../mark/text';
+import { TextMark, type ITextMark } from '../../mark/text';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IWordCloud3dSeriesSpec } from './interface';
 import type { Datum } from '../../typings';
-import { DEFAULT_MARK_ANIMATION } from '../../animation/config';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { LinearScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar-util';
@@ -15,6 +14,8 @@ import {
 } from '../../constant/word-cloud';
 import type { ICompilableMark } from '../../compile/mark';
 import { BaseWordCloudSeries } from './base';
+import { Factory } from '../../core/factory';
+import { registerWordCloud3dAnimation } from './animation';
 
 export class WordCloud3dSeries<
   T extends IWordCloud3dSeriesSpec = IWordCloud3dSeriesSpec
@@ -90,7 +91,7 @@ export class WordCloud3dSeries<
         fontSizeRange: this._fontSizeRange,
         padding: this._fontPadding,
         rotate: { field: WORD_CLOUD_ANGLE },
-        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily,
+        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
         depth_3d: this._spec.depth_3d,
@@ -119,12 +120,15 @@ export class WordCloud3dSeries<
         fontSizeRange: this._fontSizeRange,
         padding: this._fontPadding,
         rotateList: rotateAngles,
-        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily,
+        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
         depth_3d: this._spec.depth_3d,
 
-        fillingFontFamily: this._wordCloudShapeConfig?.fillingFontFamilyField ?? this._spec.word?.style?.fontFamily,
+        fillingFontFamily:
+          this._wordCloudShapeConfig?.fillingFontFamilyField ??
+          this._spec.word?.style?.fontFamily ??
+          this._option?.getTheme()?.fontFamily,
         fillingPadding: this._fillingFontPadding,
         fillingFontStyle: this._wordCloudShapeConfig?.fillingFontStyleField ?? this._spec.word?.style?.fontStyle,
         fillingFontWeight: this._wordCloudShapeConfig?.fillingFontWeightField ?? this._spec.word?.style?.fontWeight, // 填充词fontWeight默认不跟随valueField
@@ -196,6 +200,14 @@ export class WordCloud3dSeries<
         'normal',
         AttributeLevel.Series
       );
+      this.setMarkStyle(
+        wordMark,
+        {
+          fontFamily: this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily
+        },
+        'normal',
+        AttributeLevel.User_Mark
+      );
     }
     if (fillingWordMark) {
       this.setMarkStyle(
@@ -218,27 +230,33 @@ export class WordCloud3dSeries<
         'normal',
         AttributeLevel.Series
       );
+      this.setMarkStyle(
+        fillingWordMark,
+        {
+          fontFamily: this._spec.word?.style?.fontFamily ?? this._option?.getTheme()?.fontFamily
+        },
+        'normal',
+        AttributeLevel.User_Mark
+      );
     }
     this._trigger.registerMark(wordMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(wordMark);
     this._trigger.registerMark(fillingWordMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(fillingWordMark);
   }
 
   initAnimation() {
     if (this._wordMark) {
       this._wordMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.wordCloud3d(() => {
+          Factory.getAnimationInKey('wordCloud3d')?.(() => {
             const srView = this.getCompiler().getVGrammarView();
             const width = srView.width() - this._padding?.left || 0 - this._padding?.right || 0;
             const height = srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0;
             const r = Math.max(width, height) / 2;
             return {
-              center: { x: r, y: r, z: (this._spec as any).depth_3d ?? r },
+              center: { x: r, y: r, z: this._spec.depth_3d ?? r },
               r
             };
-          }) as any,
+          }),
           userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
         )
       );
@@ -246,19 +264,25 @@ export class WordCloud3dSeries<
     if (this._fillingWordMark) {
       this._fillingWordMark.setAnimationConfig(
         animationConfig(
-          DEFAULT_MARK_ANIMATION.wordCloud3d(() => {
+          Factory.getAnimationInKey('wordCloud3d')?.(() => {
             const srView = this.getCompiler().getVGrammarView();
             const width = srView.width() - this._padding?.left || 0 - this._padding?.right || 0;
             const height = srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0;
             const r = Math.max(width, height) / 2;
             return {
-              center: { x: r, y: r, z: (this._spec as any).depth_3d ?? r },
+              center: { x: r, y: r, z: this._spec.depth_3d ?? r },
               r
             };
-          }) as any,
+          }),
           userAnimationConfig(SeriesMarkNameEnum.fillingWord, this._spec)
         )
       );
     }
   }
 }
+
+export const registerWordCloud3dSeries = () => {
+  Factory.registerMark(TextMark.type, TextMark);
+  Factory.registerSeries(WordCloud3dSeries.type, WordCloud3dSeries);
+  registerWordCloud3dAnimation();
+};

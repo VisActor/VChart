@@ -25,6 +25,9 @@ export interface ISeries extends IModel, ILayoutItem {
   readonly type: string;
   readonly name?: string;
 
+  // tooltip
+  tooltipHelper: ISeriesTooltipHelper;
+
   // 配置
   getSpec: () => any;
 
@@ -98,9 +101,7 @@ export interface ISeries extends IModel, ILayoutItem {
   getMarkInId: (id: number) => IMark | undefined;
 
   getRootMark: () => IGroupMark;
-
-  // tooltip
-  tooltipHelper: ISeriesTooltipHelper;
+  getActiveMarks: () => IMark[];
 
   // example
   /**
@@ -270,6 +271,7 @@ export interface IGeoSeries extends ISeries {
   setCoordinateHelper: (helper: IGeoCoordinateHelper) => void;
 
   valueToPosition: (value1: any, value2: any) => IPoint;
+  getDatumCenter: (datum: any) => [number, number];
 }
 
 // 收拢扇区标签形式依赖的 api

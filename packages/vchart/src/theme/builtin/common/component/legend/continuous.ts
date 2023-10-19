@@ -11,7 +11,7 @@ export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
     textStyle: {
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
       fontWeight: 'normal',
       fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
     },
@@ -24,7 +24,7 @@ export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
       fontWeight: 'normal',
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
     },
@@ -34,7 +34,7 @@ export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
       fontWeight: 'normal',
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
     },
@@ -44,7 +44,7 @@ export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
-      fontFamily: THEME_CONSTANTS.defaultFontFamily,
+
       fontWeight: 'normal',
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
     },

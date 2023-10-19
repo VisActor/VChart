@@ -1,4 +1,4 @@
-import type { IGraphic, IGroup, INode } from '@visactor/vrender';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import { BaseModel } from '../../model/base-model';
 import type { IRegion } from '../../region/interface';
 import type { ComponentTypeEnum, IComponent, IComponentOption } from '../interface';
@@ -51,7 +51,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   abstract changeRegions(regions: IRegion[]): void;
-  abstract getVRenderComponents(): IGroup[];
+  abstract getVRenderComponents(): IGraphic[];
 
   protected callPlugin(cb: (plugin: IComponentPlugin) => void) {
     if (this.pluginService) {
@@ -190,4 +190,8 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
       'model'
     );
   };
+
+  getGraphicBounds() {
+    return this.getVRenderComponents()?.[0]?.AABBBounds ?? super.getGraphicBounds();
+  }
 }

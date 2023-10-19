@@ -4,6 +4,9 @@ import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { LogScale } from '@visactor/vscale';
 import { mixin } from '@visactor/vutils';
 import type { ICartesianLogAxisSpec } from './interface';
+import { Factory } from '../../../core/factory';
+import { ComponentMark } from '../../../mark';
+import { registerAxis } from '../base-axis';
 
 export interface CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesianLogAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
@@ -32,3 +35,8 @@ export class CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesianLogAxi
 }
 
 mixin(CartesianLogAxis, LinearAxisMixin);
+
+export const registerCartesianLogAxis = () => {
+  registerAxis();
+  Factory.registerComponent(CartesianLogAxis.type, CartesianLogAxis);
+};
