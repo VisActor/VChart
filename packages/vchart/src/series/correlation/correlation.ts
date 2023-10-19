@@ -25,6 +25,7 @@ import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { Factory } from '../../core/factory';
 import { registerCorrelationAnimation, type CorrelationAppearPreset } from './animation';
 import type { IStateAnimateSpec } from '../../animation/spec';
+import type { IMark } from '../../mark/interface';
 
 export class CorrelationSeries extends PolarSeries<any> {
   static readonly type: string = SeriesTypeEnum.correlation;
@@ -317,6 +318,9 @@ export class CorrelationSeries extends PolarSeries<any> {
   }
   setValueFieldToPercent(): void {
     return;
+  }
+  getActiveMarks(): IMark[] {
+    return [this._nodePointMark, this._centerPointMark, this._ripplePointMark];
   }
 
   /** 获取维度field */
