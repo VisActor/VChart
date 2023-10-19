@@ -10,7 +10,7 @@ export interface ICorrelationSeriesSpec
   extends Omit<IPolarSeriesSpec, 'innerRadius' | 'outerRadius'>,
     IAnimationSpec<CorrelationMarks, CorrelationAppearPreset> {
   /**
-   * @SInCE 1.5.1
+   * @since 1.5.1
    * 系列类型
    */
   type: 'correlation';
