@@ -101,7 +101,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
   protected abstract _getComponentAttrs(): any;
   protected abstract _createOrUpdateComponent(): void;
-  protected abstract _initEvent(): void;
   protected abstract _computeWidth(): number;
   protected abstract _computeHeight(): number;
   protected abstract _handleChange(start: number, end: number, updateComponent?: boolean): void;
@@ -264,6 +263,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
 
     return domain;
+  }
+
+  protected _initEvent() {
+    this._initCommonEvent();
   }
 
   protected _initData() {
@@ -638,8 +641,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (this._visible) {
       this._createOrUpdateComponent();
     }
-    this._initCommonEvent();
-    this._initEvent();
     super.updateLayoutAttribute();
   }
   /**
