@@ -29,7 +29,7 @@ export default {
               dx: -50,
               dy: -10,
               text: ['1878', 'population was 148'],
-              fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
+              fill: { type: 'palette', key: 'primaryFontColor' },
               textAlign: 'left',
               fontSize: 14
             }
@@ -56,7 +56,7 @@ export default {
             style: {
               dy: -16,
               text: ['2016', 'population was 899447'],
-              fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
+              fill: { type: 'palette', key: 'primaryFontColor' },
               textAlign: 'right',
               fontSize: 14
             }

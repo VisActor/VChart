@@ -14,7 +14,7 @@ export const markArea: IMarkAreaTheme = {
 
       fontWeight: 'normal',
       fontStyle: 'normal',
-      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
+      fill: { type: 'palette', key: 'primaryFontColor' }
     },
     labelBackground: {
       padding: {
