@@ -216,8 +216,6 @@ export class CorrelationSeries extends PolarSeries<any> {
     );
 
     this._trigger.registerMark(nodePointMark);
-
-    this._tooltipHelper?.activeTriggerSet.mark.add(nodePointMark);
   }
 
   protected _initRipplePointMarkStyle() {
@@ -273,6 +271,12 @@ export class CorrelationSeries extends PolarSeries<any> {
     );
 
     this._trigger.registerMark(centerPointMark);
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._nodePointMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nodePointMark);
   }
 
   initLabelMarkStyle(labelMark?: ILabelMark): void {
