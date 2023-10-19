@@ -147,7 +147,7 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     // this.addEventListener('drag', this.onDrag);
 
     this.stage.addEventListener('pointermove', this.handleDragMouseMove);
-    this.addEventListener('pointerup', this.handleDragMouseUp);
+    this.stage.addEventListener('pointerup', this.handleDragMouseUp);
   }
 
   protected handleMouseMove = (e: any) => {
@@ -553,9 +553,9 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     // event
     this.editBorder.removeEventListener('mousemove', this.handleMouseMove);
     this.stage.removeEventListener('pointermove', this.handleDragMouseMove);
+    this.stage.removeEventListener('pointerup', this.handleDragMouseUp);
     this.removeEventListener('pointerout', this.handleMouseOut);
     this.removeEventListener('pointerdown', this.handleDragMouseDown);
-    this.removeEventListener('pointerup', this.handleDragMouseUp);
 
     this.parent.removeChild(this);
     this.editBorder = null;
