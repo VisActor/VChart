@@ -5,7 +5,7 @@ export const markLine: IMarkLineTheme = {
   line: {
     style: {
       lineDash: [3, 3],
-      stroke: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
+      stroke: { type: 'palette', key: 'primaryFontColor' }
     }
   },
   startSymbol: {
@@ -15,7 +15,7 @@ export const markLine: IMarkLineTheme = {
     style: {
       stroke: null,
       lineWidth: 0,
-      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
+      fill: { type: 'palette', key: 'primaryFontColor' }
     }
   },
   endSymbol: {
@@ -25,7 +25,7 @@ export const markLine: IMarkLineTheme = {
     style: {
       stroke: null,
       lineWidth: 0,
-      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
+      fill: { type: 'palette', key: 'primaryFontColor' }
     }
   },
   label: {
@@ -35,7 +35,7 @@ export const markLine: IMarkLineTheme = {
       // lineHeight: THEME_CONSTANTS.l4LineHeight,
       fontWeight: 'normal',
       fontStyle: 'normal',
-      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
+      fill: { type: 'palette', key: 'primaryFontColor' }
     },
     labelBackground: {
       padding: {

@@ -32,7 +32,7 @@ export const tooltip: ITooltipTheme = {
     fontSize: THEME_CONSTANTS.l4FontSize,
     lineHeight: THEME_CONSTANTS.l4LineHeight,
 
-    fontColor: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
+    fontColor: { type: 'palette', key: 'primaryFontColor' },
     fontWeight: 'bold',
     textAlign: 'left',
     textBaseline: 'middle',
@@ -55,7 +55,7 @@ export const tooltip: ITooltipTheme = {
     fontSize: THEME_CONSTANTS.l4FontSize,
     lineHeight: THEME_CONSTANTS.l4LineHeight,
 
-    fontColor: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
+    fontColor: { type: 'palette', key: 'primaryFontColor' },
     fontWeight: 'bold',
     textBaseline: 'middle',
     spacing: 0
