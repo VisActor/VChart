@@ -181,6 +181,7 @@ export const getOneLineData = (
     shapeColor,
     keyStyle,
     valueStyle,
-    spaceRow
+    spaceRow,
+    datum
   };
 };
