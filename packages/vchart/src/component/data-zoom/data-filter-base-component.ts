@@ -322,10 +322,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return domain;
   }
 
-  protected _initEvent() {
-    this._initCommonEvent();
-  }
-
   protected _initData() {
     const dataCollection: any[] = [];
     const stateFields: string[] = [];
@@ -530,11 +526,13 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._end = end;
     this._minSpan = this._spec.minSpan ?? 0;
     this._maxSpan = this._spec.maxSpan ?? 1;
-    if (this._spec.minValueSpan && isContinuous(this._stateScale.type)) {
-      this._minSpan = this._spec.minValueSpan / (this._stateScale.domain()[1] - this._stateScale.domain()[0]);
-    }
-    if (this._spec.maxValueSpan && isContinuous(this._stateScale.type)) {
-      this._maxSpan = this._spec.maxValueSpan / (this._stateScale.domain()[1] - this._stateScale.domain()[0]);
+    if (isContinuous(this._stateScale.type) && this._stateScale.domain[0] !== this._stateScale.domain[1]) {
+      if (this._spec.minValueSpan) {
+        this._minSpan = this._spec.minValueSpan / (this._stateScale.domain()[1] - this._stateScale.domain()[0]);
+      }
+      if (this._spec.maxValueSpan) {
+        this._maxSpan = this._spec.maxValueSpan / (this._stateScale.domain()[1] - this._stateScale.domain()[0]);
+      }
     }
     this._minSpan = Math.max(0, this._minSpan);
     this._maxSpan = Math.min(this._maxSpan, 1);
