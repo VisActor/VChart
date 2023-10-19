@@ -320,7 +320,7 @@ export class CorrelationSeries extends PolarSeries<any> {
     return;
   }
   getActiveMarks(): IMark[] {
-    return [this._nodePointMark, this._centerPointMark, this._ripplePointMark];
+    return [this._nodePointMark, this._centerPointMark];
   }
 
   /** 获取维度field */
