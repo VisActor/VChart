@@ -2,6 +2,62 @@
   "menu": "api",
   "children": [
     {
+      "path": "56-How do I set up some lines to follow the left axis, while the others follow the right axis in a line chart",
+      "title": {
+        "zh": "56.折线图有多条线，如何设置右侧坐标轴，并且某条线是根据右侧坐标轴绘制的？",
+        "en": "56.How do I set up some lines to follow the left axis, while the others follow the right axis in a line chart?"
+      }
+    },
+    {
+      "path": "57-When hovering over a donut chart, how to configure the style of donut chart",
+      "title": {
+        "zh": "57.环形图 hover 的时候，如何配置边框的样式？",
+        "en": "57.When hovering over a donut chart, how to configure the style of donut chart?"
+      }
+    },
+    {
+      "path": "58-How can the background color of the funnel chart's conversion layers be modified",
+      "title": {
+        "zh": "58.漏斗图转化层的背景颜色如何修改？",
+        "en": "58.How can the background color of the funnel chart's conversion layers be modified?"
+      }
+    },
+    {
+      "path": "59-How to generate a simplified mini line chart",
+      "title": {
+        "zh": "59.如何生成一个 mini 折线图？",
+        "en": "59.How to generate a simplified mini line chart?"
+      }
+    },
+    {
+      "path": "60-How to display the legend title and legend with left-right separation in the same row",
+      "title": {
+        "zh": "60.如何实现图例的标题和 图例左右分开显示？",
+        "en": "60.How to display the legend title and legend with left-right separation in the same row?"
+      }
+    },
+    {
+      "path": "61-How to Customize Colors for Different Series in Dual-Axis Chart",
+      "title": {
+        "zh": "61.线、柱双轴图中，如何自定义不同系列的颜色？",
+        "en": "61.How to Customize Colors for Different Series in Dual-Axis Chart?"
+      }
+    },
+    {
+      "path": "62-How to disable the default interactive behavior of legends",
+      "title": {
+        "zh": "62.如何禁用图例的默认交互行为？",
+        "en": "62.How to disable the default interactive behavior of legends?"
+      }
+    },
+    {
+      "path": "63-How to display the center value when selecting an arc in a pie chart",
+      "title": {
+        "zh": "63.环形图中心指标能否设置选中时展示？",
+        "en": "63.How to display the center value when selecting an arc in a pie chart?"
+      }
+    },
+    {
       "path": "74-How to configure the colors of different line segments in a line chart",
       "title": {
         "zh": "74.折线图如何配置分段颜色？",
