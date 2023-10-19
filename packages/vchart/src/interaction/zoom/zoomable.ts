@@ -132,7 +132,8 @@ export class Zoomable implements IZoomable {
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    const { delayType = 'throttle', delayTime = 0 } = option;
+    const delayType = option?.delayType ?? 'throttle';
+    const delayTime = option?.delayTime ?? 0;
 
     // pc端没有scrollEnd事件，所以漫游模式下scroll仅支持realTime
     eventObj.on(
@@ -233,7 +234,8 @@ export class Zoomable implements IZoomable {
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    const { delayType = 'throttle', delayTime = 0 } = option;
+    const delayType = option?.delayType ?? 'throttle';
+    const delayTime = option?.delayTime ?? 0;
 
     // pc端没有scrollEnd事件，所以漫游模式下scroll仅支持realTime
     eventObj.on(
@@ -386,7 +388,9 @@ export class Zoomable implements IZoomable {
     if (!this._zoomableTrigger.parserDragEvent(params.event)) {
       return;
     }
-    const { delayType = 'throttle', delayTime = 0, realTime = false } = option;
+    const delayType = option?.delayType ?? 'throttle';
+    const delayTime = option?.delayTime ?? 0;
+    const realTime = option?.realTime ?? true;
     const move = this._getTriggerEvent('move');
     const end = this._getTriggerEvent('end');
     const event = params.event;
