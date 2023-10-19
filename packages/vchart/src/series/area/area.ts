@@ -49,7 +49,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   protected declare _theme: Maybe<IAreaSeriesTheme>;
 
   protected _areaMark!: IAreaMark;
-  protected _stack: boolean = true;
+  protected _supportStack: boolean = true;
   protected _sortDataByAxis: boolean = false;
 
   setAttrFromSpec(): void {

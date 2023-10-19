@@ -23,7 +23,7 @@ import { binaryFuzzySearch } from '@visactor/vutils-extension';
 export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> extends PolarSeries<T> {
   static readonly mark: SeriesMarkMap = progressLikeSeriesMark;
 
-  protected _stack: boolean = true;
+  protected _supportStack: boolean = true;
 
   protected _startAngle: number;
   protected _endAngle: number;
