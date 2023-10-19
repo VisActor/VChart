@@ -339,10 +339,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     }
   }
 
-  protected _initEvent() {
-    // do nothing
-  }
-
   protected _getComponentAttrs() {
     return {
       backgroundStyle: transformToGraphic(this._spec.background?.style) as unknown as IRectGraphicAttribute,
