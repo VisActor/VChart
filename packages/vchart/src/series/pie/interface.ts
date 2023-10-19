@@ -80,6 +80,16 @@ export interface IPieSeriesTheme extends IPolarSeriesTheme {
   [SeriesMarkNameEnum.pie]?: Partial<IMarkTheme<IArcMarkSpec>>;
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: IArcLabelSpec;
+  /**
+   * 内标签配置
+   * @since 1.5.1
+   */
+  innerLabel?: IArcLabelSpec;
+  /**
+   * 外标签配置
+   * @since 1.5.1
+   */
+  outerLabel?: IArcLabelSpec;
 }
 
 export type IPie3dSeriesSpec = {

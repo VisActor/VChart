@@ -12,9 +12,13 @@ export const pie: IPieSeriesTheme = {
     position: 'outside',
     style: {
       fontWeight: 'normal',
-      lineWidth: 2,
       stroke: { type: 'palette', key: 'backgroundColor' },
       fillOpacity: 1
+    }
+  },
+  innerLabel: {
+    style: {
+      lineWidth: 2
     }
   }
 };
