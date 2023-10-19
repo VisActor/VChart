@@ -13,6 +13,7 @@ import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';
 import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
+import type { IZoomable } from '../../../interaction/zoom';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
@@ -59,6 +60,9 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         this._dragAttr.enable = false;
         this._scrollAttr.enable = false;
       }
+    }
+    if (this._zoomAttr.enable || this._dragAttr.enable || this._scrollAttr.enable) {
+      (this as unknown as IZoomable).initZoomable(this.event, this._option.mode);
     }
   }
 
@@ -117,7 +121,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         range: [this._start, this._end],
         direction: this._isHorizontal ? 'horizontal' : 'vertical',
         delayType: this._spec?.delayType,
-        delayTime: isValid(this._spec?.delayType) ? 0 : this._spec?.delayTime ?? 30,
+        delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
         realTime: this._spec?.realTime ?? true,
         ...this._getComponentAttrs()
       });
@@ -158,7 +162,8 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     // do nothing
   }
 
-  protected _initEvent() {
+  protected _initCommonEvent() {
+    super._initCommonEvent();
     if (this._component) {
       this._component.on('scroll', (e: any) => {
         const value = e.detail.value;

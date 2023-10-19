@@ -233,6 +233,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._setAxisFromSpec();
     // related regions
     this._setRegionsFromSpec();
+    this._initEvent();
     // data for background
     this._initData();
     // init the state scale
@@ -320,6 +321,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
 
     return domain;
+  }
+
+  protected _initEvent() {
+    this._initCommonEvent();
   }
 
   protected _initData() {
@@ -456,10 +461,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       this._scrollAttr = merge({}, this._scrollAttr, this._spec.roamScroll);
     } else {
       this._scrollAttr.enable = false;
-    }
-
-    if (this._zoomAttr.enable || this._dragAttr.enable || this._scrollAttr.enable) {
-      (this as unknown as IZoomable).initZoomable(this.event, this._option.mode);
     }
 
     // style相关
@@ -744,7 +745,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _initCommonEvent() {
     const delayType: IDelayType = this._spec?.delayType ?? 'throttle';
-    const delayTime = isValid(this._spec?.delayType) ? 0 : this._spec?.delayTime ?? 30;
+    const delayTime = isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0;
     const realTime = this._spec?.realTime ?? false;
     const option = { delayType, delayTime, realTime };
     if (this._zoomAttr.enable) {

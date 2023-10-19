@@ -16,6 +16,7 @@ import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import type { IDataZoomSpec } from './interface';
 import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
+import type { IZoomable } from '../../../interaction/zoom';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -78,6 +79,10 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         this._dragAttr.enable = false;
         this._scrollAttr.enable = false;
       }
+    }
+
+    if (this._zoomAttr.enable || this._dragAttr.enable || this._scrollAttr.enable) {
+      (this as unknown as IZoomable).initZoomable(this.event, this._option.mode);
     }
 
     // size相关
@@ -297,7 +302,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         minSpan: this._minSpan,
         maxSpan: this._maxSpan,
         delayType: this._spec?.delayType,
-        delayTime: isValid(this._spec?.delayType) ? 0 : this._spec?.delayTime ?? 30,
+        delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
         realTime: this._spec?.realTime ?? true,
         previewData: isNeedPreview && this._data.getLatestData(),
         previewPointsX: isNeedPreview && this._dataToPositionX,

@@ -4496,9 +4496,15 @@ const run = () => {
         start: 0,
         end: 0.4,
         visible: true,
-        realTime: false,
+        realTime: true,
+        delayType: 'debounce',
+        delayTime: 20,
+        // zoomLock: true,
+        minSpan: 0.2,
+        maxSpan: 0.8,
+        roam: true,
         roamDrag: {
-          rate: 0.01,
+          rate: 1,
           reverse: true
         },
         roamZoom: {
