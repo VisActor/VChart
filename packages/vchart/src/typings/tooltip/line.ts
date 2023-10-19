@@ -32,4 +32,9 @@ export interface IToolTipLineActual extends ITooltipShapeActual, ITooltipLabelAc
    * @since 1.4.0
    */
   spaceRow?: number;
+  /**
+   * 该行对应的原始数据
+   * @since 1.5.1
+   */
+  datum?: any;
 }
