@@ -744,7 +744,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _initCommonEvent() {
     const delayType: IDelayType = this._spec?.delayType ?? 'throttle';
-    const delayTime = this._spec?.delayTime ?? 0;
+    const delayTime = isValid(this._spec?.delayType) ? 0 : this._spec?.delayTime ?? 30;
     const realTime = this._spec?.realTime ?? false;
     const option = { delayType, delayTime, realTime };
     if (this._zoomAttr.enable) {

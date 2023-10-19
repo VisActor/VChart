@@ -1,4 +1,4 @@
-import { isArray, isNil, isNumber, uniqArray } from '@visactor/vutils';
+import { isArray, isNil, isNumber, isValid, uniqArray } from '@visactor/vutils';
 import { mergeSpec } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -66,6 +66,19 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
+
+    // roam兼容逻辑
+    if (isValid((this._spec as any).roam)) {
+      if ((this._spec as any).roam) {
+        this._zoomAttr.enable = true;
+        this._dragAttr.enable = true;
+        this._scrollAttr.enable = true;
+      } else {
+        this._zoomAttr.enable = false;
+        this._dragAttr.enable = false;
+        this._scrollAttr.enable = false;
+      }
+    }
 
     // size相关
     this._backgroundSize = this._spec.background?.size ?? 30;
@@ -283,8 +296,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         zoomLock: this._spec?.zoomLock ?? false,
         minSpan: this._minSpan,
         maxSpan: this._maxSpan,
-        delayType: this._spec?.delayType ?? 'throttle',
-        delayTime: this._spec?.delayTime ?? 0,
+        delayType: this._spec?.delayType,
+        delayTime: isValid(this._spec?.delayType) ? 0 : this._spec?.delayTime ?? 30,
         realTime: this._spec?.realTime ?? true,
         previewData: isNeedPreview && this._data.getLatestData(),
         previewPointsX: isNeedPreview && this._dataToPositionX,

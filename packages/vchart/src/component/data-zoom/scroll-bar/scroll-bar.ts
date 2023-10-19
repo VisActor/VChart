@@ -1,4 +1,4 @@
-import { debounce, isArray, isEmpty, isNil, isNumber } from '@visactor/vutils';
+import { isArray, isEmpty, isNil, isNumber, isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
@@ -45,6 +45,21 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       ...options
     });
     this._filterMode = spec.filterMode ?? IFilterMode.axis;
+  }
+
+  setAttrFromSpec() {
+    super.setAttrFromSpec();
+    // roam兼容逻辑
+    if (isValid((this._spec as any).roam)) {
+      if ((this._spec as any).roam) {
+        this._dragAttr.enable = true;
+        this._scrollAttr.enable = true;
+      } else {
+        this._zoomAttr.enable = false;
+        this._dragAttr.enable = false;
+        this._scrollAttr.enable = false;
+      }
+    }
   }
 
   /** LifeCycle API**/
@@ -101,19 +116,16 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         height: this.getLayoutRect().height,
         range: [this._start, this._end],
         direction: this._isHorizontal ? 'horizontal' : 'vertical',
-        delayType: this._spec?.delayType ?? 'throttle',
-        delayTime: this._spec?.delayTime ?? 0,
+        delayType: this._spec?.delayType,
+        delayTime: isValid(this._spec?.delayType) ? 0 : this._spec?.delayTime ?? 30,
         realTime: this._spec?.realTime ?? true,
         ...this._getComponentAttrs()
       });
       // 绑定事件，防抖，防止频繁触发
-      this._component.addEventListener(
-        'scroll',
-        debounce((e: any) => {
-          const value = e.detail.value;
-          this._handleChange(value[0], value[1]);
-        }, 30)
-      );
+      this._component.addEventListener('scroll', (e: any) => {
+        const value = e.detail.value;
+        this._handleChange(value[0], value[1]);
+      });
       container.add(this._component as unknown as INode);
     }
   }

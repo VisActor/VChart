@@ -85,62 +85,61 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
   /**
    * 是否锁定选择区域（或叫做数据窗口）的大小
    * @default false
-   * @since 1.5.0
+   * @since 1.5.1
    */
   zoomLock?: boolean;
   /**
    * 用于限制窗口大小的最小值, [0, 1]
    * @default 0
-   * @since 1.5.0
+   * @since 1.5.1
    */
   minSpan?: number;
   /**
    * 用于限制窗口大小的最大值, [0, 1]
    * @default 1
-   * @since 1.5.0
+   * @since 1.5.1
    */
   maxSpan?: number;
   /**
    * 用于限制窗口大小的最小数据值, 仅在continous scale生效，优先级高于minSpan
-   * @since 1.5.0
+   * @since 1.5.1
    */
   minValueSpan?: number;
   /**
    * 用于限制窗口大小的最大数据值, 仅在continous scale生效，优先级高于maxSpan
-   * @since 1.5.0
+   * @since 1.5.1
    */
   maxValueSpan?: number;
   /**
-   * 事件触发延迟类型
-   * @default 'throttle'
-   * @since 1.5.0
+   * 事件触发延迟类型, 不配置则视作未开启
+   * @since 1.5.1
    */
   delayType?: IDelayType;
   /**
    * 事件触发延迟时长
-   * @default 0
-   * @since 1.5.0
+   * @default 30
+   * @since 1.5.1
    */
   delayTime?: number;
   /**
    * 漫游模式 - 缩放（画布内自由交互), 默认不开启
    * @default false
-   * @since 1.5.0
+   * @since 1.5.1
    */
   roamZoom?: IRoamZoomSpec | boolean;
   /**
    * 漫游模式 - 拖拽（画布内自由交互), 默认不开启
-   * @since 1.5.0
+   * @since 1.5.1
    */
   roamDrag?: IRoamDragSpec | boolean;
   /**
    * 漫游模式 - 滚动（画布内自由交互), 默认不开启
-   * @since 1.5.0
+   * @since 1.5.1
    */
   roamScroll?: IRoamScrollSpec | boolean;
   /**
    * 是否在操作时动态更新视图
-   * @since 1.5.0
+   * @since 1.5.1
    * @default true
    */
   realTime?: boolean;
