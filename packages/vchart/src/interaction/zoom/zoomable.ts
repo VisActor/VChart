@@ -124,6 +124,11 @@ export class Zoomable implements IZoomable {
       // zoomDelta, zoomX, zoomY can be changed in the callback
       callback({ zoomDelta, zoomX, zoomY }, event);
     }
+    this._eventObj.emit('zoom', {
+      scale: event.zoomDelta,
+      scaleCenter: { x: event.zoomX, y: event.zoomY },
+      model: this
+    } as unknown as ExtendEventParam);
   }
 
   private _bindZoomEventAsRegion(
@@ -151,12 +156,6 @@ export class Zoomable implements IZoomable {
         // if (realTime) {
         this._zoomEventDispatch(params, regionOrSeries, callback);
         // }
-        const event = (params as BaseEventParams).event.clone();
-        this._eventObj.emit('zoom', {
-          scale: event.zoomDelta,
-          scaleCenter: { x: event.zoomX, y: event.zoomY },
-          model: this
-        } as unknown as ExtendEventParam);
       }, delayTime) as any
     );
   }
@@ -226,6 +225,11 @@ export class Zoomable implements IZoomable {
     if (callback) {
       callback({ scrollX, scrollY }, event);
     }
+    this._eventObj.emit('scroll', {
+      scrollX,
+      scrollY,
+      model: this
+    } as unknown as ExtendEventParam);
   }
 
   private _bindScrollEventAsRegion(
@@ -253,11 +257,6 @@ export class Zoomable implements IZoomable {
         // if (realTime) {
         this._scrollEventDispatch(params, regionOrSeries, callback);
         // }
-        this._eventObj.emit('scroll', {
-          scrollX,
-          scrollY,
-          model: this
-        } as unknown as ExtendEventParam);
       }, delayTime)
     );
   }
