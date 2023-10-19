@@ -109,7 +109,11 @@ export class SpecProcess implements ISpecProcess {
   }
 
   private _mergeEditorSpec() {
-    this._vchartSpec;
+    // width height
+    if (this._editorSpec.layout) {
+      this._vchartSpec.width = this._editorSpec.layout.viewBox.width;
+      this._vchartSpec.height = this._editorSpec.layout.viewBox.height;
+    }
     // 色板
     if (this._editorSpec.color) {
       this._vchartSpec.color = this._editorSpec.color;
@@ -177,6 +181,7 @@ export class SpecProcess implements ISpecProcess {
       );
     }
     if (attr.modelSpec) {
+      hasChange = true;
       attr.modelSpec.forEach(mSpec => {
         this.mergeModelEditorSpec(mSpec, mSpec.spec);
       });

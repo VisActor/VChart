@@ -121,8 +121,8 @@ export class EditorLayer implements IEditorLayer {
     });
     this._canvas.style.width = width + 'px';
     this._canvas.style.height = height + 'px';
-    this._canvas.width = width;
-    this._canvas.height = height;
+    this._canvas.width = width * this._stage.dpr;
+    this._canvas.height = height * this._stage.dpr;
 
     this._container.style.width = width + 'px';
     this._container.style.height = height + 'px';
@@ -158,11 +158,16 @@ export class EditorLayer implements IEditorLayer {
 
   protected initCanvas() {
     const canvas = document.createElement('canvas');
-    canvas.width = this._container.clientWidth;
-    canvas.height = this._container.clientHeight;
+    canvas.width = this._container.clientWidth * window.devicePixelRatio;
+    canvas.height = this._container.clientHeight * window.devicePixelRatio;
+    canvas.style.width = this._container.clientWidth + 'px';
+    canvas.style.height = this._container.clientHeight + 'px';
+
     canvas.style.position = 'absolute';
     canvas.style.pointerEvents = 'none';
+
     canvas.id = `_vchart_editor_layer_${this._id}_canvas`;
+
     this._container.appendChild(canvas);
     this._canvas = canvas;
 
@@ -172,7 +177,8 @@ export class EditorLayer implements IEditorLayer {
       height: this._canvas.clientHeight,
       canvasControled: true,
       autoRender: true,
-      disableDirtyBounds: true
+      disableDirtyBounds: true,
+      dpr: window.devicePixelRatio
     });
     // @ts-ignore
     this._stage = stage;

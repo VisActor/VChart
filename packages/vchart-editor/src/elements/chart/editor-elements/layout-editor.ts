@@ -166,7 +166,7 @@ export class LayoutEditorElement extends BaseEditorElement {
           const layoutData = attr.layout as Partial<ILayoutAttribute>;
           const rect = { ...model.computeBoundsInRect(layoutData) };
           const bounds = model.getGraphicBounds?.();
-          if (bounds) {
+          if (model.type !== 'region' && bounds) {
             rect.width = Math.max(rect.width, bounds.x2 - bounds.x1);
             rect.height = Math.max(rect.height, bounds.y2 - bounds.y1);
           }
