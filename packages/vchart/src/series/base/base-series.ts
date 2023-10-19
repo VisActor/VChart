@@ -196,7 +196,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return this._groups;
   }
 
-  protected _stack: boolean = false;
+  protected _stack: boolean;
+  protected _supportStack: boolean;
   getStack() {
     return this._stack;
   }
@@ -302,6 +303,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       this._stack = this._spec.stackOffsetSilhouette || this._stack; // this._stack is `true` in bar/area series
     }
     if (isValid(this._spec.stackValue)) {
+      this._stack = true;
+    }
+
+    if (isNil(this._stack) && this._supportStack && this._seriesField) {
+      // only set default value of stack to be `true` when series support stack and seriesField is not null
       this._stack = true;
     }
     if (isValid(this._spec.invalidType)) {
