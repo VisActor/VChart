@@ -10,9 +10,10 @@ import { BaseEditorElement, CommonChartEditorElement } from './base-editor-eleme
 import { merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
-import type { EventParams, MarkLine } from '@visactor/vchart';
-import type { IComponent } from '@visactor/vchart/esm/component/interface';
-import type { Point } from '@visactor/vrender-components/es/core/type';
+import type { EventParams, MarkLine, IComponent } from '@visactor/vchart';
+import type { Point } from './types';
+import { MarkerTypeEnum } from '../interface';
+import type { ICartesianSeries } from '@visactor/vchart';
 
 export class AvgMarkLineEditor extends BaseEditorElement {
   private _model: MarkLine;
@@ -30,9 +31,11 @@ export class AvgMarkLineEditor extends BaseEditorElement {
     vchart.on('pointerdown', { level: 'model', type: 'markLine', consume: true }, this._onDragStart);
   }
 
-  private _checkEventEnable(e) {
+  private _checkEventEnable(e: any) {
     const markerComponent = e.model.getVRenderComponents()[0];
-    return markerComponent?.name?.startsWith('avgMarkLine');
+    return (
+      markerComponent?.name === MarkerTypeEnum.horizontalLine || markerComponent?.name === MarkerTypeEnum.verticalLine
+    );
   }
 
   private _onHover = (e: any) => {
@@ -49,8 +52,14 @@ export class AvgMarkLineEditor extends BaseEditorElement {
     }
     this._element = e.model.getVRenderComponents()[0];
     this._model = e.model;
-    // TODO: hack
-    this._orient = this._model.getSpec().x ? 'vertical' : 'horizontal';
+    this._orient = this._element.name === MarkerTypeEnum.verticalLine ? 'vertical' : 'horizontal';
+
+    // Important: 拖拽过程中，关闭对应 markLine 的交互
+    this._element.setAttributes({
+      pickable: false,
+      childrenPickable: false
+    });
+
     this._selected = true;
 
     const el = this._getEditorElement(e);
@@ -91,9 +100,9 @@ export class AvgMarkLineEditor extends BaseEditorElement {
     this._editComponent.hideAll();
 
     const offset = (this._editComponent.attribute[this._orient === 'horizontal' ? 'dy' : 'dx'] ?? 0) - this._preOffset;
-    const points = this._element.attribute.points;
+    const points = this._element.attribute.points as Point[];
+    const field = this._orient === 'horizontal' ? 'y' : 'x';
     const newPoints = points.map(point => {
-      const field = this._orient === 'horizontal' ? 'y' : 'x';
       const newPoint = { ...point };
       newPoint[field] = point[field] + offset;
       return newPoint;
@@ -102,38 +111,60 @@ export class AvgMarkLineEditor extends BaseEditorElement {
     // 计算新的 label 值
     let newText;
     if (this._orient === 'horizontal') {
-      const series = this._model.getRelativeSeries();
+      const series = this._model.getRelativeSeries() as ICartesianSeries;
       const convertPosition = newPoints[0].y - series.getLayoutStartPoint().y;
-      newText = parseInt(series.positionToDataY(convertPosition), 10);
+      const isContinuousYAxis = series.getYAxisHelper().isContinuous;
+      if (isContinuousYAxis) {
+        newText = parseInt(series.positionToDataY(convertPosition), 10);
+      } else {
+        newText = series.positionToDataY(convertPosition);
+      }
     } else {
       const series = this._model.getRelativeSeries();
       const convertPosition = newPoints[0].x - series.getLayoutStartPoint().x;
-      newText = series.positionToDataX(convertPosition);
+      const isContinuousXAxis = series.getXAxisHelper().isContinuous;
+      if (isContinuousXAxis) {
+        newText = parseInt(series.positionToDataX(convertPosition), 10);
+      } else {
+        newText = series.positionToDataX(convertPosition);
+      }
     }
 
     // 更新 markLine
     // 1. 生成新的 markLine spec，用于存储
     // TODO: 如果是对应离散轴的话需要变成坐标，或者加上 dx/dy 属性
     const newSpec = merge({}, this._model.getSpec(), {
-      [this._orient === 'vertical' ? 'x' : 'y']: newText
+      label: {
+        text: newText
+      },
+      positions: newPoints // TODO：需要支持相对 region 区域内的坐标
     });
-
-    // console.log(newSpec);
+    delete newSpec.x;
+    delete newSpec.y;
+    delete newSpec.coordinates;
 
     // 2. 计算新的 label 值，同时释放事件
     this._element.setAttributes({
       points: newPoints as Point[],
       label: {
         text: newText
-      }
+      },
+      pickable: true,
+      childrenPickable: true
     });
     vglobal.removeEventListener('pointermove', this._onDrag);
     vglobal.removeEventListener('pointerup', this._onDragEnd);
+
+    this._currentEl.updateAttribute({
+      markLine: {
+        spec: newSpec
+      }
+    });
   };
 
   protected _getOverGraphic(el: IEditorElement): IGraphic {
     const model = el.model;
-    const markLine = (model as IComponent).getVRenderComponents()[0];
+    const markLine = (model as unknown as IComponent).getVRenderComponents()[0];
     const lineShape = (markLine as unknown as MarkLineComponent).getLine();
     const overlayLine = new Segment(
       merge({}, lineShape.attribute, {
@@ -183,7 +214,7 @@ export class AvgMarkLineEditor extends BaseEditorElement {
       return this._editComponent;
     }
     const model = el.model;
-    const markLine = (model as IComponent).getVRenderComponents()[0];
+    const markLine = (model as unknown as IComponent).getVRenderComponents()[0];
     const lineShape = (markLine as unknown as MarkLineComponent).getLine();
     const labelShape = (markLine as unknown as MarkLineComponent).getLabel();
 
