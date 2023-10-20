@@ -54,7 +54,7 @@ import type { ICartesianCrosshairSpec, IPolarCrosshairSpec } from './crosshair';
 import { CartesianCrossHair, PolarCrossHair, registerCartesianCrossHair, registerPolarCrossHair } from './crosshair';
 import type { IPlayerSpec } from './player';
 import { Player, registerPlayer } from './player';
-import type { IMarkLineSpec } from './marker/mark-line';
+import type { IMarkLineSpec, IStepMarkLineSpec } from './marker/mark-line';
 import { MarkLine, registerMarkLine } from './marker/mark-line';
 import type { IMarkAreaSpec } from './marker/mark-area';
 import { MarkArea, registerMarkArea } from './marker/mark-area';
@@ -147,6 +147,7 @@ export type {
   IMapLabelSpec,
   IMarkAreaSpec,
   IMarkLineSpec,
+  IStepMarkLineSpec,
   IMarkPointSpec,
   IPlayerSpec,
   IPolarAxisSpec,

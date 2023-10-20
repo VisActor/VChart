@@ -128,7 +128,18 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     } else if (isCoordinateLayout) {
       points = coordinateLayout(data, relativeSeries, autoRange);
     } else if (isPositionLayout) {
-      points = spec.positions;
+      if (spec.regionRelative) {
+        const region = relativeSeries.getRegion();
+        const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
+        points = spec.positions.map((point: IPointLike) => {
+          return {
+            x: point.x + regionStartX,
+            y: point.y + regionStartY
+          };
+        });
+      } else {
+        points = spec.positions;
+      }
     }
     const seriesData = this._relativeSeries.getViewData().latestData;
     const dataPoints = data
