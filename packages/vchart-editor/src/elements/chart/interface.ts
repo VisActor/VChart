@@ -87,3 +87,13 @@ export interface ILayoutItem {
    */
   updateLayoutAttribute: () => void;
 }
+
+export enum MarkerTypeEnum {
+  horizontalLine = 'h-line', // 水平值线
+  verticalLine = 'v-line', // 垂直值线
+  horizontalArea = 'h-area', // 水平区域标注
+  verticalArea = 'v-area', // 垂直区域标注
+  growthLine = 'growth-line', // 复合增长标注
+  totalDiffLine = 'total-diff-line', // 总计差异标注
+  hierarchyDiffLine = 'hierarchy-diff-line' // 层级差异标记
+}

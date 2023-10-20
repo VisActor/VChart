@@ -20,7 +20,7 @@ export class ChartLayer extends EditorLayer {
       const layoutData = chart.layout.getLayoutData();
       layoutData.data.forEach(d => {
         const model = getChartModelWithModelInfo(chart.vchart as IChart, d);
-        if (IgnoreModelTypeInLayout[model.type]) {
+        if (!model || IgnoreModelTypeInLayout[model.type]) {
           return;
         }
         const rect = transformModelRect(model as unknown as IChartModel, LayoutRectToRect(d.layout));

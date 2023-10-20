@@ -10,11 +10,9 @@ import { BaseEditorElement, CommonChartEditorElement } from './base-editor-eleme
 import { array, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
-import type { EventParams, MarkLine } from '@visactor/vchart';
+import type { EventParams, MarkLine, IComponent, ICartesianSeries } from '@visactor/vchart';
 import { STACK_FIELD_START } from '@visactor/vchart';
 import { findClosestPoint } from '../utils/math';
-import type { ICartesianSeries } from '@visactor/vchart/src/series/interface';
-import type { IComponent } from '@visactor/vchart/src/component/interface';
 import type { DataPoint } from './types';
 
 const START_LINK_HANDLER = 'overlay-hier-diff-mark-line-start-handler';
@@ -258,6 +256,7 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
       x: this._fixedAnchorHandler.attribute.x,
       y: this._fixedAnchorHandler.attribute.y
     };
+    dataAnchors.showAll();
     dataAnchors.getChildren().forEach((child: any) => {
       if (child.attribute.x === unenableDataPoint.x && child.attribute.y === unenableDataPoint.y) {
         child.setAttribute('visible', false);
@@ -389,23 +388,30 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
             Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)
     });
     this._spec = newMarkLineSpec;
-    // console.log('handler', newMarkLineSpec);
+
+    this._currentEl.updateAttribute({
+      markLine: {
+        spec: newMarkLineSpec
+      }
+    });
     vglobal.removeEventListener('pointermove', this._onAnchorHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onAnchorHandlerDragEnd);
   };
 
   private _getDataAnchors(): IGroup {
     if (this._dataAnchors) {
-      return this._dataAnchors;
+      this._dataAnchors.removeAllChild();
+    } else {
+      this._dataAnchors = createGroup({
+        zIndex: 1,
+        pickable: false,
+        childrenPickable: false
+      });
+      this._editComponent.add(this._dataAnchors as unknown as IGraphic);
     }
 
     // 创建数据锚点
     const dataPoints = this._getAllDataPoints();
-    const dataAnchorsGroup = createGroup({
-      zIndex: 1,
-      pickable: false,
-      childrenPickable: false
-    });
     dataPoints.forEach(dataPoint => {
       const anchor = createSymbol({
         x: dataPoint.x,
@@ -422,19 +428,17 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
         visible: false
       });
       anchor.data = dataPoint;
-      dataAnchorsGroup.add(anchor);
+      this._dataAnchors.add(anchor);
     });
-    this._editComponent.add(dataAnchorsGroup as unknown as IGraphic);
-    this._dataAnchors = dataAnchorsGroup;
 
-    return dataAnchorsGroup;
+    return this._dataAnchors;
   }
 
   // 获取所有的数据锚点
   private _getAllDataPoints() {
-    if (this._dataPoints) {
-      return this._dataPoints;
-    }
+    // if (this._dataPoints) {
+    //   return this._dataPoints;
+    // }
     const model = this._model as MarkLine;
     const series = model.getRelativeSeries() as ICartesianSeries;
     const region = series.getRegion();
@@ -589,7 +593,11 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
             Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)
     });
     this._spec = newMarkLineSpec;
-    // console.log(newMarkLineSpec);
+    this._currentEl.updateAttribute({
+      markLine: {
+        spec: newMarkLineSpec
+      }
+    });
     vglobal.removeEventListener('pointermove', this._onMiddleHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onMiddleHandlerDragEnd);
   };
