@@ -89,13 +89,14 @@ export class EditorEvent {
 
   _parseActiveElement(el: IEditorElement | IEditorElement[]): IEditorElement {
     if (!isArray(el)) {
-      return el;
+      return el as IEditorElement;
     }
-    if (el.length === 0) {
+    const elList = el as IEditorElement[];
+    if (elList.length === 0) {
       return null;
     }
     let rect: IRect;
-    el.forEach((_e, i) => {
+    elList.forEach((_e, i) => {
       if (i === 0) {
         rect = { ..._e.rect };
       } else {
@@ -110,6 +111,7 @@ export class EditorEvent {
       id: '_editor_element_group',
       layer: this._triggerLayer ?? el[0].layer,
       rect: { ...rect },
+      model: null,
       editProperties: {
         move: true,
         rotate: false,
@@ -125,7 +127,7 @@ export class EditorEvent {
         }
         const offsetX = layoutData.x - rect.x;
         const offsetY = layoutData.y - rect.y;
-        el.forEach(_e => {
+        elList.forEach(_e => {
           _e.updateAttribute({
             layout: {
               ..._e.rect,
