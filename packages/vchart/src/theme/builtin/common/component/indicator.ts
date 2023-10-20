@@ -10,7 +10,7 @@ export const indicator: IIndicatorTheme = {
       fontSize: THEME_CONSTANTS.l1FontSize,
       // lineHeight: THEME_CONSTANTS.l1LineHeight,
 
-      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
+      fill: { type: 'palette', key: 'primaryFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1,
       textBaseline: 'top',

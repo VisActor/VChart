@@ -73,6 +73,7 @@ export default {
     categoryField: ['time', 'type'],
     valueField: 'value',
     seriesField: 'type',
+    outerRadius: 0.8,
     axes: [
       {
         orient: 'angle',

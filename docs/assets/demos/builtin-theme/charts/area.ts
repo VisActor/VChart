@@ -47,7 +47,8 @@ export default {
     },
     title: {
       visible: true,
-      text: 'Stacked area chart of cosmetic products sales'
+      text: 'Stacked area chart of cosmetic products sales',
+      subtext: 'Stacked area chart of cosmetic products sales'
     },
     // stack: true,
     xField: 'type',

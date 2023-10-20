@@ -6,6 +6,7 @@ import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
+// eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
 import { xLayout, yLayout, coordinateLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
