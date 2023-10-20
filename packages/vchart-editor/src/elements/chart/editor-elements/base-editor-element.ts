@@ -71,7 +71,7 @@ export abstract class BaseEditorElement {
   protected abstract _getEditorElement(e?: EventParams): IEditorElement | null;
 
   updateCommonAttribute(el: IEditorElement, attr: IUpdateAttributeParam, reRender: boolean = false) {
-    if (this._chart.specProcess.updateElementAttribute(el, attr) || reRender) {
+    if (this._chart.specProcess.updateElementAttribute(el.model, attr) || reRender) {
       this._chart.reRenderWithUpdateSpec();
       this.releaseLast();
     }

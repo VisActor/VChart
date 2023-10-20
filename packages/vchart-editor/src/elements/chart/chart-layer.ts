@@ -1,5 +1,4 @@
 import type { IChartModel } from './interface';
-import type { IChart } from './../../../__tests__/browser/aeolus.local/viz-pipeline/es/types/chartSpace/index.d';
 import { EditorLayer } from '../../core/editor-layer';
 import type { ILayoutLine } from '../../core/interface';
 import { LayoutRectToRect } from '../../utils/space';
@@ -19,7 +18,7 @@ export class ChartLayer extends EditorLayer {
     this._elements.forEach((chart: EditorChart) => {
       const layoutData = chart.layout.getLayoutData();
       layoutData.data.forEach(d => {
-        const model = getChartModelWithModelInfo(chart.vchart as IChart, d);
+        const model = getChartModelWithModelInfo(chart.vchart, d);
         if (!model || IgnoreModelTypeInLayout[model.type]) {
           return;
         }

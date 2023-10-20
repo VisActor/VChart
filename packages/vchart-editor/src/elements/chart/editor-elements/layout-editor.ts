@@ -31,19 +31,19 @@ export class LayoutEditorElement extends BaseEditorElement {
     this._chart.vchart.on('pointerdown', this._downEvent);
   }
 
-  private _overEvent = e => {
+  private _overEvent = (e: EventParams) => {
     const el = this._getEditorElement(e);
-    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
+    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
   };
 
-  private _downEvent = e => {
+  private _downEvent = (e: EventParams) => {
     if (!this._checkEventEnable(e)) {
       this.releaseLast();
       return;
     }
     const el = this._getEditorElement(e);
     if (e) {
-      this.startEditor(el, e);
+      this.startEditor(el, e.event as PointerEvent);
     }
   };
 
@@ -195,7 +195,7 @@ export class LayoutEditorElement extends BaseEditorElement {
                 id: _a.userId,
                 specKey: _a.specKey,
                 specIndex: _a.getSpecIndex(),
-                layout: getAxisLayoutInRegionRect(_a, { ..._a.getLayoutRect(), ...layoutData })
+                layout: getAxisLayoutInRegionRect(_a, { ..._a.getLayoutRect(), ...layoutData } as IRect)
               });
             });
           }
@@ -219,7 +219,7 @@ export class LayoutEditorElement extends BaseEditorElement {
             spec.markLine = [];
           }
           // TODO: 没搞懂这个逻辑
-          const lastMarkLine = spec.markLine.find(markLine => markLine.name === attr.markLine.type);
+          const lastMarkLine = spec.markLine.find((markLine: any) => markLine.name === attr.markLine.type);
           if (attr.markLine.enable) {
             if (!lastMarkLine) {
               const defaultMarkLineSpec = getDefaultMarkerConfigByType(this._chart.vchart, attr.markLine.type);
@@ -239,7 +239,7 @@ export class LayoutEditorElement extends BaseEditorElement {
             spec.markArea = [];
           }
           // TODO: 没搞懂这个逻辑
-          const lastMarkLine = spec.markArea.find(markArea => markArea.name === attr.markArea.type);
+          const lastMarkLine = spec.markArea.find((markArea: any) => markArea.name === attr.markArea.type);
           if (attr.markArea.enable) {
             if (!lastMarkLine) {
               const defaultMarkLineSpec = getDefaultMarkerConfigByType(this._chart.vchart, attr.markArea.type);

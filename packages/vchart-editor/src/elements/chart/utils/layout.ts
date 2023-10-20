@@ -3,7 +3,7 @@ import type { ILayoutRect } from './../layout/interface';
 import type { IChartModel, ILayoutItem } from './../interface';
 import type { IRect } from './../../../typings/space';
 import type { IPoint } from '../../../typings/space';
-import type { VChart } from '@visactor/vchart';
+import type { IVChart } from '@visactor/vchart';
 import { isModelMatchModelInfo } from '../../../utils/spec';
 
 export function transformModelPos(i: IChartModel, pos: IPoint) {
@@ -80,7 +80,7 @@ export function getAxisLayoutInRegionRect(axis: ILayoutItem, rect: IRect): ILayo
   };
 }
 
-export function getChartModelWithModelInfo(vchart: VChart, info: IModelInfo) {
+export function getChartModelWithModelInfo(vchart: IVChart, info: IModelInfo) {
   if (info.specKey === 'series') {
     return vchart
       .getChart()
