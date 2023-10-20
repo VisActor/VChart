@@ -58,6 +58,7 @@ export abstract class BaseElement {
   abstract getBounds(): IBoundsLike;
 
   abstract getLayoutGuideLine(): ILayoutGuideLine[];
+  abstract moveBy(offsetX: number, offsetY: number): void;
 
   release() {
     this._afterRenderCallBack = null;
