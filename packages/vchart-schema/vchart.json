@@ -86,6 +86,9 @@
       "$ref": "#/definitions/IWaterfallChartSpec"
     },
     {
+      "$ref": "#/definitions/ICorrelationChartSpec"
+    },
+    {
       "$ref": "#/definitions/IWordCloudChartSpec"
     },
     {
@@ -4758,6 +4761,220 @@
       },
       "type": "object"
     },
+    "ConvertToMarkStyleSpec<IRippleMarkSpec>": {
+      "description": "style格式转换",
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "ripple": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "波纹密度ripple\nripple 取值范为[0,1]"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "size": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "水波纹最大半径"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>"
+        }
+      },
+      "type": "object"
+    },
+    "ConvertToMarkStyleSpec<IRippleMarkSpec>_1": {
+      "description": "style格式转换",
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "ripple": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "波纹密度ripple\nripple 取值范为[0,1]"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "size": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "水波纹最大半径"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>"
+        }
+      },
+      "type": "object"
+    },
     "ConvertToMarkStyleSpec<IRuleMarkSpec>": {
       "description": "style格式转换",
       "properties": {
@@ -5028,7 +5245,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
@@ -5079,6 +5296,10 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
           "description": "style格式转换"
         },
@@ -5097,7 +5318,7 @@
       ],
       "description": "style格式转换"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -5149,6 +5370,10 @@
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -18234,7 +18459,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -18278,11 +18503,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -18293,7 +18525,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -18341,12 +18573,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -18604,11 +18842,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -19196,7 +19441,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -19734,7 +19979,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -19778,11 +20023,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -19793,7 +20045,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -19852,12 +20104,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -20107,11 +20365,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -20448,7 +20713,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -20492,11 +20757,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -20507,7 +20779,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -20566,12 +20838,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -20821,11 +21099,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -21133,7 +21418,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -21669,7 +21954,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -21713,11 +21998,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -21728,7 +22020,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -21776,12 +22068,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -22059,11 +22357,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -22532,7 +22837,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -23159,6 +23464,9 @@
           "$ref": "#/definitions/ICartesianTitle",
           "description": "轴标题配置"
         },
+        "unit": {
+          "typeof": "function"
+        },
         "width": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：宽度"
@@ -23497,7 +23805,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -23812,7 +24120,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -23859,11 +24167,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "drill": {
           "default": false,
@@ -23880,7 +24195,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -23939,12 +24254,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -23991,11 +24312,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -24214,7 +24542,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -24543,7 +24871,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -24595,11 +24923,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "endAngle": {
           "description": "扇区结束角度",
@@ -24610,7 +24945,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -24654,12 +24989,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -24748,11 +25089,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -25031,7 +25379,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -25325,18 +25673,8 @@
           "since": "1.3.0"
         },
         "key": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "颜色索引，如果为数组，则按顺序从前到后取色，直到取到第一个不为空的色值"
+          "description": "颜色 token",
+          "type": "string"
         },
         "l": {
           "description": "明度系数（可选，0~1）",
@@ -25353,6 +25691,22 @@
         "type"
       ],
       "type": "object"
+    },
+    "IColorLegendSpec": {
+      "allOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/Omit<IComponentSpec,\"orient\">"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "typeof": "function"
+        }
+      ]
     },
     "IColorLegendTheme": {
       "properties": {
@@ -25670,7 +26024,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -25710,11 +26064,18 @@
           "description": "数据"
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "height": {
           "description": "画布高度",
@@ -25738,12 +26099,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -25785,11 +26152,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -25888,6 +26262,9 @@
               },
               {
                 "$ref": "#/definitions/ISankeySeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ICorrelationSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IWaterfallSeriesSpec"
@@ -26765,6 +27142,849 @@
       },
       "type": "object"
     },
+    "ICorrelationChartSpec": {
+      "properties": {
+        "angleField": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "animation": {
+          "description": "是否开启系列动画",
+          "type": "boolean"
+        },
+        "animationAppear": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "图表入场动画\n支持配置图表内置不同动画效果"
+        },
+        "animationDisappear": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CorrelationAppearPreset>,\"preset\">"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "图表退场动画"
+        },
+        "animationEnter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CorrelationAppearPreset>,\"preset\">"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 新增数据动画"
+        },
+        "animationExit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CorrelationAppearPreset>,\"preset\">"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 数据删除动画"
+        },
+        "animationNormal": {
+          "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>",
+          "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
+        "animationUpdate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CorrelationAppearPreset>,\"preset\">"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 数据更新动画"
+        },
+        "autoFit": {
+          "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
+          "type": "boolean"
+        },
+        "background": {
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+        },
+        "brush": {
+          "$ref": "#/definitions/IBrushSpec",
+          "description": "框选配置"
+        },
+        "categoryField": {
+          "description": "节点名称字段配置",
+          "type": "string"
+        },
+        "centerLabel": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ILabelSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "中心点label属性 *"
+        },
+        "centerPoint": {
+          "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
+          "description": "中心点图元属性 *"
+        },
+        "centerX": {
+          "description": "图表中心点位置X坐标",
+          "type": "number"
+        },
+        "centerY": {
+          "description": "图表中心点位置Y坐标",
+          "type": "number"
+        },
+        "color": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+            }
+          ],
+          "description": "图表色系配置"
+        },
+        "crosshair": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ICartesianCrosshairSpec"
+            },
+            {
+              "$ref": "#/definitions/IPolarCrosshairSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ICrosshairSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "十字辅助线配置"
+        },
+        "customMark": {
+          "description": "自定义mark",
+          "items": {
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+          },
+          "type": "array"
+        },
+        "data": {
+          "$ref": "#/definitions/IData",
+          "description": "数据"
+        },
+        "dataId": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "系列关联的数据id"
+        },
+        "dataIndex": {
+          "default": 0,
+          "description": "系列关联的数据索引",
+          "type": "number"
+        },
+        "dataKey": {
+          "$ref": "#/definitions/DataKeyType",
+          "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
+        },
+        "dataZoom": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
+        },
+        "endAngle": {
+          "description": "图表终止角度",
+          "type": "number"
+        },
+        "extensionMark": {
+          "description": "扩展mark",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+              },
+              {
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        "height": {
+          "description": "画布高度",
+          "type": "number"
+        },
+        "hover": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "hover 交互"
+        },
+        "id": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "用户自定义的 series id"
+        },
+        "innerRadius": {
+          "description": "节点分布内半径",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "invalidType": {
+          "$ref": "#/definitions/IInvalidType",
+          "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
+          "description": "null，undefined等非法数据点连接方式。"
+        },
+        "label": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ILabelSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "标签配置"
+        },
+        "layout": {
+          "$ref": "#/definitions/ILayoutSpec",
+          "description": "布局配置"
+        },
+        "legends": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ILegendSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "图例配置"
+        },
+        "name": {
+          "description": "系列名称",
+          "type": "string"
+        },
+        "nodePoint": {
+          "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
+          "description": "节点图元属性 *"
+        },
+        "outerRadius": {
+          "description": "节点分布外半径",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "percent": {
+          "description": "是否对数据进行百分比处理",
+          "type": "boolean"
+        },
+        "player": {
+          "$ref": "#/definitions/IPlayer",
+          "description": "播放器配置"
+        },
+        "radius": {
+          "default": 0.6,
+          "description": "扇区半径",
+          "type": "number"
+        },
+        "radiusField": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "region": {
+          "description": "region配置",
+          "items": {
+            "$ref": "#/definitions/IRegionSpec"
+          },
+          "type": "array"
+        },
+        "regionId": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "系列关联的region id"
+        },
+        "regionIndex": {
+          "default": 0,
+          "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "ripplePoint": {
+          "$ref": "#/definitions/IMarkSpec<IRippleMarkSpec>",
+          "description": "水波纹图元属性 *"
+        },
+        "scales": {
+          "description": "全局 scale 配置",
+          "items": {
+            "$ref": "#/definitions/IVisualSpecScale<unknown,unknown>"
+          },
+          "type": "array"
+        },
+        "scrollBar": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
+        },
+        "select": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "select 交互"
+        },
+        "series": {
+          "description": "系列",
+          "items": {
+            "$ref": "#/definitions/ICorrelationSeriesSpec"
+          },
+          "type": "array"
+        },
+        "seriesField": {
+          "description": "节点系列字段配置",
+          "type": "string"
+        },
+        "seriesStyle": {
+          "description": "仅在图表配置了seriesField时生效",
+          "items": {
+            "$ref": "#/definitions/ISeriesStyleItem"
+          },
+          "type": "array"
+        },
+        "sizeField": {
+          "description": "节点尺寸数据字段配置",
+          "type": "string"
+        },
+        "sizeRange": {
+          "description": "节点尺寸映射范围",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "sortDataByAxis": {
+          "default": false,
+          "description": "是否将数据按照数轴排序",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
+        "stack": {
+          "description": "是否对数据进行堆叠处理",
+          "type": "boolean"
+        },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
+        "stackOffsetSilhouette": {
+          "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "startAngle": {
+          "description": "图表起始角度",
+          "type": "number"
+        },
+        "support3d": {
+          "description": "是否支持3d视角",
+          "type": "boolean"
+        },
+        "theme": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Omit<ITheme,\"name\">"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册"
+        },
+        "title": {
+          "$ref": "#/definitions/ITitleSpec",
+          "description": "图表标题配置"
+        },
+        "tooltip": {
+          "$ref": "#/definitions/ITooltipSpec",
+          "description": "tooltip配置"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
+        "type": {
+          "const": "correlation",
+          "description": "图表类型",
+          "type": "string"
+        },
+        "valueField": {
+          "description": "相关性数据字段配置",
+          "type": "string"
+        },
+        "width": {
+          "description": "画布宽度",
+          "type": "number"
+        }
+      },
+      "required": [
+        "categoryField",
+        "type",
+        "valueField"
+      ],
+      "type": "object"
+    },
+    "ICorrelationSeriesSpec": {
+      "properties": {
+        "angleField": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "animation": {
+          "description": "是否开启系列动画",
+          "type": "boolean"
+        },
+        "animationAppear": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "图表入场动画\n支持配置图表内置不同动画效果"
+        },
+        "animationDisappear": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CorrelationAppearPreset>,\"preset\">"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "图表退场动画"
+        },
+        "animationEnter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CorrelationAppearPreset>,\"preset\">"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 新增数据动画"
+        },
+        "animationExit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CorrelationAppearPreset>,\"preset\">"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 数据删除动画"
+        },
+        "animationNormal": {
+          "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>",
+          "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
+        "animationUpdate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CorrelationAppearPreset>,\"preset\">"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 数据更新动画"
+        },
+        "categoryField": {
+          "description": "节点名称字段配置",
+          "type": "string"
+        },
+        "centerLabel": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ILabelSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "中心点label属性 *"
+        },
+        "centerPoint": {
+          "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
+          "description": "中心点图元属性 *"
+        },
+        "centerX": {
+          "description": "图表中心点位置X坐标",
+          "type": "number"
+        },
+        "centerY": {
+          "description": "图表中心点位置Y坐标",
+          "type": "number"
+        },
+        "data": {
+          "$ref": "#/definitions/IDataType",
+          "description": "系列可以配置自身的数据，也可以从chart.data中获取数据"
+        },
+        "dataId": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "系列关联的数据id"
+        },
+        "dataIndex": {
+          "default": 0,
+          "description": "系列关联的数据索引",
+          "type": "number"
+        },
+        "dataKey": {
+          "$ref": "#/definitions/DataKeyType",
+          "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
+        },
+        "endAngle": {
+          "description": "图表终止角度",
+          "type": "number"
+        },
+        "extensionMark": {
+          "description": "扩展mark",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+              },
+              {
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        "hover": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "id": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "用户自定义的 series id"
+        },
+        "innerRadius": {
+          "description": "节点分布内半径",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "invalidType": {
+          "$ref": "#/definitions/IInvalidType",
+          "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
+          "description": "null，undefined等非法数据点连接方式。"
+        },
+        "label": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ILabelSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "标签配置"
+        },
+        "morph": {
+          "$ref": "#/definitions/IMorphSeriesSpec",
+          "description": "morph 动画配置"
+        },
+        "name": {
+          "description": "系列名称",
+          "type": "string"
+        },
+        "nodePoint": {
+          "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
+          "description": "节点图元属性 *"
+        },
+        "outerRadius": {
+          "description": "节点分布外半径",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "percent": {
+          "description": "是否对数据进行百分比处理",
+          "type": "boolean"
+        },
+        "radius": {
+          "default": 0.6,
+          "description": "扇区半径",
+          "type": "number"
+        },
+        "radiusField": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "regionId": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "系列关联的region id"
+        },
+        "regionIndex": {
+          "default": 0,
+          "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "ripplePoint": {
+          "$ref": "#/definitions/IMarkSpec<IRippleMarkSpec>",
+          "description": "水波纹图元属性 *"
+        },
+        "select": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "seriesField": {
+          "description": "节点系列字段配置",
+          "type": "string"
+        },
+        "seriesStyle": {
+          "description": "仅在图表配置了seriesField时生效",
+          "items": {
+            "$ref": "#/definitions/ISeriesStyleItem"
+          },
+          "type": "array"
+        },
+        "sizeField": {
+          "description": "节点尺寸数据字段配置",
+          "type": "string"
+        },
+        "sizeRange": {
+          "description": "节点尺寸映射范围",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "sortDataByAxis": {
+          "default": false,
+          "description": "是否将数据按照数轴排序",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
+        "stack": {
+          "description": "是否对数据进行堆叠处理",
+          "type": "boolean"
+        },
+        "stackOffsetSilhouette": {
+          "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackValue": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
+          "since": "1.4.0"
+        },
+        "startAngle": {
+          "description": "图表起始角度",
+          "type": "number"
+        },
+        "support3d": {
+          "description": "是否支持3d视角",
+          "type": "boolean"
+        },
+        "tooltip": {
+          "$ref": "#/definitions/ITooltipSpec",
+          "description": "提示信息"
+        },
+        "totalLabel": {
+          "$ref": "#/definitions/ITotalLabelSpec",
+          "description": "堆叠汇总标签",
+          "since": "1.3.0"
+        },
+        "type": {
+          "const": "correlation",
+          "description": "系列类型",
+          "since": "1.5.1\n系列类型",
+          "type": "string"
+        },
+        "valueField": {
+          "description": "相关性数据字段配置",
+          "type": "string"
+        }
+      },
+      "required": [
+        "categoryField",
+        "type",
+        "valueField"
+      ],
+      "type": "object"
+    },
+    "ICorrelationSeriesTheme": {
+      "properties": {
+        "centerLabel": {
+          "$ref": "#/definitions/ILabelSpec"
+        },
+        "centerPoint": {
+          "typeof": "function"
+        },
+        "label": {
+          "$ref": "#/definitions/ILabelSpec"
+        },
+        "nodePoint": {
+          "typeof": "function"
+        },
+        "ripplePoint": {
+          "typeof": "function"
+        }
+      },
+      "type": "object"
+    },
     "ICrosshairCategoryFieldSpec": {
       "properties": {
         "bindingAxesIndex": {
@@ -27300,6 +28520,7 @@
         "pyramid3d",
         "rect",
         "rect3d",
+        "ripple",
         "rule",
         "symbol",
         "text"
@@ -27322,6 +28543,7 @@
         "pyramid3d",
         "rect",
         "rect3d",
+        "ripple",
         "rule",
         "symbol",
         "text"
@@ -27364,11 +28586,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -27715,6 +28937,17 @@
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
         },
+        "delayTime": {
+          "default": 30,
+          "description": "事件触发延迟时长",
+          "since": "1.5.1",
+          "type": "number"
+        },
+        "delayType": {
+          "$ref": "#/definitions/IDelayType",
+          "description": "事件触发延迟类型, 不配置则视作未开启",
+          "since": "1.5.1"
+        },
         "dragMask": {
           "$ref": "#/definitions/IRectMarkSpec"
         },
@@ -27776,6 +29009,17 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最大高度"
         },
+        "maxSpan": {
+          "default": 1,
+          "description": "用于限制窗口大小的最大值, [0, 1]",
+          "since": "1.5.1",
+          "type": "number"
+        },
+        "maxValueSpan": {
+          "description": "用于限制窗口大小的最大数据值, 仅在continous scale生效，优先级高于maxSpan",
+          "since": "1.5.1",
+          "type": "number"
+        },
         "maxWidth": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最大宽度"
@@ -27786,6 +29030,17 @@
         "minHeight": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最小高度"
+        },
+        "minSpan": {
+          "default": 0,
+          "description": "用于限制窗口大小的最小值, [0, 1]",
+          "since": "1.5.1",
+          "type": "number"
+        },
+        "minValueSpan": {
+          "description": "用于限制窗口大小的最小数据值, 仅在continous scale生效，优先级高于minSpan",
+          "since": "1.5.1",
+          "type": "number"
         },
         "minWidth": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -27826,6 +29081,12 @@
           "minItems": 2,
           "type": "array"
         },
+        "realTime": {
+          "default": true,
+          "description": "是否在操作时动态更新视图",
+          "since": "1.5.1",
+          "type": "boolean"
+        },
         "regionId": {
           "anyOf": [
             {
@@ -27861,9 +29122,42 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
-        "roam": {
-          "description": "是否开启鼠标缩放和平移漫游。默认不开启",
-          "type": "boolean"
+        "roamDrag": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRoamDragSpec"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "漫游模式 - 拖拽（画布内自由交互), 默认不开启",
+          "since": "1.5.1"
+        },
+        "roamScroll": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRoamScrollSpec"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "漫游模式 - 滚动（画布内自由交互), 默认不开启",
+          "since": "1.5.1"
+        },
+        "roamZoom": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRoamZoomSpec"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "default": false,
+          "description": "漫游模式 - 缩放（画布内自由交互), 默认不开启",
+          "since": "1.5.1"
         },
         "selectedBackground": {
           "$ref": "#/definitions/IRectMarkSpec"
@@ -27958,6 +29252,12 @@
         "zIndex": {
           "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
           "type": "number"
+        },
+        "zoomLock": {
+          "default": false,
+          "description": "是否锁定选择区域（或叫做数据窗口）的大小",
+          "since": "1.5.1",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -28078,7 +29378,7 @@
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"pager\"|\"item\">"
+          "$ref": "#/definitions/Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"item\"|\"pager\">"
         }
       ],
       "description": "spec"
@@ -29058,7 +30358,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -29407,7 +30707,7 @@
       ],
       "type": "object"
     },
-    "IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>": {
+    "IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>": {
       "properties": {
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
@@ -29443,11 +30743,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -29702,7 +31002,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -29749,18 +31049,25 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "extensionMark": {
           "description": "扩展mark",
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -29838,12 +31145,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -29927,11 +31240,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -30189,7 +31509,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -30236,18 +31556,25 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "extensionMark": {
           "description": "扩展mark",
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -30325,12 +31652,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -30414,11 +31747,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -30791,7 +32131,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -31181,7 +32521,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -31232,11 +32572,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "endAngle": {
           "description": "扇区结束角度",
@@ -31247,7 +32594,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -31302,12 +32649,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -31431,11 +32784,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -31716,7 +33076,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -32161,7 +33521,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -34500,7 +35860,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -34544,11 +35904,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -34559,7 +35926,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -34618,12 +35985,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -34873,11 +36246,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -35144,7 +36524,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -35580,7 +36960,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -35624,11 +37004,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -35639,7 +37026,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -35698,12 +37085,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -35953,11 +37346,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -36267,7 +37667,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -36311,11 +37711,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -36326,7 +37733,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -36385,12 +37792,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -36640,11 +38053,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -38562,6 +39982,20 @@
       ],
       "type": "string"
     },
+    "ILegendSpec": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IColorLegendSpec"
+        },
+        {
+          "$ref": "#/definitions/ISizeLegendSpec"
+        },
+        {
+          "$ref": "#/definitions/IDiscreteLegendSpec",
+          "description": "spec"
+        }
+      ]
+    },
     "ILineChartSpec": {
       "properties": {
         "activePoint": {
@@ -38681,7 +40115,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -38725,11 +40159,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -38740,7 +40181,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -38799,12 +40240,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -39062,11 +40509,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -39583,7 +41037,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -40022,7 +41476,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -40074,11 +41528,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -40090,7 +41551,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -40130,12 +41591,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -40196,11 +41663,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -40443,7 +41917,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -40669,7 +42143,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -40981,7 +42455,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -41028,11 +42502,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "defaultFillColor": {
           "description": "默认填充颜色",
@@ -41043,7 +42524,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -41097,12 +42578,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -41165,11 +42652,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -41419,7 +42913,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -42079,6 +43573,17 @@
       "description": "markSpec"
     },
     "IMarkSpec<IRectMarkSpec>": {
+      "allOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "typeof": "function"
+        }
+      ],
+      "description": "markSpec"
+    },
+    "IMarkSpec<IRippleMarkSpec>": {
       "allOf": [
         {
           "typeof": "function"
@@ -43366,7 +44871,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -43418,11 +44923,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "endAngle": {
           "default": 270,
@@ -43434,7 +44946,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -43487,12 +44999,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -43576,11 +45094,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -43857,7 +45382,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -43909,11 +45434,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "endAngle": {
           "default": 270,
@@ -43925,7 +45457,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -43978,12 +45510,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -44067,11 +45605,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -44322,7 +45867,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -44497,12 +46042,22 @@
         "endAngle": {
           "type": "number"
         },
+        "innerLabel": {
+          "$ref": "#/definitions/IArcLabelSpec",
+          "description": "内标签配置",
+          "since": "1.5.1"
+        },
         "innerRadius": {
           "type": "number"
         },
         "label": {
           "$ref": "#/definitions/IArcLabelSpec",
           "description": "标签配置"
+        },
+        "outerLabel": {
+          "$ref": "#/definitions/IArcLabelSpec",
+          "description": "外标签配置",
+          "since": "1.5.1"
         },
         "outerRadius": {
           "type": "number"
@@ -46761,7 +48316,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -46805,11 +48360,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "endAngle": {
           "description": "扇区结束角度",
@@ -46820,7 +48382,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -46876,12 +48438,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -46967,11 +48535,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -47250,7 +48825,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -47647,7 +49222,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -47691,11 +49266,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -47706,7 +49288,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -47754,12 +49336,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -48024,11 +49612,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -48306,7 +49901,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -48677,7 +50272,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -48721,11 +50316,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -48736,7 +50338,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -48795,12 +50397,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -49057,11 +50665,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -49371,7 +50986,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -49735,7 +51350,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -49779,11 +51394,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -49794,7 +51416,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -49853,12 +51475,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -50115,11 +51743,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -50429,7 +52064,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -51403,6 +53038,66 @@
         }
       ]
     },
+    "IRoamDragSpec": {
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "是否开启 缩放 / 拖拽 / 滚动",
+          "type": "boolean"
+        },
+        "rate": {
+          "default": 1,
+          "description": "缩放 / 拖拽 / 滚动速率, 范围: [0, 1]",
+          "type": "number"
+        },
+        "reverse": {
+          "default": true,
+          "description": "拖拽方向与滚动条移动方向是否相反",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "IRoamScrollSpec": {
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "是否开启 缩放 / 拖拽 / 滚动",
+          "type": "boolean"
+        },
+        "rate": {
+          "default": 1,
+          "description": "缩放 / 拖拽 / 滚动速率, 范围: [0, 1]",
+          "type": "number"
+        },
+        "reverse": {
+          "default": true,
+          "description": "滚动方向与滚动条移动方向是否相反",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "IRoamZoomSpec": {
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "是否开启 缩放 / 拖拽 / 滚动",
+          "type": "boolean"
+        },
+        "focus": {
+          "default": "true\n开启时, 默认以鼠标位置开始\n关闭时, 以画布中心缩放",
+          "description": "是否开启聚焦缩放",
+          "type": "boolean"
+        },
+        "rate": {
+          "default": 1,
+          "description": "缩放 / 拖拽 / 滚动速率, 范围: [0, 1]",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
     "IRoseChartSpec": {
       "properties": {
         "angleField": {
@@ -51551,7 +53246,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -51595,11 +53290,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "endAngle": {
           "description": "扇区结束角度",
@@ -51610,7 +53312,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -51658,12 +53360,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -51737,11 +53445,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -52001,7 +53716,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -52556,7 +54271,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -52603,11 +54318,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -52621,7 +54343,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -52676,12 +54398,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -52806,11 +54534,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -53030,7 +54765,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -53376,7 +55111,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -53420,11 +55155,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -53435,7 +55177,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -53494,12 +55236,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -53753,11 +55501,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -53797,10 +55552,10 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/IVisualSpecBase<unknown,string>"
+              "typeof": "function"
             },
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IVisualSpecBase<unknown,string>"
             },
             {
               "type": "string"
@@ -54060,7 +55815,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -54170,10 +55925,10 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/IVisualSpecBase<unknown,string>"
+              "typeof": "function"
             },
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IVisualSpecBase<unknown,string>"
             },
             {
               "type": "string"
@@ -54350,6 +56105,17 @@
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
         },
+        "delayTime": {
+          "default": 30,
+          "description": "事件触发延迟时长",
+          "since": "1.5.1",
+          "type": "number"
+        },
+        "delayType": {
+          "$ref": "#/definitions/IDelayType",
+          "description": "事件触发延迟类型, 不配置则视作未开启",
+          "since": "1.5.1"
+        },
         "end": {
           "default": 1,
           "description": "终点配置（比例）：范围[0, 1]",
@@ -54433,6 +56199,17 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最大高度"
         },
+        "maxSpan": {
+          "default": 1,
+          "description": "用于限制窗口大小的最大值, [0, 1]",
+          "since": "1.5.1",
+          "type": "number"
+        },
+        "maxValueSpan": {
+          "description": "用于限制窗口大小的最大数据值, 仅在continous scale生效，优先级高于maxSpan",
+          "since": "1.5.1",
+          "type": "number"
+        },
         "maxWidth": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最大宽度"
@@ -54440,6 +56217,17 @@
         "minHeight": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最小高度"
+        },
+        "minSpan": {
+          "default": 0,
+          "description": "用于限制窗口大小的最小值, [0, 1]",
+          "since": "1.5.1",
+          "type": "number"
+        },
+        "minValueSpan": {
+          "description": "用于限制窗口大小的最小数据值, 仅在continous scale生效，优先级高于minSpan",
+          "since": "1.5.1",
+          "type": "number"
         },
         "minWidth": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -54502,6 +56290,12 @@
           "minItems": 2,
           "type": "array"
         },
+        "realTime": {
+          "default": true,
+          "description": "是否在操作时动态更新视图",
+          "since": "1.5.1",
+          "type": "boolean"
+        },
         "regionId": {
           "anyOf": [
             {
@@ -54537,9 +56331,42 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
-        "roam": {
-          "description": "是否开启鼠标缩放和平移漫游。默认不开启",
-          "type": "boolean"
+        "roamDrag": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRoamDragSpec"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "漫游模式 - 拖拽（画布内自由交互), 默认不开启",
+          "since": "1.5.1"
+        },
+        "roamScroll": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRoamScrollSpec"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "漫游模式 - 滚动（画布内自由交互), 默认不开启",
+          "since": "1.5.1"
+        },
+        "roamZoom": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRoamZoomSpec"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "default": false,
+          "description": "漫游模式 - 缩放（画布内自由交互), 默认不开启",
+          "since": "1.5.1"
         },
         "round": {
           "description": "滑块是否圆角。",
@@ -54625,6 +56452,12 @@
         "zIndex": {
           "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
           "type": "number"
+        },
+        "zoomLock": {
+          "default": false,
+          "description": "是否锁定选择区域（或叫做数据窗口）的大小",
+          "since": "1.5.1",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -54785,7 +56618,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -54816,11 +56649,18 @@
           "description": "数据"
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "dataZooms": {
           "description": "缩略轴配置",
@@ -54851,12 +56691,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -54886,11 +56732,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "scrollBars": {
           "description": "滚动条配置",
@@ -55034,7 +56887,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -55169,6 +57022,9 @@
         },
         "circularProgress": {
           "$ref": "#/definitions/ICircularProgressSeriesTheme"
+        },
+        "correlation": {
+          "$ref": "#/definitions/ICorrelationSeriesTheme"
         },
         "dot": {
           "$ref": "#/definitions/IDotSeriesTheme"
@@ -55827,6 +57683,22 @@
         "valid"
       ],
       "type": "object"
+    },
+    "ISizeLegendSpec": {
+      "allOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/Omit<IComponentSpec,\"orient\">"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "typeof": "function"
+        }
+      ]
     },
     "ISizeLegendTheme": {
       "properties": {
@@ -56520,7 +58392,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -56567,11 +58439,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "drill": {
           "default": false,
@@ -56593,7 +58472,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -56684,12 +58563,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -56761,11 +58646,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -57000,7 +58892,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -59152,7 +61044,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -59199,11 +61091,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "drill": {
           "default": false,
@@ -59220,7 +61119,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -59283,12 +61182,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -59426,11 +61331,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -59667,7 +61579,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -61561,7 +63473,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -61605,11 +63517,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType",
@@ -61620,7 +63539,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -61683,12 +63602,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -61938,11 +63863,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -62275,7 +64207,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -62880,7 +64812,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -62946,11 +64878,18 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "depth_3d": {
           "type": "number"
@@ -62960,7 +64899,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -63062,12 +65001,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -63138,11 +65083,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -63391,7 +65343,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -63753,7 +65705,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -63819,18 +65771,25 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "extensionMark": {
           "description": "扩展mark",
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -63932,12 +65891,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -64004,11 +65969,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -64254,7 +66226,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -64642,7 +66614,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         },
         "size": {
@@ -64650,14 +66622,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13373",
+        "__@toStringTag@13661",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         },
         "size": {
@@ -64665,14 +66637,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13373",
+        "__@toStringTag@13661",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         },
         "size": {
@@ -64680,14 +66652,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13373",
+        "__@toStringTag@13661",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         },
         "size": {
@@ -64695,14 +66667,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13373",
+        "__@toStringTag@13661",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         },
         "size": {
@@ -64710,14 +66682,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13373",
+        "__@toStringTag@13661",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         },
         "size": {
@@ -64725,14 +66697,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13373",
+        "__@toStringTag@13661",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         },
         "size": {
@@ -64740,14 +66712,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13373",
+        "__@toStringTag@13661",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         },
         "size": {
@@ -64755,14 +66727,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13373",
+        "__@toStringTag@13661",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         },
         "size": {
@@ -64770,7 +66742,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13373",
+        "__@toStringTag@13661",
         "size"
       ],
       "type": "object"
@@ -65077,7 +67049,7 @@
       ],
       "type": "object"
     },
-    "Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"pager\"|\"item\">": {
+    "Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"item\"|\"pager\">": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -65730,7 +67702,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -66198,6 +68170,9 @@
           "$ref": "#/definitions/AxisType",
           "description": "轴类型"
         },
+        "unit": {
+          "typeof": "function"
+        },
         "visible": {
           "default": true,
           "description": "是否显示坐标轴",
@@ -66364,7 +68339,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -67075,7 +69050,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -67420,7 +69395,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -68269,7 +70244,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc>"
+                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -68497,6 +70472,27 @@
       "type": "object"
     },
     "Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">": {
+      "properties": {
+        "delay": {
+          "description": "动画延迟开始的时长",
+          "type": "number"
+        },
+        "duration": {
+          "description": "图表动画时长",
+          "type": "number"
+        },
+        "easing": {
+          "$ref": "#/definitions/EasingType",
+          "description": "动画缓动效果"
+        },
+        "oneByOne": {
+          "description": "是否轮流执行",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Omit<IStateAnimateSpec<CorrelationAppearPreset>,\"preset\">": {
       "properties": {
         "delay": {
           "description": "动画延迟开始的时长",
@@ -68964,7 +70960,7 @@
       },
       "type": "object"
     },
-    "Omit<IVisualSpecScale<unknown,string>,\"id\">": {
+    "Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">": {
       "properties": {
         "domain": {
           "anyOf": [
@@ -68983,7 +70979,14 @@
         "range": {
           "description": "will set to scale.range, it means output of scale",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "$ref": "#/definitions/IColorKey"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": "array"
         },
@@ -77324,7 +79327,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -77358,11 +79361,18 @@
           "description": "数据"
         },
         "dataZoom": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
         },
         "height": {
           "description": "画布高度",
@@ -77386,12 +79396,18 @@
         "legends": {
           "anyOf": [
             {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
               "$ref": "#/definitions/IDiscreteLegendSpec",
               "description": "spec"
             },
             {
               "items": {
-                "$ref": "#/definitions/IDiscreteLegendSpec"
+                "$ref": "#/definitions/ILegendSpec"
               },
               "type": "array"
             }
@@ -77417,11 +79433,18 @@
           "type": "array"
         },
         "scrollBar": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
         },
         "select": {
           "anyOf": [
@@ -78914,6 +80937,51 @@
       },
       "type": "object"
     },
+    "Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>": {
+      "properties": {
+        "label": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTypeConfig"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IAnimationConfig"
+              },
+              "type": "array"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "point": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTypeConfig"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IAnimationConfig"
+              },
+              "type": "array"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
     "Partial<Record<GaugeMarks,false|IAnimationConfig|IAnimationConfig[]>>": {
       "properties": {
         "segment": {
@@ -79392,6 +81460,9 @@
           "$ref": "#/definitions/ColorScheme"
         },
         "circularProgress": {
+          "$ref": "#/definitions/ColorScheme"
+        },
+        "correlation": {
           "$ref": "#/definitions/ColorScheme"
         },
         "dot": {
@@ -79960,34 +82031,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13373"
+        "__@toStringTag@13661"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13373"
+        "__@toStringTag@13661"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13373": {
+        "__@toStringTag@13661": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13373"
+        "__@toStringTag@13661"
       ],
       "type": "object"
     },
@@ -79997,10 +82068,10 @@
     "Record<string,ConvertToMarkStyleSpec<ILineMarkSpec>|IMarkStateSpec<ILineMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>": {

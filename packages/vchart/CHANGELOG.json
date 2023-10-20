@@ -2,6 +2,63 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.5.1",
+      "tag": "@visactor/vchart_v1.5.1",
+      "date": "Fri, 20 Oct 2023 07:22:00 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add getGraphicBounds api in layoutItem to support get graphic size\n\n"
+          },
+          {
+            "comment": "fix: optimized the display of `padAngle` in the gauge series and changed the unit of `padAngle` to angle, related #1215"
+          },
+          {
+            "comment": "feat: optimize the autoindent logic in layout to ensure padding effect is correct\n\n"
+          },
+          {
+            "comment": "feat: support `centroidProperty` in map series"
+          },
+          {
+            "comment": "feat: scrollbar enhance zoom & drag & scroll. close #965"
+          },
+          {
+            "comment": "feat: datazoom enhance zoomLock & span config. close #1082"
+          },
+          {
+            "comment": "feat: supply the attributeContext params for customMark's attribute callback"
+          },
+          {
+            "comment": "feat: provide afterLayout event to support users to modify layout effects\n\n"
+          },
+          {
+            "comment": "feat: provide datum in the params of `updateContent` callback of tooltip, related #1244"
+          },
+          {
+            "comment": "fix: link 'adjacency' interaction highlighting effect of Sankey Chart is wrong, #1121"
+          },
+          {
+            "comment": "fix: fix the issue of boxplot outlier animation will throw error"
+          },
+          {
+            "comment": "feat: add the default theme (light, dark) of markLine, markArea and funnel series"
+          },
+          {
+            "comment": "fix: fix the duplicate event registration in scrollbar, fixed#1241"
+          },
+          {
+            "comment": "feat: support load environment code on demand"
+          },
+          {
+            "comment": "refactor: add register function for chart/series/component to collect side effect code"
+          },
+          {
+            "comment": "refactor: add register function for animation"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.4.3",
       "tag": "@visactor/vchart_v1.4.3",
       "date": "Tue, 17 Oct 2023 04:00:20 GMT",
