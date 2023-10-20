@@ -1,5 +1,6 @@
 import type { EditorMode, IEditorController, IEditorLayer } from './../core/interface';
 import type { IRect, IPoint } from '../typings/space';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export interface IElementOption extends Partial<IElementData> {
   layer: IEditorLayer;
@@ -25,3 +26,5 @@ export interface IElement {
   onAfterRender: (callBack: () => void) => void;
   readonly isRendered: boolean;
 }
+
+export type VRenderPointerEvent = PointerEvent & { target: Partial<IGraphic> };

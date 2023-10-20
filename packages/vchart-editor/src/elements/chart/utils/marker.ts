@@ -167,6 +167,8 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
       }
     };
   }
+
+  return null;
 }
 
 /**
@@ -289,6 +291,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
       }
     };
   }
+  return null;
 }
 
 // 获取复合增长标记的初始配置
@@ -352,6 +355,8 @@ export function getDefaultMarkerConfigByType(chart: IVChart, markerType: string)
   if (markerType === MarkerTypeEnum.horizontalArea || markerType === MarkerTypeEnum.verticalArea) {
     return getDefaultMarkAreaConfig(chart, markerType);
   }
+
+  return null;
 }
 
 // TODO: 移到 vutils-extension 中

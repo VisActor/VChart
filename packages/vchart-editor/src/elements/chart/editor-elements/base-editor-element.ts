@@ -3,7 +3,6 @@ import type { IChartModel } from './../interface';
 import type { IEditorController, IEditorElement, IEditorLayer, IUpdateAttributeParam } from './../../../core/interface';
 import type { EditorChart } from '../chart';
 import type { IGraphic } from '@visactor/vrender-core';
-import type { EventParams } from '@visactor/vchart';
 import type { IRect } from '../../../typings/space';
 import { LayoutRectToRect } from '../../../utils/space';
 import { merge } from '@visactor/vutils';
@@ -67,8 +66,7 @@ export abstract class BaseEditorElement {
   }
 
   abstract initWithVChart(): void;
-  protected abstract _getOverGraphic(el: IEditorElement, e?: PointerEvent): IGraphic;
-  protected abstract _getEditorElement(e?: EventParams): IEditorElement | null;
+  protected abstract _getOverGraphic?(el: IEditorElement, e?: PointerEvent): IGraphic;
 
   updateCommonAttribute(el: IEditorElement, attr: IUpdateAttributeParam, reRender: boolean = false) {
     if (this._chart.specProcess.updateElementAttribute(el.model, attr) || reRender) {
@@ -170,23 +168,7 @@ export class CommonChartEditorElement implements IEditorElement {
   }
 
   updateAttribute = (attr: IUpdateAttributeParam): false | { [key: string]: unknown } => {
-    if (attr.chartType) {
-      this.editorFinish();
-      this._context.chart.layout.setLayoutData({
-        viewBox: this._context.chart.layout.getLayoutData().viewBox,
-        data: []
-      });
-      this._context.chart.specProcess.updateTemp(attr.chartType);
-    }
-
-    // 更新
-    const result = this._updateCall?.(attr) ?? false;
-    const reRender = this._context.chart.specProcess.updateElementAttribute(this.model, attr);
-    if (reRender) {
-      this._context.chart.reRenderWithUpdateSpec();
-      this._context.releaseLast();
-    }
-    return result;
+    return this._updateCall?.(attr) ?? false;
   };
 
   editorFinish = () => {

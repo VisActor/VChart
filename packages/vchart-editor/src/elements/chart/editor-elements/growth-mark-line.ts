@@ -47,30 +47,30 @@ export class GrowthMarkLineEditor extends BaseEditorElement {
     vchart.on('pointerdown', { level: 'model', type: 'markLine', consume: true }, this._onDown);
   }
 
-  private _checkEventEnable(e) {
-    const markerComponent = e.model.getVRenderComponents()[0];
+  private _checkEventEnable(e: EventParams) {
+    const markerComponent = (<MarkLine>e.model).getVRenderComponents()[0];
     return markerComponent?.name === 'growthMarkLine' || markerComponent?.name === 'totalDiffMarkLine';
   }
 
-  private _onHover = (e: any) => {
+  private _onHover = (e: EventParams) => {
     if (!this._checkEventEnable(e)) {
       return;
     }
     const el = this._getEditorElement(e);
-    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
+    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
   };
 
-  private _onDown = (e: any) => {
+  private _onDown = (e: EventParams) => {
     if (!this._checkEventEnable(e)) {
       return;
     }
-    this._element = e.model.getVRenderComponents()[0] as MarkLineComponent;
-    this._model = e.model;
+    this._element = (<MarkLine>e.model).getVRenderComponents()[0] as unknown as MarkLineComponent;
+    this._model = <MarkLine>e.model;
     this._selected = true;
 
     const el = this._getEditorElement(e);
     if (e) {
-      this.startEditor(el, e);
+      this.startEditor(el, e.event as PointerEvent);
     }
   };
 
@@ -338,6 +338,7 @@ export class GrowthMarkLineEditor extends BaseEditorElement {
     const stage = this._chart.vchart.getStage();
 
     // TODO: 修改为公共属性
+    // @ts-ignore
     const currentPoint = stage.global.mapToCanvasPoint(e);
     const closestPoint = findClosestPoint(currentPoint, enableDataPoints) as Point;
     // @ts-ignore

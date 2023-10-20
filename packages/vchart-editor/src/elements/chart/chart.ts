@@ -1,3 +1,4 @@
+import type { IEditorElement, IUpdateAttributeParam } from './../../core/interface';
 /* eslint-disable no-console */
 import { LayoutEditorElement } from './editor-elements/layout-editor';
 import { ChartLayout } from './layout/chart-layout';
@@ -16,10 +17,16 @@ import { AvgMarkLineEditor } from './editor-elements/avg-mark-line';
 import { MarkAreaEditor } from './editor-elements/mark-area';
 import { GrowthMarkLineEditor } from './editor-elements/growth-mark-line';
 import { HierarchicalDiffMarkLineEditor } from './editor-elements/hierarchical-diff-mark-line';
+import { ChartEvent } from './event';
+import { CommonModelElement } from './editor-elements/common-model-editor';
+import { getDefaultMarkerConfigByType } from './utils/marker';
 
 export class EditorChart extends BaseElement {
   type = 'chart';
   protected _data: IData;
+  get data() {
+    return this._data;
+  }
   protected _specProcess: ISpecProcess;
   get specProcess() {
     return this._specProcess;
@@ -37,15 +44,21 @@ export class EditorChart extends BaseElement {
   protected _markAreaEditor: MarkAreaEditor;
   protected _growthMarkLineEditor: GrowthMarkLineEditor;
   protected _hirarchicalDiffMarkLineEditor: HierarchicalDiffMarkLineEditor;
+  protected _commonModelElement: CommonModelElement;
 
   protected _vchart: IVChart;
   get vchart() {
     return this._vchart;
   }
 
+  protected _event: ChartEvent;
+  get event() {
+    return this._event;
+  }
+
   constructor(opt: IChartElementOption) {
     super(opt);
-
+    this._event = new ChartEvent(this);
     this._data = new Data();
     this._specProcess = new SpecProcess(this._data, this.onSpecReady);
     this._layout = new ChartLayout(this._specProcess);
@@ -67,6 +80,12 @@ export class EditorChart extends BaseElement {
       this,
       this._opt.layer
     );
+    // chart editor
+    this._commonModelElement = new CommonModelElement(this._opt.controller, this, this._opt.layer);
+    this._commonModelElement.emitter.on('chartTypeChange', this._onChartTypeChange);
+    this._commonModelElement.emitter.on('chartDataChange', this._onChartDataChange);
+    this._commonModelElement.emitter.on('addMarkLine', this._onAddMarkLine);
+    this._commonModelElement.emitter.on('addMarkArea', this._onAddMarkLine);
   }
 
   bindEditors() {
@@ -76,6 +95,7 @@ export class EditorChart extends BaseElement {
     this._markAreaEditor?.initWithVChart();
     this._growthMarkLineEditor?.initWithVChart();
     this._hirarchicalDiffMarkLineEditor?.initWithVChart();
+    this._commonModelElement?.initWithVChart();
   }
 
   releaseEditors() {
@@ -84,6 +104,7 @@ export class EditorChart extends BaseElement {
     this._markAreaEditor?.release();
     this._growthMarkLineEditor?.release();
     this._hirarchicalDiffMarkLineEditor?.release();
+    this._commonModelElement?.release();
   }
 
   initWithOption(): void {
@@ -113,6 +134,7 @@ export class EditorChart extends BaseElement {
       animation: false,
       disableTriggerEvent: this._mode === 'editor'
     }) as any;
+    this._event.initWithVChart();
     this._layout.setVChart(this._vchart);
 
     // editor init with vchart
@@ -152,10 +174,11 @@ export class EditorChart extends BaseElement {
     super.release();
     this.releaseEditors();
 
-    this._vchart.release();
     this._data.clear();
     this._specProcess.clear();
     this._layout.clear();
+    this._event.release();
+    this._vchart.release();
 
     this._data = this._specProcess = this._layout = this._vchart = null;
   }
@@ -197,4 +220,55 @@ export class EditorChart extends BaseElement {
     }
     this.onSpecReady();
   }
+
+  private _onChartTypeChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {
+    el.editorFinish();
+    this.layout.setLayoutData({
+      viewBox: this.layout.getLayoutData().viewBox,
+      data: []
+    });
+    this.specProcess.updateTemp(attr.chartType);
+  };
+  private _onChartDataChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {
+    this.data.changeDataSource(attr.data.type, attr.data.value);
+  };
+
+  private _onAddMarkLine = (el: IEditorElement, attr: IUpdateAttributeParam) => {
+    const spec: any = this.specProcess.getVChartSpec();
+    if (!spec.markLine) {
+      spec.markLine = [];
+    }
+    // TODO: 没搞懂这个逻辑
+    const lastMarkLine = spec.markLine.find((markLine: any) => markLine.name === attr.markLine.type);
+    if (attr.markLine.enable) {
+      if (!lastMarkLine) {
+        const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markLine.type);
+        spec.markLine.push(defaultMarkLineSpec);
+      }
+    } else {
+      if (lastMarkLine) {
+        spec.markLine.splice(spec.markLine.indexOf(lastMarkLine), 1);
+      }
+    }
+    this.reRenderWithUpdateSpec();
+  };
+  private _onAddMarkArea = (el: IEditorElement, attr: IUpdateAttributeParam) => {
+    const spec: any = this.specProcess.getVChartSpec();
+    if (!spec.markArea) {
+      spec.markArea = [];
+    }
+    // TODO: 没搞懂这个逻辑
+    const lastMarkLine = spec.markArea.find((markArea: any) => markArea.name === attr.markArea.type);
+    if (attr.markArea.enable) {
+      if (!lastMarkLine) {
+        const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markArea.type);
+        spec.markArea.push(defaultMarkLineSpec);
+      }
+    } else {
+      if (lastMarkLine) {
+        spec.markArea.splice(spec.markArea.indexOf(lastMarkLine), 1);
+      }
+    }
+    this.reRenderWithUpdateSpec();
+  };
 }

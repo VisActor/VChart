@@ -44,19 +44,20 @@ export class MarkAreaEditor extends BaseEditorElement {
     vchart.on('pointerdown', { level: 'model', type: 'markArea', consume: true }, this._onDown);
   }
 
-  private _onHover = (e: any) => {
+  private _onHover = (e: EventParams) => {
     const el = this._getEditorElement(e);
-    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
+    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
   };
 
-  private _onDown = (e: any) => {
+  private _onDown = (e: EventParams) => {
     const el = this._getEditorElement(e);
-    this._element = e.model.getVRenderComponents()[0];
-    this._model = e.model;
+    this._element = (<MarkArea>e.model).getVRenderComponents()[0];
+    this._model = <MarkArea>e.model;
     this._selected = true;
     // TODO: hack
+    // @ts-ignore
     this._orient = this._model.getSpec().x ? 'vertical' : 'horizontal';
-    this.startEditor(el, e);
+    this.startEditor(el, e.event as PointerEvent);
     this._activeEditComponent();
     this._overlayAreaGroup?.showAll();
 
