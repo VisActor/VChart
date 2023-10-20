@@ -30,8 +30,8 @@ const run = () => {
     seriesField: 'type',
     outerRadius: 0.8,
     innerRadius: 0.5,
-    startAngle: -225,
-    endAngle: 45,
+    startAngle: -270,
+    endAngle: 90,
     gauge: {
       type: 'circularProgress',
       progress: {
@@ -95,11 +95,12 @@ const run = () => {
         type: 'linear',
         orient: 'angle',
         inside: true,
-        tick: { visible: true },
+        tick: { visible: true, tickCount: 10 },
         subTick: { visible: true },
         label: {
-          visible: true,
-          formatMethod: () => '啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊饿饿饿饿饿饿饿饿饿'
+          visible: true
+          //space: 5
+          //formatMethod: () => '0000000000'
         }
         //zIndex: 500
       }
