@@ -143,291 +143,291 @@ const spec = {
   ],
   tooltip: {
     visible: true
-  },
+  }
 
   // TODO: 变成默认的配置
-  markLine: [
-    // // 均值线
-    // {
-    //   name: 'avgMarkLineVertical',
-    //   interactive: true,
-    //   y: 'average',
-    //   endSymbol: {
-    //     visible: true,
-    //     size: 12,
-    //     refX: 6,
-    //     symbolType: 'triangleLeft',
-    //     autoRotate: false
-    //   },
-    //   label: {
-    //     visible: true,
-    //     autoRotate: false,
-    //     formatMethod: markData => {
-    //       return parseInt(markData[0].y, 10);
-    //     },
-    //     position: 'end',
-    //     labelBackground: {
-    //       visible: false
-    //     },
-    //     style: {
-    //       fill: '#000'
-    //     },
-    //     refX: 12,
-    //     refY: 0
-    //   },
-    //   line: {
-    //     style: {
-    //       stroke: '#000'
-    //     }
-    //   }
-    // },
-    // {
-    //   name: 'avgMarkLineHorizontal',
-    //   interactive: true,
-    //   x: 'VT',
-    //   endSymbol: {
-    //     visible: true,
-    //     size: 12,
-    //     refX: 6,
-    //     symbolType: 'triangleDown',
-    //     autoRotate: false
-    //   },
-    //   label: {
-    //     visible: true,
-    //     autoRotate: false,
-    //     text: 'VT',
-    //     position: 'end',
-    //     labelBackground: {
-    //       visible: false
-    //     },
-    //     style: {
-    //       fill: '#000',
-    //       textAlign: 'center',
-    //       textBaseline: 'bottom'
-    //     },
-    //     refX: 12,
-    //     refY: 0
-    //   },
-    //   line: {
-    //     style: {
-    //       stroke: '#000'
-    //     }
-    //   }
-    // },
-    // // 复合增长箭头，默认为第一维度和最后一个维度的值差异，TODO：需要根据图表的spec 来获取初始 coordinates
-    // {
-    //   coordinates: [
-    //     {
-    //       State: 'WY',
-    //       Age: 'Under 5 Years',
-    //       Population: 25635
-    //     },
-    //     {
-    //       State: 'AK',
-    //       Age: 'Under 5 Years',
-    //       Population: 72083
-    //     }
-    //   ],
-    //   line: {
-    //     style: {
-    //       lineDash: [0],
-    //       lineWidth: 2,
-    //       stroke: '#000'
-    //     }
-    //   },
-    //   label: {
-    //     position: 'middle',
-    //     text: (((22153 + 85640 + 72083 - 25635 + 1890 + 9314) / (25635 + 1890 + 9314)) * 100).toFixed(0) + '%',
-    //     labelBackground: {
-    //       style: {
-    //         fill: '#fff',
-    //         fillOpacity: 1,
-    //         stroke: '#000',
-    //         lineWidth: 1,
-    //         cornerRadius: 4
-    //       }
-    //     },
-    //     style: {
-    //       fill: '#000'
-    //     }
-    //   },
-    //   endSymbol: {
-    //     size: 12,
-    //     refX: -6
-    //   },
-    //   offsetY: -50,
-    //   interactive: true,
-    //   name: 'growthMarkLine'
-    // },
-    // 总计差异
-    // {
-    //   type: 'type-step',
-    //   coordinates: [
-    //     {
-    //       State: 'WY',
-    //       Age: 'Under 5 Years',
-    //       Population: 25635
-    //     },
-    //     {
-    //       State: 'AK',
-    //       Age: 'Under 5 Years',
-    //       Population: 72083
-    //     }
-    //   ],
-    //   connectDirection: 'top',
-    //   expandDistance: 30,
-    //   line: {
-    //     style: {
-    //       lineDash: [0],
-    //       lineWidth: 2,
-    //       stroke: '#000',
-    //       cornerRadius: 4
-    //     }
-    //   },
-    //   label: {
-    //     position: 'middle',
-    //     text: 'ssss',
-    //     labelBackground: {
-    //       style: {
-    //         fill: '#fff',
-    //         fillOpacity: 1,
-    //         stroke: '#000',
-    //         lineWidth: 1,
-    //         cornerRadius: 4
-    //       }
-    //     },
-    //     style: {
-    //       fill: '#000'
-    //     }
-    //   },
-    //   endSymbol: {
-    //     size: 12,
-    //     refX: -6
-    //   },
-    //   interactive: true,
-    //   name: 'totalDiffMarkLine'
-    // }
-    // 层级差异(vertical)
-    // {
-    //   type: 'type-step',
-    //   coordinates: [
-    //     {
-    //       State: 'WY',
-    //       Age: 'Under 5 Years',
-    //       Population: 25635
-    //     },
-    //     {
-    //       State: 'ND',
-    //       Age: 'Under 5 Years',
-    //       Population: 51896
-    //     }
-    //   ],
-    //   connectDirection: 'top',
-    //   expandDistance: 150,
-    //   label: {
-    //     position: 'middle',
-    //     text: 'text',
-    //     labelBackground: {
-    //       style: {
-    //         fill: '#fff',
-    //         fillOpacity: 1,
-    //         stroke: '#000',
-    //         lineWidth: 1,
-    //         cornerRadius: 4
-    //       }
-    //     },
-    //     style: {
-    //       fill: '#000'
-    //     }
-    //   },
-    //   line: {
-    //     multiSegment: true,
-    //     mainSegmentIndex: 1,
-    //     style: [
-    //       {
-    //         lineDash: [2, 2],
-    //         stroke: '#000',
-    //         lineWidth: 2
-    //       },
-    //       {
-    //         stroke: '#000',
-    //         lineWidth: 2
-    //       },
-    //       {
-    //         lineDash: [2, 2],
-    //         stroke: '#000',
-    //         lineWidth: 2
-    //       }
-    //     ]
-    //   },
-    //   endSymbol: {
-    //     size: 12,
-    //     refX: -6
-    //   },
-    //   interactive: true,
-    //   name: 'hierarchicalDiffMarkLine'
-    // }
-    // 层级差异(horizontal)
-    {
-      type: 'type-step',
-      coordinates: [
-        {
-          State: 'WY',
-          Age: 'Under 5 Years',
-          Population: 25635
-        },
-        {
-          State: 'ND',
-          Age: 'Under 5 Years',
-          Population: 51896
-        }
-      ],
-      connectDirection: 'bottom',
-      expandDistance: 150,
-      label: {
-        position: 'middle',
-        text: 'text',
-        labelBackground: {
-          style: {
-            fill: '#fff',
-            fillOpacity: 1,
-            stroke: '#000',
-            lineWidth: 1,
-            cornerRadius: 4
-          }
-        },
-        style: {
-          fill: '#000'
-        }
-      },
-      line: {
-        multiSegment: true,
-        mainSegmentIndex: 1,
-        style: [
-          {
-            lineDash: [2, 2],
-            stroke: '#000',
-            lineWidth: 2
-          },
-          {
-            stroke: '#000',
-            lineWidth: 2
-          },
-          {
-            lineDash: [2, 2],
-            stroke: '#000',
-            lineWidth: 2
-          }
-        ]
-      },
-      endSymbol: {
-        size: 12,
-        refX: -6
-      },
-      interactive: true,
-      name: 'hierarchicalDiffMarkLine'
-    }
-  ]
+  // markLine: [
+  //   // // 均值线
+  //   // {
+  //   //   name: 'avgMarkLineVertical',
+  //   //   interactive: true,
+  //   //   y: 'average',
+  //   //   endSymbol: {
+  //   //     visible: true,
+  //   //     size: 12,
+  //   //     refX: 6,
+  //   //     symbolType: 'triangleLeft',
+  //   //     autoRotate: false
+  //   //   },
+  //   //   label: {
+  //   //     visible: true,
+  //   //     autoRotate: false,
+  //   //     formatMethod: markData => {
+  //   //       return parseInt(markData[0].y, 10);
+  //   //     },
+  //   //     position: 'end',
+  //   //     labelBackground: {
+  //   //       visible: false
+  //   //     },
+  //   //     style: {
+  //   //       fill: '#000'
+  //   //     },
+  //   //     refX: 12,
+  //   //     refY: 0
+  //   //   },
+  //   //   line: {
+  //   //     style: {
+  //   //       stroke: '#000'
+  //   //     }
+  //   //   }
+  //   // },
+  //   // {
+  //   //   name: 'avgMarkLineHorizontal',
+  //   //   interactive: true,
+  //   //   x: 'VT',
+  //   //   endSymbol: {
+  //   //     visible: true,
+  //   //     size: 12,
+  //   //     refX: 6,
+  //   //     symbolType: 'triangleDown',
+  //   //     autoRotate: false
+  //   //   },
+  //   //   label: {
+  //   //     visible: true,
+  //   //     autoRotate: false,
+  //   //     text: 'VT',
+  //   //     position: 'end',
+  //   //     labelBackground: {
+  //   //       visible: false
+  //   //     },
+  //   //     style: {
+  //   //       fill: '#000',
+  //   //       textAlign: 'center',
+  //   //       textBaseline: 'bottom'
+  //   //     },
+  //   //     refX: 12,
+  //   //     refY: 0
+  //   //   },
+  //   //   line: {
+  //   //     style: {
+  //   //       stroke: '#000'
+  //   //     }
+  //   //   }
+  //   // },
+  //   // // 复合增长箭头，默认为第一维度和最后一个维度的值差异，TODO：需要根据图表的spec 来获取初始 coordinates
+  //   // {
+  //   //   coordinates: [
+  //   //     {
+  //   //       State: 'WY',
+  //   //       Age: 'Under 5 Years',
+  //   //       Population: 25635
+  //   //     },
+  //   //     {
+  //   //       State: 'AK',
+  //   //       Age: 'Under 5 Years',
+  //   //       Population: 72083
+  //   //     }
+  //   //   ],
+  //   //   line: {
+  //   //     style: {
+  //   //       lineDash: [0],
+  //   //       lineWidth: 2,
+  //   //       stroke: '#000'
+  //   //     }
+  //   //   },
+  //   //   label: {
+  //   //     position: 'middle',
+  //   //     text: (((22153 + 85640 + 72083 - 25635 + 1890 + 9314) / (25635 + 1890 + 9314)) * 100).toFixed(0) + '%',
+  //   //     labelBackground: {
+  //   //       style: {
+  //   //         fill: '#fff',
+  //   //         fillOpacity: 1,
+  //   //         stroke: '#000',
+  //   //         lineWidth: 1,
+  //   //         cornerRadius: 4
+  //   //       }
+  //   //     },
+  //   //     style: {
+  //   //       fill: '#000'
+  //   //     }
+  //   //   },
+  //   //   endSymbol: {
+  //   //     size: 12,
+  //   //     refX: -6
+  //   //   },
+  //   //   offsetY: -50,
+  //   //   interactive: true,
+  //   //   name: 'growthMarkLine'
+  //   // },
+  //   // 总计差异
+  //   // {
+  //   //   type: 'type-step',
+  //   //   coordinates: [
+  //   //     {
+  //   //       State: 'WY',
+  //   //       Age: 'Under 5 Years',
+  //   //       Population: 25635
+  //   //     },
+  //   //     {
+  //   //       State: 'AK',
+  //   //       Age: 'Under 5 Years',
+  //   //       Population: 72083
+  //   //     }
+  //   //   ],
+  //   //   connectDirection: 'top',
+  //   //   expandDistance: 30,
+  //   //   line: {
+  //   //     style: {
+  //   //       lineDash: [0],
+  //   //       lineWidth: 2,
+  //   //       stroke: '#000',
+  //   //       cornerRadius: 4
+  //   //     }
+  //   //   },
+  //   //   label: {
+  //   //     position: 'middle',
+  //   //     text: 'ssss',
+  //   //     labelBackground: {
+  //   //       style: {
+  //   //         fill: '#fff',
+  //   //         fillOpacity: 1,
+  //   //         stroke: '#000',
+  //   //         lineWidth: 1,
+  //   //         cornerRadius: 4
+  //   //       }
+  //   //     },
+  //   //     style: {
+  //   //       fill: '#000'
+  //   //     }
+  //   //   },
+  //   //   endSymbol: {
+  //   //     size: 12,
+  //   //     refX: -6
+  //   //   },
+  //   //   interactive: true,
+  //   //   name: 'totalDiffMarkLine'
+  //   // }
+  //   // 层级差异(vertical)
+  //   // {
+  //   //   type: 'type-step',
+  //   //   coordinates: [
+  //   //     {
+  //   //       State: 'WY',
+  //   //       Age: 'Under 5 Years',
+  //   //       Population: 25635
+  //   //     },
+  //   //     {
+  //   //       State: 'ND',
+  //   //       Age: 'Under 5 Years',
+  //   //       Population: 51896
+  //   //     }
+  //   //   ],
+  //   //   connectDirection: 'top',
+  //   //   expandDistance: 150,
+  //   //   label: {
+  //   //     position: 'middle',
+  //   //     text: 'text',
+  //   //     labelBackground: {
+  //   //       style: {
+  //   //         fill: '#fff',
+  //   //         fillOpacity: 1,
+  //   //         stroke: '#000',
+  //   //         lineWidth: 1,
+  //   //         cornerRadius: 4
+  //   //       }
+  //   //     },
+  //   //     style: {
+  //   //       fill: '#000'
+  //   //     }
+  //   //   },
+  //   //   line: {
+  //   //     multiSegment: true,
+  //   //     mainSegmentIndex: 1,
+  //   //     style: [
+  //   //       {
+  //   //         lineDash: [2, 2],
+  //   //         stroke: '#000',
+  //   //         lineWidth: 2
+  //   //       },
+  //   //       {
+  //   //         stroke: '#000',
+  //   //         lineWidth: 2
+  //   //       },
+  //   //       {
+  //   //         lineDash: [2, 2],
+  //   //         stroke: '#000',
+  //   //         lineWidth: 2
+  //   //       }
+  //   //     ]
+  //   //   },
+  //   //   endSymbol: {
+  //   //     size: 12,
+  //   //     refX: -6
+  //   //   },
+  //   //   interactive: true,
+  //   //   name: 'hierarchicalDiffMarkLine'
+  //   // }
+  //   // 层级差异(horizontal)
+  //   {
+  //     type: 'type-step',
+  //     coordinates: [
+  //       {
+  //         State: 'WY',
+  //         Age: 'Under 5 Years',
+  //         Population: 25635
+  //       },
+  //       {
+  //         State: 'ND',
+  //         Age: 'Under 5 Years',
+  //         Population: 51896
+  //       }
+  //     ],
+  //     connectDirection: 'bottom',
+  //     expandDistance: 150,
+  //     label: {
+  //       position: 'middle',
+  //       text: 'text',
+  //       labelBackground: {
+  //         style: {
+  //           fill: '#fff',
+  //           fillOpacity: 1,
+  //           stroke: '#000',
+  //           lineWidth: 1,
+  //           cornerRadius: 4
+  //         }
+  //       },
+  //       style: {
+  //         fill: '#000'
+  //       }
+  //     },
+  //     line: {
+  //       multiSegment: true,
+  //       mainSegmentIndex: 1,
+  //       style: [
+  //         {
+  //           lineDash: [2, 2],
+  //           stroke: '#000',
+  //           lineWidth: 2
+  //         },
+  //         {
+  //           stroke: '#000',
+  //           lineWidth: 2
+  //         },
+  //         {
+  //           lineDash: [2, 2],
+  //           stroke: '#000',
+  //           lineWidth: 2
+  //         }
+  //       ]
+  //     },
+  //     endSymbol: {
+  //       size: 12,
+  //       refX: -6
+  //     },
+  //     interactive: true,
+  //     name: 'hierarchicalDiffMarkLine'
+  //   }
+  // ]
   // 区域标注
   // markArea: [
   //   {

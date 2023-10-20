@@ -1,5 +1,5 @@
 import type { ILayoutLine } from './../../../core/interface';
-import type { IChartModel } from './../interface';
+import { type IChartModel } from './../interface';
 import { createRect, type IGraphic } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
@@ -14,6 +14,7 @@ import { MinSize } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
 import type { EventParams } from '@visactor/vchart';
 import { isSameModelInfo } from '../../../utils/spec';
+import { getDefaultMarkerConfigByType } from '../utils/marker';
 
 const CartesianAxisResize = {
   left: [false, false, false, true, false, false, false, false],
@@ -217,46 +218,36 @@ export class LayoutEditorElement extends BaseEditorElement {
           if (!spec.markLine) {
             spec.markLine = [];
           }
-          const lastMarkLine = spec.markLine.find(markLine => markLine.y === 'average');
+          // TODO: 没搞懂这个逻辑
+          const lastMarkLine = spec.markLine.find(markLine => markLine.name === attr.markLine.type);
           if (attr.markLine.enable) {
             if (!lastMarkLine) {
-              const defaultMarkLineSpec = {
-                interactive: true,
-                y: 'average',
-                endSymbol: {
-                  visible: true,
-                  size: 12,
-                  refX: 6,
-                  symbolType: 'triangleLeft',
-                  autoRotate: false
-                },
-                label: {
-                  visible: true,
-                  autoRotate: false,
-                  formatMethod: markData => {
-                    return parseInt(markData[0].y, 10);
-                  },
-                  position: 'end',
-                  labelBackground: {
-                    visible: false
-                  },
-                  style: {
-                    fill: '#000'
-                  },
-                  refX: 12,
-                  refY: 0
-                },
-                line: {
-                  style: {
-                    stroke: '#000'
-                  }
-                }
-              };
+              const defaultMarkLineSpec = getDefaultMarkerConfigByType(this._chart.vchart, attr.markLine.type);
               spec.markLine.push(defaultMarkLineSpec);
             }
           } else {
             if (lastMarkLine) {
               spec.markLine.splice(spec.markLine.indexOf(lastMarkLine), 1);
+            }
+          }
+          this._chart.reRenderWithUpdateSpec();
+        }
+
+        if (attr.markArea) {
+          const spec: any = this._chart.specProcess.getVChartSpec();
+          if (!spec.markArea) {
+            spec.markArea = [];
+          }
+          // TODO: 没搞懂这个逻辑
+          const lastMarkLine = spec.markArea.find(markArea => markArea.name === attr.markArea.type);
+          if (attr.markArea.enable) {
+            if (!lastMarkLine) {
+              const defaultMarkLineSpec = getDefaultMarkerConfigByType(this._chart.vchart, attr.markArea.type);
+              spec.markArea.push(defaultMarkLineSpec);
+            }
+          } else {
+            if (lastMarkLine) {
+              spec.markArea.splice(spec.markArea.indexOf(lastMarkLine), 1);
             }
           }
           this._chart.reRenderWithUpdateSpec();
