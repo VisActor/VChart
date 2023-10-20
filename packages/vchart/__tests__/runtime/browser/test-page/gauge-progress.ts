@@ -98,9 +98,9 @@ const run = () => {
         tick: { visible: true, tickCount: 10 },
         subTick: { visible: true },
         label: {
-          visible: true
+          visible: true,
           //space: 5
-          //formatMethod: () => '0000000000'
+          formatMethod: () => '0000000000'
         }
         //zIndex: 500
       }
