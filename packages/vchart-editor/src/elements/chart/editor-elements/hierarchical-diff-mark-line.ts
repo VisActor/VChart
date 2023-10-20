@@ -13,7 +13,8 @@ import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, IComponent, ICartesianSeries } from '@visactor/vchart';
 import { STACK_FIELD_START } from '@visactor/vchart';
 import { findClosestPoint } from '../utils/math';
-import type { DataPoint } from './types';
+import type { DataPoint, Point } from './types';
+import { MarkerTypeEnum } from '../interface';
 
 const START_LINK_HANDLER = 'overlay-hier-diff-mark-line-start-handler';
 const MIDDLE_LINK_HANDLER = 'overlay-hier-diff-mark-line-middle-handler';
@@ -33,7 +34,6 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
 
   private _selected: boolean = false;
 
-  private _dataPoints: DataPoint[];
   private _dataAnchors: IGroup;
   private _splitPoints: any[];
   private _splitAnchors: IGroup;
@@ -47,7 +47,7 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
 
   private _checkEventEnable(e) {
     const markerComponent = e.model.getVRenderComponents()[0];
-    return markerComponent?.name === 'hierarchicalDiffMarkLine';
+    return markerComponent?.name === MarkerTypeEnum.hierarchyDiffLine;
   }
 
   private _onHover = (e: any) => {
@@ -216,7 +216,6 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
       this._layer.editorGroup.removeChild(this._editComponent as unknown as IGraphic);
       this._editComponent = null;
     }
-    this._dataPoints = null;
   }
 
   release(): void {
@@ -436,55 +435,108 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
 
   // 获取所有的数据锚点
   private _getAllDataPoints() {
-    // if (this._dataPoints) {
-    //   return this._dataPoints;
-    // }
     const model = this._model as MarkLine;
     const series = model.getRelativeSeries() as ICartesianSeries;
     const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
-    // TODO: 需要根据不同的系列名称获取不同的图形节点
-    const rectMark = series.getMarks().find((mark: any) => mark.type === 'rect');
     const isHorizontal = series.direction === 'horizontal';
-    const vgrammarElements = rectMark.getProduct().elements;
-    const dataPoints: DataPoint[] = [];
-    if (isHorizontal) {
-      vgrammarElements.forEach((element: any) => {
-        const graphItem = element.getGraphicItem();
-        dataPoints.push({
-          x: graphItem.attribute.x + graphItem.attribute.width + regionStartX,
-          y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
-          data: array(element.data)[0],
-          length: graphItem.attribute.width,
-          top: true
+
+    if (series.type === 'bar') {
+      const rectMark = series.getMarks().find((mark: any) => mark.type === 'rect');
+      const vgrammarElements = rectMark.getProduct().elements;
+      const dataPoints: DataPoint[] = [];
+      if (isHorizontal) {
+        vgrammarElements.forEach((element: any) => {
+          const graphItem = element.getGraphicItem();
+          dataPoints.push({
+            x: graphItem.attribute.x + graphItem.attribute.width + regionStartX,
+            y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
+            data: array(element.data)[0],
+            top: true
+          });
+          dataPoints.push({
+            x: graphItem.attribute.x + regionStartX,
+            y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
+            data: array(element.data)[0]
+          });
         });
-        dataPoints.push({
-          x: graphItem.attribute.x + regionStartX,
-          y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
-          data: array(element.data)[0],
-          length: graphItem.attribute.width
+      } else {
+        vgrammarElements.forEach((element: any) => {
+          const graphItem = element.getGraphicItem();
+          dataPoints.push({
+            x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
+            y: graphItem.attribute.y + regionStartY,
+            data: array(element.data)[0],
+            top: true
+          });
+          dataPoints.push({
+            x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
+            y: graphItem.attribute.y + graphItem.attribute.height + regionStartY,
+            data: array(element.data)[0]
+          });
         });
-      });
-    } else {
-      vgrammarElements.forEach((element: any) => {
-        const graphItem = element.getGraphicItem();
-        dataPoints.push({
-          x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
-          y: graphItem.attribute.y + regionStartY,
-          data: array(element.data)[0],
-          length: graphItem.attribute.height,
-          top: true
-        });
-        dataPoints.push({
-          x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
-          y: graphItem.attribute.y + graphItem.attribute.height + regionStartY,
-          data: array(element.data)[0],
-          length: graphItem.attribute.height
-        });
-      });
+      }
+      return dataPoints;
     }
-    this._dataPoints = dataPoints;
-    return dataPoints;
+
+    if (series.type === 'area' || series.type === 'line') {
+      const dataPoints: DataPoint[] = [];
+      const seriesData = series.getRawData().latestData;
+
+      seriesData.forEach((data: any) => {
+        const position = series.dataToPosition(data);
+        dataPoints.push({
+          x: position.x + regionStartX,
+          y: position.y + regionStartY,
+          data,
+          top: true
+        });
+      });
+
+      if (isHorizontal) {
+        const regionWidth = region.getLayoutRect().width;
+        const bandScale = series.getYAxisHelper().getScale(0);
+        const bandWidth = series.getYAxisHelper().getBandwidth(0) * 0.5;
+        const ticks = bandScale.ticks();
+        const xField = array(series.getSpec().xField)[0];
+        const yField = array(series.getSpec().yField)[0];
+        const min = series.getXAxisHelper().getScale(0).domain()[0];
+        ticks.forEach(tick => {
+          const y = bandScale.scale(tick) + bandWidth;
+          dataPoints.push({
+            x: regionStartX + regionWidth,
+            y: y + regionStartY,
+            data: {
+              [xField]: min,
+              [yField]: tick
+            },
+            top: true
+          });
+        });
+      } else {
+        const regionHeight = region.getLayoutRect().height;
+        const bandScale = series.getXAxisHelper().getScale(0);
+        const bandWidth = series.getXAxisHelper().getBandwidth(0) * 0.5;
+
+        const ticks = bandScale.ticks();
+        const xField = array(series.getSpec().xField)[0];
+        const yField = array(series.getSpec().yField)[0];
+        const min = series.getYAxisHelper().getScale(0).domain()[0];
+        ticks.forEach(tick => {
+          const x = bandScale.scale(tick) + bandWidth;
+          dataPoints.push({
+            x: x + regionStartX,
+            y: regionStartY + regionHeight,
+            data: {
+              [xField]: tick,
+              [yField]: min
+            },
+            top: true
+          });
+        });
+      }
+      return dataPoints;
+    }
   }
 
   private _onMiddleHandlerDragStart = e => {
@@ -508,9 +560,7 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
 
     // 寻找最近的数据锚点，更新编辑图形
     // 转换为画布坐标
-    const stage = this._chart.vchart.getStage();
-    // TODO: 修改为公共属性
-    const currentPoint = stage.global.mapToCanvasPoint(e);
+    const currentPoint = vglobal.mapToCanvasPoint(e);
     const closestPoint = findClosestPoint(currentPoint, this._splitPoints) as DataPoint;
 
     // 1. 更新 _overlayMiddleHandler
@@ -524,8 +574,8 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
           x: this._overlayStartHandler.attribute.x,
           y: this._overlayStartHandler.attribute.y
         },
-        closestPoint.points.find(point => point.x === this._overlayStartHandler.attribute.x),
-        closestPoint.points.find(point => point.x === this._overlayEndHandler.attribute.x),
+        closestPoint.points.find((point: Point) => point.x === this._overlayStartHandler.attribute.x),
+        closestPoint.points.find((point: Point) => point.x === this._overlayEndHandler.attribute.x),
         {
           x: this._overlayEndHandler.attribute.x,
           y: this._overlayEndHandler.attribute.y
@@ -537,8 +587,8 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
           x: this._overlayStartHandler.attribute.x,
           y: this._overlayStartHandler.attribute.y
         },
-        closestPoint.points.find(point => point.y === this._overlayStartHandler.attribute.y),
-        closestPoint.points.find(point => point.y === this._overlayEndHandler.attribute.y),
+        closestPoint.points.find((point: Point) => point.y === this._overlayStartHandler.attribute.y),
+        closestPoint.points.find((point: Point) => point.y === this._overlayEndHandler.attribute.y),
         {
           x: this._overlayEndHandler.attribute.x,
           y: this._overlayEndHandler.attribute.y
@@ -636,230 +686,486 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
     const series = this._model.getRelativeSeries();
     const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
-    const rectMark = series.getMarks().find((mark: any) => mark.type === 'rect');
-    const vgrammarElements = rectMark.getProduct().elements;
-    // TODO: 完善类型定义
-    const splitPoints: any[] = [];
-    if (series.direction === 'vertical') {
-      const startY = this._overlayMiddleHandler.attribute.points[0].y;
-      const endY = this._overlayMiddleHandler.attribute.points[1].y;
 
-      vgrammarElements.forEach((element: any) => {
-        const graphItem = element.getGraphicItem();
-        splitPoints.push({
-          x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
-          y: (startY + endY) / 2,
-          points: [
-            {
-              x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
-              y: startY
-            },
-            {
-              x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
-              y: endY
-            }
-          ]
-        });
-      });
+    if (series.type === 'bar') {
+      const rectMark = series.getMarks().find((mark: any) => mark.type === 'rect');
+      const vgrammarElements = rectMark.getProduct().elements;
+      // TODO: 完善类型定义
+      const splitPoints: any[] = [];
+      if (series.direction === 'vertical') {
+        const startY = this._overlayMiddleHandler.attribute.points[0].y;
+        const endY = this._overlayMiddleHandler.attribute.points[1].y;
 
-      // 还要计算第一层
-      const bandScale = series.getXAxisHelper().getScale(0);
-      // @ts-ignore
-      const ticks = bandScale.ticks();
-      for (let i = 1; i < ticks.length; i++) {
-        const pre = ticks[i - 1];
-        const curr = ticks[i];
-        splitPoints.push({
-          x: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartX + bandScale.bandwidth() / 2,
-          y: (startY + endY) / 2,
-          points: [
-            {
-              x: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartX + bandScale.bandwidth() / 2,
-              y: startY
-            },
-            {
-              x: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartX + bandScale.bandwidth() / 2,
-              y: endY
-            }
-          ]
+        vgrammarElements.forEach((element: any) => {
+          const graphItem = element.getGraphicItem();
+          splitPoints.push({
+            x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
+            y: (startY + endY) / 2,
+            points: [
+              {
+                x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
+                y: startY
+              },
+              {
+                x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
+                y: endY
+              }
+            ]
+          });
         });
-      }
 
-      // 添加首尾
-      if (this._overlayMiddleHandler.attribute.points[0].x < regionStartX) {
-        splitPoints.push({
-          x: this._overlayMiddleHandler.attribute.points[0].x,
-          y: (startY + endY) / 2,
-          points: [
-            {
-              x: this._overlayMiddleHandler.attribute.points[0].x,
-              y: startY
-            },
-            {
-              x: this._overlayMiddleHandler.attribute.points[0].x,
-              y: endY
-            }
-          ]
-        });
+        // 还要计算第一层
+        const bandScale = series.getXAxisHelper().getScale(0);
+        const bandWidth = series.getXAxisHelper().getBandwidth(0);
+        // @ts-ignore
+        const ticks = bandScale.ticks();
+        for (let i = 1; i < ticks.length; i++) {
+          const pre = ticks[i - 1];
+          const curr = ticks[i];
+          splitPoints.push({
+            x: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartX + bandWidth / 2,
+            y: (startY + endY) / 2,
+            points: [
+              {
+                x: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartX + bandWidth / 2,
+                y: startY
+              },
+              {
+                x: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartX + bandWidth / 2,
+                y: endY
+              }
+            ]
+          });
+        }
+
+        // 添加首尾
+        if (this._overlayMiddleHandler.attribute.points[0].x < regionStartX) {
+          splitPoints.push({
+            x: this._overlayMiddleHandler.attribute.points[0].x,
+            y: (startY + endY) / 2,
+            points: [
+              {
+                x: this._overlayMiddleHandler.attribute.points[0].x,
+                y: startY
+              },
+              {
+                x: this._overlayMiddleHandler.attribute.points[0].x,
+                y: endY
+              }
+            ]
+          });
+        } else {
+          splitPoints.push({
+            x: regionStartX,
+            y: (startY + endY) / 2,
+            points: [
+              {
+                x: regionStartX,
+                y: startY
+              },
+              {
+                x: regionStartX,
+                y: endY
+              }
+            ]
+          });
+        }
+        if (this._overlayMiddleHandler.attribute.points[0].x > regionStartX + region.getLayoutRect().width) {
+          splitPoints.push({
+            x: this._overlayMiddleHandler.attribute.points[0].x,
+            y: (startY + endY) / 2,
+            points: [
+              {
+                x: this._overlayMiddleHandler.attribute.points[0].x,
+                y: startY
+              },
+              {
+                x: this._overlayMiddleHandler.attribute.points[0].x,
+                y: endY
+              }
+            ]
+          });
+        } else {
+          splitPoints.push({
+            x: regionStartX + region.getLayoutRect().width,
+            y: (startY + endY) / 2,
+            points: [
+              {
+                x: regionStartX + region.getLayoutRect().width,
+                y: startY
+              },
+              {
+                x: regionStartX + region.getLayoutRect().width,
+                y: endY
+              }
+            ]
+          });
+        }
       } else {
-        splitPoints.push({
-          x: regionStartX,
-          y: (startY + endY) / 2,
-          points: [
-            {
-              x: regionStartX,
-              y: startY
-            },
-            {
-              x: regionStartX,
-              y: endY
-            }
-          ]
-        });
-      }
-      if (this._overlayMiddleHandler.attribute.points[0].x > regionStartX + region.getLayoutRect().width) {
-        splitPoints.push({
-          x: this._overlayMiddleHandler.attribute.points[0].x,
-          y: (startY + endY) / 2,
-          points: [
-            {
-              x: this._overlayMiddleHandler.attribute.points[0].x,
-              y: startY
-            },
-            {
-              x: this._overlayMiddleHandler.attribute.points[0].x,
-              y: endY
-            }
-          ]
-        });
-      } else {
-        splitPoints.push({
-          x: regionStartX + region.getLayoutRect().width,
-          y: (startY + endY) / 2,
-          points: [
-            {
-              x: regionStartX + region.getLayoutRect().width,
-              y: startY
-            },
-            {
-              x: regionStartX + region.getLayoutRect().width,
-              y: endY
-            }
-          ]
-        });
-      }
-    } else {
-      const startX = this._overlayMiddleHandler.attribute.points[0].x;
-      const endX = this._overlayMiddleHandler.attribute.points[1].x;
+        const startX = this._overlayMiddleHandler.attribute.points[0].x;
+        const endX = this._overlayMiddleHandler.attribute.points[1].x;
 
-      vgrammarElements.forEach((element: any) => {
-        const graphItem = element.getGraphicItem();
-        splitPoints.push({
-          x: (startX + endX) / 2,
-          y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
-          points: [
-            {
-              y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
-              x: startX
-            },
-            {
-              y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
-              x: endX
-            }
-          ]
+        vgrammarElements.forEach((element: any) => {
+          const graphItem = element.getGraphicItem();
+          splitPoints.push({
+            x: (startX + endX) / 2,
+            y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
+            points: [
+              {
+                y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
+                x: startX
+              },
+              {
+                y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
+                x: endX
+              }
+            ]
+          });
         });
-      });
 
-      // 还要计算第一层
-      const bandScale = series.getYAxisHelper().getScale(0);
-      // @ts-ignore
-      const ticks = bandScale.ticks();
-      for (let i = 1; i < ticks.length; i++) {
-        const pre = ticks[i - 1];
-        const curr = ticks[i];
-        splitPoints.push({
-          y: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartY + bandScale.bandwidth() / 2,
-          x: (startX + endX) / 2,
-          points: [
-            {
-              y: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartY + bandScale.bandwidth() / 2,
-              x: startX
-            },
-            {
-              y: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartY + bandScale.bandwidth() / 2,
-              x: endX
-            }
-          ]
-        });
-      }
+        // 还要计算第一层
+        const bandScale = series.getYAxisHelper().getScale(0);
+        const bandwidth = series.getYAxisHelper().getBandwidth(0);
+        // @ts-ignore
+        const ticks = bandScale.ticks();
+        for (let i = 1; i < ticks.length; i++) {
+          const pre = ticks[i - 1];
+          const curr = ticks[i];
+          splitPoints.push({
+            y: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartY + bandwidth / 2,
+            x: (startX + endX) / 2,
+            points: [
+              {
+                y: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartY + bandwidth / 2,
+                x: startX
+              },
+              {
+                y: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartY + bandwidth / 2,
+                x: endX
+              }
+            ]
+          });
+        }
 
-      // 添加首尾
-      if (this._overlayMiddleHandler.attribute.points[0].y < regionStartY) {
-        splitPoints.push({
-          y: this._overlayMiddleHandler.attribute.points[0].y,
-          x: (startX + endX) / 2,
-          points: [
-            {
-              y: this._overlayMiddleHandler.attribute.points[0].y,
-              x: startX
-            },
-            {
-              y: this._overlayMiddleHandler.attribute.points[0].y,
-              x: endX
-            }
-          ]
-        });
-      } else {
-        splitPoints.push({
-          y: regionStartY,
-          x: (startX + endX) / 2,
-          points: [
-            {
-              y: regionStartY,
-              x: startX
-            },
-            {
-              y: regionStartY,
-              x: endX
-            }
-          ]
-        });
+        // 添加首尾
+        if (this._overlayMiddleHandler.attribute.points[0].y < regionStartY) {
+          splitPoints.push({
+            y: this._overlayMiddleHandler.attribute.points[0].y,
+            x: (startX + endX) / 2,
+            points: [
+              {
+                y: this._overlayMiddleHandler.attribute.points[0].y,
+                x: startX
+              },
+              {
+                y: this._overlayMiddleHandler.attribute.points[0].y,
+                x: endX
+              }
+            ]
+          });
+        } else {
+          splitPoints.push({
+            y: regionStartY,
+            x: (startX + endX) / 2,
+            points: [
+              {
+                y: regionStartY,
+                x: startX
+              },
+              {
+                y: regionStartY,
+                x: endX
+              }
+            ]
+          });
+        }
+        if (this._overlayMiddleHandler.attribute.points[0].y > regionStartY + region.getLayoutRect().height) {
+          splitPoints.push({
+            y: this._overlayMiddleHandler.attribute.points[0].y,
+            x: (startX + endX) / 2,
+            points: [
+              {
+                y: this._overlayMiddleHandler.attribute.points[0].y,
+                x: startX
+              },
+              {
+                y: this._overlayMiddleHandler.attribute.points[0].y,
+                x: endX
+              }
+            ]
+          });
+        } else {
+          splitPoints.push({
+            y: regionStartY + region.getLayoutRect().height,
+            x: (startX + endX) / 2,
+            points: [
+              {
+                y: regionStartY + region.getLayoutRect().height,
+                x: startX
+              },
+              {
+                y: regionStartY + region.getLayoutRect().height,
+                x: endX
+              }
+            ]
+          });
+        }
       }
-      if (this._overlayMiddleHandler.attribute.points[0].y > regionStartY + region.getLayoutRect().height) {
-        splitPoints.push({
-          y: this._overlayMiddleHandler.attribute.points[0].y,
-          x: (startX + endX) / 2,
-          points: [
-            {
-              y: this._overlayMiddleHandler.attribute.points[0].y,
-              x: startX
-            },
-            {
-              y: this._overlayMiddleHandler.attribute.points[0].y,
-              x: endX
-            }
-          ]
-        });
-      } else {
-        splitPoints.push({
-          y: regionStartY + region.getLayoutRect().height,
-          x: (startX + endX) / 2,
-          points: [
-            {
-              y: regionStartY + region.getLayoutRect().height,
-              x: startX
-            },
-            {
-              y: regionStartY + region.getLayoutRect().height,
-              x: endX
-            }
-          ]
-        });
-      }
+      this._splitPoints = splitPoints;
+
+      return this._splitPoints;
     }
-    this._splitPoints = splitPoints;
 
-    return this._splitPoints;
+    // TODO: 代码整理
+    if (series.type === 'area' || series.type === 'line') {
+      const splitPoints: any[] = [];
+      if (series.direction === 'vertical') {
+        const startY = this._overlayMiddleHandler.attribute.points[0].y;
+        const endY = this._overlayMiddleHandler.attribute.points[1].y;
+        const bandScale = series.getXAxisHelper().getScale(0);
+        const bandWidth = series.getXAxisHelper().getBandwidth(0) * 0.5;
+        // @ts-ignore
+        const ticks = bandScale.ticks();
+        splitPoints.push({
+          x: bandScale.scale(ticks[0]) + regionStartX + bandWidth,
+          y: (startY + endY) / 2,
+          points: [
+            {
+              x: bandScale.scale(ticks[0]) + regionStartX + bandWidth,
+              y: startY
+            },
+            {
+              x: bandScale.scale(ticks[0]) + regionStartX + bandWidth,
+              y: endY
+            }
+          ]
+        });
+        for (let i = 1; i < ticks.length; i++) {
+          splitPoints.push({
+            x: bandScale.scale(ticks[i]) + regionStartX + bandWidth,
+            y: (startY + endY) / 2,
+            points: [
+              {
+                x: bandScale.scale(ticks[i]) + regionStartX + bandWidth,
+                y: startY
+              },
+              {
+                x: bandScale.scale(ticks[i]) + regionStartX + bandWidth,
+                y: endY
+              }
+            ]
+          });
+          if (bandWidth > 10) {
+            const pre = ticks[i - 1];
+            const curr = ticks[i];
+            splitPoints.push({
+              x: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartX + bandWidth,
+              y: (startY + endY) / 2,
+              points: [
+                {
+                  x: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartX + bandWidth,
+                  y: startY
+                },
+                {
+                  x: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartX + bandWidth,
+                  y: endY
+                }
+              ]
+            });
+          }
+        }
+
+        // 添加首尾
+        if (this._overlayMiddleHandler.attribute.points[0].x < regionStartX) {
+          splitPoints.push({
+            x: this._overlayMiddleHandler.attribute.points[0].x,
+            y: (startY + endY) / 2,
+            points: [
+              {
+                x: this._overlayMiddleHandler.attribute.points[0].x,
+                y: startY
+              },
+              {
+                x: this._overlayMiddleHandler.attribute.points[0].x,
+                y: endY
+              }
+            ]
+          });
+        } else {
+          splitPoints.push({
+            x: regionStartX,
+            y: (startY + endY) / 2,
+            points: [
+              {
+                x: regionStartX,
+                y: startY
+              },
+              {
+                x: regionStartX,
+                y: endY
+              }
+            ]
+          });
+        }
+        if (this._overlayMiddleHandler.attribute.points[0].x > regionStartX + region.getLayoutRect().width) {
+          splitPoints.push({
+            x: this._overlayMiddleHandler.attribute.points[0].x,
+            y: (startY + endY) / 2,
+            points: [
+              {
+                x: this._overlayMiddleHandler.attribute.points[0].x,
+                y: startY
+              },
+              {
+                x: this._overlayMiddleHandler.attribute.points[0].x,
+                y: endY
+              }
+            ]
+          });
+        } else {
+          splitPoints.push({
+            x: regionStartX + region.getLayoutRect().width,
+            y: (startY + endY) / 2,
+            points: [
+              {
+                x: regionStartX + region.getLayoutRect().width,
+                y: startY
+              },
+              {
+                x: regionStartX + region.getLayoutRect().width,
+                y: endY
+              }
+            ]
+          });
+        }
+      } else {
+        const startX = this._overlayMiddleHandler.attribute.points[0].x;
+        const endX = this._overlayMiddleHandler.attribute.points[1].x;
+
+        const bandScale = series.getYAxisHelper().getScale(0);
+        const bandwidth = series.getYAxisHelper().getBandwidth(0) * 0.5;
+        // @ts-ignore
+        const ticks = bandScale.ticks();
+        splitPoints.push({
+          y: bandScale.scale(ticks[0]) + regionStartY + bandwidth,
+          x: (startX + endX) / 2,
+          points: [
+            {
+              y: bandScale.scale(ticks[0]) + regionStartY + bandwidth,
+              x: startX
+            },
+            {
+              y: bandScale.scale(ticks[0]) + regionStartY + bandwidth,
+              x: endX
+            }
+          ]
+        });
+
+        for (let i = 1; i < ticks.length; i++) {
+          const pre = ticks[i - 1];
+          const curr = ticks[i];
+
+          splitPoints.push({
+            y: bandScale.scale(curr) + regionStartY + bandwidth,
+            x: (startX + endX) / 2,
+            points: [
+              {
+                y: bandScale.scale(curr) + regionStartY + bandwidth,
+                x: startX
+              },
+              {
+                y: bandScale.scale(curr) + regionStartY + bandwidth,
+                x: endX
+              }
+            ]
+          });
+          if (bandwidth > 10) {
+            splitPoints.push({
+              y: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartY + bandwidth,
+              x: (startX + endX) / 2,
+              points: [
+                {
+                  y: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartY + bandwidth,
+                  x: startX
+                },
+                {
+                  y: (bandScale.scale(pre) + bandScale.scale(curr)) / 2 + regionStartY + bandwidth,
+                  x: endX
+                }
+              ]
+            });
+          }
+        }
+
+        // 添加首尾
+        if (this._overlayMiddleHandler.attribute.points[0].y < regionStartY) {
+          splitPoints.push({
+            y: this._overlayMiddleHandler.attribute.points[0].y,
+            x: (startX + endX) / 2,
+            points: [
+              {
+                y: this._overlayMiddleHandler.attribute.points[0].y,
+                x: startX
+              },
+              {
+                y: this._overlayMiddleHandler.attribute.points[0].y,
+                x: endX
+              }
+            ]
+          });
+        } else {
+          splitPoints.push({
+            y: regionStartY,
+            x: (startX + endX) / 2,
+            points: [
+              {
+                y: regionStartY,
+                x: startX
+              },
+              {
+                y: regionStartY,
+                x: endX
+              }
+            ]
+          });
+        }
+        if (this._overlayMiddleHandler.attribute.points[0].y > regionStartY + region.getLayoutRect().height) {
+          splitPoints.push({
+            y: this._overlayMiddleHandler.attribute.points[0].y,
+            x: (startX + endX) / 2,
+            points: [
+              {
+                y: this._overlayMiddleHandler.attribute.points[0].y,
+                x: startX
+              },
+              {
+                y: this._overlayMiddleHandler.attribute.points[0].y,
+                x: endX
+              }
+            ]
+          });
+        } else {
+          splitPoints.push({
+            y: regionStartY + region.getLayoutRect().height,
+            x: (startX + endX) / 2,
+            points: [
+              {
+                y: regionStartY + region.getLayoutRect().height,
+                x: startX
+              },
+              {
+                y: regionStartY + region.getLayoutRect().height,
+                x: endX
+              }
+            ]
+          });
+        }
+      }
+
+      this._splitPoints = splitPoints;
+
+      return this._splitPoints;
+    }
   }
 
   private _getValueFromAnchorHandler(data: DataPoint, valueField: string) {

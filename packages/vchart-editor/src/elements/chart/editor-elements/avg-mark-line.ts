@@ -1,6 +1,5 @@
 /**
  * @description 均值线
- * 1. 保存位置 & 更新 spec
  * 2. 双击出现编辑框
  */
 import type { IGroup, INode } from '@visactor/vrender-core';
@@ -107,12 +106,11 @@ export class AvgMarkLineEditor extends BaseEditorElement {
       newPoint[field] = point[field] + offset;
       return newPoint;
     });
-
+    const series = this._model.getRelativeSeries() as ICartesianSeries;
     // 计算新的 label 值
     let newText;
     if (this._orient === 'horizontal') {
-      const series = this._model.getRelativeSeries() as ICartesianSeries;
-      const convertPosition = newPoints[0].y - series.getLayoutStartPoint().y;
+      const convertPosition = newPoints[0].y - series.getRegion().getLayoutStartPoint().y;
       const isContinuousYAxis = series.getYAxisHelper().isContinuous;
       if (isContinuousYAxis) {
         newText = parseInt(series.positionToDataY(convertPosition), 10);
@@ -120,8 +118,7 @@ export class AvgMarkLineEditor extends BaseEditorElement {
         newText = series.positionToDataY(convertPosition);
       }
     } else {
-      const series = this._model.getRelativeSeries();
-      const convertPosition = newPoints[0].x - series.getLayoutStartPoint().x;
+      const convertPosition = newPoints[0].x - series.getRegion().getLayoutStartPoint().x;
       const isContinuousXAxis = series.getXAxisHelper().isContinuous;
       if (isContinuousXAxis) {
         newText = parseInt(series.positionToDataX(convertPosition), 10);
@@ -135,9 +132,16 @@ export class AvgMarkLineEditor extends BaseEditorElement {
     // TODO: 如果是对应离散轴的话需要变成坐标，或者加上 dx/dy 属性
     const newSpec = merge({}, this._model.getSpec(), {
       label: {
-        text: newText
+        text: newText,
+        formatMethod: null
       },
-      positions: newPoints // TODO：需要支持相对 region 区域内的坐标
+      positions: newPoints.map(point => {
+        return {
+          x: point.x - series.getRegion().getLayoutStartPoint().x,
+          y: point.y - series.getRegion().getLayoutStartPoint().y
+        };
+      }),
+      regionRelative: true
     });
     delete newSpec.x;
     delete newSpec.y;
