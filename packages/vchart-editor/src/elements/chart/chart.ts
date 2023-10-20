@@ -85,7 +85,7 @@ export class EditorChart extends BaseElement {
     this._commonModelElement.emitter.on('chartTypeChange', this._onChartTypeChange);
     this._commonModelElement.emitter.on('chartDataChange', this._onChartDataChange);
     this._commonModelElement.emitter.on('addMarkLine', this._onAddMarkLine);
-    this._commonModelElement.emitter.on('addMarkArea', this._onAddMarkLine);
+    this._commonModelElement.emitter.on('addMarkArea', this._onAddMarkArea);
   }
 
   bindEditors() {
