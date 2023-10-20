@@ -43,6 +43,8 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 
   static readonly mark: SeriesMarkMap = waterfallSeriesMark;
 
+  protected _stack: boolean = true;
+
   protected declare _theme: Maybe<IWaterfallSeriesTheme>;
 
   protected _totalData?: SeriesData;
