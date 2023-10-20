@@ -85672,7 +85672,7 @@
     (t.WordCloudChart = hX),
     (t.WordCloudSeries = lX),
     (t.default = EH),
-    (t.version = '1.5.1-alpha.0'),
+    (t.version = '1.5.0'),
     (t.vglobal = cA),
     Object.defineProperty(t, '__esModule', { value: !0 });
 });

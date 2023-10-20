@@ -14412,12 +14412,10 @@
               x1: t.x1 + (e.x1 - t.x1) * i,
               y0: t.y0 + (e.y0 - t.y0) * i,
               y1: t.y1 + (e.y1 - t.y1) * i,
-              stops: new Array(n.length)
-                .fill(0)
-                .map((t, e) => ({
-                  color: sf(n[e].color, s[e].color, i),
-                  offset: n[e].offset + (s[e].offset - n[e].offset) * i
-                }))
+              stops: new Array(n.length).fill(0).map((t, e) => ({
+                color: sf(n[e].color, s[e].color, i),
+                offset: n[e].offset + (s[e].offset - n[e].offset) * i
+              }))
             };
           })(n, s, i);
         if ('radial' === n.gradient)
@@ -14432,12 +14430,10 @@
               y1: t.y1 + (e.y1 - t.y1) * i,
               r0: t.r0 + (e.r0 - t.r0) * i,
               r1: t.r1 + (e.r1 - t.r1) * i,
-              stops: new Array(n.length)
-                .fill(0)
-                .map((t, e) => ({
-                  color: sf(n[e].color, s[e].color, i),
-                  offset: n[e].offset + (s[e].offset - n[e].offset) * i
-                }))
+              stops: new Array(n.length).fill(0).map((t, e) => ({
+                color: sf(n[e].color, s[e].color, i),
+                offset: n[e].offset + (s[e].offset - n[e].offset) * i
+              }))
             };
           })(n, s, i);
         if ('conical' === n.gradient)
@@ -14450,12 +14446,10 @@
               endAngle: t.endAngle + (e.endAngle - t.endAngle) * i,
               x: t.x + (e.x - t.x) * i,
               y: t.y + (e.y - t.y) * i,
-              stops: new Array(n.length)
-                .fill(0)
-                .map((t, e) => ({
-                  color: sf(n[e].color, s[e].color, i),
-                  offset: n[e].offset + (s[e].offset - n[e].offset) * i
-                }))
+              stops: new Array(n.length).fill(0).map((t, e) => ({
+                color: sf(n[e].color, s[e].color, i),
+                offset: n[e].offset + (s[e].offset - n[e].offset) * i
+              }))
             };
           })(n, s, i);
       }
@@ -42272,31 +42266,28 @@
           const o = e.text;
           o.animate().to(t.attribute, l, h),
             e.labelLine &&
-              e.labelLine
-                .animate()
-                .to(
-                  I({}, e.labelLine.attribute, {
-                    visible:
-                      null ===
-                        (f =
-                          null !==
-                            (r =
-                              (null === (n = null === (i = t.attribute) || void 0 === i ? void 0 : i.line) ||
-                              void 0 === n
-                                ? void 0
-                                : n.visible) && (null === (s = t.attribute) || void 0 === s ? void 0 : s.visible)) &&
-                          void 0 !== r
-                            ? r
-                            : null === (g = t.attribute) || void 0 === g
-                            ? void 0
-                            : g.visible) ||
-                      void 0 === f ||
-                      f,
-                    points: null === (v = t.attribute) || void 0 === v ? void 0 : v.points
-                  }),
-                  l,
-                  h
-                ),
+              e.labelLine.animate().to(
+                I({}, e.labelLine.attribute, {
+                  visible:
+                    null ===
+                      (f =
+                        null !==
+                          (r =
+                            (null === (n = null === (i = t.attribute) || void 0 === i ? void 0 : i.line) || void 0 === n
+                              ? void 0
+                              : n.visible) && (null === (s = t.attribute) || void 0 === s ? void 0 : s.visible)) &&
+                        void 0 !== r
+                          ? r
+                          : null === (g = t.attribute) || void 0 === g
+                          ? void 0
+                          : g.visible) ||
+                    void 0 === f ||
+                    f,
+                  points: null === (v = t.attribute) || void 0 === v ? void 0 : v.points
+                }),
+                l,
+                h
+              ),
             !1 !== a.increaseEffect &&
               o.attribute.text !== t.attribute.text &&
               y(Number(o.attribute.text) * Number(t.attribute.text)) &&
@@ -63110,46 +63101,44 @@
     _statisticViewData() {
       var t, e, i, n, s, r, a, o, l;
       super._statisticViewData(),
-        this._data
-          .getDataView()
-          .transform({
-            type: 'funnel',
-            options: {
-              valueField: this.getValueField(),
-              isCone: this._spec.isCone,
-              asCurrentValue: RG,
-              asTransformRatio: AG,
-              asReachRatio: kG,
-              asHeightRatio: wG,
-              asValueRatio: MG,
-              asNextValueRatio: CG,
-              asLastValueRatio: TG,
-              asLastValue: EG,
-              asNextValue: PG,
-              range: {
-                min:
-                  null !== (e = null === (t = this._spec.range) || void 0 === t ? void 0 : t.min) && void 0 !== e
-                    ? e
-                    : null ===
-                        (n =
-                          null === (i = this.getViewDataStatistics().latestData) || void 0 === i
-                            ? void 0
-                            : i[this.getValueField()]) || void 0 === n
-                    ? void 0
-                    : n.min,
-                max:
-                  null !== (r = null === (s = this._spec.range) || void 0 === s ? void 0 : s.max) && void 0 !== r
-                    ? r
-                    : null ===
-                        (o =
-                          null === (a = this.getViewDataStatistics().latestData) || void 0 === a
-                            ? void 0
-                            : a[this.getValueField()]) || void 0 === o
-                    ? void 0
-                    : o.max
-              }
+        this._data.getDataView().transform({
+          type: 'funnel',
+          options: {
+            valueField: this.getValueField(),
+            isCone: this._spec.isCone,
+            asCurrentValue: RG,
+            asTransformRatio: AG,
+            asReachRatio: kG,
+            asHeightRatio: wG,
+            asValueRatio: MG,
+            asNextValueRatio: CG,
+            asLastValueRatio: TG,
+            asLastValue: EG,
+            asNextValue: PG,
+            range: {
+              min:
+                null !== (e = null === (t = this._spec.range) || void 0 === t ? void 0 : t.min) && void 0 !== e
+                  ? e
+                  : null ===
+                      (n =
+                        null === (i = this.getViewDataStatistics().latestData) || void 0 === i
+                          ? void 0
+                          : i[this.getValueField()]) || void 0 === n
+                  ? void 0
+                  : n.min,
+              max:
+                null !== (r = null === (s = this._spec.range) || void 0 === s ? void 0 : s.max) && void 0 !== r
+                  ? r
+                  : null ===
+                      (o =
+                        null === (a = this.getViewDataStatistics().latestData) || void 0 === a
+                          ? void 0
+                          : a[this.getValueField()]) || void 0 === o
+                  ? void 0
+                  : o.max
             }
-          }),
+          }
+        }),
         null === (l = this._viewDataTransform.getDataView()) ||
           void 0 === l ||
           l.transform({ type: 'funnelTransform', options: { asIsTransformLevel: OG } });
@@ -77947,29 +77936,27 @@
       cH(this._option.dataSet, 'scale', YX), hH(this._option.dataSet, 'ticks', dk);
       const e = this._spec.label || {},
         i = this._tick || {},
-        n = new _o(this._option.dataSet)
-          .parse(this._scale, { type: 'scale' })
-          .transform(
-            {
-              type: 'ticks',
-              options: {
-                sampling: t,
-                tickCount: i.tickCount,
-                forceTickCount: i.forceTickCount,
-                tickStep: i.tickStep,
-                tickMode: i.tickMode,
-                noDecimals: i.noDecimals,
-                axisOrientType: this._orient,
-                coordinateType: 'cartesian',
-                labelStyle: e.style,
-                labelFormatter: e.formatMethod,
-                labelGap: e.minGap,
-                labelLastVisible: e.lastVisible,
-                labelFlush: e.flush
-              }
-            },
-            !1
-          );
+        n = new _o(this._option.dataSet).parse(this._scale, { type: 'scale' }).transform(
+          {
+            type: 'ticks',
+            options: {
+              sampling: t,
+              tickCount: i.tickCount,
+              forceTickCount: i.forceTickCount,
+              tickStep: i.tickStep,
+              tickMode: i.tickMode,
+              noDecimals: i.noDecimals,
+              axisOrientType: this._orient,
+              coordinateType: 'cartesian',
+              labelStyle: e.style,
+              labelFormatter: e.formatMethod,
+              labelGap: e.minGap,
+              labelLastVisible: e.lastVisible,
+              labelFlush: e.flush
+            }
+          },
+          !1
+        );
       n.target.addListener('change', this._forceLayout.bind(this)), (this._tickData = new hN(this._option, n));
     }
     _initData() {
@@ -78646,36 +78633,34 @@
       var t, e, i, n, s, r, a;
       if ((super._initData(), null === (t = this._spec.layers) || void 0 === t ? void 0 : t[1])) {
         const t = this._spec.label || {},
-          o = new _o(this._option.dataSet)
-            .parse(this._scale, { type: 'scale' })
-            .transform(
-              {
-                type: 'ticks',
-                options: {
-                  sampling: !1 !== this._spec.sampling,
-                  tickCount:
-                    null === (i = null === (e = this._spec.layers) || void 0 === e ? void 0 : e[1]) || void 0 === i
-                      ? void 0
-                      : i.tickCount,
-                  forceTickCount:
-                    null === (s = null === (n = this._spec.layers) || void 0 === n ? void 0 : n[1]) || void 0 === s
-                      ? void 0
-                      : s.forceTickCount,
-                  tickStep:
-                    null === (a = null === (r = this._spec.layers) || void 0 === r ? void 0 : r[1]) || void 0 === a
-                      ? void 0
-                      : a.tickStep,
-                  axisOrientType: this._orient,
-                  coordinateType: 'cartesian',
-                  labelStyle: t.style,
-                  labelFormatter: t.formatMethod,
-                  labelGap: t.minGap,
-                  labelLastVisible: t.lastVisible,
-                  labelFlush: t.flush
-                }
-              },
-              !1
-            );
+          o = new _o(this._option.dataSet).parse(this._scale, { type: 'scale' }).transform(
+            {
+              type: 'ticks',
+              options: {
+                sampling: !1 !== this._spec.sampling,
+                tickCount:
+                  null === (i = null === (e = this._spec.layers) || void 0 === e ? void 0 : e[1]) || void 0 === i
+                    ? void 0
+                    : i.tickCount,
+                forceTickCount:
+                  null === (s = null === (n = this._spec.layers) || void 0 === n ? void 0 : n[1]) || void 0 === s
+                    ? void 0
+                    : s.forceTickCount,
+                tickStep:
+                  null === (a = null === (r = this._spec.layers) || void 0 === r ? void 0 : r[1]) || void 0 === a
+                    ? void 0
+                    : a.tickStep,
+                axisOrientType: this._orient,
+                coordinateType: 'cartesian',
+                labelStyle: t.style,
+                labelFormatter: t.formatMethod,
+                labelGap: t.minGap,
+                labelLastVisible: t.lastVisible,
+                labelFlush: t.flush
+              }
+            },
+            !1
+          );
         this._layerTickData = new hN(this._option, o);
       }
     }
@@ -78741,14 +78726,12 @@
       return (
         g(this._tickData.getLatestData()) &&
           e.push(
-            this._tickData
-              .getLatestData()
-              .map(e => ({
-                id: e.value,
-                label: e.value,
-                value: 0 === t ? 0 : this.dataToPosition([e.value]) / t,
-                rawValue: e.value
-              }))
+            this._tickData.getLatestData().map(e => ({
+              id: e.value,
+              label: e.value,
+              value: 0 === t ? 0 : this.dataToPosition([e.value]) / t,
+              rawValue: e.value
+            }))
           ),
         this._layerTickData &&
           g(this._layerTickData.getLatestData()) &&
@@ -78908,30 +78891,28 @@
       cH(this._option.dataSet, 'scale', YX), hH(this._option.dataSet, 'ticks', dk);
       const t = this._spec.label || {},
         e = this._spec.tick || {},
-        i = new _o(this._option.dataSet)
-          .parse(this._scale, { type: 'scale' })
-          .transform(
-            {
-              type: 'ticks',
-              options: {
-                sampling: !1 !== this._spec.sampling,
-                tickCount: e.tickCount,
-                forceTickCount: e.forceTickCount,
-                tickStep: e.tickStep,
-                tickMode: e.tickMode,
-                noDecimals: e.noDecimals,
-                coordinateType: 'polar',
-                axisOrientType: this._orient,
-                startAngle: this.startAngle,
-                labelStyle: t.style,
-                labelFormatter: t.formatMethod,
-                labelGap: t.minGap,
-                labelOffset: qG(this._spec),
-                getRadius: () => this.getOuterRadius()
-              }
-            },
-            !1
-          );
+        i = new _o(this._option.dataSet).parse(this._scale, { type: 'scale' }).transform(
+          {
+            type: 'ticks',
+            options: {
+              sampling: !1 !== this._spec.sampling,
+              tickCount: e.tickCount,
+              forceTickCount: e.forceTickCount,
+              tickStep: e.tickStep,
+              tickMode: e.tickMode,
+              noDecimals: e.noDecimals,
+              coordinateType: 'polar',
+              axisOrientType: this._orient,
+              startAngle: this.startAngle,
+              labelStyle: t.style,
+              labelFormatter: t.formatMethod,
+              labelGap: t.minGap,
+              labelOffset: qG(this._spec),
+              getRadius: () => this.getOuterRadius()
+            }
+          },
+          !1
+        );
       i.target.addListener('change', this._forceLayout.bind(this)), (this._tickData = new hN(this._option, i));
     }
     afterCompile() {
@@ -85672,7 +85653,7 @@
     (t.WordCloudChart = hX),
     (t.WordCloudSeries = lX),
     (t.default = EH),
-    (t.version = '1.5.1-alpha.0'),
+    (t.version = '1.5.0'),
     (t.vglobal = cA),
     Object.defineProperty(t, '__esModule', { value: !0 });
 });
