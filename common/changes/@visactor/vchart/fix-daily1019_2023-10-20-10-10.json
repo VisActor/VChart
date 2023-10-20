@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: change default zIndex of axis in gauge chart, related #1122",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
