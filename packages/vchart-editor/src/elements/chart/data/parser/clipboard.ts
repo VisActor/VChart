@@ -2,6 +2,7 @@ import { isString } from '@visactor/vutils';
 import { DataView, csvParser } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import type { DataUpdateCall, IDataParser } from './../interface';
+import { getStandardDataFields } from '../../../../utils/data';
 export class ClipBoardParser implements IDataParser {
   static readonly type = 'clipBoard';
   readonly type: string = ClipBoardParser.type;
@@ -30,19 +31,12 @@ export class ClipBoardParser implements IDataParser {
 
   updateValue(value: unknown) {
     this._dataValue = value;
-    // TODO hack for demo
-    this._data.setFields({
-      State: {},
-      Age: {},
-      Population: {
-        type: 'linear'
-      }
-    });
-    // only enable csv string for demo
+    // only enable csv string
     if (isString(value)) {
       this._dataSet.registerParser('csv', csvParser);
       this._data.parse(value, { type: 'csv' });
       this._data.reRunAllTransform();
+      this._data.setFields(getStandardDataFields(this._data.latestData));
     }
     this._onDataUpdateCall?.(this._data);
   }

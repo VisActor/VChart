@@ -128,6 +128,10 @@ export class EditorLayer implements IEditorLayer {
     this._container.style.height = height + 'px';
   }
 
+  reLayoutWithOffset(offsetX: number, offsetY: number) {
+    this._elements.forEach(el => el.moveBy(offsetX, offsetY));
+  }
+
   transformPosInLayer(pos: IPoint) {
     // pos in layer
     const inLayer = { x: pos.x - this._offsetX, y: pos.y - this._offsetY };
@@ -237,6 +241,9 @@ export class EditorLayer implements IEditorLayer {
 
   private _getAABBBounds(node: IGroup, b: Bounds, x: number, y: number) {
     node.getChildren?.().forEach(c => {
+      if (c === this._editorGroup) {
+        return;
+      }
       if (c.type === 'group') {
         this._getAABBBounds(<IGroup>c, b, x + ((<IGroup>c).attribute.x ?? 0), y + ((<IGroup>c).attribute.y ?? 0));
       } else if ('AABBBounds' in c) {

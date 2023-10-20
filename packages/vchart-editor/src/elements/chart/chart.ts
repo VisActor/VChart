@@ -271,4 +271,15 @@ export class EditorChart extends BaseElement {
     }
     this.reRenderWithUpdateSpec();
   };
+
+  moveBy(offsetX: number, offsetY: number) {
+    // clear editor box
+    this._layoutEditor.clearLayoutEditorBox();
+    // move by
+    this._layout?.getLayoutData()?.data?.forEach(_d => {
+      _d.layout.x.offset += offsetX;
+      _d.layout.y.offset += offsetY;
+    });
+    this._vchart.getChart().setLayoutTag(true);
+  }
 }
