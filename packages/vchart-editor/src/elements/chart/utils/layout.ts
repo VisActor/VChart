@@ -72,9 +72,10 @@ export function getAxisLayoutInRegionRect(axis: ILayoutItem, rect: IRect): ILayo
     };
   }
   const axisRect = axis.getLayoutRect();
+  const axisPos = axis.getLayoutStartPoint();
   return {
-    x: { offset: axisRect.x },
-    y: { offset: axisRect.y },
+    x: { offset: axisPos.x },
+    y: { offset: axisPos.y },
     width: { offset: axisRect.width },
     height: { offset: axisRect.height }
   };
@@ -100,6 +101,13 @@ export function getChartModelWithModelInfo(vchart: IVChart, info: IModelInfo) {
 }
 
 export const IgnoreModelTypeInLayout = {
+  tooltip: true,
+  label: true,
+  layout: true,
+  markLine: true
+};
+
+export const IgnoreModelTypeInCommon = {
   tooltip: true,
   label: true,
   layout: true,

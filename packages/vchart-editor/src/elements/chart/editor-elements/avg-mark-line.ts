@@ -30,27 +30,27 @@ export class AvgMarkLineEditor extends BaseEditorElement {
     vchart.on('pointerdown', { level: 'model', type: 'markLine', consume: true }, this._onDragStart);
   }
 
-  private _checkEventEnable(e: any) {
-    const markerComponent = e.model.getVRenderComponents()[0];
+  private _checkEventEnable(e: EventParams) {
+    const markerComponent = (<MarkLine>e.model).getVRenderComponents()[0] as unknown as MarkLineComponent;
     return (
       markerComponent?.name === MarkerTypeEnum.horizontalLine || markerComponent?.name === MarkerTypeEnum.verticalLine
     );
   }
 
-  private _onHover = (e: any) => {
+  private _onHover = (e: EventParams) => {
     if (!this._checkEventEnable(e)) {
       return;
     }
     const el = this._getEditorElement(e);
-    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
+    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
   };
 
-  private _onDragStart = (e: any) => {
+  private _onDragStart = (e: EventParams) => {
     if (!this._checkEventEnable(e)) {
       return;
     }
-    this._element = e.model.getVRenderComponents()[0];
-    this._model = e.model;
+    this._element = (<MarkLine>e.model).getVRenderComponents()[0] as unknown as MarkLineComponent;
+    this._model = e.model as MarkLine;
     this._orient = this._element.name === MarkerTypeEnum.verticalLine ? 'vertical' : 'horizontal';
 
     // Important: 拖拽过程中，关闭对应 markLine 的交互
@@ -63,7 +63,7 @@ export class AvgMarkLineEditor extends BaseEditorElement {
 
     const el = this._getEditorElement(e);
     if (e) {
-      this.startEditor(el, e);
+      this.startEditor(el, e.event as PointerEvent);
     }
 
     this._prePos = this._orient === 'horizontal' ? e.event.clientY : e.event.clientX;

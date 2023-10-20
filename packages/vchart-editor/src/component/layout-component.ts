@@ -79,10 +79,13 @@ export class LayoutEditorComponent {
     this.editorBox.updateSubBounds(bounds);
   }
 
-  _dragStartCheck = e => {
+  _dragStartCheck = (e: PointerEvent) => {
+    if (!this.editorBox) {
+      return;
+    }
     if (this.editorBox.containsPoint(e.x, e.y, IContainPointMode.GLOBAL)) {
       // editor box
-      if (e.target?.parent === this._editorBox) {
+      if ((<any>e.target)?.parent === this._editorBox) {
         return;
       }
       if (this._el.editProperties.move) {
@@ -320,15 +323,15 @@ export class LayoutEditorComponent {
   }
 
   release() {
+    this._opt.editorGroup.removeChild(this._snapLineX);
+    this._opt.editorGroup.removeChild(this._snapLineY);
+    this._opt.editorGroup.removeChild(this._snapTargetBoxX);
+    this._opt.editorGroup.removeChild(this._snapTargetBoxY);
+
     this._editorBox.release();
     this._dragger.release();
     this._dragger.release();
     this._opt.stage.removeEventListener('pointerdown', this._dragStartCheck);
     this._endHandler = this._startHandler = this._updateHandler = this._el = this._editorBox = this._dragger = null;
-
-    this._opt.editorGroup.removeChild(this._snapLineX);
-    this._opt.editorGroup.removeChild(this._snapLineY);
-    this._opt.editorGroup.removeChild(this._snapTargetBoxX);
-    this._opt.editorGroup.removeChild(this._snapTargetBoxY);
   }
 }

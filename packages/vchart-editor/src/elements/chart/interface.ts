@@ -68,7 +68,6 @@ export interface ILayoutItem {
   getLayoutStartPoint: () => IPoint;
   getLayoutRect: () => ISize;
   getLastComputeOutBounds: () => IBoundsLike;
-  getGraphicBounds: () => IBoundsLike;
 
   /**
    * 更新元素布局的 layoutRect 大小，用来更新指定布局空间
@@ -90,6 +89,9 @@ export interface ILayoutItem {
    * 元素内部布局信息更新
    */
   updateLayoutAttribute: () => void;
+
+  // 获取绘图bounds
+  getGraphicBounds?: () => IBoundsLike;
 }
 
 export enum MarkerTypeEnum {

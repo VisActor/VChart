@@ -60,7 +60,12 @@
     "ts-node": "10.9.0",
     "tslib": "2.3.1",
     "tslint": "5.12.1",
-    "@types/uuid": "8.3.4"
+    "@types/uuid": "8.3.4",
+    "d3-dsv": "^3.0.1",
+    "d3-array": "^1.2.4",
+    "d3-geo": "^1.12.1",
+    "d3-hexbin": "^0.2.2",
+    "d3-hierarchy": "^3.1.1"
   },
   "keywords": [
     "charts",

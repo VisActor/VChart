@@ -54,7 +54,7 @@ export class MarkAreaEditor extends BaseEditorElement {
       return;
     }
     const el = this._getEditorElement(e);
-    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
+    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
   };
 
   private _onDown = (e: any) => {

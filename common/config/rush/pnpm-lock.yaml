@@ -429,6 +429,12 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 20.8.9
       '@types/offscreencanvas': 2019.6.4
+      '@types/uuid': 8.3.4
+      d3-array: 1.2.4
+      d3-dsv: 3.0.1
+      d3-geo: 1.12.1
+      d3-hexbin: 0.2.2
+      d3-hierarchy: 3.1.2
       eslint: 8.18.0
       husky: 7.0.4
       jest: 26.6.3_ts-node@10.9.0

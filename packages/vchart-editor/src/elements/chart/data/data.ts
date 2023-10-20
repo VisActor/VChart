@@ -18,12 +18,14 @@ export class Data implements IData {
     return this._dataView?.getFields?.() ?? this._parser.getDataInfo?.();
   }
   changeDataSource(type: string, value: unknown) {
-    if (this._parser) {
-    }
     const parserCreate = EditorFactory.getParser(type);
     if (!parserCreate) {
       console.warn('invalid data source type:', type);
     }
+    if (this._parser) {
+      this._parser.clear();
+    }
+    this._dataView = null;
     this._parser = new parserCreate(this._dataSet, this.dataUpdateCall, value);
   }
   getData(): StandardData {
@@ -45,7 +47,7 @@ export class Data implements IData {
 
   clear() {
     this._updateListener = [];
-    this._parser.clear();
+    this._parser?.clear();
     this._parser = null;
   }
 }
