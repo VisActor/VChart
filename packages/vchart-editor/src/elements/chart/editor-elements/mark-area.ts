@@ -1,26 +1,25 @@
-import { CommonChartEditorElement } from './base-editor-element';
 /**
  * @description 区域标注交互
  * TODO:
  * 1. 保存位置 & 更新 spec
- * 2. 双击出现编辑框
- * 3. 存在多个 area 时交互会有冲突
  */
 import type { IGroup, IGraphic, IPolygon, IRect, FederatedPointerEvent } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import { createRect, createGroup, vglobal, createPolygon, point } from '@visactor/vrender-core';
+import { createRect, createGroup, vglobal, createPolygon } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement } from './base-editor-element';
 // eslint-disable-next-line no-duplicate-imports
+import type { IPointLike } from '@visactor/vutils';
 import { merge } from '@visactor/vutils';
+import { CommonChartEditorElement } from './base-editor-element';
 import type { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
-import type { EventParams, MarkArea } from '@visactor/vchart';
-import type { IComponent } from '@visactor/vchart/esm/component/interface';
+import type { EventParams, MarkArea, IComponent } from '@visactor/vchart';
+import { MarkerTypeEnum } from '../interface';
 
 const handlerWidth = 9;
 const handlerHeight = 40;
 export class MarkAreaEditor extends BaseEditorElement {
-  private _element: IGroup;
+  private _element: MarkAreaComponent;
   private _model: MarkArea;
   private _orient: string;
 
@@ -35,7 +34,6 @@ export class MarkAreaEditor extends BaseEditorElement {
   private _currentHandler: IRect;
 
   private _prePos: number = 0;
-  private _selected: boolean = false;
 
   initWithVChart(): void {
     const vchart = this._chart.vchart;
@@ -44,18 +42,30 @@ export class MarkAreaEditor extends BaseEditorElement {
     vchart.on('pointerdown', { level: 'model', type: 'markArea', consume: true }, this._onDown);
   }
 
+  private _checkEventEnable(e: any) {
+    const markerComponent = e.model.getVRenderComponents()[0];
+    return (
+      markerComponent?.name === MarkerTypeEnum.horizontalArea || markerComponent?.name === MarkerTypeEnum.verticalArea
+    );
+  }
+
   private _onHover = (e: any) => {
+    if (!this._checkEventEnable(e)) {
+      return;
+    }
     const el = this._getEditorElement(e);
     this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
   };
 
   private _onDown = (e: any) => {
+    if (!this._checkEventEnable(e)) {
+      return;
+    }
     const el = this._getEditorElement(e);
     this._element = e.model.getVRenderComponents()[0];
     this._model = e.model;
-    this._selected = true;
-    // TODO: hack
-    this._orient = this._model.getSpec().x ? 'vertical' : 'horizontal';
+
+    this._orient = this._element.name === MarkerTypeEnum.verticalArea ? 'vertical' : 'horizontal';
     this.startEditor(el, e);
     this._activeEditComponent();
     this._overlayAreaGroup?.showAll();
@@ -277,6 +287,13 @@ export class MarkAreaEditor extends BaseEditorElement {
 
   private _onHandlerDrag = (e: any) => {
     e.stopPropagation();
+
+    // Important: 拖拽过程中，关闭对应 markArea 的交互
+    this._element.setAttributes({
+      pickable: false,
+      childrenPickable: false
+    });
+
     this._editComponent.showAll();
 
     let currentPos;
@@ -341,23 +358,8 @@ export class MarkAreaEditor extends BaseEditorElement {
     this._overlayLabel.setAttribute('visible', false);
     this._slientEditComponent();
 
-    // 更新真正的图形
-    const areaShape = (this._element as unknown as MarkAreaComponent).getArea();
-    areaShape.setAttribute(
-      'points',
-      points.map(point => {
-        return {
-          x: point.x,
-          y: point.y
-        };
-      })
-    );
-    const labelShape = (this._element as unknown as MarkAreaComponent).getLabel();
-    if (this._orient === 'vertical') {
-      labelShape.setAttribute('x', this._overlayLabel.attribute.x + this._overlayLabel.attribute.width / 2);
-    } else {
-      labelShape.setAttribute('y', this._overlayLabel.attribute.y + this._overlayLabel.attribute.height / 2);
-    }
+    // 更新当前图形以及保存 spec
+    this._save(points);
 
     vglobal.removeEventListener('pointermove', this._onHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onHandlerDragEnd);
@@ -366,13 +368,18 @@ export class MarkAreaEditor extends BaseEditorElement {
   private _onAreaDragStart = (e: any) => {
     e.stopPropagation();
     this._prePos = this._orient === 'vertical' ? e.clientX : e.clientY;
-    // TODO: 或许换成监听操作图形自身的交互会更好
     vglobal.addEventListener('pointermove', this._onAreaDrag);
     vglobal.addEventListener('pointerup', this._onAreaDragEnd);
   };
 
   private _onAreaDrag = (e: any) => {
     e.stopPropagation();
+
+    // Important: 拖拽过程中，关闭对应 markArea 的交互
+    this._element.setAttributes({
+      pickable: false,
+      childrenPickable: false
+    });
 
     this._editComponent.showAll();
     let currentPos;
@@ -430,24 +437,8 @@ export class MarkAreaEditor extends BaseEditorElement {
       pickable: false
     });
 
-    // 更新真正的图形
-    const areaShape = (this._element as unknown as MarkAreaComponent).getArea();
-    areaShape.setAttribute(
-      'points',
-      points.map(point => {
-        return {
-          x: point.x,
-          y: point.y
-        };
-      })
-    );
-
-    const labelShape = (this._element as unknown as MarkAreaComponent).getLabel();
-    if (this._orient === 'vertical') {
-      labelShape.setAttribute('x', this._overlayLabel.attribute.x + this._overlayLabel.attribute.width / 2);
-    } else {
-      labelShape.setAttribute('y', this._overlayLabel.attribute.y + this._overlayLabel.attribute.height / 2);
-    }
+    // 更新当前图形以及保存 spec
+    this._save(points);
 
     vglobal.removeEventListener('pointermove', this._onAreaDrag);
     vglobal.removeEventListener('pointerup', this._onAreaDragEnd);
@@ -469,5 +460,42 @@ export class MarkAreaEditor extends BaseEditorElement {
         childrenPickable: true
       });
     }
+  }
+
+  private _save(newPoints: IPointLike[]) {
+    // 更新真正的图形
+    this._element.setAttributes({
+      points: newPoints.map(point => {
+        return {
+          x: point.x,
+          y: point.y
+        };
+      }),
+      pickable: true,
+      childrenPickable: true
+    });
+
+    // 更新 spec
+    const series = this._model.getRelativeSeries();
+    const { x: regionStartX, y: regionStartY } = series.getRegion().getLayoutStartPoint();
+    const newMarkAreaSpec = merge({}, this._model.getSpec(), {
+      positions: newPoints.map(point => {
+        return {
+          x: point.x - regionStartX,
+          y: point.y - regionStartY
+        };
+      }),
+      regionRelative: true
+    });
+    delete newMarkAreaSpec.x;
+    delete newMarkAreaSpec.x1;
+    delete newMarkAreaSpec.y;
+    delete newMarkAreaSpec.y1;
+
+    this._currentEl.updateAttribute({
+      markArea: {
+        spec: newMarkAreaSpec
+      }
+    });
   }
 }
