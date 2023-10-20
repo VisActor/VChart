@@ -1,3 +1,4 @@
+import type { IComponent } from './interface/common';
 /* eslint-disable no-duplicate-imports */
 /**
  * @description export all component modules
@@ -128,6 +129,7 @@ export {
 };
 
 export type {
+  IComponent,
   IScrollBarSpec,
   IBrushSpec,
   ICartesianAxisSpec,

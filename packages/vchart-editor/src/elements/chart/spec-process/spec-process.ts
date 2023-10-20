@@ -1,5 +1,6 @@
+import { markLine } from './../../../../../vchart/src/theme/builtin/common/component/mark-line';
 import type { IChartModel } from './../interface';
-import { merge, isArray, isObject } from '@visactor/vutils';
+import { merge, isArray, isObject, isEmpty, array } from '@visactor/vutils';
 import type { IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
 import { EditorFactory } from './../../../core/factory';
 import type { IData, StandardData } from '../data/interface';
@@ -109,7 +110,6 @@ export class SpecProcess implements ISpecProcess {
   }
 
   private _mergeEditorSpec() {
-    this._vchartSpec;
     // 色板
     if (this._editorSpec.color) {
       this._vchartSpec.color = this._editorSpec.color;
@@ -181,7 +181,32 @@ export class SpecProcess implements ISpecProcess {
         this.mergeModelEditorSpec(mSpec, mSpec.spec);
       });
     }
+
+    if (attr.markLine && attr.markLine.spec) {
+      hasChange = true;
+      this._updateMarkerSpec(attr, 'markLine');
+    }
+
+    if (attr.markArea && attr.markArea.spec) {
+      hasChange = true;
+      this._updateMarkerSpec(attr, 'markArea');
+    }
+
     this._mergeEditorSpec();
     return hasChange;
+  }
+
+  private _updateMarkerSpec(attr: IUpdateAttributeParam, key: 'markLine' | 'markArea') {
+    this._vchartSpec[key] = array(this._vchartSpec[key]);
+    if (isEmpty(this._vchartSpec[key])) {
+      this._vchartSpec[key] = [attr[key].spec];
+    } else {
+      const markerIndex = array(this._vchartSpec[key]).findIndex(markerSpec => markerSpec.id === attr[key].spec.id);
+      if (markerIndex === -1) {
+        this._vchartSpec[key].push(attr[key].spec);
+      } else {
+        this._vchartSpec[key][markerIndex] = attr[key].spec;
+      }
+    }
   }
 }

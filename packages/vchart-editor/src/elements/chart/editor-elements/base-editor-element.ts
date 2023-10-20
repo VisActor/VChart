@@ -178,6 +178,8 @@ export class CommonChartEditorElement implements IEditorElement {
       });
       this._context.chart.specProcess.updateTemp(attr.chartType);
     }
+
+    // 更新
     const result = this._updateCall?.(attr) ?? false;
     const reRender = this._context.chart.specProcess.updateElementAttribute(this.model, attr);
     if (reRender) {

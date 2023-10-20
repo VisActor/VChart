@@ -1,4 +1,4 @@
-import type { IChartModel } from './../elements/chart/interface';
+import type { IChartModel, MarkerTypeEnum } from './../elements/chart/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
@@ -71,11 +71,27 @@ export interface IUpdateAttributeParam {
 
   // 添加line标注
   markLine?: {
-    type: 'average';
-    enable: boolean;
+    /**
+     * TODO: 补充 markLine  的 spec
+     */
+    spec?: any;
+    type?:
+      | MarkerTypeEnum.growthLine
+      | MarkerTypeEnum.hierarchyDiffLine
+      | MarkerTypeEnum.horizontalLine
+      | MarkerTypeEnum.verticalLine
+      | MarkerTypeEnum.totalDiffLine;
+    enable?: boolean;
   };
   // 添加area标注
-  markArea?: {};
+  markArea?: {
+    /**
+     * TODO: 补充 markLine  的 spec
+     */
+    spec?: any;
+    type?: MarkerTypeEnum.verticalArea | MarkerTypeEnum.horizontalArea;
+    enable?: boolean;
+  };
 
   // 更改图表类型
   chartType?: string;

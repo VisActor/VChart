@@ -2,9 +2,8 @@
  * !important: 本地调试应该修改 local 文件内容
  */
 // import './index.local';
-import { VChartEditor } from './../../src/index-all';
+import { VChartEditor } from './../../src/index';
 import { BrowserData } from './browser-data';
-import { initCustomParser } from './index.local';
 const editor = new VChartEditor({
   dom: 'chart',
   data: new BrowserData(),

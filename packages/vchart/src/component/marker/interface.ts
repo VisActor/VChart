@@ -43,6 +43,13 @@ export type IDataPointSpec = {
 };
 export type IMarkerPositionsSpec = {
   positions: IPointLike[];
+  /**
+   * TODO：修改版本
+   * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
+   * @default false
+   * @since 1.6.0
+   */
+  regionRelative?: boolean;
 };
 
 export type IMarkerLabelWithoutRefSpec = {
