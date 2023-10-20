@@ -15,6 +15,7 @@ import { MinSize } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
 import type { EventParams } from '@visactor/vchart';
 import { isSameModelInfo } from '../../../utils/spec';
+import { getDefaultMarkerConfigByType } from '../utils/marker';
 
 const CartesianAxisResize = {
   left: [false, false, false, true, false, false, false, false],
