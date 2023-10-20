@@ -33,7 +33,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 
   static readonly mark: SeriesMarkMap = rangeColumnSeriesMark;
 
-  protected _supportStack: boolean = true;
+  protected _stack: boolean = false;
   private _minLabelMark?: ITextMark;
   private _maxLabelMark?: ITextMark;
   private _labelMark?: ITextMark;

@@ -119,14 +119,16 @@ export class CircularProgressSeries<
           x: () => this.angleAxisHelper.center().x,
           y: () => this.angleAxisHelper.center().y,
           startAngle: () => {
+            const fieldName = this._stack ? STACK_FIELD_START : this._angleField[0];
             const scale = this.angleAxisHelper.getScale(0);
             const domain = scale.domain();
-            return this._getAngleValueStart({ [STACK_FIELD_START]: domain[0] });
+            return this._getAngleValueStart({ [fieldName]: domain[0] });
           },
           endAngle: () => {
+            const fieldName = this._stack ? STACK_FIELD_END : this._angleField[0];
             const scale = this.angleAxisHelper.getScale(0);
             const domain = scale.domain();
-            return this._getAngleValueEnd({ [STACK_FIELD_END]: domain[domain.length - 1] });
+            return this._getAngleValueEnd({ [fieldName]: domain[domain.length - 1] });
           },
           innerRadius: this._getRadiusValueStart,
           outerRadius: this._getRadiusValueEnd,
