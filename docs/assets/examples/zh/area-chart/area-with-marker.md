@@ -40,6 +40,9 @@ const markLineStyle = {
         fill: '#000',
         borderRadius: 5
       }
+    },
+    style: {
+      fill: '#fff'
     }
   }
 };
