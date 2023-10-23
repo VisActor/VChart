@@ -11,6 +11,7 @@ export interface IBaseComponentConfig {
 
 export interface IInputComponentConfig extends IBaseComponentConfig {
   default?: string;
+  singleline?: boolean;
   placeholder?: string;
 }
 
