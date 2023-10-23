@@ -11,8 +11,11 @@ import {
   TextEditorBar,
   TitlePanel
 } from '../../../src';
+import { useState } from 'react';
 
 function App() {
+  const [enabled, setEnabled] = useState<boolean>(true);
+
   return (
     <div>
       <p>VChart Editor UI</p>
@@ -136,6 +139,11 @@ function App() {
               { key: 'textAlign', label: '对齐方式' }
             ]
           }
+        }}
+        enabled={enabled}
+        onEnabled={enabled => {
+          console.log('enabled', enabled);
+          setEnabled(enabled);
         }}
         onChange={(section, key, value) => {
           console.log(section, key, value);

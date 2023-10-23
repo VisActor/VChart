@@ -132,7 +132,16 @@ const spec = {
         // fill: 'red'
       }
     }
-  ]
+  ],
+  tooltip: {
+    visible: true
+  },
+  title: {
+    visible: true,
+    textStyle: {
+      text: 'Title'
+    }
+  }
 };
 
 export class BarTemp extends BaseTemp {

@@ -123,6 +123,7 @@ function StrokePanel(props: IEditorBarStrokeProps) {
       ></Slider>
       {strokeStyle === 'disable' ? (
         <div
+          className="vchart-editor-ui-editor-bar-tool-mask"
           style={{
             left: 0,
             bottom: 6,
