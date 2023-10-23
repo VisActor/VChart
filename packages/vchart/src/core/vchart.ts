@@ -1661,24 +1661,24 @@ export class VChart implements IVChart {
   static functionCache: string[] = []; // 注册函数名缓存
 
   // 获取实例函数
-  getFunction(name: string): Function | null {
-    return VChart.exprFunc.getFunction(this.getFunctionName(name));
+  getFunction(key: string): Function | null {
+    return VChart.exprFunc.getFunction(this.getFunctionName(key));
   }
 
   // 注册实例函数（对内包装一层，区分名字，避免重名问题）
-  registerFunction(name: string, fun: Function) {
-    if (!name || !fun) {
+  registerFunction(key: string, fun: Function) {
+    if (!key || !fun) {
       return;
     }
-    VChart.functionCache.push(name);
-    VChart.exprFunc.registerFunction(this.getFunctionName(name), fun);
+    VChart.functionCache.push(key);
+    VChart.exprFunc.registerFunction(this.getFunctionName(key), fun);
   }
 
   // 移除实例函数
-  removeFunction(name: string) {
-    const index = VChart.functionCache.findIndex(n => n === name);
+  removeFunction(key: string) {
+    const index = VChart.functionCache.findIndex(n => n === key);
     if (index >= 0) {
-      VChart.exprFunc.removeFunction(this.getFunctionName(name));
+      VChart.exprFunc.removeFunction(this.getFunctionName(key));
       VChart.functionCache.splice(index, 1);
     }
   }
