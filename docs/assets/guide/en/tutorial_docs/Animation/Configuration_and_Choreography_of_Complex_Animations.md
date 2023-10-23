@@ -301,6 +301,11 @@ const spec = {
       xField: 'x',
       yField: 'y',
       stack: false,
+      point: {
+        style: {
+          size: 20
+        }
+      },
       animationAppear: {
         // 点图元动画配置
         point: {
@@ -512,7 +517,8 @@ const spec = {
       point: {
         style: {
           shape: 'star',
-          angle: 180
+          angle: 180,
+          size: 20
         }
       },
       animationAppear: {
@@ -599,16 +605,20 @@ A timeline represents the animation performance of a graphic element over a spec
 ### Timeslice
 
 In a timeline, each time slice is executed serially, and the constituent elements in a time slice include:
+
 - `effect`: The specific execution effect of the animation, which describes the specific interpolation calculation logic of the visual channel attributes of the primitive. Effects can be encapsulated specific animation effects, or animation configurations configured by developers to start and end states, and describe the calculation logic of animation attribute interpolation. Each timeSlice can be configured with multiple `effect`;
 - `duration`: the execution duration of animation slices;
 - `delay`: the waiting time before the execution of the animation slice;
 
 ### Animation Effect (Effect)
+
 The constituent elements in animation effects (Effect) include:
+
 - `channel`: the changed visual channel attribute, which describes the visual channel attribute when the interpolation calculation starts and ends;
 - `easing`: easing strategy for difference calculation;
 
 The following example achieves an accordion effect by animating a looping timeline:
+
 ```javascript livedemo
 const spec = {
   type: 'bar',
@@ -676,7 +686,9 @@ vchart.renderAsync();
 ```
 
 ## Custom animation
+
 In the animation effect (Effect), if the simple `channel` configuration cannot meet your needs, you can configure custom animation effects through `custom` and `customParameters`:
+
 - `custom`: custom animation;
 - `customParameters`: Custom animation parameters;
-For detailed usage, please refer to the [Custom Animation](../extend/custom_animation) chapter.
+  For detailed usage, please refer to the [Custom Animation](../extend/custom_animation) chapter.
