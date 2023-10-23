@@ -39,6 +39,7 @@ export class StandardParser implements IDataParser {
     this._onDataUpdateCall = call;
   }
   clear() {
+    this._dataSet.removeDataView(this._data?.name);
     this._data = null;
     this._onDataUpdateCall = null;
   }
