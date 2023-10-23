@@ -5,32 +5,44 @@ import { BaseTemp } from './baseTemp';
 
 const spec = {
   type: 'common',
-  // background: 'transparent',
   series: [
     {
-      id: 'line-0',
-      type: 'line',
+      id: 'bar-0',
+      type: 'bar',
       xField: 'State',
       yField: 'Population',
       seriesField: 'Age',
-      stack: false
+      direction: 'horizontal',
+      stack: true,
+      bar: {
+        // The state style of bar
+        state: {
+          hover: {
+            stroke: '#000',
+            lineWidth: 1
+          }
+        }
+      },
+      label: {
+        visible: true
+      }
     }
   ],
   axes: [
     {
-      orient: 'right',
-      id: 'axis-right',
-      type: 'linear'
+      orient: 'left',
+      id: 'axis-left',
+      type: 'band'
     },
     {
       orient: 'bottom',
       id: 'axis-bottom',
-      type: 'band'
+      type: 'linear'
     }
   ],
   data: [
     {
-      id: 'lineData',
+      id: 'barData',
       values: [
         {
           State: 'WY',
@@ -114,24 +126,6 @@ const spec = {
     id: 'legend-discrete',
     visible: true
   },
-  title: {
-    id: 'title',
-    visible: true,
-    align: 'left',
-    verticalAlign: 'top',
-    orient: 'top',
-    textStyle: {
-      character: [
-        {
-          text: 'Line Editor Test',
-          fontSize: 30,
-          textAlign: 'center',
-          textDecoration: 'underline',
-          stroke: '#0f51b5'
-        }
-      ]
-    }
-  },
   region: [
     {
       id: 'region-0',
@@ -142,19 +136,19 @@ const spec = {
   ]
 };
 
-export class LineTemp extends BaseTemp {
-  type = 'line';
+export class HorizontalBarTemp extends BaseTemp {
+  type = 'bar';
   checkDataEnable(data: StandardData, info: DataInfo, opt?: any): boolean {
-    const xField: string[] = [];
     const yField: string[] = [];
+    const xField: string[] = [];
     Object.keys(info).forEach(key => {
       if (info[key].type === 'linear') {
-        yField.length === 0 && yField.push(key);
+        xField.length === 0 && xField.push(key);
       } else if (info[key].type === 'ordinal') {
-        xField.push(key);
+        yField.push(key);
       }
     });
-    if (xField.length === 0 || yField.length === 0) {
+    if (yField.length === 0 || xField.length === 0) {
       return false;
     }
     return true;
@@ -162,28 +156,30 @@ export class LineTemp extends BaseTemp {
   getSpec(data: StandardData, info: DataInfo, opt?: any) {
     const tempSpec = cloneDeep(spec);
     tempSpec.data = [data];
-    const xField: string[] = [];
     const yField: string[] = [];
+    const xField: string[] = [];
     let seriesField: string = null;
     Object.keys(info).forEach(key => {
       if (key.startsWith('VGRAMMAR_') || key.startsWith('__VCHART_')) {
         return;
       }
       if (info[key].type === 'linear') {
-        yField.length === 0 && yField.push(key);
+        xField.length === 0 && xField.push(key);
       } else if (info[key].type === 'ordinal') {
-        if (xField.length === 0) {
-          xField.push(key);
+        if (yField.length === 0) {
+          yField.push(key);
         } else if (!seriesField) {
           seriesField = key;
+        } else {
+          yField.push(key);
         }
       }
     });
-    if (xField.length === 0 || yField.length === 0) {
+    if (yField.length === 0 || xField.length === 0) {
       return null;
     }
-    tempSpec.series[0].xField = xField;
     tempSpec.series[0].yField = yField;
+    tempSpec.series[0].xField = xField;
     tempSpec.series[0].dataId = data.name;
     tempSpec.series[0].seriesField = seriesField;
     return tempSpec;

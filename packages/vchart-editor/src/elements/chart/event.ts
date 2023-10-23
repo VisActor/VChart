@@ -1,5 +1,5 @@
 import type { EditorChart } from './chart';
-import { EventEmitter } from '@visactor/vutils';
+import { EventEmitter, isNil } from '@visactor/vutils';
 import type { VRenderPointerEvent } from '../interface';
 
 export class ChartEvent {
@@ -41,12 +41,31 @@ export class ChartEvent {
     if (!e.target) {
       return true;
     }
-    if (e.target.type === 'rect' && e.target.name === 'regionBackground') {
+    if (e.target.type === 'rect' && (isNil(e.target.name) || e.target.name.startsWith('regionBackground'))) {
       return true;
     }
-    if ((e.target.type === 'group' && e.target.name === 'axis-container') || e.target.name === undefined) {
+    if (this._isPartOfCommonModel(e)) {
       return true;
     }
+    return false;
+  }
+
+  private _isPartOfCommonModel(e: VRenderPointerEvent) {
+    let node = e.target;
+    while (node) {
+      if (
+        node.type === 'group' &&
+        (node.name === 'axis-container' || node.name === 'legend' || node.name === 'title-container')
+      ) {
+        return true;
+      }
+      if (node.parent) {
+        node = node.parent;
+      } else {
+        return false;
+      }
+    }
+
     return false;
   }
 
