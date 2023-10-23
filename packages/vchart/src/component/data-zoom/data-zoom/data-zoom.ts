@@ -172,6 +172,10 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         size: {
           width: this._computeWidth(),
           height: this._computeHeight()
+        },
+        position: {
+          x: this.getLayoutStartPoint().x,
+          y: this.getLayoutStartPoint().y
         }
       });
     }
