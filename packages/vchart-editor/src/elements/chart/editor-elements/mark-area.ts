@@ -492,10 +492,11 @@ export class MarkAreaEditor extends BaseEditorElement {
     delete newMarkAreaSpec.y;
     delete newMarkAreaSpec.y1;
 
-    this._currentEl.updateAttribute({
+    this._chart.specProcess.updateElementAttribute(this._currentEl.model, {
       markArea: {
         spec: newMarkAreaSpec
       }
     });
+    this._chart.reRenderWithUpdateSpec();
   }
 }

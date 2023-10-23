@@ -391,11 +391,13 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
     });
     this._spec = newMarkLineSpec;
 
-    this._currentEl.updateAttribute({
+    this._chart.specProcess.updateElementAttribute(this._currentEl.model, {
       markLine: {
         spec: newMarkLineSpec
       }
     });
+    this._chart.reRenderWithUpdateSpec();
+
     vglobal.removeEventListener('pointermove', this._onAnchorHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onAnchorHandlerDragEnd);
   };
@@ -646,11 +648,13 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
             Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)
     });
     this._spec = newMarkLineSpec;
-    this._currentEl.updateAttribute({
+    this._chart.specProcess.updateElementAttribute(this._currentEl.model, {
       markLine: {
         spec: newMarkLineSpec
       }
     });
+    this._chart.reRenderWithUpdateSpec();
+
     vglobal.removeEventListener('pointermove', this._onMiddleHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onMiddleHandlerDragEnd);
   };
