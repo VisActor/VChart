@@ -1,29 +1,25 @@
 /**
  * @description 区域标注交互
- * TODO:
- * 1. 保存位置 & 更新 spec
  */
 import type { IGroup, IGraphic, IPolygon, IRect, FederatedPointerEvent } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createRect, createGroup, vglobal, createPolygon } from '@visactor/vrender-core';
-import type { IEditorElement } from '../../../core/interface';
-import { BaseEditorElement } from './base-editor-element';
+import type { IEditorElement } from '../../../../core/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPointLike } from '@visactor/vutils';
 import { merge } from '@visactor/vutils';
-import { CommonChartEditorElement } from './base-editor-element';
 import type { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { EventParams, MarkArea, IComponent } from '@visactor/vchart';
-import { MarkerTypeEnum } from '../interface';
+import { MarkerTypeEnum } from '../../interface';
+import { BaseMarkerEditor } from './base';
 
 const handlerWidth = 9;
 const handlerHeight = 40;
-export class MarkAreaEditor extends BaseEditorElement {
-  private _element: MarkAreaComponent;
-  private _model: MarkArea;
+
+export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent> {
+  readonly type: string = 'markArea';
   private _orient: string;
 
-  private _editComponent: IGroup;
   private _overlayAreaGroup: IGroup;
   private _overlayArea: IPolygon;
   private _overlayLabel: IRect;
@@ -35,47 +31,23 @@ export class MarkAreaEditor extends BaseEditorElement {
 
   private _prePos: number = 0;
 
-  initWithVChart(): void {
-    const vchart = this._chart.vchart;
-
-    vchart.on('pointermove', { level: 'model', type: 'markArea', consume: true }, this._onHover);
-    vchart.on('pointerdown', { level: 'model', type: 'markArea', consume: true }, this._onDown);
+  protected _getEnableMarkerTypes(): string[] {
+    return [MarkerTypeEnum.horizontalArea, MarkerTypeEnum.verticalArea];
   }
 
-  private _checkEventEnable(e: EventParams) {
-    const markerComponent = (<MarkArea>e.model).getVRenderComponents()[0];
-    return (
-      markerComponent?.name === MarkerTypeEnum.horizontalArea || markerComponent?.name === MarkerTypeEnum.verticalArea
-    );
-  }
-
-  private _onHover = (e: EventParams) => {
-    if (!this._checkEventEnable(e)) {
-      return;
-    }
-    const el = this._getEditorElement(e);
-    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
-  };
-
-  private _onDown = (e: EventParams) => {
-    if (!this._checkEventEnable(e)) {
-      return;
-    }
-    const el = this._getEditorElement(e);
-    this._element = (<MarkArea>e.model).getVRenderComponents()[0] as unknown as MarkAreaComponent;
-    this._model = e.model as MarkArea;
-
+  protected _handlePointerDown(e: EventParams): void {
     this._orient = this._element.name === MarkerTypeEnum.verticalArea ? 'vertical' : 'horizontal';
+    const el = this._getEditorElement(e);
+    this.startEditor(el, e.event as PointerEvent);
     this.startEditor(el);
-    this._activeEditComponent();
+
     this._overlayAreaGroup?.showAll();
 
     this._prePos = this._orient === 'vertical' ? e.event.clientX : e.event.clientY;
     vglobal.addEventListener('pointermove', this._onAreaDrag);
     vglobal.addEventListener('pointerup', this._onAreaDragEnd);
-
     this._overlayAreaGroup.addEventListener('pointerdown', this._onAreaDragStart as EventListenerOrEventListenerObject);
-  };
+  }
 
   // 创建 hover 浮层
   protected _getOverGraphic(el: IEditorElement): IGraphic {
@@ -92,23 +64,6 @@ export class MarkAreaEditor extends BaseEditorElement {
     overlayArea.name = 'overlay-mark-area-area';
 
     return overlayArea;
-  }
-
-  protected _getEditorElement(eventParams: EventParams): IEditorElement {
-    const model = eventParams.model;
-    const element: IEditorElement = new CommonChartEditorElement(this, {
-      model,
-      id: this._chart.vchart.id + '-markArea-' + model.id
-    });
-    return element;
-  }
-
-  protected startEditor(el: IEditorElement, e?: PointerEvent): boolean {
-    if (!super.startEditor(el, e)) {
-      return false;
-    }
-    this._createEditorGraphic(el);
-    return true;
   }
 
   // 创建交互编辑框
@@ -190,7 +145,8 @@ export class MarkAreaEditor extends BaseEditorElement {
         fill: '#3073F2',
         fillOpacity: 0.6,
         cornerRadius: 9,
-        cursor: 'ew-resize'
+        cursor: 'ew-resize',
+        zIndex: 1
       });
       rightHandler.name = 'overlay-right-handler';
       overlayAreaGroup.add(rightHandler);
@@ -204,7 +160,8 @@ export class MarkAreaEditor extends BaseEditorElement {
         fill: '#3073F2',
         fillOpacity: 0.6,
         cornerRadius: 9,
-        cursor: 'ew-resize'
+        cursor: 'ew-resize',
+        zIndex: 1
       });
       leftHandler.name = 'overlay-left-handler';
       overlayAreaGroup.add(leftHandler);
@@ -225,7 +182,8 @@ export class MarkAreaEditor extends BaseEditorElement {
         fill: '#3073F2',
         fillOpacity: 0.6,
         cornerRadius: 9,
-        cursor: 'ns-resize'
+        cursor: 'ns-resize',
+        zIndex: 1
       });
       topHandler.name = 'overlay-top-handler';
       overlayAreaGroup.add(topHandler);
@@ -239,7 +197,8 @@ export class MarkAreaEditor extends BaseEditorElement {
         fill: '#3073F2',
         fillOpacity: 0.6,
         cornerRadius: 9,
-        cursor: 'ns-resize'
+        cursor: 'ns-resize',
+        zIndex: 1
       });
       bottomHandler.name = 'overlay-bottom-handler';
       overlayAreaGroup.add(bottomHandler);
@@ -252,31 +211,19 @@ export class MarkAreaEditor extends BaseEditorElement {
         this._onHandlerDragStart as EventListenerOrEventListenerObject
       );
     }
-    // overlayGraphic.addEventListener('pointerleave', this._onUnHover as EventListenerOrEventListenerObject);
     // overlayArea 添加事件
     this._layer.editorGroup.add(overlayGraphic as unknown as IGraphic);
     this._editComponent = overlayGraphic;
     return this._editComponent;
   }
 
-  releaseLast() {
-    super.releaseLast();
-
-    if (this._editComponent) {
-      this._layer.editorGroup.removeChild(this._editComponent as unknown as IGraphic);
-      this._editComponent = null;
-    }
-  }
-
-  release(): void {
-    const vchart = this._chart.vchart;
-
-    vchart.off('pointermove', this._onHover);
-    super.release();
-  }
-
   private _onHandlerDragStart = (e: FederatedPointerEvent) => {
     e.stopPropagation();
+
+    const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkArea;
+    this._element = model.getVRenderComponents()[0] as unknown as MarkAreaComponent;
+    this._model = model;
+
     const handler = e.target;
     this._currentHandler = handler as unknown as IRect;
 
@@ -288,12 +235,7 @@ export class MarkAreaEditor extends BaseEditorElement {
   private _onHandlerDrag = (e: any) => {
     e.stopPropagation();
 
-    // Important: 拖拽过程中，关闭对应 markArea 的交互
-    this._element.setAttributes({
-      pickable: false,
-      childrenPickable: false
-    });
-
+    this._silentAllMarkers();
     this._editComponent.showAll();
 
     let currentPos;
@@ -356,17 +298,20 @@ export class MarkAreaEditor extends BaseEditorElement {
     const overlayArea = this._overlayArea;
     const points = overlayArea.attribute.points;
     this._overlayLabel.setAttribute('visible', false);
-    this._slientEditComponent();
-
-    // 更新当前图形以及保存 spec
-    this._save(points);
-
+    this._activeAllMarkers();
     vglobal.removeEventListener('pointermove', this._onHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onHandlerDragEnd);
+    // 更新当前图形以及保存 spec
+    this._save(points);
   };
 
   private _onAreaDragStart = (e: any) => {
     e.stopPropagation();
+
+    const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkArea;
+    this._element = model.getVRenderComponents()[0] as unknown as MarkAreaComponent;
+    this._model = model;
+
     this._prePos = this._orient === 'vertical' ? e.clientX : e.clientY;
     vglobal.addEventListener('pointermove', this._onAreaDrag);
     vglobal.addEventListener('pointerup', this._onAreaDragEnd);
@@ -375,13 +320,9 @@ export class MarkAreaEditor extends BaseEditorElement {
   private _onAreaDrag = (e: any) => {
     e.stopPropagation();
 
-    // Important: 拖拽过程中，关闭对应 markArea 的交互
-    this._element.setAttributes({
-      pickable: false,
-      childrenPickable: false
-    });
-
+    this._silentAllMarkers();
     this._editComponent.showAll();
+
     let currentPos;
     let delta = 0;
     let updateField: string;
@@ -436,31 +377,13 @@ export class MarkAreaEditor extends BaseEditorElement {
       visible: false,
       pickable: false
     });
+    this._activeAllMarkers();
+    vglobal.removeEventListener('pointermove', this._onAreaDrag);
+    vglobal.removeEventListener('pointerup', this._onAreaDragEnd);
 
     // 更新当前图形以及保存 spec
     this._save(points);
-
-    vglobal.removeEventListener('pointermove', this._onAreaDrag);
-    vglobal.removeEventListener('pointerup', this._onAreaDragEnd);
   };
-
-  private _slientEditComponent() {
-    if (this._editComponent) {
-      this._editComponent.setAttributes({
-        pickable: false,
-        childrenPickable: false
-      });
-    }
-  }
-
-  private _activeEditComponent() {
-    if (this._editComponent) {
-      this._editComponent.setAttributes({
-        pickable: true,
-        childrenPickable: true
-      });
-    }
-  }
 
   private _save(newPoints: IPointLike[]) {
     // 更新真正的图形
@@ -470,9 +393,7 @@ export class MarkAreaEditor extends BaseEditorElement {
           x: point.x,
           y: point.y
         };
-      }),
-      pickable: true,
-      childrenPickable: true
+      })
     });
 
     // 更新 spec
@@ -492,11 +413,6 @@ export class MarkAreaEditor extends BaseEditorElement {
     delete newMarkAreaSpec.y;
     delete newMarkAreaSpec.y1;
 
-    this._chart.specProcess.updateElementAttribute(this._currentEl.model, {
-      markArea: {
-        spec: newMarkAreaSpec
-      }
-    });
-    this._chart.reRenderWithUpdateSpec();
+    this._updateAndSave(newMarkAreaSpec, 'markArea');
   }
 }

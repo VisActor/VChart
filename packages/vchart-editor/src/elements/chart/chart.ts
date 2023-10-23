@@ -13,10 +13,12 @@ import type { ISpecProcess } from './spec-process/interface';
 import { Data } from './data/data';
 import type { IData } from './data/interface';
 import type { IChartElementOption } from './interface';
-import { AvgMarkLineEditor } from './editor-elements/avg-mark-line';
-import { MarkAreaEditor } from './editor-elements/mark-area';
-import { GrowthMarkLineEditor } from './editor-elements/growth-mark-line';
-import { HierarchicalDiffMarkLineEditor } from './editor-elements/hierarchical-diff-mark-line';
+import {
+  ValueLineEditor,
+  MarkAreaEditor,
+  GrowthLineEditor,
+  HierarchicalDiffLineEditor
+} from './editor-elements/marker';
 import { ChartEvent } from './event';
 import { CommonModelElement } from './editor-elements/common-model-editor';
 import { getDefaultMarkerConfigByType } from './utils/marker';
@@ -40,10 +42,10 @@ export class EditorChart extends BaseElement {
   protected _container: HTMLElement;
 
   protected _layoutEditor: LayoutEditorElement;
-  protected _avgMarkLineEditor: AvgMarkLineEditor;
+  protected _avgMarkLineEditor: ValueLineEditor;
   protected _markAreaEditor: MarkAreaEditor;
-  protected _growthMarkLineEditor: GrowthMarkLineEditor;
-  protected _hirarchicalDiffMarkLineEditor: HierarchicalDiffMarkLineEditor;
+  protected _growthMarkLineEditor: GrowthLineEditor;
+  protected _hirarchicalDiffMarkLineEditor: HierarchicalDiffLineEditor;
   protected _commonModelElement: CommonModelElement;
 
   protected _vchart: IVChart;
@@ -72,14 +74,10 @@ export class EditorChart extends BaseElement {
    */
   initEditors() {
     this._layoutEditor = new LayoutEditorElement(this._opt.controller, this, this._opt.layer);
-    this._avgMarkLineEditor = new AvgMarkLineEditor(this._opt.controller, this, this._opt.layer);
+    this._avgMarkLineEditor = new ValueLineEditor(this._opt.controller, this, this._opt.layer);
     this._markAreaEditor = new MarkAreaEditor(this._opt.controller, this, this._opt.layer);
-    this._growthMarkLineEditor = new GrowthMarkLineEditor(this._opt.controller, this, this._opt.layer);
-    this._hirarchicalDiffMarkLineEditor = new HierarchicalDiffMarkLineEditor(
-      this._opt.controller,
-      this,
-      this._opt.layer
-    );
+    this._growthMarkLineEditor = new GrowthLineEditor(this._opt.controller, this, this._opt.layer);
+    this._hirarchicalDiffMarkLineEditor = new HierarchicalDiffLineEditor(this._opt.controller, this, this._opt.layer);
     // chart editor
     this._commonModelElement = new CommonModelElement(this._opt.controller, this, this._opt.layer);
     this._commonModelElement.emitter.on('chartTypeChange', this._onChartTypeChange);
