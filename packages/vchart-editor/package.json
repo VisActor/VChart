@@ -36,6 +36,7 @@
     "@visactor/vrender-core": "~0.16.2",
     "@visactor/vrender-kits": "~0.16.2",
     "@visactor/vrender-components": "~0.16.2",
+    "@visactor/vscale": "~0.16.4",
     "uuid": "~9.0.1"
   },
   "devDependencies": {
