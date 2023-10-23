@@ -6,27 +6,25 @@
  */
 import type { IGroup, ILine, ISymbol } from '@visactor/vrender-core';
 import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender-core';
-import type { IEditorElement } from '../../../core/interface';
-import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
+import type { IEditorElement } from '../../../../core/interface';
 import type { IPointLike } from '@visactor/vutils';
 import { array, last, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, ICartesianSeries, IComponent, IStepMarkLineSpec } from '@visactor/vchart';
-import { DEFAULT_DATA_KEY, STACK_FIELD_TOTAL_TOP } from '@visactor/vchart';
-import { findClosestPoint } from '../utils/math';
-import { DEFAULT_OFFSET_FOR_GROWTH_MARKLINE, getInsertPoints, getTextOffset } from '../utils/marker';
-import type { DataPoint, Point } from './types';
-import { MarkerTypeEnum } from '../interface';
+import { STACK_FIELD_TOTAL_TOP } from '@visactor/vchart';
+import { findClosestPoint } from '../../utils/math';
+import { DEFAULT_OFFSET_FOR_GROWTH_MARKLINE, getInsertPoints, getTextOffset } from '../../utils/marker';
+import type { DataPoint, Point } from '../types';
+import { MarkerTypeEnum } from '../../interface';
+import { BaseMarkerEditor } from './base';
 
 const START_LINK_HANDLER = 'overlay-growth-mark-line-start-handler';
 const END_LINK_HANDLER = 'overlay-growth-mark-line-end-handler';
 
-export class GrowthMarkLineEditor extends BaseEditorElement {
-  private _model: MarkLine;
-  private _element: MarkLineComponent;
+export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponent> {
+  readonly type = 'markLine';
 
-  private _editComponent: IGroup;
   private _overlayLine: ILine;
   private _overlayStartHandler: IGraphic;
   private _overlayEndHandler: IGraphic;
@@ -34,44 +32,14 @@ export class GrowthMarkLineEditor extends BaseEditorElement {
   private _fixedHandler: IGraphic;
   private _dataAnchors: IGroup;
 
-  private _selected: boolean = false;
-
-  private _dataPoints: DataPoint[];
-
-  initWithVChart(): void {
-    const vchart = this._chart.vchart;
-    vchart.on('pointermove', { level: 'model', type: 'markLine', consume: true }, this._onHover);
-    vchart.on('pointerdown', { level: 'model', type: 'markLine', consume: true }, this._onDown);
+  protected _getEnableMarkerTypes(): string[] {
+    return [MarkerTypeEnum.growthLine, MarkerTypeEnum.totalDiffLine];
   }
 
-  private _checkEventEnable(e: EventParams) {
-    const markerComponent = (<MarkLine>e.model).getVRenderComponents()[0];
-    return (
-      markerComponent?.name === MarkerTypeEnum.growthLine || markerComponent?.name === MarkerTypeEnum.totalDiffLine
-    );
+  protected _handlePointerDown(e: EventParams): void {
+    const el = this._getEditorElement(e);
+    this.startEditor(el, e.event as PointerEvent);
   }
-
-  private _onHover = (e: EventParams) => {
-    if (!this._checkEventEnable(e)) {
-      return;
-    }
-    const el = this._getEditorElement(e);
-    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
-  };
-
-  private _onDown = (e: EventParams) => {
-    if (!this._checkEventEnable(e)) {
-      return;
-    }
-    this._element = (<MarkLine>e.model).getVRenderComponents()[0] as unknown as MarkLineComponent;
-    this._model = <MarkLine>e.model;
-    this._selected = true;
-
-    const el = this._getEditorElement(e);
-    if (e) {
-      this.startEditor(el, e.event as PointerEvent);
-    }
-  };
 
   protected _getOverGraphic(el: IEditorElement): IGraphic {
     const model = el.model;
@@ -101,23 +69,6 @@ export class GrowthMarkLineEditor extends BaseEditorElement {
     overlayLine.name = 'overlay-growth-mark-line-line';
 
     return overlayLine as unknown as IGraphic;
-  }
-
-  protected _getEditorElement(eventParams: EventParams): IEditorElement {
-    const model = eventParams.model;
-    const element: IEditorElement = new CommonChartEditorElement(this, {
-      model,
-      id: this._chart.vchart.id + '-growth-markLine-' + model.id + (this._selected ? '-selected' : '')
-    });
-    return element;
-  }
-
-  protected startEditor(el: IEditorElement, e?: PointerEvent): boolean {
-    if (!super.startEditor(el, e)) {
-      return false;
-    }
-    this._createEditorGraphic(el, e);
-    return true;
   }
 
   protected _createEditorGraphic(el: IEditorElement, e: any): IGraphic {
@@ -291,6 +242,10 @@ export class GrowthMarkLineEditor extends BaseEditorElement {
   // 交互描述：拖拽过程中，根据当前的鼠标垫查找最近的数据点，然后更新图形位置
   private _onHandlerDragStart = (e: any) => {
     e.stopPropagation();
+    const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
+    this._element = model.getVRenderComponents()[0] as unknown as MarkLineComponent;
+    this._model = model;
+
     const handler = e.target;
     this._currentHandler = handler as unknown as IGraphic;
     this._fixedHandler = handler.name === START_LINK_HANDLER ? this._overlayEndHandler : this._overlayStartHandler;
@@ -503,30 +458,8 @@ export class GrowthMarkLineEditor extends BaseEditorElement {
     vglobal.removeEventListener('pointermove', this._onHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onHandlerDragEnd);
 
-    this._chart.specProcess.updateElementAttribute(this._currentEl.model, {
-      markLine: {
-        spec: newMarkLineSpec
-      }
-    });
-    this._chart.reRenderWithUpdateSpec();
+    this._updateAndSave(newMarkLineSpec, 'markLine');
   };
-
-  releaseLast() {
-    super.releaseLast();
-    if (this._editComponent) {
-      this._layer.editorGroup.removeChild(this._editComponent as unknown as IGraphic);
-      this._editComponent = null;
-    }
-    this._dataPoints = null;
-  }
-
-  release(): void {
-    const vchart = this._chart.vchart;
-
-    vchart.off('pointermove', this._onHover);
-    vchart.off('pointerdown', this._onDown);
-    super.release();
-  }
 
   private _getAnchorPoints() {
     const model = this._model as MarkLine;
@@ -593,50 +526,5 @@ export class GrowthMarkLineEditor extends BaseEditorElement {
 
       return dataPoints;
     }
-  }
-
-  // TODO: 抽取到 marker 基类中
-  private _silentAllMarkers() {
-    const vchart = this._chart.vchart;
-    const root = vchart.getStage().getElementsByName('root')[0];
-    const marks: string[] = [
-      MarkerTypeEnum.growthLine,
-      MarkerTypeEnum.hierarchyDiffLine,
-      MarkerTypeEnum.verticalLine,
-      MarkerTypeEnum.horizontalLine,
-      MarkerTypeEnum.totalDiffLine,
-      MarkerTypeEnum.verticalArea,
-      MarkerTypeEnum.horizontalArea
-    ];
-    root.getChildren().forEach(child => {
-      if (marks.includes(child.name)) {
-        (child as IGroup).setAttributes({
-          pickable: false,
-          childrenPickable: false
-        });
-      }
-    });
-  }
-
-  private _activeAllMarkers() {
-    const vchart = this._chart.vchart;
-    const root = vchart.getStage().getElementsByName('root')[0];
-    const marks: string[] = [
-      MarkerTypeEnum.growthLine,
-      MarkerTypeEnum.hierarchyDiffLine,
-      MarkerTypeEnum.verticalLine,
-      MarkerTypeEnum.horizontalLine,
-      MarkerTypeEnum.totalDiffLine,
-      MarkerTypeEnum.verticalArea,
-      MarkerTypeEnum.horizontalArea
-    ];
-    root.getChildren().forEach(child => {
-      if (marks.includes(child.name)) {
-        (child as IGroup).setAttributes({
-          pickable: true,
-          childrenPickable: true
-        });
-      }
-    });
   }
 }

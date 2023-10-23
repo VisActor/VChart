@@ -1,30 +1,27 @@
 /**
  * @description 层级差异标注交互
- * 1. 保存位置 & 更新 spec，直接更新 spec
  * 2. 双击出现编辑框
  */
 import type { IGroup, ILine } from '@visactor/vrender-core';
 import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender-core';
-import type { IEditorElement } from '../../../core/interface';
-import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
+import type { IEditorElement } from '../../../../core/interface';
 import { array, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, IComponent, ICartesianSeries } from '@visactor/vchart';
 import { STACK_FIELD_START } from '@visactor/vchart';
-import { findClosestPoint } from '../utils/math';
-import type { DataPoint, Point } from './types';
-import { MarkerTypeEnum } from '../interface';
+import { findClosestPoint } from '../../utils/math';
+import type { DataPoint, Point } from '../types';
+import { MarkerTypeEnum } from '../../interface';
+import { BaseMarkerEditor } from './base';
 
 const START_LINK_HANDLER = 'overlay-hier-diff-mark-line-start-handler';
 const MIDDLE_LINK_HANDLER = 'overlay-hier-diff-mark-line-middle-handler';
 const END_LINK_HANDLER = 'overlay-hier-diff-mark-line-end-handler';
 
-export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
-  private _model: MarkLine;
-  private _element: MarkLineComponent;
+export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponent> {
+  readonly type = 'markLine';
 
-  private _editComponent: IGroup;
   private _overlayLine: ILine;
   private _overlayStartHandler: IGraphic;
   private _overlayEndHandler: IGraphic;
@@ -32,46 +29,23 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
   private _fixedAnchorHandler: IGraphic;
   private _overlayMiddleHandler: ILine;
 
-  private _selected: boolean = false;
-
   private _dataAnchors: IGroup;
   private _splitPoints: any[];
   private _splitAnchors: IGroup;
   private _spec: any;
 
-  initWithVChart(): void {
-    const vchart = this._chart.vchart;
-    vchart.on('pointermove', { level: 'model', type: 'markLine', consume: true }, this._onHover);
-    vchart.on('pointerdown', { level: 'model', type: 'markLine', consume: true }, this._onDown);
+  protected _getEnableMarkerTypes(): string[] {
+    return [MarkerTypeEnum.hierarchyDiffLine];
   }
 
-  private _checkEventEnable(e: EventParams) {
-    const markerComponent = (<MarkLine>e.model).getVRenderComponents()[0] as unknown as MarkLineComponent;
-    return markerComponent?.name === MarkerTypeEnum.hierarchyDiffLine;
-  }
-
-  private _onHover = (e: EventParams) => {
-    if (!this._checkEventEnable(e)) {
-      return;
-    }
-    const el = this._getEditorElement(e);
-    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
-  };
-
-  private _onDown = (e: EventParams) => {
-    if (!this._checkEventEnable(e)) {
-      return;
-    }
-    this._element = (<MarkLine>e.model).getVRenderComponents()[0] as unknown as MarkLineComponent;
-    this._model = <MarkLine>e.model;
-    this._selected = true;
+  protected _handlePointerDown(e: EventParams): void {
     this._spec = this._model.getSpec();
 
     const el = this._getEditorElement(e);
-    if (e) {
-      this.startEditor(el, e.event as PointerEvent);
-    }
-  };
+    this.startEditor(el, e.event as PointerEvent);
+
+    this._overlayMiddleHandler.addEventListener('pointerdown', this._onMiddleHandlerDragStart);
+  }
 
   protected _getOverGraphic(el: IEditorElement): IGraphic {
     const model = el.model;
@@ -114,23 +88,6 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
     overlayLine.name = 'overlay-hierarchical-mark-line-line';
 
     return overlayLine as unknown as IGraphic;
-  }
-
-  protected _getEditorElement(eventParams: EventParams): IEditorElement {
-    const model = eventParams.model;
-    const element: IEditorElement = new CommonChartEditorElement(this, {
-      model,
-      id: this._chart.vchart.id + '-hierarchical-mark-line-' + model.id + (this._selected ? '-selected' : '')
-    });
-    return element;
-  }
-
-  protected startEditor(el: IEditorElement, e?: PointerEvent): boolean {
-    if (!super.startEditor(el, e)) {
-      return false;
-    }
-    this._createEditorGraphic(el, e);
-    return true;
   }
 
   protected _createEditorGraphic(el: IEditorElement, e: any): IGraphic {
@@ -212,23 +169,15 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
 
   releaseLast() {
     super.releaseLast();
-    if (this._editComponent) {
-      this._layer.editorGroup.removeChild(this._editComponent as unknown as IGraphic);
-      this._editComponent = null;
-    }
-  }
-
-  release(): void {
-    const vchart = this._chart.vchart;
-
-    vchart.off('pointermove', this._onHover);
-    vchart.off('pointerdown', this._onDown);
-    super.release();
+    this._dataAnchors = null;
+    this._splitAnchors = null;
   }
 
   private _onAnchorHandlerDragStart = (e: PointerEvent) => {
     e.stopPropagation();
-
+    const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
+    this._element = model.getVRenderComponents()[0] as unknown as MarkLineComponent;
+    this._model = model;
     const handler = e.target as IGraphic;
     this._currentAnchorHandler = handler;
     this._fixedAnchorHandler =
@@ -242,10 +191,7 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
     e.stopPropagation();
 
     // Important: 拖拽过程中，关闭对应 markLine 的交互
-    this._element.setAttributes({
-      pickable: false,
-      childrenPickable: false
-    });
+    this._silentAllMarkers();
 
     const dataAnchors = this._getDataAnchors();
     // 展示可吸附的数据锚点
@@ -255,7 +201,6 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
       x: this._fixedAnchorHandler.attribute.x,
       y: this._fixedAnchorHandler.attribute.y
     };
-    dataAnchors.showAll();
     dataAnchors.getChildren().forEach((child: any) => {
       if (child.attribute.x === unenableDataPoint.x && child.attribute.y === unenableDataPoint.y) {
         child.setAttribute('visible', false);
@@ -268,10 +213,7 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
 
     // 寻找最近的数据锚点，更新编辑图形
     // 转换为画布坐标
-    const stage = this._chart.vchart.getStage();
-    // TODO: 修改为公共属性
-    // @ts-ignore
-    const currentPoint = stage.global.mapToCanvasPoint(e);
+    const currentPoint = vglobal.mapToCanvasPoint(e);
     const closestPoint = findClosestPoint(currentPoint, enableDataPoints) as DataPoint;
 
     // 1. 更新 _currentAnchorHandler
@@ -325,6 +267,7 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
 
   private _onAnchorHandlerDragEnd = (e: any) => {
     e.preventDefault();
+    this._activeAllMarkers();
 
     // 隐藏可吸附数据锚点
     this._getDataAnchors()?.hideAll();
@@ -360,9 +303,7 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
       ],
       label: {
         text: labelText
-      },
-      pickable: true,
-      childrenPickable: true
+      }
     });
     // 生成新的 markLine spec
     const newMarkLineSpec = merge({}, this._spec, {
@@ -388,16 +329,10 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
             Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)
     });
     this._spec = newMarkLineSpec;
-
-    this._chart.specProcess.updateElementAttribute(this._currentEl.model, {
-      markLine: {
-        spec: newMarkLineSpec
-      }
-    });
-    this._chart.reRenderWithUpdateSpec();
-
     vglobal.removeEventListener('pointermove', this._onAnchorHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onAnchorHandlerDragEnd);
+
+    this._updateAndSave(newMarkLineSpec, 'markLine');
   };
 
   private _getDataAnchors(): IGroup {
@@ -548,6 +483,9 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
   private _onMiddleHandlerDragStart = (e: PointerEvent) => {
     e.stopPropagation();
 
+    const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
+    this._element = model.getVRenderComponents()[0] as unknown as MarkLineComponent;
+    this._model = model;
     vglobal.addEventListener('pointermove', this._onMiddleHandlerDrag);
     vglobal.addEventListener('pointerup', this._onMiddleHandlerDragEnd);
   };
@@ -556,11 +494,7 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
     e.stopPropagation();
 
     // Important: 拖拽过程中，关闭对应 markLine 的交互
-    this._element.setAttributes({
-      pickable: false,
-      childrenPickable: false
-    });
-
+    this._silentAllMarkers();
     const splitGroup = this._getSplitGroup();
     splitGroup.showAll();
 
@@ -607,6 +541,8 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
     e.preventDefault();
 
     this._splitAnchors.hideAll();
+    this._activeAllMarkers();
+
     const model = this._model;
     const series = model.getRelativeSeries();
     // 更新真正的 markLine 组件
@@ -634,9 +570,7 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
         [{ x: this._overlayStartHandler.attribute.x, y: this._overlayStartHandler.attribute.y }, startPoint],
         [startPoint, endPoint],
         [endPoint, { x: this._overlayEndHandler.attribute.x, y: this._overlayEndHandler.attribute.y }]
-      ],
-      pickable: true,
-      childrenPickable: true
+      ]
     });
     // 生成新的 markLine spec
     const newMarkLineSpec = merge({}, this._spec, {
@@ -649,15 +583,10 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
             Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)
     });
     this._spec = newMarkLineSpec;
-    this._chart.specProcess.updateElementAttribute(this._currentEl.model, {
-      markLine: {
-        spec: newMarkLineSpec
-      }
-    });
-    this._chart.reRenderWithUpdateSpec();
 
     vglobal.removeEventListener('pointermove', this._onMiddleHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onMiddleHandlerDragEnd);
+    this._updateAndSave(newMarkLineSpec, 'markLine');
   };
 
   private _getSplitGroup() {
