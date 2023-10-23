@@ -14,7 +14,7 @@ import type {
   ISwitchComponentConfig,
   ITextAlignComponentConfig
 } from '../typings/config';
-import { isNil, merge } from '@visactor/vutils';
+import { isBoolean, isNil, merge } from '@visactor/vutils';
 import { Color } from '../base/color';
 import { FontFamily } from '../base/font-family';
 import { FontStyle } from '../base/font-style';
@@ -242,7 +242,6 @@ export function CustomPanel(props: ICustomPanelProps) {
   const sections = props.sections ?? {};
 
   const [collapsed, setCollapsed] = useState<boolean>(true);
-  const [disabled, setDisabled] = useState<boolean>(false);
 
   const [panelValue, setPanelValue] = useState<any>(generateInitialPanelValue(sections, props.sectionComponentMaps));
 
@@ -255,26 +254,30 @@ export function CustomPanel(props: ICustomPanelProps) {
     <div className={`vchart-editor-ui-panel-container ${props.className ?? ''}`} style={props.style ?? {}}>
       <EditorHeader
         label={label}
+        checked={props.enabled}
+        onCheck={checked => (isBoolean(props.enabled) ? props.onEnabled(checked) : null)}
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
-        onCheck={() => setDisabled(!disabled)}
         onRefresh={onRefresh}
       />
-      <div className="vchart-editor-ui-panel-collapse-container" style={{ height: !collapsed ? 0 : 'auto' }}>
-        {Object.keys(sections).map(section => {
-          return (
-            <React.Fragment key={section}>
-              {generateSection(
-                sections[section],
-                section,
-                panelValue,
-                setPanelValue,
-                props.onChange,
-                props.sectionComponentMaps?.[section]
-              )}
-            </React.Fragment>
-          );
-        })}
+      <div className="vchart-editor-ui-panel-container-content">
+        <div className="vchart-editor-ui-panel-collapse-container" style={{ height: !collapsed ? 0 : 'auto' }}>
+          {Object.keys(sections).map(section => {
+            return (
+              <React.Fragment key={section}>
+                {generateSection(
+                  sections[section],
+                  section,
+                  panelValue,
+                  setPanelValue,
+                  props.onChange,
+                  props.sectionComponentMaps?.[section]
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
+        {props.enabled === false ? <div className="vchart-editor-ui-panel-container-mask"></div> : null}
       </div>
     </div>
   );

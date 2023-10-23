@@ -58,6 +58,7 @@ export interface ITextAlignComponentConfig extends IBaseComponentConfig {
 export interface ICustomBaseComponentConfig extends IBaseComponentConfig {
   default?: any;
   component: React.ComponentType<ICustomComponentProps>;
+  [key: string]: any;
 }
 
 export type ComponentConfig =

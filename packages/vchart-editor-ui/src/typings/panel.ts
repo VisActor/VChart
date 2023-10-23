@@ -14,6 +14,9 @@ export interface IPanelProps {
   initialSections?: any;
   onChange?: (section: string, key: string, value: any) => void;
   onRefresh?: (values: any) => void;
+
+  enabled?: boolean;
+  onEnabled?: (enabled: boolean) => void;
 }
 
 // Axis Panel
