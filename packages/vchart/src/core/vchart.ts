@@ -1359,6 +1359,18 @@ export class VChart implements IVChart {
       this._option?.onError(new ReferenceError(`render is not defined`));
     }
   }
+  /**
+   * 导出绘制了图表内容的 canvas
+   * @returns HTMLCanvasElement
+   */
+  exportCanvas(): HTMLCanvasElement | undefined {
+    const stage = this.getStage();
+    if (this._chart && stage) {
+      return stage.toCanvas();
+    }
+    this._option?.onError(new ReferenceError(`render is not defined`));
+    return undefined;
+  }
 
   /**
    * 目前仅支持 node 环境，用于 node 端的图片导出

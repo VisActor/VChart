@@ -908,6 +908,19 @@ getDataURL: () => Promise<any>;
 exportImg: (name?: string) => Promise<void>;
 ```
 
+### exportCanvas
+
+Exporting canvas with chart content is only supported on the browser side. You can use this canvas for secondary processing, such as adding watermarks, etc.
+
+```ts
+/**
+ * Export the canvas with the chart content drawn
+ * @returns HTMLCanvasElement
+ * @since 1.5.2
+ */
+exportCanvas: () => HTMLCanvasElement | undefined;
+```
+
 ### getImageBuffer
 
 Currently only the node environment is supported for node-side image export.
