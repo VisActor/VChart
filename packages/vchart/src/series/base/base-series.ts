@@ -876,7 +876,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
 
     // mark visible logic in compile
-    if (originalSpec.extensionMark?.some((mark, index) => mark.visible !== this._spec.extensionMark[index].visible)) {
+    if (
+      originalSpec.extensionMark?.some(
+        (mark: any, index: any) => mark.visible !== this._spec.extensionMark[index].visible
+      )
+    ) {
       result.reCompile = true;
     }
 
