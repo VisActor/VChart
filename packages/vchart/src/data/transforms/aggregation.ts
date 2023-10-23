@@ -2,7 +2,8 @@ import type { DataView } from '@visactor/vdataset';
 import type { IAggrType } from '../../component/marker/interface';
 import type { ICartesianSeries } from '../../series/interface';
 
-import { variance, average, min, max, sum, standardDeviation, median, isValid, isFunction } from '../../util';
+import { variance, average, sum, standardDeviation, median, isValid, isFunction, min, max } from '../../util';
+import type { Datum } from '../../typings';
 
 export type IOption = {
   field: string;
@@ -34,12 +35,12 @@ export type IOptionAggr = {
 } & IOptionSeries;
 
 export const markerMin = (_data: Array<DataView>, opt: IOption) => {
-  const data = _data[0].latestData;
+  const data = _data[0].latestData as Datum[];
 
   return min(data, opt.field);
 };
 export const markerMax = (_data: Array<DataView>, opt: IOption) => {
-  const data = _data[0].latestData;
+  const data = _data[0].latestData as Datum[];
 
   return max(data, opt.field);
 };
