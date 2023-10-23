@@ -166,22 +166,30 @@ export class BarTemp extends BaseTemp {
     tempSpec.data = [data];
     const xField: string[] = [];
     const yField: string[] = [];
-    // 当前模版已经是堆积条形图 所以x是连续轴，y是离散轴
-    // 模版需要根据自己的特性，调整数据维度与图表配置的映射关系
+    let seriesField: string = null;
     Object.keys(info).forEach(key => {
+      if (key.startsWith('VGRAMMAR_') || key.startsWith('__VCHART_')) {
+        return;
+      }
       if (info[key].type === 'linear') {
-        xField.length === 0 && xField.push(key);
-      } else if (info[key].type === 'ordinal' && yField.length === 0) {
-        yField.push(key);
+        yField.length === 0 && yField.push(key);
+      } else if (info[key].type === 'ordinal') {
+        if (xField.length === 0) {
+          xField.push(key);
+        } else if (!seriesField) {
+          seriesField = key;
+        } else {
+          xField.push(key);
+        }
       }
     });
     if (xField.length === 0 || yField.length === 0) {
       return null;
     }
-
     tempSpec.series[0].xField = xField;
     tempSpec.series[0].yField = yField;
     tempSpec.series[0].dataId = data.name;
+    tempSpec.series[0].seriesField = seriesField;
     return tempSpec;
   }
 }
