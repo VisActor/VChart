@@ -117,6 +117,12 @@ function App() {
       <CustomPanel
         style={{ marginBottom: 20 }}
         label="时间标注"
+        sectionComponentMaps={{
+          sum: {
+            a: 'input',
+            b: 'input'
+          }
+        }}
         sections={{
           time: {
             label: '当前时间',
@@ -136,7 +142,10 @@ function App() {
               { key: 'fontSize', label: '字号' },
               { key: 'fontStyle', label: '样式' },
               { key: 'color', label: '颜色' },
-              { key: 'textAlign', label: '对齐方式' }
+              { key: 'textAlign', label: '对齐方式' },
+              { key: 'a', label: 'abc', options: [{ label: '1', value: '2' }], default: '2' },
+              { key: 'b', label: 'abc1', options: [{ label: '1', value: '2' }], default: '3' },
+              { key: 'sliderNumber', label: 'def', unit: '%', min: 10, max: 100 }
             ]
           }
         }}
