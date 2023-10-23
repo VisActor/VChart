@@ -2,69 +2,34 @@
  * @description 均值线
  * 2. 双击出现编辑框
  */
-import type { IGroup, INode } from '@visactor/vrender-core';
+import type { INode } from '@visactor/vrender-core';
 import { createRect, type IGraphic, createGroup, vglobal } from '@visactor/vrender-core';
-import type { IEditorElement } from '../../../core/interface';
-import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
+import type { IEditorElement } from '../../../../core/interface';
 import { merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, IComponent } from '@visactor/vchart';
-import type { Point } from './types';
-import { MarkerTypeEnum } from '../interface';
+import type { Point } from '../types';
+import { MarkerTypeEnum } from '../../interface';
 import type { ICartesianSeries } from '@visactor/vchart';
+import { BaseMarkerEditor } from './base';
 
-export class AvgMarkLineEditor extends BaseEditorElement {
-  private _model: MarkLine;
-  private _element: MarkLineComponent;
+export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponent> {
+  readonly type = 'markLine';
+
   private _orient: string;
-
-  private _editComponent: IGroup;
-  private _selected: boolean = false;
   private _prePos!: number;
   private _preOffset: number = 0;
 
-  initWithVChart(): void {
-    const vchart = this._chart.vchart;
-    vchart.on('pointermove', { level: 'model', type: 'markLine', consume: true }, this._onHover);
-    vchart.on('pointerdown', { level: 'model', type: 'markLine', consume: true }, this._onDragStart);
+  protected _getEnableMarkerTypes(): string[] {
+    return [MarkerTypeEnum.horizontalLine, MarkerTypeEnum.verticalLine];
   }
 
-  private _checkEventEnable(e: EventParams) {
-    const markerComponent = (<MarkLine>e.model).getVRenderComponents()[0] as unknown as MarkLineComponent;
-    return (
-      markerComponent?.name === MarkerTypeEnum.horizontalLine || markerComponent?.name === MarkerTypeEnum.verticalLine
-    );
-  }
-
-  private _onHover = (e: EventParams) => {
-    if (!this._checkEventEnable(e)) {
-      return;
-    }
-    const el = this._getEditorElement(e);
-    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
-  };
-
-  private _onDragStart = (e: EventParams) => {
-    if (!this._checkEventEnable(e)) {
-      return;
-    }
-    this._element = (<MarkLine>e.model).getVRenderComponents()[0] as unknown as MarkLineComponent;
-    this._model = e.model as MarkLine;
+  protected _handlePointerDown(e: EventParams): void {
     this._orient = this._element.name === MarkerTypeEnum.verticalLine ? 'vertical' : 'horizontal';
 
-    // Important: 拖拽过程中，关闭对应 markLine 的交互
-    this._element.setAttributes({
-      pickable: false,
-      childrenPickable: false
-    });
-
-    this._selected = true;
-
     const el = this._getEditorElement(e);
-    if (e) {
-      this.startEditor(el, e.event as PointerEvent);
-    }
+    this.startEditor(el, e.event as PointerEvent);
 
     this._prePos = this._orient === 'horizontal' ? e.event.clientY : e.event.clientX;
     this._editComponent.setAttributes({
@@ -73,11 +38,12 @@ export class AvgMarkLineEditor extends BaseEditorElement {
     this._preOffset = this._editComponent.attribute[this._orient === 'horizontal' ? 'dy' : 'dx'] ?? 0;
     vglobal.addEventListener('pointermove', this._onDrag);
     vglobal.addEventListener('pointerup', this._onDragEnd);
-  };
+  }
 
   private _onDrag = (e: any) => {
     e.stopPropagation();
 
+    this._silentAllMarkers();
     this._editComponent.showAll();
     let currentPos;
     let delta = 0;
@@ -97,6 +63,7 @@ export class AvgMarkLineEditor extends BaseEditorElement {
   private _onDragEnd = (e: any) => {
     e.preventDefault();
     this._editComponent.hideAll();
+    this._activeAllMarkers();
 
     const offset = (this._editComponent.attribute[this._orient === 'horizontal' ? 'dy' : 'dx'] ?? 0) - this._preOffset;
     const points = this._element.attribute.points as Point[];
@@ -129,7 +96,6 @@ export class AvgMarkLineEditor extends BaseEditorElement {
 
     // 更新 markLine
     // 1. 生成新的 markLine spec，用于存储
-    // TODO: 如果是对应离散轴的话需要变成坐标，或者加上 dx/dy 属性
     const newSpec = merge({}, this._model.getSpec(), {
       label: {
         text: newText,
@@ -152,19 +118,13 @@ export class AvgMarkLineEditor extends BaseEditorElement {
       points: newPoints as Point[],
       label: {
         text: newText
-      },
-      pickable: true,
-      childrenPickable: true
+      }
     });
     vglobal.removeEventListener('pointermove', this._onDrag);
     vglobal.removeEventListener('pointerup', this._onDragEnd);
 
-    this._chart.specProcess.updateElementAttribute(this._currentEl.model, {
-      markLine: {
-        spec: newSpec
-      }
-    });
-    this._chart.reRenderWithUpdateSpec();
+    // 更新
+    this._updateAndSave(newSpec, 'markLine');
   };
 
   protected _getOverGraphic(el: IEditorElement): IGraphic {
@@ -195,23 +155,6 @@ export class AvgMarkLineEditor extends BaseEditorElement {
     overlayLine.name = 'overlay-mark-line-line';
 
     return overlayLine as unknown as IGraphic;
-  }
-
-  protected _getEditorElement(eventParams: EventParams): IEditorElement {
-    const model = eventParams.model;
-    const element: IEditorElement = new CommonChartEditorElement(this, {
-      model,
-      id: this._chart.vchart.id + '-markLine-' + model.id + (this._selected ? '-selected' : '')
-    });
-    return element;
-  }
-
-  protected startEditor(el: IEditorElement, e?: PointerEvent): boolean {
-    if (!super.startEditor(el, e)) {
-      return false;
-    }
-    this._createEditorGraphic(el, e);
-    return true;
   }
 
   protected _createEditorGraphic(el: IEditorElement, e: any): IGraphic {
@@ -264,21 +207,5 @@ export class AvgMarkLineEditor extends BaseEditorElement {
     this._editComponent = overlayGraphic;
 
     return this._editComponent as unknown as IGraphic;
-  }
-
-  releaseLast() {
-    super.releaseLast();
-    if (this._editComponent) {
-      this._layer.editorGroup.removeChild(this._editComponent as unknown as IGraphic);
-      this._editComponent = null;
-    }
-  }
-
-  release(): void {
-    const vchart = this._chart.vchart;
-
-    vchart.off('pointermove', this._onHover);
-    vchart.off('pointerdown', this._onDragStart);
-    super.release();
   }
 }
