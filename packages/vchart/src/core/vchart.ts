@@ -108,7 +108,12 @@ export class VChart implements IVChart {
    */
   static useRegisters(comps: (() => void)[]) {
     comps.forEach((fn: () => void) => {
-      fn();
+      if (typeof fn === 'function') {
+        // 确保元素是函数类型
+        fn();
+      } else {
+        console.error('Invalid function:', fn);
+      }
     });
   }
 
