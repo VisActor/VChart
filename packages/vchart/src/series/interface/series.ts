@@ -179,6 +179,8 @@ export interface ISeries extends IModel, ILayoutItem {
   getDefaultShapeType: () => string;
   /** 获取系列标签配置 */
   initLabelMarkStyle?: (labelMark: ILabelMark) => void;
+
+  getGroupFields: () => string[];
 }
 
 export interface ICartesianSeries extends ISeries {

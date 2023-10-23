@@ -171,6 +171,8 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
       }
     };
   }
+
+  return null;
 }
 
 /**
@@ -293,6 +295,8 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
       }
     };
   }
+
+  return null;
 }
 
 export const DEFAULT_OFFSET_FOR_GROWTH_MARKLINE = 30;
@@ -612,6 +616,8 @@ export function getDefaultMarkerConfigByType(chart: IVChart, markerType: string)
   if (markerType === MarkerTypeEnum.hierarchyDiffLine) {
     return getDefaultHierarchyDiffMarkLineConfig(chart);
   }
+
+  return null;
 }
 
 // TODO: 移到 vutils-extension 中
