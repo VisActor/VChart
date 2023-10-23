@@ -22,6 +22,8 @@ export function LabelPanel(props: ILabelPanelProps) {
       sectionComponentMaps={sectionComponentMaps}
       className={props.className}
       style={props.style}
+      enabled={props.enabled}
+      onEnabled={props.onEnabled}
       onChange={props.onChange}
       onRefresh={props.onRefresh}
     />
