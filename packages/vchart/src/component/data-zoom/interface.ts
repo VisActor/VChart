@@ -1,4 +1,5 @@
 import type { IOrientType } from '../../typings';
+import type { IDelayType } from '../../typings/event';
 import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
 
@@ -77,16 +78,116 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
    */
   autoIndent?: boolean;
   /**
-   * 是否开启鼠标缩放和平移漫游。默认不开启
-   */
-  roam?: boolean;
-  /**
    * 是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失
    * @since 1.4.0
    */
   auto?: boolean;
+  /**
+   * 是否锁定选择区域（或叫做数据窗口）的大小
+   * @default false
+   * @since 1.5.1
+   */
+  zoomLock?: boolean;
+  /**
+   * 用于限制窗口大小的最小值, [0, 1]
+   * @default 0
+   * @since 1.5.1
+   */
+  minSpan?: number;
+  /**
+   * 用于限制窗口大小的最大值, [0, 1]
+   * @default 1
+   * @since 1.5.1
+   */
+  maxSpan?: number;
+  /**
+   * 用于限制窗口大小的最小数据值, 仅在continous scale生效，优先级高于minSpan
+   * @since 1.5.1
+   */
+  minValueSpan?: number;
+  /**
+   * 用于限制窗口大小的最大数据值, 仅在continous scale生效，优先级高于maxSpan
+   * @since 1.5.1
+   */
+  maxValueSpan?: number;
+  /**
+   * 事件触发延迟类型, 不配置则视作未开启
+   * @since 1.5.1
+   */
+  delayType?: IDelayType;
+  /**
+   * 事件触发延迟时长
+   * @default 30
+   * @since 1.5.1
+   */
+  delayTime?: number;
+  /**
+   * 漫游模式 - 缩放（画布内自由交互), 默认不开启
+   * @default false
+   * @since 1.5.1
+   */
+  roamZoom?: IRoamZoomSpec | boolean;
+  /**
+   * 漫游模式 - 拖拽（画布内自由交互), 默认不开启
+   * @since 1.5.1
+   */
+  roamDrag?: IRoamDragSpec | boolean;
+  /**
+   * 漫游模式 - 滚动（画布内自由交互), 默认不开启
+   * @since 1.5.1
+   */
+  roamScroll?: IRoamScrollSpec | boolean;
+  /**
+   * 是否在操作时动态更新视图
+   * @since 1.5.1
+   * @default true
+   */
+  realTime?: boolean;
+}
+
+export interface IRoamDragSpec extends IRoamSpec {
+  /**
+   * 拖拽方向与滚动条移动方向是否相反
+   * @default true
+   */
+  reverse?: boolean;
+}
+
+export interface IRoamScrollSpec extends IRoamSpec {
+  /**
+   * 滚动方向与滚动条移动方向是否相反
+   * @default true
+   */
+  reverse?: boolean;
+}
+
+export interface IRoamZoomSpec extends IRoamSpec {
+  /**
+   * 是否开启聚焦缩放
+   * @default true
+   * 开启时, 默认以鼠标位置开始
+   * 关闭时, 以画布中心缩放
+   */
+  focus?: boolean;
+}
+
+export interface IRoamSpec {
+  /**
+   * 是否开启 缩放 / 拖拽 / 滚动
+   * @default true
+   */
+  enable?: boolean;
+  /**
+   * 缩放 / 拖拽 / 滚动速率, 范围: [0, 1]
+   * @default 1
+   */
+  rate?: number;
 }
 
 export interface IDataFilterComponent extends IComponent {
-  setStartAndEnd: (start: number, end: number) => any;
+  setStartAndEnd: (start: number, end: number) => void;
+  enableInteraction: () => void;
+  disableInteraction: () => void;
+  zoomIn: (location?: { x: number; y: number }) => void;
+  zoomOut: (location?: { x: number; y: number }) => void;
 }

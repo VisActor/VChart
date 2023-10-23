@@ -240,9 +240,7 @@ export class WordCloud3dSeries<
       );
     }
     this._trigger.registerMark(wordMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(wordMark);
     this._trigger.registerMark(fillingWordMark);
-    this._tooltipHelper?.activeTriggerSet.mark.add(fillingWordMark);
   }
 
   initAnimation() {

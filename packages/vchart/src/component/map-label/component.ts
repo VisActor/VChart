@@ -15,7 +15,7 @@ import { CompilableData } from '../../compile/data';
 import { normalizeLayoutPaddingSpec } from '../../util/space';
 import type { LayoutItem } from '../../model/layout-item';
 import { MarkPoint } from '@visactor/vrender-components';
-import type { IGroup, INode, IRect as IRectGraphic } from '@visactor/vrender-core';
+import type { IGraphic, IGroup, INode, IRect as IRectGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createGroup, createRect, createSymbol, createText } from '@visactor/vrender-core';
 import { transformToGraphic } from '../../util/style';
@@ -426,7 +426,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     // do nothing
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [];
   }
 }

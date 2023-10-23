@@ -15,6 +15,7 @@ import { lineSeriesMark } from './constant';
 import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -51,6 +52,12 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
+  protected initTooltip() {
+    super.initTooltip();
+    this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
+  }
+
   initMarkStyle(): void {
     this.initLineMarkStyle(this._direction);
     this.initSymbolMarkStyle();
@@ -83,12 +90,16 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
         // 增加一个标识位，用于是否替换，因为图例获取颜色的时候是不需要替换的
         attribute === 'fill' && (attribute = 'stroke');
       }
-      return this._seriesMark?.getAttribute(attribute as any, datum) ?? null;
+      return this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
     };
   }
 
   getDefaultShapeType() {
     return 'circle';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._lineMark, this._symbolMark];
   }
 }
 

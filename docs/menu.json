@@ -18,6 +18,10 @@
     "type": "markdown"
   },
   {
+    "menu": "faq",
+    "type": "markdown"
+  },
+  {
     "menu": "demos",
     "type": "demos",
     "demos": [

@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: supply the attributeContext params for customMark's attribute callback",
+      "comment": "fix: change default zIndex of axis in gauge chart, related #1122",
       "type": "none"
     }
   ],

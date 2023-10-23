@@ -913,6 +913,19 @@ getDataURL: () => Promise<any>;
 exportImg: (name?: string) => Promise<void>;
 ```
 
+### exportCanvas
+
+导出绘制有图表内容的 canvas ，只支持浏览器端。可以使用这个 canvas 进行二次处理，比如添加水印等。
+
+```ts
+/**
+ * 导出绘制了图表内容的 canvas
+ * @returns HTMLCanvasElement
+ * @since 1.5.2
+ */
+exportCanvas: () => HTMLCanvasElement | undefined;
+```
+
 ### getImageBuffer
 
 目前仅支持 node 环境，用于 node 端的图片导出。

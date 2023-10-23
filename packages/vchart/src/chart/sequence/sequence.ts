@@ -53,7 +53,7 @@ export class SequenceChart extends BaseChart {
       this.addAttrToComponentSpec(spec.legends, 'id', `legendRow${rowNum}`);
       // legend offset 和 padding 兼容处理
       const legendSpec = array(spec.legends);
-      let legendHeight = legendSpec[0].height ?? 40;
+      let legendHeight: any = legendSpec[0].height ?? 40;
       if (legendSpec[0].padding) {
         const legendPadding = normalizeLayoutPaddingSpec(legendSpec[0].padding);
         legendHeight += Number(legendPadding?.bottom ?? 0);
@@ -209,7 +209,6 @@ export class SequenceChart extends BaseChart {
             id: `scrollBarRightRow${rowNum}`,
             start: 0,
             end: Math.min(ratio, 1),
-            roam: false,
             filterMode: IFilterMode.axis,
             regionIndex: region.length - 1,
             axisId: `axesLeftRow${rowNum}`,

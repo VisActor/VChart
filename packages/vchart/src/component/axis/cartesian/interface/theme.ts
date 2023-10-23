@@ -1,6 +1,6 @@
 import type { ILayoutPaddingSpec, ILayoutNumber } from '../../../../model/interface';
 import type { ITick, IGrid } from '../../interface';
-import type { ICartesianDomainLine, ICartesianLabel, ICartesianTitle } from './common';
+import type { ICartesianAxisUnit, ICartesianDomainLine, ICartesianLabel, ICartesianTitle } from './common';
 import type { ICartesianAxisCommonSpec } from './spec';
 
 export interface ICartesianAxisCommonTheme {
@@ -36,4 +36,8 @@ export interface ICartesianAxisCommonTheme {
   maxHeight?: ILayoutNumber;
   /** 模块的布局最小高度 */
   minHeight?: ILayoutNumber;
+  /**
+   * 轴单位配置
+   */
+  unit?: ICartesianAxisUnit;
 }

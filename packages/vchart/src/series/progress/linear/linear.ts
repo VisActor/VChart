@@ -21,6 +21,7 @@ import { createRect } from '@visactor/vrender-core';
 import { linearProgressSeriesMark } from './constant';
 import { Factory } from '../../../core/factory';
 import { registerFadeInOutAnimation } from '../../../animation/config';
+import type { IMark } from '../../../mark/interface';
 
 export class LinearProgressSeries<
   T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec
@@ -122,7 +123,6 @@ export class LinearProgressSeries<
         );
       }
       this._trigger.registerMark(progressMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(progressMark);
     }
   }
 
@@ -174,7 +174,6 @@ export class LinearProgressSeries<
         );
       }
       this._trigger.registerMark(trackMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(trackMark);
     }
   }
 
@@ -267,6 +266,12 @@ export class LinearProgressSeries<
 
   protected initTooltip() {
     this._tooltipHelper = new LinearProgressSeriesTooltipHelper(this);
+    this._progressMark && this._tooltipHelper.activeTriggerSet.mark.add(this._progressMark);
+    this._trackMark && this._tooltipHelper.activeTriggerSet.mark.add(this._trackMark);
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._progressMark];
   }
 }
 

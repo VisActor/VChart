@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "refactor: add register function for chart/series/component to collect side effect code",
+      "comment": "fix(datazoom): datazoom location error when resize. fix #520",
       "type": "none"
     }
   ],

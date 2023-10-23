@@ -8,7 +8,7 @@ import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
 import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { degreeToRadian, mixin } from '@visactor/vutils';
+import { degreeToRadian, isArray, mixin } from '@visactor/vutils';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerRadarAnimation, type IRadarAnimationParams, type RadarAppearPreset } from './animation';
@@ -129,8 +129,15 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         this.encodeDefined(areaMark, 'defined');
       });
       this._trigger.registerMark(areaMark);
-      this._tooltipHelper?.activeTriggerSet.dimension.add(areaMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
+    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
+    this._areaMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._areaMark);
   }
 
   initAnimation() {
@@ -178,6 +185,24 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 
   getDefaultShapeType() {
     return 'square';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._areaMark, this._symbolMark, this._lineMark];
+  }
+
+  getSeriesStyle(datum: Datum) {
+    return (attribute: string) => {
+      let result = this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
+      if (attribute === 'fill' && !result) {
+        attribute = 'stroke';
+        result = this._seriesMark?.getAttribute(attribute, datum) ?? undefined;
+      }
+      if (attribute === 'stroke' && isArray(result)) {
+        return result[0];
+      }
+      return result;
+    };
   }
 }
 

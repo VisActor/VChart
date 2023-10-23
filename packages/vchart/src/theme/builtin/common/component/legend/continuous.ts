@@ -13,7 +13,7 @@ export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
       lineHeight: THEME_CONSTANTS.l5LineHeight,
 
       fontWeight: 'normal',
-      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] }
+      fill: { type: 'palette', key: 'primaryFontColor' }
     },
     space: 12
   },

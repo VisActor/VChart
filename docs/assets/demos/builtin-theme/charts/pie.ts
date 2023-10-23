@@ -28,7 +28,11 @@ export default {
     },
     legends: {
       visible: true,
-      orient: 'left'
+      orient: 'left',
+      title: {
+        visible: true,
+        text: 'Elements'
+      }
     },
     label: {
       visible: true

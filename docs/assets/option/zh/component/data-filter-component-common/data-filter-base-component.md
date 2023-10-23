@@ -88,13 +88,67 @@
 
 是否进行自动缩进。
 
-#${prefix} roam(boolean) = false
-
-是否开启鼠标缩放和平移漫游。
-
 #${prefix} auto(boolean) = false
 
 是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失。自 `1.4.0` 版本开始支持。
+
+#${prefix} zoomLock(boolean) = false
+是否锁定选择区域（或叫做数据窗口）的大小。自 `1.5.1` 版本开始支持。
+
+#${prefix} minSpan(number) = 0
+用于限制窗口大小的最小值, [0, 1]。自 `1.5.1` 版本开始支持。
+
+#${prefix} maxSpan(number) = 1
+用于限制窗口大小的最大值, [0, 1]。自 `1.5.1` 版本开始支持。
+
+#${prefix} minValueSpan(number)
+用于限制窗口大小的最小数据值, 仅在continous scale生效，优先级高于minSpan。自 `1.5.1` 版本开始支持。
+
+#${prefix} maxValueSpan(number)
+用于限制窗口大小的最大数据值, 仅在continous scale生效，优先级高于maxSpan。自 `1.5.1` 版本开始支持。
+
+#${prefix} delayType(string)
+事件触发延迟类型, 不配置视作不开启。自 `1.5.1` 版本开始支持。
+
+可选值：
+- `'throttle'`: 节流
+- `'debounce'`: 防抖
+
+#${prefix} delayTime(number) = 30
+事件触发延迟时长。自 `1.5.1` 版本开始支持。
+
+#${prefix} roamZoom(boolean|object) = false
+漫游模式 - 缩放（画布内自由交互）, 默认不开启。自 `1.5.1` 版本开始支持。
+
+##${prefix} focus(boolean) = true
+是否开启聚焦缩放。开启时, 默认以鼠标位置开始; 关闭时, 以画布中心缩放
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
+
+#${prefix} roamDrag(boolean|object) = false
+漫游模式 - 拖拽（画布内自由交互）, 默认不开启。自 `1.5.1` 版本开始支持。
+
+##${prefix} reverse(boolean) = true
+拖拽方向与滚动条移动方向是否相反。
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
+
+#${prefix} roamScroll(boolean|object) = false
+漫游模式 - 滚动（画布内自由交互）, 默认不开启。自 `1.5.1` 版本开始支持。
+
+##${prefix} reverse(boolean) = true
+滚动方向与滚动条移动方向是否相反。
+
+#${prefix} realTime(boolean) = true
+是否在交互时实时更新视图, 默认开启。自 `1.5.1` 版本开始支持。
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
 
 {{ use: common-layout-item(
   prefix = ${prefix},

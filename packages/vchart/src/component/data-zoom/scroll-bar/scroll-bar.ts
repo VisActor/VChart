@@ -1,4 +1,4 @@
-import { isArray, isEmpty, isNil, isNumber } from '@visactor/vutils';
+import { isArray, isBoolean, isEmpty, isNil, isNumber, isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface';
@@ -7,13 +7,13 @@ import type { ScrollBarAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { ScrollBar as ScrollBarComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
-import type { IRectGraphicAttribute, INode, IGroup } from '@visactor/vrender-core';
+import type { IRectGraphicAttribute, INode, IGroup, IGraphic } from '@visactor/vrender-core';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';
-import type { IZoomable } from '../../../interaction/zoom/zoomable';
 import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
+import type { IZoomable } from '../../../interaction/zoom';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
@@ -46,6 +46,19 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       ...options
     });
     this._filterMode = spec.filterMode ?? IFilterMode.axis;
+  }
+
+  setAttrFromSpec() {
+    super.setAttrFromSpec();
+    // roam兼容逻辑
+    if (isBoolean((this._spec as any).roam)) {
+      this._zoomAttr.enable = false; // 对于之前的逻辑而言，只要配置了roam，zoom始终不打开
+      this._dragAttr.enable = (this._spec as any).roam;
+      this._scrollAttr.enable = (this._spec as any).roam;
+    }
+    if (this._zoomAttr.enable || this._dragAttr.enable || this._scrollAttr.enable) {
+      (this as unknown as IZoomable).initZoomable(this.event, this._option.mode);
+    }
   }
 
   /** LifeCycle API**/
@@ -102,14 +115,22 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         height: this.getLayoutRect().height,
         range: [this._start, this._end],
         direction: this._isHorizontal ? 'horizontal' : 'vertical',
+        delayType: this._spec?.delayType,
+        delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
+        realTime: this._spec?.realTime ?? true,
         ...this._getComponentAttrs()
       });
-
+      // 绑定事件，防抖，防止频繁触发
+      this._component.addEventListener('scroll', (e: any) => {
+        const value = e.detail.value;
+        this._handleChange(value[0], value[1]);
+      });
       container.add(this._component as unknown as INode);
     }
   }
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
+    super._handleChange(start, end, updateComponent);
     if (updateComponent && this._component) {
       this._component.setAttribute('range', [start, end]);
     }
@@ -136,19 +157,13 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     // do nothing
   }
 
-  protected _initEvent() {
+  protected _initCommonEvent() {
+    super._initCommonEvent();
     if (this._component) {
       this._component.on('scroll', (e: any) => {
         const value = e.detail.value;
         this._handleChange(value[0], value[1]);
       });
-    }
-  }
-
-  protected _initCommonEvent() {
-    if (this._spec.roam) {
-      (this as unknown as IZoomable).initScrollEventOfRegions(this._regions, null, this._handleChartScroll);
-      (this as unknown as IZoomable).initDragEventOfRegions(this._regions, null, this._handleChartDrag);
     }
   }
 
@@ -169,7 +184,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     return attrs;
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];
   }
 }

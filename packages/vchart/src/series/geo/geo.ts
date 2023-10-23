@@ -8,6 +8,7 @@ import type { SeriesData } from '../base/series-data';
 import type { DataView } from '@visactor/vdataset';
 import { PREFIX } from '../../constant';
 import type { IGeoSeriesSpec } from './interface';
+import type { IMark } from '../../mark/interface';
 
 export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> extends BaseSeries<T> implements IGeoSeries {
   type = SeriesTypeEnum.geo;
@@ -88,12 +89,12 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
   }
 
   protected nameToPosition(datum: any): IPoint | null {
-    const name = this._getDatumName(datum);
+    const name = this.getDatumName(datum);
     if (isNil(name)) {
       return null;
     }
 
-    const mapData = this.getMapViewData()?.latestData?.filter((data: any) => this._getDatumName(data) === name)[0];
+    const mapData = this.getMapViewData()?.latestData?.filter((data: any) => this.getDatumName(data) === name)[0];
     if (isNil(mapData)) {
       return null;
     }
@@ -109,7 +110,7 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
   }
 
   abstract getDatumCenter(datum: any): [number, number];
-  protected abstract _getDatumName(datum: any): string;
+  abstract getDatumName(datum: any): string;
 
   dataToLatitude(latValue: number) {
     if (!this._coordinateHelper) {
@@ -220,5 +221,9 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     super.fillData();
     this._mapViewData.getDataView()?.reRunAllTransform();
     this._mapViewDataStatistics?.reRunAllTransform();
+  }
+
+  getActiveMarks(): IMark[] {
+    return [];
   }
 }

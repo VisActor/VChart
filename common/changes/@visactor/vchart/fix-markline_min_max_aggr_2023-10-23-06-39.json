@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: support load environment code on demand",
+      "comment": "fix: fix the issue in markline as min/max aggr result is not correct, see #1261",
       "type": "none"
     }
   ],

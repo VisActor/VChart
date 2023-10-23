@@ -1,5 +1,5 @@
 import { Factory } from './../../core/factory';
-import type { INode, IGroup } from '@visactor/vrender-core';
+import type { INode, IGroup, IGraphic } from '@visactor/vrender-core';
 import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visactor/vrender-components';
 
 // eslint-disable-next-line no-duplicate-imports
@@ -121,7 +121,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     // do nothing
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [this._playerComponent] as unknown as IGroup[];
   }
 

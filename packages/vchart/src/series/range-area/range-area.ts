@@ -111,12 +111,12 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
         AttributeLevel.Built_In
       );
       this._trigger.registerMark(areaMark);
-      this._tooltipHelper.activeTriggerSet.dimension.add(areaMark);
     }
   }
 
   protected initTooltip() {
     this._tooltipHelper = new RangeAreaSeriesTooltipHelper(this);
+    this._areaMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._areaMark);
   }
 
   viewDataStatisticsUpdate(d: DataView) {

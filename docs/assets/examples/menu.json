@@ -1119,6 +1119,22 @@
       ]
     },
     {
+      "path": "correlation-chart",
+      "title": {
+        "zh": "correlation-chart",
+        "en": "correlation-chart"
+      },
+      "children": [
+        {
+          "path": "correlation-chart",
+          "title": {
+            "zh": "散点相关性图",
+            "en": "Correlation Chart"
+          }
+        }
+      ]
+    },
+    {
       "path": "combination",
       "title": {
         "zh": "combination",
@@ -1620,6 +1636,20 @@
             "zh": "缩略轴预览图表样式配置",
             "en": "Thumbnail Axis Preview Chart Style Configuration"
           }
+        },
+        {
+          "path": "data-zoom-lock",
+          "title": {
+            "zh": "缩略轴支持范围锁定",
+            "en": "Datazoom Supports ZoomLock"
+          }
+        },
+        {
+          "path": "data-zoom-span",
+          "title": {
+            "zh": "缩略轴支持窗口最大最小值配置",
+            "en": "datazoom supports config maximum and minimum range"
+          }
         }
       ]
     },
@@ -1649,6 +1679,20 @@
           "title": {
             "zh": "纵向 scrollBar",
             "en": "Vertical scrollBar"
+          }
+        },
+        {
+          "path": "roam-drag-zoom",
+          "title": {
+            "zh": "scrollBar支持画布缩放和拖拽",
+            "en": "ScrollBar Supports Zoom and Drag"
+          }
+        },
+        {
+          "path": "roam-scroll",
+          "title": {
+            "zh": "scrollBar支持画布滚动",
+            "en": "ScrollBar Supports Roam Scroll"
           }
         }
       ]

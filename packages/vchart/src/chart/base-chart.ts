@@ -245,9 +245,11 @@ export class BaseChart extends CompilableBase implements IChart {
   init(options: any = {}) {
     // 元素创建完毕后再执行各元素的初始化 方便各元素能获取到其他模块
     this.initRegion();
+
     this.initSeries();
     // component
     this.initComponent();
+
     // event
     this.initEvent();
 
@@ -761,6 +763,9 @@ export class BaseChart extends CompilableBase implements IChart {
           colorScaleSpec.range = colorSpec.map(color => getActualColor(color, this._theme?.colorScheme));
         } else {
           const tempSpec = colorSpec as IVisualSpecScale<any, any>;
+          if (tempSpec.range) {
+            tempSpec.range = tempSpec.range.map(color => getActualColor(color, this._theme?.colorScheme));
+          }
           Object.prototype.hasOwnProperty.call(tempSpec, 'type') && (colorScaleSpec.type = tempSpec.type);
           Object.prototype.hasOwnProperty.call(tempSpec, 'domain') && (colorScaleSpec.domain = tempSpec.domain);
           Object.prototype.hasOwnProperty.call(tempSpec, 'range') && (colorScaleSpec.range = tempSpec.range);

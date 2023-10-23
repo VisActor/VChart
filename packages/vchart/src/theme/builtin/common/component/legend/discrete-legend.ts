@@ -12,7 +12,7 @@ export const discreteLegend: IDiscreteLegendTheme = {
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
 
-      fill: { type: 'palette', key: ['titleFontColor', 'primaryFontColor'] },
+      fill: { type: 'palette', key: 'primaryFontColor' },
       fontWeight: 'normal'
     },
     space: 12

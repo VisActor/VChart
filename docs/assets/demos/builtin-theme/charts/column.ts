@@ -94,10 +94,8 @@ export default {
     legends: {
       visible: true
     },
-    dataZoom: [
-      {
-        orient: 'bottom'
-      }
-    ]
+    dataZoom: {
+      orient: 'bottom'
+    }
   } as IBarChartSpec
 } as IChartInfo;

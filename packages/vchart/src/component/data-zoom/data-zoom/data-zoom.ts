@@ -1,4 +1,4 @@
-import { isArray, isNil, isNumber, uniqArray } from '@visactor/vutils';
+import { isArray, isBoolean, isNil, isNumber, isValid, uniqArray } from '@visactor/vutils';
 import { mergeSpec } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -7,7 +7,7 @@ import { DataFilterBaseComponent } from '../data-filter-base-component';
 // eslint-disable-next-line no-duplicate-imports
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
-import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup } from '@visactor/vrender-core';
+import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
 import type { Datum } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -16,6 +16,7 @@ import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import type { IDataZoomSpec } from './interface';
 import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
+import type { IZoomable } from '../../../interaction/zoom';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -67,6 +68,16 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
+    if (isBoolean((this._spec as any).roam)) {
+      this._zoomAttr.enable = (this._spec as any).roam;
+      this._dragAttr.enable = (this._spec as any).roam;
+      this._scrollAttr.enable = (this._spec as any).roam;
+    }
+
+    if (this._zoomAttr.enable || this._dragAttr.enable || this._scrollAttr.enable) {
+      (this as unknown as IZoomable).initZoomable(this.event, this._option.mode);
+    }
+
     // size相关
     this._backgroundSize = this._spec.background?.size ?? 30;
     this._middleHandlerSize = this._computeMiddleHandlerSize();
@@ -78,7 +89,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
     }
-    if (isNil(this._originalSpec?.startHandler?.style?.size)) {
+    if (isNil(this._originalSpec?.endHandler?.style?.size)) {
       this._spec.endHandler.style.size = this._isHorizontal
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
@@ -161,6 +172,10 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         size: {
           width: this._computeWidth(),
           height: this._computeHeight()
+        },
+        position: {
+          x: this.getLayoutStartPoint().x,
+          y: this.getLayoutStartPoint().y
         }
       });
     }
@@ -280,16 +295,22 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         },
         showDetail: this._spec?.showDetail,
         brushSelect: this._spec?.brushSelect ?? false,
+        zoomLock: this._spec?.zoomLock ?? false,
+        minSpan: this._minSpan,
+        maxSpan: this._maxSpan,
+        delayType: this._spec?.delayType,
+        delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
+        realTime: this._spec?.realTime ?? true,
         previewData: isNeedPreview && this._data.getLatestData(),
-        previewCallbackX: isNeedPreview && this._dataToPositionX,
-        previewCallbackY: isNeedPreview && this._dataToPositionY,
+        previewPointsX: isNeedPreview && this._dataToPositionX,
+        previewPointsY: isNeedPreview && this._dataToPositionY,
         ...(this._getComponentAttrs() as any)
       });
 
       if (this._isHorizontal) {
-        isNeedPreview && this._component.setPreviewCallbackY1(this._dataToPositionY2);
+        isNeedPreview && this._component.setPreviewPointsY1(this._dataToPositionY2);
       } else {
-        isNeedPreview && this._component.setPreviewCallbackX1(this._dataToPositionX2);
+        isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
       }
       this._component.setStatePointToData((state: number) => this._statePointToData(state));
       this._component.setUpdateStateCallback((start: number, end: number) => {
@@ -303,6 +324,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   }
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
+    super._handleChange(start, end, updateComponent);
     if (updateComponent && this._component) {
       this._component.setStartAndEnd(start, end);
     }
@@ -337,10 +359,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         this._valueScale.domain(domain);
       }
     }
-  }
-
-  protected _initEvent() {
-    // do nothing
   }
 
   protected _getComponentAttrs() {
@@ -389,7 +407,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     };
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];
   }
 }

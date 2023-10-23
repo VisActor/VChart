@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "feat: add getGraphicBounds api in layoutItem to support get graphic size\n\n",
+      "comment": "feat: support the exportCanvas api of vchart\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }

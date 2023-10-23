@@ -14,6 +14,10 @@ Legend position, optional values: `'left'`, `'top'`, `'right'`, `'bottom'`, whic
 
 The alignment of the legend in the current row or column. Start | Middle | End.
 
+- `'start'` Start
+- `'middle'` Middle
+- `'end'` End
+
 #${prefix} layout('horizontal' | 'vertical')
 
 The layout configuration of the legend component is automatically adjusted according to the display position by default.

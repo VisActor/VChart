@@ -9,12 +9,12 @@ export const markPoint: IMarkPointTheme = {
       size: 5,
       visible: true,
       style: {
-        fill: '#eee'
+        fill: { type: 'palette', key: 'primaryFontColor' }
       }
     },
     line: {
       style: {
-        stroke: '#eee'
+        stroke: { type: 'palette', key: 'primaryFontColor' }
       }
     }
   },

@@ -1,6 +1,44 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 12 Oct 2023 11:39:35 GMT and should not be manually modified.
+This log was last generated on Fri, 20 Oct 2023 07:22:00 GMT and should not be manually modified.
+
+## 1.5.1
+Fri, 20 Oct 2023 07:22:00 GMT
+
+### Updates
+
+- feat: add getGraphicBounds api in layoutItem to support get graphic size
+
+
+- fix: optimized the display of `padAngle` in the gauge series and changed the unit of `padAngle` to angle, related #1215
+- feat: optimize the autoindent logic in layout to ensure padding effect is correct
+
+
+- feat: support `centroidProperty` in map series
+- feat: scrollbar enhance zoom & drag & scroll. close #965
+- feat: datazoom enhance zoomLock & span config. close #1082
+- feat: supply the attributeContext params for customMark's attribute callback
+- feat: provide afterLayout event to support users to modify layout effects
+
+
+- feat: provide datum in the params of `updateContent` callback of tooltip, related #1244
+- fix: link 'adjacency' interaction highlighting effect of Sankey Chart is wrong, #1121
+- fix: fix the issue of boxplot outlier animation will throw error
+- feat: add the default theme (light, dark) of markLine, markArea and funnel series
+- fix: fix the duplicate event registration in scrollbar, fixed#1241
+- feat: support load environment code on demand
+- refactor: add register function for chart/series/component to collect side effect code
+- refactor: add register function for animation
+
+## 1.4.3
+Tue, 17 Oct 2023 04:00:20 GMT
+
+### Updates
+
+- feat: brush state proxy to state spec
+- fix: fix when the legend item only has stroke it cannot be consistent with the graphic color, details in #1147
+
+
 
 ## 1.4.2
 Thu, 12 Oct 2023 11:39:35 GMT

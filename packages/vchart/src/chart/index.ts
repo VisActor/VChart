@@ -55,6 +55,8 @@ import type { ITreemapChartSpec } from './treemap';
 import { TreemapChart, registerTreemapChart } from './treemap';
 import type { IWaterfallChartSpec } from './waterfall';
 import { WaterfallChart, registerWaterfallChart } from './waterfall';
+import type { ICorrelationChartSpec } from './correlation';
+import { CorrelationChart, registerCorrelationChart } from './correlation';
 import type { IWordCloudChartSpec, IWordCloud3dChartSpec } from './word-cloud';
 import { WordCloudChart, WordCloud3dChart, registerWordCloudChart, registerWordCloud3dChart } from './word-cloud';
 import { BaseChart } from './base-chart';
@@ -91,6 +93,7 @@ export {
   SunburstChart,
   SequenceChart,
   WaterfallChart,
+  CorrelationChart,
   WordCloudChart,
   WordCloud3dChart,
   TreemapChart,
@@ -132,7 +135,8 @@ export {
   registerTreemapChart,
   registerWaterfallChart,
   registerWordCloud3dChart,
-  registerWordCloudChart
+  registerWordCloudChart,
+  registerCorrelationChart
 };
 
 export type {
@@ -165,6 +169,7 @@ export type {
   ISunburstChartSpec,
   ITreemapChartSpec,
   IWaterfallChartSpec,
+  ICorrelationChartSpec,
   IWordCloud3dChartSpec,
   IWordCloudChartSpec,
   IPolarChartSpec,

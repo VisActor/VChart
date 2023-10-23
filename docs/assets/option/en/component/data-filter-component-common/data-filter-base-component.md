@@ -88,13 +88,68 @@ Start and end configuration modes: Only when the mode and configuration match do
 
 Whether to automatically indent.
 
-#${prefix} roam(boolean) = false
-
-Enable mouse zoom and pan roaming.
 
 #${prefix} auto(boolean) = false
 
 Whether it is in automatic mode. After opening, the component will not cause scaling of the axis, and configurations such as `end` and `roam` that may cause scaling will be ignored, and the component can automatically disappear. Supported since version `1.4.0`.
+
+#${prefix} zoomLock(boolean) = false
+Whether to lock the size of the selection area (or data window). Supported since version `1.5.1`.
+
+#${prefix} minSpan(number) = 0
+Minimum value used to limit window size, [0, 1]. Supported since version `1.5.1`.
+
+#${prefix} maxSpan(number) = 1
+The maximum value used to limit the window size, [0, 1]. Supported since version `1.5.1`.
+
+#${prefix} minValueSpan(number)
+The minimum data value used to limit the window size, only takes effect in continous scale, and has a higher priority than minSpan. Supported since version `1.5.1`.
+
+#${prefix} maxValueSpan(number)
+The maximum data value used to limit the window size, only takes effect in continous scale, and has priority higher than maxSpan. Supported since version `1.5.1`.
+
+#${prefix} delayType(string)
+Event trigger delay type, if not configured, it will be regarded as not enabled. Supported since version `1.5.1`.
+
+Optional values:
+- `'throttle'`: throttling
+- `'debounce'`: anti-shake
+
+#${prefix} delayTime(number) = 30
+The event trigger delay time. Supported since version `1.5.1`.
+
+#${prefix} roamZoom(boolean|object) = false
+Roaming mode - zoom (free interaction within the canvas), not enabled by default. Supported since version `1.5.1`.
+
+##${prefix} focus(boolean) = true
+Whether to enable focus zoom. When turned on, the default starts from the mouse position; when turned off, zooms from the center of the canvas.
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
+
+#${prefix} roamDrag(boolean|object) = false
+Roaming mode - dragging (free interaction within the canvas), not enabled by default. Supported since version `1.5.1`.
+
+##${prefix} reverse(boolean) = true
+Whether the drag direction is opposite to the scroll bar movement direction.
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
+
+#${prefix} roamScroll(boolean|object) = false
+Roaming mode - scrolling (free interaction within the canvas), not enabled by default. Supported since version `1.5.1`.
+
+##${prefix} reverse(boolean) = true
+Whether the scroll direction is opposite to the scroll bar movement direction.
+
+{{ use: roam-spec(
+prefix = '#' + ${prefix}
+) }}
+
+#${prefix} realTime(boolean) = true
+Whether to update the view in real time during interaction, enabled by default. Supported since version `1.5.1`.
 
 {{ use: common-layout-item(
   prefix = ${prefix},

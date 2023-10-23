@@ -26,6 +26,8 @@ import { BoxPlotMark } from '../../mark/box-plot';
 import { SymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import type { IMark } from '../../mark/interface';
+import { merge } from '@visactor/vutils';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -172,7 +174,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       this.setMarkStyle(boxPlotMark, boxPlotMarkStyles, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Series);
 
       this._trigger.registerMark(boxPlotMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(boxPlotMark);
     }
 
     const outlierMark = this._outlierMark;
@@ -188,7 +189,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         AttributeLevel.Series
       );
       this._trigger.registerMark(outlierMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(outlierMark);
     }
   }
 
@@ -336,7 +336,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   private _initAnimationSpec(config: any = {}) {
     //将spec中的animation的type替换为箱型图的type
-    const newConfig = Object.assign({}, config);
+    const newConfig = merge({}, config);
     ['appear', 'enter', 'update', 'exit', 'disappear'].forEach(state => {
       if (newConfig[state] && newConfig[state].type === 'scaleIn') {
         newConfig[state].type = this._shaftShape === 'line' ? 'boxplotScaleIn' : 'barBoxplotScaleIn';
@@ -380,6 +380,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   protected initTooltip() {
     this._tooltipHelper = new BoxPlotSeriesTooltipHelper(this);
+    this._boxPlotMark && this._tooltipHelper.activeTriggerSet.mark.add(this._boxPlotMark);
+    this._outlierMark && this._tooltipHelper.activeTriggerSet.mark.add(this._outlierMark);
   }
 
   getStatisticFields() {
@@ -399,6 +401,10 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   getDefaultShapeType(): string {
     return 'square';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._boxPlotMark];
   }
 }
 

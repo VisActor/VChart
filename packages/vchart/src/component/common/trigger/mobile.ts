@@ -40,4 +40,8 @@ export class MobileTrigger implements IZoomTrigger {
   clearScroll(): void {
     // do nothing
   }
+
+  clearDrag(): void {
+    // do nothing
+  }
 }

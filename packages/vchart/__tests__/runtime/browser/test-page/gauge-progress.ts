@@ -30,8 +30,8 @@ const run = () => {
     seriesField: 'type',
     outerRadius: 0.8,
     innerRadius: 0.5,
-    startAngle: -225,
-    endAngle: 45,
+    startAngle: -270,
+    endAngle: 90,
     gauge: {
       type: 'circularProgress',
       progress: {
@@ -90,7 +90,21 @@ const run = () => {
         fill: '#ddd'
       }
     },
-    axes: [{ type: 'linear', orient: 'angle', tick: { visible: true }, subTick: { visible: true } }]
+    axes: [
+      {
+        type: 'linear',
+        orient: 'angle',
+        inside: true,
+        tick: { visible: true, tickCount: 10 },
+        subTick: { visible: true },
+        label: {
+          visible: true,
+          //space: 5
+          formatMethod: text => '啊啊啊啊' + text
+        }
+        //zIndex: 500
+      }
+    ]
   };
 
   // VChart.ThemeManager.setCurrentTheme('dark');

@@ -188,7 +188,7 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
     return this._titleComponent;
   }
 
-  getVRenderComponents(): IGroup[] {
+  getVRenderComponents(): IGraphic[] {
     return [this._titleComponent] as unknown as IGroup[];
   }
 

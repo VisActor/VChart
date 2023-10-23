@@ -31,5 +31,6 @@ export enum ChartTypeEnum {
   treemap = 'treemap',
   sunburst = 'sunburst',
   circlePacking = 'circlePacking',
-  heatmap = 'heatmap'
+  heatmap = 'heatmap',
+  correlation = 'correlation'
 }

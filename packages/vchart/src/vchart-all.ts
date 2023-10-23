@@ -13,7 +13,7 @@ import { registerSequenceChart } from './chart/sequence';
 import { registerHistogram3dChart, registerHistogramChart } from './chart/histogram';
 import { registerCircularProgressChart } from './chart/progress/circular';
 import { registerGaugeChart } from './chart/gauge';
-import { registerWordCloudChart } from './chart/word-cloud';
+import { registerWordCloudChart, registerWordCloud3dChart } from './chart/word-cloud';
 import { registerFunnel3dChart, registerFunnelChart } from './chart/funnel';
 import { registerLinearProgressChart } from './chart/progress/linear';
 import { registerRangeColumn3dChart, registerRangeColumnChart } from './chart/range-column';
@@ -25,6 +25,7 @@ import { registerBoxplotChart } from './chart/box-plot';
 import { registerSankeyChart } from './chart/sankey';
 import { registerRangeAreaChart } from './chart/range-area';
 import { registerHeatmapChart } from './chart/heatmap';
+import { registerCorrelationChart } from './chart/correlation';
 import {
   registerCartesianBandAxis,
   registerCartesianLinearAxis,
@@ -67,6 +68,7 @@ VChart.useRegisters([
   registerMapChart,
   registerGaugeChart,
   registerWordCloudChart,
+  registerWordCloud3dChart,
   registerFunnelChart,
   registerWaterfallChart,
   registerBoxplotChart,
@@ -80,6 +82,7 @@ VChart.useRegisters([
   registerSankeyChart,
   registerHeatmapChart,
   registerSequenceChart,
+  registerCorrelationChart,
   registerCommonChart,
 
   // 3d charts

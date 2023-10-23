@@ -26,6 +26,7 @@ import { mapSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import { registerGeoCoordinate } from '../../component/geo';
+import type { IMark } from '../../mark/interface';
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;
@@ -163,7 +164,6 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
         AttributeLevel.Built_In
       );
       this._trigger.registerMark(pathMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(pathMark);
     }
   }
 
@@ -174,7 +174,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._labelMark = labelMark;
     this.setMarkStyle(labelMark, {
       text: (datum: Datum) => {
-        const text = this._getDatumName(datum);
+        const text = this.getDatumName(datum);
         return text;
       },
       x: (datum: Datum) => this.dataToPosition(datum)?.x,
@@ -193,6 +193,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
   protected initTooltip() {
     this._tooltipHelper = new MapSeriesTooltipHelper(this);
+    this._pathMark && this._tooltipHelper.activeTriggerSet.mark.add(this._pathMark);
   }
 
   protected getPath(datum: any) {
@@ -290,7 +291,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     return [Number.NaN, Number.NaN];
   }
 
-  protected _getDatumName(datum: any): string {
+  getDatumName(datum: any): string {
     if (datum[this.nameField]) {
       return datum[this.nameField];
     }
@@ -320,6 +321,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
   protected _getDataIdKey() {
     return DEFAULT_DATA_INDEX;
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._pathMark];
   }
 }
 

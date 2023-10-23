@@ -12,7 +12,11 @@
 
 #${prefix} position(string) = 'middle'
 
-图例在当前行列的对齐方式，起始|居中|末尾。
+图例在当前行列的对齐方式。
+
+- `'start'` 起始
+- `'middle'` 居中
+- `'end'` 末尾。
 
 #${prefix} layout('horizontal' | 'vertical')
 

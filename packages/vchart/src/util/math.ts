@@ -3,11 +3,17 @@ import type { IPoint, IPolarPoint, Quadrant, TextAlign, TextBaseLine } from '../
 import type { Datum } from '@visactor/vgrammar-core';
 import { isValidNumber } from './type';
 import { regressionLinear } from '@visactor/vgrammar-util';
-import { isNumberClose, isGreater, isLess, isValid, PointService, median as visMedian } from '@visactor/vutils';
+import {
+  isNumberClose,
+  isGreater,
+  isLess,
+  isValid,
+  PointService,
+  median as visMedian,
+  maxInArray,
+  minInArray
+} from '@visactor/vutils';
 import { normalizeAngle, angleLabelOrientAttribute } from '@visactor/vutils-extension';
-
-import { warn } from './debug';
-
 export const isClose = isNumberClose;
 export { isGreater, isLess, normalizeAngle, angleLabelOrientAttribute };
 
@@ -89,38 +95,12 @@ export function normalizeStartEndAngle(
 export function outOfBounds(bounds: IBoundsLike, x: number, y: number) {
   return bounds.x1 > x || bounds.x2 < x || bounds.y1 > y || bounds.y2 < y;
 }
-
 export function min(data: any[], field?: string): number {
-  const initialData = field ? +data[0][field] : +data[0];
-
-  if (!isValidNumber(initialData)) {
-    warn('invalid data');
-    return 0;
-  }
-  const min = data.reduce((pre, _cur) => {
-    const cur = field ? +_cur[field] : +_cur;
-    if (isValidNumber(cur) && cur < pre) {
-      pre = cur;
-    }
-    return pre;
-  }, initialData);
-  return min;
+  return minInArray(data.map(d => +d[field]).filter(d => isValidNumber(d)));
 }
 
 export function max(data: any[], field?: string): number {
-  const initialData = field ? +data[0][field] : +data[0];
-  if (!isValidNumber(initialData)) {
-    warn('invalid data');
-    return 0;
-  }
-  const max = data.reduce((pre, _cur) => {
-    const cur = field ? +_cur[field] : +_cur;
-    if (isValidNumber(cur) && cur > pre) {
-      pre = cur;
-    }
-    return pre;
-  }, initialData);
-  return max;
+  return maxInArray(data.map(d => +d[field]).filter(d => isValidNumber(d)));
 }
 
 export function sum(data: any[], field?: string): number {

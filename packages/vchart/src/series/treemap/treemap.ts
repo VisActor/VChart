@@ -1,6 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { AttributeLevel, DEFAULT_DATA_KEY, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IRectMark } from '../../mark/rect';
 import type { ITextMark } from '../../mark/text';
@@ -243,7 +244,6 @@ export class TreemapSeries extends CartesianSeries<any> {
       ]);
       this._trigger.registerMark(nonLeafMark);
       this._nonLeafMark = nonLeafMark;
-      this._tooltipHelper?.activeTriggerSet.mark.add(nonLeafMark);
     }
 
     const leafMark = this._createMark(TreemapSeries.mark.leaf, { isSeriesMark: true });
@@ -258,7 +258,6 @@ export class TreemapSeries extends CartesianSeries<any> {
       ]);
       this._leafMark = leafMark;
       this._trigger.registerMark(leafMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(leafMark);
     }
 
     if (this._spec.label?.visible) {
@@ -276,7 +275,6 @@ export class TreemapSeries extends CartesianSeries<any> {
         ]);
         this._labelMark = textMark;
         this._trigger.registerMark(textMark);
-        this._tooltipHelper?.activeTriggerSet.mark.add(textMark);
       }
     }
 
@@ -293,7 +291,6 @@ export class TreemapSeries extends CartesianSeries<any> {
         ]);
         this._nonLeafLabelMark = textMark;
         this._trigger.registerMark(textMark);
-        this._tooltipHelper?.activeTriggerSet.mark.add(textMark);
       }
     }
   }
@@ -446,6 +443,10 @@ export class TreemapSeries extends CartesianSeries<any> {
 
   protected initTooltip() {
     this._tooltipHelper = new TreemapTooltipHelper(this);
+    this._nonLeafLabelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nonLeafMark);
+    this._leafMark && this._tooltipHelper.activeTriggerSet.mark.add(this._leafMark);
+    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
+    this._nonLeafLabelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nonLeafLabelMark);
   }
 
   private _shouldFilterElement(datum: TreemapNodeElement, nodeType: 'leaf' | 'nonLeaf') {
@@ -520,6 +521,10 @@ export class TreemapSeries extends CartesianSeries<any> {
 
   getDefaultShapeType(): string {
     return 'square';
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._nonLeafMark, this._leafMark];
   }
 }
 

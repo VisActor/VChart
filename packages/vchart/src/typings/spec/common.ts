@@ -12,12 +12,12 @@ import type {
   IDsvParserOptions
 } from '@visactor/vdataset';
 import type { IRegionSpec } from '../../region/interface';
-import type { IDiscreteLegendSpec } from '../../component/legend/discrete/interface';
 import type { IHoverSpec, ISelectSpec, ITriggerSpec } from '../../interaction/interface';
 import type { IRenderOption } from '../../compile/interface';
 import type { ITooltipSpec } from '../../component/tooltip/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILayoutSpec } from '../../layout/interface';
+// eslint-disable-next-line no-duplicate-imports
 import type {
   ConvertToMarkStyleSpec,
   IArc3dMarkSpec,
@@ -36,6 +36,7 @@ import type {
   IRectMarkSpec,
   IRuleMarkSpec,
   ISymbolMarkSpec,
+  IRippleMarkSpec,
   ITextMarkSpec,
   IVisualSpecScale
 } from '../visual';
@@ -54,6 +55,8 @@ import type { ITheme } from '../../theme';
 import type { ITitleSpec } from '../../component/title/interface';
 import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
+import type { ILegendSpec } from '../../component/legend';
+import type { IColorKey } from '../../theme/color-scheme/interface';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -145,7 +148,7 @@ export interface IChartSpec {
   /**
    * 图表色系配置
    */
-  color?: string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>;
+  color?: string[] | Omit<IVisualSpecScale<unknown, string | IColorKey>, 'id'>;
   /**
    * 系列
    * @description 仅在组合图中使用, 文档中除组合图外均未透出该配置
@@ -175,7 +178,7 @@ export interface IChartSpec {
   /** 布局配置 */
   layout?: ILayoutSpec;
   /** 图例配置 */
-  legends?: IDiscreteLegendSpec | IDiscreteLegendSpec[];
+  legends?: ILegendSpec | ILegendSpec[];
   /** 十字辅助线配置 */
   crosshair?: ICrosshairSpec | ICrosshairSpec[];
   /** tooltip配置 */
@@ -183,9 +186,9 @@ export interface IChartSpec {
   /** 播放器配置 */
   player?: IPlayer;
   /** 缩略轴配置 */
-  dataZoom?: IDataZoomSpec[];
+  dataZoom?: IDataZoomSpec | IDataZoomSpec[];
   /** 滚动条配置 */
-  scrollBar?: IScrollBarSpec[];
+  scrollBar?: IScrollBarSpec | IScrollBarSpec[];
   /** 框选配置 */
   brush?: IBrushSpec;
   /** 全局 scale 配置 */
@@ -608,6 +611,7 @@ export type IBuildinMarkSpec = {
   [MarkTypeEnum.boxPlot]: IBoxPlotMarkSpec;
   [MarkTypeEnum.linkPath]: ILinkPathMarkSpec;
   [MarkTypeEnum.progressArc]: IProgressArcMarkSpec;
+  [MarkTypeEnum.ripple]: IRippleMarkSpec;
 };
 export type EnableMarkType = keyof IBuildinMarkSpec;
 export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {

@@ -187,8 +187,13 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       );
 
       this._trigger.registerMark(pieMark);
-      this._tooltipHelper?.activeTriggerSet.mark.add(pieMark);
     }
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    this._pieMark && this._tooltipHelper.activeTriggerSet.mark.add(this._pieMark);
   }
 
   initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void {
@@ -491,6 +496,39 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   // make sure this function fast
   protected _noAnimationDataKey(datum: Datum, index: number) {
     return index;
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._pieMark];
+  }
+
+  /** 将 theme merge 到 spec 中 */
+  protected _mergeThemeToSpec() {
+    if (this._shouldMergeThemeToSpec()) {
+      const specFromChart = this._getDefaultSpecFromChart(this.getChart().getSpec());
+
+      // this._originalSpec + specFromChart + this._theme = this._spec
+      const merge = (originalSpec: any) => {
+        const chartSpec = this._prepareSpecBeforeMergingTheme(specFromChart);
+        const userSpec = this._prepareSpecBeforeMergingTheme(originalSpec);
+
+        const labelSpec = mergeSpec({}, this._theme.label, chartSpec.label, userSpec.label) as IArcLabelSpec;
+        const labelTheme = mergeSpec(
+          {},
+          this._theme.label,
+          labelSpec.position === 'inside' ? this._theme.innerLabel : this._theme.outerLabel
+        );
+        const newTheme = {
+          ...this._theme,
+          label: labelTheme
+        } as IPieSeriesTheme;
+        return mergeSpec({}, newTheme, chartSpec, userSpec);
+      };
+
+      const baseSpec = this._spec;
+      this._spec = merge(baseSpec);
+    }
+    this._prepareSpecAfterMergingTheme();
   }
 }
 

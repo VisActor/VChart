@@ -107,16 +107,7 @@ export function queryColorFromColorScheme(
   let color;
   const { palette } = scheme as IColorSchemeStruct;
   if (isObject(palette)) {
-    // 依照从前到后的优先级取色
-    for (const key of array(colorKey.key)) {
-      color = palette[key];
-      if (isValid(color)) {
-        break;
-      }
-    }
-    if (!color) {
-      color = colorKey.default;
-    }
+    color = palette[colorKey.key] ?? colorKey.default;
   }
   if (!color) {
     return undefined;

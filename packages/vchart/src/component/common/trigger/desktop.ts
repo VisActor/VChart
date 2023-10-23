@@ -36,6 +36,10 @@ export class DeskTopTrigger implements IZoomTrigger {
   clearScroll(): void {
     // do nothing
   }
+
+  clearDrag(): void {
+    // do nothing
+  }
   parserDragEvent(): boolean {
     return true;
   }
