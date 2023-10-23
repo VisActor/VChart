@@ -89,12 +89,12 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
   }
 
   protected nameToPosition(datum: any): IPoint | null {
-    const name = this._getDatumName(datum);
+    const name = this.getDatumName(datum);
     if (isNil(name)) {
       return null;
     }
 
-    const mapData = this.getMapViewData()?.latestData?.filter((data: any) => this._getDatumName(data) === name)[0];
+    const mapData = this.getMapViewData()?.latestData?.filter((data: any) => this.getDatumName(data) === name)[0];
     if (isNil(mapData)) {
       return null;
     }
@@ -110,7 +110,7 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
   }
 
   abstract getDatumCenter(datum: any): [number, number];
-  protected abstract _getDatumName(datum: any): string;
+  abstract getDatumName(datum: any): string;
 
   dataToLatitude(latValue: number) {
     if (!this._coordinateHelper) {
