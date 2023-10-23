@@ -100,7 +100,7 @@ const run = () => {
         label: {
           visible: true,
           //space: 5
-          formatMethod: () => '0000000000'
+          formatMethod: text => '啊啊啊啊' + text
         }
         //zIndex: 500
       }
