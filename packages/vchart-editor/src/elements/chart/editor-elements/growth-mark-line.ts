@@ -503,11 +503,12 @@ export class GrowthMarkLineEditor extends BaseEditorElement {
     vglobal.removeEventListener('pointermove', this._onHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onHandlerDragEnd);
 
-    this._currentEl.updateAttribute({
+    this._chart.specProcess.updateElementAttribute(this._currentEl.model, {
       markLine: {
         spec: newMarkLineSpec
       }
     });
+    this._chart.reRenderWithUpdateSpec();
   };
 
   releaseLast() {

@@ -62,6 +62,10 @@ export class CommonModelElement extends BaseEditorElement {
           this.emitter.emit('addMarkLine', this, attr);
         }
 
+        if (attr.markArea) {
+          this.emitter.emit('addMarkArea', this, attr);
+        }
+
         const reRender = this.chart.specProcess.updateElementAttribute(element.model, attr);
         const releaseLast = reRender;
         if (releaseLast) {

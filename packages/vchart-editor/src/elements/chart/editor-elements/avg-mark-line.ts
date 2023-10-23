@@ -159,11 +159,12 @@ export class AvgMarkLineEditor extends BaseEditorElement {
     vglobal.removeEventListener('pointermove', this._onDrag);
     vglobal.removeEventListener('pointerup', this._onDragEnd);
 
-    this._currentEl.updateAttribute({
+    this._chart.specProcess.updateElementAttribute(this._currentEl.model, {
       markLine: {
         spec: newSpec
       }
     });
+    this._chart.reRenderWithUpdateSpec();
   };
 
   protected _getOverGraphic(el: IEditorElement): IGraphic {
