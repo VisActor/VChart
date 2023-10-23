@@ -1427,16 +1427,16 @@ export class BaseChart extends CompilableBase implements IChart {
       return spec;
     }
     // 如果是普通对象
-    if (spec.constructor === Object) {
+    if (spec?.constructor === Object) {
       const result: any = {};
       for (const key in spec as any) {
         if (Object.prototype.hasOwnProperty.call(spec, key)) {
           // 如果使用了注册函数
           if (
             isString(spec[key]) &&
-            exprFunc.getFunctionNameList()?.includes(this._modelOption.globalInstance.getFunctionName(spec[key]))
+            exprFunc.getFunctionNameList()?.includes(this._modelOption.globalInstance?.getFunctionName(spec[key]))
           ) {
-            result[key] = exprFunc.getFunction(this._modelOption.globalInstance.getFunctionName(spec[key]));
+            result[key] = exprFunc.getFunction(this._modelOption.globalInstance?.getFunctionName(spec[key]));
             continue;
           }
           result[key] = this.functionTransform(spec[key], exprFunc);
