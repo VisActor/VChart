@@ -62,11 +62,11 @@ export class MarkAreaEditor extends BaseEditorElement {
       return;
     }
     const el = this._getEditorElement(e);
-    this._element = e.model.getVRenderComponents()[0];
-    this._model = e.model;
+    this._element = (<MarkArea>e.model).getVRenderComponents()[0] as unknown as MarkAreaComponent;
+    this._model = e.model as MarkArea;
 
     this._orient = this._element.name === MarkerTypeEnum.verticalArea ? 'vertical' : 'horizontal';
-    this.startEditor(el, e);
+    this.startEditor(el);
     this._activeEditComponent();
     this._overlayAreaGroup?.showAll();
 
@@ -107,12 +107,12 @@ export class MarkAreaEditor extends BaseEditorElement {
     if (!super.startEditor(el, e)) {
       return false;
     }
-    this._createEditorGraphic(el, e);
+    this._createEditorGraphic(el);
     return true;
   }
 
   // 创建交互编辑框
-  protected _createEditorGraphic(el: IEditorElement, e: any): IGraphic {
+  protected _createEditorGraphic(el: IEditorElement): IGraphic {
     if (this._editComponent) {
       return this._editComponent;
     }

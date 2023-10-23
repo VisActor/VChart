@@ -58,7 +58,6 @@ import {
   preprocessSpecOrTheme
 } from '../../util';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
-import { Group } from './group';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
 import { addVChartProperty } from '../../data/transforms/add-property';

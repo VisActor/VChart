@@ -502,11 +502,12 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
         const regionWidth = region.getLayoutRect().width;
         const bandScale = series.getYAxisHelper().getScale(0);
         const bandWidth = series.getYAxisHelper().getBandwidth(0) * 0.5;
+        // @ts-ignore
         const ticks = bandScale.ticks();
         const xField = array(series.getSpec().xField)[0];
         const yField = array(series.getSpec().yField)[0];
         const min = series.getXAxisHelper().getScale(0).domain()[0];
-        ticks.forEach(tick => {
+        ticks.forEach((tick: any) => {
           const y = bandScale.scale(tick) + bandWidth;
           dataPoints.push({
             x: regionStartX + regionWidth,
@@ -522,12 +523,12 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
         const regionHeight = region.getLayoutRect().height;
         const bandScale = series.getXAxisHelper().getScale(0);
         const bandWidth = series.getXAxisHelper().getBandwidth(0) * 0.5;
-
+        // @ts-ignore
         const ticks = bandScale.ticks();
         const xField = array(series.getSpec().xField)[0];
         const yField = array(series.getSpec().yField)[0];
         const min = series.getYAxisHelper().getScale(0).domain()[0];
-        ticks.forEach(tick => {
+        ticks.forEach((tick: any) => {
           const x = bandScale.scale(tick) + bandWidth;
           dataPoints.push({
             x: x + regionStartX,
@@ -542,6 +543,8 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
       }
       return dataPoints;
     }
+
+    return null;
   }
 
   private _onMiddleHandlerDragStart = (e: PointerEvent) => {
@@ -1173,6 +1176,8 @@ export class HierarchicalDiffMarkLineEditor extends BaseEditorElement {
 
       return this._splitPoints;
     }
+
+    return null;
   }
 
   private _getValueFromAnchorHandler(data: DataPoint, valueField: string) {
