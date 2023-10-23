@@ -4,6 +4,7 @@ import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
 import type { ILayoutAttribute, IPoint, IRect } from '../typings/space';
 import type { IModelSpec } from '../elements/chart/spec-process/interface';
+import type { IParserValue } from '../elements/chart/data/interface';
 export interface ILayerData {
   id: string | number;
   type: 'chart' | string;
@@ -59,6 +60,22 @@ export interface IVChartEditorInitOption {
   mode: EditorMode;
 }
 
+export type IDataAttributeParam =
+  | {
+      type: 'csv';
+      value: string;
+    }
+  | {
+      type: 'aeolus';
+      value:
+        | {
+            url: string;
+          }
+        | {
+            rid: string;
+          };
+    };
+
 export interface IUpdateAttributeParam {
   // 布局
   layout?: Partial<ILayoutAttribute>;
@@ -95,6 +112,9 @@ export interface IUpdateAttributeParam {
 
   // 更改图表类型
   chartType?: string;
+
+  // 数据更新
+  data?: IDataAttributeParam;
 }
 
 export interface IEditorElement {
@@ -124,6 +144,7 @@ export type EditorHandlerFunc = (el: IEditorElement) => void;
 
 export interface IEditorController {
   container: HTMLElement;
+  currentEditorElement: IEditorElement;
   setEditorElements: (el: IEditorElement, event: PointerEvent) => void;
   editorEnd: () => void;
 

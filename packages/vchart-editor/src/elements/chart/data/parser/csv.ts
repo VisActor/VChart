@@ -2,10 +2,9 @@ import { isString } from '@visactor/vutils';
 import { DataView, csvParser } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import type { DataUpdateCall, IDataParser } from './../interface';
-import { getStandardDataFields } from '../../../../utils/data';
-export class ClipBoardParser implements IDataParser {
-  static readonly type = 'clipBoard';
-  readonly type: string = ClipBoardParser.type;
+export class CSVParser implements IDataParser {
+  static readonly type = 'csv';
+  readonly type: string = CSVParser.type;
   protected _data: DataView = null;
   protected _dataSet: DataSet = null;
   protected _dataValue: string | {} = null;
@@ -13,7 +12,7 @@ export class ClipBoardParser implements IDataParser {
   constructor(dataSet: DataSet, call: DataUpdateCall, value: any) {
     this._dataSet = dataSet;
     this.onDataUpdate(call);
-    this._data = new DataView(this._dataSet, { name: 'editor_clipBoard' });
+    this._data = new DataView(this._dataSet, { name: 'editor_csv' });
     if (value) {
       this.updateValue(value);
     }
@@ -24,7 +23,7 @@ export class ClipBoardParser implements IDataParser {
 
   getSave() {
     return {
-      type: 'clipBoard',
+      type: 'csv',
       value: this._dataValue
     };
   }
@@ -36,7 +35,6 @@ export class ClipBoardParser implements IDataParser {
       this._dataSet.registerParser('csv', csvParser);
       this._data.parse(value, { type: 'csv' });
       this._data.reRunAllTransform();
-      this._data.setFields(getStandardDataFields(this._data.latestData));
     }
     this._onDataUpdateCall?.(this._data);
   }

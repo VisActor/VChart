@@ -177,6 +177,7 @@ export class SpecProcess implements ISpecProcess {
       );
     }
     if (attr.modelSpec) {
+      hasChange = true;
       attr.modelSpec.forEach(mSpec => {
         this.mergeModelEditorSpec(mSpec, mSpec.spec);
       });

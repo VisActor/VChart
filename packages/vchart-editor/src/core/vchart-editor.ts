@@ -232,4 +232,26 @@ export class VChartEditor {
       l.resizeLayer(width, height, posX, posY, scale);
     });
   }
+
+  reLayoutToCenter() {
+    const b = new Bounds();
+    if (this._layers.length === 0) {
+      return;
+    }
+    this._needResize = false;
+    this._layers.forEach(l => {
+      b.union(l.getAABBBounds());
+    });
+    const contentWidth = b.width();
+    const contentHeight = b.height();
+    if (contentWidth === 0 || contentWidth === Infinity || contentHeight === 0 || contentHeight === Infinity) {
+      return;
+    }
+
+    const offsetX = (this._width - contentWidth) * 0.5 - b.x1;
+    const offsetY = (this._height - contentHeight) * 0.5 - b.y1;
+    this._layers.forEach(l => {
+      l.reLayoutWithOffset(offsetX, offsetY);
+    });
+  }
 }

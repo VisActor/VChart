@@ -42,22 +42,22 @@ export class MarkAreaEditor extends BaseEditorElement {
     vchart.on('pointerdown', { level: 'model', type: 'markArea', consume: true }, this._onDown);
   }
 
-  private _checkEventEnable(e: any) {
+  private _checkEventEnable(e: EventParams) {
     const markerComponent = e.model.getVRenderComponents()[0];
     return (
       markerComponent?.name === MarkerTypeEnum.horizontalArea || markerComponent?.name === MarkerTypeEnum.verticalArea
     );
   }
 
-  private _onHover = (e: any) => {
+  private _onHover = (e: EventParams) => {
     if (!this._checkEventEnable(e)) {
       return;
     }
     const el = this._getEditorElement(e);
-    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
+    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
   };
 
-  private _onDown = (e: any) => {
+  private _onDown = (e: EventParams) => {
     if (!this._checkEventEnable(e)) {
       return;
     }

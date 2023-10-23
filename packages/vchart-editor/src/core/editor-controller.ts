@@ -4,6 +4,9 @@ import type { IEditorElement, EditorHandlerFunc, IEditorLayer, IEditorController
 
 export class EditorController implements IEditorController {
   protected _currentEditorElements: IEditorElement = null;
+  get currentEditorElement() {
+    return this._currentEditorElements;
+  }
   protected _currentOverGraphic: IGraphic = null;
   protected _currentOverGraphicId: string | number = null;
 

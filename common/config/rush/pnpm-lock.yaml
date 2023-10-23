@@ -387,12 +387,18 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
+      '@types/uuid': 8.3.4
       '@visactor/vchart': workspace:1.5.1-alpha.0
       '@visactor/vdataset': ~0.16.4
       '@visactor/vrender-components': ~0.16.2
       '@visactor/vrender-core': ~0.16.2
       '@visactor/vrender-kits': ~0.16.2
       '@visactor/vutils': ~0.16.4
+      d3-array: ^1.2.4
+      d3-dsv: ^3.0.1
+      d3-geo: ^1.12.1
+      d3-hexbin: ^0.2.2
+      d3-hierarchy: ^3.1.1
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -425,6 +431,12 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 20.8.6
       '@types/offscreencanvas': 2019.6.4
+      '@types/uuid': 8.3.4
+      d3-array: 1.2.4
+      d3-dsv: 3.0.1
+      d3-geo: 1.12.1
+      d3-hexbin: 0.2.2
+      d3-hierarchy: 3.1.2
       eslint: 8.18.0
       husky: 7.0.4
       jest: 26.6.3_ts-node@10.9.0
@@ -4558,6 +4570,10 @@ packages:
 
   /@types/unist/2.0.8:
     resolution: {integrity: sha512-d0XxK3YTObnWVp6rZuev3c49+j4Lo8g4L1ZRm9z5L0xpoZycUPshHgczK5gsUMaZOstjVYYi09p5gYvUtfChYw==}
+    dev: true
+
+  /@types/uuid/8.3.4:
+    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
     dev: true
 
   /@types/vinyl-fs/3.0.3:

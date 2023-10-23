@@ -3,7 +3,7 @@ import type { ILayoutRect } from './../layout/interface';
 import type { IChartModel, ILayoutItem } from './../interface';
 import type { IRect } from './../../../typings/space';
 import type { IPoint } from '../../../typings/space';
-import type { VChart } from '@visactor/vchart';
+import type { IVChart } from '@visactor/vchart';
 import { isModelMatchModelInfo } from '../../../utils/spec';
 
 export function transformModelPos(i: IChartModel, pos: IPoint) {
@@ -72,15 +72,16 @@ export function getAxisLayoutInRegionRect(axis: ILayoutItem, rect: IRect): ILayo
     };
   }
   const axisRect = axis.getLayoutRect();
+  const axisPos = axis.getLayoutStartPoint();
   return {
-    x: { offset: axisRect.x },
-    y: { offset: axisRect.y },
+    x: { offset: axisPos.x },
+    y: { offset: axisPos.y },
     width: { offset: axisRect.width },
     height: { offset: axisRect.height }
   };
 }
 
-export function getChartModelWithModelInfo(vchart: VChart, info: IModelInfo) {
+export function getChartModelWithModelInfo(vchart: IVChart, info: IModelInfo) {
   if (info.specKey === 'series') {
     return vchart
       .getChart()
@@ -100,6 +101,13 @@ export function getChartModelWithModelInfo(vchart: VChart, info: IModelInfo) {
 }
 
 export const IgnoreModelTypeInLayout = {
+  tooltip: true,
+  label: true,
+  layout: true,
+  markLine: true
+};
+
+export const IgnoreModelTypeInCommon = {
   tooltip: true,
   label: true,
   layout: true,

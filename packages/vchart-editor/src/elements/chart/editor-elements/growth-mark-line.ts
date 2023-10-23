@@ -45,7 +45,7 @@ export class GrowthMarkLineEditor extends BaseEditorElement {
   }
 
   private _checkEventEnable(e: EventParams) {
-    const markerComponent = (e.model as unknown as IComponent).getVRenderComponents()[0];
+    const markerComponent = (<MarkLine>e.model).getVRenderComponents()[0];
     return (
       markerComponent?.name === MarkerTypeEnum.growthLine || markerComponent?.name === MarkerTypeEnum.totalDiffLine
     );
@@ -56,20 +56,20 @@ export class GrowthMarkLineEditor extends BaseEditorElement {
       return;
     }
     const el = this._getEditorElement(e);
-    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
+    this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
   };
 
-  private _onDown = (e: any) => {
+  private _onDown = (e: EventParams) => {
     if (!this._checkEventEnable(e)) {
       return;
     }
-    this._element = e.model.getVRenderComponents()[0] as MarkLineComponent;
-    this._model = e.model;
+    this._element = (<MarkLine>e.model).getVRenderComponents()[0] as unknown as MarkLineComponent;
+    this._model = <MarkLine>e.model;
     this._selected = true;
 
     const el = this._getEditorElement(e);
     if (e) {
-      this.startEditor(el, e);
+      this.startEditor(el, e.event as PointerEvent);
     }
   };
 

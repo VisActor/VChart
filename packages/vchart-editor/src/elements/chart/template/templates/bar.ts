@@ -154,22 +154,25 @@ export class BarTemp extends BaseTemp {
   }
   getSpec(data: StandardData, info: DataInfo, opt?: any) {
     const tempSpec = cloneDeep(spec);
-    // tempSpec.data = [data];
-    // const xField: string[] = [];
-    // const yField: string[] = [];
-    // Object.keys(info).forEach(key => {
-    //   if (info[key].type === 'linear') {
-    //     yField.length === 0 && yField.push(key);
-    //   } else if (info[key].type === 'ordinal') {
-    //     xField.push(key);
-    //   }
-    // });
-    // if (xField.length === 0 || yField.length === 0) {
-    //   return null;
-    // }
-    // tempSpec.series[0].xField = xField;
-    // tempSpec.series[0].yField = yField;
-    // tempSpec.series[0].dataId = data.name;
+    tempSpec.data = [data];
+    const xField: string[] = [];
+    const yField: string[] = [];
+    // 当前模版已经是堆积条形图 所以x是连续轴，y是离散轴
+    // 模版需要根据自己的特性，调整数据维度与图表配置的映射关系
+    Object.keys(info).forEach(key => {
+      if (info[key].type === 'linear') {
+        xField.length === 0 && xField.push(key);
+      } else if (info[key].type === 'ordinal' && yField.length === 0) {
+        yField.push(key);
+      }
+    });
+    if (xField.length === 0 || yField.length === 0) {
+      return null;
+    }
+
+    tempSpec.series[0].xField = xField;
+    tempSpec.series[0].yField = yField;
+    tempSpec.series[0].dataId = data.name;
     return tempSpec;
   }
 }
