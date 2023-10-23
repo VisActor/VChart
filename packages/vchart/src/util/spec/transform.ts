@@ -1,4 +1,5 @@
-import { isArray } from '@visactor/vutils';
+import { isArray, isString } from '@visactor/vutils';
+import { default as VChart } from '../../../src/index';
 
 // todo 以目前的场景来看，并没有递归的需要。
 // 考虑到不确定性，还是递归处理spec对象，时间消耗很少
@@ -21,6 +22,11 @@ export function specTransform(
         // todo 特殊处理怎样更合理?
         if (special[key]) {
           result[key] = special[key](spec[key]);
+          continue;
+        }
+        // 如果使用了注册函数
+        if (isString(spec[key]) && VChart.getExpressionFunctionList()?.includes(spec[key])) {
+          result[key] = VChart.getExpressionFunction(spec[key]);
           continue;
         }
         result[key] = specTransform(spec[key], special);

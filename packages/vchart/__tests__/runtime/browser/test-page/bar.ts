@@ -31,6 +31,14 @@ const run = () => {
   dataView.parse(data, {
     type: 'csv'
   });
+
+  function labelFormat(key: string) {
+    return key + 'test';
+  }
+
+  // // 全局注册函数
+  // VChart.expressionFunction('labelFormat', labelFormat);
+
   const spec = {
     type: 'bar',
     xField: ['230907111524013', '10001'],
@@ -330,7 +338,7 @@ const run = () => {
       }
     ],
     label: {
-      visible: false,
+      visible: true,
       overlap: {
         hideOnHit: true,
         clampForce: true
@@ -345,7 +353,8 @@ const run = () => {
       smartInvert: {
         fillStrategy: 'invertBase',
         strokeStrategy: 'similarBase'
-      }
+      },
+      formatMethod: 'labelFormat'
     },
     tooltip: {
       handler: {}
@@ -388,10 +397,25 @@ const run = () => {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
+
+  // 实例注册函数
+  cs.registerFunction('labelFormat', labelFormat);
+
   console.time('renderTime');
   cs.renderAsync().then(() => {
     console.timeEnd('renderTime');
   });
+
+  console.log('注册实例函数', cs.getFunction('labelFormat'));
+  console.log('获取实例函数列表', cs.getFunctionList());
+  cs.removeFunction('labelFormat');
+  console.log('移除实例函数', cs.getFunction('labelFormat'));
+
+  // console.log('注册全局函数', VChart.getExpressionFunction('labelFormat'));
+  // console.log('获取全局函数列表', VChart.getExpressionFunctionList());
+  // VChart.removeExpressionFunction('labelFormat');
+  // console.log('移除全局函数', VChart.getExpressionFunction('labelFormat'));
+
   window['vchart'] = cs;
   console.log(cs);
 };

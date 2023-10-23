@@ -23,6 +23,7 @@ import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart } from '../chart/interface';
+import type { ExpressionFunction } from '../core/expression-function';
 
 export type ILayoutNumber = number | IPercent | ((layoutRect: ILayoutRect) => number) | IPercentOffset;
 
@@ -306,6 +307,7 @@ export interface IModelOption extends ICompilableInitOption {
   globalInstance: VChart;
   specIndex?: number;
   specKey?: string;
+  exprFunc?: ExpressionFunction;
 
   getTheme?: () => ITheme;
 

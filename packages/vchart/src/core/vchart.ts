@@ -96,6 +96,7 @@ import { GroupMark } from '../mark';
 import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
+import { ExpressionFunction } from './expression-function';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -159,6 +160,45 @@ export class VChart implements IVChart {
   }
 
   /**
+   * 注册函数（全局注册）
+   * @param key 函数名称
+   * @param fun 函数内容
+   */
+  static expressionFunction(key: string, fun: Function) {
+    if (!key || !fun) {
+      return;
+    }
+    ExpressionFunction.instance().registerFunction(key, fun);
+  }
+
+  /**
+   * 注销函数（全局注销）
+   * @param key 函数名称
+   */
+  static removeExpressionFunction(key: string) {
+    if (!key) {
+      return;
+    }
+    ExpressionFunction.instance().removeFunction(key);
+  }
+
+  /**
+   * 获取函数（全局获取）
+   * @param key 函数名称
+   */
+  static getExpressionFunction(key: string): Function | null {
+    if (!key) {
+      return null;
+    }
+    return ExpressionFunction.instance().getFunction(key);
+  }
+
+  // 获取函数列表（全局获取）
+  static getExpressionFunctionList(): string[] | null {
+    return ExpressionFunction.instance().getFunctionNameList();
+  }
+
+  /**
    * 注册地图数据
    * @param key 地图名称
    * @param source 地图数据
@@ -205,6 +245,9 @@ export class VChart implements IVChart {
   /** 主题管理器 */
   static readonly ThemeManager = ThemeManager;
 
+  /** 图表函数管理器 */
+  static exprFunc: ExpressionFunction = ExpressionFunction.instance(); // 自定义format函数
+
   /** 全局配置 */
   static globalConfig: IGlobalConfig = {
     uniqueTooltip: true
@@ -226,6 +269,7 @@ export class VChart implements IVChart {
   }[] = [];
   private _eventDispatcher: Maybe<IEventDispatcher>;
   private _dataSet!: Maybe<DataSet>;
+  private _exprFunc: ExpressionFunction = ExpressionFunction.instance(); // 自定义format函数
   getDataSet() {
     return this._dataSet;
   }
@@ -347,7 +391,9 @@ export class VChart implements IVChart {
       animation: this._option.animation,
       getTheme: () => this._currentTheme,
       layout: this._option.layout,
-      onError: this._onError
+      onError: this._onError,
+      exprFunc: this._exprFunc,
+      getFunctionName: this.getFunctionName
     });
     if (!chart) {
       this._option?.onError('init chart fail');
@@ -1134,6 +1180,18 @@ export class VChart implements IVChart {
   }
 
   /**
+   * 获取实例函数名
+   * @param originName
+   * @returns
+   */
+  getFunctionName(originName: string): string {
+    if (VChart.functionCache.includes(originName)) {
+      return `${originName}_${this.id}`;
+    }
+    return originName;
+  }
+
+  /**
    * **异步方法**， 设置当前主题。
    * **注意，如果在 spec 上配置了 theme，则 spec 上的 theme 优先级更高。**
    * @param name 主题名称
@@ -1598,6 +1656,35 @@ export class VChart implements IVChart {
       series.getLayoutStartPoint(),
       isRelativeToCanvas
     );
+  }
+
+  static functionCache: string[] = []; // 注册函数名缓存
+
+  // 获取实例函数
+  getFunction(name: string): Function | null {
+    return VChart.exprFunc.getFunction(this.getFunctionName(name));
+  }
+
+  // 注册实例函数（对内包装一层，区分名字，避免重名问题）
+  registerFunction(name: string, fun: Function) {
+    if (!name || !fun) {
+      return;
+    }
+    VChart.functionCache.push(name);
+    VChart.exprFunc.registerFunction(this.getFunctionName(name), fun);
+  }
+
+  // 移除实例函数
+  removeFunction(name: string) {
+    const index = VChart.functionCache.findIndex(n => n === name);
+    if (index >= 0) {
+      VChart.exprFunc.removeFunction(this.getFunctionName(name));
+      VChart.functionCache.splice(index, 1);
+    }
+  }
+
+  getFunctionList() {
+    return VChart.functionCache;
   }
 }
 
