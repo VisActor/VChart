@@ -373,7 +373,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     const evaluated = this._projection.evaluate(start, size, this.collectFeatures());
     let translate = evaluated.translate();
     const scale = evaluated.scale() * (this._projectionSpec.zoom ?? 1);
-    const center = this._projectionSpec.center;
+    const center = this._projectionSpec.center ?? evaluated.invert([size[0] / 2, size[1] / 2]);
     center && (translate = [size[0] / 2, size[1] / 2]);
     return { translate, scale, center };
   }
