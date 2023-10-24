@@ -1087,7 +1087,8 @@ export class VChart implements IVChart {
     setPoptipTheme(
       preprocessSpecOrTheme(
         'mark-theme',
-        mergeThemeAndGet('component.poptip', this._currentThemeName, optionTheme, specTheme, colorScheme)
+        mergeThemeAndGet('component.poptip', this._currentThemeName, optionTheme, specTheme, colorScheme),
+        colorScheme
       )
     );
     // 设置背景色
