@@ -154,12 +154,12 @@ describe('Bar chart test', () => {
     const barSeries = barChart.getAllSeries()[0];
     const scatterSeries = scatterChart.getAllSeries()[0];
 
-    expect(barSeries.getMarksInType('rect')[0].getMorphKey()).toEqual(
+    expect(barSeries.getMarksInType('rect')[1].getMorphKey()).toEqual(
       scatterSeries.getMarksInType('symbol')[0].getMorphKey()
     );
 
-    expect(barSeries.getMarksInType('rect')[0].getMorphElementKey()).toBe('name');
-    expect(barSeries.getMarksInType('rect')[0].getMorphElementKey()).toEqual(
+    expect(barSeries.getMarksInType('rect')[1].getMorphElementKey()).toBe('name');
+    expect(barSeries.getMarksInType('rect')[1].getMorphElementKey()).toEqual(
       scatterSeries.getMarksInType('symbol')[0].getMorphElementKey()
     );
   });

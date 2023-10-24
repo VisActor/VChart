@@ -2,7 +2,7 @@ import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { BarSeries } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
 import { HistogramChart } from '../../../src';
-import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
+import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
@@ -89,7 +89,7 @@ describe('histogram chart test', () => {
     });
 
     // mark
-    expect(series.getMarks().length).toEqual(2);
+    expect(series.getMarks().length).toEqual(3);
 
     expect(chart.getRegionsInIndex().length).toEqual(1);
     expect(series.getRegion().id).toEqual(chart.getRegionsInIndex()[0].id);
