@@ -2,10 +2,10 @@ import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from '../base-editor-element';
 import type { EventParams } from '@visactor/vchart';
-import type { IModel } from '@visactor/vchart';
+import type { IComponent } from '@visactor/vchart';
 import { MarkerTypeEnum } from '../../interface';
 
-export abstract class BaseMarkerEditor<T extends IModel, D> extends BaseEditorElement {
+export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEditorElement {
   readonly type: string = 'marker';
 
   protected _model: T; // vchart 组件模型实例
@@ -33,6 +33,10 @@ export abstract class BaseMarkerEditor<T extends IModel, D> extends BaseEditorEl
     if (!this._checkEventEnable(e)) {
       return;
     }
+    this._element = (<T>e.model).getVRenderComponents()[0] as unknown as D;
+    this._model = e.model as T;
+    this._modelId = e.model.userId;
+
     const el = this._getEditorElement(e);
     this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
     this._modelId = el.model.userId;
@@ -51,9 +55,16 @@ export abstract class BaseMarkerEditor<T extends IModel, D> extends BaseEditorEl
 
   protected _getEditorElement(eventParams: EventParams): IEditorElement {
     const model = eventParams.model;
+    const markerBounds = (this._element as unknown as IGroup).AABBBounds;
     const element: IEditorElement = new CommonChartEditorElement(this, {
       model,
-      id: this._chart.vchart.id + '-' + this.type + '-' + model.id
+      id: this._chart.vchart.id + '-' + this.type + '-' + model.id,
+      rect: {
+        x: markerBounds.x1,
+        y: markerBounds.y1,
+        width: markerBounds.width(),
+        height: markerBounds.height()
+      }
     });
     return element;
   }
