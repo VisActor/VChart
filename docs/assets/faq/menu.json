@@ -2,6 +2,48 @@
   "menu": "api",
   "children": [
     {
+      "path": "48-How to define the mapping relationship of the axes for the combination of line chart and stacked column chart",
+      "title": {
+        "zh": "48.线图和堆积柱状图组合，如何定义轴的映射关系？",
+        "en": "48.How to define the mapping relationship of the axes for the combination of line chart and stacked column chart?"
+      }
+    },
+    {
+      "path": "50-How to configure the default selection effect of the legend component",
+      "title": {
+        "zh": "50.图例组件如何配置默认选中效果？",
+        "en": "50.How to configure the default selection effect of the legend component?"
+      }
+    },
+    {
+      "path": "51-How does the legend component limit the width of the graph",
+      "title": {
+        "zh": "51.图例组件如何限制图形的宽度?",
+        "en": "51.How does the legend component limit the width of the graph?"
+      }
+    },
+    {
+      "path": "52-How to set column width in bar chart",
+      "title": {
+        "zh": "52.柱状图如何设置柱子宽度?",
+        "en": "52.How to set column width in bar chart?"
+      }
+    },
+    {
+      "path": "53-How to modify the style of the legend element when the mouse is hovering over the legend",
+      "title": {
+        "zh": "53.如何实现当鼠标悬浮于图例上时 圆形的图例扩大一圈高亮显示 并且去掉长方形的灰色的背景？",
+        "en": "53.How to realize that when the mouse hovers over the legend, the circular legend will be highlighted in a circle and the gray background of the rectangle will be removed?"
+      }
+    },
+    {
+      "path": "54-How can we still make data points respond to hover events without displaying point graphics in area chart",
+      "title": {
+        "zh": "54.面积图，如何不显示 point 图形 的情况下，仍然能让数据点响应 hover 事件？",
+        "en": "54.How can we still make data points respond to hover events without displaying point graphics in area chart?"
+      }
+    },
+    {
       "path": "56-How do I set up some lines to follow the left axis, while the others follow the right axis in a line chart",
       "title": {
         "zh": "56.折线图有多条线，如何设置右侧坐标轴，并且某条线是根据右侧坐标轴绘制的？",
