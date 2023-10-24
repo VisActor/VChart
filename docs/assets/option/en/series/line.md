@@ -97,3 +97,26 @@ Connection method for non-compliant data points. Connection methods for null, un
 - 'link' means to ignore that point and keep connecting continuously
 - 'zero' means the default value of that point is 0
 - 'ignore' means not to process
+
+#${prefix} sampling(string)
+Data Sampling - Sampling method. Supported since version `1.5.3`.
+The downsampling strategy of the line chart when the amount of data is much larger than the pixels can effectively optimize the drawing efficiency of the chart when it is turned on. It is turned off by default, that is, all data points are drawn without filtering.
+Optional values:
+- `'lttb'`: Using the Largest-Triangle-Three-Bucket algorithm, the trend, shape and extreme value of the sampled line can be guaranteed to the greatest extent.
+- `'min'`: Get the minimum value of filter points
+- `'max'`: Take the maximum value of filter points
+- `'sum'`: Take the sum of filter points
+- `'average'`: Take the average of the filtered points
+
+#${prefix} samplingFactor(number) = 1
+Data Sampling - Sampling coefficients. Supported since version `1.5.3`.
+
+#${prefix} markOverlap(boolean) = false
+Anti-overlap - Whether to allow marker graphics to overlap each other.
+
+#${prefix} pointDis(number)
+Anti-overlap - Distance between marker points, in px.
+
+#${prefix} pointDisMul(number) = 1
+Anti-overlap - distance between marker points, multiple of pointSize.
+

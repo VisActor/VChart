@@ -6,6 +6,7 @@ import type { ILineLikeSeriesTheme } from '../mixin/line-mixin';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AreaAppearPreset } from './animation';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { ISamplingMethod } from '../../typings/sampling';
 
 export interface IAreaSeriesSpec
   extends ICartesianSeriesSpec,
@@ -48,6 +49,34 @@ export interface IAreaSeriesSpec
    * @since 1.3.0
    */
   activePoint?: boolean;
+  /**
+   * 数据采样 - 采样方法
+   * @since 1.5.3
+   */
+  sampling: ISamplingMethod;
+  /**
+   * 数据采样 - 采样系数
+   * @since 1.5.3
+   * @default 1
+   */
+  samplingFactor: number;
+  /**
+   * 标记点之间的距离，px
+   * @since 1.5.3
+   */
+  pointDis?: number;
+  /**
+   * 标记点之间的距离， pointSize 的倍数
+   * @since 1.5.3
+   * @default 1
+   */
+  pointDisMul?: number;
+  /**
+   * 是否允许标记图形相互覆盖
+   * @since 1.5.3
+   * @default false
+   */
+  markOverlap?: boolean;
 }
 
 export interface IAreaSeriesTheme extends ICartesianSeriesTheme, ILineLikeSeriesTheme {
