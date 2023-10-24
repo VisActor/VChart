@@ -2,6 +2,27 @@
   "menu": "api",
   "children": [
     {
+      "path": "1-The time interval of the coordinate axis scale is given",
+      "title": {
+        "zh": "1. 坐标轴刻度的时间区间长度是给定的（一个季度），我怎么能设定比如只显示三个坐标轴刻度么？或者自适应的均匀些？",
+        "en": "1. The time interval of the coordinate axis scale is given (one quarter), how can I set it to display only three coordinate axis scales? Or make it adaptively uniform?"
+      }
+    },
+    {
+      "path": "3-How to automatically update chart data in React components",
+      "title": {
+        "zh": "3.React 组件中如何自动更新图表数据？",
+        "en": "3.How to automatically update chart data in React components?"
+      }
+    },
+    {
+      "path": "6- How to combine percentage bar and TGI chart",
+      "title": {
+        "zh": "6.如何实现百分比条形和 tgi 图的组合？",
+        "en": "6.How to combine percentage bar and TGI chart?"
+      }
+    },
+    {
       "path": "56-How do I set up some lines to follow the left axis, while the others follow the right axis in a line chart",
       "title": {
         "zh": "56.折线图有多条线，如何设置右侧坐标轴，并且某条线是根据右侧坐标轴绘制的？",
