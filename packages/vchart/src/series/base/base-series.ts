@@ -151,6 +151,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _viewDataMap: Map<number, DataView> = new Map();
 
+  // only add viewDataFilter when this._stack is true
+  protected _viewDataFilter: DataView = null;
+
+  getViewDataFilter() {
+    return this._viewDataFilter;
+  }
+
   // view data
   protected _data: SeriesData = null;
   getViewData() {
@@ -321,11 +328,22 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._addDataIndexAndKey();
     // 初始化viewData
     if (this._rawData) {
+      if (this._stack) {
+        // 初始化viewDataFilter
+        this._viewDataFilter = dataViewFromDataView(this._rawData, this._dataSet, {
+          name: `${PREFIX}_series_${this.id}_viewDataFilter`
+        });
+      }
+
       // 初始化viewData
-      const viewData = dataViewFromDataView(this._rawData, this._dataSet, {
+      const viewData = dataViewFromDataView(this._stack ? this._viewDataFilter : this._rawData, this._dataSet, {
         name: `${PREFIX}_series_${this.id}_viewData`
       });
       this._data = new SeriesData(this._option, viewData);
+
+      if (this._stack) {
+        this._viewDataFilter.target.removeListener('change', viewData.reRunAllTransform);
+      }
     }
 
     // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
@@ -491,9 +509,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   // stack
   private createdStackData(): void {
-    const dataName = this._rawData?.name ?? `${PREFIX}_series_${this.id}_viewStackData`;
+    const dataName = `${PREFIX}_series_${this.id}_viewStackData`;
     this._viewStackData = new DataView(this._dataSet);
-    this._viewStackData.parse([this.getViewData()], {
+    this._viewStackData.parse([this._viewDataFilter], {
       type: 'dataview'
     });
     this._viewStackData.name = dataName;
@@ -588,7 +606,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this.event.emit(ChartEvent.viewDataUpdate, { model: this });
     // 依据数据更新设置渲染结果
     // 初始化时会触发 viewDataUpdate，但是此时 srView 还未生成，因此实际上不会产生多余的 updateData 调用
-    this._data.updateData();
+    this._data?.updateData();
     this._viewDataStatistics && this._viewDataStatistics.reRunAllTransform();
   }
   viewDataStatisticsUpdate(d: DataView): void {
@@ -1187,11 +1205,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
    * data
    */
   addViewDataFilter(option: ITransformOptions) {
-    this.getViewData()?.transform(option, false);
+    (this._viewDataFilter ?? this.getViewData())?.transform(option, false);
   }
 
   reFilterViewData() {
-    this.getViewData()?.reRunAllTransform();
+    (this._viewDataFilter ?? this.getViewData())?.reRunAllTransform();
   }
 
   reTransformViewData() {
