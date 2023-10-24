@@ -76,6 +76,7 @@ import { array, isEqual } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
+import { animationConfig, userAnimationConfig } from '../../animation/utils';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly type: string = 'series';
@@ -682,6 +683,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (!mark) {
       return;
     }
+
+    // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
+    const dataIndex = (datum: any) => {
+      const xValue = datum?.[this._fieldX[0]];
+      const xIndex = this.getViewDataStatistics()?.latestData?.[this._fieldX[0]]?.values.indexOf(xValue);
+      // 不应该出现xIndex === -1 || undefined的情况
+      return xIndex || 0;
+    };
+    mark.setAnimationConfig(animationConfig({}, userAnimationConfig(spec.type, spec as any), { dataIndex }));
 
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;

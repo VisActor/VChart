@@ -3,9 +3,8 @@
   "version": "0.0.2-beta.7",
   "description": "The VChart editor ui component.",
   "sideEffects": false,
-  "main": "cjs/index.js",
-  "module": "es/index.js",
-  "types": "es/index.d.ts",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
   "files": [
     "cjs",
     "es",
