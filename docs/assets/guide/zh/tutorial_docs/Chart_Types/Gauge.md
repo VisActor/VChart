@@ -110,7 +110,6 @@ const formatDate = date => {
 const dateString = formatDate(new Date());
 
 const pointerAnimate = {
-  channels: ['angle'],
   custom: (ratio, from, to, nextAttributes) => {
     if ((!from.angle && from.angle !== 0) || (!to.angle && to.angle !== 0)) {
       return;
@@ -246,7 +245,7 @@ const spec = {
       animationAppear: false,
       animationUpdate: {
         segment: {
-          channels: ['fillOpacity'],
+          channel: ['fillOpacity'],
           duration: 1000,
           easing: 'easeInOut'
         }
