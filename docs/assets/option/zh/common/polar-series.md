@@ -3,15 +3,16 @@
 <!-- IPolarSeriesSpec -->
 
 {{ use: common-series(
-  prefix = ${prefix},
-  noType = ${noType},
-  noData = ${noData},
-  seriesType = ${seriesType},
-  noMorph = ${noMorph},
-  useInChart = ${useInChart},
-  noPreset = ${noPreset},
-  preset = ${preset},
-  defaultPreset = ${defaultPreset}
+prefix = ${prefix},
+noType = ${noType},
+noData = ${noData},
+seriesType = ${seriesType},
+noMorph = ${noMorph},
+useInChart = ${useInChart},
+noPreset = ${noPreset},
+preset = ${preset},
+defaultPreset = ${defaultPreset},
+seriesMarks = ${seriesMarks},
 ) }}
 
 {{ if: !${noCategoryField} }}

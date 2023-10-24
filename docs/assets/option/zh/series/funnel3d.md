@@ -5,6 +5,7 @@
   noType = ${noType},
   noData = ${noData},
   seriesType = 'funnel',
+  seriesMarks = ['funnel'],
   noMorph = ${noMorph},
   noStack = ${noStack},
   useInChart = ${useInChart},

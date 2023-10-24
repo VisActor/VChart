@@ -5,6 +5,7 @@
   noType = ${noType},
   noData = ${noData},
   seriesType = 'map',
+  seriesMarks = ['area'],
   noMorph = ${noMorph},
   noStack = ${noStack},
   useInChart = ${useInChart}

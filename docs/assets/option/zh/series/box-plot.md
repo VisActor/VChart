@@ -13,6 +13,7 @@
   noInvalidType = true,
   useInChart = ${useInChart},
   seriesType = 'boxPlot',
+  seriesMarks = ['boxPlot', 'symbol'],
   noPreset = true
 ) }}
 
@@ -22,15 +23,15 @@
 
 #${prefix} q1Field(string)
 
-箱型图Q1（下四分位数，又称“较小四分位数”，等于该样本中所有数值由小到大排列后第25%的数字）字段。q1Field与q3Field同时为空，则不绘制箱体。
+箱型图 Q1（下四分位数，又称“较小四分位数”，等于该样本中所有数值由小到大排列后第 25%的数字）字段。q1Field 与 q3Field 同时为空，则不绘制箱体。
 
 #${prefix} medianField(string)
 
-箱型图Q2（中位数，等于该样本中所有数值由小到大排列后第50%的数字）字段。为空则不绘制箱体上的中位数标记。
+箱型图 Q2（中位数，等于该样本中所有数值由小到大排列后第 50%的数字）字段。为空则不绘制箱体上的中位数标记。
 
 #${prefix} q3Field(string)
 
-箱型图Q3（上四分位数，又称“较大四分位数”，等于该样本中所有数值由小到大排列后第75%的数字）字段。q1Field与q3Field同时为空，则不绘制箱体。
+箱型图 Q3（上四分位数，又称“较大四分位数”，等于该样本中所有数值由小到大排列后第 75%的数字）字段。q1Field 与 q3Field 同时为空，则不绘制箱体。
 
 #${prefix} maxField(string)
 
@@ -66,4 +67,3 @@ boxPlot 图元样式配置。
 
 ##${prefix} size(number) = 10
 异常点大小。
-

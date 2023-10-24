@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'bar',
+  seriesMarks = ['bar'],
   preset = 'grow' + '|' + 'fadeIn' + '|' + 'scaleIn',
   defaultPreset = 'grow'
 ) }}

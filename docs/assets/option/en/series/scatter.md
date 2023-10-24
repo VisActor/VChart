@@ -5,6 +5,7 @@
   noType = ${noType},
   noData = ${noData},
   seriesType = 'scatter',
+  seriesMarks = ['point'],
   noMorph = ${noMorph},
   noStack = ${noStack},
   useInChart = ${useInChart},

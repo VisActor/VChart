@@ -13,6 +13,7 @@
   noInvalidType = true,
   useInChart = ${useInChart},
   seriesType = 'boxPlot',
+  seriesMarks = ['boxPlot', 'symbol'],
   noPreset = true
 ) }}
 
