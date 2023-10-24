@@ -1129,11 +1129,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         }
 
         const selectedDatum = originalDatum
-          ? originalDatum.filter(
-              (entry: any) =>
-                entry.parents.map(item => item.key).includes(curLinkDatum.source) &&
-                entry.parents.map(item => item.key).includes(curLinkDatum.target)
-            )
+          ? originalDatum.filter((entry: any) => {
+              const parentKeysList = entry.parents.map((item: any) => item.key);
+              return parentKeysList.includes(curLinkDatum.source) && parentKeysList.includes(curLinkDatum.target);
+            })
           : null;
 
         if (selectedDatum && selectedDatum.length) {
