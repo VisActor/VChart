@@ -7,6 +7,7 @@ import type { ICircularProgressSeriesSpec } from '../../series/progress/circular
 import { ChartTypeEnum } from '../interface';
 import { ProgressLikeChart } from '../polar/progress-like';
 import { Factory } from '../../core/factory';
+import { LayoutZIndex } from '../../constant';
 
 export class GaugeChart extends ProgressLikeChart {
   static readonly type: string = ChartTypeEnum.gauge;
@@ -49,6 +50,9 @@ export class GaugeChart extends ProgressLikeChart {
         if (isNil(backgroundSeries.radiusField) && isNil(backgroundSeries.categoryField)) {
           backgroundSeries.radiusField = spec.radiusField ?? spec.categoryField ?? spec.seriesField;
         }
+        if (isNil(backgroundSeries.valueField) && isNil(backgroundSeries.angleField)) {
+          backgroundSeries.valueField = spec.valueField ?? spec.angleField;
+        }
       }
 
       if (spec.series.length === 1) {
@@ -83,6 +87,9 @@ export class GaugeChart extends ProgressLikeChart {
         {
           orient: 'radius',
           visible: false
+        },
+        {
+          zIndex: LayoutZIndex.Region + 50 // 仪表图特例：轴在 region 上层
         }
       );
     } else {
@@ -128,6 +135,9 @@ export class GaugeChart extends ProgressLikeChart {
     }
     if (isNil(axesPtr.radius.type)) {
       axesPtr.radius.type = 'linear';
+    }
+    if (isNil(axesPtr.angle.zIndex)) {
+      axesPtr.angle.zIndex = LayoutZIndex.Region + 50; // 仪表图特例：轴在 region 上层
     }
   }
 }

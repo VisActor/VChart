@@ -19,6 +19,6 @@ export const axisAngle: IPolarAxisCommonTheme = {
     }
   },
   label: {
-    space: 8
+    space: 5
   }
 };

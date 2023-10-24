@@ -43,9 +43,9 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 
   static readonly mark: SeriesMarkMap = waterfallSeriesMark;
 
-  protected declare _theme: Maybe<IWaterfallSeriesTheme>;
+  protected _stack: boolean = false;
 
-  protected _stack: boolean = true;
+  protected declare _theme: Maybe<IWaterfallSeriesTheme>;
 
   protected _totalData?: SeriesData;
   getTotalData() {
@@ -68,7 +68,8 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
-    this._stack = false;
+    // waterfall data stack data
+    this.setValueFieldToStack();
     // 不支持多维度;
     this._fieldX = [this._fieldX[0]];
     this._fieldY = [this._fieldY[0]];

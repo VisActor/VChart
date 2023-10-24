@@ -300,6 +300,13 @@ export interface IVChart {
   exportImg: (name?: string) => Promise<void>;
 
   /**
+   * 导出绘制了图表内容的 canvas
+   * @returns HTMLCanvasElement
+   * @since 1.5.2
+   */
+  exportCanvas: () => HTMLCanvasElement | undefined;
+
+  /**
    * 目前仅支持 node 环境，用于 node 端的图片导出
    * @returns
    */

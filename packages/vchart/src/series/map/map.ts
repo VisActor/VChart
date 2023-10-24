@@ -174,7 +174,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._labelMark = labelMark;
     this.setMarkStyle(labelMark, {
       text: (datum: Datum) => {
-        const text = this._getDatumName(datum);
+        const text = this.getDatumName(datum);
         return text;
       },
       x: (datum: Datum) => this.dataToPosition(datum)?.x,
@@ -291,7 +291,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     return [Number.NaN, Number.NaN];
   }
 
-  protected _getDatumName(datum: any): string {
+  getDatumName(datum: any): string {
     if (datum[this.nameField]) {
       return datum[this.nameField];
     }

@@ -102,6 +102,16 @@ export interface IPie3dSeriesTheme extends IPolarSeriesTheme {
   [SeriesMarkNameEnum.pie3d]?: Partial<IMarkTheme<IArc3dMarkSpec>>;
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: IArcLabelSpec;
+  /**
+   * 内标签配置
+   * @since 1.5.1
+   */
+  innerLabel?: IArcLabelSpec;
+  /**
+   * 外标签配置
+   * @since 1.5.1
+   */
+  outerLabel?: IArcLabelSpec;
 }
 
 export interface IArcLabelLineSpec extends IMarkSpec<ILineMarkSpec> {

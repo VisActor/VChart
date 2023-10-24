@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix: fix the issue that the map tooltip title does not display the name from nameMap, see #1260",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
