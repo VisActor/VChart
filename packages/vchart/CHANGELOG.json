@@ -2,6 +2,33 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.5.2",
+      "tag": "@visactor/vchart_v1.5.2",
+      "date": "Tue, 24 Oct 2023 01:48:10 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support the exportCanvas api of vchart\n\n"
+          },
+          {
+            "comment": "fix: new layout method for circle axis label, related #1123"
+          },
+          {
+            "comment": "fix: change default zIndex of axis in gauge chart, related #1122"
+          },
+          {
+            "comment": "fix(datazoom): datazoom location error when resize. fix #520"
+          },
+          {
+            "comment": "fix: fix the issue in markline as min/max aggr result is not correct, see #1261"
+          },
+          {
+            "comment": "fix: fix: fix the issue that the map tooltip title does not display the name from nameMap, see #1260"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.5.1",
       "tag": "@visactor/vchart_v1.5.1",
       "date": "Fri, 20 Oct 2023 07:22:00 GMT",
