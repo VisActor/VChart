@@ -22,6 +22,62 @@
         "en": "6.How to combine percentage bar and TGI chart?"
       }
     },
+     {
+      "path": "7-Can we add a horizontal line for the average value to the data",
+      "title": {
+        "zh": "7.能否给数据添加平均值横线？",
+        "en": "7.Can we add a horizontal line for the average value to the data?"
+      }
+    },
+    {
+      "path": "8-When listening to events at the Chart level, is it possible to get the type of element that was clicked via the event parameter, similar to the target parameter in dom",
+      "title": {
+        "zh": "8.在Chart 层面监听事件，是否可以通过event 参数获取具体点击的元素类型，类似于dom 的 target 参数？",
+        "en": "8.When listening to events at the Chart level, is it possible to get the type of element that was clicked via the event parameter, similar to the target parameter in dom?"
+      }
+    },
+    {
+      "path": "9-How to set the color and transparency of individual words inside the word cloud based on their values",
+      "title": {
+        "zh": "9.如何根据数值设定词云里面单个词语的颜色和透明度？",
+        "en": "9.How to set the color and transparency of individual words inside the word cloud based on their values?"
+      }
+    },
+    {
+      "path": "10-How to customize the font size of words in Word Cloud Chart",
+      "title": {
+        "zh": "10.词云图中如何自定义词语的字体大小？",
+        "en": "10.How to customize the font size of words in Word Cloud Chart?"
+      }
+    },
+    {
+      "path": "11-How do I set the scrollbars for the common chart",
+      "title": {
+        "zh": "11.组合图滚动条如何设置？",
+        "en": "11.How do I set the scrollbars for the common chart?"
+      }
+    },
+    {
+      "path": "12-How to configure horizontal scrollbars when there is too much data in a bar chart in an applet",
+      "title": {
+        "zh": "12.在小程序中，柱图数据过多时，如何配置横向滚动条？",
+        "en": "12.How to configure horizontal scrollbars when there is too much data in a bar chart in an applet?"
+      }
+    },
+    {
+      "path": "13-How do I configure the default scroll position for chart scrollbars",
+      "title": {
+        "zh": "13.图表滚动条如何配置默认滚动的位置？",
+        "en": "13.How do I configure the default scroll position for chart scrollbars?"
+      }
+    },
+    {
+      "path": "14-How does the label of the auxiliary line automatically change lines",
+      "title": {
+        "zh": "14.辅助线的label如何自动换行？",
+        "en": "14.How does the label of the auxiliary line automatically change lines?"
+      }
+    },
     {
       "path": "40-How to customize Tooltip in dual axis chart",
       "title": {
