@@ -1,4 +1,4 @@
-import type { IAreaSeriesSpec } from '../area/interface';
+import type { IAreaSeriesSpec, IAreaSeriesTheme } from '../area/interface';
 export interface IRangeAreaSeriesSpec extends Omit<IAreaSeriesSpec, 'type'> {
   /**
    * 系列类型
@@ -13,3 +13,5 @@ export interface IRangeAreaSeriesSpec extends Omit<IAreaSeriesSpec, 'type'> {
   /* 区间最大值字段 */
   maxField?: string;
 }
+
+export type IRangeAreaSeriesTheme = IAreaSeriesTheme;

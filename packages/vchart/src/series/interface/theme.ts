@@ -48,6 +48,8 @@ import { rangeColumnSeriesMark } from '../range-column/constant';
 import { circlePackingSeriesMark } from '../circle-packing/constant';
 import { heatmapSeriesMark } from '../heatmap/constant';
 import { correlationSeriesMark } from '../correlation/constant';
+import { rangeAreaSeriesMark } from '../range-area/constant';
+import type { IRangeAreaSeriesTheme } from '../range-area/interface';
 
 export interface ISeriesTheme {
   [SeriesTypeEnum.bar]?: IBarSeriesTheme;
@@ -79,6 +81,7 @@ export interface ISeriesTheme {
   [SeriesTypeEnum.circlePacking]?: ICirclePackingSeriesTheme;
   [SeriesTypeEnum.heatmap]?: IHeatmapSeriesTheme;
   [SeriesTypeEnum.correlation]?: ICorrelationSeriesTheme;
+  [SeriesTypeEnum.rangeArea]?: IRangeAreaSeriesTheme;
 }
 
 export const seriesMarkInfoMap: Record<keyof ISeriesTheme, SeriesMarkMap> = {
@@ -110,5 +113,6 @@ export const seriesMarkInfoMap: Record<keyof ISeriesTheme, SeriesMarkMap> = {
   [SeriesTypeEnum.rangeColumn]: rangeColumnSeriesMark,
   [SeriesTypeEnum.circlePacking]: circlePackingSeriesMark,
   [SeriesTypeEnum.heatmap]: heatmapSeriesMark,
-  [SeriesTypeEnum.correlation]: correlationSeriesMark
+  [SeriesTypeEnum.correlation]: correlationSeriesMark,
+  [SeriesTypeEnum.rangeArea]: rangeAreaSeriesMark
 };
