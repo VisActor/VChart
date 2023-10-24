@@ -4,12 +4,12 @@
   "description": "The VChart editor component.",
   "sideEffects": true,
   "main": "cjs/index.js",
-  "module": "es/index.js",
-  "types": "es/index.d.ts",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
   "files": [
     "cjs",
-    "es",
-    "dist"
+    "esm",
+    "build"
   ],
   "scripts": {
     "compile": "tsc --noEmit",
