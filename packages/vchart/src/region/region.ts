@@ -280,13 +280,17 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
   }
 
   initSeriesDataflow() {
-    const viewDataFilters = this._series.map(s => s.getViewData()).filter(v => !!v);
+    const viewDataFilters = this._series.map(s => s.getViewDataFilter() ?? s.getViewData()).filter(v => !!v);
     this._option.dataSet.multipleDataViewAddListener(viewDataFilters, 'change', this.seriesDataFilterOver);
   }
 
   seriesDataFilterOver = () => {
     this.event.emit(ChartEvent.regionSeriesDataFilterOver, { model: this });
-    // this._series.forEach(s => s.reTransformViewData());
+    this._series.forEach(s => {
+      if (s.getViewDataFilter()) {
+        s.reTransformViewData();
+      }
+    });
   };
 
   release() {
