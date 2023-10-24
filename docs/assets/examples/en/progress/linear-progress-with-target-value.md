@@ -1,20 +1,21 @@
 ---
 category: examples
 group: progress
-title: Segmented linear progress chart
+title: Linear progress chart with target value
 keywords: linearProgress,comparison,rectangle
-order: 16-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/progress-segment-linear-progress.png
+order: 16-2
+cover: /vchart/preview/linear-progress-with-target-value_1.5.3.png
 option: linearProgressChart
 ---
 
-# Segmented linear progress chart
+# Linear progress chart with target value
 
-Segmented bar graphs can be realized with `extensionMark`.
+The `extensionMark` allows you to add the necessary text markup to the bar.
 
 ## Key configuration
 
-- `extensionMark.rule` implements segmented bars
+- `extensionMark.text` implements text markup.
+- `extensionMark.rule` Realizing the goal line
 
 ## Demo source
 
@@ -27,9 +28,21 @@ const spec = {
       values: [
         {
           type: 'Tradition Industries',
-          value: 0.85,
+          value: 0.795,
           goal: 0.7,
           text: '79.5%'
+        },
+        {
+          type: 'Business Companies',
+          value: 0.25,
+          goal: 0.9,
+          text: '25%'
+        },
+        {
+          type: 'Customer-facing Companies',
+          value: 0.065,
+          goal: 0.8,
+          text: '6.5%'
         }
       ]
     }
@@ -38,39 +51,18 @@ const spec = {
   xField: 'value',
   yField: 'type',
   seriesField: 'type',
-  height: 80,
+
   cornerRadius: 20,
-  progress: {
-    style: {
-      cornerRadius: 0
-    }
-  },
   bandWidth: 30,
   axes: [
     {
-      orient: 'right',
+      orient: 'left',
+      label: { visible: true },
       type: 'band',
       domainLine: { visible: false },
-      tick: { visible: false },
-      label: {
-        formatMethod: val => '随便写点啥',
-        style: {
-          fontSize: 16
-        }
-      }
+      tick: { visible: false }
     },
-    {
-      orient: 'bottom',
-      type: 'linear',
-      visible: true,
-      grid: {
-        visible: false
-      },
-      label: {
-        formatMethod: val => `${val * 100}%`,
-        flush: true
-      }
-    }
+    { orient: 'bottom', label: { visible: true }, type: 'linear', visible: false }
   ],
   extensionMark: [
     {
@@ -79,42 +71,36 @@ const spec = {
       visible: true,
       style: {
         x: (datum, ctx, elements, dataView) => {
-          return ctx.valueToX([1 / 3]);
+          return ctx.valueToX([datum.goal]);
         },
         y: (datum, ctx, elements, dataView) => {
           return ctx.valueToY([datum.type]) - 15;
         },
         x1: (datum, ctx, elements, dataView) => {
-          return ctx.valueToX([1 / 3]);
+          return ctx.valueToX([datum.goal]);
         },
         y1: (datum, ctx, elements, dataView) => {
           return ctx.valueToY([datum.type]) + 15;
         },
-        stroke: '#fff',
-        lineWidth: 4,
-        zIndex: 1
+        stroke: 'red',
+        lineWidth: 2
       }
     },
     {
-      type: 'rule',
+      type: 'symbol',
       dataId: 'id0',
       visible: true,
       style: {
+        symbolType: 'triangleDown',
         x: (datum, ctx, elements, dataView) => {
-          return ctx.valueToX([2 / 3]);
+          return ctx.valueToX([datum.goal]);
         },
         y: (datum, ctx, elements, dataView) => {
-          return ctx.valueToY([datum.type]) - 15;
+          return ctx.valueToY([datum.type]) - 22;
         },
-        x1: (datum, ctx, elements, dataView) => {
-          return ctx.valueToX([2 / 3]);
-        },
-        y1: (datum, ctx, elements, dataView) => {
-          return ctx.valueToY([datum.type]) + 15;
-        },
-        stroke: '#fff',
-        lineWidth: 4,
-        zIndex: 1
+        size: 20,
+        scaleY: 0.5,
+        fill: 'red'
       }
     }
   ]
