@@ -342,7 +342,7 @@ export class BaseChart extends CompilableBase implements IChart {
       }
 
       // 如果用户在实例中注册了函数，在配置中替换相应函数名为函数内容
-      if (isValid(this._modelOption?.exprFunc?.getFunctionNameList())) {
+      if (isArray(this._modelOption?.exprFunc?.getFunctionNameList())) {
         spec = this.functionTransform(spec, this._modelOption?.exprFunc);
       }
 
@@ -1443,6 +1443,10 @@ export class BaseChart extends CompilableBase implements IChart {
         }
       }
       return result;
+    }
+    // 如果是数组
+    if (isArray(spec)) {
+      return spec.map(s => this.functionTransform(s, exprFunc));
     }
     return spec;
   }

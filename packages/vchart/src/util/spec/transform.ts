@@ -1,10 +1,10 @@
 import { isArray, isString } from '@visactor/vutils';
-import { default as VChart } from '../../../src/index';
 
 // todo 以目前的场景来看，并没有递归的需要。
 // 考虑到不确定性，还是递归处理spec对象，时间消耗很少
 export function specTransform(
   spec: unknown,
+  VChart: any,
   special: {
     [key: string]: (v: unknown) => unknown;
   } = {
@@ -28,19 +28,20 @@ export function specTransform(
         if (
           isString(spec[key]) &&
           isArray(VChart?.getExpressionFunctionList()) &&
-          VChart.getExpressionFunctionList()?.includes(spec[key])
+          (VChart?.getExpressionFunctionList() as string[]).includes(spec[key])
         ) {
           result[key] = VChart.getExpressionFunction(spec[key]);
           continue;
         }
-        result[key] = specTransform(spec[key], special);
+
+        result[key] = specTransform(spec[key], VChart, special);
       }
     }
     return result;
   }
   // 如果是数组
   if (isArray(spec)) {
-    return spec.map(s => specTransform(s, special));
+    return spec.map(s => specTransform(s, VChart, special));
   }
   return spec;
 }

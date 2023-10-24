@@ -369,7 +369,7 @@ export class VChart implements IVChart {
       return;
     }
 
-    this._spec = specTransform(isString(spec) ? JSON.parse(spec) : spec);
+    this._spec = specTransform(isString(spec) ? JSON.parse(spec) : spec, VChart);
   }
 
   private _initChart(spec: any) {
@@ -818,7 +818,7 @@ export class VChart implements IVChart {
     }
 
     await this.updateCustomConfigAndRerender(() => {
-      spec = specTransform(spec) as any;
+      spec = specTransform(spec, VChart) as any;
       const lastSpec = this._spec;
       this._spec = spec;
       if (!isEqual(lastSpec.theme, spec.theme)) {
@@ -861,7 +861,7 @@ export class VChart implements IVChart {
     }
 
     this.updateCustomConfigAndRerenderSync(() => {
-      spec = specTransform(spec) as any;
+      spec = specTransform(spec, VChart) as any;
       // because of in data-init, data will be set as array;
       spec.data = spec.data ?? [];
       const lastSpec = this._spec;
