@@ -5,7 +5,8 @@ import { SeriesMarkNameEnum } from '../interface/type';
 
 export const barSeriesMark: SeriesMarkMap = {
   ...baseSeriesMark,
-  [SeriesMarkNameEnum.bar]: { name: SeriesMarkNameEnum.bar, type: MarkTypeEnum.rect }
+  [SeriesMarkNameEnum.bar]: { name: SeriesMarkNameEnum.bar, type: MarkTypeEnum.rect },
+  [SeriesMarkNameEnum.barBackground]: { name: SeriesMarkNameEnum.barBackground, type: MarkTypeEnum.rect }
 };
 
 export const bar3dSeriesMark: SeriesMarkMap = {

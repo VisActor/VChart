@@ -24,6 +24,11 @@ import { array, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
 import { Factory } from '../../core/factory';
+import { registerDataSetInstanceTransform } from '../../data/register';
+import { SeriesData } from '../base/series-data';
+import { DataView } from '@visactor/vdataset';
+import { addVChartProperty } from '../../data/transforms/add-property';
+import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;
@@ -43,7 +48,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   protected _supportStack: boolean = true;
   protected _bandPosition = 0;
-  protected _rectMark!: IRectMark;
+  protected _barMark!: IRectMark;
+  protected _barBackgroundMark!: IRectMark;
+
+  protected _barBackgroundViewData: SeriesData;
 
   initMark(): void {
     const progressive = {
@@ -53,7 +61,13 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       largeThreshold: this._spec.largeThreshold
     };
 
-    this._rectMark = this._createMark(
+    this._barBackgroundMark = this._createMark(BarSeries.mark.barBackground, {
+      dataView: this._barBackgroundViewData.getDataView(),
+      dataProductId: this._barBackgroundViewData.getProductId(),
+      progressive
+    }) as IRectMark;
+
+    this._barMark = this._createMark(
       {
         ...BarSeries.mark.bar,
         name: this._barMarkName,
@@ -71,10 +85,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   }
 
   initMarkStyle(): void {
-    const rectMark = this._rectMark;
-    if (rectMark) {
+    if (this._barMark) {
       this.setMarkStyle(
-        rectMark,
+        this._barMark,
         {
           fill: this.getColorAttribute()
         },
@@ -82,7 +95,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         AttributeLevel.Series
       );
 
-      this._trigger.registerMark(rectMark);
+      this._trigger.registerMark(this._barMark);
     }
   }
 
@@ -102,7 +115,59 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected initTooltip() {
     super.initTooltip();
 
-    this._rectMark && this._tooltipHelper.activeTriggerSet.mark.add(this._rectMark);
+    this._barMark && this._tooltipHelper.activeTriggerSet.mark.add(this._barMark);
+  }
+
+  protected _statisticViewData(): void {
+    super._statisticViewData();
+
+    /**
+     * @description 准备 barBackground 数据
+     */
+    const dimensionItems = ([data]: DataView[], op: string) => {
+      let dataCollect: any[] = [{}];
+      const fields = this.getDimensionField();
+      // 将维度轴的所有层级 field 的对应数据做笛卡尔积
+      for (const field of fields) {
+        const values = data.latestData[field]?.values;
+        if (!values?.length) {
+          continue;
+        }
+        const newDataCollect: any[] = [];
+        for (const value of values) {
+          for (const datum of dataCollect) {
+            newDataCollect.push({
+              ...datum,
+              [field]: value
+            });
+          }
+        }
+        dataCollect = newDataCollect;
+      }
+      return dataCollect;
+    };
+
+    registerDataSetInstanceTransform(this._option.dataSet, 'addVChartProperty', addVChartProperty);
+    registerDataSetInstanceTransform(this._option.dataSet, 'dimensionItems', dimensionItems);
+
+    const barBackgroundData = new DataView(this._option.dataSet)
+      .parse([this._viewDataStatistics], {
+        type: 'dataview'
+      })
+      .transform({ type: 'dimensionItems' }, false)
+      .transform(
+        {
+          type: 'addVChartProperty',
+          options: {
+            beforeCall: initKeyMap,
+            call: addDataKey.bind(this)
+          }
+        },
+        false
+      );
+
+    this._viewDataStatistics?.target.addListener('change', barBackgroundData.reRunAllTransform);
+    this._barBackgroundViewData = new SeriesData(this._option, barBackgroundData);
   }
 
   init(option: IModelInitOption): void {
@@ -208,7 +273,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     // guess the direction which the user want
     if (this.direction === Direction.horizontal) {
       this.setMarkStyle(
-        this._rectMark,
+        this._barMark,
         {
           x: (datum: Datum) => {
             if (this._shouldDoPreCalculate()) {
@@ -236,9 +301,31 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
+
+      if (this._barBackgroundMark) {
+        this.setMarkStyle(
+          this._barBackgroundMark,
+          {
+            x: () => {
+              const range = xScale.range();
+              const min = Math.min(range[0], range[range.length - 1]);
+              return min;
+            },
+            x1: () => {
+              const range = xScale.range();
+              const max = Math.max(range[0], range[range.length - 1]);
+              return max;
+            },
+            y: (datum: Datum) => this._getPosition(this.direction, datum),
+            height: () => this._getBarWidth(this._yAxisHelper)
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
     } else {
       this.setMarkStyle(
-        this._rectMark,
+        this._barMark,
         {
           x: (datum: Datum) => this._getPosition(this.direction, datum),
           y: (datum: Datum, ctx, opt, dataView) => {
@@ -267,6 +354,30 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
+
+      if (this._barBackgroundMark) {
+        this.setMarkStyle(
+          this._barBackgroundMark,
+          {
+            x: (datum: Datum) => this._getPosition(this.direction, datum),
+            y: () => {
+              const range = yScale.range();
+              const min = Math.min(range[0], range[range.length - 1]);
+              return min;
+            },
+            y1: () => {
+              const range = yScale.range();
+              const max = Math.max(range[0], range[range.length - 1]);
+              return max;
+            },
+            width: () => {
+              return this._getBarWidth(this._xAxisHelper);
+            }
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
     }
   }
 
@@ -276,7 +387,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
     if (this.direction === Direction.vertical) {
       this.setMarkStyle(
-        this._rectMark,
+        this._barMark,
         {
           x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
           x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
@@ -305,7 +416,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       );
     } else {
       this.setMarkStyle(
-        this._rectMark,
+        this._barMark,
         {
           x: (datum: Datum) => {
             if (this._shouldDoPreCalculate()) {
@@ -357,7 +468,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       return xIndex || 0;
     };
 
-    this._rectMark.setAnimationConfig(
+    this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('bar')?.(animationParams, appearPreset),
         userAnimationConfig(this._barMarkName, this._spec),
@@ -399,7 +510,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       dataToPosition = this.dataToPositionX.bind(this);
     }
     const scale = axisHelper.getScale(0);
-    const size = this._rectMark.getAttribute(sizeAttribute, datum) as number;
+    const size = this._barMark.getAttribute(sizeAttribute, datum) as number;
     const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
     if (this._groups?.fields?.length > 1 && isValid(this._spec.barGapInGroup)) {
       // 自里向外计算，沿着第一层分组的中心点进行位置调整
@@ -444,7 +555,29 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   }
 
   getActiveMarks(): IMark[] {
-    return [this._rectMark];
+    return [this._barMark];
+  }
+
+  compileData() {
+    super.compileData();
+    this._barBackgroundViewData?.compile();
+  }
+
+  fillData() {
+    super.fillData();
+    this._barBackgroundViewData?.getDataView()?.reRunAllTransform();
+  }
+
+  viewDataUpdate(d: DataView): void {
+    super.viewDataUpdate(d);
+    this._barBackgroundViewData?.getDataView()?.reRunAllTransform();
+    this._barBackgroundViewData?.updateData();
+  }
+
+  release() {
+    super.release();
+    this._barBackgroundViewData?.release();
+    this._barBackgroundViewData = null;
   }
 }
 
