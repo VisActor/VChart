@@ -29,6 +29,7 @@ export class GaugePointerSeries<
   private _pinMark: IPathMark | null = null;
   private _pointerMark: IPathMark | IRectMark | null = null;
   private _pinBackgroundMark: IPathMark | null = null;
+  protected _stack: boolean = false;
 
   protected _pointerType: MarkTypeEnum;
 
