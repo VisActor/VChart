@@ -1,16 +1,16 @@
 ---
 category: examples
 group: progress
-title: Bar Progress Chart
+title: Linear Progress Chart
 keywords: linearProgress, comparison, rectangle
 order: 16-0
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81702.png
 option: linearProgressChart
 ---
 
-# Bar Progress Chart
+# Linear Progress Chart
 
-The bar progress chart is a type of chart in the rectangular coordinate system. It can display the percentage values of multiple indicators side by side, making it suitable for assessing the progress of goal achievement.
+The linear progress chart is a type of chart in the rectangular coordinate system. It can display the percentage values of multiple indicators side by side, making it suitable for assessing the progress of goal achievement.
 
 ## When to use
 

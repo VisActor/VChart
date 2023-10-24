@@ -1,14 +1,14 @@
 ---
 category: examples
 group: progress
-title: Bar chart with text labeling
+title: Linear chart with text labeling
 keywords: linearProgress,comparison,rectangle
 order: 16-2
 cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/progress-linear-progress-with-text.png
 option: linearProgressChart
 ---
 
-# Bar progress charts with text labeling
+# Linear progress charts with text labeling
 
 The `extensionMark` allows you to add the necessary text markup to the bar.
 

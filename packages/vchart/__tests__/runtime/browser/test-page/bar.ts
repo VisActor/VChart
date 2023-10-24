@@ -37,6 +37,21 @@ const run = () => {
     yField: ['10002'],
     direction: 'vertical',
     seriesField: '20001',
+    indicator: {
+      visible: true,
+      trigger: 'hover',
+      limitRatio: 0.4,
+      title: {
+        visible: true,
+        autoFit: true,
+        style: {
+          fontWeight: 'bolder',
+          fontFamily: 'Times New Roman',
+          fill: '#888',
+          text: '11111'
+        }
+      }
+    },
     padding: 0,
     data: [
       {
