@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: sankey chart downstream highlight, related #1269",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
