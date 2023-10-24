@@ -257,6 +257,38 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     this.encodeDefined(this._areaMark, 'defined');
   }
 
+  compile(): void {
+    super.compile();
+    const { width, height } = this._region.getLayoutRect();
+    const samplingTrans = [];
+    const overlapTrans = [];
+
+    if (this._spec.sampling) {
+      const fieldsY = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._fieldY;
+      const fieldsX = this._xAxisHelper.getFields ? this._xAxisHelper.getFields() : this._fieldX;
+
+      samplingTrans.push({
+        type: 'sampling',
+        size: this._direction === Direction.vertical ? width : height,
+        factor: this._spec.samplingFactor,
+        yfield: this._direction === Direction.vertical ? fieldsY[0] : fieldsX[0],
+        groupBy: this._seriesField,
+        mode: this._spec.sampling
+      });
+      this._data.getProduct().transform(samplingTrans);
+    }
+    if (this._spec.markOverlap) {
+      overlapTrans.push({
+        type: 'markoverlap',
+        direction: 0,
+        delta: this._spec.pointDis,
+        deltaMul: this._spec.pointDisMul,
+        groupBy: this._seriesField
+      });
+      this._symbolMark.getProduct().transform(overlapTrans);
+    }
+  }
+
   getDefaultShapeType() {
     return 'square';
   }

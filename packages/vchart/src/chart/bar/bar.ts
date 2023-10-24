@@ -19,7 +19,9 @@ export class BarChart extends CartesianChart {
       barMaxWidth: (<IBarChartSpec>spec).barMaxWidth,
       barMinWidth: (<IBarChartSpec>spec).barMinWidth,
       barGapInGroup: (<IBarChartSpec>spec).barGapInGroup,
-      barMinHeight: (<IBarChartSpec>spec).barMinHeight
+      barMinHeight: (<IBarChartSpec>spec).barMinHeight,
+      sampling: spec.sampling,
+      samplingFactor: spec.samplingFactor
     };
   }
 

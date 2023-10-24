@@ -6,6 +6,7 @@ import type { BarAppearPreset } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import type { ISamplingMethod } from '../../typings/sampling';
 
 type BarMarks = 'bar';
 
@@ -77,6 +78,17 @@ export interface IBarSeriesSpec
    * @since 1.4.0
    */
   barMinHeight?: number;
+  /**
+   * 数据采样 - 采样方法
+   * @since 1.5.3
+   */
+  sampling: ISamplingMethod;
+  /**
+   * 数据采样 - 采样系数
+   * @since 1.5.3
+   * @default 1
+   */
+  samplingFactor: number;
 }
 
 export interface IBarSeriesTheme extends ICartesianSeriesTheme {

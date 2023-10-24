@@ -135,6 +135,20 @@
             "zh": "折线图轴 padding 调整",
             "en": "Offline Chart Axis padding adjustment"
           }
+        },
+        {
+          "path": "line-sampling",
+          "title": {
+            "zh": "折线图数据采样",
+            "en": "line chart sampling"
+          }
+        },
+        {
+          "path": "line-overlap",
+          "title": {
+            "zh": "折线图防重叠",
+            "en": "line chart overlap"
+          }
         }
       ]
     },

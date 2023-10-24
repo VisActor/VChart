@@ -5,6 +5,7 @@ import { ChartTypeEnum } from '../interface';
 import type { IAreaChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { Factory } from '../../core/factory';
+import { registerLttbSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 
 export class AreaChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.area;
@@ -19,7 +20,12 @@ export class AreaChart extends CartesianChart {
       line: spec.line,
       area: spec.area,
       seriesMark: spec.seriesMark ?? 'area',
-      activePoint: spec.activePoint
+      activePoint: spec.activePoint,
+      sampling: spec.sampling,
+      samplingFactor: spec.samplingFactor,
+      pointDis: spec.pointDis,
+      pointDisMul: spec.pointDisMul,
+      markOverlap: spec.markOverlap
     };
   }
 
@@ -31,5 +37,7 @@ export class AreaChart extends CartesianChart {
 
 export const registerAreaChart = () => {
   registerAreaSeries();
+  registerLttbSampleTransform();
+  registerMarkOverlapTransform();
   Factory.registerChart(AreaChart.type, AreaChart);
 };

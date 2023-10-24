@@ -439,6 +439,27 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     region._bar_series_position_calculated = false;
   }
 
+  compile(): void {
+    super.compile();
+    const { width, height } = this._region.getLayoutRect();
+    const samplingTrans = [];
+
+    if (this._spec.sampling) {
+      const fieldsY = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._fieldY;
+      const fieldsX = this._xAxisHelper.getFields ? this._xAxisHelper.getFields() : this._fieldX;
+
+      samplingTrans.push({
+        type: 'sampling',
+        size: this._direction === Direction.vertical ? width : height,
+        factor: this._spec.samplingFactor,
+        yfield: this._direction === Direction.vertical ? fieldsY[0] : fieldsX[0],
+        groupBy: this._seriesField,
+        mode: this._spec.sampling
+      });
+      this._data.getProduct().transform(samplingTrans);
+    }
+  }
+
   getDefaultShapeType(): string {
     return 'square';
   }
