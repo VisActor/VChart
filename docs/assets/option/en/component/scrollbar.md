@@ -47,3 +47,12 @@ Scrollbar slider style.
 {{ use: component-data-filter-base(
   prefix = '##'
 ) }}
+
+### filterMode(string) = 'axis'
+
+Data filtering mode.
+
+Optional values:
+
+- 'filter'
+- 'axis'
