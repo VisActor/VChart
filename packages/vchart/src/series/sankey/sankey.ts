@@ -87,7 +87,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   initData() {
     super.initData();
 
-    if (this._viewDataFilter) {
+    if (this.getViewData()) {
       // 初始化桑基图数据
       registerDataSetInstanceTransform(this._dataSet, 'sankey', sankey);
 

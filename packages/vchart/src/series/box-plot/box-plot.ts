@@ -352,7 +352,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     const dataIndex = (datum: Datum) => {
       const xField = this._direction === Direction.vertical ? this._fieldX[0] : this._fieldY[0];
       const xValue = datum?.[xField];
-      const xIndex = this._viewDataStatistics?.latestData?.[xField]?.values.indexOf(xValue);
+      const xIndex = this.getViewDataStatistics()?.latestData?.[xField]?.values.indexOf(xValue);
       // 不应该出现xIndex === -1 || undefined的情况
       return xIndex || 0;
     };

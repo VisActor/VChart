@@ -109,7 +109,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     super.initData();
     // 矩形树图中原始数据为层次结果，图元数据为平坦化后的结构，具体逻辑如下：
     // spec.data => rawData(hierarchy) => viewDataFilter => treemap transform => flatten transform => viewData
-    if (this._viewDataFilter) {
+    if (this.getViewData()) {
       // 对原始数据进行上卷下钻筛选
       if (this._spec.drill) {
         (this as unknown as IDrillable).initDrillableData(this._dataSet);
