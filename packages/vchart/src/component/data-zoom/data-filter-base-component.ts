@@ -188,7 +188,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         eachSeries(
           this._regions,
           s => {
-            s.getViewDataFilter()?.markRunning();
+            s.getViewData()?.markRunning();
           },
           {
             userId: this._seriesUserId,

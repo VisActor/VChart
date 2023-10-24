@@ -227,7 +227,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
     // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
     const dataIndex = (datum: Datum) => {
       const xValue = datum?.[this._fieldX[0]];
-      const xIndex = this._viewDataStatistics?.latestData?.[this._fieldX[0]]?.values.indexOf(xValue);
+      const xIndex = this.getViewDataStatistics()?.latestData?.[this._fieldX[0]]?.values.indexOf(xValue);
       // 不应该出现xIndex === -1 || undefined的情况
       return xIndex || 0;
     };

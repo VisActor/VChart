@@ -80,7 +80,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     super.initData();
 
     registerDataSetInstanceTransform(this._option.dataSet, 'linkDotInfo', linkDotInfo);
-    this.getViewDataFilter()?.transform(
+    this.getViewData()?.transform(
       {
         type: 'linkDotInfo',
         options: {
@@ -315,9 +315,9 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
    */
   getDefaultColorDomain() {
     return this._dotTypeField
-      ? this._viewDataStatistics?.latestData[this._dotTypeField].values
+      ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
       : this._seriesField
-      ? this._viewDataStatistics?.latestData[this._seriesField].values
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
       : [];
   }
 

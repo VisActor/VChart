@@ -110,7 +110,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     registerDataSetInstanceTransform(this._option.dataSet, 'copyDataView', copyDataView);
     registerDataSetInstanceParser(this._option.dataSet, 'dataview', dataViewParser);
 
-    this.getViewDataFilter()?.transform(
+    this.getViewData()?.transform(
       {
         type: 'objFlat',
         options: 'dots'
@@ -413,9 +413,9 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
    */
   getDefaultColorDomain() {
     return this._seriesGroupField
-      ? this._viewDataStatistics?.latestData[this._seriesGroupField].values
+      ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
       : this._seriesField
-      ? this._viewDataStatistics?.latestData[this._seriesField].values
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
       : [];
   }
 
@@ -436,11 +436,11 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
    */
   protected getDotColorScale() {
     const colorDomain = this._dotTypeField
-      ? this._viewDataStatistics?.latestData[this._dotTypeField].values
+      ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
       : this._seriesGroupField
-      ? this._viewDataStatistics?.latestData[this._seriesGroupField].values
+      ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
       : this._seriesField
-      ? this._viewDataStatistics?.latestData[this._seriesField].values
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
       : [];
     const colorRange = this._getDataScheme();
     return new ColorOrdinalScale().domain(colorDomain).range(colorRange);

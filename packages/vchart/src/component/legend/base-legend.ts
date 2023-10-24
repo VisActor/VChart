@@ -66,7 +66,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
       eachSeries(
         this._regions,
         s => {
-          s.getViewDataFilter()?.markRunning();
+          s.getViewData()?.markRunning();
         },
         {
           userId: this._seriesUserId,

@@ -60,7 +60,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     };
 
     registerDataSetInstanceTransform(this._option.dataSet, 'spiltSegment', spiltSegment);
-    this.getViewDataFilter()?.transform(
+    this.getViewData()?.transform(
       {
         type: 'spiltSegment'
       },

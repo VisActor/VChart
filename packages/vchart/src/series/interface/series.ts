@@ -36,7 +36,6 @@ export interface ISeries extends IModel, ILayoutItem {
 
   // 数据
   getRawData: () => DataView | undefined;
-  getViewDataFilter: () => DataView | undefined;
   getViewData: () => DataView | undefined;
   getViewDataProductId: () => string | undefined;
   getRawDataStatistics?: () => DataView | undefined;
