@@ -49,7 +49,8 @@
     {
       "packageName": "@visactor/lark-vchart",
       "projectFolder": "packages/lark-vchart",
-      "shouldPublish": false
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
     },
     {
       "packageName": "@visactor/wx-vchart",
