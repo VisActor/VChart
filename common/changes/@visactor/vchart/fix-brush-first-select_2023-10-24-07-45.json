@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(brush): slove first select not effect problem. fix #1129",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
