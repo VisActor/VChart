@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'gaugePointer',
+  seriesMarks = ['segment'],
 ) }}
 
 #${prefix} padAngle(number)

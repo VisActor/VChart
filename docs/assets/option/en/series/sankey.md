@@ -10,6 +10,7 @@
   noData = ${noData},
   isHierarchy = true,
   seriesType = 'sankey',
+  seriesMarks = ['node','link'],
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   preset = 'growIn' + '|' + 'fadeIn',

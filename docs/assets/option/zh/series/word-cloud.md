@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'wordCloud',
+  seriesMarks = ['word'],
   preset = 'scaleIn' + '|' + 'fadeIn' ,
   defaultPreset = 'scaleIn',
 ) }}

@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'circularProgress',
+  seriesMarks = ['progress', 'track']
 ) }}
 
 #${prefix} categoryField(string | Array)

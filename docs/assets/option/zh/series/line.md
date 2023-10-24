@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'line',
+  seriesMarks = ['line', 'point'],
   preset = 'clipIn' + '|' + 'fadeIn' + '|' + 'grow',
   defaultPreset = 'clipIn'
 ) }}

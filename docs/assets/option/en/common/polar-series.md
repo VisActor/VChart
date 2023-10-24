@@ -11,7 +11,8 @@
   useInChart = ${useInChart},
   noPreset = ${noPreset},
   preset = ${preset},
-  defaultPreset = ${defaultPreset}
+  defaultPreset = ${defaultPreset},
+  seriesMarks = ${seriesMarks}
 ) }}
 
 #${prefix} categoryField(string|string[])

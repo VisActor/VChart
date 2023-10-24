@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'waterfall',
+  seriesMarks = ['bar'],
   preset = 'grow' + '|' + 'fadeIn' + '|' + 'scaleIn',
   defaultPreset = 'grow'
 ) }}
@@ -78,7 +79,10 @@ Indicates the total value when the value of the corresponding `field` is `true`.
 This function will be called during the calculation of the total value, with parameters **current total data, current accumulated information** and returns **start and end values for total**. The callback function is defined as follows:
 
 ```ts
-(datum: Datum, current: { start: number; end: number }) => { start: number; end: number };
+(datum: Datum, current: { start: number; end: number }) => {
+  start: number;
+  end: number;
+};
 ```
 
 ##${prefix} text(string)
@@ -138,6 +142,7 @@ Stack value label configuration.
 Label position.
 
 Optional values:
+
 - `'withChange'`: The label follows the data change, the value increases, the label position is the same as the `'max'` configuration, the value decreases, and it is the same as the `'min'` effect.
 - `'middle'`: Fixed in the middle of the bar
 - `'max'`: Fixed at the maximum value of the bar, usually at the top, horizontally on the right side
@@ -152,6 +157,7 @@ Label offset.
 Label value.
 
 Optional values:
+
 - `'change'`: Display the change value of the current group of data
 - `'absolute'`: Display the final value of the current data group after the change
 

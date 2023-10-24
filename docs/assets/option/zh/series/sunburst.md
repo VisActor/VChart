@@ -6,6 +6,7 @@
   noData = ${noData},
   isHierarchy = true,
   seriesType = 'sunburst',
+  seriesMarks = ['sunburst'],
   noMorph = ${noMorph},
   noStack = ${noStack},
   useInChart = ${useInChart},

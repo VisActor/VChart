@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'rose',
+  seriesMarks = ['rose'],
   noInvalidType = true,
   preset = 'growAngle' + '|' + 'growRadius' + '|' + 'fadeIn',
   defaultPreset = 'growRadius'

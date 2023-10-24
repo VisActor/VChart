@@ -148,4 +148,5 @@ Data matching field, configurable for multiple data primitives.
   preset = ${preset},
   defaultPreset = ${defaultPreset},
   seriesType = ${seriesType},
+  seriesMarks = ${seriesMarks},
 ) }}
