@@ -107,11 +107,12 @@ export class CommonChartEditorElement implements IEditorElement {
       finishCall?: () => void;
       id?: string;
       editProperties?: { [key: string]: unknown };
+      rect?: IRect;
     }
   ) {
     // set attribute
     this._context = context;
-    const { model, updateCall, finishCall, id, editProperties } = opt;
+    const { model, updateCall, finishCall, id, editProperties, rect } = opt;
     this._updateCall = updateCall;
     this._finishCall = finishCall;
     this.model = model;
@@ -119,8 +120,14 @@ export class CommonChartEditorElement implements IEditorElement {
     const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };
     this.layer = this._context.layer;
     this.id = id ?? model.userId;
-    const layoutMeta = this._context.chart.layout.getModelLayoutData(modelInfo);
-    this.rect = layoutMeta ? transformModelRect(model, LayoutRectToRect(layoutMeta.layout)) : null;
+
+    if (rect) {
+      this.rect = rect;
+    } else {
+      const layoutMeta = this._context.chart.layout.getModelLayoutData(modelInfo);
+      this.rect = layoutMeta ? transformModelRect(model, LayoutRectToRect(layoutMeta.layout)) : null;
+    }
+
     this.part = model.type;
     this.editProperties = merge(
       {
