@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@visactor/vchart": "workspace:1.2.3",
-    "@visactor/vrender": "~0.13.11",
+    "@visactor/vrender": "~0.13.14",
     "@visactor/vutils": "~0.13.3"
   }
 }
