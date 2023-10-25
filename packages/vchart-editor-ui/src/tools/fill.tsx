@@ -1,15 +1,19 @@
-import { Popover, Slider } from '@douyinfe/semi-ui';
+import { Button, Popover, Slider } from '@douyinfe/semi-ui';
 import type { IEditorBarFillProps } from '../typings/editor-bar';
 import { IconChevronDown } from '@douyinfe/semi-icons';
 import { isArray } from '@visactor/vutils';
 import { ColorItem } from './util';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
+import { IconGleam } from '../svg/gleam';
+import { SketchPicker } from 'react-color';
 
 export function EditorBarFill(props: IEditorBarFillProps) {
   const fillColor = props.fill?.color ?? defaultEditorBarComponentConfig.fill.default.color;
   const fillOpacity = props.fill?.opacity ?? defaultEditorBarComponentConfig.fill.default.opacity;
 
   const fillColorList = defaultEditorBarComponentConfig.fill.colorList;
+
+  const ColorPicker = props.colorPicker ?? SketchPicker;
 
   return (
     <Popover
@@ -34,6 +38,23 @@ export function EditorBarFill(props: IEditorBarFillProps) {
               ))}
             </div>
           ))}
+          <Popover
+            content={
+              <ColorPicker
+                color={fillColor === 'disable' ? '#000000' : fillColor}
+                onChange={color => {
+                  props.onFillChange?.({
+                    color: color.hex,
+                    opacity: fillOpacity
+                  });
+                }}
+              />
+            }
+          >
+            <Button type="tertiary" style={{ marginRight: 8, outline: 'none', borderRadius: 6, width: '100%' }}>
+              <IconGleam /> 自定义
+            </Button>
+          </Popover>
           <div style={{ marginTop: 6 }}>
             透明度<span style={{ float: 'right' }}>{(fillOpacity * 100).toFixed(0)}%</span>
           </div>
