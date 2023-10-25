@@ -498,7 +498,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('bar')?.(animationParams, appearPreset),
-        userAnimationConfig(this._barMarkName, this._spec),
+        userAnimationConfig(this._barMarkName, this._spec, this._markAttributeContext),
         { dataIndex }
       )
     );

@@ -239,7 +239,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
     this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('rangeColumn')?.({ direction: this.direction }, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.bar, this._spec),
+        userAnimationConfig(SeriesMarkNameEnum.bar, this._spec, this._markAttributeContext),
         { dataIndex }
       )
     );
@@ -248,7 +248,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       this._minLabelMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.label, this._spec),
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext),
           { dataIndex }
         )
       );
@@ -258,7 +258,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       this._maxLabelMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.label, this._spec),
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext),
           { dataIndex }
         )
       );

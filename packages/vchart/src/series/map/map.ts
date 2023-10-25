@@ -187,7 +187,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._pathMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('fadeInOut')?.(),
-        userAnimationConfig(SeriesMarkNameEnum.area, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.area, this._spec, this._markAttributeContext)
       )
     );
   }

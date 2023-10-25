@@ -283,14 +283,17 @@ export class CirclePackingSeries<
       mark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('circlePacking')?.(undefined, appearPreset),
-          userAnimationConfig(mark.name, this._spec)
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
         )
       );
     });
 
     this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(Factory.getAnimationInKey('scaleInOut')?.(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('scaleInOut')?.(),
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+        )
       );
     });
   }

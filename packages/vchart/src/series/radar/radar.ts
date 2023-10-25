@@ -158,7 +158,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         this._rootMark.setAnimationConfig(
           animationConfig(
             Factory.getAnimationInKey('radarGroup')?.(animationParams, appearPreset),
-            userAnimationConfig(SeriesMarkNameEnum.group, this._spec)
+            userAnimationConfig(SeriesMarkNameEnum.group, this._spec, this._markAttributeContext)
           )
         );
       }
@@ -176,7 +176,10 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
       if (isValid(mark)) {
         const getAnimation = Factory.getAnimationInKey(animation);
         mark.setAnimationConfig(
-          animationConfig(getAnimation?.(animationParams, appearPreset), userAnimationConfig(mark.name, this._spec))
+          animationConfig(
+            getAnimation?.(animationParams, appearPreset),
+            userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+          )
         );
       }
     });

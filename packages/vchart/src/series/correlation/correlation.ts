@@ -304,7 +304,7 @@ export class CorrelationSeries extends PolarSeries<any> {
     this._nodePointMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('correlation')?.({}, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.nodePoint, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.nodePoint, this._spec, this._markAttributeContext)
       )
     );
   }

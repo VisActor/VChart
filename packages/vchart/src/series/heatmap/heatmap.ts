@@ -157,7 +157,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     this._cellMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('heatmap')?.(appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.cell, this._spec),
+        userAnimationConfig(SeriesMarkNameEnum.cell, this._spec, this._markAttributeContext),
         {
           dataIndex
         }

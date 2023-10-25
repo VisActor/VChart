@@ -454,7 +454,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     if (this._pieMark) {
       const pieAnimationConfig = animationConfig(
         Factory.getAnimationInKey('pie')?.(animationParams, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.pie, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.pie, this._spec, this._markAttributeContext)
       );
 
       if (pieAnimationConfig.normal && (pieAnimationConfig.normal as IAnimationTypeConfig).type) {
