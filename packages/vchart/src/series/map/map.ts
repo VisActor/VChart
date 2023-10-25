@@ -80,7 +80,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     if (!features) {
       this._option?.onError('no valid map data found!');
     }
-    const mapData = new DataView(this._dataSet);
+    const mapData = new DataView(this._dataSet, { name: `map_${this.id}_data` });
 
     mapData
       .parse([features], {

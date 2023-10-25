@@ -133,11 +133,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       false
     );
 
-    const viewDataLabel = new DataView(this._dataSet);
+    const viewDataLabel = new DataView(this._dataSet, { name: `${PREFIX}_series_${this.id}_viewDataLabel` });
     viewDataLabel.parse([this.getViewData()], {
       type: 'dataview'
     });
-    viewDataLabel.name = `${PREFIX}_series_${this.id}_viewDataLabel`;
 
     this._viewDataLabel = new SeriesData(this._option, viewDataLabel);
   }

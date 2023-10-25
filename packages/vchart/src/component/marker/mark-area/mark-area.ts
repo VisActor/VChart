@@ -171,7 +171,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       options = this._processSpecCoo(spec);
     }
 
-    const data = new DataView(this._option.dataSet);
+    const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     data.parse([relativeSeries.getViewData()], {
       type: 'dataview'
     });

@@ -249,7 +249,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     } else if (isCoordinateProcess) {
       options = this._processSpecCoo(spec);
 
-      processData = new DataView(this._option.dataSet)
+      processData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` })
         .parse([relativeSeries.getViewData()], {
           type: 'dataview'
         })

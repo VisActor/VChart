@@ -122,7 +122,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
   // data
   private initData() {
     registerDataSetInstanceTransform(this._option.dataSet, 'indicatorFilter', indicatorMapper);
-    const displayData = new DataView(this._option.dataSet);
+    const displayData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     displayData.transform({
       type: 'indicatorFilter',
       options: {

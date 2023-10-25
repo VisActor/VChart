@@ -90,12 +90,11 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     }
     const seriesData = series.getViewData();
     if (seriesData) {
-      const data = new DataView(this._option.dataSet);
+      const data = new DataView(this._option.dataSet, { name: `${this.name}_data` });
       data.parse([seriesData], {
         type: 'dataview'
       });
       data.transform({ type: 'copyDataView', level: TransformLevel.copyDataView }, false);
-      data.name = `${this.name}_data`;
 
       this._data = new CompilableData(this._option, data);
       data.target.addListener('change', () => {

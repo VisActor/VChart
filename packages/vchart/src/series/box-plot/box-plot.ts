@@ -280,7 +280,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     registerDataSetInstanceTransform(this._dataSet, 'foldOutlierData', foldOutlierData);
     registerDataSetInstanceTransform(this._dataSet, 'addVChartProperty', addVChartProperty);
 
-    const outlierDataView = new DataView(this._dataSet);
+    const outlierDataView = new DataView(this._dataSet, { name: `${this.type}_outlier_${this.id}_data` });
     outlierDataView.parse([this.getViewData()], {
       type: 'dataview'
     });

@@ -1,6 +1,6 @@
 import type { ICartesianSeries, IPolarSeries, ISeries } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { eachSeries, isValid, array, average } from '../../util';
+import { eachSeries, isValid, array } from '../../util';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseComponent } from '../base';
 import type { IEffect, IModelInitOption, ILayoutRect } from '../../model/interface';
@@ -419,7 +419,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const { dataSet } = this._option;
     registerDataSetInstanceParser(dataSet, 'dataview', dataViewParser);
     registerDataSetInstanceTransform(dataSet, 'dataFilterComputeDomain', dataFilterComputeDomain);
-    const data = new DataView(dataSet);
+    const data = new DataView(dataSet, { name: `${this.type}_${this.id}_data` });
     data.transform(
       {
         type: 'dataFilterComputeDomain',
@@ -438,7 +438,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       false
     );
 
-    data.name = `${PREFIX}_${this.type}_${this.id}_data`;
     this._data = new CompilableData(this._option, data);
     data.reRunAllTransform();
     dataSet.multipleDataViewAddListener(dataCollection, 'change', this._handleDataCollectionChange.bind(this));
@@ -605,7 +604,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
               },
               isContinuous: () => isContinuous(this._stateScale.type)
             },
-            level: TransformLevel.dataZoom
+            level: TransformLevel.dataZoomFilter
           });
         },
         {
