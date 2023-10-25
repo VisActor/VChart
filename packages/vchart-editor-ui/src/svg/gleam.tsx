@@ -1,6 +1,16 @@
-export function IconGleam() {
+import type { IconBaseProps } from '../typings/svg';
+
+export function IconGleam(props: IconBaseProps) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
+      fill="none"
+      style={props.style}
+      onClick={props.onClick}
+    >
       <path
         // eslint-disable-next-line
         d="M9.49196 0.929656C9.5806 0.690115 9.9194 0.690114 10.008 0.929656L10.2511 1.58639C10.2789 1.6617 10.3383 1.72108 10.4136 1.74895L11.0703 1.99196C11.3099 2.0806 11.3099 2.4194 11.0703 2.50804L10.4136 2.75105C10.3383 2.77892 10.2789 2.8383 10.2511 2.91361L10.008 3.57034C9.9194 3.80989 9.5806 3.80989 9.49196 3.57034L9.24895 2.91361C9.22108 2.8383 9.1617 2.77892 9.08639 2.75105L8.42966 2.50804C8.19011 2.4194 8.19011 2.0806 8.42966 1.99196L9.08639 1.74895C9.1617 1.72108 9.22108 1.6617 9.24895 1.58639L9.49196 0.929656Z"

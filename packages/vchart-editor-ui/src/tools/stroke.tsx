@@ -1,4 +1,4 @@
-import { Divider, Popover, Slider } from '@douyinfe/semi-ui';
+import { Button, Divider, Popover, Slider } from '@douyinfe/semi-ui';
 import type { IEditorBarStrokeProps, Stroke } from '../typings/editor-bar';
 import { IconChevronDown } from '@douyinfe/semi-icons';
 import { isArray } from '@visactor/vutils';
@@ -7,6 +7,8 @@ import { IconStroke } from '../svg/stroke';
 import { IconLineDisable } from '../svg/disable';
 import { IconDashedLine, IconLine, IconThinDashedLine } from '../svg/line';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
+import { SketchPicker } from 'react-color';
+import { IconGleam } from '../svg/gleam';
 
 const strokeStyleList = [
   { icon: IconLineDisable, style: 'disable' },
@@ -29,6 +31,8 @@ function StrokePanel(props: IEditorBarStrokeProps) {
   const strokeStyle = props.stroke?.style ?? defaultEditorBarComponentConfig.stroke.default.style;
 
   const strokeColorList = defaultEditorBarComponentConfig.stroke.colorList;
+
+  const ColorPicker = props.colorPicker ?? SketchPicker;
 
   return (
     <div className="vchart-editor-ui-editor-bar-panel-container" style={{ padding: '10px 12px', position: 'relative' }}>
@@ -103,6 +107,25 @@ function StrokePanel(props: IEditorBarStrokeProps) {
           ))}
         </div>
       ))}
+      <Popover
+        content={
+          <ColorPicker
+            color={strokeColor === 'disable' ? '#000000' : strokeColor}
+            onChange={color => {
+              props.onStrokeChange?.({
+                style: strokeStyle,
+                color: color.hex,
+                opacity: strokeOpacity,
+                lineWidth: strokeLineWidth
+              });
+            }}
+          />
+        }
+      >
+        <Button type="tertiary" style={{ marginRight: 8, outline: 'none', borderRadius: 6, width: '100%' }}>
+          <IconGleam /> 自定义
+        </Button>
+      </Popover>
       <div style={{ marginTop: 6 }}>
         透明度<span style={{ float: 'right' }}>{(strokeOpacity * 100).toFixed(0)}%</span>
       </div>
