@@ -412,6 +412,18 @@ export interface IVChart {
 
   /** 获取函数列表（全局获取） */
   getExpressionFunctionList: () => string[] | null;
+
+  /** 注册实例函数 */
+  registerFunction: (key: string, fun: Function) => void;
+
+  /** 注销实例函数 */
+  removeFunction: (key: string) => void;
+
+  /** 获取实例函数 */
+  getFunction: (key: string) => Function | null;
+
+  /** 获取实例函数列表 */
+  getFunctionList: () => string[] | null;
 }
 
 export interface IGlobalConfig {

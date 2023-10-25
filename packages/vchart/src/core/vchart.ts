@@ -1677,12 +1677,21 @@ export class VChart implements IVChart {
 
   static functionCache: string[] = []; // 注册函数名缓存
 
-  // 获取实例函数
+  /**
+   * 获取实例函数
+   * @param key 函数名称
+   * @returns
+   */
   getFunction(key: string): Function | null {
     return VChart.exprFunc.getFunction(this.getFunctionName(key));
   }
 
-  // 注册实例函数（对内包装一层，区分名字，避免重名问题）
+  /**
+   * 注册实例函数（对内包装一层，区分名字，避免重名问题）
+   * @param key 函数名称
+   * @param fun 函数内容
+   * @returns
+   */
   registerFunction(key: string, fun: Function) {
     if (!key || !fun) {
       return;
@@ -1691,7 +1700,10 @@ export class VChart implements IVChart {
     VChart.exprFunc.registerFunction(this.getFunctionName(key), fun);
   }
 
-  // 移除实例函数
+  /**
+   * 注销实例函数
+   * @param key 函数名称
+   */
   removeFunction(key: string) {
     const index = VChart.functionCache.findIndex(n => n === key);
     if (index >= 0) {
@@ -1700,6 +1712,10 @@ export class VChart implements IVChart {
     }
   }
 
+  /**
+   * 获取实例函数列表
+   * @returns
+   */
   getFunctionList() {
     return VChart.functionCache;
   }
