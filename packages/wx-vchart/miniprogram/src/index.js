@@ -72,7 +72,7 @@ Component({
           });
 
           this.chart && this.chart.release();
-
+debugger
           await vglobal.setEnv('wx', { domref, force: true, canvasIdLists, freeCanvasIdx: 2, component: this });
           const chartInstance = new VChart(
             {

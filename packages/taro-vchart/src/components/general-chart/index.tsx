@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Canvas } from '@tarojs/components';
-import Taro from '@tarojs/taro';
+import Taro, { getCurrentInstance } from '@tarojs/taro';
+import { vglobal } from '@visactor/vchart';
 
 import {
   TTCanvas,
@@ -88,12 +89,20 @@ export class GeneralChart extends React.Component<IChartProps> {
     this.ttCanvas && this.ttCanvas.release();
   }
 
-  init({ domref, dpr = 2 }: { domref: IDomRef; dpr: number }) {
+  async init({ domref, dpr = 2 }: { domref: IDomRef; dpr: number }) {
     if (!domref) {
       console.error(`未找到 #${this.props.canvasId} 组件`);
       return;
     }
+
     domref.id = this.props.canvasId;
+
+    const canvasIdLists = [
+      `${this.props.canvasId}_draw_canvas`,
+      `${this.props.canvasId}_tooltip_canvas`,
+      `${this.props.canvasId}_hit_canvas`
+    ];
+    await vglobal.setEnv('wx', { domref, force: true, canvasIdLists, freeCanvasIdx: 2, component: this.$scope });
 
     this.ttCanvas = new TTCanvas({
       dpr: dpr,
@@ -101,6 +110,7 @@ export class GeneralChart extends React.Component<IChartProps> {
       spec: this.props.spec,
       events: this.props.events,
       options: this.props.options,
+      mode: 'wx',
       onChartInit: (chart: IVChart) => {
         this.props?.onChartInit && this.props.onChartInit(chart);
       },
@@ -115,7 +125,8 @@ export class GeneralChart extends React.Component<IChartProps> {
 
   render() {
     const handleEvent = (event: any) => {
-      if (this.ttCanvas.chartInstance) {
+      if (this.ttCanvas && this.ttCanvas.chartInstance) {
+        console.log(111);
         const chartInstance = this.ttCanvas.chartInstance;
 
         Object.defineProperty(event, 'target', {
@@ -129,6 +140,7 @@ export class GeneralChart extends React.Component<IChartProps> {
     return (
       <View key={canvasId} style={{ ...style_container, ...style, padding: 0 }}>
         <Canvas
+          type="2d"
           style={{
             ...style_cs_tooltip_canvas
           }}
@@ -136,6 +148,7 @@ export class GeneralChart extends React.Component<IChartProps> {
           canvasId={`${canvasId}_tooltip_canvas`}
         ></Canvas>
         <Canvas
+          type="2d"
           onTouchStart={handleEvent}
           onTouchMove={handleEvent}
           onTouchEnd={handleEvent}
@@ -144,6 +157,7 @@ export class GeneralChart extends React.Component<IChartProps> {
           canvasId={`${canvasId}_draw_canvas`}
         ></Canvas>
         <Canvas
+          type="2d"
           style={{
             ...style_cs_canvas,
             ...style_cs_canvas_hidden
