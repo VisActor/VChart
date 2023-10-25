@@ -11,9 +11,9 @@ function getPackageJson(pkgJsonPath) {
   return JSON.parse(pkgJson);
 }
 
-const semverRegex = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-(alpha|beta|rc)(?:\.(?:(0|[1-9])))*)$/;
+const semverRegex = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-(alpha|beta|rc|hotfix)(?:\.(?:(0|[1-9])))*)$/;
 
-const preReleaseNameReg = /^((alpha|beta|rc)(?:\.(?:0|[1-9]))*)$/;
+const preReleaseNameReg = /^((alpha|beta|rc|hotfix)(?:\.(?:0|[1-9]))*)$/;
 
 function run() {
   let preReleaseName = process.argv.slice(2)[0];
@@ -49,7 +49,7 @@ function run() {
       }
     }
   } else {
-    console.log(`\x1b[31m[error]\x1b[0m preReleaseName: \x1b[31m ${preReleaseName} \x1b[0m 不符合规范，只允许 alpha.0 , beta.1, rc.3 类似的格式 `)
+    console.log(`\x1b[31m[error]\x1b[0m preReleaseName: \x1b[31m ${preReleaseName} \x1b[0m 不符合规范，只允许 alpha.0 , beta.1, rc.3, hotfix.0 类似的格式 `)
   }
 
   if (preReleaseName && preReleaseType) {
