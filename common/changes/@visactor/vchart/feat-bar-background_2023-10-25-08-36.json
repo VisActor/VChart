@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add bar background mark for bar-like series, related #1154",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
