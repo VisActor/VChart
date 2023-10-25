@@ -15,6 +15,7 @@ import { useState } from 'react';
 
 function App() {
   const [enabled, setEnabled] = useState<boolean>(true);
+  const [fontSize, setFontSize] = useState<number>(12);
 
   return (
     <div>
@@ -129,7 +130,7 @@ function App() {
             entries: [
               { key: 'switch', label: '显示当前时间' },
               { key: 'fontFamily', label: '字体' },
-              { key: 'fontSize', label: '字号' },
+              { key: 'fontSize', label: '字号', value: fontSize },
               { key: 'fontStyle', label: '样式' },
               { key: 'color', label: '颜色' }
             ]
@@ -156,6 +157,9 @@ function App() {
         }}
         onChange={(section, key, value) => {
           console.log(section, key, value);
+          if (section === 'time' && key === 'fontSize') {
+            setFontSize(value);
+          }
         }}
       />
     </div>
