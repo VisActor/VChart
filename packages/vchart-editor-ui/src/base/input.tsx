@@ -5,6 +5,7 @@ import { defaultBaseComponentConfig } from '../config/base';
 export function Input(props: IBaseInputComponentProps) {
   const placeholder = props.config?.placeholder ?? defaultBaseComponentConfig.input.placeholder;
   const singleline = props.config?.singleline ?? false;
+  const trigger = props.config?.trigger ?? 'change';
 
   return (
     <div className="vchart-editor-ui-panel-base-container">
@@ -16,7 +17,14 @@ export function Input(props: IBaseInputComponentProps) {
             defaultValue={props.value}
             placeholder={placeholder}
             onChange={value => {
-              props.onChange?.(value);
+              if (trigger === 'change') {
+                props.onChange?.(value);
+              }
+            }}
+            onBlur={e => {
+              if (trigger === 'blur') {
+                props.onChange?.((e.target as HTMLInputElement).value);
+              }
             }}
           />
         </div>
@@ -24,11 +32,18 @@ export function Input(props: IBaseInputComponentProps) {
         <TextArea
           defaultValue={props.value}
           placeholder={placeholder}
-          onChange={value => {
-            props.onChange?.(value);
-          }}
           rows={2}
           style={{ width: '100%' }}
+          onChange={value => {
+            if (trigger === 'change') {
+              props.onChange?.(value);
+            }
+          }}
+          onBlur={e => {
+            if (trigger === 'blur') {
+              props.onChange?.((e.target as HTMLInputElement).value);
+            }
+          }}
         />
       )}
     </div>
