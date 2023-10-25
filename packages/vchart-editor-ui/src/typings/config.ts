@@ -15,6 +15,7 @@ export interface IInputComponentConfig extends IBaseComponentConfig {
   value?: string;
   singleline?: boolean;
   placeholder?: string;
+  trigger?: 'change' | 'blur';
 }
 
 export interface ISelectComponentConfig extends IBaseComponentConfig {
