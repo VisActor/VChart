@@ -38,6 +38,7 @@ import { flatten } from '../../data/transforms/flatten';
 import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
+import { TransformLevel } from '../../data/initialize';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -119,7 +120,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           nodeSortBy: this._spec.nodeSortBy,
           setNodeLayer: this._spec.setNodeLayer
         } as ISankeyOpt,
-        level: -1
+        level: TransformLevel.sankeyLayout
       });
 
       const nodesDataSet = new DataSet();
@@ -146,7 +147,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             }
             return node;
           }
-        }
+        },
+        level: TransformLevel.sankeyFlatten
       });
 
       nodesDataView.transform(

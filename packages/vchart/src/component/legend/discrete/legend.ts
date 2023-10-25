@@ -20,6 +20,7 @@ import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/tran
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
 import { Factory } from '../../../core/factory';
+import { TransformLevel } from '../../../data/initialize';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;
@@ -63,7 +64,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
             field: () => this._getSeriesLegendField(s),
             data: () => this._legendData.getLatestData().map((obj: any) => obj.key)
           },
-          level: -1
+          level: TransformLevel.legendFilter
         });
       },
       {

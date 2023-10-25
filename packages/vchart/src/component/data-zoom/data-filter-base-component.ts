@@ -36,6 +36,7 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { AbstractComponent } from '@visactor/vrender-components';
 import type { IDelayType } from '../../typings/event';
+import { TransformLevel } from '../../data/initialize';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
@@ -602,7 +603,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
               },
               isContinuous: () => isContinuous(this._stateScale.type)
             },
-            level: -1
+            level: TransformLevel.copyDataView
           });
         },
         {

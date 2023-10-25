@@ -27,6 +27,7 @@ import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import { registerGeoCoordinate } from '../../component/geo';
 import type { IMark } from '../../mark/interface';
+import { TransformLevel } from '../../data/initialize';
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;
@@ -85,7 +86,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       .parse([features], {
         type: 'dataview'
       })
-      .transform({ type: 'copyDataView', options: { deep: true }, level: -2 })
+      .transform({ type: 'copyDataView', options: { deep: true }, level: TransformLevel.copyDataView })
       .transform({
         type: 'map',
         options: {

@@ -31,12 +31,12 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { treemapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerTreemapAnimation } from './animation';
+import { TransformLevel } from '../../data/initialize';
 
 export class TreemapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;
@@ -140,7 +140,7 @@ export class TreemapSeries extends CartesianSeries<any> {
           minChildrenVisibleArea: this._spec.minChildrenVisibleArea,
           minChildrenVisibleSize: this._spec.minChildrenVisibleSize
         } as ITreemapOpt,
-        level: -1
+        level: TransformLevel.treemapFilter
       });
 
       this.addViewDataFilter({
@@ -154,7 +154,7 @@ export class TreemapSeries extends CartesianSeries<any> {
             return node;
           }
         },
-        level: -1
+        level: TransformLevel.treemapFlatten
       });
     }
   }
