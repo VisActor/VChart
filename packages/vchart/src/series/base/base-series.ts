@@ -331,13 +331,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       if (this._stack) {
         // 初始化viewDataFilter
         this._viewDataFilter = dataViewFromDataView(this._rawData, this._dataSet, {
-          name: `${PREFIX}_series_${this.id}_viewDataFilter`
+          name: `${this.type}_${this.id}_viewDataFilter`
         });
       }
 
       // 初始化viewData
       const viewData = dataViewFromDataView(this._stack ? this._viewDataFilter : this._rawData, this._dataSet, {
-        name: `${PREFIX}_series_${this.id}_viewData`
+        name: `${this.type}_${this.id}_viewData`
       });
       this._data = new SeriesData(this._option, viewData);
 
@@ -386,7 +386,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _statisticRawData() {
     registerDataSetInstanceTransform(this._dataSet, 'dimensionStatistics', dimensionStatistics);
-    const rawDataStatisticsName = `${PREFIX}_series_${this.id}_rawDataStatic`;
+    const rawDataStatisticsName = `${this.type}_${this.id}_rawDataStatic`;
     this._rawDataStatistics = new DataView(this._dataSet, { name: rawDataStatisticsName });
     this._rawDataStatistics.parse([this._rawData], {
       type: 'dataview'
@@ -430,7 +430,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _statisticViewData() {
     registerDataSetInstanceTransform(this._dataSet, 'dimensionStatistics', dimensionStatistics);
-    const viewDataStatisticsName = `${PREFIX}_series_${this.id}_viewDataStatic`;
+    const viewDataStatisticsName = `${this.type}_${this.id}_viewDataStatic`;
     this._viewDataStatistics = new DataView(this._dataSet, { name: viewDataStatisticsName });
     this._viewDataStatistics.parse([this._data.getDataView()], {
       type: 'dataview'
@@ -513,12 +513,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   // stack
   private createdStackData(): void {
-    const dataName = `${PREFIX}_series_${this.id}_viewStackData`;
-    this._viewStackData = new DataView(this._dataSet);
+    const dataName = `${this.type}_${this.id}_viewStackData`;
+    this._viewStackData = new DataView(this._dataSet, { name: dataName });
     this._viewStackData.parse([this._viewDataFilter], {
       type: 'dataview'
     });
-    this._viewStackData.name = dataName;
     this._viewStackData.transform(
       {
         type: 'stackSplit',
@@ -725,7 +724,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _updateExtensionMarkSpec(lastSpec?: any) {
     this._spec.extensionMark?.forEach((spec, i) => {
-      const mark = this._marks.getMarkWithInfo({ name: `${PREFIX}_series_${this.id}_extensionMark_${i}` });
+      const mark = this._marks.getMarkWithInfo({ name: `${this.type}_${this.id}_extensionMark_${i}` });
       if (!mark) {
         return;
       }

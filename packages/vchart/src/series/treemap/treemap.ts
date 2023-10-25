@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import { STATE_VALUE_ENUM } from '../../compile/mark';
-import { AttributeLevel, DEFAULT_DATA_KEY, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import { AttributeLevel, DEFAULT_DATA_KEY, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IRectMark } from '../../mark/rect';
@@ -177,7 +177,7 @@ export class TreemapSeries extends CartesianSeries<any> {
   }
 
   protected _statisticRawData() {
-    const rawDataName = `${PREFIX}_series_${this.id}_rawDataStatic`;
+    const rawDataName = `${this.type}_${this.id}_rawDataStatic`;
     this._rawDataStatistics = this._createHierarchyDataStatistics(rawDataName, [this._rawData]);
     this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
     this._rawDataStatistics.reRunAllTransform();

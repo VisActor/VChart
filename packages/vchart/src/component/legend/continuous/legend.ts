@@ -111,7 +111,7 @@ export class ContinuousLegend<
   protected _initLegendData(): DataView {
     registerDataSetInstanceTransform(this._option.dataSet, 'continuousLegendFilter', continuousLegendFilter);
     registerDataSetInstanceTransform(this._option.dataSet, 'continuousLegendDataMake', continuousLegendDataMake);
-    const legendData = new DataView(this._option.dataSet);
+    const legendData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     legendData.transform({
       type: 'continuousLegendDataMake',
       options: {

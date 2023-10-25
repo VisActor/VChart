@@ -124,11 +124,10 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     registerDataSetInstanceTransform(this._dataSet, 'funnel', funnel);
     registerDataSetInstanceTransform(this._dataSet, 'funnelTransform', funnelTransform);
 
-    const viewDataTransform = new DataView(this._dataSet);
+    const viewDataTransform = new DataView(this._dataSet, { name: `${PREFIX}_series_${this.id}_viewDataTransform` });
     viewDataTransform.parse([this.getViewData()], {
       type: 'dataview'
     });
-    viewDataTransform.name = `${PREFIX}_series_${this.id}_viewDataTransform`;
 
     this._viewDataTransform = new SeriesData(this._option, viewDataTransform);
   }

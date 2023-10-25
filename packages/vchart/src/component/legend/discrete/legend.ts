@@ -77,7 +77,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   protected _initLegendData(): DataView {
     registerDataSetInstanceTransform(this._option.dataSet, 'discreteLegendFilter', discreteLegendFilter);
     registerDataSetInstanceTransform(this._option.dataSet, 'discreteLegendDataMake', discreteLegendDataMake);
-    const legendData = new DataView(this._option.dataSet);
+    const legendData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     legendData.transform({
       type: 'discreteLegendDataMake',
       options: {

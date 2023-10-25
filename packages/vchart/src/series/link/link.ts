@@ -19,6 +19,7 @@ import { SymbolMark } from '../../mark/symbol';
 import { linkSeriesMark } from './constant';
 import { linkDotInfo } from '../../data/transforms/link-dot-info';
 import { Factory } from '../../core/factory';
+import { TransformLevel } from '../../data/initialize';
 
 export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.link;
@@ -95,7 +96,8 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
           },
           linkData: () => this._rawData.latestData,
           dotData: () => this._getDotData()
-        }
+        },
+        level: TransformLevel.linkDotInfo
       },
       false
     );

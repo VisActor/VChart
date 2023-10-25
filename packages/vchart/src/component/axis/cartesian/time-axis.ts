@@ -59,7 +59,7 @@ export class CartesianTimeAxis<
     // 如果layer数组的第二项未配置，则不显示第二层
     if (this._spec.layers?.[1]) {
       const label = this._spec.label || {};
-      const layerTickData = new DataView(this._option.dataSet)
+      const layerTickData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_layer_1_ticks` })
         .parse(this._scale, {
           type: 'scale'
         })
@@ -85,7 +85,6 @@ export class CartesianTimeAxis<
           },
           false
         );
-      layerTickData.name = `${PREFIX}_timeAxis_${this.id}_ticks`;
       // layerTickData.target.addListener('change', this.updateAxis.bind(this));
 
       this._layerTickData = new CompilableData(this._option, layerTickData);
