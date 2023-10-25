@@ -99,8 +99,7 @@ export const getPolarDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoi
           return;
         }
 
-        const angleOffset = Math.abs(angleRange[0] - angleRange[1]) / angleDomain.length / 2; // 计算角度偏移
-        const value = angleScale.invert(angle + angleOffset);
+        const value = angleScale.invert(angle);
         if (isNil(value)) {
           return;
         }
