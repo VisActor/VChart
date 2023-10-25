@@ -14,7 +14,7 @@ import { isContinuous } from '@visactor/vscale';
 import type { LayoutItem } from '../../../model/layout-item';
 import { Factory } from '../../../core/factory';
 import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis, transformInverse } from './util';
-import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
+import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, PREFIX, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
 import type { IPoint, StringOrNumber } from '../../../typings';
@@ -320,6 +320,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         },
         false
       );
+    tickData.name = `${PREFIX}_axis_${this.id}_ticks`;
     tickData.target.addListener('change', this._forceLayout.bind(this));
 
     this._tickData = new CompilableData(this._option, tickData);
