@@ -1,7 +1,7 @@
 import type { IBaseScale } from '@visactor/vscale';
 import type { IPoint, IPolarPoint } from '../../typings/coordinate';
 import type { IPolarSeries } from '../interface';
-import { array, shallowCompare, isValid, isNil } from '../../util';
+import { array, isValid, isNil, couldBeValidNumber } from '../../util';
 import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
@@ -229,4 +229,17 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
       sortDataInAxisHelper(this.angleAxisHelper, this._angleField[0], this.getViewData().latestData);
     }
   }
+
+  protected _getInvalidDefined = (datum: Datum) => {
+    if (this.angleAxisHelper.isContinuous) {
+      if (!couldBeValidNumber(datum[this._angleField[0]])) {
+        return false;
+      }
+    } else if (this.radiusAxisHelper.isContinuous) {
+      if (!couldBeValidNumber(datum[this._radiusField[0]])) {
+        return false;
+      }
+    }
+    return true;
+  };
 }
