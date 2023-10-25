@@ -440,6 +440,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         type: 'dimensionStatistics',
         options: {
           fieldFollowSource: (key: string) => {
+            if (this._viewDataFilter) {
+              return this._viewDataFilter.transformsArr.length <= 1;
+            }
+
             return this.getViewData().transformsArr.length <= 1;
           },
           sourceStatistics: () => this._rawDataStatistics.latestData,

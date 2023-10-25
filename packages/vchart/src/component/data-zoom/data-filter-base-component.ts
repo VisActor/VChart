@@ -601,7 +601,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
                 return this._field ?? this._parseFieldOfSeries(s);
               },
               isContinuous: () => isContinuous(this._stateScale.type)
-            }
+            },
+            level: -1
           });
         },
         {

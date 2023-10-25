@@ -139,7 +139,8 @@ export class TreemapSeries extends CartesianSeries<any> {
           minVisibleArea: this._spec.minVisibleArea ?? 10,
           minChildrenVisibleArea: this._spec.minChildrenVisibleArea,
           minChildrenVisibleSize: this._spec.minChildrenVisibleSize
-        } as ITreemapOpt
+        } as ITreemapOpt,
+        level: -1
       });
 
       this.addViewDataFilter({
@@ -152,7 +153,8 @@ export class TreemapSeries extends CartesianSeries<any> {
             }
             return node;
           }
-        }
+        },
+        level: -1
       });
     }
   }
