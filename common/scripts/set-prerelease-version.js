@@ -18,23 +18,23 @@ function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildN
   const mainPkgJson = getPackageJson(mainPkgJsonPath)
   const mainVersion = mainPkgJson.version;
   console.log(`The version of main project is ${mainVersion}`);
-  const version = parseVersion(mainVersion);
-  console.log('parsed version:', version)
+  const curVersion = parseVersion(mainVersion);
+  console.log('parsed current version:', curVersion)
 
-  if (!version) {
+  if (!curVersion) {
     return;
   }
 
-  if (!version.preReleaseName) {
+  if (!nextVersionStr && !curVersion.preReleaseName) {
     if (nextBump === 'major') {
-      version.major += 1;
-      version.minor = 0;
-      version.patch = 0;
+      curVersion.major += 1;
+      curVersion.minor = 0;
+      curVersion.patch = 0;
     } else if (nextBump === 'minor') {
-      version.minor += 1;
-      version.patch = 0;
+      curVersion.minor += 1;
+      curVersion.patch = 0;
     } else {
-      version.patch += 1;
+      curVersion.patch += 1;
     }
   }
 
