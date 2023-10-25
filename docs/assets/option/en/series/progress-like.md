@@ -9,6 +9,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = ${seriesType},
+  seriesMarks = ${seriesMarks},
 ) }}
 
 #${prefix} cornerRadius(number) = 0

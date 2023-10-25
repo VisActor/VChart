@@ -147,5 +147,6 @@ morph 动画配置。
   noPreset = ${noPreset},
   preset = ${preset},
   defaultPreset = ${defaultPreset},
-  seriesType = ${seriesType}
+  seriesType = ${seriesType},
+  seriesMarks = ${seriesMarks}
 ) }}

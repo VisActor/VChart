@@ -7,6 +7,7 @@
   noType = ${noType},
   noData = ${noData},
   seriesType = ${seriesType},
+  seriesMarks = ${seriesMarks},
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   noPreset = ${noPreset},

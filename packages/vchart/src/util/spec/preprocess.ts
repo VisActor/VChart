@@ -1,4 +1,4 @@
-import { isArray, isFunction, isObject, isString, isValid, isValidNumber } from '@visactor/vutils';
+import { isArray, isFunction, isNil, isObject, isString, isValid, isValidNumber } from '@visactor/vutils';
 import { seriesMarkNameSet, type SeriesTypeEnum } from '../../series/interface';
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 import { isDataView, isHTMLElement } from './common';
@@ -19,6 +19,9 @@ export function preprocessSpecOrTheme(
   colorScheme?: IThemeColorScheme,
   seriesType?: SeriesTypeEnum
 ): any {
+  if (isNil(obj)) {
+    return obj;
+  }
   if (isArray(obj)) {
     return obj.map(element => {
       if (isObject(element) && !isFunction(element)) {

@@ -22,7 +22,7 @@ import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
-import type { Stage } from '@visactor/vrender-core';
+import { globalTheme, type Stage } from '@visactor/vrender-core';
 import {
   isString,
   isValid,
@@ -36,7 +36,6 @@ import {
   specTransform,
   convertPoint,
   preprocessSpecOrTheme,
-  mergeTheme,
   getThemeObject,
   mergeSpecWithFilter
 } from '../util';
@@ -85,7 +84,7 @@ import {
   LoggerLevel,
   isEqual
 } from '@visactor/vutils';
-import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
+import type { DataLinkAxis, DataLinkSeries, IChartLevelTheme, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
@@ -96,6 +95,8 @@ import { GroupMark } from '../mark';
 import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
+import type { IThemeColorScheme } from '../theme/color-scheme/interface';
+import { mergeThemeAndGet } from '../theme/util';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -247,7 +248,8 @@ export class VChart implements IVChart {
   private _observer: ResizeObserver = null;
 
   private _currentThemeName: string;
-  private _currentTheme: ITheme;
+  //private _currentTheme: ITheme;
+  private _currentChartLevelTheme: IChartLevelTheme = {};
 
   private _onError?: (...args: any[]) => void;
 
@@ -304,7 +306,7 @@ export class VChart implements IVChart {
     this._compiler.initView();
     // 设置全局字体
     this.getStage()?.setTheme({
-      text: { fontFamily: this._currentTheme.fontFamily }
+      text: { fontFamily: this._currentChartLevelTheme.fontFamily }
     });
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowser(mode) ? spec.autoFit ?? this._option.autoFit ?? true : false;
@@ -345,7 +347,12 @@ export class VChart implements IVChart {
       performanceHook: this._option.performanceHook,
       viewBox: this._viewBox,
       animation: this._option.animation,
-      getTheme: () => this._currentTheme,
+      getThemeConfig: () => ({
+        globalTheme: this._currentThemeName,
+        optionTheme: this._option.theme,
+        specTheme: this._spec?.theme,
+        chartLevelTheme: this._currentChartLevelTheme
+      }),
       layout: this._option.layout,
       onError: this._onError
     });
@@ -772,7 +779,7 @@ export class VChart implements IVChart {
       this._spec = spec;
       if (!isEqual(lastSpec.theme, spec.theme)) {
         this._updateCurrentTheme();
-        this._chart?.setCurrentTheme(this._currentTheme, false);
+        this._chart?.setCurrentTheme();
       }
       const reSize = this._updateChartConfiguration(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
@@ -1062,39 +1069,28 @@ export class VChart implements IVChart {
    * @param nextThemeName 通过 setCurrentTheme 方法新设的主题
    */
   private _updateCurrentTheme(nextThemeName?: string) {
-    let optionTheme: Maybe<string | ITheme> = this._option.theme;
-    let specTheme: Maybe<string | ITheme> = this._spec?.theme;
+    const optionTheme: Maybe<string | ITheme> = this._option.theme;
+    const specTheme: Maybe<string | ITheme> = this._spec?.theme;
 
-    let finalTheme: ITheme;
-    if (ThemeManager.themeExist(nextThemeName)) {
-      // 优先级最低
-      const newTheme = ThemeManager.getTheme(nextThemeName);
-      // 优先级适中
-      optionTheme = !optionTheme || isString(optionTheme) ? {} : optionTheme;
-      // 优先级最高
-      specTheme = !specTheme || isString(specTheme) ? {} : specTheme;
-      // 合并
-      finalTheme = mergeTheme({}, newTheme, optionTheme, specTheme);
+    if (nextThemeName) {
       this._currentThemeName = nextThemeName;
-    } else {
-      if (isString(specTheme) && ThemeManager.themeExist(specTheme)) {
-        // 以 specTheme 为最底开始合并
-        finalTheme = mergeTheme({}, ThemeManager.getTheme(specTheme));
-        this._currentThemeName = specTheme;
-      } else if (isString(optionTheme) && ThemeManager.themeExist(optionTheme)) {
-        // 以 optionTheme 为最底开始合并
-        finalTheme = mergeTheme({}, ThemeManager.getTheme(optionTheme), getThemeObject(specTheme));
-        this._currentThemeName = optionTheme;
-      } else {
-        // 以 baseTheme 为最底开始合并
-        const baseTheme = getThemeObject(this._currentThemeName);
-        finalTheme = mergeTheme({}, baseTheme, getThemeObject(optionTheme), getThemeObject(specTheme));
-      }
     }
 
-    this._currentTheme = preprocessSpecOrTheme('theme', finalTheme, finalTheme.colorScheme);
+    const colorScheme = mergeThemeAndGet('colorScheme', this._currentThemeName, optionTheme, specTheme);
+    this._currentChartLevelTheme = {
+      colorScheme,
+      background: mergeThemeAndGet('background', this._currentThemeName, optionTheme, specTheme, colorScheme),
+      fontFamily: mergeThemeAndGet('fontFamily', this._currentThemeName, optionTheme, specTheme, colorScheme)
+    };
+
     // 设置 poptip 的主题
-    setPoptipTheme(preprocessSpecOrTheme('mark-theme', mergeSpec({}, this._currentTheme.component?.poptip)));
+    setPoptipTheme(
+      preprocessSpecOrTheme(
+        'mark-theme',
+        mergeThemeAndGet('component.poptip', this._currentThemeName, optionTheme, specTheme, colorScheme),
+        colorScheme
+      )
+    );
     // 设置背景色
     this._compiler?.setBackground(this._getBackground());
   }
@@ -1116,14 +1112,14 @@ export class VChart implements IVChart {
   private _getBackground() {
     const specBackground = typeof this._spec.background === 'string' ? this._spec.background : null;
     // spec > spec.theme > initOptions.theme
-    return specBackground || (this._currentTheme.background as string) || this._option.background;
+    return specBackground || (this._currentChartLevelTheme.background as string) || this._option.background;
   }
 
   /**
-   * 获取当前主题，会返回完整的主题配置
+   * 获取当前主题，会返回完整的主题配置（只能获取用户通过`setCurrentTheme`方法设置过的主题，默认值为`ThemeManager`统一设置的主题）
    * */
   getCurrentTheme() {
-    return this._currentTheme;
+    return getThemeObject(this._currentThemeName);
   }
 
   /**
@@ -1146,7 +1142,7 @@ export class VChart implements IVChart {
 
     await this.updateCustomConfigAndRerender(() => {
       this._updateCurrentTheme(name);
-      this._chart?.setCurrentTheme(this._currentTheme, true);
+      this._chart?.setCurrentTheme(true);
       return { change: true, reMake: false };
     });
 
@@ -1166,7 +1162,7 @@ export class VChart implements IVChart {
 
     this.updateCustomConfigAndRerenderSync(() => {
       this._updateCurrentTheme(name);
-      this._chart?.setCurrentTheme(this._currentTheme, true);
+      this._chart?.setCurrentTheme(true);
       return { change: true, reMake: false };
     });
 

@@ -2,8 +2,8 @@ import { GlobalScale } from '../../../src/scale/global-scale';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
-import { ThemeManager, default as VChart } from '../../../src';
-import { DataSet, csvParser, dataViewParser } from '@visactor/vdataset';
+import { default as VChart } from '../../../src';
+import { DataSet, csvParser } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { disk } from '../../data/disk';
@@ -66,7 +66,6 @@ describe('treemap chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(),
       onError: () => {}
     } as any);
     chart.created();

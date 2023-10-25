@@ -7,6 +7,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'rangeArea',
+  seriesMarks = ['line', 'point','area'],
 ) }}
 
 #${prefix} minField(string)

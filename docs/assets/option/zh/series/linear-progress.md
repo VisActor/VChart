@@ -9,6 +9,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'linearProgress',
+  seriesMarks = ['progress', 'track'],
   preset = 'grow' + '|' + 'fadeIn',
   defaultPreset = 'grow'
 ) }}

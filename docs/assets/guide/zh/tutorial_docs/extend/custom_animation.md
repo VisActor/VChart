@@ -52,7 +52,6 @@ const formatDate = date => {
 const dateString = formatDate(new Date());
 
 const pointerAnimate = {
-  channels: ['angle'],
   custom: (ratio, from, to, nextAttributes) => {
     if ((!from.angle && from.angle !== 0) || (!to.angle && to.angle !== 0)) {
       return;
@@ -88,8 +87,6 @@ const getGalaxyData = time => {
 
 const spec = {
   type: 'common',
-  width: 500,
-  height: 500,
   background: 'black',
   theme: {
     colorScheme: {
@@ -187,11 +184,13 @@ const spec = {
       },
       animationAppear: false,
       animationUpdate: {
-        segment: {
-          channels: ['fillOpacity'],
-          duration: 1000,
-          easing: 'easeInOut'
-        }
+        segment: [
+          {
+            channel: ['fillOpacity'],
+            duration: 1000,
+            easing: 'easeInOut'
+          }
+        ]
       }
     },
     {
@@ -413,7 +412,8 @@ export interface ICustomAnimate {
 下面的例子使用了 `VRender` 内置 `StreamLight` 的自定义动画类，来实现的柱状图流光特效：
 
 ```javascript livedemo
-import { StreamLight } from '@visactor/vrender';
+// import { StreamLight } from '@visactor/vrender-core';
+// 如果你需要使用 `StreamLight` 动画，请从 @visactor/vrender-core 中导出并使用。
 
 const spec = {
   type: 'bar',
@@ -447,7 +447,7 @@ const spec = {
       loop: 100,
       duration: 1500,
       easing: 'quadIn',
-      custom: StreamLight,
+      custom: VRender.StreamLight,
       customParameters: {
         attribute: {
           fillColor: 'white',
@@ -461,6 +461,6 @@ const spec = {
   }
 };
 
-const vchart = new VChart(spec, { dom： CONTAINER_ID });
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 ```
