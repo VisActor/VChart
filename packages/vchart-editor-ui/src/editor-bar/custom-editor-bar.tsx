@@ -16,8 +16,14 @@ import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 import { EditorBarTextColor } from '../tools/text-color';
 import { EditorBarFontSize } from '../tools/font-size';
 
-function generateInitialPanelValue(entries: IEditorBarEntry[]) {
+function generatePanelValue(entries: IEditorBarEntry[], initial?: boolean) {
   const panelValue = {};
+  if (!initial) {
+    entries.forEach(entry => {
+      panelValue[entry.key] = entry.value;
+    });
+    return panelValue;
+  }
   entries.forEach(entry => {
     switch (entry.key) {
       case 'chart':
@@ -56,10 +62,12 @@ function generateEditorEntry(
   tool: string,
   setTool: (tool: string) => void,
   onToolChange: (tool: string) => void,
+  forcePanelValue: Record<string, any>,
   panelValue: Record<string, any>,
   setPanelValue: (panelValue: Record<string, any>) => void
 ) {
   let toolNode: React.ReactNode;
+  const value = forcePanelValue[entry.key] ?? panelValue[entry.key];
   if (editorBarToolMap[entry.key]) {
     switch (editorBarToolMap[entry.key].type) {
       case 'tool':
@@ -92,9 +100,9 @@ function generateEditorEntry(
         toolNode = (
           <EditorBarEntry
             icon={editorBarToolMap[entry.key].icon}
-            selected={panelValue[entry.key]}
+            selected={value}
             onClick={() => {
-              const nextValue = !panelValue[entry.key];
+              const nextValue = !value;
               setPanelValue(Object.assign({}, panelValue, { [entry.key]: nextValue }));
               entry.onChange?.(nextValue);
               onChange?.(entry.key, nextValue);
@@ -108,7 +116,7 @@ function generateEditorEntry(
       case 'chart':
         toolNode = (
           <EditorBarChart
-            chart={panelValue[entry.key]}
+            chart={value}
             chartList={(entry as IEditorBarChartEntry).chartList ?? defaultEditorBarComponentConfig.chart.chartList}
             onChartChange={chart => {
               setPanelValue(Object.assign({}, panelValue, { [entry.key]: chart }));
@@ -121,7 +129,7 @@ function generateEditorEntry(
       case 'palette':
         toolNode = (
           <EditorBarPalette
-            palette={panelValue[entry.key]}
+            palette={value}
             paletteList={
               (entry as IEditorBarPaletteEntry).paletteList ?? defaultEditorBarComponentConfig.palette.paletteList
             }
@@ -136,7 +144,8 @@ function generateEditorEntry(
       case 'fill':
         toolNode = (
           <EditorBarFill
-            fill={panelValue[entry.key]}
+            fill={value}
+            colorPicker={entry.colorPicker}
             onFillChange={fill => {
               setPanelValue(Object.assign({}, panelValue, { [entry.key]: fill }));
               entry.onChange?.(fill);
@@ -148,7 +157,8 @@ function generateEditorEntry(
       case 'stroke':
         toolNode = (
           <EditorBarStroke
-            stroke={panelValue[entry.key]}
+            stroke={value}
+            colorPicker={entry.colorPicker}
             onStrokeChange={stroke => {
               setPanelValue(Object.assign({}, panelValue, { [entry.key]: stroke }));
               entry.onChange?.(stroke);
@@ -160,7 +170,8 @@ function generateEditorEntry(
       case 'line':
         toolNode = (
           <EditorBarStrokeLine
-            stroke={panelValue[entry.key]}
+            stroke={value}
+            colorPicker={entry.colorPicker}
             onStrokeChange={stroke => {
               setPanelValue(Object.assign({}, panelValue, { [entry.key]: stroke }));
               entry.onChange?.(stroke);
@@ -172,8 +183,9 @@ function generateEditorEntry(
       case 'textColor':
         toolNode = (
           <EditorBarTextColor
-            textColor={panelValue[entry.key]}
+            textColor={value}
             background={entry.background ?? true}
+            colorPicker={entry.colorPicker}
             onTextColorChange={textColor => {
               setPanelValue(Object.assign({}, panelValue, { [entry.key]: textColor }));
               entry.onChange?.(textColor);
@@ -185,7 +197,7 @@ function generateEditorEntry(
       case 'fontSize':
         toolNode = (
           <EditorBarFontSize
-            fontSize={panelValue[entry.key]}
+            fontSize={value}
             fontSizeList={
               (entry as IEditorBarFontSizeEntry).fontSizeList ?? defaultEditorBarComponentConfig.fontSize.fontSizeList
             }
@@ -212,7 +224,9 @@ function generateEditorEntry(
 
 export function CustomEditorBar(props: ICustomEditorComponentProps) {
   const [tool, setTool] = useState<string | null>(null);
-  const [panelValue, setPanelValue] = useState<Record<string, any>>(generateInitialPanelValue(props.entries));
+  const [panelValue, setPanelValue] = useState<Record<string, any>>(generatePanelValue(props.entries, true));
+
+  const forcePanelValue = generatePanelValue(props.entries);
 
   return (
     <div
@@ -222,7 +236,16 @@ export function CustomEditorBar(props: ICustomEditorComponentProps) {
       {props.entries.map(entry => {
         return (
           <React.Fragment key={entry.key}>
-            {generateEditorEntry(entry, props.onChange, tool, setTool, props.onToolChange, panelValue, setPanelValue)}
+            {generateEditorEntry(
+              entry,
+              props.onChange,
+              tool,
+              setTool,
+              props.onToolChange,
+              forcePanelValue,
+              panelValue,
+              setPanelValue
+            )}
           </React.Fragment>
         );
       })}

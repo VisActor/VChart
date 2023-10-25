@@ -41,6 +41,9 @@ export interface IEditorBarFillProps {
   fill: Fill;
   fillColorList?: string[];
   onFillChange?: (fill: Fill) => void;
+
+  // custom color picker component
+  colorPicker?: React.ComponentType<any>;
 }
 
 export interface Stroke {
@@ -53,6 +56,9 @@ export interface Stroke {
 export interface IEditorBarStrokeProps {
   stroke: Stroke;
   onStrokeChange?: (stroke: Stroke) => void;
+
+  // custom color picker component
+  colorPicker?: React.ComponentType<any>;
 }
 
 export type TextColor = {
@@ -64,6 +70,9 @@ export interface IEditorBarTextColorProps {
   textColor: TextColor;
   background?: boolean;
   onTextColorChange?: (textColor: TextColor) => void;
+
+  // custom color picker component
+  colorPicker?: React.ComponentType<any>;
 }
 
 export interface IEditorBarFontSizeProps {
@@ -132,6 +141,7 @@ export interface IEditorBarEntry {
   default?: any;
   onChange?: (value?: any) => void;
   divide?: boolean;
+  value?: any;
   [key: string]: any;
 }
 

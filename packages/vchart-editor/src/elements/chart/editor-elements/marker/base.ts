@@ -64,6 +64,18 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
         y: markerBounds.y1,
         width: markerBounds.width(),
         height: markerBounds.height()
+      },
+      updateCall: attr => {
+        const reRender = this.chart.specProcess.updateElementAttribute(element.model, attr);
+        const releaseLast = reRender;
+        if (releaseLast) {
+          this.releaseLast();
+        }
+        if (reRender) {
+          this.chart.reRenderWithUpdateSpec();
+        }
+
+        return false;
       }
     });
     return element;
