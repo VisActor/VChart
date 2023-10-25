@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Canvas } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+// @ts-ignore
 import { vglobal } from '@visactor/vchart/build/es5';
 
 import {
