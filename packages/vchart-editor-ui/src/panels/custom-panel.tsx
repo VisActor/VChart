@@ -27,9 +27,10 @@ import { PanelTitle } from '../base/panel-title';
 import { FontSize } from '../base/font-size';
 import { defaultBaseComponentConfig } from '../config/base';
 
-function generateInitialPanelValue(
+function generatePanelValue(
   sections: Record<string, IPanelSection>,
-  sectionComponentMaps?: Record<string, Record<string, string>>
+  sectionComponentMaps?: Record<string, Record<string, string>>,
+  initial?: boolean
 ) {
   const panelValue = {};
   Object.keys(sections).forEach(sectionKey => {
@@ -38,7 +39,11 @@ function generateInitialPanelValue(
     const componentMap = sectionComponentMaps?.[sectionKey];
     section.entries.forEach(entry => {
       const componentType = componentMap ? componentMap[entry.key] : entry.key;
-      panelValue[sectionKey][entry.key] = entry.default ?? defaultBaseComponentConfig[componentType]?.default;
+      if (initial) {
+        panelValue[sectionKey][entry.key] = entry.default ?? defaultBaseComponentConfig[componentType]?.default;
+      } else {
+        panelValue[sectionKey][entry.key] = entry.value;
+      }
     });
   });
   return panelValue;
@@ -47,20 +52,22 @@ function generateInitialPanelValue(
 function generateEntry(
   section: string,
   entry: ComponentConfig,
-  panelValue: string,
+  forcePanelValue: any,
+  panelValue: any,
   setPanelValue: (value: any) => void,
   onChange: (entryType: string, key: string, value: any) => void,
   componentKey: string,
   postKey?: string | number
 ) {
   const CustomComponent = (entry as ICustomBaseComponentConfig).component;
+  const value = forcePanelValue[section][entry.key] ?? panelValue[section][entry.key];
   switch (componentKey) {
     case 'input':
       return (
         <Input
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
-          value={panelValue[section][entry.key]}
+          value={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
             setPanelValue(newPanelValue);
@@ -74,7 +81,7 @@ function generateEntry(
         <Select
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
-          value={panelValue[section][entry.key]}
+          value={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
             setPanelValue(newPanelValue);
@@ -88,7 +95,7 @@ function generateEntry(
         <Switch
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
-          value={panelValue[section][entry.key]}
+          value={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
             setPanelValue(newPanelValue);
@@ -103,7 +110,7 @@ function generateEntry(
         <SliderNumber
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
-          value={panelValue[section][entry.key]}
+          value={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
             setPanelValue(newPanelValue);
@@ -117,7 +124,7 @@ function generateEntry(
         <Color
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
-          color={panelValue[section][entry.key]}
+          color={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
             setPanelValue(newPanelValue);
@@ -131,7 +138,7 @@ function generateEntry(
         <FontFamily
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
-          fontFamily={panelValue[section][entry.key]}
+          fontFamily={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
             setPanelValue(newPanelValue);
@@ -145,7 +152,7 @@ function generateEntry(
         <FontSize
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
-          fontSize={panelValue[section][entry.key]}
+          fontSize={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
             setPanelValue(newPanelValue);
@@ -159,9 +166,9 @@ function generateEntry(
         <FontStyle
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
-          bolder={panelValue[section][entry.key]?.bolder}
-          underline={panelValue[section][entry.key]?.underline}
-          italic={panelValue[section][entry.key]?.italic}
+          bolder={value?.bolder}
+          underline={value?.underline}
+          italic={value?.italic}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
             setPanelValue(newPanelValue);
@@ -175,7 +182,7 @@ function generateEntry(
         <TextAlign
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
-          textAlign={panelValue[section][entry.key]}
+          textAlign={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
             setPanelValue(newPanelValue);
@@ -189,7 +196,7 @@ function generateEntry(
         <CustomComponent
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
-          value={panelValue[section][entry.key]}
+          value={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
             setPanelValue(newPanelValue);
@@ -205,18 +212,19 @@ function generateEntry(
 function generateEntries(
   section: string,
   entries: ComponentConfig[],
-  panelValue: string,
+  forcePanelValue: any,
+  panelValue: any,
   setPanelValue: (value: any) => void,
   onChange: (entryType: string, key: string, value: any) => void,
   componentMap?: Record<string, string>
 ) {
   return entries.map((entry, index) => {
     if (!componentMap) {
-      return generateEntry(section, entry, panelValue, setPanelValue, onChange, entry.key, index);
+      return generateEntry(section, entry, forcePanelValue, panelValue, setPanelValue, onChange, entry.key, index);
     }
     const componentKey = componentMap[entry.key];
     return componentKey
-      ? generateEntry(section, entry, panelValue, setPanelValue, onChange, componentKey, index)
+      ? generateEntry(section, entry, forcePanelValue, panelValue, setPanelValue, onChange, componentKey, index)
       : null;
   });
 }
@@ -224,7 +232,8 @@ function generateEntries(
 export function generateSection(
   section: IPanelSection,
   sectionKey: string,
-  panelValue: string,
+  forcePanelValue: any,
+  panelValue: any,
   setPanelValue: (value: any) => void,
   onChange: (entryType: string, key: string, value: any) => void,
   componentMap?: Record<string, string>
@@ -232,7 +241,7 @@ export function generateSection(
   return section ? (
     <>
       {!isNil(section.label) ? <PanelTitle label={section.label} /> : null}
-      {generateEntries(sectionKey, section.entries, panelValue, setPanelValue, onChange, componentMap)}
+      {generateEntries(sectionKey, section.entries, forcePanelValue, panelValue, setPanelValue, onChange, componentMap)}
     </>
   ) : null;
 }
@@ -243,11 +252,13 @@ export function CustomPanel(props: ICustomPanelProps) {
 
   const [collapsed, setCollapsed] = useState<boolean>(true);
 
-  const [panelValue, setPanelValue] = useState<any>(generateInitialPanelValue(sections, props.sectionComponentMaps));
+  const [panelValue, setPanelValue] = useState<any>(generatePanelValue(sections, props.sectionComponentMaps, true));
+
+  const forcePanelValue = generatePanelValue(sections, props.sectionComponentMaps);
 
   const onRefresh = () => {
     props.onRefresh?.(panelValue);
-    setPanelValue(generateInitialPanelValue(props.initialSections ?? sections, props.sectionComponentMaps));
+    setPanelValue(generatePanelValue(props.initialSections ?? sections, props.sectionComponentMaps));
   };
 
   return (
@@ -268,6 +279,7 @@ export function CustomPanel(props: ICustomPanelProps) {
                 {generateSection(
                   sections[section],
                   section,
+                  forcePanelValue,
                   panelValue,
                   setPanelValue,
                   props.onChange,
