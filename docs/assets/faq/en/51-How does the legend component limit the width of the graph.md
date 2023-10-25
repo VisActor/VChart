@@ -1,10 +1,10 @@
 # How does the legend component limit the width of the graph?
 
-## 问题描述
+## Question Description
 
 Use VChart. When the legend text is relatively long, it is expected to limit the width of the legend items to prevent the legend from taking up too much space and causing this kind of paging.
 
-## 解决方案
+## Solution
 
 VChart's legend component provides the configuration of the maximum width of the legend item. You can configure the desired value. When the legend item exceeds this maximum value, the text will be omitted, and a prompt message will appear when the mouse hovers over it.
 
@@ -19,7 +19,7 @@ legends: [
 ];
 ```
 
-## 代码示例
+## Code Example
 
 ```javascript livedemo
 const spec = {
@@ -55,7 +55,7 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## 相关文档
+## Quote
 
 - [github](https://github.com/VisActor/VChart)
 - [legends configuration](https://www.visactor.io/vchart/option/barChart#legends-discrete.item.maxWidth)

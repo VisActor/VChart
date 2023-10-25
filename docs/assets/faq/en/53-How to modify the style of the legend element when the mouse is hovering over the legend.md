@@ -1,10 +1,10 @@
 # How to realize that when the mouse hovers over the legend, the circular legend will be highlighted in a circle and the gray background of the rectangle will be removed?
 
-## 问题描述
+## Question Description
 
 How to configure the style of the legend when the mouse hovers, hoping to replace the gray background with a larger graphic.
 
-## 解决方案
+## Solution
 
 The legend of VChart provides the style configuration of the graph when it is hovered by the mouse, and the background can also be turned off.
 
@@ -14,7 +14,7 @@ The legend of VChart provides the style configuration of the graph when it is ho
 
 The graphic style configuration properties of VChart are unified. Configuring size in selectedHover and unSelectedHover at the same time can ensure that all legend items become larger when hovered by the mouse.
 
-## 代码示例
+## Code Example
 
 ```javascript livedemo
 const spec = {
@@ -75,7 +75,7 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## 相关文档
+## Quote
 
 - [github](https://github.com/VisActor/VChart)
 - [Legends background configuration](https://www.visactor.io/vchart/option/barChart#legends-discrete.item.background.visible)

@@ -1,10 +1,10 @@
 # How can we still make data points respond to hover events without displaying point graphics in area chart?
 
-## 问题描述
+## Question Description
 
 It is expected that the points will not be displayed in the area chart, but the event message of the point being hovered can still be obtained through vchart.on('pointerover', ...)
 
-## 解决方案
+## Solution
 
 VChart's graphic configuration will indeed no longer respond to interactive events after setting visible:false. However, you can set the transparency to 0 to make the point invisible, but still respond to interactive events.
 
@@ -19,7 +19,7 @@ VChart's graphic configuration will indeed no longer respond to interactive even
 }
 ```
 
-## 代码示例
+## Code Example
 
 ```javascript livedemo
 const spec = {
@@ -81,7 +81,7 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## 相关文档
+## Quote
 
 - [github](https://github.com/VisActor/VChart)
 - [Point style configuration](https://www.visactor.io/vchart/option/areaChart#point.style.fillOpacity)

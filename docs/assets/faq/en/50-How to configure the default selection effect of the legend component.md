@@ -1,10 +1,10 @@
 # How to configure the default selection effect of the legend component?
 
-## 问题描述
+## Question Description
 
 In VChart, when there are a large number of legends, can a fixed number of legends be selected by default? Other legends are grayed out
 
-## 解决方案
+## Solution
 
 VChart's legend component provides the configuration of default selection items, where you can configure the items you want to be selected by default, and other items will be automatically grayed out.
 
@@ -17,7 +17,7 @@ legends: [
 ];
 ```
 
-## 代码示例
+## Code Example
 
 ```javascript livedemo
 const spec = {
@@ -352,7 +352,7 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## 相关文档
+## Quote
 
 - [github](https://github.com/VisActor/VChart)
 - [legends configuration](https://www.visactor.io/vchart/option/barChart#legends-discrete.defaultSelected)

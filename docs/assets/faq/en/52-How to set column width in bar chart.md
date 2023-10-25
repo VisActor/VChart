@@ -1,10 +1,10 @@
 # How to set column width in bar chart?
 
-## 问题描述
+## Question Description
 
 Because the amount of data is uncertain, when there is too little data, the columns of the histogram are too wide and do not conform to the design draft. How can I configure the column width to be narrowed? At the same time, when there is a lot of data, the column can maintain its original width.
 
-## 解决方案
+## Solution
 
 VChart's column chart provides configuration items that can set the width of the column.
 
@@ -14,7 +14,7 @@ VChart's column chart provides configuration items that can set the width of the
 
 This requirement should be solved using barMaxWidth, just set it to the maximum width in the design draft.
 
-## 代码示例
+## Code Example
 
 ```javascript livedemo
 const spec = {
@@ -41,7 +41,7 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## 相关文档
+## Quote
 
 - [github](https://github.com/VisActor/VChart)
 - [Bar chart configuration](https://www.visactor.io/vchart/option/barChart#barWidth)

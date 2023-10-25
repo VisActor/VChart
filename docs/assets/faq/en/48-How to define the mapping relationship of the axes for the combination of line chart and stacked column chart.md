@@ -1,17 +1,17 @@
 # How to define the mapping relationship of the axes for the combination of line chart and stacked column chart?
 
-## 问题描述
+## Question Description
 
 In a column-line combination chart, there are 2 lines. I hope that the lower line and the column correspond to the left axis, and the top one corresponds to the right axis first. How should I configure it in vchart?
 
-## 解决方案
+## Solution
 
 In VChart, the axis and series can flexibly configure the corresponding relationship. The seriesId configured on the axis can be configured as an array of series ids or a single series id
 
 1. Divide the line data into two parts. If there are already two parts, you don’t need to process them. Assume that their IDs are line0 and line1 respectively, and the ID of the column is bar0.
 2. Set the seriesId of the left axis to ['line0','bar0'] and the seriesId of the right axis to ['line1'].
 
-## 代码示例
+## Code Example
 
 ```javascript livedemo
 const spec = {
@@ -109,7 +109,7 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## 相关文档
+## Quote
 
 - [github](https://github.com/VisActor/VChart)
 - [Axis configuration](<https://www.visactor.io/vchart/option/barChart-axes-linear#seriesId(string%7Cnumber%7C(string%20%7C%20number)%5B%5D)>)
