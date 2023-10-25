@@ -694,6 +694,13 @@
           }
         },
         {
+          "path": "Function",
+          "title": {
+            "zh": "函数",
+            "en": "Function"
+          }
+        },
+        {
           "path": "FAQ",
           "title": {
             "zh": "FAQ",
