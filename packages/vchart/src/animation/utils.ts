@@ -7,13 +7,16 @@ import type {
   IAnimationTimeline
 } from '@visactor/vgrammar-core';
 import type { MarkAnimationSpec, IAnimationState } from './interface';
-import type { IStateAnimateSpec, IAnimationSpec, IMorphSeriesSpec } from './spec';
+import type { IStateAnimateSpec, IAnimationSpec } from './spec';
 import { isFunction, isValidNumber } from '../util/type';
 import { DEFAULT_DATA_INDEX } from '../constant';
 import { DEFAULT_ANIMATION_CONFIG } from './config';
-import { isArray, isValid } from '@visactor/vutils';
+import { cloneDeep, isArray, isObject, isValid } from '@visactor/vutils';
 import type { SeriesMarkNameEnum } from '../series/interface/type';
 import { mergeSpec } from '../util/spec/merge-spec';
+import type { ISeries } from '../series';
+import type { ISeriesSpec } from '../typings';
+import type { ISeriesMarkAttributeContext } from '../compile/mark';
 
 export const AnimationStates = ['appear', 'enter', 'update', 'exit', 'disappear', 'normal'];
 
@@ -27,7 +30,6 @@ export function animationConfig<Preset extends string>(
   }
 ) {
   const config = {} as MarkAnimationSpec;
-
   for (let i = 0; i < AnimationStates.length; i++) {
     const state = AnimationStates[i];
 
@@ -88,9 +90,10 @@ export function animationConfig<Preset extends string>(
 
 export function userAnimationConfig<M extends string, Preset extends string>(
   markName: SeriesMarkNameEnum | string,
-  spec: IAnimationSpec<M, Preset>
+  spec: IAnimationSpec<M, Preset>,
+  ctx: ISeriesMarkAttributeContext
 ) {
-  return {
+  const userConfig = {
     appear: spec.animationAppear?.[markName] ?? spec.animationAppear,
     disappear: spec.animationDisappear?.[markName] ?? spec.animationDisappear,
     enter: spec.animationEnter?.[markName] ?? spec.animationEnter,
@@ -98,6 +101,7 @@ export function userAnimationConfig<M extends string, Preset extends string>(
     update: spec.animationUpdate?.[markName] ?? spec.animationUpdate,
     normal: spec.animationNormal?.[markName]
   };
+  return uniformAnimationConfig(userConfig, ctx);
 }
 
 /**
@@ -127,20 +131,19 @@ function defaultDataIndex(datum: any) {
   return datum?.[DEFAULT_DATA_INDEX];
 }
 
-export function shouldDoMorph(
-  hasAnimation: boolean,
-  morphConfig?: IMorphSeriesSpec,
-  animationConfig?: ReturnType<typeof userAnimationConfig>
-) {
-  if (hasAnimation === false) {
+export function shouldMarkDoMorph(spec: ISeriesSpec & IAnimationSpec<string, string>, markName: string) {
+  if (spec.animation === false) {
     return false;
   }
 
-  if (animationConfig?.appear === false || animationConfig?.update === false) {
+  if (spec.morph?.enable === false) {
     return false;
   }
 
-  if (morphConfig?.enable === false) {
+  const appearAnimationEnabled = (spec.animationAppear?.[markName] ?? spec.animationAppear) !== false;
+  const updateAnimationEnabled = (spec.animationAppear?.[markName] ?? spec.animationAppear) !== false;
+
+  if (!appearAnimationEnabled || !updateAnimationEnabled) {
     return false;
   }
 
@@ -153,4 +156,48 @@ export function isTimeLineAnimation(animationConfig: IAnimationConfig) {
 
 export function isChannelAnimation(animationConfig: IAnimationConfig) {
   return !isTimeLineAnimation(animationConfig) && isValid((animationConfig as IAnimationTypeConfig).channel);
+}
+
+export function uniformAnimationConfig<Preset extends string>(
+  config: Partial<Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>>,
+  ctx: ISeriesMarkAttributeContext
+) {
+  return specTransform(config, ctx);
+}
+
+function specTransform(spec: any, ctx: ISeriesMarkAttributeContext) {
+  if (!spec) {
+    return spec;
+  }
+  spec = cloneDeep(spec);
+  traverseSpec(spec, (node: any) => {
+    // 将函数转换为 vchart 代理的函数
+    if (isFunction(node)) {
+      const name = (...args: any) => {
+        return node(...args, ctx);
+      };
+      return name;
+    }
+    return node;
+  });
+
+  return spec;
+}
+
+function traverseSpec(spec: any, transform: (node: any, key: string | number) => any) {
+  if (isArray(spec)) {
+    spec.forEach((i: any, index: number) => {
+      spec[index] = transform(spec[index], index);
+      traverseSpec(spec[index], transform);
+    });
+  } else if (isObject(spec)) {
+    for (const key in spec) {
+      spec[key] = transform(spec[key], key);
+      traverseSpec(spec[key], transform);
+    }
+  }
+}
+
+export function isAnimationEnabledForSeries(series: ISeries) {
+  return series.getSpec().animation !== false && isValid(series.getRegion().animate);
 }
