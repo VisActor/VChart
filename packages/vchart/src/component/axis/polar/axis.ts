@@ -3,7 +3,7 @@ import { DataView } from '@visactor/vdataset';
 import type { IBaseScale, BandScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import { ChartEvent, LayoutZIndex, POLAR_START_ANGLE, POLAR_START_RADIAN } from '../../../constant';
+import { ChartEvent, LayoutZIndex, POLAR_START_ANGLE, POLAR_START_RADIAN, PREFIX } from '../../../constant';
 import type { LayoutItem } from '../../../model/layout-item';
 import type { IPolarAxis, IPolarAxisCommonSpec, IPolarAxisCommonTheme } from './interface';
 import type { IComponentOption } from '../../interface';
@@ -241,6 +241,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         },
         false
       );
+
+    tickData.name = `${PREFIX}_polarAxis_${this.id}_ticks`;
     tickData.target.addListener('change', this._forceLayout.bind(this));
 
     this._tickData = new CompilableData(this._option, tickData);

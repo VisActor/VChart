@@ -134,7 +134,8 @@ export function updateDataViewInData(dataView: DataView, data: IDataValues, forc
 
 export enum TransformLevel {
   copyDataView = -10,
-  dotObjFlat = -6,
+  dotObjFlat = -7,
+  dataZoomFilter = -6,
   legendFilter = -5,
   treemapFilter = -4,
   treemapFlatten = -3,

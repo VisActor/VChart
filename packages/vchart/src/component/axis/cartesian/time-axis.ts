@@ -12,6 +12,7 @@ import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import type { ICartesianTimeAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
+import { PREFIX } from '../../../constant';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
@@ -84,6 +85,7 @@ export class CartesianTimeAxis<
           },
           false
         );
+      layerTickData.name = `${PREFIX}_timeAxis_${this.id}_ticks`;
       // layerTickData.target.addListener('change', this.updateAxis.bind(this));
 
       this._layerTickData = new CompilableData(this._option, layerTickData);
