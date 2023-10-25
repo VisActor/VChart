@@ -35,7 +35,7 @@ export function dataViewFromDataView(rawData: DataView, dataSet?: DataSet, op?: 
   });
   viewData.transform({
     type: 'copyDataView',
-    level: -2
+    level: TransformLevel.copyDataView
   });
   return viewData;
 }
@@ -130,4 +130,14 @@ export function updateDataViewInData(dataView: DataView, data: IDataValues, forc
     dataView.setFields(data.fields as any, forceMerge);
   }
   dataView.parseNewData(data.values, data.parser as any);
+}
+
+export enum TransformLevel {
+  copyDataView = -10,
+  dotObjFlat = -6,
+  legendFilter = -5,
+  treemapFilter = -4,
+  treemapFlatten = -3,
+  sankeyLayout = -4,
+  sankeyFlatten = -3
 }

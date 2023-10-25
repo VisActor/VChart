@@ -23,6 +23,7 @@ import { isValid } from '@visactor/vutils';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { IModel } from '../../model/interface';
 import { Factory } from '../../core/factory';
+import { TransformLevel } from '../../data/initialize';
 
 export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   static type = ComponentTypeEnum.mapLabel;
@@ -93,7 +94,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
       data.parse([seriesData], {
         type: 'dataview'
       });
-      data.transform({ type: 'copyDataView', level: -2 }, false);
+      data.transform({ type: 'copyDataView', level: TransformLevel.copyDataView }, false);
       data.name = `${this.name}_data`;
 
       this._data = new CompilableData(this._option, data);
