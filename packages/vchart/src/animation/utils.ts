@@ -172,7 +172,8 @@ function specTransform(spec: any, ctx: ISeriesMarkAttributeContext) {
   spec = cloneDeep(spec);
   traverseSpec(spec, (node: any) => {
     // 将函数转换为 vchart 代理的函数
-    if (isFunction(node)) {
+    // 这里可能会传自定义动画的构造函数，不能被代理
+    if (isFunction(node) && node.prototype.constructor !== node) {
       const name = (...args: any) => {
         return node(...args, ctx);
       };
