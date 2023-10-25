@@ -122,9 +122,7 @@ export class EditorChart extends BaseElement {
   }
 
   protected _initVChart(spec: ISpec) {
-    spec.width = this._rect.width;
-    spec.height = this._rect.height;
-    spec.background = 'transparent';
+    spec = this._transformVchartSpec(spec);
 
     this._vchart = new VChart(spec, {
       renderCanvas: this._opt.layer.getCanvas(),
@@ -139,6 +137,13 @@ export class EditorChart extends BaseElement {
     if (this._mode === 'editor') {
       this.bindEditors();
     }
+  }
+
+  protected _transformVchartSpec(spec: ISpec) {
+    spec.width = this._rect.width;
+    spec.height = this._rect.height;
+    spec.background = 'transparent';
+    return spec;
   }
 
   setTemp(key: string) {
@@ -162,7 +167,7 @@ export class EditorChart extends BaseElement {
       console.log('onSpecReady update spec');
       this._isRendered = false;
       // eslint-disable-next-line promise/catch-or-return
-      this._vchart.updateSpec(this._specProcess.getVChartSpec()).then(() => {
+      this._vchart.updateSpec(this._transformVchartSpec(this._specProcess.getVChartSpec())).then(() => {
         this._afterRender();
       });
     }
@@ -176,7 +181,7 @@ export class EditorChart extends BaseElement {
     this._specProcess.clear();
     this._layout.clear();
     this._event.release();
-    this._vchart.release();
+    this._vchart?.release();
 
     this._data = this._specProcess = this._layout = this._vchart = null;
   }
