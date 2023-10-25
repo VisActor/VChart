@@ -1,5 +1,5 @@
 // @ts-ignore
-import VChart from '@visactor/vchart/build/es5';
+import VChart from '@visactor/vchart';
 import { IEvent, IOptions, IVChart, IChartProps, IDomRef } from '../../typings';
 
 export interface IProps {
