@@ -3,7 +3,7 @@ import { PREFIX } from './../../constant/index';
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
-import type { IMark } from '../../mark/interface';
+import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum, DirectionType } from '../../typings';
@@ -61,11 +61,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       largeThreshold: this._spec.largeThreshold
     };
 
-    this._barBackgroundMark = this._createMark(BarSeries.mark.barBackground, {
-      dataView: this._barBackgroundViewData.getDataView(),
-      dataProductId: this._barBackgroundViewData.getProductId(),
-      progressive
-    }) as IRectMark;
+    this._initBarBackgroundMark(progressive);
 
     this._barMark = this._createMark(
       {
@@ -82,6 +78,16 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         progressive
       }
     ) as IRectMark;
+  }
+
+  protected _initBarBackgroundMark(progressive?: IMarkProgressiveConfig): void {
+    if (this._spec.barBackground?.visible) {
+      this._barBackgroundMark = this._createMark(BarSeries.mark.barBackground, {
+        dataView: this._barBackgroundViewData.getDataView(),
+        dataProductId: this._barBackgroundViewData.getProductId(),
+        progressive
+      }) as IRectMark;
+    }
   }
 
   initMarkStyle(): void {
@@ -121,6 +127,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _statisticViewData(): void {
     super._statisticViewData();
 
+    if (!this._spec.barBackground?.visible) {
+      return;
+    }
+
     /**
      * @description 准备 barBackground 数据
      */
@@ -128,17 +138,18 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       let dataCollect: any[] = [{}];
       const fields = this.getDimensionField();
       // 将维度轴的所有层级 field 的对应数据做笛卡尔积
-      for (const field of fields) {
+      for (let i = 0; i < fields.length; i++) {
+        const field = fields[i];
         const values = data.latestData[field]?.values;
         if (!values?.length) {
           continue;
         }
         const newDataCollect: any[] = [];
-        for (const value of values) {
-          for (const datum of dataCollect) {
+        for (let j = 0; j < values.length; j++) {
+          for (let k = 0; k < dataCollect.length; k++) {
             newDataCollect.push({
-              ...datum,
-              [field]: value
+              ...dataCollect[k],
+              [field]: values[j]
             });
           }
         }
@@ -154,7 +165,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       .parse([this._viewDataStatistics], {
         type: 'dataview'
       })
-      .transform({ type: 'dimensionItems' }, false)
+      .transform(
+        {
+          type: 'dimensionItems'
+        },
+        false
+      )
       .transform(
         {
           type: 'addVChartProperty',
@@ -301,28 +317,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-
-      if (this._barBackgroundMark) {
-        this.setMarkStyle(
-          this._barBackgroundMark,
-          {
-            x: () => {
-              const range = xScale.range();
-              const min = Math.min(range[0], range[range.length - 1]);
-              return min;
-            },
-            x1: () => {
-              const range = xScale.range();
-              const max = Math.max(range[0], range[range.length - 1]);
-              return max;
-            },
-            y: (datum: Datum) => this._getPosition(this.direction, datum),
-            height: () => this._getBarWidth(this._yAxisHelper)
-          },
-          'normal',
-          AttributeLevel.Series
-        );
-      }
     } else {
       this.setMarkStyle(
         this._barMark,
@@ -354,30 +348,61 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
+    }
+    this._initBarBackgroundMarkStyle();
+  }
 
-      if (this._barBackgroundMark) {
-        this.setMarkStyle(
-          this._barBackgroundMark,
-          {
-            x: (datum: Datum) => this._getPosition(this.direction, datum),
-            y: () => {
-              const range = yScale.range();
-              const min = Math.min(range[0], range[range.length - 1]);
-              return min;
-            },
-            y1: () => {
-              const range = yScale.range();
-              const max = Math.max(range[0], range[range.length - 1]);
-              return max;
-            },
-            width: () => {
-              return this._getBarWidth(this._xAxisHelper);
-            }
+  protected _initBarBackgroundMarkStyle() {
+    if (!this._barBackgroundMark) {
+      return;
+    }
+
+    const xScale = this._xAxisHelper?.getScale?.(0);
+    const yScale = this._yAxisHelper?.getScale?.(0);
+
+    // guess the direction which the user want
+    if (this.direction === Direction.horizontal) {
+      this.setMarkStyle(
+        this._barBackgroundMark,
+        {
+          x: () => {
+            const range = xScale.range();
+            const min = Math.min(range[0], range[range.length - 1]);
+            return min;
           },
-          'normal',
-          AttributeLevel.Series
-        );
-      }
+          x1: () => {
+            const range = xScale.range();
+            const max = Math.max(range[0], range[range.length - 1]);
+            return max;
+          },
+          y: (datum: Datum) => this._getPosition(this.direction, datum),
+          height: () => this._getBarWidth(this._yAxisHelper)
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    } else {
+      this.setMarkStyle(
+        this._barBackgroundMark,
+        {
+          x: (datum: Datum) => this._getPosition(this.direction, datum),
+          y: () => {
+            const range = yScale.range();
+            const min = Math.min(range[0], range[range.length - 1]);
+            return min;
+          },
+          y1: () => {
+            const range = yScale.range();
+            const max = Math.max(range[0], range[range.length - 1]);
+            return max;
+          },
+          width: () => {
+            return this._getBarWidth(this._xAxisHelper);
+          }
+        },
+        'normal',
+        AttributeLevel.Series
+      );
     }
   }
 

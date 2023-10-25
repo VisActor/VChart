@@ -39,6 +39,8 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
   private _labelMark?: ITextMark;
 
   initMark(): void {
+    this._initBarBackgroundMark();
+
     const labelPosition = this._spec.label?.position;
     this._barMark = this._createMark(RangeColumnSeries.mark.bar, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('bar', this._spec)),
@@ -221,6 +223,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         AttributeLevel.Series
       );
     }
+    this._initBarBackgroundMarkStyle();
   }
 
   initAnimation() {

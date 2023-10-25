@@ -9,11 +9,5 @@ export const bar: IBarSeriesTheme = {
       lineWidth: 2,
       stroke: { type: 'palette', key: 'backgroundColor' }
     }
-  },
-  barBackground: {
-    visible: false,
-    style: {
-      fill: { type: 'palette', key: 'primaryFontColor', a: 0.06 }
-    }
   }
 };

@@ -69,5 +69,11 @@ export const markByName: IGlobalMarkThemeByName = {
     style: {
       stroke: false
     }
+  },
+  barBackground: {
+    visible: false,
+    style: {
+      fill: { type: 'palette', key: 'primaryFontColor', a: 0.06 }
+    }
   }
 };
