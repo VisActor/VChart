@@ -100,7 +100,7 @@ export class GeneralChart extends React.Component<IChartProps> {
     const canvasIdLists = [
       `${this.props.canvasId}_draw_canvas`,
       `${this.props.canvasId}_tooltip_canvas`,
-      `${this.props.canvasId}_hit_canvas`
+      `${this.props.canvasId}_hidden_canvas`
     ];
     await vglobal.setEnv('wx', { domref, force: true, canvasIdLists, freeCanvasIdx: 2, component: this.$scope });
 
