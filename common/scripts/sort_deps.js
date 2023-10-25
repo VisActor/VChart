@@ -1,8 +1,8 @@
 /**
  * sort `dependencies` `devDependencies` `peerDependencies` field in package.json
- * 
+ *
  * NOTE: you should install prettier global `npm i -g prettier`
- * 
+ *
  * usage: `node common/scripts/sort_deps.js [project_relative_path]`
  */
 const fs = require('fs')
@@ -107,10 +107,9 @@ function run() {
       spawnSync('sh', ['-c', `prettier -w ${pkgJsonPath}`], {
         stdio: 'inherit',
         shell: false,
-      }) 
+      })
     });
   }
 }
 
 run()
-

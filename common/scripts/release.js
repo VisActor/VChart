@@ -17,7 +17,7 @@ function run() {
   const cwd = process.cwd();
 
   // 0. update `nextBump`
-  checkAndUpdateNextBump(false, releaseVersion);
+  checkAndUpdateNextBump(releaseVersion);
 
   // 1. update version of package.json, this operation will remove the common/changes
   spawnSync('sh', ['-c', `rush version --bump`], {
@@ -51,7 +51,7 @@ function run() {
   const package = rushJson.projects.find((project) => project.name === '@visactor/vchart');
 
   if (package) {
-    const pkgJsonPath = path.resolve(project.projectFolder, 'package.json')
+    const pkgJsonPath = path.join( __dirname, '../../', project.projectFolder, 'package.json')
     const pkgJson = getPackageJson(pkgJsonPath)
 
     // 5. add tag
