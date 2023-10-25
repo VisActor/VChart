@@ -1,4 +1,4 @@
-import { EventType, EventQuery, EventCallback, EventParams } from '@visactor/vchart/build/es5';
+import { EventType, EventQuery, EventCallback, EventParams } from '@visactor/vchart';
 
 interface IEvent {
   /**
