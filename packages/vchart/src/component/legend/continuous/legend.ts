@@ -87,7 +87,8 @@ export class ContinuousLegend<
             selected: () => this._selectedData,
             field: () => this._field,
             data: () => this._legendData.getLatestData()
-          }
+          },
+          level: -1
         });
       },
       {

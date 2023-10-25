@@ -34,7 +34,8 @@ export function dataViewFromDataView(rawData: DataView, dataSet?: DataSet, op?: 
     type: 'dataview'
   });
   viewData.transform({
-    type: 'copyDataView'
+    type: 'copyDataView',
+    level: -2
   });
   return viewData;
 }

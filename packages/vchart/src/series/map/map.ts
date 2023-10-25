@@ -85,7 +85,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       .parse([features], {
         type: 'dataview'
       })
-      .transform({ type: 'copyDataView', options: { deep: true } })
+      .transform({ type: 'copyDataView', options: { deep: true }, level: -2 })
       .transform({
         type: 'map',
         options: {

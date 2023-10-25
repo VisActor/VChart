@@ -118,7 +118,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           linkSortBy: this._spec.linkSortBy,
           nodeSortBy: this._spec.nodeSortBy,
           setNodeLayer: this._spec.setNodeLayer
-        } as ISankeyOpt
+        } as ISankeyOpt,
+        level: -1
       });
 
       const nodesDataSet = new DataSet();

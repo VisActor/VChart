@@ -93,7 +93,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
       data.parse([seriesData], {
         type: 'dataview'
       });
-      data.transform({ type: 'copyDataView' }, false);
+      data.transform({ type: 'copyDataView', level: -2 }, false);
       data.name = `${this.name}_data`;
 
       this._data = new CompilableData(this._option, data);

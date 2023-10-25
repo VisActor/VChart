@@ -62,7 +62,8 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
             selected: () => this._selectedData,
             field: () => this._getSeriesLegendField(s),
             data: () => this._legendData.getLatestData().map((obj: any) => obj.key)
-          }
+          },
+          level: -1
         });
       },
       {
