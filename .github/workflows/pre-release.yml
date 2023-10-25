@@ -35,20 +35,14 @@ jobs:
 
       - name: Parse semver version from branch name
         id: semver_parser
-        uses: xile611/read-package-version-action@v2.1
+        uses: xile611/read-package-version-action@main
         with:
           path: packages/vchart
           semver_string: ${{ github.ref_name }}
           semver_pattern: '^pre-release/(.*)$' # ^v?(.*)$ by default
 
-      - name: update nextBump of version policies
-        uses: xile611/set-next-bump-of-rush@main
-        with:
-          is_prerelease: true
-          write_next_bump: true
-
       - name: Apply prereleaseName
-        run: node common/scripts/install-run-rush.js publish --apply --prerelease-name ${{ steps.semver_parser.outputs.pre_release_name }}
+        run: node common/scripts/apply-prerelease-version.js ${{ steps.semver_parser.outputs.pre_release_name }} ${{ steps.semver_parser.outputs.main }}
 
       - name: Build packages
         run: node common/scripts/install-run-rush.js build --only tag:package
@@ -69,7 +63,7 @@ jobs:
 
       - name: Get npm version
         id: package-version
-        uses: xile611/read-package-version-action@v2.1
+        uses: xile611/read-package-version-action@main
         with:
           path: packages/vchart
 
