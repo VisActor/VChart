@@ -30,7 +30,7 @@ import { DEFAULT_CLOSE_STROKE_JOIN } from '../../typings/line-stroke';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
 import type { ILabelSpec } from '../../component/label';
-import { shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
+import { shouldMarkDoMorph } from '../../animation/utils';
 import { DimensionEventEnum, type DimensionEventParams } from '../../event/events/dimension';
 import type { EventCallback, EventParams } from '../../event/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';

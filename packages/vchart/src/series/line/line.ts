@@ -68,7 +68,7 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
     this._lineMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('line')?.(animationParams, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.line, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.line, this._spec, this._markAttributeContext)
       )
     );
 
@@ -76,7 +76,7 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
       this._symbolMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('scaleInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.point, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.point, this._spec, this._markAttributeContext)
         )
       );
     }
