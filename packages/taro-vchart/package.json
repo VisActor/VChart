@@ -12,9 +12,11 @@
     "build:tt": "taro build --type tt",
     "build:lark": "taro build --type lark",
     "build:h5": "taro build --type h5",
+    "build:wx": "taro build --type weapp",
     "dev:tt": "npm run build:tt -- --watch",
     "dev:lark": "npm run build:lark -- --watch",
-    "dev:h5": "npm run build:h5 -- --watch"
+    "dev:h5": "npm run build:h5 -- --watch",
+    "dev:wx": "npm run build:wx -- --watch"
   },
   "keywords": [
     "taro",

@@ -1,3 +1,3 @@
-import { IVChart, ISpec } from '@visactor/vchart';
+import { IVChart, ISpec, RenderMode } from '@visactor/vchart';
 
-export { IVChart, ISpec };
+export { IVChart, ISpec, RenderMode };
