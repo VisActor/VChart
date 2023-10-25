@@ -23,6 +23,41 @@
       }
     },
     {
+      "path": "33-How to customize the axis label display spacing",
+      "title": {
+        "zh": "33.如何自定义轴label显示间距？",
+        "en": "33.How to customize the axis label display spacing?"
+      }
+    },
+    {
+      "path": "34-How to display scales at several points on the x-axis of an area chart",
+      "title": {
+        "zh": "34.面积图x轴如何隔几个点显示刻度？",
+        "en": "34.How to display scales at several points on the x-axis of an area chart?"
+      }
+    },
+    {
+      "path": "36-When the data is all 0, how to configure the position of the x-axis",
+      "title": {
+        "zh": "36.数据全0时，如何配置x轴的位置？",
+        "en": "36.When the data is all 0, how to configure the position of the x-axis?"
+      }
+    },
+    {
+      "path": "38-How does the Ring with Indicator Card dynamically update indicator values",
+      "title": {
+        "zh": "38.带指标卡环形图如何动态更新指标值？",
+        "en": "38.How does the Ring with Indicator Card dynamically update indicator values?"
+      }
+    },
+    {
+      "path": "39-How to configure the position of the markLine text label, can it be configured to display at the starting point, end point or in the middle of the line segment",
+      "title": {
+        "zh": "39.如何配置MarkLine文字标签的位置，可以配置显示在线起点、终点或者线段中间？",
+        "en": "39.How to configure the position of the markLine text label, can it be configured to display at the starting point, end point or in the middle of the line segment?"
+      }
+    },
+    {
       "path": "40-How to customize Tooltip in dual axis chart",
       "title": {
         "zh": "40.双轴图中如何自定义 Tooltip？",
