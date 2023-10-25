@@ -89,7 +89,7 @@ describe('histogram chart test', () => {
     });
 
     // mark
-    expect(series.getMarks().length).toEqual(3);
+    expect(series.getMarks().length).toEqual(2);
 
     expect(chart.getRegionsInIndex().length).toEqual(1);
     expect(series.getRegion().id).toEqual(chart.getRegionsInIndex()[0].id);
