@@ -2,6 +2,27 @@
   "menu": "api",
   "children": [
     {
+      "path": "1-The time interval of the coordinate axis scale is given",
+      "title": {
+        "zh": "1. 坐标轴刻度的时间区间长度是给定的（一个季度），我怎么能设定比如只显示三个坐标轴刻度么？或者自适应的均匀些？",
+        "en": "1. The time interval of the coordinate axis scale is given (one quarter), how can I set it to display only three coordinate axis scales? Or make it adaptively uniform?"
+      }
+    },
+    {
+      "path": "3-How to automatically update chart data in React components",
+      "title": {
+        "zh": "3.React 组件中如何自动更新图表数据？",
+        "en": "3.How to automatically update chart data in React components?"
+      }
+    },
+    {
+      "path": "6-How to combine percentage bar and TGI chart",
+      "title": {
+        "zh": "6.如何实现百分比条形和 tgi 图的组合？",
+        "en": "6.How to combine percentage bar and TGI chart?"
+      }
+    },
+        {
       "path": "7-Can we add a horizontal line for the average value to the data",
       "title": {
         "zh": "7.能否给数据添加平均值横线？",
@@ -55,6 +76,62 @@
       "title": {
         "zh": "14.辅助线的label如何自动换行？",
         "en": "14.How does the label of the auxiliary line automatically change lines?"
+      }
+    },
+    {
+      "path": "40-How to customize Tooltip in dual axis chart",
+      "title": {
+        "zh": "40.双轴图中如何自定义 Tooltip？",
+        "en": "40.How to customize Tooltip in dual axis chart?"
+      }
+    },
+    {
+      "path": "41-How to customize the position and offset of the tooltip in the chart",
+      "title": {
+        "zh": "41.图表中如何自定义 tooltip 的位置，偏移量？",
+        "en": "41.How to customize the position and offset of the tooltip in the chart?"
+      }
+    },
+    {
+      "path": "42-Can users click on data points within the VChart to show a list of actions",
+      "title": {
+        "zh": "42.VChart 图表点击数据点，展示操作列表？",
+        "en": "42.Can users click on data points within the VChart to show a list of actions?"
+      }
+    },
+    {
+      "path": "43-How do I customize the position of the tooltip to avoid occlusion",
+      "title": {
+        "zh": "43.如何自定义 tooltip 的位置，避免遮挡？",
+        "en": "43.How do I customize the position of the tooltip to avoid occlusion?"
+      }
+    },
+    {
+      "path": "44-How to define the number of decimal places of a value displayed by a label in VChart",
+      "title": {
+        "zh": "44.VChart中如何定义label 显示的数值小数位数？",
+        "en": "44.How to define the number of decimal places of a value displayed by a label in VChart?"
+      }
+    },
+    {
+      "path": "45-How can line and bar charts be displayed at the same time",
+      "title": {
+        "zh": "45.折线图和柱状图如何同时展示？",
+        "en": "45.How can line and bar charts be displayed at the same time?"
+      }
+    },
+    {
+      "path": "46-How to configure chart adaptive container width and height",
+      "title": {
+        "zh": "46.如何配置图表自适应容器宽高？",
+        "en": "46.How to configure chart adaptive container width and height?"
+      }
+    },
+    {
+      "path": "47-How to configure the axis scale alignment of a two-axis graph",
+      "title": {
+        "zh": "47.如何配置双轴图的坐标轴刻度对齐？",
+        "en": "47.How to configure the axis scale alignment of a two-axis graph?"
       }
     },
     {
