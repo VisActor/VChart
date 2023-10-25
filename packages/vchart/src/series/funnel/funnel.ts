@@ -40,7 +40,7 @@ import {
   registerCartesianGroupClipAnimation,
   registerFadeInOutAnimation
 } from '../../animation/config';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { PolygonMark } from '../../mark/polygon/polygon';
@@ -179,7 +179,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       },
       {
         themeSpec: this._theme?.funnel,
-        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
+        morph: shouldMarkDoMorph(this._spec, this._funnelMarkName),
         defaultMorphElementKey: this._seriesField,
         key: this._seriesField,
         groupKey: this._seriesField,
