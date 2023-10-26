@@ -110,9 +110,13 @@ export class SpecProcess implements ISpecProcess {
   }
 
   private _mergeEditorSpec() {
-    // 色板
+    // 色板 考虑模版可能有配置 color 。还是放到 spec 的 color 中处理
     if (this._editorSpec.color) {
-      this._vchartSpec.color = this._editorSpec.color;
+      if (isArray(this._vchartSpec.color) || !isObject(this._vchartSpec.color)) {
+        this._vchartSpec.color = this._editorSpec.color;
+      } else {
+        this._vchartSpec.color.range = this._editorSpec.color;
+      }
     }
     // 模块样式
     if (this._editorSpec.modelSpec) {
