@@ -80,12 +80,12 @@ export interface IBarSeriesSpec
   barMinHeight?: number;
   /**
    * 数据采样 - 采样方法
-   * @since 1.5.3
+   * @since 1.6.0
    */
   sampling?: ISamplingMethod;
   /**
    * 数据采样 - 采样系数
-   * @since 1.5.3
+   * @since 1.6.0
    * @default 1
    */
   samplingFactor?: number;

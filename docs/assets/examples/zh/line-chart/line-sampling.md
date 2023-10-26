@@ -4,7 +4,7 @@ group: line chart
 title: 折线图数据采样
 keywords: lineChart,comparison,trend,line
 order: 0-12
-cover: /vchart/preview/line-sampling_1.5.3.png
+cover: /vchart/preview/line-sampling_1.6.0.png
 option: lineChart
 ---
 

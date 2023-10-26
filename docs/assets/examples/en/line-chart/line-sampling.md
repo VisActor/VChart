@@ -4,7 +4,7 @@ group: line chart
 title: Line Chart Sampling
 keywords: lineChart,comparison,trend,line
 order: 0-12
-cover: /vchart/preview/line-sampling_1.5.3.png
+cover: /vchart/preview/line-sampling_1.6.0.png
 option: lineChart
 ---
 
