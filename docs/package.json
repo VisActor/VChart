@@ -22,7 +22,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "6.9.0",
-    "@visactor/vmind": "1.0.6-alpha.3"
+    "@visactor/vmind": "workspace:*"
   },
   "devDependencies": {
     "lodash": "4.17.21",
