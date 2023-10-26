@@ -195,9 +195,12 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   onLayoutEnd(ctx: any): void {
-    this.updateScaleRange();
-    this.updateSeriesScale();
-    this.event.emit(ChartEvent.scaleUpdate, { model: this });
+    const isChanged = this.updateScaleRange();
+
+    if (isChanged) {
+      this.updateSeriesScale();
+      this.event.emit(ChartEvent.scaleUpdate, { model: this });
+    }
 
     super.onLayoutEnd(ctx);
   }
@@ -266,15 +269,24 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   protected updateScaleRange() {
     const inverse = this._spec.inverse;
+    const prevRange = this._scale.range();
+    let newRange: [number, number];
+
     if (this.getOrient() === 'radius') {
-      this._scale.range(
-        inverse
-          ? [this.computeLayoutOuterRadius(), this.computeLayoutInnerRadius()]
-          : [this.computeLayoutInnerRadius(), this.computeLayoutOuterRadius()]
-      );
+      newRange = inverse
+        ? [this.computeLayoutOuterRadius(), this.computeLayoutInnerRadius()]
+        : [this.computeLayoutInnerRadius(), this.computeLayoutOuterRadius()];
     } else {
-      this._scale.range(inverse ? [this._endAngle, this._startAngle] : [this._startAngle, this._endAngle]);
+      newRange = inverse ? [this._endAngle, this._startAngle] : [this._startAngle, this._endAngle];
     }
+
+    if (prevRange && newRange && prevRange[0] === newRange[0] && prevRange[1] === newRange[1]) {
+      return false;
+    }
+
+    this._scale.range(newRange);
+
+    return true;
   }
 
   protected collectData(depth: number) {

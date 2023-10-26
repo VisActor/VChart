@@ -109,6 +109,6 @@ export class BandAxisMixin {
     }
     this.transformScaleDomain();
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as unknown as IModel });
-    this.event.emit(ChartEvent.scaleUpdate, { model: this as unknown as IModel });
+    // this.event.emit(ChartEvent.scaleUpdate, { model: this as unknown as IModel });
   }
 }
