@@ -94,6 +94,17 @@ const getSpec = (): IAreaChartSpec => ({
     },
     mark: {
       position: 'top'
+    },
+    updateElement: el => {
+      el.style.width = 'auto';
+      if (el.lastElementChild?.id !== 'test') {
+        const div = document.createElement('div');
+        div.id = 'test';
+        div.style.width = '200px';
+        div.innerText = 'test';
+        div.style.color = 'red';
+        el.appendChild(div);
+      }
     }
   }
 });
