@@ -43,7 +43,7 @@
     "react-dom": "^18.0.0",
     "react-router-dom": "6.9.0",
     "@visactor/vrender": "~0.16.8",
-    "@visactor/vdataset": "~0.16.4",
+    "@visactor/vdataset": "~0.16.6",
     "@rollup/plugin-dynamic-import-vars": "~2.1.0",
     "@visactor/vutils-extension": "workspace:1.5.2"
   },
