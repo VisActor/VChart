@@ -53,7 +53,7 @@ export interface IAreaSeriesSpec
    * 数据采样 - 采样方法
    * @since 1.5.3
    */
-  sampling: ISamplingMethod;
+  sampling?: ISamplingMethod;
   /**
    * 数据采样 - 采样系数
    * @since 1.5.3
