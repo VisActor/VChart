@@ -786,7 +786,7 @@ export class VChart implements IVChart {
         this._chart?.setCurrentTheme();
       }
       const reSize = this._shouldChartResize(lastSpec);
-      // this._compiler?.getVGrammarView()?.updateLayoutTag(); //
+      this._compiler?.getVGrammarView()?.updateLayoutTag();
       return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
         change: reSize,
         reMake: false,
@@ -831,7 +831,7 @@ export class VChart implements IVChart {
         this._chart?.setCurrentTheme();
       }
       const reSize = this._shouldChartResize(lastSpec);
-      // this._compiler?.getVGrammarView()?.updateLayoutTag();
+      this._compiler?.getVGrammarView()?.updateLayoutTag();
       return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
         change: reSize,
         reMake: false,
@@ -1112,10 +1112,16 @@ export class VChart implements IVChart {
 
   private _shouldChartResize(oldSpec: ISpec): boolean {
     let resize = false;
-    if (
-      (isValid(this._spec.width) && this._spec.width !== oldSpec.width) ||
-      (isValid(this._spec.height) && this._spec.height !== oldSpec.height)
-    ) {
+
+    if (isNil(this._spec.width)) {
+      this._spec.width = oldSpec.width;
+    } else if (this._spec.width !== oldSpec.width) {
+      resize = true;
+    }
+
+    if (isNil(this._spec.height)) {
+      this._spec.height = oldSpec.height;
+    } else if (this._spec.height !== oldSpec.height) {
       resize = true;
     }
 
