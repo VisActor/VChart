@@ -28,8 +28,10 @@ export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> ex
   }
 
   protected updateScaleRange() {
-    super.updateScaleRange();
+    const isChanged = super.updateScaleRange();
     this.updateGroupScaleRange();
+
+    return isChanged;
   }
 
   // axisHelper
