@@ -94,6 +94,8 @@ export class CommonChartEditorElement implements IEditorElement {
   originSpec?: any;
   allModelSpec?: IModelSpec[];
   chartType: string;
+  color: string[];
+  allModel?: IModelSpec[];
 
   protected _updateCall: UpdateAttributeCall;
   protected _finishCall: () => void;
@@ -145,6 +147,8 @@ export class CommonChartEditorElement implements IEditorElement {
     const { id, editProperties, rect } = this._opt;
     // @ts-ignore
     this.chartType = context.chart.specProcess.getEditorSpec().temp;
+    // @ts-ignore TODO: support get current colorTheme api in vchart
+    this.color = context.chart.vchart.getChart()._globalScale.getScale('color').range();
     this._finishCall;
     const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };
     this.layer = this._context.layer;
