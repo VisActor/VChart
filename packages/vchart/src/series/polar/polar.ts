@@ -235,7 +235,8 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
       if (!couldBeValidNumber(datum[this._angleField[0]])) {
         return false;
       }
-    } else if (this.radiusAxisHelper.isContinuous) {
+    }
+    if (this.radiusAxisHelper.isContinuous) {
       if (!couldBeValidNumber(datum[this._radiusField[0]])) {
         return false;
       }
