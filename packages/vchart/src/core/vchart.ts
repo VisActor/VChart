@@ -989,6 +989,9 @@ export class VChart implements IVChart {
   on(eType: EventType, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery | EventCallback<EventParams>, handler?: EventCallback<EventParams>): void {
+    if (!this._userEvents || this._userEvents.length === 0) {
+      return;
+    }
     this._userEvents.push({
       eType,
       query: typeof query === 'function' ? null : query,
