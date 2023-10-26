@@ -136,6 +136,8 @@ export interface IEditorElement {
     //
   } & { [key: string]: unknown };
   originSpec?: any;
+  // current color scale range
+  color: string[];
   allModel?: IModelSpec[];
   updateAttribute: (attr: IUpdateAttributeParam) => false | { [key: string]: unknown };
   editorFinish: () => void;
