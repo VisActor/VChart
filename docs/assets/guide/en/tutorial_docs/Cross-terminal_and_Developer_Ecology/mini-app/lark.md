@@ -154,7 +154,7 @@ For some features that require the use of the chart instance, you can currently 
 onChartReady() {
 	console.log('chart instance rendering complete');
 	this.selectComponent("#chart1", res => {
-		const chartInstance = res && res.ttCanvas && res.ttCanvas.chart; // Get the chart instance
+		const chartInstance = res && res.chart; // Get the chart instance
 		// ...
 	});
 },

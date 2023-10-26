@@ -16,11 +16,11 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.5.2
-      '@visactor/vgrammar': ~0.8.0
       '@visactor/vmind': workspace:*
+      '@visactor/vgrammar': ~0.8.1
       '@visactor/vrender': ~0.16.8
       '@visactor/vrender-kits': ~0.16.8
-      '@visactor/vutils': ~0.16.4
+      '@visactor/vutils': ~0.16.6
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
       canvas: 2.11.2
@@ -124,10 +124,10 @@ importers:
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.5.2
-      '@visactor/vgrammar-core': ~0.8.0
+      '@visactor/vgrammar-core': ~0.8.1
       '@visactor/vrender-core': ~0.16.8
       '@visactor/vrender-kits': ~0.16.8
-      '@visactor/vutils': ~0.16.4
+      '@visactor/vutils': ~0.16.6
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
       eslint-config-prettier: 8.5.0
@@ -280,19 +280,19 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vdataset': ~0.16.4
-      '@visactor/vgrammar-core': ~0.8.0
-      '@visactor/vgrammar-hierarchy': ~0.8.0
-      '@visactor/vgrammar-projection': ~0.8.0
-      '@visactor/vgrammar-sankey': ~0.8.0
-      '@visactor/vgrammar-util': ~0.8.0
-      '@visactor/vgrammar-wordcloud': ~0.8.0
-      '@visactor/vgrammar-wordcloud-shape': ~0.8.0
+      '@visactor/vdataset': ~0.16.6
+      '@visactor/vgrammar-core': ~0.8.1
+      '@visactor/vgrammar-hierarchy': ~0.8.1
+      '@visactor/vgrammar-projection': ~0.8.1
+      '@visactor/vgrammar-sankey': ~0.8.1
+      '@visactor/vgrammar-util': ~0.8.1
+      '@visactor/vgrammar-wordcloud': ~0.8.1
+      '@visactor/vgrammar-wordcloud-shape': ~0.8.1
       '@visactor/vrender-components': ~0.16.8
       '@visactor/vrender-core': ~0.16.8
       '@visactor/vrender-kits': ~0.16.8
-      '@visactor/vscale': ~0.16.4
-      '@visactor/vutils': ~0.16.4
+      '@visactor/vscale': ~0.16.6
+      '@visactor/vutils': ~0.16.6
       '@visactor/vutils-extension': workspace:1.5.2
       canvas: 2.11.2
       d3-array: ^1.2.4
@@ -392,10 +392,10 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vchart': workspace:1.5.2
-      '@visactor/vdataset': ~0.16.4
+      '@visactor/vdataset': ~0.16.6
       '@visactor/vrender-core': ~0.16.8
       '@visactor/vrender-kits': ~0.16.8
-      '@visactor/vutils': ~0.16.4
+      '@visactor/vutils': ~0.16.6
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -553,8 +553,8 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vrender-core': ~0.16.8
       '@visactor/vrender-kits': ~0.16.8
-      '@visactor/vscale': ~0.16.4
-      '@visactor/vutils': ~0.16.4
+      '@visactor/vscale': ~0.16.6
+      '@visactor/vutils': ~0.16.6
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -818,7 +818,7 @@ importers:
       '@visactor/vrender': ~0.16.8
       '@visactor/vrender-core': ~0.16.8
       '@visactor/vrender-kits': ~0.16.8
-      '@visactor/vutils': ~0.16.4
+      '@visactor/vutils': ~0.16.6
       cross-env: ^7.0.3
       eslint: ~8.18.0
       jest: ^26.0.0
@@ -4772,7 +4772,7 @@ packages:
       '@arco-design/web-react': ^2.48.1
       '@visactor/vchart': 1.3.1
     dependencies:
-      '@arco-design/web-react': 2.46.1_gxgmllcfuy2ev7cw5fu3ycsnd4
+      '@arco-design/web-react': 2.46.1_ew3x2u2ugx4vldoypxrzsnu5mm
       '@ffmpeg/core': 0.11.0
       '@ffmpeg/ffmpeg': 0.11.6
       '@visactor/vchart': link:../../packages/vchart
@@ -17990,6 +17990,7 @@ packages:
       react-clientside-effect: 1.2.6_react@18.2.0
       use-callback-ref: 1.3.0_o5ysialsahsznabqayk7pree4e
       use-sidecar: 1.1.2_o5ysialsahsznabqayk7pree4e
+    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}

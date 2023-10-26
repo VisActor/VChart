@@ -8,7 +8,6 @@ import { ComponentTypeEnum } from '../../interface';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { mixin } from '@visactor/vutils';
 import { Factory } from '../../../core/factory';
-import { ComponentMark } from '../../../mark';
 import { registerAxis } from '../base-axis';
 
 export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec>
