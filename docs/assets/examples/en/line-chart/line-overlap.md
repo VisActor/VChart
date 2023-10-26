@@ -1,30 +1,24 @@
 ---
 category: examples
 group: line chart
-title: 折线图数据采样
+title: Line Chart Overlap
 keywords: lineChart,comparison,trend,line
-order: 0-12
-cover: /vchart/preview/line-sampling_1.5.3.png
+order: 0-11
+cover: /vchart/preview/line-overlap_1.5.3.png
 option: lineChart
 ---
 
-# 折线图数据采样
-折线图、面积图和柱状图在数据量远大于图表绘图区像素宽度（高度）时，会消耗大量冗余的计算；数据采样功能提供了这些情况的的降采样策略。使用数据采样后，在有效地优化图表加载效率的同时，也可以尽可能地展示数据的趋势。
+# line chart overlap
+In a line chart, when data points are too densely packed, prevent the data points from overlapping to ensure a clearer representation of the trend and value of each line.
 
+## Key option
 
-## 关键配置
+- `markOverlap` declared as whether to enable anti-overlap
 
-- `sampling` 属性声明为采样算法
-可选值:
-  - `'lttb'`: 采用 Largest-Triangle-Three-Bucket 算法，可以最大程度保证采样后线条的趋势，形状和极值。
-  - `'min'`: 取过滤点的最小值
-  - `'max'`: 取过滤点的最大值
-  - `'sum'`: 取过滤点的和
-  - `'average'`: 取过滤点的平均值
+## Demo source
 
-## 代码演示
 ```javascript livedemo
-const data2 = [
+ const data2 = [
     {
       x: '1968/10/4',
       y: 180
@@ -40022,93 +40016,40 @@ const data2 = [
       y: -589
     }
   ];
-
+const dataSeries = [];
+data2.forEach(d => {
+  dataSeries.push({
+    ...d,
+    type: 'a'
+  });
+  dataSeries.push({
+    ...d,
+    y: d.y + 20,
+    type: 'b'
+  });
+});
 const spec = {
-  type: 'common',
-  // seriesField: 'color',
-  data: [
-    {
-      id: 'id0',
-      values: data2
-    }
-  ],
-  series: [
-    {
-      type: 'line',
-      id: 'no sampling',
-      dataIndex: 0,
-      xField: 'x',
-      yField: 'y',
-       point: {
-        style: {
-          fill: '#1664FF'
-        }
-      },
-      line: {
-        style: {
-          stroke: '#1664FF'
-        }
+    type: 'line',
+    xField: 'x',
+    yField: 'y',
+    seriesField: 'type',
+    markOverlap: true,
+    stack: true,
+    data: [
+      {
+        name: 'line',
+        values: dataSeries
       }
-    },
-    {
-      type: 'line',
-      id: 'lttb sampling',
-      dataIndex: 0,
-      xField: 'x',
-      yField: 'y',
-      sampling: 'lttb',
-      samplingFactor: 0.1,
-      point: {
-        style: {
-          fill: '#FF8A00'
-        }
-      },
-      line: {
-        style: {
-          stroke: '#FF8A00'
-        }
-      }
-    },
-    {
-      type: 'line',
-      id: 'average sampling',
-      dataIndex: 0,
-      xField: 'x',
-      yField: 'y',
-      sampling: 'average',
-      samplingFactor: 0.1,
-       point: {
-        style: {
-          fill: '#FFC400'
-        }
-      },
-      line: {
-        style: {
-          stroke: '#FFC400'
-        }
-      }
-    },
-  ],
-  axes: [
-    { orient: 'left', seriesIndex: [0, 1, 2, 3, 4, 5] },
-    // { orient: 'right', seriesId: ['line'], gird: { visible: false } },
-    { orient: 'bottom', label: { visible: true }, type: 'band' }
-  ],
-  legends: {
-    visible: true,
-    orient: 'bottom'
-  }
-};
+    ]
+  };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
-
 ```
 
+## Related Tutorials
 
-## 相关教程
-
-[折线图](link)
+[Line Chart](link)
