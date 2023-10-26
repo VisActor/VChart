@@ -4,7 +4,7 @@
 
 为了方便 React 技术栈的同学更好得使用 VChart，我们提供了 VChart 的 react 封装包：`@visactor/react-vchart`。该组件主要对 VChart 的图表部件做 React 组件化的封装，相关的配置项均与 VChart 一致。
 
-我们将在本教程中详细讲解如在 React 项目中使用 VChart，并创建一个简单的柱状图。更多详细 api 文档，请查看 [`@visactor/reactchart`](todo) 仓库的文档。
+我们将在本教程中详细讲解如在 React 项目中使用 VChart，并创建一个简单的柱状图。更多详细 api 文档，请查看 [`@visactor/reactchart`](https://github.com/VisActor/VChart/blob/main/packages/react-vchart/docs/2.1%20API%E8%AE%BE%E8%AE%A1.md) 仓库的文档。
 
 ## 快速上手
 
