@@ -997,6 +997,9 @@ export class VChart implements IVChart {
     this._event?.on(eType as any, query as any, handler as any);
   }
   off(eType: string, handler?: EventCallback<EventParams>): void {
+    if (!this._userEvents || this._userEvents.length === 0) {
+      return;
+    }
     if (handler) {
       const index = this._userEvents.findIndex(e => e.eType === eType && e.handler === handler);
       if (index >= 0) {
