@@ -7,6 +7,7 @@ import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 import pkg from '../vchart/package.json';
 //import css from 'vite-plugin-css';
 export default defineConfig({
+  root: path.join(__dirname, 'src/site'),
   plugins: [
     react(),
     libCss(),
