@@ -1,3 +1,4 @@
+import type { IModelInfo } from './../../../core/interface';
 /* eslint-disable no-console */
 import type { IChartModel } from './../interface';
 import type { IEditorController, IEditorElement, IEditorLayer, IUpdateAttributeParam } from './../../../core/interface';
@@ -6,7 +7,7 @@ import type { IGraphic } from '@visactor/vrender-core';
 import type { IRect } from '../../../typings/space';
 import { LayoutRectToRect } from '../../../utils/space';
 import { merge } from '@visactor/vutils';
-import { transformModelRect } from '../utils/layout';
+import { getChartModelWithModelInfo, transformModelRect } from '../utils/layout';
 import type { IModelSpec } from '../spec-process/interface';
 
 export abstract class BaseEditorElement {
@@ -110,6 +111,8 @@ export class CommonChartEditorElement implements IEditorElement {
     rect?: IRect;
   };
 
+  protected _modelInfo: IModelInfo;
+
   constructor(
     context: BaseEditorElement,
     opt: {
@@ -143,7 +146,12 @@ export class CommonChartEditorElement implements IEditorElement {
 
   updateElement() {
     const context = this._context;
-    const model = this.model;
+    let model;
+    if (this._modelInfo) {
+      model = getChartModelWithModelInfo(this._context.chart.vchart, this._modelInfo);
+    } else {
+      model = this.model;
+    }
     const { id, editProperties, rect } = this._opt;
     // @ts-ignore
     this.chartType = context.chart.specProcess.getEditorSpec().temp;
@@ -151,6 +159,7 @@ export class CommonChartEditorElement implements IEditorElement {
     this.color = context.chart.vchart.getChart()._globalScale.getScale('color').range();
     this._finishCall;
     const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };
+    this._modelInfo = modelInfo;
     this.layer = this._context.layer;
     this.id = id ?? model.userId;
 
