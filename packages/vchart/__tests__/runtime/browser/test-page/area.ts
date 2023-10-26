@@ -97,7 +97,10 @@ const getSpec = (): IAreaChartSpec => ({
     },
     updateElement: el => {
       el.style.width = 'auto';
+      el.style.height = 'auto';
+      el.style.minHeight = 'auto';
       if (el.lastElementChild?.id !== 'test') {
+        el.innerHTML = '';
         const div = document.createElement('div');
         div.id = 'test';
         div.style.width = '200px';
