@@ -1,6 +1,7 @@
 import type { EditorChart } from './chart';
 import { EventEmitter, isNil } from '@visactor/vutils';
 import type { VRenderPointerEvent } from '../interface';
+import { isModelMatchModelInfo } from '../../utils/spec';
 
 export class ChartEvent {
   emitter: EventEmitter = new EventEmitter();
@@ -78,7 +79,7 @@ export class ChartEvent {
     }
     const regions = chart.vchart.getChart().getAllRegions() as any[];
     const items = regions.concat(chart.vchart.getChart().getAllComponents());
-    const model = items.find(item => item.userId === layoutMeta.id);
+    const model = items.find(item => isModelMatchModelInfo(item, layoutMeta));
     return { model, layoutMeta };
   }
 

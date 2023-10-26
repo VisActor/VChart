@@ -93,11 +93,20 @@ export class CommonChartEditorElement implements IEditorElement {
   } & { [key: string]: unknown };
   originSpec?: any;
   allModelSpec?: IModelSpec[];
+  chartType: string;
 
   protected _updateCall: UpdateAttributeCall;
   protected _finishCall: () => void;
 
   protected _context: BaseEditorElement;
+  protected _opt: {
+    model: IChartModel;
+    updateCall?: UpdateAttributeCall;
+    finishCall?: () => void;
+    id?: string;
+    editProperties?: { [key: string]: unknown };
+    rect?: IRect;
+  };
 
   constructor(
     context: BaseEditorElement,
@@ -112,10 +121,30 @@ export class CommonChartEditorElement implements IEditorElement {
   ) {
     // set attribute
     this._context = context;
+    this._opt = opt;
     const { model, updateCall, finishCall, id, editProperties, rect } = opt;
     this._updateCall = updateCall;
     this._finishCall = finishCall;
     this.model = model;
+    this.updateElement();
+  }
+
+  updateAttribute = (attr: IUpdateAttributeParam): false | { [key: string]: unknown } => {
+    return this._updateCall?.(attr) ?? false;
+  };
+
+  editorFinish = () => {
+    if (this._context.currentEditorElement === this) {
+      this._context.releaseLast();
+    }
+  };
+
+  updateElement() {
+    const context = this._context;
+    const model = this.model;
+    const { id, editProperties, rect } = this._opt;
+    // @ts-ignore
+    this.chartType = context.chart.specProcess.getEditorSpec().temp;
     this._finishCall;
     const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };
     this.layer = this._context.layer;
@@ -173,14 +202,4 @@ export class CommonChartEditorElement implements IEditorElement {
         });
     }
   }
-
-  updateAttribute = (attr: IUpdateAttributeParam): false | { [key: string]: unknown } => {
-    return this._updateCall?.(attr) ?? false;
-  };
-
-  editorFinish = () => {
-    if (this._context.currentEditorElement === this) {
-      this._context.releaseLast();
-    }
-  };
 }
