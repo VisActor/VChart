@@ -70,7 +70,7 @@ export interface ILineSeriesSpec
    * @since 1.6.0
    * @default 1
    */
-  samplingFactor: number;
+  samplingFactor?: number;
   /**
    * 标记点之间的距离，px
    * @since 1.6.0
