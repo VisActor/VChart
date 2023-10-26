@@ -129,7 +129,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       registerDataSetInstanceTransform(nodesDataSet, 'addVChartProperty', addVChartProperty);
       // 注册扁平化算法
       registerDataSetInstanceTransform(nodesDataSet, 'flatten', flatten);
-      const nodesDataView = new DataView(nodesDataSet, { name: `sankey-node-${this.id}.data` });
+      const nodesDataView = new DataView(nodesDataSet, { name: `sankey-node-${this.id}-data` });
       nodesDataView.parse([this.getViewData()], {
         type: 'dataview'
       });
@@ -147,8 +147,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             }
             return node;
           }
-        },
-        level: TransformLevel.sankeyFlatten
+        }
       });
 
       nodesDataView.transform(
@@ -169,7 +168,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       registerDataSetInstanceParser(linksDataSet, 'dataview', dataViewParser);
       registerDataSetInstanceTransform(linksDataSet, 'sankeyLinks', sankeyLinks);
       registerDataSetInstanceTransform(linksDataSet, 'addVChartProperty', addVChartProperty);
-      const linksDataView = new DataView(linksDataSet, { name: `sankey-link-${this.id}.data` });
+      const linksDataView = new DataView(linksDataSet, { name: `sankey-link-${this.id}-data` });
       linksDataView.parse([this.getViewData()], {
         type: 'dataview'
       });
