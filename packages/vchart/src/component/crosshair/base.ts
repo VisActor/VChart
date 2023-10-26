@@ -20,7 +20,7 @@ import type {
   ICrosshairCategoryFieldSpec
 } from './interface';
 import { Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../constant';
-import { defaultCrosshairTriggerEvent } from './config';
+import { getDefaultCrosshairTriggerEventByMode } from './config';
 import type { IPolarAxis } from '../axis/polar/interface';
 import type { IAxis } from '../axis/interface';
 
@@ -173,7 +173,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
   private _getTriggerEvent() {
     const { mode = RenderModeEnum['desktop-browser'] } = this._option;
-    if (defaultCrosshairTriggerEvent[mode]) {
+    const triggerConfig = getDefaultCrosshairTriggerEventByMode(mode);
+    if (triggerConfig) {
       const trigger = this.trigger || 'hover';
       const outTrigger = (trigger: CrossHairTrigger) => (trigger === 'click' ? 'clickOut' : 'hoverOut');
       if (isArray(trigger)) {
@@ -181,8 +182,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         let inResult: string[] = [];
         let outResult: string[] = [];
         trigger.forEach(item => {
-          inResult = inResult.concat(defaultCrosshairTriggerEvent[mode][item]);
-          outResult = outResult.concat(defaultCrosshairTriggerEvent[mode][outTrigger(item)]);
+          inResult = inResult.concat(triggerConfig[item]);
+          outResult = outResult.concat(triggerConfig[outTrigger(item)]);
         });
         return {
           in: inResult,
@@ -190,8 +191,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         };
       }
       return {
-        in: defaultCrosshairTriggerEvent[mode][trigger],
-        out: defaultCrosshairTriggerEvent[mode][outTrigger(trigger)]
+        in: triggerConfig[trigger],
+        out: triggerConfig[outTrigger(trigger)]
       };
     }
     return null;
