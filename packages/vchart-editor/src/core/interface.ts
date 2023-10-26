@@ -121,6 +121,7 @@ export interface IEditorElement {
   type: 'chart' | 'group' | 'graphics';
   layer: IEditorLayer;
   id: string | number;
+  chartType: string;
   rect?: IRect;
   part?: string;
   /**
@@ -138,6 +139,7 @@ export interface IEditorElement {
   allModel?: IModelSpec[];
   updateAttribute: (attr: IUpdateAttributeParam) => false | { [key: string]: unknown };
   editorFinish: () => void;
+  updateElement: () => void;
 }
 
 export type EditorHandlerFunc = (el: IEditorElement) => void;
