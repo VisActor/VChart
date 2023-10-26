@@ -82,13 +82,13 @@ export interface IBarSeriesSpec
    * 数据采样 - 采样方法
    * @since 1.5.3
    */
-  sampling: ISamplingMethod;
+  sampling?: ISamplingMethod;
   /**
    * 数据采样 - 采样系数
    * @since 1.5.3
    * @default 1
    */
-  samplingFactor: number;
+  samplingFactor?: number;
 }
 
 export interface IBarSeriesTheme extends ICartesianSeriesTheme {
