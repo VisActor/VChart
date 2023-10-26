@@ -17,7 +17,7 @@ importers:
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.5.2
       '@visactor/vgrammar': ~0.8.0
-      '@visactor/vmind': 1.0.6-alpha.3
+      '@visactor/vmind': workspace:*
       '@visactor/vrender': ~0.16.8
       '@visactor/vrender-kits': ~0.16.8
       '@visactor/vutils': ~0.16.4
@@ -44,7 +44,7 @@ importers:
       '@arco-design/web-react': 2.46.1_gxgmllcfuy2ev7cw5fu3ycsnd4
       '@visactor/vchart': link:../packages/vchart
       '@visactor/vgrammar': 0.8.0
-      '@visactor/vmind': 1.0.6-alpha.3_zek35pddvdjy2zglnyjcvmb6jq
+      '@visactor/vmind': link:../packages/vmind
       '@visactor/vrender': 0.16.8
       '@visactor/vrender-kits': 0.16.8
       '@visactor/vutils': 0.16.5
@@ -78,6 +78,8 @@ importers:
 
   ../../packages/lark-vchart:
     specifiers:
+      '@babel/core': 7.20.12
+      '@babel/preset-env': 7.20.2
       '@internal/bundler': workspace:*
       '@internal/eslint-config': workspace:*
       '@internal/ts-config': workspace:*
@@ -92,10 +94,12 @@ importers:
       rollup-plugin-copy: 3.4.0
       rollup-plugin-terser: 7.0.2
     devDependencies:
+      '@babel/core': 7.20.12
+      '@babel/preset-env': 7.20.2_@babel+core@7.20.12
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
       '@internal/ts-config': link:../../share/ts-config
-      '@rollup/plugin-babel': 6.0.3_rollup@3.20.5
+      '@rollup/plugin-babel': 6.0.3_rwgaouhtlfp3yqsg36xgfp2t24
       '@rollup/plugin-commonjs': 24.1.0_rollup@3.20.5
       '@rollup/plugin-node-resolve': 15.0.2_rollup@3.20.5
       '@rollup/plugin-typescript': 11.1.0_rollup@3.20.5
@@ -3115,11 +3119,6 @@ packages:
       webpack-dev-server: 3.11.0_webpack@4.46.0
     dev: true
 
-  /@remix-run/router/1.10.0:
-    resolution: {integrity: sha512-Lm+fYpMfZoEucJ7cMxgt4dYt8jLfbpwRCzAjm9UgSLOkmlqo9gupxt6YX3DY0Fk155NT9l17d/ydi+964uS9Lw==}
-    engines: {node: '>=14.0.0'}
-    dev: false
-
   /@remix-run/router/1.4.0:
     resolution: {integrity: sha512-BJ9SxXux8zAg991UmT8slpwpsd31K1dHHbD3Ba4VzD+liLQ4WAMSxQp2d2ZPRPfN0jN2NPRowcSSoM7lCaF08Q==}
     engines: {node: '>=14'}
@@ -3269,24 +3268,6 @@ packages:
       '@types/babel__core': 7.20.0
       rollup: 3.20.5
     dev: false
-
-  /@rollup/plugin-babel/6.0.3_rollup@3.20.5:
-    resolution: {integrity: sha512-fKImZKppa1A/gX73eg4JGo+8kQr/q1HBQaCGKECZ0v4YBBv3lFqi14+7xyApECzvkLTHCifx+7ntcrvtBIRcpg==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-      '@types/babel__core': ^7.1.9
-      rollup: ^1.20.0||^2.0.0||^3.0.0
-    peerDependenciesMeta:
-      '@types/babel__core':
-        optional: true
-      rollup:
-        optional: true
-    dependencies:
-      '@babel/helper-module-imports': 7.22.15
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
-      rollup: 3.20.5
-    dev: true
 
   /@rollup/plugin-babel/6.0.3_rwgaouhtlfp3yqsg36xgfp2t24:
     resolution: {integrity: sha512-fKImZKppa1A/gX73eg4JGo+8kQr/q1HBQaCGKECZ0v4YBBv3lFqi14+7xyApECzvkLTHCifx+7ntcrvtBIRcpg==}
@@ -4815,27 +4796,6 @@ packages:
     resolution: {integrity: sha512-Rg3iPFPDTctCqpY7Fc4Kx+HBkdy7FmK2zXVXGIHcAoekB4TCZW2/8kkaKF/ChVhhj38Hf58q4I5jiWEPNKzRog==}
     dependencies:
       '@visactor/vgrammar-core': 0.8.0
-    dev: false
-
-  /@visactor/vmind/1.0.6-alpha.3_zek35pddvdjy2zglnyjcvmb6jq:
-    resolution: {integrity: sha512-3Bduh5hBMXOKzyyz3Jvs5ziby+8ZYpXfBpH2dhgV/HZpDd5FKrSZt+mCp/OJfTIPI53nZlhKi0SRndYkE11Rfw==}
-    peerDependencies:
-      '@arco-design/web-react': ^2.48.1
-      '@visactor/vchart': 1.3.1
-    dependencies:
-      '@arco-design/web-react': 2.46.1_gxgmllcfuy2ev7cw5fu3ycsnd4
-      '@ffmpeg/core': 0.11.0
-      '@ffmpeg/ffmpeg': 0.11.6
-      '@visactor/vchart': link:../../packages/vchart
-      axios: 1.5.1
-      exceljs: 4.4.0
-      lodash: 4.17.21
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-router-dom: 6.17.0_sfoxds7t5ydpegc3knd667wn6m
-    transitivePeerDependencies:
-      - debug
-      - encoding
     dev: false
 
   /@visactor/vrender-components/0.16.8:
@@ -18056,17 +18016,6 @@ packages:
       ua-parser-js: 1.0.36
     dev: true
 
-  /react-dom/17.0.2_react@17.0.2:
-    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
-    peerDependencies:
-      react: 17.0.2
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-      react: 17.0.2
-      scheduler: 0.20.2
-    dev: false
-
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -18132,19 +18081,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /react-router-dom/6.17.0_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-qWHkkbXQX+6li0COUUPKAUkxjNNqPJuiBd27dVwQGDNsuFBdMbrS6UZ0CLYc4CsbdLYTckn4oB4tGDuPZpPhaQ==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      react: '>=16.8'
-      react-dom: '>=16.8'
-    dependencies:
-      '@remix-run/router': 1.10.0
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-router: 6.17.0_react@17.0.2
-    dev: false
-
   /react-router-dom/6.9.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-/seUAPY01VAuwkGyVBPCn1OXfVbaWGGu4QN9uj0kCPcTyNYgL1ldZpxZUpRU7BLheKQI4Twtl/OW2nHRF1u26Q==}
     engines: {node: '>=14'}
@@ -18156,16 +18092,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-router: 6.9.0_react@18.2.0
-
-  /react-router/6.17.0_react@17.0.2:
-    resolution: {integrity: sha512-YJR3OTJzi3zhqeJYADHANCGPUu9J+6fT5GLv82UWRGSxu6oJYCKVmxUcaBQuGm9udpWmPsvpme/CdHumqgsoaA==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      react: '>=16.8'
-    dependencies:
-      '@remix-run/router': 1.10.0
-      react: 17.0.2
-    dev: false
 
   /react-router/6.9.0_react@18.2.0:
     resolution: {integrity: sha512-51lKevGNUHrt6kLuX3e/ihrXoXCa9ixY/nVWRLlob4r/l0f45x3SzBvYJe3ctleLUQQ5fVa4RGgJOTH7D9Umhw==}
@@ -18188,14 +18114,6 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-
-  /react/17.0.2:
-    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-    dev: false
 
   /react/18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
@@ -19204,6 +19122,7 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
+    dev: true
 
   /scheduler/0.23.0:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
@@ -21016,7 +20935,7 @@ packages:
       bs-logger: 0.2.6
       buffer-from: 1.1.2
       fast-json-stable-stringify: 2.1.0
-      jest: 26.6.3
+      jest: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
       jest-util: 26.6.2
       json5: 2.2.3
       lodash: 4.17.21
