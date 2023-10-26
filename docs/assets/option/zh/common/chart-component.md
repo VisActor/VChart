@@ -13,6 +13,10 @@
 
 {{ use: component-title() }}
 
+<!-- indicator -->
+
+{{ use: component-indicator() }}
+
 <!-- axes -->
 
 {{ if: ${axisType} === 'cartesian' }}
@@ -38,8 +42,6 @@
 {{ if: ${axisType} === 'polar' }}
 
 {{ use: component-polar-axis() }}
-
-{{ use: component-indicator() }}
 
 {{ /if }}
 

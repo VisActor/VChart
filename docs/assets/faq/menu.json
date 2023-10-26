@@ -23,6 +23,132 @@
       }
     },
     {
+      "path": "7-Can we add a horizontal line for the average value to the data",
+      "title": {
+        "zh": "7.能否给数据添加平均值横线？",
+        "en": "7.Can we add a horizontal line for the average value to the data?"
+      }
+    },
+    {
+      "path": "8-When listening to events at the Chart level, is it possible to get the type of element that was clicked via the event parameter, similar to the target parameter in dom",
+      "title": {
+        "zh": "8.在Chart 层面监听事件，是否可以通过event 参数获取具体点击的元素类型，类似于dom 的 target 参数？",
+        "en": "8.When listening to events at the Chart level, is it possible to get the type of element that was clicked via the event parameter, similar to the target parameter in dom?"
+      }
+    },
+    {
+      "path": "9-How to set the color and transparency of individual words inside the word cloud based on their values",
+      "title": {
+        "zh": "9.如何根据数值设定词云里面单个词语的颜色和透明度？",
+        "en": "9.How to set the color and transparency of individual words inside the word cloud based on their values?"
+      }
+    },
+    {
+      "path": "10-How to customize the font size of words in Word Cloud Chart",
+      "title": {
+        "zh": "10.词云图中如何自定义词语的字体大小？",
+        "en": "10.How to customize the font size of words in Word Cloud Chart?"
+      }
+    },
+    {
+      "path": "11-How do I set the scrollbars for the common chart",
+      "title": {
+        "zh": "11.组合图滚动条如何设置？",
+        "en": "11.How do I set the scrollbars for the common chart?"
+      }
+    },
+    {
+      "path": "12-How to configure horizontal scrollbars when there is too much data in a bar chart in an applet",
+      "title": {
+        "zh": "12.在小程序中，柱图数据过多时，如何配置横向滚动条？",
+        "en": "12.How to configure horizontal scrollbars when there is too much data in a bar chart in an applet?"
+      }
+    },
+    {
+      "path": "13-How do I configure the default scroll position for chart scrollbars",
+      "title": {
+        "zh": "13.图表滚动条如何配置默认滚动的位置？",
+        "en": "13.How do I configure the default scroll position for chart scrollbars?"
+      }
+    },
+    {
+      "path": "14-How does the label of the auxiliary line automatically change lines",
+      "title": {
+        "zh": "14.辅助线的label如何自动换行？",
+        "en": "14.How does the label of the auxiliary line automatically change lines?"
+      }
+    },
+    {
+      "path": "23-How to configure gradient colors for area charts",
+      "title": {
+        "zh": "23.面积图渐变色如何配置，能否支持堆叠面积图配置不同渐变方向的渐变色？",
+        "en": "23.How to configure gradient colors for area charts?"
+      }
+    },
+    {
+      "path": "24-How to truncate, wrap, or perform other formatting effects on axis labels in charts",
+      "title": {
+        "zh": "24.图表的轴标签如何做截断，换行等效果？",
+        "en": "24.How to truncate, wrap, or perform other formatting effects on axis labels in charts?"
+      }
+    },
+    {
+      "path": "25-How to configure a DataZoom component in a chart that can be used on a mobile device",
+      "title": {
+        "zh": "25.如何在图表中配置一个能够在移动端响应的 DataZoom 组件？",
+        "en": "25-How to configure a DataZoom component in a chart that can be used on a mobile device?"
+      }
+    },
+    {
+      "path": "26-How to customize the label text content, color, and layout of a pie chart",
+      "title": {
+        "zh": "26.如何自定义饼图的 label 文字内容、颜色、布局？",
+        "en": "26-How to customize the label text content, color, and layout of a pie chart?"
+      }
+    },
+    {
+      "path": "27-How to customize the image and color of a legend",
+      "title": {
+        "zh": "27.如何自定义图表中的图例的图像和颜色？",
+        "en": "27-How to customize the image and color of a legend?"
+      }
+    },
+    {
+      "path": "28-How to customize the theme for a chart",
+      "title": {
+        "zh": "28.如何为图表自定义主题，如在 VChart？",
+        "en": "28-How to customize the theme for a chart?"
+      }
+    },
+    {
+      "path": "29-How to use charts libraries in React",
+      "title": {
+        "zh": "29.如何在 React 中使用图表库，如 VChart？",
+        "en": "29-How to use charts libraries in React?"
+      }
+    },
+    {
+      "path": "30-How to use charts libraries in Vue",
+      "title": {
+        "zh": "30.如何在 Vue 中使用图表库，如 VChart？",
+        "en": "30-How to use charts libraries in Vue?"
+      }
+    },
+    {
+      "path": "31-How to implement a combination of line chart and stacked bar chart",
+      "title": {
+        "zh": "31.如何实现折线图和堆积柱状图的组合？",
+        "en": "31-How to implement a combination of line chart and stacked bar chart?"
+      }
+    },
+    {
+      "path": "32-How to get the data point information in a click event using react-vchart",
+      "title": {
+        "zh": "32.使用@visactor/react-vchart,如何在点击事件中获取对应数据点信息？",
+        "en": "32-How to get the data point information in a click event using react-vchart?"
+      }
+    },
+    {
       "path": "33-How to customize the axis label display spacing",
       "title": {
         "zh": "33.如何自定义轴label显示间距？",
@@ -230,6 +356,90 @@
       "title": {
         "zh": "82.如何配置漏斗图的转化宽度？",
         "en": "82.How to configure the transform width of the funnel chart?"
+      }
+    },
+    {
+      "path": "83-How to use chart library in mini program",
+      "title": {
+        "zh": "83.如何在小程序中使用图表库？",
+        "en": "83.How to use chart library in mini program?"
+      }
+    },
+    {
+      "path": "84-How to display the complete information of the legend when hovering",
+      "title": {
+        "zh": "84.如何 hover 时显示图例的完整信息？",
+        "en": "84.How to display the complete information of the legend when hovering?"
+      }
+    },
+    {
+      "path": "85-How to control the display order of stacking and legends and add display of total information on the tooltip",
+      "title": {
+        "zh": "85.如何控制堆叠以及图例的显示顺序，同时在 tooltip 上添加总计信息的展示？",
+        "en": "85.How to control the display order of stacking and legends and add display of total information on the tooltip?"
+      }
+    },
+    {
+      "path": "86-How to clear charts and data",
+      "title": {
+        "zh": "86.如何清空图表和数据？",
+        "en": "86.How to clear charts and data?"
+      }
+    },
+    {
+      "path": "87-How to configure the scope of the crosshair auxiliary line",
+      "title": {
+        "zh": "87.组合图中，如何配置十字辅助线的作用范围，在某一个子图内，或者作用于整个组合图表？",
+        "en": "87.How to configure the scope of the crosshair auxiliary line?"
+      }
+    },
+    {
+      "path": "88-How to customize the shape and text style of the legend",
+      "title": {
+        "zh": "88.如何自定义图例的形状和文字样式？",
+        "en": "88.How to customize the shape and text style of the legend?"
+      }
+    },
+    {
+      "path": "89-How to control the display order of discrete legends",
+      "title": {
+        "zh": "89.如何控制离散图例的显示顺序？",
+        "en": "89.How to control the display order of discrete legends?"
+      }
+    },
+    {
+      "path": "90-How to use chart components in Taro",
+      "title": {
+        "zh": "90.如何在 Taro 框架中使用图表组件？",
+        "en": "90.How to use chart components in Taro?"
+      }
+    },
+    {
+      "path": "91-How to customize the text content of the legend",
+      "title": {
+        "zh": "91.如何自定义图例的文本内容？",
+        "en": "91.How to customize the text content of the legend?"
+      }
+    },
+    {
+      "path": "92-How to add prompt information to the legend",
+      "title": {
+        "zh": "92.如何给图例（legend）添加提示信息？",
+        "en": "92.How to add prompt information to the legend?"
+      }
+    },
+    {
+      "path": "93-How to achieve reverse y-axis effect",
+      "title": {
+        "zh": "93.如何实现反向 y 轴效果？",
+        "en": "93.How to achieve reverse y-axis effect"
+      }
+    },
+    {
+      "path": "94-Is there an API on the mini program that prompts the location of data points when touching the screen with your finger",
+      "title": {
+        "zh": "94.在 pc 端上鼠标悬浮在数据点上出现的 tooltip 这种效果，在小程序上有类似这样手指触碰屏幕提示数据点位置的 api 吗？",
+        "en": "94.Is there an API on the mini program that prompts the location of data points when touching the screen with your finger?"
       }
     }
   ]

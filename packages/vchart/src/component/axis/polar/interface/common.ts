@@ -12,6 +12,9 @@ export type IPolarGrid = IGrid & {
   smooth?: boolean;
 };
 export interface IPolarAxisHelper {
+  // axis is continuous
+  isContinuous: boolean;
+
   dataToPosition: (values: any, cfg?: any) => number;
   coordToPoint: (point: IPolarPoint) => IPoint;
   pointToCoord: (point: IPoint) => IPolarPoint;
