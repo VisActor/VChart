@@ -137,11 +137,11 @@ export enum TransformLevel {
 
   dotObjFlat = -7,
   linkDotInfo = -7,
+  sankeyLayout = -7,
 
   dataZoomFilter = -6,
   legendFilter = -5,
+
   treemapFilter = -4,
-  treemapFlatten = -3,
-  sankeyLayout = -4,
-  sankeyFlatten = -3
+  treemapFlatten = -3
 }
