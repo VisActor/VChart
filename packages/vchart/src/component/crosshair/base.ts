@@ -1,6 +1,6 @@
 import type { Dict, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { throttle, PointService, isEqual } from '@visactor/vutils';
+import { throttle, PointService, isEqual, array } from '@visactor/vutils';
 
 import { RenderModeEnum } from '../../typings/spec/common';
 import type { BaseEventParams, EventType } from '../../event/interface';
@@ -131,15 +131,12 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   protected _initEvent() {
-    if (this._getTriggerEvent()) {
-      const { in: triggerEvent, out: outTriggerEvent } = this._getTriggerEvent();
-      if (isArray(triggerEvent)) {
-        triggerEvent.forEach((eventName, index) =>
-          this._registerEvent(eventName, isArray(outTriggerEvent) ? outTriggerEvent[index] : outTriggerEvent)
-        );
-      } else {
-        this._registerEvent(triggerEvent, outTriggerEvent);
-      }
+    const triggerConfig = this._getTriggerEvent();
+    if (triggerConfig) {
+      const { in: triggerEvent, out: outTriggerEvent } = triggerConfig;
+      array(triggerEvent).forEach((eventName, index) =>
+        this._registerEvent(eventName, isArray(outTriggerEvent) ? outTriggerEvent[index] : outTriggerEvent)
+      );
     }
   }
 
@@ -258,8 +255,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   protected _releaseEvent(): void {
-    if (this._getTriggerEvent()) {
-      const { in: triggerEvent, out: outTriggerEvent } = this._getTriggerEvent();
+    const triggerConfig = this._getTriggerEvent();
+    if (triggerConfig) {
+      const { in: triggerEvent, out: outTriggerEvent } = triggerConfig;
       if (isArray(triggerEvent)) {
         triggerEvent.forEach(eachTriggerEvent => this._eventOff(eachTriggerEvent));
       } else {
