@@ -989,6 +989,10 @@ export class VChart implements IVChart {
   on(eType: EventType, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery | EventCallback<EventParams>, handler?: EventCallback<EventParams>): void {
+    if (!this._userEvents) {
+      // userEvents正常情况下有默认值，如果!userEvents，说明此时chart被release了，就可以终止流程
+      return;
+    }
     this._userEvents.push({
       eType,
       query: typeof query === 'function' ? null : query,

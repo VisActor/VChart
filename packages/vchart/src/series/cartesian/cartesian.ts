@@ -16,7 +16,7 @@ import type { DirectionType } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { Datum, StringOrNumber } from '../../typings';
-import { array, isValid } from '../../util';
+import { array, couldBeValidNumber, isValid } from '../../util';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
@@ -77,6 +77,9 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
   setFieldY2(f: string) {
     this._fieldY2 = f;
   }
+
+  protected _specXField: string[];
+  protected _specYField: string[];
 
   protected _direction: DirectionType = Direction.vertical;
   get direction() {
@@ -246,6 +249,8 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this.setFieldX(this._spec.xField);
     this.setFieldY(this._spec.yField);
     this.setFieldZ(this._spec.zField);
+    this._specXField = array(this._spec.xField);
+    this._specYField = array(this._spec.yField);
     if (isValid(this._spec.direction)) {
       this._direction = this._spec.direction;
     }
@@ -449,4 +454,18 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       );
     }
   }
+
+  protected _getInvalidDefined = (datum: Datum) => {
+    if (this._xAxisHelper.isContinuous) {
+      if (!couldBeValidNumber(datum[this._specXField[0]])) {
+        return false;
+      }
+    }
+    if (this._yAxisHelper.isContinuous) {
+      if (!couldBeValidNumber(datum[this._specYField[0]])) {
+        return false;
+      }
+    }
+    return true;
+  };
 }
