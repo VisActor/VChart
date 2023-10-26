@@ -401,18 +401,6 @@ export interface IVChart {
   /** 恢复暂停时正在进行的所有动画 */
   resumeAnimation: () => void;
 
-  /** 注册函数（全局注册） */
-  expressionFunction: (key: string, fun: Function) => void;
-
-  /** 注销函数（全局注销） */
-  removeExpressionFunction: (key: string) => void;
-
-  /** 获取函数（全局获取)  */
-  getExpressionFunction: (key: string) => Function | null;
-
-  /** 获取函数列表（全局获取） */
-  getExpressionFunctionList: () => string[] | null;
-
   /** 注册实例函数 */
   registerFunction: (key: string, fun: Function) => void;
 
