@@ -16,7 +16,7 @@ option: barChart#dataZoom
 
 - `backgroundChart`属性声明为预览图表的样式, `line`对应的是预览图表的折线图样式; `area`对应的是预览图表的面积图样式
 - `selectedBackgroundChart`属性声明为选中部分的预览图表样式, `line`对应的是预览图表的折线图样式; `area`对应的是预览图表的面积图样式
-- 除此之外, 样式配置还支持背景样式、选中背景样式、正在拖拽中的提示图元样式、左右手柄样式、中间手柄样式等, 具体详见 spec 配置(todo: @chensiji, 这里或许加个 link 比较好).
+- 除此之外, 样式配置还支持背景样式、选中背景样式、正在拖拽中的提示图元样式、左右手柄样式、中间手柄样式等, 具体详见 [spec 配置](../../option/barChart#dataZoom).
 
 ## 代码演示
 
