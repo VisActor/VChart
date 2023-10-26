@@ -78,6 +78,9 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this._fieldY2 = f;
   }
 
+  protected _specXField: string[];
+  protected _specYField: string[];
+
   protected _direction: DirectionType = Direction.vertical;
   get direction() {
     return this._direction;
@@ -246,6 +249,8 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this.setFieldX(this._spec.xField);
     this.setFieldY(this._spec.yField);
     this.setFieldZ(this._spec.zField);
+    this._specXField = array(this._spec.xField);
+    this._specYField = array(this._spec.yField);
     if (isValid(this._spec.direction)) {
       this._direction = this._spec.direction;
     }
@@ -452,11 +457,12 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
 
   protected _getInvalidDefined = (datum: Datum) => {
     if (this._xAxisHelper.isContinuous) {
-      if (!couldBeValidNumber(datum[this._spec.xField[0]])) {
+      if (!couldBeValidNumber(datum[this._specXField[0]])) {
         return false;
       }
-    } else if (this._yAxisHelper.isContinuous) {
-      if (!couldBeValidNumber(datum[this._spec.yField[0]])) {
+    }
+    if (this._yAxisHelper.isContinuous) {
+      if (!couldBeValidNumber(datum[this._specYField[0]])) {
         return false;
       }
     }
