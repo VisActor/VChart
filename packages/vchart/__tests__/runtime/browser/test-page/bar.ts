@@ -40107,21 +40107,80 @@ const run = () => {
     });
   });
   const spec2 = {
-    type: 'line',
-    direction: 'horizontal',
-    xField: 'y',
-    yField: 'x',
-    seriesField: 'type',
-    sampling: 'lttb',
-    sampingFactor: 0.1,
-    // markOverlap: true,
-    stack: true,
+    type: 'common',
+    // seriesField: 'color',
     data: [
       {
-        name: 'line',
-        values: dataSeries
+        id: 'id0',
+        values: data2
       }
-    ]
+    ],
+    series: [
+      {
+        type: 'line',
+        id: 'no sampling',
+        dataIndex: 0,
+        xField: 'x',
+        yField: 'y',
+        point: {
+          style: {
+            fill: '#1664FF'
+          }
+        },
+        line: {
+          style: {
+            stroke: '#1664FF'
+          }
+        }
+      },
+      {
+        type: 'line',
+        id: 'lttb sampling',
+        dataIndex: 0,
+        xField: 'x',
+        yField: 'y',
+        sampling: 'lttb',
+        samplingFactor: 0.1,
+        point: {
+          style: {
+            fill: '#FF8A00'
+          }
+        },
+        line: {
+          style: {
+            stroke: '#FF8A00'
+          }
+        }
+      },
+      {
+        type: 'line',
+        id: 'average sampling',
+        dataIndex: 0,
+        xField: 'x',
+        yField: 'y',
+        sampling: 'average',
+        samplingFactor: 0.1,
+        point: {
+          style: {
+            fill: '#FFC400'
+          }
+        },
+        line: {
+          style: {
+            stroke: '#FFC400'
+          }
+        }
+      }
+    ],
+    axes: [
+      { orient: 'left', seriesIndex: [0, 1, 2, 3, 4, 5] },
+      // { orient: 'right', seriesId: ['line'], gird: { visible: false } },
+      { orient: 'bottom', label: { visible: true }, type: 'band' }
+    ],
+    legends: {
+      visible: true,
+      orient: 'bottom'
+    }
   };
 
   const spec3 = {
@@ -40511,8 +40570,8 @@ const run = () => {
     xField: 'State',
     sampling: 'lttb',
     yField: 'population',
-    seriesField: 'age',
-    stack: true,
+    // seriesField: 'age',
+    // stack: true,
     legends: {
       visible: true,
       reversed: true

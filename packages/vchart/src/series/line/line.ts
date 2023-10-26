@@ -62,7 +62,7 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
     if (this._spec.markOverlap) {
       overlapTrans.push({
         type: 'markoverlap',
-        direction: 0,
+        direction: this._direction === Direction.vertical ? 2 : 1,
         delta: this._spec.pointDis,
         deltaMul: this._spec.pointDisMul,
         groupBy: this._seriesField

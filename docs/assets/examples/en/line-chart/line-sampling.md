@@ -1,28 +1,27 @@
 ---
 category: examples
 group: line chart
-title: 折线图数据采样
+title: Line Chart Sampling
 keywords: lineChart,comparison,trend,line
 order: 0-12
 cover: /vchart/preview/line-sampling_1.5.3.png
 option: lineChart
 ---
 
-# 折线图数据采样
-折线图、面积图和柱状图在数据量远大于图表绘图区像素宽度（高度）时，会消耗大量冗余的计算；数据采样功能提供了这些情况的的降采样策略。使用数据采样后，在有效地优化图表加载效率的同时，也可以尽可能地展示数据的趋势。
+# line chart sampling
+Line charts, area charts, and bar charts consume a lot of redundant calculations when the amount of data is much larger than the pixel width (height) of the chart drawing area; the data sampling function provides a downsampling strategy for these situations. After using data sampling, while effectively optimizing the chart loading efficiency, the trend of the data can also be displayed as much as possible.
 
+## Key option
 
-## 关键配置
+- The `sampling` attribute declares the sampling algorithm
+Optional values:
+  - `'lttb'`: Using the Largest-Triangle-Three-Bucket algorithm, the trend, shape and extreme value of the sampled line can be guaranteed to the greatest extent.
+  - `'min'`: Get the minimum value of filter points
+  - `'max'`: Take the maximum value of filter points
+  - `'sum'`: Take the sum of filter points
+  - `'average'`: Take the average of the filtered points
 
-- `sampling` 属性声明为采样算法
-可选值:
-  - `'lttb'`: 采用 Largest-Triangle-Three-Bucket 算法，可以最大程度保证采样后线条的趋势，形状和极值。
-  - `'min'`: 取过滤点的最小值
-  - `'max'`: 取过滤点的最大值
-  - `'sum'`: 取过滤点的和
-  - `'average'`: 取过滤点的平均值
-
-## 代码演示
+## Demo source
 ```javascript livedemo
 const data2 = [
     {
@@ -40109,6 +40108,8 @@ window['vchart'] = vchart;
 ```
 
 
-## 相关教程
 
-[折线图](link)
+
+## Related Tutorials
+
+[Line Chart](link)
