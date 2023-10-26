@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of crosshair can not trigger in weapp, fixed #1322",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
