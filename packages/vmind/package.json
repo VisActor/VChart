@@ -56,6 +56,8 @@
     "@ffmpeg/ffmpeg": "^0.11.6",
     "axios": "^1.4.0",
     "exceljs": "^4.3.0",
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "@types/lodash": "4.14.182",
+    "@types/node": "*"
   }
 }
