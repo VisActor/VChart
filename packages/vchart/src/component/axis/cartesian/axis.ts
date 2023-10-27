@@ -194,7 +194,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   effect: IEffect = {
     scaleUpdate: params => {
-      this.computeData(params.value);
+      this.computeData(params?.value);
       eachSeries(
         this._regions,
         s => {
