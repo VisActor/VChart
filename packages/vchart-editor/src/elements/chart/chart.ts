@@ -261,15 +261,15 @@ export class EditorChart extends BaseElement {
       spec.markArea = [];
     }
     // TODO: 没搞懂这个逻辑
-    const lastMarkLine = spec.markArea.find((markArea: any) => markArea.name === attr.markArea.type);
+    const lastMarkArea = spec.markArea.find((markArea: any) => markArea.name === attr.markArea.type);
     if (attr.markArea.enable) {
-      if (!lastMarkLine) {
+      if (!lastMarkArea) {
         const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markArea.type);
         spec.markArea.push(defaultMarkLineSpec);
       }
     } else {
-      if (lastMarkLine) {
-        spec.markArea.splice(spec.markArea.indexOf(lastMarkLine), 1);
+      if (lastMarkArea) {
+        spec.markArea.splice(spec.markArea.indexOf(lastMarkArea), 1);
       }
     }
     this.reRenderWithUpdateSpec();
