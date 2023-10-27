@@ -412,12 +412,6 @@ export class SunburstSeries extends PolarSeries<any> {
   getStackValueField(): string {
     return '';
   }
-  setValueFieldToStack(): void {
-    return;
-  }
-  setValueFieldToPercent(): void {
-    return;
-  }
 
   // make sure this function fast
   protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {

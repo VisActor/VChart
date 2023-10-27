@@ -1,16 +1,24 @@
 import { registerAreaSeries } from '../../series/area/area';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
+import type { IChartOption } from '../interface';
 import { ChartTypeEnum } from '../interface';
 import type { IAreaChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { Factory } from '../../core/factory';
+import { Stack } from '../stack';
 
 export class AreaChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.area;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.area;
   readonly seriesType: string = SeriesTypeEnum.area;
+
+  constructor(spec: any, option: IChartOption) {
+    super(spec, option);
+
+    this._stack = new Stack(this);
+  }
 
   protected _getDefaultSeriesSpec(spec: IAreaChartSpec): any {
     return {

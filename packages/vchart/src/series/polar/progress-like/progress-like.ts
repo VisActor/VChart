@@ -52,18 +52,6 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
     return this._angleField?.[0];
   }
 
-  setValueFieldToStack(): void {
-    // this.setAngleField(STACK_FIELD_END);
-  }
-
-  setValueFieldToPercent(): void {
-    //do nothing
-  }
-
-  setValueFieldToStackOffsetSilhouette(): void {
-    // do nothing
-  }
-
   getGroupFields() {
     return this._angleField;
   }

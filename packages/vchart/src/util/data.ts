@@ -134,7 +134,7 @@ export function stackOffsetSilhouette(stackCache: IStackCacheNode) {
   }
 }
 
-export function stack(stackCache: IStackCacheNode, stackInverse: boolean) {
+export function stack(stackCache: IStackCacheNode, stackInverse: boolean, hasPercent?: boolean) {
   if (stackCache.values.length > 0) {
     // 设置一个小数以保证 log 计算不会报错
     let positiveStart = 0;
@@ -158,19 +158,21 @@ export function stack(stackCache: IStackCacheNode, stackInverse: boolean) {
         v[STACK_FIELD_END] = negativeStart;
       }
     }
-    // normalize
-    for (let index = 0; index < maxLength; index++) {
-      const v = stackCache.values[stackInverse ? maxLength - 1 - index : index];
-      value = v[STACK_FIELD_END];
-      const denominator = value >= 0 ? positiveStart : negativeStart;
-      sign = value >= 0 ? 1 : -1;
-      v[STACK_FIELD_START_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_START] / denominator) * sign;
-      v[STACK_FIELD_END_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_END] / denominator) * sign;
+    if (hasPercent) {
+      // normalize
+      for (let index = 0; index < maxLength; index++) {
+        const v = stackCache.values[stackInverse ? maxLength - 1 - index : index];
+        value = v[STACK_FIELD_END];
+        const denominator = value >= 0 ? positiveStart : negativeStart;
+        sign = value >= 0 ? 1 : -1;
+        v[STACK_FIELD_START_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_START] / denominator) * sign;
+        v[STACK_FIELD_END_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_END] / denominator) * sign;
+      }
     }
   }
 
   for (const key in stackCache.nodes) {
-    stack(stackCache.nodes[key], stackInverse);
+    stack(stackCache.nodes[key], stackInverse, hasPercent);
   }
 }
 
