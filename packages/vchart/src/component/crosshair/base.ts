@@ -1,6 +1,6 @@
 import type { Dict, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { throttle, PointService, isEqual } from '@visactor/vutils';
+import { throttle, PointService, isEqual, array } from '@visactor/vutils';
 
 import { RenderModeEnum } from '../../typings/spec/common';
 import type { BaseEventParams, EventType } from '../../event/interface';
@@ -20,7 +20,7 @@ import type {
   ICrosshairCategoryFieldSpec
 } from './interface';
 import { Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../constant';
-import { defaultCrosshairTriggerEvent } from './config';
+import { getDefaultCrosshairTriggerEventByMode } from './config';
 import type { IPolarAxis } from '../axis/polar/interface';
 import type { IAxis } from '../axis/interface';
 
@@ -131,15 +131,12 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   protected _initEvent() {
-    if (this._getTriggerEvent()) {
-      const { in: triggerEvent, out: outTriggerEvent } = this._getTriggerEvent();
-      if (isArray(triggerEvent)) {
-        triggerEvent.forEach((eventName, index) =>
-          this._registerEvent(eventName, isArray(outTriggerEvent) ? outTriggerEvent[index] : outTriggerEvent)
-        );
-      } else {
-        this._registerEvent(triggerEvent, outTriggerEvent);
-      }
+    const triggerConfig = this._getTriggerEvent();
+    if (triggerConfig) {
+      const { in: triggerEvent, out: outTriggerEvent } = triggerConfig;
+      array(triggerEvent).forEach((eventName, index) =>
+        this._registerEvent(eventName, isArray(outTriggerEvent) ? outTriggerEvent[index] : outTriggerEvent)
+      );
     }
   }
 
@@ -173,7 +170,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
   private _getTriggerEvent() {
     const { mode = RenderModeEnum['desktop-browser'] } = this._option;
-    if (defaultCrosshairTriggerEvent[mode]) {
+    const triggerConfig = getDefaultCrosshairTriggerEventByMode(mode);
+    if (triggerConfig) {
       const trigger = this.trigger || 'hover';
       const outTrigger = (trigger: CrossHairTrigger) => (trigger === 'click' ? 'clickOut' : 'hoverOut');
       if (isArray(trigger)) {
@@ -181,8 +179,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         let inResult: string[] = [];
         let outResult: string[] = [];
         trigger.forEach(item => {
-          inResult = inResult.concat(defaultCrosshairTriggerEvent[mode][item]);
-          outResult = outResult.concat(defaultCrosshairTriggerEvent[mode][outTrigger(item)]);
+          inResult = inResult.concat(triggerConfig[item]);
+          outResult = outResult.concat(triggerConfig[outTrigger(item)]);
         });
         return {
           in: inResult,
@@ -190,8 +188,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         };
       }
       return {
-        in: defaultCrosshairTriggerEvent[mode][trigger],
-        out: defaultCrosshairTriggerEvent[mode][outTrigger(trigger)]
+        in: triggerConfig[trigger],
+        out: triggerConfig[outTrigger(trigger)]
       };
     }
     return null;
@@ -257,8 +255,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   protected _releaseEvent(): void {
-    if (this._getTriggerEvent()) {
-      const { in: triggerEvent, out: outTriggerEvent } = this._getTriggerEvent();
+    const triggerConfig = this._getTriggerEvent();
+    if (triggerConfig) {
+      const { in: triggerEvent, out: outTriggerEvent } = triggerConfig;
       if (isArray(triggerEvent)) {
         triggerEvent.forEach(eachTriggerEvent => this._eventOff(eachTriggerEvent));
       } else {

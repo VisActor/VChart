@@ -16,7 +16,7 @@ In the thumbnail axis, you can configure the preview chart to display statistica
 
 - The `backgroundChart` attribute is declared as the style of the preview chart, where `line` corresponds to the line chart style of the preview chart; `area` corresponds to the area chart style of the preview chart
 - The `selectedBackgroundChart` attribute is declared as the style of the selected part of the preview chart, where `line` corresponds to the line chart style of the preview chart; `area` corresponds to the area chart style of the preview chart
-- In addition, style configuration also supports background style, selected background style, dragging hint graphic style, left and right handle style, middle handle style, etc., for more details refer to spec configuration (todo: @chensiji, maybe adding a link here would be better).
+- In addition, style configuration also supports background style, selected background style, dragging hint graphic style, left and right handle style, middle handle style, etc., for more details refer to [spec configuration](../../option/barChart#dataZoom).
 
 ## Demo source
 

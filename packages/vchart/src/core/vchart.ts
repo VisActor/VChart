@@ -22,7 +22,7 @@ import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
-import { globalTheme, type Stage } from '@visactor/vrender-core';
+import type { Stage } from '@visactor/vrender-core';
 import {
   isString,
   isValid,
@@ -95,7 +95,6 @@ import { GroupMark } from '../mark';
 import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
-import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 import { mergeThemeAndGet } from '../theme/util';
 
 export class VChart implements IVChart {
@@ -415,12 +414,16 @@ export class VChart implements IVChart {
     return { width: this._spec.width ?? containerWidth, height: this._spec.height ?? containerHeight };
   }
 
-  private _onResize = debounce((...args: any[]) => {
+  private _doResize() {
     const { width, height } = this._getCurSize();
     if (this._curSize.width !== width || this._curSize.height !== height) {
       this._curSize = { width, height };
       this.resize(width, height);
     }
+  }
+
+  private _onResize = debounce((...args: any[]) => {
+    this._doResize();
   }, 100);
 
   private _initDataSet(dataSet?: DataSet) {
@@ -477,8 +480,9 @@ export class VChart implements IVChart {
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
       this._userEvents.forEach(e => this._event?.on(e.eType as any, e.query as any, e.handler as any));
+
       if (updateResult.reSize) {
-        this._onResize();
+        this._doResize();
       }
     } else {
       if (updateResult.reCompile) {
@@ -781,7 +785,7 @@ export class VChart implements IVChart {
         this._updateCurrentTheme();
         this._chart?.setCurrentTheme();
       }
-      const reSize = this._updateChartConfiguration(lastSpec);
+      const reSize = this._shouldChartResize(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
       return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
         change: reSize,
@@ -822,7 +826,11 @@ export class VChart implements IVChart {
       spec.data = spec.data ?? [];
       const lastSpec = this._spec;
       this._spec = spec;
-      const reSize = this._updateChartConfiguration(lastSpec);
+      if (!isEqual(lastSpec.theme, spec.theme)) {
+        this._updateCurrentTheme();
+        this._chart?.setCurrentTheme();
+      }
+      const reSize = this._shouldChartResize(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
       return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
         change: reSize,
@@ -989,6 +997,10 @@ export class VChart implements IVChart {
   on(eType: EventType, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery | EventCallback<EventParams>, handler?: EventCallback<EventParams>): void {
+    if (!this._userEvents) {
+      // userEvents正常情况下有默认值，如果!userEvents，说明此时chart被release了，就可以终止流程
+      return;
+    }
     this._userEvents.push({
       eType,
       query: typeof query === 'function' ? null : query,
@@ -1098,17 +1110,26 @@ export class VChart implements IVChart {
     this._compiler?.setBackground(this._getBackground());
   }
 
-  private _updateChartConfiguration(oldSpec: ISpec) {
+  private _shouldChartResize(oldSpec: ISpec): boolean {
     let resize = false;
-    if (this._spec.width !== oldSpec.width || this._spec.height !== oldSpec.height) {
+
+    if (isNil(this._spec.width)) {
+      this._spec.width = oldSpec.width;
+    } else if (this._spec.width !== oldSpec.width) {
       resize = true;
     }
+
+    if (isNil(this._spec.height)) {
+      this._spec.height = oldSpec.height;
+    } else if (this._spec.height !== oldSpec.height) {
+      resize = true;
+    }
+
     const lasAutoSize = this._autoSize;
     this._autoSize = isTrueBrowser(this._option.mode) ? this._spec.autoFit ?? this._option.autoFit ?? true : false;
     if (this._autoSize !== lasAutoSize) {
       resize = true;
     }
-    this._updateCurrentTheme();
     return resize;
   }
 
