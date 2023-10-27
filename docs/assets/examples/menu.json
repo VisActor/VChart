@@ -370,6 +370,13 @@
             "zh": "带条形背景的条形图",
             "en": "Bar Chart with Background"
           }
+        },
+        {
+          "path": "bar-markPoint",
+          "title": {
+            "zh": "柱状图标注",
+            "en": "Bar Chart with MarkPoint"
+          }
         }
       ]
     },
