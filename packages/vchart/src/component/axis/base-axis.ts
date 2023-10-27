@@ -271,14 +271,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected computeData(updateType?: 'domain' | 'range'): void {
-    const isContinuousScale = isContinuous(this._scale.type);
-
-    if ((isContinuousScale && updateType === 'range') || (!isContinuousScale && isEqual(this._scale.range(), [0, 1]))) {
-      return;
+    if (!isEqual(this._scale.range(), [0, 1]) && (updateType !== 'range' || !isArray(this._tickData.getLatestData()))) {
+      this._tickData.getDataView().reRunAllTransform();
+      this._tickData.updateData();
     }
-
-    this._tickData.getDataView().reRunAllTransform();
-    this._tickData.updateData();
   }
 
   protected initScales() {
