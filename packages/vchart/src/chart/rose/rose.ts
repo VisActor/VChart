@@ -2,24 +2,16 @@ import { registerRoseSeries } from '../../series/rose/rose';
 import type { IPolarAxisSpec, IPolarBandAxisSpec } from '../../component/axis/polar/interface';
 import { POLAR_DEFAULT_RADIUS } from '../../constant';
 import { SeriesTypeEnum } from '../../series/interface';
-import type { IChartOption } from '../interface';
 import { ChartTypeEnum } from '../interface';
 import { RoseLikeChart } from '../polar/rose-like';
 import { array, isNil, mergeSpec } from '../../util';
 import { Factory } from '../../core/factory';
-import { Stack } from '../stack';
 
 export class RoseChart extends RoseLikeChart {
   static readonly type: string = ChartTypeEnum.rose;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.rose;
   readonly seriesType: string = SeriesTypeEnum.rose;
-
-  constructor(spec: any, option: IChartOption) {
-    super(spec, option);
-
-    this._stack = new Stack(this);
-  }
 
   protected _getDefaultSeriesSpec(spec: any): any {
     return {
