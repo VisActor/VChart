@@ -1,6 +1,28 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 24 Oct 2023 01:48:10 GMT and should not be manually modified.
+This log was last generated on Fri, 27 Oct 2023 06:56:42 GMT and should not be manually modified.
+
+## 1.5.3
+Fri, 27 Oct 2023 06:56:41 GMT
+
+### Updates
+
+- feat: support the exportCanvas api of vchart
+
+
+- fix: sankey chart downstream highlight, related #1269
+- fix(brush): slove first select not effect problem. fix #1129
+- fix: new layout method for circle axis label, related #1123
+- fix: change default zIndex of axis in gauge chart, related #1122
+- fix(datazoom): datazoom location error when resize. fix #520
+- fix: slove event off error after release
+- fix: fix the issue where invalidType of scatter chart checks x and y at the same time
+
+
+- fix: fix the issue in markline as min/max aggr result is not correct, see #1261
+- fix: fix: fix the issue that the map tooltip title does not display the name from nameMap, see #1260
+- fix: sankey supports string value
+- fix: fix the issue of crosshair can not trigger in weapp, fixed #1322
 
 ## 1.5.2
 Tue, 24 Oct 2023 01:48:10 GMT
