@@ -80,6 +80,7 @@ import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { getThemeFromOption } from '../../theme/util';
+import { animationConfig, userAnimationConfig } from '../../animation/utils';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly type: string = 'series';
@@ -693,6 +694,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (!mark) {
       return;
     }
+
+    // 自定义图元默认不添加动画
+    const config = animationConfig({}, userAnimationConfig(spec.type, spec as any));
+    mark.setAnimationConfig(config);
 
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;

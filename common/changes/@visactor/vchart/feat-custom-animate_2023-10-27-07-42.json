@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: custom mark support animation config",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
