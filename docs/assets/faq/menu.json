@@ -483,6 +483,48 @@
         "zh": "94.在 pc 端上鼠标悬浮在数据点上出现的 tooltip 这种效果，在小程序上有类似这样手指触碰屏幕提示数据点位置的 api 吗？",
         "en": "94.Is there an API on the mini program that prompts the location of data points when touching the screen with your finger?"
       }
+    },
+    {
+      "path": "95-How to configure Tooltip to automatically wrap text",
+      "title": {
+        "zh": "95.如何配置 Tooltip (文字提示) 自动换行？",
+        "en": "95.How to configure Tooltip to automatically wrap text?"
+      }
+    },
+    {
+      "path": "96-How can Tooltip achieve multi column display in VChart",
+      "title": {
+        "zh": "96.VChart 中 Tooltip 如何实现多列显示？",
+        "en": "96.How can Tooltip achieve multi column display in VChart?"
+      }
+    },
+    {
+      "path": "97-How can I customize the display of fields in data in Tooltip in VChart",
+      "title": {
+        "zh": "97.VChart 中 Tooltip 中怎么能自定义展示数据中的字段？",
+        "en": "97.How can I customize the display of fields in data in Tooltip in VChart?"
+      }
+    },
+    {
+      "path": "98-How can VChart set the number of display bars for Tooltip, and support effects such as scrolling, pagination, and merged display when there is too much data",
+      "title": {
+        "zh": "98.VChart 如何设置 Tooltip 的展示条数，数据过多时支持滚动、分页、合并展示等效果？",
+        "en": "98.How can VChart set the number of display bars for Tooltip, and support effects such as scrolling, pagination, and merged display when there is too much data?"
+      }
+    },
+    {
+      "path": "99-How to use vchart to display charts in Notebook",
+      "title": {
+        "zh": "99.如何在 notebook 中使用 @visactor/vchart 显示图表？",
+        "en": "99.How to use vchart to display charts in Notebook?"
+      }
+    },
+    {
+      "path": "100-How can VChart achieve a profile effect similar to ECharts",
+      "title": {
+        "zh": "100.VChart 如何实现类似 ECharts 的 profile 效果？",
+        "en": "100.How can VChart achieve a profile effect similar to ECharts?"
+      }
     }
   ]
 }
