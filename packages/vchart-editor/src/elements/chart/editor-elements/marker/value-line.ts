@@ -76,6 +76,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
     const series = this._model.getRelativeSeries() as ICartesianSeries;
     // 计算新的 label 值
     let newText;
+    let fieldValue;
     if (this._orient === 'horizontal') {
       const convertPosition = newPoints[0].y - series.getRegion().getLayoutStartPoint().y;
       const isContinuousYAxis = series.getYAxisHelper().isContinuous;
@@ -84,6 +85,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
       } else {
         newText = series.positionToDataY(convertPosition);
       }
+      fieldValue = `${(convertPosition / series.getRegion().getLayoutRect().height) * 100}%`;
     } else {
       const convertPosition = newPoints[0].x - series.getRegion().getLayoutStartPoint().x;
       const isContinuousXAxis = series.getXAxisHelper().isContinuous;
@@ -92,8 +94,9 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
       } else {
         newText = series.positionToDataX(convertPosition);
       }
-    }
 
+      fieldValue = `${(convertPosition / series.getRegion().getLayoutRect().width) * 100}%`;
+    }
     // 更新 markLine
     // 1. 生成新的 markLine spec，用于存储
     const newSpec = merge({}, this._model.getSpec(), {
@@ -101,17 +104,8 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
         text: newText,
         formatMethod: null
       },
-      positions: newPoints.map(point => {
-        return {
-          x: point.x - series.getRegion().getLayoutStartPoint().x,
-          y: point.y - series.getRegion().getLayoutStartPoint().y
-        };
-      }),
-      regionRelative: true
+      [field]: fieldValue
     });
-    delete newSpec.x;
-    delete newSpec.y;
-    delete newSpec.coordinates;
 
     // 2. 计算新的 label 值，同时释放事件
     this._element.setAttributes({
