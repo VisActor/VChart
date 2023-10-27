@@ -13,12 +13,7 @@ export class AreaChart extends CartesianChart {
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.area;
   readonly seriesType: string = SeriesTypeEnum.area;
-
-  constructor(spec: any, option: IChartOption) {
-    super(spec, option);
-
-    this._stack = new Stack(this);
-  }
+  protected _canStack: boolean = true;
 
   protected _getDefaultSeriesSpec(spec: IAreaChartSpec): any {
     return {

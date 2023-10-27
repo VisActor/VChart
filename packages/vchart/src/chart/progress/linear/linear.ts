@@ -1,5 +1,4 @@
 import { CartesianChart } from '../../cartesian/cartesian';
-import type { IChartOption } from '../../interface';
 import { ChartTypeEnum } from '../../interface';
 import { SeriesTypeEnum } from '../../../series/interface/type';
 import type {
@@ -12,19 +11,13 @@ import type { ILinearProgressChartSpec } from './interface';
 import { getLinearAxisSpecDomain } from '../../../component/axis/util';
 import { registerLinearProgressSeries } from '../../../series/progress/linear';
 import { Factory } from '../../../core/factory';
-import { Stack } from '../../stack';
 
 export class LinearProgressChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.linearProgress;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.linearProgress;
   readonly seriesType: string = SeriesTypeEnum.linearProgress;
-
-  constructor(spec: any, option: IChartOption) {
-    super(spec, option);
-
-    this._stack = new Stack(this);
-  }
+  protected _canStack: boolean = true;
 
   protected needAxes(): boolean {
     return false;

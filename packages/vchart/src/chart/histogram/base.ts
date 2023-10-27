@@ -1,14 +1,8 @@
 import type { ICartesianAxisCommonSpec } from '../../component/axis/cartesian/interface';
 import { CartesianChart } from '../cartesian/cartesian';
-import type { IChartOption } from '../interface/common';
-import { Stack } from '../stack';
 
 export class BaseHistogramChart extends CartesianChart {
-  constructor(spec: any, option: IChartOption) {
-    super(spec, option);
-
-    this._stack = new Stack(this);
-  }
+  protected _canStack: boolean = true;
 
   transformSpec(spec: any): void {
     super.transformSpec(spec);

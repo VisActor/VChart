@@ -1,15 +1,8 @@
 import type { IPolarAxisSpec } from '../../component/axis/polar/interface';
-import type { IChartOption } from '../interface/common';
-import { Stack } from '../stack';
 import { PolarChart } from './polar';
 
 export class RoseLikeChart extends PolarChart {
-  constructor(spec: any, option: IChartOption) {
-    super(spec, option);
-
-    this._stack = new Stack(this);
-  }
-
+  protected _canStack: boolean = true;
   protected needAxes(): boolean {
     return true;
   }
