@@ -342,7 +342,7 @@ export class Zoomable implements IZoomable {
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (this._option.disableActiveEffect) {
+    if (this._option.disableTriggerEvent) {
       return;
     }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
