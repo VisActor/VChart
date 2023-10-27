@@ -1,7 +1,7 @@
 {
   "menu": "api",
   "children": [
-    
+    {
       "path": "48-How to define the mapping relationship of the axes for the combination of line chart and stacked column chart",
       "title": {
         "zh": "48.线图和堆积柱状图组合，如何定义轴的映射关系？",
@@ -64,7 +64,7 @@
         "en": "6.How to combine percentage bar and TGI chart?"
       }
     },
-     {
+    {
       "path": "7-Can we add a horizontal line for the average value to the data",
       "title": {
         "zh": "7.能否给数据添加平均值横线？",
