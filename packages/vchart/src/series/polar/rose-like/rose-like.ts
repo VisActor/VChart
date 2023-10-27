@@ -55,8 +55,4 @@ export abstract class RoseLikeSeries<T extends IRoseLikeSeriesSpec> extends Pola
   getDefaultShapeType(): string {
     return 'square';
   }
-
-  setValueFieldToStackOffsetSilhouette(): void {
-    // do nothing
-  }
 }

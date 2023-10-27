@@ -419,14 +419,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     return null;
   }
 
-  setValueFieldToStack(): void {
-    // this.setRadiusField(STACK_FIELD_END);
-  }
-
-  setValueFieldToPercent(): void {
-    //do nothing
-  }
-
   /** event */
   protected initEvent() {
     super.initEvent();
@@ -843,10 +835,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
   private _isReverse() {
     return this._funnelOrient === 'bottom' || this._funnelOrient === 'right';
-  }
-
-  setValueFieldToStackOffsetSilhouette(): void {
-    // do nothing
   }
 
   getDefaultShapeType(): string {

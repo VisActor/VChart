@@ -432,9 +432,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   valueToPosition(value1: any, value2?: any): IPoint {
     return null;
   }
-  setValueFieldToStackOffsetSilhouette(): void {
-    // do nothing
-  }
 
   getGroupFields(): string[] {
     // do nothing
@@ -449,14 +446,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   getStackValueField(): string {
     // do nothing
     return '';
-  }
-
-  setValueFieldToStack(): void {
-    // do nothing
-  }
-
-  setValueFieldToPercent(): void {
-    //do nothing
   }
 
   onLayoutEnd(ctx: any): void {

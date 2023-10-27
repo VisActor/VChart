@@ -35,29 +35,39 @@ export class Stack {
   }
 
   stackRegion = ({ model }: { model: IRegion }) => {
+    const series = model.getSeries();
+    // total label need percent
+    const hasTotalLabel = series.some(s => s.getSpec()?.totalLabel?.visible);
+    const hasPercent = hasTotalLabel || series.some(s => s.getPercent());
+    const hasOffsetSilhouette = series.some(s => s.getStackOffsetSilhouette());
+
     const stackValueGroup = getRegionStackGroup(model, true);
 
     // 计算堆积
     for (const stackValue in stackValueGroup) {
       for (const key in stackValueGroup[stackValue].nodes) {
-        stack(stackValueGroup[stackValue].nodes[key], model.getStackInverse());
+        stack(stackValueGroup[stackValue].nodes[key], model.getStackInverse(), hasPercent);
       }
     }
 
-    // 围绕中心轴偏移轮廓
-    for (const stackValue in stackValueGroup) {
-      for (const key in stackValueGroup[stackValue].nodes) {
-        stackOffsetSilhouette(stackValueGroup[stackValue].nodes[key]);
+    if (hasOffsetSilhouette) {
+      // 围绕中心轴偏移轮廓
+      for (const stackValue in stackValueGroup) {
+        for (const key in stackValueGroup[stackValue].nodes) {
+          stackOffsetSilhouette(stackValueGroup[stackValue].nodes[key]);
+        }
       }
     }
 
-    model.getSeries().forEach(s => {
-      const stackData = s.getStackData();
-      const stackValue = s.getStackValue();
-      const stackValueField = s.getStackValueField(); // yField
-      if (stackData && stackValueField) {
-        stackTotal(stackValueGroup[stackValue] as IStackCacheNode, stackValueField);
-      }
-    });
+    if (hasTotalLabel) {
+      model.getSeries().forEach(s => {
+        const stackData = s.getStackData();
+        const stackValue = s.getStackValue();
+        const stackValueField = s.getStackValueField(); // yField
+        if (stackData && stackValueField) {
+          stackTotal(stackValueGroup[stackValue] as IStackCacheNode, stackValueField);
+        }
+      });
+    }
   };
 }

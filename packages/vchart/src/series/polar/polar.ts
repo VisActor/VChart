@@ -214,9 +214,6 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     return Math.min(width / 2, height / 2);
   }
 
-  setValueFieldToStackOffsetSilhouette(): void {
-    // do nothing
-  }
   fillData(): void {
     super.fillData();
     if (this.sortDataByAxis) {

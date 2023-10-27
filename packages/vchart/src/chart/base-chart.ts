@@ -55,7 +55,7 @@ import {
   array,
   convertBackgroundSpec
 } from '../util';
-import { Stack } from './stack';
+import type { Stack } from './stack';
 import { BaseModel } from '../model/base-model';
 import { BaseMark } from '../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../constant/base';
@@ -206,7 +206,7 @@ export class BaseChart extends CompilableBase implements IChart {
       globalScale: this._globalScale,
       onError: this._option?.onError
     };
-    this._stack = new Stack(this);
+
     this._spec = spec;
   }
 
@@ -252,7 +252,9 @@ export class BaseChart extends CompilableBase implements IChart {
 
     // TODO: to component
     // stack
-    this._stack.init();
+    if (this._stack) {
+      this._stack.init();
+    }
     // data flow start
     this.reDataFlow();
   }
