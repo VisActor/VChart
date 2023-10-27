@@ -25,6 +25,10 @@
 
 用于自定义系列名称。
 
+#${prefix} support3d(boolean)
+
+当图表开启了 3d 模式，该图元是否支持（启用）3d 能力（当 support3d 为 false 的时候，该图元会忽略 3d 效果，始终保持和 2d 一样的效果）。
+
 #${prefix} id(string|number)
 
 用户自定义的 series id，可以用于事件及图形查找。

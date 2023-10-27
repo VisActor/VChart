@@ -28,7 +28,7 @@ Axes, tooltips, and other components that assist in chart display are optional c
 As a 3d chart, the 3d area chart requires enabling the 3d view. Configure the 3d view in the vChart initialization parameters:
 
 - `options3d.enable`: Enable the 3d view
-- `options3d.enableView3dTranform`: Support for 3d free transform
+- `options3d.enableView3dTransform`: Support for 3d free transform
 
 ## Quick Start
 
@@ -129,7 +129,7 @@ const vchart = new VChart(spec, {
   disableDirtyBounds: true,
   options3d: {
     enable: true,
-    enableView3dTranform: true,
+    enableView3dTransform: true,
     center: { x: 500, y: 250 }
   }
 });
