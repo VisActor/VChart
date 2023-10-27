@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: tooltip value label clipped on lark mini app, related #1346",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
