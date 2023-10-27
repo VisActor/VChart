@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(vchart): markerLine and markerArea's x and y property supports percent value",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
