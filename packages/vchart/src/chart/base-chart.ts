@@ -55,7 +55,7 @@ import {
   array,
   convertBackgroundSpec
 } from '../util';
-import type { Stack } from './stack';
+import { Stack } from './stack';
 import { BaseModel } from '../model/base-model';
 import { BaseMark } from '../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../constant/base';
@@ -180,6 +180,7 @@ export class BaseChart extends CompilableBase implements IChart {
 
   // stack
   protected _stack: Stack;
+  protected _canStack: boolean;
 
   padding: IPadding = { top: 0, left: 0, right: 0, bottom: 0 };
   protected _paddingSpec: ILayoutOrientPadding;
@@ -252,7 +253,8 @@ export class BaseChart extends CompilableBase implements IChart {
 
     // TODO: to component
     // stack
-    if (this._stack) {
+    if (this._canStack) {
+      this._stack = new Stack(this);
       this._stack.init();
     }
     // data flow start

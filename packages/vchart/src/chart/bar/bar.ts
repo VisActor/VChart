@@ -1,24 +1,17 @@
-import { BarSeries, registerBarSeries } from '../../series/bar/bar';
+import { registerBarSeries } from '../../series/bar/bar';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
-import type { IChartOption } from '../interface';
 import { ChartTypeEnum } from '../interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBarChartSpec } from './interface';
 import { Factory } from '../../core/factory';
-import { Stack } from '../stack';
 
 export class BarChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.bar;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.bar;
   readonly seriesType: string = SeriesTypeEnum.bar;
-
-  constructor(spec: any, option: IChartOption) {
-    super(spec, option);
-
-    this._stack = new Stack(this);
-  }
+  protected _canStack: boolean = true;
 
   protected _getDefaultSeriesSpec(spec: any): any {
     return {

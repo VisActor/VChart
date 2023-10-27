@@ -1,21 +1,14 @@
 import { isArray } from '@visactor/vutils';
 import { BaseChart } from '../base-chart';
-import type { IChartOption } from '../interface';
 import { ChartTypeEnum } from '../interface';
 import type { ISeries } from '../../series';
 import { Factory } from '../../core/factory';
-import { Stack } from '../stack';
 
 export class CommonChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.common;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.common;
-
-  constructor(spec: any, option: IChartOption) {
-    super(spec, option);
-
-    this._stack = new Stack(this);
-  }
+  protected _canStack: boolean = true;
 
   protected _getDefaultSeriesSpec(spec: any) {
     const defaultSpec = super._getDefaultSeriesSpec(spec);
