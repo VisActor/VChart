@@ -136,46 +136,30 @@ interface ITooltipTextInfo {
 /** 测量 tooltip 标签文本 */
 export const measureTooltipText = (text: string, style: ITooltipTextStyle): ITooltipTextInfo => {
   text = (text ?? '').toString();
-  const measure = initTextMeasure(style as any);
-  if (!style.multiLine) {
-    // 单行文本
-    const { width, height } = measure.fullMeasure(text);
-    return {
-      width,
-      height,
-      text
-    };
-  }
-  // 多行文本
-  let textLines = text.split('\n');
-  textLines = textLines.map((line, i) => (i < textLines.length - 1 ? line + '\n' : line));
-  const { width, height } = measure.fullMeasure(textLines);
-
-  if (style.maxWidth && style.maxWidth <= width) {
-    // 允许自动换行的情况，改用 richText 测量
-    const bound = getRichTextBounds({
-      wordBreak: style.wordBreak ?? 'break-word',
-      maxWidth: style.maxWidth,
-      width: 0,
-      height: 0,
-      textConfig: textLines.map(
-        (line, i) =>
-          ({
-            ...style,
-            text: line
-          }) as unknown as IRichTextParagraphCharacter
-      )
-    });
-    return {
-      width: bound.width(),
-      height: bound.height(),
-      text: textLines
-    };
+  let textLines: string[];
+  if (style.multiLine) {
+    textLines = text.split('\n');
+    textLines.map((line, i) => (i < textLines.length - 1 ? line + '\n' : line));
+  } else {
+    textLines = [text];
   }
 
+  const bound = getRichTextBounds({
+    wordBreak: style.wordBreak ?? 'break-word',
+    maxWidth: style.maxWidth ? style.maxWidth : undefined,
+    width: 0,
+    height: 0,
+    textConfig: textLines.map(
+      line =>
+        ({
+          ...style,
+          text: line
+        } as unknown as IRichTextParagraphCharacter)
+    )
+  });
   return {
-    width,
-    height,
+    width: bound.width(),
+    height: bound.height(),
     text: textLines
   };
 };
