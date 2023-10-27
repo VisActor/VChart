@@ -1,14 +1,14 @@
 ---
 category: examples
 group: progress
-title: Segmented Bar Progress Chart
+title: Segmented linear progress chart
 keywords: linearProgress,comparison,rectangle
 order: 16-1
 cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/progress-segment-linear-progress.png
 option: linearProgressChart
 ---
 
-# Segmented bar charts of progress
+# Segmented linear progress chart
 
 Segmented bar graphs can be realized with `extensionMark`.
 

@@ -5,7 +5,7 @@ IGaugePointerSeriesSpec-->
 
 # commonChart
 
-组合图
+组合图。
 
 {{ use: common-chart-spec(
     prefix = '#',
@@ -194,4 +194,3 @@ IGaugePointerSeriesSpec-->
 {{ use: chart-component(
   axisType = 'cartesian'
 ) }}
-

@@ -935,21 +935,21 @@
           "path": "linear-progress",
           "title": {
             "zh": "条形进度图",
-            "en": "Bar Progress Chart"
+            "en": "Linear Progress Chart"
           }
         },
         {
           "path": "segment-linear-progress",
           "title": {
             "zh": "分段条形进度图",
-            "en": "Segmented Bar Progress Chart"
+            "en": "Segmented Linear Progress Chart"
           }
         },
         {
           "path": "linear-progress-with-text",
           "title": {
             "zh": "带文本标注的条形进度图",
-            "en": "Bar Progress Chart with text"
+            "en": "Linear Progress Chart with text"
           }
         },
         {
@@ -957,6 +957,13 @@
           "title": {
             "zh": "带多种标签的条形进度图",
             "en": "Linear Progress Chart with Multiple Labels"
+          }
+        },
+        {
+          "path": "linear-progress-with-target-value",
+          "title": {
+            "zh": "带目标值的条形进度图",
+            "en": "Linear Progress Chart with Target Value"
           }
         },
         {
