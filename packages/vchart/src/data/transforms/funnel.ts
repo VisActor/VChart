@@ -61,14 +61,14 @@ export const funnel = (originData: Array<DataView>, op: IFunnelOpt) => {
     const lastValue: number = Number.parseFloat(data[i - 1]?.[valueField]);
     const nextValue: number = Number.parseFloat(data[i + 1]?.[valueField]);
 
-    const transformRatio = !isValidNumber(nextValue * currentValue) ? null : nextValue / currentValue;
-
-    const reachRatio = !isValidNumber(currentValue * currentValue) ? null : currentValue / lastValue;
+    const transformRatio =
+      !isValidNumber(nextValue * currentValue) || currentValue === 0 ? 0 : nextValue / currentValue;
+    const reachRatio = !isValidNumber(currentValue * lastValue) || lastValue === 0 ? 0 : currentValue / lastValue;
 
     asLastValue && (d[asLastValue] = lastValue);
     asNextValue && (d[asNextValue] = nextValue);
     asTransformRatio && (d[asTransformRatio] = transformRatio);
-    asReachRatio && (d[asReachRatio] = i === 0 ? 1 : isValidNumber(reachRatio) ? reachRatio : 0);
+    asReachRatio && (d[asReachRatio] = i === 0 ? 1 : reachRatio);
     asHeightRatio && (d[asHeightRatio] = heightVisual === true ? transformRatio : 1 / data.length);
     asValueRatio && (d[asValueRatio] = currentValue / rangeArr[1]);
     asNextValueRatio &&
