@@ -33,7 +33,7 @@ export class CartesianTimeAxis<
 
   effect: IEffect = {
     scaleUpdate: params => {
-      this.computeData(params.value);
+      this.computeData(params?.value);
       eachSeries(
         this._regions,
         s => {

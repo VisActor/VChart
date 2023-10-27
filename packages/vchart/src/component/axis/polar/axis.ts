@@ -152,7 +152,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   effect: IEffect = {
     scaleUpdate: param => {
-      this.computeData(param.value);
+      this.computeData(param?.value);
       eachSeries(
         this._regions,
         s => {
