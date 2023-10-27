@@ -20,6 +20,8 @@ $ yarn add @visactor/vchart
 
 ## cdn 获取
 
+> 说明：cdn 方式引入的时候，VChart 的引用方式需要注意：`const vchart = new VChart.default(spec, { dom: 'chart' });`
+
 可以从以下免费的 CDN 中获取 VChart:
 
 ```html

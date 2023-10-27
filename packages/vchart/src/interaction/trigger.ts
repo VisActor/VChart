@@ -1,5 +1,5 @@
 import { Event } from '../event/event';
-import { defaultInteractionConfig } from './config';
+import { getDefaultInteractionConfigByMode } from './config';
 import { mergeSpec, isBoolean, isObject, array } from '../util';
 
 import type { IMark } from '../mark/interface';
@@ -108,7 +108,7 @@ export class Trigger implements ITrigger {
   }
 
   private initConfig(mode: RenderMode): void {
-    const defaultConfig = defaultInteractionConfig[mode];
+    const defaultConfig = getDefaultInteractionConfigByMode(mode);
     this._hover = { ...defaultConfig?.hover };
     this._select = { ...defaultConfig?.select };
 

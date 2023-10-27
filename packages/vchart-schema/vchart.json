@@ -57075,6 +57075,9 @@
         "radar": {
           "$ref": "#/definitions/IRadarSeriesTheme"
         },
+        "rangeArea": {
+          "$ref": "#/definitions/IAreaSeriesTheme"
+        },
         "rangeColumn": {
           "$ref": "#/definitions/IRangeColumnSeriesTheme"
         },
@@ -66624,7 +66627,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         },
         "size": {
@@ -66632,14 +66635,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13661",
+        "__@toStringTag@13665",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         },
         "size": {
@@ -66647,14 +66650,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13661",
+        "__@toStringTag@13665",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         },
         "size": {
@@ -66662,14 +66665,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13661",
+        "__@toStringTag@13665",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         },
         "size": {
@@ -66677,14 +66680,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13661",
+        "__@toStringTag@13665",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         },
         "size": {
@@ -66692,14 +66695,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13661",
+        "__@toStringTag@13665",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         },
         "size": {
@@ -66707,14 +66710,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13661",
+        "__@toStringTag@13665",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         },
         "size": {
@@ -66722,14 +66725,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13661",
+        "__@toStringTag@13665",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         },
         "size": {
@@ -66737,14 +66740,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13661",
+        "__@toStringTag@13665",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         },
         "size": {
@@ -66752,7 +66755,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13661",
+        "__@toStringTag@13665",
         "size"
       ],
       "type": "object"
@@ -82041,34 +82044,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13661"
+        "__@toStringTag@13665"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13661"
+        "__@toStringTag@13665"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13661": {
+        "__@toStringTag@13665": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13661"
+        "__@toStringTag@13665"
       ],
       "type": "object"
     },

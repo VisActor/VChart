@@ -4,7 +4,7 @@
 
 To make it easier for React users to use VChart, we provide a React wrapper package for VChart: `@visactor/react-vchart`. This component mainly encapsulates VChart's chart components as React components, and its configuration items are consistent with VChart.
 
-In this tutorial, we will explain in detail how to use VChart in a React project and create a simple bar chart. For more detailed API documentation, please refer to the [`@visactor/reactchart`](todo) repository documentation.
+In this tutorial, we will explain in detail how to use VChart in a React project and create a simple bar chart. For more detailed API documentation, please refer to the [`@visactor/reactchart`](https://github.com/VisActor/VChart/blob/main/packages/react-vchart/docs/2.1%20API%E8%AE%BE%E8%AE%A1.md) repository documentation.
 
 ## Quick Start
 
