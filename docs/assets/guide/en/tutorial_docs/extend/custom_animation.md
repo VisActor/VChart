@@ -52,7 +52,6 @@ const formatDate = date => {
 const dateString = formatDate(new Date());
 
 const pointerAnimate = {
-  channels: ['angle'],
   custom: (ratio, from, to, nextAttributes) => {
     if ((!from.angle && from.angle !== 0) || (!to.angle && to.angle !== 0)) {
       return;
@@ -88,8 +87,6 @@ const getGalaxyData = time => {
 
 const spec = {
   type: 'common',
-  width: 500,
-  height: 500,
   background: 'black',
   theme: {
     colorScheme: {
@@ -187,11 +184,13 @@ const spec = {
       },
       animationAppear: false,
       animationUpdate: {
-        segment: {
-          channels: ['fillOpacity'],
-          duration: 1000,
-          easing: 'easeInOut'
-        }
+        segment: [
+          {
+            channel: ['fillOpacity'],
+            duration: 1000,
+            easing: 'easeInOut'
+          }
+        ]
       }
     },
     {
@@ -413,7 +412,8 @@ The interface defines some basic animation properties and lifecycle functions th
 The following example uses the built-in `StreamLight` custom animation class from `VRender` to implement the bar chart streamer effect:
 
 ```javascript livedemo
-import { StreamLight } from '@visactor/vrender';
+// import { StreamLight } from '@visactor/vrender-core';
+// if you need use `StreamLight` animation, please import it from @visactor/vrender-core.
 
 const spec = {
   type: 'bar',
@@ -447,7 +447,7 @@ const spec = {
       loop: 100,
       duration: 1500,
       easing: 'quadIn',
-      custom: StreamLight,
+      custom: VRender.StreamLight,
       customParameters: {
         attribute: {
           fillColor: 'white',

@@ -58,7 +58,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   private _needInitOutState: boolean = true;
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
 
-  private _needEnablePickable: boolean = true;
+  private _needEnablePickable: boolean = false;
 
   init() {
     const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec?.inBrush);

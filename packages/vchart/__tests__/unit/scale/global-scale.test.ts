@@ -4,15 +4,14 @@ import { CommonChart } from '../../../src/chart/common/common';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
-import type { IChartSpec, ScatterSeries } from '../../../src';
-// eslint-disable-next-line no-duplicate-imports
-import { ThemeManager } from '../../../src';
+import { VChart, type IChartSpec, type ScatterSeries } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
 import type { IAttrs, VisualScaleType } from '../../../src/mark/interface';
 import { dimensionStatistics } from '../../../src/data/transforms/dimension-statistics';
 
+const VChartClass = VChart; // 确保引用 vchart 以确保注册所需的图表
 // 保证引入执行 Build-in
 let dataSet: DataSet;
 const data = [
@@ -315,8 +314,7 @@ describe('global-scale test', () => {
               };
             }
           } as any;
-        },
-        getTheme: () => ThemeManager.getCurrentTheme()
+        }
       } as any
     );
     chart.created();
@@ -470,8 +468,7 @@ describe('global-scale test', () => {
               };
             }
           } as any;
-        },
-        getTheme: () => ThemeManager.getCurrentTheme()
+        }
       } as any
     );
     chart.created();

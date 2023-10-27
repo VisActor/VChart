@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'waterfall',
+  seriesMarks = ['bar'],
   preset = 'grow' + '|' + 'fadeIn' + '|' + 'scaleIn',
   defaultPreset = 'grow'
 ) }}
@@ -27,6 +28,30 @@ bar 图元样式配置。
 
 {{ use: mark-style(
   markName = 'bar'
+) }}
+
+{{ use: mark-rect(
+  prefix = '##' + ${prefix}
+) }}
+
+##${prefix} state(Object)
+
+{{ use: mark-state-style() }}
+
+#${prefix} barBackground(Object)
+
+barBackground 图元样式配置。该图元默认不显示。
+
+自 1.6.0 版本开始支持。
+
+{{ use: common-mark(
+  prefix = '#' + ${prefix}
+) }}
+
+##${prefix} style(Object)
+
+{{ use: mark-style(
+  markName = 'barBackground'
 ) }}
 
 {{ use: mark-rect(
@@ -78,7 +103,10 @@ bar 图元样式配置。
 总计数据在运算时会调用这个函数，参数为**当前总计数据，当前累计信息**，需要返回**总计的起点值与终点值**。回调函数定义如下：
 
 ```ts
-(datum: Datum, current: { start: number; end: number }) => { start: number; end: number };
+(datum: Datum, current: { start: number; end: number }) => {
+  start: number;
+  end: number;
+};
 ```
 
 ##${prefix} text(string)
@@ -138,6 +166,7 @@ bar 图元样式配置。
 标签位置。
 
 可选值：
+
 - `'withChange'`: 标签跟随数据变化，数值增加，标签位置与`max` 配置效果一样，数值减少，与`min`效果一样
 - `'middle'`: 固定在柱子中间
 - `'max'`: 固定在柱子最大值，一般来说是上方，水平方向就是右边
@@ -152,6 +181,7 @@ bar 图元样式配置。
 标签值。
 
 可选值：
+
 - `'change'`: 展示当前这组数据的变化值
 - `'absolute'`: 展示当前这组数据经过变化后的最终值
 
@@ -177,8 +207,3 @@ bar 图元样式配置。
   prefix = '#' + ${prefix},
   noOffset = true,
 ) }}
-
-
-
-
-

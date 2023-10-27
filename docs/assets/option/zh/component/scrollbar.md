@@ -47,3 +47,12 @@
 {{ use: component-data-filter-base(
   prefix = '##'
 ) }}
+
+### filterMode(string) = 'axis'
+
+数据过滤模式。
+
+可选值:
+
+- 'filter'
+- 'axis'

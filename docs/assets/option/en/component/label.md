@@ -270,3 +270,26 @@ When `customOverlapFunc` is configured, and if `customLayoutFunc` is not also co
 The function callback parameter is: `(label: Text[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[]`
 
 {{ /if }}
+
+#${prefix} animation(boolean|object)
+Label animation. Setting false can turn off label animation.
+
+##${prefix} duration(number)=300
+Label animation execution duration.
+
+##${prefix} delay(number)=0
+Label animation execution delay, default to 0.
+
+##${prefix} easing(string)="linear"
+
+Label animation easing, default to `'linear'`.
+
+##${prefix} mode('same-time' | 'after' | 'after-all')="same-time"
+Label animation playback timing. Defaults to "same-time".
+
+- `'same-time'`: Starts simultaneously with the animation of the associated data element.
+- `'after'`: Starts after the animation of the associated data element finishes.
+- `'after-all'`: Starts after the animations of all data elements finish.
+
+  ##${prefix} increaseEffect(boolean)=true
+  Enable number increase animation while label data updated.

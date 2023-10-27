@@ -7,6 +7,7 @@
   noType = ${noType},
   noData = ${noData},
   seriesType = 'correlation',
+  seriesMarks = ['point'],
   noMorph = ${noMorph},
   noStack = ${noStack},
   useInChart = ${useInChart},

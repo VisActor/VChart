@@ -2,14 +2,13 @@ import { GlobalScale } from '../../../../../src/scale/global-scale';
 import type { IEventDispatcher } from '../../../../../src/event/interface';
 /* eslint-disable no-lone-blocks */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { DataSet, csvParser, dataViewParser } from '@visactor/vdataset';
+import { DataSet, csvParser } from '@visactor/vdataset';
 import { dimensionStatistics } from '../../../../../src/data/transforms/dimension-statistics';
 import type { CartesianLinearAxis } from '../../../../../src/index';
 // eslint-disable-next-line no-duplicate-imports
 import { CartesianAxis } from '../../../../../src/index';
 import type { IComponent, IComponentOption } from '../../../../../src/component/interface';
 import { EventDispatcher } from '../../../../../src/event/event-dispatcher';
-import { lightTheme } from '../../../../../src/theme/builtin/light';
 import { getTestCompiler } from '../../../../util/factory/compiler';
 import { initChartDataSet } from '../../../../util/context';
 
@@ -90,7 +89,6 @@ const ctx: IComponentOption = {
   getChartViewRect: () => {
     return { width: 500, height: 500 } as any;
   },
-  getTheme: () => lightTheme,
   globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
   getComponentByUserId: function (user_id: string | number): IComponent | undefined {
     throw new Error('Function not implemented.');

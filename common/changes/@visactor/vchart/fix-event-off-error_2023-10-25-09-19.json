@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: slove event off error after release",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

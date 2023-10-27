@@ -50,6 +50,9 @@ export class GaugeChart extends ProgressLikeChart {
         if (isNil(backgroundSeries.radiusField) && isNil(backgroundSeries.categoryField)) {
           backgroundSeries.radiusField = spec.radiusField ?? spec.categoryField ?? spec.seriesField;
         }
+        if (isNil(backgroundSeries.valueField) && isNil(backgroundSeries.angleField)) {
+          backgroundSeries.valueField = spec.valueField ?? spec.angleField;
+        }
       }
 
       if (spec.series.length === 1) {

@@ -10,6 +10,7 @@
   useInChart = ${useInChart},
   seriesType = 'linearProgress',
   preset = 'grow' + '|' + 'fadeIn',
+  seriesMarks = ['progress', 'track'],
   defaultPreset = 'grow'
 ) }}
 

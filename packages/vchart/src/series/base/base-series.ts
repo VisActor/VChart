@@ -40,7 +40,8 @@ import type {
   ISeriesStackData,
   ISeriesTooltipHelper,
   SeriesMarkMap,
-  ISeriesMarkInfo
+  ISeriesMarkInfo,
+  SeriesTypeEnum
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import {
@@ -53,7 +54,8 @@ import {
   isArray,
   mergeFields,
   getFieldAlias,
-  couldBeValidNumber
+  couldBeValidNumber,
+  preprocessSpecOrTheme
 } from '../../util';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import { Group } from './group';
@@ -73,10 +75,11 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
-import { array, isEmpty, isEqual } from '@visactor/vutils';
+import { array, isEqual } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
+import { getThemeFromOption } from '../../theme/util';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly type: string = 'series';
@@ -196,7 +199,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return this._groups;
   }
 
-  protected _stack: boolean = false;
+  protected _stack: boolean;
+  protected _supportStack: boolean;
   getStack() {
     return this._stack;
   }
@@ -302,6 +306,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       this._stack = this._spec.stackOffsetSilhouette || this._stack; // this._stack is `true` in bar/area series
     }
     if (isValid(this._spec.stackValue)) {
+      this._stack = true;
+    }
+
+    if (isNil(this._stack) && this._supportStack && this._seriesField) {
+      // only set default value of stack to be `true` when series support stack and seriesField is not null
       this._stack = true;
     }
     if (isValid(this._spec.invalidType)) {
@@ -1037,10 +1046,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   // get default color scale
   // 重复代码太多了，整合一下
-  protected getDefaultColorScale() {
+  protected _getDefaultColorScale() {
     const colorDomain = this.getDefaultColorDomain();
-    const colorRange = getDataScheme(this._option.getTheme().colorScheme, this.type as any);
+    const colorRange = this._getDataScheme();
     return new ColorOrdinalScale().domain(colorDomain).range?.(colorRange);
+  }
+
+  protected _getDataScheme() {
+    return getDataScheme(this.getColorScheme(), this.type as any);
   }
 
   /** 获取默认 color scale 的 domain */
@@ -1051,7 +1064,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   // 通用的默认颜色映射 用户设置优先级比这个高，会在setStyle中处理
   getColorAttribute() {
     return {
-      scale: this._option.globalScale.getScale('color') ?? this.getDefaultColorScale(),
+      scale: this._option.globalScale.getScale('color') ?? this._getDefaultColorScale(),
       field: this._seriesField ?? DEFAULT_DATA_SERIES_FIELD
     };
   }
@@ -1074,30 +1087,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // do nothing
   }
 
-  async setCurrentTheme(theme: any, noRender?: boolean) {
-    const modifyConfig = () => {
-      // 重新初始化
-      this.reInit(theme);
-
-      return { change: true, reMake: false };
-    };
-
-    if (noRender) {
-      modifyConfig();
-    } else {
-      await this._option.globalInstance.updateCustomConfigAndRerender(modifyConfig);
-    }
-  }
-
-  protected _initTheme(theme?: any) {
-    const globalTheme = this._option.getTheme();
-
-    if (theme) {
-      super._initTheme(theme);
-    } else {
-      super._initTheme(globalTheme.series[this.type] ?? {});
-    }
-    this._mergeThemeToSpec();
+  protected _getTheme() {
+    return preprocessSpecOrTheme(
+      'theme',
+      getThemeFromOption(`series.${this.type}`, this._option),
+      this.getColorScheme(),
+      this.type as SeriesTypeEnum
+    );
   }
 
   protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {

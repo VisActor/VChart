@@ -10,6 +10,7 @@
   noStack = ${noStack},
   useInChart = ${useInChart},
   preset = 'growIn' + '|' + 'fadeIn',
+  seriesMarks = ['leaf', 'nonLeaf'],
   defaultPreset = 'growIn'
 ) }}
 

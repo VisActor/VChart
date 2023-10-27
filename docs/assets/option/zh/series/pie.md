@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'pie',
+  seriesMarks = ['pie'],
   noCategoryField = true
 ) }}
 

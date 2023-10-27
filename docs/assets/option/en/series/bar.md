@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'bar',
+  seriesMarks = ['bar'],
   preset = 'grow' + '|' + 'fadeIn' + '|' + 'scaleIn',
   defaultPreset = 'grow'
 ) }}
@@ -27,6 +28,30 @@ Bar graphic style configuration.
 
 {{ use: mark-style(
   markName = 'bar'
+) }}
+
+{{ use: mark-rect(
+  prefix = '##' + ${prefix}
+) }}
+
+##${prefix} state(Object)
+
+{{ use: mark-state-style() }}
+
+#${prefix} barBackground(Object)
+
+BarBackground mark style configuration. This mark is invisible by default.
+
+Supported since version 1.6.0.
+
+{{ use: common-mark(
+  prefix = '#' + ${prefix}
+) }}
+
+##${prefix} style(Object)
+
+{{ use: mark-style(
+  markName = 'barBackground'
 ) }}
 
 {{ use: mark-rect(
