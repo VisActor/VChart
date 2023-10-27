@@ -20,6 +20,8 @@ For how to use it when obtaining, see [How to Import VChart in a Project](./How_
 
 ## Obtain from cdn
 
+> Note: When introducing in cdn mode, you need to pay attention to the reference method of VChart: `const vchart = new VChart.default(spec, { dom: 'chart' });`
+
 You can get VChart from the following free CDNs:
 
 ```html

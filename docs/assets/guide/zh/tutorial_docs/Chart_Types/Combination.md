@@ -1,4 +1,5 @@
 # 组合图
+
 [\[配置项\]](../../../option/commonChart)
 
 ## 简介
@@ -28,6 +29,28 @@
 - `commonChart.series`: 声明不同的图表系列, 在系列配置中`regionIndex`用于绑定图表系列所在的数据区域. `id`用于绑定轴所在的布局单元, 与`layout.elements`中的`modelId`一一对应。（由于数据区域与`layout.elements`中的`modelId`存在对应关系, 所以此处不需要声明`id`）
 
 - `commonChart.axes`: 声明不同的坐标轴组件, `regionIndex`和`id`属性同上
+
+## 使用说明
+
+**因为组合图不限制坐标系，所以内部不能确定应该创建什么类型的坐标轴，所以在配置组合图时，必须声明 `axes` 属性，来声明使用什么类型的坐标轴。**
+
+1. 对于直角坐标系，我们需要声明对应方向的坐标轴以及类型，举例如下：
+
+```ts
+axes: [
+  { orient: 'left', type: 'linear' }, // 声明左轴为线性轴
+  { orient: 'bottom', type: 'band' } // 声明下轴为离散轴
+];
+```
+
+2. 对于极坐标系，我们需要声明对应方向的坐标轴以及类型，举例如下：
+
+```ts
+axes: [
+  { orient: 'angle', type: 'band' }, // 声明圆弧轴为离散轴
+  { orient: 'radius', type: 'linear' } // 声明半径轴为线性轴
+];
+```
 
 ## 组合图特性
 
