@@ -68,7 +68,7 @@ export const funnel = (originData: Array<DataView>, op: IFunnelOpt) => {
     asLastValue && (d[asLastValue] = lastValue);
     asNextValue && (d[asNextValue] = nextValue);
     asTransformRatio && (d[asTransformRatio] = transformRatio);
-    asReachRatio && (d[asReachRatio] = i === 0 ? 1 : reachRatio);
+    asReachRatio && (d[asReachRatio] = i === 0 ? 1 : isValidNumber(reachRatio) ? reachRatio : 0);
     asHeightRatio && (d[asHeightRatio] = heightVisual === true ? transformRatio : 1 / data.length);
     asValueRatio && (d[asValueRatio] = currentValue / rangeArr[1]);
     asNextValueRatio &&

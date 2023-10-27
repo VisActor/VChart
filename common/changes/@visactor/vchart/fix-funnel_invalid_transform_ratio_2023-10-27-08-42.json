@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: unexpected funnel transform ratio label, see #1348",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
