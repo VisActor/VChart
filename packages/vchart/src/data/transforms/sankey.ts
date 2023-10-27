@@ -80,7 +80,7 @@ export const sankey = (data: SankeyData, op: ISankeyOpt) => {
 
   const convertValuesToNumbers = (data: any) => {
     data.forEach((obj: any) => {
-      obj.value = isString(obj.value) ? Number(obj.value) : obj.value; // 将字符串转换为数值类型
+      obj.value = +obj.value; // 将字符串转换为数值类型
       if (obj.children.length > 0) {
         convertValuesToNumbers(obj.children); // 递归处理子节点
       }
@@ -96,7 +96,7 @@ export const sankey = (data: SankeyData, op: ISankeyOpt) => {
         const updatedDatum: any = {};
         for (const key in datum) {
           if (key === 'value') {
-            updatedDatum.value = isString(datum.value) ? Number(datum.value) : datum.value;
+            updatedDatum.value = +datum.value; // 将字符串转换为数值类型
           } else {
             updatedDatum[key] = datum[key];
           }
