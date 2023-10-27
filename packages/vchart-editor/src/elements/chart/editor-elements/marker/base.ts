@@ -25,7 +25,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   }
 
   private _checkEventEnable(e: EventParams) {
-    const markerComponent = e.model.getVRenderComponents()[0];
+    const markerComponent = (<T>e.model).getVRenderComponents()[0];
     return this._getEnableMarkerTypes().includes(markerComponent?.name);
   }
 
@@ -101,9 +101,9 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       MarkerTypeEnum.verticalArea,
       MarkerTypeEnum.horizontalArea
     ];
-    root.getChildren().forEach((child: IGroup) => {
+    root.getChildren().forEach(child => {
       if (marks.includes(child.name)) {
-        child.setAttributes({
+        (child as IGroup).setAttributes({
           pickable: false,
           childrenPickable: false
         });
@@ -123,9 +123,9 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       MarkerTypeEnum.verticalArea,
       MarkerTypeEnum.horizontalArea
     ];
-    root.getChildren().forEach((child: IGroup) => {
+    root.getChildren().forEach(child => {
       if (marks.includes(child.name)) {
-        child.setAttributes({
+        (child as IGroup).setAttributes({
           pickable: true,
           childrenPickable: true
         });

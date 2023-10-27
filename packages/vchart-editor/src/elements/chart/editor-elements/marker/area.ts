@@ -6,7 +6,6 @@ import type { IGroup, IGraphic, IPolygon, IRect, FederatedPointerEvent } from '@
 import { createRect, createGroup, vglobal, createPolygon } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 // eslint-disable-next-line no-duplicate-imports
-import type { IPointLike } from '@visactor/vutils';
 import { merge } from '@visactor/vutils';
 import type { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { EventParams, MarkArea, IComponent } from '@visactor/vchart';
@@ -15,6 +14,12 @@ import { BaseMarkerEditor } from './base';
 
 const handlerWidth = 9;
 const handlerHeight = 40;
+
+type PointLike = {
+  x: number;
+  y: number;
+  [key: string]: any;
+};
 
 export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent> {
   readonly type: string = 'markArea';
@@ -385,7 +390,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     this._save(points);
   };
 
-  private _save(newPoints: IPointLike[]) {
+  private _save(newPoints: PointLike[]) {
     // 更新真正的图形
     this._element.setAttributes({
       points: newPoints.map(point => {
@@ -399,19 +404,26 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     // 更新 spec
     const series = this._model.getRelativeSeries();
     const { x: regionStartX, y: regionStartY } = series.getRegion().getLayoutStartPoint();
-    const newMarkAreaSpec = merge({}, this._model.getSpec(), {
-      positions: newPoints.map(point => {
-        return {
-          x: point.x - regionStartX,
-          y: point.y - regionStartY
-        };
-      }),
-      regionRelative: true
-    });
-    delete newMarkAreaSpec.x;
-    delete newMarkAreaSpec.x1;
-    delete newMarkAreaSpec.y;
-    delete newMarkAreaSpec.y1;
+    const { width: regionWidth, height: regionHeight } = series.getRegion().getLayoutRect();
+
+    let positionSpec;
+    if (this._orient === 'horizontal') {
+      const bottomY = newPoints.find(point => point.bottom).y;
+      const topY = newPoints.find(point => point.top).y;
+      positionSpec = {
+        y: `${((bottomY - regionStartY) / regionHeight) * 100}%`,
+        y1: `${((topY - regionStartY) / regionHeight) * 100}%`
+      };
+    } else {
+      const leftX = newPoints.find(point => point.left).x;
+      const rightX = newPoints.find(point => point.right).x;
+      positionSpec = {
+        x: `${((leftX - regionStartX) / regionWidth) * 100}%`,
+        x1: `${((rightX - regionStartX) / regionWidth) * 100}%`
+      };
+    }
+
+    const newMarkAreaSpec = merge({}, this._model.getSpec(), positionSpec);
 
     this._updateAndSave(newMarkAreaSpec, 'markArea');
   }
