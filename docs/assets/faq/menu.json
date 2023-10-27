@@ -121,6 +121,55 @@
       }
     },
     {
+      "path": "15-How can I customize colors based on data values in a map chart",
+      "title": {
+        "zh": "15.地图组件，如何根据数值自定义区块颜色？",
+        "en": "15.How can I customize colors based on data values in a map chart?"
+      }
+    },
+    {
+      "path": "16-How to add transition animations when clicking the legend of a funnel chart",
+      "title": {
+        "zh": "16.漏斗图点击图例怎么添加过渡动画？",
+        "en": "16.How to add transition animations when clicking the legend of a funnel chart?"
+      }
+    },
+    {
+      "path": "17-How to add a title and subtitle to a chart in VChart",
+      "title": {
+        "zh": "17.如何给图表添加标题？",
+        "en": "17.How to add a title and subtitle to a chart in VChart?"
+      }
+    },
+    {
+      "path": "18-How to configure the range of the axis",
+      "title": {
+        "zh": "18.如何配置坐标轴的范围？",
+        "en": "18.How to configure the range of the axis?"
+      }
+    },
+    {
+      "path": "19-How to set the style of the line segments in a line chart, such as dashed at the end",
+      "title": {
+        "zh": "19.如何设置折线的分段样式，比如 末尾虚线？",
+        "en": "19.How to set the style of the line segments in a line chart, such as dashed at the end?"
+      }
+    },
+    {
+      "path": "20-How to customize the position of gauge indicator in VChart",
+      "title": {
+        "zh": "20.VChart 仪表盘如何自定义标题的显示位置？",
+        "en": "20.How to customize the position of gauge indicator in VChart?"
+      }
+    },
+    {
+      "path": "21-How to add background color to the bottom of ring chart when it is set with gaps",
+      "title": {
+        "zh": "21.当环形图设置 padAngle 有间隔时，环形的底部能否增加背景颜色？",
+        "en": "21.How to add background color to the bottom of ring chart when it is set with gaps?"
+      }
+    },
+    {
       "path": "23-How to configure gradient colors for area charts",
       "title": {
         "zh": "23.面积图渐变色如何配置，能否支持堆叠面积图配置不同渐变方向的渐变色？",
