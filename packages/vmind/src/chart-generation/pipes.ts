@@ -186,7 +186,7 @@ export const sequenceData = (spec: any, context: Context) => {
 
 export const sankeyData = (spec: any, context: Context) => {
   const { dataView, cell } = context;
-  const { source, target, value } = cell;
+  const { source, target } = cell;
   const linkData = dataView.latestData;
   const nodes = [
     ...new Set([...linkData.map((item: any) => item[source]), ...linkData.map((item: any) => item[target])])
@@ -388,8 +388,13 @@ export const wordCloudDisplayConf = (spec: any, context: Context) => {
 
 export const radarField = (spec: any, context: Context) => {
   const { cell } = context;
-  spec.categoryField = cell.x;
-  spec.valueField = cell.y;
+  if (cell.x && cell.y) {
+    spec.categoryField = cell.x;
+    spec.valueField = cell.y;
+  } else if (cell.angle && cell.size) {
+    spec.categoryField = cell.angle;
+    spec.valueField = cell.size;
+  }
   if (cell.color) {
     spec.seriesField = cell.color;
   }
@@ -460,6 +465,28 @@ export const sankeyField = (spec: any, context: Context) => {
   spec.categoryField = 'name';
   spec.nodeKey = (datum: any) => datum.name;
 
+  spec.label = {
+    visible: true,
+    style: {
+      fontSize: 12,
+      fill: '#000000'
+    }
+  };
+
+  spec.link = {
+    style: {
+      fillOpacity: 0.1
+    },
+    state: {
+      hover: {
+        fillOpacity: 0.4
+      },
+      blur: {
+        fill: '#e8e8e8'
+      }
+    }
+  };
+
   return spec;
 };
 
@@ -513,15 +540,33 @@ export const roseField = (spec: any, context: Context) => {
   }
   spec.outerRadius = 0.8;
   spec.innerRadius = 0.2;
-  // spec.label = {
-  //   visible: true,
-  //   layout: {
-  //     tangentConstraint: false
-  //   },
-  //   style: {
-  //     lineWidth: 0
-  //   }
-  // };
+
+  return spec;
+};
+
+export const roseAxis = (spec: any, context: Context) => {
+  spec.axes = [
+    {
+      orient: 'angle',
+      domainLine: {
+        visible: true
+      },
+      grid: {
+        visible: true,
+        alignWithLabel: false
+      },
+      label: {
+        visible: true
+      }
+    },
+    {
+      orient: 'radius',
+      grid: {
+        visible: true,
+        smooth: true
+      }
+    }
+  ];
   return spec;
 };
 

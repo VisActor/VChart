@@ -39,8 +39,10 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
   private _labelMark?: ITextMark;
 
   initMark(): void {
+    this._initBarBackgroundMark();
+
     const labelPosition = this._spec.label?.position;
-    this._rectMark = this._createMark(RangeColumnSeries.mark.bar, {
+    this._barMark = this._createMark(RangeColumnSeries.mark.bar, {
       morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('bar', this._spec)),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
@@ -86,19 +88,19 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         minLabelMark,
         position,
         offset,
-        (datum: Datum) => this._rectMark.getAttribute('x', datum) as number,
+        (datum: Datum) => this._barMark.getAttribute('x', datum) as number,
         (datum: Datum) => {
           return this._direction === 'vertical'
-            ? (this._rectMark.getAttribute('x', datum) as number) +
-                (this._rectMark.getAttribute('width', datum) as number)
-            : (this._rectMark.getAttribute('x1', datum) as number);
+            ? (this._barMark.getAttribute('x', datum) as number) +
+                (this._barMark.getAttribute('width', datum) as number)
+            : (this._barMark.getAttribute('x1', datum) as number);
         },
-        (datum: Datum) => this._rectMark.getAttribute('y', datum) as number,
+        (datum: Datum) => this._barMark.getAttribute('y', datum) as number,
         (datum: Datum) => {
           return this._direction === 'vertical'
-            ? (this._rectMark.getAttribute('y1', datum) as number)
-            : (this._rectMark.getAttribute('y', datum) as number) +
-                (this._rectMark.getAttribute('height', datum) as number);
+            ? (this._barMark.getAttribute('y1', datum) as number)
+            : (this._barMark.getAttribute('y', datum) as number) +
+                (this._barMark.getAttribute('height', datum) as number);
         },
         () => this._direction
       );
@@ -125,19 +127,19 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         maxLabelMark,
         position,
         offset,
-        (datum: Datum) => this._rectMark.getAttribute('x', datum) as number,
+        (datum: Datum) => this._barMark.getAttribute('x', datum) as number,
         (datum: Datum) => {
           return this._direction === 'vertical'
-            ? (this._rectMark.getAttribute('x', datum) as number) +
-                (this._rectMark.getAttribute('width', datum) as number)
-            : (this._rectMark.getAttribute('x1', datum) as number);
+            ? (this._barMark.getAttribute('x', datum) as number) +
+                (this._barMark.getAttribute('width', datum) as number)
+            : (this._barMark.getAttribute('x1', datum) as number);
         },
-        (datum: Datum) => this._rectMark.getAttribute('y', datum) as number,
+        (datum: Datum) => this._barMark.getAttribute('y', datum) as number,
         (datum: Datum) => {
           return this._direction === 'vertical'
-            ? (this._rectMark.getAttribute('y1', datum) as number)
-            : (this._rectMark.getAttribute('y', datum) as number) +
-                (this._rectMark.getAttribute('height', datum) as number);
+            ? (this._barMark.getAttribute('y1', datum) as number)
+            : (this._barMark.getAttribute('y', datum) as number) +
+                (this._barMark.getAttribute('height', datum) as number);
         },
         () => this._direction
       );
@@ -172,7 +174,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
     const { dataToPosition } = this.direction === Direction.horizontal ? this._xAxisHelper : this._yAxisHelper;
     if (this.direction === Direction.horizontal) {
       this.setMarkStyle(
-        this._rectMark,
+        this._barMark,
         {
           x: (datum: Datum) =>
             valueInScaleRange(
@@ -196,7 +198,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       );
     } else {
       this.setMarkStyle(
-        this._rectMark,
+        this._barMark,
         {
           x: (datum: Datum) => this._getPosition(this.direction, datum),
           y: (datum: Datum) =>
@@ -221,6 +223,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         AttributeLevel.Series
       );
     }
+    this._initBarBackgroundMarkStyle();
   }
 
   initAnimation() {
@@ -232,7 +235,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       return xIndex || 0;
     };
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<RangeColumnAppearPreset>)?.preset;
-    this._rectMark.setAnimationConfig(
+    this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('rangeColumn')?.({ direction: this.direction }, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.bar, this._spec),

@@ -13,7 +13,7 @@ import { FFmpeg, createFFmpeg } from '@ffmpeg/ffmpeg';
 import { TimeType } from '../chart-to-video/type';
 
 class VMind {
-  private _OPENAI_KEY: string | null = null;
+  private _OPENAI_KEY: string | undefined = undefined;
   private _FFMPEG: FFmpeg | null = null;
   private _FPS = 30;
   private _FFMPEG_Loaded = false;

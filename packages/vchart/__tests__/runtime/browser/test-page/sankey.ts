@@ -4,6 +4,210 @@ import { default as VChart } from '../../../../src/index';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 
 const run = () => {
+  const spec_string_value = {
+    nodeKey: datum => datum.key,
+    type: 'sankey',
+    nodeGap: 5,
+    nodeWidth: 12,
+    nodeAlign: 'justify',
+    iterations: 10,
+    categoryField: 'key',
+    valueField: 'value',
+    // color: {
+    //   field: 'color',
+    //   type: 'ordinal',
+    //   range: ['#5685f6', '#73cbe6', '#489e8e', '#82c882', '#e08c3d', '#f0d060', '#d4644f'],
+    //   specified: {
+    //     '231021145757116-当日': '#5685f6',
+    //     '231021145757116-二级': '#73cbe6',
+    //     '231021145757116-一级': '#489e8e',
+    //     '231021145757116-标准级': '#82c882',
+    //     '231021145757119-消费者': '#e08c3d',
+    //     '231021145757119-别名2': '#f0d060',
+    //     '231021145757119-别名1': '#d4644f'
+    //   },
+    //   domain: [
+    //     '231021145757116-当日',
+    //     '231021145757119-消费者',
+    //     '231021145757116-二级',
+    //     '231021145757119-别名2',
+    //     '231021145757119-别名1',
+    //     '231021145757116-一级',
+    //     '231021145757116-标准级'
+    //   ]
+    // },
+    data: [
+      {
+        name: 'data',
+        values: [
+          {
+            nodes: [
+              {
+                '231021145757116': '当日',
+                color: '当日',
+                group: '231021145757116',
+                key: '231021145757116-当日',
+                name: '当日',
+                type: 'node',
+                value: '6',
+                outDegree: 3,
+                inDegree: 0,
+                children: [
+                  {
+                    '231021145757119': '消费者',
+                    color: '消费者',
+                    group: '231021145757119',
+                    key: '231021145757119-消费者',
+                    name: '消费者',
+                    type: 'node',
+                    value: '3',
+                    outDegree: 0,
+                    inDegree: 4,
+                    children: []
+                  },
+                  {
+                    '231021145757119': '别名1',
+                    color: '别名1',
+                    group: '231021145757119',
+                    key: '231021145757119-别名1',
+                    name: '别名1',
+                    type: 'node',
+                    value: '1.5',
+                    outDegree: 0,
+                    inDegree: 4,
+                    children: []
+                  },
+                  {
+                    '231021145757119': '别名2',
+                    color: '别名2',
+                    group: '231021145757119',
+                    key: '231021145757119-别名2',
+                    name: '别名2',
+                    type: 'node',
+                    value: '1.5',
+                    outDegree: 0,
+                    inDegree: 4,
+                    children: []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    legends: [
+      {
+        type: 'discrete',
+        item: {
+          label: {
+            style: {
+              fontSize: 12,
+              fill: '#6F6F6F'
+            }
+          },
+          focus: true,
+          focusIconStyle: {
+            size: 14
+          },
+          maxWidth: 400,
+          spaceRow: 0,
+          spaceCol: 0,
+          padding: {
+            top: 1,
+            bottom: 1,
+            left: 1,
+            right: 1
+          },
+          background: {
+            visible: false,
+            style: {
+              fillOpacity: 0.001
+            }
+          },
+          shape: {
+            style: {
+              lineWidth: 0,
+              symbolType: 'square'
+            }
+          }
+        },
+        id: 'legend-discrete',
+        orient: 'bottom',
+        position: 'middle',
+        layoutType: 'normal',
+        visible: true,
+        maxRow: 2,
+        title: {
+          textStyle: {
+            fontSize: 12,
+            fill: '#6F6F6F'
+          }
+        },
+        layoutLevel: 50,
+        pager: {
+          layout: 'horizontal',
+          padding: 0,
+          textStyle: {},
+          space: 0,
+          handler: {
+            preShape: 'triangleLeft',
+            nextShape: 'triangleRight',
+            style: {},
+            state: {
+              disable: {}
+            }
+          }
+        },
+        padding: {
+          top: 16,
+          bottom: 0,
+          left: 0,
+          right: 0
+        }
+      }
+    ],
+    label: {
+      visible: true,
+      offset: 0,
+      overlap: {
+        hideOnHit: true,
+        avoidBaseMark: false,
+        strategy: [
+          {
+            type: 'position',
+            position: ['top', 'bottom']
+          },
+          {
+            type: 'moveY',
+            offset: [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
+          },
+          {
+            type: 'moveX',
+            offset: [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
+          }
+        ]
+      },
+      style: {
+        fontSize: 12,
+        zIndex: 400,
+        fill: '#363839',
+        stroke: 'rgba(255, 255, 255, 0.8)',
+        strokeOpacity: 1,
+        lineWidth: 1
+      },
+      limit: 200,
+      interactive: false
+    },
+    background: 'rgba(255, 255, 255, 0)',
+    emphasis: {
+      enable: true,
+      effect: 'related'
+    },
+    animation: false,
+    hash: 'eb54f530b6e19145b528589f45681b05'
+  };
+
   const spec_downstream = {
     type: 'sankey',
     nodeKey: datum => datum.key,
@@ -1815,13 +2019,13 @@ const run = () => {
               {
                 source: 'Berlin',
                 target: 'Job Applications',
-                value: 102,
+                value: '102',
                 color: '#dddddd'
               },
               {
                 source: 'Barcelona',
                 target: 'Job Applications',
-                value: 39,
+                value: '39',
                 color: '#dddddd'
               },
               {
@@ -13880,7 +14084,7 @@ const run = () => {
     hash: '6da81209cec89438789d6eb767c14e48'
   };
 
-  const vChart = new VChart(spec_downstream, {
+  const vChart = new VChart(spec1, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });

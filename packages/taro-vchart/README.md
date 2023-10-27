@@ -10,10 +10,11 @@ VChart 基于 [Taro](https://docs.taro.zone/docs/) 封装的图表组件。
 
 ## 支持环境
 
-目前组件支持的环境有：**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web')。
+目前组件支持的环境有：**微信小程序**('weapp')，**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web')。
 
 以上环境通过 `type` 属性进行声明，`type` 属性值及对应环境如下：
 
+- `weapp` 微信小程序。
 - `tt` 字节小程序。
 - `lark` 飞书小程序。
 - `h5` 浏览器环境, 与`web`等价。
@@ -319,6 +320,10 @@ $ rush run -p @visactor/vchart -s build:es5
 
 # 运行 lark 小程序
 $ rush run -p @visactor/taro-vchart -s dev:lark
+
+
+# 运行微信小程序
+$ rush run -p @visactor/taro-vchart -s dev:wx
 ```
 
-然后使用飞书开发者工具导入 `packages/taro-vchart/dist/lark` 目录即可。
+然后使用飞书开发者工具导入 `packages/taro-vchart/dist/lark` 或者 `packages/taro-vchart/dist/weapp` 目录即可。

@@ -1,7 +1,7 @@
 import { GPTDataProcessResult } from './type';
 
 export const requestGPT = async (openAIKey: string, prompt: string, userMessage: string, temperature = 0) => {
-  const OPENAI_API_URL = 'v2/crawl?ak=VCI9ME8CRUfhhB31KwerODNJ90oty3TM';
+  const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
   const headers: any = {
     'Content-Type': 'application/json',

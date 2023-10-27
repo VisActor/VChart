@@ -4,8 +4,6 @@ import { ChartTypeEnum } from '../interface';
 import { SeriesTypeEnum } from '../../series/interface';
 import type { ICorrelationChartSpec } from './interface';
 import type { ICorrelationSeriesSpec } from '../../series/correlation/interface';
-import { VChart } from '../../core/vchart';
-import { CorrelationSeries } from '../../series/correlation/correlation';
 import { Factory } from '../../core/factory';
 
 export class CorrelationChart extends BaseChart {

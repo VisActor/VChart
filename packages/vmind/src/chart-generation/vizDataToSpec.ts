@@ -10,6 +10,7 @@ import {
   scatterField,
   wordCloudField,
   roseField,
+  roseAxis,
   radarField,
   radarDisplayConf,
   radarAxis,
@@ -209,9 +210,9 @@ const pipelineWordCloud = [chartType, wordCloudData, color, wordCloudField, word
 
 const pipelineScatterPlot = [chartType, data, color, scatterField, scatterAxis, legend, animationOneByOne];
 
-const pipelineRose = [chartType, data, color, roseField, legend, animationCartesianPie];
+const pipelineRose = [chartType, data, color, roseField, roseAxis, legend, animationCartesianPie];
 
-const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, radarAxis, legend];
+const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, radarAxis, legend, animationCartisianLine];
 
 const pipelineSankey = [chartType, sankeyData, color, sankeyField, legend];
 

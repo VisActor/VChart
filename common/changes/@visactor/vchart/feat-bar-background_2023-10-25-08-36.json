@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: change default zIndex of axis in gauge chart, related #1122",
+      "comment": "feat: add bar background mark for bar-like series, related #1154",
       "type": "none"
     }
   ],

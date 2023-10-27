@@ -4,7 +4,7 @@ import type { BaseEventParams, EventType, ExtendEventParam, IEvent } from '../..
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec';
 import { RenderModeEnum } from '../../typings/spec';
-import { defaultTriggerEvent } from '../../component/common/trigger/config';
+import { getDefaultTriggerEventByMode } from '../../component/common/trigger/config';
 import type { IZoomTrigger } from '../../component/common/trigger/interface';
 import { isPointInRect } from '../../util';
 import type { ISeries } from '../../series/interface';
@@ -77,7 +77,7 @@ export class Zoomable implements IZoomable {
   initZoomable(evt: IEvent, mode: RenderMode = RenderModeEnum['desktop-browser']) {
     this._eventObj = evt;
     this._renderMode = mode;
-    if (defaultTriggerEvent[this._renderMode]) {
+    if (getDefaultTriggerEventByMode(this._renderMode)) {
       // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
       this._clickEnable = true;
       this._zoomableTrigger = new (this._getTriggerEvent('trigger') as any)();
@@ -86,7 +86,7 @@ export class Zoomable implements IZoomable {
 
   // event
   private _getTriggerEvent(type: string): EventType {
-    return defaultTriggerEvent[this._renderMode][type];
+    return getDefaultTriggerEventByMode(this._renderMode)[type];
   }
 
   private _zoomEventDispatch(
@@ -165,7 +165,7 @@ export class Zoomable implements IZoomable {
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (defaultTriggerEvent[this._renderMode]) {
+    if (getDefaultTriggerEventByMode(this._renderMode)) {
       this._bindZoomEventAsRegion(s.event, s, callback, option);
     }
   }
@@ -176,7 +176,7 @@ export class Zoomable implements IZoomable {
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (defaultTriggerEvent[this._renderMode]) {
+    if (getDefaultTriggerEventByMode(this._renderMode)) {
       regions.forEach(r => {
         if (filter) {
           r.getSeries().forEach(s => {
@@ -266,7 +266,7 @@ export class Zoomable implements IZoomable {
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (defaultTriggerEvent[this._renderMode]) {
+    if (getDefaultTriggerEventByMode(this._renderMode)) {
       this._bindScrollEventAsRegion(s.event, s, callback, option);
     }
   }
@@ -277,7 +277,7 @@ export class Zoomable implements IZoomable {
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (defaultTriggerEvent[this._renderMode]) {
+    if (getDefaultTriggerEventByMode(this._renderMode)) {
       regions.forEach(r => {
         if (filter) {
           r.getSeries().forEach(s => {
@@ -330,7 +330,7 @@ export class Zoomable implements IZoomable {
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (defaultTriggerEvent[this._renderMode]) {
+    if (getDefaultTriggerEventByMode(this._renderMode)) {
       s.event.on(
         this._getTriggerEvent('start'),
         { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id },
@@ -347,7 +347,7 @@ export class Zoomable implements IZoomable {
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    if (defaultTriggerEvent[this._renderMode]) {
+    if (getDefaultTriggerEventByMode(this._renderMode)) {
       regions.forEach(r => {
         if (filter) {
           r.getSeries().forEach(s => {

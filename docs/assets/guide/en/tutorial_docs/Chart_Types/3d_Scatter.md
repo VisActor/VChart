@@ -1,31 +1,30 @@
-3d 散点图
+3D scatter plot
 
-## 简介
+## Introduction
 
-3d 散点图大部分配置项继承于 2d 面积图，其是对 2d 散点图增加 zField 映射以及 z 轴而得到
+Most of the configuration items in the 3D scatter plot are inherited from the 2D area plot, which is obtained by adding zField mapping and z-axis to the 2D scatter plot
 
-### 图表构成
+### Chart composition
 
-散点图由点图元、坐标轴、提示信息及其他组件构成。  
+Scatter plots are composed of point entities, coordinate axes, prompt information, and other components.
 ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/a222eb3ecfe32db85220dda0a.png)
 
-- `scatterChart.type`: 图表类型，散点图的类型为`'scatter'`
-- `scatterChart.data`: 图表绘制的数据源
-- `scatterChart.xField`: 分类/数值字段，映射图元的 x 坐标
-- `scatterChart.yField`: 分类/数值字段，映射图元的 y 坐标
-- `scatterChart.zField`: 分类/数值字段，映射图元的 z 坐标
-- `scatterChart.sizeField`: 数值字段，映射图元的大小
+- `scatterChart.type`: Chart type, the type of line chart is`'scatterChart'`
+- `scatterChart.data`: The data source for chart drawing
+- `scatterChart.xField`: Continuous time interval or ordered category field, mapping the x-coordinate of the entity
+- `scatterChart.yField`: Numerical field, mapping the y-coordinate of the entity
+- `scatterChart.zField`: Numerical field, mapping the z-coordinate of the entity
+- `scatterChart.sizeField`: Numeric fields, mapping the size of entities
+  The coordinate axis, prompt information, and other components used as auxiliary chart displays are optional configurations with default effects and functions:
 
-坐标轴、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
+-`scatterChart.axes`: Coordinate axis component, displayed by default and automatically inferred coordinate system and data mapping logic based on chart type. For detailed configuration, please refer to [VChart Coordinate Axis Component Configuration](../../../option/line/axes/lineChart#axes)
 
-- `scatterChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../../option/scatterChart#axes)
-- `scatterChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/scatterChart#tooltip)
-- 更多组件配置见[VChart scatterChart 配置](../../../option/scatterChart)
+-`scatterChart.tooltip`: prompt information, displayed by default during interaction. For detailed configuration, please refer to [VChart Prompt Information Component Configuration](../../../option/line/axes/lineChart#tooltip)
 
-作为 3d 图表，3d 散点图需要开启 3d 视图，需要在 vChart 的初始化参数中配置 3d 视角:
+As a 3D chart, a 3D line chart needs to have a 3D view enabled, and the 3D perspective needs to be configured in the initialization parameters of vChart:
 
-- `options3d.enable`: 启用 3d 视角
-- `options3d.enableView3dTranform`: 支持 3d 的自由变换
+- `options3d.enable`: Enable 3D perspective
+- `options3d.enableView3dTransform`: Supports 3D free transformation
 
 ```javascript livedemo
 const data = [
@@ -142,7 +141,7 @@ const vchart = new VChart(spec, {
   disableDirtyBounds: true,
   options3d: {
     enable: true,
-    enableView3dTranform: true,
+    enableView3dTransform: true,
     center: { x: 500, y: 250 }
   }
 });
@@ -152,4 +151,4 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-其他配置参考[散点图]()
+Other configurations refer to [Line Chart]()

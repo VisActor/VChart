@@ -2,7 +2,7 @@ import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { BarSeries } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
 import { HistogramChart } from '../../../src';
-import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
+import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';

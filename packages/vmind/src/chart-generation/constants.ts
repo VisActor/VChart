@@ -704,6 +704,31 @@ Response:
 \`\`\`
 ----------------------------------
 csv文件内容:
+"品牌名称,市场份额,平均价格,净利润
+Apple,0.5,7068,314531
+Samsung,0.2,6059,362345
+Vivo,0.05,3406,234512
+Nokia,0.01,1064,-1345
+Xiaomi,0.1,4087,131345"
+
+用户意图:  使用玫瑰图展示各品牌市场占有率
+
+Response:
+\`\`\`
+{
+  "THOUGHT": "The user wants to show the market share of each brand using a rose chart, and the style is forest style. The data contains the market share, and the user wants to show percentage data, which is suitable for displaying with a rose chart. The 市场份额 is used as the angle of the rose chart to show the market share of each brand. The 品牌名称 is not used in the visual mapping because it's not a quantitative field. The style is forest style, but we just ignore it.",
+  "CHART_TYPE": "Rose Chart",
+  "FIELD_MAP": {
+      "angle": "市场份额",
+      "color": "品牌名称" 
+  },
+  "REASON": "The rose chart is suitable for displaying percentage data such as market share, which can meet the user's intent. Rose Chart is in the list of supported charts. The visual mapping result meets the user's intent. The '品牌名称' is not used in the visual mapping because it's not a quantitative field. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript.",
+  "DOUBLE_CHECK": "The rose chart is suitable for displaying percentage data such as market share, which can meet the user's intent. Rose Chart is in the list of supported charts. The visual mapping result meets the user's intent. The '品牌名称' is not used in the visual mapping because it's not a quantitative field. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript.",
+}
+\`\`\`
+\`\`\`
+----------------------------------
+csv文件内容:
 "key,value
 Strength,5
 Speed,5

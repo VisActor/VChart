@@ -202,7 +202,7 @@ Chart configuration, including rendering containers, etc., see the following tab
 ```ts
 export interface srIOption3DType extends IOption3D {
   enable?: boolean;
-  enableView3dTranform?: boolean;
+  enableView3dTransform?: boolean;
 }
 export interface IOption3D {
   alpha?: number;

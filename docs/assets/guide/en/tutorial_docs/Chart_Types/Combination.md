@@ -29,6 +29,28 @@ In the [combination chart example](../../../demo/combination/bar-combine) shown 
 
 - `axes` attribute declares different coordinate axis components, `regionIndex` and `id` attributes are the same as above
 
+## Instructions for use
+
+**Because the combination chart does not limit the coordinate system, it cannot determine internally what type of coordinate axes should be created. Therefore, when configuring the combination chart, you must declare the `axes` attribute to declare what type of coordinate axes to use.**
+
+1. For the Cartesian coordinate system, we need to declare the coordinate axis and type of the corresponding direction, for example:
+
+```ts
+axes: [
+  { orient: 'left', type: 'linear' }, // Declare the left axis as a linear axis
+  { orient: 'bottom', type: 'band' } // Declare the lower axis as a discrete axis
+];
+```
+
+2. For the polar coordinate system, we need to declare the coordinate axis and type of the corresponding direction, for example:
+
+```ts
+axes: [
+  { orient: 'angle', type: 'band' }, // Declare the arc axis as a discrete axis
+  { orient: 'radius', type: 'linear' } // Declare the radius axis as a linear axis
+];
+```
+
 ## Chart Components
 
 As the name suggests, a combination chart consists of different chart series, coordinate axes, tooltips, and other components combined. Theoretically, VChart supports all chart series combinations, but before that, some configurations are needed to determine the data, layouts, and other relationships of different series, so that different series can be placed reasonably and their correct graphic attributes can be obtained through data mapping.
