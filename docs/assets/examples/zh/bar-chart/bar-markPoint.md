@@ -2,8 +2,8 @@
 category: examples
 group: bar chart
 title: 柱状图标注
-keywords: barChart,markPoint
-cover: /vchart/preview/bar-background_1.6.0.png
+keywords: barChart,comparison,distribution,rectangle,markPoint
+cover: /vchart/preview/bar-markPoint_1.5.0.png
 option: barChart
 ---
 
