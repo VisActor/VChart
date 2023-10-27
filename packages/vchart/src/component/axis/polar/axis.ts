@@ -151,8 +151,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   effect: IEffect = {
-    scaleUpdate: () => {
-      this.computeData();
+    scaleUpdate: param => {
+      this.computeData(param.value);
       eachSeries(
         this._regions,
         s => {
@@ -199,7 +199,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
     if (isChanged) {
       this.updateSeriesScale();
-      this.event.emit(ChartEvent.scaleUpdate, { model: this });
+      this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
     }
 
     super.onLayoutEnd(ctx);
