@@ -193,8 +193,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   effect: IEffect = {
-    scaleUpdate: () => {
-      this.computeData();
+    scaleUpdate: params => {
+      this.computeData(params.value);
       eachSeries(
         this._regions,
         s => {
@@ -395,7 +395,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   onLayoutEnd(ctx: any): void {
     const isRangeChange = this.updateScaleRange();
     if (isRangeChange) {
-      this.event.emit(ChartEvent.scaleUpdate, { model: this });
+      this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
       // 这里会执行 computeData ，会执行系列scale更新
     } else {
       this.updateSeriesScale();
@@ -561,7 +561,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
     this.setLayoutRect(rect);
     this.updateScaleRange();
-    this.computeData();
+    this.computeData('range');
     const context = { skipLayout: false };
     const isX = isXAxis(this.getOrient());
     if (this.pluginService) {

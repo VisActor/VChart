@@ -182,7 +182,7 @@ export class LinearAxisMixin {
     this._scale.domain(domain, this._nice);
     this.setScaleNice();
 
-    // this.event.emit(ChartEvent.scaleUpdate, { model: this as any });
+    this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
   }
 
   protected extendDomain(domain: number[]) {
@@ -248,6 +248,6 @@ export class LinearAxisMixin {
     // 设置scale的nice-min-max
     this.setScaleNice();
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
-    // this.event.emit(ChartEvent.scaleUpdate, { model: this as any });
+    this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
   }
 }
