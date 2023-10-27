@@ -2,8 +2,9 @@ import type { ICartesianSeries } from '../../series/interface';
 import type { DataView } from '@visactor/vdataset';
 import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isValid, isNumber, array } from '@visactor/vutils';
+import { isValid, isNumber, array, isArray } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
+import { isPercent } from '../../util';
 
 export function xLayout(
   data: DataView,
@@ -17,6 +18,14 @@ export function xLayout(
   const regionEnd = endRelativeSeries.getRegion();
   const regionEndLayoutStartPoint = regionEnd.getLayoutStartPoint();
 
+  const regionWidth = Math.abs(
+    Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x) -
+      Math.max(
+        regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
+        regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
+      )
+  );
+
   const lines: [IPointLike, IPointLike][] = [];
   const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
   const xDomain = relativeSeries.getXAxisHelper().getScale(0).domain();
@@ -25,7 +34,15 @@ export function xLayout(
       isNumber(datum.x) &&
         isNeedExtendDomain(xDomain, datum.x, autoRange) &&
         relativeSeries?.getXAxisHelper().setExtendDomain?.('marker_xAxis_extend', datum.x);
-      const x = relativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
+
+      let x: number;
+      if (isArray(datum.x) && datum.x.length === 1 && isPercent(datum.x[0])) {
+        const percent = datum.x[0] + '';
+        x = (Number(percent.substring(0, percent.length - 1)) * regionWidth) / 100 + regionStartLayoutStartPoint.x;
+      } else {
+        x = relativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
+      }
+
       const y = Math.max(
         regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
         regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
@@ -59,6 +76,14 @@ export function yLayout(
   const regionEnd = endRelativeSeries.getRegion();
   const regionEndLayoutStartPoint = regionEnd.getLayoutStartPoint();
 
+  const regionHeight = Math.abs(
+    Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y) -
+      Math.max(
+        regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
+        regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
+      )
+  );
+
   const lines: [IPointLike, IPointLike][] = [];
   const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
   const yDomain = relativeSeries.getYAxisHelper().getScale(0).domain();
@@ -68,7 +93,15 @@ export function yLayout(
         isNeedExtendDomain(yDomain, datum.y, autoRange) &&
         relativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y);
       const x = Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x);
-      const y = relativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
+
+      let y: number;
+      if (isArray(datum.y) && datum.y.length === 1 && isPercent(datum.y[0])) {
+        const percent = datum.y[0] + '';
+        y = (Number(percent.substring(0, percent.length - 1)) * regionHeight) / 100 + regionStartLayoutStartPoint.y;
+      } else {
+        y = relativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
+      }
+
       const x1 = Math.max(
         regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
         regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width

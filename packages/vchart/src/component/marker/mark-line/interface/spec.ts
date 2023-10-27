@@ -31,7 +31,8 @@ export type IMarkLineSpec =
 
 export interface IMarkLineXSpec extends IMarkerAxisSpec {
   /**
-   * x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
+   * x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处
    */
   x: IDataPos | IDataPosCallback;
 }
@@ -39,6 +40,7 @@ export interface IMarkLineXSpec extends IMarkerAxisSpec {
 export interface IMarkLineYSpec extends IMarkerAxisSpec {
   /**
    * y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
+   * 可以将 y 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处
    */
   y: IDataPos | IDataPosCallback;
 }

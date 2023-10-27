@@ -27,6 +27,7 @@ export type IMarkAreaSpec = IMarkerSpec &
 export interface IMarkAreaXSpec extends IMarkerAxisSpec {
   /**
    * x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型
+   * 可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处
    */
   x: IDataPos | IDataPosCallback;
   x1: IDataPos | IDataPosCallback;
@@ -35,6 +36,7 @@ export interface IMarkAreaXSpec extends IMarkerAxisSpec {
 export interface IMarkAreaYSpec extends IMarkerAxisSpec {
   /**
    * y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型
+   * 可以将 y 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处
    */
   y: IDataPos | IDataPosCallback;
   y1: IDataPos | IDataPosCallback;
