@@ -9,6 +9,12 @@ import {
   pieField,
   scatterField,
   wordCloudField,
+  roseField,
+  radarField,
+  radarDisplayConf,
+  radarAxis,
+  sankeyData,
+  sankeyField,
   sequenceData,
   rankingBarAxis,
   rankingBarField,
@@ -203,13 +209,22 @@ const pipelineWordCloud = [chartType, wordCloudData, color, wordCloudField, word
 
 const pipelineScatterPlot = [chartType, data, color, scatterField, scatterAxis, legend, animationOneByOne];
 
+const pipelineRose = [chartType, data, color, roseField, legend, animationCartesianPie];
+
+const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, radarAxis, legend];
+
+const pipelineSankey = [chartType, sankeyData, color, sankeyField, legend];
+
 export const pipelineMap: { [chartType: string]: any } = {
   'BAR CHART': pipelineBar,
   'LINE CHART': pipelineLine,
   'PIE CHART': pipelinePie,
   'WORD CLOUD': pipelineWordCloud,
   'SCATTER PLOT': pipelineScatterPlot,
-  'DYNAMIC BAR CHART': pipelineRankingBar
+  'DYNAMIC BAR CHART': pipelineRankingBar,
+  'ROSE CHART': pipelineRose,
+  'RADAR CHART': pipelineRadar,
+  'SANKEY CHART': pipelineSankey
 };
 
 export const execPipeline = (src: any, pipes: Pipe[], context: Context) =>

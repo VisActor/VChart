@@ -322,7 +322,7 @@ export const ChartAdvisorPrompt = `你是一个数据分析领域的专家.你�
 \`\`\`
 {
 "THOUGHT": 你的思考
-"CHART_TYPE": 你选择的图表类型。支持的图表列表：[动态条形图、柱状图、折线图、饼图、散点图、词云]
+"CHART_TYPE": 你选择的图表类型。支持的图表列表：[动态条形图、柱状图、折线图、饼图、散点图、词云、玫瑰图、雷达图、桑基图]
 "FIELD_MAP":{ //字段映射，可用的视觉通道：["x","y","color","size","angle","time"]
 "x": 映射到x轴的字段，可以为空
 "y" 映射到y轴的字段，可以为空
@@ -449,14 +449,17 @@ Respone in the following format:
 \`\`\`
 {
 "THOUGHT": your thoughts
-"CHART_TYPE": the chart type you choose. Supported chart types: ["Dynamic Bar Chart", "Bar Chart", "Line Chart", "Pie Chart", "Scatter Plot", "Word Cloud"].
+"CHART_TYPE": the chart type you choose. Supported chart types: ["Dynamic Bar Chart", "Bar Chart", "Line Chart", "Pie Chart", "Scatter Plot", "Word Cloud", "Rose Chart", "Radar Chart", "Sankey Chart"].
 "FIELD_MAP": { // Visual channels and the fields mapped to them, available visual channels: ["x", "y", "color", "size", "angle", "time"]
 "x": the field mapped to the x-axis, can be empty. Can Only has one field.
 "y": the field mapped to the y-axis, can be empty. Can only has one field.
-"color": the field mapped to the color channel. Can't be empty in Word Cloud and Pie Chart
+"color": the field mapped to the color channel. Can't be empty in Word Cloud, Pie Chart and Rose Chart 
 "size": the field mapped to the size channel, can be empty
 "angle": the field mapped to the angle channel of the pie chart, can be empty
 "time": This is usually a date field and can be used only in Dynamic Bar Chart. Can't be empty in Dynamic Bar Chart.
+"source": the field mapped to the source channel. Can't be empty in Sankey Chart
+"target": the field mapped to the target channel. Can't be empty in Sankey Chart
+"value": the field mapped to the value channel. Can't be empty in Sankey Chart
 },
 "Reason": the reason for selecting the chart type and visual mapping.
 "DOUBLE_CHECK": check if the reply meets the constraints
@@ -600,7 +603,7 @@ export const NLToChartPrompt = `你是一个数据分析领域的专家, 请你�
 {
 "THOUGHT": "你的思考",
 "USEFUL_FIELDS": 根据用户意图筛选的有用的字段,
-"CHART_TYPE": 你选择的图表类型. 支持的图表列表: [动态条形图、柱状图、折线图、饼图、散点图、词云]
+"CHART_TYPE": 你选择的图表类型. 支持的图表列表: [动态条形图、柱状图、折线图、饼图、散点图、词云、玫瑰图、雷达图、桑基图]
 "FIELD_MAP":{ //字段映射, 可用的视觉通道: ["x","y","color","size","angle","time"]
 "x": 映射到x轴的字段, string类型, 只能有一个字段或为空
 "y": 映射到y轴的字段, string类型, 只能有一个字段或为空
@@ -698,7 +701,63 @@ Response:
 "REASON":  "地区表示地区名, 降雨量表示该地区降雨量, 与用户意图直接相关. 用户需要展示变化趋势, 因此Month也与用户意图相关. USEFUL_FIELDS中包含月份Month, 且用户想展示变化趋势, 适合使用折线图. Month做x轴, 降雨量做y轴, 可展示降雨量在一年之中的变化趋势. 地区做颜色字段, 可对不同地区进行区分",
 "DOUBLE_CHECK": "USEFUL_FIELDS所选字段均有助于完成用户意图, 且没有多余字段. 折线图适合展示数据的变化趋势, 能够满足用户意图. 折线图在支持的图表列表中. FIELD_MAP中的每个通道只有一个字段或者为空, 字段分配结果符合用户意图. FIELD_MAP中的key都存在于可用的视觉通道列表中. 用户没有指定图表的颜色风格, COLOR_PALETTE可以为空. 回复内容可直接被JavaScript中的JSON.parse解析. "
 }
-\`\`\``;
+\`\`\`
+----------------------------------
+csv文件内容:
+"key,value
+Strength,5
+Speed,5
+Shooting,3
+Endurance,5
+Precision,5
+Growth,5"
+
+用户意图:  帮我展示个人在不同方面的绩效，他是否是六边形战士
+
+Response:
+\`\`\`
+{
+  "THOUGHT": "用户想要展示个人在不同方面的绩效，但是没有明确指出想要展示的方式，可以考虑使用雷达图或者词云。数据中只有两个字段，可以将key作为词云或雷达图的标签，value作为词云或雷达图的权重或者雷达图的数据。",
+  "CHART_TYPE": "Radar Chart",
+  "FIELD_MAP": {
+      "x": "key",
+      "y": "value"
+  },
+  "REASON": "用户想要展示个人在不同方面的绩效，雷达图可以展示多维度的数据，适合展示个人在不同方面的绩效。key作为雷达图的角度，value作为雷达图的数据。",
+  "DOUBLE_CHECK": "雷达图可以展示多维度的数据，适合展示个人在不同方面的绩效。Radar Chart在支持的图表列表中。所有数据字段都被用在了可视化映射中。FIELD_MAP中的键都是可用的可视化通道。返回内容可以直接被JavaScript中的JSON.parse()解析。"
+}
+\`\`\`
+----------------------------------
+csv文件内容:
+"source,target,value
+Node A,Node 1,10
+Node A,Node 2,5
+Node B,Node 1,8
+Node B,Node 3,2
+Node C,Node 2,4"
+
+用户意图:  展示数据流动
+
+Response:
+\`\`\`
+{
+  "THOUGHT": "User did not show their intention about the data in their input. The data has three fields, which are 'source', 'target', and 'value'. This data is suitable for displaying the data flow, which can be shown with a Sankey Chart. The 'source' field is used as the source node of the Sankey Chart, the 'target' field is used as the target node of the Sankey Chart, and the 'value' field is used as the value of the data flow.",
+  "CHART_TYPE": "Sankey Chart",
+  "FIELD_MAP": {
+      "x": "",
+      "y": "",
+      "color": "",
+      "size": "",
+      "angle": "",
+      "time": "",
+      "source": "source",
+      "target": "target",
+      "value": "value"
+  },
+  "REASON": "The Sankey Chart is suitable for displaying the data flow, which can meet the user's intent. Sankey Chart is in the list of supported charts. The visual mapping result meets the user's intent. All fields in the data are used in the visual mapping. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript."
+}
+\`\`\`
+`;
 
 export const animationDuration = 500;
 export const oneByOneGroupSize = 10; //one-by-one动画 10个点一组
@@ -731,5 +790,8 @@ export const SUPPORTED_CHART_LIST = [
   'Line Chart',
   'Pie Chart',
   'Scatter Plot',
-  'Word Cloud'
+  'Word Cloud',
+  'Rose Chart',
+  'Radar Chart',
+  'Sankey Chart'
 ];

@@ -27,7 +27,14 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
-    port: 3100
+    port: 3100,
+    proxy: {
+      '/v2': {
+        target: 'https://search.bytedance.net/gpt/openapi/offline/v2',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/v2/, '')
+      }
+    }
     // port: localConf.server?.port || 3100
   },
   resolve: {
