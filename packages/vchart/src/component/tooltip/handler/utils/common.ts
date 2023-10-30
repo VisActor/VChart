@@ -139,7 +139,7 @@ export const measureTooltipText = (text: string, style: ITooltipTextStyle): IToo
   let textLines: string[];
   if (style.multiLine) {
     textLines = text.split('\n');
-    textLines.map((line, i) => (i < textLines.length - 1 ? line + '\n' : line));
+    textLines = textLines.map((line, i) => (i < textLines.length - 1 ? line + '\n' : line));
   } else {
     textLines = [text];
   }
