@@ -4,7 +4,7 @@ import type { IEvent, IEventDispatcher } from '../event/interface';
 import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { VChart } from '../vchart-all';
-import type { IData, IElement, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
+import type { IData } from '@visactor/vgrammar-core';
 import type {
   IOrientType,
   IPoint,
@@ -278,13 +278,6 @@ export interface IModel extends ICompilable, ILayoutItem {
   ) => void;
 
   initMarkStyleWithSpec: (mark?: IMark, spec?: any, key?: string) => void;
-
-  /** 绑定场景结点 */
-  bindSceneNode: (node: IElement) => void;
-  /** 获取场景结点 */
-  getSceneNodes: () => IElement[];
-  /** 获取场景结点对应 mark */
-  getSceneNodeMarks: () => IVGrammarMark[];
 }
 
 export interface IModelOption extends ICompilableInitOption {

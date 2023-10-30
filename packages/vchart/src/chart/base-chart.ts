@@ -64,12 +64,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { has, isFunction, isEmpty, isNil, isString, isEqual } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
-import type {
-  IGroupMark,
-  IRunningConfig as IMorphConfig,
-  IMark as IVGrammarMark,
-  IView
-} from '@visactor/vgrammar-core';
+import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../compile/compilable-base';
 import type { IStateInfo } from '../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -1149,32 +1144,7 @@ export class BaseChart extends CompilableBase implements IChart {
 
   onLayout(srView: IView) {
     const root = srView.rootMark;
-    this.checkUpdate(root, null, null);
     this.layout({ group: root, srView });
-  }
-
-  /**
-   * 未下沉组件通过这里绑定场景元素，保持布局逻辑
-   * TODO: 但是不应该通过getProduct吗？
-   * @param mark
-   * @param model
-   * @param sceneRoot
-   * @returns
-   */
-  checkUpdate(mark: IVGrammarMark, model: IModel, sceneRoot: IVGrammarMark) {
-    if (mark.context?.model) {
-      sceneRoot = mark;
-      model = mark.context.model;
-    }
-    if (model && mark.isUpdated) {
-      model.bindSceneNode?.(sceneRoot.elements[0]);
-      return;
-    }
-    if (mark.markType === 'group') {
-      (mark as IGroupMark).children.forEach(child => {
-        this.checkUpdate(child, model, sceneRoot);
-      });
-    }
   }
 
   /**
