@@ -35,6 +35,7 @@ import { DimensionEventEnum, type DimensionEventParams } from '../../event/event
 import type { EventCallback, EventParams } from '../../event/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { lineLikeSeriesMark } from './constant';
+import type { ILabelMark } from '../../mark/label';
 
 export interface ILineLikeSeriesTheme {
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
@@ -70,6 +71,10 @@ export class LineLikeSeriesMixin {
       isSeriesMark: isSeriesMark ?? true,
       progressive
     }) as ILineMark;
+    const isPointVisible = this._spec.point?.visible !== false && this._spec.point?.style?.visible !== false;
+    if (!isPointVisible && this._lineMark) {
+      this._lineMark.setLabelSpec(mergeSpec({ animation: this._spec.animation }, this._spec.label));
+    }
     return this._lineMark;
   }
 
@@ -178,14 +183,16 @@ export class LineLikeSeriesMixin {
   }
 
   initSymbolMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
-    this._symbolMark = this._createMark(lineLikeSeriesMark.point, {
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
-      defaultMorphElementKey: this.getDimensionField()[0],
-      groupKey: this._seriesField,
-      label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
-      progressive,
-      isSeriesMark: !!isSeriesMark
-    }) as ISymbolMark;
+    if (this._spec.point?.visible !== false) {
+      this._symbolMark = this._createMark(lineLikeSeriesMark.point, {
+        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
+        defaultMorphElementKey: this.getDimensionField()[0],
+        groupKey: this._seriesField,
+        label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
+        progressive,
+        isSeriesMark: !!isSeriesMark
+      }) as ISymbolMark;
+    }
 
     if (this._spec.activePoint === true) {
       const activeData = new DataView(this._option.dataSet, { name: `${PREFIX}_series_${this.id}_active_point` });
@@ -195,7 +202,6 @@ export class LineLikeSeriesMixin {
         {
           morph: false,
           groupKey: this._seriesField,
-          label: null,
           isSeriesMark: false,
           dataView: activeData
         }
@@ -272,7 +278,7 @@ export class LineLikeSeriesMixin {
     return symbolMark;
   }
 
-  initLabelMarkStyle(labelMark?: ITextMark) {
+  initLabelMarkStyle(labelMark?: ILabelMark) {
     if (!labelMark) {
       return;
     }
