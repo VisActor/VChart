@@ -126,6 +126,8 @@ export class EditorLayer implements IEditorLayer {
 
     this._container.style.width = width + 'px';
     this._container.style.height = height + 'px';
+
+    this._stage.setViewBox(0, 0, width, height, true);
   }
 
   reLayoutWithOffset(offsetX: number, offsetY: number) {

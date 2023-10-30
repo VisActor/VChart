@@ -40,11 +40,11 @@ export class LayoutEditorElement extends BaseEditorElement {
     }
   };
   private _unPickModel = (e: PointerEvent) => {
-    if (this._touchEditorBox(e as VRenderPointerEvent)) {
-      return;
-    }
-    this.clearLayoutEditorBox();
-    this._layer.getStage().renderNextFrame();
+    // if (this._touchEditorBox(e as VRenderPointerEvent)) {
+    //   return;
+    // }
+    // this.clearLayoutEditorBox();
+    // this._layer.getStage().renderNextFrame();
   };
   private _touchEditorBox(e: VRenderPointerEvent) {
     if (!this._layoutComponent) {
