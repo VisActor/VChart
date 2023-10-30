@@ -22,10 +22,10 @@
 
 ```bash
 # npm
-$ npm install @visactor/VMind
+$ npm install @visactor/vmind
 
 # yarn
-$ yarn add @visactor/VMind
+$ yarn add @visactor/vmind
 ```
 
 ### 📊 使用示例
@@ -33,7 +33,7 @@ $ yarn add @visactor/VMind
 #### 图表智能生成
 
 ```typescript
-import VMind from '@visactor/VMind'
+import VMind from '@visactor/vmind'
 
 const vmind = new VMind(openAIKey) //传入您的openAI key
 
