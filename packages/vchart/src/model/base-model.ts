@@ -17,7 +17,6 @@ import type { CoordinateType } from '../typings/coordinate';
 import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect } from '../typings';
 import type { CompilableData } from '../compile/data/compilable-data';
-import { ModelStateManager } from './model-state-manager';
 import { PREFIX } from '../constant';
 import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 import { isArray, isEqual } from '@visactor/vutils';
@@ -83,12 +82,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     return this._option.getChart();
   }
 
-  /** 状态管理器 */
-  state: ModelStateManager;
-  getState() {
-    return this.state._stateMap;
-  }
-
   protected _theme?: any; // 非全局 theme，是对应于具体 model 的 theme 对象
 
   /** for layout diff */
@@ -110,10 +103,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this.event = new Event(option.eventDispatcher, option.mode);
     option.map?.set(this.id, this);
     this._sceneNodeMap = new Map();
-    this.state = new ModelStateManager({
-      ...option,
-      stateKeyToSignalName: this.stateKeyToSignalName.bind(this)
-    });
   }
   coordinate?: CoordinateType;
 
@@ -124,10 +113,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   created() {
     this._initTheme();
     this.setAttrFromSpec();
-  }
-
-  updateState(newState: Record<string, unknown>) {
-    return this.state.updateState(newState);
   }
 
   init(option: IModelInitOption) {
@@ -179,7 +164,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this._originalSpec = {};
     this._spec = undefined;
     this.getMarks().forEach(m => m.release());
-    this.state.release();
     this._data?.release();
     this._data = this._specIndex = this._sceneNodeMap = null;
     this._marks.clear();
@@ -369,10 +353,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this.getMarks().forEach(m => {
       m.compile({ group });
     });
-  }
-
-  compileSignal() {
-    this.state?.compile();
   }
 
   bindSceneNode(node: IElement) {

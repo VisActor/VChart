@@ -1,13 +1,7 @@
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isEqual } from '@visactor/vutils';
-import type {
-  Element,
-  IElement,
-  IGroupMark as IVGrammarGroupMark,
-  ILayoutOptions,
-  IMark
-} from '@visactor/vgrammar-core';
+import type { IGroupMark as IVGrammarGroupMark, ILayoutOptions, IMark } from '@visactor/vgrammar-core';
 import { STATE_VALUE_ENUM_REVERSE } from '../compile/mark/interface';
 import { DimensionTrigger } from '../interaction/dimension-trigger';
 import { MarkTypeEnum } from '../mark/interface';
@@ -96,6 +90,10 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
     });
 
     return hasDataZoom || hasScrollBar ? true : this.layoutClip;
+  }
+
+  _initTheme() {
+    // do nothing, region don't need to parse theme
   }
 
   created(): void {
@@ -346,17 +344,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
     });
   }
 
-  compileSignal() {
-    super.compileSignal();
-    this.animate?.compile();
-  }
-
   compile() {
-    this.compileSignal();
+    this.animate?.compile();
     this.compileMarks();
-  }
-
-  bindSceneNode(node: IElement) {
-    this._sceneNodeMap.set('default', node as Element);
   }
 }
