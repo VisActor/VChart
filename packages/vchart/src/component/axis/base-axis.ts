@@ -270,8 +270,12 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // 留给各个类型的 axis 来 override
   }
 
-  protected computeData(updateType?: 'domain' | 'range'): void {
-    if (!isEqual(this._scale.range(), [0, 1]) && (updateType !== 'range' || !isArray(this._tickData.getLatestData()))) {
+  protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
+    if (
+      updateType === 'force' ||
+      (!isEqual(this._scale.range(), [0, 1]) &&
+        (!isContinuous(this._scale.type) || updateType !== 'range' || !isArray(this._tickData.getLatestData())))
+    ) {
       this._tickData.getDataView().reRunAllTransform();
       this._tickData.updateData();
     }

@@ -457,6 +457,13 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   tickValues(): number[] {
+    const latestData = this._tickData.getLatestData();
+
+    if (latestData && !isArray(latestData)) {
+      // the ticks data of scale has not be calculated
+      this.computeData('force');
+    }
+
     return this._tickData.getLatestData() || [];
   }
 

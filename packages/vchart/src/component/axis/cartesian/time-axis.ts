@@ -97,7 +97,7 @@ export class CartesianTimeAxis<
   /**
    * @override
    */
-  protected computeData(updateType?: 'range' | 'domain'): void {
+  protected computeData(updateType?: 'range' | 'domain' | 'force'): void {
     super.computeData(updateType);
     if (this._layerTickData) {
       this._layerTickData.getDataView().reRunAllTransform();
