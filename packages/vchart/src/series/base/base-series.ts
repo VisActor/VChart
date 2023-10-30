@@ -1223,7 +1223,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   compile() {
-    this.compileSignal();
     this.compileData(); // 系列只需要编译数据，mark 将在 region 编译过程中编译
   }
 

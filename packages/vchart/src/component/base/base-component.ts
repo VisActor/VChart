@@ -132,7 +132,6 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   compile(): void {
-    this.compileSignal();
     this.compileMarks();
   }
 
