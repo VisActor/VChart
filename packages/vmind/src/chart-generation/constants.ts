@@ -449,7 +449,7 @@ Respone in the following format:
 \`\`\`
 {
 "THOUGHT": your thoughts
-"CHART_TYPE": the chart type you choose. Supported chart types: ["Dynamic Bar Chart", "Bar Chart", "Line Chart", "Pie Chart", "Scatter Plot", "Word Cloud"].
+"CHART_TYPE": the chart type you choose. Supported chart types: ["Dynamic Bar Chart", "Bar Chart", "Line Chart", "Pie Chart", "Scatter Plot", "Word Cloud", "Funnel Chart", "Dual Axis Chart"].
 "FIELD_MAP": { // Visual channels and the fields mapped to them, available visual channels: ["x", "y", "color", "size", "angle", "time"]
 "x": the field mapped to the x-axis, can be empty. Can Only has one field.
 "y": the field mapped to the y-axis, can be empty. Can only has one field.
@@ -586,6 +586,70 @@ Response:
 "REASON": "User did not show their intention about the data in their input. The data has two fields and it contains a date field, so Line Chart is best suitable to show the data. The field '日期' is used as the x-axis because it's a date, and the 降雨量 is used as the y-axis because it's a number. The duration is 20s but we just ignore it.",
 "DOUBLE_CHECK": "User did not show their intention about the data in their input, so the chart type is chosen only by the data. Line Chart is in the list of supported charts. All fields in the data are used in the visual mapping. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript."
 }
+\`\`\`
+
+
+------------------------
+
+User Input: 帮我展示不同流程间的转化率，森林风格.
+Data field description: [
+{
+"fieldName": "流程",
+"description": "Represents the name of the process, which is a string."
+},
+{
+"fieldName": "转化率",
+"description": "Represents the conversion rate of each process, which is a percentage."
+},
+{
+"fieldName": "Month",
+"description": "Represents the month of the data, which is a date."
+}
+]
+
+Response:
+"{
+"THOUGHT": "The user wants to show the proportion of conversion rate between different processes, which is suitable for displaying with a funnel chart. The data contains the conversion rate, process name, and month, and the user wants to show the data in a forest style. The '流程' field is used as the x-axis of the funnel chart to show the name of each process. The '转化率' field is used as the y-axis of the funnel chart to show the proportion of conversion rate between different processes. The 'Month' field is not used in the visual mapping because it's not necessary for the funnel chart.",
+"CHART_TYPE": "Funnel Chart",
+"FIELD_MAP": {
+    "x": "流程",
+    "y": "转化率"
+},
+"REASON": "The user wants to show the proportion of conversion rate between different processes, which is suitable for displaying with a funnel chart. The data contains the conversion rate, process name, and month, and the user wants to show the data in a forest style. The '流程' field is used as the x-axis of the funnel chart to show the name of each process. The '转化率' field is used as the y-axis of the funnel chart to show the proportion of conversion rate between different processes. The 'Month' field is not used in the visual mapping because it's not necessary for the funnel chart.",
+"DOUBLE_CHECK": "The funnel chart is suitable for displaying the proportion of conversion rate between different processes, which can meet the user's intent. Funnel Chart is in the list of supported charts. The visual mapping result meets the user's intent. All fields in the data are used in the visual mapping. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript."
+}"
+\`\`\`
+
+------------------------
+
+User Input: 展示男生和女生的早餐消费情况，森林风格.
+Data field description: [
+{
+"fieldName": "时间",
+"description": "Represents the day of the week, which is a string."
+},
+{
+"fieldName": "男-早餐",
+"description": "Represents the breakfast consumption of male students, which is an integer."
+},
+{
+"fieldName": "女-早餐",
+"description": "Represents the breakfast consumption of female students, which is an integer."
+}
+]
+
+Response:
+"{
+"THOUGHT": "The user wants to compare the breakfast consumption of male and female students, which is suitable for displaying with a bar chart. The data contains the breakfast consumption of male and female students and the day of the week, and the user wants to show the data in a forest style.",
+"CHART_TYPE": "Bar Chart",
+"FIELD_MAP": {
+    "x": "时间",
+    "y": ["男-早餐", "女-早餐"],
+    "color": "性别"
+},
+"REASON": "The user wants to compare the breakfast consumption of male and female students, which is suitable for displaying with a bar chart. The '时间' field is used as the x-axis of the bar chart to show the day of the week. The '男-早餐' and '女-早餐' fields are used as the y-axis of the bar chart to show the breakfast consumption of male and female students. The '性别' field is used as the color to distinguish between male and female students. The forest style is used to make the chart more visually appealing.",
+"DOUBLE_CHECK": "The bar chart is suitable for comparing data between different categories, which can meet the user's intent. Bar Chart is in the list of supported charts. The visual mapping result meets the user's intent. All fields in the data are used in the visual mapping. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript."
+}"
 \`\`\`
 `;
 
@@ -731,5 +795,7 @@ export const SUPPORTED_CHART_LIST = [
   'Line Chart',
   'Pie Chart',
   'Scatter Plot',
-  'Word Cloud'
+  'Word Cloud',
+  'Funnel Chart',
+  'Dual Axis Chart'
 ];
