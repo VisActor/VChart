@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support functional label.position config in line/area/scatter/bar series",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
