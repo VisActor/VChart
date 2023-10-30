@@ -15,6 +15,7 @@ import { MinSize } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
 import type { EventParams } from '@visactor/vchart';
 import { isSameModelInfo } from '../../../utils/spec';
+import type { VRenderPointerEvent } from '../../interface';
 
 const CartesianAxisResize = {
   left: [false, false, false, true, false, false, false, false],
@@ -39,9 +40,25 @@ export class LayoutEditorElement extends BaseEditorElement {
     }
   };
   private _unPickModel = (e: PointerEvent) => {
-    // console.log(e);
+    if (this._touchEditorBox(e as VRenderPointerEvent)) {
+      return;
+    }
     this.clearLayoutEditorBox();
+    this._layer.getStage().renderNextFrame();
   };
+  private _touchEditorBox(e: VRenderPointerEvent) {
+    if (!this._layoutComponent) {
+      return false;
+    }
+    let node = e.target;
+    while (node && node !== this.layer.getStage().defaultLayer) {
+      if (node === (this._layoutComponent.editorBox as any)) {
+        return true;
+      }
+      node = node.parent;
+    }
+    return false;
+  }
 
   clearLayoutEditorBox() {
     this._layoutComponent?.release();

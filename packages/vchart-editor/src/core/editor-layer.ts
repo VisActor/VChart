@@ -288,7 +288,7 @@ export class EditorLayer implements IEditorLayer {
     if (index >= 0) {
       this.elements[index].release();
       this.elements.splice(index, 1);
-      this._stage.render();
+      this._stage.renderNextFrame();
     }
   }
 }
