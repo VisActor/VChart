@@ -237,7 +237,6 @@ export class VChart implements IVChart {
   private _autoSize: boolean = true;
   private _option: IInitOption = {
     mode: RenderModeEnum['desktop-browser'],
-    animation: true,
     onError: (msg: string) => {
       throw new Error(msg);
     }
@@ -255,7 +254,7 @@ export class VChart implements IVChart {
   private _context: any = {}; // 存放用户在model初始化前通过实例方法传入的配置等
 
   constructor(spec: ISpec, options: IInitOption) {
-    this._option = mergeOrigin(this._option, options);
+    this._option = mergeOrigin(this._option, { animation: (spec as any).animation !== false }, options);
     this._onError = this._option?.onError;
 
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
