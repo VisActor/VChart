@@ -39,6 +39,10 @@ export const mergeThemeAndGet = (
 
 /** 从 theme 取特定 path 的值，但可能会改变形式为 merge 作准备 */
 const getThemeValue = (path: string, theme?: string | ITheme, colorScheme?: IThemeColorScheme) => {
+  if (isNil(theme)) {
+    return undefined;
+  }
+
   let themeObject: ITheme;
   if (isString(theme) && ThemeManager.themeExist(theme)) {
     themeObject = ThemeManager.getTheme(theme);

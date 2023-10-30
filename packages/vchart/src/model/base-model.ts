@@ -16,16 +16,14 @@ import type {
 import type { CoordinateType } from '../typings/coordinate';
 import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect } from '../typings';
-import type { ITooltipHelper } from './tooltip-helper';
 import type { CompilableData } from '../compile/data/compilable-data';
 import { ModelStateManager } from './model-state-manager';
 import { PREFIX } from '../constant';
 import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
-import { array, isArray, isEqual, isNil } from '@visactor/vutils';
+import { isArray, isEqual } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import type { SeriesTypeEnum } from '../series/interface';
 import { MarkSet } from '../mark/mark-set';
-import { getThemeFromOption } from '../theme/util';
 import { defaultChartLevelTheme } from '../theme';
 
 export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> implements IModel {
@@ -228,31 +226,12 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     } else {
       this._theme = this._getTheme();
     }
-    this._mergeMarkTheme();
+
     this._mergeThemeToSpec();
   }
 
   protected _getTheme(): any {
     return undefined;
-  }
-
-  /** 将全局的 mark theme 合并进 model theme */
-  protected _mergeMarkTheme() {
-    const config = this._option.getThemeConfig?.();
-    if (isNil(config) || isNil(this._theme)) {
-      return;
-    }
-
-    const markThemeByType = getThemeFromOption('mark', this._option);
-    const markThemeByName = getThemeFromOption('markByName', this._option);
-    this.getMarkInfoList().forEach(({ type, name }) => {
-      this._theme[name] = mergeSpec(
-        {},
-        markThemeByType?.[array(type)[0]] ?? {},
-        markThemeByName?.[name] ?? {},
-        this._theme[name]
-      );
-    });
   }
 
   /** 将 theme merge 到 spec 中 */
