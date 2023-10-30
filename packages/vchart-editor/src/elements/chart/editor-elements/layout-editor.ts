@@ -62,7 +62,7 @@ export class LayoutEditorElement extends BaseEditorElement {
           if (isSameModelInfo(line, el)) {
             return;
           }
-          if (this._currentEl?.model?.type === 'region' && line.specKey.includes('axes')) {
+          if (el.model?.type === 'region' && line.specKey.includes('axes')) {
             return;
           }
           pre.push(line);
