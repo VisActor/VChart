@@ -40,7 +40,7 @@ export class LayoutEditorElement extends BaseEditorElement {
   };
   private _unPickModel = (e: PointerEvent) => {
     // console.log(e);
-    // this.clearLayoutEditorBox();
+    this.clearLayoutEditorBox();
   };
 
   clearLayoutEditorBox() {
@@ -100,6 +100,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       },
       endHandler: data => {
         this._updateLayout(info, data);
+        this._controller.setOverGraphic(null, null, null);
       },
       event: e
     });

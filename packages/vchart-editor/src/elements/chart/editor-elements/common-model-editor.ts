@@ -16,6 +16,11 @@ export class CommonModelElement extends BaseEditorElement {
   }
 
   private _overModel = (info: { model: IChartModel; layoutMeta: LayoutMeta }, e: PointerEvent) => {
+    if (info.model) {
+      if (this._controller.currentOverGraphicId === info.model.userId + `${this._layer.id}`) {
+        return;
+      }
+    }
     const el = this._getElementWithModel(info, e);
     this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
   };

@@ -9,6 +9,9 @@ export class EditorController implements IEditorController {
   }
   protected _currentOverGraphic: IGraphic = null;
   protected _currentOverGraphicId: string | number = null;
+  get currentOverGraphicId() {
+    return this._currentOverGraphicId;
+  }
 
   protected _startHandler: EditorHandlerFunc[] = [];
   protected _endHandler: EditorHandlerFunc[] = [];
@@ -82,11 +85,13 @@ export class EditorController implements IEditorController {
       this._currentOverGraphicId = id;
       return;
     } else if (this._currentOverGraphic && event) {
-      const rect = (<HTMLElement>event.target).getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      if (this._currentOverGraphic.containsPoint(x, y)) {
-        return;
+      const rect = (<HTMLElement>event.target).getBoundingClientRect?.();
+      if (rect) {
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        if (this._currentOverGraphic.containsPoint(x, y)) {
+          return;
+        }
       }
     }
     this._removeOverGraphic();
@@ -114,6 +119,18 @@ export class EditorController implements IEditorController {
     this._currentOverGraphic.parent.removeChild(this._currentOverGraphic);
     this._currentOverGraphic = null;
     this._currentOverGraphicId = null;
+  }
+
+  deleteCurrentElement() {
+    if (!this._currentEditorElements) {
+      return;
+    }
+    const el = this._currentEditorElements;
+    if (el.type !== 'graphics') {
+      return;
+    }
+    this.removeEditorElements();
+    el.layer.removeElement(el.id);
   }
 
   release() {

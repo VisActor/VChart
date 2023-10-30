@@ -19,7 +19,7 @@ export class ChartEvent {
 
   private _overEvent = (e: VRenderPointerEvent) => {
     const info = this._getPickModel(e);
-    if (info) {
+    if (info && this._checkEventEnable(e)) {
       this.emitter.emit('overModel', info, e);
     } else {
       this.emitter.emit('unOverChart', e);
@@ -28,6 +28,7 @@ export class ChartEvent {
 
   private _downEvent = (e: VRenderPointerEvent) => {
     if (!this._checkEventEnable(e)) {
+      this.emitter.emit('unPickModel', e);
       return;
     }
     const info = this._getPickModel(e);

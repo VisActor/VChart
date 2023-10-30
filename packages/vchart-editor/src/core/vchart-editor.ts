@@ -83,14 +83,17 @@ export class VChartEditor {
     if (!ElementsMap[type]) {
       return;
     }
-    let layer;
+    let layer = this.layers[0];
     if (type === 'chart') {
       layer = new ChartLayer(this._container, this._mode);
+      this.addLayer(layer);
       option.renderCanvas = layer.getCanvas();
     } else {
-      layer = new EditorLayer(this._container, this._mode);
+      if (!layer) {
+        layer = new EditorLayer(this._container, this._mode);
+        this.addLayer(layer);
+      }
     }
-    this.addLayer(layer);
     option.layer = layer;
     option.controller = this._editorController;
     option.mode = this._mode;
@@ -102,6 +105,15 @@ export class VChartEditor {
     el.initWithOption();
     layer.addElements(el);
     this._option.data.save();
+  }
+
+  deleteElement(id?: string) {
+    if (id) {
+      this._layers.forEach(l => l.removeElement(id));
+    } else {
+      this._editorController.deleteCurrentElement();
+    }
+    this._option.data?.save();
   }
 
   initEvent() {

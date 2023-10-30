@@ -2,7 +2,7 @@ import type { ILayoutAttribute, IRect } from './../typings/space';
 import { isArray } from '@visactor/vutils';
 import type { IEditorElement } from './interface';
 import type { EditorLayer } from './editor-layer';
-import { MouseEvents, TriggerEvent } from './const';
+import { DeleteElementKeyCode, MouseEvents, TriggerEvent } from './const';
 import type { VChartEditor } from './vchart-editor';
 
 export class EditorEvent {
@@ -12,21 +12,28 @@ export class EditorEvent {
     return this._triggerLayer;
   }
 
+  protected _eventMap: { [key: string]: (e: Event) => void } = {};
+
   constructor(editor: VChartEditor) {
     this._editor = editor;
   }
 
   initEvent() {
     MouseEvents.forEach(eventType => {
-      document.addEventListener(
-        eventType,
-        e => {
-          this._handlerEvent(eventType, e);
-        },
-        true
-      );
+      this._eventMap[eventType] = e => {
+        this._handlerEvent(eventType, e);
+      };
+      document.addEventListener(eventType, this._eventMap[eventType], true);
     });
+
+    document.addEventListener('keydown', this._keyEvent);
   }
+
+  protected _keyEvent = (ev: KeyboardEvent) => {
+    if (DeleteElementKeyCode[ev.key] === true) {
+      this._editor.deleteElement();
+    }
+  };
 
   protected _handlerEvent(eventType: keyof HTMLElementEventMap, e: Event) {
     if (e.target !== this._editor.container) {
@@ -137,8 +144,18 @@ export class EditorEvent {
           });
         });
         return false;
+      },
+      updateElement: function (): void {
+        // do nothing
       }
     };
     return groupEl;
+  }
+
+  release() {
+    MouseEvents.forEach(eventType => {
+      document.removeEventListener(eventType, this._eventMap[eventType]);
+    });
+    document.removeEventListener('keydown', this._keyEvent);
   }
 }

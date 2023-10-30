@@ -35,13 +35,11 @@ export interface IEditorLayer {
   moveTo: (x: number, y: number) => void;
   scaleTo: (s: number) => void;
   resizeLayer: (width: number, height: number, x: number, y: number, scale: number) => void;
-
   onElementReady: (callBack: () => void) => void;
-
   transformPosInLayer: (pos: IPoint) => IPoint;
-
   getLayoutLineInLayer: () => ILayoutLine[];
 
+  removeElement: (id: string | number) => void;
   release: () => void;
 }
 
@@ -121,7 +119,8 @@ export interface IEditorElement {
   type: 'chart' | 'group' | 'graphics';
   layer: IEditorLayer;
   id: string | number;
-  chartType: string;
+  chartType?: string;
+  graphicsType?: string;
   rect?: IRect;
   part?: string;
   /**
@@ -137,7 +136,7 @@ export interface IEditorElement {
   } & { [key: string]: unknown };
   originSpec?: any;
   // current color scale range
-  color: string[];
+  color?: string[];
   allModel?: IModelSpec[];
   updateAttribute: (attr: IUpdateAttributeParam) => false | { [key: string]: unknown };
   editorFinish: () => void;
@@ -159,6 +158,7 @@ export interface IEditorController {
 
   // over border
   setOverGraphic: (graphic: IGraphic, id: string | number, event: PointerEvent) => void;
+  currentOverGraphicId: string | number;
 
   release: () => void;
 }

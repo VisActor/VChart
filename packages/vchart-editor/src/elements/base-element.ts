@@ -1,8 +1,8 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IRect, IPoint, ILayoutGuideLine } from '../typings/space';
+import type { IRect, IPoint } from '../typings/space';
 import type { IElementData, IElementOption } from './interface';
 import { CreateID } from '../utils/common';
-import type { EditorMode } from '../core/interface';
+import type { EditorMode, ILayoutLine } from '../core/interface';
 export abstract class BaseElement {
   type: string = 'base';
   protected _rect: IRect;
@@ -13,6 +13,9 @@ export abstract class BaseElement {
   }
 
   protected _id: string | number;
+  get id() {
+    return this._id;
+  }
   protected _mode: EditorMode = 'view';
 
   protected _afterRenderCallBack: () => void = null;
@@ -57,7 +60,7 @@ export abstract class BaseElement {
 
   abstract getBounds(): IBoundsLike;
 
-  abstract getLayoutGuideLine(): ILayoutGuideLine[];
+  abstract getLayoutGuideLine(): ILayoutLine[];
   abstract moveBy(offsetX: number, offsetY: number): void;
 
   release() {

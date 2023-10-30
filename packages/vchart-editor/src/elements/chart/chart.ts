@@ -1,4 +1,4 @@
-import type { IEditorElement, IUpdateAttributeParam } from './../../core/interface';
+import type { IEditorElement, ILayoutLine, IUpdateAttributeParam } from './../../core/interface';
 /* eslint-disable no-console */
 import { LayoutEditorElement } from './editor-elements/layout-editor';
 import { ChartLayout } from './layout/chart-layout';
@@ -12,7 +12,7 @@ import { SpecProcess } from './spec-process/spec-process';
 import type { ISpecProcess } from './spec-process/interface';
 import { Data } from './data/data';
 import type { IData } from './data/interface';
-import type { IChartElementOption } from './interface';
+import type { IChartElementOption, IChartModel } from './interface';
 import {
   ValueLineEditor,
   MarkAreaEditor,
@@ -22,6 +22,8 @@ import {
 import { ChartEvent } from './event';
 import { CommonModelElement } from './editor-elements/common-model-editor';
 import { getDefaultMarkerConfigByType } from './utils/marker';
+import { IgnoreModelTypeInLayout, getChartModelWithModelInfo, transformModelRect } from './utils/layout';
+import { LayoutRectToRect, getLayoutLine } from '../../utils/space';
 
 export class EditorChart extends BaseElement {
   type = 'chart';
@@ -195,9 +197,6 @@ export class EditorChart extends BaseElement {
   getBounds(): IBoundsLike {
     throw new Error('Method not implemented.');
   }
-  getLayoutGuideLine(): ILayoutGuideLine[] {
-    throw new Error('Method not implemented.');
-  }
 
   getData() {
     const data = super.getData();
@@ -284,5 +283,25 @@ export class EditorChart extends BaseElement {
       _d.layout.y.offset += offsetY;
     });
     this._vchart.getChart().setLayoutTag(true);
+  }
+
+  getLayoutGuideLine(): ILayoutLine[] {
+    const result: ILayoutLine[] = [];
+    const layoutData = this.layout.getLayoutData();
+    layoutData.data.forEach(d => {
+      const model = getChartModelWithModelInfo(this.vchart, d);
+      if (!model || IgnoreModelTypeInLayout[model.type]) {
+        return;
+      }
+      const rect = transformModelRect(model as unknown as IChartModel, LayoutRectToRect(d.layout));
+      result.push(
+        ...getLayoutLine(rect, {
+          id: d.id,
+          specKey: d.specKey,
+          specIndex: d.specIndex
+        })
+      );
+    });
+    return result;
   }
 }

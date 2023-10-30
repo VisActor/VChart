@@ -3,7 +3,7 @@ import type { EditorMode, IEditorElement, IEditorLayer, ILayoutLine } from './in
 import type { IStage, IGroup } from '@visactor/vrender-core';
 import { createGroup, createStage } from '@visactor/vrender-core';
 import { CreateID } from '../utils/common';
-import { TriggerEvent } from './const';
+import { IgnoreEvent, TriggerEvent } from './const';
 import type { BaseElement } from '../elements/base-element';
 import type { IPoint } from '../typings/space';
 
@@ -142,8 +142,9 @@ export class EditorLayer implements IEditorLayer {
   }
 
   release() {
-    this._stage.release();
     this._elements.forEach(el => el.release());
+    this._stage.release();
+    this._stage = null;
     this._elements = null;
     this._editorGroup = null;
     this._elementReadyCallBack = null;
@@ -174,7 +175,6 @@ export class EditorLayer implements IEditorLayer {
 
     this._container.appendChild(canvas);
     this._canvas = canvas;
-
     const stage = createStage({
       canvas: this._canvas,
       width: this._canvas.clientWidth,
@@ -213,6 +213,9 @@ export class EditorLayer implements IEditorLayer {
   }
 
   tryEvent(e: MouseEvent) {
+    if (IgnoreEvent[e.type]) {
+      return;
+    }
     if (TriggerEvent[e.type]) {
       this._isTrigger = false;
     }
@@ -279,5 +282,13 @@ export class EditorLayer implements IEditorLayer {
 
   getLayoutLineInLayer(): ILayoutLine[] {
     return [];
+  }
+  removeElement(id: string | number) {
+    const index = this.elements.findIndex(e => e.id === id);
+    if (index >= 0) {
+      this.elements[index].release();
+      this.elements.splice(index, 1);
+      this._stage.render();
+    }
   }
 }
