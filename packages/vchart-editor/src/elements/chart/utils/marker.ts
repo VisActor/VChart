@@ -2,13 +2,29 @@
  * @description 获取标注的默认初始配置
  */
 import { v4 as uuidv4 } from 'uuid';
-import { type IVChart, type ICartesianSeries, STACK_FIELD_TOTAL_TOP, STACK_FIELD_TOTAL } from '@visactor/vchart';
+import {
+  type IVChart,
+  type ICartesianSeries,
+  STACK_FIELD_TOTAL_TOP,
+  STACK_FIELD_TOTAL,
+  STACK_FIELD_END
+} from '@visactor/vchart';
 import { type IPointLike } from '@visactor/vutils';
 import { MarkerTypeEnum } from '../interface';
 
 // TODO: 不同的标注需要给不同的 zIndex
 // TODO: 加一个判断，仅支持直角坐标系图表或者仅支持特定类型的图表
-// TODO: Marker 组件的 group 需要关闭 pickable
+
+/**
+ * CAGR（复合年增长率）是一种用于描述投资、业务或其他金融项目在一段时间内的平均增长率的度量
+ * @param EV 是结束值
+ * @param BV  是开始值
+ * @param n 是年数
+ * @returns CAGR
+ */
+export function calculateCAGR(EV: number, BV: number, n: number) {
+  return Math.pow(EV / BV, 1 / n) - 1;
+}
 
 type Datum = {
   [key: string]: any;
@@ -310,7 +326,6 @@ export const DEFAULT_OFFSET_FOR_GROWTH_MARKLINE = 30;
  */
 export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
   // 根据已绘制的图表
-  // TODO: 线图验证
   // TODO: 分组字段只有一个值
 
   // 水平：offsetX 30
@@ -324,6 +339,7 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
 
   let startData;
   let endData;
+  let length;
   // 如果存在堆叠场景，则查找 STACK_FIELD_TOTAL_TOP 的数据，再进行分组
   if (series.getStack() && series.getStackData()) {
     const filteredData = seriesData.filter((datum: Datum) => datum[STACK_FIELD_TOTAL_TOP]);
@@ -341,11 +357,13 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
       ...endData,
       [valueFieldInData]: endData[STACK_FIELD_TOTAL]
     };
+    length = groupKeys.length - 1;
   } else {
     const groupData = groupByFields(seriesData, [groupFields[0]]);
     const groupKeys = Object.keys(groupData);
     startData = groupData[groupKeys[0]][0];
     endData = groupData[groupKeys[groupKeys.length - 1]][0];
+    length = groupKeys.length - 1;
   }
 
   return {
@@ -366,10 +384,7 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
       text:
         startData[valueFieldInData] === 0
           ? '<超过 0 的百分比>'
-          : `${(
-              ((endData[valueFieldInData] - startData[valueFieldInData]) / startData[valueFieldInData]) *
-              100
-            ).toFixed(0)}%`,
+          : `${(calculateCAGR(endData[valueFieldInData], startData[valueFieldInData], length) * 100).toFixed(0)}%`,
       labelBackground: {
         style: {
           fill: '#fff',
@@ -411,6 +426,8 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
 
   let startData;
   let endData;
+  let startValue;
+  let endValue;
   // 如果存在堆叠场景，则查找 STACK_FIELD_TOTAL_TOP 的数据，再进行分组
   if (series.getStack() && series.getStackData()) {
     const filteredData = seriesData.filter((datum: Datum) => datum[STACK_FIELD_TOTAL_TOP]);
@@ -419,6 +436,8 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
 
     startData = groupData[groupKeys[0]][0];
     endData = groupData[groupKeys[1]][0];
+    startValue = startData[STACK_FIELD_END];
+    endValue = endData[STACK_FIELD_END];
 
     startData = {
       ...startData,
@@ -433,6 +452,9 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     const groupKeys = Object.keys(groupData);
     startData = groupData[groupKeys[0]][0];
     endData = groupData[groupKeys[1]][0];
+
+    startValue = startData[valueFieldInData];
+    endValue = endData[valueFieldInData];
   }
 
   let expandDistance = 0;
@@ -447,7 +469,6 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     const endX = series.dataToPositionX(endData);
     expandDistance = region.getLayoutRect().width - Math.max(startX, endX);
   }
-
   return {
     id: uuidv4(),
     interactive: true,
@@ -459,13 +480,7 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     label: {
       position: 'middle',
       // TODO：计算公式需要确认
-      text:
-        startData[valueFieldInData] === 0
-          ? '<超过 0 的百分比>'
-          : `${(
-              ((endData[valueFieldInData] - startData[valueFieldInData]) / startData[valueFieldInData]) *
-              100
-            ).toFixed(0)}%`,
+      text: startValue === 0 ? '<超过 0 的百分比>' : `${(((endValue - startValue) / startValue) * 100).toFixed(0)}%`,
       labelBackground: {
         style: {
           fill: '#fff',

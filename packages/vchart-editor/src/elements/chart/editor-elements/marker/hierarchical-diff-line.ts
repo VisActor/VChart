@@ -5,11 +5,11 @@
 import type { IGroup, ILine } from '@visactor/vrender-core';
 import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
-import { array, merge } from '@visactor/vutils';
+import { array, isValid, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, IComponent, ICartesianSeries } from '@visactor/vchart';
-import { STACK_FIELD_START } from '@visactor/vchart';
+import { STACK_FIELD_END, STACK_FIELD_START } from '@visactor/vchart';
 import { findClosestPoint } from '../../utils/math';
 import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
@@ -384,32 +384,67 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       if (isHorizontal) {
         vgrammarElements.forEach((element: any) => {
           const graphItem = element.getGraphicItem();
-          dataPoints.push({
-            x: graphItem.attribute.x + graphItem.attribute.width + regionStartX,
-            y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
-            data: array(element.data)[0],
-            top: true
-          });
-          dataPoints.push({
-            x: graphItem.attribute.x + regionStartX,
-            y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
-            data: array(element.data)[0]
-          });
+          const elementData = array(element.data)[0];
+
+          if (isValid(elementData[STACK_FIELD_START])) {
+            dataPoints.push({
+              x: graphItem.attribute.x + graphItem.attribute.width + regionStartX,
+              y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
+              data: elementData,
+              top: true
+            });
+            if (elementData[STACK_FIELD_START] === 0) {
+              dataPoints.push({
+                x: graphItem.attribute.x + regionStartX,
+                y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
+                data: elementData
+              });
+            }
+          } else {
+            dataPoints.push({
+              x: graphItem.attribute.x + graphItem.attribute.width + regionStartX,
+              y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
+              data: elementData,
+              top: true
+            });
+            dataPoints.push({
+              x: graphItem.attribute.x + regionStartX,
+              y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
+              data: elementData
+            });
+          }
         });
       } else {
         vgrammarElements.forEach((element: any) => {
           const graphItem = element.getGraphicItem();
-          dataPoints.push({
-            x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
-            y: graphItem.attribute.y + regionStartY,
-            data: array(element.data)[0],
-            top: true
-          });
-          dataPoints.push({
-            x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
-            y: graphItem.attribute.y + graphItem.attribute.height + regionStartY,
-            data: array(element.data)[0]
-          });
+          const elementData = array(element.data)[0];
+          if (isValid(elementData[STACK_FIELD_START])) {
+            dataPoints.push({
+              x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
+              y: graphItem.attribute.y + regionStartY,
+              data: elementData,
+              top: true
+            });
+            if (elementData[STACK_FIELD_START] === 0) {
+              dataPoints.push({
+                x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
+                y: graphItem.attribute.y + graphItem.attribute.height + regionStartY,
+                data: elementData
+              });
+            }
+          } else {
+            dataPoints.push({
+              x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
+              y: graphItem.attribute.y + regionStartY,
+              data: elementData,
+              top: true
+            });
+            dataPoints.push({
+              x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
+              y: graphItem.attribute.y + graphItem.attribute.height + regionStartY,
+              data: elementData
+            });
+          }
         });
       }
       return dataPoints;

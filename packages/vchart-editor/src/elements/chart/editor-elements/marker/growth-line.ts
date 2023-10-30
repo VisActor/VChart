@@ -14,10 +14,11 @@ import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, ICartesianSeries, IComponent, IStepMarkLineSpec } from '@visactor/vchart';
 import { STACK_FIELD_TOTAL_TOP } from '@visactor/vchart';
 import { findClosestPoint } from '../../utils/math';
-import { DEFAULT_OFFSET_FOR_GROWTH_MARKLINE, getInsertPoints, getTextOffset } from '../../utils/marker';
+import { DEFAULT_OFFSET_FOR_GROWTH_MARKLINE, calculateCAGR, getInsertPoints, getTextOffset } from '../../utils/marker';
 import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
+import type { IBandLikeScale } from '@visactor/vscale';
 
 const START_LINK_HANDLER = 'overlay-growth-mark-line-start-handler';
 const END_LINK_HANDLER = 'overlay-growth-mark-line-end-handler';
@@ -374,9 +375,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     const valueFieldInData = series.direction === 'horizontal' ? series.getSpec().xField : series.getSpec().yField;
     const startDatum = (this._overlayStartHandler as unknown as any).data;
     const endDatum = (this._overlayEndHandler as unknown as any).data;
-    const labelText = `${(((endDatum[valueField] - startDatum[valueField]) / startDatum[valueField]) * 100).toFixed(
-      0
-    )}%`;
+
     // 1. 生成新的 markLine spec，用于存储
     const newMarkLineSpec = merge({}, model.getSpec(), {
       coordinates: [
@@ -388,14 +387,25 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
           ...endDatum,
           [valueFieldInData]: endDatum[valueField]
         }
-      ],
-      label: {
-        text: labelText
-      }
+      ]
     });
 
     // 2. 更新当前 markLine 组件
     if (this._element.name === MarkerTypeEnum.growthLine) {
+      const dimensionField =
+        series.direction === 'horizontal' ? array(series.getSpec().yField)[0] : array(series.getSpec().xField)[0];
+      const dimensionTicks =
+        series.direction === 'horizontal'
+          ? (series.getYAxisHelper().getScale(0) as IBandLikeScale).ticks()
+          : (series.getXAxisHelper().getScale(0) as IBandLikeScale).ticks();
+      const n = Math.abs(
+        dimensionTicks.indexOf(endDatum[dimensionField]) - dimensionTicks.indexOf(startDatum[dimensionField])
+      );
+
+      const labelText =
+        startDatum[valueField] === 0
+          ? '<超过 0 的百分比>'
+          : `${(calculateCAGR(endDatum[valueField], startDatum[valueField], n) * 100).toFixed(0)}%`;
       let attrKey;
       let attrValue;
       if (this._model.getRelativeSeries().direction === 'horizontal') {
@@ -419,7 +429,16 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         [attrKey]: attrValue
       });
       newMarkLineSpec[attrKey === 'dx' ? 'offsetX' : 'offsetY'] = attrValue;
+      newMarkLineSpec.label = {
+        ...newMarkLineSpec.label,
+        text: labelText
+      };
     } else {
+      const labelText =
+        startDatum[valueField] === 0
+          ? '<超过 0 的百分比>'
+          : `${(((endDatum[valueField] - startDatum[valueField]) / startDatum[valueField]) * 100).toFixed(0)}%`;
+
       this._element.setAttributes({
         pickable: true,
         childrenPickable: true,
@@ -452,7 +471,12 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
           )
         }
       });
+
       newMarkLineSpec.expandDistance = DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
+      newMarkLineSpec.label = {
+        ...newMarkLineSpec.label,
+        text: labelText
+      };
     }
 
     vglobal.removeEventListener('pointermove', this._onHandlerDrag);
