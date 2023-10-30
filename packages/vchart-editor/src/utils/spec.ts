@@ -19,7 +19,7 @@ export function isModelInfoMatchSpec(info: IModelInfo, spec: { id: string | numb
 }
 
 export function isModelMatchModelInfo(model: IChartModel, info: IModelInfo) {
-  if ('id' in info) {
+  if ('id' in info && info.id !== undefined) {
     return info.id === model.userId;
   }
   return info.specKey === model.specKey && info.specIndex === model.getSpecIndex();
