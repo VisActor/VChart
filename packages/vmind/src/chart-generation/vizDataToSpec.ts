@@ -16,6 +16,8 @@ import {
   radarAxis,
   sankeyData,
   sankeyField,
+  sankeyLabel,
+  sankeyLink,
   sequenceData,
   rankingBarAxis,
   rankingBarField,
@@ -214,7 +216,7 @@ const pipelineRose = [chartType, data, color, roseField, roseAxis, legend, anima
 
 const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, radarAxis, legend, animationCartisianLine];
 
-const pipelineSankey = [chartType, sankeyData, color, sankeyField, legend];
+const pipelineSankey = [chartType, sankeyData, color, sankeyField, sankeyLink, sankeyLabel, legend];
 
 export const pipelineMap: { [chartType: string]: any } = {
   'BAR CHART': pipelineBar,

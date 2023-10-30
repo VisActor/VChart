@@ -465,6 +465,10 @@ export const sankeyField = (spec: any, context: Context) => {
   spec.categoryField = 'name';
   spec.nodeKey = (datum: any) => datum.name;
 
+  return spec;
+};
+
+export const sankeyLabel = (spec: any, context: Context) => {
   spec.label = {
     visible: true,
     style: {
@@ -472,7 +476,10 @@ export const sankeyField = (spec: any, context: Context) => {
       fill: '#000000'
     }
   };
+  return spec;
+};
 
+export const sankeyLink = (spec: any, context: Context) => {
   spec.link = {
     style: {
       fillOpacity: 0.1
@@ -486,7 +493,6 @@ export const sankeyField = (spec: any, context: Context) => {
       }
     }
   };
-
   return spec;
 };
 
