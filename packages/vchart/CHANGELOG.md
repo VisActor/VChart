@@ -1,6 +1,15 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 27 Oct 2023 06:56:42 GMT and should not be manually modified.
+This log was last generated on Mon, 30 Oct 2023 06:09:01 GMT and should not be manually modified.
+
+## 1.5.4
+Mon, 30 Oct 2023 06:09:01 GMT
+
+### Updates
+
+- feat: add bar background mark for bar-like series, related #1154
+- fix: unexpected funnel transform ratio label, see #1348
+- fix: tooltip value label clipped on lark mini app, related #1346
 
 ## 1.5.3
 Fri, 27 Oct 2023 06:56:41 GMT

@@ -2,6 +2,24 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.5.4",
+      "tag": "@visactor/vchart_v1.5.4",
+      "date": "Mon, 30 Oct 2023 06:09:01 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add bar background mark for bar-like series, related #1154"
+          },
+          {
+            "comment": "fix: unexpected funnel transform ratio label, see #1348"
+          },
+          {
+            "comment": "fix: tooltip value label clipped on lark mini app, related #1346"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.5.3",
       "tag": "@visactor/vchart_v1.5.3",
       "date": "Fri, 27 Oct 2023 06:56:41 GMT",
