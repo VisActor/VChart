@@ -18,7 +18,7 @@ import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect } from '../typings';
 import type { CompilableData } from '../compile/data/compilable-data';
 import { PREFIX } from '../constant';
-import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
+import type { IGroupMark } from '@visactor/vgrammar-core';
 import { isArray, isEqual } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import type { SeriesTypeEnum } from '../series/interface';
@@ -58,8 +58,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   getOption() {
     return this._option;
   }
-
-  protected _sceneNodeMap: Map<string, IElement>;
 
   protected _marks: MarkSet = new MarkSet();
   getMarks(): IMark[] {
@@ -102,7 +100,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this.effect = {};
     this.event = new Event(option.eventDispatcher, option.mode);
     option.map?.set(this.id, this);
-    this._sceneNodeMap = new Map();
   }
   coordinate?: CoordinateType;
 
@@ -165,7 +162,7 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this._spec = undefined;
     this.getMarks().forEach(m => m.release());
     this._data?.release();
-    this._data = this._specIndex = this._sceneNodeMap = null;
+    this._data = this._specIndex = null;
     this._marks.clear();
     super.release();
   }
@@ -353,18 +350,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this.getMarks().forEach(m => {
       m.compile({ group });
     });
-  }
-
-  bindSceneNode(node: IElement) {
-    this._sceneNodeMap.set(node.mark.id(), node as IElement);
-  }
-
-  getSceneNodes() {
-    return Array.from(this._sceneNodeMap.values());
-  }
-
-  getSceneNodeMarks() {
-    return this.getSceneNodes().map(node => node.mark as IVGrammarMark);
   }
 
   protected _createMark<T extends IMark>(markInfo: IModelMarkInfo, option: Partial<IMarkOption> = {}): T {
