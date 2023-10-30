@@ -107,6 +107,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     };
 
     const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
+    const isPointVisible = this._spec.point?.visible !== false && this._spec.point?.style?.visible !== false;
+
     const seriesMark = this._spec.seriesMark ?? 'area';
     // area
     this._areaMark = this._createMark(AreaSeries.mark.area, {
@@ -115,7 +117,9 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       progressive,
       isSeriesMark: isAreaVisible && seriesMark !== 'point'
     }) as IAreaMark;
-
+    if (!isPointVisible && this._areaMark) {
+      this._areaMark.setLabelSpec(mergeSpec({ animation: this._spec.animation }, this._spec.label));
+    }
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
 

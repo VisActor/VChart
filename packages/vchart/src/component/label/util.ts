@@ -3,7 +3,7 @@ import { Direction, type Datum } from '../../typings';
 import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
-import { isString } from '@visactor/vutils';
+import { isBoolean, isString } from '@visactor/vutils';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 
@@ -12,7 +12,7 @@ export const labelRuleMap = {
   symbol: symbolLabel,
   arc: pieLabel,
   point: pointLabel,
-
+  lineData: lineDataLabel,
   stackLabel: stackLabel
 };
 
@@ -66,6 +66,14 @@ export function symbolLabel(labelInfo: ILabelInfo) {
   }
 
   return { position, overlap };
+}
+
+export function lineDataLabel(labelInfo: ILabelInfo) {
+  const result = symbolLabel(labelInfo);
+  if (!isBoolean(result.overlap)) {
+    result.overlap.avoidBaseMark = false;
+  }
+  return result;
 }
 
 function symbolLabelOverlapStrategy() {
