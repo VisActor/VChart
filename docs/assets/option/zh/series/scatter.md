@@ -17,9 +17,21 @@
 
 标签配置。
 
-##${prefix} position(string) = 'outside'
+##${prefix} position(string|Function) = 'outside'
 
-标签位置，可选值为：
+标签位置。
+
+自 `1.6.0` 版本后，柱系列中，`position` 配置可以为函数形式，例如：
+
+```ts
+label: {
+  position: (datum: any) => {
+    return datum.year === '2000' ? 'top' : 'bottom';
+  };
+}
+```
+
+可选字符串值为：
 
 - `'top'`
 - `'bottom'`
@@ -29,6 +41,7 @@
 - `'top-left'`
 - `'bottom-right'`
 - `'bottom-left'`
+- `'center'`
 
 {{ use: component-label(
   prefix = '#' + ${prefix},

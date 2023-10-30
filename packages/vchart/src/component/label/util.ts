@@ -3,9 +3,10 @@ import { Direction, type Datum } from '../../typings';
 import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
-import { isBoolean, isString } from '@visactor/vutils';
+import { isBoolean, isFunction, isString } from '@visactor/vutils';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
+import type { ILabelSpec } from './interface';
 
 export const labelRuleMap = {
   rect: barLabel,
@@ -44,6 +45,15 @@ export function textAttribute(
   return textAttribute;
 }
 
+function uniformLabelPosition(position?: ILabelSpec['position']) {
+  if (isFunction(position)) {
+    return (datum: Datum) => {
+      return position(datum.data);
+    };
+  }
+  return position;
+}
+
 /**
  * symbol 图元标签规则。
  */
@@ -52,7 +62,7 @@ export function symbolLabel(labelInfo: ILabelInfo) {
 
   // encode position config
   const defaultPosition = (series as ICartesianSeries).direction === 'horizontal' ? 'right' : 'top';
-  const position = labelSpec.position ?? defaultPosition;
+  const position = uniformLabelPosition(labelSpec.position) ?? defaultPosition;
 
   // encode overlap config
   let overlap;
@@ -94,31 +104,31 @@ export function barLabel(labelInfo: ILabelInfo) {
   const { series, labelSpec = {} } = labelInfo;
 
   // encode position config
-  const labelPosition = labelSpec.position ?? 'outside';
+  const originPosition = uniformLabelPosition(labelSpec.position) ?? 'outside';
   const direction = (series as ICartesianSeries).direction ?? 'vertical';
   const isInverse =
     (series as ICartesianSeries).direction === 'horizontal'
       ? (series as ICartesianSeries).getXAxisHelper()?.isInverse()
       : (series as ICartesianSeries).getYAxisHelper()?.isInverse();
 
-  let position = labelPosition as BaseLabelAttrs['position'];
+  let position = originPosition as BaseLabelAttrs['position'];
 
-  if (position !== 'inside') {
+  if (isString(originPosition) && position !== 'inside') {
     position = (data: Datum) => {
       const { data: datum } = data;
       const dataField = series.getMeasureField()[0];
-      if (labelPosition === 'outside') {
+      if (originPosition === 'outside') {
         const positionMap = { vertical: ['top', 'bottom'], horizontal: ['right', 'left'] };
         const index = (datum?.[dataField] >= 0 && isInverse) || (datum?.[dataField] < 0 && !isInverse) ? 1 : 0;
         return positionMap[direction][index];
       }
-      if (labelPosition === 'inside-bottom') {
+      if (originPosition === 'inside-bottom') {
         return (series as ICartesianSeries).direction === 'horizontal' ? 'inside-left' : 'inside-bottom';
       }
-      if (labelPosition === 'inside-top') {
+      if (originPosition === 'inside-top') {
         return (series as ICartesianSeries).direction === 'horizontal' ? 'inside-right' : 'inside-top';
       }
-      return labelPosition;
+      return originPosition;
     };
   }
   // encode overlap config
@@ -133,7 +143,7 @@ export function barLabel(labelInfo: ILabelInfo) {
 
   // encode smartInvert
   let smartInvert = false;
-  if (isString(labelPosition) && labelPosition.includes('inside')) {
+  if (isString(originPosition) && originPosition.includes('inside')) {
     smartInvert = true;
   }
 
@@ -194,7 +204,7 @@ export function pointLabel(labelInfo: ILabelInfo) {
 export function pieLabel(labelInfo: ILabelInfo) {
   const { labelSpec } = labelInfo;
   // encode position config
-  const labelPosition = labelSpec.position ?? 'outside';
+  const labelPosition = uniformLabelPosition(labelSpec.position) ?? 'outside';
   const position = labelPosition as BaseLabelAttrs['position'];
 
   // encode smartInvert
