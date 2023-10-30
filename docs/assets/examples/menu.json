@@ -370,6 +370,13 @@
             "zh": "带条形背景的条形图",
             "en": "Bar Chart with Background"
           }
+        },
+        {
+          "path": "bar-functional-label-position",
+          "title": {
+            "zh": "水平条形图标签位置自定义",
+            "en": "Bar Chart with functional label position"
+          }
         }
       ]
     },
