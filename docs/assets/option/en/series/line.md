@@ -68,9 +68,21 @@ Point graphic style configuration.
 
 Label configuration.
 
-##${prefix} position(string)
+##${prefix} position(string|Function)
 
-Label position. Available options are:
+Label position.
+
+Since `1.6.0` version, in bar series, `position` can be a function, for example:
+
+```ts
+label: {
+  position: (datum: any) => {
+    return datum.year === '2000' ? 'top' : 'bottom';
+  };
+}
+```
+
+Available string options are:
 
 - `top`
 - `bottom`
@@ -98,3 +110,7 @@ Connection method for non-compliant data points. Connection methods for null, un
 - 'link' means to ignore that point and keep connecting continuously
 - 'zero' means the default value of that point is 0
 - 'ignore' means not to process
+
+```
+
+```

@@ -6,6 +6,7 @@ import type { ScatterAppearPreset, ScatterMarks } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import type { Functional } from '@visactor/vrender-components';
 
 export interface IScatterSeriesSpec
   extends ICartesianSeriesSpec,
@@ -39,18 +40,13 @@ export interface IScatterSeriesSpec
   shape?: ShapeType | ShapeType[] | FunctionType<ShapeType> | IVisualSpecBase<unknown, ShapeType>;
 
   /** 标签配置 */
-  [SeriesMarkNameEnum.label]?: ILabelSpec & {
-    /** 标签位置 */
-    position?:
-      | 'top'
-      | 'bottom'
-      | 'left'
-      | 'right'
-      | 'top-right'
-      | 'top-left'
-      | 'bottom-right'
-      | 'bottom-left'
-      | 'center';
+  [SeriesMarkNameEnum.label]?: Omit<ILabelSpec, 'position'> & {
+    /** 标签位置
+     * @since 1.6.0，支持以函数形式配置
+     */
+    position?: Functional<
+      'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center'
+    >;
   };
 }
 
