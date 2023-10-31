@@ -12,16 +12,14 @@
 
 ## 支持环境
 
-目前组件支持的环境有：**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web')。
+目前组件支持的环境有：**微信小程序**('weapp')，**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web')。
 
 以上环境通过 `type` 属性进行声明，`type` 属性值及对应环境如下：
 
+- `weapp` 微信小程序。
 - `tt` 字节小程序。
-
 - `lark` 飞书小程序。
-
 - `h5` 浏览器环境, 与`web`等价。
-
 - `web` 浏览器环境, 与`h5`等价。
 
 ### 跨端支持
@@ -42,17 +40,19 @@
 
 ### 版本要求
 
+> taro 因为小版本有一些不兼容的 break change，所以尽量使用 3.3 版本
+
+**微信小程序端**
+
+需要确保 **Taro 版本 >= 3.3.17**
+
 **字节小程序端**
 
 需要确保 **Taro 版本 >= 3.3.17**
 
-> taro 因为小版本有一些不兼容的 break change，所以尽量使用 3.3 版本
-
 **飞书小程序端**
 
 需要确保 **Taro 版本 >= 3.2.0**, **飞书版本 >= 3.45.0**
-
-> taro 因为小版本有一些不兼容的 break change，所以尽量使用 3.3 版本
 
 ## 安装
 
@@ -86,10 +86,10 @@ npm install @visactor/taro-vchart
 | ------------- | -------- | ------------------------------------------------------------------------------------------------------- |
 | type          | string   | 配置的环境，目前组件支持的环境有：**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web') |
 | canvasId      | String   | 图表 id, 必确唯一                                                                                       |
-| spec          | Object   | 图表配置项, 请参考[VChart 配置项](../../../option)                                                                 |
+| spec          | Object   | 图表配置项, 请参考[VChart 配置项](../../../option)                                                      |
 | style         | Object   | 图表容器样式                                                                                            |
 | events        | Object[] | 事件绑定配置                                                                                            |
-| options       | Object   | 初始化 VChart 实例传入的额外配置项，同 [VChart 实例化配置项](../../../api/API/vchart#options)                                      |
+| options       | Object   | 初始化 VChart 实例传入的额外配置项，同 [VChart 实例化配置项](../../../api/API/vchart#options)           |
 | onChartInit   | Function | 图表初始化完后触发的回调                                                                                |
 | onChartReady  | Function | 图表渲染完毕后触发的回调                                                                                |
 | onChartUpdate | Function | 图表更新完毕后触发的回调                                                                                |
