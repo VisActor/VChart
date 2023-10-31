@@ -132,9 +132,10 @@ const spec = {
     }
   ],
   title: {
+    id: 'title',
     visible: true,
     textStyle: {
-      text: 'Title'
+      text: '标题'
     }
   }
 };

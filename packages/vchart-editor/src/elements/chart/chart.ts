@@ -234,6 +234,7 @@ export class EditorChart extends BaseElement {
     //   viewBox: this.layout.getLayoutData().viewBox,
     //   data: []
     // });
+    this._specProcess.clearMarker();
     this.specProcess.updateTemp(attr.chartType);
   };
   private _onChartDataChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {

@@ -47,7 +47,14 @@ const spec = {
       id: 'region-0',
       style: {}
     }
-  ]
+  ],
+  title: {
+    id: 'title',
+    visible: true,
+    textStyle: {
+      text: '标题'
+    }
+  }
 };
 
 export class PieTemp extends BaseTemp {

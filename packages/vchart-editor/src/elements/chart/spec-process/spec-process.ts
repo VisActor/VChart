@@ -251,4 +251,8 @@ export class SpecProcess implements ISpecProcess {
     // save
     // this._editorSpec.markLine =  {}
   }
+
+  clearMarker() {
+    delete this._editorSpec.marker;
+  }
 }

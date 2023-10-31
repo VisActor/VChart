@@ -35,5 +35,7 @@ export interface ISpecProcess {
 
   getVChartSpec: () => ISpec;
 
+  clearMarker: () => void;
+
   clear: () => void;
 }

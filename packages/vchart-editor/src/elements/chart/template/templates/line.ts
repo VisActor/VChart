@@ -123,7 +123,7 @@ const spec = {
     textStyle: {
       character: [
         {
-          text: 'Line Editor Test',
+          text: '标题',
           fontSize: 30,
           textAlign: 'center',
           textDecoration: 'underline',
