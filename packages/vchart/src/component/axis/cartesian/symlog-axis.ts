@@ -8,7 +8,7 @@ import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
 
 export interface CartesianSymlogAxis<T extends ICartesianSymlogAxisSpec = ICartesianSymlogAxisSpec>
-  extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
+  extends Pick<LinearAxisMixin, 'valueToPosition'>,
     CartesianLinearAxis<T> {}
 
 export class CartesianSymlogAxis<
