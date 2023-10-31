@@ -1,4 +1,4 @@
-import { ITooltipTheme } from '@visactor/vchart-types/component/tooltip';
+import { ITooltipTheme } from '@visactor/vchart-types';
 
 export const tooltip: ITooltipTheme = {
   panel: {

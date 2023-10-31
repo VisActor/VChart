@@ -1,4 +1,4 @@
-import { ICrosshairTheme } from '@visactor/vchart-types/component/crosshair';
+import { ICrosshairTheme } from '@visactor/vchart-types';
 
 export const crosshair: ICrosshairTheme = {
   bandField: {
