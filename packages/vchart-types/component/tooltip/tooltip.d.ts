@@ -16,7 +16,7 @@ import {
   type TotalMouseEventData
 } from './interface';
 import { MarkTooltipProcessor, DimensionTooltipProcessor } from './processor';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
   content?: IToolTipLineActual[];
@@ -37,7 +37,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
   protected _isTooltipShown: boolean;
   isTooltipShown(): boolean;
   changeRegions(regions: IRegion[]): void;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
   protected _registerEvent(): void;
   protected _releaseEvent(): void;
   onLayout(ctx: IModelLayoutOption): void;
@@ -72,3 +72,4 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
   private _isPointerOnTooltip;
   getVisible(): boolean;
 }
+export declare const registerTooltip: () => void;

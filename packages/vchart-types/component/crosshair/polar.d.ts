@@ -5,7 +5,7 @@ import type { IPolarAxis } from '../axis/polar/interface';
 import type { IPoint, StringOrNumber } from '../../typings';
 import type { IHair } from './base';
 import { BaseCrossHair } from './base';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 type IBound = {
   x1: number;
   y1: number;
@@ -102,6 +102,7 @@ export declare class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrossh
   private _layoutHorizontal;
   protected _parseFieldInfo(): void;
   private _updateCrosshairLabel;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
 }
+export declare const registerPolarCrossHair: () => void;
 export {};

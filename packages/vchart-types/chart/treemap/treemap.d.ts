@@ -8,3 +8,4 @@ export declare class TreemapChart extends BaseChart {
   protected getDefaultSeriesSpec(spec: ITreemapChartSpec): any;
   transformSpec(spec: any): void;
 }
+export declare const registerTreemapChart: () => void;

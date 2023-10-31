@@ -12,6 +12,7 @@ interface IOffset {
   offsetBottom: number;
 }
 export declare class Layout3d extends Layout implements IBaseLayout {
+  static type: string;
   layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void;
   protected layoutZAxisItems(zItems: ILayoutItem[], zRect: IRect): void;
   protected layoutRegionItems(regionItems: IRegion[], regionRelativeItems: ILayoutItem[], extraOffset?: IOffset): void;
@@ -22,5 +23,12 @@ export declare class Layout3d extends Layout implements IBaseLayout {
     width: number;
     height: number;
   };
+  protected _checkAutoIndent(items: ILayoutItem[]): {
+    top: number;
+    left: number;
+    bottom: number;
+    right: number;
+  };
 }
+export declare const registerLayout3d: () => void;
 export {};

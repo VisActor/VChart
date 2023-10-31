@@ -7,3 +7,4 @@ export declare class RadarChart extends RoseLikeChart {
   protected _getDefaultSeriesSpec(spec: any): any;
   transformSpec(spec: any): void;
 }
+export declare const registerRadarChart: () => void;

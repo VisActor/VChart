@@ -107,3 +107,4 @@ export * from './polar';
 export * from './layout';
 export * from './event';
 export * from './waterfall';
+export * from './correlation';

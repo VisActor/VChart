@@ -10,5 +10,4 @@ export declare abstract class RoseLikeSeries<T extends IRoseLikeSeriesSpec> exte
   getDimensionField(): string[];
   getMeasureField(): string[];
   getDefaultShapeType(): string;
-  setValueFieldToStackOffsetSilhouette(): void;
 }

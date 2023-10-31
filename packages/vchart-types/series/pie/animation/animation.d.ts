@@ -36,3 +36,5 @@ export declare function piePresetAnimation(
   | {
       type: string;
     };
+export declare const registerPieAnimation: () => void;
+export declare const registerPie3dAnimation: () => void;

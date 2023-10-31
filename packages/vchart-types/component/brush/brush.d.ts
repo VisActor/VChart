@@ -5,7 +5,7 @@ import { ComponentTypeEnum } from '../interface';
 import { Brush as BrushComponent } from '@visactor/vrender-components';
 import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { ISeries } from '../../series/interface';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec } from './interface';
@@ -38,9 +38,9 @@ export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     [elementKey: string]: IElement;
   };
   private _needInitOutState;
-  private _isFirstState;
   private _cacheInteractiveRangeAttrs;
   private _needEnablePickable;
+  init(): void;
   static createComponent(spec: any, options: IComponentOption): Brush[];
   created(): void;
   protected _extendDataInBrush(elementsMap: {
@@ -63,7 +63,7 @@ export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   protected initEvent(): void;
   onRender(ctx: IModelRenderOption): void;
   changeRegions(regions: IRegion[]): void;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
   _compareSpec(): {
     change: boolean;
     reMake: boolean;
@@ -74,3 +74,4 @@ export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   onLayoutEnd(ctx: any): void;
   clear(): void;
 }
+export declare const registerBrush: () => void;

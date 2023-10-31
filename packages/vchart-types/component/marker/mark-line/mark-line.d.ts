@@ -17,3 +17,4 @@ export declare class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme>
   protected _markerLayout(): void;
   protected _initDataView(): void;
 }
+export declare const registerMarkLine: () => void;

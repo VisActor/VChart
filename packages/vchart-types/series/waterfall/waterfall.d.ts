@@ -14,8 +14,8 @@ export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfall
   static readonly type: string;
   type: SeriesTypeEnum;
   static readonly mark: SeriesMarkMap;
-  protected _theme: Maybe<IWaterfallSeriesTheme>;
   protected _stack: boolean;
+  protected _theme: Maybe<IWaterfallSeriesTheme>;
   protected _totalData?: SeriesData;
   getTotalData(): any;
   protected _spec: T;
@@ -37,3 +37,4 @@ export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfall
   totalPositionY(datum: Datum, field: string, pos?: number): number;
   initMarkStyle(): void;
 }
+export declare const registerWaterfallSeries: () => void;

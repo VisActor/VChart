@@ -6,6 +6,7 @@ import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { ICellMark } from '../../mark/cell';
+import type { IMark } from '../../mark/interface';
 export declare const DefaultBandWidth = 6;
 export declare class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string;
@@ -33,4 +34,6 @@ export declare class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeries
   getDefaultShapeType(): string;
   getDimensionField(): string[];
   getMeasureField(): string[];
+  getActiveMarks(): IMark[];
 }
+export declare const registerHeatmapSeries: () => void;

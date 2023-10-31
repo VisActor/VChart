@@ -31,8 +31,10 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
   protected _fieldY2: string;
   get fieldY2(): string;
   setFieldY2(f: string): void;
+  protected _specXField: string[];
+  protected _specYField: string[];
   protected _direction: DirectionType;
-  get direction(): 'vertical' | 'horizontal';
+  get direction(): 'horizontal' | 'vertical';
   protected _scaleX: IBaseScale;
   get scaleX(): IBaseScale;
   setScaleX(s: IBaseScale): void;
@@ -94,4 +96,5 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
   getMeasureField(): string[];
   viewDataUpdate(d: DataView): void;
   _sortDataInAxisDomain(): void;
+  protected _getInvalidDefined: (datum: Datum) => boolean;
 }

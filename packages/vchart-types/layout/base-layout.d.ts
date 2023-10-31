@@ -6,6 +6,7 @@ import type { IBaseLayout } from './interface';
 import type { IPadding, IRect } from '../typings/space';
 import type { IRegion } from '../region/interface';
 export declare class Layout implements IBaseLayout {
+  static type: string;
   leftCurrent: number;
   topCurrent: number;
   rightCurrent: number;
@@ -24,5 +25,14 @@ export declare class Layout implements IBaseLayout {
     width: number;
     height: number;
   };
-  protected _checkAutoIndent(items: ILayoutItem[]): IPadding;
+  protected _checkAutoIndent(
+    items: ILayoutItem[],
+    layoutTemp: {
+      top: number;
+      left: number;
+      bottom: number;
+      right: number;
+    }
+  ): IPadding;
+  private _getOutInLayout;
 }

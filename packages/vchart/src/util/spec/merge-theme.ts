@@ -21,10 +21,11 @@ function transformThemeToMerge(theme?: Maybe<ITheme>): Maybe<ITheme> {
   const colorScheme = transformColorSchemeToMerge(theme.colorScheme);
 
   // 将全局 mark 主题 merge 进系列主题
-  let { series } = theme;
+  const { series } = theme;
   const { mark: markByType, markByName } = theme;
+  let newSeriesTheme;
   if (markByType || markByName) {
-    series = Object.keys(seriesMarkInfoMap).reduce((newSeriesTheme, key) => {
+    newSeriesTheme = Object.keys(seriesMarkInfoMap).reduce((newSeriesTheme, key) => {
       const value = series?.[key] ?? {};
       newSeriesTheme[key] = transformSeriesThemeToMerge(value, key, markByType, markByName);
       return newSeriesTheme;
@@ -34,7 +35,10 @@ function transformThemeToMerge(theme?: Maybe<ITheme>): Maybe<ITheme> {
   return {
     ...theme,
     colorScheme,
-    series
+    series: {
+      ...theme.series,
+      ...newSeriesTheme
+    }
   };
 }
 
@@ -57,6 +61,9 @@ export function transformSeriesThemeToMerge(
   markByType: IGlobalMarkThemeByType,
   markByName: IGlobalMarkThemeByName
 ): any {
+  if (!seriesMarkInfoMap[seriesType]) {
+    return seriesTheme;
+  }
   const newTheme: any = {};
   Object.values<ISeriesMarkInfo>(seriesMarkInfoMap[seriesType]).forEach(({ type, name }) => {
     newTheme[name] = mergeSpec({}, markByType?.[array(type)[0]], markByName?.[name], seriesTheme?.[name]);

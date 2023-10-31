@@ -2,6 +2,7 @@ import type { SankeyOptions, SankeyData } from '@visactor/vgrammar-sankey';
 export interface ISankeyOpt extends SankeyOptions {
   targetField: string;
   sourceField: string;
+  valueField: string;
   view: () => {
     x0: number;
     x1: number;

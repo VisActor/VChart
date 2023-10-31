@@ -6,10 +6,10 @@ import type {
   IPolarCrosshairSpec
 } from '.';
 export interface ICrosshairTheme extends ICommonCrosshairSpec {
-  bandField?: ICrosshairCategoryFieldSpec;
-  linearField?: ICrosshairValueFieldSpec;
-  xField?: ICartesianCrosshairSpec['xField'];
-  yField?: ICartesianCrosshairSpec['yField'];
-  categoryField?: IPolarCrosshairSpec['categoryField'];
-  valueField?: IPolarCrosshairSpec['valueField'];
+  bandField?: Partial<ICrosshairCategoryFieldSpec>;
+  linearField?: Partial<ICrosshairValueFieldSpec>;
+  xField?: Partial<ICartesianCrosshairSpec['xField']>;
+  yField?: Partial<ICartesianCrosshairSpec['yField']>;
+  categoryField?: Partial<IPolarCrosshairSpec['categoryField']>;
+  valueField?: Partial<IPolarCrosshairSpec['valueField']>;
 }

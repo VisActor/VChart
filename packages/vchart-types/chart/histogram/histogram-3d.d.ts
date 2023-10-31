@@ -5,3 +5,4 @@ export declare class Histogram3dChart extends BaseHistogramChart {
   readonly type: string;
   readonly seriesType: string;
 }
+export declare const registerHistogram3dChart: () => void;

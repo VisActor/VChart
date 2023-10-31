@@ -33,6 +33,7 @@ import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './int
 import { InstanceManager } from './instance-manager';
 export declare class VChart implements IVChart {
   readonly id: number;
+  static useRegisters(comps: (() => void)[]): void;
   static useChart(charts: IChartConstructor[]): void;
   static useSeries(series: ISeriesConstructor[]): void;
   static useComponent(components: IComponentConstructor[]): void;
@@ -72,7 +73,7 @@ export declare class VChart implements IVChart {
   private _curSize;
   private _observer;
   private _currentThemeName;
-  private _currentTheme;
+  private _currentChartLevelTheme;
   private _onError?;
   private _context;
   constructor(spec: ISpec, options: IInitOption);
@@ -83,6 +84,7 @@ export declare class VChart implements IVChart {
   private _bindResizeEvent;
   private _unBindResizeEvent;
   private _getCurSize;
+  private _doResize;
   private _onResize;
   private _initDataSet;
   updateCustomConfigAndRerender(
@@ -161,7 +163,7 @@ export declare class VChart implements IVChart {
     region?: IRegionQuerier
   ): void;
   private _updateCurrentTheme;
-  private _updateChartConfiguration;
+  private _shouldChartResize;
   private _getBackground;
   getCurrentTheme(): ITheme;
   getCurrentThemeName(): string;
@@ -181,6 +183,7 @@ export declare class VChart implements IVChart {
   setLegendSelectedDataByIndex(index: number, selectedData: StringOrNumber[]): void;
   getDataURL(): Promise<string>;
   exportImg(name?: string): Promise<void>;
+  exportCanvas(): HTMLCanvasElement | undefined;
   getImageBuffer(): any;
   setLayout(layout: LayoutCallBack): void;
   reLayout(): void;
@@ -206,3 +209,4 @@ export declare class VChart implements IVChart {
     isRelativeToCanvas?: boolean
   ): IPoint | null;
 }
+export declare const registerVChartCore: () => void;

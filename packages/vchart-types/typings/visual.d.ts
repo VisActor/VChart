@@ -171,6 +171,10 @@ export interface IBoxPlotMarkSpec extends ICommonSpec {
   q3?: (datum: Datum) => number;
   max?: (datum: Datum) => number;
 }
+export interface IRippleMarkSpec extends ICommonSpec {
+  ripple?: number;
+  size?: number;
+}
 export interface IOutlierMarkSpec {
   fill?: string;
   size?: number;
@@ -237,7 +241,7 @@ export type ImageOriginType = 'top' | 'bottom';
 export type GradientPropValue<T> = ValueType<T> | FunctionType<T>;
 export type GradientStop = {
   offset: GradientPropValue<number>;
-  color: GradientPropValue<string>;
+  color?: GradientPropValue<string>;
   opacity?: number;
 };
 export interface IGradientLinear {

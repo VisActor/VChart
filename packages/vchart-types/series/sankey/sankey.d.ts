@@ -6,6 +6,7 @@ import { SeriesData } from '../base/series-data';
 import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement } from '@visactor/vgrammar-core';
+import type { IMark } from '../../mark/interface';
 export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string;
   type: SeriesTypeEnum;
@@ -55,4 +56,6 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
   onLayoutEnd(ctx: any): void;
   getDefaultShapeType(): string;
   protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined;
+  getActiveMarks(): IMark[];
 }
+export declare const registerSankeySeries: () => void;

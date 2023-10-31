@@ -6,3 +6,4 @@ export declare class Pie3dChart extends BasePieChart {
   readonly seriesType: string;
   transformSpec(spec: any): void;
 }
+export declare const registerPie3dChart: () => void;

@@ -6,6 +6,7 @@ import { SeriesTypeEnum } from '../interface/type';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { ILabelMark } from '../../mark/label';
+import type { IMark } from '../../mark/interface';
 export declare class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string;
   type: SeriesTypeEnum;
@@ -36,10 +37,12 @@ export declare class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extend
   release(): void;
   handleZoom(e: ZoomEventParam): void;
   handlePan(e: PanEventParam): void;
-  protected _getDatumCenter(datum: any): [number, number];
-  protected _getDatumName(datum: any): string;
+  getDatumCenter(datum: any): [number, number];
+  getDatumName(datum: any): string;
   dataToPositionX(data: any): number;
   dataToPositionY(data: any): number;
   viewDataUpdate(d: DataView): void;
   protected _getDataIdKey(): string;
+  getActiveMarks(): IMark[];
 }
+export declare const registerMapSeries: () => void;

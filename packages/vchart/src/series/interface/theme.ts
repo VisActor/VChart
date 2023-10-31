@@ -44,19 +44,56 @@ import { treemapSeriesMark } from '../treemap/constant';
 import { sankeySeriesMark } from '../sankey/constant';
 import { gaugePointerSeriesMark, gaugeSeriesMark } from '../gauge/constant';
 import { sunburstSeriesMark } from '../sunburst/constant';
-import { rangeColumnSeriesMark } from '../range-column/constant';
+import { rangeColumn3dSeriesMark, rangeColumnSeriesMark } from '../range-column/constant';
 import { circlePackingSeriesMark } from '../circle-packing/constant';
 import { heatmapSeriesMark } from '../heatmap/constant';
 import { correlationSeriesMark } from '../correlation/constant';
 import { rangeAreaSeriesMark } from '../range-area/constant';
 import type { IRangeAreaSeriesTheme } from '../range-area/interface';
+import { baseSeriesMark } from '../base/constant';
 
 export interface ISeriesTheme {
   [SeriesTypeEnum.bar]?: IBarSeriesTheme;
+  [SeriesTypeForThemeEnum.bar_vertical]?: IBarSeriesTheme;
+  [SeriesTypeForThemeEnum.bar_horizontal]?: IBarSeriesTheme;
+
   [SeriesTypeEnum.bar3d]?: IBar3dSeriesTheme;
+  [SeriesTypeForThemeEnum.bar3d_vertical]?: IBar3dSeriesTheme;
+  [SeriesTypeForThemeEnum.bar3d_horizontal]?: IBar3dSeriesTheme;
+
   [SeriesTypeEnum.line]?: ILineSeriesTheme;
-  [SeriesTypeEnum.scatter]?: IScatterSeriesTheme;
+  [SeriesTypeForThemeEnum.line_vertical]?: ILineSeriesTheme;
+  [SeriesTypeForThemeEnum.line_horizontal]?: ILineSeriesTheme;
+
   [SeriesTypeEnum.area]?: IAreaSeriesTheme;
+  [SeriesTypeForThemeEnum.area_vertical]?: IAreaSeriesTheme;
+  [SeriesTypeForThemeEnum.area_horizontal]?: IAreaSeriesTheme;
+
+  [SeriesTypeEnum.rangeColumn]?: IRangeColumnSeriesTheme;
+  [SeriesTypeForThemeEnum.rangeColumn_vertical]?: IRangeColumnSeriesTheme;
+  [SeriesTypeForThemeEnum.rangeColumn_horizontal]?: IRangeColumnSeriesTheme;
+
+  [SeriesTypeEnum.rangeArea]?: IRangeAreaSeriesTheme;
+  [SeriesTypeForThemeEnum.rangeArea_vertical]?: IRangeAreaSeriesTheme;
+  [SeriesTypeForThemeEnum.rangeArea_horizontal]?: IRangeAreaSeriesTheme;
+
+  [SeriesTypeEnum.linearProgress]?: ILinearProgressSeriesTheme;
+  [SeriesTypeForThemeEnum.linearProgress_vertical]?: ILinearProgressSeriesTheme;
+  [SeriesTypeForThemeEnum.linearProgress_horizontal]?: ILinearProgressSeriesTheme;
+
+  [SeriesTypeEnum.boxPlot]?: IBoxPlotSeriesTheme;
+  [SeriesTypeForThemeEnum.boxPlot_vertical]?: IBoxPlotSeriesTheme;
+  [SeriesTypeForThemeEnum.boxPlot_horizontal]?: IBoxPlotSeriesTheme;
+
+  [SeriesTypeEnum.sankey]?: ISankeySeriesTheme;
+  [SeriesTypeForThemeEnum.sankey_vertical]?: ISankeySeriesTheme;
+  [SeriesTypeForThemeEnum.sankey_horizontal]?: ISankeySeriesTheme;
+
+  [SeriesTypeEnum.waterfall]?: IWaterfallSeriesTheme;
+  [SeriesTypeForThemeEnum.waterfall_vertical]?: IWaterfallSeriesTheme;
+  [SeriesTypeForThemeEnum.waterfall_horizontal]?: IWaterfallSeriesTheme;
+
+  [SeriesTypeEnum.scatter]?: IScatterSeriesTheme;
   [SeriesTypeEnum.radar]?: IRadarSeriesTheme;
   [SeriesTypeEnum.pie]?: IPieSeriesTheme;
   [SeriesTypeEnum.pie3d]?: IPie3dSeriesTheme;
@@ -69,22 +106,52 @@ export interface ISeriesTheme {
   [SeriesTypeEnum.wordCloud3d]?: IWordCloud3dSeriesTheme;
   [SeriesTypeEnum.funnel]?: IFunnelSeriesTheme;
   [SeriesTypeEnum.funnel3d]?: IFunnel3dSeriesTheme;
-  [SeriesTypeEnum.linearProgress]?: ILinearProgressSeriesTheme;
-  [SeriesTypeEnum.waterfall]?: IWaterfallSeriesTheme;
-  [SeriesTypeEnum.boxPlot]?: IBoxPlotSeriesTheme;
   [SeriesTypeEnum.treemap]?: ITreemapSeriesTheme;
-  [SeriesTypeEnum.sankey]?: ISankeySeriesTheme;
   [SeriesTypeEnum.gauge]?: IGaugeSeriesTheme;
   [SeriesTypeEnum.gaugePointer]?: IGaugePointerSeriesTheme;
   [SeriesTypeEnum.sunburst]?: ISunburstSeriesTheme;
-  [SeriesTypeEnum.rangeColumn]?: IRangeColumnSeriesTheme;
   [SeriesTypeEnum.circlePacking]?: ICirclePackingSeriesTheme;
   [SeriesTypeEnum.heatmap]?: IHeatmapSeriesTheme;
   [SeriesTypeEnum.correlation]?: ICorrelationSeriesTheme;
-  [SeriesTypeEnum.rangeArea]?: IRangeAreaSeriesTheme;
 }
 
-export const seriesMarkInfoMap: Record<keyof ISeriesTheme, SeriesMarkMap> = {
+/** 带有方向信息的系列类型，作为主题相关的补充类型 */
+export enum SeriesTypeForThemeEnum {
+  area_horizontal = 'area_horizontal',
+  area_vertical = 'area_vertical',
+
+  line_horizontal = 'line_horizontal',
+  line_vertical = 'line_vertical',
+
+  bar_horizontal = 'bar_horizontal',
+  bar_vertical = 'bar_vertical',
+
+  bar3d_horizontal = 'bar3d_horizontal',
+  bar3d_vertical = 'bar3d_vertical',
+
+  rangeColumn_horizontal = 'rangeColumn_horizontal',
+  rangeColumn_vertical = 'rangeColumn_vertical',
+
+  rangeColumn3d_horizontal = 'rangeColumn3d_horizontal',
+  rangeColumn3d_vertical = 'rangeColumn3d_vertical',
+
+  rangeArea_horizontal = 'rangeArea_horizontal',
+  rangeArea_vertical = 'rangeArea_vertical',
+
+  linearProgress_horizontal = 'linearProgress_horizontal',
+  linearProgress_vertical = 'linearProgress_vertical',
+
+  boxPlot_horizontal = 'boxPlot_horizontal',
+  boxPlot_vertical = 'boxPlot_vertical',
+
+  sankey_horizontal = 'sankey_horizontal',
+  sankey_vertical = 'sankey_vertical',
+
+  waterfall_horizontal = 'waterfall_horizontal',
+  waterfall_vertical = 'waterfall_vertical'
+}
+
+export const seriesMarkInfoMap: Record<SeriesTypeEnum, SeriesMarkMap> = {
   [SeriesTypeEnum.bar]: barSeriesMark,
   [SeriesTypeEnum.bar3d]: bar3dSeriesMark,
   [SeriesTypeEnum.line]: lineSeriesMark,
@@ -94,6 +161,7 @@ export const seriesMarkInfoMap: Record<keyof ISeriesTheme, SeriesMarkMap> = {
   [SeriesTypeEnum.pie]: pieSeriesMark,
   [SeriesTypeEnum.pie3d]: pie3dSeriesMark,
   [SeriesTypeEnum.rose]: roseSeriesMark,
+  [SeriesTypeEnum.geo]: baseSeriesMark,
   [SeriesTypeEnum.map]: mapSeriesMark,
   [SeriesTypeEnum.circularProgress]: circularProgressSeriesMark,
   [SeriesTypeEnum.link]: linkSeriesMark,
@@ -111,6 +179,7 @@ export const seriesMarkInfoMap: Record<keyof ISeriesTheme, SeriesMarkMap> = {
   [SeriesTypeEnum.gaugePointer]: gaugePointerSeriesMark,
   [SeriesTypeEnum.sunburst]: sunburstSeriesMark,
   [SeriesTypeEnum.rangeColumn]: rangeColumnSeriesMark,
+  [SeriesTypeEnum.rangeColumn3d]: rangeColumn3dSeriesMark,
   [SeriesTypeEnum.circlePacking]: circlePackingSeriesMark,
   [SeriesTypeEnum.heatmap]: heatmapSeriesMark,
   [SeriesTypeEnum.correlation]: correlationSeriesMark,

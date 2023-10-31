@@ -3,6 +3,7 @@ import type { Datum } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface';
 import { CartesianSeries } from '../cartesian/cartesian';
+import type { IMark } from '../../mark/interface';
 export declare class CirclePackingSeries<
   T extends ICirclePackingSeriesSpec = ICirclePackingSeriesSpec
 > extends CartesianSeries<T> {
@@ -41,4 +42,6 @@ export declare class CirclePackingSeries<
   initEvent(): void;
   onLayoutEnd(ctx: any): void;
   protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined;
+  getActiveMarks(): IMark[];
 }
+export declare const registerCirclePackingSeries: () => void;

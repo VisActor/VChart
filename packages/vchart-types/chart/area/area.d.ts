@@ -5,6 +5,8 @@ export declare class AreaChart extends CartesianChart {
   static readonly view: string;
   readonly type: string;
   readonly seriesType: string;
+  protected _canStack: boolean;
   protected _getDefaultSeriesSpec(spec: IAreaChartSpec): any;
   transformSpec(spec: any): void;
 }
+export declare const registerAreaChart: () => void;

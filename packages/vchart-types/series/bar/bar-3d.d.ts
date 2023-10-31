@@ -13,3 +13,4 @@ export declare class Bar3dSeries<T extends IBar3dSeriesSpec = IBar3dSeriesSpec> 
   protected _barMarkName: SeriesMarkNameEnum;
   protected _barMarkType: MarkTypeEnum;
 }
+export declare const registerBar3dSeries: () => void;

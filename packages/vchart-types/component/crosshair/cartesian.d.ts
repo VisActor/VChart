@@ -3,7 +3,7 @@ import { ComponentTypeEnum } from '../interface';
 import type { ICartesianCrosshairSpec } from './interface';
 import type { IHair } from './base';
 import { BaseCrossHair } from './base';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { IAxis } from '../axis/interface';
 import type { StringOrNumber } from '../../typings';
 export declare class CartesianCrossHair<
@@ -82,5 +82,6 @@ export declare class CartesianCrossHair<
   protected _parseFieldInfo(): void;
   private _updateCrosshair;
   private _updateCrosshairLabel;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
 }
+export declare const registerCartesianCrossHair: () => void;

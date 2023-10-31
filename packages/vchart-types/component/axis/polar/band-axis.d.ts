@@ -37,3 +37,4 @@ export declare class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxis
   protected initScales(): void;
   transformScaleDomain(): void;
 }
+export declare const registerPolarBandAxis: () => void;

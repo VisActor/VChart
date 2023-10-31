@@ -8,3 +8,4 @@ export declare const scatterPresetAnimation: (
   _params: IScatterAnimationParams,
   preset: ScatterAppearPreset
 ) => IAnimationTypeConfig;
+export declare const registerScatterAnimation: () => void;

@@ -1,6 +1,6 @@
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
-import type { IMarkProgressiveConfig } from '../../mark/interface';
-import type { Maybe } from '../../typings';
+import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
+import type { Datum, Maybe } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
@@ -30,6 +30,10 @@ export declare class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> 
   initMarkStyle(): void;
   initAreaMark(progressive: IMarkProgressiveConfig, isSeriesMark: boolean): void;
   initAreaMarkStyle(): void;
+  protected initTooltip(): void;
   initAnimation(): void;
   getDefaultShapeType(): string;
+  getActiveMarks(): IMark[];
+  getSeriesStyle(datum: Datum): (attribute: string) => any;
 }
+export declare const registerRadarSeries: () => void;

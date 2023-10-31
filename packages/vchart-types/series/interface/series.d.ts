@@ -20,6 +20,7 @@ import type { ILabelMark } from '../../mark/label';
 export interface ISeries extends IModel, ILayoutItem {
   readonly type: string;
   readonly name?: string;
+  tooltipHelper: ISeriesTooltipHelper;
   getSpec: () => any;
   readonly coordinate: CoordinateType;
   getRawData: () => DataView | undefined;
@@ -48,10 +49,12 @@ export interface ISeries extends IModel, ILayoutItem {
   getMarkInName: (name: string) => IMark | undefined;
   getMarkInId: (id: number) => IMark | undefined;
   getRootMark: () => IGroupMark;
-  tooltipHelper: ISeriesTooltipHelper;
+  getActiveMarks: () => IMark[];
   getStackData: () => ISeriesStackData;
   getStack: () => boolean;
   getStackValue: () => StringOrNumber | undefined;
+  getPercent: () => boolean;
+  getStackOffsetSilhouette: () => boolean;
   getStackValueField: () => string;
   setValueFieldToStack: () => void;
   setValueFieldToPercent: () => void;
@@ -153,6 +156,7 @@ export interface IGeoSeries extends ISeries {
   getCoordinateHelper: () => IGeoCoordinateHelper;
   setCoordinateHelper: (helper: IGeoCoordinateHelper) => void;
   valueToPosition: (value1: any, value2: any) => IPoint;
+  getDatumCenter: (datum: any) => [number, number];
 }
 export interface IArcSeries extends IPolarSeries {
   center: (() => IPoint) | IPoint;

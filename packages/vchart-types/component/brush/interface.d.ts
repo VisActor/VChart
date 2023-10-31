@@ -1,6 +1,7 @@
 import type { SymbolType } from '@visactor/vrender-core';
 import type { IPolygonMarkSpec } from '../../typings';
 import type { IComponent } from '../interface';
+import type { IDelayType } from '../../typings/event';
 export type IBrush = IComponent;
 interface IBrushDataBindSpec {
   regionIndex?: number | number[];
@@ -28,7 +29,6 @@ export interface IBrushSpec extends IBrushTheme, IBrushDataBindSpec {
 }
 export type IBrushType = 'x' | 'y' | 'rect' | 'polygon';
 export type IBrushMode = 'single' | 'multiple';
-export type IDelayType = 'debounce' | 'throttle';
 export type selectedItemStyle = {
   symbol?: SymbolType;
   symbolSize?: number;

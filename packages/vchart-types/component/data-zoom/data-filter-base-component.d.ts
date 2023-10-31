@@ -7,7 +7,13 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { ICartesianBandAxisSpec } from '../axis/cartesian';
 import type { IBoundsLike } from '@visactor/vutils';
 import { IFilterMode } from './constant';
-import type { IDataFilterComponent, IDataFilterComponentSpec } from './interface';
+import type {
+  IDataFilterComponent,
+  IDataFilterComponentSpec,
+  IRoamDragSpec,
+  IRoamScrollSpec,
+  IRoamZoomSpec
+} from './interface';
 import type { BaseEventParams } from '../../event/interface';
 import type { AbstractComponent } from '@visactor/vrender-components';
 export declare abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
@@ -37,20 +43,29 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
   protected _endValue: number | string;
   protected _start: number;
   protected _end: number;
-  protected _field: string;
+  protected _minSpan: number;
+  protected _maxSpan: number;
+  protected _field: string | undefined;
   protected _stateField: string;
   protected _valueField?: string;
   protected _width: number;
   protected _height: number;
   protected _filterMode: IFilterMode;
+  protected _activeRoam: boolean;
+  protected _zoomAttr: IRoamZoomSpec;
+  protected _dragAttr: IRoamDragSpec;
+  protected _scrollAttr: IRoamScrollSpec;
   setStartAndEnd(start: number, end: number): void;
+  enableInteraction(): void;
+  disableInteraction(): void;
+  zoomIn(location?: { x: number; y: number }): void;
+  zoomOut(location?: { x: number; y: number }): void;
   protected abstract _getComponentAttrs(): any;
   protected abstract _createOrUpdateComponent(): void;
-  protected abstract _initEvent(): void;
   protected abstract _computeWidth(): number;
   protected abstract _computeHeight(): number;
-  protected abstract _handleChange(start: number, end: number, updateComponent?: boolean): void;
   protected abstract _handleDataCollectionChange(): void;
+  protected _handleChange(start: number, end: number, updateComponent?: boolean): void;
   effect: IEffect;
   protected _visible: boolean;
   get visible(): boolean;
@@ -60,6 +75,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
   protected _setRegionsFromSpec(): void;
   onDataUpdate(): void;
   protected _computeDomainOfStateScale(isContinuous?: boolean): any;
+  protected _initEvent(): void;
   protected _initData(): void;
   setAttrFromSpec(): void;
   protected _statePointToData(state: number): any;
@@ -84,6 +100,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
   protected resize(ctx: IComponentOption): void;
   protected _parseDomainFromState(startValue: number | string, endValue: number | string): any;
   protected _handleStateChange: (startValue: number, endValue: number) => boolean;
+  protected _handleChartZoom: (params: { zoomDelta: number; zoomX?: number; zoomY?: number }) => void;
   protected _handleChartScroll: (
     params: {
       scrollX: number;
@@ -91,15 +108,8 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     },
     e: BaseEventParams['event']
   ) => void;
-  protected _handleChartZoom: (
-    params: {
-      zoomDelta: number;
-      zoomX: number;
-      zoomY: number;
-    },
-    e: BaseEventParams['event']
-  ) => void;
   protected _handleChartDrag: (delta: [number, number], e: BaseEventParams['event']) => void;
+  protected _handleChartMove: (value: number, rate: number) => void;
   protected _initCommonEvent(): void;
   updateLayoutAttribute(): void;
   _boundsInRect(rect: ILayoutRect): IBoundsLike;

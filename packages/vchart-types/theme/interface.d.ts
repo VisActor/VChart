@@ -16,6 +16,8 @@ import type { IGradientColor } from '@visactor/vrender-core';
 import type { IComponentTheme } from '../component/interface';
 export interface ITheme {
   name?: string;
+  description?: string;
+  type?: 'light' | 'dark';
   background?: string | IGradientColor | IColorKey;
   padding?: ILayoutPaddingSpec;
   fontFamily?: string;

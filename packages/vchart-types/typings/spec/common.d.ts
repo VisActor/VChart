@@ -12,7 +12,6 @@ import type {
   IDsvParserOptions
 } from '@visactor/vdataset';
 import type { IRegionSpec } from '../../region/interface';
-import type { IDiscreteLegendSpec } from '../../component/legend/discrete/interface';
 import type { IHoverSpec, ISelectSpec, ITriggerSpec } from '../../interaction/interface';
 import type { IRenderOption } from '../../compile/interface';
 import type { ITooltipSpec } from '../../component/tooltip/interface';
@@ -35,6 +34,7 @@ import type {
   IRectMarkSpec,
   IRuleMarkSpec,
   ISymbolMarkSpec,
+  IRippleMarkSpec,
   ITextMarkSpec,
   IVisualSpecScale
 } from '../visual';
@@ -52,6 +52,8 @@ import type { ITheme } from '../../theme';
 import type { ITitleSpec } from '../../component/title/interface';
 import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
+import type { ILegendSpec } from '../../component/legend';
+import type { IColorKey } from '../../theme/color-scheme/interface';
 export type IChartPadding = ILayoutOrientPadding | number;
 export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
   dom?: string | HTMLElement;
@@ -84,7 +86,7 @@ export interface IChartSpec {
   height?: number;
   autoFit?: boolean;
   padding?: ILayoutPaddingSpec;
-  color?: string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>;
+  color?: string[] | Omit<IVisualSpecScale<unknown, string | IColorKey>, 'id'>;
   series?: ISeriesSpec[];
   seriesStyle?: ISeriesStyle;
   animationThreshold?: number;
@@ -93,12 +95,12 @@ export interface IChartSpec {
   region?: IRegionSpec[];
   title?: ITitleSpec;
   layout?: ILayoutSpec;
-  legends?: IDiscreteLegendSpec | IDiscreteLegendSpec[];
+  legends?: ILegendSpec | ILegendSpec[];
   crosshair?: ICrosshairSpec | ICrosshairSpec[];
   tooltip?: ITooltipSpec;
   player?: IPlayer;
-  dataZoom?: IDataZoomSpec[];
-  scrollBar?: IScrollBarSpec[];
+  dataZoom?: IDataZoomSpec | IDataZoomSpec[];
+  scrollBar?: IScrollBarSpec | IScrollBarSpec[];
   brush?: IBrushSpec;
   scales?: IVisualSpecScale<unknown, unknown>[];
   customMark?: ICustomMarkSpec<EnableMarkType>[];
@@ -282,6 +284,7 @@ export type IBuildinMarkSpec = {
   [MarkTypeEnum.boxPlot]: IBoxPlotMarkSpec;
   [MarkTypeEnum.linkPath]: ILinkPathMarkSpec;
   [MarkTypeEnum.progressArc]: IProgressArcMarkSpec;
+  [MarkTypeEnum.ripple]: IRippleMarkSpec;
 };
 export type EnableMarkType = keyof IBuildinMarkSpec;
 export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {

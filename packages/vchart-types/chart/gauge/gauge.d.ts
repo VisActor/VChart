@@ -9,3 +9,4 @@ export declare class GaugeChart extends ProgressLikeChart {
   transformSpec(spec: any): void;
   protected _transformGaugeAxisSpec(spec: any): void;
 }
+export declare const registerGaugeChart: () => void;

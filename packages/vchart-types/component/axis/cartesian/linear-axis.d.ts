@@ -40,3 +40,4 @@ export declare class CartesianLinearAxis<
   ): number[];
   protected axisHelper(): IAxisHelper;
 }
+export declare const registerCartesianLinearAxis: () => void;

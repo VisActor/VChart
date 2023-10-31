@@ -18,6 +18,7 @@ export declare enum MarkTypeEnum {
   linkPath = 'linkPath',
   progressArc = 'progressArc',
   cell = 'cell',
+  ripple = 'ripple',
   component = 'component',
   label = 'label'
 }

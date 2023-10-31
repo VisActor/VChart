@@ -1,10 +1,8 @@
-import { ColorScheme } from '@visactor/vchart-types/theme/color-scheme/interface';
-
 export const vScreenColorScheme: Record<
   string,
   {
     name: string;
-    colors: ColorScheme;
+    colors: string[];
   }
 > = {
   volcanoBlue: {

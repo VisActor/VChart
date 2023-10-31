@@ -1,4 +1,3 @@
-import type { MarkAnimationSpec } from './interface';
 export declare const DEFAULT_ANIMATION_CONFIG: {
   appear: {
     duration: number;
@@ -22,4 +21,36 @@ export declare const DEFAULT_ANIMATION_CONFIG: {
     easing: string;
   };
 };
-export declare const DEFAULT_MARK_ANIMATION: Record<string, (params?: any, preset?: any) => MarkAnimationSpec>;
+export declare const ScaleInOutAnimation: {
+  appear: {
+    type: string;
+  };
+  enter: {
+    type: string;
+  };
+  exit: {
+    type: string;
+  };
+  disappear: {
+    type: string;
+  };
+};
+export declare const FadeInOutAnimation: {
+  appear: {
+    type: string;
+  };
+  enter: {
+    type: string;
+  };
+  exit: {
+    type: string;
+  };
+  disappear: {
+    type: string;
+  };
+};
+export declare const registerScaleInOutAnimation: () => void;
+export declare const registerFadeInOutAnimation: () => void;
+export declare const registerCartesianGroupClipAnimation: () => void;
+export declare const registerLineAnimation: () => void;
+export declare const registerVGrammarAnimation: () => void;

@@ -6,6 +6,8 @@ export declare class ProgressLikeChart extends PolarChart {
   protected _transformProgressAxisSpec(
     spec: any,
     angleAxisDefaultSpec: IPolarAxisSpec,
-    radiusAxisDefaultSpec: IPolarAxisSpec
+    radiusAxisDefaultSpec: IPolarAxisSpec,
+    angleAxisAppendSpec?: Partial<IPolarAxisSpec>,
+    radiusAxisAppendSpec?: Partial<IPolarAxisSpec>
   ): void;
 }

@@ -2,7 +2,7 @@ import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
-import type { IRectGraphicAttribute, ISymbolGraphicAttribute, IGroup } from '@visactor/vrender-core';
+import type { IRectGraphicAttribute, ISymbolGraphicAttribute, IGraphic } from '@visactor/vrender-core';
 import type { Datum } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 import type { IDataZoomSpec } from './interface';
@@ -38,7 +38,6 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
   protected _createOrUpdateComponent(): void;
   protected _handleChange(start: number, end: number, updateComponent?: boolean): void;
   protected _handleDataCollectionChange(): void;
-  protected _initEvent(): void;
   protected _getComponentAttrs(): {
     backgroundStyle: IRectGraphicAttribute;
     startHandlerStyle: ISymbolGraphicAttribute;
@@ -61,5 +60,6 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
       area: any;
     };
   };
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
 }
+export declare const registerDataZoom: () => void;

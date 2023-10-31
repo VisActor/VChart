@@ -23,14 +23,13 @@ export declare abstract class BaseComponent<T extends IComponentSpec = IComponen
   animate?: IAnimate;
   constructor(spec: T, options: IComponentOption);
   abstract changeRegions(regions: IRegion[]): void;
-  abstract getVRenderComponents(): IGroup[];
+  abstract getVRenderComponents(): IGraphic[];
   protected callPlugin(cb: (plugin: IComponentPlugin) => void): void;
   protected eventPos(markEventParams: BaseEventParams): {
     x: number;
     y: number;
   };
-  setCurrentTheme(theme: any, noRender?: boolean): Promise<void>;
-  protected _initTheme(theme?: any): void;
+  protected _getTheme(): any;
   protected _mergeThemeToSpec(): void;
   protected getContainer(): IGroup;
   _compareSpec(): {
@@ -45,4 +44,5 @@ export declare abstract class BaseComponent<T extends IComponentSpec = IComponen
   compile(): void;
   compileMarks(group?: string | IGroupMark): void;
   protected _delegateEvent: (component: IGraphic, event: any, type: string, item?: any, datum?: Datum) => void;
+  getGraphicBounds(): import('@visactor/vutils').IBoundsLike;
 }

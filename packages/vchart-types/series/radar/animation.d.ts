@@ -92,3 +92,4 @@ export declare const radarGroupClipAnimation: (
   params: IRadarAnimationParams,
   animationType: 'in' | 'out'
 ) => IAnimationTypeConfig;
+export declare const registerRadarAnimation: () => void;

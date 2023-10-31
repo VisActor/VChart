@@ -5,7 +5,7 @@ import type { IModelInitOption } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
 import type { ISeries } from '../../series/interface';
 import { type ILabel, type IMark } from '@visactor/vgrammar-core';
-import type { IComponentMark } from '../../mark/component';
+import { type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { IGroup } from '@visactor/vrender-core';
 import type { ILabelSpec } from './interface';
@@ -44,3 +44,4 @@ export declare class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelC
   protected _updateLabelComponentAttribute(component: ILabel, target: IMark | IMark[], labelInfos: ILabelInfo[]): void;
   compileMarks(): void;
 }
+export declare const registerLabel: () => void;

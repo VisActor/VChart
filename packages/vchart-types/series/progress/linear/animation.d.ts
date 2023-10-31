@@ -10,3 +10,4 @@ export declare function linearProgressPresetAnimation(
   params: ILinearProgressAnimationParams,
   preset: LinearProgressAppearPreset | boolean
 ): IAnimationTypeConfig;
+export declare const registerLinearProgressAnimation: () => void;

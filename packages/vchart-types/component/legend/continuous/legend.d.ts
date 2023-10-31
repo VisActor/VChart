@@ -14,7 +14,7 @@ export declare class ContinuousLegend<
   protected _theme: IColorLegendTheme;
   private _field;
   private _legendType;
-  static createComponent(spec: any, options: IComponentOption): ILegend[] | ContinuousLegend<any>;
+  static createComponent(spec: any, options: IComponentOption): ContinuousLegend<any> | ILegend[];
   constructor(spec: T, options: IComponentOption);
   setAttrFromSpec(): void;
   init(option: IModelInitOption): void;
@@ -26,3 +26,4 @@ export declare class ContinuousLegend<
   protected _getLegendConstructor(): any;
   protected _initEvent(): void;
 }
+export declare const registerContinuousLegend: () => void;

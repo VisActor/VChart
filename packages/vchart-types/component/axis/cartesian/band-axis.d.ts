@@ -46,3 +46,4 @@ export declare class CartesianBandAxis<
   transformScaleDomain(): void;
   updateFixedWholeLength(): void;
 }
+export declare const registerCartesianBandAxis: () => void;

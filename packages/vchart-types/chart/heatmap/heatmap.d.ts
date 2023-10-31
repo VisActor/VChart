@@ -6,3 +6,4 @@ export declare class HeatmapChart extends CartesianChart {
   readonly seriesType: string;
   protected _getDefaultSeriesSpec(spec: any): any;
 }
+export declare const registerHeatmapChart: () => void;

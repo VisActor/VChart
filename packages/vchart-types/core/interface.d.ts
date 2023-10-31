@@ -22,7 +22,8 @@ import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
 import type { IChart } from '../chart/interface';
-import type { Stage } from '@visactor/vrender-core';
+import type { IGradientColor, Stage } from '@visactor/vrender-core';
+import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 export type DataLinkSeries = {
   seriesId?: StringOrNumber;
   seriesIndex?: number;
@@ -103,6 +104,7 @@ export interface IVChart {
   setLegendSelectedDataByIndex: (index: number, selectedData: StringOrNumber[]) => void;
   getDataURL: () => Promise<any>;
   exportImg: (name?: string) => Promise<void>;
+  exportCanvas: () => HTMLCanvasElement | undefined;
   getImageBuffer: () => void;
   setLayout: (layout: LayoutCallBack) => void;
   reLayout: () => void;
@@ -130,4 +132,9 @@ export interface IVChart {
 }
 export interface IGlobalConfig {
   uniqueTooltip?: boolean;
+}
+export interface IChartLevelTheme {
+  background?: string | IGradientColor;
+  fontFamily?: string;
+  colorScheme?: IThemeColorScheme;
 }

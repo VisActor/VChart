@@ -15,6 +15,7 @@ export interface IBarSeriesSpec
   xField: string | string[];
   yField: string | string[];
   [SeriesMarkNameEnum.bar]?: IMarkSpec<IRectMarkSpec>;
+  [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec>;
   [SeriesMarkNameEnum.label]?: ILabelSpec & {
     position?:
       | 'outside'
@@ -36,6 +37,7 @@ export interface IBarSeriesSpec
 }
 export interface IBarSeriesTheme extends ICartesianSeriesTheme {
   [SeriesMarkNameEnum.bar]?: Partial<IMarkTheme<IRectMarkSpec>>;
+  [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec>;
   barWidth?: number;
   barMinWidth?: number;
   barMaxWidth?: number;

@@ -30,7 +30,8 @@ export declare enum SeriesTypeEnum {
   sunburst = 'sunburst',
   circlePacking = 'circlePacking',
   waterfall = 'waterfall',
-  heatmap = 'heatmap'
+  heatmap = 'heatmap',
+  correlation = 'correlation'
 }
 export declare enum SeriesMarkNameEnum {
   label = 'label',
@@ -80,6 +81,11 @@ export declare enum SeriesMarkNameEnum {
   leaderLine = 'leaderLine',
   stackLabel = 'stackLabel',
   word = 'word',
-  fillingWord = 'fillingWord'
+  fillingWord = 'fillingWord',
+  nodePoint = 'nodePoint',
+  ripplePoint = 'ripplePoint',
+  centerPoint = 'centerPoint',
+  centerLabel = 'centerLabel',
+  barBackground = 'barBackground'
 }
 export declare const seriesMarkNameSet: Set<string>;

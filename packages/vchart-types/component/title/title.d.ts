@@ -4,7 +4,7 @@ import type { IComponentOption } from '../interface';
 import type { ITitle, ITitleSpec, ITitleTheme } from './interface';
 import type { IRegion } from '../../region/interface';
 import type { ILayoutRect } from '../../model/interface';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { IPoint, IOrientType } from '../../typings';
 import type { LayoutItem } from '../../model/layout-item';
 export declare class Title extends BaseComponent<ITitleSpec> implements ITitle {
@@ -43,6 +43,7 @@ export declare class Title extends BaseComponent<ITitleSpec> implements ITitle {
   private _getTitleLayoutRect;
   private _getTitleAttrs;
   private _createOrUpdateTitleComponent;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
   clear(): void;
 }
+export declare const registerTitle: () => void;

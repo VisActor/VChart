@@ -14,3 +14,4 @@ export declare class RangeColumn3dSeries<
   protected _barName: string;
   static readonly mark: SeriesMarkMap;
 }
+export declare const registerRangeColumn3dSeries: () => void;

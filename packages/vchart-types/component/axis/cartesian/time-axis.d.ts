@@ -22,3 +22,4 @@ export declare class CartesianTimeAxis<
   protected getLabelItems(length: number): any[];
   transformScaleDomain(): void;
 }
+export declare const registerCartesianTimeAxis: () => void;

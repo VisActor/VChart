@@ -13,3 +13,4 @@ export declare const sankeyNodePresetAnimation: (
   preset: SankeyAppearPreset
 ) => IAnimationTypeConfig;
 export declare const sankeyLinkPresetAnimation: (preset: SankeyAppearPreset) => IAnimationTypeConfig;
+export declare const registerSankeyAnimation: () => void;

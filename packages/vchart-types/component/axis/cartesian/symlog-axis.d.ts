@@ -17,3 +17,4 @@ export declare class CartesianSymlogAxis<
   protected initScales(): void;
   transformScaleDomain(): void;
 }
+export declare const registerCartesianSymlogAxis: () => void;

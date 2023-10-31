@@ -33,6 +33,7 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
   initData(): void;
   initMark(): void;
   initMarkStyle(): void;
+  protected initTooltip(): void;
   initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void;
   initLabelMarkStyle(textMark: ITextMark): void;
   afterInitMark(): void;
@@ -68,9 +69,9 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
   getGroupFields(): string[];
   getStackGroupFields(): string[];
   getStackValueField(): string;
-  setValueFieldToStack(): void;
-  setValueFieldToPercent(): void;
   protected _noAnimationDataKey(datum: Datum, index: number): number;
+  getActiveMarks(): IMark[];
+  protected _mergeThemeToSpec(): void;
 }
 export declare class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec>
   extends BasePieSeries<T>
@@ -79,4 +80,5 @@ export declare class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec>
   static readonly type: string;
   type: SeriesTypeEnum;
 }
+export declare const registerPieSeries: () => void;
 export {};

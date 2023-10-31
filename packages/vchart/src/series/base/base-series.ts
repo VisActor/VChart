@@ -40,8 +40,7 @@ import type {
   ISeriesStackData,
   ISeriesTooltipHelper,
   SeriesMarkMap,
-  ISeriesMarkInfo,
-  SeriesTypeEnum
+  ISeriesMarkInfo
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import { mergeFields, getFieldAlias } from '../../util/data';
@@ -70,6 +69,7 @@ import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { getThemeFromOption } from '../../theme/util';
+import { getDirectionFromSeriesSpec } from '../util/spec';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly type: string = 'series';
@@ -1092,12 +1092,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getTheme() {
-    return preprocessSpecOrTheme(
-      'theme',
-      getThemeFromOption(`series.${this.type}`, this._option),
-      this.getColorScheme(),
-      this.type as SeriesTypeEnum
-    );
+    const direction = getDirectionFromSeriesSpec(this._spec);
+    const theme = getThemeFromOption(`series.${this.type}`, this._option);
+    const themeWithDirection = getThemeFromOption(`series.${this.type}_${direction}`, this._option);
+    return preprocessSpecOrTheme('theme', mergeSpec({}, theme, themeWithDirection), this.getColorScheme(), this._spec);
   }
 
   protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {

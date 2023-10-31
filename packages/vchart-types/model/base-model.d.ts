@@ -14,7 +14,6 @@ import type {
 import type { CoordinateType } from '../typings/coordinate';
 import type { IMark, IMarkOption, IMarkRaw, IMarkStyle } from '../mark/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect } from '../typings';
-import type { ITooltipHelper } from './tooltip-helper';
 import type { CompilableData } from '../compile/data/compilable-data';
 import { ModelStateManager } from './model-state-manager';
 import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
@@ -48,8 +47,6 @@ export declare abstract class BaseModel<T extends IModelSpec> extends LayoutItem
   };
   protected _theme?: any;
   protected _lastLayoutRect: ILayoutRect;
-  protected _tooltipHelper: ITooltipHelper | undefined;
-  get tooltipHelper(): ITooltipHelper;
   protected _isLayout: boolean;
   constructor(spec: T, option: IModelOption);
   coordinate?: CoordinateType;
@@ -83,14 +80,14 @@ export declare abstract class BaseModel<T extends IModelSpec> extends LayoutItem
   };
   reInit(theme?: any): void;
   protected _initTheme(theme?: any): void;
-  setTheme(theme?: any): void;
+  protected _getTheme(): any;
   protected _mergeMarkTheme(): void;
   protected _mergeThemeToSpec(): void;
   protected _getDefaultSpecFromChart(chartSpec: any): Partial<T>;
   protected _shouldMergeThemeToSpec(): boolean;
   protected _prepareSpecBeforeMergingTheme(obj?: any): any;
   protected _prepareSpecAfterMergingTheme(obj?: any): any;
-  setCurrentTheme(theme: any, noRender?: boolean): void;
+  setCurrentTheme(noRender?: boolean): Promise<void>;
   updateLayoutAttribute(): void;
   setAttrFromSpec(): void;
   protected _convertMarkStyle<T extends ICommonSpec = ICommonSpec>(
@@ -112,4 +109,6 @@ export declare abstract class BaseModel<T extends IModelSpec> extends LayoutItem
   getSceneNodeMarks(): IVGrammarMark[];
   protected _createMark<T extends IMark>(markInfo: IModelMarkInfo, option?: Partial<IMarkOption>): T;
   protected _getDataIdKey(): string | ((datum: Datum) => string) | undefined;
+  getColorScheme(): import('../theme').IThemeColorScheme;
+  protected _getChartLevelTheme(): import('../core/interface').IChartLevelTheme;
 }

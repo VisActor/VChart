@@ -1,3 +1,4 @@
+import type { IMark } from '../../mark/interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface';
@@ -52,4 +53,6 @@ export declare class TreemapSeries extends CartesianSeries<any> {
   protected enableMarkAnimation(): void;
   protected disableMarkAnimation(): void;
   getDefaultShapeType(): string;
+  getActiveMarks(): IMark[];
 }
+export declare const registerTreemapSeries: () => void;

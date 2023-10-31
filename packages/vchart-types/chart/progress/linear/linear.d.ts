@@ -5,7 +5,9 @@ export declare class LinearProgressChart extends CartesianChart {
   static readonly view: string;
   readonly type: string;
   readonly seriesType: string;
+  protected _canStack: boolean;
   protected needAxes(): boolean;
   protected _getDefaultSeriesSpec(spec: ILinearProgressChartSpec): ILinearProgressChartSpec;
   transformSpec(spec: ILinearProgressChartSpec): void;
 }
+export declare const registerLinearProgressChart: () => void;

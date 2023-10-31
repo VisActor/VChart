@@ -4,6 +4,7 @@ import type { IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import type { Datum } from '@visactor/vgrammar-core';
 import type { Maybe } from '../../typings';
+import type { IMark } from '../../mark/interface';
 export declare class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string;
   type: SeriesTypeEnum;
@@ -18,10 +19,15 @@ export declare class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> 
   initMark(): void;
   initMarkStyle(): void;
   private initSegmentMarkStyle;
+  protected initTooltip(): void;
   private initTrackMarkStyle;
   protected _getAngleValueStartWithoutMask(datum: Datum): number;
   protected _getAngleValueEndWithoutMask(datum: Datum): number;
+  protected _getAngleValueStartWithoutPadAngle(datum: Datum): number;
+  protected _getAngleValueEndWithoutPadAngle(datum: Datum): number;
   protected _preprocessLabelSpec(): import('../..').ILabelSpec;
   initAnimation(): void;
   getDefaultShapeType(): string;
+  getActiveMarks(): IMark[];
 }
+export declare const registerGaugeSeries: () => void;

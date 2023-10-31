@@ -22,6 +22,7 @@ import type { ISequenceChartSpec } from '../../chart/sequence';
 import type { ISunburstChartSpec } from '../../chart/sunburst';
 import type { ITreemapChartSpec } from '../../chart/treemap';
 import type { IWaterfallChartSpec } from '../../chart/waterfall';
+import type { ICorrelationChartSpec } from '../../chart/correlation';
 import type { IWordCloudChartSpec, IWordCloud3dChartSpec } from '../../chart/word-cloud';
 export interface ChartSpecMap {
   readonly common: ICommonChartSpec;
@@ -55,5 +56,6 @@ export interface ChartSpecMap {
   readonly sunburst: ISunburstChartSpec;
   readonly circlePacking: ICirclePackingChartSpec;
   readonly heatmap: IHeatmapChartSpec;
+  readonly correlation: ICorrelationChartSpec;
 }
 export type ISpec = ChartSpecMap[keyof ChartSpecMap];

@@ -5,6 +5,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IBoxPlotSeriesSpec, IBoxPlotSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
+import type { IMark } from '../../mark/interface';
 export declare const DEFAULT_FILL_COLOR = '#FFF';
 export declare const DEFAULT_STROKE_COLOR = '#000';
 export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> extends CartesianSeries<T> {
@@ -57,4 +58,6 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
   }[];
   onEvaluateEnd(ctx: IModelEvaluateOption): void;
   getDefaultShapeType(): string;
+  getActiveMarks(): IMark[];
 }
+export declare const registerBoxplotSeries: () => void;

@@ -6,3 +6,4 @@ export declare class HistogramChart extends BaseHistogramChart {
   readonly seriesType: string;
   transformSpec(spec: any): void;
 }
+export declare const registerHistogramChart: () => void;

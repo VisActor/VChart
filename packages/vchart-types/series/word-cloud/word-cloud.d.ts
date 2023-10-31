@@ -7,3 +7,4 @@ export declare class WordCloudSeries<
   static readonly type: string;
   type: SeriesTypeEnum;
 }
+export declare const registerWordCloudSeries: () => void;

@@ -13,7 +13,6 @@ import type {
 import type { Tooltip } from '../tooltip';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 import { TooltipResult } from '../interface';
-import type { ITooltipStyle } from './interface';
 import type { IGroup } from '@visactor/vrender-core';
 import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-components';
@@ -41,23 +40,23 @@ export declare abstract class BaseTooltipHandler implements ITooltipHandler {
   protected _id: string;
   get id(): string;
   protected _env:
+    | 'node'
     | 'desktop-browser'
     | 'mobile-browser'
-    | 'node'
     | 'worker'
     | 'miniApp'
     | 'wx'
     | 'desktop-miniApp'
     | 'lynx';
-  get env(): 'desktop-browser' | 'mobile-browser' | 'node' | 'worker' | 'miniApp' | 'wx' | 'desktop-miniApp' | 'lynx';
+  get env(): 'node' | 'desktop-browser' | 'mobile-browser' | 'worker' | 'miniApp' | 'wx' | 'desktop-miniApp' | 'lynx';
   protected _component: Tooltip;
+  protected _attributes?: TooltipAttributes | null;
   protected _chartContainer: Maybe<HTMLElement>;
   protected _compiler: Compiler;
   private _cacheViewSpec;
   private _cacheActualTooltip;
-  protected _attributeCache?: TooltipAttributes | null;
-  protected _style: Partial<ITooltipStyle>;
   protected _container: Maybe<IGroup | HTMLElement>;
+  protected _isReleased: boolean;
   constructor(tooltipId: string, component: Tooltip);
   showTooltip: (activeType: TooltipActiveType, data: TooltipData, params: TooltipHandlerParams) => TooltipResult;
   protected changeTooltip: ChangeTooltipFunc;
@@ -84,9 +83,8 @@ export declare abstract class BaseTooltipHandler implements ITooltipHandler {
     changePositionOnly: boolean
   ) => ITooltipPositionActual;
   protected _getTooltipBoxSize(actualTooltip: IToolTipActual, changePositionOnly: boolean): IContainerSize | undefined;
-  protected _getStyle(): Partial<ITooltipStyle>;
   protected _getParentElement(spec: ITooltipSpec): HTMLElement;
-  getTooltipContainer(): IGroup | HTMLElement;
+  getTooltipContainer(): HTMLElement | IGroup;
   protected _initFromSpec(): void;
   reInit(): void;
 }

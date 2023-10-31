@@ -27,6 +27,8 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
 export interface IPieSeriesTheme extends IPolarSeriesTheme {
   [SeriesMarkNameEnum.pie]?: Partial<IMarkTheme<IArcMarkSpec>>;
   [SeriesMarkNameEnum.label]?: IArcLabelSpec;
+  innerLabel?: IArcLabelSpec;
+  outerLabel?: IArcLabelSpec;
 }
 export type IPie3dSeriesSpec = {
   type: 'pie3d';
@@ -35,6 +37,8 @@ export type IPie3dSeriesSpec = {
 export interface IPie3dSeriesTheme extends IPolarSeriesTheme {
   [SeriesMarkNameEnum.pie3d]?: Partial<IMarkTheme<IArc3dMarkSpec>>;
   [SeriesMarkNameEnum.label]?: IArcLabelSpec;
+  innerLabel?: IArcLabelSpec;
+  outerLabel?: IArcLabelSpec;
 }
 export interface IArcLabelLineSpec extends IMarkSpec<ILineMarkSpec> {
   visible?: boolean;

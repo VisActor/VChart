@@ -5,3 +5,4 @@ export declare class PieChart extends BasePieChart {
   readonly type: string;
   readonly seriesType: string;
 }
+export declare const registerPieChart: () => void;

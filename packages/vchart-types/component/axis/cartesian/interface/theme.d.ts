@@ -1,6 +1,6 @@
 import type { ILayoutPaddingSpec, ILayoutNumber } from '../../../../model/interface';
 import type { ITick, IGrid } from '../../interface';
-import type { ICartesianDomainLine, ICartesianLabel, ICartesianTitle } from './common';
+import type { ICartesianAxisUnit, ICartesianDomainLine, ICartesianLabel, ICartesianTitle } from './common';
 import type { ICartesianAxisCommonSpec } from './spec';
 export interface ICartesianAxisCommonTheme {
   grid?: IGrid;
@@ -18,4 +18,5 @@ export interface ICartesianAxisCommonTheme {
   height?: ILayoutNumber;
   maxHeight?: ILayoutNumber;
   minHeight?: ILayoutNumber;
+  unit?: ICartesianAxisUnit;
 }

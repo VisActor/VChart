@@ -8,3 +8,4 @@ export declare class BoxPlotChart extends CartesianChart {
   protected _getDefaultSeriesSpec(spec: IBoxPlotChartSpec): any;
   transformSpec(spec: IBoxPlotChartSpec): void;
 }
+export declare const registerBoxplotChart: () => void;

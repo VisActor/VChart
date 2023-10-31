@@ -18,12 +18,12 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
       'visible' | 'width' | 'height'
     >;
   };
-  text?: string | number | string[] | number[];
   visible?: boolean;
+  text?: string | number | string[] | number[];
+  align?: 'center' | 'start' | 'end';
   padding?: import('@visactor/vrender-components/es/core/type').Padding;
   maxWidth?: number;
   minWidth?: number;
   space?: number;
-  align?: 'center' | 'start' | 'end';
 };
-export declare function getLayout(spec: ILegendCommonSpec): 'vertical' | 'horizontal';
+export declare function getLayout(spec: ILegendCommonSpec): 'horizontal' | 'vertical';

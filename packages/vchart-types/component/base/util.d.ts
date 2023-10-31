@@ -1,9 +1,7 @@
-import type { IChart } from '../../chart/interface';
-import type { ITheme } from '../../theme';
+import type { IModelOption } from '../../model/interface';
 import { ComponentTypeEnum } from '../interface';
 export declare function getComponentThemeFromGlobalTheme(
   type: ComponentTypeEnum,
-  theme: ITheme,
-  componentSpec: any,
-  chart: IChart
+  option: Partial<IModelOption>,
+  componentSpec: any
 ): any;

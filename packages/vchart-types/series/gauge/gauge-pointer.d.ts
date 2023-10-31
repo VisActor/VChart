@@ -1,3 +1,4 @@
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
@@ -14,12 +15,14 @@ export declare class GaugePointerSeries<
   private _pinMark;
   private _pointerMark;
   private _pinBackgroundMark;
+  protected _stack: boolean;
   protected _pointerType: MarkTypeEnum;
   setAttrFromSpec(): void;
   initMark(): void;
   initMarkStyle(): void;
   initGroups(): void;
   private initPointerMarkStyle;
+  protected initTooltip(): void;
   protected _getPointerWidth(): number;
   protected _getPointerHeight(datum: Datum): number;
   protected _getPointerAngle(datum: Datum): number;
@@ -31,4 +34,6 @@ export declare class GaugePointerSeries<
   private initPinMarkStyle;
   initAnimation(): void;
   getDefaultShapeType(): string;
+  getActiveMarks(): IMark[];
 }
+export declare const registerGaugePointerSeries: () => void;

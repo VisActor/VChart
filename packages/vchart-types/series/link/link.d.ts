@@ -48,4 +48,6 @@ export declare class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> ext
   protected initTooltip(): void;
   protected onMarkTreePositionUpdate(marks: IMark[]): void;
   getDotInfoData(): import('../../compile/mark/mark-data').MarkData;
+  getActiveMarks(): IMark[];
 }
+export declare const registerLinkSeries: () => void;

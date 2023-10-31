@@ -4,7 +4,7 @@ import type { ILayoutItem, IModel, IModelOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
 import type { StringOrNumber } from '../../typings';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 export interface IComponentOption extends IModelOption {
   getAllRegions: () => IRegion[];
   getRegionsInIndex: (index?: number[]) => IRegion[];
@@ -26,7 +26,7 @@ export interface IComponent extends IModel, ILayoutItem {
   getRegions: () => IRegion[];
   getBindSeriesFilter?: () => ISeriesFilter;
   changeRegions: (regions: IRegion[]) => void;
-  getVRenderComponents: () => IGroup[];
+  getVRenderComponents: () => IGraphic[];
   clear: () => void;
 }
 export interface IComponentConstructor {
