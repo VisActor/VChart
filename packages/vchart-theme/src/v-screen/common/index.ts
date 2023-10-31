@@ -5,6 +5,7 @@ import { crosshair } from './component/crosshair';
 import { tooltip } from './component/tooltip';
 import { getColorScheme } from './color-scheme';
 import { bar } from './series/bar';
+import { area } from './series/area';
 
 export const getVScreenCommonTheme = (name: string, description: string, dataScheme: string[]): ITheme => ({
   name,
@@ -13,7 +14,8 @@ export const getVScreenCommonTheme = (name: string, description: string, dataSch
   colorScheme: getColorScheme(dataScheme),
   markByName,
   series: {
-    ...bar
+    ...bar,
+    ...area
   },
   component: {
     ...axis,

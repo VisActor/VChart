@@ -10,7 +10,7 @@ const chartHeight = 400;
 
 export function init() {
   release();
-  for (const chart of charts) {
+  charts.forEach((chart, i) => {
     const card = createElement('div', undefined, {
       width: '50%',
       padding: '30px',
@@ -38,7 +38,8 @@ export function init() {
 
     chartInstanceList.push(chartInstance);
     cardList.push(card);
-  }
+    window[`vchart_${i}`] = chartInstance;
+  });
 }
 
 function release() {
