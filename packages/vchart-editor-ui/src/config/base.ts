@@ -40,8 +40,11 @@ export const defaultBaseComponentConfig = {
     label: '字体',
     default: 'PingFangSC-Regular',
     options: [
-      { value: 'PingFangSC-Regular', label: '苹方(PingFang-SC)' },
-      { value: 'Microsoft YaHei', label: '微软雅黑(Microsoft YaHei)' }
+      { value: 'San Francisco', label: 'San Francisco' },
+      // { value: 'PingFangSC-Regular', label: '苹方(PingFang-SC)' },
+      // { value: 'Microsoft YaHei', label: '微软雅黑(Microsoft YaHei)' },
+      { value: 'Times New Roman', label: 'Times New Roman' },
+      { value: 'monospace', label: 'Monospace' }
     ]
   } as Omit<IFontFamilyComponentConfig, 'key'>,
   fontSize: {

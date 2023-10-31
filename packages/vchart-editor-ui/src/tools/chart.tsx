@@ -27,7 +27,7 @@ export function EditorBarChart(props: IEditorBarChartProps) {
               className="vchart-editor-ui-editor-bar-row"
               style={props.chart === chart.type ? selectedStyle : unselectedStyle}
             >
-              <span style={{ marginRight: 8 }}>{chart.icon}</span>
+              <span className="vchart-editor-ui-editor-bar-chart-icon">{chart.icon}</span>
               {chart.label}
             </div>
           ))}
