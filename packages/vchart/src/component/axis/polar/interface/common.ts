@@ -29,7 +29,7 @@ export interface IPolarAxis extends IComponent {
   startAngle: number;
   endAngle: number;
 
-  // 为了与直角坐标系轴对齐，这里也通过 orient 来区别 angle/redius 轴
+  // 为了与直角坐标系轴对齐，这里也通过 orient 来区别 angle/radius 轴
   getOrient: () => IPolarOrientType;
   getScale: () => IBaseScale;
   setRefAngleAxis: (axes: IPolarAxis) => this;
