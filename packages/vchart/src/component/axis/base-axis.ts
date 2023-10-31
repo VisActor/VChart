@@ -271,11 +271,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
-    if (
-      updateType === 'force' ||
-      (!isEqual(this._scale.range(), [0, 1]) &&
-        (!isContinuous(this._scale.type) || updateType !== 'range' || !isArray(this._tickData.getLatestData())))
-    ) {
+    if (updateType === 'force' || !isEqual(this._scale.range(), [0, 1])) {
       this._tickData.getDataView().reRunAllTransform();
       this._tickData.updateData();
     }
