@@ -29,19 +29,30 @@ import { DEFAULT_CLOSE_STROKE_JOIN } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '../../util';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
-import type { ILabelSpec } from '../../component/label';
 import { shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { DimensionEventEnum, type DimensionEventParams } from '../../event/events/dimension';
 import type { EventCallback, EventParams } from '../../event/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { lineLikeSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
+import type { ILabelSpec } from '../../component';
+import type { Functional } from '@visactor/vrender-components';
 
 export interface ILineLikeSeriesTheme {
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
   point?: Partial<IMarkTheme<ISymbolMarkSpec>> & { visibleInActive?: boolean };
-  label?: Partial<ILabelSpec>;
+  label?: Partial<ILineLikeLabelSpec>;
 }
+
+export type ILineLikeLabelSpec = Omit<ILabelSpec, 'position'> & {
+  /** 标签位置
+   * @since 1.6.0
+   * 支持以函数形式配置
+   */
+  position?: Functional<
+    'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center'
+  >;
+};
 
 export interface LineLikeSeriesMixin extends ISeries {
   _spec: any;
