@@ -10,3 +10,4 @@ export declare class MapChart extends BaseChart {
   protected isValidSeries(type: string): boolean;
   transformSpec(spec: IMapChartSpec): void;
 }
+export declare const registerMapChart: () => void;

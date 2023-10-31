@@ -7,4 +7,5 @@ export declare class MobileTrigger implements IZoomTrigger {
   parserZoomEvent(event: any): any;
   parserScrollEvent(event: any): any;
   clearScroll(): void;
+  clearDrag(): void;
 }

@@ -68,4 +68,6 @@ export declare class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extend
   getDotData(): import('../../compile/mark/mark-data').MarkData;
   protected _getDataIdKey(): any;
   getStackValueField(): string;
+  getActiveMarks(): IMark[];
 }
+export declare const registerDotSeries: () => void;

@@ -3,6 +3,7 @@ import type { SeriesMarkMap } from '../../interface';
 import { SeriesTypeEnum } from '../../interface/type';
 import type { Maybe } from '../../../typings';
 import type { ILinearProgressSeriesSpec, ILinearProgressSeriesTheme } from './interface';
+import type { IMark } from '../../../mark/interface';
 export declare class LinearProgressSeries<
   T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec
 > extends CartesianSeries<T> {
@@ -23,4 +24,6 @@ export declare class LinearProgressSeries<
   private _initProgressGroupMarkStyle;
   initAnimation(): void;
   protected initTooltip(): void;
+  getActiveMarks(): IMark[];
 }
+export declare const registerLinearProgressSeries: () => void;

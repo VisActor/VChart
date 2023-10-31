@@ -8,3 +8,4 @@ export declare class SankeyChart extends BaseChart {
   protected getDefaultSeriesSpec(spec: ISankeyChartSpec): any;
   transformSpec(spec: any): void;
 }
+export declare const registerSankeyChart: () => void;

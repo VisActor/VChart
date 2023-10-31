@@ -4,7 +4,7 @@ import type { IStateAnimateSpec, IAnimationSpec, IMorphSeriesSpec } from './spec
 import type { SeriesMarkNameEnum } from '../series/interface/type';
 export declare const AnimationStates: string[];
 export declare function animationConfig<Preset extends string>(
-  defaultConfig: MarkAnimationSpec,
+  defaultConfig?: MarkAnimationSpec,
   userConfig?: Partial<
     Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>
   >,

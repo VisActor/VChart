@@ -13,3 +13,5 @@ export declare function barPresetAnimation(
   params: IBarAnimationParams,
   preset: BarAppearPreset | boolean
 ): IAnimationTypeConfig;
+export declare const registerBarAnimation: () => void;
+export declare const registerBar3dAnimation: () => void;

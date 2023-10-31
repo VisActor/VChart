@@ -17,3 +17,4 @@ export declare class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme>
   protected _markerLayout(): void;
   protected _initDataView(): void;
 }
+export declare const registerMarkArea: () => void;

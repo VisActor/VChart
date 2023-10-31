@@ -6,7 +6,7 @@ import type { ICartesianSeries } from '../../series/interface';
 import type { StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base';
 import type { IAggrType, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 export declare abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extends BaseComponent<T> {
   layoutType: LayoutItem['layoutType'];
   protected _startRelativeSeries: ICartesianSeries;
@@ -66,5 +66,5 @@ export declare abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec
   onRender(ctx: IModelRenderOption): void;
   changeRegions(regions: IRegion[]): void;
   protected getFirstSeries(): ICartesianSeries;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
 }

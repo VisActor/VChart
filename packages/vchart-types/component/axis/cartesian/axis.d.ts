@@ -12,6 +12,7 @@ import { ComponentTypeEnum } from '../../interface';
 import type { IAxis, ITick } from '../interface';
 import type { DataSet } from '@visactor/vdataset';
 import { AxisComponent } from '../base-axis';
+import type { IGraphic } from '@visactor/vrender-core';
 export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartesianAxisCommonSpec>
   extends AxisComponent<T>
   implements IAxis
@@ -53,6 +54,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
   private _axisStyle;
   private _latestBounds;
   private _verticalLimitSize;
+  private _unitText;
   protected _layoutCache: {
     width: number;
     height: number;
@@ -104,4 +106,6 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
   _clearLayoutCache(): void;
   onDataUpdate(): void;
   protected _transformSpec(): void;
+  private _appendAxisUnit;
+  getVRenderComponents(): IGraphic[];
 }

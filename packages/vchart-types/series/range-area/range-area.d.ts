@@ -12,3 +12,4 @@ export declare class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec
   protected initTooltip(): void;
   viewDataStatisticsUpdate(d: DataView): void;
 }
+export declare const registerRangeAreaSeries: () => void;

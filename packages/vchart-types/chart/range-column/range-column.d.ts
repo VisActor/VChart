@@ -7,3 +7,4 @@ export declare class RangeColumnChart extends CartesianChart {
   protected _getDefaultSeriesSpec(spec: any): any;
   transformSpec(spec: any): void;
 }
+export declare const registerRangeColumnChart: () => void;

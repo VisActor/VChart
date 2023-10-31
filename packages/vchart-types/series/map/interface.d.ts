@@ -8,6 +8,7 @@ export interface IMapSeriesSpec extends ISeriesSpec, IAnimationSpec<LineMarks, '
   nameField?: string;
   valueField?: string;
   nameProperty?: string;
+  centroidProperty?: string;
   nameMap?: {
     [key: string]: string;
   };

@@ -6,7 +6,7 @@ import type { IModelRenderOption } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
 import type { MarkTypeEnum } from '../../mark/interface';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 export declare class CustomMark extends BaseComponent<any> {
   static type: ComponentTypeEnum;
   type: ComponentTypeEnum;
@@ -27,6 +27,8 @@ export declare class CustomMark extends BaseComponent<any> {
     reCompile: boolean;
   };
   changeRegions(regions: IRegion[]): void;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
   onRender(ctx: IModelRenderOption): void;
+  private _getMarkAttributeContext;
 }
+export declare const registerCustomMark: () => void;

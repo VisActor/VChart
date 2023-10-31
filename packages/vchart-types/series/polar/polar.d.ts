@@ -59,7 +59,7 @@ export declare abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSer
   onAngleAxisHelperUpdate(): void;
   afterInitMark(): void;
   protected _computeLayoutRadius(): number;
-  setValueFieldToStackOffsetSilhouette(): void;
   fillData(): void;
   _sortDataInAxisDomain(): void;
+  protected _getInvalidDefined: (datum: Datum) => boolean;
 }

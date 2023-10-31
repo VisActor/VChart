@@ -13,3 +13,5 @@ export declare function wordcloudPresetAnimation(
   params: IWordcloudAnimationParams,
   preset: WordcloudAppearPreset | boolean
 ): IAnimationTypeConfig;
+export declare const registerWordCloudAnimation: () => void;
+export declare const registerWordCloud3dAnimation: () => void;

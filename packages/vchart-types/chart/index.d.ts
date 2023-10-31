@@ -1,53 +1,60 @@
 import type { IAreaChartSpec } from './area';
-import { AreaChart } from './area';
+import { AreaChart, registerAreaChart } from './area';
 import type { IBarChartSpec, IBar3dChartSpec } from './bar';
-import { BarChart, Bar3dChart } from './bar';
+import { BarChart, Bar3dChart, registerBarChart, registerBar3dChart } from './bar';
 import type { IBoxPlotChartSpec } from './box-plot';
-import { BoxPlotChart } from './box-plot';
+import { BoxPlotChart, registerBoxplotChart } from './box-plot';
 import type { ICirclePackingChartSpec } from './circle-packing';
-import { CirclePackingChart } from './circle-packing';
+import { CirclePackingChart, registerCirclePackingChart } from './circle-packing';
 import type { ICommonChartSpec } from './common';
-import { CommonChart } from './common';
+import { CommonChart, registerCommonChart } from './common';
 import type { IFunnelChartSpec, IFunnel3dChartSpec } from './funnel';
-import { FunnelChart, Funnel3dChart } from './funnel';
+import { FunnelChart, Funnel3dChart, registerFunnelChart, registerFunnel3dChart } from './funnel';
 import type { IGaugeChartSpec } from './gauge';
-import { GaugeChart } from './gauge';
+import { GaugeChart, registerGaugeChart } from './gauge';
 import type { IHeatmapChartSpec } from './heatmap';
-import { HeatmapChart } from './heatmap';
+import { HeatmapChart, registerHeatmapChart } from './heatmap';
 import type { IHistogramChartSpec, IHistogram3dChartSpec } from './histogram';
-import { HistogramChart, Histogram3dChart } from './histogram';
+import { HistogramChart, Histogram3dChart, registerHistogramChart, registerHistogram3dChart } from './histogram';
 import type { ILineChartSpec } from './line';
-import { LineChart } from './line';
+import { LineChart, registerLineChart } from './line';
 import type { IMapChartSpec } from './map';
-import { MapChart } from './map';
+import { MapChart, registerMapChart } from './map';
 import type { IPieChartSpec, IPie3dChartSpec } from './pie';
-import { PieChart, Pie3dChart } from './pie';
+import { PieChart, Pie3dChart, registerPieChart, registerPie3dChart } from './pie';
 import type { ICircularProgressChartSpec } from './progress/circular';
-import { CircularProgressChart } from './progress/circular';
+import { CircularProgressChart, registerCircularProgressChart } from './progress/circular';
 import type { ILinearProgressChartSpec } from './progress/linear';
-import { LinearProgressChart } from './progress/linear';
+import { LinearProgressChart, registerLinearProgressChart } from './progress/linear';
 import type { IRadarChartSpec } from './radar';
-import { RadarChart } from './radar';
+import { RadarChart, registerRadarChart } from './radar';
 import type { IRangeAreaChartSpec } from './range-area';
-import { RangeAreaChart } from './range-area';
+import { RangeAreaChart, registerRangeAreaChart } from './range-area';
 import type { IRangeColumnChartSpec, IRangeColumn3dChartSpec } from './range-column';
-import { RangeColumnChart, RangeColumn3dChart } from './range-column';
+import {
+  RangeColumnChart,
+  RangeColumn3dChart,
+  registerRangeColumnChart,
+  registerRangeColumn3dChart
+} from './range-column';
 import type { IRoseChartSpec } from './rose';
-import { RoseChart } from './rose';
+import { RoseChart, registerRoseChart } from './rose';
 import type { ISankeyChartSpec } from './sankey';
-import { SankeyChart } from './sankey';
+import { SankeyChart, registerSankeyChart } from './sankey';
 import type { IScatterChartSpec } from './scatter';
-import { ScatterChart } from './scatter';
+import { ScatterChart, registerScatterChart } from './scatter';
 import type { ISequenceChartSpec } from './sequence';
-import { SequenceChart } from './sequence';
+import { SequenceChart, registerSequenceChart } from './sequence';
 import type { ISunburstChartSpec } from './sunburst';
-import { SunburstChart } from './sunburst';
+import { SunburstChart, registerSunburstChart } from './sunburst';
 import type { ITreemapChartSpec } from './treemap';
-import { TreemapChart } from './treemap';
+import { TreemapChart, registerTreemapChart } from './treemap';
 import type { IWaterfallChartSpec } from './waterfall';
-import { WaterfallChart } from './waterfall';
+import { WaterfallChart, registerWaterfallChart } from './waterfall';
+import type { ICorrelationChartSpec } from './correlation';
+import { CorrelationChart, registerCorrelationChart } from './correlation';
 import type { IWordCloudChartSpec, IWordCloud3dChartSpec } from './word-cloud';
-import { WordCloudChart, WordCloud3dChart } from './word-cloud';
+import { WordCloudChart, WordCloud3dChart, registerWordCloudChart, registerWordCloud3dChart } from './word-cloud';
 import { BaseChart } from './base-chart';
 import type { ICartesianChartSpec } from './cartesian';
 import { CartesianChart } from './cartesian';
@@ -82,6 +89,7 @@ export {
   SunburstChart,
   SequenceChart,
   WaterfallChart,
+  CorrelationChart,
   WordCloudChart,
   WordCloud3dChart,
   TreemapChart,
@@ -90,6 +98,40 @@ export {
   ProgressLikeChart,
   RoseLikeChart,
   CartesianChart
+};
+export {
+  registerLineChart,
+  registerAreaChart,
+  registerBarChart,
+  registerBar3dChart,
+  registerBoxplotChart,
+  registerCirclePackingChart,
+  registerCircularProgressChart,
+  registerCommonChart,
+  registerFunnelChart,
+  registerFunnel3dChart,
+  registerGaugeChart,
+  registerHeatmapChart,
+  registerHistogramChart,
+  registerHistogram3dChart,
+  registerLinearProgressChart,
+  registerMapChart,
+  registerPie3dChart,
+  registerPieChart,
+  registerRadarChart,
+  registerRangeAreaChart,
+  registerRangeColumn3dChart,
+  registerRangeColumnChart,
+  registerRoseChart,
+  registerSankeyChart,
+  registerScatterChart,
+  registerSequenceChart,
+  registerSunburstChart,
+  registerTreemapChart,
+  registerWaterfallChart,
+  registerWordCloud3dChart,
+  registerWordCloudChart,
+  registerCorrelationChart
 };
 export type {
   IAreaChartSpec,
@@ -121,6 +163,7 @@ export type {
   ISunburstChartSpec,
   ITreemapChartSpec,
   IWaterfallChartSpec,
+  ICorrelationChartSpec,
   IWordCloud3dChartSpec,
   IWordCloudChartSpec,
   IPolarChartSpec,

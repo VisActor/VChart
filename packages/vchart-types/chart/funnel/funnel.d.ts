@@ -5,3 +5,4 @@ export declare class FunnelChart extends BaseFunnelChart {
   readonly type: string;
   readonly seriesType: string;
 }
+export declare const registerFunnelChart: () => void;

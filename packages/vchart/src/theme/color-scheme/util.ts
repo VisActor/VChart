@@ -1,7 +1,6 @@
 import { isArray, isFunction, isObject, isString, isValid } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { ColorUtil } from '@visactor/vutils';
-import { SeriesTypeEnum } from '../../series/interface';
 import { Color } from '../../util/color';
 import type {
   ColorScheme,
@@ -12,8 +11,8 @@ import type {
   IThemeColorScheme,
   ProgressiveDataScheme
 } from './interface';
-import type { DirectionType, ISeriesSpec } from '../../typings';
-import type { ICartesianSeriesSpec, ISankeySeriesSpec } from '../../series';
+import type { ISeriesSpec } from '../../typings';
+import { getDirectionFromSeriesSpec } from '../../series/util/spec';
 
 /**
  * 从色板中获取数据色板（在此步骤中替换语义色值）
@@ -169,16 +168,6 @@ export function transformColorSchemeToStandardStruct(colorScheme: ColorScheme): 
     };
   }
   return colorScheme;
-}
-
-export function getDirectionFromSeriesSpec(spec: ISeriesSpec): DirectionType {
-  const { type } = spec;
-
-  if (type === SeriesTypeEnum.sankey) {
-    return (spec as ISankeySeriesSpec).direction ?? 'horizontal';
-  }
-
-  return (spec as ICartesianSeriesSpec).direction ?? 'vertical';
 }
 
 export function getColorSchemeBySeries(

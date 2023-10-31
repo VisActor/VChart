@@ -25,3 +25,4 @@ export declare class TotalLabel extends BaseLabelComponent {
   compileMarks(): void;
 }
 export declare function totalLabelPosition(series: ISeries, type: MarkType): string;
+export declare const registerTotalLabel: () => void;

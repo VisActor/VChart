@@ -7,3 +7,4 @@ export declare function progressLikePresetAnimation(
   params: IProgressLikeAnimationParams,
   preset: ProgressLikeAppearPreset
 ): IAnimationTypeConfig;
+export declare const registerCircularProgressAnimation: () => void;

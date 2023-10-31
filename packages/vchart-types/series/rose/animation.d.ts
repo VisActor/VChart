@@ -13,3 +13,4 @@ export declare function rosePresetAnimation(
   params: IRoseAnimationParams,
   preset: RoseAppearPreset | boolean
 ): IAnimationTypeConfig;
+export declare const registerRoseAnimation: () => void;

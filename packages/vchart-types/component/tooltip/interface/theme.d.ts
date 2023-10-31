@@ -1,6 +1,7 @@
 import type { RichTextWordBreak } from '@visactor/vrender-core';
-import type { IPadding, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
+import type { StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { IColorKey } from '../../../theme/color-scheme/interface';
+import type { Padding } from '@visactor/vrender-components/es/core/type';
 export interface ITooltipTextTheme {
   fontFamily?: string;
   fontSize?: number;
@@ -14,10 +15,11 @@ export interface ITooltipTextTheme {
   multiLine?: boolean;
   maxWidth?: number;
   wordBreak?: RichTextWordBreak;
+  autoWidth?: boolean;
 }
 export interface ITooltipTheme {
   panel?: {
-    padding?: IPadding;
+    padding?: Padding;
     backgroundColor?: string | IColorKey;
     border?: {
       color?: string | IColorKey;
@@ -37,7 +39,7 @@ export interface ITooltipTheme {
     spacing?: number;
   };
   titleLabel?: ITooltipTextTheme;
-  keyLabel?: ITooltipTextTheme;
+  keyLabel?: Omit<ITooltipTextTheme, 'autoWidth'>;
   valueLabel?: ITooltipTextTheme;
   spaceRow?: number;
   offset?: {

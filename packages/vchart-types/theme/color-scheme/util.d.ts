@@ -1,4 +1,3 @@
-import type { SeriesTypeEnum } from '../../series/interface';
 import type {
   ColorScheme,
   ColorSchemeItem,
@@ -7,9 +6,10 @@ import type {
   IThemeColorScheme,
   ProgressiveDataScheme
 } from './interface';
+import type { ISeriesSpec } from '../../typings';
 export declare function getDataScheme(
-  colorScheme: IThemeColorScheme,
-  seriesType?: SeriesTypeEnum
+  colorScheme?: IThemeColorScheme,
+  seriesSpec?: ISeriesSpec
 ): Array<ColorSchemeItem> | ProgressiveDataScheme<ColorSchemeItem>;
 export declare function computeActualDataScheme(
   dataScheme: Array<ColorSchemeItem> | ProgressiveDataScheme<ColorSchemeItem>,
@@ -18,9 +18,13 @@ export declare function computeActualDataScheme(
 export declare function queryColorFromColorScheme(
   colorScheme: IThemeColorScheme,
   colorKey: IColorKey,
-  seriesType?: SeriesTypeEnum
+  seriesSpec?: ISeriesSpec
 ): ColorSchemeItem | undefined;
-export declare const getActualColor: (value: any, colorScheme?: IThemeColorScheme, seriesType?: SeriesTypeEnum) => any;
+export declare const getActualColor: (value: any, colorScheme?: IThemeColorScheme, seriesSpec?: ISeriesSpec) => any;
 export declare function isColorKey(obj: any): obj is IColorKey;
 export declare function isProgressiveDataColorScheme<T>(obj: any): obj is ProgressiveDataScheme<T>;
 export declare function transformColorSchemeToStandardStruct(colorScheme: ColorScheme): IColorSchemeStruct;
+export declare function getColorSchemeBySeries(
+  colorScheme?: IThemeColorScheme,
+  seriesSpec?: ISeriesSpec
+): ColorScheme | undefined;

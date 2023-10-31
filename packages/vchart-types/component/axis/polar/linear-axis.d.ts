@@ -26,3 +26,4 @@ export declare class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLine
     }[]
   ): number[];
 }
+export declare const registerPolarLinearAxis: () => void;

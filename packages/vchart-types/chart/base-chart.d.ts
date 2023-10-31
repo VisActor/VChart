@@ -37,7 +37,6 @@ import type { IEvent } from '../event/interface';
 import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset/es/data-set';
 import { Stack } from './stack';
-import type { ITheme } from '../theme/interface';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IRunningConfig as IMorphConfig, IMark as IVGrammarMark, IView } from '@visactor/vgrammar-core';
@@ -51,7 +50,6 @@ export declare class BaseChart extends CompilableBase implements IChart {
   getSpec(): any;
   setSpec(s: any): void;
   getOption(): IChartOption;
-  protected _theme: ITheme;
   protected _regions: IRegion[];
   protected _series: ISeries[];
   protected _components: IComponent[];
@@ -75,6 +73,7 @@ export declare class BaseChart extends CompilableBase implements IChart {
   protected _option: IChartOption;
   readonly state: ILayoutModelState;
   protected _stack: Stack;
+  protected _canStack: boolean;
   padding: IPadding;
   protected _paddingSpec: ILayoutOrientPadding;
   protected _canvasRect: ILayoutRect;
@@ -114,7 +113,7 @@ export declare class BaseChart extends CompilableBase implements IChart {
   onLayoutStart(option: IChartLayoutOption): void;
   onLayoutEnd(option: IChartLayoutOption): void;
   onEvaluateEnd(option: IChartEvaluateOption): void;
-  getLayoutElements(): (IRegion | ISeries | IComponent)[];
+  getLayoutElements(): (ISeries | IRegion | IComponent)[];
   getRegionsInIndex: (index?: number[]) => IRegion[];
   getAllRegions: () => IRegion[];
   getRegionsInIds: (ids: number[]) => IRegion[];
@@ -163,11 +162,10 @@ export declare class BaseChart extends CompilableBase implements IChart {
   protected isValidSeries(seriesType: string): boolean;
   protected _getDefaultSeriesSpec(spec: any): any;
   private _updateLayoutRect;
-  getCurrentTheme(): ITheme;
-  setCurrentTheme(theme: ITheme, reInit?: boolean): void;
+  setCurrentTheme(reInit?: boolean): void;
   protected setRegionTheme(reInit?: boolean): void;
-  protected setComponentTheme(theme: ITheme, reInit?: boolean): void;
-  protected setSeriesTheme(theme: ITheme, reInit?: boolean): void;
+  protected setComponentTheme(reInit?: boolean): void;
+  protected setSeriesTheme(reInit?: boolean): void;
   clear(): void;
   compile(): void;
   afterCompile(): void;
@@ -204,4 +202,5 @@ export declare class BaseChart extends CompilableBase implements IChart {
     region?: IRegionQuerier
   ): void;
   setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption): void;
+  getColorScheme(): import('../theme').IThemeColorScheme;
 }

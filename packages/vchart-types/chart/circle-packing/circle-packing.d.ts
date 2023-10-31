@@ -9,3 +9,4 @@ export declare class CirclePackingChart extends BaseChart {
   protected getDefaultSeriesSpec(spec: ICirclePackingChartSpec): ICirclePackingSeriesSpec;
   transformSpec(spec: ICirclePackingChartSpec): void;
 }
+export declare const registerCirclePackingChart: () => void;

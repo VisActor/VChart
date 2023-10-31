@@ -5,5 +5,6 @@ export declare class DeskTopTrigger implements IZoomTrigger {
   parserZoomEvent(e: any): any;
   clearZoom(): void;
   clearScroll(): void;
+  clearDrag(): void;
   parserDragEvent(): boolean;
 }

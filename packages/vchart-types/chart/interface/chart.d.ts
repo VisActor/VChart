@@ -7,7 +7,6 @@ import type { IMark } from '../../mark/interface';
 import type { ILayoutRect, IModel, IUpdateSpecResult } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
-import type { ITheme } from '../../theme';
 import type {
   IChartEvaluateOption,
   IChartInitOption,
@@ -28,6 +27,7 @@ import type {
   IDataValues
 } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
+import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
   tooltip?: boolean;
@@ -105,8 +105,8 @@ export interface IChart extends ICompilable {
   ) => void;
   updateViewBox: (viewBox: IBoundsLike, reLayout: boolean) => void;
   getCanvas: () => HTMLCanvasElement | undefined;
-  getCurrentTheme: () => ITheme;
-  setCurrentTheme: (theme: ITheme, reInit?: boolean) => void;
+  setCurrentTheme: (reInit?: boolean) => void;
+  getColorScheme: () => IThemeColorScheme | undefined;
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
   setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
 }

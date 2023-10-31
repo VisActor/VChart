@@ -21,3 +21,4 @@ export declare class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSer
   initMarkStyle(): void;
   initLabelMarkStyle(labelMark?: ILabelMark): void;
 }
+export declare const registerFunnel3dSeries: () => void;

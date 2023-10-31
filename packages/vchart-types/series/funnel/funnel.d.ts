@@ -4,6 +4,7 @@ import type { IOrientType, Maybe, Datum, StringOrNumber } from '../../typings';
 import { SeriesTypeEnum } from '../interface';
 import type { IPolygonMark } from '../../mark/polygon/polygon';
 import { BaseSeries } from '../base/base-series';
+import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { ITextMark } from '../../mark/text';
 import type { IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
@@ -58,8 +59,6 @@ export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpe
   initGroups(): void;
   getStackGroupFields(): string[];
   getStackValueField(): string;
-  setValueFieldToStack(): void;
-  setValueFieldToPercent(): void;
   protected initEvent(): void;
   getPoints(datum: Datum): {
     x: number;
@@ -93,6 +92,7 @@ export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpe
   protected _computeMinSize(): number;
   protected _isHorizontal(): boolean;
   private _isReverse;
-  setValueFieldToStackOffsetSilhouette(): void;
   getDefaultShapeType(): string;
+  getActiveMarks(): IMark[];
 }
+export declare const registerFunnelSeries: () => void;

@@ -9,3 +9,4 @@ export declare class SunburstChart extends BaseChart {
   protected getDefaultSeriesSpec(spec: ISunburstChartSpec): ISunburstSeriesSpec;
   transformSpec(spec: ISunburstChartSpec): void;
 }
+export declare const registerSunburstChart: () => void;

@@ -23,6 +23,7 @@ import type { ISankeySeriesSpec } from '../../series/sankey/interface';
 import type { ISunburstSeriesSpec } from '../../series/sunburst/interface';
 import type { ITreemapSeriesSpec } from '../../series/treemap/interface';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
+import type { ICorrelationSeriesSpec } from '../../series/correlation/interface';
 import type { ICartesianAxisSpec, IPolarAxisSpec } from '../../component';
 import type { ICartesianCrosshairSpec, IPolarCrosshairSpec } from '../../component/crosshair/interface';
 import type { IMarkLineSpec } from '../../component/marker/mark-line/interface';
@@ -61,6 +62,7 @@ export interface ICommonChartSpec extends Omit<IChartSpec, 'series'> {
     | IWaterfallSeriesSpec
     | IHeatmapSeriesSpec
     | IGaugePointerSeriesSpec
+    | ICorrelationSeriesSpec
   )[];
   axes?: ICartesianAxisSpec[] | IPolarAxisSpec[];
   crosshair?: ICartesianCrosshairSpec | ICartesianCrosshairSpec[] | IPolarCrosshairSpec | IPolarCrosshairSpec[];

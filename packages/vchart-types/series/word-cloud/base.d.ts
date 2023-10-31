@@ -9,6 +9,7 @@ import type {
 } from './interface';
 import type { Datum, IPoint } from '../../typings';
 import { BaseSeries } from '../base/base-series';
+import type { IMark } from '../../mark/interface';
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & {
   type: string;
 };
@@ -43,6 +44,7 @@ export declare class BaseWordCloudSeries<
   protected _fillingWordMark: ITextMark;
   initMark(): void;
   initMarkStyle(): void;
+  protected initTooltip(): void;
   initAnimation(): void;
   protected getWordOrdinalColorScale(field: string, isFillingWord: boolean): any;
   getWordColorAttribute(
@@ -64,11 +66,9 @@ export declare class BaseWordCloudSeries<
   dataToPositionY(data: any): number;
   dataToPositionZ(data: any): number;
   valueToPosition(value1: any, value2?: any): IPoint;
-  setValueFieldToStackOffsetSilhouette(): void;
   getGroupFields(): string[];
   getStackGroupFields(): string[];
   getStackValueField(): string;
-  setValueFieldToStack(): void;
-  setValueFieldToPercent(): void;
   onLayoutEnd(ctx: any): void;
+  getActiveMarks(): IMark[];
 }

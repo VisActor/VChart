@@ -24,7 +24,7 @@ export declare function median(data: any[], field?: string): number;
 export declare function regression(data: any[], fieldX?: string, fieldY?: string): any[];
 export declare function radiusLabelOrientAttribute(angle: number): {
   align: 'left' | 'right' | 'center';
-  baseline: 'top' | 'bottom' | 'middle';
+  baseline: 'top' | 'middle' | 'bottom';
 };
 export declare function vectorAngle(v1: IPoint, v2: IPoint): number;
 export declare function distance(p1: IPoint, p2?: IPoint): number;

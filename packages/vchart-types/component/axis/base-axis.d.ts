@@ -1,5 +1,5 @@
 import type { IBaseScale } from '@visactor/vscale';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGroup, IGraphic } from '@visactor/vrender-core';
 import type { AxisItem } from '@visactor/vrender-components';
 import type { IOrientType, IPolarOrientType, StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base';
@@ -10,7 +10,7 @@ import type { IAxis, ICommonAxisSpec, ITick, StatisticsDomain } from './interfac
 import type { IComponentOption } from '../interface';
 import type { ISeries } from '../../series/interface';
 import type { ITransformOptions } from '@visactor/vdataset';
-import type { IComponentMark } from '../../mark/component';
+import { type IComponentMark } from '../../mark/component';
 export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any>
   extends BaseComponent<T>
   implements IAxis
@@ -57,7 +57,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
   protected _axisMark: IComponentMark;
   protected _gridMark: IComponentMark;
   constructor(spec: T, options: IComponentOption);
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
   created(): void;
   protected isSeriesDataEnable(): boolean;
   protected setSeriesAndRegionsFromSpec(): void;
@@ -151,3 +151,4 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
   };
   addTransformToTickData(options: ITransformOptions, execute?: boolean): void;
 }
+export declare const registerAxis: () => void;

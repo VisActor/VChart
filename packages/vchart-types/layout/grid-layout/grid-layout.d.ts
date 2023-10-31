@@ -10,7 +10,7 @@ type GridSize = {
   isLayoutSetting: boolean;
 };
 export declare class GridLayout implements IBaseLayout {
-  static type: 'grid';
+  static type: string;
   private _chartLayoutRect;
   private _chartViewBox;
   protected _col: number;
@@ -56,4 +56,5 @@ export declare class GridLayout implements IBaseLayout {
     ignoreTag: boolean
   ): void;
 }
+export declare const registerGridLayout: () => void;
 export {};

@@ -6,7 +6,7 @@ import type { LayoutItem } from '../../model/layout-item';
 import type { IOrientType, IPoint, StringOrNumber } from '../../typings';
 import { CompilableData } from '../../compile/data';
 import type { ILegend, ILegendCommonSpec } from './interface';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic, IGroup } from '@visactor/vrender-core';
 export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseComponent<T> implements ILegend {
   layoutType: LayoutItem['layoutType'];
   layoutZIndex: LayoutItem['layoutZIndex'];
@@ -61,6 +61,6 @@ export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends Ba
     y2: number;
   };
   onDataUpdate(): void;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
   clear(): void;
 }

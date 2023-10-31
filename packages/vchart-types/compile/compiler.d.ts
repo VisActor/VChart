@@ -31,7 +31,6 @@ export declare class Compiler {
   protected _model: CompilerModel;
   getModel(): CompilerModel;
   private _compileChart;
-  private _rafId;
   constructor(container: IRenderContainer, option: IRenderOption);
   getRenderer(): import('@visactor/vgrammar-core').IRenderer;
   getCanvas(): HTMLCanvasElement | undefined;

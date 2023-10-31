@@ -10,7 +10,6 @@ export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
   labelReverseFontColor: string;
   axisGridColor: string;
   axisDomainColor: string;
-  axisLabelFontColor: string;
   dataZoomHandlerStrokeColor: string;
   dataZoomHandlerFillColor: string;
   dataZoomBackgroundColor: string;
@@ -18,6 +17,7 @@ export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
   dataZoomSelectedColor: string;
   scrollBarSliderColor: string;
   tooltipBackgroundColor: string;
+  markLabelBackgroundColor: string;
   titleFontColor: string;
   labelFontColor: string;
 };

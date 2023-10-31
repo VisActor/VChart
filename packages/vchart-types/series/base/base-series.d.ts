@@ -66,6 +66,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
   protected _groups?: IGroup;
   getGroups(): IGroup;
   protected _stack: boolean;
+  protected _supportStack: boolean;
   getStack(): boolean;
   getStackValue(): import('../../typings').StringOrNumber;
   protected _percent: boolean;
@@ -126,9 +127,10 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
   abstract initMarkStyle(): void;
   abstract getStackGroupFields(): string[];
   abstract getStackValueField(): string | undefined;
-  abstract setValueFieldToStack(): void;
-  abstract setValueFieldToPercent(): void;
-  abstract setValueFieldToStackOffsetSilhouette(): void;
+  setValueFieldToStack(): void;
+  setValueFieldToPercent(): void;
+  setValueFieldToStackOffsetSilhouette(): void;
+  abstract getActiveMarks(): IMark[];
   initRootMark(): void;
   protected _initExtensionMark(): void;
   private _createExtensionMark;
@@ -179,7 +181,10 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     style: (attribute: string) => unknown;
     shapeType: string;
   }[];
-  protected getDefaultColorScale(): any;
+  protected _getDefaultColorScale(): any;
+  protected _getDataScheme():
+    | import('../../theme').ColorSchemeItem[]
+    | import('../../theme').ProgressiveDataScheme<import('../../theme').ColorSchemeItem>;
   getDefaultColorDomain(): any[];
   getColorAttribute(): {
     scale: any;
@@ -189,8 +194,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
   getMeasureField(): string[];
   protected onMarkPositionUpdate(): void;
   protected onMarkTreePositionUpdate(marks: IMark[]): void;
-  setCurrentTheme(theme: any, noRender?: boolean): Promise<void>;
-  protected _initTheme(theme?: any): void;
+  protected _getTheme(): any;
   protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption): NonNullable<M>;
   protected _getDataIdKey(): string | ((datum: Datum) => string);
   protected _getSeriesDataKey(datum: Datum): string;

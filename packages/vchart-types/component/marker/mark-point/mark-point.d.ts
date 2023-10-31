@@ -17,3 +17,4 @@ export declare class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointThe
   protected _markerLayout(): void;
   protected _initDataView(): void;
 }
+export declare const registerMarkPoint: () => void;

@@ -9,3 +9,4 @@ export declare class SequenceChart extends BaseChart {
   addAttrToComponentSpec(componentSpec: any, attr: string, value: any): any;
   private _getSeriesDataLength;
 }
+export declare const registerSequenceChart: () => void;

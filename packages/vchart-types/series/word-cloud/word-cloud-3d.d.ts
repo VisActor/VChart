@@ -11,3 +11,4 @@ export declare class WordCloud3dSeries<
   initMarkStyle(): void;
   initAnimation(): void;
 }
+export declare const registerWordCloud3dSeries: () => void;

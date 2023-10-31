@@ -2,6 +2,12 @@ import type { BaseEventParams, ExtendEventParam, IEvent } from '../../event/inte
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec';
 import type { ISeries } from '../../series/interface';
+import type { IDelayType } from '../../typings/event';
+export interface ITriggerOption {
+  delayType: IDelayType;
+  delayTime: number;
+  realTime: boolean;
+}
 export interface IZoomEventOptions {
   shouldZoom?: boolean;
   zoomCallback?: (
@@ -44,7 +50,8 @@ export interface IZoomable {
         zoomY: number;
       },
       e: BaseEventParams['event']
-    ) => void
+    ) => void,
+    option?: ITriggerOption
   ) => void;
   initScrollEventOfSeries: (
     s: ISeries,
@@ -65,13 +72,19 @@ export interface IZoomable {
         scrollY: number;
       },
       e: BaseEventParams['event']
-    ) => void
+    ) => void,
+    option?: ITriggerOption
   ) => void;
-  initDragEventOfSeries: (s: ISeries, callback?: (delta: [number, number], e: BaseEventParams['event']) => void) => any;
+  initDragEventOfSeries: (
+    s: ISeries,
+    callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
+    option?: ITriggerOption
+  ) => any;
   initDragEventOfRegions: (
     regions: IRegion[],
     filter?: (s: ISeries) => boolean,
-    callback?: (delta: [number, number], e: BaseEventParams['event']) => void
+    callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
+    option?: ITriggerOption
   ) => void;
 }
 export declare class Zoomable implements IZoomable {
@@ -81,6 +94,7 @@ export declare class Zoomable implements IZoomable {
   private _renderMode;
   initZoomable(evt: IEvent, mode?: RenderMode): void;
   private _getTriggerEvent;
+  private _zoomEventDispatch;
   private _bindZoomEventAsRegion;
   initZoomEventOfSeries(
     s: ISeries,
@@ -91,7 +105,8 @@ export declare class Zoomable implements IZoomable {
         zoomY: number;
       },
       e: BaseEventParams['event']
-    ) => void
+    ) => void,
+    option?: ITriggerOption
   ): void;
   initZoomEventOfRegions(
     regions: IRegion[],
@@ -103,8 +118,11 @@ export declare class Zoomable implements IZoomable {
         zoomY: number;
       },
       e: BaseEventParams['event']
-    ) => void
+    ) => void,
+    option?: ITriggerOption
   ): void;
+  private _scrollEventDispatch;
+  private _bindScrollEventAsRegion;
   initScrollEventOfSeries(
     s: ISeries,
     callback?: (
@@ -113,7 +131,8 @@ export declare class Zoomable implements IZoomable {
         scrollY: number;
       },
       e: BaseEventParams['event']
-    ) => void
+    ) => void,
+    option?: ITriggerOption
   ): void;
   initScrollEventOfRegions(
     regions: IRegion[],
@@ -124,18 +143,24 @@ export declare class Zoomable implements IZoomable {
         scrollY: number;
       },
       e: BaseEventParams['event']
-    ) => void
+    ) => void,
+    option?: ITriggerOption
   ): void;
-  private _bindScrollEventAsRegion;
   private _bindDragEventAsRegion;
-  initDragEventOfSeries(s: ISeries, callback?: (delta: [number, number], e: BaseEventParams['event']) => void): void;
+  initDragEventOfSeries(
+    s: ISeries,
+    callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
+    option?: ITriggerOption
+  ): void;
   initDragEventOfRegions(
     regions: IRegion[],
     filter?: (s: ISeries) => boolean,
-    callback?: (delta: [number, number], e: BaseEventParams['event']) => void
+    callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
+    option?: ITriggerOption
   ): void;
   protected _handleDrag(
     params: ExtendEventParam,
-    callback?: (delta: [number, number], e: BaseEventParams['event']) => void
+    callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
+    option?: ITriggerOption
   ): void;
 }

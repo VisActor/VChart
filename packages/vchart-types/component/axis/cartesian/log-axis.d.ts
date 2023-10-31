@@ -17,3 +17,4 @@ export declare class CartesianLogAxis<
   protected initScales(): void;
   transformScaleDomain(): void;
 }
+export declare const registerCartesianLogAxis: () => void;

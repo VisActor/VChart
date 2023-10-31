@@ -9,7 +9,7 @@ import type { IPoint, Datum } from '../../typings';
 import type { IPairInfo } from './layout';
 import type { LayoutItem } from '../../model/layout-item';
 import { MarkPoint } from '@visactor/vrender-components';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 export declare class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   static type: ComponentTypeEnum;
@@ -46,7 +46,7 @@ export declare class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     contentMarks: Partial<
       Record<
         import('./interface').IMapLabelNodes,
-        import('@visactor/vrender-core').IGraphic<Partial<import('@visactor/vrender-core').IGraphicAttribute>>
+        IGraphic<Partial<import('@visactor/vrender-core').IGraphicAttribute>>
       >
     >;
   };
@@ -57,5 +57,6 @@ export declare class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   private _isRelativeSeries;
   onRender(ctx: any): void;
   changeRegions(): void;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
 }
+export declare const registerMapLabel: () => void;

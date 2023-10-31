@@ -1,4 +1,4 @@
-import type { SeriesTypeEnum } from '../../series/interface';
+import type { SeriesTypeEnum, SeriesTypeForThemeEnum } from '../../series/interface';
 import type { IGradient } from '../../typings';
 export type IColorSchemeStruct = {
   dataScheme: Array<DataSchemeItem> | ProgressiveDataScheme<DataSchemeItem>;
@@ -17,7 +17,7 @@ export interface IProgressiveDataSchemeCase<T> {
 export type IsProgressiveDataSchemeAvailableCallback = (domain: any[]) => boolean;
 export interface IColorKey {
   type: 'palette';
-  key: string | string[];
+  key: string;
   l?: number;
   a?: number;
   default?: ColorSchemeItem;
@@ -27,4 +27,5 @@ export type ColorSchemeItem = string | IGradient;
 export type ColorScheme = Array<string> | ProgressiveDataScheme<string> | IColorSchemeStruct;
 export type IThemeColorScheme = {
   default: ColorScheme;
-} & Partial<Record<SeriesTypeEnum, ColorScheme>>;
+} & Partial<Record<SeriesTypeEnum, ColorScheme>> &
+  Partial<Record<SeriesTypeForThemeEnum, ColorScheme>>;

@@ -16,3 +16,4 @@ export declare class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec>
   setAttrFromSpec(): void;
   initMarkStyle(): void;
 }
+export declare const registerPie3dSeries: () => void;

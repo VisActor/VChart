@@ -14,4 +14,5 @@ export interface IToolTipLineActual extends ITooltipShapeActual, ITooltipLabelAc
   visible?: boolean;
   isKeyAdaptive?: boolean;
   spaceRow?: number;
+  datum?: any;
 }

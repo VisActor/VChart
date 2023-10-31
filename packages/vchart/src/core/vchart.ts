@@ -38,6 +38,7 @@ import type { GeoSourceType } from '../typings/geo';
 import type { GeoSourceOption } from '../series/map/geo-source';
 // eslint-disable-next-line no-duplicate-imports
 import { getMapSource } from '../series/map/geo-source';
+// eslint-disable-next-line no-duplicate-imports
 import type { IMark, MarkConstructor } from '../mark/interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
 import { dataToDataView } from '../data/initialize';

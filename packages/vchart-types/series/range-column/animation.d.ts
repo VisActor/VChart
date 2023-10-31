@@ -10,3 +10,4 @@ export declare function rangeColumnPresetAnimation(
   params: IRangeColumnAnimationParams,
   preset: RangeColumnAppearPreset
 ): IAnimationTypeConfig;
+export declare const registerRangeColumnAnimation: () => void;

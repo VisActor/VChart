@@ -2,10 +2,11 @@ import type { DataView } from '@visactor/vdataset';
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
 import { CartesianSeries } from '../cartesian/cartesian';
-import type { Maybe } from '../../typings';
+import type { Maybe, Datum } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface';
 import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
+import type { IMark } from '../../mark/interface';
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
       LineLikeSeriesMixin,
@@ -25,7 +26,7 @@ export declare class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> ext
   static readonly mark: SeriesMarkMap;
   protected _theme: Maybe<IAreaSeriesTheme>;
   protected _areaMark: IAreaMark;
-  protected _stack: boolean;
+  protected _supportStack: boolean;
   protected _sortDataByAxis: boolean;
   setAttrFromSpec(): void;
   initMark(): void;
@@ -34,4 +35,7 @@ export declare class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> ext
   protected initTooltip(): void;
   viewDataStatisticsUpdate(d: DataView): void;
   getDefaultShapeType(): string;
+  getActiveMarks(): IMark[];
+  getSeriesStyle(datum: Datum): (attribute: string) => any;
 }
+export declare const registerAreaSeries: () => void;

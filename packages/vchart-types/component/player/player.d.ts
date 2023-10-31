@@ -1,11 +1,11 @@
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { ILayoutRect, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IComponentOption } from '../interface';
 import type { IPlayer } from './interface';
 import type { IComponent } from '../interface';
 import type { IPoint, IOrientType } from '../../typings';
-import type { IChartSpec } from '../..';
+import { type IChartSpec } from '../..';
 import { ComponentTypeEnum } from '../interface';
 import { BaseComponent } from '../base';
 export declare class Player extends BaseComponent<IPlayer> implements IComponent {
@@ -42,7 +42,7 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
   };
   changeRegions(regions: IRegion[]): void;
   onRender(ctx: IModelRenderOption): void;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
   private _getPlayerAttrs;
   private _createOrUpdatePlayerComponent;
   private _computeLayoutRect;
@@ -54,3 +54,4 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
   private _sliderExceededSize;
   private _initEvent;
 }
+export declare const registerPlayer: () => void;

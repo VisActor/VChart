@@ -14,6 +14,11 @@ export const markByType: IGlobalMarkThemeByType = {
 };
 
 export const markByName: IGlobalMarkThemeByName = {
+  bar: {
+    style: {
+      fill: null
+    }
+  },
   label: {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,

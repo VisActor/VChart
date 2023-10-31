@@ -7,3 +7,4 @@ export declare class WordCloudChart extends BaseWordCloudChart {
   readonly seriesType: string;
   protected _getDefaultSeriesSpec(spec: IWordCloudChartSpec): any;
 }
+export declare const registerWordCloudChart: () => void;

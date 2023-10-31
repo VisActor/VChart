@@ -2,6 +2,7 @@ import type { Datum } from '../../typings';
 import type { ISunburstSeriesSpec } from './interface';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface';
+import type { IMark } from '../../mark/interface';
 import { PolarSeries } from '../polar/polar';
 export declare class SunburstSeries extends PolarSeries<any> {
   protected _spec: ISunburstSeriesSpec;
@@ -35,7 +36,7 @@ export declare class SunburstSeries extends PolarSeries<any> {
   protected initData(): void;
   getStatisticFields(): {
     key: string;
-    operations: ('values' | 'max' | 'min')[];
+    operations: ('min' | 'max' | 'values')[];
   }[];
   protected _addDataIndexAndKey(): void;
   initMark(): void;
@@ -53,7 +54,7 @@ export declare class SunburstSeries extends PolarSeries<any> {
   getGroupFields(): string[];
   getStackGroupFields(): string[];
   getStackValueField(): string;
-  setValueFieldToStack(): void;
-  setValueFieldToPercent(): void;
   protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined;
+  getActiveMarks(): IMark[];
 }
+export declare const registerSunBurstSeries: () => void;

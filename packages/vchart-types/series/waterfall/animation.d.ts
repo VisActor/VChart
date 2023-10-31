@@ -5,3 +5,4 @@ export declare function waterfallPresetAnimation(
   params: IBarAnimationParams,
   preset: BarAppearPreset
 ): IAnimationTypeConfig;
+export declare const registerWaterfallAnimation: () => void;

@@ -6,6 +6,7 @@ import { BaseSeries } from '../base/base-series';
 import type { SeriesData } from '../base/series-data';
 import type { DataView } from '@visactor/vdataset';
 import type { IGeoSeriesSpec } from './interface';
+import type { IMark } from '../../mark/interface';
 export declare abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec>
   extends BaseSeries<T>
   implements IGeoSeries
@@ -23,6 +24,8 @@ export declare abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpe
   set valueField(f: string);
   protected _nameProperty: string;
   getNameProperty(): string;
+  protected _centroidProperty?: string;
+  getCentroidProperty(): string;
   _coordinateHelper: IGeoCoordinateHelper;
   getCoordinateHelper(): IGeoCoordinateHelper;
   setCoordinateHelper(h: IGeoCoordinateHelper): void;
@@ -33,8 +36,8 @@ export declare abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpe
   getGroupFields(): string[];
   dataToPosition(datum: any): IPoint | null;
   protected nameToPosition(datum: any): IPoint | null;
-  protected abstract _getDatumCenter(datum: any): [number, number];
-  protected abstract _getDatumName(datum: any): string;
+  abstract getDatumCenter(datum: any): [number, number];
+  abstract getDatumName(datum: any): string;
   dataToLatitude(latValue: number): number;
   dataToLongitude(lonValue: number): number;
   valueToPosition(lonValue: number, latValue: number): IPoint;
@@ -47,11 +50,9 @@ export declare abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpe
   release(): void;
   getStackGroupFields(): string[];
   getStackValueField(): string;
-  setValueFieldToStack(): void;
-  setValueFieldToPercent(): void;
-  setValueFieldToStackOffsetSilhouette(): void;
   compileData(): void;
   protected initStatisticalData(): void;
   getSeriesKeys(): string[];
   fillData(): void;
+  getActiveMarks(): IMark[];
 }

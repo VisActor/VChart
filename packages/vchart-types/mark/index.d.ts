@@ -12,6 +12,7 @@ import { ArcMark } from './arc';
 import { Arc3dMark } from './arc-3d';
 import { ComponentMark } from './component';
 import { LinkPathMark } from './link-path';
+import { RippleMark } from './ripple';
 import { ProgressArcMark } from './progress-arc';
 import { CellMark } from './cell';
 import { BaseMark } from './base';
@@ -34,6 +35,7 @@ export type {
   IPolygonMarkSpec,
   IPyramid3dMarkSpec,
   ILinkPathMarkSpec,
+  IRippleMarkSpec,
   IProgressArcMarkSpec,
   ConvertToMarkStyleSpec,
   ICellMarkSpec
@@ -55,6 +57,7 @@ export {
   PolygonMark,
   Pyramid3dMark,
   LinkPathMark,
+  RippleMark,
   ProgressArcMark,
   CellMark,
   BaseMark

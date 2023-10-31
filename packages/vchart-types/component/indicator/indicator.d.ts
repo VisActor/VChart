@@ -5,7 +5,7 @@ import { BaseComponent } from '../base';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorSpec, IIndicatorTheme } from './interface';
 import type { Maybe } from '../../typings';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static speckey: string;
   static type: ComponentTypeEnum;
@@ -36,6 +36,7 @@ export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T
   private _createText;
   private _computeLayoutRadius;
   private isRelativeModel;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
   clear(): void;
 }
+export declare const registerIndicator: () => void;

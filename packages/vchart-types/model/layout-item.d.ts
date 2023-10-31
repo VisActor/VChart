@@ -58,4 +58,5 @@ export declare class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec>
   protected _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): IBoundsLike;
   updateLayoutAttribute(): void;
   compile(): void;
+  getGraphicBounds(): IBoundsLike;
 }

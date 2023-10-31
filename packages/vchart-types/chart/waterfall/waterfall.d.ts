@@ -8,3 +8,4 @@ export declare class WaterfallChart extends BarChart {
   transformSpec(spec: IWaterfallChartSpec): void;
   protected _getDefaultSeriesSpec(spec: IWaterfallChartSpec): any;
 }
+export declare const registerWaterfallChart: () => void;

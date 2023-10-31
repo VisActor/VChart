@@ -6,3 +6,4 @@ export declare class Bar3dChart extends CartesianChart {
   readonly seriesType: string;
   protected _getDefaultSeriesSpec(spec: any): any;
 }
+export declare const registerBar3dChart: () => void;

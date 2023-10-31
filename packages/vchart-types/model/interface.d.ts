@@ -17,12 +17,13 @@ import type {
 } from '../typings';
 import type { ITheme } from '../theme';
 import type { StateValueType } from '../typings/spec';
-import type { ITooltipHelper } from './tooltip-helper';
 import type { ModelStateManager } from './model-state-manager';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart } from '../chart/interface';
+import type { IChartLevelTheme } from '../core/interface';
+import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 export type ILayoutNumber = number | IPercent | ((layoutRect: ILayoutRect) => number) | IPercentOffset;
 export interface ILayoutPoint {
   x: number;
@@ -71,6 +72,7 @@ export interface ILayoutItem {
   getLayoutStartPoint: () => ILayoutPoint;
   getLayoutRect: () => ILayoutRect;
   getLastComputeOutBounds: () => IBoundsLike;
+  getGraphicBounds: () => IBoundsLike;
   setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRectLevel>) => void;
   computeBoundsInRect: (rect: ILayoutRect) => ILayoutRect;
   setLayoutStartPosition: (pos: Partial<IPoint>) => void;
@@ -151,8 +153,8 @@ export interface IModel extends ICompilable, ILayoutItem {
   updateSpec: (spec: any, totalSpec?: any) => IUpdateSpecResult;
   getSpec?: () => any;
   getSpecIndex: () => number;
-  setTheme: (theme?: any) => void;
-  setCurrentTheme: (theme: any, noRender?: boolean) => void;
+  setCurrentTheme: (noRender?: boolean) => void;
+  getColorScheme: () => IThemeColorScheme | undefined;
   setMarkStyle: <T extends ICommonSpec>(
     mark?: IMarkRaw<T>,
     style?: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>,
@@ -160,7 +162,6 @@ export interface IModel extends ICompilable, ILayoutItem {
     level?: number
   ) => void;
   initMarkStyleWithSpec: (mark?: IMark, spec?: any, key?: string) => void;
-  tooltipHelper: ITooltipHelper;
   bindSceneNode: (node: IElement) => void;
   getSceneNodes: () => IElement[];
   getSceneNodeMarks: () => IVGrammarMark[];
@@ -173,7 +174,12 @@ export interface IModelOption extends ICompilableInitOption {
   globalInstance: VChart;
   specIndex?: number;
   specKey?: string;
-  getTheme?: () => ITheme;
+  getThemeConfig?: () => {
+    globalTheme?: string;
+    optionTheme?: string | ITheme;
+    specTheme?: string | ITheme;
+    chartLevelTheme: IChartLevelTheme;
+  };
   getChartLayoutRect: () => IRect;
   getChartViewRect: () => ILayoutRect;
   getChart: () => IChart;

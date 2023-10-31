@@ -7,7 +7,7 @@ import { BaseComponent } from '../base';
 import type { IGeoRegionSpec, IRegion } from '../../region/interface';
 import type { IGeoCoordinate, IGeoCoordinateSpec, IProjectionSpec } from './interface';
 import type { IChartSpec, StringOrNumber } from '../../typings';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 export declare function projectionName(key: string, id: number): string;
 export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeoCoordinate {
   static type: ComponentTypeEnum;
@@ -52,7 +52,7 @@ export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> impleme
   onLayoutEnd(ctx: IModelLayoutOption): void;
   onRender(ctx: IModelRenderOption): void;
   changeRegions(regions: IRegion[]): void;
-  getVRenderComponents(): IGroup[];
+  getVRenderComponents(): IGraphic[];
   protected collectFeatures(): any[];
   dataToPosition(values?: number[]): IPoint;
   dataToLatitude(lat: number): number;
@@ -65,3 +65,4 @@ export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> impleme
   protected _initCenterCache(): void;
   release(): void;
 }
+export declare const registerGeoCoordinate: () => void;
