@@ -1,45 +1,16 @@
+import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
+import type { IAnimationSpec } from '../../../animation/spec';
 import type {
   Datum,
   IPadding,
-  IPolarOrientType,
   IRectMarkSpec,
   IRuleMarkSpec,
   ISymbolMarkSpec,
   ITextMarkSpec,
   StringOrNumber
-} from '../../typings';
-import type { ICartesianAxisSpec } from './cartesian/interface';
-import type { IComponent } from '../interface';
-import type { IBaseScale } from '@visactor/vscale';
-import type { IAnimationSpec } from '../../animation/spec';
-import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
-import type { IComponentSpec } from '../base/interface';
-import type { ITextGraphicAttribute } from '@visactor/vrender-core';
-
-export interface StatisticsDomain {
-  domain: any[];
-  index: { [key in StringOrNumber]: number };
-}
-
-export interface IAxis extends IComponent {
-  valueToPosition: (value: any) => number;
-  getScale: () => IBaseScale;
-  getScales: () => IBaseScale[];
-  getOrient: () => ICartesianAxisSpec['orient'] | IPolarOrientType;
-  visible: boolean;
-  getStatisticsDomain: () => StatisticsDomain;
-}
-
-export interface IAxisItem<T> {
-  visible?: boolean;
-  style?: Omit<T, 'visible'>;
-}
-
-export interface IAxisItemTheme<T> {
-  visible?: boolean;
-  style?: Omit<T, 'visible'>;
-}
-export type AxisAnimationPreset = 'groupFadeIn' | 'fadeIn' | 'grow';
+} from '../../../typings';
+import type { IComponentSpec } from '../../base/interface';
+import type { AxisType, IAxisItem, ITickCallbackOption, StyleCallback } from './common';
 
 export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
   /**
@@ -197,11 +168,6 @@ export interface IGrid extends IAxisItem<IRuleMarkSpec> {
    */
   zIndex?: number;
 }
-
-export type ITickCallbackOption = {
-  axisLength?: number;
-  labelStyle?: ITextGraphicAttribute;
-};
 
 // 刻度线配置
 export interface ITick extends IAxisItem<IRuleMarkSpec> {
@@ -395,30 +361,4 @@ export interface ITitle extends IAxisItem<ITextMarkSpec> {
    * text 文本的交互状态样式配置
    */
   state?: AxisItemStateStyle<Partial<ITextMarkSpec>>;
-}
-
-export type StyleCallback<T> = (value: any, index: number, datum: Datum, data: Datum[]) => T;
-export type AxisType = 'linear' | 'ordinal' | 'band' | 'point' | 'time' | 'log' | 'symlog';
-
-export interface IAxisCommonTheme {
-  /** 网格线配置 */
-  grid?: IGrid;
-  /** 网格线配置 */
-  subGrid?: IGrid;
-  /** 轴线配置 */
-  domainLine?: IDomainLine;
-  /** 轴标签配置 */
-  label?: ILabel;
-  /** 轴标题配置 */
-  title?: ITitle;
-  /** 轴刻度线配置 */
-  tick?: ITick;
-  /** 轴刻度线配置 */
-  subTick?: ISubTick;
-}
-
-export interface IBandAxisTheme extends IAxisCommonTheme {
-  bandPadding?: number | number[];
-  paddingInner?: number | number[];
-  paddingOuter?: number | number[];
 }

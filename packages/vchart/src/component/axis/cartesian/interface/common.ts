@@ -1,7 +1,7 @@
 import type { SegmentAttributes, AxisLabelOverlap } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
-import type { IAxis, IDomainLine, ILabel, ITickCallbackOption, ITitle } from '../../interface';
-import type { Datum, ITextMarkSpec, StringOrNumber } from '../../../../typings';
+import type { IAxis, IAxisLocationCfg, IDomainLine, ILabel, ITickCallbackOption, ITitle } from '../../interface';
+import type { ITextMarkSpec, StringOrNumber } from '../../../../typings';
 
 export type ICartesianDomainLineSpec = {
   startSymbol?: SegmentAttributes['startSymbol'];
@@ -117,11 +117,6 @@ export interface IAxisHelper {
 
   // 在地理坐标系系列中，传递经纬度配置字段
   getFields?: () => string[];
-}
-
-export interface IAxisLocationCfg {
-  bandPosition?: number;
-  datum?: Datum;
 }
 
 export interface ITimeLayerType {

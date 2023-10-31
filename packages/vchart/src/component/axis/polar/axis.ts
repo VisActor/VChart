@@ -31,7 +31,6 @@ import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IBandAxisSpec, ITick } from '../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
-import { DEFAULT_BAND_POSITION } from './config';
 
 export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommonSpec>
   extends AxisComponent<T>
@@ -40,6 +39,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   static type = ComponentTypeEnum.polarAxis;
   type = ComponentTypeEnum.polarAxis;
   name: string = ComponentTypeEnum.polarAxis;
+
+  protected readonly _defaultBandPosition = 0;
+  protected readonly _defaultBandInnerPadding = 0;
+  protected readonly _defaultBandOuterPadding = 0;
 
   layoutType: LayoutItem['layoutType'] = 'absolute';
   layoutZIndex: number = LayoutZIndex.Axis;
@@ -358,10 +361,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return helper;
   }
 
-  dataToPosition(values: any[]): number {
-    return this._scale.scale(values);
-  }
-
   positionToData(position: IPoint) {
     const coord = this.pointToCoord(position);
     if (this.getOrient() === 'radius') {
@@ -372,7 +371,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       //极坐标轴需要手动取模，超出range时默认会截断
       const range = this._scale.range();
       const rangeValue = range[range.length - 1] - range[0];
-      const bandPosition = (this.getSpec() as IBandAxisSpec).bandPosition ?? DEFAULT_BAND_POSITION;
+      const bandPosition = (this.getSpec() as IBandAxisSpec).bandPosition ?? this._defaultBandPosition;
       const offset = bandPosition === 0.5 ? 0 : (this._scale as BandScale).bandwidth() / 2;
       if (range[0] < 0) {
         const angle = coord.angle + offset;
