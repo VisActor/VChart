@@ -395,7 +395,7 @@ export const dualAxisSeries = (spec: any, context: Context) => {
     },
     {
       type: 'line',
-      id: cell.y[1],
+      id: cell.y[cell.y?.length - 1],
       dataIndex: 0,
       data: {
         id: spec.data.id + '_line',

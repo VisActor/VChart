@@ -3330,6 +3330,31 @@ export const mockUserInput8 = {
   input: '帮我各产品的销售趋势,时长10s'
 };
 
+/**
+ * 漏斗图
+ */
+export const mockUserInput9 = {
+  csv: `流程,转化率,Month
+Step1,100,1
+Step2,80,1
+Step3,60,1
+Step4,40,1`
+};
+
+/**
+ * 双轴图
+ */
+export const mockUserInput10 = {
+  csv: `时间,男-早餐,女-早餐
+周一,15,22
+周二,12,10
+周三,15,20
+周四,10,12
+周五,13,15
+周六,10,15
+周日,12,14`
+};
+
 export const mockGPTResponseLineChart = {
   THOUGHT:
     "The user wants to show the sales trend of each product, and the user wants to use a line chart. The data contains the date field, product type, and sales value, which can be used to draw a line chart. The 'date' field is used as the x-axis because it's a date, and the 'value' field is used as the y-axis because it's a number. The 'type' field is used to distinguish different products.",
@@ -3376,4 +3401,33 @@ export const mockGPTResponsePieChart = {
   DOUBLE_CHECK:
     "The pie chart is suitable for displaying percentage data such as market share, which can meet the user's intent. Pie Chart is in the list of supported charts. The visual mapping result meets the user's intent. All fields in the data are used in the visual mapping. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript.",
   COLOR_PALETTE: ['#FF6000', '#FFE6C7', '#FFA559', '#454545', '#B70404', '#DB005B', '#F79327', '#FFE569']
+};
+
+export const mockGPTResponseFunnelChart = {
+  THOUGHT:
+    "The user wants to show the proportion of conversion rate between different processes, which is suitable for displaying with a funnel chart. The data contains the conversion rate, process name, and month, and the user wants to show the data in a forest style. The '流程' field is used as the x-axis of the funnel chart to show the name of each process. The '转化率' field is used as the y-axis of the funnel chart to show the proportion of conversion rate between different processes. The 'Month' field is not used in the visual mapping because it's not necessary for the funnel chart.",
+  CHART_TYPE: 'Funnel Chart',
+  FIELD_MAP: {
+    x: '流程',
+    y: '转化率'
+  },
+  REASON:
+    "The user wants to show the proportion of conversion rate between different processes, which is suitable for displaying with a funnel chart. The data contains the conversion rate, process name, and month, and the user wants to show the data in a forest style. The '流程' field is used as the x-axis of the funnel chart to show the name of each process. The '转化率' field is used as the y-axis of the funnel chart to show the proportion of conversion rate between different processes. The 'Month' field is not used in the visual mapping because it's not necessary for the funnel chart.",
+  DOUBLE_CHECK:
+    "The funnel chart is suitable for displaying the proportion of conversion rate between different processes, which can meet the user's intent. Funnel Chart is in the list of supported charts. The visual mapping result meets the user's intent. All fields in the data are used in the visual mapping. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript."
+};
+
+export const mockGPTResponseDualAxisChart = {
+  THOUGHT:
+    'The user wants to compare the breakfast consumption of male and female students, which is suitable for displaying with a bar chart. The data contains the breakfast consumption of male and female students and the day of the week, and the user wants to show the data in a forest style.',
+  CHART_TYPE: 'Bar Chart',
+  FIELD_MAP: {
+    x: '时间',
+    y: ['男-早餐', '女-早餐'],
+    color: '性别'
+  },
+  REASON:
+    "The user wants to compare the breakfast consumption of male and female students, which is suitable for displaying with a bar chart. The '时间' field is used as the x-axis of the bar chart to show the day of the week. The '男-早餐' and '女-早餐' fields are used as the y-axis of the bar chart to show the breakfast consumption of male and female students. The '性别' field is used as the color to distinguish between male and female students. The forest style is used to make the chart more visually appealing.",
+  DOUBLE_CHECK:
+    "The bar chart is suitable for comparing data between different categories, which can meet the user's intent. Bar Chart is in the list of supported charts. The visual mapping result meets the user's intent. All fields in the data are used in the visual mapping. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript."
 };
