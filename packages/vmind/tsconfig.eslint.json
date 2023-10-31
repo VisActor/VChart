@@ -6,5 +6,5 @@
     "baseUrl": "./",
     "rootDir": "./"
   },
-  "include": ["src", "site","vite.config.ts"],
+  "include": ["src", "__tests__/browser/src", "__tests__/browser/vite.config.ts"]
 }

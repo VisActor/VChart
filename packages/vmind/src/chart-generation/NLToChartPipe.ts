@@ -73,7 +73,7 @@ export const dataProcessGPT = async (csvFile: string, userInput: string, openAIK
   const DATA_TOP_N = 5; //取csv文件的前多少条数据
   const topNCSVFile = readTopNLine(csvFile, DATA_TOP_N);
   const dataProcessMessage = `CSV file content:\n${topNCSVFile}\nUser Input: ${userInput}`;
-  const dataProcessRes = await requestGPT(openAIKey, DataProcessPromptEnglish, dataProcessMessage, 0);
+  const dataProcessRes = await requestGPT(openAIKey as string, DataProcessPromptEnglish, dataProcessMessage, 0);
   // const dataProcessRes = getMockData1()
   // const dataProcessRes = getMockDataWordCloud1()
   // const dataProcessRes = getMockDataDynamicBar();
@@ -103,7 +103,7 @@ export const chartAdvisorGPT = async (
       //usefulFields.includes(field.fieldName)
     );
     const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(filteredFields)}`;
-    const advisorRes = await requestGPT(openAIKey, ChartAdvisorPromptEnglish, chartAdvisorMessage);
+    const advisorRes = await requestGPT(openAIKey as string, ChartAdvisorPromptEnglish, chartAdvisorMessage);
     // const advisorRes = getMockDataWordCloud2()
     //const advisorRes = getMockDataDynamicBar2();
 

@@ -12,8 +12,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "start": "vite",
-    "build": "tsc && vite build",
+    "start": "vite ./__tests__/browser",
+    "build": "bundle --clean",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -52,6 +52,8 @@
   },
   "dependencies": {
     "@visactor/vchart": "workspace:1.5.4",
+    "@visactor/vrender": "~0.16.9",
+    "@visactor/vdataset": "~0.16.6",
     "@ffmpeg/core": "^0.11.0",
     "@ffmpeg/ffmpeg": "^0.11.6",
     "axios": "^1.4.0",

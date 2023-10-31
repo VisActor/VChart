@@ -189,7 +189,10 @@ export const sankeyData = (spec: any, context: Context) => {
   const { source, target } = cell;
   const linkData = dataView.latestData;
   const nodes = [
-    ...new Set([...linkData.map((item: any) => item[source]), ...linkData.map((item: any) => item[target])])
+    ...new Set([
+      ...linkData.map((item: any) => item[source as string]),
+      ...linkData.map((item: any) => item[target as string])
+    ])
   ];
   const nodeData = nodes.map(node => ({ name: node }));
 
