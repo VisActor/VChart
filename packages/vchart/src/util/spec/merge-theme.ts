@@ -32,14 +32,10 @@ function transformThemeToMerge(theme?: Maybe<ITheme>): Maybe<ITheme> {
     }, {} as ISeriesTheme);
   }
 
-  return {
-    ...theme,
+  return Object.assign({}, theme, {
     colorScheme,
-    series: {
-      ...theme.series,
-      ...newSeriesTheme
-    }
-  };
+    series: Object.assign({}, theme.series, newSeriesTheme)
+  });
 }
 
 /** 将色板转化为标准形式 */
