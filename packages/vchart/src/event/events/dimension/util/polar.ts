@@ -99,12 +99,11 @@ export const getPolarDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoi
           return;
         }
 
-        const value = angleScale.invert(angle);
+        const value = axis.invert(angle);
         if (isNil(value)) {
           return;
         }
-        const domain = angleScale.domain();
-        let index: number | undefined = domain.findIndex((v: any) => v?.toString() === value.toString());
+        let index: number | undefined = angleDomain.findIndex((v: any) => v?.toString() === value.toString());
         if (index < 0) {
           index = undefined;
         }

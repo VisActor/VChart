@@ -13,52 +13,52 @@ const run = () => {
   });
 
   const spec: IRadarChartSpec = {
-    type: 'rose',
+    type: 'radar',
     data: [
       {
-        values: [
-          {
-            value: '159',
-            type: 'Tradition Industries'
-          },
-          {
-            value: '50',
-            type: 'Business Companies'
-          },
-          {
-            value: '13',
-            type: 'Customer-facing Companies'
-          }
-        ]
+        values: mockData
       }
     ],
-    outerRadius: 0.8,
-    innerRadius: 0.2,
-    categoryField: 'type',
+    categoryField: 'month',
     valueField: 'value',
-    seriesField: 'type',
-    label: {
-      visible: true,
-      layout: {
-        tangentConstraint: false
-      }
-    },
+    seriesField: 'type', // 声明分组字段
     axes: [
       {
-        type: 'band',
-        orient: 'angle',
-        visible: true,
+        orient: 'radius', // 半径轴配置
         grid: {
-          visible: true
+          smooth: true, // 平滑的网格线
+          style: {
+            lineDash: [0]
+          },
+          alternateColor: '#f5f5f5' // 配置栅格线间的背景色
+        }
+      },
+      {
+        orient: 'angle', // 角度轴配置
+        tick: {
+          visible: false
         },
         domainLine: {
-          visible: true
+          visible: true,
+          style: {
+            stroke: '#333'
+          }
         },
-        label: {
-          visible: true
+        grid: {
+          style: {
+            lineDash: [0]
+          }
         }
       }
-    ]
+    ],
+    crosshair: {
+      categoryField: { visible: true },
+      valueField: { visible: true }
+    },
+    legends: {
+      visible: true,
+      orient: 'top'
+    }
   };
   const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
