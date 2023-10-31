@@ -140,8 +140,8 @@ const spec = {
   }
 };
 
-export class HorizontalBarTemp extends BaseTemp {
-  type = 'horizontalBar';
+export class HorizontalBarGroupTemp extends BaseTemp {
+  type = 'horizontalBarGroup';
   checkDataEnable(data: StandardData, info: DataInfo, opt?: any): boolean {
     const yField: string[] = [];
     const xField: string[] = [];
@@ -170,7 +170,7 @@ export class HorizontalBarTemp extends BaseTemp {
       if (info[key].type === 'linear') {
         xField.length === 0 && xField.push(key);
       } else if (info[key].type === 'ordinal') {
-        if (yField.length === 0) {
+        if (yField.length < 2) {
           yField.push(key);
         } else if (!seriesField) {
           seriesField = key;

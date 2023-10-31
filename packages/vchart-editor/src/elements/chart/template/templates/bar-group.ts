@@ -12,7 +12,6 @@ const spec = {
       xField: 'State',
       yField: 'Population',
       seriesField: 'Age',
-      direction: 'horizontal',
       stack: true,
       bar: {
         // The state style of bar
@@ -32,12 +31,12 @@ const spec = {
     {
       orient: 'left',
       id: 'axis-left',
-      type: 'band'
+      type: 'linear'
     },
     {
       orient: 'bottom',
       id: 'axis-bottom',
-      type: 'linear'
+      type: 'band'
     }
   ],
   data: [
@@ -128,9 +127,15 @@ const spec = {
   },
   region: [
     {
-      id: 'region-0'
+      id: 'region-0',
+      style: {
+        // fill: 'red'
+      }
     }
   ],
+  tooltip: {
+    visible: true
+  },
   title: {
     id: 'title',
     visible: true,
@@ -140,19 +145,19 @@ const spec = {
   }
 };
 
-export class HorizontalBarTemp extends BaseTemp {
-  type = 'horizontalBar';
+export class BarGroupTemp extends BaseTemp {
+  type = 'barGroup';
   checkDataEnable(data: StandardData, info: DataInfo, opt?: any): boolean {
-    const yField: string[] = [];
     const xField: string[] = [];
+    const yField: string[] = [];
     Object.keys(info).forEach(key => {
       if (info[key].type === 'linear') {
-        xField.length === 0 && xField.push(key);
+        yField.length === 0 && yField.push(key);
       } else if (info[key].type === 'ordinal') {
-        yField.push(key);
+        xField.push(key);
       }
     });
-    if (yField.length === 0 || xField.length === 0) {
+    if (xField.length === 0 || yField.length === 0) {
       return false;
     }
     return true;
@@ -160,30 +165,30 @@ export class HorizontalBarTemp extends BaseTemp {
   getSpec(data: StandardData, info: DataInfo, opt?: any) {
     const tempSpec = cloneDeep(spec);
     tempSpec.data = [data];
-    const yField: string[] = [];
     const xField: string[] = [];
+    const yField: string[] = [];
     let seriesField: string = null;
     Object.keys(info).forEach(key => {
       if (key.startsWith('VGRAMMAR_') || key.startsWith('__VCHART_')) {
         return;
       }
       if (info[key].type === 'linear') {
-        xField.length === 0 && xField.push(key);
+        yField.length === 0 && yField.push(key);
       } else if (info[key].type === 'ordinal') {
-        if (yField.length === 0) {
-          yField.push(key);
+        if (xField.length < 2) {
+          xField.push(key);
         } else if (!seriesField) {
           seriesField = key;
         } else {
-          yField.push(key);
+          xField.push(key);
         }
       }
     });
-    if (yField.length === 0 || xField.length === 0) {
+    if (xField.length === 0 || yField.length === 0) {
       return null;
     }
-    tempSpec.series[0].yField = yField;
     tempSpec.series[0].xField = xField;
+    tempSpec.series[0].yField = yField;
     tempSpec.series[0].dataId = data.name;
     tempSpec.series[0].seriesField = seriesField;
     return tempSpec;
