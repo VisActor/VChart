@@ -24,11 +24,14 @@ import {
   getMockDataScatter1,
   getMockDataScatter2,
   getMockDataWordCloud1,
-  getMockDataWordCloud2,
+  getMockDataWordCloud2
+} from '../site/constants/mockData';
+
+import {
   mockGPTResponseBarChart,
   mockGPTResponseLineChart,
   mockGPTResponsePieChart
-} from './mock';
+} from '../site/constants/mockResponse';
 
 export const estimateVideoTime = (chartType: string, spec: any, parsedTime?: number) => {
   //估算视频长度
