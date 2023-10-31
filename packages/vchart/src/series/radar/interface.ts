@@ -3,7 +3,7 @@ import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IAreaMarkSpec, ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { ILineLikeSeriesTheme } from '../mixin/line-mixin';
+import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mixin';
 import type { IRoseLikeSeriesSpec, IRoseLikeSeriesTheme } from '../polar/rose-like';
 import type { RadarAppearPreset } from './animation';
 
@@ -27,6 +27,10 @@ export interface IRadarSeriesSpec
    * 面积图元配置
    */
   [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
+  /**
+   * 标签配置
+   */
+  [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
   /**
    * 系列主 mark 类型配置，该配置会影响图例的展示
    * @default 'area'

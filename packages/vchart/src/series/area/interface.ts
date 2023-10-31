@@ -1,13 +1,11 @@
-import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
+import type { ICartesianSeriesSpec } from '../cartesian/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { ISymbolMarkSpec, ILineMarkSpec, IAreaMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { ILineLikeSeriesTheme } from '../mixin/line-mixin';
+import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mixin';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AreaAppearPreset } from './animation';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
-import type { ILabelSpec } from '../../component';
-import type { Functional } from '@visactor/vrender-components';
 
 export interface IAreaSeriesSpec
   extends ICartesianSeriesSpec,
@@ -37,15 +35,10 @@ export interface IAreaSeriesSpec
    * 面积图元配置
    */
   [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
-  /** 标签配置 */
-  [SeriesMarkNameEnum.label]?: Omit<ILabelSpec, 'position'> & {
-    /** 标签位置
-     * @since 1.6.0，支持以函数形式配置
-     */
-    position?: Functional<
-      'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center'
-    >;
-  };
+  /**
+   * 标签配置
+   */
+  [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
   /**
    * 系列主 mark 类型配置，该配置会影响图例的展示
    * @default 'area'
@@ -61,6 +54,6 @@ export interface IAreaSeriesSpec
   activePoint?: boolean;
 }
 
-export interface IAreaSeriesTheme extends ICartesianSeriesTheme, ILineLikeSeriesTheme {
+export interface IAreaSeriesTheme extends ILineLikeSeriesTheme {
   [SeriesMarkNameEnum.area]?: Partial<IMarkTheme<IAreaMarkSpec>>;
 }

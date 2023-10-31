@@ -39,7 +39,8 @@ export interface IBarSeriesSpec
   [SeriesMarkNameEnum.label]?: Omit<ILabelSpec, 'position'> & {
     /**
      * 标签位置
-     * @since 1.6.0，支持'top-right' | 'top-left'| 'bottom-right' | 'bottom-left'，以及函数形式配置
+     * @since 1.6.0
+     * 支持'top-right' | 'top-left'| 'bottom-right' | 'bottom-left'，以及函数形式配置
      * */
     position?: Functional<
       | 'outside'
