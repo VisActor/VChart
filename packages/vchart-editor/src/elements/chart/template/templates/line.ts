@@ -5,7 +5,7 @@ import { BaseTemp } from './baseTemp';
 
 const spec = {
   type: 'common',
-  // background: 'transparent',
+  background: 'transparent',
   series: [
     {
       id: 'line-0',
@@ -18,8 +18,8 @@ const spec = {
   ],
   axes: [
     {
-      orient: 'right',
-      id: 'axis-right',
+      orient: 'left',
+      id: 'axis-left',
       type: 'linear'
     },
     {

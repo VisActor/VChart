@@ -15,6 +15,7 @@ export class EditorController implements IEditorController {
 
   protected _startHandler: EditorHandlerFunc[] = [];
   protected _endHandler: EditorHandlerFunc[] = [];
+  protected _runHandler: ((type: string) => void)[] = [];
 
   protected _opt: {
     getTopLayer: () => IEditorLayer;
@@ -73,6 +74,20 @@ export class EditorController implements IEditorController {
 
   editorEnd() {
     this._endHandler.forEach(h => h(this._currentEditorElements));
+  }
+
+  addRunHandler(handler: (type: string) => void) {
+    this._runHandler.push(handler);
+  }
+  removeRunHandler(handler: (type: string) => void) {
+    const index = this._runHandler.findIndex(h => h === handler);
+    if (index >= 0) {
+      this._runHandler.slice(index, 1);
+    }
+  }
+
+  editorRun(type: string) {
+    this._runHandler.forEach(h => h(type));
   }
 
   // over border

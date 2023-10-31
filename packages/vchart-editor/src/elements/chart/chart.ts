@@ -145,6 +145,10 @@ export class EditorChart extends BaseElement {
     spec.width = this._rect.width;
     spec.height = this._rect.height;
     spec.background = 'transparent';
+    if (this._vchart?.getChart()?.getSpec()) {
+      spec.width = this._vchart.getChart().getSpec().width;
+      spec.height = this._vchart.getChart().getSpec().height;
+    }
     return spec;
   }
 
@@ -225,10 +229,11 @@ export class EditorChart extends BaseElement {
 
   private _onChartTypeChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {
     el.editorFinish();
-    this.layout.setLayoutData({
-      viewBox: this.layout.getLayoutData().viewBox,
-      data: []
-    });
+    // do not clear layoutData
+    // this.layout.setLayoutData({
+    //   viewBox: this.layout.getLayoutData().viewBox,
+    //   data: []
+    // });
     this.specProcess.updateTemp(attr.chartType);
   };
   private _onChartDataChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {

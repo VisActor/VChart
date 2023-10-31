@@ -128,12 +128,15 @@ const spec = {
   },
   region: [
     {
-      id: 'region-0',
-      style: {
-        // fill: 'red'
-      }
+      id: 'region-0'
     }
-  ]
+  ],
+  title: {
+    visible: true,
+    textStyle: {
+      text: 'Title'
+    }
+  }
 };
 
 export class HorizontalBarTemp extends BaseTemp {
