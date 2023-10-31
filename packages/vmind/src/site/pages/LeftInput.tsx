@@ -8,11 +8,11 @@ import {
   mockUserInput3Eng,
   mockUserInput6,
   mockUserInput6Eng,
-  mockUserInput8
-} from '../constants';
+  mockUserInput8,
+  carSaleMockData
+} from '../constants/mockData';
 import { excel2csv } from '../../excel';
 import VMind from '../../index';
-import { carSaleMockData } from '../../chart-generation/mock';
 
 const TextArea = Input.TextArea;
 type IPropsType = {
