@@ -251,6 +251,7 @@ export class EditorChart extends BaseElement {
       if (!lastMarkLine) {
         const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markLine.type);
         spec.markLine.push(defaultMarkLineSpec);
+        this.specProcess.updateMarker(defaultMarkLineSpec, 'markLine');
       }
     } else {
       if (lastMarkLine) {
@@ -268,8 +269,9 @@ export class EditorChart extends BaseElement {
     const lastMarkArea = spec.markArea.find((markArea: any) => markArea.name === attr.markArea.type);
     if (attr.markArea.enable) {
       if (!lastMarkArea) {
-        const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markArea.type);
-        spec.markArea.push(defaultMarkLineSpec);
+        const defaultMarkAreaSpec = getDefaultMarkerConfigByType(this.vchart, attr.markArea.type);
+        spec.markArea.push(defaultMarkAreaSpec);
+        this.specProcess.updateMarker(defaultMarkAreaSpec, 'markArea');
       }
     } else {
       if (lastMarkArea) {
