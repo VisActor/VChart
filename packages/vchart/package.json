@@ -12,6 +12,7 @@
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir ../vchart-types/types",
     "build": "bundle --clean && npm run build:schema && npm run build:types && npm run export:theme && npm run build:es5",
     "build:ci": "bundle --clean -f umd --minify=false --ignorePostTasks --name ChartSpace",
+    "build:umd": "bundle -f umd",
     "analyze": "npm run analyze-full && npm run analyze-line && npm run analyze-simple",
     "analyze-full": "BUNDLE_ANALYZE='full' bundle -f umd ",
     "analyze-simple": "BUNDLE_ANALYZE='simple' bundle -f umd",

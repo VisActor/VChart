@@ -118,6 +118,25 @@ async function bootstrap() {
     });
     taskList.push(taker.parallel(subBuildTasks));
   }
+
+  if (Array.isArray(config.umdEntries) && config.umdEntries.length > 0) {
+    const subBuildTasks: string[] = [];
+    config.umdEntries.forEach(entry => {
+      const taskName = `Build ${entry}`;
+      subBuildTasks.push(`${taskName}_min`);
+
+      _task(`${taskName}_min`, () =>
+        buildUmd(
+          { ...config, input: { umd: `${entry}.ts` }, umdOutputFilename: entry },
+          PROJECT_ROOT,
+          rawPackageJson,
+          true
+        )
+      );
+    });
+    taskList.push(taker.parallel(subBuildTasks));
+  }
+
   if (config.less) {
     _task(Tasks.BUILD_STYLE, () =>
       buildStyle([`${PROJECT_ROOT}/${config.sourceDir}/**/*.less`], PROJECT_ROOT, config.formats, config.outputDir)

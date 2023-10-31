@@ -4,21 +4,10 @@ export default VChart;
 
 export * from './core';
 
-// chart
+// chart model for extension
 export * from './chart';
 export * from './series';
 export * from './mark';
 export * from './component';
 export * from './layout';
 export * from './env';
-
-/**
- * spec
- */
-export * from './typings/spec/index';
-
-// theme
-export * from './theme';
-
-// vrender
-export { vglobal } from '@visactor/vrender-core';
