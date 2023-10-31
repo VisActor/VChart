@@ -110,7 +110,3 @@ Connection method for non-compliant data points. Connection methods for null, un
 - 'link' means to ignore that point and keep connecting continuously
 - 'zero' means the default value of that point is 0
 - 'ignore' means not to process
-
-```
-
-```

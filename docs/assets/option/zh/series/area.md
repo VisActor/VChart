@@ -111,6 +111,7 @@ label: {
     return datum.year === '2000' ? 'top' : 'bottom';
   };
 }
+```
 
 可选字符串值为：
 
@@ -144,4 +145,3 @@ label: {
   defaultOffset = 5,
   ignoreCustom = true
 ) }}
-```
