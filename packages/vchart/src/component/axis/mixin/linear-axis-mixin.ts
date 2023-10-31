@@ -1,7 +1,6 @@
-import { DEFAULT_CONTINUOUS_TICK_COUNT } from './../../../../../vutils-extension/src/transform/tick-data/config';
-import { isValidNumber } from '@visactor/vutils';
+import { isValidNumber, isNil, isValid } from '@visactor/vutils';
 import type { LinearScale } from '@visactor/vscale';
-import { isNil, isValid, maxInArr, minInArr } from '../../../util';
+import { maxInArr, minInArr } from '../../../util/array';
 import { getLinearAxisSpecDomain } from '../util';
 import type { IAxisLocationCfg } from '../cartesian/interface';
 import type { ITick } from '../interface';

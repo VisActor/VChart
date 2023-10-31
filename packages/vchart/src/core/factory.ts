@@ -3,7 +3,7 @@ import type { ISeriesConstructor, ISeriesOption } from '../series/interface';
 import type { IComponentConstructor } from '../component/interface';
 import type { IMarkConstructor, IMarkOption, MarkConstructor } from '../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from '../mark/interface';
+import { MarkTypeEnum } from '../mark/interface/type';
 import type { IRegion, IRegionConstructor } from '../region/interface';
 import type { IModelOption } from '../model/interface';
 import type { Transform, Parser } from '@visactor/vdataset';

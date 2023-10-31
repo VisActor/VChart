@@ -1,7 +1,7 @@
-import { isMobileLikeMode } from '../../../util';
+import { isMobileLikeMode } from '../../../util/env';
 import type { BaseEventParams, EventHandler, EventParamsDefinition, EventType } from '../../interface';
 import { DimensionEvent } from './base';
-import { isSameDimensionInfo } from './util';
+import { isSameDimensionInfo } from './util/common';
 import { Event_Source_Type } from '../../../constant';
 import type { IDimensionInfo } from './interface';
 

@@ -1,7 +1,8 @@
 import { isString, get, isObject, isNil } from '@visactor/vutils';
 import type { ITheme } from './interface';
 import { ThemeManager } from './theme-manager';
-import { mergeSpec, transformColorSchemeToMerge, transformSeriesThemeToMerge } from '../util';
+import { mergeSpec } from '../util/spec/merge-spec';
+import { transformColorSchemeToMerge, transformSeriesThemeToMerge } from '../util/spec/merge-theme';
 import { getActualColor } from './color-scheme/util';
 import type { IThemeColorScheme } from './color-scheme/interface';
 import type { IModelOption } from '../model/interface';

@@ -1,5 +1,6 @@
 import type { IComponentMark } from './component';
-import { MarkTypeEnum, type IMark } from './interface';
+import type { IMark } from './interface/common';
+import { MarkTypeEnum } from './interface/type';
 import { TextMark } from './text';
 
 export class LabelMark extends TextMark implements ILabelMark {

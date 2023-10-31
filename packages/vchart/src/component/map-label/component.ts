@@ -1,9 +1,9 @@
 import type { IPadding, IRect, IOrientType } from '../../typings/space';
 import { DataView } from '@visactor/vdataset';
-import { BaseComponent } from '../base';
+import { BaseComponent } from '../base/base-component';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import { LayoutZIndex } from '../../constant';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
@@ -11,7 +11,8 @@ import type { IPoint, Datum } from '../../typings';
 import type { IPairInfo } from './layout';
 // eslint-disable-next-line no-duplicate-imports
 import { layoutByPosition, layoutOuter, placeRectByOrient } from './layout';
-import { CompilableData } from '../../compile/data';
+
+import { CompilableData } from '../../compile/data/compilable-data';
 import { normalizeLayoutPaddingSpec } from '../../util/space';
 import type { LayoutItem } from '../../model/layout-item';
 import { MarkPoint } from '@visactor/vrender-components';

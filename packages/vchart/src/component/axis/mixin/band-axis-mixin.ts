@@ -1,5 +1,5 @@
 import type { BandScale } from '@visactor/vscale';
-import { isArray } from '../../../util';
+import { isArray } from '@visactor/vutils';
 import type { StringOrNumber } from '../../../typings';
 import type { IEvent } from '../../../event/interface';
 import { ChartEvent } from '../../../constant/event';

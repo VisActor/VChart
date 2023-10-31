@@ -4,7 +4,7 @@ import type { StateValueType } from '../typings/spec';
 import type { ConvertToMarkStyleSpec, IProgressArcMarkSpec } from '../typings/visual';
 import type { IMarkRaw, IMarkStateStyle, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from './interface';
+import { MarkTypeEnum } from './interface/type';
 import { BaseArcMark } from './arc';
 import type { IAttributeOpt } from '../compile/mark/interface';
 

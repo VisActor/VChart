@@ -1,7 +1,7 @@
 import type { ICirclePackingSeriesSpec } from '../../series/circle-packing/interface';
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { BaseChart } from '../base-chart';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import type { ICirclePackingChartSpec } from './interface';
 import { registerCirclePackingSeries } from '../../series/circle-packing/circle-packing';
 import { Factory } from '../../core/factory';

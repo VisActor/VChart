@@ -3,14 +3,14 @@
  * @description export all component modules
  */
 import type { IScrollBarSpec } from './data-zoom/scroll-bar';
-import { ScrollBar, registerScrollBar } from './data-zoom/scroll-bar';
+import { ScrollBar, registerScrollBar } from './data-zoom/scroll-bar/scroll-bar';
 import type { IDataZoomSpec } from './data-zoom/data-zoom';
-import { DataZoom, registerDataZoom } from './data-zoom/data-zoom';
-import { CustomMark, registerCustomMark } from './custom-mark';
+import { DataZoom, registerDataZoom } from './data-zoom/data-zoom/data-zoom';
+import { CustomMark, registerCustomMark } from './custom-mark/custom-mark';
 import type { IBrushSpec } from './brush';
-import { Brush, registerBrush } from './brush';
+import { Brush, registerBrush } from './brush/brush';
 import type { IMapLabelSpec } from './map-label';
-import { MapLabelComponent, registerMapLabel } from './map-label';
+import { MapLabelComponent, registerMapLabel } from './map-label/component';
 import type {
   ICartesianLinearAxisSpec,
   ICartesianBandAxisSpec,

@@ -1,4 +1,4 @@
-import { isFunction, isNil, isValidNumber } from '@visactor/vutils';
+import { isFunction, isNil, isValidNumber, isArray, get } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import type { IDiscreteLegendSpec, IDiscreteLegendTheme } from './interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -6,17 +6,19 @@ import type { ISeries } from '../../../series/interface';
 import type { IModelInitOption, ILayoutRect } from '../../../model/interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import { getLegendAttributes } from './util';
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import { isArray, eachSeries, get, getFieldAlias, isDataDomainSpec } from '../../../util';
+import { eachSeries } from '../../../util/model';
+import { getFieldAlias } from '../../../util/data';
+import { isDataDomainSpec } from '../../../util/type';
 // eslint-disable-next-line no-duplicate-imports
 import { LegendEvent } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components';
 import type { ILegend } from '../interface';
-import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/transforms/legend-data/discrete';
+import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/transforms/legend-data/discrete/discrete';
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
 import { Factory } from '../../../core/factory';

@@ -1,5 +1,5 @@
 import { LinearScale } from '@visactor/vscale';
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import { PolarAxis } from './axis';
 import type { IPolarLinearAxisSpec } from './interface/spec';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';

@@ -12,7 +12,9 @@ import type {
   FunctionType
 } from '../../typings';
 
-import { isBoolean, isFunction, isNil, isValid, mergeSpec, Color, createScaleWithSpec, isNumber } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { Color } from '../../util/color';
+import { createScaleWithSpec } from '../../util/scale';
 import type {
   IMarkRaw,
   IMarkStateStyle,
@@ -30,7 +32,7 @@ import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme
 import type { ISeries, SeriesTypeEnum } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
-import { degreeToRadian } from '@visactor/vutils';
+import { degreeToRadian, isBoolean, isFunction, isNil, isValid, isNumber } from '@visactor/vutils';
 
 export type ExChannelCall = (
   key: string | number | symbol,

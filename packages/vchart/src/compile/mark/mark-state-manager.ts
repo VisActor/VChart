@@ -3,7 +3,7 @@ import { isContinuous } from '@visactor/vscale';
 import { isArray, isObject, isValid, isBoolean } from '@visactor/vutils';
 import { PREFIX } from '../../constant';
 import type { MarkTypeEnum } from '../../mark/interface';
-import { isMultiDatumMark } from '../../mark/utils';
+import { isMultiDatumMark } from '../../mark/utils/common';
 import type { Datum, StringOrNumber } from '../../typings';
 import type { IStateManagerOption } from '../signal/interface';
 import { StateManager } from '../signal/state-manager';

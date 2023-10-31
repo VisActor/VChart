@@ -8,7 +8,7 @@ import type { ISeriesConstructor } from '../series/interface';
 import type { DimensionIndexOption, IChart, IChartConstructor } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../component/interface';
+import { ComponentTypeEnum } from '../component/interface/type';
 import type {
   EventCallback,
   EventParams,
@@ -23,22 +23,14 @@ import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
-import {
-  isString,
-  isValid,
-  isNil,
-  array,
-  mergeSpec,
-  createID,
-  debounce,
-  isTrueBrowser,
-  warn,
-  specTransform,
-  convertPoint,
-  preprocessSpecOrTheme,
-  getThemeObject,
-  mergeSpecWithFilter
-} from '../util';
+import { createID } from '../util/id';
+import { convertPoint } from '../util/space';
+import { isTrueBrowser } from '../util/env';
+import { warn } from '../util/debug';
+import { mergeSpec, mergeSpecWithFilter } from '../util/spec/merge-spec';
+import { specTransform } from '../util/spec/transform';
+import { preprocessSpecOrTheme } from '../util/spec/preprocess';
+import { getThemeObject } from '../util/spec/common';
 import { Factory } from './factory';
 import { Event } from '../event/event';
 import { EventDispatcher } from '../event/event-dispatcher';
@@ -82,7 +74,12 @@ import {
   merge as mergeOrigin,
   isFunction,
   LoggerLevel,
-  isEqual
+  isEqual,
+  isString,
+  isValid,
+  isNil,
+  array,
+  debounce
 } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IChartLevelTheme, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
@@ -90,8 +87,8 @@ import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
 import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
-import { Layout } from '../layout';
-import { GroupMark } from '../mark';
+import { Layout } from '../layout/base-layout';
+import { GroupMark } from '../mark/group';
 import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';

@@ -1,5 +1,6 @@
 import { isArray, isFunction, isNil, isObject, isString, isValid, isValidNumber } from '@visactor/vutils';
-import { seriesMarkNameSet, type SeriesTypeEnum } from '../../series/interface';
+import type { SeriesTypeEnum } from '../../series/interface/type';
+import { seriesMarkNameSet } from '../../series/interface/type';
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 import { isDataView, isHTMLElement } from './common';
 import { getActualColor, isColorKey } from '../../theme/color-scheme/util';

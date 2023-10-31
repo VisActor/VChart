@@ -2,12 +2,12 @@
 import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD } from '../../constant/index';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Maybe, Datum } from '../../typings';
-import { isValid } from '../../util';
+import { isValid } from '@visactor/vutils';
 import type { IRuleMark } from '../../mark/rule';
 import type { IMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { ShapeTypeEnum } from '../../typings';
+import { ShapeTypeEnum } from '../../typings/shape';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { IDotSeriesSpec } from '../dot/interface';
 import type { IGroupMark } from '../../mark/group';

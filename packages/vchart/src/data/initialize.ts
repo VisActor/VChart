@@ -1,11 +1,10 @@
 import type { utilFunctionCtx } from '../typings/params';
-import { warn } from '../util/debug';
+import { warn, error } from '../util/debug';
 import { isString } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { IDataViewOptions, IFields, ITransformOptions } from '@visactor/vdataset';
 import type { IDataValues, SheetParseOptions } from '../typings/spec/common';
-import { error } from '../util';
 import { registerDataSetInstanceTransform } from './register';
 import { copyDataView } from './transforms/copy-data-view';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';

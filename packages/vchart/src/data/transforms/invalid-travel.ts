@@ -1,5 +1,5 @@
 import type { Datum, IInvalidType, StringOrNumber } from '../../typings';
-import { couldBeValidNumber } from '../../util';
+import { couldBeValidNumber } from '../../util/type';
 
 export interface ITravelOpt {
   config: () => {

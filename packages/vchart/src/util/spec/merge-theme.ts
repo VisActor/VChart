@@ -4,7 +4,8 @@ import { transformColorSchemeToStandardStruct } from '../../theme/color-scheme/u
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 import type { ISeriesTheme } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { seriesMarkInfoMap, type ISeriesMarkInfo } from '../../series/interface';
+import type { ISeriesMarkInfo } from '../../series/interface/common';
+import { seriesMarkInfoMap } from '../../series/interface/theme';
 import { mergeSpec } from './merge-spec';
 
 export function mergeTheme(target: Maybe<ITheme>, ...sources: Maybe<ITheme>[]): Maybe<ITheme> {

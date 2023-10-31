@@ -1,4 +1,4 @@
-import { Matrix } from '@visactor/vutils';
+import { Matrix, isValid, isValidNumber } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import type { FeatureData } from '@visactor/vgrammar-core';
 import { registerProjection } from '@visactor/vgrammar-projection';
@@ -7,7 +7,7 @@ import type { IPathMark } from '../../mark/path';
 import { geoSourceMap, registerMapSource, unregisterMapSource } from './geo-source';
 import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { isValid, isValidNumber, mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import { GeoSeries } from '../geo/geo';
 import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';

@@ -4,7 +4,7 @@ import { type IGaugeSeriesSpec, registerGaugePointerSeries, registerGaugeSeries 
 import type { ISeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ICircularProgressSeriesSpec } from '../../series/progress/circular/interface';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import { ProgressLikeChart } from '../polar/progress-like';
 import { Factory } from '../../core/factory';
 import { LayoutZIndex } from '../../constant';

@@ -2,7 +2,7 @@ import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type { Datum, ITooltipPattern, TooltipActiveType } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
-import { Direction } from '../../typings';
+import { Direction } from '../../typings/space';
 
 export class RangeColumnSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   /** 获取默认的tooltip pattern */
