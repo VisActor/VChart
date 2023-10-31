@@ -364,24 +364,9 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   positionToData(position: IPoint) {
     const coord = this.pointToCoord(position);
     if (this.getOrient() === 'radius') {
-      return this._scale.invert(coord.radius);
+      return this.invert(coord.radius);
     }
-
-    if (this._scale.type === 'band') {
-      //极坐标轴需要手动取模，超出range时默认会截断
-      const range = this._scale.range();
-      const rangeValue = range[range.length - 1] - range[0];
-      const bandPosition = (this.getSpec() as IBandAxisSpec).bandPosition ?? this._defaultBandPosition;
-      const offset = bandPosition === 0.5 ? 0 : (this._scale as BandScale).bandwidth() / 2;
-      if (range[0] < 0) {
-        const angle = coord.angle + offset;
-        const transformedAngle = ((angle + Math.abs(range[0])) % rangeValue) - Math.abs(range[0]);
-        return this._scale.invert(transformedAngle);
-      }
-      return this._scale.invert((coord.angle + offset) % rangeValue);
-    }
-
-    return this._scale.invert(coord.angle);
+    return this.invert(coord.angle);
   }
 
   /**
@@ -624,5 +609,26 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       const gridProduct = this._gridMark.getProduct(); // 获取语法元素并更新
       gridProduct.encode(mergeSpec({}, this._gridStyle, gridAttrs));
     }
+  }
+
+  invert(value: number): number {
+    if (this.getOrient() === 'radius') {
+      return this._scale.invert(value);
+    }
+    if (this._scale.type === 'band') {
+      //极坐标轴需要手动取模，超出range时默认会截断
+      const range = this._scale.range();
+      const rangeValue = range[range.length - 1] - range[0];
+      const bandPosition = (this.getSpec() as IBandAxisSpec).bandPosition ?? this._defaultBandPosition;
+      const offset = bandPosition === 0.5 ? 0 : (this._scale as BandScale).bandwidth() / 2;
+      if (range[0] < 0) {
+        const angle = value + offset;
+        const transformedAngle = ((angle + Math.abs(range[0])) % rangeValue) - Math.abs(range[0]);
+        return this._scale.invert(transformedAngle);
+      }
+      return this._scale.invert((value + offset) % rangeValue);
+    }
+
+    return this._scale.invert(value);
   }
 }
