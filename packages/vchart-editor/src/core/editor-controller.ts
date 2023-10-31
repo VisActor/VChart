@@ -14,8 +14,9 @@ export class EditorController implements IEditorController {
   }
 
   protected _startHandler: EditorHandlerFunc[] = [];
-  protected _endHandler: EditorHandlerFunc[] = [];
+  protected _finishHandler: (() => void)[] = [];
   protected _runHandler: ((type: string) => void)[] = [];
+  protected _endHandler: EditorHandlerFunc[] = [];
 
   protected _opt: {
     getTopLayer: () => IEditorLayer;
@@ -48,7 +49,7 @@ export class EditorController implements IEditorController {
   removeEditorElements() {
     if (this._currentEditorElements) {
       this._currentEditorElements.editorFinish();
-      // this._endHandler.forEach(h => h(this._currentEditorElements));
+      this._finishHandler.forEach(h => h());
       this._currentEditorElements = null;
     }
   }
@@ -62,6 +63,17 @@ export class EditorController implements IEditorController {
       this._startHandler.slice(index, 1);
     }
   }
+
+  addFinishHandler(handler: () => void) {
+    this._finishHandler.push(handler);
+  }
+  removeFinishHandler(handler: () => void) {
+    const index = this._finishHandler.findIndex(h => h === handler);
+    if (index >= 0) {
+      this._finishHandler.slice(index, 1);
+    }
+  }
+
   addEndHandler(handler: EditorHandlerFunc) {
     this._endHandler.push(handler);
   }
@@ -150,6 +162,8 @@ export class EditorController implements IEditorController {
 
   release() {
     this._startHandler = null;
+    this._finishHandler = null;
+    this._runHandler = null;
     this._endHandler = null;
   }
 }

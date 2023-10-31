@@ -49,11 +49,11 @@ export class DragComponent {
     if (this._state !== 'dragging' && this._state !== 'startDrag') {
       return;
     }
-    const lastState = this._state;
+    // const lastState = this._state;
     this._state = 'stopDrag';
-    if (lastState !== 'dragging') {
-      return;
-    }
+    // if (lastState !== 'dragging') {
+    //   return;
+    // }
     if (event.target !== this._container) {
       return;
     }
