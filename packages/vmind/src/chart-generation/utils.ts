@@ -8,7 +8,7 @@ export const requestGPT = async (
   options: IGPTOptions | undefined
 ) => {
   const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
-  const url: string = options.url ?? OPENAI_API_URL;
+  const url: string = options?.url ?? OPENAI_API_URL;
   const defaultHeaders: HeadersInit = isValid(openAIKey)
     ? {
         'Content-Type': 'application/json',

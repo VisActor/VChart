@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vmind",
-  "version": "1.0.6-alpha.3",
+  "version": "1.0.6-alpha.5",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
@@ -16,6 +16,7 @@
     "build": "bundle --clean",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite ./__tests__/browser preview",
+    "clear": "rm -rf build && rm -rf esm && rm -rf cjs",
     "prepublishOnly": "npm run build",
     "postpublish": "npm run clear",
     "test": "jest",

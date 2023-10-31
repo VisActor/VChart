@@ -65,7 +65,6 @@ class VMind {
       //  }
       //}
     }
-    console.log(resJson);
     const chartType = resJson['CHART_TYPE'].toUpperCase();
     const cell = resJson['FIELD_MAP'];
     const colors = resJson['COLOR_PALETTE'];
