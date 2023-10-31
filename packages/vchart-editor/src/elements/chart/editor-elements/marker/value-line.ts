@@ -26,8 +26,8 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
   }
 
   protected _handlePointerDown(e: EventParams): void {
+    this._startEditor();
     this._orient = this._element.name === MarkerTypeEnum.verticalLine ? 'vertical' : 'horizontal';
-
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
 

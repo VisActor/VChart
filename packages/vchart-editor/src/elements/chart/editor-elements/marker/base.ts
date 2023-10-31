@@ -141,6 +141,12 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       }
     });
     this._chart.reRenderWithUpdateSpec();
+    this._controller.editorEnd();
+  }
+
+  protected _startEditor() {
+    // 开始编辑
+    this._controller.editorRun('mark');
   }
 
   releaseLast() {

@@ -224,6 +224,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
   private _onHandlerDragStart = (e: FederatedPointerEvent) => {
     e.stopPropagation();
+    this._startEditor();
 
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkArea;
     this._element = model.getVRenderComponents()[0] as unknown as MarkAreaComponent;
