@@ -1,3 +1,4 @@
+import type { DataView } from '@visactor/vdataset';
 import type { IModelInfo } from './../../../core/interface';
 /* eslint-disable no-console */
 import type { IChartModel } from './../interface';
@@ -97,6 +98,7 @@ export class CommonChartEditorElement implements IEditorElement {
   chartType: string;
   color: string[];
   allModel?: IModelSpec[];
+  chartData?: DataView;
 
   protected _updateCall: UpdateAttributeCall;
   protected _finishCall: () => void;
@@ -162,6 +164,7 @@ export class CommonChartEditorElement implements IEditorElement {
     this._modelInfo = modelInfo;
     this.layer = this._context.layer;
     this.id = id ?? model.userId;
+    this.chartData = context.chart.data.getData();
 
     if (rect) {
       this.rect = rect;

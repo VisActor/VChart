@@ -46,6 +46,9 @@ export class ChartEvent {
     if (e.target.type === 'rect' && (isNil(e.target.name) || e.target.name.startsWith('regionBackground'))) {
       return true;
     }
+    if (e.target.type === 'group' && e.target.name && e.target.name.startsWith('axis-grid')) {
+      return true;
+    }
     if (this._isPartOfCommonModel(e)) {
       return true;
     }

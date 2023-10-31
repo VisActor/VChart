@@ -120,8 +120,9 @@ export class ChartLayout implements IChartLayout {
     const meta = this._layoutData.data.find(_d => _d.id === d.id);
     if (!meta) {
       this._layoutData.data.push(meta);
+    } else {
+      merge(meta, d);
     }
-    merge(meta, d);
   }
 
   getModelLayoutData(info: IModelInfo) {

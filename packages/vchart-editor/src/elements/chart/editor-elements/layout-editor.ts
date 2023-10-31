@@ -96,6 +96,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       stage: this._layer.getStage(),
       startHandler: () => {
         // do nothing
+        this._controller.editorRun('layout');
       },
       updateHandler: data => {
         let hasChange = false;
@@ -118,6 +119,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       endHandler: data => {
         this._updateLayout(info, data);
         this._controller.setOverGraphic(null, null, null);
+        this._controller.editorEnd();
       },
       event: e
     });

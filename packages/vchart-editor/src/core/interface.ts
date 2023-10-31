@@ -1,10 +1,10 @@
+import type { DataView } from '@visactor/vdataset';
 import type { IChartModel, MarkerTypeEnum } from './../elements/chart/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
 import type { ILayoutAttribute, IPoint, IRect } from '../typings/space';
 import type { IModelSpec } from '../elements/chart/spec-process/interface';
-import type { IParserValue } from '../elements/chart/data/interface';
 export interface ILayerData {
   id: string | number;
   type: 'chart' | string;
@@ -119,14 +119,40 @@ export interface IEditorElement {
   type: 'chart' | 'group' | 'graphics';
   layer: IEditorLayer;
   id: string | number;
-  chartType?: string;
-  graphicsType?: string;
   rect?: IRect;
+  /**
+   * graphics 类型
+   */
+  graphicsType?: string;
+  /**
+   * graphics 某一部分
+   */
   part?: string;
+  /**
+   * vchart 图表类型
+   */
+  chartType?: string;
   /**
    * vchart 模型实例
    */
   model: IChartModel;
+  /**
+   * vchart 模块原始配置
+   */
+  originSpec?: any;
+  /**
+   * vchart 色板
+   */
+  color?: string[];
+  /**
+   * vchart 全部模块配置
+   */
+  allModel?: IModelSpec[];
+  /**
+   * vchart 全部模块配置
+   */
+  chartData?: DataView | DataView[];
+  // 内部拖拽编辑配置
   editProperties?: {
     // layout
     move?: boolean;
@@ -134,10 +160,6 @@ export interface IEditorElement {
     resize?: boolean | ([boolean, ...boolean[]] & { length: 8 });
     //
   } & { [key: string]: unknown };
-  originSpec?: any;
-  // current color scale range
-  color?: string[];
-  allModel?: IModelSpec[];
   updateAttribute: (attr: IUpdateAttributeParam) => false | { [key: string]: unknown };
   editorFinish: () => void;
   updateElement: () => void;
@@ -150,11 +172,17 @@ export interface IEditorController {
   currentEditorElement: IEditorElement;
   setEditorElements: (el: IEditorElement, event: PointerEvent) => void;
   editorEnd: () => void;
+  editorRun: (type: string) => void;
 
+  // 新编辑元素进入编辑时
   addStartHandler: (handler: EditorHandlerFunc) => void;
   removeStartHandler: (handler: EditorHandlerFunc) => void;
+  // 编辑结束时
   addEndHandler: (handler: EditorHandlerFunc) => void;
   removeEndHandler: (handler: EditorHandlerFunc) => void;
+  // 内部编辑开始时
+  addRunHandler: (handler: (type: string) => void) => void;
+  removeRunHandler: (handler: (type: string) => void) => void;
 
   // over border
   setOverGraphic: (graphic: IGraphic, id: string | number, event: PointerEvent) => void;
