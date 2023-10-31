@@ -20,10 +20,13 @@ const DefaultEditorSpec: IEditorSpec = {
 };
 
 export class SpecProcess implements ISpecProcess {
+  // 编辑器spec 存储和加载都是这个数据结构
+  // 保证结构可序列化。
   protected _editorSpec: IEditorSpec = {
     ...DefaultEditorSpec
   };
   protected _onSpecReadyCall: () => void = null;
+  // vchartSpec 只作为临时转换结果，传递给vchart，不会存储。
   protected _vchartSpec: ISpec = {} as any;
   protected _specTemp: IChartTemp = null;
   protected _data: IData = null;
@@ -110,6 +113,7 @@ export class SpecProcess implements ISpecProcess {
   }
 
   private _mergeEditorSpec() {
+    // transform spec 的过程
     // 色板 考虑模版可能有配置 color 。还是放到 spec 的 color 中处理
     if (this._editorSpec.color) {
       if (isArray(this._vchartSpec.color) || !isObject(this._vchartSpec.color)) {
@@ -128,6 +132,8 @@ export class SpecProcess implements ISpecProcess {
         merge(chartSpec, s.spec);
       });
     }
+    // 标注 load
+    // this._editorSpec.markSpec
   }
 
   private findChartSpec(s: IModelSpec, vchartSpec: ISpec) {
@@ -167,6 +173,7 @@ export class SpecProcess implements ISpecProcess {
     s.spec = merge(s.spec, spec);
   }
 
+  // 更新模块spec
   updateElementAttribute(model: IChartModel, attr: IUpdateAttributeParam) {
     let hasChange = false;
     if (attr.color) {
@@ -213,5 +220,7 @@ export class SpecProcess implements ISpecProcess {
         this._vchartSpec[key][markerIndex] = attr[key].spec;
       }
     }
+    // save
+    // this._editorSpec.markLine =  {}
   }
 }
