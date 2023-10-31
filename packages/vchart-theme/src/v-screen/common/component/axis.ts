@@ -1,4 +1,4 @@
-import { IComponentTheme } from '@visactor/vchart-types/component/interface';
+import { IComponentTheme } from '@visactor/vchart-types';
 
 export const axis: Pick<
   IComponentTheme,

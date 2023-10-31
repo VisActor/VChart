@@ -480,7 +480,7 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vchart-types': workspace:1.5.1-alpha.0
+      '@visactor/vchart-types': workspace:1.5.4
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0

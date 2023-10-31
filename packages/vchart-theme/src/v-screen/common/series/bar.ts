@@ -1,4 +1,4 @@
-import { ISeriesTheme, SeriesTypeEnum, SeriesTypeForThemeEnum } from '@visactor/vchart-types/series/interface';
+import { ISeriesTheme, SeriesTypeEnum, SeriesTypeForThemeEnum } from '@visactor/vchart-types';
 
 export const bar: Pick<
   ISeriesTheme,

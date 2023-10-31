@@ -38,6 +38,23 @@ const result: string[] = [];
   })
 );
 
+// 自动更新 readme
+const readmePath = path.resolve(VCHART_PROJECT_ROOT, './../vchart-theme/README.md');
+const readme = fs.readFileSync(readmePath, 'utf8');
+const startTag = '<!-- ThemeListBegin -->';
+const endTag = '<!-- ThemeListEnd -->';
+const readmeThemeListStart = readme.indexOf(startTag) + startTag.length;
+const readmeThemeListEnd = readme.indexOf(endTag);
+const newReadme = `${readme.slice(0, readmeThemeListStart)}\n<!-- 以下为自动生成 -->\n${[...allThemeMap.keys()]
+  .map(
+    key =>
+      `- [${key}](https://raw.githubusercontent.com/VisActor/VChart/develop/packages/vchart-theme/public/${key}.json) ${
+        allThemeMap.get(key)?.description ?? ''
+      }`
+  )
+  .join('\n')}\n<!-- 以上为自动生成 -->\n${readme.slice(readmeThemeListEnd)}`;
+fs.writeFileSync(readmePath, newReadme);
+
 console.warn(`\x1B[33m
   主题 ${result.join(', ')} 已导出
 \x1B[0m`);

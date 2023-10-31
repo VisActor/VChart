@@ -1,0 +1,37 @@
+import type { DataView } from '@visactor/vdataset';
+import type { Maybe, IScatterInvalidType } from '../../typings';
+import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
+import { CartesianSeries } from '../cartesian/cartesian';
+import type { SeriesMarkMap } from '../interface';
+import { SeriesTypeEnum } from '../interface/type';
+import type { ILabelMark } from '../../mark/label';
+import type { IMark } from '../../mark/interface';
+export declare class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
+    static readonly type: string;
+    type: SeriesTypeEnum;
+    static readonly mark: SeriesMarkMap;
+    protected _theme: Maybe<IScatterSeriesTheme>;
+    private _symbolMark;
+    private _labelMark;
+    private _size;
+    private _sizeField;
+    private _shape;
+    private _shapeField;
+    protected _invalidType: IScatterInvalidType;
+    setAttrFromSpec(): void;
+    private _getSeriesAttribute;
+    private getSizeAttribute;
+    private getShapeAttribute;
+    initMark(): void;
+    initMarkStyle(): void;
+    initAnimation(): void;
+    private initSymbolMarkStyle;
+    protected initTooltip(): void;
+    viewDataStatisticsUpdate(d: DataView): void;
+    initLabelMarkStyle(labelMark?: ILabelMark): void;
+    handleZoom(e: any): void;
+    handlePan(e: any): void;
+    getDefaultShapeType(): string;
+    getActiveMarks(): IMark[];
+}
+export declare const registerScatterSeries: () => void;
