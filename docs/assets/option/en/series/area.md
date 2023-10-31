@@ -145,7 +145,3 @@ Total label, working when the data is stacked. Supported since version `1.3.0`.
   defaultOffset = 5,
   ignoreCustom = true
 ) }}
-
-```
-
-```
