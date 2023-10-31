@@ -1,5 +1,5 @@
 import { ManualTicker, defaultTimeline } from '@visactor/vrender';
-import { FFmpeg, createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { TimeType } from './type';
 import { cloneDeep } from 'lodash';
 
@@ -7,6 +7,7 @@ let idx = 0;
 export async function _chatToVideoWasm(
   VChart: any,
   ffmpeg: FFmpeg,
+  fetchFile: (data: string | Buffer | Blob | File) => Promise<Uint8Array>,
   fps: number,
   propsSpec: any,
   propsTime: TimeType,

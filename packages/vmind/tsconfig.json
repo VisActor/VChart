@@ -1,7 +1,7 @@
 {
   "extends": "@internal/ts-config/tsconfig.base.json",
   "compilerOptions": {
-    "types": ["jest", "offscreencanvas", "node"],
+    "types": ["node"],
     "lib": ["DOM", "ESNext"],
     "baseUrl": "./",
     "rootDir": "./src",
@@ -17,7 +17,7 @@
   "include": ["src"],
   "references": [
     {
-      "path": ["../vchart", "../vutils-extension"]
+      "path": "../vchart"
     }
   ]
 }
