@@ -1,6 +1,6 @@
 import type { IModelInfo } from './../../../core/interface';
 import type { ILayoutData } from '../layout/interface';
-import type { ISpec, ITheme } from '@visactor/vchart';
+import type { IMarkAreaSpec, IMarkLineSpec, ISpec, ITheme } from '@visactor/vchart';
 import type { IUpdateAttributeParam } from '../../../core/interface';
 import type { IChartModel } from '../interface';
 
@@ -14,6 +14,13 @@ export interface IEditorSpec {
   layout: ILayoutData;
   color: string[];
   modelSpec: IModelSpec[];
+  /**
+   * 标注的信息
+   */
+  marker?: {
+    markLine?: IMarkLineSpec[];
+    markArea?: IMarkAreaSpec[];
+  };
 }
 
 export interface ISpecProcess {
@@ -24,6 +31,7 @@ export interface ISpecProcess {
   updateTheme: (theme: ITheme) => void;
   updateTemp: (temp: string) => void;
   updateLayout: (layout: ILayoutData) => void;
+  updateMarker: (markSpec: any, markType: string, id?: string | number) => void;
 
   getVChartSpec: () => ISpec;
 

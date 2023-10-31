@@ -1,4 +1,3 @@
-import { markLine } from './../../../../../vchart/src/theme/builtin/common/component/mark-line';
 import type { IChartModel } from './../interface';
 import { merge, isArray, isObject, isEmpty, array } from '@visactor/vutils';
 import type { IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
@@ -16,7 +15,11 @@ const DefaultEditorSpec: IEditorSpec = {
   temp: null,
   color: null,
   modelSpec: null,
-  layout: { viewBox: { x: 0, y: 0, width: 0, height: 0 }, data: [] }
+  layout: { viewBox: { x: 0, y: 0, width: 0, height: 0 }, data: [] },
+  marker: {
+    markLine: [],
+    markArea: []
+  }
 };
 
 export class SpecProcess implements ISpecProcess {
@@ -73,6 +76,7 @@ export class SpecProcess implements ISpecProcess {
   updateLayout(layout: ILayoutData) {
     this._editorSpec.layout = layout;
   }
+
   getVChartSpec() {
     return this._vchartSpec;
   }
@@ -132,8 +136,23 @@ export class SpecProcess implements ISpecProcess {
         merge(chartSpec, s.spec);
       });
     }
-    // 标注 load
-    // this._editorSpec.markSpec
+
+    if (this._editorSpec.marker) {
+      Object.keys(this._editorSpec.marker).forEach(key => {
+        if (!this._vchartSpec[key]) {
+          this._vchartSpec[key] = [];
+        }
+        const markers = this._editorSpec.marker[key];
+        markers.forEach((marker: any) => {
+          const index = this._vchartSpec[key].findIndex((m: any) => m.id === marker.id);
+          if (index === -1) {
+            this._vchartSpec[key].push(marker);
+          } else {
+            this._vchartSpec[key][index] = merge(this._vchartSpec[key][index] || {}, marker);
+          }
+        });
+      });
+    }
   }
 
   private findChartSpec(s: IModelSpec, vchartSpec: ISpec) {
@@ -196,28 +215,37 @@ export class SpecProcess implements ISpecProcess {
 
     if (attr.markLine && attr.markLine.spec) {
       hasChange = true;
-      this._updateMarkerSpec(attr, 'markLine');
+      this.updateMarker(attr.markLine.spec, 'markLine', model.userId);
     }
 
     if (attr.markArea && attr.markArea.spec) {
       hasChange = true;
-      this._updateMarkerSpec(attr, 'markArea');
+      this.updateMarker(attr.markArea.spec, 'markArea', model.userId);
     }
 
     this._mergeEditorSpec();
     return hasChange;
   }
 
-  private _updateMarkerSpec(attr: IUpdateAttributeParam, key: 'markLine' | 'markArea') {
-    this._vchartSpec[key] = array(this._vchartSpec[key]);
-    if (isEmpty(this._vchartSpec[key])) {
-      this._vchartSpec[key] = [attr[key].spec];
+  updateMarker(spec: any, key: string, id?: string | number) {
+    // 更新编辑器数据
+    if (!this._editorSpec.marker) {
+      this._editorSpec.marker = {
+        markArea: [],
+        markLine: []
+      };
+    }
+
+    if (isEmpty(this._editorSpec.marker[key])) {
+      this._editorSpec.marker[key] = [spec];
     } else {
-      const markerIndex = array(this._vchartSpec[key]).findIndex(markerSpec => markerSpec.id === attr[key].spec.id);
+      const markerIndex = this._editorSpec.marker[key].findIndex(
+        (markerSpec: any) => markerSpec.id === (id || spec.id)
+      );
       if (markerIndex === -1) {
-        this._vchartSpec[key].push(attr[key].spec);
+        this._editorSpec.marker[key].push(spec);
       } else {
-        this._vchartSpec[key][markerIndex] = attr[key].spec;
+        merge(this._editorSpec.marker[key][markerIndex], spec);
       }
     }
     // save
