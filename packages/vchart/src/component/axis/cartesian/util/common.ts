@@ -1,7 +1,8 @@
 import type { IOrientType } from '../../../../typings';
 // eslint-disable-next-line no-duplicate-imports
-import { Direction } from '../../../../typings';
-import { isValid, isValidOrient } from '../../../../util';
+import { Direction } from '../../../../typings/space';
+import { isValid } from '@visactor/vutils';
+import { isValidOrient } from '../../../../util/space';
 import type { ICartesianAxisCommonSpec } from '../interface';
 
 export function isXAxis(orient: IOrientType) {

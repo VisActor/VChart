@@ -1,7 +1,8 @@
 /* eslint-disable no-duplicate-imports */
 import type { IArcMark } from '../../mark/arc';
 import type { Maybe, Datum } from '../../typings';
-import { valueInScaleRange, mergeSpec } from '../../util';
+import { valueInScaleRange } from '../../util/scale';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';

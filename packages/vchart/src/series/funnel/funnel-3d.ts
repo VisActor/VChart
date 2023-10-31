@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import type { Maybe } from '@visactor/vutils';
 import { AttributeLevel } from '../../constant';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IPyramid3dMark } from '../../mark/polygon/pyramid-3d';
 import type { IRuleMark } from '../../mark/rule';
 import type { ITextMark } from '../../mark/text';

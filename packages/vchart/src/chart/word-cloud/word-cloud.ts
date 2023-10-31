@@ -1,5 +1,5 @@
-import { SeriesTypeEnum } from '../../series/interface';
-import { ChartTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
+import { ChartTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IWordCloudChartSpec } from './interface';
 import { BaseWordCloudChart } from './base';

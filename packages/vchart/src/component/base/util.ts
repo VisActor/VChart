@@ -1,9 +1,9 @@
 import type { IModelOption } from '../../model/interface';
 import { getThemeFromOption } from '../../theme/util';
-import { getOrient } from '../axis/cartesian/util';
+import { getOrient } from '../axis/cartesian/util/common';
 import { getCartesianAxisTheme, getPolarAxisTheme } from '../axis/util';
 import { getCartesianCrosshairTheme, getPolarCrosshairTheme } from '../crosshair/util';
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import { getLayout } from '../legend/util';
 import { getComponentThemeFromOption } from '../util';
 

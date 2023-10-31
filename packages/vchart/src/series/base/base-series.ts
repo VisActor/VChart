@@ -10,14 +10,14 @@ import {
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
 } from '../../constant/index';
-import { seriesMarkInfoMap } from '../interface';
+import { seriesMarkInfoMap } from '../interface/theme';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
 import type { IMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type {
   CoordinateType,
   IInvalidType,
@@ -44,19 +44,10 @@ import type {
   SeriesTypeEnum
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
-import {
-  isNil,
-  isValid,
-  isBoolean,
-  isString,
-  mergeSpec,
-  isFunction,
-  isArray,
-  mergeFields,
-  getFieldAlias,
-  couldBeValidNumber,
-  preprocessSpecOrTheme
-} from '../../util';
+import { mergeFields, getFieldAlias } from '../../util/data';
+import { couldBeValidNumber } from '../../util/type';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
@@ -74,7 +65,7 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
-import { array, isEqual } from '@visactor/vutils';
+import { array, isEqual, isNil, isValid, isBoolean, isString, isFunction, isArray } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';

@@ -1,10 +1,10 @@
 import type { ISignal, SignalFunctionType } from '@visactor/vgrammar-core';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe } from '../../typings';
-import { isValid } from '../../util';
+import { isValid } from '../../util/type';
 import type { GrammarItemInitOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { GrammarType } from '../interface';
+import { GrammarType } from '../interface/compilable-item';
 import type { ICompilableSignal } from './interface';
 
 export class CompilableSignal<T> extends GrammarItem implements ICompilableSignal<T> {

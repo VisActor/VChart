@@ -16,8 +16,8 @@ import type { Maybe, Datum, ISymbolMarkSpec, IRippleMarkSpec } from '../../typin
 import type { ICorrelationSeriesTheme } from './interface';
 import { AttributeLevel, DEFAULT_DATA_INDEX, LayoutZIndex } from '../../constant';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
-import { mergeSpec } from '../../util';
-import { STATE_VALUE_ENUM } from '../../compile/mark';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import type { IRippleMark } from '../../mark/ripple';
 import { RippleMark } from '../../mark/ripple';
 import type { ILabelMark } from '../../mark/label';

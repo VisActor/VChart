@@ -1,6 +1,5 @@
 import type { Datum, IPoint, IShowTooltipOption, ITooltipHandler, TooltipActiveType } from '../../../typings';
 import type { IComponentOption } from '../../interface';
-import { isArray, isValid, isNil } from '../../../util';
 import type { ISeries } from '../../../series/interface';
 import { SeriesTypeEnum } from '../../../series/interface/type';
 import type { CartesianSeries } from '../../../series/cartesian/cartesian';
@@ -9,7 +8,7 @@ import type { GeoSeries } from '../../../series/geo/geo';
 import type { PieSeries } from '../../../series/pie/pie';
 import type { TooltipHandlerParams } from '../interface';
 import { Event_Source_Type } from '../../../constant';
-import { getElementAbsolutePosition } from '@visactor/vutils';
+import { getElementAbsolutePosition, isArray, isValid, isNil } from '@visactor/vutils';
 import type { IDimensionInfo } from '../../../event/events/dimension/interface';
 import { VChart } from '../../../core/vchart';
 

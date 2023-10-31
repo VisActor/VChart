@@ -6,7 +6,7 @@ import { getDimensionData, isInRegionBound } from './common';
 import type { IPolarSeries } from '../../../../series/interface';
 import { isNil } from '@visactor/vutils';
 import type { PolarAxis } from '../../../../component/axis/polar';
-import { distance, vectorAngle } from '../../../../util';
+import { distance, vectorAngle } from '../../../../util/math';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
 
 const getAxis = (chart: IChart, type: 'radius' | 'angle', pos: ILayoutPoint): PolarAxis[] | null => {

@@ -1,8 +1,8 @@
 import type { ICartesianSeries, IPolarSeries, ISeries } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { eachSeries, isValid, array } from '../../util';
+import { eachSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
-import { BaseComponent } from '../base';
+import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption, ILayoutRect } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
 import type { IComponent, IComponentOption } from '../interface';
@@ -16,10 +16,10 @@ import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
-import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
+import { getDirectionByOrient, getOrient } from '../axis/cartesian/util/common';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { mixin, clamp, isNil, merge, isEqual } from '@visactor/vutils';
+import { mixin, clamp, isNil, merge, isEqual, isValid, array } from '@visactor/vutils';
 import { IFilterMode } from './constant';
 import type {
   IDataFilterComponent,
@@ -29,7 +29,7 @@ import type {
   IRoamZoomSpec
 } from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
-import { CompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data/compilable-data';
 import type { BaseEventParams } from '../../event/interface';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 // eslint-disable-next-line no-duplicate-imports
@@ -37,7 +37,6 @@ import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { AbstractComponent } from '@visactor/vrender-components';
 import type { IDelayType } from '../../typings/event';
 import { TransformLevel } from '../../data/initialize';
-import { PREFIX } from '../../constant';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>

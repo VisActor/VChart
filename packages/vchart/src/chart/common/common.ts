@@ -1,6 +1,6 @@
 import { isArray } from '@visactor/vutils';
 import { BaseChart } from '../base-chart';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import type { ISeries } from '../../series';
 import { Factory } from '../../core/factory';
 

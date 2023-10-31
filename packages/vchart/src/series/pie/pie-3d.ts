@@ -11,8 +11,8 @@ import {
   DEFAULT_LABEL_VISIBLE
 } from '../../constant';
 import type { Datum } from '../../typings';
-import { field } from '../../util';
-import { MarkTypeEnum } from '../../mark/interface';
+import { field } from '../../util/object';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IArcSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports

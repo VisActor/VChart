@@ -1,8 +1,8 @@
 import type { IPadding, IRect, IPoint } from '../typings';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNil } from '@visactor/vutils';
-import { isValidNumber, calcLayoutNumber, calcPadding, normalizeLayoutPaddingSpec, boundsInRect } from '../util';
+import { isNil, isValidNumber } from '@visactor/vutils';
+import { calcLayoutNumber, calcPadding, normalizeLayoutPaddingSpec, boundsInRect } from '../util/space';
 import { LayoutLevel, DEFAULT_LAYOUT_RECT_LEVEL, USER_LAYOUT_RECT_LEVEL } from '../constant';
 
 import type { ILayoutItem, ILayoutItemSpec, ILayoutPoint, ILayoutRect, ILayoutRectLevel } from './interface';

@@ -1,13 +1,14 @@
 import { Event } from '../event/event';
 import { getDefaultInteractionConfigByMode } from './config';
-import { mergeSpec, isBoolean, isObject, array } from '../util';
+import { isBoolean, isObject, array } from '@visactor/vutils';
+import { mergeSpec } from '../util/spec/merge-spec';
 
 import type { IMark } from '../mark/interface';
 import type { BaseEventParams, EventCallback, EventParams, IEvent } from '../event/interface';
 import type { IHoverSpec, IInteraction, ISelectSpec, ITrigger, ITriggerOption, ITriggerSpec } from './interface';
 import type { RenderMode } from '../typings/spec';
 import { MarkSet } from '../mark/mark-set';
-import { STATE_VALUE_ENUM } from '../compile/mark';
+import { STATE_VALUE_ENUM } from '../compile/mark/interface';
 import { Event_Bubble_Level, Event_Source_Type } from '../constant';
 
 export class Trigger implements ITrigger {

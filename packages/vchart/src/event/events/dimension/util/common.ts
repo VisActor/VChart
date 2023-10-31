@@ -2,7 +2,7 @@
 import type { ILayoutPoint } from '../../../../model/interface';
 import type { IChart } from '../../../../chart/interface';
 import type { IDimensionData, IDimensionInfo } from '../interface';
-import { isNil, array, isValid, isValidNumber } from '../../../../util';
+import { isNil, array, isValid, isValidNumber } from '@visactor/vutils';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
 import type { CoordinateType } from '../../../../typings';
 import { isDiscrete } from '@visactor/vscale';

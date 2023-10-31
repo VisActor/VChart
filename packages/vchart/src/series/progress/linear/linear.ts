@@ -4,7 +4,7 @@ import type { SeriesMarkMap } from '../../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
 import type { IRectMark } from '../../../mark/rect';
 import type { IGroupMark } from '../../../mark/group';
-import { valueInScaleRange } from '../../../util';
+import { valueInScaleRange } from '../../../util/scale';
 import { AttributeLevel } from '../../../constant';
 import type { Datum, Maybe } from '../../../typings';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';

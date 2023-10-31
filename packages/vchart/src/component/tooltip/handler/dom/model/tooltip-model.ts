@@ -4,7 +4,7 @@ import { ContentModel } from './content-model';
 import type { ITooltipModelOption } from './interface';
 import { TitleModel } from './title-model';
 import { defaultContainerStyle } from './style-constants';
-import { mergeSpec } from '../../../../../util';
+import { mergeSpec } from '../../../../../util/spec/merge-spec';
 
 export class TooltipModel extends BaseTooltipModel {
   title: TitleModel | null = null;

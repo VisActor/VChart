@@ -3,7 +3,7 @@ import { defaultH2Style } from './style-constants';
 import { BaseTooltipModel } from './base-tooltip-model';
 import { ShapeModel } from './shape-model';
 import { TextModel } from './text-model';
-import { mergeSpec } from '../../../../../util';
+import { mergeSpec } from '../../../../../util/spec/merge-spec';
 
 export class TitleModel extends BaseTooltipModel {
   shape: Maybe<ShapeModel>;

@@ -1,11 +1,10 @@
 import { CartesianLinearAxis } from './linear-axis';
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { SymlogScale } from '@visactor/vscale';
 import { mixin } from '@visactor/vutils';
 import type { ICartesianSymlogAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
-import { ComponentMark } from '../../../mark';
 import { registerAxis } from '../base-axis';
 
 export interface CartesianSymlogAxis<T extends ICartesianSymlogAxisSpec = ICartesianSymlogAxisSpec>

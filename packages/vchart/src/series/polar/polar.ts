@@ -1,7 +1,8 @@
 import type { IBaseScale } from '@visactor/vscale';
 import type { IPoint, IPolarPoint } from '../../typings/coordinate';
 import type { IPolarSeries } from '../interface';
-import { array, isValid, isNil, couldBeValidNumber } from '../../util';
+import { array, isValid, isNil } from '@visactor/vutils';
+import { couldBeValidNumber } from '../../util/type';
 import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';

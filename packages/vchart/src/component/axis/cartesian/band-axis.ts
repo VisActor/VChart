@@ -2,13 +2,13 @@ import { BandScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
 import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING, DEFAULT_BAND_POSITION } from './config';
 import type { IAxisLocationCfg, ICartesianBandAxisSpec } from './interface';
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import { mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
-import { scaleWholeRangeSize } from './util';
+import { scaleWholeRangeSize } from './util/common';
 
 export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec>
   extends Pick<

@@ -9,7 +9,8 @@ import type {
 import type { IPadding, IToolTipActual } from '../../../../typings';
 import type { ITooltipTextStyle } from '../interface';
 import { isValid, normalizePadding } from '@visactor/vutils';
-import { mergeSpec, normalizeLayoutPaddingSpec } from '../../../../util';
+import { mergeSpec } from '../../../../util/spec/merge-spec';
+import { normalizeLayoutPaddingSpec } from '../../../../util/space';
 import type { ITooltipSpec } from '../../interface/spec';
 import type { ITooltipTextTheme, ITooltipTheme } from '../../interface/theme';
 import { THEME_CONSTANTS } from '../../../../theme/builtin/common/constants';

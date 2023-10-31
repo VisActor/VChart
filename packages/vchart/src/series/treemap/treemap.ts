@@ -1,14 +1,14 @@
 /* eslint-disable no-duplicate-imports */
-import { STATE_VALUE_ENUM } from '../../compile/mark';
+import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { AttributeLevel, DEFAULT_DATA_KEY, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IRectMark } from '../../mark/rect';
 import type { ITextMark } from '../../mark/text';
 import type { Datum, IRectMarkSpec, ITextMarkSpec } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../interface/type';
 import type { ITreemapSeriesSpec } from './interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { ITreemapOpt } from '../../data/transforms/treemap';

@@ -10,7 +10,8 @@ import {
 } from '../../../constant';
 import type { IMarkStyle } from '../../../mark/interface';
 import type { ConvertToMarkStyleSpec, ICommonSpec } from '../../../typings';
-import { preprocessSpecOrTheme, valueInScaleRange } from '../../../util';
+import { valueInScaleRange } from '../../../util/scale';
+import { preprocessSpecOrTheme } from '../../../util/spec/preprocess';
 import { PolarSeries } from '../polar';
 import type { IContinuousTickData, IProgressLikeSeriesSpec } from './interface';
 import type { IPolarAxis, IPolarAxisSpec } from '../../../component/axis';

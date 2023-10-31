@@ -1,4 +1,4 @@
-import { isValid, isNil, array } from '../../../../util';
+import { isValid, isNil, array } from '@visactor/vutils';
 import type { TooltipActualTitleContent } from '../../tooltip';
 import type {
   IToolTipLinePattern,
@@ -7,7 +7,7 @@ import type {
   IToolTipLineActual
 } from '../../../../typings/tooltip';
 import { getFirstDatumFromTooltipData, getTooltipContentValue, getTooltipPatternValue } from './common';
-import { getTooltipActualActiveType } from '../../utils';
+import { getTooltipActualActiveType } from '../../utils/common';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension/interface';
 import type { TooltipHandlerParams } from '../../interface';
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constants';

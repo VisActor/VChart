@@ -1,21 +1,26 @@
 /**
  * @description color legend component
  */
-import { debounce, isEmpty, isNil } from '@visactor/vutils';
+import { debounce, isEmpty, isNil, isArray, get } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../../series/interface';
 import type { IModelInitOption, ILayoutRect } from '../../../model/interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import { isArray, eachSeries, get, isDataDomainSpec, getFieldAlias } from '../../../util';
+import { eachSeries } from '../../../util/model';
+import { getFieldAlias } from '../../../util/data';
+import { isDataDomainSpec } from '../../../util/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILegend } from '../interface';
 import type { IColorLegendSpec, IColorLegendTheme, ISizeLegendSpec } from './interface';
-import { continuousLegendDataMake, continuousLegendFilter } from '../../../data/transforms/legend-data/continuous';
+import {
+  continuousLegendDataMake,
+  continuousLegendFilter
+} from '../../../data/transforms/legend-data/continuous/continuous';
 import { ContinuousLegendMap, getContinuousLegendAttributes, isContinuousLegend } from './util';
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';

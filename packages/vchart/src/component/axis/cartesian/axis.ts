@@ -4,7 +4,9 @@ import type { IEffect, IModelInitOption, ILayoutRect } from '../../../model/inte
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { IAxisLocationCfg, ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
-import { isArray, isValid, isValidNumber, mergeSpec, eachSeries, isNil, isUndefined } from '../../../util';
+import { isArray, isValid, isValidNumber, isNil, isUndefined } from '@visactor/vutils';
+import { mergeSpec } from '../../../util/spec/merge-spec';
+import { eachSeries } from '../../../util/model';
 import type { IOrientType } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
@@ -13,14 +15,14 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import type { LayoutItem } from '../../../model/layout-item';
 import { Factory } from '../../../core/factory';
-import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis, transformInverse } from './util';
+import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis, transformInverse } from './util/common';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
 import type { IPoint, StringOrNumber } from '../../../typings';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
 import type { LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
@@ -34,7 +36,7 @@ import { ticks } from '@visactor/vutils-extension';
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataView } from '@visactor/vdataset';
-import { CompilableData } from '../../../compile/data';
+import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 import { createText } from '@visactor/vrender-core';

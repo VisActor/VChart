@@ -1,6 +1,7 @@
-import { isNil } from '@visactor/vutils';
+import { isNil, isFunction } from '@visactor/vutils';
 import type { IFieldsMeta } from '../../typings/spec';
-import { couldBeValidNumber, isFunction, mergeFields } from '../../util';
+import { couldBeValidNumber } from '../../util/type';
+import { mergeFields } from '../../util/data';
 import type { DataView } from '@visactor/vdataset';
 import type { Datum } from '../../typings';
 

@@ -23,11 +23,13 @@ import {
   DEFAULT_DATA_KEY
 } from '../../constant';
 import type { Maybe, IPoint, Datum, StateValueType } from '../../typings';
-import { field, isNil, isSpecValueWithScale, normalizeStartEndAngle, polarToCartesian } from '../../util';
+import { normalizeStartEndAngle, polarToCartesian } from '../../util/math';
+import { isSpecValueWithScale } from '../../util/scale';
+import { field } from '../../util/object';
 import type { IModelLayoutOption } from '../../model/interface';
 import { PolarSeries } from '../polar/polar';
 import type { IMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IArcMark } from '../../mark/arc';
 import type { ITextMark } from '../../mark/text';
 import type { IPathMark } from '../../mark/path';
@@ -46,9 +48,10 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
 import { ArcMark } from '../../mark/arc';
-import { mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { isNil } from '@visactor/vutils';
 
 type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & { type: string };
 
