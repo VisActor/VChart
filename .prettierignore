@@ -25,3 +25,4 @@ shrinkwrap.json
 dist
 lib
 vchart/index.js
+vchart-types
