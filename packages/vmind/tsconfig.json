@@ -1,7 +1,7 @@
 {
   "extends": "@internal/ts-config/tsconfig.base.json",
   "compilerOptions": {
-    "types": ["node"],
+    "types": ["jest", "node"],
     "lib": ["DOM", "ESNext"],
     "baseUrl": "./",
     "rootDir": "./src",
