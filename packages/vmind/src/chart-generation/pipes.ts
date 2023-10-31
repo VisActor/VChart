@@ -8,7 +8,7 @@ import {
   animationDuration,
   oneByOneGroupSize
 } from './constants';
-import { Context } from './type';
+import { Context } from '../typings';
 import { detectAxesType } from './utils';
 
 // const chartTypeMap: { [chartName: string]: string } = {

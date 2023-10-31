@@ -6,18 +6,19 @@ import {
   estimateVideoTime
 } from '../chart-generation/NLToChartPipe';
 import { SUPPORTED_CHART_LIST } from '../chart-generation/constants';
-import { GPTDataProcessResult } from '../chart-generation/type';
+import { GPTDataProcessResult, IGPTOptions, TimeType } from '../typings';
 import { patchUserInput } from '../chart-generation/utils';
 import { vizDataToSpec } from '../chart-generation/vizDataToSpec';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
-import { TimeType } from '../chart-to-video/type';
 
 class VMind {
   private _OPENAI_KEY: string | undefined = undefined;
   private _FPS = 30;
+  private _options: IGPTOptions | undefined;
 
-  constructor(key: string) {
+  constructor(key: string, options?: IGPTOptions) {
     this.setOpenAIKey(key);
+    this._options = options;
   }
 
   setOpenAIKey(key: string) {
@@ -44,8 +45,13 @@ class VMind {
     //  throw Error('OpenAI Key Unset!')
     //}
 
-    const dataProcessResJson: GPTDataProcessResult = await dataProcessGPT(csvFile, userInputFinal, this._OPENAI_KEY);
-    const resJson: any = await chartAdvisorGPT(dataProcessResJson, userInput, this._OPENAI_KEY);
+    const dataProcessResJson: GPTDataProcessResult = await dataProcessGPT(
+      csvFile,
+      userInputFinal,
+      this._OPENAI_KEY,
+      this._options
+    );
+    const resJson: any = await chartAdvisorGPT(dataProcessResJson, userInput, this._OPENAI_KEY, this._options);
     if (resJson.error) {
       throw Error('Network Error!');
     }

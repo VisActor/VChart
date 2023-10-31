@@ -65,6 +65,7 @@
     "@visactor/vchart": "workspace:1.5.4",
     "@visactor/vrender": "~0.16.9",
     "@visactor/vdataset": "~0.16.6",
+    "@visactor/vutils": "~0.16.6",
     "axios": "^1.4.0",
     "exceljs": "^4.3.0",
     "lodash": "4.17.21",

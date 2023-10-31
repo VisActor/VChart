@@ -8,7 +8,7 @@ import {
   CHARTTYP_VIDEO_ELENGTH,
   SUPPORTED_CHART_LIST
 } from './constants';
-import { GPTChartAdvisorResult, GPTDataProcessResult, NLToChartResult } from './type';
+import { GPTChartAdvisorResult, GPTDataProcessResult, IGPTOptions, NLToChartResult } from '../typings';
 import { parseGPTJson, parseGPTResponse, patchUserInput, readTopNLine, requestGPT } from './utils';
 import { DataSet, DataView, csvParser, fold } from '@visactor/vdataset';
 import { vizDataToSpec } from './vizDataToSpec';
@@ -69,11 +69,16 @@ export const dataProcessVChart = (csvFile: string) => {
 /*
  ** GPT数据预处理，进行字段信息总结和字段筛选
  */
-export const dataProcessGPT = async (csvFile: string, userInput: string, openAIKey: string | undefined) => {
+export const dataProcessGPT = async (
+  csvFile: string,
+  userInput: string,
+  openAIKey: string | undefined,
+  options: IGPTOptions | undefined
+) => {
   const DATA_TOP_N = 5; //取csv文件的前多少条数据
   const topNCSVFile = readTopNLine(csvFile, DATA_TOP_N);
   const dataProcessMessage = `CSV file content:\n${topNCSVFile}\nUser Input: ${userInput}`;
-  const dataProcessRes = await requestGPT(openAIKey as string, DataProcessPromptEnglish, dataProcessMessage, 0);
+  const dataProcessRes = await requestGPT(openAIKey as string, DataProcessPromptEnglish, dataProcessMessage, options);
   // const dataProcessRes = getMockData1()
   // const dataProcessRes = getMockDataWordCloud1()
   // const dataProcessRes = getMockDataDynamicBar();
@@ -90,7 +95,8 @@ export const dataProcessGPT = async (csvFile: string, userInput: string, openAIK
 export const chartAdvisorGPT = async (
   dataProcessResJson: GPTDataProcessResult,
   userInput: string,
-  openAIKey: string | undefined
+  openAIKey: string | undefined,
+  options: IGPTOptions | undefined
 ) => {
   if (!dataProcessResJson.error) {
     //GPT进行图表推荐、配色和字段映射
@@ -103,7 +109,7 @@ export const chartAdvisorGPT = async (
       //usefulFields.includes(field.fieldName)
     );
     const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(filteredFields)}`;
-    const advisorRes = await requestGPT(openAIKey as string, ChartAdvisorPromptEnglish, chartAdvisorMessage);
+    const advisorRes = await requestGPT(openAIKey, ChartAdvisorPromptEnglish, chartAdvisorMessage, options);
     // const advisorRes = getMockDataWordCloud2()
     //const advisorRes = getMockDataDynamicBar2();
 
@@ -122,21 +128,4 @@ export const chartAdvisorGPT = async (
     }
   }
   return {};
-};
-
-const NLToChartGPT = async (csvFile: string, userInput: string) => {
-  //GPT进行图表推荐、配色和字段映射，不推荐使用
-  const topNCSVFile = readTopNLine(csvFile, 5);
-  const NLToChartMessage = `CSV文件内容: "${topNCSVFile}"\n用户意图: ${userInput}`;
-  const advisorRes = await requestGPT('bytegpt', NLToChartPrompt, NLToChartMessage);
-  // const advisorRes = getMockData2()
-  // const advisorRes = getMockData2()
-
-  const resJson: NLToChartResult = parseGPTResponse(advisorRes) as unknown as NLToChartResult;
-  if (!resJson.error) {
-    return resJson;
-  } else {
-    //传统方法做兜底
-    return resJson;
-  }
 };

@@ -1,7 +1,7 @@
 import { ManualTicker, defaultTimeline } from '@visactor/vrender';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
-import { TimeType } from './type';
 import { cloneDeep } from 'lodash';
+import { TimeType } from '../typings';
 
 let idx = 0;
 export async function _chatToVideoWasm(

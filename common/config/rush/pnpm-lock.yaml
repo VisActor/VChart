@@ -489,6 +489,7 @@ importers:
       '@visactor/vchart': workspace:1.5.4
       '@visactor/vdataset': ~0.16.6
       '@visactor/vrender': ~0.16.9
+      '@visactor/vutils': ~0.16.6
       '@visactor/vutils-extension': workspace:1.5.4
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
@@ -516,6 +517,7 @@ importers:
       '@visactor/vchart': link:../vchart
       '@visactor/vdataset': 0.16.6
       '@visactor/vrender': 0.16.9
+      '@visactor/vutils': 0.16.6
       axios: 1.6.0
       exceljs: 4.4.0
       lodash: 4.17.21
