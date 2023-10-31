@@ -10,19 +10,17 @@
 
 > Taro has some incompatible break changes due to minor versions, so try to use version 3.3
 
-## Supported Environments
+## Support environment
 
-The currently supported environments are: **Byte Mini Program** ('tt'), **Lark Mini Program** ('lark'), and **Browser** ('h5', 'web').
+The environments currently supported by the component are: **WeChat applet** ('weapp'), **Byte applet** ('tt'), **Feishu applet** ('lark'), ** browser**('h5', 'web').
 
-The above environments are declared through the `type` attribute, and the `type` attribute values and corresponding environments are as follows:
+The above environment is declared through the `type` attribute. The `type` attribute value and corresponding environment are as follows:
 
-- `tt` Byte Mini Program.
-
-- `lark` Lark Mini Program.
-
-- `h5` Browser environment, equivalent to `web`.
-
-- `web` Browser environment, equivalent to `h5`.
+- `weapp` WeChat applet.
+- `tt` byte applet.
+- `lark` Feishu applet.
+- `h5` browser environment, equivalent to `web`.
+- `web` browser environment, equivalent to `h5`.
 
 ### Cross-platform Support
 
@@ -42,17 +40,19 @@ If users need to support multiple platforms, they need to dynamically pass the `
 
 ### Version Requirements
 
+> taro Because the minor version has some incompatible break changes, try to use version 3.3
+
+**WeChat Mini Program**
+
+Need to ensure **Taro version >= 3.3.17**
+
 **Byte Mini Program**
 
 Make sure **Taro Version >= 3.3.17**
 
-> Taro has some incompatible break changes due to minor versions, so try to use version 3.3
-
 **Lark Mini Program**
 
 Make sure **Taro Version >= 3.2.0**, **Lark Version >= 3.45.0**
-
-> Taro has some incompatible break changes due to minor versions, so try to use version 3.3
 
 ## Installation
 
@@ -82,17 +82,17 @@ Usage example of the chart component:
 />
 ```
 
-| API           | Type     | Description  |
-| ------------- | -------- | -----------------------------------------------------------------------------------------------|
-| type          | string   | Configured environment, currently supported environments: **Byte Mini Program** ('tt'), **Lark Mini Program** ('lark'), **Browser** ('h5', 'web') |
-| canvasId      | String   | Chart id, must be unique |
-| spec          | Object   | Chart configuration item, please refer to [VChart Configuration Item](../../../option) |
-| style         | Object   | Chart container style |
-| events        | Object[] | Event binding configuration |
-| options       | Object   | Additional configuration items passed to the VChart instance during initialization, the same as [VChart instantiation configuration items](../../../api/API/vchart#options)|
-| onChartInit   | Function | Callback triggered after the chart is initialized |
-| onChartReady  | Function | Callback triggered after the chart is rendered |
-| onChartUpdate | Function | Callback triggered after the chart is updated |
+| API           | Type     | Description                                                                                                                                                                 |
+| ------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type          | string   | Configured environment, currently supported environments: **Byte Mini Program** ('tt'), **Lark Mini Program** ('lark'), **Browser** ('h5', 'web')                           |
+| canvasId      | String   | Chart id, must be unique                                                                                                                                                    |
+| spec          | Object   | Chart configuration item, please refer to [VChart Configuration Item](../../../option)                                                                                      |
+| style         | Object   | Chart container style                                                                                                                                                       |
+| events        | Object[] | Event binding configuration                                                                                                                                                 |
+| options       | Object   | Additional configuration items passed to the VChart instance during initialization, the same as [VChart instantiation configuration items](../../../api/API/vchart#options) |
+| onChartInit   | Function | Callback triggered after the chart is initialized                                                                                                                           |
+| onChartReady  | Function | Callback triggered after the chart is rendered                                                                                                                              |
+| onChartUpdate | Function | Callback triggered after the chart is updated                                                                                                                               |
 
 ## Quick Start
 
