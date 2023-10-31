@@ -1,11 +1,6 @@
 import { GPTDataProcessResult } from './type';
 
-export const requestGPT = async (
-  openAIKey: string | undefined,
-  prompt: string,
-  userMessage: string,
-  temperature = 0
-) => {
+export const requestGPT = async (openAIKey: string, prompt: string, userMessage: string, temperature = 0) => {
   const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
   const headers: any = {

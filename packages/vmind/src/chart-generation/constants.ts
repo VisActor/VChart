@@ -322,7 +322,7 @@ export const ChartAdvisorPrompt = `你是一个数据分析领域的专家.你�
 \`\`\`
 {
 "THOUGHT": 你的思考
-"CHART_TYPE": 你选择的图表类型。支持的图表列表：[动态条形图、柱状图、折线图、饼图、散点图、词云]
+"CHART_TYPE": 你选择的图表类型。支持的图表列表：[动态条形图、柱状图、折线图、饼图、散点图、词云、玫瑰图、雷达图、桑基图]
 "FIELD_MAP":{ //字段映射，可用的视觉通道：["x","y","color","size","angle","time"]
 "x": 映射到x轴的字段，可以为空
 "y" 映射到y轴的字段，可以为空
@@ -449,14 +449,17 @@ Respone in the following format:
 \`\`\`
 {
 "THOUGHT": your thoughts
-"CHART_TYPE": the chart type you choose. Supported chart types: ["Dynamic Bar Chart", "Bar Chart", "Line Chart", "Pie Chart", "Scatter Plot", "Word Cloud"].
+"CHART_TYPE": the chart type you choose. Supported chart types: ["Dynamic Bar Chart", "Bar Chart", "Line Chart", "Pie Chart", "Scatter Plot", "Word Cloud", "Rose Chart", "Radar Chart", "Sankey Chart"].
 "FIELD_MAP": { // Visual channels and the fields mapped to them, available visual channels: ["x", "y", "color", "size", "angle", "time"]
 "x": the field mapped to the x-axis, can be empty. Can Only has one field.
 "y": the field mapped to the y-axis, can be empty. Can only has one field.
-"color": the field mapped to the color channel. Can't be empty in Word Cloud and Pie Chart
+"color": the field mapped to the color channel. Can't be empty in Word Cloud, Pie Chart and Rose Chart 
 "size": the field mapped to the size channel, can be empty
 "angle": the field mapped to the angle channel of the pie chart, can be empty
 "time": This is usually a date field and can be used only in Dynamic Bar Chart. Can't be empty in Dynamic Bar Chart.
+"source": the field mapped to the source channel. Can't be empty in Sankey Chart
+"target": the field mapped to the target channel. Can't be empty in Sankey Chart
+"value": the field mapped to the value channel. Can't be empty in Sankey Chart
 },
 "Reason": the reason for selecting the chart type and visual mapping.
 "DOUBLE_CHECK": check if the reply meets the constraints
@@ -600,7 +603,7 @@ export const NLToChartPrompt = `你是一个数据分析领域的专家, 请你�
 {
 "THOUGHT": "你的思考",
 "USEFUL_FIELDS": 根据用户意图筛选的有用的字段,
-"CHART_TYPE": 你选择的图表类型. 支持的图表列表: [动态条形图、柱状图、折线图、饼图、散点图、词云]
+"CHART_TYPE": 你选择的图表类型. 支持的图表列表: [动态条形图、柱状图、折线图、饼图、散点图、词云、玫瑰图、雷达图、桑基图]
 "FIELD_MAP":{ //字段映射, 可用的视觉通道: ["x","y","color","size","angle","time"]
 "x": 映射到x轴的字段, string类型, 只能有一个字段或为空
 "y": 映射到y轴的字段, string类型, 只能有一个字段或为空
@@ -731,5 +734,8 @@ export const SUPPORTED_CHART_LIST = [
   'Line Chart',
   'Pie Chart',
   'Scatter Plot',
-  'Word Cloud'
+  'Word Cloud',
+  'Rose Chart',
+  'Radar Chart',
+  'Sankey Chart'
 ];

@@ -269,7 +269,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         thickness: (datum: Datum) => datum.thickness,
         fill: (datum: Datum) => {
           const sourceName =
-            this._spec?.nameKey || this._rawData.latestData[0]?.nodes?.[0]?.children
+            this._spec?.nodeKey || this._rawData.latestData[0]?.nodes?.[0]?.children
               ? datum.source
               : this.getNodeList()[datum.source];
           return this._spec.link?.style?.fill ?? this.getNodeOrdinalColorScale(sourceName);
