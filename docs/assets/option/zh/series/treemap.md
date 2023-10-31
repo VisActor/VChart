@@ -6,6 +6,7 @@
   noData = ${noData},
   isHierarchy = true,
   seriesType = 'treemap',
+  seriesMarks = ['leaf','nonLeaf'],
   noMorph = ${noMorph},
   noStack = ${noStack},
   useInChart = ${useInChart},

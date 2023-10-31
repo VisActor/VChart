@@ -6,6 +6,10 @@ In the [How to Get VChart](./How_to_Get_VChart) chapter, we introduced the ways 
 
 After getting the VChart file from [cdn](./How_to_Get_VChart#cdn-获取), you can add it to the `<script>` tag in the HTML file:
 
+**Note: When introducing in cdn mode, you need to pay attention to the reference method of VChart:**
+
+`const vchart = new VChart.default(spec, { dom: 'chart' });`
+
 ```html
 <body>
   <div id="chart" style="outline: solid red 1px; width: 100%; height: 500px"></div>

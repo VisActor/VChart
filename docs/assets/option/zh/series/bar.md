@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'bar',
+  seriesMarks = ['bar'],
   preset = 'grow' + '|' + 'fadeIn' + '|' + 'scaleIn',
   defaultPreset = 'grow'
 ) }}
@@ -37,13 +38,48 @@ bar 图元样式配置。
 
 {{ use: mark-state-style() }}
 
+#${prefix} barBackground(Object)
+
+barBackground 图元样式配置。该图元默认不显示。
+
+自 `1.6.0` 版本开始支持。
+
+{{ use: common-mark(
+  prefix = '#' + ${prefix}
+) }}
+
+##${prefix} style(Object)
+
+{{ use: mark-style(
+  markName = 'barBackground'
+) }}
+
+{{ use: mark-rect(
+  prefix = '##' + ${prefix}
+) }}
+
+##${prefix} state(Object)
+
+{{ use: mark-state-style() }}
+
 #${prefix} label(Object)
 
 标签配置。
 
-##${prefix} position(string) = 'outside'
+##${prefix} position(string|Function) = 'outside'
+标签位置。
 
-标签位置。可选值为：
+自 `1.6.0` 版本后，柱系列中，`position` 配置可以为函数形式，例如：
+
+```ts
+label: {
+  position: (datum: any) => {
+    return datum.year === '2000' ? 'top-right' : 'bottom-right';
+  };
+}
+```
+
+可选字符串值为：
 
 - `'outside'`
 - `'top'`
@@ -55,6 +91,10 @@ bar 图元样式配置。
 - `'inside-bottom'`
 - `'inside-right'`
 - `'inside-left'`
+- `'top-right'` // 自 `1.6.0` 版本支持
+- `'top-left'` // 自 `1.6.0` 支持
+- `'bottom-right'` // 自 `1.6.0` 支持
+- `'bottom-left'` // 自 `1.6.0` 支持
 
 {{ use: component-label(
   prefix = '#' + ${prefix},

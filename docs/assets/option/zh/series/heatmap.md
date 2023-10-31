@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = 'heatmap',
+  seriesMarks = ['heatmap'],
 ) }}
 
 #${prefix} valueField(string)

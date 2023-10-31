@@ -1,4 +1,4 @@
-import { defaultThemeName, getMergedTheme, themes } from './builtin';
+import { defaultThemeName, getMergedTheme, hasThemeMerged, themes } from './builtin';
 import type { ITheme } from './interface';
 import { InstanceManager } from '../core/instance-manager';
 import type { IVChart } from '../core/interface';
@@ -22,6 +22,7 @@ export class ThemeManager {
     }
     // 所有主题基于默认主题扩展，保证基础值
     ThemeManager.themes.set(name, getMergedTheme(theme));
+    hasThemeMerged.set(name, true);
   }
 
   /**
@@ -30,6 +31,10 @@ export class ThemeManager {
    * @returns
    */
   static getTheme(name: string) {
+    if (hasThemeMerged.has(name) && !hasThemeMerged.get(name)) {
+      // 重新 merge 默认主题
+      ThemeManager.registerTheme(name, ThemeManager.themes.get(name));
+    }
     return ThemeManager.themes.get(name) || ThemeManager.getDefaultTheme();
   }
 
@@ -39,7 +44,7 @@ export class ThemeManager {
    * @returns 是否移除成功
    */
   static removeTheme(name: string): boolean {
-    return ThemeManager.themes.delete(name);
+    return ThemeManager.themes.delete(name) && hasThemeMerged.delete(name);
   }
 
   /**

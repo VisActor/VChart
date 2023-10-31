@@ -17,6 +17,7 @@ export class LinearProgressChart extends CartesianChart {
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.linearProgress;
   readonly seriesType: string = SeriesTypeEnum.linearProgress;
+  protected _canStack: boolean = true;
 
   protected needAxes(): boolean {
     return false;

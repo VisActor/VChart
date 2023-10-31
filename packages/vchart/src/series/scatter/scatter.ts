@@ -56,8 +56,6 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   private _shapeField: string;
 
   protected _invalidType: IScatterInvalidType = 'zero';
-  protected _getInvalidDefined = (datum: Datum) =>
-    couldBeValidNumber(datum[this.getStackValueField()]) && couldBeValidNumber(datum[this.getDimensionField()[0]]);
 
   setAttrFromSpec() {
     super.setAttrFromSpec();

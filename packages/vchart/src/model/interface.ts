@@ -24,6 +24,8 @@ import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart } from '../chart/interface';
 import type { ExpressionFunction } from '../core/expression-function';
+import type { IChartLevelTheme } from '../core/interface';
+import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 
 export type ILayoutNumber = number | IPercent | ((layoutRect: ILayoutRect) => number) | IPercentOffset;
 
@@ -276,8 +278,8 @@ export interface IModel extends ICompilable, ILayoutItem {
   getSpecIndex: () => number;
 
   // theme
-  setTheme: (theme?: any) => void;
-  setCurrentTheme: (theme: any, noRender?: boolean) => void;
+  setCurrentTheme: (noRender?: boolean) => void;
+  getColorScheme: () => IThemeColorScheme | undefined;
 
   setMarkStyle: <T extends ICommonSpec>(
     mark?: IMarkRaw<T>,
@@ -306,7 +308,12 @@ export interface IModelOption extends ICompilableInitOption {
   specKey?: string;
   exprFunc?: ExpressionFunction;
 
-  getTheme?: () => ITheme;
+  getThemeConfig?: () => {
+    globalTheme?: string;
+    optionTheme?: string | ITheme;
+    specTheme?: string | ITheme;
+    chartLevelTheme: IChartLevelTheme;
+  };
 
   getChartLayoutRect: () => IRect;
   getChartViewRect: () => ILayoutRect;

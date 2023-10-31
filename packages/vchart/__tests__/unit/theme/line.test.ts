@@ -1,4 +1,4 @@
-import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
+import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import { VChart } from '../../../src/vchart-all';
 import type { ITheme } from '../../../src/theme';
 // eslint-disable-next-line no-duplicate-imports
@@ -137,8 +137,7 @@ describe('theme switch test', () => {
     await vchart.renderAsync();
     // await vchart.setCurrentTheme('light');
     // sepc
-    expect(vchart.getCurrentTheme().background).toBe('red');
-    expect(vchart.getCurrentThemeName()).toBe('newTheme');
+    expect(vchart.getCompiler().getVGrammarView().background()).toBe('red');
   });
 
   it('set theme in spec and theme is an object', async () => {
@@ -179,7 +178,6 @@ describe('theme switch test', () => {
 
     await vchart.renderAsync();
     // spec
-    expect(vchart.getCurrentTheme().background).toBe('red');
     expect(vchart.getCompiler().getVGrammarView().background()).toBe('red');
     expect(vchart.getCurrentThemeName()).toBe('light');
   });

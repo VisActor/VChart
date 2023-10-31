@@ -6,6 +6,32 @@
 
 Chart type.
 
+{{ if: ${chartType} === 'common' }}
+
+**Combined chart usage instructions:**
+
+**Because the combination chart does not limit the coordinate system, it is not possible to determine internally what type of coordinate axes should be created. Therefore, when configuring the combination chart, you must declare the `axes` attribute to declare what type of coordinate axes to use. **
+
+1. For the Cartesian coordinate system, we need to declare the coordinate axis and type of the corresponding direction, for example:
+
+```ts
+axes: [
+  { orient: 'left', type: 'linear' }, // Declare the left axis as a linear axis
+  { orient: 'bottom', type: 'band' } // Declare the lower axis as a discrete axis
+];
+```
+
+2. For the polar coordinate system, we need to declare the coordinate axis and type of the corresponding direction, for example:
+
+```ts
+axes: [
+  { orient: 'angle', type: 'band' }, // Declare the arc axis as a discrete axis
+  { orient: 'radius', type: 'linear' } // Declare the radius axis as a linear axis
+];
+```
+
+{{ /if }}
+
 {{ if: !${noData} }}
 
 {{ use: common-data(

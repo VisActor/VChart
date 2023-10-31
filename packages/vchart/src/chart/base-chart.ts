@@ -58,7 +58,6 @@ import {
 import { Stack } from './stack';
 import { BaseModel } from '../model/base-model';
 import { BaseMark } from '../mark/base/base-mark';
-import type { ITheme } from '../theme/interface';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../constant/base';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -83,6 +82,8 @@ import type { IRectMark } from '../mark/rect';
 import { calculateChartSize, mergeUpdateResult } from './util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../data/initialize';
+import { getThemeFromOption } from '../theme/util';
+import { defaultChartLevelTheme } from '../theme';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -103,9 +104,6 @@ export class BaseChart extends CompilableBase implements IChart {
   getOption() {
     return this._option;
   }
-
-  // 主题
-  protected _theme: ITheme;
 
   protected _regions: IRegion[] = [];
   // 系列
@@ -182,6 +180,7 @@ export class BaseChart extends CompilableBase implements IChart {
 
   // stack
   protected _stack: Stack;
+  protected _canStack: boolean;
 
   padding: IPadding = { top: 0, left: 0, right: 0, bottom: 0 };
   protected _paddingSpec: ILayoutOrientPadding;
@@ -193,8 +192,7 @@ export class BaseChart extends CompilableBase implements IChart {
 
   constructor(spec: any, option: IChartOption) {
     super(option);
-    this._theme = option.getTheme();
-    this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? this._theme?.padding);
+    this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? getThemeFromOption('padding', this._option));
 
     this._event = new Event(option.eventDispatcher, option.mode);
     this._dataSet = option.dataSet;
@@ -209,7 +207,7 @@ export class BaseChart extends CompilableBase implements IChart {
       globalScale: this._globalScale,
       onError: this._option?.onError
     };
-    this._stack = new Stack(this);
+
     this._spec = spec;
   }
 
@@ -255,7 +253,10 @@ export class BaseChart extends CompilableBase implements IChart {
 
     // TODO: to component
     // stack
-    this._stack.init();
+    if (this._canStack) {
+      this._stack = new Stack(this);
+      this._stack.init();
+    }
     // data flow start
     this.reDataFlow();
   }
@@ -364,7 +365,6 @@ export class BaseChart extends CompilableBase implements IChart {
         region,
         specIndex: index,
         specKey: 'series',
-        getTheme: () => this._theme,
         globalScale: this._globalScale,
         getSeriesData: this._chartData.getSeriesData.bind(this._chartData),
         sourceDataList: this._chartData.dataList
@@ -395,7 +395,6 @@ export class BaseChart extends CompilableBase implements IChart {
       getRegionsInIndex: this.getRegionsInIndex,
       getRegionsInIds: this.getRegionsInIds,
       getRegionsInUserIdOrIndex: this.getRegionsInUserIdOrIndex,
-      getTheme: () => this._theme,
       getAllSeries: this.getAllSeries,
       getSeriesInIndex: this.getSeriesInIndex,
       getSeriesInIds: this.getSeriesInIds,
@@ -495,13 +494,13 @@ export class BaseChart extends CompilableBase implements IChart {
       if (this._spec.zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
         use3dLayout = true;
       }
-      const layout = new (Factory.getLayoutInKey(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base')))(
-        this._spec.layout,
-        {
+      const constructor = Factory.getLayoutInKey(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base'));
+      if (constructor) {
+        const layout = new constructor(this._spec.layout, {
           onError: this._option?.onError
-        }
-      );
-      this._layoutFunc = layout.layoutItems.bind(layout);
+        });
+        this._layoutFunc = layout.layoutItems.bind(layout);
+      }
     }
   }
 
@@ -747,6 +746,7 @@ export class BaseChart extends CompilableBase implements IChart {
   private _transformSpecScale() {
     const scales: IChartSpec['scales'] = this._spec.scales ?? [];
     let colorScaleSpec: IVisualSpecScale<any, any> = scales.find(s => s.id === 'color');
+    const colorScheme = this.getColorScheme();
     if (!colorScaleSpec) {
       colorScaleSpec = {
         type: 'ordinal',
@@ -760,11 +760,11 @@ export class BaseChart extends CompilableBase implements IChart {
 
         // range array
         if (isArray(colorSpec)) {
-          colorScaleSpec.range = colorSpec.map(color => getActualColor(color, this._theme?.colorScheme));
+          colorScaleSpec.range = colorSpec.map(color => getActualColor(color, colorScheme));
         } else {
           const tempSpec = colorSpec as IVisualSpecScale<any, any>;
           if (tempSpec.range) {
-            tempSpec.range = tempSpec.range.map(color => getActualColor(color, this._theme?.colorScheme));
+            tempSpec.range = tempSpec.range.map(color => getActualColor(color, colorScheme));
           }
           Object.prototype.hasOwnProperty.call(tempSpec, 'type') && (colorScaleSpec.type = tempSpec.type);
           Object.prototype.hasOwnProperty.call(tempSpec, 'domain') && (colorScaleSpec.domain = tempSpec.domain);
@@ -777,7 +777,7 @@ export class BaseChart extends CompilableBase implements IChart {
     // 如果没有range设置
     // length === 0 就认为是没有配置，用户配置 color: [] 依然认为是无效配置，启用主题色板
     if (!colorScaleSpec.range?.length) {
-      colorScaleSpec.range = getDataScheme(this._theme?.colorScheme);
+      colorScaleSpec.range = getDataScheme(colorScheme);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       colorScaleSpec.rangeTheme = true;
@@ -812,10 +812,11 @@ export class BaseChart extends CompilableBase implements IChart {
 
   updateGlobalScaleTheme() {
     const colorSpec = this._globalScale.getScaleSpec('color');
+    const colorScheme = this.getColorScheme();
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (colorSpec.rangeTheme) {
-      colorSpec.range = getDataScheme(this._theme?.colorScheme);
+      colorSpec.range = getDataScheme(colorScheme);
       this._globalScale.getScale('color').range(colorSpec.range);
     }
   }
@@ -882,7 +883,7 @@ export class BaseChart extends CompilableBase implements IChart {
 
   updateChartConfig(result: IUpdateSpecResult, oldSpec: IChartSpec) {
     // padding;
-    this._paddingSpec = normalizeLayoutPaddingSpec(this._spec.padding ?? this._theme?.padding);
+    this._paddingSpec = normalizeLayoutPaddingSpec(this._spec.padding ?? getThemeFromOption('padding', this._option));
 
     // re compute padding & layout
     this._updateLayoutRect(this._viewBox);
@@ -978,7 +979,7 @@ export class BaseChart extends CompilableBase implements IChart {
       seriesStyle: spec.seriesStyle,
 
       animation: spec.animation,
-      animationThreshold: spec.animationThreshold ?? this._theme.animationThreshold,
+      animationThreshold: spec.animationThreshold ?? getThemeFromOption('animationThreshold', this._option),
       animationAppear: spec.animationAppear,
       animationDisappear: spec.animationDisappear,
       animationEnter: spec.animationEnter,
@@ -1025,15 +1026,8 @@ export class BaseChart extends CompilableBase implements IChart {
     this._event.emit(ChartEvent.layoutRectUpdate, {});
   }
 
-  /** 获取当前全局主题 */
-  getCurrentTheme() {
-    return this._theme;
-  }
-
   /** 设置当前全局主题 */
-  setCurrentTheme(theme: ITheme, reInit: boolean = true) {
-    this._theme = theme;
-
+  setCurrentTheme(reInit: boolean = true) {
     // 需要重新布局
     this.setLayoutTag(true);
 
@@ -1043,25 +1037,25 @@ export class BaseChart extends CompilableBase implements IChart {
     this.updateGlobalScaleTheme();
 
     this.setRegionTheme(reInit);
-    this.setComponentTheme(theme, reInit);
-    this.setSeriesTheme(theme, reInit);
+    this.setComponentTheme(reInit);
+    this.setSeriesTheme(reInit);
   }
 
   protected setRegionTheme(reInit: boolean = true) {
-    this._regions.forEach(r => {
-      reInit ? r.reInit() : r.setTheme();
+    this._regions.forEach(async r => {
+      await r.setCurrentTheme(reInit);
     });
   }
 
-  protected setComponentTheme(theme: ITheme, reInit: boolean = true) {
-    this._components.forEach(c => {
-      reInit ? c.setCurrentTheme(theme.component[c.type], true) : c.setTheme(theme.component[c.type]);
+  protected setComponentTheme(reInit: boolean = true) {
+    this._components.forEach(async c => {
+      await c.setCurrentTheme(reInit);
     });
   }
 
-  protected setSeriesTheme(theme: ITheme, reInit: boolean = true) {
+  protected setSeriesTheme(reInit: boolean = true) {
     this._series.forEach(async s => {
-      reInit ? await s.setCurrentTheme(theme.series[s.type], true) : s.setTheme(theme.series[s.type]);
+      await s.setCurrentTheme(reInit);
     });
   }
 
@@ -1414,6 +1408,10 @@ export class BaseChart extends CompilableBase implements IChart {
         }
       }
     }
+  }
+
+  getColorScheme() {
+    return (this._option.getThemeConfig?.().chartLevelTheme ?? defaultChartLevelTheme).colorScheme;
   }
 
   /**

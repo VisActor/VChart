@@ -23,7 +23,7 @@ import { binaryFuzzySearch } from '@visactor/vutils-extension';
 export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> extends PolarSeries<T> {
   static readonly mark: SeriesMarkMap = progressLikeSeriesMark;
 
-  protected _stack: boolean = true;
+  protected _supportStack: boolean = true;
 
   protected _startAngle: number;
   protected _endAngle: number;
@@ -50,18 +50,6 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
 
   getStackValueField() {
     return this._angleField?.[0];
-  }
-
-  setValueFieldToStack(): void {
-    // this.setAngleField(STACK_FIELD_END);
-  }
-
-  setValueFieldToPercent(): void {
-    //do nothing
-  }
-
-  setValueFieldToStackOffsetSilhouette(): void {
-    // do nothing
   }
 
   getGroupFields() {
@@ -231,12 +219,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
             const subTickData = this._getAngleAxisSubTickData(axis);
             const { x, y } = this.angleAxisHelper.center();
             const radius = this._computeLayoutRadius();
-            const markStyle = preprocessSpecOrTheme(
-              'mark-spec',
-              style,
-              this._option.getTheme()?.colorScheme,
-              this.type as any
-            );
+            const markStyle = preprocessSpecOrTheme('mark-spec', style, this.getColorScheme(), this.type as any);
             return subTickData.map(({ value }) => {
               const pos = this.angleAxisHelper.dataToPosition([value]) + degreeToRadian(offsetAngle);
               const angleUnit = degreeToRadian(angle) / 2;

@@ -11,6 +11,7 @@
   noMorph = ${noMorph},
   useInChart = ${useInChart},
   seriesType = ${seriesType},
+  seriesMarks = ['line', 'point', 'area'],
   preset = 'clipIn' + '|' + 'fadeIn' + '|' + 'grow',
   defaultPreset = 'clipIn'
 ) }}
@@ -98,9 +99,21 @@ Connection method for non-compliant data points. Connection method for null, und
 
 Label configuration.
 
-##${prefix} position(string) = 'top'
+##${prefix} position(string|Function) = 'top'
 
-Label position. Optional values:
+Label position.
+
+Since `1.6.0` version, in bar series, `position` can be a function, for example:
+
+```ts
+label: {
+  position: (datum: any) => {
+    return datum.year === '2000' ? 'top' : 'bottom';
+  };
+}
+```
+
+Optional string values:
 
 - `'top'`
 - `'bottom'`
@@ -110,6 +123,7 @@ Label position. Optional values:
 - `'top-left'`
 - `'bottom-right'`
 - `'bottom-left'`
+- `'center'`
 
 {{ use: component-label(
   prefix = '#' + ${prefix},

@@ -8,6 +8,7 @@ export class CommonChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.common;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.common;
+  protected _canStack: boolean = true;
 
   protected _getDefaultSeriesSpec(spec: any) {
     const defaultSpec = super._getDefaultSeriesSpec(spec);

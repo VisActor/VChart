@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Canvas } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+// @ts-ignore
+import { vglobal } from '@visactor/vchart/build/es5';
 
 import {
   TTCanvas,
@@ -10,14 +12,17 @@ import {
   style_container
 } from '../../utils';
 
-import { IChartProps, IVChart, IDomRef } from '../../typings';
+import { IChartProps, IVChart, IDomRef, RenderMode } from '../../typings';
 
-export class GeneralChart extends React.Component<IChartProps> {
+export interface GeneralChartProps extends IChartProps {
+  /**
+   * vchart 的环境参数
+   */
+  mode?: RenderMode;
+}
+
+export class GeneralChart extends React.Component<GeneralChartProps> {
   ttCanvas: TTCanvas;
-
-  constructor(props: IChartProps) {
-    super(props);
-  }
 
   async componentDidMount() {
     if (!this.props.spec || !this.props.canvasId) {
@@ -74,7 +79,7 @@ export class GeneralChart extends React.Component<IChartProps> {
     }
   }
 
-  componentDidUpdate(prevProps: IChartProps) {
+  componentDidUpdate(prevProps: GeneralChartProps) {
     if (
       this.ttCanvas &&
       this.ttCanvas.chartInstance &&
@@ -88,19 +93,30 @@ export class GeneralChart extends React.Component<IChartProps> {
     this.ttCanvas && this.ttCanvas.release();
   }
 
-  init({ domref, dpr = 2 }: { domref: IDomRef; dpr: number }) {
+  async init({ domref, dpr = 2 }: { domref: IDomRef; dpr: number }) {
     if (!domref) {
       console.error(`未找到 #${this.props.canvasId} 组件`);
       return;
     }
-    domref.id = this.props.canvasId;
 
+    if (this.props.mode === 'wx') {
+      // 微信小程序环境特殊处理
+      const canvasIdLists = [
+        `${this.props.canvasId}_draw_canvas`,
+        `${this.props.canvasId}_tooltip_canvas`,
+        `${this.props.canvasId}_hidden_canvas`
+      ];
+      await vglobal.setEnv('wx', { domref, force: true, canvasIdLists, freeCanvasIdx: 2, component: undefined });
+    }
+
+    domref.id = this.props.canvasId;
     this.ttCanvas = new TTCanvas({
       dpr: dpr,
       domref,
       spec: this.props.spec,
       events: this.props.events,
       options: this.props.options,
+      mode: this.props.mode,
       onChartInit: (chart: IVChart) => {
         this.props?.onChartInit && this.props.onChartInit(chart);
       },
@@ -115,7 +131,7 @@ export class GeneralChart extends React.Component<IChartProps> {
 
   render() {
     const handleEvent = (event: any) => {
-      if (this.ttCanvas.chartInstance) {
+      if (this.ttCanvas && this.ttCanvas.chartInstance) {
         const chartInstance = this.ttCanvas.chartInstance;
 
         Object.defineProperty(event, 'target', {
@@ -129,6 +145,7 @@ export class GeneralChart extends React.Component<IChartProps> {
     return (
       <View key={canvasId} style={{ ...style_container, ...style, padding: 0 }}>
         <Canvas
+          type={this.props.mode === 'wx' ? '2d' : undefined}
           style={{
             ...style_cs_tooltip_canvas
           }}
@@ -136,6 +153,7 @@ export class GeneralChart extends React.Component<IChartProps> {
           canvasId={`${canvasId}_tooltip_canvas`}
         ></Canvas>
         <Canvas
+          type={this.props.mode === 'wx' ? '2d' : undefined}
           onTouchStart={handleEvent}
           onTouchMove={handleEvent}
           onTouchEnd={handleEvent}
@@ -144,6 +162,7 @@ export class GeneralChart extends React.Component<IChartProps> {
           canvasId={`${canvasId}_draw_canvas`}
         ></Canvas>
         <Canvas
+          type={this.props.mode === 'wx' ? '2d' : undefined}
           style={{
             ...style_cs_canvas,
             ...style_cs_canvas_hidden

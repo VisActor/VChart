@@ -19,7 +19,7 @@
 ```javascript livedemo
 const spec = {
   type: 'common',
-  seriesField:'color',
+  seriesField: 'color',
   data: [
     {
       id: 'id0',
@@ -104,13 +104,12 @@ vchart.renderAsync();
 
 上面的例子，就是在利用我们上一章（[动画类型](./Animation_Types)）中介绍的`duration`/`delay`/`easing`/`oneByOne`配置来实现简单的动画效果。
 
-
 图元的动画配置支持多种属性，用于对图元动画行为进行细节控制。以下是图元动画配置支持的属性：
 
 - `type`： 动画类型，使用内置的动画类型如 "fadeIn"、"fadeOut" 等。
 - `channel`： 视觉通道动画配置，参考[视觉通道动画配置](#视觉通道动画配置)节内容。
 - `delay`： 动画执行的延迟时间，默认为 0。
-- `duration`： 动画执行时长，默认为 1000ms（1秒）。
+- `duration`： 动画执行时长，默认为 1000ms（1 秒）。
 - `oneByOne`： 动画依次执行的延迟时长，如果配置为 true 则会在上一个元素动画执行结束后执行下一个元素的动画，默认为 false。
 - `startTime`： 动画执行的初始时间，这一初始时间不会在循环动画中被重复应用，默认为 0。
 - `totalTime`： 动画执行的最大时间，如果动画执行到达设定时间将会被终止。
@@ -126,14 +125,15 @@ vchart.renderAsync();
 ### 内置动画类型
 
 在 VChart 中，内置了一些通用的动画类型。这些动画类型可以直接在配置中使用，实现常见的图元动画效果。通用的内置动画类型包括：
+
 - `fadeIn`/`fadeOut`： 渐入渐出动画。
 - `scaleIn`/`scaleOut`： 缩放动画。
 - `moveIn`/`moveOut`： 移入移出动画。
 - `rotateIn`/`rotateOut`： 旋转动画。
 - `update`： 更新动画，通常用于图元更新动画（`animationUpdate`）。
 
-
 #### 渐入渐出动画
+
 渐入动画是一种常见的出场动画：图元的透明度从 0 逐渐变化为 1；渐出动画则刚好相反，常用与图表的退场动画。
 在之前示例的基础上，我们为所有图元新增一个动画类型的配置`type: 'fadeIn'`，同时稍微调整了下动画延迟（`delay`），从下面的效果可以看到，图表的入场动画已经变为了我们配置的渐入动画。
 
@@ -200,7 +200,7 @@ const spec = {
       animationAppear: {
         // 点图元动画配置
         point: {
-          type: 'fadeIn',// 渐入动画
+          type: 'fadeIn', // 渐入动画
           duration: 500,
           delay: 3500
         },
@@ -226,8 +226,10 @@ vchart.renderAsync();
 ```
 
 #### 缩放动画
+
 缩放动画是一种常见的出场动画：图元的`scaleX`/`scaleY`从 0 逐渐变化为 1；`scaleOut`动画则刚好相反，常用与图表的退场动画。
 VChart 提供了内置动画类型 `scaleIn`/`scaleOut` 的额外配置参数 `options` ：
+
 ```ts
 export interface IScaleAnimationOptions {
   direction?: 'x' | 'y' | 'xy';
@@ -235,6 +237,7 @@ export interface IScaleAnimationOptions {
 ```
 
 其中，direction 属性用于指定缩放的方向，可选值有：
+
 - 'x'：x 方向进行缩放。
 - 'y'：y 方向进行缩放。
 - 'xy'：同时在 x 和 y 方向进行缩放（默认）。
@@ -298,6 +301,11 @@ const spec = {
       xField: 'x',
       yField: 'y',
       stack: false,
+      point: {
+        style: {
+          size: 20
+        }
+      },
       animationAppear: {
         // 点图元动画配置
         point: {
@@ -325,10 +333,11 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 ```
 
-
 #### 移入移出动画
+
 移入移出动画是指图表中基本图形元素在某一方向上进行平移的动画效果。VChart 提供了 IMoveAnimationOptions 接口来配置移入移出动画。
-VChart 提供了内置动画类型 `moveIn`/`moveOut`  的额外配置参数 `options` ：
+VChart 提供了内置动画类型 `moveIn`/`moveOut` 的额外配置参数 `options` ：
+
 ```ts
 export interface IMoveAnimationOptions {
   direction?: 'x' | 'y' | 'xy';
@@ -339,6 +348,7 @@ export interface IMoveAnimationOptions {
 ```
 
 其中：
+
 - `direction`：移动方向，可选值同缩放动画。
 - `orient`：移动的方向，可选值有：
   - `'positive'`：正方向（默认）
@@ -433,22 +443,24 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 ```
 
-
 #### 旋转动画
+
 旋转动画是针对配置了`angle`属性的图元提供的一种图元动画。多用于极坐标系下的图元，例如仪表盘指针变化动画。
-VChart 提供了内置动画类型 `rotateIn`/`rotateOut`  的额外配置参数 `options` ：
+VChart 提供了内置动画类型 `rotateIn`/`rotateOut` 的额外配置参数 `options` ：
+
 ```ts
 export interface IRotateAnimationOptions {
   orient?: 'clockwise' | 'anticlockwise';
   angle?: number;
 }
 ```
+
 其中：
+
 - `orient`：旋转方向，可选值有：
   - 'clockwise'：顺时针（默认）
   - 'anticlockwise'：逆时针
 - `angle`：旋转的角度，单位为弧度。
-
 
 ```javascript livedemo
 const spec = {
@@ -505,7 +517,8 @@ const spec = {
       point: {
         style: {
           shape: 'star',
-          angle: 180
+          angle: 180,
+          size: 20
         }
       },
       animationAppear: {
@@ -559,7 +572,6 @@ arc 图元通常用于饼图、玫瑰图、环形进度图中， 图元支持以
 - `growPointsYIn`/`growPointsYOut`： Y 方向点生长动画
 - `clipIn`/`clipOut`： 裁剪动画
 
-
 ### 视觉通道动画配置
 
 如果需要指定图元在动画执行前后具体变化效果，例如，设置图元的颜色透明度（fillOpacity）在动画过程中从 1 变化 0.3。视觉通道动画配置示例如下：
@@ -578,7 +590,6 @@ arc 图元通常用于饼图、玫瑰图、环形进度图中， 图元支持以
 
 `channel` 配置和 `type`二选其一，不能同时配置，当配置了内置动画类型（`type`）时，`channel` 配置将不会生效。
 
-
 ### 动画执行控制
 
 ## 动画编排
@@ -586,6 +597,7 @@ arc 图元通常用于饼图、玫瑰图、环形进度图中， 图元支持以
 VChart 提供基于 json spec 的动画编排配置，以尽可能丰富的满足动画需求。
 
 ### 时间线（Timeline）
+
 时间线（Timeline）表示在特定一段时间内图元的动画表现，一条时间线上包含了一组串行执行的动画分片（TimeSlice）。时间线描述了一段时间内图元的动画表现。不同 timeline 之间动画可以并行。时间线也可以被设置 `loop: true` 以循环执行所配置的动画效果。
 
 ![时间线示意图](./timeline.png)
@@ -602,16 +614,20 @@ VChart 提供基于 json spec 的动画编排配置，以尽可能丰富的满�
 ### 时间片（Timeslice）
 
 在一条时间线中，每个时间片是串行执行的，时间片中的构成元素包含：
+
 - `effect`：动画的具体执行效果，描述了具体的图元视觉通道属性插值计算逻辑。effect 可以是封装好的特定动画效果，或者由开发者配置起始状态以及结尾状态的动画配置，描述了动画的属性插值的计算逻辑。每个 timeSlice 可以配置多个`effect`；
 - `duration`：动画分片的执行时长；
 - `delay`：动画分片的执行前的等待时间；
 
 ### 动画效果（Effect）
+
 动画效果（Effect）中的构成元素包含：
+
 - `channel`：变更的视觉通道属性，描述了插值计算开始以及结尾状态时的视觉通道属性；
 - `easing`：差值计算的缓动策略；
 
 下面的示例通过设置循环的时间线动画，实现了一个手风琴的效果：
+
 ```javascript livedemo
 const spec = {
   type: 'bar',
@@ -679,7 +695,9 @@ vchart.renderAsync();
 ```
 
 ## 自定义动画
+
 在动画效果（Effect）中的如果简单的 `channel` 配置无法满足你的需要，可以通过`custom`和`customParameters`来配置自定义动画效果：
+
 - `custom`：自定义动画；
 - `customParameters`：自定义动画参数；
-详细使用可以参考[自定义动画](../extend/custom_animation)章节。
+  详细使用可以参考[自定义动画](../extend/custom_animation)章节。

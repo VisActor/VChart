@@ -41,6 +41,9 @@ const run = () => {
 
   const spec = {
     type: 'bar',
+    barBackground: {
+      visible: true
+    },
     xField: ['230907111524013', '10001'],
     yField: ['10002'],
     direction: 'vertical',

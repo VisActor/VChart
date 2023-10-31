@@ -1,6 +1,6 @@
 import type { MaybeArray } from '../common';
 import type { TooltipPatternProperty, TooltipUpdateCallback } from './common';
-import type { TooltipActiveType } from './handler';
+import type { TooltipActiveType, TooltipData } from './handler';
 import type { IToolTipLineActual, IToolTipLinePattern } from './line';
 import type { ITooltipPositionActual, TooltipPositionMode, TooltipPosition } from './position';
 import type { ITooltipShapePattern } from './shape';
@@ -33,4 +33,5 @@ export interface IToolTipActual {
   content?: IToolTipLineActual[];
   activeType?: TooltipActiveType;
   position?: ITooltipPositionActual;
+  data?: TooltipData;
 }

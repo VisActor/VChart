@@ -93,7 +93,7 @@ describe('[Domain-Series-Funnel] Funnel Series', () => {
     expect(last[FUNNEL_CURRENT_VALUE]).toBe(370);
     expect(last[FUNNEL_REACH_RATIO]).toBe(370 / 570);
     expect(last[FUNNEL_NEXT_VALUE_RATIO]).toBe(0);
-    expect(last[FUNNEL_TRANSFORM_RATIO]).toBe(null);
+    expect(last[FUNNEL_TRANSFORM_RATIO]).toBe(0);
     expect(last[FUNNEL_LAST_VALUE_RATIO]).toBe(0.57);
     expect(last[FUNNEL_VALUE_RATIO]).toBe(0.37);
   });

@@ -111,6 +111,11 @@
       "projectFolder": "docs",
       "tags": ["doc"],
       "shouldPublish": false
+    },
+    {
+      "packageName": "@visactor/vmind",
+      "projectFolder": "packages/vmind",
+      "shouldPublish": false
     }
   ]
 }

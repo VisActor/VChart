@@ -273,3 +273,25 @@ const layout = (data, getRelatedGraphic) => {
 函数回调参数为：`(label: Text[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[];`
 
 {{ /if }}
+
+#${prefix} animation(boolean|object)
+标签动画。配置 `false` 可以关闭标签动画。
+
+##${prefix} duration(number)=300
+标签动画时长，默认为 300 ms。
+
+##${prefix} delay(number)=0
+标签动画延迟执行时间。
+
+##${prefix} easing(string)="linear"
+标签动画缓动，默认为 `'linear'`
+
+##${prefix} mode('same-time' | 'after' | 'after-all')="same-time"
+标签动画播放时机。默认为 `"same-time"`。
+
+- `'same-time'`：与关联数据元动画同时开始
+- `'after'`：在关联数据元动画完成之后开始
+- `'after-all'`：在所有数据图元动画完成之后开始
+
+##${prefix} increaseEffect(boolean)=true
+标签数值增长动画，当标签数据更新且为数值数据时触发。设置为 `false` 可以关闭此动画效果。

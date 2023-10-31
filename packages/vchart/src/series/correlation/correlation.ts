@@ -317,12 +317,6 @@ export class CorrelationSeries extends PolarSeries<any> {
   getStackValueField(): string {
     return '';
   }
-  setValueFieldToStack(): void {
-    return;
-  }
-  setValueFieldToPercent(): void {
-    return;
-  }
   getActiveMarks(): IMark[] {
     return [this._nodePointMark, this._centerPointMark];
   }

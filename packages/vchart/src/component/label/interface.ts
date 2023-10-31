@@ -1,5 +1,5 @@
 import type { BaseLabelAttrs } from '@visactor/vrender-components';
-import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings';
+import type { ConvertToMarkStyleSpec, Datum, ITextMarkSpec } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 
 export interface ILabelSpec extends IComponentSpec {
@@ -8,7 +8,7 @@ export interface ILabelSpec extends IComponentSpec {
   /** 是否支持交互。@default false */
   interactive?: boolean;
   /** 格式化函数 */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[];
+  formatMethod?: (text: string | string[], datum?: Datum) => string | string[];
   /** 标签与其对应数据图元的间距 */
   offset?: number;
   /** 标签位置 */

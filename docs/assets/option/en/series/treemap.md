@@ -6,6 +6,7 @@
   noData = ${noData},
   isHierarchy = true,
   seriesType = 'treemap',
+  seriesMarks = ['leaf','nonLeaf'],
   noMorph = ${noMorph},
   noStack = ${noStack},
   useInChart = ${useInChart},
@@ -55,11 +56,11 @@ The maximum level to display. When a node's depth in the hierarchical data is gr
 
 #${prefix} minVisibleArea(number)=10
 
-When the area size (px * px) is smaller than the set value, the node will be hidden.
+When the area size (px \* px) is smaller than the set value, the node will be hidden.
 
 #${prefix} minChildrenVisibleArea(number)
 
-When the area size (px * px) is smaller than the set value, the child nodes of the node will be hidden.
+When the area size (px \* px) is smaller than the set value, the child nodes of the node will be hidden.
 
 #${prefix} roam(boolean)=false
 

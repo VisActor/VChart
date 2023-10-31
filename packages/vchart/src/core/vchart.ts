@@ -36,7 +36,6 @@ import {
   specTransform,
   convertPoint,
   preprocessSpecOrTheme,
-  mergeTheme,
   getThemeObject,
   mergeSpecWithFilter
 } from '../util';
@@ -85,7 +84,7 @@ import {
   LoggerLevel,
   isEqual
 } from '@visactor/vutils';
-import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
+import type { DataLinkAxis, DataLinkSeries, IChartLevelTheme, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
@@ -96,6 +95,7 @@ import { GroupMark } from '../mark';
 import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
+import { mergeThemeAndGet } from '../theme/util';
 import { ExpressionFunction } from './expression-function';
 
 export class VChart implements IVChart {
@@ -296,7 +296,8 @@ export class VChart implements IVChart {
   private _observer: ResizeObserver = null;
 
   private _currentThemeName: string;
-  private _currentTheme: ITheme;
+  //private _currentTheme: ITheme;
+  private _currentChartLevelTheme: IChartLevelTheme = {};
 
   private _onError?: (...args: any[]) => void;
 
@@ -353,7 +354,7 @@ export class VChart implements IVChart {
     this._compiler.initView();
     // 设置全局字体
     this.getStage()?.setTheme({
-      text: { fontFamily: this._currentTheme.fontFamily }
+      text: { fontFamily: this._currentChartLevelTheme.fontFamily }
     });
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowser(mode) ? spec.autoFit ?? this._option.autoFit ?? true : false;
@@ -394,7 +395,12 @@ export class VChart implements IVChart {
       performanceHook: this._option.performanceHook,
       viewBox: this._viewBox,
       animation: this._option.animation,
-      getTheme: () => this._currentTheme,
+      getThemeConfig: () => ({
+        globalTheme: this._currentThemeName,
+        optionTheme: this._option.theme,
+        specTheme: this._spec?.theme,
+        chartLevelTheme: this._currentChartLevelTheme
+      }),
       layout: this._option.layout,
       onError: this._onError,
       exprFunc: this._exprFunc,
@@ -459,12 +465,16 @@ export class VChart implements IVChart {
     return { width: this._spec.width ?? containerWidth, height: this._spec.height ?? containerHeight };
   }
 
-  private _onResize = debounce((...args: any[]) => {
+  private _doResize() {
     const { width, height } = this._getCurSize();
     if (this._curSize.width !== width || this._curSize.height !== height) {
       this._curSize = { width, height };
       this.resize(width, height);
     }
+  }
+
+  private _onResize = debounce((...args: any[]) => {
+    this._doResize();
   }, 100);
 
   private _initDataSet(dataSet?: DataSet) {
@@ -521,8 +531,9 @@ export class VChart implements IVChart {
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
       this._userEvents.forEach(e => this._event?.on(e.eType as any, e.query as any, e.handler as any));
+
       if (updateResult.reSize) {
-        this._onResize();
+        this._doResize();
       }
     } else {
       if (updateResult.reCompile) {
@@ -823,9 +834,9 @@ export class VChart implements IVChart {
       this._spec = spec;
       if (!isEqual(lastSpec.theme, spec.theme)) {
         this._updateCurrentTheme();
-        this._chart?.setCurrentTheme(this._currentTheme, false);
+        this._chart?.setCurrentTheme();
       }
-      const reSize = this._updateChartConfiguration(lastSpec);
+      const reSize = this._shouldChartResize(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
       return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
         change: reSize,
@@ -866,7 +877,11 @@ export class VChart implements IVChart {
       spec.data = spec.data ?? [];
       const lastSpec = this._spec;
       this._spec = spec;
-      const reSize = this._updateChartConfiguration(lastSpec);
+      if (!isEqual(lastSpec.theme, spec.theme)) {
+        this._updateCurrentTheme();
+        this._chart?.setCurrentTheme();
+      }
+      const reSize = this._shouldChartResize(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
       return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
         change: reSize,
@@ -1033,6 +1048,10 @@ export class VChart implements IVChart {
   on(eType: EventType, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
   on(eType: EventType, query: EventQuery | EventCallback<EventParams>, handler?: EventCallback<EventParams>): void {
+    if (!this._userEvents) {
+      // userEvents正常情况下有默认值，如果!userEvents，说明此时chart被release了，就可以终止流程
+      return;
+    }
     this._userEvents.push({
       eType,
       query: typeof query === 'function' ? null : query,
@@ -1041,6 +1060,9 @@ export class VChart implements IVChart {
     this._event?.on(eType as any, query as any, handler as any);
   }
   off(eType: string, handler?: EventCallback<EventParams>): void {
+    if (!this._userEvents || this._userEvents.length === 0) {
+      return;
+    }
     if (handler) {
       const index = this._userEvents.findIndex(e => e.eType === eType && e.handler === handler);
       if (index >= 0) {
@@ -1113,68 +1135,66 @@ export class VChart implements IVChart {
    * @param nextThemeName 通过 setCurrentTheme 方法新设的主题
    */
   private _updateCurrentTheme(nextThemeName?: string) {
-    let optionTheme: Maybe<string | ITheme> = this._option.theme;
-    let specTheme: Maybe<string | ITheme> = this._spec?.theme;
+    const optionTheme: Maybe<string | ITheme> = this._option.theme;
+    const specTheme: Maybe<string | ITheme> = this._spec?.theme;
 
-    let finalTheme: ITheme;
-    if (ThemeManager.themeExist(nextThemeName)) {
-      // 优先级最低
-      const newTheme = ThemeManager.getTheme(nextThemeName);
-      // 优先级适中
-      optionTheme = !optionTheme || isString(optionTheme) ? {} : optionTheme;
-      // 优先级最高
-      specTheme = !specTheme || isString(specTheme) ? {} : specTheme;
-      // 合并
-      finalTheme = mergeTheme({}, newTheme, optionTheme, specTheme);
+    if (nextThemeName) {
       this._currentThemeName = nextThemeName;
-    } else {
-      if (isString(specTheme) && ThemeManager.themeExist(specTheme)) {
-        // 以 specTheme 为最底开始合并
-        finalTheme = mergeTheme({}, ThemeManager.getTheme(specTheme));
-        this._currentThemeName = specTheme;
-      } else if (isString(optionTheme) && ThemeManager.themeExist(optionTheme)) {
-        // 以 optionTheme 为最底开始合并
-        finalTheme = mergeTheme({}, ThemeManager.getTheme(optionTheme), getThemeObject(specTheme));
-        this._currentThemeName = optionTheme;
-      } else {
-        // 以 baseTheme 为最底开始合并
-        const baseTheme = getThemeObject(this._currentThemeName);
-        finalTheme = mergeTheme({}, baseTheme, getThemeObject(optionTheme), getThemeObject(specTheme));
-      }
     }
 
-    this._currentTheme = preprocessSpecOrTheme('theme', finalTheme, finalTheme.colorScheme);
+    const colorScheme = mergeThemeAndGet('colorScheme', this._currentThemeName, optionTheme, specTheme);
+    this._currentChartLevelTheme = {
+      colorScheme,
+      background: mergeThemeAndGet('background', this._currentThemeName, optionTheme, specTheme, colorScheme),
+      fontFamily: mergeThemeAndGet('fontFamily', this._currentThemeName, optionTheme, specTheme, colorScheme)
+    };
+
     // 设置 poptip 的主题
-    setPoptipTheme(preprocessSpecOrTheme('mark-theme', mergeSpec({}, this._currentTheme.component?.poptip)));
+    setPoptipTheme(
+      preprocessSpecOrTheme(
+        'mark-theme',
+        mergeThemeAndGet('component.poptip', this._currentThemeName, optionTheme, specTheme, colorScheme),
+        colorScheme
+      )
+    );
     // 设置背景色
     this._compiler?.setBackground(this._getBackground());
   }
 
-  private _updateChartConfiguration(oldSpec: ISpec) {
+  private _shouldChartResize(oldSpec: ISpec): boolean {
     let resize = false;
-    if (this._spec.width !== oldSpec.width || this._spec.height !== oldSpec.height) {
+
+    if (isNil(this._spec.width)) {
+      this._spec.width = oldSpec.width;
+    } else if (this._spec.width !== oldSpec.width) {
       resize = true;
     }
+
+    if (isNil(this._spec.height)) {
+      this._spec.height = oldSpec.height;
+    } else if (this._spec.height !== oldSpec.height) {
+      resize = true;
+    }
+
     const lasAutoSize = this._autoSize;
     this._autoSize = isTrueBrowser(this._option.mode) ? this._spec.autoFit ?? this._option.autoFit ?? true : false;
     if (this._autoSize !== lasAutoSize) {
       resize = true;
     }
-    this._updateCurrentTheme();
     return resize;
   }
 
   private _getBackground() {
     const specBackground = typeof this._spec.background === 'string' ? this._spec.background : null;
     // spec > spec.theme > initOptions.theme
-    return specBackground || (this._currentTheme.background as string) || this._option.background;
+    return specBackground || (this._currentChartLevelTheme.background as string) || this._option.background;
   }
 
   /**
-   * 获取当前主题，会返回完整的主题配置
+   * 获取当前主题，会返回完整的主题配置（只能获取用户通过`setCurrentTheme`方法设置过的主题，默认值为`ThemeManager`统一设置的主题）
    * */
   getCurrentTheme() {
-    return this._currentTheme;
+    return getThemeObject(this._currentThemeName);
   }
 
   /**
@@ -1209,7 +1229,7 @@ export class VChart implements IVChart {
 
     await this.updateCustomConfigAndRerender(() => {
       this._updateCurrentTheme(name);
-      this._chart?.setCurrentTheme(this._currentTheme, true);
+      this._chart?.setCurrentTheme(true);
       return { change: true, reMake: false };
     });
 
@@ -1229,7 +1249,7 @@ export class VChart implements IVChart {
 
     this.updateCustomConfigAndRerenderSync(() => {
       this._updateCurrentTheme(name);
-      this._chart?.setCurrentTheme(this._currentTheme, true);
+      this._chart?.setCurrentTheme(true);
       return { change: true, reMake: false };
     });
 

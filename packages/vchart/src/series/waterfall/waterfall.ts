@@ -43,9 +43,9 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 
   static readonly mark: SeriesMarkMap = waterfallSeriesMark;
 
-  protected declare _theme: Maybe<IWaterfallSeriesTheme>;
+  protected _stack: boolean = false;
 
-  protected _stack: boolean = true;
+  protected declare _theme: Maybe<IWaterfallSeriesTheme>;
 
   protected _totalData?: SeriesData;
   getTotalData() {
@@ -68,7 +68,8 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
-    this._stack = false;
+    // waterfall data stack data
+    this.setValueFieldToStack();
     // 不支持多维度;
     this._fieldX = [this._fieldX[0]];
     this._fieldY = [this._fieldY[0]];
@@ -154,7 +155,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       return xIndex || 0;
     };
 
-    this._rectMark.setAnimationConfig(
+    this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('waterfall')?.(animationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.bar, this._spec),
@@ -203,7 +204,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       leaderLine.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
     }
     if (this._spec.stackLabel?.visible) {
-      this._rectMark.addLabelSpec(this._spec.stackLabel);
+      this._barMark.addLabelSpec(this._spec.stackLabel);
     }
   }
 
@@ -239,7 +240,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
           bandPosition: this._bandPosition
         }) +
         getBandwidth(0) * 0.5 -
-        (this._rectMark.getAttribute('width', datum) as number) * (0.5 - pos)
+        (this._barMark.getAttribute('width', datum) as number) * (0.5 - pos)
       );
     }
     return valueInScaleRange(
@@ -263,7 +264,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
         bandPosition: this._bandPosition
       }) +
       getBandwidth(0) * 0.5 -
-      (this._rectMark.getAttribute('height', datum) as number) * (0.5 - pos)
+      (this._barMark.getAttribute('height', datum) as number) * (0.5 - pos)
     );
   }
 

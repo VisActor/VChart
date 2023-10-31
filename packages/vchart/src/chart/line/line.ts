@@ -12,6 +12,8 @@ export class LineChart extends CartesianChart {
   readonly type: string = ChartTypeEnum.line;
   readonly seriesType: string = SeriesTypeEnum.line;
 
+  protected _canStack: boolean = true;
+
   protected _getDefaultSeriesSpec(spec: ILineChartSpec): any {
     return {
       ...super._getDefaultSeriesSpec(spec),

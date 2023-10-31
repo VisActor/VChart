@@ -174,18 +174,6 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     return this._spec.valueField;
   }
 
-  setValueFieldToStack(): void {
-    // do nothing
-  }
-
-  setValueFieldToPercent(): void {
-    //do nothing
-  }
-
-  setValueFieldToStackOffsetSilhouette(): void {
-    // do nothing
-  }
-
   compileData() {
     this._mapViewData?.compile();
   }

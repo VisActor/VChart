@@ -25,6 +25,10 @@ Series type.
 
 Used to customize the series name.
 
+#${prefix} support3d(boolean)
+
+When the chart is enabled for 3d mode, whether this graphic element supports (enables) 3d capabilities (when support3d is false, this graphic element will ignore the 3d effect and always maintain the same effect as 2d).
+
 #${prefix} id(string|number)
 
 User-defined series id, which can be used for event and graphic searches.
@@ -148,4 +152,5 @@ Data matching field, configurable for multiple data primitives.
   preset = ${preset},
   defaultPreset = ${defaultPreset},
   seriesType = ${seriesType},
+  seriesMarks = ${seriesMarks},
 ) }}

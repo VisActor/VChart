@@ -1,4 +1,4 @@
-import type { DataSet, DataView } from '@visactor/vdataset';
+import type { DataSet } from '@visactor/vdataset';
 
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type {
@@ -23,7 +23,8 @@ import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
 import type { IChart } from '../chart/interface';
-import type { Stage } from '@visactor/vrender-core';
+import type { IGradientColor, Stage } from '@visactor/vrender-core';
+import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 
 export type DataLinkSeries = {
   /**
@@ -195,7 +196,7 @@ export interface IVChart {
   ) => void;
 
   /**
-   * 获取当前主题，会返回完整的主题配置
+   * 获取当前主题，会返回完整的主题配置（只能获取用户通过`setCurrentTheme`方法设置过的主题，默认值为`ThemeManager`统一设置的主题）
    * */
   getCurrentTheme: () => ITheme;
 
@@ -420,4 +421,14 @@ export interface IGlobalConfig {
   /** 是否监测图表 dom 变化自动 release */
   // TODO
   // autoRelease?: boolean;
+}
+
+/** 图表层级的主题 */
+export interface IChartLevelTheme {
+  /** 图表背景色 */
+  background?: string | IGradientColor;
+  /** 图表字体配置 */
+  fontFamily?: string;
+  /** 全局色板 */
+  colorScheme?: IThemeColorScheme;
 }

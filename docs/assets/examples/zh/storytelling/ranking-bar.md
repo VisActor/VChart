@@ -132,7 +132,9 @@ const dataSpecs = Object.keys(goldenMedals).map(year => {
     ]
   };
 });
-const duration = 2000;
+const duration = 1000;
+const exchangeDuration = 600;
+
 const spec = {
   type: 'bar',
   padding: {
@@ -156,6 +158,7 @@ const spec = {
       orient: 'bottom',
       type: 'linear',
       visible: true,
+      max: 50,
       grid: {
         visible: true
       }
@@ -178,19 +181,41 @@ const spec = {
     bar: [
       {
         type: 'update',
-        options: { excludeChannels: ['x', 'y'] },
+        options: { excludeChannels: ['y'] },
+        easing: 'linear',
         duration
       },
       {
-        channel: ['x', 'y'],
-        options: { excludeChannels: ['width'] },
-        duration: 500
+        channel: ['y'],
+        easing: 'circInOut',
+        duration: exchangeDuration
       }
     ],
     axis: {
-      duration: 500,
-      easing: 'linear'
+      duration: exchangeDuration,
+      easing: 'circInOut'
     }
+  },
+  animationEnter: {
+    bar: [
+      {
+        type: 'moveIn',
+        duration: exchangeDuration,
+        easing: 'circInOut',
+        options: {
+          direction: 'y',
+          orient: 'negative'
+        }
+      }
+    ]
+  },
+  animationExit: {
+    bar: [
+      {
+        type: 'fadeOut',
+        duration: exchangeDuration
+      }
+    ]
   },
   customMark: [
     {
