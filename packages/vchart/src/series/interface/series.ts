@@ -136,6 +136,8 @@ export interface ISeries extends IModel, ILayoutItem {
 
   getStack: () => boolean;
   getStackValue: () => StringOrNumber | undefined;
+  getPercent: () => boolean;
+  getStackOffsetSilhouette: () => boolean;
 
   getStackValueField: () => string;
   setValueFieldToStack: () => void;

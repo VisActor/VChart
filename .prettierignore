@@ -24,3 +24,4 @@ shrinkwrap.json
 # Build outputs
 dist
 lib
+vchart/index.js

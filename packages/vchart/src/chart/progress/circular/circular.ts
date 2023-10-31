@@ -9,6 +9,7 @@ export class CircularProgressChart extends ProgressLikeChart {
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.circularProgress;
   readonly seriesType: string = SeriesTypeEnum.circularProgress;
+  protected _canStack: boolean = true;
 
   protected _getDefaultSeriesSpec(spec: any): any {
     const series = super._getDefaultSeriesSpec(spec);

@@ -9,6 +9,15 @@ import {
   pieField,
   scatterField,
   wordCloudField,
+  roseField,
+  roseAxis,
+  radarField,
+  radarDisplayConf,
+  radarAxis,
+  sankeyData,
+  sankeyField,
+  sankeyLabel,
+  sankeyLink,
   sequenceData,
   rankingBarAxis,
   rankingBarField,
@@ -223,6 +232,12 @@ const pipelineFunnel = [chartType, funnelData, color, funnelField, legend];
 
 const pipelineDualAxis = [chartType, data, color, dualAxisSeries, dualAxisAxes, legend];
 
+const pipelineRose = [chartType, data, color, roseField, roseAxis, legend, animationCartesianPie];
+
+const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, radarAxis, legend, animationCartisianLine];
+
+const pipelineSankey = [chartType, sankeyData, color, sankeyField, sankeyLink, sankeyLabel, legend];
+
 export const pipelineMap: { [chartType: string]: any } = {
   'BAR CHART': pipelineBar,
   'LINE CHART': pipelineLine,
@@ -231,7 +246,10 @@ export const pipelineMap: { [chartType: string]: any } = {
   'SCATTER PLOT': pipelineScatterPlot,
   'DYNAMIC BAR CHART': pipelineRankingBar,
   'FUNNEL CHART': pipelineFunnel,
-  'DUAL AXIS CHART': pipelineDualAxis
+  'DUAL AXIS CHART': pipelineDualAxis,
+  'ROSE CHART': pipelineRose,
+  'RADAR CHART': pipelineRadar,
+  'SANKEY CHART': pipelineSankey
 };
 
 export const execPipeline = (src: any, pipes: Pipe[], context: Context) =>

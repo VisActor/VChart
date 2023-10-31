@@ -1,4 +1,4 @@
-import { BarSeries, registerBarSeries } from '../../series/bar/bar';
+import { registerBarSeries } from '../../series/bar/bar';
 import { SeriesTypeEnum } from '../../series/interface';
 import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface';
@@ -11,6 +11,7 @@ export class BarChart extends CartesianChart {
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.bar;
   readonly seriesType: string = SeriesTypeEnum.bar;
+  protected _canStack: boolean = true;
 
   protected _getDefaultSeriesSpec(spec: any): any {
     return {
@@ -19,7 +20,8 @@ export class BarChart extends CartesianChart {
       barMaxWidth: (<IBarChartSpec>spec).barMaxWidth,
       barMinWidth: (<IBarChartSpec>spec).barMinWidth,
       barGapInGroup: (<IBarChartSpec>spec).barGapInGroup,
-      barMinHeight: (<IBarChartSpec>spec).barMinHeight
+      barMinHeight: (<IBarChartSpec>spec).barMinHeight,
+      barBackground: (<IBarChartSpec>spec).barBackground
     };
   }
 

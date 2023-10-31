@@ -16,16 +16,13 @@ import type {
 import type { CoordinateType } from '../typings/coordinate';
 import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect } from '../typings';
-import type { ITooltipHelper } from './tooltip-helper';
 import type { CompilableData } from '../compile/data/compilable-data';
-import { ModelStateManager } from './model-state-manager';
 import { PREFIX } from '../constant';
-import type { IElement, IGroupMark, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
-import { array, isArray, isEqual, isNil } from '@visactor/vutils';
+import type { IGroupMark } from '@visactor/vgrammar-core';
+import { isArray, isEqual } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import type { SeriesTypeEnum } from '../series/interface';
 import { MarkSet } from '../mark/mark-set';
-import { getThemeFromOption } from '../theme/util';
 import { defaultChartLevelTheme } from '../theme';
 
 export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> implements IModel {
@@ -62,8 +59,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     return this._option;
   }
 
-  protected _sceneNodeMap: Map<string, IElement>;
-
   protected _marks: MarkSet = new MarkSet();
   getMarks(): IMark[] {
     return this._marks?.getMarks() ?? [];
@@ -83,12 +78,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
 
   getChart() {
     return this._option.getChart();
-  }
-
-  /** 状态管理器 */
-  state: ModelStateManager;
-  getState() {
-    return this.state._stateMap;
   }
 
   protected _theme?: any; // 非全局 theme，是对应于具体 model 的 theme 对象
@@ -111,11 +100,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this.effect = {};
     this.event = new Event(option.eventDispatcher, option.mode);
     option.map?.set(this.id, this);
-    this._sceneNodeMap = new Map();
-    this.state = new ModelStateManager({
-      ...option,
-      stateKeyToSignalName: this.stateKeyToSignalName.bind(this)
-    });
   }
   coordinate?: CoordinateType;
 
@@ -126,10 +110,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   created() {
     this._initTheme();
     this.setAttrFromSpec();
-  }
-
-  updateState(newState: Record<string, unknown>) {
-    return this.state.updateState(newState);
   }
 
   init(option: IModelInitOption) {
@@ -181,9 +161,8 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this._originalSpec = {};
     this._spec = undefined;
     this.getMarks().forEach(m => m.release());
-    this.state.release();
     this._data?.release();
-    this._data = this._specIndex = this._sceneNodeMap = null;
+    this._data = this._specIndex = null;
     this._marks.clear();
     super.release();
   }
@@ -228,31 +207,12 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     } else {
       this._theme = this._getTheme();
     }
-    this._mergeMarkTheme();
+
     this._mergeThemeToSpec();
   }
 
   protected _getTheme(): any {
     return undefined;
-  }
-
-  /** 将全局的 mark theme 合并进 model theme */
-  protected _mergeMarkTheme() {
-    const config = this._option.getThemeConfig?.();
-    if (isNil(config) || isNil(this._theme)) {
-      return;
-    }
-
-    const markThemeByType = getThemeFromOption('mark', this._option);
-    const markThemeByName = getThemeFromOption('markByName', this._option);
-    this.getMarkInfoList().forEach(({ type, name }) => {
-      this._theme[name] = mergeSpec(
-        {},
-        markThemeByType?.[array(type)[0]] ?? {},
-        markThemeByName?.[name] ?? {},
-        this._theme[name]
-      );
-    });
   }
 
   /** 将 theme merge 到 spec 中 */
@@ -390,22 +350,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this.getMarks().forEach(m => {
       m.compile({ group });
     });
-  }
-
-  compileSignal() {
-    this.state?.compile();
-  }
-
-  bindSceneNode(node: IElement) {
-    this._sceneNodeMap.set(node.mark.id(), node as IElement);
-  }
-
-  getSceneNodes() {
-    return Array.from(this._sceneNodeMap.values());
-  }
-
-  getSceneNodeMarks() {
-    return this.getSceneNodes().map(node => node.mark as IVGrammarMark);
   }
 
   protected _createMark<T extends IMark>(markInfo: IModelMarkInfo, option: Partial<IMarkOption> = {}): T {

@@ -104,6 +104,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           },
           sourceField: this._spec.sourceField,
           targetField: this._spec.targetField,
+          valueField: this._spec.valueField,
           direction: this._spec.direction,
           nodeAlign: this._spec.nodeAlign ?? 'justify',
           nodeGap: this._spec.nodeGap ?? 8,
@@ -268,7 +269,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         thickness: (datum: Datum) => datum.thickness,
         fill: (datum: Datum) => {
           const sourceName =
-            this._spec?.nameKey || this._rawData.latestData[0]?.nodes?.[0]?.children
+            this._spec?.nodeKey || this._rawData.latestData[0]?.nodes?.[0]?.children
               ? datum.source
               : this.getNodeList()[datum.source];
           return this._spec.link?.style?.fill ?? this.getNodeOrdinalColorScale(sourceName);
@@ -595,10 +596,20 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
     const allLinkElements = linkVGrammarMark.elements;
 
+    const labelVGrammarMark = this._labelMark.getProduct();
+
+    if (!labelVGrammarMark || !labelVGrammarMark.elements || !labelVGrammarMark.elements.length) {
+      return;
+    }
+    const allLabelElements = labelVGrammarMark.elements;
+
     allNodeElements.forEach(el => {
       el.clearStates();
     });
     allLinkElements.forEach(el => {
+      el.clearStates();
+    });
+    allLabelElements.forEach(el => {
       el.clearStates();
     });
   };

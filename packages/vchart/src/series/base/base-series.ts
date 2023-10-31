@@ -649,9 +649,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   /** stack start */
   abstract getStackGroupFields(): string[];
   abstract getStackValueField(): string | undefined;
-  abstract setValueFieldToStack(): void;
-  abstract setValueFieldToPercent(): void;
-  abstract setValueFieldToStackOffsetSilhouette(): void;
+  setValueFieldToStack() {
+    // do nothing
+  }
+  setValueFieldToPercent() {
+    // do nothing;
+  }
+  setValueFieldToStackOffsetSilhouette() {
+    // do nothing
+  }
 
   /** 获取系列中可以被操作的mark(brush需要通过在图元spec中内置state的方式实现框选样式，所以需要获取可被框选的mark) */
   abstract getActiveMarks(): IMark[];
@@ -1217,7 +1223,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   compile() {
-    this.compileSignal();
     this.compileData(); // 系列只需要编译数据，mark 将在 region 编译过程中编译
   }
 

@@ -363,6 +363,20 @@
             "zh": "分组柱图组内间距调整",
             "en": "Spacing adjustment within grouped bars"
           }
+        },
+        {
+          "path": "bar-background",
+          "title": {
+            "zh": "带条形背景的条形图",
+            "en": "Bar Chart with Background"
+          }
+        },
+        {
+          "path": "bar-markPoint",
+          "title": {
+            "zh": "柱状图标注",
+            "en": "Bar Chart with MarkPoint"
+          }
         }
       ]
     },

@@ -7,7 +7,7 @@ import { drillFilter } from '../../data/transforms/drill';
 import { DrillEnum } from '../../data/transforms/drill';
 import type { EventType, IEvent } from '../../event/interface';
 import type { RenderMode } from '../../typings/spec';
-import { defaultTriggerEvent } from '../../component/common/trigger/config';
+import { getDefaultTriggerEventByMode } from '../../component/common/trigger/config';
 import { findHierarchyPath } from '../../util';
 import { ChartEvent } from '../../constant';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -57,7 +57,8 @@ export class Drillable implements IDrillable {
 
   private _getTriggerEvent(type: string): EventType {
     const { mode } = this._drillParams;
-    return defaultTriggerEvent[mode]?.[type];
+
+    return getDefaultTriggerEventByMode(mode)?.[type];
   }
 
   private _hideTooltip() {

@@ -3,7 +3,6 @@ import type { IElement } from '@visactor/vgrammar-core';
 import type { DimensionEventParams } from '../event/events/dimension/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { DimensionEventEnum } from '../event/events/dimension/interface';
-import { Event } from '../event/event';
 
 import type { IMark } from '../mark/interface';
 import type { EventCallback, EventParams, IEvent } from '../event/interface';

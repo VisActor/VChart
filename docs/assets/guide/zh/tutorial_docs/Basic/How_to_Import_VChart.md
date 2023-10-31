@@ -6,6 +6,10 @@
 
 我们从 [cdn](./How_to_Get_VChart#cdn-获取) 获取到 VChart 文件后，就可以将其添加到 HTML 文件的 `<script>` 标签中：
 
+** 说明：cdn 方式引入的时候，VChart 的引用方式需要注意：**
+
+`const vchart = new VChart.default(spec, { dom: 'chart' });`
+
 ```html
 <body>
   <div id="chart" style="outline: solid red 1px; width: 100%; height: 500px"></div>

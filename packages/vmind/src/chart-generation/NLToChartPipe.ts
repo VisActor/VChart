@@ -72,7 +72,7 @@ export const dataProcessVChart = (csvFile: string) => {
 /*
  ** GPT数据预处理，进行字段信息总结和字段筛选
  */
-export const dataProcessGPT = async (csvFile: string, userInput: string, openAIKey: string) => {
+export const dataProcessGPT = async (csvFile: string, userInput: string, openAIKey: string | undefined) => {
   const DATA_TOP_N = 5; //取csv文件的前多少条数据
   const topNCSVFile = readTopNLine(csvFile, DATA_TOP_N);
   const dataProcessMessage = `CSV file content:\n${topNCSVFile}\nUser Input: ${userInput}`;
@@ -93,7 +93,7 @@ export const dataProcessGPT = async (csvFile: string, userInput: string, openAIK
 export const chartAdvisorGPT = async (
   dataProcessResJson: GPTDataProcessResult,
   userInput: string,
-  openAIKey: string
+  openAIKey: string | undefined
 ) => {
   if (!dataProcessResJson.error) {
     //GPT进行图表推荐、配色和字段映射

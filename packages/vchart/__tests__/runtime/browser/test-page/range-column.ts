@@ -21,6 +21,9 @@ const run = () => {
       '#95d8fd'
     ],
     type: 'rangeColumn',
+    barBackground: {
+      visible: true
+    },
     direction: 'horizontal',
     yField: 'type',
     minField: 'start_time',
