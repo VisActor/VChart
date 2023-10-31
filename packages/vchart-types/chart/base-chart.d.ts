@@ -82,7 +82,7 @@ export declare class BaseChart extends CompilableBase implements IChart {
     onLayoutStart(option: IChartLayoutOption): void;
     onLayoutEnd(option: IChartLayoutOption): void;
     onEvaluateEnd(option: IChartEvaluateOption): void;
-    getLayoutElements(): (ISeries | IRegion | IComponent)[];
+    getLayoutElements(): (IRegion | IComponent | ISeries)[];
     getRegionsInIndex: (index?: number[]) => IRegion[];
     getAllRegions: () => IRegion[];
     getRegionsInIds: (ids: number[]) => IRegion[];

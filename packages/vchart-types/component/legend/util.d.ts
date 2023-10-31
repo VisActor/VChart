@@ -13,14 +13,14 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
     };
     background?: {
         visible?: boolean;
-        style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "width" | "height" | "visible">;
+        style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "visible" | "width" | "height">;
     };
-    padding?: import("@visactor/vrender-components/es/core/type").Padding;
     visible?: boolean;
-    text?: string | number | string[] | number[];
+    padding?: import("@visactor/vrender-components/es/core/type").Padding;
     maxWidth?: number;
     minWidth?: number;
     space?: number;
-    align?: "center" | "end" | "start";
+    text?: string | number | string[] | number[];
+    align?: "center" | "start" | "end";
 };
 export declare function getLayout(spec: ILegendCommonSpec): "horizontal" | "vertical";

@@ -2,7 +2,8 @@ import VChart from '@visactor/vchart';
 import { isMobile } from 'react-device-detect';
 import { createElement } from '@internal/story-player';
 import { charts } from './charts';
-import { IColorSchemeStruct } from '@visactor/vchart/esm/theme/color-scheme/interface';
+import { IColorSchemeStruct } from '@visactor/vchart';
+import { allThemeMap } from '@visactor/vchart-theme';
 
 let chartInstanceList: VChart[] = [];
 let cardList: HTMLDivElement[] = [];
@@ -58,10 +59,14 @@ function release() {
   cardList = [];
 }
 
-[...VChart.ThemeManager.themes.keys()].forEach(theme => {
+allThemeMap.forEach((theme, name) => {
+  VChart.ThemeManager.registerTheme(name, theme);
+});
+
+[...VChart.ThemeManager.themes.keys()].forEach(themeName => {
   const button = createElement('button') as HTMLButtonElement;
-  button.innerText = `${theme} theme`;
-  button.onclick = () => init(theme);
+  button.innerText = themeName;
+  button.onclick = () => init(themeName);
   document.getElementById('buttons')?.appendChild(button);
 });
 

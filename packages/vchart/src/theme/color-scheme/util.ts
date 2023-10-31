@@ -1,6 +1,4 @@
-import { isArray, isFunction, isObject, isString, isValid } from '@visactor/vutils';
-// eslint-disable-next-line no-duplicate-imports
-import { ColorUtil } from '@visactor/vutils';
+import { isArray, isFunction, isObject, isString, isValid, ColorUtil } from '@visactor/vutils';
 import { Color } from '../../util/color';
 import type {
   ColorScheme,
