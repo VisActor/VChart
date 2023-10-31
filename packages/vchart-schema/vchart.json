@@ -28224,7 +28224,7 @@
     "ICrosshairTheme": {
       "properties": {
         "bandField": {
-          "$ref": "#/definitions/ICrosshairCategoryFieldSpec",
+          "$ref": "#/definitions/Partial<ICrosshairCategoryFieldSpec>",
           "description": "band 轴 crosshair 的公共配置",
           "since": "1.3.0"
         },
@@ -28233,7 +28233,7 @@
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "categoryField": {
-          "$ref": "#/definitions/ICrosshairCategoryFieldSpec"
+          "$ref": "#/definitions/Partial<ICrosshairCategoryFieldSpec>"
         },
         "center": {
           "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
@@ -28271,7 +28271,7 @@
           "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "linearField": {
-          "$ref": "#/definitions/ICrosshairValueFieldSpec",
+          "$ref": "#/definitions/Partial<ICrosshairValueFieldSpec>",
           "description": "linear 轴 crosshair 的公共配置",
           "since": "1.3.0"
         },
@@ -28416,17 +28416,17 @@
           "description": "隐藏crosshair的触发方式（目前仅支持和trigger一致的设置以及none）"
         },
         "valueField": {
-          "$ref": "#/definitions/ICrosshairValueFieldSpec"
+          "$ref": "#/definitions/Partial<ICrosshairValueFieldSpec>"
         },
         "width": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：宽度"
         },
         "xField": {
-          "$ref": "#/definitions/ICrosshairCategoryFieldSpec"
+          "$ref": "#/definitions/Partial<ICrosshairCategoryFieldSpec>"
         },
         "yField": {
-          "$ref": "#/definitions/ICrosshairCategoryFieldSpec"
+          "$ref": "#/definitions/Partial<ICrosshairCategoryFieldSpec>"
         },
         "zIndex": {
           "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
@@ -66755,7 +66755,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         },
         "size": {
@@ -66763,14 +66763,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14214",
+        "__@toStringTag@14195",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         },
         "size": {
@@ -66778,14 +66778,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14214",
+        "__@toStringTag@14195",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         },
         "size": {
@@ -66793,14 +66793,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14214",
+        "__@toStringTag@14195",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         },
         "size": {
@@ -66808,14 +66808,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14214",
+        "__@toStringTag@14195",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         },
         "size": {
@@ -66823,14 +66823,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14214",
+        "__@toStringTag@14195",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         },
         "size": {
@@ -66838,14 +66838,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14214",
+        "__@toStringTag@14195",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         },
         "size": {
@@ -66853,14 +66853,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14214",
+        "__@toStringTag@14195",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         },
         "size": {
@@ -66868,14 +66868,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14214",
+        "__@toStringTag@14195",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         },
         "size": {
@@ -66883,7 +66883,7 @@
         }
       },
       "required": [
-        "__@toStringTag@14214",
+        "__@toStringTag@14195",
         "size"
       ],
       "type": "object"
@@ -73199,6 +73199,57 @@
         },
         "zIndex": {
           "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ICrosshairCategoryFieldSpec>": {
+      "properties": {
+        "bindingAxesIndex": {
+          "description": "声明 crosshair 绑定的轴索引，如果没有声明，则会默认绑定所有同 crosshair 位置相对应的轴。",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "defaultSelect": {
+          "typeof": "function"
+        },
+        "label": {
+          "$ref": "#/definitions/ICrosshairLabelSpec",
+          "description": "crosshair 文本配置"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ICrosshairLineSpec"
+            },
+            {
+              "$ref": "#/definitions/ICrosshairRectSpec"
+            }
+          ],
+          "description": "crosshair 辅助图形配置"
+        },
+        "visible": {
+          "description": "是否可见",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ICrosshairValueFieldSpec>": {
+      "properties": {
+        "label": {
+          "$ref": "#/definitions/ICrosshairLabelSpec",
+          "description": "crosshair 文本配置"
+        },
+        "line": {
+          "$ref": "#/definitions/ICrosshairLineSpec",
+          "description": "crosshair 辅助图形配置"
+        },
+        "visible": {
+          "description": "是否可见",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -82260,34 +82311,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14214"
+        "__@toStringTag@14195"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14214"
+        "__@toStringTag@14195"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@14214": {
+        "__@toStringTag@14195": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14214"
+        "__@toStringTag@14195"
       ],
       "type": "object"
     },
