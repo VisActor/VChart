@@ -326,8 +326,6 @@ export interface IModelOption extends ICompilableInitOption {
    * 错误消息回调函数
    */
   onError: (...args: any[]) => void;
-  // 获取实例注册函数的函数名
-  getFunctionName: (key: string) => string;
 }
 
 export interface IModelConstructor {

@@ -403,8 +403,7 @@ export class VChart implements IVChart {
       }),
       layout: this._option.layout,
       onError: this._onError,
-      exprFunc: this._exprFunc,
-      getFunctionName: this.getFunctionName
+      exprFunc: this._exprFunc
     });
     if (!chart) {
       this._option?.onError('init chart fail');
