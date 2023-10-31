@@ -14,6 +14,8 @@ import { registerBarChart } from './chart/bar';
 import { registerPieChart } from './chart/pie';
 import { registerAllEnv } from './env';
 
+export * from './core';
+
 VChart.useRegisters([
   // charts
   registerLineChart,
