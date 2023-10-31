@@ -4,7 +4,7 @@
 import fs from 'fs';
 import path from 'path';
 import { getTheme, registerTheme, themeExist, themes } from '../src/theme/builtin';
-import extensionThemes from '../../vchart-theme/src/theme-list';
+import { allThemeMap } from '../../vchart-theme/src';
 
 const VCHART_PROJECT_ROOT = process.cwd();
 const targetPaths = [
@@ -13,7 +13,7 @@ const targetPaths = [
 ];
 
 const result: string[] = [];
-[themes, extensionThemes].forEach(themeMap =>
+[themes, allThemeMap].forEach(themeMap =>
   themeMap.forEach((value, key) => {
     let success = true;
     if (!themeExist(key)) {

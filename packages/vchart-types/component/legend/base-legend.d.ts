@@ -16,7 +16,7 @@ export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends Ba
     protected _visible: boolean;
     get visible(): boolean;
     protected _position: 'start' | 'middle' | 'end';
-    get position(): "middle" | "end" | "start";
+    get position(): "start" | "middle" | "end";
     get layoutOrient(): IOrientType;
     set layoutOrient(v: IOrientType);
     protected _legendData: CompilableData;

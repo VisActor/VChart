@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-theme",
-  "version": "1.5.1-alpha.0",
+  "version": "1.5.4",
   "description": "The built-in themes for VChart",
   "sideEffects": false,
   "main": "cjs/index.js",

@@ -12,7 +12,7 @@ export declare class ContinuousLegend<T extends IColorLegendSpec | ISizeLegendSp
     protected _theme: IColorLegendTheme;
     private _field;
     private _legendType;
-    static createComponent(spec: any, options: IComponentOption): ILegend[] | ContinuousLegend<any>;
+    static createComponent(spec: any, options: IComponentOption): ContinuousLegend<any> | ILegend[];
     constructor(spec: T, options: IComponentOption);
     setAttrFromSpec(): void;
     init(option: IModelInitOption): void;

@@ -4,12 +4,12 @@
 
 import VChart, { ThemeManager } from '../../../../vchart/src';
 import { defaultThemeName } from '../../../../vchart/src/theme';
-import themeList from '../../../src/theme-list';
+import { allThemeMap } from '../../../src';
 
 window['VChart'] = VChart;
 
 // 注册所有主题
-themeList.forEach((theme, name) => {
+allThemeMap.forEach((theme, name) => {
   ThemeManager.registerTheme(name, theme);
 });
 const themeOptions = [...ThemeManager.themes.keys()];
