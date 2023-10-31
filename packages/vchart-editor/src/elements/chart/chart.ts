@@ -90,12 +90,12 @@ export class EditorChart extends BaseElement {
 
   bindEditors() {
     // editors maybe null
-    this._layoutEditor?.initWithVChart();
     this._avgMarkLineEditor?.initWithVChart();
     this._markAreaEditor?.initWithVChart();
     this._growthMarkLineEditor?.initWithVChart();
     this._hirarchicalDiffMarkLineEditor?.initWithVChart();
     this._commonModelElement?.initWithVChart();
+    this._layoutEditor?.initWithVChart();
   }
 
   releaseEditors() {

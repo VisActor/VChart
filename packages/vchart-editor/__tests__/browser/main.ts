@@ -28,6 +28,17 @@ AK,Under 5 Years,72083
 AK,5 to 13 Years,85640
 AK,14 to 17 Years,22153`;
 
+editor.editorController.addEndHandler(() => {
+  console.log('handler end');
+});
+
+editor.editorController.addStartHandler(() => {
+  console.log('handler start');
+});
+editor.editorController.addRunHandler(() => {
+  console.log('handler run');
+});
+
 await editor.loadLasted();
 if (editor.layers.length === 0) {
   editor.addElements('chart', {
