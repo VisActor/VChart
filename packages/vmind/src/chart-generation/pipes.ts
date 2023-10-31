@@ -375,6 +375,81 @@ export const wordCloudField = (spec: any, context: Context) => {
   return spec;
 };
 
+export const funnelField = (spec: any, context: Context) => {
+  //漏斗图根据cell分配字段
+  const { cell } = context;
+  spec.categoryField = cell.x;
+  spec.valueField = cell.y;
+
+  return spec;
+};
+
+export const dualAxisSeries = (spec: any, context: Context) => {
+  //双轴图根据cell分配系列
+  const { cell } = context;
+  spec.series = [
+    {
+      type: 'bar',
+      id: cell.y[0],
+      data: {
+        id: spec.data.id + '_bar',
+        values: spec.data.values
+      },
+      dataIndex: 0,
+      label: { visible: true },
+      xField: cell.x,
+      yField: cell.y[0],
+      bar: {
+        style: {
+          fill: spec.color[0]
+        }
+      }
+    },
+    {
+      type: 'line',
+      id: cell.y[cell.y?.length - 1],
+      dataIndex: 0,
+      data: {
+        id: spec.data.id + '_line',
+        values: spec.data.values
+      },
+      label: { visible: true },
+      xField: cell.x,
+      yField: cell.y[cell.y?.length - 1],
+      line: {
+        style: {
+          stroke: spec.color[1]
+        }
+      },
+      point: {
+        style: {
+          fill: spec.color[1]
+        }
+      }
+    }
+  ];
+  return spec;
+};
+
+export const dualAxisAxes = (spec: any, context: Context) => {
+  //双轴图根据cell分配坐标轴
+  spec.axes = [
+    {
+      type: 'band',
+      orient: 'bottom'
+    },
+    {
+      type: 'linear',
+      orient: 'left'
+    },
+    {
+      type: 'linear',
+      orient: 'right'
+    }
+  ];
+  return spec;
+};
+
 export const wordCloudDisplayConf = (spec: any, context: Context) => {
   spec.fontSizeRange = [20, 50];
   spec.fontWeightRange = [800, 800];
