@@ -54,7 +54,7 @@ importers:
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.2.2
       '@visactor/vgrammar': ~0.5.7
-      '@visactor/vrender': ~0.13.14
+      '@visactor/vrender': ~0.13.12
       '@visactor/vutils': ~0.13.3
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
@@ -214,7 +214,7 @@ importers:
       '@visactor/vgrammar-util': ~0.5.7
       '@visactor/vgrammar-wordcloud': ~0.5.7
       '@visactor/vgrammar-wordcloud-shape': ~0.5.7
-      '@visactor/vrender': ~0.13.14
+      '@visactor/vrender': ~0.13.12
       '@visactor/vrender-components': ~0.13.12
       '@visactor/vscale': ~0.13.4
       '@visactor/vutils': ~0.13.3

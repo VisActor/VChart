@@ -106,7 +106,7 @@
     "@visactor/vgrammar-hierarchy": "~0.5.7",
     "@visactor/vgrammar-sankey": "~0.5.7",
     "@visactor/vgrammar-util": "~0.5.7",
-    "@visactor/vrender": "~0.13.14",
+    "@visactor/vrender": "~0.13.12",
     "@visactor/vrender-components": "~0.13.12"
   },
   "publishConfig": {
