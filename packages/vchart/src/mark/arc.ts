@@ -46,7 +46,7 @@ export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements 
     opt: any,
     superValue: number
   ): number => {
-    const offset = this.getAttribute('radiusOffset', datum, states, opt) ?? 0;
+    const offset = (this.getAttribute('radiusOffset', datum, states, opt) as number) ?? 0;
     return superValue + offset;
   };
 
@@ -59,7 +59,7 @@ export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements 
   ) => {
     const offset = polarToCartesian({
       angle: datum[ARC_MIDDLE_ANGLE],
-      radius: this.getAttribute('centerOffset', datum, states, opt)
+      radius: this.getAttribute('centerOffset', datum, states, opt) as number
     });
     return center + offset[key];
   };
