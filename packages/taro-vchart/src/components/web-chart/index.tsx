@@ -1,9 +1,16 @@
 import React from 'react';
 // @ts-ignore
 import VChart from '@visactor/vchart/build/es5';
-import { IChartProps, IVChart } from '../../typings';
+import { IChartProps, IVChart, RenderMode } from '../../typings';
 
-export class WebChart extends React.Component<IChartProps> {
+export interface WebChartProps extends IChartProps {
+  /**
+   * vchart 的环境参数
+   */
+  mode?: RenderMode;
+}
+
+export class WebChart extends React.Component<WebChartProps> {
   private vchart: IVChart;
 
   constructor(props: IChartProps) {
@@ -11,9 +18,10 @@ export class WebChart extends React.Component<IChartProps> {
   }
 
   componentDidMount() {
-    const { onChartInit, onChartReady }: any = this.props;
+    const { onChartInit, onChartReady, mode }: any = this.props;
     this.vchart = new VChart(this.props.spec, {
       dom: `${this.props.canvasId}`,
+      mode,
       ...this.props.options
     }) as IVChart;
 

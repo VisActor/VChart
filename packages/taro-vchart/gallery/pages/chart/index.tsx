@@ -4,7 +4,7 @@ import { VChart } from '../../../src';
 import Taro from '@tarojs/taro';
 
 export default function (props: any) {
-  // console.log(Taro.getEnv());
+  console.log('env', Taro.getEnv());
   // let type;
   // if (URLSearchParams) {
   //   const url = new URLSearchParams(props.tid);
@@ -42,7 +42,7 @@ export default function (props: any) {
         }}
       >
         <VChart
-          type={Taro.getEnv() as any}
+          type={'H5'}
           spec={spec}
           canvasId={`${type}chart1`}
           style={{
