@@ -73,16 +73,26 @@ const patchChartTypeAndCell = (chartType: string, cell: any, dataView: DataView)
 
   //y字段有多个, 使用散点图展示
   const { x, y } = cell;
+
   if (y && typeof y !== 'string' && y.length > 1) {
-    return {
-      chartTypeNew: 'SCATTER PLOT',
-      cellNew: {
-        ...cell,
-        x: y[0],
-        y: y[1],
-        color: typeof x === 'string' ? x : x[0]
-      }
-    };
+    if (chartType === 'BAR CHART' || chartType === 'LINE CHART') {
+      return {
+        chartTypeNew: 'DUAL AXIS CHART',
+        cellNew: {
+          ...cell
+        }
+      };
+    } else {
+      return {
+        chartTypeNew: 'SCATTER PLOT',
+        cellNew: {
+          ...cell,
+          x: y[0],
+          y: y[1],
+          color: typeof x === 'string' ? x : x[0]
+        }
+      };
+    }
   }
   //饼图 必须有color字段和angle字段
   if (chartType === 'PIE CHART') {
@@ -223,6 +233,10 @@ const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, rad
 
 const pipelineSankey = [chartType, sankeyData, color, sankeyField, sankeyLink, sankeyLabel, legend];
 
+const pipelineFunnel = [chartType, funnelData, color, funnelField, legend];
+
+const pipelineDualAxis = [chartType, data, color, dualAxisSeries, dualAxisAxes, legend];
+
 export const pipelineMap: { [chartType: string]: any } = {
   'BAR CHART': pipelineBar,
   'LINE CHART': pipelineLine,
@@ -232,12 +246,14 @@ export const pipelineMap: { [chartType: string]: any } = {
   'DYNAMIC BAR CHART': pipelineRankingBar,
   'ROSE CHART': pipelineRose,
   'RADAR CHART': pipelineRadar,
-  'SANKEY CHART': pipelineSankey
+  'SANKEY CHART': pipelineSankey,
+  'FUNNEL CHART': pipelineFunnel,
+  'DUAL AXIS CHART': pipelineDualAxis
 };
 
 export const execPipeline = (src: any, pipes: Pipe[], context: Context) =>
   pipes.reduce((pre: any, pipe: Pipe) => {
     const result = pipe(pre, context);
-    // console.log(result)
+    console.log(result);
     return result;
   }, src);

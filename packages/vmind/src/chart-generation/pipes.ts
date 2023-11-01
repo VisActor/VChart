@@ -29,7 +29,9 @@ const chartTypeMap: { [chartName: string]: string } = {
   'DYNAMIC BAR CHART': 'bar',
   'ROSE CHART': 'rose',
   'RADAR CHART': 'radar',
-  'SANKEY CHART': 'sankey'
+  'SANKEY CHART': 'sankey',
+  'FUNNEL CHART': 'funnel',
+  'DUAL AXIS CHART': 'common'
 };
 
 export const chartType = (spec: any, context: Context) => {
@@ -44,6 +46,17 @@ export const data = (spec: any, context: Context) => {
   spec.data = {
     id: 'data',
     values: dataView.latestData
+  };
+
+  return spec;
+};
+
+export const funnelData = (spec: any, context: Context) => {
+  const { dataView, cell } = context;
+  // spec.data = [dataView]
+  spec.data = {
+    id: 'data',
+    values: dataView.latestData.sort((a: any, b: any) => b[cell.y] - a[cell.y])
   };
 
   return spec;
@@ -737,7 +750,7 @@ export const axis = (spec: any, context: Context) => {
 export const legend = (spec: any, context: Context) => {
   //图例
   const { cell } = context;
-  if (!cell.color && !spec.seriesField) {
+  if (!cell.color && !spec.seriesField && spec.type !== 'common') {
     return spec;
   }
   spec.legends = [
