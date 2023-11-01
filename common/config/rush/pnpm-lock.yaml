@@ -18,7 +18,7 @@ importers:
       '@visactor/vchart': workspace:1.5.4
       '@visactor/vchart-theme': workspace:1.5.4
       '@visactor/vgrammar': ~0.8.1
-      '@visactor/vmind': workspace:1.0.6-alpha.3
+      '@visactor/vmind': workspace:1.0.6-alpha.5
       '@visactor/vrender': ~0.16.9
       '@visactor/vrender-kits': ~0.16.9
       '@visactor/vutils': ~0.16.6
@@ -4918,7 +4918,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.22.5_@babel+core@7.20.12
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 3.2.6_@types+node@20.8.10
+      vite: 3.2.6
     transitivePeerDependencies:
       - supports-color
     dev: true
