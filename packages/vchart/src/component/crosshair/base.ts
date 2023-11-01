@@ -1,14 +1,14 @@
 import type { Dict, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { throttle, PointService, isEqual, array } from '@visactor/vutils';
+import { throttle, PointService, isEqual, array, isArray, isNumber, get, isBoolean } from '@visactor/vutils';
 
 import { RenderModeEnum } from '../../typings/spec/common';
 import type { BaseEventParams, EventType } from '../../event/interface';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import { BaseComponent } from '../base';
+import { BaseComponent } from '../base/base-component';
 import type { IPadding, Maybe, StringOrNumber } from '../../typings';
-import { isArray, outOfBounds, isNumber, get, isBoolean } from '../../util';
+import { outOfBounds } from '../../util/math';
 import type { LayoutItem } from '../../model/layout-item';
 import type { IComponentOption } from '../interface';
 import type {

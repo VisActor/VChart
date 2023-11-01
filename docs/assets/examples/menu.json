@@ -377,6 +377,13 @@
             "zh": "水平条形图标签位置自定义",
             "en": "Bar Chart with functional label position"
           }
+        },
+        {
+          "path": "bar-markPoint",
+          "title": {
+            "zh": "柱状图标注",
+            "en": "Bar Chart with MarkPoint"
+          }
         }
       ]
     },

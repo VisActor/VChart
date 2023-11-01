@@ -2,11 +2,11 @@ import type { DataView } from '@visactor/vdataset';
 import type { IData as IVGrammarData } from '@visactor/vgrammar-core';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe } from '../../typings';
-import { isNil } from '../../util';
+import { isNil } from '../../util/type';
 import type { ICompilableData } from './interface';
 import type { GrammarItemInitOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { GrammarType } from '../interface';
+import { GrammarType } from '../interface/compilable-item';
 
 export class CompilableData extends GrammarItem implements ICompilableData {
   readonly grammarType = GrammarType.data;

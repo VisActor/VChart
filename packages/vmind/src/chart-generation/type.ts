@@ -21,6 +21,9 @@ export type Cell = {
   size?: string;
   angle?: string;
   time?: string;
+  source?: string;
+  target?: string;
+  value?: string;
 };
 export type ChartType = string;
 export type GPTChartAdvisorResult = {

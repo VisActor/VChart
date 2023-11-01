@@ -1,9 +1,9 @@
 import { registerSunBurstSeries } from './../../series/sunburst/sunburst';
 import { isValid, radianToDegree } from '@visactor/vutils';
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ISunburstSeriesSpec } from '../../series/sunburst/interface';
 import { BaseChart } from '../base-chart';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import type { ISunburstChartSpec } from './interface';
 import { POLAR_START_ANGLE } from '../../constant';
 import { Factory } from '../../core/factory';

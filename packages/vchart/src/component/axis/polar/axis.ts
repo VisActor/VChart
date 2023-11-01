@@ -8,9 +8,11 @@ import type { LayoutItem } from '../../../model/layout-item';
 import type { IPolarAxis, IPolarAxisCommonSpec, IPolarAxisCommonTheme } from './interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import { Factory } from '../../../core/factory';
-import { isArray, isValidNumber, mergeSpec, polarToCartesian, eachSeries } from '../../../util';
+import { mergeSpec } from '../../../util/spec/merge-spec';
+import { eachSeries } from '../../../util/model';
+import { polarToCartesian } from '../../../util/math';
 import { scaleParser } from '../../../data/parser/scale';
 import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
@@ -23,9 +25,9 @@ import { getAxisLabelOffset, isValidPolarAxis } from '../util';
 
 import type { Dict } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { PointService, degreeToRadian, isValid } from '@visactor/vutils';
+import { PointService, degreeToRadian, isValid, isArray, isValidNumber } from '@visactor/vutils';
 import type { IEffect } from '../../../model/interface';
-import { CompilableData } from '../../../compile/data';
+import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IBandAxisSpec, ITick } from '../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
@@ -212,7 +214,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
     const label = this._spec.label || {};
     const tick = this._spec.tick || {};
-    const tickData = new DataView(this._option.dataSet)
+    const tickData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_ticks` })
       .parse(this._scale, {
         type: 'scale'
       })
@@ -241,6 +243,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         },
         false
       );
+
     tickData.target.addListener('change', this._forceLayout.bind(this));
 
     this._tickData = new CompilableData(this._option, tickData);

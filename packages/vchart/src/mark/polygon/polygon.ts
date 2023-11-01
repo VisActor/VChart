@@ -2,7 +2,7 @@
 import type { IPolygonMarkSpec } from '../../typings/visual';
 import { BasePolygonMark } from './base-polygon';
 import type { IMarkRaw, IMarkStyle } from '../interface';
-import { MarkTypeEnum } from '../interface';
+import { MarkTypeEnum } from '../interface/type';
 
 export type IPolygonMark = IMarkRaw<IPolygonMarkSpec>;
 

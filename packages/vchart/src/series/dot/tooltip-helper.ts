@@ -1,7 +1,7 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type { IToolTipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
-import { TimeUtil } from '../../component/axis/cartesian/util';
+import { TimeUtil } from '../../component/axis/cartesian/util/time';
 import { isValid } from '@visactor/vutils';
 
 export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {

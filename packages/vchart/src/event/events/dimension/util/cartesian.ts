@@ -7,8 +7,8 @@ import type { CartesianAxis } from '../../../../component/axis/cartesian';
 import type { ICartesianSeries } from '../../../../series/interface';
 import { isNil } from '@visactor/vutils';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
-import { isXAxis } from '../../../../component/axis/cartesian/util';
-import { Direction } from '../../../../typings';
+import { isXAxis } from '../../../../component/axis/cartesian/util/common';
+import { Direction } from '../../../../typings/space';
 
 const getAxis = (chart: IChart, type: 'x' | 'y', pos: ILayoutPoint): CartesianAxis[] | null => {
   const axesComponents = chart

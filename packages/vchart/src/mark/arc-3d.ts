@@ -2,7 +2,7 @@ import type { IArc3dMarkSpec } from '../typings';
 import { BaseArcMark } from './arc';
 import type { IMarkRaw } from './interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from './interface';
+import { MarkTypeEnum } from './interface/type';
 
 export type IArc3dMark = IMarkRaw<IArc3dMarkSpec>;
 

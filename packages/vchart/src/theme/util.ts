@@ -1,7 +1,8 @@
 import { isString, get, isObject, isNil } from '@visactor/vutils';
 import type { ITheme } from './interface';
 import { ThemeManager } from './theme-manager';
-import { mergeSpec, transformColorSchemeToMerge, transformSeriesThemeToMerge } from '../util';
+import { mergeSpec } from '../util/spec/merge-spec';
+import { transformColorSchemeToMerge, transformSeriesThemeToMerge } from '../util/spec/merge-theme';
 import { getActualColor } from './color-scheme/util';
 import type { IThemeColorScheme } from './color-scheme/interface';
 import type { IModelOption } from '../model/interface';
@@ -39,6 +40,10 @@ export const mergeThemeAndGet = (
 
 /** 从 theme 取特定 path 的值，但可能会改变形式为 merge 作准备 */
 const getThemeValue = (path: string, theme?: string | ITheme, colorScheme?: IThemeColorScheme) => {
+  if (isNil(theme)) {
+    return undefined;
+  }
+
   let themeObject: ITheme;
   if (isString(theme) && ThemeManager.themeExist(theme)) {
     themeObject = ThemeManager.getTheme(theme);

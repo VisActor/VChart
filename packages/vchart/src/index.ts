@@ -18,7 +18,7 @@ export * from './env';
 export * from './typings/spec/index';
 
 // theme
-export { ThemeManager } from './theme/index';
+export * from './theme';
 
 // vrender
 export { vglobal } from '@visactor/vrender-core';

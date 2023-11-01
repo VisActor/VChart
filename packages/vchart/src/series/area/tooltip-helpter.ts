@@ -1,6 +1,6 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import { array, isValid } from '../../util';
+import { array, isValid } from '@visactor/vutils';
 
 export class AreaSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   protected _getSeriesStyle = (datum: any, styleKey: string | string[], defaultValue?: any) => {

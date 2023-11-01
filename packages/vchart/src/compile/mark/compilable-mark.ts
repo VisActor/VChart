@@ -14,7 +14,7 @@ import type { GrammarMarkType } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { array, isNil, isValid } from '../../util';
+import { array, isNil, isValid } from '@visactor/vutils';
 import { LayoutZIndex, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
@@ -32,7 +32,7 @@ import type {
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from './interface';
 import { MarkData } from './mark-data';
-import { GrammarType } from '../interface';
+import { GrammarType } from '../interface/compilable-item';
 import type { IComponent } from '../../component/interface';
 import type { IEvent } from '../../event/interface';
 import { Event } from '../../event/event';

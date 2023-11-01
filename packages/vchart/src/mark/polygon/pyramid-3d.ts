@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import type { IPyramid3dMarkSpec } from '../../typings/visual';
 import type { IMarkRaw } from '../interface';
-import { MarkTypeEnum } from '../interface';
+import { MarkTypeEnum } from '../interface/type';
 import { BasePolygonMark } from './base-polygon';
 
 export type IPyramid3dMark = IMarkRaw<IPyramid3dMarkSpec>;

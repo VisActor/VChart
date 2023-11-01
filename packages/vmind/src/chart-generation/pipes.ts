@@ -26,7 +26,10 @@ const chartTypeMap: { [chartName: string]: string } = {
   'PIE CHART': 'pie',
   'WORD CLOUD': 'wordCloud',
   'SCATTER PLOT': 'scatter',
-  'DYNAMIC BAR CHART': 'bar'
+  'DYNAMIC BAR CHART': 'bar',
+  'ROSE CHART': 'rose',
+  'RADAR CHART': 'radar',
+  'SANKEY CHART': 'sankey'
 };
 
 export const chartType = (spec: any, context: Context) => {
@@ -176,6 +179,28 @@ export const sequenceData = (spec: any, context: Context) => {
       duration: duration,
       easing: 'linear'
     }
+  };
+
+  return spec;
+};
+
+export const sankeyData = (spec: any, context: Context) => {
+  const { dataView, cell } = context;
+  const { source, target } = cell;
+  const linkData = dataView.latestData;
+  const nodes = [
+    ...new Set([...linkData.map((item: any) => item[source]), ...linkData.map((item: any) => item[target])])
+  ];
+  const nodeData = nodes.map(node => ({ name: node }));
+
+  spec.data = {
+    id: 'data',
+    values: [
+      {
+        nodes: nodeData,
+        links: linkData
+      }
+    ]
   };
 
   return spec;
@@ -361,6 +386,116 @@ export const wordCloudDisplayConf = (spec: any, context: Context) => {
   return spec;
 };
 
+export const radarField = (spec: any, context: Context) => {
+  const { cell } = context;
+  if (cell.x && cell.y) {
+    spec.categoryField = cell.x;
+    spec.valueField = cell.y;
+  } else if (cell.angle && cell.size) {
+    spec.categoryField = cell.angle;
+    spec.valueField = cell.size;
+  }
+  if (cell.color) {
+    spec.seriesField = cell.color;
+  }
+  return spec;
+};
+
+export const radarDisplayConf = (spec: any, context: Context) => {
+  spec.area = {
+    visible: true // show area
+  };
+  return spec;
+};
+
+export const radarAxis = (spec: any, context: Context) => {
+  spec.axes = [
+    {
+      orient: 'radius', // radius axis
+      zIndex: 100,
+      min: 0,
+      max: 8,
+      domainLine: {
+        visible: false
+      },
+      label: {
+        visible: true,
+        space: 0,
+        style: {
+          textAlign: 'center',
+          stroke: '#fff',
+          lineWidth: 4
+        }
+      },
+      grid: {
+        smooth: false,
+        style: {
+          lineDash: [0]
+        }
+      }
+    },
+    {
+      orient: 'angle', // angle axis
+      zIndex: 50,
+      tick: {
+        visible: false
+      },
+      domainLine: {
+        visible: false
+      },
+      label: {
+        space: 20
+      },
+      grid: {
+        style: {
+          lineDash: [0]
+        }
+      }
+    }
+  ];
+
+  return spec;
+};
+
+export const sankeyField = (spec: any, context: Context) => {
+  const { cell } = context;
+  spec.sourceField = cell.source;
+  spec.targetField = cell.target;
+  spec.valueField = cell.value;
+  spec.categoryField = 'name';
+  spec.nodeKey = (datum: any) => datum.name;
+
+  return spec;
+};
+
+export const sankeyLabel = (spec: any, context: Context) => {
+  spec.label = {
+    visible: true,
+    style: {
+      fontSize: 12,
+      fill: '#000000'
+    }
+  };
+  return spec;
+};
+
+export const sankeyLink = (spec: any, context: Context) => {
+  spec.link = {
+    style: {
+      fillOpacity: 0.1
+    },
+    state: {
+      hover: {
+        fillOpacity: 0.4
+      },
+      blur: {
+        fill: '#e8e8e8'
+      }
+    }
+  };
+  return spec;
+};
+
 export const cartesianBar = (spec: any, context: Context) => {
   //折线图根据cell分配字段
   const { cell, dataView } = context;
@@ -399,6 +534,45 @@ export const rankingBarField = (spec: any, context: Context) => {
     spec.seriesField = spec.yField;
   }
   spec.direction = 'horizontal';
+  return spec;
+};
+
+export const roseField = (spec: any, context: Context) => {
+  const { cell } = context;
+  spec.valueField = cell.angle;
+  if (cell.color) {
+    spec.categoryField = cell.color;
+    spec.seriesField = cell.color;
+  }
+  spec.outerRadius = 0.8;
+  spec.innerRadius = 0.2;
+
+  return spec;
+};
+
+export const roseAxis = (spec: any, context: Context) => {
+  spec.axes = [
+    {
+      orient: 'angle',
+      domainLine: {
+        visible: true
+      },
+      grid: {
+        visible: true,
+        alignWithLabel: false
+      },
+      label: {
+        visible: true
+      }
+    },
+    {
+      orient: 'radius',
+      grid: {
+        visible: true,
+        smooth: true
+      }
+    }
+  ];
   return spec;
 };
 

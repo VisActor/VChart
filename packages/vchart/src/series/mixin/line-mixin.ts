@@ -8,7 +8,7 @@ import { AttributeLevel } from '../../constant';
 
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { ILineMark } from '../../mark/line';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
@@ -25,9 +25,9 @@ import type {
 import { DEFAULT_LINEAR_INTERPOLATE, DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import { Direction } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
-import { DEFAULT_CLOSE_STROKE_JOIN } from '../../typings';
+import { DEFAULT_CLOSE_STROKE_JOIN } from '../../typings/line-stroke';
 // eslint-disable-next-line no-duplicate-imports
-import { mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
 import { shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { DimensionEventEnum, type DimensionEventParams } from '../../event/events/dimension';

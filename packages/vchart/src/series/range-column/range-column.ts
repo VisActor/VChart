@@ -1,12 +1,13 @@
 import { BarSeries } from '../bar/bar';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
 import { RectMark, type IRectMark } from '../../mark/rect';
 import { TextMark, type ITextMark } from '../../mark/text';
-import { mergeSpec, valueInScaleRange } from '../../util';
+import { valueInScaleRange } from '../../util/scale';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import { setRectLabelPos } from '../util/label-mark';
 import { AttributeLevel } from '../../constant';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
@@ -230,7 +231,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
     // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
     const dataIndex = (datum: Datum) => {
       const xValue = datum?.[this._fieldX[0]];
-      const xIndex = this._viewDataStatistics?.latestData?.[this._fieldX[0]]?.values.indexOf(xValue);
+      const xIndex = this.getViewDataStatistics()?.latestData?.[this._fieldX[0]]?.values.indexOf(xValue);
       // 不应该出现xIndex === -1 || undefined的情况
       return xIndex || 0;
     };

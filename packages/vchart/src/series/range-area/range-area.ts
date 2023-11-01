@@ -2,7 +2,7 @@ import type { DataView } from '@visactor/vdataset';
 import { AreaSeries } from '../area/area';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { SeriesTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../interface/type';
 import { AreaMark, type IAreaMark } from '../../mark/area';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import { Direction } from '../../typings/space';

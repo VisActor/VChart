@@ -1,5 +1,5 @@
-import { SeriesTypeEnum } from '../../series/interface';
-import { ChartTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
+import { ChartTypeEnum } from '../interface/type';
 import { BaseFunnelChart } from './base';
 import { registerFunnel3dSeries } from '../../series/funnel/funnel-3d';
 import { Factory } from '../../core/factory';

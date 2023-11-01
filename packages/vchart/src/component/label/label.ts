@@ -1,12 +1,13 @@
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
 import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
-import { eachSeries, mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { eachSeries } from '../../util/model';
 import type { ISeries } from '../../series/interface';
 import {
   registerLabel as registerVGrammarLabel,

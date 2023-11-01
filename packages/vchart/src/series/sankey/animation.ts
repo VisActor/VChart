@@ -1,7 +1,7 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import type { DirectionType } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
-import { Direction } from '../../typings';
+import { Direction } from '../../typings/space';
 import { Factory } from '../../core/factory';
 import { FadeInOutAnimation } from '../../animation/config';
 

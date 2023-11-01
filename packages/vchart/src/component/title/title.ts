@@ -1,8 +1,8 @@
-import { BaseComponent } from '../base';
-import { ComponentTypeEnum } from '../interface';
+import { BaseComponent } from '../base/base-component';
+import { ComponentTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponentOption } from '../interface';
-import { isArray, isValidNumber, isValidOrient } from '../../util';
+import { isValidOrient } from '../../util/space';
 import type { ITitle, ITitleSpec, ITitleTheme } from './interface';
 import type { IRegion } from '../../region/interface';
 import type { ILayoutRect } from '../../model/interface';
@@ -11,7 +11,7 @@ import { Title as TitleComponents } from '@visactor/vrender-components';
 import type { TitleAttrs } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import type { IPoint, IOrientType } from '../../typings';
-import { isEqual } from '@visactor/vutils';
+import { isEqual, isArray, isValidNumber } from '@visactor/vutils';
 import type { LayoutItem } from '../../model/layout-item';
 import { LayoutLevel, LayoutZIndex } from '../../constant';
 import { Factory } from '../../core/factory';

@@ -1,9 +1,9 @@
-import { SeriesTypeEnum } from '../series/interface';
+import { SeriesTypeEnum } from '../series/interface/type';
 import type { ILineMarkSpec } from '../typings/visual';
 import { BaseLineMark } from './base/base-line';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from './interface';
+import { MarkTypeEnum } from './interface/type';
 
 export type ILineMark = IMarkRaw<ILineMarkSpec>;
 

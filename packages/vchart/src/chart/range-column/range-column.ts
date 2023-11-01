@@ -1,6 +1,6 @@
 import { CartesianChart } from '../cartesian/cartesian';
-import { ChartTypeEnum } from '../interface';
-import { SeriesTypeEnum } from '../../series/interface';
+import { ChartTypeEnum } from '../interface/type';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { Direction } from '../../typings';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IRangeColumnChartSpec } from './interface';

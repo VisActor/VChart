@@ -3,13 +3,14 @@ import type { BaseEventParams } from '../../../event/interface';
 import type { TooltipActiveType, TooltipData } from '../../../typings';
 import type { TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { TooltipResult } from '../interface';
+import { TooltipResult } from '../interface/common';
 import type { Tooltip } from '../tooltip';
 import type { MouseEventData, TooltipInfo } from './interface';
 import { ChartEvent } from '../../../constant';
 import type { TooltipEventParams } from '../interface/event';
 import type { IDimensionInfo } from '../../../event/events/dimension';
-import { getCartesianDimensionInfo, getPolarDimensionInfo } from '../../../event/events/dimension/util';
+import { getPolarDimensionInfo } from '../../../event/events/dimension/util/polar';
+import { getCartesianDimensionInfo } from '../../../event/events/dimension/util/cartesian';
 import { isDiscrete } from '@visactor/vscale';
 import type { ICartesianSeries } from '../../../series/interface';
 

@@ -1,4 +1,3 @@
-import type { ITextGraphicAttribute } from '@visactor/vrender-core';
 import type { IOrientType, IPadding, IRectMarkSpec, ITextMarkSpec, StringOrNumber } from '../../../../typings';
 import type { IBandAxisSpec, ILinearAxisSpec, IGrid, ICommonAxisSpec, IAxisItem } from '../../interface';
 import type {

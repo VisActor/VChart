@@ -1,6 +1,8 @@
 import type { Maybe } from '@visactor/vutils';
 import type { FontWeight, TextAlign } from '../../../../typings';
-import { isValid, mergeSpec, isArray, normalizeLayoutPaddingSpec } from '../../../../util';
+import { mergeSpec } from '../../../../util/spec/merge-spec';
+import { normalizeLayoutPaddingSpec } from '../../../../util/space';
+import { isValid, isArray } from '@visactor/vutils';
 import type { ITooltipTheme } from '../../interface';
 import type { ITooltipTextStyle } from '../interface';
 import type { ILabelStyle, IShapeStyle, IDomTooltipStyle } from './interface';
@@ -114,7 +116,7 @@ export function getDomStyles(attributes?: Maybe<TooltipAttributes>): IDomTooltip
             ...keyStyle,
             ...getLabelStyle(key as ITooltipTextStyle),
             ...(key?.multiLine ? { width: getPixelPropertyStr(Math.ceil(key.width)) } : undefined) // 对多行文本使用定宽
-          }) as ILabelStyle
+          } as ILabelStyle)
       ),
       width: getPixelPropertyStr(keyWidth),
       marginRight: getPixelPropertyStr(key.spacing ?? DEFAULT_KEY_SPACING)
@@ -129,7 +131,7 @@ export function getDomStyles(attributes?: Maybe<TooltipAttributes>): IDomTooltip
             ...valueStyle,
             ...getLabelStyle(value as ITooltipTextStyle),
             ...(value?.multiLine ? { width: getPixelPropertyStr(Math.ceil(value.width)) } : undefined) // 对多行文本使用定宽
-          }) as ILabelStyle
+          } as ILabelStyle)
       ),
       width: getPixelPropertyStr(valueWidth),
       marginRight: getPixelPropertyStr(value.spacing ?? DEFAULT_VALUE_SPACING)

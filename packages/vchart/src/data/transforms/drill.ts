@@ -1,5 +1,6 @@
 import type { Datum } from '../../typings';
-import { array, findHierarchyNode, findHierarchyNodeParent, isNil } from '../../util';
+import { findHierarchyNode, findHierarchyNodeParent } from '../../util/hierarchy';
+import { array, isNil } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 
 export enum DrillEnum {

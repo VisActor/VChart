@@ -1,11 +1,11 @@
 import type { ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams } from '../../component/tooltip/interface';
 import type { IToolTipLinePattern, ITooltipPattern, ShapeType, TooltipActiveType } from '../../typings';
-import { array, isFunction, isValid } from '../../util';
+import { array, isFunction, isValid } from '@visactor/vutils';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
 import { BaseTooltipHelper } from '../../model/tooltip-helper';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
 import type { Datum } from '@visactor/vgrammar-core';
-import { getTooltipActualActiveType } from '../../component/tooltip/utils';
+import { getTooltipActualActiveType } from '../../component/tooltip/utils/common';
 
 interface ISeriesCacheInfo {
   seriesFields: string[];

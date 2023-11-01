@@ -2,12 +2,13 @@
 import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD } from '../../constant/index';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Maybe, Datum } from '../../typings';
-import { isValid, mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { isValid } from '@visactor/vutils';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IRuleMark } from '../../mark/rule';
 import type { IMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import { SeriesTypeEnum } from '../interface/type';
 import { dataViewParser } from '@visactor/vdataset';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
@@ -22,13 +23,13 @@ import { objFlat } from '../../data/transforms/obj-flat';
 import { DEFAULT_GRID_BACKGROUND } from './config';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import type { SeriesMarkMap } from '../interface';
-import { VChart } from '../../core/vchart';
 import { SymbolMark } from '../../mark/symbol';
 import { TextMark } from '../../mark/text';
 import { RuleMark } from '../../mark/rule';
 import { RectMark } from '../../mark/rect';
 import { dotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { TransformLevel } from '../../data/initialize';
 
 export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.dot;
@@ -110,10 +111,11 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     registerDataSetInstanceTransform(this._option.dataSet, 'copyDataView', copyDataView);
     registerDataSetInstanceParser(this._option.dataSet, 'dataview', dataViewParser);
 
-    this.getViewDataFilter()?.transform(
+    this.getViewData()?.transform(
       {
         type: 'objFlat',
-        options: 'dots'
+        options: 'dots',
+        level: TransformLevel.dotObjFlat
       },
       false
     );
@@ -413,9 +415,9 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
    */
   getDefaultColorDomain() {
     return this._seriesGroupField
-      ? this._viewDataStatistics?.latestData[this._seriesGroupField].values
+      ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
       : this._seriesField
-      ? this._viewDataStatistics?.latestData[this._seriesField].values
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
       : [];
   }
 
@@ -436,11 +438,11 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
    */
   protected getDotColorScale() {
     const colorDomain = this._dotTypeField
-      ? this._viewDataStatistics?.latestData[this._dotTypeField].values
+      ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
       : this._seriesGroupField
-      ? this._viewDataStatistics?.latestData[this._seriesGroupField].values
+      ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
       : this._seriesField
-      ? this._viewDataStatistics?.latestData[this._seriesField].values
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
       : [];
     const colorRange = this._getDataScheme();
     return new ColorOrdinalScale().domain(colorDomain).range(colorRange);

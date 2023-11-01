@@ -1,4 +1,4 @@
-import { cloneDeep } from '../../util';
+import { cloneDeep } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 
 function copyOneDataView(d: DataView, deep = false) {

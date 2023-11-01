@@ -1,4 +1,4 @@
-import { isNil, isValid } from '../../../util';
+import { isNil, isValid } from '@visactor/vutils';
 import type { TooltipActiveType } from '../../../typings';
 import type { ITooltipActiveTypeAsKeys, ITooltipSpec } from '../interface';
 import type { BaseEventParams } from '../../../event/interface';

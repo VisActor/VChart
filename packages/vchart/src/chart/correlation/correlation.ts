@@ -1,7 +1,7 @@
 import { registerCorrelationSeries } from '../../series/correlation/correlation';
 import { BaseChart } from '../base-chart';
-import { ChartTypeEnum } from '../interface';
-import { SeriesTypeEnum } from '../../series/interface';
+import { ChartTypeEnum } from '../interface/type';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ICorrelationChartSpec } from './interface';
 import type { ICorrelationSeriesSpec } from '../../series/correlation/interface';
 import { Factory } from '../../core/factory';

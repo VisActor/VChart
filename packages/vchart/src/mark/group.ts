@@ -1,11 +1,11 @@
 import type { Maybe } from '../typings';
 // eslint-disable-next-line no-duplicate-imports
-import { warn } from '../util';
+import { warn } from '../util/debug';
 import type { IGroupMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
 import type { IMark, IMarkRaw, IMarkStyle, MarkType } from './interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from './interface';
+import { MarkTypeEnum } from './interface/type';
 import type { IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
 import type { IMarkCompileOption } from '../compile/mark';
 
