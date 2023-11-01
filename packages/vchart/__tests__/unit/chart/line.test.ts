@@ -137,8 +137,8 @@ describe('line chart test', () => {
     const trigger = series._trigger;
     expect(trigger.hover).toEqual({
       enable: true,
-      trigger: 'pointerover',
-      triggerOff: 'pointerout'
+      trigger: ['pointerdown', 'pointermove'],
+      triggerOff: ['pointermove', 'pointerleave']
     });
     expect(trigger.select).toEqual({
       enable: false,
