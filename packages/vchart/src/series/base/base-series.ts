@@ -137,6 +137,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _rawDataStatistics!: DataView;
   getRawDataStatistics() {
+    if (!this._rawDataStatistics) {
+      this._statisticRawData();
+    }
+
     return this._rawDataStatistics;
   }
 
@@ -367,15 +371,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected initStatisticalData(): void {
-    if (this._rawData) {
-      this._statisticRawData();
-    }
     if (this._data) {
       this._statisticViewData();
     }
   }
 
   protected _statisticRawData() {
+    if (this._rawDataStatistics) {
+      return;
+    }
+
     registerDataSetInstanceTransform(this._dataSet, 'dimensionStatistics', dimensionStatistics);
     const rawDataStatisticsName = `${this.type}_${this.id}_rawDataStatic`;
     this._rawDataStatistics = new DataView(this._dataSet, { name: rawDataStatisticsName });
@@ -388,6 +393,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         type: 'dimensionStatistics',
         options: {
           operations: ['max', 'min', 'values'],
+          fieldFollowSource: (key: string) => {
+            if (this._viewDataFilter) {
+              return this._viewDataFilter.transformsArr.length <= 1;
+            }
+
+            return this.getViewData().transformsArr.length <= 1;
+          },
+          sourceStatistics: () => this._viewDataStatistics.latestData,
           fields: () => {
             const fields = mergeFields(
               this.getStatisticFields(),
@@ -417,6 +430,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     );
 
     this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
+    this._rawDataStatistics?.target.addListener('change', this.rawDataStatisticsUpdate.bind(this));
   }
 
   protected _statisticViewData() {
@@ -430,14 +444,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       {
         type: 'dimensionStatistics',
         options: {
-          fieldFollowSource: (key: string) => {
-            if (this._viewDataFilter) {
-              return this._viewDataFilter.transformsArr.length <= 1;
-            }
-
-            return this.getViewData().transformsArr.length <= 1;
-          },
-          sourceStatistics: () => this._rawDataStatistics.latestData,
           fields: () => {
             const fields = this.getStatisticFields();
             if (this._seriesField) {
@@ -858,7 +864,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._trigger.init();
     this._data?.getDataView()?.target.addListener('change', this.viewDataUpdate.bind(this));
     this._viewDataStatistics?.target.addListener('change', this.viewDataStatisticsUpdate.bind(this));
-    this._rawDataStatistics?.target.addListener('change', this.rawDataStatisticsUpdate.bind(this));
   }
 
   protected _releaseEvent(): void {
@@ -1008,7 +1013,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   /** seriesField */
   getSeriesKeys(): string[] {
     if (this._seriesField) {
-      return this._rawDataStatistics?.latestData[this._seriesField]?.values ?? [];
+      return this.getRawDataStatistics()?.latestData[this._seriesField]?.values ?? [];
     }
     if (this.name) {
       return [this.name];
@@ -1037,7 +1042,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   getSeriesInfoInField(field: string) {
-    return this._getSeriesInfo(field, this._rawDataStatistics.latestData[field]?.values ?? []);
+    return this._getSeriesInfo(field, this.getRawDataStatistics().latestData[field]?.values ?? []);
   }
 
   getSeriesInfoList() {
@@ -1117,7 +1122,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
       support3d,
-      dataStatistics: dataStatistics ?? this._rawDataStatistics,
+      dataStatistics: dataStatistics,
       attributeContext: this._markAttributeContext
     });
     if (isValid(m)) {
