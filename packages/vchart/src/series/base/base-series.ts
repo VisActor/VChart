@@ -378,7 +378,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (!this._rawStatisticsCache[field]) {
       const canUseViewStatistics =
         this._viewDataStatistics &&
-        (this._viewDataFilter ? this._viewDataFilter : this.getViewData()).transformsArr.length <= 1;
+        (!this._viewDataFilter || this._viewDataFilter.transformsArr.length <= 1) &&
+        this.getViewData().transformsArr.length <= 1;
 
       if (canUseViewStatistics && this._viewDataStatistics.latestData?.[field]) {
         this._rawStatisticsCache[field] = this._viewDataStatistics.latestData[field];
