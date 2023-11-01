@@ -90,7 +90,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     const cs = new VChart(parseSpec(props), {
       ...props.options,
       autoFit: true,
-      mode: 'desktop-browser',
       dom: props.container
     });
     chartContext.current = { ...chartContext.current, chart: cs };
