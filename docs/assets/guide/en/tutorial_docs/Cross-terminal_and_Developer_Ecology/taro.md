@@ -24,8 +24,8 @@ The above environment is declared through the `type` attribute. The `type` attri
 - `weapp` WeChat applet.
 - `tt` byte applet.
 - `lark` Feishu applet.
-- `h5` browser environment, equivalent to `web`.
-- `web` browser environment, equivalent to `h5`.
+- `h5` h5 mobile environment.
+- `web` browser environment.
 
 ### Cross-end support
 
@@ -156,17 +156,17 @@ Examples of using the chart component are as follows:
 />
 ```
 
-| API           | Type     | Is it required | Description                                                                                                                                                                                              |
-| ------------- | -------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type          | string   | No             | The configured environment. Currently, the environments supported by the component are: **WeChat applet** ('weapp'), **Byte applet** ('tt'), **Feishu applet program**('lark'), **browser**('h5', 'web') |
-| canvasId      | String   | Yes            | Chart id, must be unique                                                                                                                                                                                 |
-| spec          | Object   | Yes            | Chart configuration items, please refer to [VChart configuration items](../../../option)                                                                                                                 |
-| style         | Object   | No             | Chart container style                                                                                                                                                                                    |
-| events        | Object[] | No             | Event binding configuration                                                                                                                                                                              |
-| options       | Object   | No             | Additional configuration items passed in to initialize the VChart instance, the same as [VChart instantiation configuration items](../../../api/API/vchart#options)                                      |
-| onChartInit   | Function | No             | Callback triggered after chart initialization                                                                                                                                                            |
-| onChartReady  | Function | No             | Callback triggered after the chart is rendered                                                                                                                                                           |
-| onChartUpdate | Function | No             | Callback triggered after the chart is updated                                                                                                                                                            |
+| API           | Type     | Is it required | Description                                                                                                                                                                                                                       |
+| ------------- | -------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type          | string   | No             | The configured environment. Currently, the environments supported by the component are: **WeChat mini program** ('weapp'), **Byte mini program** ('tt'), **Feishu mini program**('lark'), **browser**('web'), **h5 mobile**('h5') |
+| canvasId      | String   | Yes            | Chart id, must be unique                                                                                                                                                                                                          |
+| spec          | Object   | Yes            | Chart configuration items, please refer to [VChart configuration items](../../../option)                                                                                                                                          |
+| style         | Object   | No             | Chart container style                                                                                                                                                                                                             |
+| events        | Object[] | No             | Event binding configuration                                                                                                                                                                                                       |
+| options       | Object   | No             | Additional configuration items passed in to initialize the VChart instance, the same as [VChart instantiation configuration items](../../../api/API/vchart#options)                                                               |
+| onChartInit   | Function | No             | Callback triggered after chart initialization                                                                                                                                                                                     |
+| onChartReady  | Function | No             | Callback triggered after the chart is rendered                                                                                                                                                                                    |
+| onChartUpdate | Function | No             | Callback triggered after the chart is updated                                                                                                                                                                                     |
 
 ## Common examples
 
