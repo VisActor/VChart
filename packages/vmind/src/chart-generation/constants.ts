@@ -7,7 +7,9 @@ export const SUPPORTED_CHART_LIST = [
   'Word Cloud',
   'Rose Chart',
   'Radar Chart',
-  'Sankey Chart'
+  'Sankey Chart',
+  'Funnel Chart',
+  'Dual Axis Chart'
 ];
 
 export const DataProcessPrompt = `你是一个数据分析领域的专家，你的任务是：
