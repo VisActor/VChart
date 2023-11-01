@@ -243,7 +243,6 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   // 交互描述：拖拽过程中，根据当前的鼠标垫查找最近的数据点，然后更新图形位置
   private _onHandlerDragStart = (e: any) => {
     e.stopPropagation();
-    this._startEditor();
 
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
     this._element = model.getVRenderComponents()[0] as unknown as MarkLineComponent;

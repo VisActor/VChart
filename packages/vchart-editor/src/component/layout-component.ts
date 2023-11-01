@@ -252,34 +252,42 @@ export class LayoutEditorComponent {
         targetLine = match.end;
       }
     }
-
-    this[snapLineKey].setAttributes({
-      points: [
-        {
-          [orient]: targetLine.target.value,
-          [revertOrient]: Math.min(
-            targetLine.source.start,
-            targetLine.source.end,
-            targetLine.target.start,
-            targetLine.target.end
-          )
-        },
-        {
-          [orient]: targetLine.target.value,
-          [revertOrient]: Math.max(
-            targetLine.source.start,
-            targetLine.source.end,
-            targetLine.target.start,
-            targetLine.target.end
-          )
-        }
-      ],
-      visible: true
-    });
-    this[snapTargetBoxKey].setAttributes({
-      ...targetLine.target.rect,
-      visible: true
-    });
+    if (targetLine) {
+      this[snapLineKey].setAttributes({
+        points: [
+          {
+            [orient]: targetLine.target.value,
+            [revertOrient]: Math.min(
+              targetLine.source.start,
+              targetLine.source.end,
+              targetLine.target.start,
+              targetLine.target.end
+            )
+          },
+          {
+            [orient]: targetLine.target.value,
+            [revertOrient]: Math.max(
+              targetLine.source.start,
+              targetLine.source.end,
+              targetLine.target.start,
+              targetLine.target.end
+            )
+          }
+        ],
+        visible: true
+      });
+      this[snapTargetBoxKey].setAttributes({
+        ...targetLine.target.rect,
+        visible: true
+      });
+    } else {
+      this[snapLineKey].setAttributes({
+        visible: false
+      });
+      this[snapTargetBoxKey].setAttributes({
+        visible: true
+      });
+    }
     return source;
   }
 

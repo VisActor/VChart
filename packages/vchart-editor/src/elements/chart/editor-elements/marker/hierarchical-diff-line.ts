@@ -173,7 +173,6 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   private _onAnchorHandlerDragStart = (e: PointerEvent) => {
     e.stopPropagation();
-    this._startEditor();
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
     this._element = model.getVRenderComponents()[0] as unknown as MarkLineComponent;
     this._model = model;

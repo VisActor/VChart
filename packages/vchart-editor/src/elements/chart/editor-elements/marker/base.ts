@@ -85,6 +85,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     if (!super.startEditor(el, e)) {
       return false;
     }
+    this._startEditor();
     this._createEditorGraphic(el, e);
     return true;
   }
@@ -141,6 +142,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       }
     });
     this._chart.reRenderWithUpdateSpec();
+    // TODO: 需要在这里对当前的编辑元素更新位置属性。外部ui需要使用编辑元素上的最新位置弹出编辑浮窗
     this._controller.editorEnd();
   }
 
