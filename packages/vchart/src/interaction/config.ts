@@ -26,8 +26,8 @@ export const defaultInteractionConfig = {
   [RenderModeEnum['mobile-browser']]: {
     hover: {
       enable: true,
-      trigger: 'pointerover',
-      triggerOff: 'pointerout'
+      trigger: ['pointerdown', 'pointermove'],
+      triggerOff: ['pointermove', 'pointerleave']
     },
     select: {
       enable: true,
@@ -37,8 +37,8 @@ export const defaultInteractionConfig = {
   [RenderModeEnum.miniApp]: {
     hover: {
       enable: true,
-      trigger: 'pointerover',
-      triggerOff: 'pointerout'
+      trigger: ['pointerdown', 'pointermove'],
+      triggerOff: ['pointermove', 'pointerleave']
     },
     select: {
       enable: true,
@@ -48,8 +48,8 @@ export const defaultInteractionConfig = {
   [RenderModeEnum.lynx]: {
     hover: {
       enable: true,
-      trigger: 'pointerover',
-      triggerOff: 'pointerout'
+      trigger: ['pointerdown', 'pointermove'],
+      triggerOff: ['pointermove', 'pointerleave']
     },
     select: {
       enable: true,
