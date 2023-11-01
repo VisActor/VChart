@@ -384,7 +384,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       } else {
         this._rawStatisticsCache[field] = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
           { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
-        ]);
+        ])[field];
       }
     }
 
@@ -1068,7 +1068,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       dataProductId,
       parent,
       isSeriesMark,
-      dataStatistics,
       depend,
       label,
       progressive,
@@ -1078,7 +1077,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
       support3d,
-      dataStatistics: dataStatistics,
+      seriesId: this.id,
       attributeContext: this._markAttributeContext
     });
     if (isValid(m)) {

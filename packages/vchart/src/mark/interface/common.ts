@@ -85,7 +85,7 @@ export interface IMarkOption extends ICompilableMarkOption {
   map: Map<StringOrNumber, IModel | IMark>;
 
   globalScale: IGlobalScale;
-  dataStatistics?: DataView;
+  seriesId?: number;
 
   /** 组件 mark 的具体类型 */
   componentType?: string;

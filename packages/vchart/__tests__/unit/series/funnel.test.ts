@@ -142,7 +142,6 @@ describe('[Domain-Series-Funnel] Funnel Series', () => {
 
     // getPoints
     funnel.setLayoutRect({ width: 500, height: 500 });
-    (funnel as any)._viewDataStatistics = (funnel as any)._rawDataStatistics;
     funnel.getLayoutRect = () => {
       return { width: 500, height: 500 };
     };
