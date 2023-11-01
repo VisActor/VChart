@@ -377,11 +377,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     if (!this._rawStatisticsCache[field]) {
       const canUseViewStatistics =
+        this._viewDataStatistics &&
         (this._viewDataFilter ? this._viewDataFilter : this.getViewData()).transformsArr.length <= 1;
 
       if (canUseViewStatistics && this._viewDataStatistics.latestData?.[field]) {
         this._rawStatisticsCache[field] = this._viewDataStatistics.latestData[field];
-      } else {
+      } else if (this._rawData) {
         this._rawStatisticsCache[field] = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
           { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
         ])[field];
