@@ -35,7 +35,12 @@ import {
   colorBar,
   colorDynamicBar,
   wordCloudDisplayConf,
-  rankingBarLabel
+  rankingBarLabel,
+  funnelField,
+  funnelData,
+  dualAxisSeries,
+  dualAxisAxes,
+  dualAxisMarkStyle
 } from './pipes';
 import { Cell, ChartType, Context, Pipe } from './type';
 import { DataView } from '@visactor/vdataset';
