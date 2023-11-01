@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: if series mark is line, return stroke value when user want fill value, fixed #1388",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
