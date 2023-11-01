@@ -78,10 +78,6 @@ Offset in the x direction.
 
 Offset in the y direction.
 
-#${prefix} support3d(boolean)
-
-When the chart is enabled for 3d mode, whether this graphic element supports (enables) 3d capabilities (when support3d is false, this graphic element will ignore the 3d effect and always maintain the same effect as 2d).
-
 {{ if: !${noAngle} }}
 
 #${prefix} angle(number)

@@ -1,7 +1,7 @@
-import { Bar3dSeries, registerBar3dSeries } from '../../series/bar/bar-3d';
-import { SeriesTypeEnum } from '../../series/interface';
+import { registerBar3dSeries } from '../../series/bar/bar-3d';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { CartesianChart } from '../cartesian/cartesian';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import type { IBar3dChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 

@@ -6,22 +6,12 @@ import type { Maybe, Datum, ScaleType, VisualType, IScatterInvalidType } from '.
 import type { ISymbolMark } from '../../mark/symbol';
 import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
-import {
-  isNil,
-  isValid,
-  isObject,
-  isFunction,
-  isString,
-  isArray,
-  isNumber,
-  isNumeric,
-  mergeSpec,
-  couldBeValidNumber
-} from '../../util';
+import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric } from '@visactor/vutils';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import { AttributeLevel } from '../../constant';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { STATE_VALUE_ENUM } from '../../compile/mark';
+import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import {
   SCATTER_DEFAULT_RANGE_SHAPE,
   SCATTER_DEFAULT_RANGE_SIZE,
@@ -56,8 +46,6 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   private _shapeField: string;
 
   protected _invalidType: IScatterInvalidType = 'zero';
-  protected _getInvalidDefined = (datum: Datum) =>
-    couldBeValidNumber(datum[this.getStackValueField()]) && couldBeValidNumber(datum[this.getDimensionField()[0]]);
 
   setAttrFromSpec() {
     super.setAttrFromSpec();

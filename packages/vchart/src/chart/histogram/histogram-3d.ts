@@ -1,6 +1,6 @@
 import { registerBar3dSeries } from '../../series/bar/bar-3d';
-import { SeriesTypeEnum } from '../../series/interface';
-import { ChartTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
+import { ChartTypeEnum } from '../interface/type';
 import { BaseHistogramChart } from './base';
 import { Factory } from '../../core/factory';
 

@@ -2,7 +2,7 @@ import type { IGradientColor, ILinearGradient } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { Symbol } from '@visactor/vrender-core';
 
-import { isObject, isString } from '../../../../../util';
+import { isObject, isString } from '@visactor/vutils';
 import type { ShapeType } from '../../../../../typings';
 import { BaseTooltipModel } from './base-tooltip-model';
 import { pixelPropertyStrToNumber } from '../util';

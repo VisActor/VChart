@@ -1,25 +1,31 @@
 /**
  * @description color legend component
  */
-import { debounce, isEmpty, isNil } from '@visactor/vutils';
+import { debounce, isEmpty, isNil, isArray, get } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../../series/interface';
 import type { IModelInitOption, ILayoutRect } from '../../../model/interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import { isArray, eachSeries, get, isDataDomainSpec, getFieldAlias } from '../../../util';
+import { eachSeries } from '../../../util/model';
+import { getFieldAlias } from '../../../util/data';
+import { isDataDomainSpec } from '../../../util/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILegend } from '../interface';
 import type { IColorLegendSpec, IColorLegendTheme, ISizeLegendSpec } from './interface';
-import { continuousLegendDataMake, continuousLegendFilter } from '../../../data/transforms/legend-data/continuous';
+import {
+  continuousLegendDataMake,
+  continuousLegendFilter
+} from '../../../data/transforms/legend-data/continuous/continuous';
 import { ContinuousLegendMap, getContinuousLegendAttributes, isContinuousLegend } from './util';
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
 import { Factory } from '../../../core/factory';
+import { TransformLevel } from '../../../data/initialize';
 
 const SINGLE_SEQUENCE = ['#C4E7FF', '#98CAFF', '#75ACFF', '#518FF9', '#2775DC', '#005CBE', '#00429F', '#00287E'];
 const SIZE = [2, 10];
@@ -87,7 +93,8 @@ export class ContinuousLegend<
             selected: () => this._selectedData,
             field: () => this._field,
             data: () => this._legendData.getLatestData()
-          }
+          },
+          level: TransformLevel.legendFilter
         });
       },
       {
@@ -109,7 +116,7 @@ export class ContinuousLegend<
   protected _initLegendData(): DataView {
     registerDataSetInstanceTransform(this._option.dataSet, 'continuousLegendFilter', continuousLegendFilter);
     registerDataSetInstanceTransform(this._option.dataSet, 'continuousLegendDataMake', continuousLegendDataMake);
-    const legendData = new DataView(this._option.dataSet);
+    const legendData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     legendData.transform({
       type: 'continuousLegendDataMake',
       options: {

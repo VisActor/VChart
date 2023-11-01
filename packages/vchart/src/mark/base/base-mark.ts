@@ -12,7 +12,9 @@ import type {
   FunctionType
 } from '../../typings';
 
-import { isBoolean, isFunction, isNil, isValid, mergeSpec, Color, createScaleWithSpec, isNumber } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { Color } from '../../util/color';
+import { createScaleWithSpec } from '../../util/scale';
 import type {
   IMarkRaw,
   IMarkStateStyle,
@@ -27,10 +29,10 @@ import { AttributeLevel, GradientType, DEFAULT_GRADIENT_CONFIG } from '../../con
 import { isValidScaleType } from '@visactor/vscale';
 import type { DataView } from '@visactor/vdataset';
 import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme/util';
-import type { ISeries, SeriesTypeEnum } from '../../series/interface';
+import type { ISeries } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
-import { degreeToRadian } from '@visactor/vutils';
+import { degreeToRadian, isBoolean, isFunction, isNil, isValid, isNumber } from '@visactor/vutils';
 
 export type ExChannelCall = (
   key: string | number | symbol,
@@ -412,7 +414,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     const themeColor = computeActualDataScheme(
       getDataScheme(
         this.model.getColorScheme(),
-        this.model.modelType === 'series' ? (this.model.type as SeriesTypeEnum) : undefined
+        this.model.modelType === 'series' ? this.model.getSpec?.() : undefined
       ),
       (this.model as ISeries).getDefaultColorDomain()
     );
@@ -470,7 +472,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       const themeColor = computeActualDataScheme(
         getDataScheme(
           this.model.getColorScheme(),
-          this.model.modelType === 'series' ? (this.model.type as SeriesTypeEnum) : undefined
+          this.model.modelType === 'series' ? this.model.getSpec?.() : undefined
         ),
         (this.model as ISeries).getDefaultColorDomain()
       );

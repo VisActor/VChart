@@ -1,5 +1,5 @@
 import { isNil, isValid } from '@visactor/vutils';
-import { CompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data/compilable-data';
 
 export class SeriesData extends CompilableData {
   protected _compileProduct() {

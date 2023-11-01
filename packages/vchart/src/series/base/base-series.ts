@@ -10,14 +10,14 @@ import {
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
 } from '../../constant/index';
-import { seriesMarkInfoMap } from '../interface';
+import { seriesMarkInfoMap } from '../interface/theme';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
 import type { IMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type {
   CoordinateType,
   IInvalidType,
@@ -40,25 +40,14 @@ import type {
   ISeriesStackData,
   ISeriesTooltipHelper,
   SeriesMarkMap,
-  ISeriesMarkInfo,
-  SeriesTypeEnum
+  ISeriesMarkInfo
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
-import {
-  isNil,
-  isValid,
-  isBoolean,
-  isString,
-  mergeSpec,
-  isFunction,
-  isArray,
-  mergeFields,
-  getFieldAlias,
-  couldBeValidNumber,
-  preprocessSpecOrTheme
-} from '../../util';
+import { mergeFields, getFieldAlias } from '../../util/data';
+import { couldBeValidNumber } from '../../util/type';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
-import { Group } from './group';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
 import { addVChartProperty } from '../../data/transforms/add-property';
@@ -75,11 +64,12 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
-import { array, isEqual } from '@visactor/vutils';
+import { array, isEqual, isNil, isValid, isBoolean, isString, isFunction, isArray } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { getThemeFromOption } from '../../theme/util';
+import { getDirectionFromSeriesSpec } from '../util/spec';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly type: string = 'series';
@@ -152,7 +142,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _viewDataMap: Map<number, DataView> = new Map();
 
-  // 额外增加一个 filter 节点
+  // only add viewDataFilter when this._stack is true
   protected _viewDataFilter: DataView = null;
 
   getViewDataFilter() {
@@ -329,18 +319,22 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._addDataIndexAndKey();
     // 初始化viewData
     if (this._rawData) {
-      // 初始化viewDataFilter
-      this._viewDataFilter = dataViewFromDataView(this._rawData, this._dataSet, {
-        name: `${PREFIX}_series_${this.id}_viewDataFilter`
-      });
+      if (this._stack) {
+        // 初始化viewDataFilter
+        this._viewDataFilter = dataViewFromDataView(this._rawData, this._dataSet, {
+          name: `${this.type}_${this.id}_viewDataFilter`
+        });
+      }
+
       // 初始化viewData
-      const viewData = dataViewFromDataView(this._viewDataFilter, this._dataSet, {
-        name: `${PREFIX}_series_${this.id}_viewData`
+      const viewData = dataViewFromDataView(this._stack ? this._viewDataFilter : this._rawData, this._dataSet, {
+        name: `${this.type}_${this.id}_viewData`
       });
       this._data = new SeriesData(this._option, viewData);
-      // viewData 的更新由 region 控制
-      // TODO:不合理，需要优化
-      this._viewDataFilter.target.removeListener('change', viewData.reRunAllTransform);
+
+      if (this._stack) {
+        this._viewDataFilter.target.removeListener('change', viewData.reRunAllTransform);
+      }
     }
 
     // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
@@ -383,7 +377,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _statisticRawData() {
     registerDataSetInstanceTransform(this._dataSet, 'dimensionStatistics', dimensionStatistics);
-    const rawDataStatisticsName = `${PREFIX}_series_${this.id}_rawDataStatic`;
+    const rawDataStatisticsName = `${this.type}_${this.id}_rawDataStatic`;
     this._rawDataStatistics = new DataView(this._dataSet, { name: rawDataStatisticsName });
     this._rawDataStatistics.parse([this._rawData], {
       type: 'dataview'
@@ -407,6 +401,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
                 }
               ]);
             }
+
             return fields.filter(
               f =>
                 f.key !== STACK_FIELD_START_PERCENT &&
@@ -426,7 +421,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _statisticViewData() {
     registerDataSetInstanceTransform(this._dataSet, 'dimensionStatistics', dimensionStatistics);
-    const viewDataStatisticsName = `${PREFIX}_series_${this.id}_viewDataStatic`;
+    const viewDataStatisticsName = `${this.type}_${this.id}_viewDataStatic`;
     this._viewDataStatistics = new DataView(this._dataSet, { name: viewDataStatisticsName });
     this._viewDataStatistics.parse([this._data.getDataView()], {
       type: 'dataview'
@@ -436,7 +431,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         type: 'dimensionStatistics',
         options: {
           fieldFollowSource: (key: string) => {
-            return this._viewDataFilter.transformsArr.length <= 1;
+            if (this._viewDataFilter) {
+              return this._viewDataFilter.transformsArr.length <= 1;
+            }
+
+            return this.getViewData().transformsArr.length <= 1;
           },
           sourceStatistics: () => this._rawDataStatistics.latestData,
           fields: () => {
@@ -505,12 +504,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   // stack
   private createdStackData(): void {
-    const dataName = this._rawData?.name ?? `${PREFIX}_series_${this.id}_viewStackData`;
-    this._viewStackData = new DataView(this._dataSet);
-    this._viewStackData.parse([this.getViewDataFilter()], {
+    const dataName = `${this.type}_${this.id}_viewStackData`;
+    this._viewStackData = new DataView(this._dataSet, { name: dataName });
+    this._viewStackData.parse([this._viewDataFilter], {
       type: 'dataview'
     });
-    this._viewStackData.name = dataName;
     this._viewStackData.transform(
       {
         type: 'stackSplit',
@@ -602,8 +600,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this.event.emit(ChartEvent.viewDataUpdate, { model: this });
     // 依据数据更新设置渲染结果
     // 初始化时会触发 viewDataUpdate，但是此时 srView 还未生成，因此实际上不会产生多余的 updateData 调用
-    this._data.updateData();
-    this._viewDataStatistics.reRunAllTransform();
+    this._data?.updateData();
+    this._viewDataStatistics && this._viewDataStatistics.reRunAllTransform();
   }
   viewDataStatisticsUpdate(d: DataView): void {
     this.event.emit(ChartEvent.viewDataStatisticsUpdate, { model: this });
@@ -649,9 +647,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   /** stack start */
   abstract getStackGroupFields(): string[];
   abstract getStackValueField(): string | undefined;
-  abstract setValueFieldToStack(): void;
-  abstract setValueFieldToPercent(): void;
-  abstract setValueFieldToStackOffsetSilhouette(): void;
+  setValueFieldToStack() {
+    // do nothing
+  }
+  setValueFieldToPercent() {
+    // do nothing;
+  }
+  setValueFieldToStackOffsetSilhouette() {
+    // do nothing
+  }
 
   /** 获取系列中可以被操作的mark(brush需要通过在图元spec中内置state的方式实现框选样式，所以需要获取可被框选的mark) */
   abstract getActiveMarks(): IMark[];
@@ -711,7 +715,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _updateExtensionMarkSpec(lastSpec?: any) {
     this._spec.extensionMark?.forEach((spec, i) => {
-      const mark = this._marks.getMarkWithInfo({ name: `${PREFIX}_series_${this.id}_extensionMark_${i}` });
+      const mark = this._marks.getMarkWithInfo({ name: `${this.type}_${this.id}_extensionMark_${i}` });
       if (!mark) {
         return;
       }
@@ -1058,7 +1062,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** 获取默认 color scale 的 domain */
   getDefaultColorDomain(): any[] {
-    return this._seriesField ? this._viewDataStatistics?.latestData[this._seriesField]?.values : [];
+    return this._seriesField ? this.getViewDataStatistics()?.latestData[this._seriesField]?.values : [];
   }
 
   // 通用的默认颜色映射 用户设置优先级比这个高，会在setStyle中处理
@@ -1088,12 +1092,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getTheme() {
-    return preprocessSpecOrTheme(
-      'theme',
-      getThemeFromOption(`series.${this.type}`, this._option),
-      this.getColorScheme(),
-      this.type as SeriesTypeEnum
-    );
+    const direction = getDirectionFromSeriesSpec(this._spec);
+    const theme = getThemeFromOption(`series.${this.type}`, this._option);
+    const themeWithDirection = getThemeFromOption(`series.${this.type}_${direction}`, this._option);
+    return preprocessSpecOrTheme('theme', mergeSpec({}, theme, themeWithDirection), this.getColorScheme(), this._spec);
   }
 
   protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
@@ -1201,11 +1203,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
    * data
    */
   addViewDataFilter(option: ITransformOptions) {
-    this._viewDataFilter?.transform(option, false);
+    (this._viewDataFilter ?? this.getViewData())?.transform(option, false);
   }
 
   reFilterViewData() {
-    this._viewDataFilter?.reRunAllTransform();
+    (this._viewDataFilter ?? this.getViewData())?.reRunAllTransform();
   }
 
   reTransformViewData() {
@@ -1217,7 +1219,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   compile() {
-    this.compileSignal();
     this.compileData(); // 系列只需要编译数据，mark 将在 region 编译过程中编译
   }
 

@@ -1,5 +1,5 @@
 import type { IAxisHelper as CartesianHelper } from '../../component/axis/cartesian/interface/common';
-import { SeriesTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../interface/type';
 import type { Datum } from '../../typings';
 import { isContinuous } from '@visactor/vscale';
 import type { IPolarAxisHelper } from '../../component/axis';

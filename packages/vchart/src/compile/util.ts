@@ -1,6 +1,6 @@
 import type { RenderMode } from '../typings/spec';
 // eslint-disable-next-line no-duplicate-imports
-import { RenderModeEnum } from '../typings/spec';
+import { RenderModeEnum } from '../typings/spec/common';
 
 // TODO: feishu => lark
 export function toRenderMode(mode: RenderMode): any {

@@ -1,35 +1,38 @@
-# 3d 折线图
+# 3D Line Chart
 
-## 简介
+## Introduction
 
-3d 折线图大部分配置项继承于 2d 折线图，其是对 2d 折线图增加 zField 映射以及 z 轴而得到
-![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e622523215.png)
+Most of the configuration items of the 3D line chart are inherited from the 2D line chart, which is obtained by adding zField mapping and z-axis to the 2D line chart
+! []（ https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e622523215.png ）
 
-## 图表构成
+## Chart composition
 
-折线图由点图元、线图元、坐标轴及其他组件构成。
-![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf03.png)
+A line chart is composed of point entities, line entities, coordinate axes, and other components.
 
-点图元、线图元为 3d 折线图的基本要素，相关的绘制配置必不可少，其中 zField 是 3d 折线图特有:
+! []（ https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/03421afda76ced0240204bf03.png ）
 
-- `lineChart.type`: 图表类型，折线图的类型为`'line'`
-- `lineChart.data`: 图表绘制的数据源
-- `lineChart.xField`: 连续时间间隔或有序类别字段，映射图元的 x 坐标
-- `lineChart.yField`: 数值字段，映射图元的 y 坐标
-- `lineChart.zField`: 数值字段，映射图元的 z 坐标
+Point and line primitives are the basic elements of 3D line graphs, and related drawing configurations are essential. zField is unique to 3D line graphs:
 
-坐标轴、提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
+- `lineChart.type`: Chart type, the type of line chart is`'line'`
+- `lineChart.data`: The data source for chart drawing
+- `lineChart.xField`: Continuous time interval or ordered category field, mapping the x-coordinate of the entity
+- `lineChart.yField`: Numerical field, mapping the y-coordinate of the entity
+- `lineChart.zField`: Numerical field, mapping the z-coordinate of the entity
 
-- `lineChart.axes`: 坐标轴组件，默认显示并根据图表类型自动推断坐标系及数据映射逻辑，详情配置见[VChart 坐标轴组件配置](../../../option/line/axes/lineChart#axes)
-- `lineChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/line/axes/lineChart#tooltip)
-- 更多组件配置见[VChart lineChart 配置](../../../option/lineChart)
+The coordinate axis, prompt information, and other components used as auxiliary chart displays are optional configurations with default effects and functions:
 
-作为 3d 图表，3d 折线图需要开启 3d 视图，需要在 vChart 的初始化参数中配置 3d 视角:
+-`lineChart.axes`: Coordinate axis component, displayed by default and automatically inferred coordinate system and data mapping logic based on chart type. For detailed configuration, please refer to [VChart Coordinate Axis Component Configuration](../../../option/line/axes/lineChart#axes)
 
-- `options3d.enable`: 启用 3d 视角
-- `options3d.enableView3dTranform`: 支持 3d 的自由变换
+-`lineChart.tooltip`: prompt information, displayed by default during interaction. For detailed configuration, please refer to [VChart Prompt Information Component Configuration](../../../option/line/axes/lineChart#tooltip)
 
-## 快速上手
+-For more component configurations, see [VChart lineChart Configuration](../../../option/lineChart)
+
+As a 3D chart, a 3D line chart needs to have a 3D view enabled, and the 3D perspective needs to be configured in the initialization parameters of vChart:
+
+- `options3d.enable`: Enable 3D perspective
+- `options3d.enableView3dTransform`: Supports 3D free transformation
+
+## quick start
 
 ```javascript livedemo
 const latestData = [
@@ -2008,7 +2011,7 @@ const vchart = new VChart(spec, {
   disableDirtyBounds: true,
   options3d: {
     enable: true,
-    enableView3dTranform: true,
+    enableView3dTransform: true,
     center: { x: 500, y: 250 }
   }
 });
@@ -2019,4 +2022,4 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-其他配置参考[折线图]()
+Other configurations refer to [Line Chart]()

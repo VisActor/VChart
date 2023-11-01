@@ -8,6 +8,14 @@
 
 是否显示坐标轴，默认展示。
 
+#${prefix} mode('2d'|'3d') = '2d'
+
+是否是 3d 模式下的轴，3d 模式的轴样式会和 2d 模式有所差异
+
+#${prefix} depth(number)
+
+3d 模式中 z 轴的配置，用于定义 z 轴的长度（x 轴的长度是 width，y 轴的长度是 height，z 轴的长度是 depth）。
+
 #${prefix} sampling(boolean) = true
 
 是否开启轴数据采样，默认开启。轴采样开启之后，会对轴数据进行采样显示，防止轴数据的重叠。通过配置 `label.minGap` 可以控制轴标签之间的间距。

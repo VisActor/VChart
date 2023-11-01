@@ -5,7 +5,9 @@ import type { IBaseScale, OrdinalScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import type { IChart } from '../chart/interface';
 import type { IChartSpec } from '../typings/spec';
-import { createScale, isDataDomainSpec, mergeFields } from '../util';
+import { createScale } from '../util/scale';
+import { isDataDomainSpec } from '../util/type';
+import { mergeFields } from '../util/data';
 import type { IVisualScale, IVisualSpecScale } from '../typings';
 import type { StatisticOperations } from '../data/transforms/dimension-statistics';
 

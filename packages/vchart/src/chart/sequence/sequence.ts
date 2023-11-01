@@ -6,7 +6,7 @@ import type { ISequenceChartSpec, ISequenceSeriesSpec } from './interface';
 import type { IRegion, IRegionSpec } from '../../region/interface';
 import { Factory } from '../../core/factory';
 import { SeriesTypeEnum } from '../../series/interface/type';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import type { Datum } from '../../typings';
 import { DataView } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../series/interface';

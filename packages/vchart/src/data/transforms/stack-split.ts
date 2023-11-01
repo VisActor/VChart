@@ -1,5 +1,5 @@
 import type { ISeriesStackData, ISeriesStackDataLeaf, ISeriesStackDataNode } from '../../series/interface';
-import { isNil } from '../../util';
+import { isNil } from '@visactor/vutils';
 import type { DataView } from '@visactor/vdataset';
 import type { Datum } from '../../typings';
 

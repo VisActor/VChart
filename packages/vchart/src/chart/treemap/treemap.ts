@@ -1,8 +1,8 @@
 import type { ISeries } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { BaseChart } from '../base-chart';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import type { ITreemapChartSpec } from './interface';
 import { VChart } from '../../core/vchart';
 import { TreemapSeries, registerTreemapSeries } from '../../series/treemap/treemap';

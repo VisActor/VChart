@@ -2,7 +2,7 @@ import type { IAreaMarkSpec } from '../typings/visual';
 import { BaseLineMark } from './base/base-line';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from './interface';
+import { MarkTypeEnum } from './interface/type';
 
 export type IAreaMark = IMarkRaw<IAreaMarkSpec>;
 

@@ -1,6 +1,6 @@
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { CartesianChart } from '../cartesian/cartesian';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { ILineChartSpec } from './interface';
 import { registerLineSeries } from '../../series/line/line';
@@ -12,6 +12,8 @@ export class LineChart extends CartesianChart {
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.line;
   readonly seriesType: string = SeriesTypeEnum.line;
+
+  protected _canStack: boolean = true;
 
   protected _getDefaultSeriesSpec(spec: ILineChartSpec): any {
     return {

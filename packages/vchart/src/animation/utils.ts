@@ -13,7 +13,7 @@ import { DEFAULT_DATA_INDEX } from '../constant';
 import { DEFAULT_ANIMATION_CONFIG } from './config';
 import { isArray, isValid } from '@visactor/vutils';
 import type { SeriesMarkNameEnum } from '../series/interface/type';
-import { mergeSpec } from '../util/spec';
+import { mergeSpec } from '../util/spec/merge-spec';
 
 export const AnimationStates = ['appear', 'enter', 'update', 'exit', 'disappear', 'normal'];
 

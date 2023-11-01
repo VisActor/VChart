@@ -1,7 +1,7 @@
 import { registerScatterSeries } from '../../series/scatter/scatter';
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { CartesianChart } from '../cartesian/cartesian';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import type { IScatterChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 
@@ -10,6 +10,7 @@ export class ScatterChart extends CartesianChart {
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.scatter;
   readonly seriesType: string = SeriesTypeEnum.scatter;
+  protected _canStack: boolean = true;
 
   protected _getDefaultSeriesSpec(spec: IScatterChartSpec): any {
     return {

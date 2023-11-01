@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "1.5.2",
+  "version": "1.5.4",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -9,7 +9,8 @@
   "scripts": {
     "build:es5": "rm -rf lib && rollup -c --bundleConfigAsCjs",
     "build:schema": "schema src/typings/spec/chart.ts ISpec --useTypeOfKeyword --ignoreErrors --required > ../vchart-schema/vchart.json",
-    "build": "bundle --clean && npm run build:schema && npm run build:es5",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir ../vchart-types/types",
+    "build": "bundle --clean && npm run build:schema && npm run build:types && npm run export:theme && npm run build:es5",
     "build:ci": "bundle --clean -f umd --minify=false --ignorePostTasks --name ChartSpace",
     "analyze": "npm run analyze-full && npm run analyze-line && npm run analyze-simple",
     "analyze-full": "BUNDLE_ANALYZE='full' bundle -f umd ",
@@ -109,12 +110,12 @@
     "@size-limit/file": "9.0.0"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.16.4",
-    "@visactor/vdataset": "~0.16.4",
-    "@visactor/vscale": "~0.16.4",
-    "@visactor/vrender-core": "~0.16.8",
-    "@visactor/vrender-kits": "~0.16.8",
-    "@visactor/vrender-components": "~0.16.8",
+    "@visactor/vutils": "~0.16.6",
+    "@visactor/vdataset": "~0.16.6",
+    "@visactor/vscale": "~0.16.6",
+    "@visactor/vrender-core": "~0.16.9",
+    "@visactor/vrender-kits": "~0.16.9",
+    "@visactor/vrender-components": "~0.16.9",
     "@visactor/vgrammar-core": "~0.8.1",
     "@visactor/vgrammar-projection": "~0.8.1",
     "@visactor/vgrammar-wordcloud": "~0.8.1",
@@ -122,7 +123,7 @@
     "@visactor/vgrammar-hierarchy": "~0.8.1",
     "@visactor/vgrammar-sankey": "~0.8.1",
     "@visactor/vgrammar-util": "~0.8.1",
-    "@visactor/vutils-extension": "workspace:1.5.2"
+    "@visactor/vutils-extension": "workspace:1.5.4"
   },
   "publishConfig": {
     "access": "public",

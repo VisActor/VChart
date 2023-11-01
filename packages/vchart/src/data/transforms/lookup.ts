@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { isFunction, isNil, isValid } from '../../util';
+import { isFunction, isNil, isValid } from '@visactor/vutils';
 import type { Datum } from '../../typings';
 
 export interface ILookUpOpt {

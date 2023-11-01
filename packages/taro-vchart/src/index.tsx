@@ -9,6 +9,7 @@ interface IVChartProps extends IChartProps {
    * 配置环境。如果没有声明，则会通过 `Taro.getEnv()` 自动获取。
    * - `tt` 字节小程序。
    * - `lark` 飞书小程序。
+   * - `weapp` 微信小程序
    * - `h5` 浏览器环境, 与`web`等价。
    * - `web` 浏览器环境, 与`h5`等价。
    */
@@ -16,13 +17,17 @@ interface IVChartProps extends IChartProps {
 }
 
 export default function VChart({ type, ...args }: IVChartProps) {
-  const env = type ? type.toLocaleLowerCase() : Taro.getEnv();
+  const env = (type ?? Taro.getEnv()).toLocaleLowerCase();
+
   const strategies = {
     lark: () => {
-      return <GeneralChart {...args} />;
+      return <GeneralChart {...args} mode="miniApp" />;
     },
     tt: () => {
-      return <GeneralChart {...args} />;
+      return <GeneralChart {...args} mode="miniApp" />;
+    },
+    weapp: () => {
+      return <GeneralChart {...args} mode="wx" />;
     },
     web: () => {
       return <WebChart {...args} />;

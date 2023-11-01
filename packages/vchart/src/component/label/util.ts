@@ -1,5 +1,6 @@
 import type { WaterfallSeries } from './../../series/waterfall/waterfall';
-import { Direction, type Datum } from '../../typings';
+import type { Datum } from '../../typings/common';
+import { Direction } from '../../typings/space';
 import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';

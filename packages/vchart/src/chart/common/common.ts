@@ -1,6 +1,6 @@
 import { isArray } from '@visactor/vutils';
 import { BaseChart } from '../base-chart';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import type { ISeries } from '../../series';
 import { Factory } from '../../core/factory';
 
@@ -8,6 +8,7 @@ export class CommonChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.common;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.common;
+  protected _canStack: boolean = true;
 
   protected _getDefaultSeriesSpec(spec: any) {
     const defaultSpec = super._getDefaultSeriesSpec(spec);

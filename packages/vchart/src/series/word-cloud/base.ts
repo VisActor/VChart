@@ -6,7 +6,7 @@ import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../
 import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface/type';
-import { isTrueBrowser } from '../../util';
+import { isTrueBrowser } from '../../util/env';
 import {
   DEFAULT_DRAW_OUT_OF_BOUND,
   DEFAULT_FONTSIZE_RANGE,
@@ -432,9 +432,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   valueToPosition(value1: any, value2?: any): IPoint {
     return null;
   }
-  setValueFieldToStackOffsetSilhouette(): void {
-    // do nothing
-  }
 
   getGroupFields(): string[] {
     // do nothing
@@ -449,14 +446,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   getStackValueField(): string {
     // do nothing
     return '';
-  }
-
-  setValueFieldToStack(): void {
-    // do nothing
-  }
-
-  setValueFieldToPercent(): void {
-    //do nothing
   }
 
   onLayoutEnd(ctx: any): void {

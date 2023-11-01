@@ -154,7 +154,7 @@ Page({
 onChartReady() {
 	console.log('chart 实例渲染完成');
 	this.selectComponent("#chart1", res => {
-		const chartInstance = res && res.ttCanvas && res.ttCanvas.chart; // 获取 chart 实例
+		const chartInstance = res && res.chart; // 获取 chart 实例
 		// ...
 	});
 },

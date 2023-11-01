@@ -30,6 +30,11 @@ export interface IBarSeriesSpec
    * 图元配置
    */
   [SeriesMarkNameEnum.bar]?: IMarkSpec<IRectMarkSpec>;
+  /**
+   * 柱状背景图元
+   * @since 1.6.0
+   */
+  [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec>;
   /** 标签配置*/
   [SeriesMarkNameEnum.label]?: ILabelSpec & {
     /** 标签位置 */
@@ -93,6 +98,11 @@ export interface IBarSeriesSpec
 
 export interface IBarSeriesTheme extends ICartesianSeriesTheme {
   [SeriesMarkNameEnum.bar]?: Partial<IMarkTheme<IRectMarkSpec>>;
+  /**
+   * 柱状背景图元
+   * @since 1.6.0
+   */
+  [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec>;
   /**
    * 柱体宽度
    */

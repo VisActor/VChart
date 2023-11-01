@@ -1,9 +1,8 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkLine, IMarkLineSpec, IMarkLineTheme, IStepMarkLineSpec } from './interface';
-import { isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
@@ -13,7 +12,7 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty, isValid } from '@visactor/vutils';
+import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import type { INode } from '@visactor/vrender-core';
@@ -249,7 +248,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     } else if (isCoordinateProcess) {
       options = this._processSpecCoo(spec);
 
-      processData = new DataView(this._option.dataSet)
+      processData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` })
         .parse([relativeSeries.getViewData()], {
           type: 'dataview'
         })

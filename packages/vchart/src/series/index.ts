@@ -180,3 +180,5 @@ export type {
   IWordCloudSeriesSpec,
   ICorrelationSeriesSpec
 };
+
+export * from './interface';

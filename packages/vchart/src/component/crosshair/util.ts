@@ -3,13 +3,14 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { Datum, IOrientType } from '../../typings';
 import type { IChart } from '../../chart/interface';
 import type { ICrosshairTheme } from './interface';
-import { isValid, mergeSpec } from '../../util';
-import { isXAxis, isYAxis } from '../axis/cartesian/util';
+import { isValid } from '@visactor/vutils';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { isXAxis, isYAxis } from '../axis/cartesian/util/common';
 import { isDiscrete } from '@visactor/vscale';
 import type { IAxis } from '../axis';
 import type { IModelOption } from '../../model/interface';
 import { getComponentThemeFromOption } from '../util';
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 
 export function limitTagInBounds(shape: Tag, bounds: IBoundsLike) {
   const { x1: regionMinX, y1: regionMinY, x2: regionMaxX, y2: regionMaxY } = bounds;

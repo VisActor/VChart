@@ -1,5 +1,5 @@
 import { BandScale } from '@visactor/vscale';
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import { PolarAxis } from './axis';
 import { DEFAULT_BAND_INNER_PADDING, DEFAULT_BAND_OUTER_PADDING, DEFAULT_BAND_POSITION } from './config';
 import { mixin } from '@visactor/vutils';

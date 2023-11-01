@@ -3,17 +3,16 @@ import { isArray, isEmpty, isNil } from '@visactor/vutils';
 import type { DataSet, DataView } from '@visactor/vdataset';
 
 import type { DrillInfo } from '../../data/transforms/drill';
-import { drillFilter } from '../../data/transforms/drill';
-import { DrillEnum } from '../../data/transforms/drill';
+import { drillFilter, DrillEnum } from '../../data/transforms/drill';
 import type { EventType, IEvent } from '../../event/interface';
 import type { RenderMode } from '../../typings/spec';
-import { defaultTriggerEvent } from '../../component/common/trigger/config';
-import { findHierarchyPath } from '../../util';
+import { getDefaultTriggerEventByMode } from '../../component/common/trigger/config';
+import { findHierarchyPath } from '../../util/hierarchy';
 import { ChartEvent } from '../../constant';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IModel } from '../../model/interface';
 import type { BaseSeries } from '../../series/base/base-series';
-import { ComponentTypeEnum } from '../../component/interface';
+import { ComponentTypeEnum } from '../../component/interface/type';
 import type { Tooltip } from '../../component/tooltip';
 
 interface DrillParams {
@@ -57,7 +56,8 @@ export class Drillable implements IDrillable {
 
   private _getTriggerEvent(type: string): EventType {
     const { mode } = this._drillParams;
-    return defaultTriggerEvent[mode]?.[type];
+
+    return getDefaultTriggerEventByMode(mode)?.[type];
   }
 
   private _hideTooltip() {

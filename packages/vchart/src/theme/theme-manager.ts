@@ -1,8 +1,7 @@
-import { defaultThemeName, getMergedTheme, hasThemeMerged, themes } from './builtin';
+import { defaultThemeName, getTheme, registerTheme, removeTheme, themeExist, themes } from './builtin';
 import type { ITheme } from './interface';
 import { InstanceManager } from '../core/instance-manager';
 import type { IVChart } from '../core/interface';
-import { isString } from '@visactor/vutils';
 
 export class ThemeManager {
   /** 主题字典 */
@@ -17,12 +16,7 @@ export class ThemeManager {
    * @returns
    */
   static registerTheme(name: string, theme: Partial<ITheme>) {
-    if (!name) {
-      return;
-    }
-    // 所有主题基于默认主题扩展，保证基础值
-    ThemeManager.themes.set(name, getMergedTheme(theme));
-    hasThemeMerged.set(name, true);
+    registerTheme(name, theme);
   }
 
   /**
@@ -31,11 +25,7 @@ export class ThemeManager {
    * @returns
    */
   static getTheme(name: string) {
-    if (hasThemeMerged.has(name) && !hasThemeMerged.get(name)) {
-      // 重新 merge 默认主题
-      ThemeManager.registerTheme(name, ThemeManager.themes.get(name));
-    }
-    return ThemeManager.themes.get(name) || ThemeManager.getDefaultTheme();
+    return getTheme(name);
   }
 
   /**
@@ -44,7 +34,7 @@ export class ThemeManager {
    * @returns 是否移除成功
    */
   static removeTheme(name: string): boolean {
-    return ThemeManager.themes.delete(name) && hasThemeMerged.delete(name);
+    return removeTheme(name);
   }
 
   /**
@@ -53,10 +43,7 @@ export class ThemeManager {
    * @returns 是否存在
    */
   static themeExist(name: any) {
-    if (!isString(name)) {
-      return false;
-    }
-    return ThemeManager.themes.has(name);
+    return themeExist(name);
   }
 
   /** 获取图表默认主题（非用户配置） */

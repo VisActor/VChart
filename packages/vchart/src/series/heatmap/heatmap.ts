@@ -2,7 +2,7 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum } from '../../typings';
-import { array, mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import { registerHeatmapAnimation, type HeatmapAppearPreset } from './animation';
 import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
@@ -12,7 +12,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ICellMark } from '../../mark/cell';
-import { normalizePadding } from '@visactor/vutils';
+import { normalizePadding, array } from '@visactor/vutils';
 import { HeatmapSeriesTooltipHelper } from './tooltip-helper';
 import { CellMark } from '../../mark/cell';
 import { TextMark } from '../../mark/text';

@@ -1,17 +1,21 @@
 import type { IEffect } from '../../../model/interface';
 import { DataView } from '@visactor/vdataset';
-import { isXAxis, TimeUtil } from './util';
-import { eachSeries, isArray, mergeSpec } from '../../../util';
+import { isXAxis } from './util/common';
+import { TimeUtil } from './util/time';
+import { isArray } from '@visactor/vutils';
+import { eachSeries } from '../../../util/model';
+import { mergeSpec } from '../../../util/spec/merge-spec';
 import type { ICartesianSeries } from '../../../series/interface';
 import { CartesianLinearAxis } from './linear-axis';
 import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import type { Datum } from '../../../typings';
-import { CompilableData } from '../../../compile/data';
+import { CompilableData } from '../../../compile/data/compilable-data';
 import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import type { ICartesianTimeAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
+import { PREFIX } from '../../../constant';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
@@ -58,7 +62,7 @@ export class CartesianTimeAxis<
     // 如果layer数组的第二项未配置，则不显示第二层
     if (this._spec.layers?.[1]) {
       const label = this._spec.label || {};
-      const layerTickData = new DataView(this._option.dataSet)
+      const layerTickData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_layer_1_ticks` })
         .parse(this._scale, {
           type: 'scale'
         })
