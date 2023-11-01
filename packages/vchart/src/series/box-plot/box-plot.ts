@@ -297,8 +297,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       {
         type: 'addVChartProperty',
         options: {
-          beforeCall: initKeyMap,
-          call: addDataKey.bind(this)
+          beforeCall: initKeyMap.bind(this),
+          call: addDataKey
         }
       },
       false

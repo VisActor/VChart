@@ -21,7 +21,7 @@ import type { TreemapNodeElement } from '@visactor/vgrammar-hierarchy';
 import { DataView } from '@visactor/vdataset';
 import { hierarchyDimensionStatistics } from '../../data/transforms/hierarchy-dimension-statistics';
 import { addVChartProperty } from '../../data/transforms/add-property';
-import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { TreemapTooltipHelper } from './tooltip-helper';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -166,8 +166,8 @@ export class TreemapSeries extends CartesianSeries<any> {
         {
           type: 'addVChartProperty',
           options: {
-            beforeCall: initKeyMap,
-            call: addHierarchyDataKey.bind(this)
+            beforeCall: initHierarchyKeyMap.bind(this),
+            call: addHierarchyDataKey
           }
         }
         // rawDataStatistic 需要统计 addHierarchyDataKey 的一些字段，所以必须要运行一下
