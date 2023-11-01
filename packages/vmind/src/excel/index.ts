@@ -21,4 +21,5 @@ export async function excel2csv(buffer: any) {
   } catch (err) {
     console.log('转换出错', err);
   }
+  return null;
 }

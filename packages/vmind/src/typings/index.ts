@@ -1,5 +1,15 @@
 import { DataView } from '@visactor/vdataset';
 
+export interface IGPTOptions {
+  url?: string;
+  /** gpt request header, which has higher priority */
+  headers?: HeadersInit;
+  method?: string;
+  model?: string;
+  max_tokens?: number;
+  temperature?: number;
+}
+
 export type GPTDataProcessResult = {
   DOUBLE_CHECK: string;
   FIELD_INFO: { description: string; fieldName: string }[];
@@ -10,8 +20,6 @@ export type GPTDataProcessResult = {
   USEFUL_FIELDS: string[];
   error?: boolean; //解析JSON出错
 };
-
-export const ChartTypeList = ['动态条形图', '柱状图', '折线图', '饼图', '散点图', '词云'];
 
 export type Cell = {
   //字段映射，可用的视觉通道：["x","y","color","size","angle","time"]
@@ -54,3 +62,8 @@ export type Context = {
   totalTime?: number;
 };
 export type Pipe = (src: any, context: Context) => any;
+
+export type TimeType = {
+  totalTime: number;
+  frameArr: any[];
+};
