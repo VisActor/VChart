@@ -38,7 +38,6 @@ import {
   rankingBarLabel,
   funnelField,
   funnelData,
-  DualAxisSeries,
   dualAxisSeries,
   dualAxisAxes,
   dualAxisMarkStyle
