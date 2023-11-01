@@ -176,11 +176,15 @@ export class TreemapSeries extends CartesianSeries<any> {
     }
   }
 
-  protected _statisticRawData() {
-    const rawDataName = `${this.type}_${this.id}_rawDataStatic`;
-    this._rawDataStatistics = this._createHierarchyDataStatistics(rawDataName, [this._rawData]);
-    this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
-    this._rawDataStatistics.reRunAllTransform();
+  getRawDataStatisticsByField(field: string, isNumeric?: boolean) {
+    if (!this._rawDataStatistics) {
+      const rawDataName = `${this.type}_${this.id}_rawDataStatic`;
+      this._rawDataStatistics = this._createHierarchyDataStatistics(rawDataName, [this._rawData]);
+      this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
+      this._rawDataStatistics.reRunAllTransform();
+    }
+
+    return this._rawDataStatistics.latestData?.[field];
   }
 
   protected _createHierarchyDataStatistics(dataName: string, rawData: DataView[]) {
