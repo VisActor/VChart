@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: react-vchart mode not work",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
