@@ -559,6 +559,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
 
     this._option?.onError(`invalid dataKey: ${dataKey}`);
+    return (datum: Datum, index: number) => undefined as string;
   }
 
   protected _addDataIndexAndKey() {
