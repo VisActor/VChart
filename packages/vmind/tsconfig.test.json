@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@visactor/vchart": ["../vchart/src"],
+      "@visactor/vutils-extension": ["../vutils-extension/src"]
+    }
+  },
+  "references": []
+}

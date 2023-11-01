@@ -1,3 +1,3 @@
-import VMind from './core';
+import VMind from './core/VMind';
 
 export default VMind;

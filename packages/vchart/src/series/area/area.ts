@@ -271,8 +271,10 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   getSeriesStyle(datum: Datum) {
     return (attribute: string) => {
+      const seriesMarkType = this._spec.seriesMark ?? 'area';
+
       let result = this._seriesMark?.getAttribute(attribute as any, datum) ?? undefined;
-      if (attribute === 'fill' && !result) {
+      if (attribute === 'fill' && (!result || seriesMarkType === 'line')) {
         attribute = 'stroke';
         result = this._seriesMark?.getAttribute(attribute, datum) ?? undefined;
       }

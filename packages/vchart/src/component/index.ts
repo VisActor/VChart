@@ -71,9 +71,9 @@ import type { ILabelSpec, ITotalLabelTheme } from './label';
 import { Label, registerLabel } from './label';
 import { TotalLabel, registerTotalLabel } from './label/totalLabel';
 import { registerPoptip } from './poptip/index';
-import { IComponentTheme } from './interface';
-import { IAxisCommonTheme, IAxisItemTheme, IBandAxisTheme } from './axis';
-import { IPoptipTheme } from './poptip/interface';
+import type { IComponentTheme } from './interface';
+import type { IAxisCommonTheme, IAxisItemTheme, IBandAxisTheme } from './axis/interface';
+import type { IPoptipTheme } from './poptip/interface';
 
 export {
   ScrollBar,

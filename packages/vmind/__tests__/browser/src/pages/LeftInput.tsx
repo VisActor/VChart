@@ -10,9 +10,9 @@ import {
   mockUserInput6Eng,
   mockUserInput8
 } from '../constants';
-import { excel2csv } from '../../excel';
-import VMind from '../../index';
-import { carSaleMockData } from '../../chart-generation/mock';
+import { excel2csv } from '../../../../src/excel';
+import VMind from '../../../../src/index';
+import { carSaleMockData } from '../../../../src/chart-generation/mock';
 
 const TextArea = Input.TextArea;
 type IPropsType = {

@@ -4,10 +4,10 @@ import path from 'path';
 import libCss from 'vite-plugin-libcss';
 import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 // https://vitejs.dev/config/
-import pkg from '../vchart/package.json';
+import pkg from '../../../vchart/package.json';
 //import css from 'vite-plugin-css';
 export default defineConfig({
-  root: path.join(__dirname, 'src/site'),
+  // root: path.join(__dirname, 'src/site'),
   plugins: [
     react(),
     libCss(),
@@ -32,8 +32,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@visactor/vchart': path.resolve(__dirname, '../vchart/src/index.ts'),
-      '@visactor/vutils-extension': path.resolve('../vutils-extension/src/index.ts')
+      '@visactor/vchart': path.resolve(__dirname, '../../../vchart/src/index.ts'),
+      '@visactor/vutils-extension': path.resolve(__dirname, '../../../vutils-extension/src/index.ts')
       // ...localConf.resolve?.alias
     }
   },
