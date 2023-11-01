@@ -2,9 +2,11 @@ import type { IGroup, IStage, ILine, IRect, IGraphic } from '@visactor/vrender-c
 import { IContainPointMode, createLine, createRect } from '@visactor/vrender-core';
 import type { ILayoutAttribute } from './../typings/space';
 import type { IEditorElement, ILayoutLine } from './../core/interface';
+import type { IUpdateParams } from './transform-component2';
 import { TransformComponent2 } from './transform-component2';
 import type { IBoundsLike } from '@visactor/vutils';
 import { DragComponent } from './transform-drag';
+import { getLayoutLine } from '../utils/space';
 export class LayoutEditorComponent {
   protected _startHandler: () => void;
   protected _updateHandler: (data: ILayoutAttribute) => Partial<ILayoutAttribute> | false;
@@ -24,6 +26,9 @@ export class LayoutEditorComponent {
 
   private _opt;
 
+  private _tempRect: Partial<IUpdateParams>;
+  private _lastCurrentRect: Partial<IUpdateParams>;
+
   private _snapTargetLineX: ILayoutLine[] = [];
   private _snapTargetLineY: ILayoutLine[] = [];
 
@@ -33,10 +38,8 @@ export class LayoutEditorComponent {
   private _snapTargetBoxX: IRect;
   private _snapTargetBoxY: IRect;
 
-  private _snapTempX: number = Infinity;
-  protected _snapMatchResultX: { source: ILayoutLine; target: ILayoutLine; dis: number } = null;
-  private _snapTempY: number = Infinity;
-  protected _snapMatchResultY: { source: ILayoutLine; target: ILayoutLine; dis: number } = null;
+  // private _tempBox: IRect;
+  // private _currentBox: IRect;
 
   constructor(
     el: IEditorElement,
@@ -57,8 +60,8 @@ export class LayoutEditorComponent {
     this._updateHandler = opt.updateHandler;
     this._endHandler = opt.endHandler;
 
-    this.addDrag(opt.container, opt.event);
     this.addEditorBox();
+    this.addDrag(opt.container, opt.event);
     this.initEvent();
     this._startHandler();
     // 吸附线
@@ -89,10 +92,22 @@ export class LayoutEditorComponent {
         return;
       }
       if (this._el.editProperties.move) {
+        this._reSetSnap();
         this._dragger.startDrag(e);
       }
     }
   };
+
+  private _reSetSnap() {
+    const rectAttribute = this._editorBox.rect.attribute;
+    this._tempRect = {
+      x: rectAttribute.x,
+      y: rectAttribute.y,
+      width: rectAttribute.width,
+      height: rectAttribute.height
+    };
+    this._lastCurrentRect = { ...this._tempRect };
+  }
 
   addEditorBox() {
     // const group = this._el.layer.editorGroup;
@@ -118,17 +133,154 @@ export class LayoutEditorComponent {
     );
 
     this._editorBox.onEditorStart(() => {
+      this._reSetSnap();
       this._startHandler();
     });
     this._editorBox.onUnTransStart(e => {
       if (this._el.editProperties.move) {
+        this._reSetSnap();
         return this._dragger.startDrag(e);
       }
     });
     this._editorBox.onUpdate(data => {
-      return this._updateHandler(data);
+      const result = this._checkSnap(data);
+      if (result) {
+        this._lastCurrentRect = { ...result };
+      }
+      const handlerResult = this._updateHandler(data);
+      if (handlerResult) {
+        this._lastCurrentRect = { ...handlerResult };
+      }
+      if (!result && !handlerResult) {
+        return false;
+      }
+      return this._lastCurrentRect;
     });
     this._editorBox.onEditorEnd(this._editorEnd);
+  }
+
+  private _checkSnap(data: IUpdateParams) {
+    const diff = {
+      x: data.x - this._lastCurrentRect.x,
+      y: data.y - this._lastCurrentRect.y,
+      width: data.width - this._lastCurrentRect.width,
+      height: data.height - this._lastCurrentRect.height
+    };
+    if (diff.x === 0 && diff.y === 0 && diff.width === 0 && diff.height === 0) {
+      return false;
+    }
+    // new temp
+    this._tempRect.x += diff.x;
+    this._tempRect.y += diff.y;
+    this._tempRect.width += diff.width;
+    this._tempRect.height += diff.height;
+    // snap temp
+    this._snap('x', 'width', this._snapTargetLineX, diff as any, data);
+    this._snap('y', 'height', this._snapTargetLineY, diff as any, data);
+    return data;
+  }
+
+  private _snap(
+    orient: 'x' | 'y',
+    orientSize: 'width' | 'height',
+    target: ILayoutLine[],
+    diff: IUpdateParams,
+    source: IUpdateParams
+  ) {
+    if (diff[orient] === 0 && diff[orientSize] === 0) {
+      return false;
+    }
+    const revertOrient = orient === 'x' ? 'y' : 'x';
+    const snapLineKey = `_snapLine${orient.toUpperCase()}`;
+    const snapTargetBoxKey = `_snapTargetBox${orient.toUpperCase()}`;
+    // snap temp
+    const currentLine = getLayoutLine(this._tempRect as any, {}, orient);
+    // match line
+    const match = this._matchLine(currentLine, target, 5);
+    // resize current to temp
+    source[orient] = this._tempRect[orient];
+    source[orientSize] = this._tempRect[orientSize];
+    // if no math
+    if (!match.start.target && !match.middle.target && !match.end.target) {
+      this[snapLineKey].setAttributes({
+        visible: false
+      });
+      this[snapTargetBoxKey].setAttributes({
+        visible: false
+      });
+      return source;
+    }
+    let targetLine: { target: ILayoutLine; source: ILayoutLine; dis: number };
+    // temp => snap transform  => current
+    // update type
+    if (diff[orient] !== 0 && diff[orientSize] !== 0) {
+      // resize with start
+      if (match.start.target) {
+        // start match
+        source[orient] += match.start.dis;
+        source[orientSize] -= match.start.dis;
+        targetLine = match.start;
+      } else if (match.middle.target) {
+        // middle match
+        source[orient] += match.middle.dis * 2;
+        source[orientSize] -= match.middle.dis * 2;
+        targetLine = match.middle;
+      }
+      // ignore end match
+    } else if (diff[orient] === 0) {
+      // resize with end
+      if (match.end.target) {
+        // end match
+        source[orient] += match.end.dis;
+        source[orientSize] -= match.end.dis;
+        targetLine = match.end;
+      } else if (match.middle.target) {
+        // middle match
+        source[orient] += match.middle.dis * 2;
+        source[orientSize] += match.middle.dis * 2;
+        targetLine = match.middle;
+      }
+    } else if (diff[orientSize] === 0) {
+      // move
+      const dis = Math.min(match.start.dis, match.middle.dis, match.end.dis);
+      source[orient] += dis;
+      if (dis === match.start.dis) {
+        targetLine = match.start;
+      } else if (dis === match.middle.dis) {
+        targetLine = match.middle;
+      } else {
+        targetLine = match.end;
+      }
+    }
+
+    this[snapLineKey].setAttributes({
+      points: [
+        {
+          [orient]: targetLine.target.value,
+          [revertOrient]: Math.min(
+            targetLine.source.start,
+            targetLine.source.end,
+            targetLine.target.start,
+            targetLine.target.end
+          )
+        },
+        {
+          [orient]: targetLine.target.value,
+          [revertOrient]: Math.max(
+            targetLine.source.start,
+            targetLine.source.end,
+            targetLine.target.start,
+            targetLine.target.end
+          )
+        }
+      ],
+      visible: true
+    });
+    this[snapTargetBoxKey].setAttributes({
+      ...targetLine.target.rect,
+      visible: true
+    });
+    return source;
   }
 
   addDrag(container: HTMLElement, event: PointerEvent) {
@@ -136,153 +288,46 @@ export class LayoutEditorComponent {
     this._dragger.dragHandler(this._dragElement);
     this._dragger.dragEndHandler(this._editorEnd);
     if (this._el.editProperties.move) {
+      this._reSetSnap();
       this._dragger.startDrag(event);
     }
   }
 
-  private _getEditorBoxLayoutLine(moveX: number, moveY: number) {
-    const result: { x: ILayoutLine[]; y: ILayoutLine[] } = {
-      x: [],
-      y: []
-    };
-    if (!this._editorBox?.rect) {
-      return result;
-    }
-    const bounds = this._editorBox.rect.AABBBounds.clone().translate(moveX, moveY);
-    const commonInX: Omit<ILayoutLine, 'value'> = {
-      orient: 'x',
-      start: bounds.y1,
-      end: bounds.y2,
-      rect: { x: bounds.x1, y: bounds.y1, width: bounds.x2 - bounds.x1, height: bounds.y2 - bounds.y1 }
-    };
-    // left
-    result.x.push({
-      value: bounds.x1,
-      ...commonInX
-    });
-    // right
-    result.x.push({
-      value: bounds.x2,
-      ...commonInX
-    });
-    // middle
-    result.x.push({
-      value: (bounds.x1 + bounds.x2) / 2,
-      ...commonInX
-    });
-
-    const commonInY: Omit<ILayoutLine, 'value'> = {
-      orient: 'y',
-      start: bounds.x1,
-      end: bounds.x2,
-      rect: { x: bounds.x1, y: bounds.y1, width: bounds.x2 - bounds.x1, height: bounds.y2 - bounds.y1 }
-    };
-    // top
-    result.y.push({
-      value: bounds.y1,
-      ...commonInY
-    });
-    // bottom
-    result.y.push({
-      value: bounds.y2,
-      ...commonInY
-    });
-    // middle
-    result.y.push({
-      value: (bounds.y1 + bounds.y2) / 2,
-      ...commonInY
-    });
-    return result;
-  }
-
   protected _dragElement = (moveX: number, moveY: number) => {
-    if (this._snapTargetLineX.length || this._snapTargetLineY.length) {
-      // 吸附
-      // 移动后的 box line
-      const tempX = Number.isFinite(this._snapTempX) ? this._snapTempX : 0;
-      const tempY = Number.isFinite(this._snapTempY) ? this._snapTempY : 0;
-      const lineAfterMove = this._getEditorBoxLayoutLine(moveX + tempX, moveY + tempY);
-      moveX = this._snapCheck(moveX, 'x', lineAfterMove.x, this._snapTargetLineX);
-      moveY = this._snapCheck(moveY, 'y', lineAfterMove.y, this._snapTargetLineY);
-    }
     this._editorBox.moveBy(moveX, moveY);
   };
 
   private _matchLine(source: ILayoutLine[], target: ILayoutLine[], minDistance: number) {
-    const result: { source: ILayoutLine; target: ILayoutLine; dis: number } = {
-      source: null,
-      target: null,
-      dis: minDistance + 1
+    const result: { [key in ILayoutLine['type']]: { source: ILayoutLine; target: ILayoutLine; dis: number } } = {
+      start: {
+        source: null,
+        target: null,
+        dis: minDistance + 1
+      },
+      middle: {
+        source: null,
+        target: null,
+        dis: minDistance + 1
+      },
+      end: {
+        source: null,
+        target: null,
+        dis: minDistance + 1
+      }
     };
-    let tempDistance = result.dis;
     source.forEach(s => {
       target.forEach(t => {
-        const dis = Math.abs(t.value - s.value);
-        if (dis < minDistance && dis < tempDistance) {
-          tempDistance = dis;
-          result.source = s;
-          result.target = t;
-          result.dis = t.value - s.value;
+        if ((s.type === 'middle' && t.type === 'middle') || (s.type !== 'middle' && t.type !== 'middle')) {
+          const dis = Math.abs(t.value - s.value);
+          if (dis < minDistance && dis < result[s.type].dis) {
+            result[s.type].source = s;
+            result[s.type].target = t;
+            result[s.type].dis = t.value - s.value;
+          }
         }
       });
     });
     return result;
-  }
-
-  private _snapCheck(move: number, key: 'x' | 'y', source: ILayoutLine[], target: ILayoutLine[]) {
-    const snapTempKey = `_snapTemp${key.toUpperCase()}`;
-    const snapLineKey = `_snapLine${key.toUpperCase()}`;
-    const snapTargetBoxKey = `_snapTargetBox${key.toUpperCase()}`;
-    const revertKey = key === 'x' ? 'y' : 'x';
-    const lastMatchResultKey = `_snapMatchResult${key.toUpperCase()}`;
-    const lastMatchResult = this[lastMatchResultKey];
-    const temp = Number.isFinite(this[snapTempKey]) ? this[snapTempKey] : 0;
-    // match line
-    const match = this._matchLine(source, target, 5);
-    if (match.target) {
-      let matchNewTarget = false;
-      if (this[snapTempKey] === Infinity) {
-        this[snapTempKey] = -match.dis;
-        this[lastMatchResultKey] = match;
-      } else {
-        if (lastMatchResult && lastMatchResult !== match.target) {
-          this[lastMatchResultKey] = match;
-          matchNewTarget = true;
-        }
-        this[snapTempKey] += move;
-      }
-      move = move + match.dis + temp;
-      if (matchNewTarget) {
-        this[snapTempKey] -= move;
-      }
-      this[snapLineKey].setAttributes({
-        points: [
-          {
-            [key]: match.target.value,
-            [revertKey]: Math.min(match.source.start, match.source.end, match.target.start, match.target.end)
-          },
-          {
-            [key]: match.target.value,
-            [revertKey]: Math.max(match.source.start, match.source.end, match.target.start, match.target.end)
-          }
-        ],
-        visible: true
-      });
-      this[snapTargetBoxKey].setAttributes({
-        ...match.target.rect,
-        visible: true
-      });
-    } else {
-      move += temp;
-      this[snapTempKey] = Infinity;
-      this[snapLineKey].setAttributes({
-        visible: false
-      });
-      this[snapTargetBoxKey].setAttributes({
-        visible: false
-      });
-    }
-    return move;
   }
 
   protected _editorEnd = () => {
@@ -320,6 +365,17 @@ export class LayoutEditorComponent {
       ...commonAttribute
     });
     this._opt.editorGroup.add(this._snapTargetBoxY);
+
+    // this._tempBox = createRect({
+    //   ...commonAttribute
+    // });
+    // this._opt.editorGroup.add(this._tempBox);
+
+    // this._currentBox = createRect({
+    //   ...commonAttribute,
+    //   stroke: 'red'
+    // });
+    // this._opt.editorGroup.add(this._currentBox);
   }
 
   release() {
@@ -327,6 +383,8 @@ export class LayoutEditorComponent {
     this._opt.editorGroup.removeChild(this._snapLineY);
     this._opt.editorGroup.removeChild(this._snapTargetBoxX);
     this._opt.editorGroup.removeChild(this._snapTargetBoxY);
+    // this._opt.editorGroup.removeChild(this._tempBox);
+    // this._opt.editorGroup.removeChild(this._currentBox);
 
     this._editorBox.release();
     this._dragger.release();

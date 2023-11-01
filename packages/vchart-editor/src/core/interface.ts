@@ -193,6 +193,7 @@ export interface IEditorController {
 
 export interface ILayoutLine extends Partial<IModelInfo> {
   orient: 'x' | 'y';
+  type: 'start' | 'middle' | 'end';
   value: number;
   start: number;
   end: number;

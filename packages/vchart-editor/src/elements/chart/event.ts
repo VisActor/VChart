@@ -27,6 +27,9 @@ export class ChartEvent {
   };
 
   private _downEvent = (e: VRenderPointerEvent) => {
+    if (this._isPickLayoutComponent(e)) {
+      return;
+    }
     if (!this._checkEventEnable(e)) {
       this.emitter.emit('unPickModel', e);
       return;
@@ -62,6 +65,22 @@ export class ChartEvent {
         node.type === 'group' &&
         (node.name === 'axis-container' || node.name === 'legend' || node.name === 'title-container')
       ) {
+        return true;
+      }
+      if (node.parent) {
+        node = node.parent;
+      } else {
+        return false;
+      }
+    }
+
+    return false;
+  }
+
+  private _isPickLayoutComponent(e: VRenderPointerEvent) {
+    let node = e.target;
+    while (node) {
+      if (node.type === 'group' && node.name === 'TransformComponent2') {
         return true;
       }
       if (node.parent) {

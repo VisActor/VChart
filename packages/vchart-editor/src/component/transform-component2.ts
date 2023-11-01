@@ -26,7 +26,7 @@ type TransformAttributes = {
   resize?: boolean | ResizeType;
 } & IGroupGraphicAttribute;
 
-type IUpateParams = {
+export type IUpdateParams = {
   x: number;
   y: number;
   width: number;
@@ -36,7 +36,7 @@ type IUpateParams = {
 };
 
 export class TransformComponent2 extends AbstractComponent<Required<TransformAttributes>> {
-  name = 'transform';
+  name = 'TransformComponent2';
   rectB: IAABBBounds;
   isDragging: boolean = false;
   dragOffsetX: number;
@@ -50,7 +50,7 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
   // 是否正在执行addChildUpdateBoundTag，避免循环调用
   runningAddChildUpdateBoundTag: boolean;
 
-  updateCbs: Array<(data: IUpateParams) => Partial<IUpateParams> | false>;
+  updateCbs: Array<(data: IUpdateParams) => Partial<IUpdateParams> | false>;
   editEndCbs: Array<() => void>;
   editStartCbs: Array<() => void>;
   unTransStartCbs: Array<(event: PointerEvent) => void>;
@@ -508,7 +508,7 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     });
   }
 
-  onUpdate(cb: (data: IUpateParams) => Partial<IUpateParams> | false) {
+  onUpdate(cb: (data: IUpdateParams) => Partial<IUpdateParams> | false) {
     this.updateCbs.push(cb);
   }
 

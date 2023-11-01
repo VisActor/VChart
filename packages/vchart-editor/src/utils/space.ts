@@ -25,52 +25,62 @@ export function LayoutRectToRect(r: ILayoutRect) {
   };
 }
 
-export function getLayoutLine(rect: IRect, opt: {}) {
+export function getLayoutLine(rect: IRect, opt: {}, orient: 'x' | 'y' | 'xy' = 'xy') {
   const result: ILayoutLine[] = [];
-  const commonInY: Omit<ILayoutLine, 'value'> = {
-    orient: 'y',
-    start: rect.x,
-    end: rect.x + rect.width,
-    rect,
-    ...opt
-  };
-  // top
-  result.push({
-    value: rect.y,
-    ...commonInY
-  });
-  // bottom
-  result.push({
-    value: rect.y + rect.height,
-    ...commonInY
-  });
-  // middle
-  result.push({
-    value: rect.y + rect.height * 0.5,
-    ...commonInY
-  });
+  if (orient === 'y' || orient === 'xy') {
+    const commonInY: Omit<ILayoutLine, 'value' | 'type'> = {
+      orient: 'y',
+      start: rect.x,
+      end: rect.x + rect.width,
+      rect,
+      ...opt
+    };
+    // top
+    result.push({
+      value: rect.y,
+      type: 'start',
+      ...commonInY
+    });
+    // bottom
+    result.push({
+      value: rect.y + rect.height,
+      type: 'end',
+      ...commonInY
+    });
+    // middle
+    result.push({
+      value: rect.y + rect.height * 0.5,
+      type: 'middle',
+      ...commonInY
+    });
+  }
 
-  const commonInX: Omit<ILayoutLine, 'value'> = {
-    orient: 'x',
-    start: rect.y,
-    end: rect.y + rect.height,
-    rect,
-    ...opt
-  };
-  // left
-  result.push({
-    value: rect.x,
-    ...commonInX
-  });
-  // right
-  result.push({
-    value: rect.x + rect.width,
-    ...commonInX
-  });
-  // middle
-  result.push({
-    value: rect.x + rect.width * 0.5,
-    ...commonInX
-  });
+  if (orient === 'x' || orient === 'xy') {
+    const commonInX: Omit<ILayoutLine, 'value' | 'type'> = {
+      orient: 'x',
+      start: rect.y,
+      end: rect.y + rect.height,
+      rect,
+      ...opt
+    };
+    // left
+    result.push({
+      value: rect.x,
+      type: 'start',
+      ...commonInX
+    });
+    // right
+    result.push({
+      value: rect.x + rect.width,
+      type: 'end',
+      ...commonInX
+    });
+    // middle
+    result.push({
+      value: rect.x + rect.width * 0.5,
+      type: 'middle',
+      ...commonInX
+    });
+  }
   return result;
 }
