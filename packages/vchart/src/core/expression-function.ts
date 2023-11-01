@@ -24,7 +24,7 @@ export class ExpressionFunction {
   }
 
   // 注销函数
-  removeFunction(name: string) {
+  unregisterFunction(name: string) {
     if (!name) {
       return;
     }

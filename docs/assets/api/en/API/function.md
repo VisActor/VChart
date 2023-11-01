@@ -17,16 +17,16 @@ Supports function registration mechanism, aiming to solve the problem of inabili
 expressionFunction: (key: string, fun: Function) => void;
 ```
 
-## removeExpressionFunction
+## unregisterExpressionFunction
 
-`removeExpressionFunction` is a method on the VChart class. This method will unregister the globally registered function.
+`unregisterExpressionFunction` is a method on the VChart class. This method will unregister the globally registered function.
 
 ```ts
 /**
   * Logout function (global logout)
   * @param key function name
   */
-removeExpressionFunction: (key: string) => void;
+unregisterExpressionFunction: (key: string) => void;
 ```
 
 ## getExpressionFunction
@@ -67,16 +67,16 @@ getExpressionFunctionList: () => string[] | null;
 registerFunction(key: string, fun: Function)
 ```
 
-## removeFunction
+## unregisterFunction
 
-`removeFunction` is a method on the instance, used to unregister the function registered in the current chart instance
+`unregisterFunction` is a method on the instance, used to unregister the function registered in the current chart instance
 
 ```ts
 /**
   * Unregister instance function
   * @param key function name
   */
-removeFunction: (key: string) => void;
+unregisterFunction: (key: string) => void;
 ```
 
 ## getFunction

@@ -17,16 +17,16 @@ VChart 提供全局 `expressionFunction` 和实例 `registerFunction` 上注册�
 expressionFunction: (key: string, fun: Function) => void;
 ```
 
-## removeExpressionFunction
+## unregisterExpressionFunction
 
-`removeExpressionFunction` 为 VChart 类上的方法，该方法会注销在全局注册的函数
+`unregisterExpressionFunction` 为 VChart 类上的方法，该方法会注销在全局注册的函数
 
 ```ts
 /**
  * 注销函数（全局注销）
  * @param key 函数名称
  */
-removeExpressionFunction: (key: string) => void;
+unregisterExpressionFunction: (key: string) => void;
 ```
 
 ## getExpressionFunction
@@ -67,16 +67,16 @@ getExpressionFunctionList: () => string[] | null;
 registerFunction(key: string, fun: Function)
 ```
 
-## removeFunction
+## unregisterFunction
 
-`removeFunction` 为实例上的方法，用于注销在当前图表实例注册的函数
+`unregisterFunction` 为实例上的方法，用于注销在当前图表实例注册的函数
 
 ```ts
 /**
  * 注销实例函数
  * @param key 函数名称
  */
-removeFunction: (key: string) => void;
+unregisterFunction: (key: string) => void;
 ```
 
 ## getFunction

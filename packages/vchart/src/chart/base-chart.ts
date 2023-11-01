@@ -343,7 +343,10 @@ export class BaseChart extends CompilableBase implements IChart {
       }
 
       // 如果用户在实例中注册了函数，在配置中替换相应函数名为函数内容
-      if (isArray(this._modelOption?.exprFunc?.getFunctionNameList())) {
+      if (
+        this._modelOption?.exprFunc?.getFunctionNameList() &&
+        this._modelOption.exprFunc.getFunctionNameList().length
+      ) {
         spec = this.functionTransform(spec, this._modelOption?.exprFunc);
       }
 
@@ -1430,11 +1433,8 @@ export class BaseChart extends CompilableBase implements IChart {
       for (const key in spec as any) {
         if (Object.prototype.hasOwnProperty.call(spec, key)) {
           // 如果使用了注册函数
-          if (
-            isString(spec[key]) &&
-            exprFunc.getFunctionNameList()?.includes(this._modelOption.globalInstance?.getFunctionName(spec[key]))
-          ) {
-            result[key] = exprFunc.getFunction(this._modelOption.globalInstance?.getFunctionName(spec[key]));
+          if (isString(spec[key]) && exprFunc.getFunction(spec[key])) {
+            result[key] = exprFunc.getFunction(spec[key]);
             continue;
           }
           result[key] = this.functionTransform(spec[key], exprFunc);

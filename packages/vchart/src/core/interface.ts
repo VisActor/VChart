@@ -406,7 +406,7 @@ export interface IVChart {
   registerFunction: (key: string, fun: Function) => void;
 
   /** 注销实例函数 */
-  removeFunction: (key: string) => void;
+  unregisterFunction: (key: string) => void;
 
   /** 获取实例函数 */
   getFunction: (key: string) => Function | null;

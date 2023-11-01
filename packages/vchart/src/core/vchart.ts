@@ -180,11 +180,11 @@ export class VChart implements IVChart {
    * 注销函数（全局注销）
    * @param key 函数名称
    */
-  static removeExpressionFunction(key: string) {
+  static unregisterExpressionFunction(key: string) {
     if (!key) {
       return;
     }
-    ExpressionFunction.instance().removeFunction(key);
+    ExpressionFunction.instance().unregisterFunction(key);
   }
 
   /**
@@ -1204,18 +1204,6 @@ export class VChart implements IVChart {
   }
 
   /**
-   * 获取实例函数名
-   * @param originName
-   * @returns
-   */
-  getFunctionName(originName: string): string {
-    if (VChart.functionCache.includes(originName)) {
-      return `${originName}_${this.id}`;
-    }
-    return originName;
-  }
-
-  /**
    * **异步方法**， 设置当前主题。
    * **注意，如果在 spec 上配置了 theme，则 spec 上的 theme 优先级更高。**
    * @param name 主题名称
@@ -1694,15 +1682,13 @@ export class VChart implements IVChart {
     );
   }
 
-  static functionCache: string[] = []; // 注册函数名缓存
-
   /**
    * 获取实例函数
    * @param key 函数名称
    * @returns
    */
   getFunction(key: string): Function | null {
-    return VChart.exprFunc.getFunction(this.getFunctionName(key));
+    return VChart.exprFunc.getFunction(key);
   }
 
   /**
@@ -1715,20 +1701,18 @@ export class VChart implements IVChart {
     if (!key || !fun) {
       return;
     }
-    VChart.functionCache.push(key);
-    VChart.exprFunc.registerFunction(this.getFunctionName(key), fun);
+    VChart.exprFunc.registerFunction(key, fun);
   }
 
   /**
    * 注销实例函数
    * @param key 函数名称
    */
-  removeFunction(key: string) {
-    const index = VChart.functionCache.findIndex(n => n === key);
-    if (index >= 0) {
-      VChart.exprFunc.removeFunction(this.getFunctionName(key));
-      VChart.functionCache.splice(index, 1);
+  unregisterFunction(key: string) {
+    if (!key) {
+      return;
     }
+    VChart.exprFunc.unregisterFunction(key);
   }
 
   /**
@@ -1736,7 +1720,7 @@ export class VChart implements IVChart {
    * @returns
    */
   getFunctionList() {
-    return VChart.functionCache;
+    return VChart.exprFunc.getFunctionNameList();
   }
 }
 

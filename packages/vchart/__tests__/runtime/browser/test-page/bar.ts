@@ -32,8 +32,8 @@ const run = () => {
     type: 'csv'
   });
 
-  function labelFormat(key: string) {
-    return key + 'test';
+  function labelFormat(key: string, datum: any) {
+    return key + datum[20001];
   }
 
   // // 全局注册函数
@@ -411,12 +411,12 @@ const run = () => {
 
   console.log('注册实例函数', cs.getFunction('labelFormat'));
   console.log('获取实例函数列表', cs.getFunctionList());
-  cs.removeFunction('labelFormat');
+  cs.unregisterFunction('labelFormat');
   console.log('移除实例函数', cs.getFunction('labelFormat'));
 
   // console.log('注册全局函数', VChart.getExpressionFunction('labelFormat'));
   // console.log('获取全局函数列表', VChart.getExpressionFunctionList());
-  // VChart.removeExpressionFunction('labelFormat');
+  // VChart.unregisterExpressionFunction('labelFormat');
   // console.log('移除全局函数', VChart.getExpressionFunction('labelFormat'));
 
   window['vchart'] = cs;

@@ -26,9 +26,10 @@ export function specTransform(
         }
         // 如果使用了注册函数
         if (
+          VChart.getExpressionFunctionList() &&
+          VChart.getExpressionFunctionList().length &&
           isString(spec[key]) &&
-          isArray(VChart?.getExpressionFunctionList()) &&
-          (VChart?.getExpressionFunctionList() as string[]).includes(spec[key])
+          VChart.getExpressionFunction(spec[key])
         ) {
           result[key] = VChart.getExpressionFunction(spec[key]);
           continue;
