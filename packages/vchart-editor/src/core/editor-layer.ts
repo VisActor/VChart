@@ -1,6 +1,7 @@
-import { Bounds } from '@visactor/vutils';
+import type { VRenderPointerEvent } from './../elements/interface';
+import { Bounds, isValid } from '@visactor/vutils';
 import type { EditorMode, IEditorElement, IEditorLayer, ILayoutLine } from './interface';
-import type { IStage, IGroup } from '@visactor/vrender-core';
+import type { IStage, IGroup, IGraphic } from '@visactor/vrender-core';
 import { createGroup, createStage } from '@visactor/vrender-core';
 import { CreateID } from '../utils/common';
 import { IgnoreEvent, TriggerEvent } from './const';
@@ -78,6 +79,8 @@ export class EditorLayer implements IEditorLayer {
     return this._scale;
   }
 
+  protected _eventHandler: Map<string, ((e: Event) => void)[]> = new Map();
+
   constructor(container: HTMLElement, mode: EditorMode, id?: string | number) {
     this._id = id ?? CreateID();
     this._container = container;
@@ -127,6 +130,7 @@ export class EditorLayer implements IEditorLayer {
     this._container.style.width = width + 'px';
     this._container.style.height = height + 'px';
 
+    // @ts-ignore
     this._stage.setViewBox(0, 0, width, height, true);
   }
 
@@ -150,6 +154,8 @@ export class EditorLayer implements IEditorLayer {
     this._elements = null;
     this._editorGroup = null;
     this._elementReadyCallBack = null;
+    this._eventHandler.clear();
+    this._eventHandler = null;
   }
 
   initEditorGroup() {
@@ -198,6 +204,91 @@ export class EditorLayer implements IEditorLayer {
     });
   }
 
+  getEventPath(e: VRenderPointerEvent) {
+    const path = [];
+    // @ts-ignore
+    if (e.target === this._stage.defaultLayer || e.target === this._stage) {
+      path.push({
+        percentX: e.canvas.x / this._container.clientWidth,
+        percentY: e.canvas.y / this._container.clientHeight
+      });
+    } else {
+      let node = e.target;
+      while (node !== this._stage.defaultLayer) {
+        const parent = node.parent;
+        let index = -1;
+        // eslint-disable-next-line no-loop-func
+        parent.forEachChildren((n, i) => {
+          if (n === node) {
+            index = i;
+            return true;
+          }
+          return false;
+        });
+        const result = { index };
+        if (path.length === 0) {
+          const inverse = node.globalTransMatrix.getInverse();
+          const nodePosX = inverse.a * e.canvas.x + inverse.c * e.canvas.y + inverse.e;
+          const nodePosY = inverse.b * e.canvas.x + inverse.d * e.canvas.y + inverse.f;
+          // @ts-ignore
+          result.percentX = nodePosX / node.AABBBounds.width();
+          // @ts-ignore
+          result.percentY = nodePosY / node.AABBBounds.height();
+        }
+        path.unshift(result);
+        node = parent;
+      }
+    }
+    return path;
+  }
+
+  getPosWithPath(path: any[]) {
+    let node = this._stage.defaultLayer as IGraphic;
+    if (path.length === 1) {
+      return {
+        x: this._container.clientWidth * path[0].percentX,
+        y: this._container.clientHeight * path[0].percentY
+      };
+    }
+    const nodePos = { x: 0, y: 0 };
+    for (let i = 0; i < path.length; i++) {
+      const p = path[i];
+      let lastNode = node;
+      if (isValid(p.index)) {
+        // eslint-disable-next-line no-loop-func
+        node.forEachChildren((n, i) => {
+          if (i === p.index) {
+            node = n as IGraphic;
+            return true;
+          }
+          return false;
+        });
+      }
+      if (node === lastNode) {
+        // not found
+        return { x: -1, y: -1 };
+      }
+      lastNode = node;
+      if (isValid(p.percentX)) {
+        nodePos.x = node.AABBBounds.width() * p.percentX;
+        nodePos.y = node.AABBBounds.height() * p.percentY;
+      }
+    }
+    const matrix = node.globalTransMatrix;
+    nodePos.x = matrix.a * nodePos.x + matrix.c * nodePos.y + matrix.e;
+    nodePos.y = matrix.b * nodePos.x + matrix.d * nodePos.y + matrix.f;
+    return nodePos;
+  }
+
+  on(eventType: string, cb: (e: Event) => void) {
+    let list = this._eventHandler.get(eventType);
+    if (!list) {
+      list = [];
+      this._eventHandler.set(eventType, list);
+    }
+    list.push(cb);
+  }
+
   protected _onEvent(e: Event) {
     if (
       !(
@@ -212,6 +303,12 @@ export class EditorLayer implements IEditorLayer {
         this._isTrigger = true;
       }
     }
+    const callList = this._eventHandler.get(e.type);
+    if (callList) {
+      callList.forEach(cb => cb(e));
+    }
+    // const path = this.getEventPath(e as any);
+    // const pos = this.getPosWithPath(path);
   }
 
   tryEvent(e: MouseEvent) {

@@ -27,4 +27,4 @@ export interface IElement {
   readonly isRendered: boolean;
 }
 
-export type VRenderPointerEvent = PointerEvent & { target: Partial<IGraphic> };
+export type VRenderPointerEvent = PointerEvent & { target: Partial<IGraphic> } & { canvas: { x: number; y: number } };

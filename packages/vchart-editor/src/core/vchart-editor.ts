@@ -5,7 +5,7 @@ import { ChartLayer } from '../elements/chart/chart-layer';
 import { EditorLayer } from './editor-layer';
 import type { Include } from './../typings/commnt';
 import { ElementsMap } from './../elements/index';
-import type { IElementOption } from './../elements/interface';
+import type { IElementOption, VRenderPointerEvent } from './../elements/interface';
 import { isString, Bounds, isValidNumber } from '@visactor/vutils';
 import type { IDataParserConstructor } from '../elements/chart/data/interface';
 import type { IChartTempConstructor } from '../elements/chart/template/interface';
@@ -265,5 +265,17 @@ export class VChartEditor {
     this._layers.forEach(l => {
       l.reLayoutWithOffset(offsetX, offsetY);
     });
+  }
+
+  onLayerEvent(eventType: string, cb: (e: Event) => void) {
+    this._layers.forEach(l => l.on(eventType, cb));
+  }
+
+  getPathWithEvent(e: VRenderPointerEvent) {
+    return this._layers[0].getEventPath(e);
+  }
+
+  getPosWithPath(path: any[]) {
+    return this._layers[0].getPosWithPath(path);
   }
 }
