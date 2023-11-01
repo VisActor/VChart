@@ -521,44 +521,41 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   // make sure this function fast
-  protected _noAnimationDataKey(datum: Datum, index: number, context: AddVChartPropertyContext): unknown | undefined {
+  protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
     return index;
   }
 
-  protected generateDefaultDataKey(
-    dataKey: DataKeyType,
-    datum: Datum,
-    index: number,
-    context: AddVChartPropertyContext
-  ) {
+  protected generateDefaultDataKey(dataKey: DataKeyType) {
     if (isNil(dataKey)) {
-      // check if need animation data key
-      if (this._spec.animation === false) {
-        const v = this._noAnimationDataKey(datum, index, context);
-        if (v !== undefined) {
-          return v;
+      return (datum: Datum, index: number, context: AddVChartPropertyContext) => {
+        // check if need animation data key
+        if (this._spec.animation === false) {
+          const v = this._noAnimationDataKey(datum, index);
+          if (v !== undefined) {
+            return v;
+          }
         }
-      }
-      const { keyMap } = context;
-      const seriesDataKey = this._getSeriesDataKey(datum);
-      if (keyMap.get(seriesDataKey) === undefined) {
-        keyMap.set(seriesDataKey, 0);
-      } else {
-        keyMap.set(seriesDataKey, keyMap.get(seriesDataKey) + 1);
-      }
-      return `${seriesDataKey}_${keyMap.get(seriesDataKey)}`;
+        const { keyMap } = context;
+        const seriesDataKey = this._getSeriesDataKey(datum);
+        if (keyMap.get(seriesDataKey) === undefined) {
+          keyMap.set(seriesDataKey, 0);
+        } else {
+          keyMap.set(seriesDataKey, keyMap.get(seriesDataKey) + 1);
+        }
+        return `${seriesDataKey}_${keyMap.get(seriesDataKey)}`;
+      };
     }
 
     if (isString(dataKey)) {
-      return datum[dataKey];
+      return (datum: Datum) => datum[dataKey];
     }
 
     if (isArray(dataKey) && dataKey.every(d => isString(d))) {
-      return dataKey.map(k => datum[k]).join('-');
+      return (datum: Datum) => dataKey.map(k => datum[k]).join('-');
     }
 
     if (isFunction(dataKey)) {
-      return dataKey(datum, index);
+      return (datum: Datum, index: number) => dataKey(datum, index);
     }
 
     this._option?.onError(`invalid dataKey: ${dataKey}`);
@@ -571,8 +568,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         {
           type: 'addVChartProperty',
           options: {
-            beforeCall: initKeyMap,
-            call: addDataKey.bind(this)
+            beforeCall: initKeyMap.bind(this),
+            call: addDataKey
           }
         },
         false
