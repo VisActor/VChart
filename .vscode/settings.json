@@ -6,7 +6,8 @@
   "javascript.format.enable": false,
   "typescript.format.enable": false,
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

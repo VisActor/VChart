@@ -29,18 +29,30 @@ import { DEFAULT_CLOSE_STROKE_JOIN } from '../../typings/line-stroke';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '../../util/spec/merge-spec';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
-import type { ILabelSpec } from '../../component/label';
 import { shouldDoMorph, userAnimationConfig } from '../../animation/utils';
 import { DimensionEventEnum, type DimensionEventParams } from '../../event/events/dimension';
 import type { EventCallback, EventParams } from '../../event/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { lineLikeSeriesMark } from './constant';
+import type { ILabelMark } from '../../mark/label';
+import type { ILabelSpec } from '../../component';
+import type { Functional } from '@visactor/vrender-components';
 
 export interface ILineLikeSeriesTheme {
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
   point?: Partial<IMarkTheme<ISymbolMarkSpec>> & { visibleInActive?: boolean };
-  label?: Partial<ILabelSpec>;
+  label?: Partial<ILineLikeLabelSpec>;
 }
+
+export type ILineLikeLabelSpec = Omit<ILabelSpec, 'position'> & {
+  /** 标签位置
+   * @since 1.6.0
+   * 支持以函数形式配置
+   */
+  position?: Functional<
+    'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center'
+  >;
+};
 
 export interface LineLikeSeriesMixin extends ISeries {
   _spec: any;
@@ -70,6 +82,10 @@ export class LineLikeSeriesMixin {
       isSeriesMark: isSeriesMark ?? true,
       progressive
     }) as ILineMark;
+    const isPointVisible = this._spec.point?.visible !== false && this._spec.point?.style?.visible !== false;
+    if (!isPointVisible && this._lineMark) {
+      this._lineMark.setLabelSpec(mergeSpec({ animation: this._spec.animation }, this._spec.label));
+    }
     return this._lineMark;
   }
 
@@ -178,14 +194,16 @@ export class LineLikeSeriesMixin {
   }
 
   initSymbolMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
-    this._symbolMark = this._createMark(lineLikeSeriesMark.point, {
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
-      defaultMorphElementKey: this.getDimensionField()[0],
-      groupKey: this._seriesField,
-      label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
-      progressive,
-      isSeriesMark: !!isSeriesMark
-    }) as ISymbolMark;
+    if (this._spec.point?.visible !== false) {
+      this._symbolMark = this._createMark(lineLikeSeriesMark.point, {
+        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
+        defaultMorphElementKey: this.getDimensionField()[0],
+        groupKey: this._seriesField,
+        label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
+        progressive,
+        isSeriesMark: !!isSeriesMark
+      }) as ISymbolMark;
+    }
 
     if (this._spec.activePoint === true) {
       const activeData = new DataView(this._option.dataSet, { name: `${PREFIX}_series_${this.id}_active_point` });
@@ -195,7 +213,6 @@ export class LineLikeSeriesMixin {
         {
           morph: false,
           groupKey: this._seriesField,
-          label: null,
           isSeriesMark: false,
           dataView: activeData
         }
@@ -272,7 +289,7 @@ export class LineLikeSeriesMixin {
     return symbolMark;
   }
 
-  initLabelMarkStyle(labelMark?: ITextMark) {
+  initLabelMarkStyle(labelMark?: ILabelMark) {
     if (!labelMark) {
       return;
     }

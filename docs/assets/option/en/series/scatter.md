@@ -17,9 +17,21 @@
 
 Label configuration.
 
-##${prefix} position(string) = 'outside'
+##${prefix} position(string|Function) = 'outside'
 
-Label position, available options are:
+Label position.
+
+Since `1.6.0` version, in bar series, `position` can be a function, for example:
+
+```ts
+label: {
+  position: (datum: any) => {
+    return datum.year === '2000' ? 'top' : 'bottom';
+  };
+}
+```
+
+Available string options are:
 
 - `'top'`
 - `'bottom'`
@@ -29,6 +41,7 @@ Label position, available options are:
 - `'top-left'`
 - `'bottom-right'`
 - `'bottom-left'`
+- `'center'`
 
 {{ use: component-label(
   prefix = '#' + ${prefix},

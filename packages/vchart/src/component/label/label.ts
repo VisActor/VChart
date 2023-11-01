@@ -241,8 +241,8 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
       .labelStyle((mark: IMark, params: Record<string, any>) => {
         const labelInfo = labelInfos[params.labelIndex];
         if (labelInfo) {
-          const { baseMark, labelSpec, labelMark } = labelInfo;
-          const rule = labelMark.getRule() || baseMark.type;
+          const { labelSpec, labelMark } = labelInfo;
+          const rule = labelMark.getRule();
           const configFunc = labelRuleMap[rule] ?? labelRuleMap.point;
           const interactive = this._interactiveConfig(labelSpec);
           const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);

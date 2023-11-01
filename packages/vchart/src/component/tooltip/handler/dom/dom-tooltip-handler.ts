@@ -89,9 +89,22 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       this.setVisibility(visible);
 
       // 位置
-      const { x = 0, y = 0 } = actualTooltip.position ?? {};
+      let { x = 0, y = 0 } = actualTooltip.position ?? {};
       const el = this.model.product;
+
       if (el) {
+        if (this._cacheViewSpec?.updateElement) {
+          this._cacheViewSpec.updateElement(el, actualTooltip, params);
+
+          // 重新计算 tooltip 位置
+          const position = this._getActualTooltipPosition(actualTooltip, params, {
+            width: el.offsetWidth,
+            height: el.offsetHeight
+          });
+          x = position.x;
+          y = position.y;
+        }
+
         // https://stackoverflow.com/questions/22111256/translate3d-vs-translate-performance
         el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       }
