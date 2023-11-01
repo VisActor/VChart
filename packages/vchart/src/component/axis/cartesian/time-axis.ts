@@ -18,7 +18,7 @@ import { registerAxis } from '../base-axis';
 import { PREFIX } from '../../../constant';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
-  extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
+  extends Pick<LinearAxisMixin, 'valueToPosition'>,
     CartesianLinearAxis<T> {}
 
 export class CartesianTimeAxis<
