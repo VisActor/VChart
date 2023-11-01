@@ -231,12 +231,10 @@ export class LayoutEditorComponent {
       // resize with end
       if (match.end.target) {
         // end match
-        source[orient] += match.end.dis;
-        source[orientSize] -= match.end.dis;
+        source[orientSize] += match.end.dis;
         targetLine = match.end;
       } else if (match.middle.target) {
         // middle match
-        source[orient] += match.middle.dis * 2;
         source[orientSize] += match.middle.dis * 2;
         targetLine = match.middle;
       }
