@@ -162,15 +162,11 @@ export function uniformAnimationConfig<Preset extends string>(
   config: Partial<Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>>,
   ctx: ISeriesMarkAttributeContext
 ) {
-  return specTransform(config, ctx);
-}
-
-function specTransform(spec: any, ctx: ISeriesMarkAttributeContext) {
-  if (!spec) {
-    return spec;
+  if (!config) {
+    return config;
   }
-  spec = cloneDeep(spec);
-  traverseSpec(spec, (node: any) => {
+  config = cloneDeep(config);
+  traverseSpec(config, (node: any) => {
     // 将函数转换为 vchart 代理的函数
     // 这里可能会传自定义动画的构造函数，不能被代理
     if (isFunction(node) && node.prototype.constructor !== node) {
@@ -182,7 +178,7 @@ function specTransform(spec: any, ctx: ISeriesMarkAttributeContext) {
     return node;
   });
 
-  return spec;
+  return config;
 }
 
 function traverseSpec(spec: any, transform: (node: any, key: string | number) => any) {
