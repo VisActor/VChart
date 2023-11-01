@@ -141,7 +141,7 @@ export function shouldMarkDoMorph(spec: ISeriesSpec & IAnimationSpec<string, str
   }
 
   const appearAnimationEnabled = (spec.animationAppear?.[markName] ?? spec.animationAppear) !== false;
-  const updateAnimationEnabled = (spec.animationAppear?.[markName] ?? spec.animationAppear) !== false;
+  const updateAnimationEnabled = (spec.animationUpdate?.[markName] ?? spec.animationUpdate) !== false;
 
   if (!appearAnimationEnabled || !updateAnimationEnabled) {
     return false;
