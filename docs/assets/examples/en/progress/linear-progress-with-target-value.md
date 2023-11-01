@@ -4,7 +4,7 @@ group: progress
 title: Linear progress chart with target value
 keywords: linearProgress,comparison,rectangle
 order: 16-2
-cover: /vchart/preview/linear-progress-with-target-value_1.6.0.png
+cover: /vchart/preview/linear-progress-with-target-value_1.5.3.png
 option: linearProgressChart
 ---
 

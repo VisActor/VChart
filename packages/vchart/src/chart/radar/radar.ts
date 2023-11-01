@@ -26,7 +26,10 @@ export class RadarChart extends RoseLikeChart {
         spec.area
       ),
       seriesMark: spec.seriesMark ?? 'area',
-      activePoint: spec.activePoint
+      activePoint: spec.activePoint,
+      pointDis: spec.pointDis,
+      pointDisMul: spec.pointDisMul,
+      markOverlap: spec.markOverlap
     };
   }
 

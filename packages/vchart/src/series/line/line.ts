@@ -15,6 +15,7 @@ import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
+import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -26,6 +27,9 @@ export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
       | 'initSymbolMarkStyle'
       | '_lineMark'
       | '_symbolMark'
+      | 'addSamplingCompile'
+      | 'addOverlapCompile'
+      | 'reCompileSampling'
     >,
     CartesianSeries<T> {}
 
@@ -41,34 +45,8 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
 
   compile(): void {
     super.compile();
-    const { width, height } = this._region.getLayoutRect();
-    const samplingTrans = [];
-    const overlapTrans = [];
-
-    if (this._spec.sampling) {
-      const fieldsY = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._fieldY;
-      const fieldsX = this._xAxisHelper.getFields ? this._xAxisHelper.getFields() : this._fieldX;
-
-      samplingTrans.push({
-        type: 'sampling',
-        size: this._direction === Direction.vertical ? width : height,
-        factor: this._spec.samplingFactor,
-        yfield: this._direction === Direction.vertical ? fieldsY[0] : fieldsX[0],
-        groupBy: this._seriesField,
-        mode: this._spec.sampling
-      });
-      this._data.getProduct().transform(samplingTrans);
-    }
-    if (this._spec.markOverlap) {
-      overlapTrans.push({
-        type: 'markoverlap',
-        direction: this._direction === Direction.vertical ? 2 : 1,
-        delta: this._spec.pointDis,
-        deltaMul: this._spec.pointDisMul,
-        groupBy: this._seriesField
-      });
-      this._symbolMark.getProduct().transform(overlapTrans);
-    }
+    this.addSamplingCompile();
+    this.addOverlapCompile();
   }
 
   initMark(): void {
@@ -116,9 +94,7 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
 
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
-    if (this._spec.sampling) {
-      this.compile();
-    }
+    this.reCompileSampling();
   }
 
   getSeriesStyle(datum: Datum) {
@@ -144,6 +120,8 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
 mixin(LineSeries, LineLikeSeriesMixin);
 
 export const registerLineSeries = () => {
+  registerSampleTransform();
+  registerMarkOverlapTransform();
   Factory.registerMark(LineMark.type, LineMark);
   Factory.registerMark(SymbolMark.type, SymbolMark);
   Factory.registerSeries(LineSeries.type, LineSeries);

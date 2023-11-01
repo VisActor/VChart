@@ -4,9 +4,8 @@ import type { IRect3dMarkSpec, IRectMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { BarAppearPreset } from './animation';
 import type { ILabelSpec } from '../../component/label';
-import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { IDataSamping, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { ISamplingMethod } from '../../typings/sampling';
 import type { Functional } from '@visactor/vrender-components';
 
 type BarMarks = 'bar';
@@ -14,7 +13,8 @@ type BarMarks = 'bar';
 export interface IBarSeriesSpec
   extends ICartesianSeriesSpec,
     IAnimationSpec<BarMarks, BarAppearPreset>,
-    IMarkProgressiveConfig {
+    IMarkProgressiveConfig,
+    IDataSamping {
   /**
    *  系列类型
    */
@@ -93,17 +93,6 @@ export interface IBarSeriesSpec
    * @since 1.4.0
    */
   barMinHeight?: number;
-  /**
-   * 数据采样 - 采样方法
-   * @since 1.6.0
-   */
-  sampling?: ISamplingMethod;
-  /**
-   * 数据采样 - 采样系数
-   * @since 1.6.0
-   * @default 1
-   */
-  samplingFactor?: number;
 }
 
 export interface IBarSeriesTheme extends ICartesianSeriesTheme {

@@ -5,7 +5,6 @@ import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { ILineChartSpec } from './interface';
 import { registerLineSeries } from '../../series/line/line';
 import { Factory } from '../../core/factory';
-import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 
 export class LineChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.line;
@@ -37,7 +36,5 @@ export class LineChart extends CartesianChart {
 
 export const registerLineChart = () => {
   registerLineSeries();
-  registerSampleTransform();
-  registerMarkOverlapTransform();
   Factory.registerChart(LineChart.type, LineChart);
 };

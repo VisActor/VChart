@@ -31,6 +31,7 @@ import { SeriesData } from '../base/series-data';
 import { DataView } from '@visactor/vdataset';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { registerSampleTransform } from '@visactor/vgrammar-core';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;
@@ -579,12 +580,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   compile(): void {
     super.compile();
-    const { width, height } = this._region.getLayoutRect();
-    const samplingTrans = [];
 
     if (this._spec.sampling) {
-      const fieldsY = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._fieldY;
-      const fieldsX = this._xAxisHelper.getFields ? this._xAxisHelper.getFields() : this._fieldX;
+      const { width, height } = this._region.getLayoutRect();
+      const samplingTrans = [];
+      const fieldsY = this._fieldY;
+      const fieldsX = this._fieldX;
 
       samplingTrans.push({
         type: 'sampling',
@@ -630,6 +631,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 }
 
 export const registerBarSeries = () => {
+  registerSampleTransform();
   Factory.registerMark(RectMark.type, RectMark);
   Factory.registerSeries(BarSeries.type, BarSeries);
   registerBarAnimation();

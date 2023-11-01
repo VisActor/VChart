@@ -19,6 +19,7 @@ import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { radarSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 
 export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<
@@ -31,6 +32,7 @@ export interface RadarSeries<T extends IRadarSeriesSpec>
       | 'encodeDefined'
       | '_lineMark'
       | '_symbolMark'
+      | 'addOverlapCompile'
     >,
     RoseLikeSeries<T> {}
 
@@ -47,6 +49,11 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 
   initGroups() {
     // do nothing
+  }
+
+  compile(): void {
+    super.compile();
+    this.addOverlapCompile();
   }
 
   initMark(): void {
@@ -208,6 +215,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 mixin(RadarSeries, LineLikeSeriesMixin);
 
 export const registerRadarSeries = () => {
+  registerMarkOverlapTransform();
   Factory.registerMark(AreaMark.type, AreaMark);
   Factory.registerMark(LineMark.type, LineMark);
   Factory.registerMark(SymbolMark.type, SymbolMark);

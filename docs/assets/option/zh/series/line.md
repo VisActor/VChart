@@ -125,10 +125,10 @@ label: {
 数据采样 - 采样系数。 自`1.6.0`版本开始支持。
 
 #${prefix} markOverlap(boolean) = false
-防重叠 - 是否允许标记图形相互覆盖。
+防重叠 - 是否允许标记图形相互覆盖。 自`1.6.0`版本开始支持。
 
 #${prefix} pointDis(number)
-防重叠 - 标记点之间的距离，px。
+防重叠 - 标记点之间的距离，px。 自`1.6.0`版本开始支持。
 
 #${prefix} pointDisMul(number) = 1
-防重叠 - 标记点之间的距离，pointSize 的倍数。
+防重叠 - 标记点之间的距离，pointSize 的倍数。 自`1.6.0`版本开始支持。

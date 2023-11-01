@@ -4,16 +4,17 @@ import type { ISymbolMarkSpec, ILineMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
 import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mixin';
-import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { ISamplingMethod } from '../../typings/sampling';
 
 type LineMarks = 'point' | 'line';
 
 export interface ILineSeriesSpec
   extends ICartesianSeriesSpec,
     IAnimationSpec<LineMarks, LineAppearPreset>,
-    IMarkProgressiveConfig {
+    IMarkProgressiveConfig,
+    IDataSamping,
+    IMarkOverlap {
   /** 系列类型 */
   type: 'line';
   /**
@@ -49,34 +50,6 @@ export interface ILineSeriesSpec
    * @since 1.3.0
    */
   activePoint?: boolean;
-  /**
-   * 数据采样 - 采样方法
-   * @since 1.6.0
-   */
-  sampling?: ISamplingMethod;
-  /**
-   * 数据采样 - 采样系数
-   * @since 1.6.0
-   * @default 1
-   */
-  samplingFactor?: number;
-  /**
-   * 标记点之间的距离，px
-   * @since 1.6.0
-   */
-  pointDis?: number;
-  /**
-   * 标记点之间的距离， pointSize 的倍数
-   * @since 1.6.0
-   * @default 1
-   */
-  pointDisMul?: number;
-  /**
-   * 是否允许标记图形相互覆盖
-   * @since 1.6.0
-   * @default false
-   */
-  markOverlap?: boolean;
 }
 
 export type ILineSeriesTheme = ILineLikeSeriesTheme;

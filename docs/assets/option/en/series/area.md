@@ -160,10 +160,10 @@ Optional values:
 Data Sampling - Sampling coefficients. Supported since version `1.6.0`.
 
 #${prefix} markOverlap(boolean) = false
-Anti-overlap - Whether to allow marker graphics to overlap each other.
+Anti-overlap - Whether to allow marker graphics to overlap each other. Supported since version `1.6.0`
 
 #${prefix} pointDis(number)
-Anti-overlap - Distance between marker points, in px.
+Anti-overlap - Distance between marker points, in px. Supported since version `1.6.0`
 
 #${prefix} pointDisMul(number) = 1
-Anti-overlap - distance between marker points, multiple of pointSize.
+Anti-overlap - distance between marker points, multiple of pointSize. Supported since version `1.6.0`
