@@ -58,7 +58,7 @@ import type { LayoutItem } from '../../model/layout-item';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 // eslint-disable-next-line no-duplicate-imports
-import { dimensionStatistics } from '../../data/transforms/dimension-statistics';
+import { dimensionStatistics, dimensionStatisticsOfSimpleData } from '../../data/transforms/dimension-statistics';
 import { invalidTravel } from '../../data/transforms/invalid-travel';
 import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
@@ -135,14 +135,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return this._rawData;
   }
 
-  protected _rawDataStatistics!: DataView;
-  getRawDataStatistics() {
-    if (!this._rawDataStatistics) {
-      this._statisticRawData();
-    }
-
-    return this._rawDataStatistics;
-  }
+  protected _rawDataStatistics?: DataView;
+  protected _rawStatisticsCache: Record<string, { values?: any[]; min?: number; max?: number }>;
 
   protected _viewDataMap: Map<number, DataView> = new Map();
 
@@ -376,61 +370,25 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
-  protected _statisticRawData() {
-    if (this._rawDataStatistics) {
-      return;
+  getRawDataStatisticsByField(field: string, isNumeric?: boolean) {
+    if (!this._rawStatisticsCache) {
+      this._rawStatisticsCache = {};
     }
 
-    registerDataSetInstanceTransform(this._dataSet, 'dimensionStatistics', dimensionStatistics);
-    const rawDataStatisticsName = `${this.type}_${this.id}_rawDataStatic`;
-    this._rawDataStatistics = new DataView(this._dataSet, { name: rawDataStatisticsName });
-    this._rawDataStatistics.parse([this._rawData], {
-      type: 'dataview'
-    });
-    // data.name = dataName;
-    this._rawDataStatistics.transform(
-      {
-        type: 'dimensionStatistics',
-        options: {
-          operations: ['max', 'min', 'values'],
-          fieldFollowSource: (key: string) => {
-            if (this._viewDataFilter) {
-              return this._viewDataFilter.transformsArr.length <= 1;
-            }
+    if (!this._rawStatisticsCache[field]) {
+      const canUseViewStatistics =
+        (this._viewDataFilter ? this._viewDataFilter : this.getViewData()).transformsArr.length <= 1;
 
-            return this.getViewData().transformsArr.length <= 1;
-          },
-          sourceStatistics: () => this._viewDataStatistics.latestData,
-          fields: () => {
-            const fields = mergeFields(
-              this.getStatisticFields(),
-              this._option.globalScale.getStatisticalFields(this._rawData.name as string) ?? []
-            );
-            if (this._seriesField) {
-              mergeFields(fields, [
-                {
-                  key: this._seriesField,
-                  operations: ['values']
-                }
-              ]);
-            }
+      if (canUseViewStatistics && this._viewDataStatistics.latestData?.[field]) {
+        this._rawStatisticsCache[field] = this._viewDataStatistics.latestData[field];
+      } else {
+        this._rawStatisticsCache[field] = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
+          { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
+        ]);
+      }
+    }
 
-            return fields.filter(
-              f =>
-                f.key !== STACK_FIELD_START_PERCENT &&
-                f.key !== STACK_FIELD_END_PERCENT &&
-                f.key !== STACK_FIELD_END &&
-                f.key !== STACK_FIELD_START
-            );
-          },
-          target: 'latest'
-        }
-      },
-      false
-    );
-
-    this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
-    this._rawDataStatistics?.target.addListener('change', this.rawDataStatisticsUpdate.bind(this));
+    return this._rawStatisticsCache[field];
   }
 
   protected _statisticViewData() {
@@ -592,10 +550,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
   rawDataUpdate(d: DataView): void {
     this._rawDataStatistics?.reRunAllTransform();
+    this._rawStatisticsCache = null;
     this.event.emit(ChartEvent.rawDataUpdate, { model: this });
-  }
-  rawDataStatisticsUpdate(d: DataView): void {
-    this.event.emit(ChartEvent.rawDataStatisticsUpdate, { model: this });
   }
   viewDataFilterOver(d: DataView): void {
     this.event.emit(ChartEvent.viewDataFilterOver, { model: this });
@@ -1013,7 +969,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   /** seriesField */
   getSeriesKeys(): string[] {
     if (this._seriesField) {
-      return this.getRawDataStatistics()?.latestData[this._seriesField]?.values ?? [];
+      return this.getRawDataStatisticsByField(this._seriesField)?.values ?? [];
     }
     if (this.name) {
       return [this.name];
@@ -1042,7 +998,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   getSeriesInfoInField(field: string) {
-    return this._getSeriesInfo(field, this.getRawDataStatistics().latestData[field]?.values ?? []);
+    return this._getSeriesInfo(field, this.getRawDataStatisticsByField(field)?.values ?? []);
   }
 
   getSeriesInfoList() {

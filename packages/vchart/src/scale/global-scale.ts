@@ -200,12 +200,12 @@ export class GlobalScale implements IGlobalScale {
     return result;
   };
 
-  private _getStatistics(id: string) {
+  private _getStatistics(id: string, field: string, isNumeric?: boolean) {
     const series = this._chart.getAllSeries();
     for (let i = 0; i < series.length; i++) {
       const s = series[i];
       if (s.getRawData().name === id) {
-        return s.getRawDataStatistics();
+        return s.getRawDataStatisticsByField(field, isNumeric);
       }
     }
     return null;
@@ -231,24 +231,25 @@ export class GlobalScale implements IGlobalScale {
         domain = new Set();
       }
       scaleSpec.domain.forEach(spec => {
-        const statistics = this._getStatistics(spec.dataId);
-        if (!statistics) {
-          return;
-        }
         spec.fields.forEach(key => {
-          if (isContinuous(scaleSpec.type)) {
+          const isContinuousField = isContinuous(scaleSpec.type);
+          const statistics = this._getStatistics(spec.dataId, key, isContinuousField);
+          if (!statistics) {
+            return;
+          }
+          if (isContinuousField) {
             if (isNil(domain[0])) {
-              domain[0] = statistics.latestData[key].min;
+              domain[0] = statistics.min;
             } else {
-              domain[0] = Math.min(statistics.latestData[key].min, domain[0]);
+              domain[0] = Math.min(statistics.min, domain[0]);
             }
             if (isNil(domain[1])) {
-              domain[1] = statistics.latestData[key].max;
+              domain[1] = statistics.max;
             } else {
-              domain[1] = Math.max(statistics.latestData[key].max, domain[1]);
+              domain[1] = Math.max(statistics.max, domain[1]);
             }
           } else {
-            statistics.latestData[key].values.forEach((value: string) => {
+            statistics.values.forEach((value: string) => {
               (domain as Set<string>).add(value);
             });
           }
