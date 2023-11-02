@@ -42,7 +42,7 @@ export default function (props: any) {
         }}
       >
         <VChart
-          type={'H5'}
+          type={Taro.getEnv()}
           spec={spec}
           canvasId={`${type}chart1`}
           style={{
