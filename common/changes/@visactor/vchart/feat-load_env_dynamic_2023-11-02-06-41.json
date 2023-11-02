@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: load browser or node env code dynamically",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
