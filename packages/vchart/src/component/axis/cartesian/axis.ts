@@ -25,7 +25,7 @@ import { HOOK_EVENT } from '@visactor/vgrammar-core';
 import type { LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { isValidCartesianAxis } from '../util';
-import type { IAxis, IAxisLocationCfg, ITick } from '../interface';
+import type { IAxis, ITick } from '../interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { scaleParser } from '../../../data/parser/scale';
 import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';

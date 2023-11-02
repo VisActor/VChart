@@ -612,10 +612,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   invert(value: number): number {
-    if (this.getOrient() === 'radius') {
-      return this._scale.invert(value);
-    }
-    if (this._scale.type === 'band') {
+    if (this.getOrient() === 'angle' && this._scale.type === 'band') {
       //极坐标轴需要手动取模，超出range时默认会截断
       const range = this._scale.range();
       const rangeValue = range[range.length - 1] - range[0];

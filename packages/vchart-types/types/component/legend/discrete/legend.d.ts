@@ -12,7 +12,7 @@ export declare class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     type: ComponentTypeEnum;
     name: string;
     protected _theme: IDiscreteLegendTheme;
-    static createComponent(spec: any, options: IComponentOption): ILegend[] | DiscreteLegend;
+    static createComponent(spec: any, options: IComponentOption): DiscreteLegend | ILegend[];
     init(option: IModelInitOption): void;
     protected _initLegendData(): DataView;
     protected _getSeriesLegendField(s: ISeries): string;

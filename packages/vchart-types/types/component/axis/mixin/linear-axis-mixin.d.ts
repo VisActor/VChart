@@ -1,6 +1,5 @@
 import type { LinearScale } from '@visactor/vscale';
-import type { IAxisLocationCfg } from '../cartesian/interface';
-import type { ITick } from '../interface';
+import type { IAxisLocationCfg, ITick } from '../interface';
 import type { IEvent } from '../../../event/interface';
 export declare const e10: number;
 export declare const e5: number;

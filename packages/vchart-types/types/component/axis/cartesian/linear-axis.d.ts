@@ -4,7 +4,7 @@ import { CartesianAxis } from './axis';
 import type { IAxisHelper, ICartesianLinearAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
-export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec> extends Pick<LinearAxisMixin, 'setExtraAttrFromSpec' | 'computeLinearDomain' | 'valueToPosition' | 'setScaleNice' | '_domain' | 'dataToPosition' | 'transformScaleDomain' | 'setExtendDomain'>, CartesianAxis<T> {
+export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec> extends Pick<LinearAxisMixin, 'setExtraAttrFromSpec' | 'computeLinearDomain' | 'valueToPosition' | 'setScaleNice' | '_domain' | 'transformScaleDomain' | 'setExtendDomain'>, CartesianAxis<T> {
 }
 export declare class CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec> extends CartesianAxis<T> {
     static type: ComponentTypeEnum;

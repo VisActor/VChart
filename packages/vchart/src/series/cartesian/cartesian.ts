@@ -11,7 +11,7 @@ import {
   STACK_FIELD_START_PERCENT,
   STACK_FIELD_START_OffsetSilhouette
 } from '../../constant';
-import type { IAxisHelper, IAxisLocationCfg } from '../../component/axis/cartesian/interface';
+import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { DirectionType } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
@@ -23,6 +23,7 @@ import { isContinuous } from '@visactor/vscale';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { ICartesianSeriesSpec } from './interface';
 import { sortDataInAxisHelper } from '../util/utils';
+import type { IAxisLocationCfg } from '../../component/axis';
 
 export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesianSeriesSpec>
   extends BaseSeries<T>
