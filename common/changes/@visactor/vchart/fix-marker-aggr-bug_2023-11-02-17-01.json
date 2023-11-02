@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(marker): aggregation return value infinity problem. fix#1380'",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
