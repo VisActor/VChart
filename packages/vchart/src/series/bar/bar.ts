@@ -12,7 +12,7 @@ import { valueInScaleRange } from '../../util/scale';
 import { getRegionStackGroup } from '../../util/data';
 import { getActualNumValue } from '../../util/space';
 import { registerBarAnimation, type BarAppearPreset, type IBarAnimationParams } from './animation';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IBarSeriesSpec, IBarSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IRectMark } from '../../mark/rect';
@@ -73,7 +73,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         type: this._barMarkType
       },
       {
-        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
+        morph: shouldMarkDoMorph(this._spec, this._barMarkName),
         defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
         isSeriesMark: true,
@@ -499,7 +499,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('bar')?.(animationParams, appearPreset),
-        userAnimationConfig(this._barMarkName, this._spec),
+        userAnimationConfig(this._barMarkName, this._spec, this._markAttributeContext),
         { dataIndex }
       )
     );

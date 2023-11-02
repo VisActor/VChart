@@ -20,7 +20,7 @@ import {
   SCATTER_DEFAULT_SIZE,
   SCATTER_DEFAULT_SIZE_SCALE_TYPE
 } from '../../constant/scatter';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerScatterAnimation, type ScatterAppearPreset } from './animation';
 import { SymbolMark } from '../../mark/symbol';
@@ -208,7 +208,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     };
 
     this._symbolMark = this._createMark(ScatterSeries.mark.point, {
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
+      morph: shouldMarkDoMorph(this._spec, ScatterSeries.mark.point.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
@@ -232,7 +232,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     this._symbolMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('scatter')?.({}, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.point, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.point, this._spec, this._markAttributeContext)
       )
     );
   }

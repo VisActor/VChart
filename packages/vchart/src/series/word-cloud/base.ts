@@ -229,7 +229,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         mark.setAnimationConfig(
           animationConfig(
             Factory.getAnimationInKey('wordCloud')(params, appearPreset),
-            userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
+            userAnimationConfig(SeriesMarkNameEnum.word, this._spec, this._markAttributeContext)
           )
         );
       }

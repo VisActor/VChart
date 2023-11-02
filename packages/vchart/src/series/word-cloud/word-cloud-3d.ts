@@ -259,7 +259,7 @@ export class WordCloud3dSeries<
               r
             };
           }),
-          userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.word, this._spec, this._markAttributeContext)
         )
       );
     }
@@ -276,7 +276,7 @@ export class WordCloud3dSeries<
               r
             };
           }),
-          userAnimationConfig(SeriesMarkNameEnum.fillingWord, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.fillingWord, this._spec, this._markAttributeContext)
         )
       );
     }

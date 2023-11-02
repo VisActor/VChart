@@ -40,7 +40,7 @@ import type { IPieOpt } from '../../data/transforms/pie';
 import { pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { registerPieAnimation, type IPieAnimationParams, type PieAppearPreset } from './animation/animation';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
 import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
@@ -152,7 +152,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         type: this._pieMarkType
       },
       {
-        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
+        morph: shouldMarkDoMorph(this._spec, this._pieMarkName),
         defaultMorphElementKey: this._seriesField,
         key: DEFAULT_DATA_KEY,
         groupKey: this._seriesField,
@@ -454,7 +454,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     if (this._pieMark) {
       const pieAnimationConfig = animationConfig(
         Factory.getAnimationInKey('pie')?.(animationParams, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.pie, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.pie, this._spec, this._markAttributeContext)
       );
 
       if (pieAnimationConfig.normal && (pieAnimationConfig.normal as IAnimationTypeConfig).type) {

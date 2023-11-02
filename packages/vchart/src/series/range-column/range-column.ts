@@ -10,7 +10,7 @@ import { valueInScaleRange } from '../../util/scale';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { setRectLabelPos } from '../util/label-mark';
 import { AttributeLevel } from '../../constant';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { RangeColumnSeriesTooltipHelper } from './tooltip-helper';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import type { Datum } from '../../typings';
@@ -44,7 +44,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 
     const labelPosition = this._spec.label?.position;
     this._barMark = this._createMark(RangeColumnSeries.mark.bar, {
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('bar', this._spec)),
+      morph: shouldMarkDoMorph(this._spec, RangeColumnSeries.mark.bar.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       label: labelPosition === PositionEnum.bothEnd ? undefined : mergeSpec({}, this._spec.label),
@@ -239,7 +239,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
     this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('rangeColumn')?.({ direction: this.direction }, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.bar, this._spec),
+        userAnimationConfig(SeriesMarkNameEnum.bar, this._spec, this._markAttributeContext),
         { dataIndex }
       )
     );
@@ -248,7 +248,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       this._minLabelMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.label, this._spec),
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext),
           { dataIndex }
         )
       );
@@ -258,7 +258,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       this._maxLabelMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.label, this._spec),
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext),
           { dataIndex }
         )
       );
