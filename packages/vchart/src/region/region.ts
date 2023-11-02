@@ -333,7 +333,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
   compileMarks(group?: string | IVGrammarGroupMark) {
     this.getMarks().forEach(m => {
       m.compile({ group });
-      m.getProduct()
+      m
+        .getProduct()
         ?.configure({
           context: {
             model: this

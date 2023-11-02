@@ -31,6 +31,7 @@ import { SeriesData } from '../base/series-data';
 import { DataView } from '@visactor/vdataset';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { registerSampleTransform } from '@visactor/vgrammar-core';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;
@@ -575,6 +576,30 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const region = this.getRegion();
     // @ts-ignore
     region._bar_series_position_calculated = false;
+    if (this._spec.sampling) {
+      this.compile();
+    }
+  }
+
+  compile(): void {
+    super.compile();
+
+    if (this._spec.sampling) {
+      const { width, height } = this._region.getLayoutRect();
+      const samplingTrans = [];
+      const fieldsY = this._fieldY;
+      const fieldsX = this._fieldX;
+
+      samplingTrans.push({
+        type: 'sampling',
+        size: this._direction === Direction.vertical ? width : height,
+        factor: this._spec.samplingFactor,
+        yfield: this._direction === Direction.vertical ? fieldsY[0] : fieldsX[0],
+        groupBy: this._seriesField,
+        mode: this._spec.sampling
+      });
+      this._data.getProduct().transform(samplingTrans);
+    }
   }
 
   getDefaultShapeType(): string {
@@ -609,6 +634,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 }
 
 export const registerBarSeries = () => {
+  registerSampleTransform();
   Factory.registerMark(RectMark.type, RectMark);
   Factory.registerSeries(BarSeries.type, BarSeries);
   registerBarAnimation();

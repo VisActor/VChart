@@ -37,6 +37,9 @@ import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { lineLikeSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import type { Functional } from '@visactor/vrender-components';
+import { CartesianSeries } from '../cartesian';
+import type { IRegion } from '../../region/interface';
+import type { SeriesData } from '../base/series-data';
 
 export interface ILineLikeSeriesTheme {
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
@@ -62,11 +65,16 @@ export interface LineLikeSeriesMixin extends ISeries {
   _trigger: ITrigger;
   _tooltipHelper: ISeriesTooltipHelper;
   _invalidType: IInvalidType;
+  _region: IRegion;
+  _direction: DirectionType;
+  _data: SeriesData;
 
   _lineMark: ILineMark;
   _symbolMark: ISymbolMark;
   _symbolActiveMark: ISymbolMark;
   _labelMark: ITextMark;
+  _fieldX?: string[];
+  _fieldY?: string[];
   _fieldZ?: string[];
 
   _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption) => IMark;
@@ -75,6 +83,45 @@ export interface LineLikeSeriesMixin extends ISeries {
 }
 
 export class LineLikeSeriesMixin {
+  addSamplingCompile(): void {
+    if (this._spec.sampling) {
+      const { width, height } = this._region.getLayoutRect();
+      const samplingTrans = [];
+      const fieldsY = this._fieldY;
+      const fieldsX = this._fieldX;
+
+      samplingTrans.push({
+        type: 'sampling',
+        size: this._direction === Direction.vertical ? width : height,
+        factor: this._spec.samplingFactor,
+        yfield: this._direction === Direction.vertical ? fieldsY[0] : fieldsX[0],
+        groupBy: this._seriesField,
+        mode: this._spec.sampling
+      });
+      this._data.getProduct().transform(samplingTrans);
+    }
+  }
+
+  addOverlapCompile(): void {
+    if (this._spec.markOverlap) {
+      const overlapTrans = [];
+      overlapTrans.push({
+        type: 'markoverlap',
+        direction: this._direction === Direction.vertical ? 2 : 1,
+        delta: this._spec.pointDis,
+        deltaMul: this._spec.pointDisMul,
+        groupBy: this._seriesField
+      });
+      this._symbolMark?.getProduct().transform(overlapTrans);
+    }
+  }
+
+  reCompileSampling(): void {
+    if (this._spec.sampling) {
+      this.compile();
+    }
+  }
+
   initLineMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
     this._lineMark = this._createMark(lineLikeSeriesMark.line, {
       defaultMorphElementKey: this.getDimensionField()[0],

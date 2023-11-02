@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: data sampling & point overlap. close #460",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

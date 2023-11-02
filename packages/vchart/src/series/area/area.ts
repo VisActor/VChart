@@ -25,6 +25,7 @@ import { areaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerAreaAnimation } from './animation';
 import type { IMark } from '../../mark/interface';
+import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -37,6 +38,9 @@ export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
       | 'encodeDefined'
       | '_lineMark'
       | '_symbolMark'
+      | 'addSamplingCompile'
+      | 'addOverlapCompile'
+      | 'reCompileSampling'
     >,
     CartesianSeries<T> {}
 
@@ -261,12 +265,23 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     this.encodeDefined(this._areaMark, 'defined');
   }
 
+  compile(): void {
+    super.compile();
+    this.addSamplingCompile();
+    this.addOverlapCompile();
+  }
+
   getDefaultShapeType() {
     return 'square';
   }
 
   getActiveMarks(): IMark[] {
     return [this._areaMark, this._symbolMark, this._lineMark];
+  }
+
+  onLayoutEnd(ctx: any): void {
+    super.onLayoutEnd(ctx);
+    this.reCompileSampling();
   }
 
   getSeriesStyle(datum: Datum) {
@@ -289,6 +304,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 mixin(AreaSeries, LineLikeSeriesMixin);
 
 export const registerAreaSeries = () => {
+  registerSampleTransform();
+  registerMarkOverlapTransform();
   Factory.registerMark(LineMark.type, LineMark);
   Factory.registerMark(AreaMark.type, AreaMark);
   Factory.registerMark(TextMark.type, TextMark);
