@@ -48,3 +48,7 @@ For specific usage, please refer to the respective tutorials:
 - [Byte Mini Programs](./tt)
 
 In addition, other mini-programs, such as WeChat Mini Programs, are also in our compatibility plan and will be available soon.
+
+## Unsupported Chart Features in Mini Programs
+
+Since version `1.6.0`, 3D charts and sequence chart will no longer be supported by default in Feishu widgets, Feishu Mini Programs, ByteDance Mini Programs, and WeChat Mini Programs.
