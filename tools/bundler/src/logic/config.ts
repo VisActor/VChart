@@ -106,6 +106,8 @@ export interface Config {
   postTasks: Record<string, (config: Config, projectRoot: string, rawPackageJson: RawPackageJson) => Promise<unknown>>;
   // 全局变量的名称
   globals: Record<string, string>;
+  // 额外的 umd 打包入口
+  umdEntries: string[];
 }
 
 export const DEFAULT_CONFIG_FILE = 'bundler.config.js';
@@ -142,7 +144,8 @@ export function getDefaultConfig(): Config {
     rollupOptions: {},
     preTasks: {},
     postTasks: {},
-    globals: {}
+    globals: {},
+    umdEntries: []
   };
 }
 

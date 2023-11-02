@@ -1,27 +1,25 @@
+/**
+ * @description 包含基础的折柱饼图，提供坐标轴、离散图例以及 tooltip、crosshair、label 组件
+ */
 import { VChart } from './core';
+import { registerWXEnv } from './env';
 
 import { registerLineChart } from './chart/line';
 import { registerAreaChart } from './chart/area';
-import { registerBar3dChart, registerBarChart } from './chart/bar';
+import { registerBarChart } from './chart/bar';
 import { registerScatterChart } from './chart/scatter';
 import { registerMapChart } from './chart/map';
-import { registerPie3dChart, registerPieChart } from './chart/pie';
+import { registerPieChart } from './chart/pie';
 import { registerRoseChart } from './chart/rose';
 import { registerRadarChart } from './chart/radar';
 import { registerCommonChart } from './chart/common';
-import { registerSequenceChart } from './chart/sequence';
-import { registerHistogram3dChart, registerHistogramChart } from './chart/histogram';
+import { registerHistogramChart } from './chart/histogram';
 import { registerCircularProgressChart } from './chart/progress/circular';
 import { registerGaugeChart } from './chart/gauge';
-import {
-  registerWordCloudChart,
-  registerWordCloudShapeChart,
-  registerWordCloud3dChart,
-  registerWordCloudShape3dChart
-} from './chart/word-cloud';
-import { registerFunnel3dChart, registerFunnelChart } from './chart/funnel';
+import { registerWordCloudChart } from './chart/word-cloud';
+import { registerFunnelChart } from './chart/funnel';
 import { registerLinearProgressChart } from './chart/progress/linear';
-import { registerRangeColumn3dChart, registerRangeColumnChart } from './chart/range-column';
+import { registerRangeColumnChart } from './chart/range-column';
 import { registerSunburstChart } from './chart/sunburst';
 import { registerCirclePackingChart } from './chart/circle-packing';
 import { registerTreemapChart } from './chart/treemap';
@@ -56,9 +54,7 @@ import { registerBrush } from './component/brush';
 import { registerCustomMark } from './component/custom-mark';
 import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
-import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
-import { registerAllEnv } from './env';
 
 VChart.useRegisters([
   // charts
@@ -73,7 +69,6 @@ VChart.useRegisters([
   registerMapChart,
   registerGaugeChart,
   registerWordCloudChart,
-  registerWordCloudShapeChart,
   registerFunnelChart,
   registerWaterfallChart,
   registerBoxplotChart,
@@ -86,18 +81,8 @@ VChart.useRegisters([
   registerTreemapChart,
   registerSankeyChart,
   registerHeatmapChart,
-  registerSequenceChart,
   registerCorrelationChart,
   registerCommonChart,
-
-  // 3d charts
-  registerBar3dChart,
-  registerPie3dChart,
-  registerHistogram3dChart,
-  registerFunnel3dChart,
-  registerRangeColumn3dChart,
-  registerWordCloud3dChart,
-  registerWordCloudShape3dChart,
 
   // components
   registerCartesianLinearAxis,
@@ -132,11 +117,14 @@ VChart.useRegisters([
   registerPoptip,
 
   // layout
-  registerGridLayout,
-  registerLayout3d
+  registerGridLayout
 ]);
 
 // load env code
-VChart.useRegisters([registerAllEnv]);
+VChart.useRegisters([registerWXEnv]);
 
 export { VChart };
+
+export default VChart;
+
+export * from './core';
