@@ -16,7 +16,7 @@ export class BoxSelection {
   protected _overGroup: IGroup;
 
   protected _startPos: IPoint;
-  protected _currentBox: ILayoutRect;
+  protected _currentBox: ILayoutRect = { x: 0, y: 0, width: 0, height: 0 };
   protected _layoutComponent: LayoutEditorComponent;
 
   protected _currentMatchElements: { e: IElement; el: IEditorElement }[] = null;
@@ -28,7 +28,20 @@ export class BoxSelection {
         this._outBoxSelection();
       }
     });
+    document.addEventListener('keydown', this._keyEvent);
   }
+
+  protected _keyEvent = (ev: KeyboardEvent) => {
+    if ((ev.ctrlKey && ev.code === 'KeyA') || (ev.metaKey && ev.code === 'KeyA')) {
+      this._inBoxSelection();
+      //  全选
+      this._currentBox.x = 0;
+      this._currentBox.y = 0;
+      this._currentBox.width = Number.MAX_SAFE_INTEGER;
+      this._currentBox.height = Number.MAX_SAFE_INTEGER;
+      this._checkEditorWithBox(null);
+    }
+  };
 
   setLayer(layer: IEditorLayer) {
     if (layer === this.layer) {
@@ -64,8 +77,8 @@ export class BoxSelection {
   }
 
   protected _removeGraphic() {
-    this.layer.editorGroup.removeChild(this._boxGraphic);
-    this.layer.editorGroup.removeChild(this._overGroup);
+    this.layer.editorGroup?.removeChild(this._boxGraphic);
+    this.layer.editorGroup?.removeChild(this._overGroup);
     this._boxGraphic = this._overGroup = null;
   }
 
@@ -75,9 +88,9 @@ export class BoxSelection {
     this.layer.getStage().addEventListener('pointermove', this._pointerMove as any);
   }
   protected _removeEvent() {
-    this.layer.getStage().removeEventListener('pointerdown', this._pointerDown as any);
-    this.layer.getStage().removeEventListener('pointerup', this._pointerUp as any);
-    this.layer.getStage().removeEventListener('pointermove', this._pointerMove as any);
+    this.layer?.getStage()?.removeEventListener('pointerdown', this._pointerDown as any);
+    this.layer?.getStage()?.removeEventListener('pointerup', this._pointerUp as any);
+    this.layer?.getStage()?.removeEventListener('pointermove', this._pointerMove as any);
   }
 
   protected _pointerDown = (e: VRenderPointerEvent) => {
@@ -137,11 +150,16 @@ export class BoxSelection {
       l.elements.forEach(e => (e.pickable = true));
     });
     if (this._state === 'editor') {
+      this._currentMatchElements?.forEach(m => {
+        m.e.pickable = false;
+      });
       if (this._stateInEditor === 'down') {
-        // 打开框选中的元素pick能力 一次
+        // 框选中的元素尝试pick
         this._currentMatchElements?.forEach(m => {
           m.e.tryPick(e);
         });
+      } else {
+        this.context.editor.editorController.setOverGraphic(null, null, null);
       }
       return;
     }
@@ -154,6 +172,10 @@ export class BoxSelection {
       return;
     }
     this._state = 'end';
+    this._checkEditorWithBox(e);
+  };
+
+  private _checkEditorWithBox(e: VRenderPointerEvent) {
     const matchEl = this._checkBoxSelected();
     if (!matchEl || matchEl.length === 0) {
       this._outBoxSelection();
@@ -166,7 +188,7 @@ export class BoxSelection {
     }
     this._currentMatchElements = matchEl;
     this._startBoxEditor(e);
-  };
+  }
 
   protected _checkBoxSelected() {
     if (this._currentBox.width <= 0) {
@@ -304,12 +326,16 @@ export class BoxSelection {
   protected _startBoxEditor(e: PointerEvent) {
     // 允许元素交互
     this.context.editor.layers.forEach(l => {
-      l.elements.forEach(e => (e.pickable = true));
+      l.elements.forEach(e => {
+        e.pickable = true;
+        e.clearCurrentEditorElement();
+      });
     });
     this._state = 'editor';
     this._stateInEditor = 'none';
     // clear chart overGraphic
     this.context.editor.editorController.setOverGraphic(null, null, null);
+    this.context.editor.editorController.editorRun('boxSelection');
     // 正常触发框选
     this._createEditorGraphic(this._currentMatchElements, e);
     // 关闭框选中的元素pick能力

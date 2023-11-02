@@ -1,3 +1,4 @@
+/* eslint-disable promise/no-nesting */
 import type { VRenderPointerEvent } from './../interface';
 import type { IEditorElement, ILayoutLine, IUpdateAttributeParam } from './../../core/interface';
 /* eslint-disable no-console */
@@ -6,7 +7,7 @@ import { ChartLayout } from './layout/chart-layout';
 import type { IBoundsLike } from '@visactor/vutils';
 import { VChart } from '@visactor/vchart';
 import type { ISpec, IVChart } from '@visactor/vchart';
-import type { IRect, IPoint, ILayoutGuideLine } from '../../typings/space';
+import type { IRect, IPoint } from '../../typings/space';
 import { BaseElement } from '../base-element';
 import type { IChartLayout } from './layout/interface';
 import { SpecProcess } from './spec-process/spec-process';
@@ -163,22 +164,42 @@ export class EditorChart extends BaseElement {
 
   onSpecReady = () => {
     console.log('onSpecReady !');
+    this._updateNextTick();
+  };
+
+  protected async _updateVChartSpec() {
     if (!this._vchart) {
       console.log('onSpecReady init chart');
       this._initVChart(this._specProcess.getVChartSpec());
       // eslint-disable-next-line promise/catch-or-return
-      this._vchart.renderAsync().then(() => {
-        this._afterRender();
-      });
+      await this._vchart.renderAsync();
+      this._afterRender();
     } else {
       console.log('onSpecReady update spec');
       this._isRendered = false;
       // eslint-disable-next-line promise/catch-or-return
-      this._vchart.updateSpec(this._transformVchartSpec(this._specProcess.getVChartSpec())).then(() => {
-        this._afterRender();
+      await this._vchart.updateSpec(this._transformVchartSpec(this._specProcess.getVChartSpec()));
+      this._afterRender();
+    }
+  }
+
+  protected _currentUpdateFlow: any = null;
+  protected async _updateNextTick() {
+    if (!this._currentUpdateFlow) {
+      this._currentUpdateFlow = Promise.resolve().then(() => {
+        return this._updateVChartSpec()
+          .then(() => {
+            this._currentUpdateFlow = null;
+          })
+          .catch((e: any) => {
+            this._currentUpdateFlow = null;
+          });
       });
     }
-  };
+    await this._currentUpdateFlow;
+
+    return this;
+  }
 
   release() {
     super.release();

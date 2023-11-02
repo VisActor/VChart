@@ -22,7 +22,9 @@ export class EditorEvent {
 
   constructor(editor: VChartEditor) {
     this._editor = editor;
-    this._boxSelection = new BoxSelection(null, this);
+    if (this._editor.option.mode === 'editor') {
+      this._boxSelection = new BoxSelection(null, this);
+    }
   }
 
   initEvent() {
@@ -93,7 +95,7 @@ export class EditorEvent {
         20 + this._editor.layers.findIndex(l => l === this._triggerLayer) + '';
     }
     this._triggerLayer = l;
-    this._boxSelection.setLayer(l ?? this._editor.layers[0]);
+    this._boxSelection?.setLayer(l ?? this._editor.layers[0]);
     if (this._triggerLayer) {
       this._triggerLayer.getCanvas().style.zIndex = '100';
     }

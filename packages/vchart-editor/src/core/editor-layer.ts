@@ -345,7 +345,7 @@ export class EditorLayer implements IEditorLayer {
 
   private _getAABBBounds(node: IGroup, b: Bounds, x: number, y: number) {
     node.getChildren?.().forEach(c => {
-      if (c === this._editorGroup) {
+      if ((<IGraphic>c).attribute.visible === false) {
         return;
       }
       if (c.type === 'group') {

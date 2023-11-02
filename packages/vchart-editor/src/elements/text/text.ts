@@ -29,6 +29,7 @@ export class EditorText extends BaseElement {
       this.initEvent();
     }
     this._tempKey = this.type + this._id;
+    this._afterRender();
   }
 
   /**
