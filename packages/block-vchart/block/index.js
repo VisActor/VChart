@@ -134,6 +134,12 @@ Block({
             // release old first
             item.chart && item.chart.release();
 
+            function labelFormat(key){
+              return key + 'test';
+            }
+
+            VChart.expressionFunction('labelFormat', labelFormat);
+
             const chartInstance = new VChart(
               {
                 width: domRef.width,
@@ -161,6 +167,8 @@ Block({
                 chartInstance.on(event.type, { source: event.element }, event.handler);
               });
             }
+
+            // chartInstance.registerFunction('labelFormat', labelFormat);
 
             chartInstance.renderAsync();
           })

@@ -51,5 +51,9 @@ export default {
   },
   crosshair: {
     xField: { visible: true }
+  },
+  label: {
+    visible: true,
+    formatMethod: 'labelFormat'
   }
 }

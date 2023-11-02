@@ -174,4 +174,116 @@ Lark Mini-Program Widget desktop versions also support mouse events, so you can 
 ></canvas>
 ```
 
+### Register function
+
+The desktop version of the Feishu widget supports registering custom functions. You can register functions using global registration `expressionFunction` or instance registration `registerFunction`.
+
+#### Global registration function
+
+When using a globally registered function, call the chart method `expressionFunction` to register a custom function, and callback processing will be performed at runtime, as shown in the example below.
+
+```js
+<!-- index.js  -->
+methods: {
+    init() {
+      this.data.chartList.forEach(item => {
+        tt.createSelectorQuery()
+          .select(`#${item.id}_draw_canvas`)
+          .boundingClientRect(domRef => {
+            if (!domRef) {
+              console.error(`未找到 #${item.id} 画布`);
+              return;
+            }
+
+            item.chart && item.chart.release();
+
+            // 自定义函数
+            function labelFormat(key){
+              return key + 'test';
+            }
+
+            // 全局注册该自定义函数
+            VChart.expressionFunction('labelFormat', labelFormat);
+
+            const chartInstance = new VChart(
+              {
+                width: domRef.width,
+                height: domRef.height,
+                /**
+                 * spec中可使用该函数名'labelFormat'
+                 * 例如，使用该函数做label的格式化
+                 * label: {
+                 *   visible: true,
+                 *   formatMethod: 'labelFormat'
+                 * }
+                 */
+                ...item.spec
+              },
+              {
+                // do something
+              }
+            );
+
+            chartInstance.renderAsync();
+          })
+          .exec();
+      });
+    }
+  }
+```
+
+#### Instance registration function
+
+When using an instance to register a function, call the instance method `registerFunction` to register a custom function, and callback processing will be performed at runtime, as shown in the example below.
+
+```js
+<!-- index.js  -->
+methods: {
+    init() {
+      this.data.chartList.forEach(item => {
+        tt.createSelectorQuery()
+          .select(`#${item.id}_draw_canvas`)
+          .boundingClientRect(domRef => {
+            if (!domRef) {
+              console.error(`未找到 #${item.id} 画布`);
+              return;
+            }
+
+            item.chart && item.chart.release();
+
+            // 自定义函数
+            function labelFormat(key){
+              return key + 'test';
+            }
+
+            const chartInstance = new VChart(
+              {
+                width: domRef.width,
+                height: domRef.height,
+                /**
+                 * spec中可使用该函数名'labelFormat'
+                 * 例如，使用该函数做label的格式化
+                 * label: {
+                 *   visible: true,
+                 *   formatMethod: 'labelFormat'
+                 * }
+                 */
+                ...item.spec
+              },
+              {
+                // do something
+              }
+            );
+
+            // 实例注册该自定义函数
+            chartInstance.registerFunction('labelFormat', labelFormat);
+
+            chartInstance.renderAsync();
+          })
+          .exec();
+      });
+    }
+  }
+```
+
 For more details, see: [https://github.com/VisActor/VChart/tree/main/packages/block-vchart](https://github.com/VisActor/VChart/tree/main/packages/block-vchart)
