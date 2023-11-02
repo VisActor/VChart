@@ -40,7 +40,7 @@ export class ShapeModel extends BaseTooltipModel {
   }
 
   setSvg(option?: IShapeSvgOption) {
-    const html = getSvgHtml(option);
+    const html = getSvgHtml(option, this._option.valueToHtml);
     if (this.product && html !== this._svgHtmlCache) {
       this._svgHtmlCache = html;
       this.product.innerHTML = html;
@@ -53,12 +53,18 @@ export class ShapeModel extends BaseTooltipModel {
   }
 }
 
-function getSvgHtml(option?: IShapeSvgOption) {
+function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: any) => string) {
   if (!option?.hasShape || !option.symbolType) {
     return '';
   }
 
-  const { symbolType, size, fill, stroke, lineWidth, hollow = false, marginTop = '0px' } = option;
+  const { symbolType, fill, stroke, hollow = false } = option;
+  const size = option.size ? valueToHtml(option.size) : '8px';
+  const marginTop = option.marginTop ? valueToHtml(option.marginTop) : '0px';
+  const lineWidth = option.lineWidth ? valueToHtml(option.lineWidth) + 'px' : '0px';
+  let fillString: string = 'currentColor';
+  const getStroke = () => (stroke ? valueToHtml(stroke) : fillString);
+
   const symbol = new Symbol({ symbolType, size: pixelPropertyStrToNumber(size) as number, fill: true });
   const pathModel = symbol.getParsedPath().path ?? symbol.getParsedPath().pathStr;
   const path = pathModel.toString();
@@ -68,15 +74,14 @@ function getSvgHtml(option?: IShapeSvgOption) {
     viewBox = `${bounds.x1} ${bounds.y1} ${bounds.width()} ${bounds.height()}`;
   }
 
-  let fillString: string = 'currentColor';
   if (!fill || isString(fill) || hollow) {
-    fillString = hollow ? 'none' : (fill as string) ?? 'currentColor';
+    fillString = hollow ? 'none' : fill ? valueToHtml(fill) : 'currentColor';
     return `
     <svg width="${size}" height="${size}" viewBox="${viewBox}"
       style="display: inline-block; vertical-align: middle; margin-top: ${marginTop};">
       <path
         d="${path}"
-        style="fill: ${fillString}; stroke: ${stroke ?? fillString}; stroke-width: ${lineWidth ?? 0}px"
+        style="fill: ${fillString}; stroke: ${getStroke()}; stroke-width: ${lineWidth}"
       >
       </path>
     </svg>`;
@@ -84,24 +89,21 @@ function getSvgHtml(option?: IShapeSvgOption) {
   if (isObject(fill)) {
     fillString = 'gradientColor';
     let gradient = '';
+    const stops = (fill.stops ?? [])
+      .map(s => `<stop offset="${valueToHtml(s.offset.toString())}" stop-color="${valueToHtml(s.color)}"/>`)
+      .join('');
     if ((fill as IGradientColor).gradient === 'radial') {
-      gradient = `
-      <radialGradient id="${fillString}" cx="50%" cy="50%" r="50%" fx="0%" fy="0%">
-        ${(((fill as IGradientColor).stops as any[]) ?? []).map(
-          s => `<stop offset="${s.offset}" stop-color="${s.color}"/>`
-        )}
-     	</radialGradient>
-      `;
+      gradient = `<radialGradient id="${fillString}" cx="50%" cy="50%" r="50%" fx="0%" fy="0%">
+      ${stops}
+      </radialGradient>`;
     } else if ((fill as IGradientColor).gradient === 'linear') {
-      gradient = `
-      <linearGradient id="${fillString}" x1="${(((fill as ILinearGradient).x0 as number) ?? 0) * 100}%" y1="${
-        (((fill as ILinearGradient).y0 as number) ?? 0) * 100
-      }%" x2="${(((fill as ILinearGradient).x1 as number) ?? 0) * 100}%" y2="${
-        (((fill as ILinearGradient).y1 as number) ?? 0) * 100
-      }%">
-        ${((fill as ILinearGradient).stops ?? []).map(s => `<stop offset="${s.offset}" stop-color="${s.color}"/>`)}
-      </linearGradient>
-      `;
+      gradient = `<linearGradient id="${fillString}" x1="${
+        (((fill as ILinearGradient).x0 as number) ?? 0) * 100
+      }%" y1="${(((fill as ILinearGradient).y0 as number) ?? 0) * 100}%" x2="${
+        (((fill as ILinearGradient).x1 as number) ?? 0) * 100
+      }%" y2="${(((fill as ILinearGradient).y1 as number) ?? 0) * 100}%">
+      ${stops}
+      </linearGradient>`;
     }
     return `
     <svg width="${size}" height="${size}" viewBox="-0.5 -0.5 1 1"
@@ -109,7 +111,7 @@ function getSvgHtml(option?: IShapeSvgOption) {
       ${gradient}
       <path
         d="${path}"
-        style="fill: url(#${fillString}); stroke: ${stroke ?? fillString}; stroke-width: ${lineWidth ?? 0}px"
+        style="fill: url(#${fillString}); stroke: ${getStroke()}; stroke-width: ${lineWidth}"
       >
       </path>
     </svg>`;

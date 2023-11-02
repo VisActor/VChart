@@ -178,8 +178,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         {
           type: 'addVChartProperty',
           options: {
-            beforeCall: initKeyMap,
-            call: addDataKey.bind(this)
+            beforeCall: initKeyMap.bind(this),
+            call: addDataKey
           }
         },
         false

@@ -96,8 +96,8 @@ export interface ISeriesMarkInitOption {
   dataView?: DataView | false;
   /** 系列数据编译产物的名称 */
   dataProductId?: string;
-  /** mark scale 如果需要使用统计信息设置domain的话，使用的统计数据 */
-  dataStatistics?: DataView;
+  /** mark scale 如果需要使用统计信息设置domain的话，使用的series对应的统计数据 */
+  seriesId?: number;
 
   /** 渐进渲染相关配置 */
   progressive?: IMarkProgressiveConfig;

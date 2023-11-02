@@ -43,8 +43,6 @@ export interface IStatisticsOption {
   }[];
   // operations: Array<'max' | 'min' | 'values'>;
   target?: 'parser' | 'latest';
-  fieldFollowSource?: (key: string) => boolean;
-  sourceStatistics?: () => { [key: string]: unknown };
 }
 
 /**
@@ -54,18 +52,14 @@ export interface IStatisticsOption {
  * @returns
  */
 export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption) => {
-  const result = {};
   // const operations = op.operations;
   let fields = op.fields;
   if (isFunction(fields)) {
     fields = fields();
   }
   if (!fields?.length || !data?.length) {
-    return result;
+    return {};
   }
-
-  const sourceStatistics = op.sourceStatistics?.();
-  const fieldFollowSource = op.fieldFollowSource;
 
   // merge same key
   fields = mergeFields([], fields);
@@ -77,15 +71,36 @@ export const dimensionStatistics = (data: Array<DataView>, op: IStatisticsOption
     string,
     IFieldsMeta
   >;
+
+  return dimensionStatisticsOfSimpleData(latestData, fields, dataFields);
+};
+
+/**
+ * 聚合统计主要用于处理数据(诸如统计平均值,求和等),并返回计算后的数据结果
+ * @param data
+ * @param options
+ * @returns
+ */
+export const dimensionStatisticsOfSimpleData = (
+  latestData: Datum[],
+  fields: {
+    key: string;
+    operations: StatisticOperations;
+    customize?: { max: number; min: number } | any[];
+  }[],
+  dataFields?: Record<
+    /** 字段key */
+    string,
+    IFieldsMeta
+  >
+) => {
+  const result = {};
+
   fields.forEach(f => {
     const key = f.key;
     // NOTE: the same key in fields has been merge already
     result[key] = {};
     const dataFieldInKey = dataFields?.[key];
-    if (sourceStatistics && fieldFollowSource && fieldFollowSource(key) && sourceStatistics[key]) {
-      result[key] = sourceStatistics[key];
-      return;
-    }
     const operations: StatisticOperations = f.operations;
     const isNumberField = operations.some(op => op === 'min' || op === 'max' || op === 'allValid');
     let allValid = true;

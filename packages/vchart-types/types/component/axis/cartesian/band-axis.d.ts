@@ -1,7 +1,7 @@
 import { BandScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
-import type { IAxisLocationCfg, ICartesianBandAxisSpec } from './interface';
-import { ComponentTypeEnum } from '../../interface/type';
+import type { ICartesianBandAxisSpec } from './interface';
+import { ComponentTypeEnum } from '../../interface';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
 export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec> extends Pick<BandAxisMixin, 'valueToPosition' | 'updateGroupScaleRange' | 'getPosition' | 'calcScales' | 'computeBandDomain'>, CartesianAxis<T> {
@@ -20,7 +20,7 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
     protected initScales(): void;
     protected axisHelper(): {
         isContinuous: boolean;
-        dataToPosition: (values: any[], cfg?: IAxisLocationCfg) => number;
+        dataToPosition: (values: any[]) => number;
         getScale: (depth: number) => BandScale;
         getBandwidth: (depth: number) => number;
         getStatisticsDomain: () => {
@@ -34,7 +34,6 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
         getAxisId: () => number;
         isInverse: () => boolean;
     };
-    dataToPosition(values: any[], cfg?: IAxisLocationCfg): number;
     transformScaleDomain(): void;
     updateFixedWholeLength(): void;
 }

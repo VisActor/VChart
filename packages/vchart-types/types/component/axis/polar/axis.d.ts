@@ -12,6 +12,9 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
+    protected readonly _defaultBandPosition = 0;
+    protected readonly _defaultBandInnerPadding = 0;
+    protected readonly _defaultBandOuterPadding = 0;
     layoutType: LayoutItem['layoutType'];
     layoutZIndex: number;
     protected _tick: ITick | undefined;
@@ -63,8 +66,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
         getScale: (depth: number) => IBaseScale;
         getAxisId: () => number;
     };
-    dataToPosition(values: any[]): number;
-    positionToData(position: IPoint): any;
+    positionToData(position: IPoint): number;
     coordToPoint(point: IPolarPoint): IPoint;
     pointToCoord(point: IPoint): IPolarPoint;
     getCenter(): IPoint;
@@ -79,4 +81,5 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     private getRefLayoutRect;
     private getRefSeriesRadius;
     private _update;
+    invert(value: number): number;
 }

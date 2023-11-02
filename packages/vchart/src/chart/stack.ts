@@ -36,6 +36,11 @@ export class Stack {
 
   stackRegion = ({ model }: { model: IRegion }) => {
     const series = model.getSeries();
+    const hasStack = series.some(s => s.getStack());
+
+    if (!hasStack) {
+      return;
+    }
     // total label need percent
     const hasTotalLabel = series.some(s => s.getSpec()?.totalLabel?.visible);
     const hasPercent = hasTotalLabel || series.some(s => s.getPercent());

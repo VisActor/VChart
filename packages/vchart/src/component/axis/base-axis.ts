@@ -82,7 +82,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _tick: ITick | undefined = undefined;
   protected abstract computeDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[];
-  abstract dataToPosition(values: any[], cfg?: any): number;
   abstract valueToPosition(value: any): number;
   protected abstract axisHelper(): any;
   protected abstract getSeriesStatisticsField(s: ISeries): string[];
@@ -466,6 +465,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   addTransformToTickData(options: ITransformOptions, execute?: boolean) {
     this._tickData?.getDataView()?.transform(options, execute);
+  }
+
+  dataToPosition(values: any[]): number {
+    return this._scale.scale(values);
   }
 }
 

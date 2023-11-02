@@ -3,10 +3,8 @@ import type { IBounds, IBoundsLike } from '@visactor/vutils';
 import type { IEffect, IModelInitOption, ILayoutRect } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
-import type { IAxisLocationCfg, ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
-import { isArray, isValid, isValidNumber, isNil, isUndefined } from '@visactor/vutils';
-import { mergeSpec } from '../../../util/spec/merge-spec';
-import { eachSeries } from '../../../util/model';
+import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
+import { isArray, isValid, isValidNumber, mergeSpec, eachSeries, isNil, isUndefined } from '../../../util';
 import type { IOrientType } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
@@ -39,6 +37,7 @@ import { DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
+// eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
 
 const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
@@ -50,6 +49,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   static type = ComponentTypeEnum.cartesianAxis;
   type = ComponentTypeEnum.cartesianAxis;
   name: string = ComponentTypeEnum.cartesianAxis;
+
+  protected readonly _defaultBandPosition = 0.5;
+  protected readonly _defaultBandInnerPadding = 0.1;
+  protected readonly _defaultBandOuterPadding = 0.3;
 
   // 标记这个布局Item的方向（left->right, right->left, top->bottom, bottom->top）
   declare directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
@@ -212,7 +215,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   };
 
   protected abstract computeDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[];
-  abstract dataToPosition(values: any[], cfg?: IAxisLocationCfg): number;
   abstract valueToPosition(value: any): number;
 
   protected updateScaleRange() {

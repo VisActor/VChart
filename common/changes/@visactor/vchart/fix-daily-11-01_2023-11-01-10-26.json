@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: optimize the trigger of hover in non-browser env",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

@@ -90,7 +90,7 @@ describe('treemap chart test', () => {
     const leafMark = series.getMarkInName('leaf');
     const leafMarkProduct = leafMark?.getProduct();
     expect(leafMarkProduct?.elements.length).toBe(90); // 叶子图元
-    expect(series.getRawDataStatistics()?.latestData?.[DEFAULT_HIERARCHY_DEPTH].max).toBe(2);
+    expect(series.getRawDataStatisticsByField(DEFAULT_HIERARCHY_DEPTH, true).max).toBe(2);
     cs.release();
   });
 

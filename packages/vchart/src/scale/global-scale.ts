@@ -1,6 +1,5 @@
-import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from './interface';
-import { isArray, isEqual, isNil } from '@visactor/vutils';
+import { isArray, isEmpty, isEqual, isNil } from '@visactor/vutils';
 import type { IBaseScale, OrdinalScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import type { IChart } from '../chart/interface';
@@ -10,12 +9,13 @@ import { isDataDomainSpec } from '../util/type';
 import { mergeFields } from '../util/data';
 import type { IVisualScale, IVisualSpecScale } from '../typings';
 import type { StatisticOperations } from '../data/transforms/dimension-statistics';
+import type { ISeries } from '../series';
 
 export class GlobalScale implements IGlobalScale {
   private _scaleSpecMap: Map<string, IVisualSpecScale<unknown, unknown>> = new Map();
   private _scaleMap: Map<string, IBaseScale> = new Map();
   private _modelScaleSpecMap: Map<string, IVisualSpecScale<unknown, unknown>> = new Map();
-  private _markAttributeScaleMap: Map<string, (IVisualScale & { dataStatistics: DataView; markScale: IBaseScale })[]> =
+  private _markAttributeScaleMap: Map<string, (IVisualScale & { seriesId: number; markScale: IBaseScale })[]> =
     new Map();
   private _spec: IChartSpec['scales'] = null;
   private readonly _chart: IChart = null;
@@ -187,7 +187,9 @@ export class GlobalScale implements IGlobalScale {
     this._markAttributeScaleMap.forEach((specList, scaleName) => {
       const scale = this.getScale(scaleName);
       specList.forEach(spec => {
-        if (spec.dataStatistics?.rawData[0].name === dataId && spec.field) {
+        const series = this._getSeriesBySeriesId(spec.seriesId);
+
+        if (series.getRawData().name === dataId && spec.field) {
           mergeFields(result, [
             {
               key: spec.field,
@@ -200,12 +202,25 @@ export class GlobalScale implements IGlobalScale {
     return result;
   };
 
-  private _getStatistics(id: string) {
+  private _getSeriesByRawDataId(id: string): ISeries {
     const series = this._chart.getAllSeries();
+
     for (let i = 0; i < series.length; i++) {
       const s = series[i];
       if (s.getRawData().name === id) {
-        return s.getRawDataStatistics();
+        return s;
+      }
+    }
+    return null;
+  }
+
+  private _getSeriesBySeriesId(id: number): ISeries {
+    const series = this._chart.getAllSeries();
+
+    for (let i = 0; i < series.length; i++) {
+      const s = series[i];
+      if (s.id === id) {
+        return s;
       }
     }
     return null;
@@ -231,24 +246,31 @@ export class GlobalScale implements IGlobalScale {
         domain = new Set();
       }
       scaleSpec.domain.forEach(spec => {
-        const statistics = this._getStatistics(spec.dataId);
-        if (!statistics) {
+        const series = this._getSeriesByRawDataId(spec.dataId);
+
+        if (!series) {
           return;
         }
+
+        const isContinuousField = isContinuous(scaleSpec.type);
         spec.fields.forEach(key => {
-          if (isContinuous(scaleSpec.type)) {
+          const statistics = series.getRawDataStatisticsByField(key, isContinuousField);
+          if (!statistics) {
+            return;
+          }
+          if (isContinuousField) {
             if (isNil(domain[0])) {
-              domain[0] = statistics.latestData[key].min;
+              domain[0] = statistics.min;
             } else {
-              domain[0] = Math.min(statistics.latestData[key].min, domain[0]);
+              domain[0] = Math.min(statistics.min, domain[0]);
             }
             if (isNil(domain[1])) {
-              domain[1] = statistics.latestData[key].max;
+              domain[1] = statistics.max;
             } else {
-              domain[1] = Math.max(statistics.latestData[key].max, domain[1]);
+              domain[1] = Math.max(statistics.max, domain[1]);
             }
           } else {
-            statistics.latestData[key].values.forEach((value: string) => {
+            statistics.values.forEach((value: string) => {
               (domain as Set<string>).add(value);
             });
           }
@@ -273,22 +295,26 @@ export class GlobalScale implements IGlobalScale {
       if (!info.field || !info.markScale || info.markScale === scale) {
         return;
       }
-      if (
-        isNil(info.changeDomain) ||
-        info.changeDomain === 'none' ||
-        !info.dataStatistics ||
-        !info.dataStatistics.latestData[info.field]
-      ) {
+      if (isNil(info.changeDomain) || info.changeDomain === 'none' || isNil(info.seriesId)) {
+        isContinuous(scale.type) ? info.markScale.domain(domain as unknown[]) : scale.domain(Array.from(domain));
+        return;
+      }
+
+      const series = this._getSeriesBySeriesId(info.seriesId);
+      const isContinuousScale = isContinuous(scale.type);
+      const statistics = series.getRawDataStatisticsByField(info.field, isContinuousScale);
+
+      if (isEmpty(statistics)) {
         isContinuous(scale.type) ? info.markScale.domain(domain as unknown[]) : scale.domain(Array.from(domain));
         return;
       }
 
       if (info.changeDomain === 'expand') {
-        if (isContinuous(scale.type)) {
-          domain[0] = Math.min(domain[0], info.dataStatistics.latestData[info.field].min);
-          domain[1] = Math.max(domain[1], info.dataStatistics.latestData[info.field].max);
+        if (isContinuousScale) {
+          domain[0] = Math.min(domain[0], statistics.min);
+          domain[1] = Math.max(domain[1], statistics.max);
         } else {
-          info.dataStatistics.latestData[info.field].values.forEach((value: string) => {
+          statistics.values.forEach((value: string) => {
             (domain as Set<string>).add(value);
           });
           domain = Array.from(domain);
@@ -297,20 +323,17 @@ export class GlobalScale implements IGlobalScale {
         return;
       }
       if (info.changeDomain === 'replace') {
-        if (isContinuous(scale.type)) {
-          info.markScale.domain([
-            info.dataStatistics.latestData[info.field].min,
-            info.dataStatistics.latestData[info.field].max
-          ]);
+        if (isContinuousScale) {
+          info.markScale.domain([statistics.min, statistics.max]);
         } else {
-          info.markScale.domain(info.dataStatistics.latestData[info.field].values);
+          info.markScale.domain(statistics.values);
         }
         return;
       }
     });
   }
 
-  registerMarkAttributeScale(spec: IVisualScale, dataStatistics: DataView): IBaseScale {
+  registerMarkAttributeScale(spec: IVisualScale, seriesId: number): IBaseScale {
     const scale = this._scaleMap.get(spec.scale);
     let list = this._markAttributeScaleMap.get(spec.scale);
     if (!list) {
@@ -318,12 +341,12 @@ export class GlobalScale implements IGlobalScale {
       this._markAttributeScaleMap.set(spec.scale, list);
     }
     let markScale = scale;
-    if (isNil(spec.field) || !(isNil(spec.changeDomain) || spec.changeDomain === 'none' || isNil(dataStatistics))) {
+    if (isNil(spec.field) || (!isNil(spec.changeDomain) && spec.changeDomain !== 'none' && !isNil(seriesId))) {
       markScale = scale.clone();
     }
     list.push({
       ...spec,
-      dataStatistics,
+      seriesId,
       markScale
     });
     return markScale;

@@ -17,7 +17,6 @@ export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICarte
       | 'valueToPosition'
       | 'setScaleNice'
       | '_domain'
-      | 'dataToPosition'
       | 'transformScaleDomain'
       | 'setExtendDomain'
     >,

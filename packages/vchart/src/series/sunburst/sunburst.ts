@@ -24,7 +24,7 @@ import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { registerFadeInOutAnimation } from '../../animation/config';
-import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { PolarSeries } from '../polar/polar';
@@ -232,8 +232,8 @@ export class SunburstSeries extends PolarSeries<any> {
     rawData.transform({
       type: 'addVChartProperty',
       options: {
-        beforeCall: initKeyMap,
-        call: addHierarchyDataKey.bind(this)
+        beforeCall: initHierarchyKeyMap.bind(this),
+        call: addHierarchyDataKey
       }
     });
   }
