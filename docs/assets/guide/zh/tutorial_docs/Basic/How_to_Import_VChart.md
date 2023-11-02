@@ -142,18 +142,23 @@ import {
   registerTooltip,
   registerCartesianCrossHair
 } from '@visactor/vchart/esm/component';
-// 引入浏览器环境
-import { registerBrowserEnv } from '@visactor/vchart/esm/env';
 
-// 注册
+// 注册图表和组件
 VChart.useRegisters([
   registerBarChart,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerTooltip,
-  registerCartesianCrossHair,
-  registerBrowserEnv
+  registerCartesianCrossHair
 ]);
+```
+
+VChart 默认对浏览器和 node 环境提供了支持。如果你的项目需要运行在小程序环境下，按需加载时，请注意引入小程序环境代码。  
+例如，在微信小程序中使用时，需要调用 `registerWXEnv`：
+
+```ts
+import { registerWXEnv } from '@visactor/vchart/esm/env';
+VChart.useRegisters([registerWXEnv]);
 ```
 
 注意如果你的项目使用的是 cjs(commonJS) 的话，请从 `@visactor/vchart/cjs` 目录下引用，如下：
