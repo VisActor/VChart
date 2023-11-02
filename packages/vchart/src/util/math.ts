@@ -98,7 +98,7 @@ export function outOfBounds(bounds: IBoundsLike, x: number, y: number) {
 export function min(data: any[], field?: string): number {
   const dataArray = data.map(d => +d[field]).filter(d => isValidNumber(d));
   if (dataArray.length === 0) {
-    return;
+    return null;
   }
   return minInArray(dataArray);
 }
@@ -106,7 +106,7 @@ export function min(data: any[], field?: string): number {
 export function max(data: any[], field?: string): number {
   const dataArray = data.map(d => +d[field]).filter(d => isValidNumber(d));
   if (dataArray.length === 0) {
-    return;
+    return null;
   }
   return maxInArray(data.map(d => +d[field]).filter(d => isValidNumber(d)));
 }
