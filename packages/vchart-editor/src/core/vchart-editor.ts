@@ -131,6 +131,9 @@ export class VChartEditor {
     l.getCanvas().style.zIndex = 200 + this._layers.length + '';
     l.onElementReady(this._checkLayerReady);
     this._layers.push(l);
+    if (this._layers.length === 1) {
+      this._event.changeTriggerLayer(l, null);
+    }
   }
 
   protected _checkLayerReady = () => {

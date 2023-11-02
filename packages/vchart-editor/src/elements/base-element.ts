@@ -1,10 +1,10 @@
 import type { IEditorElement } from './../core/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IRect, IPoint } from '../typings/space';
-import type { IElementData, IElementOption } from './interface';
+import type { IElement, IElementData, IElementOption, VRenderPointerEvent } from './interface';
 import { CreateID } from '../utils/common';
 import type { EditorMode, ILayoutLine } from '../core/interface';
-export abstract class BaseElement {
+export abstract class BaseElement implements IElement {
   type: string = 'base';
   protected _rect: IRect;
   protected _anchor: IPoint;
@@ -23,6 +23,14 @@ export abstract class BaseElement {
   protected _isRendered: boolean = false;
   get isRendered() {
     return this._isRendered;
+  }
+
+  protected _pickable: boolean = true;
+  get pickable() {
+    return this._pickable;
+  }
+  set pickable(v: boolean) {
+    this._pickable = v;
   }
 
   constructor(opt: IElementOption) {
@@ -66,6 +74,8 @@ export abstract class BaseElement {
 
   abstract getEditorElementsConnectBox(rect: IRect): IEditorElement[];
   abstract startEditorElement(el: IEditorElement, e: PointerEvent): void;
+  abstract clearCurrentEditorElement(): void;
+  abstract tryPick(e: VRenderPointerEvent): void;
 
   release() {
     this._afterRenderCallBack = null;

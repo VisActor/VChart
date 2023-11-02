@@ -1,4 +1,4 @@
-import type { EditorMode, IEditorController, IEditorLayer } from './../core/interface';
+import type { EditorMode, IEditorController, IEditorElement, IEditorLayer } from './../core/interface';
 import type { IRect, IPoint } from '../typings/space';
 import type { IGraphic } from '@visactor/vrender-core';
 
@@ -24,7 +24,13 @@ export interface IElement {
   getData: () => IElementData;
   release: () => void;
   onAfterRender: (callBack: () => void) => void;
+  getEditorElementsConnectBox: (rect: IRect) => IEditorElement[];
+  startEditorElement: (el: IEditorElement, e: PointerEvent) => void;
+  clearCurrentEditorElement: () => void;
   readonly isRendered: boolean;
+
+  pickable: boolean;
+  tryPick: (e: VRenderPointerEvent) => void;
 }
 
 export type VRenderPointerEvent = PointerEvent & { target: Partial<IGraphic> } & { canvas: { x: number; y: number } };

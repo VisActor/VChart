@@ -64,7 +64,8 @@ export class LayoutEditorComponent {
     this.addEditorBox();
     this.addDrag(opt.container, opt.event);
     this.initEvent();
-    this._startHandler();
+    // up事件下，不应该触发开始编辑
+    opt.event.type !== 'pointerup' && this._startHandler();
     // 吸附线
     this._initMatchLine();
     if (opt.layoutLines?.length) {

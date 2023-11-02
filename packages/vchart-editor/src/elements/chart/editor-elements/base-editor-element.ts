@@ -56,7 +56,6 @@ export abstract class BaseEditorElement {
     return true;
   }
   releaseLast() {
-    console.log(1);
     // @ts-ignore
     this._currentEl = this._overGraphic = null;
   }

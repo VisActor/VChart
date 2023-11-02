@@ -41,7 +41,7 @@ export class LayoutEditorElement extends BaseEditorElement {
     }
   };
   private _unPickModel = (e: PointerEvent) => {
-    if (this._touchEditorBox(e as VRenderPointerEvent)) {
+    if (e && this._touchEditorBox(e as VRenderPointerEvent)) {
       return;
     }
     this._currentEl = null;

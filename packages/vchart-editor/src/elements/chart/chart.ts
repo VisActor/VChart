@@ -1,3 +1,4 @@
+import type { VRenderPointerEvent } from './../interface';
 import type { IEditorElement, ILayoutLine, IUpdateAttributeParam } from './../../core/interface';
 /* eslint-disable no-console */
 import { LayoutEditorElement } from './editor-elements/layout-editor';
@@ -324,5 +325,13 @@ export class EditorChart extends BaseElement {
       layoutMeta: this._layout.getModelLayoutData(modelInfo)
     };
     this._event.emitter.emit('pickModel', info, e);
+  }
+
+  clearCurrentEditorElement() {
+    this._event.emitter.emit('unPickModel', null);
+  }
+
+  tryPick(e: VRenderPointerEvent) {
+    this._event.tryPick(e);
   }
 }

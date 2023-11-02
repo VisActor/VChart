@@ -53,3 +53,6 @@ export const OverGraphicAttribute = {
   // shadowColor: 'blue',
   pickable: false
 };
+
+export const BoxSelectionMaskName = '_editor_box_selection_mask';
+export const TransformComponentName = 'TransformComponent2';

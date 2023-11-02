@@ -66,7 +66,12 @@ export class EditorText extends BaseElement {
   }
 
   private _pointerDown = (e: VRenderPointerEvent) => {
-    console.log('text', '_pointerDown');
+    if (!this.pickable) {
+      return;
+    }
+    if (e.target !== this._textGraphic) {
+      return;
+    }
     if (this._opt.controller.currentEditorElement?.id === this._id) {
       return;
     }
@@ -82,6 +87,13 @@ export class EditorText extends BaseElement {
   private _pointerOut = (e: VRenderPointerEvent) => {
     this._opt.controller.setOverGraphic(null, this._id, e);
     console.log('text', '_pointerOut');
+  };
+
+  tryPick = (e: VRenderPointerEvent) => {
+    const lastPickable = this.pickable;
+    this.pickable = true;
+    this._pointerDown(e);
+    this.pickable = lastPickable;
   };
 
   removeEvent() {
@@ -326,7 +338,13 @@ export class EditorText extends BaseElement {
   }
 
   startEditorElement(el: IEditorElement, e: PointerEvent) {
+    this._currentEl = el;
     this._opt.controller.setEditorElements(el, e);
     this._createEditorGraphic(el, e);
+  }
+
+  clearCurrentEditorElement() {
+    this._currentEl = null;
+    this.clearLayoutEditorBox();
   }
 }

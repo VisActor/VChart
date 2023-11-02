@@ -2,6 +2,7 @@ import type { EditorChart } from './chart';
 import { EventEmitter, isNil } from '@visactor/vutils';
 import type { VRenderPointerEvent } from '../interface';
 import { isModelMatchModelInfo } from '../../utils/spec';
+import { BoxSelectionMaskName, TransformComponentName } from '../../core/const';
 
 export class ChartEvent {
   emitter: EventEmitter = new EventEmitter();
@@ -17,6 +18,19 @@ export class ChartEvent {
     this._chart.option.layer.getStage().addEventListener('pointerdown', this._downEvent as any);
   }
 
+  private _checkPickChart(e: VRenderPointerEvent) {
+    if (!this._chart.pickable) {
+      return false;
+    }
+    if (e.target?.name === BoxSelectionMaskName) {
+      return false;
+    }
+    if (e.target?.name === TransformComponentName && e.target.pickable) {
+      return false;
+    }
+    return true;
+  }
+
   private _overEvent = (e: VRenderPointerEvent) => {
     const info = this._getPickModel(e);
     if (info && this._checkEventEnable(e)) {
@@ -26,7 +40,17 @@ export class ChartEvent {
     }
   };
 
+  tryPick = (e: VRenderPointerEvent) => {
+    const lastPickable = this._chart.pickable;
+    this._chart.pickable = true;
+    this._downEvent(e);
+    this._chart.pickable = lastPickable;
+  };
+
   private _downEvent = (e: VRenderPointerEvent) => {
+    if (!this._checkPickChart(e)) {
+      return;
+    }
     if (this._isPickLayoutComponent(e)) {
       return;
     }

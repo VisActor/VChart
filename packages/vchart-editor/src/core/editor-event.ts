@@ -1,3 +1,4 @@
+import { BoxSelection } from './../component/box-selection';
 import type { ILayoutAttribute, IRect } from './../typings/space';
 import { isArray } from '@visactor/vutils';
 import type { IEditorElement } from './interface';
@@ -7,6 +8,9 @@ import type { VChartEditor } from './vchart-editor';
 
 export class EditorEvent {
   protected _editor: VChartEditor;
+  get editor() {
+    return this._editor;
+  }
   protected _triggerLayer: EditorLayer;
   get triggerLayer() {
     return this._triggerLayer;
@@ -14,8 +18,11 @@ export class EditorEvent {
 
   protected _eventMap: { [key: string]: (e: Event) => void } = {};
 
+  protected _boxSelection: BoxSelection;
+
   constructor(editor: VChartEditor) {
     this._editor = editor;
+    this._boxSelection = new BoxSelection(null, this);
   }
 
   initEvent() {
@@ -86,6 +93,7 @@ export class EditorEvent {
         20 + this._editor.layers.findIndex(l => l === this._triggerLayer) + '';
     }
     this._triggerLayer = l;
+    this._boxSelection.setLayer(l ?? this._editor.layers[0]);
     if (this._triggerLayer) {
       this._triggerLayer.getCanvas().style.zIndex = '100';
     }
