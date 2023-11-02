@@ -176,8 +176,6 @@ const {
   registerTooltip,
   registerCartesianCrossHair
 } = require('@visactor/vchart/cjs/component');
-// Import cross-environment code, here we only load code for browser
-const { registerBrowserEnv } = require('@visactor/vchart/esm/env');
 
 // Register
 VChart.useRegisters([
@@ -185,8 +183,7 @@ VChart.useRegisters([
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerTooltip,
-  registerCartesianCrossHair,
-  registerBrowserEnv
+  registerCartesianCrossHair
 ]);
 ```
 

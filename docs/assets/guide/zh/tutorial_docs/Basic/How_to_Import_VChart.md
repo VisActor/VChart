@@ -182,8 +182,7 @@ VChart.useRegisters([
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerTooltip,
-  registerCartesianCrossHair,
-  registerBrowserEnv
+  registerCartesianCrossHair
 ]);
 ```
 
