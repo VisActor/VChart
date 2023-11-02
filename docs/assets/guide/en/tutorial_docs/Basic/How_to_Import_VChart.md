@@ -143,7 +143,6 @@ import {
   registerCartesianCrossHair
 } from '@visactor/vchart/esm/component';
 // Import cross-environment code, here we only load code for browser
-import { registerBrowserEnv } from '@visactor/vchart/esm/env';
 
 // Register
 VChart.useRegisters([
@@ -151,9 +150,16 @@ VChart.useRegisters([
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerTooltip,
-  registerCartesianCrossHair,
-  registerBrowserEnv
+  registerCartesianCrossHair
 ]);
+```
+
+VChart provides support for browser and node environments by default. If your project needs to run in a mini program environment for on-demand loading, please be careful to import the mini program environment code when necessary.
+For example, when using in WeChat Mini Program, you need to call `registerWXEnv`:
+
+```ts
+import { registerWXEnv } from '@visactor/vchart/esm/env';
+VChart.useRegisters([registerWXEnv]);
 ```
 
 Note that if your project uses cjs (commonJS), please import from the `@visactor/vchart/cjs` directory as follows:
