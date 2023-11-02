@@ -94,6 +94,7 @@ import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 import { mergeThemeAndGet } from '../theme/util';
+import { registerBrowserEnv, registerNodeEnv } from '../env';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -270,6 +271,13 @@ export class VChart implements IVChart {
     if (mode !== 'node' && !this._container && !this._canvas && !this._stage) {
       this._option?.onError('please specify container or renderCanvas!');
       return;
+    }
+
+    // 根据 mode 配置动态加载浏览器或 node 环境代码
+    if (isTrueBrowser(mode)) {
+      registerBrowserEnv();
+    } else if (mode === 'node') {
+      registerNodeEnv();
     }
 
     this._viewBox = this._option.viewBox;
