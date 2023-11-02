@@ -31,38 +31,46 @@ const run = () => {
   dataView.parse(data, {
     type: 'csv'
   });
-  const data2: any[] = [];
-  for (let i = 0; i < 1000; i++) {
-    data2.push({
-      time: i + '',
-      value: Math.random() * 100
-    });
-  }
   const spec = {
-    type: 'line',
-    data: {
-      values: data2
-    },
-    xField: 'time',
-    yField: 'value',
-    dataZoom: [
+    type: 'bar',
+    data: [
       {
-        orient: 'bottom',
-        filterMode: 'axis'
+        id: 'barData',
+        values: [
+          { year: '2000', sales: 22 },
+          { year: '2001', sales: 13 },
+          { year: '2002', sales: 25 },
+          { year: '2003', sales: 29 },
+          { year: '2004', sales: 38 },
+          { year: '2005', sales: 49 },
+          { year: '2006', sales: 58 },
+          { year: '2007', sales: 29 },
+          { year: '2008', sales: 78 },
+          { year: '2009', sales: 19 },
+          { year: '2010', sales: 23 },
+          { year: '2011', sales: 20 },
+          { year: '2012', sales: 98 },
+          { year: '2013', sales: 49 },
+          { year: '2014', sales: 28 }
+        ]
       }
     ],
-    point: {
-      style: {
-        visible: false
+    direction: 'horizontal',
+    yField: 'year',
+    xField: 'sales',
+    scrollBar: [
+      {
+        orient: 'right',
+        startValue: '2011',
+        endValue: '2014',
+        roam: true
       }
-    }
+    ]
   };
-
   const cs = new VChart(spec, {
     dataSet,
     dom: document.getElementById('chart') as HTMLElement,
-    mode: isMobile ? 'mobile-browser' : 'desktop-browser',
-    animation: false
+    mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
   console.time('renderTime');
   cs.renderAsync().then(() => {
