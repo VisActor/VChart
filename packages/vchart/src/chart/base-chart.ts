@@ -342,14 +342,6 @@ export class BaseChart extends CompilableBase implements IChart {
         spec.animation = false;
       }
 
-      // 如果用户在实例中注册了函数，在配置中替换相应函数名为函数内容
-      if (
-        this._modelOption?.exprFunc?.getFunctionNameList() &&
-        this._modelOption.exprFunc.getFunctionNameList().length
-      ) {
-        spec = this.functionTransform(spec, this._modelOption?.exprFunc);
-      }
-
       let region: IRegion | undefined;
       if (isValid(spec.regionId)) {
         region = this.getRegionsInUserId(spec.regionId);
@@ -1415,37 +1407,5 @@ export class BaseChart extends CompilableBase implements IChart {
 
   getColorScheme() {
     return (this._option.getThemeConfig?.().chartLevelTheme ?? defaultChartLevelTheme).colorScheme;
-  }
-
-  /**
-   * functionTransform is used to replace the function registered by the instance
-   * @param spec
-   * @param exprFunc
-   * @returns
-   */
-  functionTransform(spec: ISeriesSpec, exprFunc: any): any {
-    if (!spec) {
-      return spec;
-    }
-    // 如果是普通对象
-    if (spec?.constructor === Object) {
-      const result: any = {};
-      for (const key in spec as any) {
-        if (Object.prototype.hasOwnProperty.call(spec, key)) {
-          // 如果使用了注册函数
-          if (isString(spec[key]) && exprFunc.getFunction(spec[key])) {
-            result[key] = exprFunc.getFunction(spec[key]);
-            continue;
-          }
-          result[key] = this.functionTransform(spec[key], exprFunc);
-        }
-      }
-      return result;
-    }
-    // 如果是数组
-    if (isArray(spec)) {
-      return spec.map(s => this.functionTransform(s, exprFunc));
-    }
-    return spec;
   }
 }

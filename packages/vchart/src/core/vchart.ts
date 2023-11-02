@@ -61,7 +61,8 @@ import type {
   ISpec,
   Maybe,
   MaybeArray,
-  StringOrNumber
+  StringOrNumber,
+  ISeriesSpec
 } from '../typings';
 import { AnimationStateEnum } from '../animation/interface';
 import type { IBoundsLike, ILogger } from '@visactor/vutils';
@@ -360,7 +361,8 @@ export class VChart implements IVChart {
     this._autoSize = isTrueBrowser(mode) ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
     this._bindVGrammarViewEvent();
-    this._event.emit(ChartEvent.initialized, {});
+
+    // this._event.emit(ChartEvent.initialized, {});
 
     InstanceManager.registerInstance(this);
   }
@@ -370,7 +372,39 @@ export class VChart implements IVChart {
       return;
     }
 
-    this._spec = specTransform(isString(spec) ? JSON.parse(spec) : spec, VChart);
+    this._spec = specTransform(isString(spec) ? JSON.parse(spec) : spec);
+  }
+
+  /**
+   * functionTransform is used to replace the function registered by the instance
+   * @param spec
+   * @param exprFunc
+   * @returns
+   */
+  private _functionTransform(spec: ISeriesSpec): any {
+    if (!spec) {
+      return spec;
+    }
+    // 如果是普通对象
+    if (spec?.constructor === Object) {
+      const result: any = {};
+      for (const key in spec as any) {
+        if (Object.prototype.hasOwnProperty.call(spec, key)) {
+          // 如果使用了注册函数
+          if (isString(spec[key]) && VChart.getExpressionFunction(spec[key])) {
+            result[key] = VChart.getExpressionFunction(spec[key]);
+            continue;
+          }
+          result[key] = this._functionTransform(spec[key]);
+        }
+      }
+      return result;
+    }
+    // 如果是数组
+    if (isArray(spec)) {
+      return spec.map(s => this._functionTransform(s));
+    }
+    return spec;
   }
 
   private _initChart(spec: any) {
@@ -378,6 +412,12 @@ export class VChart implements IVChart {
       this._option?.onError('compiler is not initialized');
       return;
     }
+
+    // 如果用户注册了函数，在配置中替换相应函数名为函数内容
+    if (VChart.getExpressionFunctionList() && VChart.getExpressionFunctionList().length) {
+      spec = this._functionTransform(spec);
+    }
+
     // 放到这里而不是放到chart内的考虑
     // 用户spec更新，也许会有core上图表实例的内容存在
     // 如果要支持spec的类似Proxy监听，更新逻辑应当从这一层开始。如果在chart上做，就需要在再向上发送spec更新消息，不是很合理。
@@ -413,6 +453,7 @@ export class VChart implements IVChart {
     this._chart.setCanvasRect(this._curSize.width, this._curSize.height);
     this._chart.created();
     this._chart.init({});
+    this._event.emit(ChartEvent.initialized, {});
   }
 
   private _releaseData() {
@@ -828,7 +869,7 @@ export class VChart implements IVChart {
     }
 
     await this.updateCustomConfigAndRerender(() => {
-      spec = specTransform(spec, VChart) as any;
+      spec = specTransform(spec) as any;
       const lastSpec = this._spec;
       this._spec = spec;
       if (!isEqual(lastSpec.theme, spec.theme)) {
@@ -871,7 +912,7 @@ export class VChart implements IVChart {
     }
 
     this.updateCustomConfigAndRerenderSync(() => {
-      spec = specTransform(spec, VChart) as any;
+      spec = specTransform(spec) as any;
       // because of in data-init, data will be set as array;
       spec.data = spec.data ?? [];
       const lastSpec = this._spec;

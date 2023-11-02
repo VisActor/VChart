@@ -60,6 +60,9 @@ Component({
 
   methods: {
     init() {
+      // function labelFormat(key, datum) {
+      //   return datum.x+':'+key;
+      // }
       tt.createSelectorQuery()
         .in(this)
         .select(`#${this.data.canvasId}_draw_canvas`)
@@ -77,6 +80,8 @@ Component({
           // will call on WindowResize
           // release old chart first
           this.chart && this.chart.release();
+
+          // VChart.expressionFunction('labelFormat', labelFormat);
 
           const chartInstance = new VChart(
             {
@@ -110,6 +115,8 @@ Component({
               event && chartInstance.on(event.type, { ...event.query, source: 'chart' }, event.handler);
             });
           }
+
+          // chartInstance.registerFunction('labelFormat', labelFormat);
 
           chartInstance.renderAsync().then(res => {
             this.triggerEvent('chartready');
