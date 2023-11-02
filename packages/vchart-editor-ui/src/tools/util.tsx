@@ -10,7 +10,7 @@ import { IconSumDiff } from '../svg/sum-diff';
 import { IconHierarchyDiff } from '../svg/hierarchy-diff';
 import { IconAddText } from '../svg/add-text';
 import { IconComment } from '../svg/comment';
-import { IconBold, IconMore } from '@douyinfe/semi-icons';
+import { IconBold, IconDelete, IconMore } from '@douyinfe/semi-icons';
 import { IconEditData } from '../svg/edit-data';
 
 export function ColorItem(props: IColorItemProps) {
@@ -196,14 +196,16 @@ export function EditorBarPanelEntry(props: IEditorBarEntryProps) {
 }
 
 export const editorBarToolMap = {
-  horizontalLine: { icon: <IconHorizontalLine />, type: 'switch' },
-  verticalLine: { icon: <IconVerticalLine />, type: 'switch' },
-  horizontalRect: { icon: <IconHorizontalRect />, type: 'switch' },
-  verticalRect: { icon: <IconVerticalRect />, type: 'switch' },
-  combineMark: { icon: <IconCombineMark />, type: 'switch' },
-  sumDiff: { icon: <IconSumDiff />, type: 'switch' },
-  hierarchyDiff: { icon: <IconHierarchyDiff />, type: 'switch' },
-  addText: { icon: <IconAddText />, type: 'switch' },
+  horizontalLine: { icon: <IconHorizontalLine />, type: 'trigger' },
+  verticalLine: { icon: <IconVerticalLine />, type: 'trigger' },
+  horizontalRect: { icon: <IconHorizontalRect />, type: 'trigger' },
+  verticalRect: { icon: <IconVerticalRect />, type: 'trigger' },
+  combineMark: { icon: <IconCombineMark />, type: 'trigger' },
+  sumDiff: { icon: <IconSumDiff />, type: 'trigger' },
+  hierarchyDiff: { icon: <IconHierarchyDiff />, type: 'trigger' },
+  addText: { icon: <IconAddText />, type: 'trigger' },
+
+  delete: { icon: <IconDelete />, type: 'trigger' },
 
   editData: { icon: <IconEditData />, type: 'trigger' },
   comment: { icon: <IconComment />, type: 'trigger' },

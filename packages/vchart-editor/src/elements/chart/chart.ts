@@ -247,14 +247,12 @@ export class EditorChart extends BaseElement {
       spec.markLine = [];
     }
     // TODO: 没搞懂这个逻辑
-    const lastMarkLine = spec.markLine.find((markLine: any) => markLine.name === attr.markLine.type);
     if (attr.markLine.enable) {
-      if (!lastMarkLine) {
-        const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markLine.type);
-        spec.markLine.push(defaultMarkLineSpec);
-        this.specProcess.updateMarker(defaultMarkLineSpec, 'markLine');
-      }
+      const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markLine.type);
+      spec.markLine.push(defaultMarkLineSpec);
+      this.specProcess.updateMarker(defaultMarkLineSpec, 'markLine');
     } else {
+      const lastMarkLine = spec.markLine.find((markLine: any) => markLine.id === attr.markLine.spec.id);
       if (lastMarkLine) {
         spec.markLine.splice(spec.markLine.indexOf(lastMarkLine), 1);
       }
@@ -267,14 +265,12 @@ export class EditorChart extends BaseElement {
       spec.markArea = [];
     }
     // TODO: 没搞懂这个逻辑
-    const lastMarkArea = spec.markArea.find((markArea: any) => markArea.name === attr.markArea.type);
     if (attr.markArea.enable) {
-      if (!lastMarkArea) {
-        const defaultMarkAreaSpec = getDefaultMarkerConfigByType(this.vchart, attr.markArea.type);
-        spec.markArea.push(defaultMarkAreaSpec);
-        this.specProcess.updateMarker(defaultMarkAreaSpec, 'markArea');
-      }
+      const defaultMarkAreaSpec = getDefaultMarkerConfigByType(this.vchart, attr.markArea.type);
+      spec.markArea.push(defaultMarkAreaSpec);
+      this.specProcess.updateMarker(defaultMarkAreaSpec, 'markArea');
     } else {
+      const lastMarkArea = spec.markArea.find((markArea: any) => markArea.id === attr.markArea.spec.id);
       if (lastMarkArea) {
         spec.markArea.splice(spec.markArea.indexOf(lastMarkArea), 1);
       }
