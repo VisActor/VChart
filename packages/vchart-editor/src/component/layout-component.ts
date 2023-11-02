@@ -93,6 +93,7 @@ export class LayoutEditorComponent {
       }
       if (this._el.editProperties.move) {
         this._reSetSnap();
+        this._startHandler();
         this._dragger.startDrag(e);
       }
     }
@@ -139,6 +140,7 @@ export class LayoutEditorComponent {
     this._editorBox.onUnTransStart(e => {
       if (this._el.editProperties.move) {
         this._reSetSnap();
+        this._startHandler();
         return this._dragger.startDrag(e);
       }
     });
@@ -295,6 +297,7 @@ export class LayoutEditorComponent {
     this._dragger.dragEndHandler(this._editorEnd);
     if (this._el.editProperties.move) {
       this._reSetSnap();
+      this._startHandler();
       this._dragger.startDrag(event);
     }
   }

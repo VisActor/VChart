@@ -34,7 +34,8 @@ export class LayoutEditorElement extends BaseEditorElement {
 
   private _pickModel = (info: { model: IChartModel; layoutMeta: LayoutMeta }, e: EventParams) => {
     const el = this._getElementWithModel(info, e);
-    if (el) {
+    if (el && el.id !== this._currentEl?.id) {
+      this._currentEl = el;
       this.clearLayoutEditorBox();
       this._createEditorGraphic(el, info, e);
     }

@@ -19,6 +19,7 @@ export class EditorText extends BaseElement {
   protected _textGraphic: IText;
   protected _layoutComponent: LayoutEditorComponent;
   protected _tempKey: string;
+  protected _currentEl: IEditorElement;
 
   constructor(opt: IElementOption) {
     super(opt);
@@ -105,6 +106,7 @@ export class EditorText extends BaseElement {
         el.originSpec = this._textGraphic.attribute;
       }
     };
+    this._currentEl = el;
     this._opt.controller.setEditorElements(el, e);
     this._createEditorGraphic(el, e);
   };
@@ -122,6 +124,7 @@ export class EditorText extends BaseElement {
   }
 
   release() {
+    this._currentEl = null;
     this.clearLayoutEditorBox();
     this.removeEvent();
     this._textGraphic.parent.removeChild(this._textGraphic);
@@ -250,6 +253,13 @@ export class EditorText extends BaseElement {
       // @ts-ignore
       heightLimit: layoutData.height
     });
+    if (this._currentEl) {
+      const bounds = this._textGraphic.AABBBounds;
+      this._currentEl.rect.x = bounds.x1;
+      this._currentEl.rect.y = bounds.y1;
+      this._currentEl.rect.width = bounds.width();
+      this._currentEl.rect.height = bounds.height();
+    }
   }
 
   clearLayoutEditorBox() {
