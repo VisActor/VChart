@@ -2,7 +2,7 @@ import type { ILayoutAttribute, IRect } from './../typings/space';
 import { isArray } from '@visactor/vutils';
 import type { IEditorElement } from './interface';
 import type { EditorLayer } from './editor-layer';
-import { DeleteElementKeyCode, MouseEvents, TriggerEvent } from './const';
+import { MouseEvents, TriggerEvent } from './const';
 import type { VChartEditor } from './vchart-editor';
 
 export class EditorEvent {
@@ -30,9 +30,10 @@ export class EditorEvent {
   }
 
   protected _keyEvent = (ev: KeyboardEvent) => {
-    if (DeleteElementKeyCode[ev.key] === true) {
-      this._editor.deleteElement();
-    }
+    // remove delete in editor
+    // if (DeleteElementKeyCode[ev.key] === true) {
+    //   this._editor.deleteElement();
+    // }
   };
 
   protected _handlerEvent(eventType: keyof HTMLElementEventMap, e: Event) {

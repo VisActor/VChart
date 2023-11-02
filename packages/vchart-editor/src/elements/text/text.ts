@@ -89,6 +89,7 @@ export class EditorText extends BaseElement {
       color: [],
       rect,
       editProperties,
+      originSpec: { ...this._textGraphic.attribute },
       updateAttribute: (attr: IUpdateAttributeParam) => {
         if (attr.spec) {
           this._textGraphic.setAttributes(this._transformTextAttribute(attr.spec));
@@ -211,6 +212,7 @@ export class EditorText extends BaseElement {
       stage: this._opt.layer.getStage(),
       startHandler: () => {
         // do nothing
+        this._opt.controller.editorRun('layout');
       },
       updateHandler: data => {
         let hasChange = false;
@@ -231,6 +233,7 @@ export class EditorText extends BaseElement {
         this._updateLayout(data);
         this._layoutComponent?.updateBounds(this._textGraphic.AABBBounds);
         this._opt.controller.setOverGraphic(null, null, null);
+        this._opt.controller.editorEnd();
       },
       event: e
     });
