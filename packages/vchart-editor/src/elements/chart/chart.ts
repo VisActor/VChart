@@ -308,4 +308,21 @@ export class EditorChart extends BaseElement {
     });
     return result;
   }
+
+  getEditorElementsConnectBox(rect: IRect): IEditorElement[] {
+    const mathModel = this._layout.getBoxConnectModel(rect);
+    return mathModel.map(info => this._commonModelElement.getElementWithModel(info)).filter(e => !!e);
+  }
+
+  startEditorElement(el: IEditorElement, e: PointerEvent) {
+    if (!el.model) {
+      return;
+    }
+    const modelInfo = { id: el.model.userId, specKey: el.model.specKey, specIndex: el.model.getSpecIndex() };
+    const info = {
+      model: el.model,
+      layoutMeta: this._layout.getModelLayoutData(modelInfo)
+    };
+    this._event.emitter.emit('pickModel', info, e);
+  }
 }

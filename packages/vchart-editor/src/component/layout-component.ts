@@ -52,6 +52,7 @@ export class LayoutEditorComponent {
       stage: IStage;
       layoutLines: ILayoutLine[];
       editorGroup: IGroup;
+      swallowInteraction?: boolean;
     }
   ) {
     this._el = el;
@@ -125,7 +126,7 @@ export class LayoutEditorComponent {
     this._editorBox = new TransformComponent2(
       {
         childrenPickable: true,
-        pickable: false,
+        pickable: this._opt.swallowInteraction === true,
         move: this._el.editProperties.move,
         rotate: this._el.editProperties.rotate,
         resize: this._el.editProperties.resize
@@ -295,7 +296,7 @@ export class LayoutEditorComponent {
     this._dragger = new DragComponent(container);
     this._dragger.dragHandler(this._dragElement);
     this._dragger.dragEndHandler(this._editorEnd);
-    if (this._el.editProperties.move) {
+    if (this._el.editProperties.move && event.type !== 'pointerup') {
       this._reSetSnap();
       this._startHandler();
       this._dragger.startDrag(event);

@@ -10,6 +10,10 @@ export function isPointInBounds(point: IPoint, rect: IBoundsLike) {
   return x <= x2 && x >= x1 && y <= y2 && y >= y1;
 }
 
+export function isRectConnectRect(a: IRect, b: IRect) {
+  return !(a.x > b.x + b.width || a.x + a.width < b.x || a.y > b.y + b.height || a.y + a.height < b.y);
+}
+
 export function isPointInRect(point: IPoint, rect: IRect) {
   const { x, y, width, height } = rect;
   const { x: x0, y: y0 } = point;

@@ -4,13 +4,14 @@ import { createRect, createWrapText } from '@visactor/vrender-core';
 import type { IEditorElement, ILayoutLine, IUpdateAttributeParam } from './../../core/interface';
 /* eslint-disable no-console */
 
-import { isString, type IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike } from '@visactor/vutils';
+import { isString, isValid } from '@visactor/vutils';
 import type { IRect, IPoint, ILayoutAttribute } from '../../typings/space';
 import { BaseElement } from '../base-element';
 import type { IElementOption } from '../interface';
 import { LayoutEditorComponent } from '../../component/layout-component';
 import { MinSize } from '../../core/const';
-import { getLayoutLine } from '../../utils/space';
+import { getLayoutLine, isRectConnectRect } from '../../utils/space';
 
 export class EditorText extends BaseElement {
   type = 'text';
@@ -69,43 +70,7 @@ export class EditorText extends BaseElement {
     if (this._opt.controller.currentEditorElement?.id === this._id) {
       return;
     }
-    const bounds = this._textGraphic.AABBBounds;
-    const rect = {
-      x: bounds.x1,
-      y: bounds.y1,
-      width: bounds.width(),
-      height: bounds.height()
-    };
-    const editProperties: IEditorElement['editProperties'] = {
-      move: true,
-      rotate: false,
-      resize: true
-    };
-    const el: IEditorElement = {
-      type: 'graphics',
-      layer: this._opt.layer,
-      id: this._id,
-      graphicsType: this.type,
-      model: undefined,
-      color: [],
-      rect,
-      editProperties,
-      originSpec: { ...this._textGraphic.attribute },
-      updateAttribute: (attr: IUpdateAttributeParam) => {
-        if (attr.spec) {
-          this._textGraphic.setAttributes(this._transformTextAttribute(attr.spec));
-          el.originSpec = this._textGraphic.attribute;
-          this._layoutComponent?.updateBounds(this._textGraphic.AABBBounds);
-        }
-        return false;
-      },
-      editorFinish: () => {
-        // do nothing
-      },
-      updateElement: () => {
-        el.originSpec = this._textGraphic.attribute;
-      }
-    };
+    const el: IEditorElement = this._getEditorElement();
     this._currentEl = el;
     this._opt.controller.setEditorElements(el, e);
     this._createEditorGraphic(el, e);
@@ -139,6 +104,50 @@ export class EditorText extends BaseElement {
   }
   getBounds(): IBoundsLike {
     throw new Error('Method not implemented.');
+  }
+
+  private _getEditorElement() {
+    const bounds = this._textGraphic.AABBBounds;
+    const rect = {
+      x: bounds.x1,
+      y: bounds.y1,
+      width: bounds.width(),
+      height: bounds.height()
+    };
+    const editProperties: IEditorElement['editProperties'] = {
+      move: true,
+      rotate: false,
+      resize: true
+    };
+    const el: IEditorElement = {
+      type: 'graphics',
+      layer: this._opt.layer,
+      id: this._id,
+      graphicsType: this.type,
+      model: undefined,
+      color: [],
+      rect,
+      editProperties,
+      originSpec: { ...this._textGraphic.attribute },
+      updateAttribute: (attr: IUpdateAttributeParam) => {
+        if (attr.spec) {
+          this._textGraphic.setAttributes(this._transformTextAttribute(attr.spec));
+          el.originSpec = this._textGraphic.attribute;
+          this._layoutComponent?.updateBounds(this._textGraphic.AABBBounds);
+        }
+        if (attr.layout) {
+          this._updateLayout(attr.layout as ILayoutAttribute);
+        }
+        return false;
+      },
+      editorFinish: () => {
+        // do nothing
+      },
+      updateElement: () => {
+        el.originSpec = this._textGraphic.attribute;
+      }
+    };
+    return el;
   }
 
   getLayoutGuideLine(): ILayoutLine[] {
@@ -245,14 +254,27 @@ export class EditorText extends BaseElement {
   }
 
   private _updateLayout(layoutData: ILayoutAttribute) {
-    this._textGraphic.setAttributes({
-      x: layoutData.x - (this._textGraphic.AABBBounds.x1 - this._textGraphic.attribute.x),
-      y: layoutData.y - (this._textGraphic.AABBBounds.y1 - this._textGraphic.attribute.y),
-      maxLineWidth: layoutData.width,
-      // vRender type error
-      // @ts-ignore
-      heightLimit: layoutData.height
-    });
+    if (isValid(layoutData.dy)) {
+      this._textGraphic.setAttributes({
+        x: layoutData.dx + this._textGraphic.attribute.x
+      });
+    }
+    if (isValid(layoutData.dy)) {
+      this._textGraphic.setAttributes({
+        y: layoutData.dy + this._textGraphic.attribute.y
+      });
+    }
+    if (isValid(layoutData.x) && isValid(layoutData.y) && isValid(layoutData.width) && isValid(layoutData.height)) {
+      this._textGraphic.setAttributes({
+        x: layoutData.x - (this._textGraphic.AABBBounds.x1 - this._textGraphic.attribute.x),
+        y: layoutData.y - (this._textGraphic.AABBBounds.y1 - this._textGraphic.attribute.y),
+        maxLineWidth: layoutData.width,
+        // vRender type error
+        // @ts-ignore
+        heightLimit: layoutData.height
+      });
+    }
+
     if (this._currentEl) {
       const bounds = this._textGraphic.AABBBounds;
       this._currentEl.rect.x = bounds.x1;
@@ -286,5 +308,25 @@ export class EditorText extends BaseElement {
       attr.text = [attr.text];
     }
     return attr;
+  }
+
+  getEditorElementsConnectBox(rect: IRect): IEditorElement[] {
+    const bounds = this._textGraphic.AABBBounds;
+    if (
+      isRectConnectRect(rect, {
+        x: bounds.x1,
+        y: bounds.y1,
+        width: bounds.width(),
+        height: bounds.height()
+      })
+    ) {
+      return [this._getEditorElement()];
+    }
+    return [];
+  }
+
+  startEditorElement(el: IEditorElement, e: PointerEvent) {
+    this._opt.controller.setEditorElements(el, e);
+    this._createEditorGraphic(el, e);
   }
 }

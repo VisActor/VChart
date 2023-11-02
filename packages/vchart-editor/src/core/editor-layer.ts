@@ -1,3 +1,4 @@
+import { BoxSelection } from './../component/box-selection';
 import type { VRenderPointerEvent } from './../elements/interface';
 import { Bounds, isValid } from '@visactor/vutils';
 import type { EditorMode, IEditorElement, IEditorLayer, ILayoutLine } from './interface';
@@ -31,6 +32,9 @@ export class EditorLayer implements IEditorLayer {
   }
 
   protected _container: HTMLElement;
+  get container() {
+    return this._container;
+  }
 
   protected _isTrigger: boolean = false;
   get isTrigger() {
@@ -50,6 +54,11 @@ export class EditorLayer implements IEditorLayer {
   protected _editorGroup: IGroup;
   get editorGroup() {
     return this._editorGroup;
+  }
+
+  protected _boxSelection: BoxSelection;
+  get boxSelection() {
+    return this._boxSelection;
   }
 
   protected _activeElement: IEditorElement | IEditorElement[];
@@ -88,6 +97,7 @@ export class EditorLayer implements IEditorLayer {
     this.initCanvas();
     this.initEvent();
     this.initEditorGroup();
+    this.initBoxSelection();
   }
 
   moveTo(x: number, y: number) {
@@ -194,6 +204,10 @@ export class EditorLayer implements IEditorLayer {
     });
     // @ts-ignore
     this._stage = stage;
+  }
+
+  protected initBoxSelection() {
+    this._boxSelection = new BoxSelection(this);
   }
 
   //

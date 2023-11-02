@@ -11,7 +11,7 @@ import {
   transformModelRectRevert
 } from '../utils/layout';
 import type { ILayoutAttribute, IRect } from '../../../typings/space';
-import { MinSize } from '../../../core/const';
+import { MinSize, OverGraphicAttribute } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
 import type { EventParams } from '@visactor/vchart';
 import { isSameModelInfo } from '../../../utils/spec';
@@ -44,6 +44,7 @@ export class LayoutEditorElement extends BaseEditorElement {
     if (this._touchEditorBox(e as VRenderPointerEvent)) {
       return;
     }
+    this._currentEl = null;
     this.clearLayoutEditorBox();
     this._layer.getStage().renderNextFrame();
   };
@@ -188,12 +189,7 @@ export class LayoutEditorElement extends BaseEditorElement {
   protected _getOverGraphic(el: IEditorElement): IGraphic {
     return createRect({
       ...el.rect,
-      fill: false,
-      stroke: 'blue',
-      lineWidth: 2,
-      // shadowBlur: 4,
-      // shadowColor: 'blue',
-      pickable: false
+      ...OverGraphicAttribute
     });
   }
 
@@ -217,7 +213,10 @@ export class LayoutEditorElement extends BaseEditorElement {
     }
     const element = new CommonChartEditorElement(this, {
       model,
-      editProperties: editProperties
+      editProperties: editProperties,
+      finishCall: () => {
+        this._currentEl = null;
+      }
     });
     return element;
   }

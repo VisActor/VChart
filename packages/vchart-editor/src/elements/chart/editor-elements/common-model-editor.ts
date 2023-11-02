@@ -4,7 +4,7 @@ import { createRect, type IGraphic } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
 import { IgnoreModelTypeInCommon } from '../utils/layout';
-import { EventEmitter } from '@visactor/vutils';
+import { EventEmitter, isValid } from '@visactor/vutils';
 
 export class CommonModelElement extends BaseEditorElement {
   emitter: EventEmitter = new EventEmitter();
@@ -21,7 +21,7 @@ export class CommonModelElement extends BaseEditorElement {
         return;
       }
     }
-    const el = this._getElementWithModel(info, e);
+    const el = this.getElementWithModel(info);
     this.showOverGraphic(el, el?.id + `${this._layer.id}`, e);
   };
 
@@ -30,7 +30,7 @@ export class CommonModelElement extends BaseEditorElement {
   };
 
   private _pickModel = (info: { model: IChartModel; layoutMeta: LayoutMeta }, e: PointerEvent) => {
-    const el = this._getElementWithModel(info, e);
+    const el = this.getElementWithModel(info);
     if (el) {
       this.startEditor(el, e);
     }
@@ -48,7 +48,7 @@ export class CommonModelElement extends BaseEditorElement {
     });
   }
 
-  protected _getElementWithModel(info: { model: IChartModel; layoutMeta: LayoutMeta }, eventParams: PointerEvent) {
+  getElementWithModel(info: { model: IChartModel; layoutMeta: LayoutMeta }) {
     const { model } = info;
     if (IgnoreModelTypeInCommon[model.type]) {
       return null;
@@ -56,6 +56,7 @@ export class CommonModelElement extends BaseEditorElement {
     const element = new CommonChartEditorElement(this, {
       model,
       updateCall: attr => {
+        let reRender = false;
         if (attr.chartType) {
           this.emitter.emit('chartTypeChange', element, attr);
         }
@@ -71,7 +72,15 @@ export class CommonModelElement extends BaseEditorElement {
           this.emitter.emit('addMarkArea', this, attr);
         }
 
-        const reRender = this.chart.specProcess.updateElementAttribute(element.model, attr);
+        if (attr.layout) {
+          const newLayout = { ...info.layoutMeta };
+          isValid(attr.layout.dx) && (newLayout.layout.x.offset += attr.layout.dx);
+          isValid(attr.layout.dy) && (newLayout.layout.y.offset += attr.layout.dy);
+          this._chart.layout.setModelLayoutData(newLayout);
+          reRender = true;
+        }
+
+        reRender = this.chart.specProcess.updateElementAttribute(element.model, attr) || reRender;
         const releaseLast = reRender;
         if (releaseLast) {
           this.releaseLast();

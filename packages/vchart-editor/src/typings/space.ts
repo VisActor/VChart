@@ -33,4 +33,6 @@ export interface ILayoutAttribute {
   height: number;
   angle: number;
   anchor: [number | string, number | string];
+  dx?: number;
+  dy?: number;
 }

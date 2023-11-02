@@ -6,8 +6,13 @@ import type { ILayoutData, IChartLayout, LayoutMeta } from './interface';
 import type { IVChart } from '@visactor/vchart';
 import { merge, type IBoundsLike } from '@visactor/vutils';
 import type { IPoint, IRect } from '../../../typings/space';
-import { LayoutRectToRect, isPointInRect } from '../../../utils/space';
-import { getChartModelWithModelInfo, transformModelPos, transformModelRect } from '../utils/layout';
+import { LayoutRectToRect, isPointInRect, isRectConnectRect } from '../../../utils/space';
+import {
+  IgnoreModelTypeInLayout,
+  getChartModelWithModelInfo,
+  transformModelPos,
+  transformModelRect
+} from '../utils/layout';
 import { isModelMatchModelInfo, isSameModelInfo } from '../../../utils/spec';
 
 export class ChartLayout implements IChartLayout {
@@ -130,5 +135,32 @@ export class ChartLayout implements IChartLayout {
       return null;
     }
     return this._layoutData.data.find(_d => isSameModelInfo(info, _d));
+  }
+
+  getBoxConnectModel(rect: IRect) {
+    const result: { layoutMeta: LayoutMeta; model: IChartModel }[] = [];
+    this._layoutData.data.forEach(d => {
+      const model = getChartModelWithModelInfo(this._vchart, d);
+      if (!model || IgnoreModelTypeInLayout[model.type]) {
+        return;
+      }
+      const modelRect = transformModelRect(model as unknown as IChartModel, LayoutRectToRect(d.layout));
+      if (isRectConnectRect(rect, modelRect)) {
+        result.push({ model, layoutMeta: d });
+      }
+    });
+    if (result.find(info => info.layoutMeta.specKey === 'region' || info.layoutMeta.specKey === 'axes')) {
+      // 如果包含了 region 或者 轴，那么需要需要将 region 和轴一起添加。它们布局时是一个整体 痛苦！
+      this._layoutData.data.forEach(d => {
+        if (d.specKey === 'region' || d.specKey === 'axes') {
+          if (result.find(r => isSameModelInfo(r.layoutMeta, d))) {
+            return;
+          }
+          const model = getChartModelWithModelInfo(this._vchart, d);
+          result.push({ model, layoutMeta: d });
+        }
+      });
+    }
+    return result;
   }
 }

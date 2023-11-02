@@ -42,7 +42,7 @@ export abstract class BaseEditorElement {
     this._controller.setOverGraphic(this._overGraphic, id, e);
   }
 
-  protected startEditor(el: IEditorElement, e?: PointerEvent): boolean {
+  startEditor(el: IEditorElement, e?: PointerEvent): boolean {
     if (!el) {
       return false;
     }
@@ -129,7 +129,7 @@ export class CommonChartEditorElement implements IEditorElement {
     // set attribute
     this._context = context;
     this._opt = opt;
-    const { model, updateCall, finishCall, id, editProperties, rect } = opt;
+    const { model, updateCall, finishCall } = opt;
     this._updateCall = updateCall;
     this._finishCall = finishCall;
     this.model = model;
@@ -141,6 +141,7 @@ export class CommonChartEditorElement implements IEditorElement {
   };
 
   editorFinish = () => {
+    this._finishCall?.();
     if (this._context.currentEditorElement === this) {
       this._context.releaseLast();
     }
@@ -159,7 +160,6 @@ export class CommonChartEditorElement implements IEditorElement {
     this.chartType = context.chart.specProcess.getEditorSpec().temp;
     // @ts-ignore TODO: support get current colorTheme api in vchart
     this.color = context.chart.vchart.getChart()._globalScale.getScale('color').range();
-    this._finishCall;
     const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };
     this._modelInfo = modelInfo;
     this.layer = this._context.layer;

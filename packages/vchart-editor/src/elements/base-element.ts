@@ -1,3 +1,4 @@
+import type { IEditorElement } from './../core/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IRect, IPoint } from '../typings/space';
 import type { IElementData, IElementOption } from './interface';
@@ -62,6 +63,9 @@ export abstract class BaseElement {
 
   abstract getLayoutGuideLine(): ILayoutLine[];
   abstract moveBy(offsetX: number, offsetY: number): void;
+
+  abstract getEditorElementsConnectBox(rect: IRect): IEditorElement[];
+  abstract startEditorElement(el: IEditorElement, e: PointerEvent): void;
 
   release() {
     this._afterRenderCallBack = null;

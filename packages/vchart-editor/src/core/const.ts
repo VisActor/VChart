@@ -44,3 +44,12 @@ export const MinSize = 5;
 export const DeleteElementKeyCode = {
   Delete: true
 };
+
+export const OverGraphicAttribute = {
+  fill: false,
+  stroke: 'blue',
+  lineWidth: 2,
+  // shadowBlur: 4,
+  // shadowColor: 'blue',
+  pickable: false
+};

@@ -1,3 +1,4 @@
+import type { IChartModel } from './../interface';
 import type { IEditorLayer, IModelInfo } from './../../../core/interface';
 import type { IPoint, IRect } from './../../../typings/space';
 import type { IVChart } from '@visactor/vchart';
@@ -28,6 +29,8 @@ export interface IChartLayout {
   setVChart: (vchart: IVChart) => void;
   clear: () => void;
   getOverModel: (pos: IPoint, layer: IEditorLayer) => LayoutMeta;
+
+  getBoxConnectModel: (rect: IRect) => { layoutMeta: LayoutMeta; model: IChartModel }[];
 }
 
 export interface IChartLayoutConstructor {
