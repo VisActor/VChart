@@ -62,7 +62,7 @@ export class AnimateManager extends StateManager implements IAnimate {
     return {
       animationState: {
         callback: (datum: any, element: IElement) => {
-          return element.diffState === 'exit' ? AnimationStateEnum.none : AnimationStateEnum.appear;
+          return element.diffState === 'exit' ? AnimationStateEnum.exit : AnimationStateEnum.appear;
         }
       }
     };

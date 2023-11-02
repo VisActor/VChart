@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: enable exit animation while updating data",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

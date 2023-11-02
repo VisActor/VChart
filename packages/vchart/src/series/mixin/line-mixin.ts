@@ -29,13 +29,13 @@ import { DEFAULT_CLOSE_STROKE_JOIN } from '../../typings/line-stroke';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '../../util/spec/merge-spec';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
-import { shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import type { ILabelSpec } from '../../component/label';
+import { shouldMarkDoMorph } from '../../animation/utils';
 import { DimensionEventEnum, type DimensionEventParams } from '../../event/events/dimension';
 import type { EventCallback, EventParams } from '../../event/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { lineLikeSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
-import type { ILabelSpec } from '../../component';
 import type { Functional } from '@visactor/vrender-components';
 
 export interface ILineLikeSeriesTheme {
@@ -196,7 +196,7 @@ export class LineLikeSeriesMixin {
   initSymbolMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
     if (this._spec.point?.visible !== false) {
       this._symbolMark = this._createMark(lineLikeSeriesMark.point, {
-        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('point', this._spec)),
+        morph: shouldMarkDoMorph(this._spec, lineLikeSeriesMark.point.name),
         defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
         label: mergeSpec({ animation: this._spec.animation }, this._spec.label),

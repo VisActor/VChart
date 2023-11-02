@@ -358,7 +358,9 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     };
     if (this._boxPlotMark) {
       const newDefaultConfig = this._initAnimationSpec(Factory.getAnimationInKey('scaleInOut')?.());
-      const newConfig = this._initAnimationSpec(userAnimationConfig(SeriesMarkNameEnum.boxPlot, this._spec));
+      const newConfig = this._initAnimationSpec(
+        userAnimationConfig(SeriesMarkNameEnum.boxPlot, this._spec, this._markAttributeContext)
+      );
       this._boxPlotMark.setAnimationConfig(animationConfig(newDefaultConfig, newConfig, { dataIndex }));
     }
 

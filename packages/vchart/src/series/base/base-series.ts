@@ -64,12 +64,13 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
-import { array, isEqual, isNil, isValid, isBoolean, isString, isFunction, isArray } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
-import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { baseSeriesMark } from './constant';
+import { array, isEqual, isNil, isValid, isBoolean, isString, isFunction, isArray } from '@visactor/vutils';
 import { getThemeFromOption } from '../../theme/util';
 import { getDirectionFromSeriesSpec } from '../util/spec';
+import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
+import { baseSeriesMark } from './constant';
+import { isAnimationEnabledForSeries } from '../../animation/utils';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly type: string = 'series';
@@ -254,7 +255,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._initExtensionMark();
     this.initMarkStyle();
     this.initMarkState();
-    if (this._spec.animation !== false && isValid(this._region.animate)) {
+    if (isAnimationEnabledForSeries(this)) {
       this.initAnimation();
     }
     this.afterInitMark();

@@ -187,7 +187,7 @@ export class GaugePointerSeries<
           },
           appearPreset
         ),
-        userAnimationConfig(SeriesMarkNameEnum.pointer, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.pointer, this._spec, this._markAttributeContext)
       )
     );
   }

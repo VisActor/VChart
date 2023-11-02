@@ -499,7 +499,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       this._nodeMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('sankeyNode')?.(animationParams, appearPreset),
-          userAnimationConfig(SeriesMarkNameEnum.node, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.node, this._spec, this._markAttributeContext)
         )
       );
     }
@@ -507,7 +507,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       this._linkMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('sankeyLinkPath')?.(animationParams, appearPreset),
-          userAnimationConfig(SeriesMarkNameEnum.link, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.link, this._spec, this._markAttributeContext)
         )
       );
     }
@@ -515,7 +515,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       this._labelMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.label, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext)
         )
       );
     }

@@ -174,14 +174,14 @@ export class CircularProgressSeries<
     this._progressMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('circularProgress')?.({ startAngle: this._startAngle }, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.progress, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.progress, this._spec, this._markAttributeContext)
       )
     );
 
     this._trackMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('fadeInOut')?.(),
-        userAnimationConfig(SeriesMarkNameEnum.track, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.track, this._spec, this._markAttributeContext)
       )
     );
   }

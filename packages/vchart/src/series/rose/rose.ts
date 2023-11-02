@@ -3,7 +3,7 @@ import type { IArcMark } from '../../mark/arc';
 import type { Maybe, Datum } from '../../typings';
 import { valueInScaleRange } from '../../util/scale';
 import { mergeSpec } from '../../util/spec/merge-spec';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { registerRoseAnimation, type IRoseAnimationParams, type RoseAppearPreset } from './animation';
@@ -41,7 +41,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
 
   private initRoseMark() {
     this._roseMark = this._createMark(RoseSeries.mark.rose, {
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('rose', this._spec)),
+      morph: shouldMarkDoMorph(this._spec, RoseSeries.mark.rose.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
@@ -123,7 +123,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       this._roseMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('rose')?.(animationParams, appearPreset),
-          userAnimationConfig(SeriesMarkNameEnum.rose, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.rose, this._spec, this._markAttributeContext)
         )
       );
     }

@@ -158,7 +158,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('waterfall')?.(animationParams, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.bar, this._spec),
+        userAnimationConfig(SeriesMarkNameEnum.bar, this._spec, this._markAttributeContext),
         { dataIndex }
       )
     );
@@ -167,7 +167,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       this._leaderLineMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.leaderLine, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.leaderLine, this._spec, this._markAttributeContext)
         )
       );
     }

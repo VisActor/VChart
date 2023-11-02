@@ -19,7 +19,7 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import { PathMark } from '../../mark/path';
 import { mapSeriesMark } from './constant';
@@ -118,7 +118,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
   // mark
   initMark() {
     this._pathMark = this._createMark(MapSeries.mark.area, {
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('area', this._spec)),
+      morph: shouldMarkDoMorph(this._spec, MapSeries.mark.area.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this.getDimensionField()[0],
       isSeriesMark: true,
@@ -187,7 +187,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._pathMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('fadeInOut')?.(),
-        userAnimationConfig(SeriesMarkNameEnum.area, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.area, this._spec, this._markAttributeContext)
       )
     );
   }
