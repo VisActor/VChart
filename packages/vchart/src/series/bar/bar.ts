@@ -576,6 +576,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const region = this.getRegion();
     // @ts-ignore
     region._bar_series_position_calculated = false;
+    if (this._spec.sampling) {
+      this.compile();
+    }
   }
 
   compile(): void {
