@@ -89,20 +89,21 @@ function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: an
   if (isObject(fill)) {
     fillString = 'gradientColor';
     let gradient = '';
+    const stops = (fill.stops ?? [])
+      .map(s => `<stop offset="${valueToHtml(s.offset.toString())}" stop-color="${valueToHtml(s.color)}"/>`)
+      .join('');
     if ((fill as IGradientColor).gradient === 'radial') {
-      gradient = `<radialGradient id="${fillString}" cx="50%" cy="50%" r="50%" fx="0%" fy="0%">${(
-        ((fill as IGradientColor).stops as any[]) ?? []
-      ).map(
-        s => `<stop offset="${valueToHtml(s.offset.toString())}" stop-color="${valueToHtml(s.color)}"/>`
-      )}</radialGradient>`;
+      gradient = `<radialGradient id="${fillString}" cx="50%" cy="50%" r="50%" fx="0%" fy="0%">
+      ${stops}
+      </radialGradient>`;
     } else if ((fill as IGradientColor).gradient === 'linear') {
       gradient = `<linearGradient id="${fillString}" x1="${
         (((fill as ILinearGradient).x0 as number) ?? 0) * 100
       }%" y1="${(((fill as ILinearGradient).y0 as number) ?? 0) * 100}%" x2="${
         (((fill as ILinearGradient).x1 as number) ?? 0) * 100
-      }%" y2="${(((fill as ILinearGradient).y1 as number) ?? 0) * 100}%">${((fill as ILinearGradient).stops ?? []).map(
-        s => `<stop offset="${valueToHtml(s.offset.toString())}" stop-color="${valueToHtml(s.color)}"/>`
-      )}</linearGradient>`;
+      }%" y2="${(((fill as ILinearGradient).y1 as number) ?? 0) * 100}%">
+      ${stops}
+      </linearGradient>`;
     }
     return `
     <svg width="${size}" height="${size}" viewBox="-0.5 -0.5 1 1"
