@@ -252,8 +252,8 @@ export class GlobalScale implements IGlobalScale {
           return;
         }
 
+        const isContinuousField = isContinuous(scaleSpec.type);
         spec.fields.forEach(key => {
-          const isContinuousField = isContinuous(scaleSpec.type);
           const statistics = series.getRawDataStatisticsByField(key, isContinuousField);
           if (!statistics) {
             return;
