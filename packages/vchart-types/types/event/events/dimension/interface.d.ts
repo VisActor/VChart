@@ -8,7 +8,7 @@ export declare enum DimensionEventEnum {
 }
 export interface IDimensionInfo {
     index?: number;
-    value: string;
+    value: string | number;
     axis?: AxisComponent;
     data: IDimensionData[];
 }

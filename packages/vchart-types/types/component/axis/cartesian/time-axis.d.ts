@@ -4,7 +4,7 @@ import { ComponentTypeEnum } from '../../interface/type';
 import { CompilableData } from '../../../compile/data/compilable-data';
 import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import type { ICartesianTimeAxisSpec } from './interface';
-export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec> extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>, CartesianLinearAxis<T> {
+export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec> extends Pick<LinearAxisMixin, 'valueToPosition'>, CartesianLinearAxis<T> {
 }
 export declare class CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec> extends CartesianLinearAxis<T> {
     static type: ComponentTypeEnum;

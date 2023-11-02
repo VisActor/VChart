@@ -3,7 +3,7 @@ import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { SymlogScale } from '@visactor/vscale';
 import type { ICartesianSymlogAxisSpec } from './interface';
-export interface CartesianSymlogAxis<T extends ICartesianSymlogAxisSpec = ICartesianSymlogAxisSpec> extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>, CartesianLinearAxis<T> {
+export interface CartesianSymlogAxis<T extends ICartesianSymlogAxisSpec = ICartesianSymlogAxisSpec> extends Pick<LinearAxisMixin, 'valueToPosition'>, CartesianLinearAxis<T> {
 }
 export declare class CartesianSymlogAxis<T extends ICartesianSymlogAxisSpec = ICartesianSymlogAxisSpec> extends CartesianLinearAxis<T> {
     static type: ComponentTypeEnum;

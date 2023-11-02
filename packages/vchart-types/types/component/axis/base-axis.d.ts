@@ -36,7 +36,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         max: number;
         values: any[];
     }[]): StringOrNumber[];
-    abstract dataToPosition(values: any[], cfg?: any): number;
     abstract valueToPosition(value: any): number;
     protected abstract axisHelper(): any;
     protected abstract getSeriesStatisticsField(s: ISeries): string[];
@@ -145,5 +144,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         };
     };
     addTransformToTickData(options: ITransformOptions, execute?: boolean): void;
+    dataToPosition(values: any[]): number;
 }
 export declare const registerAxis: () => void;
