@@ -51,7 +51,7 @@ export class Stack {
     // 计算堆积
     for (const stackValue in stackValueGroup) {
       for (const key in stackValueGroup[stackValue].nodes) {
-        stack(stackValueGroup[stackValue].nodes[key], model.getStackInverse(), hasPercent);
+        stack(stackValueGroup[stackValue].nodes[key], model.getStackInverse(), true);
       }
     }
 
