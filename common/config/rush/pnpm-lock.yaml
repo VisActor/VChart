@@ -747,6 +747,7 @@ importers:
       '@rollup/plugin-alias': 5.0.0
       '@rollup/plugin-babel': 6.0.3
       '@rollup/plugin-commonjs': 24.1.0
+      '@rollup/plugin-json': 6.0.1
       '@rollup/plugin-node-resolve': 15.0.2
       '@rollup/plugin-replace': 5.0.2
       '@rollup/plugin-terser': 0.4.1
@@ -816,6 +817,7 @@ importers:
       '@rollup/plugin-alias': 5.0.0_rollup@3.20.5
       '@rollup/plugin-babel': 6.0.3_i2zi3w2axzphgkbxj6nc7ioafa
       '@rollup/plugin-commonjs': 24.1.0_rollup@3.20.5
+      '@rollup/plugin-json': 6.0.1_rollup@3.20.5
       '@rollup/plugin-node-resolve': 15.0.2_rollup@3.20.5
       '@rollup/plugin-replace': 5.0.2_rollup@3.20.5
       '@rollup/plugin-terser': 0.4.1_rollup@3.20.5
@@ -3375,6 +3377,19 @@ packages:
       fast-glob: 3.3.1
       magic-string: 0.30.5
     dev: true
+
+  /@rollup/plugin-json/6.0.1_rollup@3.20.5:
+    resolution: {integrity: sha512-RgVfl5hWMkxN1h/uZj8FVESvPuBJ/uf6ly6GTj0GONnkfoBN5KC0MSz+PN2OLDgYXMhtG0mWpTrkiOjoxAIevw==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      rollup: 3.20.5
+    dev: false
 
   /@rollup/plugin-node-resolve/15.0.2_rollup@3.20.5:
     resolution: {integrity: sha512-Y35fRGUjC3FaurG722uhUuG8YHOJRJQbI6/CkbRkdPotSpDj9NtIN85z1zrcyDcCQIW4qp5mgG72U+gJ0TAFEg==}
