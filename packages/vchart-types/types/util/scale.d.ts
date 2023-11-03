@@ -1,4 +1,3 @@
-import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../scale/interface';
 import { type IBaseScale, BandScale, LinearScale, OrdinalScale, PointScale, ThresholdScale } from '@visactor/vscale';
 import type { IVisual } from '../typings/visual';
@@ -14,7 +13,7 @@ declare const defaultScaleMap: {
 export declare function createScale(type: keyof typeof defaultScaleMap): IBaseScale | null;
 export declare function createScaleWithSpec(spec: IVisual<any>, context: {
     globalScale: IGlobalScale;
-    dataStatistics: DataView;
+    seriesId: number;
 }): IBaseScale | null;
 export declare function valueInScaleRange(v: number, s?: IBaseScale): number;
 export declare function isSpecValueWithScale(specValue: any): boolean;

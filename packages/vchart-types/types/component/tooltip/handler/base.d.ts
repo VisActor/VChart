@@ -1,7 +1,6 @@
 import type { Options } from './constants';
 import type { Maybe } from '../../../typings';
-import { TooltipPositionMode } from '../../../typings/tooltip/position';
-import type { TooltipData, IToolTipActual, TooltipActiveType, ITooltipHandler, ITooltipPattern, ITooltipPositionActual, TooltipPosition } from '../../../typings/tooltip';
+import type { TooltipData, IToolTipActual, TooltipActiveType, ITooltipHandler, ITooltipPattern, ITooltipPositionActual } from '../../../typings/tooltip';
 import type { Tooltip } from '../tooltip';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 import { TooltipResult } from '../interface/common';
@@ -24,8 +23,8 @@ export declare abstract class BaseTooltipHandler implements ITooltipHandler {
     protected _attributes?: TooltipAttributes | null;
     protected _chartContainer: Maybe<HTMLElement>;
     protected _compiler: Compiler;
-    private _cacheViewSpec;
-    private _cacheActualTooltip;
+    protected _cacheViewSpec: ITooltipSpec | undefined;
+    protected _cacheActualTooltip: IToolTipActual | undefined;
     protected _container: Maybe<IGroup | HTMLElement>;
     protected _isReleased: boolean;
     constructor(tooltipId: string, component: Tooltip);
@@ -41,7 +40,7 @@ export declare abstract class BaseTooltipHandler implements ITooltipHandler {
     protected _throttle(callback: any): (...args: unknown[]) => unknown;
     protected _getDefaultOption(): Options;
     protected _getActualTooltipContent: (pattern: ITooltipPattern, data: TooltipData, params: TooltipHandlerParams) => IToolTipActual;
-    protected _getActualTooltipPosition: (actualTooltip: IToolTipActual, position: TooltipPosition | undefined, positionMode: TooltipPositionMode | undefined, params: TooltipHandlerParams, tooltipParentElement: HTMLElement, changePositionOnly: boolean) => ITooltipPositionActual;
+    protected _getActualTooltipPosition: (actualTooltip: IToolTipActual, params: TooltipHandlerParams, tooltipBoxSize: IContainerSize | undefined) => ITooltipPositionActual;
     protected _getTooltipBoxSize(actualTooltip: IToolTipActual, changePositionOnly: boolean): IContainerSize | undefined;
     protected _getParentElement(spec: ITooltipSpec): HTMLElement;
     getTooltipContainer(): HTMLElement | IGroup;

@@ -28,7 +28,7 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     setAttrFromSpec(): void;
     initData(): void;
     protected _addDataIndexAndKey(): void;
-    protected _statisticRawData(): void;
+    getRawDataStatisticsByField(field: string, isNumeric?: boolean): any;
     protected _createHierarchyDataStatistics(dataName: string, rawData: DataView[]): DataView;
     getStatisticFields(): {
         key: string;

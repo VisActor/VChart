@@ -31,8 +31,12 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected _layoutLevel: number;
     protected _rawData: DataView;
     getRawData(): DataView;
-    protected _rawDataStatistics: DataView;
-    getRawDataStatistics(): DataView;
+    protected _rawDataStatistics?: DataView;
+    protected _rawStatisticsCache: Record<string, {
+        values?: any[];
+        min?: number;
+        max?: number;
+    }>;
     protected _viewDataMap: Map<number, DataView>;
     protected _viewDataFilter: DataView;
     getViewDataFilter(): DataView;
@@ -70,19 +74,22 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected initData(): void;
     protected initGroups(): void;
     protected initStatisticalData(): void;
-    protected _statisticRawData(): void;
+    getRawDataStatisticsByField(field: string, isNumeric?: boolean): {
+        values?: any[];
+        min?: number;
+        max?: number;
+    };
     protected _statisticViewData(): void;
     protected createStatisticalData(dataName: string, rawData: DataView, staticFields?: (dataId: string) => {
         key: string;
         operations: StatisticOperations;
     }[]): DataView;
     private createdStackData;
-    protected _noAnimationDataKey(datum: Datum, index: number, context: AddVChartPropertyContext): unknown | undefined;
-    protected generateDefaultDataKey(dataKey: DataKeyType, datum: Datum, index: number, context: AddVChartPropertyContext): any;
+    protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined;
+    protected generateDefaultDataKey(dataKey: DataKeyType): (datum: Datum, index: number, context: AddVChartPropertyContext) => unknown;
     protected _addDataIndexAndKey(): void;
     updateRawData(d: any): void;
     rawDataUpdate(d: DataView): void;
-    rawDataStatisticsUpdate(d: DataView): void;
     viewDataFilterOver(d: DataView): void;
     viewDataUpdate(d: DataView): void;
     viewDataStatisticsUpdate(d: DataView): void;

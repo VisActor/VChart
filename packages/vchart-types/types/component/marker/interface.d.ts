@@ -51,7 +51,7 @@ export interface IMarkerAxisSpec {
 }
 export interface IMarkerSpec extends IComponentSpec {
     relativeSeriesIndex?: number;
-    relativeSeriesId?: number;
+    relativeSeriesId?: number | string;
     visible?: boolean;
     interactive?: boolean;
     autoRange?: boolean;

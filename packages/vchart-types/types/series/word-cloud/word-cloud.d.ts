@@ -6,3 +6,4 @@ export declare class WordCloudSeries<T extends IWordCloudSeriesSpec = IWordCloud
     type: SeriesTypeEnum;
 }
 export declare const registerWordCloudSeries: () => void;
+export declare const registerWordCloudShapeSeries: () => void;
