@@ -82,6 +82,9 @@ export class EditorText extends BaseElement {
     this._createEditorGraphic(el, e);
   };
   private _pointerOver = (e: VRenderPointerEvent) => {
+    if (!this.overAble) {
+      return false;
+    }
     this._opt.controller.setOverGraphic(this._getOverGraphic(), this._id, e);
     console.log('text', '_pointerOver');
   };
@@ -239,6 +242,12 @@ export class EditorText extends BaseElement {
       startHandler: () => {
         // do nothing
         this._opt.controller.editorRun('layout');
+
+        // disable over
+        this._opt.getAllLayers().forEach(l => {
+          l.elements.forEach(e => (e.overAble = false));
+        });
+        this.option.controller.setOverGraphic(null, null, null);
       },
       updateHandler: data => {
         let hasChange = false;
@@ -260,6 +269,12 @@ export class EditorText extends BaseElement {
         this._layoutComponent?.updateBounds(this._textGraphic.AABBBounds);
         this._opt.controller.setOverGraphic(null, null, null);
         this._opt.controller.editorEnd();
+
+        // enable over
+        console.log('dragStartHandler!!');
+        this._opt.getAllLayers().forEach(l => {
+          l.elements.forEach(e => (e.overAble = true));
+        });
       },
       event: e
     });

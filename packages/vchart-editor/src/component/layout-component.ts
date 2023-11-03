@@ -41,6 +41,9 @@ export class LayoutEditorComponent {
   // private _tempBox: IRect;
   // private _currentBox: IRect;
 
+  // last rect of drag
+  private _lastBoxInDrag: IRect;
+
   constructor(
     el: IEditorElement,
     opt: {
@@ -94,9 +97,7 @@ export class LayoutEditorComponent {
         return;
       }
       if (this._el.editProperties.move) {
-        this._reSetSnap();
-        this._startHandler();
-        this._dragger.startDrag(e);
+        this._dragStart(e);
       }
     }
   };
@@ -141,9 +142,7 @@ export class LayoutEditorComponent {
     });
     this._editorBox.onUnTransStart(e => {
       if (this._el.editProperties.move) {
-        this._reSetSnap();
-        this._startHandler();
-        return this._dragger.startDrag(e);
+        return this._dragStart(e);
       }
     });
     this._editorBox.onUpdate(data => {
@@ -278,16 +277,16 @@ export class LayoutEditorComponent {
         ],
         visible: true
       });
-      this[snapTargetBoxKey].setAttributes({
-        ...targetLine.target.rect,
-        visible: true
-      });
+      // this[snapTargetBoxKey].setAttributes({
+      //   ...targetLine.target.rect,
+      //   visible: true
+      // });
     } else {
       this[snapLineKey].setAttributes({
         visible: false
       });
       this[snapTargetBoxKey].setAttributes({
-        visible: true
+        visible: false
       });
     }
     return source;
@@ -297,14 +296,20 @@ export class LayoutEditorComponent {
     this._dragger = new DragComponent(container);
     this._dragger.dragHandler(this._dragElement);
     this._dragger.dragEndHandler(this._editorEnd);
+    this._lastBoxInDrag = createRect({
+      pickable: false,
+      stroke: 'blue',
+      strokeOpacity: 0.4,
+      visible: false
+    });
+    this._opt.editorGroup.add(this._lastBoxInDrag);
     if (this._el.editProperties.move && event && event.type !== 'pointerup') {
-      this._reSetSnap();
-      this._startHandler();
-      this._dragger.startDrag(event);
+      this._dragStart(event);
     }
   }
 
   protected _dragElement = (moveX: number, moveY: number) => {
+    this._lastBoxInDrag.setAttribute('visible', true);
     this._editorBox.moveBy(moveX, moveY);
   };
 
@@ -349,13 +354,15 @@ export class LayoutEditorComponent {
 
     this._snapTargetBoxX.setAttributes({ visible: false });
     this._snapTargetBoxY.setAttributes({ visible: false });
+
+    this._lastBoxInDrag.setAttribute('visible', false);
   };
 
   _initMatchLine() {
     const commonAttribute = {
       stroke: 'blue',
       pickable: false,
-      lineWidth: 2,
+      lineWidth: 1,
       strokeOpacity: 0.4,
       visible: false
     };
@@ -394,6 +401,7 @@ export class LayoutEditorComponent {
     this._opt.editorGroup.removeChild(this._snapLineY);
     this._opt.editorGroup.removeChild(this._snapTargetBoxX);
     this._opt.editorGroup.removeChild(this._snapTargetBoxY);
+    this._opt.editorGroup.removeChild(this._lastBoxInDrag);
     // this._opt.editorGroup.removeChild(this._tempBox);
     // this._opt.editorGroup.removeChild(this._currentBox);
 
@@ -402,5 +410,17 @@ export class LayoutEditorComponent {
     this._dragger.release();
     this._opt.stage.removeEventListener('pointerdown', this._dragStartCheck);
     this._endHandler = this._startHandler = this._updateHandler = this._el = this._editorBox = this._dragger = null;
+  }
+
+  private _dragStart(e: PointerEvent) {
+    this._reSetSnap();
+    this._startHandler();
+    this._lastBoxInDrag.setAttributes({
+      x: this._editorBox.rect.AABBBounds.x1,
+      y: this._editorBox.rect.AABBBounds.y1,
+      width: this._editorBox.rect.AABBBounds.width(),
+      height: this._editorBox.rect.AABBBounds.height()
+    });
+    return this._dragger.startDrag(e);
   }
 }

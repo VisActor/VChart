@@ -33,6 +33,14 @@ export abstract class BaseElement implements IElement {
     this._pickable = v;
   }
 
+  protected _overAble: boolean = true;
+  get overAble() {
+    return this._overAble;
+  }
+  set overAble(v: boolean) {
+    this._overAble = v;
+  }
+
   constructor(opt: IElementOption) {
     this._opt = opt;
     this._id = opt.id ?? CreateID();

@@ -169,4 +169,16 @@ export class EditorEvent {
     });
     document.removeEventListener('keydown', this._keyEvent);
   }
+
+  setElementPickable(able: boolean) {
+    this._editor.layers.forEach(l => {
+      l.elements.forEach(e => (e.pickable = able));
+    });
+  }
+
+  setElementsOverAble(able: boolean) {
+    this._editor.layers.forEach(l => {
+      l.elements.forEach(e => (e.overAble = able));
+    });
+  }
 }

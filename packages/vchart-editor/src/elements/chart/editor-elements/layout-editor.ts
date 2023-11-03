@@ -97,8 +97,12 @@ export class LayoutEditorElement extends BaseEditorElement {
       editorGroup: this._layer.editorGroup,
       stage: this._layer.getStage(),
       startHandler: () => {
-        // do nothing
         this._controller.editorRun('layout');
+        // disable over
+        this._chart.option.getAllLayers().forEach(l => {
+          l.elements.forEach(e => (e.overAble = false));
+        });
+        this._chart.option.controller.setOverGraphic(null, null, null);
       },
       updateHandler: data => {
         let hasChange = false;
@@ -122,6 +126,11 @@ export class LayoutEditorElement extends BaseEditorElement {
         this._updateLayout(info, data);
         this._controller.setOverGraphic(null, null, null);
         this._controller.editorEnd();
+
+        // enable over
+        this._chart.option.getAllLayers().forEach(l => {
+          l.elements.forEach(e => (e.overAble = true));
+        });
       },
       event: e
     });

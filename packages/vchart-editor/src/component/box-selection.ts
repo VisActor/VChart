@@ -97,11 +97,7 @@ export class BoxSelection {
     this._overGroup.removeAllChild();
     const lastLayoutEditorBox = this._layoutComponent?.editorBox;
     if (this._state === 'editor') {
-      this._stateInEditor = 'down';
-      if (isPointInBounds(e.canvas, this._layoutComponent.editorBox.rect.AABBBounds)) {
-        return;
-      }
-      this._outBoxSelection();
+      this._editorPointerDown(e);
     }
     if (
       // @ts-ignore
@@ -127,8 +123,9 @@ export class BoxSelection {
     if (this._state === 'start') {
       this._state = 'drag';
     }
-    if (this._state === 'editor' || this._stateInEditor === 'down') {
-      this._stateInEditor = 'move';
+    if (this._state === 'editor') {
+      this._editorDrag(e);
+      return;
     }
     if (this._state !== 'drag') {
       return;
@@ -146,21 +143,11 @@ export class BoxSelection {
 
   protected _pointerUp = (e: VRenderPointerEvent) => {
     // up
-    this.context.editor.layers.forEach(l => {
-      l.elements.forEach(e => (e.pickable = true));
-    });
+    this.context.setElementPickable(true);
+    this.context.setElementsOverAble(true);
+
     if (this._state === 'editor') {
-      this._currentMatchElements?.forEach(m => {
-        m.e.pickable = false;
-      });
-      if (this._stateInEditor === 'down') {
-        // 框选中的元素尝试pick
-        this._currentMatchElements?.forEach(m => {
-          m.e.tryPick(e);
-        });
-      } else {
-        this.context.editor.editorController.setOverGraphic(null, null, null);
-      }
+      this._editorPointerUp(e);
       return;
     }
     this._overGroup.removeAllChild();
@@ -307,9 +294,7 @@ export class BoxSelection {
   protected _outBoxSelection() {
     this._clearLayoutComponent();
     this._state = 'none';
-    this.context.editor.layers.forEach(l => {
-      l.elements.forEach(e => (e.pickable = true));
-    });
+    this.context.setElementPickable(true);
   }
 
   protected _inBoxSelection() {
@@ -342,5 +327,52 @@ export class BoxSelection {
     this._currentMatchElements.forEach(m => {
       m.e.pickable = false;
     });
+  }
+
+  protected _editorPointerDown(e: VRenderPointerEvent) {
+    this._stateInEditor = 'down';
+    if (isPointInBounds(e.canvas, this._layoutComponent.editorBox.rect.AABBBounds)) {
+      return;
+    }
+    this._outBoxSelection();
+  }
+
+  protected _editorDrag(e: VRenderPointerEvent) {
+    if (this._stateInEditor !== 'down') {
+      return;
+    }
+    this._stateInEditor = 'move';
+    // remove over
+    this.context.editor.editorController.setOverGraphic(null, null, null);
+    // disable over
+    this.context.setElementsOverAble(false);
+  }
+
+  protected _editorPointerUp(e: VRenderPointerEvent) {
+    this._currentMatchElements?.forEach(m => {
+      m.e.pickable = true;
+    });
+    // click
+    if (this._stateInEditor === 'down') {
+      this._editorClick(e);
+    } else {
+      this._editorDragEnd(e);
+    }
+  }
+
+  protected _editorDragEnd(e: VRenderPointerEvent) {
+    // do nothing
+    // this.context.editor.editorController.setOverGraphic(null, null, null);
+  }
+
+  protected _editorClick(e: VRenderPointerEvent) {
+    // 框选中的元素尝试pick
+    this._currentMatchElements?.forEach(m => {
+      m.e.tryPick(e);
+    });
+    //after try pick && pick success
+    if (this._state !== 'editor') {
+      this.context.setElementPickable(true);
+    }
   }
 }

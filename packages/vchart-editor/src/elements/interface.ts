@@ -30,6 +30,7 @@ export interface IElement {
   readonly isRendered: boolean;
 
   pickable: boolean;
+  overAble: boolean;
   tryPick: (e: VRenderPointerEvent) => void;
 }
 
