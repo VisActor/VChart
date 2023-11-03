@@ -98,8 +98,9 @@ export function outOfBounds(bounds: IBoundsLike, x: number, y: number) {
 export function min(data: any[], field?: string): number {
   const dataArray: any[] = [];
   data.forEach(d => {
-    if (isValidNumber(+d[field])) {
-      dataArray.push(+d[field]);
+    const value = +d[field];
+    if (isValidNumber(value)) {
+      dataArray.push(value);
     }
   });
   if (dataArray.length === 0) {
@@ -111,8 +112,9 @@ export function min(data: any[], field?: string): number {
 export function max(data: any[], field?: string): number {
   const dataArray: any[] = [];
   data.forEach(d => {
-    if (isValidNumber(+d[field])) {
-      dataArray.push(d[field]);
+    const value = +d[field];
+    if (isValidNumber(value)) {
+      dataArray.push(value);
     }
   });
   if (dataArray.length === 0) {
