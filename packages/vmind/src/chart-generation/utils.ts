@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { GPTDataProcessResult, IGPTOptions } from '../typings';
 import { isValid } from '@visactor/vutils';
 
@@ -15,10 +16,11 @@ export const requestGPT = async (
         Authorization: `Bearer ${openAIKey}`
       }
     : { 'Content-Type': 'application/json' };
-  const res = await fetch(url, {
-    headers: options?.headers ?? defaultHeaders,
+
+  const res = await axios(url, {
     method: options?.method ?? 'POST',
-    body: JSON.stringify({
+    headers: options?.headers ?? (defaultHeaders as any),
+    data: {
       model: options?.model ?? 'gpt-3.5-turbo',
       messages: [
         {
@@ -32,10 +34,11 @@ export const requestGPT = async (
       ],
       max_tokens: options?.max_tokens ?? 1500,
       temperature: options?.temperature ?? 0
-    })
+    }
   })
-    .then(response => response.json())
+    .then(response => response.data)
     .then(data => data.choices);
+
   return res;
 };
 
