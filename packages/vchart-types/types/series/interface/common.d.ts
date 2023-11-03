@@ -62,7 +62,7 @@ export interface ISeriesMarkInitOption {
     defaultMorphElementKey?: string;
     dataView?: DataView | false;
     dataProductId?: string;
-    dataStatistics?: DataView;
+    seriesId?: number;
     progressive?: IMarkProgressiveConfig;
     label?: ILabelSpec;
     support3d?: boolean;

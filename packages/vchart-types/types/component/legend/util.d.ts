@@ -15,12 +15,12 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
         visible?: boolean;
         style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "width" | "height" | "visible">;
     };
+    text?: string | number | string[] | number[];
+    visible?: boolean;
     padding?: import("@visactor/vrender-components/es/core/type").Padding;
     maxWidth?: number;
     minWidth?: number;
-    visible?: boolean;
-    text?: string | number | number[] | string[];
     space?: number;
-    align?: "center" | "end" | "start";
+    align?: "center" | "start" | "end";
 };
-export declare function getLayout(spec: ILegendCommonSpec): "horizontal" | "vertical";
+export declare function getLayout(spec: ILegendCommonSpec): "vertical" | "horizontal";

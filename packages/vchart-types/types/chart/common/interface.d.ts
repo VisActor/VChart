@@ -35,7 +35,7 @@ export interface ICommonChartSpec extends Omit<IChartSpec, 'series'> {
     series?: (IAreaSeriesSpec | ILineSeriesSpec | IBar3dSeriesSpec | IBarSeriesSpec | IRangeColumnChartSpec | IRangeAreaChartSpec | IDotSeriesSpec | IMapSeriesSpec | IPie3dSeriesSpec | IPieSeriesSpec | ILinkSeriesSpec | IRadarSeriesSpec | IRoseSeriesSpec | IScatterSeriesSpec | ICircularProgressSeriesSpec | ILinearProgressSeriesSpec | IWordCloudSeriesSpec | IWordCloud3dSeriesSpec | IFunnelSeriesSpec | IFunnel3dSeriesSpec | IBoxPlotSeriesSpec | IGaugeSeriesSpec | ISankeySeriesSpec | ITreemapSeriesSpec | ISunburstSeriesSpec | ICirclePackingSeriesSpec | IWaterfallSeriesSpec | IHeatmapSeriesSpec | IGaugePointerSeriesSpec | ICorrelationSeriesSpec)[];
     axes?: ICartesianAxisSpec[] | IPolarAxisSpec[];
     crosshair?: ICartesianCrosshairSpec | ICartesianCrosshairSpec[] | IPolarCrosshairSpec | IPolarCrosshairSpec[];
-    markLine?: IMarkLineSpec;
+    markLine?: IMarkLineSpec | IMarkLineSpec[];
     markArea?: IMarkAreaSpec;
     markPoint?: IMarkPointSpec;
 }

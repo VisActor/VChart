@@ -6,6 +6,7 @@ export declare const labelRuleMap: {
     symbol: typeof symbolLabel;
     arc: typeof pieLabel;
     point: typeof pointLabel;
+    lineData: typeof lineDataLabel;
     stackLabel: typeof stackLabel;
 };
 export declare enum LabelRule {
@@ -17,14 +18,21 @@ export declare enum LabelRule {
 }
 export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: (text: string | string[], datum?: any) => string | string[]): any;
 export declare function symbolLabel(labelInfo: ILabelInfo): {
-    position: string;
+    position: string | ((datum: Datum) => any);
+    overlap: boolean | {
+        strategy: Strategy[];
+        avoidBaseMark: boolean;
+    };
+};
+export declare function lineDataLabel(labelInfo: ILabelInfo): {
+    position: string | ((datum: Datum) => any);
     overlap: boolean | {
         strategy: Strategy[];
         avoidBaseMark: boolean;
     };
 };
 export declare function barLabel(labelInfo: ILabelInfo): {
-    position: string | ((data: any) => string);
+    position: import("@visactor/vrender-components").Functional<string>;
     overlap: boolean | {
         strategy: Strategy[];
     };
