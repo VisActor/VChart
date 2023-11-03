@@ -97,7 +97,9 @@ export class BoxSelection {
     this._overGroup.removeAllChild();
     const lastLayoutEditorBox = this._layoutComponent?.editorBox;
     if (this._state === 'editor') {
-      this._editorPointerDown(e);
+      if (this._editorPointerDown(e)) {
+        return;
+      }
     }
     if (
       // @ts-ignore
@@ -332,9 +334,10 @@ export class BoxSelection {
   protected _editorPointerDown(e: VRenderPointerEvent) {
     this._stateInEditor = 'down';
     if (isPointInBounds(e.canvas, this._layoutComponent.editorBox.rect.AABBBounds)) {
-      return;
+      return true;
     }
     this._outBoxSelection();
+    return false;
   }
 
   protected _editorDrag(e: VRenderPointerEvent) {

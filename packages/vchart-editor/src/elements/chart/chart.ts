@@ -350,6 +350,7 @@ export class EditorChart extends BaseElement {
 
   clearCurrentEditorElement() {
     this._event.emitter.emit('unPickModel', null);
+    //TODO: clear mark editor element
   }
 
   tryPick(e: VRenderPointerEvent) {
