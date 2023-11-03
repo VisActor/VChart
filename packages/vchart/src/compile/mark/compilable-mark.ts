@@ -335,7 +335,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       return;
     }
     const { enterStyles } = this._separateStyle();
-    this._product.encodeState(this._facet ? 'group' : 'enter', enterStyles);
+    this._product.encodeState('group', enterStyles);
   }
 
   protected _separateStyle() {
@@ -365,7 +365,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...temp } = this.stateStyle;
     const { enterStyles, updateStyles } = this._separateStyle();
     this._product.encode(updateStyles);
-    this._product.encodeState(this._facet ? 'group' : 'enter', enterStyles);
+    this._product.encodeState('group', enterStyles);
 
     Object.keys(temp).forEach(state => {
       const styles: Record<string, MarkFunctionType<any>> = {};
