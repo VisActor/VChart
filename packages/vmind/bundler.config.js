@@ -1,6 +1,8 @@
 /**
  * @type {Partial<import('@internal/bundler').Config>}
  */
+const json = require('@rollup/plugin-json');
+
 module.exports = {
   formats: ['cjs', 'es', 'umd'],
   outputDir: {
@@ -9,5 +11,8 @@ module.exports = {
     umd: 'build'
   },
   name: 'VMind',
-  umdOutputFilename: 'index'
+  umdOutputFilename: 'index',
+  rollupOptions: {
+    plugins: [json()]
+  },
 };
