@@ -214,6 +214,7 @@ export class EditorText extends BaseElement {
   }
 
   protected _createEditorGraphic(el: IEditorElement, e: any): IGraphic {
+    this.clearLayoutEditorBox();
     const allLayers = this.option.getAllLayers();
     const layoutLines = allLayers.reduce((pre, l) => {
       const tempLine = l.getLayoutLineInLayer();

@@ -7,9 +7,10 @@ import type { EditorChart } from '../chart';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IRect } from '../../../typings/space';
 import { LayoutRectToRect } from '../../../utils/space';
-import { merge } from '@visactor/vutils';
+import { merge, array } from '@visactor/vutils';
 import { getChartModelWithModelInfo, transformModelRect } from '../utils/layout';
 import type { IModelSpec } from '../spec-process/interface';
+import { ChartComponentKeys } from '../../../core/const';
 
 export abstract class BaseEditorElement {
   protected _chart: EditorChart;
@@ -186,6 +187,7 @@ export class CommonChartEditorElement implements IEditorElement {
     //
     if (model.type === 'region') {
       this.allModelSpec = [];
+      console.log('start add model spec');
       // series
       this._context.chart.vchart
         .getChart()
@@ -200,21 +202,38 @@ export class CommonChartEditorElement implements IEditorElement {
           });
         });
       // component
-      this._context.chart.vchart
-        .getChart()
-        .getAllComponents()
-        .forEach((c: IChartModel) => {
-          if (c.type === 'tooltip') {
-            return;
-          }
-          const { data, ...spec } = c.getSpec();
+      const chartSpec = this._context.chart.vchart.getChart().getSpec();
+      ChartComponentKeys.forEach(k => {
+        const modelSpec = chartSpec[k];
+        if (!modelSpec) {
+          return;
+        }
+        array(modelSpec).forEach((_s, i) => {
+          const { data, ...spec } = _s;
           this.allModelSpec.push({
-            id: c.userId,
-            specKey: c.specKey,
-            specIndex: c.getSpecIndex(),
+            id: spec.id,
+            specKey: k,
+            specIndex: i,
             spec
           });
         });
+      });
+      console.log(this.allModelSpec);
+      // this._context.chart.vchart
+      //   .getChart()
+      //   .getAllComponents()
+      //   .forEach((c: IChartModel) => {
+      //     if (c.type === 'tooltip') {
+      //       return;
+      //     }
+      //     const { data, ...spec } = c.getSpec();
+      //     this.allModelSpec.push({
+      //       id: c.userId,
+      //       specKey: c.specKey,
+      //       specIndex: c.getSpecIndex(),
+      //       spec
+      //     });
+      //   });
     }
   }
 }

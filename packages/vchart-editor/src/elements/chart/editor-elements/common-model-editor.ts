@@ -88,7 +88,6 @@ export class CommonModelElement extends BaseEditorElement {
         if (reRender) {
           this.chart.reRenderWithUpdateSpec();
         }
-
         return false;
       }
     });

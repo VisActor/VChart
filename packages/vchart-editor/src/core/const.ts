@@ -56,3 +56,14 @@ export const OverGraphicAttribute = {
 
 export const BoxSelectionMaskName = '_editor_box_selection_mask';
 export const TransformComponentName = 'TransformComponent2';
+
+export const ChartComponentKeys = [
+  'axes',
+  'title',
+  'legends',
+  'crosshair',
+  'tooltip',
+  'player',
+  'dataZoom',
+  'scrollBar'
+];
