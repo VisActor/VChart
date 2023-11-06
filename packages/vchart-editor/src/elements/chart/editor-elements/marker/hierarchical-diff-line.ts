@@ -9,7 +9,7 @@ import { array, isValid, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, IComponent, ICartesianSeries } from '@visactor/vchart';
-import { STACK_FIELD_END, STACK_FIELD_START } from '@visactor/vchart';
+import { STACK_FIELD_START } from '@visactor/vchart';
 import { findClosestPoint } from '../../utils/math';
 import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
@@ -303,6 +303,8 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
         text: labelText
       }
     });
+    const region = series.getRegion();
+
     // 生成新的 markLine spec
     const newMarkLineSpec = merge({}, this._spec, {
       coordinates: [
@@ -318,13 +320,20 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       label: {
         text: labelText
       },
-      // TODO: 这里需要考虑 connectDirection 方向
       expandDistance:
         series.direction === 'vertical'
-          ? this._overlayMiddleHandler.attribute.points[0].x -
-            Math.max(this._overlayStartHandler.attribute.x, this._overlayEndHandler.attribute.x)
-          : this._overlayMiddleHandler.attribute.points[0].y -
-            Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)
+          ? `${
+              ((this._overlayMiddleHandler.attribute.points[0].x -
+                Math.max(this._overlayStartHandler.attribute.x, this._overlayEndHandler.attribute.x)) /
+                region.getLayoutRect().width) *
+              100
+            }%`
+          : `${
+              ((this._overlayMiddleHandler.attribute.points[0].y -
+                Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)) /
+                region.getLayoutRect().height) *
+              100
+            }%`
     });
     this._spec = newMarkLineSpec;
     vglobal.removeEventListener('pointermove', this._onAnchorHandlerDrag);
@@ -605,15 +614,23 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
         [endPoint, { x: this._overlayEndHandler.attribute.x, y: this._overlayEndHandler.attribute.y }]
       ]
     });
+    const region = series.getRegion();
     // 生成新的 markLine spec
     const newMarkLineSpec = merge({}, this._spec, {
-      // TODO: 这里需要考虑 connectDirection 方向
       expandDistance:
         series.direction === 'vertical'
-          ? this._overlayMiddleHandler.attribute.points[0].x -
-            Math.max(this._overlayStartHandler.attribute.x, this._overlayEndHandler.attribute.x)
-          : this._overlayMiddleHandler.attribute.points[0].y -
-            Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)
+          ? `${
+              ((this._overlayMiddleHandler.attribute.points[0].x -
+                Math.max(this._overlayStartHandler.attribute.x, this._overlayEndHandler.attribute.x)) /
+                region.getLayoutRect().width) *
+              100
+            }%`
+          : `${
+              ((this._overlayMiddleHandler.attribute.points[0].y -
+                Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)) /
+                region.getLayoutRect().height) *
+              100
+            }%`
     });
     this._spec = newMarkLineSpec;
 

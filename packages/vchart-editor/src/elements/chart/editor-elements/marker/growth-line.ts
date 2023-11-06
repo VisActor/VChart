@@ -14,7 +14,13 @@ import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, ICartesianSeries, IComponent, IStepMarkLineSpec } from '@visactor/vchart';
 import { STACK_FIELD_TOTAL_TOP } from '@visactor/vchart';
 import { findClosestPoint } from '../../utils/math';
-import { DEFAULT_OFFSET_FOR_GROWTH_MARKLINE, calculateCAGR, getInsertPoints, getTextOffset } from '../../utils/marker';
+import {
+  DEFAULT_OFFSET_FOR_GROWTH_MARKLINE,
+  calculateCAGR,
+  getInsertPoints,
+  getTextOffset,
+  stackTotal
+} from '../../utils/marker';
 import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
@@ -76,6 +82,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     if (this._editComponent) {
       return this._editComponent;
     }
+
     const dataPoints = this._getAnchorPoints();
     const lineShape = this._element.getLine();
 
@@ -500,6 +507,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       let source;
       // 如果存在堆叠，则只取包含了 STACK_FIELD_TOTAL_TOP 的数据
       if (series.getStack() && series.getStackData()) {
+        stackTotal(series.getStackData(), series.getStackValueField());
         source = vgrammarElements.filter((element: any) => {
           const data = array(element.data)[0];
           return data[STACK_FIELD_TOTAL_TOP];
@@ -532,6 +540,8 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       let source;
       // 如果存在堆叠，则只取包含了 STACK_FIELD_TOTAL_TOP 的数据
       if (series.getStack() && series.getStackData()) {
+        stackTotal(series.getStackData(), series.getStackValueField());
+
         source = seriesData.filter((data: any) => {
           return data[STACK_FIELD_TOTAL_TOP];
         });
