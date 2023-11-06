@@ -9,7 +9,7 @@ import {
   STACK_FIELD_TOTAL,
   STACK_FIELD_END
 } from '@visactor/vchart';
-import { isValidNumber, type IPointLike, maxInArray } from '@visactor/vutils';
+import { isValidNumber, type IPointLike, maxInArray, minInArray, array, median as visMedian } from '@visactor/vutils';
 import { MarkerTypeEnum } from '../interface';
 
 // TODO: 不同的标注需要给不同的 zIndex
@@ -220,7 +220,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         },
         label: {
           position: 'right',
-          text: 'insert some text',
+          text: `${min(seriesData, series.getSpec().yField)} - ${median(seriesData, series.getSpec().yField)}`,
           labelBackground: {
             visible: false
           },
@@ -246,7 +246,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
       },
       label: {
         position: 'right',
-        text: 'insert some text',
+        text: `${seriesData[0][series.fieldY[0]]} - ${seriesData[Math.floor(seriesData.length / 2)][series.fieldY[0]]}`,
         labelBackground: {
           visible: false
         },
@@ -275,7 +275,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         },
         label: {
           position: 'top',
-          text: 'insert some text',
+          text: `${min(seriesData, series.getSpec().xField)} - ${median(seriesData, series.getSpec().xField)}`,
           labelBackground: {
             visible: false
           },
@@ -301,7 +301,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
       },
       label: {
         position: 'top',
-        text: 'insert some text',
+        text: `${seriesData[0][series.fieldX[0]]} - ${seriesData[Math.floor(seriesData.length / 2)][series.fieldX[0]]}`,
         labelBackground: {
           visible: false
         },
@@ -757,6 +757,20 @@ function groupByFields(data: Datum, groupFields: string[]) {
   return result;
 }
 
+export function min(data: any[], field?: string): number {
+  const dataArray: any[] = [];
+  data.forEach(d => {
+    const value = +d[field];
+    if (isValidNumber(value)) {
+      dataArray.push(value);
+    }
+  });
+  if (dataArray.length === 0) {
+    return null;
+  }
+  return minInArray(dataArray);
+}
+
 export function max(data: any[], field?: string): number {
   const dataArray: any[] = [];
   data.forEach(d => {
@@ -779,6 +793,11 @@ export function sum(data: any[], field?: string): number {
     }
     return pre;
   }, 0);
+}
+
+export function median(data: any[], field?: string): number {
+  const value = visMedian(data.map((datum: Datum) => datum[field]));
+  return value;
 }
 
 export function stackTotal(stackData: any, valueField: string) {
