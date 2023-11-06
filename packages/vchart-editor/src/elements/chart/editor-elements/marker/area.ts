@@ -6,7 +6,7 @@ import type { IGroup, IGraphic, IPolygon, IRect, FederatedPointerEvent } from '@
 import { createRect, createGroup, vglobal, createPolygon } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { merge } from '@visactor/vutils';
+import { clamp, merge } from '@visactor/vutils';
 import type { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { EventParams, MarkArea, IComponent } from '@visactor/vchart';
 import { MarkerTypeEnum } from '../../interface';
@@ -33,6 +33,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
   private _rightHandler: IRect;
   private _leftHandler: IRect;
   private _currentHandler: IRect;
+  private _limitRange: [number, number];
 
   private _prePos: number = 0;
 
@@ -44,9 +45,18 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     this._orient = this._element.name === MarkerTypeEnum.verticalArea ? 'vertical' : 'horizontal';
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
-    this.startEditor(el);
 
     this._overlayAreaGroup?.showAll();
+
+    const isHorizontal = this._orient === 'horizontal';
+    const region = this._model.getRelativeSeries().getRegion();
+    const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
+    const { width: regionWidth, height: regionHeight } = region.getLayoutRect();
+    if (isHorizontal) {
+      this._limitRange = [regionStartY, regionStartY + regionHeight];
+    } else {
+      this._limitRange = [regionStartX, regionStartX + regionWidth];
+    }
 
     this._prePos = this._orient === 'vertical' ? e.event.clientX : e.event.clientY;
     vglobal.addEventListener('pointermove', this._onAreaDrag);
@@ -118,7 +128,9 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     const overlayArea = createPolygon(
       merge({}, areaShape.attribute, {
         lineWidth: 1,
-        stroke: '#3073F2'
+        stroke: '#3073F2',
+        fill: '#005DFF',
+        fillOpacity: 0.1
       })
     );
     overlayArea.name = 'overlay-mark-area-area';
@@ -274,12 +286,12 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
       const changePoints = points.filter(point => (point as unknown as any).top);
 
       changePoints.forEach(point => {
-        point.y += delta;
+        point.y = clamp(point.y + delta, this._limitRange[0], this._limitRange[1]);
       });
     } else if (this._currentHandler.name === 'overlay-bottom-handler') {
       const changePoints = points.filter(point => (point as unknown as any).bottom);
       changePoints.forEach(point => {
-        point.y += delta;
+        point.y = clamp(point.y + delta, this._limitRange[0], this._limitRange[1]);
       });
     }
     overlayArea.setAttribute('points', points);
@@ -294,7 +306,14 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     );
 
     // 更新当前 handler
-    this._currentHandler.setAttribute(updateField, this._currentHandler.attribute[updateField] + delta);
+    this._currentHandler.setAttribute(
+      updateField,
+      clamp(
+        this._currentHandler.attribute[updateField] + delta,
+        this._limitRange[0] - handlerWidth / 2,
+        this._limitRange[1] - handlerWidth / 2
+      )
+    );
   };
 
   private _onHandlerDragEnd = (e: any) => {
@@ -325,9 +344,10 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
   private _onAreaDrag = (e: any) => {
     e.stopPropagation();
 
+    this._controller.removeOverGraphic();
     this._silentAllMarkers();
     this._editComponent.showAll();
-
+    const overlayArea = this._overlayArea;
     let currentPos;
     let delta = 0;
     let updateField: string;
@@ -340,15 +360,32 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
       delta = currentPos - this._prePos;
       updateField = 'x';
     }
+
+    // 如果 area 已经移动在限制区域，就不再进行更新
+    if (
+      this._orient === 'horizontal' &&
+      ((delta < 0 && Math.min(...overlayArea.attribute.points.map(point => point.y)) === this._limitRange[0]) ||
+        (delta > 0 && Math.max(...overlayArea.attribute.points.map(point => point.y)) === this._limitRange[1]))
+    ) {
+      return;
+    }
+    if (
+      this._orient === 'vertical' &&
+      ((delta < 0 && Math.min(...overlayArea.attribute.points.map(point => point.x)) === this._limitRange[0]) ||
+        (delta > 0 && Math.max(...overlayArea.attribute.points.map(point => point.x)) === this._limitRange[1]))
+    ) {
+      return;
+    }
+
     this._prePos = currentPos;
+    const [limitStart, limitEnd] = this._limitRange;
 
     // 更新 area
-    const overlayArea = this._overlayArea;
     const points = overlayArea.attribute.points;
     overlayArea.setAttribute(
       'points',
       points.map(point => {
-        point[updateField] += delta;
+        point[updateField] = clamp(point[updateField] + delta, limitStart, limitEnd);
         return point;
       })
     );
@@ -360,15 +397,43 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         updateField,
         (overlayArea.AABBBounds.x1 + overlayArea.AABBBounds.x2) / 2 - overlayLabel.attribute.width / 2
       );
-      this._rightHandler.setAttribute(updateField, this._rightHandler.attribute[updateField] + delta);
-      this._leftHandler.setAttribute(updateField, this._leftHandler.attribute[updateField] + delta);
+      this._rightHandler.setAttribute(
+        updateField,
+        clamp(
+          this._rightHandler.attribute[updateField] + delta,
+          limitStart - handlerWidth / 2,
+          limitEnd - handlerWidth / 2
+        )
+      );
+      this._leftHandler.setAttribute(
+        updateField,
+        clamp(
+          this._leftHandler.attribute[updateField] + delta,
+          limitStart - handlerWidth / 2,
+          limitEnd - handlerWidth / 2
+        )
+      );
     } else {
       overlayLabel.setAttribute(
         updateField,
         (overlayArea.AABBBounds.y1 + overlayArea.AABBBounds.y2) / 2 - overlayLabel.attribute.height / 2
       );
-      this._topHandler.setAttribute(updateField, this._topHandler.attribute[updateField] + delta);
-      this._bottomHandler.setAttribute(updateField, this._bottomHandler.attribute[updateField] + delta);
+      this._topHandler.setAttribute(
+        updateField,
+        clamp(
+          this._topHandler.attribute[updateField] + delta,
+          limitStart - handlerWidth / 2,
+          limitEnd - handlerWidth / 2
+        )
+      );
+      this._bottomHandler.setAttribute(
+        updateField,
+        clamp(
+          this._bottomHandler.attribute[updateField] + delta,
+          limitStart - handlerWidth / 2,
+          limitEnd - handlerWidth / 2
+        )
+      );
     }
   };
 
@@ -392,7 +457,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
   private _save(newPoints: PointLike[]) {
     // 更新真正的图形
-    this._element.setAttributes({
+    this._element?.setAttributes({
       points: newPoints.map(point => {
         return {
           x: point.x,
