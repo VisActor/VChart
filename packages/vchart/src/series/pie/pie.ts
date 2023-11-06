@@ -440,13 +440,12 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         }
 
         // 扇形不在边缘时，获取扇形生长点：获取相邻状态下相邻扇形的边缘
-        // @ts-ignore
-        // TODO: findLast is a new prototype function, we will later polyfill it in v-util.
-        const prevMarkElement = markElements.findLast(e => e.data[0]?.[DEFAULT_DATA_INDEX] < dataIndex);
+        const prevMarkElement = [...markElements].reverse().find(e => e.data[0]?.[DEFAULT_DATA_INDEX] < dataIndex);
+
         if (outState.includes(state)) {
-          return prevMarkElement?.getGraphicItem().nextAttrs?.endAngle;
+          return prevMarkElement.getNextGraphicAttributes()?.endAngle;
         }
-        return prevMarkElement?.getGraphicItem().prevAttrs?.endAngle;
+        return prevMarkElement.getGraphicAttribute('endAngle', true);
       }
     };
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<PieAppearPreset>)?.preset;
