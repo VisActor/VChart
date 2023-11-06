@@ -177,6 +177,7 @@ export class EditorChart extends BaseElement {
     } else {
       console.log('onSpecReady update spec');
       this._isRendered = false;
+      // HACK: 屏蔽报错临时修改
       // eslint-disable-next-line promise/catch-or-return
       this._vchart.updateSpecSync(this._transformVchartSpec(this._specProcess.getVChartSpec()));
       this._afterRender();
