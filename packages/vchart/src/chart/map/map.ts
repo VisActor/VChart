@@ -27,6 +27,7 @@ export class MapChart extends BaseChart {
       map: spec.map,
 
       nameProperty: spec.nameProperty,
+      centroidProperty: spec.centroidProperty,
       nameMap: spec.nameMap,
       area: spec.area,
 
