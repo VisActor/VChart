@@ -142,6 +142,9 @@ export class SpecProcess implements ISpecProcess {
         if (!this._vchartSpec[key]) {
           this._vchartSpec[key] = [];
         }
+        if (!isArray(this._vchartSpec[key])) {
+          this._vchartSpec[key] = [this._vchartSpec[key]];
+        }
         const markers = this._editorSpec.marker[key];
         markers.forEach((marker: any) => {
           const index = this._vchartSpec[key].findIndex((m: any) => m.id === marker.id);

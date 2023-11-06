@@ -121,12 +121,12 @@ export class EditorController implements IEditorController {
         }
       }
     }
-    this._removeOverGraphic();
+    this.removeOverGraphic();
   }
 
   _addOverGraphic(g: IGraphic) {
     if (this._currentOverGraphic) {
-      this._removeOverGraphic();
+      this.removeOverGraphic();
     }
     const layer = this._currentEditorElements?.layer ?? this._opt.getTopLayer();
     if (!layer) {
@@ -136,7 +136,7 @@ export class EditorController implements IEditorController {
     layer.editorGroup.add(this._currentOverGraphic);
   }
 
-  _removeOverGraphic() {
+  removeOverGraphic() {
     if (!this._currentOverGraphic) {
       return;
     }

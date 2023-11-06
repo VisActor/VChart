@@ -30,7 +30,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   }
 
   protected _onHover = (e: EventParams) => {
-    if (!this._checkEventEnable(e)) {
+    if (!this._checkEventEnable(e) || (this._editComponent && this._editComponent.attribute.visible)) {
       return;
     }
     this._element = (<T>e.model).getVRenderComponents()[0] as unknown as D;

@@ -215,7 +215,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         area: {
           style: {
             fill: '#005DFF',
-            fillOpacity: '0.1'
+            fillOpacity: 0.1
           }
         },
         label: {
