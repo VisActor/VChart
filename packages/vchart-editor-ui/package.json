@@ -31,7 +31,7 @@
     "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.5.3",
+    "@visactor/vchart": "workspace:1.6.0",
     "@visactor/vutils": "~0.16.6",
     "@douyinfe/semi-ui": "~2.43.0",
     "@douyinfe/semi-icons": "~2.43.0",

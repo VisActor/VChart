@@ -2,6 +2,8 @@ import type { ICartesianAxisCommonSpec } from '../../component/axis/cartesian/in
 import { CartesianChart } from '../cartesian/cartesian';
 
 export class BaseHistogramChart extends CartesianChart {
+  protected _canStack: boolean = true;
+
   transformSpec(spec: any): void {
     super.transformSpec(spec);
     spec.axes.forEach((axis: ICartesianAxisCommonSpec) => (axis.type = 'linear'));

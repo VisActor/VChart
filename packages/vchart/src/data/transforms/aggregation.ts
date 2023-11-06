@@ -1,20 +1,10 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IAggrType } from '../../component/marker/interface';
 import type { ICartesianSeries } from '../../series/interface';
-
-import {
-  variance,
-  average,
-  min,
-  max,
-  sum,
-  standardDeviation,
-  median,
-  isValid,
-  isFunction,
-  isPlainObject
-} from '../../util';
 import type { Datum, StringOrNumber } from '../../typings';
+
+import { isFunction, isPlainObject, isValid } from '@visactor/vutils';
+import { variance, average, min, max, sum, standardDeviation, median } from '../../util/math';
 
 export type IOption = {
   field: string;

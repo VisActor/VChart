@@ -209,4 +209,202 @@ Contains 1 configuration:
     [SeriesTypeEnum.treemap]?: ITreemapSeriesTheme;
     [SeriesTypeEnum.sankey]?: ISankeySeriesTheme;
     [SeriesTypeEnum.gauge]?: IGaugeSeriesTheme;
-    [SeriesTypeEnum.gaugePointer
+    [SeriesTypeEnum.gaugePointer]?: IGaugePointerSeriesTheme;
+    [SeriesTypeEnum.sunburst]?: ISunburstSeriesTheme;
+    [SeriesTypeEnum.rangeColumn]?: IRangeColumnSeriesTheme;
+    [SeriesTypeEnum.circlePacking]?: ICirclePackingSeriesTheme;
+    [SeriesTypeEnum.heatmap]?: IHeatmapSeriesTheme;
+  }
+  ```
+
+  Among them, the key value in the object is the series type, and the value value is the series theme.
+
+  Similar to the primitive theme, `IXxxSeriesTheme` can also be regarded as a subset of the series spec. In the internal logic of VChart, each member of `ITheme.series` will be merged into each series according to the series type. in the spec.
+
+For configuration methods of different types of series specs, please refer to the series-related sections in the VChart configuration document.
+
+### Component attribute configuration
+
+A chart may contain multiple components, such as coordinate axes, legends, prompt information, etc. Component themes allow users to set specific styles for different types of components, such as axis color, tick length, title font, etc.
+
+Contains 1 configuration:
+
+- `ITheme.component`: Component style properties, indexed by component category.
+
+  Its type `IComponentTheme` is defined as follows:
+  ```ts
+  interface IComponentTheme {
+    /**
+     * common axis config
+     */
+    axis?: IAxisCommonTheme;
+    /**
+     * common band axis config
+     */
+    axisBand?: IAxisCommonTheme;
+    /**
+     * common linear axis config
+     */
+    axisLinear?: IAxisCommonTheme;
+    /**
+     * cartesian x axis config
+     */
+    axisX?: ICartesianAxisCommonTheme;
+    /**
+     * cartesian y axis config
+     */
+    axisY?: ICartesianAxisCommonTheme;
+    /**
+     * polar radius axis config
+     */
+    axisRadius?: IPolarAxisCommonTheme;
+    /**
+     * polar angle axis config
+     */
+    axisAngle?: IPolarAxisCommonTheme;
+    /**
+     * discrete legend config 
+     */
+    [ComponentTypeEnum.discreteLegend]?: IDiscreteLegendTheme;
+    /**
+     * linear color legend config 
+     */
+    [ComponentTypeEnum.colorLegend]?: IColorLegendTheme;
+    /**
+     * linear size legend config 
+     */
+    [ComponentTypeEnum.sizeLegend]?: ISizeLegendTheme;
+    /**
+     * markLine config
+     */
+    [ComponentTypeEnum.markLine]?: IMarkLineTheme;
+    /**
+     * markArea config
+     */
+    [ComponentTypeEnum.markArea]?: IMarkAreaTheme;
+    /**
+     * markPoint config
+     */
+    [ComponentTypeEnum.markPoint]?: IMarkPointTheme;
+    /**
+     * tooltip config
+     */
+    [ComponentTypeEnum.tooltip]?: ITooltipTheme;
+    /**
+     * crosshair config
+     */
+    [ComponentTypeEnum.crosshair]?: ICrosshairTheme;
+    /**
+     * dataZoom config
+     */
+    [ComponentTypeEnum.dataZoom]?: IDataZoomTheme;
+    /**
+     * scrollbar config
+     */
+    [ComponentTypeEnum.scrollBar]?: IScrollBarTheme;
+    /**
+     * indicator config
+     */
+    [ComponentTypeEnum.indicator]?: IIndicatorTheme;
+    /**
+     * player config
+     */
+    [ComponentTypeEnum.player]?: IPlayerTheme;
+    /**
+     * brush config
+     */
+    [ComponentTypeEnum.brush]?: IBrushTheme;
+    /**
+     * title config
+     */
+    [ComponentTypeEnum.title]?: ITitleTheme;
+    /**
+     * map config 
+     */
+    [ComponentTypeEnum.mapLabel]?: IMapLabelTheme;
+  }
+  ```
+
+Each component type corresponds to a theme configuration `IXxxTheme`. Similar to the series theme, this type is a subset of the component `IXxxSpec` and contains all style configurations for the component. For details, please refer to the spec of the corresponding component.
+
+  In the internal logic of VChart, each member of `ITheme.component` will be merged into the spec of each component according to the component type.
+
+  There are some common configurations for axes:
+
+  - `IComponentTheme.axis` is a common configuration for all axes, but has the lowest merge priority. The type `IAxisCommonTheme` is defined as follows:
+
+  ```ts
+    interface IAxisCommonTheme {
+      /** grid config */
+      grid?: IGrid;
+      /** sub grid config */
+      subGrid?: IGrid;
+      /** domain line config */
+      domainLine?: IDomainLine;
+      /** label config */
+      label?: ILabel;
+      /** title config */
+      title?: ITitle;
+      /** tick config */
+      tick?: ITick;
+      /** sub tick config */
+      subTick?: ITick;
+    }
+    ```
+
+For specific configuration items, see the axis component spec.
+
+  - `IComponentTheme.axisBand` and `IComponentTheme.axisLinear` are common configurations for discrete axes and continuous axes respectively (regardless of coordinate systems), and have higher priority. The type is also `IAxisCommonTheme`.
+
+  - `IComponentTheme.axisX` and `IComponentTheme.axisY` are the configurations of the two axes of the plane rectangular coordinate system respectively, with the highest priority. Type is `ICartesianAxisCommonTheme`. The type definition is as follows:
+
+  ```ts
+  interface ICartesianAxisCommonTheme {
+    /** grid config */
+    grid?: IGrid;
+    /** sub grid config */
+    subGrid?: IGrid;
+    /** domain line config */
+    domainLine?: ICartesianDomainLine;
+    /** label config */
+    label?: ILabel;
+    /** title config */
+    title?: ICartesianTitle;
+    /** tick config */
+    tick?: ITick;
+    /** sub tick config */
+    subTick?: ITick;
+    /**
+     * background config
+     */
+    background?: ICartesianAxisCommonSpec['background'];
+  }
+  ```
+
+For specific configuration items, see the axis component spec.
+
+  - `IComponentTheme.axisAngle` and `IComponentTheme.axisRadius` are the configurations of the two axes of the plane polar coordinate system respectively, and have the highest priority. Type is `IPolarAxisCommonTheme`. The type definition is as follows:
+
+  ```ts
+  interface IPolarAxisCommonTheme {
+    /** grid config */
+    grid?: IPolarGrid;
+    /** sub grid config */
+    subGrid?: IPolarGrid;
+    /** domain line config */
+    domainLine?: IDomainLine;
+    /** label config */
+    label?: ILabel;
+    /** title config */
+    title?: ITitle;
+    /** tick config */
+    tick?: ITick;
+    /** sub tick config */
+    subTick?: ITick;
+  }
+  ```
+
+  For specific configuration items, see the axis component spec.
+
+The next section will describe the color palette configuration function of VChart in detail.
+  

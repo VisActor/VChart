@@ -30,12 +30,12 @@ export function createScaleWithSpec(
   spec: IVisual<any>,
   context: {
     globalScale: IGlobalScale;
-    dataStatistics: DataView;
+    seriesId: number;
   }
 ): IBaseScale | null {
   if ('scale' in spec && spec.scale) {
     if (isString(spec.scale) && context?.globalScale) {
-      return context.globalScale.registerMarkAttributeScale(spec, context.dataStatistics);
+      return context.globalScale.registerMarkAttributeScale(spec, context.seriesId);
     }
     return spec.scale as unknown as IBaseScale;
   }

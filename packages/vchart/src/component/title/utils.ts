@@ -1,5 +1,5 @@
 import type { IPadding } from '../../typings';
-import { isNumber, isValid } from '@visactor/vutils';
+import { isNumber } from '@visactor/vutils';
 
 export function transformPadding(padding: number | IPadding) {
   if (isNumber(padding)) {

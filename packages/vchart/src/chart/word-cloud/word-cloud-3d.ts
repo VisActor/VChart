@@ -1,8 +1,8 @@
-import { SeriesTypeEnum } from '../../series/interface';
-import { ChartTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
+import { ChartTypeEnum } from '../interface/type';
 import type { IWordCloud3dChartSpec } from './interface';
 import { BaseWordCloudChart } from './base';
-import { registerWordCloud3dSeries } from '../../series/word-cloud/word-cloud-3d';
+import { registerWordCloud3dSeries, registerWordCloudShape3dSeries } from '../../series/word-cloud/word-cloud-3d';
 import { Factory } from '../../core/factory';
 
 export class WordCloud3dChart extends BaseWordCloudChart {
@@ -48,4 +48,9 @@ export class WordCloud3dChart extends BaseWordCloudChart {
 export const registerWordCloud3dChart = () => {
   registerWordCloud3dSeries();
   Factory.registerChart(WordCloud3dChart.type, WordCloud3dChart);
+};
+
+export const registerWordCloudShape3dChart = () => {
+  registerWordCloudShape3dSeries();
+  registerWordCloud3dChart();
 };

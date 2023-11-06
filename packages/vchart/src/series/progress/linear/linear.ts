@@ -4,7 +4,7 @@ import type { SeriesMarkMap } from '../../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
 import type { IRectMark } from '../../../mark/rect';
 import type { IGroupMark } from '../../../mark/group';
-import { valueInScaleRange } from '../../../util';
+import { valueInScaleRange } from '../../../util/scale';
 import { AttributeLevel } from '../../../constant';
 import type { Datum, Maybe } from '../../../typings';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
@@ -252,14 +252,14 @@ export class LinearProgressSeries<
     this._progressMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('linearProgress')?.(animationParams, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.progress, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.progress, this._spec, this._markAttributeContext)
       )
     );
 
     this._trackMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('fadeInOut')?.(),
-        userAnimationConfig(SeriesMarkNameEnum.track, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.track, this._spec, this._markAttributeContext)
       )
     );
   }

@@ -1,0 +1,12 @@
+import { VChart } from './vchart';
+import { Factory } from './factory';
+export { VChart, Factory };
+export declare const version: string;
+export type { IVChart } from './interface';
+export type { IStateSpec, StateValueType } from '../compile/mark';
+export * from '../typings/spec/common';
+export * from '../event/interface';
+export * from '../theme/interface';
+export * from '../typings/spec/index';
+export * from '../theme/index';
+export { vglobal } from '@visactor/vrender-core';

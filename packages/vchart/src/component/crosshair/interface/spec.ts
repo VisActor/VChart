@@ -1,4 +1,3 @@
-import type { IModelSpec } from '../../../model/interface';
 import type { IPadding, StringOrNumber, ILineMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../../../typings';
 import type { IAxis } from '../../axis/interface';
 import type { IComponentSpec } from '../../base/interface';

@@ -14,7 +14,7 @@ import type { ISankeyOpt } from '../../data/transforms/sankey';
 import { sankey } from '../../data/transforms/sankey';
 import { sankeyNodes } from '../../data/transforms/sankey-nodes';
 import { sankeyLinks } from '../../data/transforms/sankey-links';
-import { STATE_VALUE_ENUM } from '../../compile/mark';
+import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
 import { DEFAULT_DATA_INDEX, LayoutZIndex, AttributeLevel, Event_Bubble_Level, ChartEvent } from '../../constant';
 import { SeriesData } from '../base/series-data';
@@ -22,13 +22,12 @@ import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
-import { Bounds } from '@visactor/vutils';
+import { Bounds, array, isNil } from '@visactor/vutils';
 import { registerSankeyAnimation, type ISankeyAnimationParams } from './animation';
 import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { array, isNil } from '../../util';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
@@ -38,6 +37,7 @@ import { flatten } from '../../data/transforms/flatten';
 import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
+import { TransformLevel } from '../../data/initialize';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -87,7 +87,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   initData() {
     super.initData();
 
-    if (this._viewDataFilter) {
+    if (this.getViewData()) {
       // 初始化桑基图数据
       registerDataSetInstanceTransform(this._dataSet, 'sankey', sankey);
 
@@ -118,7 +118,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           linkSortBy: this._spec.linkSortBy,
           nodeSortBy: this._spec.nodeSortBy,
           setNodeLayer: this._spec.setNodeLayer
-        } as ISankeyOpt
+        } as ISankeyOpt,
+        level: TransformLevel.sankeyLayout
       });
 
       const nodesDataSet = new DataSet();
@@ -127,7 +128,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       registerDataSetInstanceTransform(nodesDataSet, 'addVChartProperty', addVChartProperty);
       // 注册扁平化算法
       registerDataSetInstanceTransform(nodesDataSet, 'flatten', flatten);
-      const nodesDataView = new DataView(nodesDataSet);
+      const nodesDataView = new DataView(nodesDataSet, { name: `sankey-node-${this.id}-data` });
       nodesDataView.parse([this.getViewData()], {
         type: 'dataview'
       });
@@ -152,8 +153,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         {
           type: 'addVChartProperty',
           options: {
-            beforeCall: initKeyMap,
-            call: addDataKey.bind(this)
+            beforeCall: initKeyMap.bind(this),
+            call: addDataKey
           }
         },
         false
@@ -166,7 +167,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       registerDataSetInstanceParser(linksDataSet, 'dataview', dataViewParser);
       registerDataSetInstanceTransform(linksDataSet, 'sankeyLinks', sankeyLinks);
       registerDataSetInstanceTransform(linksDataSet, 'addVChartProperty', addVChartProperty);
-      const linksDataView = new DataView(linksDataSet);
+      const linksDataView = new DataView(linksDataSet, { name: `sankey-link-${this.id}-data` });
       linksDataView.parse([this.getViewData()], {
         type: 'dataview'
       });
@@ -178,8 +179,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         {
           type: 'addVChartProperty',
           options: {
-            beforeCall: initKeyMap,
-            call: addDataKey.bind(this)
+            beforeCall: initKeyMap.bind(this),
+            call: addDataKey
           }
         },
         false
@@ -269,7 +270,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         thickness: (datum: Datum) => datum.thickness,
         fill: (datum: Datum) => {
           const sourceName =
-            this._spec?.nameKey || this._rawData.latestData[0]?.nodes?.[0]?.children
+            this._spec?.nodeKey || this._rawData.latestData[0]?.nodes?.[0]?.children
               ? datum.source
               : this.getNodeList()[datum.source];
           return this._spec.link?.style?.fill ?? this.getNodeOrdinalColorScale(sourceName);
@@ -498,7 +499,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       this._nodeMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('sankeyNode')?.(animationParams, appearPreset),
-          userAnimationConfig(SeriesMarkNameEnum.node, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.node, this._spec, this._markAttributeContext)
         )
       );
     }
@@ -506,7 +507,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       this._linkMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('sankeyLinkPath')?.(animationParams, appearPreset),
-          userAnimationConfig(SeriesMarkNameEnum.link, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.link, this._spec, this._markAttributeContext)
         )
       );
     }
@@ -514,7 +515,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       this._labelMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.label, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext)
         )
       );
     }

@@ -1,9 +1,8 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkPoint, IMarkPointSpec, IMarkPointTheme } from './interface';
-import { isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
 import { coordinateLayout } from '../utils';
@@ -11,7 +10,7 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty, isValid } from '@visactor/vutils';
+import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
@@ -159,7 +158,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
 
     const options = this._processSpecCoo(spec);
 
-    const data = new DataView(this._option.dataSet);
+    const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     data.parse([relativeSeries.getViewData()], {
       type: 'dataview'
     });

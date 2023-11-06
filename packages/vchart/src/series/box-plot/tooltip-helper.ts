@@ -1,7 +1,7 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type { Datum, ITooltipPattern, TooltipActiveType } from '../../typings';
-import { isValid } from '../../util';
+import { isValid } from '@visactor/vutils';
 import { BOX_PLOT_OUTLIER_VALUE_FIELD, BOX_PLOT_TOOLTIP_KEYS } from '../../constant/box-plot';
 import type { BoxPlotSeries } from './box-plot';
 

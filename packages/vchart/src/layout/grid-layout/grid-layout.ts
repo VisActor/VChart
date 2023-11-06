@@ -4,7 +4,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { IModel } from '../../model/interface';
 import type { ILayoutItem } from '../../model/interface';
 import type { IBaseLayout, IGridLayoutSpec, ElementSpec } from '../interface';
-import { isFunction, isValid, isValidNumber } from '../../util';
+import { isFunction, isValid, isValidNumber } from '@visactor/vutils';
 import type { IRect } from '../../typings/space';
 import { Factory } from '../../core/factory';
 

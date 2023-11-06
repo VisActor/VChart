@@ -4,20 +4,22 @@ import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum, DirectionType } from '../../typings';
-import { mergeSpec, valueInScaleRange, getActualNumValue, getRegionStackGroup } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { valueInScaleRange } from '../../util/scale';
+import { getRegionStackGroup } from '../../util/data';
+import { getActualNumValue } from '../../util/space';
 import { registerBarAnimation, type BarAppearPreset, type IBarAnimationParams } from './animation';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IBarSeriesSpec, IBarSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IRectMark } from '../../mark/rect';
 import type { IModelInitOption } from '../../model/interface';
 import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface/type';
-import { SeriesTypeEnum } from '../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { RectMark } from '../../mark/rect';
 import { array, isValid, last } from '@visactor/vutils';
@@ -29,6 +31,7 @@ import { SeriesData } from '../base/series-data';
 import { DataView } from '@visactor/vdataset';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { registerSampleTransform } from '@visactor/vgrammar-core';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;
@@ -70,7 +73,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         type: this._barMarkType
       },
       {
-        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
+        morph: shouldMarkDoMorph(this._spec, this._barMarkName),
         defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
         isSeriesMark: true,
@@ -175,8 +178,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         {
           type: 'addVChartProperty',
           options: {
-            beforeCall: initKeyMap,
-            call: addDataKey.bind(this)
+            beforeCall: initKeyMap.bind(this),
+            call: addDataKey
           }
         },
         false
@@ -496,7 +499,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('bar')?.(animationParams, appearPreset),
-        userAnimationConfig(this._barMarkName, this._spec),
+        userAnimationConfig(this._barMarkName, this._spec, this._markAttributeContext),
         { dataIndex }
       )
     );
@@ -573,6 +576,30 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const region = this.getRegion();
     // @ts-ignore
     region._bar_series_position_calculated = false;
+    if (this._spec.sampling) {
+      this.compile();
+    }
+  }
+
+  compile(): void {
+    super.compile();
+
+    if (this._spec.sampling) {
+      const { width, height } = this._region.getLayoutRect();
+      const samplingTrans = [];
+      const fieldsY = this._fieldY;
+      const fieldsX = this._fieldX;
+
+      samplingTrans.push({
+        type: 'sampling',
+        size: this._direction === Direction.vertical ? width : height,
+        factor: this._spec.samplingFactor,
+        yfield: this._direction === Direction.vertical ? fieldsY[0] : fieldsX[0],
+        groupBy: this._seriesField,
+        mode: this._spec.sampling
+      });
+      this._data.getProduct().transform(samplingTrans);
+    }
   }
 
   getDefaultShapeType(): string {
@@ -607,6 +634,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 }
 
 export const registerBarSeries = () => {
+  registerSampleTransform();
   Factory.registerMark(RectMark.type, RectMark);
   Factory.registerSeries(BarSeries.type, BarSeries);
   registerBarAnimation();

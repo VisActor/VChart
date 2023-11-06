@@ -1,8 +1,9 @@
 # Taro VChart
 
-- 仓库地址：[https://github.com/VisActor/VChart/tree/main/packages/taro-vchart](https://github.com/VisActor/VChart/tree/main/packages/taro-vchart)
+[Taro](https://docs.taro.zone/docs/) 是目前使用得较多的跨端跨框架解决方案，VChart 专门为此基于 Taro 框架封装了对应的图表组件：`@visactor/taro-vchart`。
 
-[Taro](https://docs.taro.zone/docs/) 是目前使用得较多的跨端跨框架解决方案，VChart 也提供了对应的图表组件：`@visactor/taro-vchart`。
+- 仓库地址：[taro-vchart](https://github.com/VisActor/VChart/tree/main/packages/taro-vchart)
+- 示例地址：[taro-vchart-example](https://github.com/VisActor/taro-vchart-example)
 
 ## 环境要求
 
@@ -12,17 +13,19 @@
 
 ## 支持环境
 
-目前组件支持的环境有：**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web')。
+|        | 微信 | 头条 | H5  | RN  | 百度 | 阿里系 |
+| ------ | ---- | ---- | --- | --- | ---- | ------ |
+| 支持度 | ✔️   | ✔️   | ✔️  | --  | --   | --     |
+
+目前组件支持的环境有：**微信小程序**，**字节小程序**，**飞书小程序**，**浏览器**。
 
 以上环境通过 `type` 属性进行声明，`type` 属性值及对应环境如下：
 
+- `weapp` 微信小程序。
 - `tt` 字节小程序。
-
 - `lark` 飞书小程序。
-
-- `h5` 浏览器环境, 与`web`等价。
-
-- `web` 浏览器环境, 与`h5`等价。
+- `h5` h5 移动端环境。
+- `web` 浏览器环境。
 
 ### 跨端支持
 
@@ -42,22 +45,93 @@
 
 ### 版本要求
 
-**字节小程序端**
-
-需要确保 **Taro 版本 >= 3.3.17**
-
 > taro 因为小版本有一些不兼容的 break change，所以尽量使用 3.3 版本
 
-**飞书小程序端**
+1. **微信小程序端**：需要确保 **Taro 版本 >= 3.3.17**
+2. **字节小程序端**：需要确保 **Taro 版本 >= 3.3.17**
+3. **飞书小程序端**：需要确保 **Taro 版本 >= 3.2.0**, **飞书版本 >= 3.45.0**
 
-需要确保 **Taro 版本 >= 3.2.0**, **飞书版本 >= 3.45.0**
+## 如何使用
 
-> taro 因为小版本有一些不兼容的 break change，所以尽量使用 3.3 版本
-
-## 安装
+### 安装
 
 ```
-npm install @visactor/taro-vchart
+# npm
+$ npm install @visactor/taro-vchart
+
+# yarn
+$ yarn add @visactor/taro-vchart
+```
+
+### 快速上手
+
+`@visactor/taro-vchart` 图表组件的方式非常简单，步骤如下：
+
+1. 引入图表组件：`import VChart from '@visactor/taro-vchart'`
+2. 声明图表组件，声明必要的属性
+   - `type` 属性用于声明所在的环境参数，可以不声明，内部默认会使用 `Taro.getEnv()`
+   - `canvasId` 必传，用来识别内部的 canvas 组件
+   - `spec` 为对应的 VChart 图表配置项
+
+下面是一个柱图的实例代码，具体可以 download 我们的实例项目：[taro-vchart-example](https://github.com/VisActor/taro-vchart-example)，实地运行体验。
+
+```tsx
+import { VChart } from '@visactor/taro-vchart';
+import Taro from '@tarojs/taro';
+
+// VChart 图表配置项
+const barSpec = {
+  type: 'bar',
+  data: [
+    {
+      id: 'barData',
+      values: [
+        { type: 'Autocracies', year: '1930', value: 129 },
+        { type: 'Autocracies', year: '1940', value: 133 },
+        { type: 'Autocracies', year: '1950', value: 130 },
+        { type: 'Autocracies', year: '1960', value: 126 },
+        { type: 'Autocracies', year: '1970', value: 117 },
+        { type: 'Autocracies', year: '1980', value: 114 },
+        { type: 'Autocracies', year: '1990', value: 111 },
+        { type: 'Autocracies', year: '2000', value: 89 },
+        { type: 'Autocracies', year: '2010', value: 80 },
+        { type: 'Autocracies', year: '2018', value: 80 },
+        { type: 'Democracies', year: '1930', value: 22 },
+        { type: 'Democracies', year: '1940', value: 13 },
+        { type: 'Democracies', year: '1950', value: 25 },
+        { type: 'Democracies', year: '1960', value: 29 },
+        { type: 'Democracies', year: '1970', value: 38 },
+        { type: 'Democracies', year: '1980', value: 41 },
+        { type: 'Democracies', year: '1990', value: 57 },
+        { type: 'Democracies', year: '2000', value: 87 },
+        { type: 'Democracies', year: '2010', value: 98 },
+        { type: 'Democracies', year: '2018', value: 99 }
+      ]
+    }
+  ],
+  xField: ['year', 'type'],
+  yField: 'value',
+  seriesField: 'type',
+  legends: {
+    visible: true,
+    orient: 'top',
+    position: 'start'
+  }
+};
+
+export const BarChart = () => {
+  return (
+    <VChart
+      type={Taro.getEnv() as any}
+      style={{ width: '100%', height: '150px' }}
+      spec={barSpec}
+      canvasId="bar-chart"
+      onChartReady={() => {
+        console.log('onChartReady');
+      }}
+    />
+  );
+};
 ```
 
 ## API
@@ -65,7 +139,7 @@ npm install @visactor/taro-vchart
 图表组件使用示例如下：
 
 ```tsx
-<VCHart
+<VChart
   type="tt"
   spec={spec}
   canvasId="pie"
@@ -82,92 +156,17 @@ npm install @visactor/taro-vchart
 />
 ```
 
-| API           | 类型     | 说明                                                                                                    |
-| ------------- | -------- | ------------------------------------------------------------------------------------------------------- |
-| type          | string   | 配置的环境，目前组件支持的环境有：**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web') |
-| canvasId      | String   | 图表 id, 必确唯一                                                                                       |
-| spec          | Object   | 图表配置项, 请参考[VChart 配置项](../../../option)                                                                 |
-| style         | Object   | 图表容器样式                                                                                            |
-| events        | Object[] | 事件绑定配置                                                                                            |
-| options       | Object   | 初始化 VChart 实例传入的额外配置项，同 [VChart 实例化配置项](../../../api/API/vchart#options)                                      |
-| onChartInit   | Function | 图表初始化完后触发的回调                                                                                |
-| onChartReady  | Function | 图表渲染完毕后触发的回调                                                                                |
-| onChartUpdate | Function | 图表更新完毕后触发的回调                                                                                |
-
-## 快速上手
-
-```tsx
-import React, { useState } from 'react';
-import { View } from '@tarojs/components';
-import VChart from '@visactor/taro-vchart';
-
-export function Pie() {
-  // 1. 准备图表配置项与数据
-  const [spec, setSpec] = useState({
-    data: [
-      {
-        id: 'data1',
-        values: [
-          {
-            value: 335,
-            name: 'direct access'
-          },
-          {
-            value: 310,
-            name: 'Email Marketing'
-          },
-          {
-            value: 274,
-            name: 'Affiliate Advertising'
-          },
-          {
-            value: 235,
-            name: 'Video Ad'
-          },
-          {
-            value: 400,
-            name: 'Search Engine'
-          }
-        ]
-      }
-    ],
-    type: 'pie',
-    outerRadius: 0.6,
-    innerRadius: 0.5,
-    categoryField: 'name',
-    valueField: 'value',
-    legends: {
-      visible: true
-    }
-  });
-
-  // 向Chart组件, 传递参数.
-  return (
-    <View
-      style={{
-        border: '1px solid #eeeeee',
-        width: '90vw'
-      }}
-    >
-      <VChart
-        type="tt"
-        spec={spec}
-        canvasId="pie"
-        style={{ height: '35vh', width: '100%' }}
-        onChartInit={() => {
-          console.log('init pie');
-        }}
-        onChartReady={() => {
-          console.log('ready pie');
-        }}
-        onChartUpdate={() => {
-          console.log('update pie');
-        }}
-      />
-    </View>
-  );
-}
-```
+| API           | 类型     | 是否必填 | 说明                                                                                                                                            |
+| ------------- | -------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| type          | string   | 否       | 配置的环境，目前组件支持的环境有：**微信小程序**('weapp')，**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('web')，**h5 移动端**('h5') |
+| canvasId      | String   | 是       | 图表 id, 必确唯一                                                                                                                               |
+| spec          | Object   | 是       | 图表配置项, 请参考[VChart 配置项](../../../option)                                                                                              |
+| style         | Object   | 否       | 图表容器样式                                                                                                                                    |
+| events        | Object[] | 否       | 事件绑定配置                                                                                                                                    |
+| options       | Object   | 否       | 初始化 VChart 实例传入的额外配置项，同 [VChart 实例化配置项](../../../api/API/vchart#options)                                                   |
+| onChartInit   | Function | 否       | 图表初始化完后触发的回调                                                                                                                        |
+| onChartReady  | Function | 否       | 图表渲染完毕后触发的回调                                                                                                                        |
+| onChartUpdate | Function | 否       | 图表更新完毕后触发的回调                                                                                                                        |
 
 ## 常用示例
 

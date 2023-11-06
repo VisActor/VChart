@@ -1,42 +1,36 @@
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import type { IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import { BaseComponent } from '../base';
+import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
 import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
-import { DomTooltipHandler, CanvasTooltipHandler } from './handler';
+import { DomTooltipHandler } from './handler/dom';
+import { CanvasTooltipHandler } from './handler/canvas';
 import type { Datum, IPoint, IShowTooltipOption } from '../../typings';
-import {
-  cloneDeep,
-  isArray,
-  isValid,
-  mergeSpec,
-  isMobileLikeMode,
-  isTrueBrowser,
-  isNil,
-  isMiniAppLikeMode,
-  domDocument
-} from '../../util';
-import {
-  TooltipResult,
-  type ITooltip,
-  type ITooltipActiveTypeAsKeys,
-  type ITooltipSpec,
-  type ITooltipTheme,
-  type TooltipHandlerParams,
-  type TotalMouseEventData
+import { isMobileLikeMode, isTrueBrowser, isMiniAppLikeMode, domDocument } from '../../util/env';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import type {
+  ITooltip,
+  ITooltipActiveTypeAsKeys,
+  ITooltipSpec,
+  ITooltipTheme,
+  TooltipHandlerParams,
+  TotalMouseEventData
 } from './interface';
+import { TooltipResult } from './interface/common';
 import { TOOLTIP_EL_CLASS_NAME } from './handler/constants';
-// eslint-disable-next-line no-duplicate-imports
-import { getTooltipActualActiveType, showTooltip, isEmptyPos } from './utils';
-import { isSameDimensionInfo } from '../../event/events/dimension/util';
+import { showTooltip } from './utils/show-tooltip';
+import { getTooltipActualActiveType, isEmptyPos } from './utils/common';
+import { isSameDimensionInfo } from '../../event/events/dimension/util/common';
 import { ChartEvent, Event_Bubble_Level, Event_Source_Type } from '../../constant';
 import type { DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
 // eslint-disable-next-line no-duplicate-imports
-import { isDimensionInfo, isMarkInfo, MarkTooltipProcessor, DimensionTooltipProcessor } from './processor';
-import { hasParentElement, isString } from '@visactor/vutils';
+import { DimensionTooltipProcessor } from './processor/dimension-tooltip';
+import { isDimensionInfo, isMarkInfo } from './processor/util';
+import { MarkTooltipProcessor } from './processor/mark-tooltip';
+import { hasParentElement, isString, cloneDeep, isArray, isValid, isNil } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';

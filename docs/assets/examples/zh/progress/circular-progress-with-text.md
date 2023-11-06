@@ -4,7 +4,7 @@ group: progress
 title: 带文本标注的环形进度图
 keywords: circularProgress,comparison,circle,indicator
 order: 16-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/progress/circular-progress-with-text.png
+cover: /vchart/preview/circular-progress-with-text_1.6.0.png
 option: circularProgressChart
 ---
 

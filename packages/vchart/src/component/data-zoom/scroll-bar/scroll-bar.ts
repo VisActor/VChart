@@ -1,7 +1,7 @@
 import { isArray, isBoolean, isEmpty, isNil, isNumber, isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
 import type { ScrollBarAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports

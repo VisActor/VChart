@@ -1,11 +1,10 @@
 import type { utilFunctionCtx } from '../typings/params';
-import { warn } from '../util/debug';
+import { warn, error } from '../util/debug';
 import { isString } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { IDataViewOptions, IFields, ITransformOptions } from '@visactor/vdataset';
 import type { IDataValues, SheetParseOptions } from '../typings/spec/common';
-import { error } from '../util';
 import { registerDataSetInstanceTransform } from './register';
 import { copyDataView } from './transforms/copy-data-view';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
@@ -34,7 +33,8 @@ export function dataViewFromDataView(rawData: DataView, dataSet?: DataSet, op?: 
     type: 'dataview'
   });
   viewData.transform({
-    type: 'copyDataView'
+    type: 'copyDataView',
+    level: TransformLevel.copyDataView
   });
   return viewData;
 }
@@ -129,4 +129,18 @@ export function updateDataViewInData(dataView: DataView, data: IDataValues, forc
     dataView.setFields(data.fields as any, forceMerge);
   }
   dataView.parseNewData(data.values, data.parser as any);
+}
+
+export enum TransformLevel {
+  copyDataView = -10,
+
+  treemapFilter = -8,
+  treemapFlatten = -7,
+
+  dotObjFlat = -7,
+  linkDotInfo = -7,
+  sankeyLayout = -7,
+
+  dataZoomFilter = -6,
+  legendFilter = -5
 }

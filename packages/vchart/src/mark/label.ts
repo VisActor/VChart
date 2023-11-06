@@ -1,5 +1,6 @@
 import type { IComponentMark } from './component';
-import { MarkTypeEnum, type IMark } from './interface';
+import type { IMark } from './interface/common';
+import { MarkTypeEnum } from './interface/type';
 import { TextMark } from './text';
 
 export class LabelMark extends TextMark implements ILabelMark {
@@ -22,6 +23,11 @@ export class LabelMark extends TextMark implements ILabelMark {
   }
   setTarget(target: IMark) {
     this._target = target;
+    if (!this._rule) {
+      //  接入 line/area 图元标签后这里需要改造
+      const rule = ['line', 'area'].includes(target.type) ? 'lineData' : target.type;
+      this.setRule(rule);
+    }
   }
 
   private _component: IMark;

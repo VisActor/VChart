@@ -1,6 +1,35 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 27 Oct 2023 06:56:42 GMT and should not be manually modified.
+This log was last generated on Fri, 03 Nov 2023 05:16:41 GMT and should not be manually modified.
+
+## 1.6.0
+Fri, 03 Nov 2023 05:16:41 GMT
+
+### Updates
+
+- feat: add `updateElement` callback in tooltip spec to configure custom tooltip DOM elements based on the default tooltip handler, related #1338
+- feat: enable exit animation while updating data
+-  feat: support functional label.position config in line/area/scatter/bar series
+- feat: load browser or node env code dynamically
+- feat: support functional label.position config in line/area/scatter/bar series
+- feat: dataScheme supports configuration by distinguishing series directions, related #1209
+- feat: data sampling & point overlap. close #460
+- fix: react-vchart mode not work
+- fix: optimize the trigger of hover in non-browser env
+- fix: if series mark is line, return stroke value when user want fill value, fixed #1388
+- fix: fix the angle offset in rose dimension tooltip, related #1263
+- perf: create Stack and calculate stack attributes when need
+
+
+
+## 1.5.4
+Mon, 30 Oct 2023 06:09:01 GMT
+
+### Updates
+
+- feat: add bar background mark for bar-like series, related #1154
+- fix: unexpected funnel transform ratio label, see #1348
+- fix: tooltip value label clipped on lark mini app, related #1346
 
 ## 1.5.3
 Fri, 27 Oct 2023 06:56:41 GMT

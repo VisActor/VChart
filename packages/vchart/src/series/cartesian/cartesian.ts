@@ -11,17 +11,19 @@ import {
   STACK_FIELD_START_PERCENT,
   STACK_FIELD_START_OffsetSilhouette
 } from '../../constant';
-import type { IAxisHelper, IAxisLocationCfg } from '../../component/axis/cartesian/interface';
+import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { DirectionType } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { Datum, StringOrNumber } from '../../typings';
-import { array, couldBeValidNumber, isValid } from '../../util';
+import { couldBeValidNumber } from '../../util/type';
+import { array, isValid } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { ICartesianSeriesSpec } from './interface';
 import { sortDataInAxisHelper } from '../util/utils';
+import type { IAxisLocationCfg } from '../../component/axis';
 
 export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesianSeriesSpec>
   extends BaseSeries<T>

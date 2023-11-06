@@ -13,12 +13,13 @@ import { Bounds, isValid } from '@visactor/vutils';
 import { SymbolMark } from '../../mark/symbol';
 import { SeriesData } from '../base/series-data';
 import type { Maybe, Datum, ISymbolMarkSpec, IRippleMarkSpec } from '../../typings';
-import { ICorrelationSeriesTheme } from './interface';
+import type { ICorrelationSeriesTheme } from './interface';
 import { AttributeLevel, DEFAULT_DATA_INDEX, LayoutZIndex } from '../../constant';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
-import { mergeSpec } from '../../util';
-import { STATE_VALUE_ENUM } from '../../compile/mark';
-import { IRippleMark, RippleMark } from '../../mark/ripple';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
+import type { IRippleMark } from '../../mark/ripple';
+import { RippleMark } from '../../mark/ripple';
 import type { ILabelMark } from '../../mark/label';
 import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -116,7 +117,7 @@ export class CorrelationSeries extends PolarSeries<any> {
     const centerDataSet = new DataSet();
     registerDataSetInstanceParser(centerDataSet, 'dataview', dataViewParser);
     registerDataSetInstanceTransform(centerDataSet, 'correlationCenter', correlationCenter);
-    const centerDataView = new DataView(centerDataSet);
+    const centerDataView = new DataView(centerDataSet, { name: `${this.type}_${this.id}_center` });
     centerDataView.parse([this.getViewData()], {
       type: 'dataview'
     });
@@ -303,7 +304,7 @@ export class CorrelationSeries extends PolarSeries<any> {
     this._nodePointMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('correlation')?.({}, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.nodePoint, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.nodePoint, this._spec, this._markAttributeContext)
       )
     );
   }
@@ -316,12 +317,6 @@ export class CorrelationSeries extends PolarSeries<any> {
   }
   getStackValueField(): string {
     return '';
-  }
-  setValueFieldToStack(): void {
-    return;
-  }
-  setValueFieldToPercent(): void {
-    return;
   }
   getActiveMarks(): IMark[] {
     return [this._nodePointMark, this._centerPointMark];

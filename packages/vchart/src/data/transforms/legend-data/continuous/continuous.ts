@@ -10,9 +10,9 @@ export const continuousLegendDataMake = (data: Array<ISeries>, op: IContinuousLe
     let min: number = Number.MAX_VALUE;
     let max: number = Number.MIN_VALUE;
     series().forEach(s => {
-      const statisticData = s.getRawDataStatistics().latestData;
-      const seriesMin = statisticData?.[datumField]?.min;
-      const seriesMax = statisticData?.[datumField]?.max;
+      const statisticData = s.getRawDataStatisticsByField(datumField, true);
+      const seriesMin = statisticData?.min;
+      const seriesMax = statisticData?.max;
       if (isValidNumber(seriesMin)) {
         min = seriesMin;
       }

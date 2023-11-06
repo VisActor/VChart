@@ -1,8 +1,8 @@
 import { isArray, isBoolean, isNil, isNumber, isValid, uniqArray } from '@visactor/vutils';
-import { mergeSpec } from '../../../util';
+import { mergeSpec } from '../../../util/spec/merge-spec';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
 // eslint-disable-next-line no-duplicate-imports
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';

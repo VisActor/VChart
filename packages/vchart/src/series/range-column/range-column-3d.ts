@@ -1,6 +1,6 @@
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../interface/type';
 import { RangeColumnSeries } from './range-column';
 import { Rect3dMark } from '../../mark/rect-3d';
 import type { AdaptiveSpec } from '../../typings';

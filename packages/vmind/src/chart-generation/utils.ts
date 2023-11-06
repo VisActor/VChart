@@ -1,24 +1,25 @@
-import { GPTDataProcessResult } from './type';
+import { GPTDataProcessResult, IGPTOptions } from '../typings';
+import { isValid } from '@visactor/vutils';
 
 export const requestGPT = async (
   openAIKey: string | undefined,
   prompt: string,
   userMessage: string,
-  temperature = 0
+  options: IGPTOptions | undefined
 ) => {
   const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
-
-  const headers: any = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${openAIKey}`
-  };
-
-  const url: string = OPENAI_API_URL;
+  const url: string = options?.url ?? OPENAI_API_URL;
+  const defaultHeaders: HeadersInit = isValid(openAIKey)
+    ? {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${openAIKey}`
+      }
+    : { 'Content-Type': 'application/json' };
   const res = await fetch(url, {
-    headers,
-    method: 'POST',
+    headers: options?.headers ?? defaultHeaders,
+    method: options?.method ?? 'POST',
     body: JSON.stringify({
-      model: 'gpt-3.5-turbo',
+      model: options?.model ?? 'gpt-3.5-turbo',
       messages: [
         {
           role: 'system',
@@ -29,8 +30,8 @@ export const requestGPT = async (
           content: userMessage
         }
       ],
-      max_tokens: 1500,
-      temperature
+      max_tokens: options?.max_tokens ?? 1500,
+      temperature: options?.temperature ?? 0
     })
   })
     .then(response => response.json())

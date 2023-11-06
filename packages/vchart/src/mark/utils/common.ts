@@ -1,4 +1,4 @@
-import { MarkTypeEnum } from '../interface';
+import { MarkTypeEnum } from '../interface/type';
 
 export const MultiDatumMark = [MarkTypeEnum.line, MarkTypeEnum.area, 'trail'];
 

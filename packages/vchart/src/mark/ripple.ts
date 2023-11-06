@@ -2,7 +2,7 @@ import { BaseMark } from './base/base-mark';
 import type { IRippleMarkSpec } from '../typings/visual';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from './interface';
+import { MarkTypeEnum } from './interface/type';
 import { registerRippleGlyph } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { IGroupMark } from '@visactor/vgrammar-core';

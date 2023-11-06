@@ -2,14 +2,14 @@
 import type { IFunnelSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface/type';
 import type { IOrientType, IPoint, TextAlign, TextBaseLine, Maybe, Datum, StringOrNumber } from '../../typings';
-import { SeriesTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../interface/type';
 import type { IPolygonMark } from '../../mark/polygon/polygon';
 import { BaseSeries } from '../base/base-series';
 import { AttributeLevel, PREFIX } from '../../constant';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { DataView } from '@visactor/vdataset';
 import type { IMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IFunnelOpt } from '../../data/transforms/funnel';
 import { funnel, funnelTransform } from '../../data/transforms/funnel';
 import {
@@ -29,17 +29,18 @@ import {
   FUNNEL_VALUE_RATIO
 } from '../../constant/funnel';
 import type { ITextMark } from '../../mark/text';
-import { field, calcLayoutNumber, isNumber } from '../../util';
+import { calcLayoutNumber } from '../../util/space';
+import { field } from '../../util/object';
 import type { FunnelAppearPreset, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
 import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
-import { isFunction, isValid, merge } from '@visactor/vutils';
+import { isFunction, isValid, merge, isNumber } from '@visactor/vutils';
 import {
   FadeInOutAnimation,
   registerCartesianGroupClipAnimation,
   registerFadeInOutAnimation
 } from '../../animation/config';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { PolygonMark } from '../../mark/polygon/polygon';
@@ -124,11 +125,10 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     registerDataSetInstanceTransform(this._dataSet, 'funnel', funnel);
     registerDataSetInstanceTransform(this._dataSet, 'funnelTransform', funnelTransform);
 
-    const viewDataTransform = new DataView(this._dataSet);
+    const viewDataTransform = new DataView(this._dataSet, { name: `${PREFIX}_series_${this.id}_viewDataTransform` });
     viewDataTransform.parse([this.getViewData()], {
       type: 'dataview'
     });
-    viewDataTransform.name = `${PREFIX}_series_${this.id}_viewDataTransform`;
 
     this._viewDataTransform = new SeriesData(this._option, viewDataTransform);
   }
@@ -179,7 +179,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       },
       {
         themeSpec: this._theme?.funnel,
-        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
+        morph: shouldMarkDoMorph(this._spec, this._funnelMarkName),
         defaultMorphElementKey: this._seriesField,
         key: this._seriesField,
         groupKey: this._seriesField,
@@ -371,7 +371,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
               },
               appearPreset
             ),
-            userAnimationConfig(SeriesMarkNameEnum.group, this._spec)
+            userAnimationConfig(SeriesMarkNameEnum.group, this._spec, this._markAttributeContext)
           )
         );
       }
@@ -379,7 +379,10 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     [this._funnelOuterLabelMark?.label].forEach(m => {
       if (m) {
         m.setAnimationConfig(
-          animationConfig(Factory.getAnimationInKey('fadeInOut')(), userAnimationConfig(m.name, this._spec))
+          animationConfig(
+            Factory.getAnimationInKey('fadeInOut')(),
+            userAnimationConfig(m.name, this._spec, this._markAttributeContext)
+          )
         );
       }
     });
@@ -389,7 +392,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         m.setAnimationConfig(
           animationConfig(
             Factory.getAnimationInKey('funnel')({}, appearPreset),
-            userAnimationConfig(m.name, this._spec)
+            userAnimationConfig(m.name, this._spec, this._markAttributeContext)
           )
         );
       }
@@ -399,7 +402,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       this._funnelOuterLabelMark.line.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.outerLabelLine, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.outerLabelLine, this._spec, this._markAttributeContext)
         )
       );
     }
@@ -417,14 +420,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   getStackValueField(): string {
     // hack
     return null;
-  }
-
-  setValueFieldToStack(): void {
-    // this.setRadiusField(STACK_FIELD_END);
-  }
-
-  setValueFieldToPercent(): void {
-    //do nothing
   }
 
   /** event */
@@ -843,10 +838,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
   private _isReverse() {
     return this._funnelOrient === 'bottom' || this._funnelOrient === 'right';
-  }
-
-  setValueFieldToStackOffsetSilhouette(): void {
-    // do nothing
   }
 
   getDefaultShapeType(): string {

@@ -1,7 +1,8 @@
-import type { IPolarAxis, IPolarAxisSpec } from '../../component/axis/polar/interface';
+import type { IPolarAxisSpec } from '../../component/axis/polar/interface';
 import { PolarChart } from './polar';
 
 export class RoseLikeChart extends PolarChart {
+  protected _canStack: boolean = true;
   protected needAxes(): boolean {
     return true;
   }

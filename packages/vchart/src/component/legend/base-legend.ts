@@ -1,14 +1,16 @@
-import { isNil, isEqual } from '@visactor/vutils';
+import { isNil, isEqual, isValid, array, isValidNumber } from '@visactor/vutils';
 import type { DataView } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
-import { BaseComponent } from '../base';
+import { BaseComponent } from '../base/base-component';
 import type { IEffect, ILayoutRect } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
 // eslint-disable-next-line no-duplicate-imports
 import type { IOrientType, IPoint, StringOrNumber } from '../../typings';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
-import { isValid, mergeSpec, isValidOrient, array, eachSeries, isValidNumber } from '../../util';
-import { CompilableData } from '../../compile/data';
+import { eachSeries } from '../../util/model';
+import { isValidOrient } from '../../util/space';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { CompilableData } from '../../compile/data/compilable-data';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILegend, ILegendCommonSpec } from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
@@ -66,7 +68,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
       eachSeries(
         this._regions,
         s => {
-          s.getViewDataFilter()?.markRunning();
+          s.getViewData()?.markRunning();
         },
         {
           userId: this._seriesUserId,
@@ -162,7 +164,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     eachSeries(
       this._regions,
       s => {
-        s.event.on(ChartEvent.rawDataStatisticsUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
+        s.event.on(ChartEvent.rawDataUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
           this._legendData.getDataView().reRunAllTransform();
         });
       },

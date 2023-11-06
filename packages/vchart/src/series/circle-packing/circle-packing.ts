@@ -4,27 +4,27 @@ import { isNil, mixin } from '@visactor/vutils';
 import type { ICirclePackingOpt } from '../../data/transforms/circle-packing';
 import type { ICirclePackingSeriesSpec } from './interface';
 
-import { type IMarkSpec } from '../..';
+import type { IMarkSpec } from '../../typings/spec/common';
 import { Factory } from '../../core/factory';
 import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
 import type { SeriesMarkMap } from '../interface';
-import { SeriesTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../interface/type';
 
 import { CartesianSeries } from '../cartesian/cartesian';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { circlePackingLayout } from '../../data/transforms/circle-packing';
 import type { IMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IArcMark } from '../../mark/arc';
-import { STATE_VALUE_ENUM } from '../../compile/mark';
+import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import type { CirclePackingNodeElement } from '@visactor/vgrammar-hierarchy';
 import { flatten } from '../../data/transforms/flatten';
 import { CirclePackingTooltipHelper } from './tooltip-helper';
 import type { ITextMark } from '../../mark/text';
-import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerScaleInOutAnimation } from '../../animation/config';
@@ -163,8 +163,8 @@ export class CirclePackingSeries<
     rawData.transform({
       type: 'addVChartProperty',
       options: {
-        beforeCall: initKeyMap,
-        call: addHierarchyDataKey.bind(this)
+        beforeCall: initHierarchyKeyMap.bind(this),
+        call: addHierarchyDataKey
       }
     });
   }
@@ -283,14 +283,17 @@ export class CirclePackingSeries<
       mark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('circlePacking')?.(undefined, appearPreset),
-          userAnimationConfig(mark.name, this._spec)
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
         )
       );
     });
 
     this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(Factory.getAnimationInKey('scaleInOut')?.(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('scaleInOut')?.(),
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+        )
       );
     });
   }

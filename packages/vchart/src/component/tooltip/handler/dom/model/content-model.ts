@@ -2,7 +2,7 @@ import { defaultContentContainerStyle } from './style-constants';
 import { BaseTooltipModel } from './base-tooltip-model';
 import { ContentColumnModel } from './content-column-model';
 import type { Maybe } from '@visactor/vutils';
-import { mergeSpec } from '../../../../../util';
+import { mergeSpec } from '../../../../../util/spec/merge-spec';
 
 export class ContentModel extends BaseTooltipModel {
   shapeBox: Maybe<ContentColumnModel>;

@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vutils-extension",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "description": "The extension module for VUtil from VisActor",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -24,8 +24,8 @@
   "dependencies": {
     "@visactor/vutils": "~0.16.6",
     "@visactor/vscale": "~0.16.6",
-    "@visactor/vrender-core": "~0.16.9",
-    "@visactor/vrender-kits": "~0.16.9"
+    "@visactor/vrender-core": "~0.16.11",
+    "@visactor/vrender-kits": "~0.16.11"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",
@@ -55,11 +55,11 @@
     "access": "public"
   },
   "homepage": "https://www.visactor.io",
-  "bugs": "https://github.com/VisActor/VUtil/issues",
+  "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/VisActor/VUtil.git",
-    "directory": "packages/vdataset-extension"
+    "url": "https://github.com/VisActor/VChart.git",
+    "directory": "packages/vutils-extension"
   },
   "author": {
     "name": "VisActor",

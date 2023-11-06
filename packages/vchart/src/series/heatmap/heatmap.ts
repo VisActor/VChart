@@ -2,9 +2,9 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum } from '../../typings';
-import { array, mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import { registerHeatmapAnimation, type HeatmapAppearPreset } from './animation';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { ITextMark } from '../../mark/text';
@@ -12,7 +12,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ICellMark } from '../../mark/cell';
-import { normalizePadding } from '@visactor/vutils';
+import { normalizePadding, array } from '@visactor/vutils';
 import { HeatmapSeriesTooltipHelper } from './tooltip-helper';
 import { CellMark } from '../../mark/cell';
 import { TextMark } from '../../mark/text';
@@ -55,7 +55,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     };
 
     this._cellMark = this._createMark(HeatmapSeries.mark.cell, {
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('cell', this._spec)),
+      morph: shouldMarkDoMorph(this._spec, HeatmapSeries.mark.cell.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       isSeriesMark: true,
       label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
@@ -157,7 +157,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     this._cellMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('heatmap')?.(appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.cell, this._spec),
+        userAnimationConfig(SeriesMarkNameEnum.cell, this._spec, this._markAttributeContext),
         {
           dataIndex
         }

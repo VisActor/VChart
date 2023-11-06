@@ -1,5 +1,5 @@
 import { Bubble } from './bubble';
-import { isValid, debounce, throttle, get, isFunction } from '../util';
+import { isValid, debounce, throttle, get, isFunction } from '@visactor/vutils';
 import { BASE_EVENTS, ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant/event';
 import type {
   EventType,

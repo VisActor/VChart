@@ -1,9 +1,9 @@
 import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
 import type { LayoutItem } from '../../model/layout-item';
-import { BaseComponent } from '../base';
+import { BaseComponent } from '../base/base-component';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType } from '@visactor/vrender-components';
 import type { IBounds, IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports

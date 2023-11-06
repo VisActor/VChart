@@ -3,9 +3,9 @@ import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { ISymbolMarkSpec, IVisualSpecBase, ShapeType, FunctionType } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { ScatterAppearPreset, ScatterMarks } from './animation';
-import type { ILabelSpec } from '../../component/label';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import type { ILineLikeLabelSpec } from '../mixin/line-mixin';
 
 export interface IScatterSeriesSpec
   extends ICartesianSeriesSpec,
@@ -37,21 +37,10 @@ export interface IScatterSeriesSpec
    */
   shapeField?: string;
   shape?: ShapeType | ShapeType[] | FunctionType<ShapeType> | IVisualSpecBase<unknown, ShapeType>;
-
-  /** 标签配置 */
-  [SeriesMarkNameEnum.label]?: ILabelSpec & {
-    /** 标签位置 */
-    position?:
-      | 'top'
-      | 'bottom'
-      | 'left'
-      | 'right'
-      | 'top-right'
-      | 'top-left'
-      | 'bottom-right'
-      | 'bottom-left'
-      | 'center';
-  };
+  /**
+   * 标签配置
+   */
+  [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
 }
 
 export interface IScatterSeriesTheme extends ICartesianSeriesTheme {

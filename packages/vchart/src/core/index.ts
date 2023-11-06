@@ -12,10 +12,20 @@ export const version = __VERSION__;
 
 // export necessary types
 export type { IVChart } from './interface';
+export type { IStateSpec, StateValueType } from '../compile/mark';
 
-// the event types
-export * from '../event/interface';
 export * from '../typings/spec/common';
+export * from '../event/interface';
 export * from '../theme/interface';
 export * from '../constant';
-export type { IStateSpec, StateValueType } from '../compile/mark';
+
+/**
+ * spec
+ */
+export * from '../typings/spec/index';
+
+// theme
+export * from '../theme/index';
+
+// vrender
+export { vglobal } from '@visactor/vrender-core';

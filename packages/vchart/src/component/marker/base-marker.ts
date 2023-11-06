@@ -7,7 +7,7 @@ import type { LayoutItem } from '../../model/layout-item';
 import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
 import type { StringOrNumber } from '../../typings';
-import { BaseComponent } from '../base';
+import { BaseComponent } from '../base/base-component';
 import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
 import type { IRegressType } from './mark-area/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';

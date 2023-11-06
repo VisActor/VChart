@@ -4,7 +4,7 @@ import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visa
 
 // eslint-disable-next-line no-duplicate-imports
 import { DiscretePlayer, ContinuousPlayer, PlayerEventEnum } from '@visactor/vrender-components';
-import { isNumber, array, isEqual } from '@visactor/vutils';
+import { isNumber, array, isEqual, isNil, isValidNumber } from '@visactor/vutils';
 
 import type { ILayoutRect, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
@@ -17,10 +17,9 @@ import type { IPoint, IOrientType } from '../../typings';
 import { type IChartSpec, type IDataValues } from '../..';
 
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
-import { BaseComponent } from '../base';
-import { isNil, isValidNumber } from '../../util';
-import { transformContinuousSpecToAttrs, transformDiscreteSpecToAttrs } from './utils';
+import { ComponentTypeEnum } from '../interface/type';
+import { BaseComponent } from '../base/base-component';
+import { transformContinuousSpecToAttrs, transformDiscreteSpecToAttrs } from './utils/transform';
 import { isHorizontal, isVertical } from './utils/orient';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
 

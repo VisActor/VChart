@@ -5,42 +5,38 @@ import {
   dataProcessGPT,
   estimateVideoTime
 } from '../chart-generation/NLToChartPipe';
-import { DEFAULT_VIDEO_LENGTH, SUPPORTED_CHART_LIST } from '../chart-generation/constants';
-import { GPTDataProcessResult } from '../chart-generation/type';
+import { SUPPORTED_CHART_LIST } from '../chart-generation/constants';
+import { GPTDataProcessResult, IGPTOptions, TimeType } from '../typings';
 import { patchUserInput } from '../chart-generation/utils';
 import { vizDataToSpec } from '../chart-generation/vizDataToSpec';
-import { FFmpeg, createFFmpeg } from '@ffmpeg/ffmpeg';
-import { TimeType } from '../chart-to-video/type';
+import type { FFmpeg } from '@ffmpeg/ffmpeg';
 
 class VMind {
   private _OPENAI_KEY: string | undefined = undefined;
-  private _FFMPEG: FFmpeg | null = null;
   private _FPS = 30;
-  private _FFMPEG_Loaded = false;
+  private _options: IGPTOptions | undefined;
 
-  constructor(key: string) {
+  constructor(key: string, options?: IGPTOptions) {
     this.setOpenAIKey(key);
+    this._options = options;
   }
 
   setOpenAIKey(key: string) {
     this._OPENAI_KEY = key;
   }
 
-  async initFFMPEG() {
-    this._FFMPEG = createFFmpeg({ log: true });
-    await this.loadFFmpeg();
-  }
-
-  async loadFFmpeg() {
-    // if (this._FFMPEG_Loaded) {
-    //   return;
-    // }
-    if (!this._FFMPEG) {
-      this._FFMPEG = createFFmpeg({ log: true });
-    }
-    await this._FFMPEG.load();
-    this._FFMPEG_Loaded = true;
-  }
+  // Load ffmpeg outside of vmind.
+  // async initFFMPEG() {
+  //   this._FFMPEG = createFFmpeg({ log: true });
+  //   await this.loadFFmpeg();
+  // }
+  // async loadFFmpeg() {
+  //   if (!this._FFMPEG) {
+  //     this._FFMPEG = createFFmpeg({ log: true });
+  //   }
+  //   await this._FFMPEG.load();
+  //   this._FFMPEG_Loaded = true;
+  // }
 
   async generateChart(csvFile: string, userInput: string) {
     const dataView = dataProcessVChart(csvFile);
@@ -49,8 +45,13 @@ class VMind {
     //  throw Error('OpenAI Key Unset!')
     //}
 
-    const dataProcessResJson: GPTDataProcessResult = await dataProcessGPT(csvFile, userInputFinal, this._OPENAI_KEY);
-    const resJson: any = await chartAdvisorGPT(dataProcessResJson, userInput, this._OPENAI_KEY);
+    const dataProcessResJson: GPTDataProcessResult = await dataProcessGPT(
+      csvFile,
+      userInputFinal,
+      this._OPENAI_KEY,
+      this._options
+    );
+    const resJson: any = await chartAdvisorGPT(dataProcessResJson, userInput, this._OPENAI_KEY, this._options);
     if (resJson.error) {
       throw Error('Network Error!');
     }
@@ -64,7 +65,6 @@ class VMind {
       //  }
       //}
     }
-    console.log(resJson);
     const chartType = resJson['CHART_TYPE'].toUpperCase();
     const cell = resJson['FIELD_MAP'];
     const colors = resJson['COLOR_PALETTE'];
@@ -84,22 +84,32 @@ class VMind {
     };
   }
 
-  async exportVideo(spec: any, time: TimeType, VChart: any) {
+  async exportVideo(
+    spec: any,
+    time: TimeType,
+    VChart: any,
+    ffmpeg: FFmpeg,
+    fetchFile: (data: string | Buffer | Blob | File) => Promise<Uint8Array>
+  ) {
     const outName = `out`;
-    await this.initFFMPEG();
-    await _chatToVideoWasm(VChart, this._FFMPEG as FFmpeg, this._FPS, spec, time, outName);
-    const data = (this._FFMPEG as FFmpeg).FS('readFile', `${outName}.mp4`);
+    await _chatToVideoWasm(VChart, ffmpeg, fetchFile, this._FPS, spec, time, outName);
+    const data = ffmpeg.FS('readFile', `${outName}.mp4`);
     const objUrl = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
     return objUrl;
   }
 
-  async exportGIF(spec: any, time: TimeType, VChart: any) {
-    await this.initFFMPEG();
+  async exportGIF(
+    spec: any,
+    time: TimeType,
+    VChart: any,
+    ffmpeg: FFmpeg,
+    fetchFile: (data: string | Buffer | Blob | File) => Promise<Uint8Array>
+  ) {
     const outName = `out`;
-    await _chatToVideoWasm(VChart, this._FFMPEG as FFmpeg, this._FPS, spec, time, outName);
+    await _chatToVideoWasm(VChart, ffmpeg, fetchFile, this._FPS, spec, time, outName);
     // 调色板
-    await (this._FFMPEG as FFmpeg).run('-i', `${outName}.mp4`, '-filter_complex', '[0:v] palettegen', 'palette.png');
-    await (this._FFMPEG as FFmpeg).run(
+    await ffmpeg.run('-i', `${outName}.mp4`, '-filter_complex', '[0:v] palettegen', 'palette.png');
+    await ffmpeg.run(
       '-i',
       `${outName}.mp4`,
       '-i',
@@ -108,7 +118,7 @@ class VMind {
       '[0:v][1:v] paletteuse',
       'out.gif'
     );
-    const data = (this._FFMPEG as FFmpeg).FS('readFile', 'out.gif');
+    const data = ffmpeg.FS('readFile', 'out.gif');
     const objUrl = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
     return objUrl;
   }

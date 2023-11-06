@@ -3,12 +3,11 @@ import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { ILineMark } from '../../mark/line';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { AttributeLevel, ChartEvent, POLAR_START_RADIAN } from '../../constant';
-import { DEFAULT_LINEAR_INTERPOLATE } from '../../typings';
+import { DEFAULT_LINEAR_INTERPOLATE } from '../../typings/interpolate';
 import type { Datum, IPoint, IPolarPoint, Maybe } from '../../typings';
-import { isValid } from '../../util';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { degreeToRadian, isArray, mixin } from '@visactor/vutils';
+import { degreeToRadian, isArray, mixin, isValid } from '@visactor/vutils';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerRadarAnimation, type IRadarAnimationParams, type RadarAppearPreset } from './animation';
@@ -20,6 +19,7 @@ import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { radarSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 
 export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<
@@ -32,6 +32,7 @@ export interface RadarSeries<T extends IRadarSeriesSpec>
       | 'encodeDefined'
       | '_lineMark'
       | '_symbolMark'
+      | 'addOverlapCompile'
     >,
     RoseLikeSeries<T> {}
 
@@ -48,6 +49,11 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 
   initGroups() {
     // do nothing
+  }
+
+  compile(): void {
+    super.compile();
+    this.addOverlapCompile();
   }
 
   initMark(): void {
@@ -159,7 +165,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         this._rootMark.setAnimationConfig(
           animationConfig(
             Factory.getAnimationInKey('radarGroup')?.(animationParams, appearPreset),
-            userAnimationConfig(SeriesMarkNameEnum.group, this._spec)
+            userAnimationConfig(SeriesMarkNameEnum.group, this._spec, this._markAttributeContext)
           )
         );
       }
@@ -177,7 +183,10 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
       if (isValid(mark)) {
         const getAnimation = Factory.getAnimationInKey(animation);
         mark.setAnimationConfig(
-          animationConfig(getAnimation?.(animationParams, appearPreset), userAnimationConfig(mark.name, this._spec))
+          animationConfig(
+            getAnimation?.(animationParams, appearPreset),
+            userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+          )
         );
       }
     });
@@ -209,6 +218,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 mixin(RadarSeries, LineLikeSeriesMixin);
 
 export const registerRadarSeries = () => {
+  registerMarkOverlapTransform();
   Factory.registerMark(AreaMark.type, AreaMark);
   Factory.registerMark(LineMark.type, LineMark);
   Factory.registerMark(SymbolMark.type, SymbolMark);
