@@ -4,7 +4,6 @@ import { ComponentTypeEnum } from '../interface/type';
 import type { IComponentOption } from '../interface';
 import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import { LayoutLevel, LayoutZIndex, PREFIX } from '../../constant';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
 import type { IGroupMark } from '../../mark/group';
@@ -13,13 +12,14 @@ import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { ImageMark } from '../../mark/image';
 import type { IGraphic } from '@visactor/vrender-core';
+import type { ILayoutItem } from '../../layout/interface';
 
 export class CustomMark extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;
   type = ComponentTypeEnum.customMark;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CustomMark;
+  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.CustomMark;
   layoutLevel: number = LayoutLevel.CustomMark;
 
   protected declare _spec: (ICustomMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | ICustomMarkGroupSpec)[];

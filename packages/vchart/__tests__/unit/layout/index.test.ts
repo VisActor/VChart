@@ -1,55 +1,73 @@
 import { Layout } from '../../../src/layout';
-import type { ILayoutRect } from '../../../src/model/interface';
-import { LayoutItem } from '../../../src/model/layout-item';
+import type { ILayoutRect } from '../../../src/layout/interface';
+import { LayoutItem } from '../../../src/layout/layout-item';
+
+const itemBoundsInRect = (item: LayoutItem) => {
+  return (rect: ILayoutRect) => {
+    return {
+      x1: item.getLayoutStartPoint().x,
+      y1: item.getLayoutStartPoint().y,
+      x2: item.getLayoutStartPoint().x + item.getLayoutRect().width,
+      y2: item.getLayoutStartPoint().y + item.getLayoutRect().height ?? rect.height
+    };
+  };
+};
 
 describe('layout simple line chart', () => {
   test('get correct start point & rect', () => {
     // hack region
-    const region = new LayoutItem({} as any);
+    const region = new LayoutItem(
+      {
+        getBoundsInRect: (rect: ILayoutRect) => itemBoundsInRect(region)(rect),
+        id: 1
+      } as any,
+      { layoutType: 'normal', layoutZIndex: 1 }
+    );
     region.layoutType = 'region';
     region.layoutLevel = 100;
 
-    (region as any).id = 1;
-
-    const itemBoundsInRect = (item: LayoutItem) => {
-      return (rect: ILayoutRect) => {
-        return {
-          x1: item.getLayoutStartPoint().x,
-          y1: item.getLayoutStartPoint().y,
-          x2: item.getLayoutStartPoint().x + item.getLayoutRect().width,
-          y2: item.getLayoutStartPoint().y + item.getLayoutRect().height ?? rect.height
-        };
-      };
-    };
-
-    const leftAxis1 = new LayoutItem({ autoIndent: false } as any);
+    const leftAxis1 = new LayoutItem(
+      {
+        getBoundsInRect: (rect: ILayoutRect) => itemBoundsInRect(leftAxis1)(rect)
+      } as any,
+      { layoutType: 'normal', layoutZIndex: 1 }
+    );
     leftAxis1.layoutType = 'region-relative';
     leftAxis1.setLayoutRect({ width: 20 });
     leftAxis1.layoutOrient = 'left';
     leftAxis1.layoutLevel = 202;
     leftAxis1.layoutBindRegionID = [1];
-    //@ts-ignore
-    leftAxis1._boundsInRect = itemBoundsInRect(leftAxis1);
 
-    const leftAxis2 = new LayoutItem({ autoIndent: false } as any);
+    const leftAxis2 = new LayoutItem(
+      {
+        getBoundsInRect: (rect: ILayoutRect) => itemBoundsInRect(leftAxis2)(rect)
+      } as any,
+      { layoutType: 'normal', layoutZIndex: 1 }
+    );
     leftAxis2.layoutType = 'region-relative';
     leftAxis2.setLayoutRect({ width: 20 });
     leftAxis2.layoutOrient = 'left';
     leftAxis2.layoutLevel = 202;
     leftAxis2.layoutBindRegionID = [1];
-    //@ts-ignore
-    leftAxis2._boundsInRect = itemBoundsInRect(leftAxis2);
 
-    const bottomAxis = new LayoutItem({} as any);
+    const bottomAxis = new LayoutItem(
+      {
+        getBoundsInRect: (rect: ILayoutRect) => itemBoundsInRect(bottomAxis)(rect)
+      } as any,
+      { layoutType: 'normal', layoutZIndex: 1 }
+    );
     bottomAxis.layoutOrient = 'bottom';
     bottomAxis.layoutType = 'region-relative';
     bottomAxis.setLayoutRect({ height: 20 });
     bottomAxis.layoutLevel = 202;
     bottomAxis.layoutBindRegionID = [1];
-    //@ts-ignore
-    bottomAxis._boundsInRect = itemBoundsInRect(bottomAxis);
 
-    const bottomLegend = new LayoutItem({} as any);
+    const bottomLegend = new LayoutItem(
+      {
+        getBoundsInRect: (rect: ILayoutRect) => itemBoundsInRect(bottomLegend)(rect)
+      } as any,
+      { layoutType: 'normal', layoutZIndex: 1 }
+    );
     bottomLegend.layoutOrient = 'bottom';
     bottomLegend.setLayoutRect({
       width: 50
@@ -58,8 +76,6 @@ describe('layout simple line chart', () => {
       height: 10
     });
     bottomLegend.layoutLevel = 302;
-    //@ts-ignore
-    bottomLegend._boundsInRect = itemBoundsInRect(bottomLegend);
 
     const layout = new Layout();
     layout.layoutItems(

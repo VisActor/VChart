@@ -3,8 +3,7 @@ import type { ICartesianSeries, IPolarSeries, ISeries } from '../../series/inter
 import { eachSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseComponent } from '../base/base-component';
-import type { IEffect, IModelInitOption, ILayoutRect } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
+import type { IEffect, IModelInitOption } from '../../model/interface';
 import type { IComponent, IComponentOption } from '../interface';
 import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
@@ -37,12 +36,13 @@ import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { AbstractComponent } from '@visactor/vrender-components';
 import type { IDelayType } from '../../typings/event';
 import { TransformLevel } from '../../data/initialize';
+import type { ILayoutItem, ILayoutRect } from '../../layout/interface';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
   implements IDataFilterComponent
 {
-  layoutType: LayoutItem['layoutType'] = 'region-relative';
+  layoutType: ILayoutItem['layoutType'] = 'region-relative';
 
   protected _component: AbstractComponent;
 
@@ -218,9 +218,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   constructor(spec: T, options: IComponentOption) {
     super(spec as any, options);
     this._orient = getOrient(spec as any);
-    this._layoutOrient = this._orient;
-    this._isHorizontal = getDirectionByOrient(this._layoutOrient) === Direction.horizontal;
-    isValid(spec.autoIndent) && (this._autoIndent = spec.autoIndent);
+    this._isHorizontal = getDirectionByOrient(this._orient) === Direction.horizontal;
   }
 
   /**
@@ -239,6 +237,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._initStateScale();
     // set state: _start, _end, _startValue, _endValue, _newDomain from spec
     this._setStateFromSpec();
+  }
+
+  initLayout(): void {
+    super.initLayout();
+    this._layout.layoutOrient = this._orient;
   }
 
   protected _setAxisFromSpec() {
@@ -771,7 +774,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
    * @param rect
    * @returns
    */
-  _boundsInRect(rect: ILayoutRect): IBoundsLike {
+  getBoundsInRect(rect: ILayoutRect): IBoundsLike {
     const isShown = this._autoUpdate(rect);
     if (!isShown) {
       return { x1: 0, y1: 0, x2: 0, y2: 0 };

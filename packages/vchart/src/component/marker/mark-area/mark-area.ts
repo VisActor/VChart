@@ -15,18 +15,18 @@ import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
-import type { LayoutItem } from '../../../model/layout-item';
 import type { INode } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
 import { Factory } from '../../../core/factory';
+import type { ILayoutItem } from '../../../layout/interface';
 
 export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;
   type = ComponentTypeEnum.markArea;
   name: string = ComponentTypeEnum.markArea;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkArea;
+  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.MarkArea;
 
   protected declare _theme: IMarkAreaTheme;
 
@@ -140,8 +140,8 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
           : this._markerComponent?.attribute?.label?.text
       },
       limitRect,
-      dx: this.layoutOffsetX,
-      dy: this.layoutOffsetY
+      dx: this._layout.layoutOffsetX,
+      dy: this._layout.layoutOffsetY
     });
   }
 

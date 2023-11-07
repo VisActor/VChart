@@ -1,10 +1,8 @@
 import type { utilFunctionCtx } from '../typings/params';
 import type { IChart } from '../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { ILayoutItem } from '../model/interface';
-import type { IBaseLayout } from './interface';
+import type { IBaseLayout, ILayoutItem } from './interface';
 import type { IPadding, IRect } from '../typings/space';
-import type { IRegion } from '../region/interface';
 import { error } from '../util/debug';
 import { layoutBottomInlineItems, layoutLeftInlineItems, layoutRightInlineItems, layoutTopInlineItems } from './util';
 
@@ -39,7 +37,6 @@ export class Layout implements IBaseLayout {
     this.topCurrent = chartLayoutRect.y;
     this.rightCurrent = chartLayoutRect.x + chartLayoutRect.width;
     this.bottomCurrent = chartLayoutRect.height + chartLayoutRect.y;
-
     // 越大越先处理，进行排序调整，利用原地排序特性，排序会受 level 和传进来的数组顺序共同影响
     items.sort((a, b) => b.layoutLevel - a.layoutLevel);
 
@@ -52,13 +49,13 @@ export class Layout implements IBaseLayout {
       right: this.rightCurrent,
       bottom: this.bottomCurrent
     };
-    const regionItems = items.filter(x => x.layoutType === 'region') as IRegion[];
+    const regionItems = items.filter(x => x.layoutType === 'region');
     const relativeItems = items.filter(x => x.layoutType === 'region-relative');
     // 有元素开启了自动缩进
     // TODO:目前只有普通占位布局下的 region-relative 元素支持
     // 主要考虑常规元素超出画布一般为用户个性设置，而且可以设置padding规避裁剪,不需要使用自动缩进
     this.layoutRegionItems(regionItems, relativeItems);
-    if (relativeItems.some(i => i.getAutoIndent())) {
+    if (relativeItems.some(i => i.autoIndent)) {
       // check auto indent
       const { top, bottom, left, right } = this._checkAutoIndent(relativeItems, layoutTemp);
       // 如果出现了需要自动缩进的场景 则基于缩进再次布局
@@ -132,7 +129,7 @@ export class Layout implements IBaseLayout {
    * 2. 补全 region rect 和 layoutStartPoint
    *
    */
-  protected layoutRegionItems(regionItems: IRegion[], regionRelativeItems: ILayoutItem[]): void {
+  protected layoutRegionItems(regionItems: ILayoutItem[], regionRelativeItems: ILayoutItem[]): void {
     let regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
     let regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
 
@@ -184,11 +181,11 @@ export class Layout implements IBaseLayout {
     // region 处理
     const regionWidth = Math.min(
       regionRelativeTotalWidth,
-      ...regionItems.map(region => region.getMaxWidth?.() ?? Number.MAX_VALUE)
+      ...regionItems.map(region => region.maxWidth ?? Number.MAX_VALUE)
     );
     const regionHeight = Math.min(
       regionRelativeTotalHeight,
-      ...regionItems.map(region => region.getMaxHeight?.() ?? Number.MAX_VALUE)
+      ...regionItems.map(region => region.maxHeight ?? Number.MAX_VALUE)
     );
     regionItems.forEach(region => {
       region.setLayoutRect({
@@ -254,8 +251,8 @@ export class Layout implements IBaseLayout {
   }
 
   // 对普通布局来说，只出一个 region 绑定
-  filterRegionsWithID(regions: IRegion[], id: number): ILayoutItem {
-    const target = regions.find(x => x.id === id);
+  filterRegionsWithID(items: ILayoutItem[], id: number): ILayoutItem {
+    const target = items.find(x => x.model.id === id);
     if (!target) {
       (this._onError ?? error)('can not find target region item, invalid id');
     }
@@ -290,7 +287,7 @@ export class Layout implements IBaseLayout {
       right: 0
     };
     items.forEach(i => {
-      if (!i.getVisible() || !i.getAutoIndent()) {
+      if (!i.model.getVisible() || !i.autoIndent) {
         return;
       }
       const vOrH = i.layoutOrient === 'left' || i.layoutOrient === 'right';

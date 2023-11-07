@@ -1,7 +1,7 @@
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
+import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
@@ -35,6 +35,7 @@ import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
+import type { ILayoutItem } from '../../layout/interface';
 
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
@@ -47,6 +48,7 @@ type EventHandlerList = {
 }[];
 
 export class Tooltip extends BaseComponent<any> implements ITooltip {
+  protected layoutZIndex: number = 1;
   static type = ComponentTypeEnum.tooltip;
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
