@@ -96,7 +96,6 @@ export interface ILayoutItem {
   // 越大越先处理
   layoutLevel: number;
 
-  layoutZIndex: number;
   chartLayoutRect: ILayoutRect;
 
   readonly layoutRectLevelMap: ILayoutRect;
@@ -194,7 +193,7 @@ export interface ILayoutItemSpec {
 
 export interface ILayoutItemInitOption {
   layoutType: ILayoutType;
-  layoutZIndex: number;
+  layoutLevel: number;
   transformLayoutRect?: (rect: ILayoutRect) => ILayoutRect;
   transformLayoutPosition?: (pos: Partial<IPoint>) => Partial<IPoint>;
 }

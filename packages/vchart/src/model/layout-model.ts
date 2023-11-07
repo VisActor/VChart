@@ -10,7 +10,9 @@ import type { ILayoutType, ILayoutPoint, ILayoutRect } from '../typings/layout';
 
 export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
   protected abstract layoutType: ILayoutType;
-  protected abstract layoutZIndex: number;
+  protected layoutLevel?: number = 0;
+  protected layoutZIndex: number = 0;
+
   protected _forceLayoutTag: boolean = false;
   protected _layout: ILayoutItem = null;
   protected _orient?: IPolarOrientType | IOrientType = null;
@@ -21,7 +23,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
   initLayout() {
     this._layout = new LayoutItem(this, {
       layoutType: this.layoutType,
-      layoutZIndex: this.layoutZIndex,
+      layoutLevel: this.layoutLevel,
       transformLayoutRect: this._transformLayoutRect,
       transformLayoutPosition: this._transformLayoutPosition
     });

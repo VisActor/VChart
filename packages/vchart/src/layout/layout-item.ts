@@ -88,7 +88,6 @@ export class LayoutItem implements ILayoutItem {
 
   layoutLevel: ILayoutItem['layoutLevel'] = LayoutLevel.Region;
 
-  layoutZIndex: number = 0;
   chartLayoutRect!: ILayoutRect;
 
   protected _model: ILayoutModel;
@@ -102,7 +101,7 @@ export class LayoutItem implements ILayoutItem {
   constructor(model: ILayoutModel, option: ILayoutItemInitOption) {
     this._model = model;
     this._option = option;
-    this.layoutZIndex = option.layoutZIndex;
+    this.layoutLevel = option.layoutLevel;
     this.layoutType = option.layoutType;
   }
 
@@ -169,7 +168,6 @@ export class LayoutItem implements ILayoutItem {
     this._setLayoutAttributeFromSpec(spec, chartViewRect);
 
     this.layoutClip = spec.clip ?? this.layoutClip;
-    this.layoutZIndex = spec.zIndex ?? this.layoutZIndex;
   }
 
   onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any) {

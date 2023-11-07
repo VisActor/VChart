@@ -1,3 +1,4 @@
+import type { ILayoutModel } from './../../../../esm/model/interface.d';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../../constant/base';
 import type { Options } from './constants';
 // eslint-disable-next-line no-duplicate-imports
@@ -14,7 +15,6 @@ import type {
   ITooltipHandler,
   ITooltipPattern,
   ITooltipPositionActual,
-  TooltipPosition,
   ITooltipPositionPattern
 } from '../../../typings/tooltip';
 // eslint-disable-next-line no-duplicate-imports
@@ -435,7 +435,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       const element = params.item as IElement;
       const model = params.model as IModel;
       const bounds = element?.getBounds() as AABBBounds;
-      const startPoint = model?.getLayoutStartPoint();
+      const startPoint = (<ILayoutModel>(<unknown>model))?.getLayoutStartPoint();
       if (bounds && startPoint) {
         let { x1, y1, x2, y2 } = bounds;
         x1 += startPoint.x;
