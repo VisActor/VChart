@@ -1,6 +1,6 @@
 import type { IPoint } from '../../../../typings';
 import type { IComponent } from '../../../interface';
-import type { IDataPointSpec, IMarkerSpec } from '../../interface';
+import type { IDataPointSpec, IMarkerSpec, IMarkerSymbol } from '../../interface';
 import type { IMarkPointTheme } from './theme';
 
 export type IMarkPoint = IComponent;
@@ -10,7 +10,7 @@ export type IMarkPointSpec = IMarkerSpec &
     | IMarkPointCoordinateSpec // 标注目标：数据元素
     | IMarkPointPositionsSpec
   ) &
-  IMarkPointTheme; // 标注目标：任意位置
+  IMarkPointTheme<IMarkerSymbol>; // 标注目标：任意位置
 
 export type IMarkPointCoordinateSpec = {
   /**
