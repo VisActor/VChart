@@ -1,6 +1,6 @@
 import { Layout } from '../../../src/layout';
-import type { ILayoutRect } from '../../../src/layout/interface';
 import { LayoutItem } from '../../../src/layout/layout-item';
+import type { ILayoutRect } from '../../../src/typings/layout';
 
 const itemBoundsInRect = (item: LayoutItem) => {
   return (rect: ILayoutRect) => {
@@ -21,7 +21,7 @@ describe('layout simple line chart', () => {
         getBoundsInRect: (rect: ILayoutRect) => itemBoundsInRect(region)(rect),
         id: 1
       } as any,
-      { layoutType: 'normal', layoutZIndex: 1 }
+      { layoutType: 'normal', layoutLevel: 1 }
     );
     region.layoutType = 'region';
     region.layoutLevel = 100;
@@ -30,7 +30,7 @@ describe('layout simple line chart', () => {
       {
         getBoundsInRect: (rect: ILayoutRect) => itemBoundsInRect(leftAxis1)(rect)
       } as any,
-      { layoutType: 'normal', layoutZIndex: 1 }
+      { layoutType: 'normal', layoutLevel: 1 }
     );
     leftAxis1.layoutType = 'region-relative';
     leftAxis1.setLayoutRect({ width: 20 });
@@ -42,7 +42,7 @@ describe('layout simple line chart', () => {
       {
         getBoundsInRect: (rect: ILayoutRect) => itemBoundsInRect(leftAxis2)(rect)
       } as any,
-      { layoutType: 'normal', layoutZIndex: 1 }
+      { layoutType: 'normal', layoutLevel: 1 }
     );
     leftAxis2.layoutType = 'region-relative';
     leftAxis2.setLayoutRect({ width: 20 });
@@ -54,7 +54,7 @@ describe('layout simple line chart', () => {
       {
         getBoundsInRect: (rect: ILayoutRect) => itemBoundsInRect(bottomAxis)(rect)
       } as any,
-      { layoutType: 'normal', layoutZIndex: 1 }
+      { layoutType: 'normal', layoutLevel: 1 }
     );
     bottomAxis.layoutOrient = 'bottom';
     bottomAxis.layoutType = 'region-relative';
@@ -66,7 +66,7 @@ describe('layout simple line chart', () => {
       {
         getBoundsInRect: (rect: ILayoutRect) => itemBoundsInRect(bottomLegend)(rect)
       } as any,
-      { layoutType: 'normal', layoutZIndex: 1 }
+      { layoutType: 'normal', layoutLevel: 1 }
     );
     bottomLegend.layoutOrient = 'bottom';
     bottomLegend.setLayoutRect({
