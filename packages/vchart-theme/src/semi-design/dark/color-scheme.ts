@@ -41,7 +41,7 @@ export const colorScheme: IThemeColorScheme = {
       axisDomainColor: 'rgba(255,255,255,0.15)',
 
       /** 缩略轴滑块描边颜色 */
-      dataZoomHandleStrokeColor: 'rgba(255,255,255,0.2)',
+      dataZoomHandleStrokeColor: 'rgba(46,50,56,0.13)',
       /** 缩略轴图表区域颜色 */
       dataZoomChartColor: 'rgba(255,255,255,0.16)',
 
@@ -53,7 +53,16 @@ export const colorScheme: IThemeColorScheme = {
       /** 标注标签背景颜色 */
       markLabelBackgroundColor: 'rgba(255,255,255,0.08)',
       /** 标注线颜色 */
-      markLineStrokeColor: 'rgba(249,249,249,0.8)'
+      markLineStrokeColor: 'rgba(249,249,249,0.8)',
+
+      /** 危险色 */
+      dangerColor: 'rgba(252,114,90,1)',
+      /** 警告色 */
+      warningColor: 'rgba(255,174,67,1)',
+      /** 成功色 */
+      successColor: 'rgba(93,194,100,1)',
+      /** 信息色 */
+      infoColor: 'rgba(84,169,255,1)'
     } as Partial<BuiltinColorPalette>
   }
 };
