@@ -16,7 +16,7 @@ export declare class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxis
         max: number;
         values: any[];
     }[]): StringOrNumber[];
-    protected updateScaleRange(): void;
+    protected updateScaleRange(): boolean;
     protected axisHelper(): {
         getBandwidth: (depth: number) => number;
         isContinuous: boolean;

@@ -16,13 +16,15 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "condition": false
+    "condition": false,
+    "es6": false,
+    "enhance": false
   },
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "condition": {},
   "srcMiniprogramRoot": "miniprogram/",
-  "appid": "wx7b0f7fa046cde923",
+  "appid": "wxb812589874724ac0",
   "libVersion": "2.33.0",
   "editorSetting": {
     "tabIndent": "insertSpaces",
