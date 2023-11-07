@@ -17,11 +17,15 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   protected abstract _getEnableMarkerTypes(): string[];
   protected abstract _createEditorGraphic(el: IEditorElement, e: PointerEvent): IGraphic;
   protected abstract _handlePointerDown(e: EventParams): void;
+  protected _handlePointerUp(e: EventParams): void {
+    this.endEditor();
+  }
 
   initWithVChart(): void {
     const vchart = this._chart.vchart;
     vchart.on('pointermove', { level: 'model', type: this.type, consume: true }, this._onHover);
     vchart.on('pointerdown', { level: 'model', type: this.type, consume: true }, this._onDown);
+    vchart.on('pointerup', { level: 'model', type: this.type, consume: true }, this._onUp);
   }
 
   private _checkEventEnable(e: EventParams) {
@@ -51,6 +55,17 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     this._modelId = e.model.userId;
 
     this._handlePointerDown(e);
+  };
+
+  protected _onUp = (e: EventParams) => {
+    if (!this._checkEventEnable(e)) {
+      return;
+    }
+    this._element = (<T>e.model).getVRenderComponents()[0] as unknown as D;
+    this._model = e.model as T;
+    this._modelId = e.model.userId;
+
+    this._handlePointerUp(e);
   };
 
   protected _getEditorElement(eventParams: EventParams): IEditorElement {
@@ -88,6 +103,10 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     this._startEditor();
     this._createEditorGraphic(el, e);
     return true;
+  }
+
+  protected endEditor() {
+    this._controller.editorEnd();
   }
 
   protected _silentAllMarkers() {

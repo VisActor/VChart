@@ -256,10 +256,12 @@ export function CustomPanel(props: ICustomPanelProps) {
 
   const forcePanelValue = generatePanelValue(sections, props.sectionComponentMaps);
 
-  const onRefresh = () => {
-    props.onRefresh?.(panelValue);
-    setPanelValue(generatePanelValue(props.initialSections ?? sections, props.sectionComponentMaps));
-  };
+  const onRefresh = props.onRefresh
+    ? () => {
+        props.onRefresh?.(panelValue);
+        setPanelValue(generatePanelValue(props.initialSections ?? sections, props.sectionComponentMaps));
+      }
+    : null;
 
   return (
     <div className={`vchart-editor-ui-panel-container ${props.className ?? ''}`} style={props.style ?? {}}>

@@ -8,8 +8,14 @@ import type { IChartTemp } from '../template/interface';
 import type { IEditorSpec, IModelSpec, ISpecProcess } from './interface';
 // @ts-ignore
 import type { ISpec, ITheme } from '@visactor/vchart';
+<<<<<<< HEAD
 import { diffSpec, isModelInfoMatchSpec, isSameModelInfo } from '../../../utils/spec';
 import type { EditorChart } from '../chart';
+import { mergeSpec } from '../utils/spec';
+=======
+import { isModelInfoMatchSpec, isSameModelInfo } from '../../../utils/spec';
+import { mergeSpec } from '../utils/spec';
+>>>>>>> fix: fix the endHandler trigger for marker
 
 const DefaultEditorSpec: IEditorSpec = {
   theme: null,
@@ -140,7 +146,7 @@ export class SpecProcess implements ISpecProcess {
         if (!chartSpec) {
           return;
         }
-        merge(chartSpec, s.spec);
+        mergeSpec(chartSpec, s.spec);
       });
     }
 
@@ -195,12 +201,12 @@ export class SpecProcess implements ISpecProcess {
         id: model.id,
         specKey: model.specKey,
         specIndex: model.specIndex,
-        spec: merge({}, spec)
+        spec: mergeSpec({}, spec)
       };
       this._editorSpec.modelSpec = this._editorSpec.modelSpec || [];
       this._editorSpec.modelSpec.push(s);
     }
-    s.spec = merge(s.spec, spec);
+    s.spec = mergeSpec(s.spec, spec);
   }
 
   // 更新模块spec
@@ -260,7 +266,7 @@ export class SpecProcess implements ISpecProcess {
         if (markerIndex === -1) {
           this._editorSpec.marker[key].push(spec);
         } else {
-          merge(this._editorSpec.marker[key][markerIndex], spec);
+          mergeSpec(this._editorSpec.marker[key][markerIndex], spec);
         }
       }
     } else {
@@ -304,7 +310,7 @@ export class SpecProcess implements ISpecProcess {
         this._chart.layout.setLayoutData(att.attribute.layout);
       }
       if (att.attribute) {
-        this.updateEditorSpec(merge(this._editorSpec, att.attribute));
+        this.updateEditorSpec(mergeSpec(this._editorSpec, att.attribute));
       }
     }
 
