@@ -1,9 +1,9 @@
-import type { ILayoutModel } from './../model/interface';
 import type { utilFunctionCtx } from '../typings/params';
 import type { IOrientType, IRect } from '../typings/space';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IChart, IChartLayoutOption } from '../chart/interface';
 import type { IPoint } from '../typings/coordinate';
+import type { StringOrNumber } from '../typings/common';
 
 export interface IBaseLayout {
   /**
@@ -139,13 +139,14 @@ export interface ILayoutItem {
   layoutZIndex: number;
   chartLayoutRect: ILayoutRect;
 
-  readonly model: ILayoutModel;
-
   readonly layoutRectLevelMap: ILayoutRect;
   readonly minWidth: number;
   readonly maxWidth: number;
   readonly minHeight: number;
   readonly maxHeight: number;
+
+  getModelId: () => StringOrNumber;
+  getModelVisible: () => boolean;
 
   getSpec?: () => any;
   setAttrFromSpec: (spec: ILayoutItemSpec, chartViewRect: ILayoutRect) => void;

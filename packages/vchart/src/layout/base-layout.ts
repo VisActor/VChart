@@ -252,7 +252,7 @@ export class Layout implements IBaseLayout {
 
   // 对普通布局来说，只出一个 region 绑定
   filterRegionsWithID(items: ILayoutItem[], id: number): ILayoutItem {
-    const target = items.find(x => x.model.id === id);
+    const target = items.find(x => x.getModelId() === id);
     if (!target) {
       (this._onError ?? error)('can not find target region item, invalid id');
     }
@@ -287,7 +287,7 @@ export class Layout implements IBaseLayout {
       right: 0
     };
     items.forEach(i => {
-      if (!i.model.getVisible() || !i.autoIndent) {
+      if (!i.getModelVisible() || !i.autoIndent) {
         return;
       }
       const vOrH = i.layoutOrient === 'left' || i.layoutOrient === 'right';

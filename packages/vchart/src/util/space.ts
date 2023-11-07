@@ -7,7 +7,7 @@ import type {
   IPercent,
   ILayoutOrientPadding,
   ILayoutRect
-} from '../model/interface';
+} from '../layout/interface';
 import type { IPadding, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
 

@@ -2,7 +2,7 @@ import type { ILayoutModel } from './../model/interface';
 import type { IPadding, IRect, IPoint } from '../typings';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNil, isValid, isValidNumber } from '@visactor/vutils';
+import { isNil, isValidNumber } from '@visactor/vutils';
 import { calcLayoutNumber, calcPadding, normalizeLayoutPaddingSpec, boundsInRect } from '../util/space';
 import { LayoutLevel, DEFAULT_LAYOUT_RECT_LEVEL, USER_LAYOUT_RECT_LEVEL } from '../constant';
 
@@ -98,9 +98,6 @@ export class LayoutItem implements ILayoutItem {
   chartLayoutRect!: ILayoutRect;
 
   protected _model: ILayoutModel;
-  get model() {
-    return this._model;
-  }
 
   protected _option: ILayoutItemInitOption;
 
@@ -362,5 +359,13 @@ export class LayoutItem implements ILayoutItem {
       result = this._option.transformLayoutRect(result);
     }
     return result;
+  }
+
+  getModelId() {
+    return this._model.id;
+  }
+
+  getModelVisible() {
+    return this._model.getVisible();
   }
 }
