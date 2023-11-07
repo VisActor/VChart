@@ -4,7 +4,7 @@ export const scrollBar: IScrollBarTheme = {
   slider: {
     style: {
       fill: { type: 'palette', key: 'scrollBarSliderColor' },
-      fillOpacity: 0.5
+      fillOpacity: 0.3
     }
   }
 };

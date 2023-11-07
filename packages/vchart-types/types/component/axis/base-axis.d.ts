@@ -62,7 +62,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected computeStatisticsDomain: () => void;
     protected initEvent(): void;
     protected updateScaleDomain(): void;
-    protected computeData(): void;
+    protected computeData(updateType?: 'domain' | 'range' | 'force'): void;
     protected initScales(): void;
     _compareSpec(): {
         change: boolean;

@@ -42,7 +42,7 @@ export const axis: Pick<
       visible: true,
       style: {
         fontSize: 12,
-        fill: { type: 'palette', key: 'axisFontColor', a: 0.65 },
+        fill: { type: 'palette', key: 'axisLabelFontColor', a: 0.65 },
         fontWeight: 'normal',
         fillOpacity: 1
       }

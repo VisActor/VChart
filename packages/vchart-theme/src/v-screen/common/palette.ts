@@ -5,7 +5,7 @@ export const palette: Partial<BuiltinColorPalette> = {
   backgroundColor: 'rgb(12,9,41)',
 
   /** 轴字色 */
-  axisFontColor: 'rgb(255, 255, 255)',
+  axisLabelFontColor: 'rgb(255, 255, 255)',
 
   /** 轴网格线颜色 */
   axisGridColor: 'rgb(255, 255, 255)'
