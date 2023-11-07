@@ -97,7 +97,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     super.created();
     this._groupMark = this._createMark({ type: MarkTypeEnum.group, name: 'regionGroup' }) as IGroupMark;
     this._groupMark.setUserId(this.userId);
-    this._groupMark.setZIndex(this.layoutZIndex);
+    this._groupMark.setZIndex(this._spec.zIndex ?? this.layoutZIndex);
     const clip = this._spec.clip ?? this._getClipDefaultValue();
     this.setMarkStyle(
       this._groupMark,
