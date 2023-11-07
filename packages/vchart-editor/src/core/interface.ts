@@ -204,3 +204,19 @@ export interface ILayoutLine extends Partial<IModelInfo> {
   end: number;
   rect: IRect;
 }
+
+export type HistorySnapshot = any;
+
+export type ElementInfo = {
+  id: string | number;
+  layerId: string | number;
+  type: string;
+};
+
+export interface IHistory {
+  element: ElementInfo;
+  from: HistorySnapshot;
+  to: HistorySnapshot;
+  // 将数据从 from 改为 to 或者从 to 改为 from
+  use: (element: ElementInfo, from: HistorySnapshot, to: HistorySnapshot) => void;
+}

@@ -1,6 +1,7 @@
 import { EditorText } from './text/text';
 import { EditorChart } from './chart/chart';
-export const ElementsMap = {
+import type { IElementConstructor } from './interface';
+export const ElementsMap: { [key: string]: IElementConstructor } = {
   chart: EditorChart,
   text: EditorText
 };

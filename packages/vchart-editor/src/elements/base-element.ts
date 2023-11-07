@@ -107,4 +107,21 @@ export abstract class BaseElement implements IElement {
     this._isRendered = true;
     this._afterRenderCallBack?.();
   }
+
+  updateAttributeFromHistory(att: any) {
+    //do nothing
+  }
+
+  afterAdd() {
+    this._opt.editorData.pushHistory({
+      element: { layerId: this._opt.layer.id, id: this._id, type: this.type },
+      from: null,
+      to: this.getData(),
+      use: this._opt.commonHistoryUse
+    });
+  }
+
+  getElementInfo() {
+    return { layerId: this._opt.layer.id, id: this._id, type: this.type };
+  }
 }

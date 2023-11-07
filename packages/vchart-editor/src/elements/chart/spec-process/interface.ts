@@ -38,4 +38,8 @@ export interface ISpecProcess {
   clearMarker: () => void;
 
   clear: () => void;
+
+  saveSnapshot: () => void;
+  pushHistory: () => void;
+  updateAttributeFromHistory: (att: any) => void;
 }

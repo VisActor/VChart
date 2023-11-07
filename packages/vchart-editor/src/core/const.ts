@@ -67,3 +67,5 @@ export const ChartComponentKeys = [
   'dataZoom',
   'scrollBar'
 ];
+
+export const MAX_HISTORY_COUNT = 100;

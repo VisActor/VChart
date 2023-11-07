@@ -66,7 +66,7 @@ export class EditorChart extends BaseElement {
     super(opt);
     this._event = new ChartEvent(this);
     this._data = new Data();
-    this._specProcess = new SpecProcess(this._data, this.onSpecReady, this._opt.controller);
+    this._specProcess = new SpecProcess(this, this.onSpecReady);
     this._layout = new ChartLayout(this._specProcess);
     if (this._mode === 'editor') {
       this.initEditors();
@@ -167,12 +167,12 @@ export class EditorChart extends BaseElement {
     this._updateNextTick();
   };
 
-  protected async _updateVChartSpec() {
+  protected _updateVChartSpec() {
     if (!this._vchart) {
       console.log('onSpecReady init chart');
       this._initVChart(this._specProcess.getVChartSpec());
       // eslint-disable-next-line promise/catch-or-return
-      await this._vchart.renderAsync();
+      this._vchart.renderSync();
       this._afterRender();
     } else {
       console.log('onSpecReady update spec');
@@ -186,20 +186,7 @@ export class EditorChart extends BaseElement {
 
   protected _currentUpdateFlow: any = null;
   protected async _updateNextTick() {
-    if (!this._currentUpdateFlow) {
-      this._currentUpdateFlow = Promise.resolve().then(() => {
-        return this._updateVChartSpec()
-          .then(() => {
-            this._currentUpdateFlow = null;
-          })
-          .catch((e: any) => {
-            this._currentUpdateFlow = null;
-          });
-      });
-    }
-    await this._currentUpdateFlow;
-
-    return this;
+    this._updateVChartSpec();
   }
 
   release() {
@@ -336,5 +323,9 @@ export class EditorChart extends BaseElement {
 
   tryPick(e: VRenderPointerEvent) {
     this._event.tryPick(e);
+  }
+
+  updateAttributeFromHistory(att: any) {
+    this._specProcess.updateAttributeFromHistory(att);
   }
 }

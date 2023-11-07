@@ -123,10 +123,11 @@ export class LayoutEditorElement extends BaseEditorElement {
         return false;
       },
       endHandler: data => {
+        this._chart.specProcess.saveSnapshot();
         this._updateLayout(info, data);
         this._controller.setOverGraphic(null, null, null);
         this._controller.editorEnd();
-
+        this._chart.specProcess.pushHistory();
         // enable over
         this._chart.option.getAllLayers().forEach(l => {
           l.elements.forEach(e => (e.overAble = true));
