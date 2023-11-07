@@ -45,7 +45,9 @@ export function EditorHeader(props: IEditorHeaderProps) {
           )}
         </span>
       </span>
-      <IconRefresh onClick={() => props?.onRefresh?.()} style={{ cursor: 'pointer', float: 'right' }} />
+      {props?.onRefresh ? (
+        <IconRefresh onClick={() => props?.onRefresh?.()} style={{ cursor: 'pointer', float: 'right' }} />
+      ) : null}
     </div>
   );
 }
