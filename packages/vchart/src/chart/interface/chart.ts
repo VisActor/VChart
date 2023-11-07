@@ -1,5 +1,5 @@
 import type { IEvent } from '../../event/interface';
-import type { ILayoutRect, LayoutCallBack } from '../../layout/interface';
+import type { LayoutCallBack } from '../../layout/interface';
 import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IComponent } from '../../component/interface';
@@ -24,7 +24,8 @@ import type {
   IMarkStateSpec,
   StringOrNumber,
   IShowTooltipOption,
-  IDataValues
+  IDataValues,
+  ILayoutRect
 } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';

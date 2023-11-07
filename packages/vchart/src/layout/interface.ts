@@ -1,9 +1,8 @@
-import type { utilFunctionCtx } from '../typings/params';
-import type { IOrientType, IRect } from '../typings/space';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IChart, IChartLayoutOption } from '../chart/interface';
-import type { IPoint } from '../typings/coordinate';
 import type { StringOrNumber } from '../typings/common';
+import type { IOrientType, IRect } from '../typings/space';
+import type { IPoint } from '../typings/coordinate';
+import type { ILayoutNumber, ILayoutPaddingSpec, ILayoutPoint, ILayoutRect, ILayoutType } from '../typings/layout';
 
 export interface IBaseLayout {
   /**
@@ -18,7 +17,7 @@ export interface IBaseLayout {
 }
 
 export type LayoutCallBack = (
-  chart: IChart,
+  chart: any,
   item: ILayoutItem[],
   chartLayoutRect: IRect,
   chartViewBox: IBoundsLike
@@ -67,53 +66,14 @@ export type ILayoutSpec = IBaseLayoutSpec | IGridLayoutSpec;
 export interface ILayoutConstructor {
   type: string;
   // TODO: spec 类型生命
-  new (spec: ILayoutSpec | any, ctx?: utilFunctionCtx): IBaseLayout;
+  new (spec: ILayoutSpec | any, ctx?: any): IBaseLayout;
 }
-
-export type ILayoutNumber = number | IPercent | ((layoutRect: ILayoutRect) => number) | IPercentOffset;
-
-export interface ILayoutPoint {
-  x: number;
-  y: number;
-}
-
-export interface ILayoutRectLevel {
-  width: number;
-  height: number;
-}
-export interface ILayoutRect {
-  width: number;
-  height: number;
-}
-
-export type IPercent = `${number}%`;
-
-export type IPercentOffset = { percent?: number; offset?: number };
-
-export type ILayoutPercent = IPercent | number;
-
-/**
- * 相对布局和绝对布局
- * 在相对布局结束后进行二次的绝对布局
- * 绝对布局会只根据 chart 进行相对处理
- */
-
-type ILayoutType = 'region-relative' | 'region' | 'normal' | 'absolute' | 'normal-inline';
-
-export type ILayoutOrientPadding = {
-  left?: ILayoutNumber;
-  right?: ILayoutNumber;
-  top?: ILayoutNumber;
-  bottom?: ILayoutNumber;
-};
-
-/** 布局 padding的配置 */
-export type ILayoutPaddingSpec = ILayoutOrientPadding | ILayoutNumber | ILayoutNumber[];
 
 /**
  * 因为这些元素都会继承到各个模块，所以这里统一有前缀避免语意冲突
  */
 export interface ILayoutItem {
+  readonly type: string;
   /**
    * 标记这个布局Item的方向（left->right, right->left, top->bottom, bottom->top）
    */
@@ -160,12 +120,12 @@ export interface ILayoutItem {
 
   /** 生命周期 */
   onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: any) => void;
-  onLayoutEnd: (option: IChartLayoutOption) => void;
+  onLayoutEnd: (option: any) => void;
 
   /**
    * 更新元素布局的 layoutRect 大小，用来更新指定布局空间
    */
-  setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRectLevel>) => void;
+  setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) => void;
   /**
    * 基于元素内部逻辑计算占位空间，rect表示可用空间
    */
@@ -233,7 +193,7 @@ export interface ILayoutItemSpec {
 }
 
 export interface ILayoutItemInitOption {
-  layoutType: ILayoutItem['layoutType'];
+  layoutType: ILayoutType;
   layoutZIndex: number;
   transformLayoutRect?: (rect: ILayoutRect) => ILayoutRect;
   transformLayoutPosition?: (pos: Partial<IPoint>) => Partial<IPoint>;

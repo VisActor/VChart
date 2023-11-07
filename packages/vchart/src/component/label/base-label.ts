@@ -9,15 +9,15 @@ import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { isEqual } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
-import type { ILayoutItem } from '../../layout/interface';
+import type { ILayoutType } from '../../typings/layout';
 
 export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
 
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
-  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.Label;
+  layoutType: ILayoutType = 'absolute';
+  layoutZIndex: number = LayoutZIndex.Label;
 
   protected _interactiveConfig(labelSpec: ILabelSpec) {
     const { interactive } = labelSpec;

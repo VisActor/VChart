@@ -8,7 +8,7 @@ import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../.
 import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
 import { DomTooltipHandler } from './handler/dom';
 import { CanvasTooltipHandler } from './handler/canvas';
-import type { Datum, IPoint, IShowTooltipOption } from '../../typings';
+import type { Datum, ILayoutType, IPoint, IShowTooltipOption } from '../../typings';
 import { isMobileLikeMode, isTrueBrowser, isMiniAppLikeMode, domDocument } from '../../util/env';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import type {
@@ -35,7 +35,6 @@ import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
-import type { ILayoutItem } from '../../layout/interface';
 
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
@@ -53,7 +52,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
 
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
 
   protected declare _spec: ITooltipSpec;
 

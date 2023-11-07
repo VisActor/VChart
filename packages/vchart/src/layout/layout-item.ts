@@ -6,15 +6,9 @@ import { isNil, isValidNumber } from '@visactor/vutils';
 import { calcLayoutNumber, calcPadding, normalizeLayoutPaddingSpec, boundsInRect } from '../util/space';
 import { LayoutLevel, DEFAULT_LAYOUT_RECT_LEVEL, USER_LAYOUT_RECT_LEVEL } from '../constant';
 
-import type {
-  ILayoutItem,
-  ILayoutItemInitOption,
-  ILayoutItemSpec,
-  ILayoutPoint,
-  ILayoutRect,
-  ILayoutRectLevel
-} from './interface';
+import type { ILayoutItem, ILayoutItemInitOption, ILayoutItemSpec } from './interface';
 import type { IChartLayoutOption } from '../chart/interface/common';
+import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
 
 export class LayoutItem implements ILayoutItem {
   protected _spec: ILayoutItemSpec;
@@ -38,7 +32,7 @@ export class LayoutItem implements ILayoutItem {
   private _layoutRect: ILayoutRect = { width: 0, height: 0 };
 
   // 处理用户和逻辑的优先级覆盖，让用户也可以设置 rect
-  protected _layoutRectLevelMap: ILayoutRectLevel = {
+  protected _layoutRectLevelMap: ILayoutRect = {
     width: DEFAULT_LAYOUT_RECT_LEVEL,
     height: DEFAULT_LAYOUT_RECT_LEVEL
   };
@@ -94,10 +88,14 @@ export class LayoutItem implements ILayoutItem {
 
   layoutLevel: ILayoutItem['layoutLevel'] = LayoutLevel.Region;
 
-  layoutZIndex: ILayoutItem['layoutZIndex'] = 0;
+  layoutZIndex: number = 0;
   chartLayoutRect!: ILayoutRect;
 
   protected _model: ILayoutModel;
+
+  get type() {
+    return this._model.type;
+  }
 
   protected _option: ILayoutItemInitOption;
 
@@ -256,7 +254,7 @@ export class LayoutItem implements ILayoutItem {
     this._model.afterSetLayoutStartPoint?.(this._layoutStartPoint);
   }
 
-  setLayoutRect({ width, height }: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRectLevel>) {
+  setLayoutRect({ width, height }: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) {
     if (isValidNumber(width) && (levelMap?.width ?? DEFAULT_LAYOUT_RECT_LEVEL) >= this._layoutRectLevelMap.width) {
       this._layoutRect.width = width;
       this._layoutRectLevelMap.width = levelMap?.width ?? DEFAULT_LAYOUT_RECT_LEVEL;

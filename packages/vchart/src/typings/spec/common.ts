@@ -1,5 +1,5 @@
 import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
-import type { ILayoutOrientPadding, ILayoutPaddingSpec, LayoutCallBack } from '../../layout/interface';
+import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
 import type {
   DataSet,
@@ -54,6 +54,7 @@ import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { IColorKey } from '../../theme/color-scheme/interface';
+import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 

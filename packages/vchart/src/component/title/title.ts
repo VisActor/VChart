@@ -9,18 +9,17 @@ import { Title as TitleComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { TitleAttrs } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
-import type { IPoint, IOrientType } from '../../typings';
+import type { IPoint, IOrientType, ILayoutType, ILayoutRect } from '../../typings';
 import { isEqual, isArray, isValidNumber } from '@visactor/vutils';
 import { LayoutLevel, LayoutZIndex } from '../../constant';
 import { Factory } from '../../core/factory';
-import type { ILayoutItem, ILayoutRect } from '../../layout/interface';
 
 export class Title extends BaseComponent<ITitleSpec> implements ITitle {
   static type = ComponentTypeEnum.title;
   type = ComponentTypeEnum.title;
 
-  layoutType: ILayoutItem['layoutType'] = 'normal';
-  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.Title;
+  layoutType: ILayoutType = 'normal';
+  layoutZIndex: number = LayoutZIndex.Title;
   layoutLevel: number = LayoutLevel.Title;
 
   protected declare _theme: ITitleTheme;

@@ -25,18 +25,18 @@ import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle }
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
-import type { ILayoutItem } from '../../layout/interface';
+import type { ILayoutType } from '../../typings/layout';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
 
 export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
   static type = ComponentTypeEnum.brush;
   type = ComponentTypeEnum.brush;
   name: string = ComponentTypeEnum.brush;
 
-  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.Brush;
+  layoutZIndex: number = LayoutZIndex.Brush;
 
   // brush组件
   protected _brushComponents!: BrushComponent[];
