@@ -67,6 +67,7 @@ function generateEntry(
         <Input
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
+          tooltip={entry.tooltip}
           value={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
@@ -81,6 +82,7 @@ function generateEntry(
         <Select
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
+          tooltip={entry.tooltip}
           value={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
@@ -95,6 +97,7 @@ function generateEntry(
         <Switch
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
+          tooltip={entry.tooltip}
           value={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
@@ -110,6 +113,7 @@ function generateEntry(
         <SliderNumber
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
+          tooltip={entry.tooltip}
           value={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
@@ -124,6 +128,7 @@ function generateEntry(
         <Color
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
+          tooltip={entry.tooltip}
           color={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
@@ -138,6 +143,7 @@ function generateEntry(
         <FontFamily
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
+          tooltip={entry.tooltip}
           fontFamily={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
@@ -152,6 +158,7 @@ function generateEntry(
         <FontSize
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
+          tooltip={entry.tooltip}
           fontSize={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
@@ -166,6 +173,7 @@ function generateEntry(
         <FontStyle
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
+          tooltip={entry.tooltip}
           bolder={value?.bolder}
           underline={value?.underline}
           italic={value?.italic}
@@ -182,6 +190,7 @@ function generateEntry(
         <TextAlign
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
+          tooltip={entry.tooltip}
           textAlign={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
@@ -196,6 +205,7 @@ function generateEntry(
         <CustomComponent
           key={`${entry.key}-${postKey ?? 0}`}
           label={entry.label}
+          tooltip={entry.tooltip}
           value={value}
           onChange={value => {
             const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
@@ -240,7 +250,7 @@ export function generateSection(
 ) {
   return section ? (
     <>
-      {!isNil(section.label) ? <PanelTitle label={section.label} /> : null}
+      {!isNil(section.label) ? <PanelTitle label={section.label} tooltip={section.tooltip} /> : null}
       {generateEntries(sectionKey, section.entries, forcePanelValue, panelValue, setPanelValue, onChange, componentMap)}
     </>
   ) : null;
@@ -267,6 +277,7 @@ export function CustomPanel(props: ICustomPanelProps) {
     <div className={`vchart-editor-ui-panel-container ${props.className ?? ''}`} style={props.style ?? {}}>
       <EditorHeader
         label={label}
+        tooltip={props.tooltip}
         checked={props.enabled}
         onCheck={checked => (isBoolean(props.enabled) ? props.onEnabled(checked) : null)}
         collapsed={collapsed}

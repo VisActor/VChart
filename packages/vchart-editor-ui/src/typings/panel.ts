@@ -3,6 +3,7 @@ import type { ComponentConfig } from './config';
 
 export interface IPanelSection {
   label?: string;
+  tooltip?: string;
   entries?: ComponentConfig[];
 }
 
@@ -10,6 +11,7 @@ export interface IPanelProps {
   className?: string;
   style?: React.CSSProperties;
   label?: string;
+  tooltip?: string;
   sections?: any;
   initialSections?: any;
   onChange?: (section: string, key: string, value: any) => void;

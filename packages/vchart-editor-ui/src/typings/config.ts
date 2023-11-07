@@ -6,6 +6,7 @@ import type { ICustomComponentProps } from './base';
 export interface IBaseComponentConfig {
   key: string;
   label?: string;
+  tooltip?: string;
   default?: any;
   value?: any;
 }

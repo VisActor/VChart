@@ -2,6 +2,7 @@ import { ButtonGroup, IconButton } from '@douyinfe/semi-ui';
 import type { IBaseTextAlignComponentProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
 import { IconAlignCenter, IconAlignLeft, IconAlignRight } from '@douyinfe/semi-icons';
+import { tooltipWrapper } from '../utils/node';
 
 const normalStyle = {};
 
@@ -14,7 +15,7 @@ export function TextAlign(props: IBaseTextAlignComponentProps) {
 
   return (
     <div className="vchart-editor-ui-panel-base-container">
-      <p className="vchart-editor-ui-panel-base-label">{label}</p>
+      {tooltipWrapper(<p className="vchart-editor-ui-panel-base-label">{label}</p>, props.tooltip)}
       <ButtonGroup>
         <IconButton
           icon={<IconAlignLeft />}

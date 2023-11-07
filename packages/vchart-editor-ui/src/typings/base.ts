@@ -13,10 +13,12 @@ import type {
 
 export interface IPanelTitleProps {
   label: string;
+  tooltip?: string;
 }
 
 export interface IEditorHeaderProps {
   label: string;
+  tooltip?: string;
   checked?: boolean;
   collapsed?: boolean;
   onCheck?: (checked?: boolean) => void;
@@ -26,6 +28,7 @@ export interface IEditorHeaderProps {
 
 export interface IBaseComponentProps<Config extends IBaseComponentConfig> {
   label: string;
+  tooltip?: string;
   config?: Config;
   onChange?: (value: any) => void;
 }
