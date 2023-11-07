@@ -16,15 +16,15 @@ export const dataZoom: IDataZoomTheme = {
     background: {
       size: 6,
       style: {
-        stroke: { type: 'palette', key: 'dataZoomHandlerStrokeColor' },
+        stroke: { type: 'palette', key: 'dataZoomHandleStrokeColor' },
         cornerRadius: 2
       }
     },
     icon: {
       style: {
         size: 4,
-        fill: { type: 'palette', key: 'dataZoomHandlerFillColor' },
-        stroke: { type: 'palette', key: 'dataZoomHandlerStrokeColor' },
+        fill: { type: 'palette', key: 'sliderHandleColor' },
+        stroke: { type: 'palette', key: 'dataZoomHandleStrokeColor' },
         symbolType:
           // eslint-disable-next-line max-len
           'M 0.3 -0.5 C 0.41 -0.5 0.5 -0.41 0.5 -0.3 C 0.5 -0.3 0.5 0.3 0.5 0.3 C 0.5 0.41 0.41 0.5 0.3 0.5 C 0.3 0.5 -0.3 0.5 -0.3 0.5 C -0.41 0.5 -0.5 0.41 -0.5 0.3 C -0.5 0.3 -0.5 -0.3 -0.5 -0.3 C -0.5 -0.41 -0.41 -0.5 -0.3 -0.5 C -0.3 -0.5 0.3 -0.5 0.3 -0.5 Z',
@@ -35,16 +35,16 @@ export const dataZoom: IDataZoomTheme = {
   background: {
     size: 20,
     style: {
-      fill: { type: 'palette', key: 'dataZoomBackgroundColor' },
+      fill: { type: 'palette', key: 'sliderRailColor' },
       lineWidth: 0
     }
   },
   selectedBackground: {
     style: {
-      fill: { type: 'palette', key: 'dataZoomSelectedColor' },
+      fill: { type: 'palette', key: 'sliderTrackColor' },
       fillOpacity: 0.1,
       outerBorder: {
-        stroke: { type: 'palette', key: 'dataZoomSelectedColor' },
+        stroke: { type: 'palette', key: 'sliderTrackColor' },
         strokeOpacity: 0.2,
         distance: -0.5,
         lineWidth: 1
@@ -70,10 +70,10 @@ export const dataZoom: IDataZoomTheme = {
   startHandler: {
     style: {
       symbolType: DataZoomHandlerSymbolType,
-      fill: { type: 'palette', key: 'dataZoomHandlerFillColor' },
+      fill: { type: 'palette', key: 'sliderHandleColor' },
       scaleX: 1.2,
       scaleY: 1.2,
-      stroke: { type: 'palette', key: 'dataZoomHandlerStrokeColor' },
+      stroke: { type: 'palette', key: 'dataZoomHandleStrokeColor' },
       lineWidth: 1,
       zIndex: 100
     }
@@ -81,10 +81,10 @@ export const dataZoom: IDataZoomTheme = {
   endHandler: {
     style: {
       symbolType: DataZoomHandlerSymbolType,
-      fill: { type: 'palette', key: 'dataZoomHandlerFillColor' },
+      fill: { type: 'palette', key: 'sliderHandleColor' },
       scaleX: 1.2,
       scaleY: 1.2,
-      stroke: { type: 'palette', key: 'dataZoomHandlerStrokeColor' },
+      stroke: { type: 'palette', key: 'dataZoomHandleStrokeColor' },
       lineWidth: 1,
       zIndex: 100
     }
