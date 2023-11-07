@@ -19,14 +19,13 @@ import type { INode } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
 import { Factory } from '../../../core/factory';
-import type { ILayoutItem } from '../../../layout/interface';
 
 export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;
   type = ComponentTypeEnum.markArea;
   name: string = ComponentTypeEnum.markArea;
 
-  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.MarkArea;
+  layoutZIndex: number = LayoutZIndex.MarkArea;
 
   protected declare _theme: IMarkAreaTheme;
 

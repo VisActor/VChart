@@ -23,14 +23,13 @@ import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
-import type { ILayoutItem } from '../../../layout/interface';
 
 export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
   type = ComponentTypeEnum.markLine;
   name: string = ComponentTypeEnum.markLine;
 
-  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.MarkLine;
+  layoutZIndex: number = LayoutZIndex.MarkLine;
 
   protected declare _theme: IMarkLineTheme;
 

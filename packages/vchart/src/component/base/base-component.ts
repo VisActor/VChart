@@ -11,12 +11,11 @@ import type { IGroupMark } from '@visactor/vgrammar-core';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
-import type { Datum } from '../../typings';
+import type { Datum, ILayoutRect } from '../../typings';
 import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
 import { normalizeLayoutPaddingSpec } from '../../util/space';
 import type { IComponentSpec } from './interface';
 import { LayoutModel } from '../../model/layout-model';
-import type { ILayoutRect } from '../../layout/interface';
 
 export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   extends LayoutModel<T>

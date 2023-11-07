@@ -4,7 +4,7 @@ import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { IEffect } from '../../model/interface';
 // eslint-disable-next-line no-duplicate-imports
-import type { IOrientType, IPoint, StringOrNumber } from '../../typings';
+import type { ILayoutRect, ILayoutType, IOrientType, IPoint, StringOrNumber } from '../../typings';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
 import { eachSeries } from '../../util/model';
 import { isValidOrient } from '../../util/space';
@@ -13,11 +13,10 @@ import { CompilableData } from '../../compile/data/compilable-data';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILegend, ILegendCommonSpec } from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
-import type { ILayoutItem, ILayoutRect } from '../../layout/interface';
 
 export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseComponent<T> implements ILegend {
-  layoutType: ILayoutItem['layoutType'] = 'normal';
-  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.Legend;
+  layoutType: ILayoutType = 'normal';
+  layoutZIndex: number = LayoutZIndex.Legend;
   layoutLevel: number = LayoutLevel.Legend;
 
   protected _orient: IOrientType = 'left';

@@ -16,14 +16,13 @@ import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
 import { Factory } from '../../../core/factory';
 import type { INode } from '@visactor/vrender-core';
-import type { ILayoutItem } from '../../../layout/interface';
 
 export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> implements IMarkPoint {
   static type = ComponentTypeEnum.markPoint;
   type = ComponentTypeEnum.markPoint;
   name: string = ComponentTypeEnum.markPoint;
 
-  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.MarkPoint;
+  layoutZIndex: number = LayoutZIndex.MarkPoint;
 
   protected declare _theme: IMarkPointTheme;
 

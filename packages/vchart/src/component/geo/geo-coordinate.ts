@@ -14,15 +14,13 @@ import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { IGeoCoordinate, IGeoCoordinateHelper, IGeoCoordinateSpec, IProjectionSpec } from './interface';
 import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam } from '../../event/interface';
-import type { IChartSpec, StringOrNumber } from '../../typings';
+import type { IChartSpec, ILayoutType, StringOrNumber } from '../../typings';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
-import type { IBoundsLike } from '@visactor/vutils';
 import { isValid, mixin, isNil } from '@visactor/vutils';
 import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
-import type { ILayoutItem, ILayoutRect } from '../../layout/interface';
 
 export function projectionName(key: string, id: number) {
   return `${PREFIX}_${id}_${key}`;
@@ -32,7 +30,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   type = ComponentTypeEnum.geoCoordinate;
   name: string = ComponentTypeEnum.geoCoordinate;
 
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
   protected layoutZIndex: number = LayoutZIndex.Mark;
 
   _longitudeField?: string;

@@ -16,7 +16,9 @@ import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis, transformInverse } 
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
-import type { IPoint, StringOrNumber } from '../../../typings';
+import type { StringOrNumber } from '../../../typings/common';
+import type { IPoint } from '../../../typings/coordinate';
+import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -38,7 +40,6 @@ import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
-import type { ILayoutItem, ILayoutRect } from '../../../layout/interface';
 
 const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
 
@@ -57,7 +58,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   // 标记这个布局Item的方向（left->right, right->left, top->bottom, bottom->top）
   declare directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
 
-  layoutType: ILayoutItem['layoutType'] = 'region-relative';
+  layoutType: ILayoutType = 'region-relative';
   layoutZIndex: number = LayoutZIndex.Axis;
   layoutLevel: number = LayoutLevel.Axis;
 

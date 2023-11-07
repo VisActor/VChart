@@ -13,7 +13,7 @@ import type { IComponentOption } from '../interface';
 import type { DirectionType, IPlayer } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent } from '../interface';
-import type { IPoint, IOrientType } from '../../typings';
+import type { IPoint, IOrientType, ILayoutRect } from '../../typings';
 import { type IChartSpec, type IDataValues } from '../..';
 
 // eslint-disable-next-line no-duplicate-imports
@@ -22,7 +22,6 @@ import { BaseComponent } from '../base/base-component';
 import { transformContinuousSpecToAttrs, transformDiscreteSpecToAttrs } from './utils/transform';
 import { isHorizontal, isVertical } from './utils/orient';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
-import type { ILayoutRect } from '../../layout/interface';
 
 export class Player extends BaseComponent<IPlayer> implements IComponent {
   protected layoutType: 'region' | 'region-relative' | 'normal' | 'absolute' | 'normal-inline';

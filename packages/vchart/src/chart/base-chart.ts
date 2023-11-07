@@ -14,9 +14,11 @@ import type {
   IRect,
   StringOrNumber,
   IChartSpec,
-  IDataValues
+  IDataValues,
+  ILayoutRect,
+  ILayoutOrientPadding
 } from '../typings';
-import type { ILayoutItem, ILayoutOrientPadding, ILayoutRect, LayoutCallBack } from '../layout/interface';
+import type { ILayoutItem, LayoutCallBack } from '../layout/interface';
 import { GlobalScale } from '../scale/global-scale';
 import type { ILayoutModelState, IModel, IModelOption, IUpdateSpecResult } from '../model/interface';
 import type {

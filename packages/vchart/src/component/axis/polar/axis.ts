@@ -17,7 +17,7 @@ import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import { ticks } from '@visactor/vutils-extension';
 import type { IPolarSeries } from '../../../series/interface';
-import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber } from '../../../typings';
+import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber, ILayoutType } from '../../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { isPolarAxisSeries } from '../../../series/util/utils';
 import { getAxisLabelOffset, isValidPolarAxis } from '../util';
@@ -30,7 +30,6 @@ import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IBandAxisSpec, ITick } from '../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
-import type { ILayoutItem } from '../../../layout/interface';
 
 export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommonSpec>
   extends AxisComponent<T>
@@ -44,7 +43,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   protected readonly _defaultBandInnerPadding = 0;
   protected readonly _defaultBandOuterPadding = 0;
 
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
   layoutZIndex: number = LayoutZIndex.Axis;
   protected _tick: ITick | undefined = undefined;
 

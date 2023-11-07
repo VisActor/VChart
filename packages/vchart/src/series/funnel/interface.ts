@@ -8,11 +8,11 @@ import type {
   IPolygonMarkSpec,
   IRuleMarkSpec,
   ITextMarkSpec,
-  IPyramid3dMarkSpec
+  IPyramid3dMarkSpec,
+  IPercent
 } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { IPercent } from '../../layout/interface';
 
 type FunnelMarks = 'funnel';
 

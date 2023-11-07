@@ -1,14 +1,15 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import { isEqual } from '@visactor/vutils';
-import type { ILayoutItem, ILayoutPoint, ILayoutRect, ILayoutRectLevel } from '../layout/interface';
+import type { ILayoutItem } from '../layout/interface';
 import type { IOrientType, IPolarOrientType, IRect } from '../typings/space';
 import { BaseModel } from './base-model';
 import type { IModelSpec } from './interface';
 import { LayoutItem } from '../layout/layout-item';
 import type { IPoint } from '../typings/coordinate';
+import type { ILayoutType, ILayoutPoint, ILayoutRect } from '../typings/layout';
 
 export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
-  protected abstract layoutType: ILayoutItem['layoutType'];
+  protected abstract layoutType: ILayoutType;
   protected abstract layoutZIndex: number;
   protected _forceLayoutTag: boolean = false;
   protected _layout: ILayoutItem = null;
@@ -68,7 +69,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
   getLayoutRect() {
     return this._layout.getLayoutRect();
   }
-  setLayoutRect(rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRectLevel>) {
+  setLayoutRect(rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) {
     return this._layout.setLayoutRect(rect, levelMap);
   }
 

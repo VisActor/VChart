@@ -3,7 +3,7 @@ import { DataView } from '@visactor/vdataset';
 import type { IDiscreteLegendSpec, IDiscreteLegendTheme } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../../series/interface';
-import type { IModelInitOption, ILayoutRect } from '../../../model/interface';
+import type { IModelInitOption } from '../../../model/interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -23,6 +23,7 @@ import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
 import { Factory } from '../../../core/factory';
 import { TransformLevel } from '../../../data/initialize';
+import type { ILayoutRect } from '../../../typings/layout';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static specKey = 'legends';

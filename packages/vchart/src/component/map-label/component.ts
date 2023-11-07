@@ -7,7 +7,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { LayoutZIndex } from '../../constant';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
-import type { IPoint, Datum } from '../../typings';
+import type { IPoint, Datum, ILayoutType } from '../../typings';
 import type { IPairInfo } from './layout';
 // eslint-disable-next-line no-duplicate-imports
 import { layoutByPosition, layoutOuter, placeRectByOrient } from './layout';
@@ -24,14 +24,13 @@ import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { IModel } from '../../model/interface';
 import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
-import type { ILayoutItem } from '../../layout/interface';
 
 export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   static type = ComponentTypeEnum.mapLabel;
   type = ComponentTypeEnum.mapLabel;
   name: string = ComponentTypeEnum.mapLabel;
 
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
 
   layoutZIndex = LayoutZIndex.MarkPoint;
 

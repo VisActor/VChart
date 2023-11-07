@@ -16,9 +16,8 @@ import { AttributeLevel, ChartEvent, LayoutZIndex } from '../constant';
 import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
-import type { StringOrNumber } from '../typings';
+import type { ILayoutType, StringOrNumber } from '../typings';
 import { IFilterMode } from '../component/data-zoom/constant';
-import type { ILayoutItem } from '../layout/interface';
 import { LayoutModel } from '../model/layout-model';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
@@ -27,7 +26,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
 
   type = Region.type;
   protected _series: ISeries[] = [];
-  layoutType: ILayoutItem['layoutType'] = 'region';
+  layoutType: ILayoutType = 'region';
   layoutZIndex: number = LayoutZIndex.Region;
 
   animate?: IAnimate;

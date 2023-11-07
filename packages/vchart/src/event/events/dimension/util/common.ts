@@ -3,11 +3,10 @@ import type { IChart } from '../../../../chart/interface';
 import type { IDimensionData, IDimensionInfo } from '../interface';
 import { isNil, array, isValid, isValidNumber } from '@visactor/vutils';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
-import type { CoordinateType } from '../../../../typings';
+import type { CoordinateType, ILayoutPoint } from '../../../../typings';
 import { isDiscrete } from '@visactor/vscale';
 import type { ICartesianLinearAxisSpec } from '../../../../component';
 import type { Maybe } from '@visactor/vutils';
-import type { ILayoutPoint } from '../../../../layout/interface';
 
 const isInBound = (pos: ILayoutPoint, min: ILayoutPoint, max: ILayoutPoint): boolean =>
   pos.x >= min.x && pos.x <= max.x && pos.y >= min.y && pos.y <= max.y;

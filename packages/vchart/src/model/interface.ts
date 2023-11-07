@@ -17,7 +17,8 @@ import type { IGlobalScale } from '../scale/interface';
 import type { IChart } from '../chart/interface';
 import type { IChartLevelTheme } from '../core/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
-import type { ILayoutItem, ILayoutItemSpec, ILayoutPoint, ILayoutRect, ILayoutRectLevel } from '../layout/interface';
+import type { ILayoutItem, ILayoutItemSpec } from '../layout/interface';
+import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
 
 // TODO:
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -130,7 +131,7 @@ export interface ILayoutModel extends IModel {
   getLayoutStartPoint: () => IPoint;
   setLayoutStartPosition: (pos: Partial<IPoint>) => void;
   getLayoutRect: () => ILayoutRect;
-  setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRectLevel>) => void;
+  setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) => void;
 
   getLastComputeOutBounds: () => IBoundsLike;
 

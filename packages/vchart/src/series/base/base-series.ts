@@ -1,4 +1,3 @@
-import { LayoutZIndex } from './../../constant/index';
 import { ChartEvent } from '../../constant/event';
 import {
   AttributeLevel,
@@ -30,7 +29,10 @@ import type {
   IExtensionMarkSpec,
   IExtensionGroupMarkSpec,
   EnableMarkType,
-  IGroup
+  IGroup,
+  ILayoutType,
+  ILayoutPoint,
+  ILayoutRect
 } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 // eslint-disable-next-line no-duplicate-imports
@@ -55,7 +57,6 @@ import { addVChartProperty } from '../../data/transforms/add-property';
 import type { ITrigger } from '../../interaction/interface';
 import { Trigger } from '../../interaction/trigger';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import type { ILayoutItem, ILayoutPoint, ILayoutRect, ILayoutRectLevel } from '../../layout/interface';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 // eslint-disable-next-line no-duplicate-imports
@@ -86,7 +87,7 @@ import { isAnimationEnabledForSeries } from '../../animation/utils';
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
   readonly type: string = 'series';
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
   readonly modelType: string = 'series';
   readonly name: string | undefined = undefined;
 
@@ -1002,7 +1003,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
-  setLayoutRect({ width, height }: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRectLevel>) {
+  setLayoutRect({ width, height }: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) {
     if (isValidNumber(width)) {
       this._layoutRect.width = width;
     }
