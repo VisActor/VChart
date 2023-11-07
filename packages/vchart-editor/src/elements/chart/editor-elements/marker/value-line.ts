@@ -5,7 +5,7 @@
 import type { INode } from '@visactor/vrender-core';
 import { createRect, type IGraphic, createGroup, vglobal } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
-import { merge } from '@visactor/vutils';
+import { clamp, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, IComponent } from '@visactor/vchart';
@@ -20,6 +20,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
   private _orient: string;
   private _prePos!: number;
   private _preOffset: number = 0;
+  private _limitRange: [number, number];
 
   protected _getEnableMarkerTypes(): string[] {
     return [MarkerTypeEnum.horizontalLine, MarkerTypeEnum.verticalLine];
@@ -30,11 +31,29 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
 
-    this._prePos = this._orient === 'horizontal' ? e.event.clientY : e.event.clientX;
-    this._editComponent.setAttributes({
-      cursor: this._orient === 'horizontal' ? 'ns-resize' : 'ew-resize'
-    });
-    this._preOffset = this._editComponent.attribute[this._orient === 'horizontal' ? 'dy' : 'dx'] ?? 0;
+    const isHorizontal = this._orient === 'horizontal';
+
+    const region = this._model.getRelativeSeries().getRegion();
+    const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
+    const { width: regionWidth, height: regionHeight } = region.getLayoutRect();
+    if (isHorizontal) {
+      const currentY = (this._element.attribute.points[0] as Point).y;
+      this._limitRange = [regionStartY - currentY, regionStartY + regionHeight - currentY];
+      this._prePos = e.event.clientY;
+      this._editComponent.setAttributes({
+        cursor: 'ns-resize'
+      });
+      this._preOffset = this._editComponent.attribute.dy ?? 0;
+    } else {
+      const currentX = (this._element.attribute.points[0] as Point).x;
+      this._limitRange = [regionStartX - currentX, regionStartX + regionWidth - currentX];
+      this._prePos = e.event.clientX;
+      this._editComponent.setAttributes({
+        cursor: 'ew-resize'
+      });
+      this._preOffset = this._editComponent.attribute.dx ?? 0;
+    }
+
     vglobal.addEventListener('pointermove', this._onDrag);
     vglobal.addEventListener('pointerup', this._onDragEnd);
   }
@@ -56,7 +75,10 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
       delta = currentPos - this._prePos;
       updateField = 'dx';
     }
-    this._editComponent.setAttribute(updateField, this._preOffset + delta);
+    this._editComponent.setAttribute(
+      updateField,
+      this._preOffset + clamp(delta, this._limitRange[0], this._limitRange[1])
+    );
   };
 
   private _onDragEnd = (e: any) => {

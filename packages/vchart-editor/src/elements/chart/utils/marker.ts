@@ -9,7 +9,7 @@ import {
   STACK_FIELD_TOTAL,
   STACK_FIELD_END
 } from '@visactor/vchart';
-import { type IPointLike } from '@visactor/vutils';
+import { isValidNumber, type IPointLike, maxInArray, minInArray, array, median as visMedian } from '@visactor/vutils';
 import { MarkerTypeEnum } from '../interface';
 
 // TODO: 不同的标注需要给不同的 zIndex
@@ -215,12 +215,12 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         area: {
           style: {
             fill: '#005DFF',
-            fillOpacity: '0.1'
+            fillOpacity: 0.1
           }
         },
         label: {
           position: 'right',
-          text: 'insert some text',
+          text: `${min(seriesData, series.getSpec().yField)} - ${median(seriesData, series.getSpec().yField)}`,
           labelBackground: {
             visible: false
           },
@@ -246,7 +246,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
       },
       label: {
         position: 'right',
-        text: 'insert some text',
+        text: `${seriesData[0][series.fieldY[0]]} - ${seriesData[Math.floor(seriesData.length / 2)][series.fieldY[0]]}`,
         labelBackground: {
           visible: false
         },
@@ -275,7 +275,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         },
         label: {
           position: 'top',
-          text: 'insert some text',
+          text: `${min(seriesData, series.getSpec().xField)} - ${median(seriesData, series.getSpec().xField)}`,
           labelBackground: {
             visible: false
           },
@@ -301,7 +301,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
       },
       label: {
         position: 'top',
-        text: 'insert some text',
+        text: `${seriesData[0][series.fieldX[0]]} - ${seriesData[Math.floor(seriesData.length / 2)][series.fieldX[0]]}`,
         labelBackground: {
           visible: false
         },
@@ -342,6 +342,8 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
   let length;
   // 如果存在堆叠场景，则查找 STACK_FIELD_TOTAL_TOP 的数据，再进行分组
   if (series.getStack() && series.getStackData()) {
+    // 进行 total 计算
+    stackTotal(series.getStackData(), series.getStackValueField());
     const filteredData = seriesData.filter((datum: Datum) => datum[STACK_FIELD_TOTAL_TOP]);
     const groupData = groupByFields(filteredData, [groupFields[0]]);
     const groupKeys = Object.keys(groupData);
@@ -407,7 +409,7 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
 }
 
 /**
- * 获取总计差异标记的初始配置
+ * 获取层级差异标记的初始配置
  * 1. 仅支持柱图和线图
  * 2. 默认取维度轴的第一个和第二个值的差异
  *
@@ -430,6 +432,8 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
   let endValue;
   // 如果存在堆叠场景，则查找 STACK_FIELD_TOTAL_TOP 的数据，再进行分组
   if (series.getStack() && series.getStackData()) {
+    // 进行 total 计算
+    stackTotal(series.getStackData(), series.getStackValueField());
     const filteredData = seriesData.filter((datum: Datum) => datum[STACK_FIELD_TOTAL_TOP]);
     const groupData = groupByFields(filteredData, [groupFields[0]]);
     const groupKeys = Object.keys(groupData);
@@ -457,17 +461,19 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     endValue = endData[valueFieldInData];
   }
 
-  let expandDistance = 0;
+  let expandDistance;
   const region = series.getRegion();
   if (isHorizontal) {
     // region 边缘
     const startY = series.dataToPositionY(startData);
     const endY = series.dataToPositionY(endData);
     expandDistance = region.getLayoutRect().height - Math.max(startY, endY);
+    expandDistance = `${((expandDistance + 30) / region.getLayoutRect().height) * 100}%`;
   } else {
     const startX = series.dataToPositionX(startData);
     const endX = series.dataToPositionX(endData);
     expandDistance = region.getLayoutRect().width - Math.max(startX, endX);
+    expandDistance = `${((expandDistance + 30) / region.getLayoutRect().width) * 100}%`;
   }
   return {
     id: uuidv4(),
@@ -476,7 +482,7 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     type: 'type-step',
     coordinates: [startData, endData],
     connectDirection: isHorizontal ? 'top' : 'right',
-    expandDistance: expandDistance + 30,
+    expandDistance,
     label: {
       position: 'middle',
       // TODO：计算公式需要确认
@@ -543,6 +549,8 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
   let endData;
   // 如果存在堆叠场景，则查找 STACK_FIELD_TOTAL_TOP 的数据，再进行分组
   if (series.getStack() && series.getStackData()) {
+    // 进行 total 计算
+    stackTotal(series.getStackData(), series.getStackValueField());
     const filteredData = seriesData.filter((datum: Datum) => datum[STACK_FIELD_TOTAL_TOP]);
     const groupData = groupByFields(filteredData, [groupFields[0]]);
     const groupKeys = Object.keys(groupData);
@@ -747,4 +755,65 @@ function groupByFields(data: Datum, groupFields: string[]) {
     result[groupKey].push(item);
   }
   return result;
+}
+
+export function min(data: any[], field?: string): number {
+  const dataArray: any[] = [];
+  data.forEach(d => {
+    const value = +d[field];
+    if (isValidNumber(value)) {
+      dataArray.push(value);
+    }
+  });
+  if (dataArray.length === 0) {
+    return null;
+  }
+  return minInArray(dataArray);
+}
+
+export function max(data: any[], field?: string): number {
+  const dataArray: any[] = [];
+  data.forEach(d => {
+    const value = +d[field];
+    if (isValidNumber(value)) {
+      dataArray.push(value);
+    }
+  });
+  if (dataArray.length === 0) {
+    return null;
+  }
+  return maxInArray(dataArray);
+}
+
+export function sum(data: any[], field?: string): number {
+  return data.reduce((pre, _cur) => {
+    const cur = field ? +_cur[field] : +_cur;
+    if (isValidNumber(cur)) {
+      pre += cur;
+    }
+    return pre;
+  }, 0);
+}
+
+export function median(data: any[], field?: string): number {
+  const value = visMedian(data.map((datum: Datum) => datum[field]));
+  return value;
+}
+
+export function stackTotal(stackData: any, valueField: string) {
+  if ('values' in stackData && stackData.values.length) {
+    const total = sum(stackData.values, valueField);
+    stackData.values.forEach((v: Datum) => {
+      v[STACK_FIELD_TOTAL] = total;
+      delete v[STACK_FIELD_TOTAL_TOP];
+    });
+    const maxNode = stackData.values.reduce((max: Datum, current: Datum) => {
+      return current[STACK_FIELD_END] > max[STACK_FIELD_END] ? current : max;
+    });
+    maxNode[STACK_FIELD_TOTAL_TOP] = true;
+    return;
+  }
+  for (const key in stackData.nodes) {
+    stackTotal(stackData.nodes[key], valueField);
+  }
 }

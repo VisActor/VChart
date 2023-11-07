@@ -1,6 +1,6 @@
 import type { IChartModel } from './../interface';
 import { merge, isArray, isObject, isEmpty, array } from '@visactor/vutils';
-import type { IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
+import type { IEditorController, IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
 import { EditorFactory } from './../../../core/factory';
 import type { IData, StandardData } from '../data/interface';
 import type { ILayoutData } from '../layout/interface';
@@ -34,9 +34,12 @@ export class SpecProcess implements ISpecProcess {
   protected _specTemp: IChartTemp = null;
   protected _data: IData = null;
 
-  constructor(data: IData, call: () => void) {
+  private _controller: IEditorController;
+
+  constructor(data: IData, call: () => void, editorController: IEditorController) {
     this._data = data;
     this._onSpecReadyCall = call;
+    this._controller = editorController;
     this._data.addDataUpdateListener(this.dataReady);
   }
   getEditorSpec() {
@@ -139,18 +142,22 @@ export class SpecProcess implements ISpecProcess {
 
     if (this._editorSpec.marker) {
       Object.keys(this._editorSpec.marker).forEach(key => {
-        if (!this._vchartSpec[key]) {
-          this._vchartSpec[key] = [];
-        }
-        const markers = this._editorSpec.marker[key];
-        markers.forEach((marker: any) => {
-          const index = this._vchartSpec[key].findIndex((m: any) => m.id === marker.id);
-          if (index === -1) {
-            this._vchartSpec[key].push(marker);
-          } else {
-            this._vchartSpec[key][index] = merge(this._vchartSpec[key][index] || {}, marker);
-          }
-        });
+        this._vchartSpec[key] = this._editorSpec.marker[key];
+        // if (!this._vchartSpec[key]) {
+        //   this._vchartSpec[key] = [];
+        // }
+        // if (!isArray(this._vchartSpec[key])) {
+        //   this._vchartSpec[key] = [this._vchartSpec[key]];
+        // }
+        // const markers = this._editorSpec.marker[key];
+        // markers.forEach((marker: any) => {
+        //   const index = this._vchartSpec[key].findIndex((m: any) => m.id === marker.id);
+        //   if (index === -1) {
+        //     this._vchartSpec[key].push(marker);
+        //   } else {
+        //     this._vchartSpec[key][index] = merge(this._vchartSpec[key][index] || {}, marker);
+        //   }
+        // });
       });
     }
   }
@@ -215,19 +222,20 @@ export class SpecProcess implements ISpecProcess {
 
     if (attr.markLine && attr.markLine.spec) {
       hasChange = true;
-      this.updateMarker(attr.markLine.spec, 'markLine', model.userId);
+      this.updateMarker(attr.markLine, 'markLine', model.userId);
     }
 
     if (attr.markArea && attr.markArea.spec) {
       hasChange = true;
-      this.updateMarker(attr.markArea.spec, 'markArea', model.userId);
+      this.updateMarker(attr.markArea, 'markArea', model.userId);
     }
 
     this._mergeEditorSpec();
+    this._controller.editorEnd();
     return hasChange;
   }
 
-  updateMarker(spec: any, key: string, id?: string | number) {
+  updateMarker(config: { spec?: any; enable?: boolean }, key: string, id?: string | number) {
     // 更新编辑器数据
     if (!this._editorSpec.marker) {
       this._editorSpec.marker = {
@@ -236,20 +244,26 @@ export class SpecProcess implements ISpecProcess {
       };
     }
 
-    if (isEmpty(this._editorSpec.marker[key])) {
-      this._editorSpec.marker[key] = [spec];
-    } else {
-      const markerIndex = this._editorSpec.marker[key].findIndex(
-        (markerSpec: any) => markerSpec.id === (id || spec.id)
-      );
-      if (markerIndex === -1) {
-        this._editorSpec.marker[key].push(spec);
+    const { spec, enable } = config;
+    const markersInEditorSpec = this._editorSpec.marker[key];
+    if (enable !== false) {
+      if (isEmpty(markersInEditorSpec)) {
+        this._editorSpec.marker[key] = [spec];
       } else {
-        merge(this._editorSpec.marker[key][markerIndex], spec);
+        const markerIndex = markersInEditorSpec.findIndex((markerSpec: any) => markerSpec.id === (id || spec.id));
+        if (markerIndex === -1) {
+          this._editorSpec.marker[key].push(spec);
+        } else {
+          merge(this._editorSpec.marker[key][markerIndex], spec);
+        }
+      }
+    } else {
+      // 删除逻辑
+      const markerIndex = (markersInEditorSpec ?? []).findIndex((markerSpec: any) => markerSpec.id === (id || spec.id));
+      if (markerIndex !== -1) {
+        this._editorSpec.marker[key].splice(markerIndex, 1);
       }
     }
-    // save
-    // this._editorSpec.markLine =  {}
   }
 
   clearMarker() {

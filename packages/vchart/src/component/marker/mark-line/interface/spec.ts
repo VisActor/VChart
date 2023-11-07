@@ -93,9 +93,11 @@ export type IStepMarkLineSpec = IMarkerSpec & {
    */
   connectDirection: 'top' | 'bottom' | 'left' | 'right';
   /**
-   * 在连接方向的扩展距离
+   * 在连接方向的扩展距离。
+   * number 类型为像素值
+   * string 类型为百分比，相对于 region 区域宽度/高度的百分比，如 '30%'
    */
-  expandDistance?: number;
+  expandDistance?: number | string;
 
   label?: IMarkerLabelSpec;
   line?: {

@@ -186,6 +186,11 @@ export interface IEditorController {
 
   // over border
   setOverGraphic: (graphic: IGraphic, id: string | number, event: PointerEvent) => void;
+  /**
+   * 移除 hover 元素
+   * @returns void
+   */
+  removeOverGraphic: () => void;
   currentOverGraphicId: string | number;
 
   release: () => void;

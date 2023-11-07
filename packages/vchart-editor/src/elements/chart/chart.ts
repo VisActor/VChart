@@ -66,7 +66,7 @@ export class EditorChart extends BaseElement {
     super(opt);
     this._event = new ChartEvent(this);
     this._data = new Data();
-    this._specProcess = new SpecProcess(this._data, this.onSpecReady);
+    this._specProcess = new SpecProcess(this._data, this.onSpecReady, this._opt.controller);
     this._layout = new ChartLayout(this._specProcess);
     if (this._mode === 'editor') {
       this.initEditors();
@@ -177,8 +177,9 @@ export class EditorChart extends BaseElement {
     } else {
       console.log('onSpecReady update spec');
       this._isRendered = false;
+      // HACK: 屏蔽报错临时修改
       // eslint-disable-next-line promise/catch-or-return
-      await this._vchart.updateSpec(this._transformVchartSpec(this._specProcess.getVChartSpec()));
+      this._vchart.updateSpecSync(this._transformVchartSpec(this._specProcess.getVChartSpec()));
       this._afterRender();
     }
   }
@@ -264,40 +265,16 @@ export class EditorChart extends BaseElement {
   };
 
   private _onAddMarkLine = (el: IEditorElement, attr: IUpdateAttributeParam) => {
-    const spec: any = this.specProcess.getVChartSpec();
-    if (!spec.markLine) {
-      spec.markLine = [];
-    }
-    // TODO: 没搞懂这个逻辑
     if (attr.markLine.enable) {
       const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markLine.type);
-      spec.markLine.push(defaultMarkLineSpec);
-      this.specProcess.updateMarker(defaultMarkLineSpec, 'markLine');
-    } else {
-      const lastMarkLine = spec.markLine.find((markLine: any) => markLine.id === attr.markLine.spec.id);
-      if (lastMarkLine) {
-        spec.markLine.splice(spec.markLine.indexOf(lastMarkLine), 1);
-      }
+      attr.markLine.spec = defaultMarkLineSpec;
     }
-    this.reRenderWithUpdateSpec();
   };
   private _onAddMarkArea = (el: IEditorElement, attr: IUpdateAttributeParam) => {
-    const spec: any = this.specProcess.getVChartSpec();
-    if (!spec.markArea) {
-      spec.markArea = [];
-    }
-    // TODO: 没搞懂这个逻辑
     if (attr.markArea.enable) {
       const defaultMarkAreaSpec = getDefaultMarkerConfigByType(this.vchart, attr.markArea.type);
-      spec.markArea.push(defaultMarkAreaSpec);
-      this.specProcess.updateMarker(defaultMarkAreaSpec, 'markArea');
-    } else {
-      const lastMarkArea = spec.markArea.find((markArea: any) => markArea.id === attr.markArea.spec.id);
-      if (lastMarkArea) {
-        spec.markArea.splice(spec.markArea.indexOf(lastMarkArea), 1);
-      }
+      attr.markArea.spec = defaultMarkAreaSpec;
     }
-    this.reRenderWithUpdateSpec();
   };
 
   moveBy(offsetX: number, offsetY: number) {
@@ -351,6 +328,10 @@ export class EditorChart extends BaseElement {
   clearCurrentEditorElement() {
     this._event.emitter.emit('unPickModel', null);
     //TODO: clear mark editor element
+    this._avgMarkLineEditor?.clearEditComponent();
+    this._markAreaEditor?.clearEditComponent();
+    this._growthMarkLineEditor?.clearEditComponent();
+    this._hirarchicalDiffMarkLineEditor?.clearEditComponent();
   }
 
   tryPick(e: VRenderPointerEvent) {

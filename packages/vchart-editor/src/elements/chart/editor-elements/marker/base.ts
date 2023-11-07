@@ -30,7 +30,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   }
 
   protected _onHover = (e: EventParams) => {
-    if (!this._checkEventEnable(e)) {
+    if (!this._checkEventEnable(e) || (this._editComponent && this._editComponent.attribute.visible)) {
       return;
     }
     this._element = (<T>e.model).getVRenderComponents()[0] as unknown as D;
@@ -81,7 +81,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     return element;
   }
 
-  protected startEditor(el: IEditorElement, e?: PointerEvent): boolean {
+  startEditor(el: IEditorElement, e?: PointerEvent): boolean {
     if (!super.startEditor(el, e)) {
       return false;
     }
@@ -153,6 +153,10 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
 
   releaseLast() {
     super.releaseLast();
+    this.clearEditComponent();
+  }
+
+  clearEditComponent() {
     if (this._editComponent) {
       this._layer.editorGroup.removeChild(this._editComponent as unknown as IGraphic);
       this._editComponent = null;

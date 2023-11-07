@@ -6,9 +6,9 @@ import type { IGroup, IGraphic, IPolygon, IRect, FederatedPointerEvent } from '@
 import { createRect, createGroup, vglobal, createPolygon } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { merge } from '@visactor/vutils';
+import { clamp, merge } from '@visactor/vutils';
 import type { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
-import type { EventParams, MarkArea, IComponent } from '@visactor/vchart';
+import type { EventParams, MarkArea, IComponent, ICartesianSeries } from '@visactor/vchart';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
 
@@ -33,6 +33,8 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
   private _rightHandler: IRect;
   private _leftHandler: IRect;
   private _currentHandler: IRect;
+  private _limitRange: [number, number];
+  private _areaLength: number;
 
   private _prePos: number = 0;
 
@@ -44,11 +46,27 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     this._orient = this._element.name === MarkerTypeEnum.verticalArea ? 'vertical' : 'horizontal';
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
-    this.startEditor(el);
 
     this._overlayAreaGroup?.showAll();
 
+    const isHorizontal = this._orient === 'horizontal';
+    const region = this._model.getRelativeSeries().getRegion();
+    const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
+    const { width: regionWidth, height: regionHeight } = region.getLayoutRect();
+    if (isHorizontal) {
+      this._limitRange = [regionStartY, regionStartY + regionHeight];
+    } else {
+      this._limitRange = [regionStartX, regionStartX + regionWidth];
+    }
+
     this._prePos = this._orient === 'vertical' ? e.event.clientX : e.event.clientY;
+    const overlayArea = this._overlayArea;
+    this._areaLength =
+      this._orient === 'vertical'
+        ? Math.max(...overlayArea.attribute.points.map(point => point.x)) -
+          Math.min(...overlayArea.attribute.points.map(point => point.x))
+        : Math.max(...overlayArea.attribute.points.map(point => point.y)) -
+          Math.min(...overlayArea.attribute.points.map(point => point.y));
     vglobal.addEventListener('pointermove', this._onAreaDrag);
     vglobal.addEventListener('pointerup', this._onAreaDragEnd);
     this._overlayAreaGroup.addEventListener('pointerdown', this._onAreaDragStart as EventListenerOrEventListenerObject);
@@ -118,7 +136,9 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     const overlayArea = createPolygon(
       merge({}, areaShape.attribute, {
         lineWidth: 1,
-        stroke: '#3073F2'
+        stroke: '#3073F2',
+        fill: '#005DFF',
+        fillOpacity: 0.1
       })
     );
     overlayArea.name = 'overlay-mark-area-area';
@@ -263,23 +283,23 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     if (this._currentHandler.name === 'overlay-right-handler') {
       const changePoints = points.filter(point => (point as unknown as any).right);
       changePoints.forEach(point => {
-        point.x += delta;
+        point.x = clamp(point.x + delta, this._limitRange[0], this._limitRange[1]);
       });
     } else if (this._currentHandler.name === 'overlay-left-handler') {
       const changePoints = points.filter(point => (point as unknown as any).left);
       changePoints.forEach(point => {
-        point.x += delta;
+        point.x = clamp(point.x + delta, this._limitRange[0], this._limitRange[1]);
       });
     } else if (this._currentHandler.name === 'overlay-top-handler') {
       const changePoints = points.filter(point => (point as unknown as any).top);
 
       changePoints.forEach(point => {
-        point.y += delta;
+        point.y = clamp(point.y + delta, this._limitRange[0], this._limitRange[1]);
       });
     } else if (this._currentHandler.name === 'overlay-bottom-handler') {
       const changePoints = points.filter(point => (point as unknown as any).bottom);
       changePoints.forEach(point => {
-        point.y += delta;
+        point.y = clamp(point.y + delta, this._limitRange[0], this._limitRange[1]);
       });
     }
     overlayArea.setAttribute('points', points);
@@ -294,7 +314,14 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     );
 
     // 更新当前 handler
-    this._currentHandler.setAttribute(updateField, this._currentHandler.attribute[updateField] + delta);
+    this._currentHandler.setAttribute(
+      updateField,
+      clamp(
+        this._currentHandler.attribute[updateField] + delta,
+        this._limitRange[0] - handlerWidth / 2,
+        this._limitRange[1] - handlerWidth / 2
+      )
+    );
   };
 
   private _onHandlerDragEnd = (e: any) => {
@@ -308,6 +335,13 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     vglobal.removeEventListener('pointerup', this._onHandlerDragEnd);
     // 更新当前图形以及保存 spec
     this._save(points);
+
+    this._areaLength =
+      this._orient === 'vertical'
+        ? Math.max(...overlayArea.attribute.points.map(point => point.x)) -
+          Math.min(...overlayArea.attribute.points.map(point => point.x))
+        : Math.max(...overlayArea.attribute.points.map(point => point.y)) -
+          Math.min(...overlayArea.attribute.points.map(point => point.y));
   };
 
   private _onAreaDragStart = (e: any) => {
@@ -318,6 +352,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     this._model = model;
 
     this._prePos = this._orient === 'vertical' ? e.clientX : e.clientY;
+
     vglobal.addEventListener('pointermove', this._onAreaDrag);
     vglobal.addEventListener('pointerup', this._onAreaDragEnd);
   };
@@ -325,9 +360,10 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
   private _onAreaDrag = (e: any) => {
     e.stopPropagation();
 
+    this._controller.removeOverGraphic();
     this._silentAllMarkers();
     this._editComponent.showAll();
-
+    const overlayArea = this._overlayArea;
     let currentPos;
     let delta = 0;
     let updateField: string;
@@ -341,17 +377,42 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
       updateField = 'x';
     }
     this._prePos = currentPos;
+    const [limitStart, limitEnd] = this._limitRange;
 
     // 更新 area
-    const overlayArea = this._overlayArea;
     const points = overlayArea.attribute.points;
-    overlayArea.setAttribute(
-      'points',
-      points.map(point => {
-        point[updateField] += delta;
-        return point;
-      })
-    );
+
+    if (delta < 0) {
+      if (points[0][updateField] - points[2][updateField] > 0) {
+        points[2][updateField] = clamp(points[2][updateField] + delta, limitStart, limitEnd);
+        points[3][updateField] = clamp(points[3][updateField] + delta, limitStart, limitEnd);
+
+        points[0][updateField] = points[2][updateField] + this._areaLength;
+        points[1][updateField] = points[2][updateField] + this._areaLength;
+      } else {
+        points[0][updateField] = clamp(points[0][updateField] + delta, limitStart, limitEnd);
+        points[1][updateField] = clamp(points[1][updateField] + delta, limitStart, limitEnd);
+
+        points[2][updateField] = points[0][updateField] + this._areaLength;
+        points[3][updateField] = points[0][updateField] + this._areaLength;
+      }
+    } else {
+      if (points[0][updateField] - points[2][updateField] > 0) {
+        points[0][updateField] = clamp(points[0][updateField] + delta, limitStart, limitEnd);
+        points[1][updateField] = clamp(points[1][updateField] + delta, limitStart, limitEnd);
+
+        points[2][updateField] = points[0][updateField] - this._areaLength;
+        points[3][updateField] = points[0][updateField] - this._areaLength;
+      } else {
+        points[2][updateField] = clamp(points[2][updateField] + delta, limitStart, limitEnd);
+        points[3][updateField] = clamp(points[2][updateField] + delta, limitStart, limitEnd);
+
+        points[0][updateField] = points[2][updateField] - this._areaLength;
+        points[1][updateField] = points[2][updateField] - this._areaLength;
+      }
+    }
+
+    overlayArea.setAttribute('points', points);
 
     // 更新当前 label, handler
     const overlayLabel = this._overlayLabel;
@@ -360,15 +421,27 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         updateField,
         (overlayArea.AABBBounds.x1 + overlayArea.AABBBounds.x2) / 2 - overlayLabel.attribute.width / 2
       );
-      this._rightHandler.setAttribute(updateField, this._rightHandler.attribute[updateField] + delta);
-      this._leftHandler.setAttribute(updateField, this._leftHandler.attribute[updateField] + delta);
+      this._rightHandler.setAttribute(
+        updateField,
+        overlayArea.attribute.points.find((point: any) => point.right)[updateField] - handlerWidth / 2
+      );
+      this._leftHandler.setAttribute(
+        updateField,
+        overlayArea.attribute.points.find((point: any) => point.left)[updateField] - handlerWidth / 2
+      );
     } else {
       overlayLabel.setAttribute(
         updateField,
         (overlayArea.AABBBounds.y1 + overlayArea.AABBBounds.y2) / 2 - overlayLabel.attribute.height / 2
       );
-      this._topHandler.setAttribute(updateField, this._topHandler.attribute[updateField] + delta);
-      this._bottomHandler.setAttribute(updateField, this._bottomHandler.attribute[updateField] + delta);
+      this._topHandler.setAttribute(
+        updateField,
+        overlayArea.attribute.points.find((point: any) => point.top)[updateField] - handlerWidth / 2
+      );
+      this._bottomHandler.setAttribute(
+        updateField,
+        overlayArea.attribute.points.find((point: any) => point.bottom)[updateField] - handlerWidth / 2
+      );
     }
   };
 
@@ -385,14 +458,13 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     this._activeAllMarkers();
     vglobal.removeEventListener('pointermove', this._onAreaDrag);
     vglobal.removeEventListener('pointerup', this._onAreaDragEnd);
-
     // 更新当前图形以及保存 spec
     this._save(points);
   };
 
   private _save(newPoints: PointLike[]) {
     // 更新真正的图形
-    this._element.setAttributes({
+    this._element?.setAttributes({
       points: newPoints.map(point => {
         return {
           x: point.x,
@@ -402,24 +474,51 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     });
 
     // 更新 spec
-    const series = this._model.getRelativeSeries();
+    const series = this._model.getRelativeSeries() as ICartesianSeries;
     const { x: regionStartX, y: regionStartY } = series.getRegion().getLayoutStartPoint();
     const { width: regionWidth, height: regionHeight } = series.getRegion().getLayoutRect();
 
     let positionSpec;
+    let labelText;
     if (this._orient === 'horizontal') {
       const bottomY = newPoints.find(point => point.bottom).y;
       const topY = newPoints.find(point => point.top).y;
+
+      const start = series.positionToDataY(Math.max(bottomY, topY) - regionStartY);
+      const end = series.positionToDataY(Math.min(bottomY, topY) - regionStartY);
+      if (series.getYAxisHelper().isContinuous) {
+        labelText = `${start.toFixed(0)} - ${end.toFixed(0)}`;
+      } else {
+        labelText = start === end ? start : `${start} - ${end}`;
+      }
+
       positionSpec = {
         y: `${((bottomY - regionStartY) / regionHeight) * 100}%`,
-        y1: `${((topY - regionStartY) / regionHeight) * 100}%`
+        y1: `${((topY - regionStartY) / regionHeight) * 100}%`,
+        label: {
+          text: labelText
+        }
       };
     } else {
       const leftX = newPoints.find(point => point.left).x;
       const rightX = newPoints.find(point => point.right).x;
+      labelText = `${series.positionToDataX(Math.min(leftX, rightX) - regionStartX)} - ${series.positionToDataX(
+        Math.max(leftX, rightX) - regionStartX
+      )}`;
+
+      const start = series.positionToDataX(Math.min(leftX, rightX) - regionStartX);
+      const end = series.positionToDataX(Math.max(leftX, rightX) - regionStartX);
+      if (series.getXAxisHelper().isContinuous) {
+        labelText = `${start.toFixed(0)} - ${end.toFixed(0)}`;
+      } else {
+        labelText = start === end ? start : `${start} - ${end}`;
+      }
       positionSpec = {
         x: `${((leftX - regionStartX) / regionWidth) * 100}%`,
-        x1: `${((rightX - regionStartX) / regionWidth) * 100}%`
+        x1: `${((rightX - regionStartX) / regionWidth) * 100}%`,
+        label: {
+          text: labelText
+        }
       };
     }
 

@@ -24,6 +24,7 @@ import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
+import { isPercent } from '../../../util';
 
 export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
@@ -173,7 +174,37 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
       const { multiSegment, mainSegmentIndex } = (this._spec as IStepMarkLineSpec).line || {};
       const { connectDirection, expandDistance = 0 } = this._spec as IStepMarkLineSpec;
 
-      const joinPoints = getInsertPoints(points[0], points[1], connectDirection, expandDistance);
+      let expandDistanceValue: number;
+      if (isPercent(expandDistance)) {
+        const regionStart = startRelativeSeries.getRegion();
+        const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
+        const regionEnd = endRelativeSeries.getRegion();
+        const regionEndLayoutStartPoint = regionEnd.getLayoutStartPoint();
+
+        if (connectDirection === 'bottom' || connectDirection === 'top') {
+          const regionHeight = Math.abs(
+            Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y) -
+              Math.max(
+                regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
+                regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
+              )
+          );
+          expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionHeight) / 100;
+        } else {
+          const regionWidth = Math.abs(
+            Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x) -
+              Math.max(
+                regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
+                regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
+              )
+          );
+          expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionWidth) / 100;
+        }
+      } else {
+        expandDistanceValue = expandDistance as number;
+      }
+
+      const joinPoints = getInsertPoints(points[0], points[1], connectDirection, expandDistanceValue);
 
       let labelPositionAttrs: any;
       if (multiSegment && isValid(mainSegmentIndex)) {
