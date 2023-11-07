@@ -58,7 +58,7 @@ export interface IMarkerSpec extends IComponentSpec {
     clip?: boolean;
 }
 export interface IMarkerSymbol extends IMarkerRef {
-    visible?: boolean;
+    visible: boolean;
     symbolType?: SymbolType;
     size?: number;
     style?: Omit<ISymbolMarkSpec, 'visible'>;

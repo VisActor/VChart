@@ -17,8 +17,8 @@ export declare abstract class BaseTooltipHandler implements ITooltipHandler {
     protected _chartOption: IChartOption;
     protected _id: string;
     get id(): string;
-    protected _env: "node" | "desktop-browser" | "mobile-browser" | "worker" | "miniApp" | "wx" | "desktop-miniApp" | "lynx";
-    get env(): "node" | "desktop-browser" | "mobile-browser" | "worker" | "miniApp" | "wx" | "desktop-miniApp" | "lynx";
+    protected _env: "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "desktop-miniApp" | "lynx";
+    get env(): "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "desktop-miniApp" | "lynx";
     protected _component: Tooltip;
     protected _attributes?: TooltipAttributes | null;
     protected _chartContainer: Maybe<HTMLElement>;
