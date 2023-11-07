@@ -13,7 +13,7 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
     };
     background?: {
         visible?: boolean;
-        style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "visible" | "width" | "height">;
+        style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "width" | "height" | "visible">;
     };
     text?: string | number | string[] | number[];
     visible?: boolean;

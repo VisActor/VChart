@@ -9,7 +9,7 @@ import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-components';
 import type { IChartOption } from '../../../chart/interface';
 type ChangeTooltipFunc = (visible: boolean, params: TooltipHandlerParams, changePositionOnly?: boolean, activeType?: TooltipActiveType, data?: TooltipData) => TooltipResult;
-type ChangeTooltipPositionFunc = (changePositionOnly: boolean, actualTooltip: IToolTipActual, spec: ITooltipSpec, activeType: TooltipActiveType, data: TooltipData, params: TooltipHandlerParams) => TooltipResult;
+type ChangeTooltipPositionFunc = (changePositionOnly: boolean, data: TooltipData, params: TooltipHandlerParams) => TooltipResult;
 export declare abstract class BaseTooltipHandler implements ITooltipHandler {
     readonly type: string;
     protected _visible: boolean;

@@ -23,4 +23,8 @@ export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
     axisMarkerBackgroundColor: string;
     markLabelBackgroundColor: string;
     markLineStrokeColor: string;
+    dangerColor: string;
+    warningColor: string;
+    successColor: string;
+    infoColor: string;
 };
