@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `centroidProperty` not work in map chart",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
