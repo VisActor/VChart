@@ -16,7 +16,7 @@ export const colorScheme: IThemeColorScheme = {
       /** 滑块类组件背景条填充颜色 */
       sliderRailColor: 'rgba(255,255,255,0.12)',
       /** 滑块类组件滑块填充颜色 */
-      sliderHandleColor: 'rgba(255,255,255,1)',
+      sliderHandleColor: '#e4e7f5',
       /** 滑块类组件已选范围填充颜色 */
       sliderTrackColor: 'rgba(84,169,255,1)',
       /** 浮层背景区域颜色 */
