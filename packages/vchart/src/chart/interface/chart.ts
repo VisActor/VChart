@@ -1,13 +1,12 @@
 import type { IEvent } from '../../event/interface';
-import type { LayoutCallBack } from '../../layout/interface';
+import type { ILayoutRect, LayoutCallBack } from '../../layout/interface';
 import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IComponent } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
-import type { ILayoutRect, IModel, IUpdateSpecResult } from '../../model/interface';
+import type { IModel, IUpdateSpecResult } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
-import type { ITheme } from '../../theme';
 import type {
   IChartEvaluateOption,
   IChartInitOption,

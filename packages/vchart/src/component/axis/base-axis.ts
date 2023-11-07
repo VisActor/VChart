@@ -213,7 +213,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     isValid(regionIndex) && (this._regionIndex = array(regionIndex));
     this._regions = this._option.getRegionsInUserIdOrIndex(this._regionUserId as string[], this._regionIndex);
     // _regions 被更新了，layoutBindRegionID 也要更新
-    this.layoutBindRegionID = this._regions.map(x => x.id);
+    this.layout.layoutBindRegionID = this._regions.map(x => x.id);
   }
 
   getBindSeriesFilter() {

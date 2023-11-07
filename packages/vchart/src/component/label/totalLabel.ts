@@ -2,7 +2,7 @@ import { LabelMark, type ILabelMark } from './../../mark/label';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { LayoutItem } from '../../model/layout-item';
+import type { ILayoutItem } from '../../layout/interface';
 import { AttributeLevel, LayoutZIndex, STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP } from '../../constant';
 import type { MarkType } from '../../mark/interface';
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
@@ -23,8 +23,8 @@ export class TotalLabel extends BaseLabelComponent {
   type = ComponentTypeEnum.totalLabel;
   name: string = ComponentTypeEnum.totalLabel;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Label;
+  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.Label;
 
   private _textMark?: ILabelMark;
   private _baseMark?: IMark;

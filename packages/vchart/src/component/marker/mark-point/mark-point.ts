@@ -14,16 +14,16 @@ import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
-import type { LayoutItem } from '../../../model/layout-item';
 import { Factory } from '../../../core/factory';
 import type { INode } from '@visactor/vrender-core';
+import type { ILayoutItem } from '../../../layout/interface';
 
 export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> implements IMarkPoint {
   static type = ComponentTypeEnum.markPoint;
   type = ComponentTypeEnum.markPoint;
   name: string = ComponentTypeEnum.markPoint;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkPoint;
+  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.MarkPoint;
 
   static speckey = 'markPoint';
 
@@ -130,8 +130,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
         }
       },
       limitRect,
-      dx: this.layoutOffsetX,
-      dy: this.layoutOffsetY
+      dx: this._layout.layoutOffsetX,
+      dy: this._layout.layoutOffsetY
     });
   }
 
