@@ -35,7 +35,12 @@ import {
   colorBar,
   colorDynamicBar,
   wordCloudDisplayConf,
-  rankingBarLabel
+  rankingBarLabel,
+  funnelField,
+  funnelData,
+  dualAxisSeries,
+  dualAxisAxes,
+  dualAxisMarkStyle
 } from './pipes';
 import { Cell, ChartType, Context, Pipe } from '../typings';
 import { DataView } from '@visactor/vdataset';
@@ -68,16 +73,26 @@ const patchChartTypeAndCell = (chartType: string, cell: any, dataView: DataView)
 
   //y字段有多个, 使用散点图展示
   const { x, y } = cell;
+
   if (y && typeof y !== 'string' && y.length > 1) {
-    return {
-      chartTypeNew: 'SCATTER PLOT',
-      cellNew: {
-        ...cell,
-        x: y[0],
-        y: y[1],
-        color: typeof x === 'string' ? x : x[0]
-      }
-    };
+    if (chartType === 'BAR CHART' || chartType === 'LINE CHART') {
+      return {
+        chartTypeNew: 'DUAL AXIS CHART',
+        cellNew: {
+          ...cell
+        }
+      };
+    } else {
+      return {
+        chartTypeNew: 'SCATTER PLOT',
+        cellNew: {
+          ...cell,
+          x: y[0],
+          y: y[1],
+          color: typeof x === 'string' ? x : x[0]
+        }
+      };
+    }
   }
   //饼图 必须有color字段和angle字段
   if (chartType === 'PIE CHART') {
@@ -212,6 +227,10 @@ const pipelineWordCloud = [chartType, wordCloudData, color, wordCloudField, word
 
 const pipelineScatterPlot = [chartType, data, color, scatterField, scatterAxis, legend, animationOneByOne];
 
+const pipelineFunnel = [chartType, funnelData, color, funnelField, legend];
+
+const pipelineDualAxis = [chartType, data, color, dualAxisSeries, dualAxisAxes, legend];
+
 const pipelineRose = [chartType, data, color, roseField, roseAxis, legend, animationCartesianPie];
 
 const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, radarAxis, legend, animationCartisianLine];
@@ -225,6 +244,8 @@ export const pipelineMap: { [chartType: string]: any } = {
   'WORD CLOUD': pipelineWordCloud,
   'SCATTER PLOT': pipelineScatterPlot,
   'DYNAMIC BAR CHART': pipelineRankingBar,
+  'FUNNEL CHART': pipelineFunnel,
+  'DUAL AXIS CHART': pipelineDualAxis,
   'ROSE CHART': pipelineRose,
   'RADAR CHART': pipelineRadar,
   'SANKEY CHART': pipelineSankey
@@ -233,6 +254,6 @@ export const pipelineMap: { [chartType: string]: any } = {
 export const execPipeline = (src: any, pipes: Pipe[], context: Context) =>
   pipes.reduce((pre: any, pipe: Pipe) => {
     const result = pipe(pre, context);
-    // console.log(result)
+    // console.log(result);
     return result;
   }, src);
